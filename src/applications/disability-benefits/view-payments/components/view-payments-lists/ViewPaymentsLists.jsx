@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 

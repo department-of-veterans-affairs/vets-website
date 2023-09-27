@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { dateFormat, nameFormat, sendErrorToSentry } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
@@ -28,15 +28,18 @@ const MicroDetails = props => {
   const dob = dateFormat(user.dob, 'LL');
   const formattedDate = formatDateLong(record?.date);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generateMicrobiologyPdf = async () => {
     const pdfData = {
@@ -125,7 +128,7 @@ const MicroDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -133,88 +136,83 @@ const MicroDetails = props => {
           >
             {record.name}
           </h1>
-          <section className="set-width-486">
-            <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
-                id="microbio-date"
-              >
-                Date:{' '}
-                <span className="vads-u-font-weight--normal">
-                  {formattedDate}
-                </span>
-              </h2>
-            </div>
-            <div className="no-print">
-              <PrintDownload
-                list
-                download={generateMicrobiologyPdf}
-                allowTxtDownloads={allowTxtDownloads}
-              />
-              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-            </div>
-            <div className="test-details-container max-80">
-              <h2>Details about this test</h2>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Sample tested
-              </h3>
-              <p>{record.sampleTested}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Sample from
-              </h3>
-              <p>{record.sampleFrom}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Ordered by
-              </h3>
-              <p>{record.orderedBy}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Ordering location
-              </h3>
-              <p>{record.orderingLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Collecting location
-              </h3>
-              <p>{record.collectingLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Lab location
-              </h3>
-              <p>{record.labLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date completed
-              </h3>
-              <p>{formattedDate}</p>
-            </div>
+          <div className="time-header">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="microbio-date"
+            >
+              Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
+            </h2>
+          </div>
+          <div className="no-print">
+            <PrintDownload
+              download={generateMicrobiologyPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
+          <div className="test-details-container max-80">
+            <h2>Details about this test</h2>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Sample tested
+            </h3>
+            <p>{record.sampleTested}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Sample from
+            </h3>
+            <p>{record.sampleFrom}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Ordered by
+            </h3>
+            <p>{record.orderedBy}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Ordering location
+            </h3>
+            <p>{record.orderingLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Collecting location
+            </h3>
+            <p>{record.collectingLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Lab location
+            </h3>
+            <p>{record.labLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date completed
+            </h3>
+            <p>{formattedDate}</p>
+          </div>
 
-            <div className="test-results-container">
-              <h2>Results</h2>
-              <va-additional-info
-                trigger="Need help understanding your results?"
-                class="no-print"
-              >
-                <p>
-                  Your provider will review your results and explain what they
-                  mean for your health. To ask a question now, send a secure
-                  message to your care team.
-                </p>
-                <p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'secure-messaging',
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Start a new message
-                  </a>
-                </p>
-              </va-additional-info>
-              <p className="vads-u-font-size--base make-monospace">
-                {record.results}
-              </p>{' '}
-            </div>
-          </section>
-        </>
+          <div className="test-results-container">
+            <h2>Results</h2>
+            <va-additional-info
+              trigger="Need help understanding your results?"
+              class="no-print"
+            >
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'secure-messaging',
+                  )}
+                >
+                  Start a new message
+                </a>
+              </p>
+            </va-additional-info>
+            <p className="vads-u-font-size--base make-monospace">
+              {record.results}
+            </p>{' '}
+          </div>
+        </div>
       );
     }
     return <></>;

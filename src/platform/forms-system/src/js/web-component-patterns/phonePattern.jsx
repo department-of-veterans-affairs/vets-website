@@ -7,14 +7,24 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  * ```js
  * examplePhone: phoneUI() // Phone number
  * examplePhone: phoneUI('Cell phone number')
+ * examplePhone: phoneUI({
+ *   title: 'Cell phone number',
+ *   hint: 'This is a hint'
+ * })
  * examplePhone: {
  *  ...phoneUI('Main phone number')
  * }
  * ```
- * @param {string} [title] - optional title to override default
+ * @param {string | {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
-export const phoneUI = title => {
+export const phoneUI = options => {
+  const { title, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
+
   return {
     'ui:title': title ?? 'Phone number',
     'ui:webComponentField': VaTextInputField,
@@ -22,6 +32,7 @@ export const phoneUI = title => {
     'ui:autocomplete': 'tel',
     'ui:options': {
       inputType: 'tel',
+      ...uiOptions,
     },
     'ui:errorMessages': {
       required: 'Please enter a 10-digit phone number (with or without dashes)',

@@ -5,12 +5,12 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { nameFormat, dateFormat, sendErrorToSentry } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
@@ -28,15 +28,18 @@ const PathologyDetails = props => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generatePathologyPdf = async () => {
     const pdfData = {
@@ -106,7 +109,7 @@ const PathologyDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -114,69 +117,64 @@ const PathologyDetails = props => {
           >
             {record.name}
           </h1>
-          <section className="set-width-486">
-            <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
-                id="pathology-date"
-              >
-                Date:{' '}
-                <span className="vads-u-font-weight--normal">
-                  {formattedDate}
-                </span>
-              </h2>
-            </div>
-            <div className="no-print">
-              <PrintDownload
-                list
-                download={generatePathologyPdf}
-                allowTxtDownloads={allowTxtDownloads}
-              />
-              <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-            </div>
-            <div className="test-details-container max-80">
-              <h4>Details about this test</h4>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Sample tested
-              </h3>
-              <p>{record.sampleTested}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Lab location
-              </h3>
-              <p>{record.labLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date completed
-              </h3>
-              <p>{formattedDate}</p>
-            </div>
-            <div className="test-results-container">
-              <h4>Results</h4>
-              <va-additional-info
-                trigger="Need help understanding your results?"
-                class="no-print"
-              >
-                <p>
-                  Your provider will review your results and explain what they
-                  mean for your health. To ask a question now, send a secure
-                  message to your care team.
-                </p>
-                <p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'secure-messaging',
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Start a new message
-                  </a>
-                </p>
-              </va-additional-info>
-              <p>{record.results}</p>
-            </div>
-          </section>
-        </>
+          <div className="time-header">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="pathology-date"
+            >
+              Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
+            </h2>
+          </div>
+          <div className="no-print">
+            <PrintDownload
+              download={generatePathologyPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
+          <div className="test-details-container max-80">
+            <h4>Details about this test</h4>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Sample tested
+            </h3>
+            <p>{record.sampleTested}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Lab location
+            </h3>
+            <p>{record.labLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date completed
+            </h3>
+            <p>{formattedDate}</p>
+          </div>
+          <div className="test-results-container">
+            <h4>Results</h4>
+            <va-additional-info
+              trigger="Need help understanding your results?"
+              class="no-print"
+            >
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'secure-messaging',
+                  )}
+                >
+                  Start a new message
+                </a>
+              </p>
+            </va-additional-info>
+            <p>{record.results}</p>
+          </div>
+        </div>
       );
     }
     return <></>;

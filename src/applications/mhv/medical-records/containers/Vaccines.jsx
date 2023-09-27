@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { Link } from 'react-router-dom';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
   dateFormat,
   nameFormat,
@@ -31,23 +33,29 @@ const Vaccines = () => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    dispatch(getVaccinesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getVaccinesList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/vaccines',
-          label: 'VA vaccines',
-        },
-      ),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/vaccines',
+            label: 'VA vaccines',
+          },
+        ),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const generateVaccinesPdf = async () => {
     const pdfData = {
@@ -95,7 +103,15 @@ const Vaccines = () => {
     });
 
     try {
-      await generatePdf('medicalRecords', 'vaccines_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Vaccines-list-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Vaccines');
     }
@@ -116,24 +132,25 @@ const Vaccines = () => {
   };
 
   return (
-    <div id="vaccines">
+    <div id="vaccines" className="vads-l-col--12 medium-screen:vads-l-col--8">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
-      <section className="set-width-486">
-        <p>
-          This is a complete list of vaccines that the VA has on file for you.
-        </p>
-        <p className="print-only vads-u-margin-bottom--0 max-80">
-          Your VA Vaccines list may not be complete. If you have any questions
-          about your information, visit the FAQs or contact your VA Health care
-          team.
-        </p>
-        <PrintDownload
-          list
-          download={generateVaccinesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-      </section>
+      <p>
+        For a list of your allergies and reactions (including any reactions to
+        vaccines), go to your allergy records.
+      </p>
+      <Link
+        to="/allergies"
+        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
+      >
+        Go to your allergy records
+      </Link>
+      <PrintDownload
+        list
+        download={generateVaccinesPdf}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );
