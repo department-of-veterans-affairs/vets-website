@@ -3,15 +3,17 @@ import React from 'react';
 import definitions from 'vets-json-schema/dist/definitions.json';
 import { uiSchema, schema } from 'platform/forms/definitions/address';
 
+// TODO: Once v3-web-component VaNumberInput's available,
+// refactor this whole page to use v3-web-components.
 export default {
   uiSchema: {
     additionalAddress: uiSchema(
       () => (
         <>
-          <p className="vads-u-font-weight--bold vads-u-font-size--h3">
+          <p className="vads-u-font-size--h3 vads-u-margin-top--0">
             Where should we send your additional certificates?
           </p>
-          <p>Additional address</p>
+          <p className="vads-u-margin-bottom--0">Additional address</p>
         </>
       ),
       false,
