@@ -67,16 +67,15 @@ export function getUserPhase(phase) {
 
 function isInEvidenceGathering(claim) {
   const allowedClaimTypes = ['evss_claims', 'claim'];
-  const isEvssClaim = claim.type.toLowerCase() === 'evss_claims';
-  const isLighthouseClaim = claim.type.toLowerCase() === 'claim';
+  const isEvssClaim = claim.type === 'evss_claims';
+  const isLighthouseClaim = claim.type === 'claim';
 
   if (!allowedClaimTypes.includes(claim.type)) {
     return false;
   }
 
   if (isEvssClaim) return claim.attributes.phase === 3;
-  if (isLighthouseClaim)
-    return getLighthouseUserPhase(claim.attributes.status) === 3;
+  if (isLighthouseClaim) return getLighthouseUserPhase(claim.attributes.status) === 3;
 
   return false;
 }
@@ -181,7 +180,7 @@ export function groupClaimsByDocsNeeded(list) {
     return c.attributes.documentsNeeded && isInEvidenceGathering(c);
   };
 
-  const claimsWithOpenRequests = list.filter(claim => groupingPredicate(claim));
+  const claimsWithOpenRequests = list.filter(groupingPredicate);
 
   const claimsWithoutOpenRequests = list.filter(
     claim => !groupingPredicate(claim),
@@ -266,7 +265,7 @@ export function getDocTypeDescription(docType) {
 }
 
 export const isPopulatedClaim = ({ claimDate, claimType, contentions }) =>
-  !!claimType && contentions && !!contentions.length && !!claimDate;
+  !!claimType && (contentions && !!contentions.length) && !!claimDate;
 
 export function hasBeenReviewed(trackedItem) {
   const reviewedStatuses = ['INITIAL_REVIEW_COMPLETE', 'ACCEPTED'];
@@ -359,7 +358,7 @@ export function getCompletedDate(claim) {
 }
 
 export function getClaimType(claim) {
-  return claim?.attributes?.claimType || 'Disability Compensation'
+  return claim?.attributes?.claimType || 'Disability Compensation';
 }
 
 export const mockData = {
