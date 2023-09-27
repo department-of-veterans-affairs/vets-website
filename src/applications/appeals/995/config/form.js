@@ -192,7 +192,6 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          // scrollAndFocusTarget: focusIssue,
         },
         addIssue: {
           title: 'Add issues for review',
