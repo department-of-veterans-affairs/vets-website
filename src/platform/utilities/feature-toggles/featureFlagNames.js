@@ -26,6 +26,7 @@ export default Object.freeze({
   checkInExperiencePreCheckInActionLinkTopPlacement: 'check_in_experience_pre_check_in_action_link_top_placement',
   checkInExperienceTravelReimbursement: 'check_in_experience_travel_reimbursement',
   checkInExperienceTravelLogic: 'check_in_experience_travel_logic',
+  checkInExperience45MinuteReminder: 'check_in_experience_45_minute_reminder',
   checkInExperienceBrowserMonitoring: 'check_in_experience_browser_monitoring',
   checkInExperienceUpdatedApptPresentation: 'check_in_experience_updated_appt_presentation',
   checkInExperienceUnifiedLandingPage: "check_in_experience_unified_landing_page",
