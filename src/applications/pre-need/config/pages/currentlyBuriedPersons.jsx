@@ -40,7 +40,11 @@ export const currentlyBuriedPersonsTitleProd = (
   <h3 className="name-of-deceased-text">Name of deceased person(s)</h3>
 );
 
-function currentlyBuriedPersonsTitleWrapper() {
+export const currentlyBuriedPersonsTitleWrapper = (
+  <CurrentlyBuriedPersonsTitleProd />
+);
+
+function CurrentlyBuriedPersonsTitleProd() {
   if (environment.isProduction()) {
     return currentlyBuriedPersonsTitleProd;
   }
