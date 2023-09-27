@@ -139,10 +139,10 @@ const ComposeForm = props => {
       }
 
       if (!draft) {
-        setSelectedRecipient('');
+        setSelectedRecipient('0');
+        setCategory(null);
         setSubject('');
         setMessageBody('');
-        setCategory('');
       }
     },
     [recipients, draft],
@@ -410,8 +410,8 @@ const ComposeForm = props => {
     e => {
       if (
         selectedRecipient.toString() !==
-          (draft ? draft.recipientId.toString() : '') ||
-        category !== (draft ? draft.category : '') ||
+          (draft ? draft.recipientId.toString() : '0') ||
+        category !== (draft ? draft.category : null) ||
         subject !== (draft ? draft.subject : '') ||
         messageBody !== (draft ? draft.body : '')
       ) {
@@ -421,12 +421,15 @@ const ComposeForm = props => {
     [draft, selectedRecipient, category, subject, messageBody],
   );
 
-  useEffect(() => {
-    window.addEventListener('beforeunload', beforeUnloadHandler);
-    return () => {
-      window.removeEventListener('beforeunload', beforeUnloadHandler);
-    };
-  }, []);
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
 
   return (
     <>
