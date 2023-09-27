@@ -65,9 +65,12 @@ describe(`${appName} -- <App /> container`, () => {
 
   it('prompts to log in when logged out', () => {
     const initialState = stateFn({ currentlyLoggedIn: false });
-    const { getByRole } = setup({ initialState });
-    // getByRole('heading', { text: 'Sign in', level: 1 });
-    getByRole('progressbar', { text: 'Redirecting to login...' });
+    // const { getByRole } = setup({ initialState });
+    const { container } = setup({ initialState });
+
+    // // getByRole('heading', { text: 'Sign in', level: 1 });
+    // getByRole('progressbar', { text: 'Redirecting to login...' });
+    expect(container.find('va-loading-indicator').length).to.equal(1);
   });
 
   describe('renders a loading indicator when', () => {
