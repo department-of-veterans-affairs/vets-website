@@ -42,9 +42,9 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       console.log('content.items: ', content.items);
-      const { tag } = content.items[7];
+      const { tag } = content.items[19];
       expect(tag).to.equal('H1');
-      const text = content.items[9].str;
+      const text = content.items[21].str;
       expect(text.length).to.be.gt(0);
       expect(text).to.equal(data.title.substring(0, text.length));
     });
@@ -79,11 +79,13 @@ describe('Medications PDF template', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
 
       // Get first details struct.
-      const { tag } = content.items[17];
+      const { tag } = content.items[74];
       console.log('content items: ', content.items);
       expect(tag).to.equal('P');
-      const text = content.items[21].str;
-      expect(text).to.equal(data.results.items[0].items[0].value);
+      const text = content.items[78].str;
+      expect(text).to.equal(
+        data.results[0].medicationsList[0].sections[0].items[5].value,
+      );
     });
 
     it('Horizontal rules are added below result sections by default', async () => {
@@ -118,7 +120,6 @@ describe('Medications PDF template', () => {
 
       let headerPosition = 0;
       let titlePosition = 0;
-      const detailsPosition = 0;
       let resultsPosition = 0;
       let footerPosition = 0;
 
@@ -145,7 +146,7 @@ describe('Medications PDF template', () => {
 
       expect(headerPosition).to.be.gt(0);
       expect(headerPosition).to.be.lt(titlePosition);
-      expect(titlePosition).to.be.lt(detailsPosition);
+      expect(titlePosition).to.be.lt(resultsPosition);
       expect(resultsPosition).to.be.lt(footerPosition);
     });
 
