@@ -41,7 +41,7 @@ const CareSummariesAndNotesListItem = props => {
         className="vads-u-margin-y--0p5 no-print"
         aria-describedby={`details-button-description-${record.id}`}
       >
-        <span className="vads-u-font-weight--bold">Details</span>
+        <strong>Details</strong>
         <i
           className="fas fa-angle-right details-link-icon"
           aria-hidden="true"
