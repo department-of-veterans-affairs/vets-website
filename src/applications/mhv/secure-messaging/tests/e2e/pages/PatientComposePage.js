@@ -27,7 +27,7 @@ class PatientComposePage {
       });
   };
 
-  getCategory = category => {
+  getCategory = (category = 'COVID') => {
     return cy.get(`[name=${category}]`);
   };
 
@@ -59,15 +59,15 @@ class PatientComposePage {
   };
 
   //* Refactor*  Need to get rid of this method and split out
-  enterComposeMessageDetails = category => {
+  enterComposeMessageDetails = (category = 'COVID') => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
     cy.get('[data-testid="compose-category-radio-button"]')
       .shadow()
-      .find('label')
+      .find(`va-radio-option[name="${category}"]`)
       .contains(category)
       .click({ force: true });
     // this.attachMessageFromFile('test_image.jpg');
-    this.getMessageSubjectField().type('Test Subject');
+    this.getMessageSubjectField().type('Test Subject', { force: true });
     this.getMessageBodyField().type('Test message body', { force: true });
   };
 
@@ -97,8 +97,8 @@ class PatientComposePage {
     cy.realPress(['Enter']);
   };
 
-  selectCategory = () => {
-    cy.get('#OTHEROTHER').click({ force: true });
+  selectCategory = (category = 'OTHEROTHERinput') => {
+    cy.get(`#${category}`).click({ force: true });
   };
 
   verifyFocusonMessageAttachment = () => {
@@ -119,6 +119,13 @@ class PatientComposePage {
 
   verifyFocusOnErrorEmptyMessageBody = () => {
     cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
+  };
+
+  verifyErrorEmptyMessageBody = () => {
+    cy.get('#input-error-message').should(
+      'contain.text',
+      'Message body cannot be blank',
+    );
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter
