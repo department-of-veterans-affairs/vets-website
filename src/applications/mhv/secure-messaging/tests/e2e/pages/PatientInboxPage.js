@@ -13,6 +13,8 @@ import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
+import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -39,7 +41,7 @@ class PatientInboxPage {
 
   loadInboxMessages = (
     inboxMessages = mockMessages,
-    detailedMessage = mockSpecialCharsMessage,
+    detailedMessage = mockSingleMessage,
     recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
@@ -313,12 +315,39 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
       mockFolders,
     ).as('folders');
-    cy.get(Locators.FOLDERS).click();
+    cy.get(Locators.FOLDERS_LIST).click();
     cy.wait('@folders');
   };
 
   getLoadedMessages = () => {
     return this.loadedMessagesData;
+  };
+
+  replyToMessage = () => {
+    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE}/messages/${
+        mockSingleThread.data[0].attributes.messageId
+      }/thread`,
+      mockSingleThread,
+    ).as('singleThread');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE}/messages/${
+        mockSingleThread.data[0].attributes.messageId
+      }`,
+      mockSingleMessage,
+    ).as('singleThread');
+
+    cy.get(Locators.THREADS)
+      .first()
+      .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
+      .click();
+    cy.get(Locators.BUTTONS.REPLY).click({
+      waitForAnimations: true,
+    });
+    cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
   verifySentSuccessMessage = () => {
@@ -350,7 +379,7 @@ class PatientInboxPage {
   navigateToComposePageByKeyboard = () => {
     cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
     cy.realPress(['Enter']);
-    cy.tabToElement(Locators.InboxPage.CONTINUE_BTN);
+    cy.tabToElement(Locators.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);
   };
 
@@ -415,7 +444,7 @@ class PatientInboxPage {
   };
 
   submitSearchButton = () => {
-    cy.get(Locators.FILTER_BTN).click({
+    cy.get(Locators.BUTTONS.FILTER).click({
       waitForAnimations: true,
       force: true,
     });
@@ -511,7 +540,7 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/search`,
       sentSearchResponse,
     );
-    cy.get(Locators.FILTER_BTN).click({ force: true });
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
   verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {

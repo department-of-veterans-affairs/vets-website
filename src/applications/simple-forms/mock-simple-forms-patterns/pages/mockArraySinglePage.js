@@ -1,7 +1,6 @@
 import {
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  titleSchema,
   titleUI,
   yesNoSchema,
   yesNoUI,
@@ -15,7 +14,7 @@ import { FacilityDates, RecordHeading } from '../components/viewElements';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:arrayTitle': titleUI('Array Field Title', 'Array Description'),
+    ...titleUI('Array Field Title', 'Array Description'),
     exampleArrayOne: {
       'ui:options': {
         itemName: 'Facility',
@@ -72,7 +71,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:arrayTitle': titleSchema,
       exampleArrayOne: {
         type: 'array',
         minItems: 1,

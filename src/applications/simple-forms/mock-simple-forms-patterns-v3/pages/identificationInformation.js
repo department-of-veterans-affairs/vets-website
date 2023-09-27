@@ -1,5 +1,4 @@
 import {
-  titleSchema,
   titleUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
@@ -8,13 +7,12 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Identification information'),
+    ...titleUI('Identification information'),
     veteranId: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       veteranId: ssnOrVaFileNumberSchema,
     },
   },

@@ -51,6 +51,7 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
+import createHCAPerformanceWarning from './hca-performance-warning';
 import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -87,6 +88,7 @@ import create214142Access from './simple-forms/21-4142/entry';
 import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
+import createPensionHowDoIApplyWidget from './pension-how-do-i-apply-widget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -203,6 +205,7 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
+createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
@@ -226,6 +229,10 @@ create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
+createPensionHowDoIApplyWidget(
+  store,
+  widgetTypes.PENSION_HOW_DO_I_APPLY_WIDGET,
+);
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
   createMyVALoginWidget(store);

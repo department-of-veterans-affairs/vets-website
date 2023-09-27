@@ -15,6 +15,7 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
@@ -170,6 +171,7 @@ const ConditionDetails = () => {
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
