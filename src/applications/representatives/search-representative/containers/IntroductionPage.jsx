@@ -33,7 +33,7 @@ const IntroductionPage = props => {
         and appeals
       </p>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a href="#">Get help filing your claim or appeal</a>
+      {/* <a href="#">Get help filing your claim or appeal</a> */}
       <FormFooter formConfig={formConfig} />
     </div>
   );

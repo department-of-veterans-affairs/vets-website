@@ -26,7 +26,7 @@ export class ConfirmationPage extends React.Component {
             Download then print your form so that both you and your
             representative can sign it.
           </p>
-          <a
+          {/* <a
             className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
             href="#"
           >
@@ -35,7 +35,7 @@ export class ConfirmationPage extends React.Component {
               className="fas fa-download vads-u-padding-right--1"
             />
             Download your VA Form 21-22
-          </a>
+          </a> */}
         </va-alert>
 
         <h2>When can my representative begin helping me?</h2>
