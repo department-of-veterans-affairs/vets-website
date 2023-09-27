@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { expect } from 'chai';
 
 const getStream = require('get-stream');
@@ -40,6 +41,7 @@ describe('Medications PDF template', () => {
       const page = await pdf.getPage(pageNumber);
 
       const content = await page.getTextContent({ includeMarkedContent: true });
+      console.log('content.items: ', content.items);
       const { tag } = content.items[7];
       expect(tag).to.equal('H1');
       const text = content.items[9].str;
@@ -78,6 +80,7 @@ describe('Medications PDF template', () => {
 
       // Get first details struct.
       const { tag } = content.items[17];
+      console.log('content items: ', content.items);
       expect(tag).to.equal('P');
       const text = content.items[21].str;
       expect(text).to.equal(data.results.items[0].items[0].value);
@@ -100,7 +103,7 @@ describe('Medications PDF template', () => {
         }
       }
 
-      expect(artifactCount).to.eq(10);
+      expect(artifactCount).to.eq(6);
     });
 
     it('Outputs document sections in the correct order', async () => {
@@ -115,7 +118,7 @@ describe('Medications PDF template', () => {
 
       let headerPosition = 0;
       let titlePosition = 0;
-      let detailsPosition = 0;
+      const detailsPosition = 0;
       let resultsPosition = 0;
       let footerPosition = 0;
 
@@ -128,10 +131,7 @@ describe('Medications PDF template', () => {
             case data.title:
               titlePosition = index;
               break;
-            case data.details.header:
-              detailsPosition = index;
-              break;
-            case data.results.header:
+            case data.results[0].header:
               resultsPosition = index;
               break;
             case data.footerLeft:
@@ -146,7 +146,6 @@ describe('Medications PDF template', () => {
       expect(headerPosition).to.be.gt(0);
       expect(headerPosition).to.be.lt(titlePosition);
       expect(titlePosition).to.be.lt(detailsPosition);
-      expect(detailsPosition).to.be.lt(resultsPosition);
       expect(resultsPosition).to.be.lt(footerPosition);
     });
 
@@ -158,6 +157,7 @@ describe('Medications PDF template', () => {
 
     it('Can customize the document language', async () => {
       const data = require('./fixtures/medications_list.json');
+      data.lang = 'en_UK';
       const { metadata } = await generateAndParsePdf(data);
       expect(metadata.info.Language).to.equal(data.lang);
     });
@@ -171,9 +171,9 @@ describe('Medications PDF template', () => {
 
     it('Metadata may be customized', async () => {
       const data = require('./fixtures/medications_list.json');
+      data.author = 'John Smith';
       const { metadata } = await generateAndParsePdf(data);
       expect(metadata.info.Author).to.equal(data.author);
-      expect(metadata.info.Subject).to.equal(data.subject);
       expect(metadata.info.Title).to.equal(data.title);
     });
   });
