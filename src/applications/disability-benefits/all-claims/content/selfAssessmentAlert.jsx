@@ -5,8 +5,8 @@ const alertContent = (
   <>
     {bddAlertBegin}
     <p>
-      When you upload your Separation Health Assessment, select this for
-      document type: <strong>Disability Benefits Questionnaire</strong>
+      When you upload your Separation Health Assessment, select this for file
+      type: <strong>Disability Benefits Questionnaire</strong>
     </p>
   </>
 );
