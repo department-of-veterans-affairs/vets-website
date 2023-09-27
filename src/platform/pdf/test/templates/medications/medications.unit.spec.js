@@ -15,7 +15,7 @@ describe('Medications PDF template', () => {
   });
 
   const generatePdf = async data => {
-    const template = require('./fixtures/medications_list.json');
+    const template = require('../../../templates/medications');
 
     const doc = await template.generate(data);
     doc.end();
