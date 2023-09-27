@@ -271,6 +271,10 @@ const phoneNumbers = {
   textCheckIn: '53079',
   mainInfo: '8006982411',
   btsssCallCenter: '8555747292',
+  veteransCrisisLine: '988',
+  veteransCrisisText: '838255',
+  tty: '711',
+  emergency: '911',
 };
 
 export {
