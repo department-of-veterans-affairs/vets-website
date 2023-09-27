@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { expect } from 'chai';
 
 const getStream = require('get-stream');
@@ -41,7 +40,6 @@ describe('Medications PDF template', () => {
       const page = await pdf.getPage(pageNumber);
 
       const content = await page.getTextContent({ includeMarkedContent: true });
-      console.log('content.items: ', content.items);
       const { tag } = content.items[20];
       expect(tag).to.equal('H1');
       const text = content.items[22].str;
@@ -68,7 +66,7 @@ describe('Medications PDF template', () => {
   });
 
   describe('Document section customization', () => {
-    it('Only outputs detail headers when present in JSON', async () => {
+    it('Shows item details', async () => {
       const data = require('./fixtures/medications_list.json');
       const { pdf } = await generateAndParsePdf(data);
 
@@ -80,7 +78,6 @@ describe('Medications PDF template', () => {
 
       // Get first details struct.
       const { tag } = content.items[76];
-      console.log('content items: ', content.items);
       expect(tag).to.equal('P');
       const text = content.items[80].str;
       expect(text).to.equal(
@@ -88,7 +85,7 @@ describe('Medications PDF template', () => {
       );
     });
 
-    it('Horizontal rules are added below result sections by default', async () => {
+    it('Horizontal rules are added below each item', async () => {
       const data = require('./fixtures/medications_list.json');
       const { pdf } = await generateAndParsePdf(data);
 
@@ -143,16 +140,6 @@ describe('Medications PDF template', () => {
           }
         }
       }
-
-      console.log('headerPosition: ', headerPosition);
-      console.log('titlePosition: ', titlePosition);
-      console.log('resultsPosition: ', resultsPosition);
-      console.log('footerPosition: ', footerPosition);
-
-      // headerPosition:  151
-      // titlePosition:  20
-      // resultsPosition:  30
-      // footerPosition:  148
 
       expect(headerPosition).to.be.gt(0);
       expect(headerPosition).to.be.lt(titlePosition);
