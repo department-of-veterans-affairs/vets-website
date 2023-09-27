@@ -33,7 +33,6 @@ import {
   selectFacilitySettingsStatus,
 } from '../appointment-list/redux/selectors';
 import { fetchFacilitySettings } from '../appointment-list/redux/actions';
-// import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 export function NewBookingSection() {
   const match = useRouteMatch();
