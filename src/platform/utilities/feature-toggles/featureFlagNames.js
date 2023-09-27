@@ -92,6 +92,7 @@ export default Object.freeze({
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
+  hlrBrowserMonitoringEnabled: 'hlr_browser_monitoring_enabled',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
