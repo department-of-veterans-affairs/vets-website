@@ -28,7 +28,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({
       confirmationNumber: '[mock-confirmation-number]',
