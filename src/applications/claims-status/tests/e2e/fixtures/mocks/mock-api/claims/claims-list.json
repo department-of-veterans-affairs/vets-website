@@ -89,7 +89,7 @@
       }
     },
     {
-      "id": "closed-with-documents-needed",
+      "id": "closed-w-documents-needed",
       "type": "evss_claims",
       "attributes": {
         "evssId": 600382810,
