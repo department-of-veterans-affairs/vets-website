@@ -42,9 +42,9 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       console.log('content.items: ', content.items);
-      const { tag } = content.items[18];
+      const { tag } = content.items[20];
       expect(tag).to.equal('H1');
-      const text = content.items[20].str;
+      const text = content.items[22].str;
       expect(text.length).to.be.gt(0);
       expect(text).to.equal(data.title.substring(0, text.length));
     });
@@ -79,10 +79,10 @@ describe('Medications PDF template', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
 
       // Get first details struct.
-      const { tag } = content.items[74];
+      const { tag } = content.items[76];
       console.log('content items: ', content.items);
       expect(tag).to.equal('P');
-      const text = content.items[78].str;
+      const text = content.items[80].str;
       expect(text).to.equal(
         data.results[0].medicationsList[0].sections[0].items[5].value,
       );
