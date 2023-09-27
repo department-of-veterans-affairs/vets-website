@@ -149,6 +149,11 @@ describe('Medications PDF template', () => {
       console.log('resultsPosition: ', resultsPosition);
       console.log('footerPosition: ', footerPosition);
 
+      // headerPosition:  151
+      // titlePosition:  20
+      // resultsPosition:  30
+      // footerPosition:  148
+
       expect(headerPosition).to.be.gt(0);
       expect(headerPosition).to.be.lt(titlePosition);
       expect(titlePosition).to.be.lt(resultsPosition);
