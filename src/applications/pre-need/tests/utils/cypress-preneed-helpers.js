@@ -148,12 +148,19 @@ function fillBenefitSelection(
 
   // Page 2
   if (currentlyBuriedPersons.length) {
-    cy.get(
-      `input[name='root_application_currentlyBuriedPersons_0_name_first']`,
-    ).type('test');
-    cy.get(
-      `input[name='root_application_currentlyBuriedPersons_0_name_last']`,
-    ).type('test');
+    currentlyBuriedPersons.forEach((person, index) => {
+      cy.fill(
+        `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
+        person.cemeteryNumber.label,
+      );
+      cy.fillName(
+        `root_application_currentlyBuriedPersons_${index}_name`,
+        person.name,
+      );
+      if (index < currentlyBuriedPersons.length - 1) {
+        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      }
+    });
   }
   cy.axeCheck();
   clickContinue();
