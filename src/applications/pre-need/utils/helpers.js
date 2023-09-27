@@ -162,8 +162,7 @@ export function hasStateAddress(item) {
     'application.applicant.view:applicantInfo.mailingAddress.country',
     item,
   );
-  // this should come from a constants sheet
-  const countriesWithStates = ['USA', 'CAN', 'MEX'];
+  const countriesWithStates = ['USA', 'CAN'];
   return countriesWithStates.includes(country);
 }
 
