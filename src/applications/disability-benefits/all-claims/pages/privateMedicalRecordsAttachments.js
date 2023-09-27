@@ -12,7 +12,8 @@ const fileUploadUi = ancillaryFormUploadUi(
   ' ',
   {
     attachmentId: '',
-    addAnotherLabel: 'Add another document',
+    addAnotherLabel: 'Add another file',
+    buttonText: 'Upload file',
   },
 );
 
