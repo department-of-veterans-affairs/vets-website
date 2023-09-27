@@ -1,25 +1,21 @@
 import React from 'react';
 
-import {
-  // titleSchema,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  addressNoMilitaryUI,
-  addressNoMilitarySchema,
-} from 'platform/forms-system/src/js/web-component-patterns/addressPattern.jsx';
+import definitions from 'vets-json-schema/dist/definitions.json';
+import { uiSchema, schema } from 'platform/forms/definitions/address';
 
 export default {
   uiSchema: {
-    ...titleUI(
-      'Where should we send your additional certificates?',
-      <span className="custom-label h4">Additional address</span>,
+    additionalAddress: uiSchema(
+      () => (
+        <>
+          <p className="vads-u-font-weight--bold vads-u-font-size--h3">
+            Where should we send your additional certificates?
+          </p>
+          <p>Additional address</p>
+        </>
+      ),
+      false,
     ),
-    additionalAddress: addressNoMilitaryUI({
-      // TODO: Customize street2 label if Designer confirms we should
-      omit: ['isMilitary', 'street3'],
-      required: true,
-    }),
     additionalCopies: {
       // TODO: sync w/ Forgers on pattern refactors, then remove hack below
       'ui:title': (
@@ -56,9 +52,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      additionalAddress: addressNoMilitarySchema({
-        omit: ['isMilitary', 'street3'],
-      }),
+      additionalAddress: schema({ definitions }, true, 'address'),
       additionalCopies: {
         type: 'number',
         minimum: 1,
