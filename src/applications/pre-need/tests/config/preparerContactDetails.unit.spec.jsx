@@ -32,7 +32,6 @@ describe('Pre-need preparer info', () => {
     );
 
     expect($$('input', formDOM).length).to.equal(5);
-    // changing from 2 selects to 1 due to hideIf conditional changing state fields appearance
     expect($$('select', formDOM).length).to.equal(2);
   });
 
@@ -53,7 +52,6 @@ describe('Pre-need preparer info', () => {
     );
 
     expect($$('input', formDOM).length).to.equal(5);
-    // changing from 2 selects to 1 due to hideIf conditional changing state fields appearance
     expect($$('select', formDOM).length).to.equal(1);
   });
 });
