@@ -40,9 +40,10 @@ describe('ezr <SaveInProgressInfo>', () => {
           login: { currentlyLoggedIn: loggedIn },
           profile: {
             loading: showLoader,
+            verified: loggedIn,
             loa: { current: loaState },
             savedForms: [],
-            prefillsAvailable: [],
+            prefillsAvailable: [formConfig.formId],
           },
         },
         scheduledDowntime: {
@@ -85,7 +86,7 @@ describe('ezr <SaveInProgressInfo>', () => {
 
     context('when the user is logged in', () => {
       context('when the user is enrolled in benefits', () => {
-        it('should render `save-in-progress` alert with `start` button', () => {
+        it('should render `va-alert` with `start` button', () => {
           const { props, mockStore } = getData({
             showLoader: false,
             loggedIn: true,
@@ -98,7 +99,9 @@ describe('ezr <SaveInProgressInfo>', () => {
             </Provider>,
           );
           const selectors = {
-            alert: container.querySelector('.schemaform-sip-alert'),
+            alert: container.querySelector(
+              '[data-testid="ezr-verified-prefill-alert"]',
+            ),
             button: container.querySelector('.vads-c-action-link--green'),
           };
           expect(selectors.alert).to.exist;
