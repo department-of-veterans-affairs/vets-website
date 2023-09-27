@@ -8,14 +8,10 @@ import { dispStatusForRefillsLeft } from '../../util/constants';
 
 const MedicationsListCard = props => {
   const { rx } = props;
-  let noRefillRemaining = false;
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
     showRefillRemaining = true;
-  }
-  if (rx.refillRemaining === 0 && rx.dispStatus === 'Active') {
-    noRefillRemaining = true;
   }
   const refillsRemaining = () => {
     if (rx.refillRemaining === 1) {
@@ -50,20 +46,6 @@ const MedicationsListCard = props => {
         {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
-
-        {noRefillRemaining && (
-          <>
-            <div>
-              <p className="vads-u-margin-y--0">
-                You have no refills left. If you need more, request a renewal.
-              </p>
-              <va-link
-                href="/my-health/about-medications/accordion-renew-rx"
-                text="Learn how to renew prescriptions"
-              />
-            </div>
-          </>
-        )}
       </div>
     </div>
   );
