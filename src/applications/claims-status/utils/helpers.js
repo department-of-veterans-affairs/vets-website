@@ -1,11 +1,11 @@
 import merge from 'lodash/merge';
+import { format, isValid, parseISO } from 'date-fns';
 // import * as Sentry from '@sentry/browser';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { format, isValid, parseISO } from 'date-fns';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
