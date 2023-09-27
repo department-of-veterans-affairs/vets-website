@@ -406,36 +406,27 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
-  useEffect(
-    () => {
-      const beforeUnloadHandler = e => {
-        if (
-          selectedRecipient !== debouncedRecipient ||
-          category !== debouncedCategory ||
-          subject !== debouncedSubject ||
-          messageBody !== debouncedMessageBody
-        ) {
-          e.returnValue = '';
-        }
-      };
-      // console.log({ category, messageBody, subject, selectedRecipient });
-      // console.log('add listener unload');
-      window.addEventListener('beforeunload', beforeUnloadHandler);
+  const beforeUnloadHandler = useCallback(
+    e => {
       if (
-        (selectedRecipient === '' || selectedRecipient === '0') &&
-        category === '' &&
-        subject === '' &&
-        messageBody === ''
+        selectedRecipient.toString() !==
+          (draft ? draft.recipientId.toString() : '') ||
+        category !== (draft ? draft.category : '') ||
+        subject !== (draft ? draft.subject : '') ||
+        messageBody !== (draft ? draft.body : '')
       ) {
-        // console.log('remove listener unload');
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        e.returnValue = '';
       }
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-      };
     },
-    [category, messageBody, subject, selectedRecipient],
+    [draft, selectedRecipient, category, subject, messageBody],
   );
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', beforeUnloadHandler);
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+    };
+  }, []);
 
   return (
     <>
