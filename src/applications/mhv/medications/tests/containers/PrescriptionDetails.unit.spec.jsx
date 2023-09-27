@@ -20,7 +20,7 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouter(<PrescriptionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/prescriptions/1234567891',
+      path: '/1234567891',
     });
   };
 
