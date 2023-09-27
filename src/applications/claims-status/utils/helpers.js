@@ -21,18 +21,6 @@ const phaseMap = {
   8: 'Complete',
 };
 
-const lighthouseStatuses = [
-  'CLAIM_RECEIVED',
-  'INITIAL_REVIEW',
-  'EVIDENCE_GATHERING_REVIEW_DECISION',
-  'PREPARATION_FOR_NOTIFICATION',
-  'COMPLETE',
-];
-
-export function getLighthouseUserPhase(lhStatus) {
-  return lighthouseStatuses.indexOf(lhStatus.toUpperCase()) + 1;
-}
-
 // Gets the user phase for LH or EVSS claim
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
@@ -75,7 +63,9 @@ function isInEvidenceGathering(claim) {
   }
 
   if (isEvssClaim) return claim.attributes.phase === 3;
-  if (isLighthouseClaim) return getLighthouseUserPhase(claim.attributes.status) === 3;
+  if (isLighthouseClaim) {
+    return claim.attributes.status === 'EVIDENCE_GATHERING_REVIEW_DECISION';
+  }
 
   return false;
 }
