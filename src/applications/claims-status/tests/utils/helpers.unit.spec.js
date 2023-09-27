@@ -44,11 +44,10 @@ describe('Disability benefits helpers: ', () => {
     const claims = [
       {
         claimId: 1,
-        type: 'claim',
+        type: 'evss_claims',
         attributes: {
           claimPhaseDates: { phaseChangeDate: '2010-01-01' },
           documentsNeeded: true,
-          status: 'evidence_gathering_review_decision',
           phase: 3,
         },
       },
@@ -63,11 +62,10 @@ describe('Disability benefits helpers: ', () => {
       },
       {
         claimId: 3,
-        type: 'claim',
+        type: 'evss_claims',
         attributes: {
           claimPhaseDates: { phaseChangeDate: '2020-01-01' },
           documentsNeeded: true,
-          status: 'evidence_gathering_review_decision',
           phase: 3,
         },
       },
