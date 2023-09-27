@@ -62,6 +62,9 @@ jobs:
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
       - name: Fetch e2e allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
