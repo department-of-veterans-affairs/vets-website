@@ -23,6 +23,24 @@ export const responseMatchesRequired = (requiredResponses, formResponse) => {
 };
 
 /** ================================================================
+ * Check form responses against an array of checkbox responses to see if they match
+ * the requirements in DISPLAY_CONDITIONS
+ */
+export const validateMultiCheckboxResponses = (
+  requiredResponses,
+  formResponses,
+  shortName,
+) => {
+  for (const checkbox of requiredResponses) {
+    if (responseMatchesRequired(formResponses?.[shortName], checkbox)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/** ================================================================
  * If the display conditions contain ONE_OF, check all possible responses for a match
  *
  * @param {object} oneOfChoices
@@ -34,6 +52,17 @@ export const responseMatchesRequired = (requiredResponses, formResponse) => {
  */
 export const evaluateOneOfChoices = (oneOfChoices, formResponses) => {
   for (const choice of Object.keys(oneOfChoices)) {
+    if (
+      Array.isArray(oneOfChoices[choice]) &&
+      validateMultiCheckboxResponses(
+        oneOfChoices[choice],
+        formResponses,
+        choice,
+      )
+    ) {
+      return true;
+    }
+
     if (
       responseMatchesRequired(oneOfChoices[choice], formResponses?.[choice])
     ) {
@@ -59,8 +88,14 @@ export const checkResponses = (formResponses, displayConditionsForPath) => {
 
     if (questionShortName !== 'ONE_OF') {
       if (Array.isArray(formResponse)) {
-        // TODO when multi-checkboxes are added
-      } else if (!responseMatchesRequired(requiredResponses, formResponse)) {
+        return validateMultiCheckboxResponses(
+          requiredResponses,
+          formResponses,
+          questionShortName,
+        );
+      }
+
+      if (!responseMatchesRequired(requiredResponses, formResponse)) {
         return false;
       }
     } else {
@@ -143,20 +178,22 @@ export const displayConditionsMet = (SHORT_NAME, formResponses) => {
   const responseToServicePeriod =
     formResponses?.[SHORT_NAME_MAP.SERVICE_PERIOD];
 
-  const pathsForShortName = displayConditionsForShortName?.PATHS;
+  const pathsForShortName =
+    displayConditionsForShortName?.SERVICE_PERIOD_SELECTION;
   const pathsFromServicePeriod = Object.keys(pathsForShortName);
   let displayConditionsForPath = pathsForShortName[responseToServicePeriod];
 
   if (displayConditionsForPath?.FORK) {
     displayConditionsForPath = pathsForShortName[responseToServicePeriod].FORK;
   }
+
   if (
     !pathsFromServicePeriod.includes(responseToServicePeriod) ||
     !pathsFromServicePeriod
   ) {
     // Question doesn't have:
     //   a path matching response to SERVICE_PERIOD
-    //   PATHS at all; all questions should - this handles human error
+    //   SERVICE_PERIOD_SELECTION at all; all questions should - this handles human error
     return false;
   }
 
