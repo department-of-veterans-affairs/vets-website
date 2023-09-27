@@ -270,9 +270,8 @@ class PatientMessageDraftsPage {
       .select(recipientName);
   };
 
-  selectCategory = category => {
+  selectCategory = (category = 'COVID') => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
       .contains(category)
       .click();
   };
