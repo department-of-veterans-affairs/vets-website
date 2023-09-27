@@ -44,7 +44,7 @@ describe('verify signature', () => {
       mockSingleMessage,
     ).as('singleThread');
 
-    cy.get('[data-testid="thread-list-item"]')
+    cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
       .click();

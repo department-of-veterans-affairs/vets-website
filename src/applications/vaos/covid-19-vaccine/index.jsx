@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Switch,
@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import covid19VaccineReducer from './redux/reducer';
 import { selectIsNewAppointmentStarted } from '../new-appointment/redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
@@ -32,7 +33,7 @@ import {
   selectFacilitySettingsStatus,
 } from '../appointment-list/redux/selectors';
 import { fetchFacilitySettings } from '../appointment-list/redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+// import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 export function NewBookingSection() {
   const match = useRouteMatch();
@@ -44,6 +45,7 @@ export function NewBookingSection() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const [crumb, setCrumb] = useState('New COVID-19 vaccine appointment');
 
   useEffect(
     () => {
@@ -89,7 +91,7 @@ export function NewBookingSection() {
     facilitySettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
-      <FormLayout>
+      <FormLayout pageTitle={crumb}>
         <va-loading-indicator
           set-focus
           message="Checking for online appointment availability"
@@ -108,8 +110,52 @@ export function NewBookingSection() {
     return <Redirect to={`${match.url}/contact-facility`} />;
   }
 
+  if (featureBreadcrumbUrlUpdate) {
+    return (
+      <FormLayout pageTitle={crumb}>
+        <Switch>
+          <Route path={`${match.url}/confirm-doses-received`}>
+            <ReceivedDoseScreenerPage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/contact-facility`}>
+            <ContactFacilitiesPage
+              changeCrumb={newTitle => setCrumb(newTitle)}
+            />
+          </Route>
+          <Route path={`${match.url}/choose-facility`}>
+            <VAFacilityPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/choose-clinic`}>
+            <ClinicChoicePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/select-date`}>
+            <SelectDate1Page changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/second-dose-info`}>
+            <SecondDosePage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/contact-info`}>
+            <ContactInfoPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/review`}>
+            <ReviewPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+          <Route path={`${match.url}/confirmation`}>
+            <ConfirmationPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+
+          <Route path="/">
+            <PlanAheadPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          </Route>
+        </Switch>
+      </FormLayout>
+    );
+  }
+
   return (
-    <FormLayout>
+    <FormLayout pageTitle={crumb}>
       <Switch>
         <Route
           path={
