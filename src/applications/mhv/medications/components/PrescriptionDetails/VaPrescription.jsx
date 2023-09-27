@@ -4,6 +4,7 @@ import { validateField, getImageUri, dateFormat } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
+import ExtraDetails from '../shared/ExtraDetails';
 
 const VaPrescription = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
@@ -16,7 +17,7 @@ const VaPrescription = prescription => {
   const shippedOn = prescription?.trackingList?.[0]?.[1];
   const content = () => {
     if (prescription) {
-      const refillStatus = prescription.refillStatus?.toString();
+      const dispStatus = prescription.dispStatus?.toString();
       return (
         <>
           <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
@@ -27,11 +28,12 @@ const VaPrescription = prescription => {
               />
             )}
             <h2 className="vads-u-margin-y--2">About your prescription</h2>
+            {prescription && <ExtraDetails {...prescription} />}
             <FillRefillButton {...prescription} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Status
             </h3>
-            <StatusDropdown status={refillStatus} />
+            <StatusDropdown status={dispStatus} />
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Refills left
             </h3>

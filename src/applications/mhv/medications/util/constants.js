@@ -117,3 +117,16 @@ If you need more of this prescription, request a renewal.`,
 
 export const pdfDefaultStatusDefinition = `There’s a problem with our system. You can’t manage this prescription online right now.
 If you need this prescription now, call your VA pharmacy.`;
+
+export const dispStatusObj = {
+  unknown: 'Unknown',
+  active: 'Active',
+  refillinprocess: 'Active: Refill in Process',
+  submitted: 'Active: Submitted',
+  expired: 'Expired',
+  discontinued: 'Discontinued',
+  transferred: 'Transferred',
+  nonVA: 'Active: Non-VA',
+  onHold: 'Active: On Hold',
+  activeParked: 'Active: Parked',
+};

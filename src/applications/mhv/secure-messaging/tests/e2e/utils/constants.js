@@ -25,6 +25,7 @@ export const Locators = {
   HEADER: 'h1',
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',
+  THREADS: '[data-testid="thread-list-item"]',
   FOLDERS: {
     INBOX: '[data-testid="inbox-sidebar"]',
     DRAFTS: '[data-testid="drafts-sidebar"]',

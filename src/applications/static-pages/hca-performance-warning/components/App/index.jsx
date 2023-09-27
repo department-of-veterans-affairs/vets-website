@@ -25,11 +25,7 @@ export const App = ({ show }) => {
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
           . Mail us an application postmarked by September 30, 2023. Or bring
-          your application in person to your nearest VA health facility.{' '}
-          <a href="/health-care/how-to-apply/">
-            Learn more about how to apply by phone, mail, or in person
-          </a>
-          .
+          your application in person to your nearest VA health facility.
         </p>
       </div>
     </va-alert>
