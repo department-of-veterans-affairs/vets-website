@@ -253,6 +253,8 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
     },
+    // Remove this setting when the form has a content page in production.
+    skip: Cypress.env('CI'),
   },
   manifest,
   testFormConfig,
