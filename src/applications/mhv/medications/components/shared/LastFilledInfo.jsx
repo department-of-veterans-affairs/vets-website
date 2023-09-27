@@ -16,7 +16,9 @@ const LastFilledInfo = rx => {
     <div>
       {nonVA &&
         orderedDate && (
-          <p>Documented on {dateFormat(orderedDate, 'MMMM D, YYYY')}</p>
+          <p data-testid="rx-last-filled-info">
+            Documented on {dateFormat(orderedDate, 'MMMM D, YYYY')}
+          </p>
         )}
       {showLastFilledDate && (
         <p>Last filled on {dateFormat(dispensedDate, 'MMMM D, YYYY')}</p>
