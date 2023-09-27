@@ -5,6 +5,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 // import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { format, isValid, parseISO } from 'date-fns';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -65,18 +66,19 @@ export function getUserPhase(phase) {
 }
 
 function isInEvidenceGathering(claim) {
-  if (!claim.attributes) {
+  const allowedClaimTypes = ['evss_claims', 'claim'];
+  const isEvssClaim = claim.type.toLowerCase() === 'evss_claims';
+  const isLighthouseClaim = claim.type.toLowerCase() === 'claim';
+
+  if (!allowedClaimTypes.includes(claim.type)) {
     return false;
   }
 
-  if (!claim.attributes.phase && !claim.attributes.status) {
-    return false;
-  }
+  if (isEvssClaim) return claim.attributes.phase === 3;
+  if (isLighthouseClaim)
+    return getLighthouseUserPhase(claim.attributes.status) === 3;
 
-  return (
-    getUserPhase(claim.attributes.phase) === 3 ||
-    getLighthouseUserPhase(claim.attributes.status) === 3
-  );
+  return false;
 }
 
 // START lighthouse_migration
@@ -940,3 +942,19 @@ export const mockData = {
 export function roundToNearest({ interval, value }) {
   return Math.round(value / interval) * interval;
 }
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
+
+// Takes a format string and returns a function that formats the given date
+// `date` must be in ISO format ex. 2020-01-28
+export const buildDateFormatter = formatString => {
+  return date => {
+    const parsedDate = parseISO(date);
+
+    return isValid(parsedDate)
+      ? format(parsedDate, formatString)
+      : 'Invalid date';
+  };
+};
