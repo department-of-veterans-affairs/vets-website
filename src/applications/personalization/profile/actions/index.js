@@ -1,6 +1,10 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { getData } from '../util';
 import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
+import { fetchEmergencyContacts } from './ec';
+import { fetchNextOfKin } from './nok';
+
+export { fetchEmergencyContacts, fetchNextOfKin };
 
 export * from './personalInformation';
 

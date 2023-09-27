@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchEmergencyContacts } from '../../actions';
-import { selectEmergencyContacts } from '../../selectors';
+import { fetchEmergencyContacts } from '../../../actions';
+import { selectEmergencyContacts } from '../../../selectors';
 
 import Edit from './Edit';
 import Show from './Show';

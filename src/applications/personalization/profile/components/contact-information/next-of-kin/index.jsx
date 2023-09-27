@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchNextOfKin } from '../../actions';
-import { selectNextOfKin } from '../../selectors';
+import { fetchNextOfKin } from '../../../actions';
+import { selectNextOfKin } from '../../../selectors';
 
 import Edit from './Edit';
 import Show from './Show';
