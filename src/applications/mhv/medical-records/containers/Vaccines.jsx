@@ -11,6 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
   dateFormat,
   nameFormat,
@@ -32,23 +33,29 @@ const Vaccines = () => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    dispatch(getVaccinesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getVaccinesList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/vaccines',
-          label: 'VA vaccines',
-        },
-      ),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/vaccines',
+            label: 'VA vaccines',
+          },
+        ),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const generateVaccinesPdf = async () => {
     const pdfData = {
@@ -96,7 +103,15 @@ const Vaccines = () => {
     });
 
     try {
-      await generatePdf('medicalRecords', 'vaccines_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Vaccines-list-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Vaccines');
     }
@@ -135,6 +150,7 @@ const Vaccines = () => {
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
       />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );

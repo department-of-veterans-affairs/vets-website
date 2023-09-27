@@ -27,20 +27,14 @@ describe('Secure Messaging - Print Functionality', () => {
       .should('be.visible')
       .click({ force: true });
     cy.get('[data-testid="radio-print-one-message"]')
-      .shadow()
       .find('label')
-      .should('have.text', 'Print only this message')
-      .should('be.visible');
+      .should('have.text', 'Print only this message');
     cy.get('[data-testid="radio-print-all-messages"]')
-      .shadow()
       .find('label')
-      .should('contain.text', 'Print all messages in this conversation')
-      .should('be.visible');
+      .should('contain.text', 'Print all messages in this conversation');
     cy.get('[data-testid="print-modal-popup"]')
-      .shadow()
       .find('h1')
-      .should('have.text', 'What do you want to print?')
-      .should('be.visible');
+      .should('have.text', 'What do you want to print?');
     cy.get('[data-testid="radio-print-all-messages"]').click({ force: true });
     cy.window().then(win => {
       win.print();

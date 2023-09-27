@@ -14,10 +14,11 @@ import {
   sendErrorToSentry,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getVaccineDetails } from '../actions/vaccines';
+import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { EMPTY_FIELD, pageTitles } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 
@@ -43,16 +44,22 @@ const VaccineDetails = () => {
     [vaccineId, dispatch],
   );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/vaccines',
-          label: 'Vaccines',
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/vaccines',
+            label: 'Vaccines',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearVaccineDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -64,7 +71,7 @@ const VaccineDetails = () => {
         );
       }
     },
-    [record],
+    [formattedDate, record],
   );
 
   const generateVaccinePdf = async () => {
@@ -106,7 +113,15 @@ const VaccineDetails = () => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'vaccine_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Vaccines-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Vaccine details');
     }
@@ -135,10 +150,10 @@ const VaccineDetails = () => {
             </h2>
           </div>
           <PrintDownload
-            list
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
           />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="detail-block max-80">
             <h2>Location</h2>
             <p>{record.location}</p>
