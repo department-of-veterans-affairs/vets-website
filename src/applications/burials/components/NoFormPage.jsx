@@ -332,9 +332,14 @@ export const NoFormPage = () => {
             </h2>
 
             <p>
-              You can apply by mail instead. Download a PDF Application for
-              Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
-              information on this page to fill out the form.
+              You can apply by mail now or wait until we transfer your existing
+              claim data to the new form. The new form will be available in
+              60-90 days.
+            </p>
+            <p>
+              Download a PDF Application for Burial Benefits (VA Form
+              21P-530EZ). You can refer to your saved information on this page
+              to fill out the form.
             </p>
 
             <va-link
