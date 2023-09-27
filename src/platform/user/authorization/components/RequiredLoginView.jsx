@@ -3,7 +3,6 @@ import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
 
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 

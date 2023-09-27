@@ -7,7 +7,6 @@ import appendQuery from 'append-query';
 // eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 // eslint-disable-next-line deprecate/import
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvAccessError } from '../../../static-data/error-messages';
