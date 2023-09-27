@@ -13,8 +13,6 @@ const content = {
 export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  // TODO: Replace placeholder name below with actual name from form data
-  const preparerFullName = { first: 'John', last: 'Doe' };
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -22,7 +20,7 @@ export const ConfirmationPage = () => {
     <ConfirmationPageView
       formType="submission"
       submitterHeader="Who submitted this form"
-      submitterName={preparerFullName}
+      submitterName={form.data.applicantFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}
