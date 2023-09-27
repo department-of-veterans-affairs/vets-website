@@ -17,9 +17,9 @@ export const issueErrorMessages = {
   invalidDateRange: (min, max) =>
     `You must enter a year between ${min} and ${max}`,
   pastDate: 'You must add a decision date that’s in the past',
-  newerDate:
-    'You must add an issue with a decision date that’s less than a year old',
   recentDate:
+    'You must add an issue with a decision date that’s less than a year old',
+  newerDate:
     'You must add an issue with a decision date that’s less than 100 years old',
 };
 

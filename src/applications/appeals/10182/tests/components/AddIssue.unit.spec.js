@@ -102,7 +102,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain('past decision date');
+    expect(date.error).to.contain('decision date that’s in the past');
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
@@ -134,7 +134,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(issueErrorMessages.newerDate);
+    expect(date.error).to.contain(issueErrorMessages.recentDate);
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
