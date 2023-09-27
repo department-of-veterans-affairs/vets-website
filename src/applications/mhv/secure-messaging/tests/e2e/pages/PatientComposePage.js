@@ -2,6 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
+import { Locators, Paths } from '../utils/constants';
 
 class PatientComposePage {
   sendMessage = mockRequest => {
@@ -32,30 +33,21 @@ class PatientComposePage {
   };
 
   pushSendMessageWithKeyboardPress = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/messages',
-      mockDraftMessage,
-    ).as('message');
-    cy.tabToElement('[data-testid="Send-Button"]')
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
+    cy.tabToElement(Locators.BUTTONS.SEND)
       .contains('Send')
       .realPress(['Enter']);
     // cy.wait('@message');
   };
 
   verifySendMessageConfirmationMessage = () => {
-    cy.get('.main-content > va-alert').should(
-      'have.text',
-      'Secure message was successfully sent.',
-    );
+    cy.get('.main-content > va-alert')
+      .should('have.text', 'Secure message was successfully sent.')
+      .and('be.focused');
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
-    cy.get('.main-content > va-alert', { timeout: 5000 }).should(
-      'have.attr',
-      'aria-live',
-      'polite',
-    );
+    cy.focused().should('contain.text', 'Secure message was successfully sent');
   };
 
   //* Refactor*  Need to get rid of this method and split out
@@ -85,11 +77,11 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
-  selectRecipient = recipient => {
+  selectRecipient = (recipient = 1) => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
-      .select(recipient);
+      .select(recipient, { force: true });
   };
 
   selectCategoryByTabbingKeyboard = () => {
