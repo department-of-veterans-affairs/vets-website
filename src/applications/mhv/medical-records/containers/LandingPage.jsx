@@ -380,7 +380,7 @@ const LandingPage = () => {
               </p>
               <p className="vads-u-margin-bottom--2">
                 Email us at{' '}
-                <a href="mailto: vamhvfeedback@va.gov">vamhvfeedback@va.gov</a>
+                <a href="mailto: vamhvfeedback@va.gov">vamhvfeedback@va.gov</a>.
               </p>
             </va-accordion-item>
 
