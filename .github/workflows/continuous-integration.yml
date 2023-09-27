@@ -59,6 +59,9 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, url'
 
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
       - name: Fetch e2e allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
@@ -70,9 +73,6 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: unit_test
-
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Check if code can be merged (E2E Test Verification)
         run: node script/github-actions/check-e2e-status.js
