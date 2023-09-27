@@ -42,9 +42,9 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       console.log('content.items: ', content.items);
-      const { tag } = content.items[19];
+      const { tag } = content.items[18];
       expect(tag).to.equal('H1');
-      const text = content.items[21].str;
+      const text = content.items[20].str;
       expect(text.length).to.be.gt(0);
       expect(text).to.equal(data.title.substring(0, text.length));
     });
@@ -144,6 +144,11 @@ describe('Medications PDF template', () => {
         }
       }
 
+      console.log('headerPosition: ', headerPosition);
+      console.log('titlePosition: ', titlePosition);
+      console.log('resultsPosition: ', resultsPosition);
+      console.log('footerPosition: ', footerPosition);
+
       expect(headerPosition).to.be.gt(0);
       expect(headerPosition).to.be.lt(titlePosition);
       expect(titlePosition).to.be.lt(resultsPosition);
@@ -157,10 +162,10 @@ describe('Medications PDF template', () => {
     });
 
     it('Can customize the document language', async () => {
-      const data = require('./fixtures/medications_list.json');
-      data.lang = 'en_UK';
+      const json = require('./fixtures/medications_list.json');
+      const data = { ...json, lang: 'en_UK' };
       const { metadata } = await generateAndParsePdf(data);
-      expect(metadata.info.Language).to.equal(data.lang);
+      expect(metadata.info.Language).to.equal('en_UK');
     });
 
     it('Provides defaults', async () => {
@@ -171,8 +176,8 @@ describe('Medications PDF template', () => {
     });
 
     it('Metadata may be customized', async () => {
-      const data = require('./fixtures/medications_list.json');
-      data.author = 'John Smith';
+      const json = require('./fixtures/medications_list.json');
+      const data = { ...json, author: 'John Smith' };
       const { metadata } = await generateAndParsePdf(data);
       expect(metadata.info.Author).to.equal(data.author);
       expect(metadata.info.Title).to.equal(data.title);
