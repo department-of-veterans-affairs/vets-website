@@ -53,16 +53,20 @@ export const NoFormPage = () => {
             visible
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
-              This online form isn’t working right now
+              This online form isn’t available
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can apply by mail instead. Download a PDF Application for
-                Pension Benefits (VA Form 21P-527EZ). You can refer to your
-                saved information on this page to fill out the form.
+                You can apply by mail now or wait until we transfer your
+                existing claim data to the new form. The new form will be
+                available in 60-90 days.
+              </p>
+              <p>
+                Download a PDF Application for Pension Benefits (VA Form
+                21P-527EZ). You can refer to your saved information on this page
+                to fill out the form.
               </p>
             </div>
-            <br />
             <va-link
               download
               filetype="PDF"
@@ -72,7 +76,7 @@ export const NoFormPage = () => {
             />
           </va-alert>
           <div>
-            <div className="vads-u-padding-y--3">
+            <div>
               <h2>How to apply by mail</h2>
               <p>
                 We’ve recorded the potential start date of your benefits as
