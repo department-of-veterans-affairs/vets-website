@@ -3,7 +3,7 @@ import { selectAuthStatus } from '../../../../utils/selectors/auth-status';
 
 describe('ezr auth status selectors', () => {
   describe('when `selectAuthStatus` executes', () => {
-    describe('when the user profile is loading', () => {
+    context('when the user profile is loading', () => {
       it('should set the correct part of the state', () => {
         const state = {
           user: {
@@ -21,7 +21,7 @@ describe('ezr auth status selectors', () => {
       });
     });
 
-    describe('when the user is logged out', () => {
+    context('when the user is logged out', () => {
       it('should set the correct part of the state', () => {
         const state = {
           user: {
@@ -39,7 +39,7 @@ describe('ezr auth status selectors', () => {
       });
     });
 
-    describe('when the user is logged in', () => {
+    context('when the user is logged in', () => {
       context('when the user is not LOA3', () => {
         it('should set the correct part of the state', () => {
           const state = {

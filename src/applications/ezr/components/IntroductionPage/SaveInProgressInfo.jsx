@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status';
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
+import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
 import content from '../../locales/en/content.json';
 
 const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
+  const { isEnrolledinESR, hasServerError } = useSelector(
+    selectEnrollmentStatus,
+  );
   const {
     downtime,
     prefillEnabled,
@@ -18,20 +23,29 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 
   // set the props to use for the SaveInProgressIntro components
   const sipProps = {
-    startText: content['sip-start-form'],
+    startText: content['sip-start-form-text'],
+    unauthStartText: content['sip-sign-in-to-start-text'],
     messages: savedFormMessages,
     formConfig: { customText },
     headingLevel: 3,
     verifiedPrefillAlert: VerifiedPrefillAlert,
     buttonOnly: isLoggedOut,
+    hideUnauthedStartLink: true,
     prefillEnabled,
     downtime,
     pageList,
   };
 
+  // set the correct alert to render based on enrollment status
+  const LoggedInAlertToRender = isEnrolledinESR ? (
+    <SaveInProgressIntro {...sipProps} />
+  ) : (
+    <EnrollmentStatusAlert showError={hasServerError} />
+  );
+
   return isLoggedOut ? (
     <>
-      <va-alert status="info" uswds>
+      <va-alert status="info" data-testid="ezr-login-alert" uswds>
         <h3 slot="headline">{content['sip-alert-title']}</h3>
         <div>
           <ul className="vads-u-margin-top--0">
@@ -49,7 +63,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
       </va-alert>
     </>
   ) : (
-    <SaveInProgressIntro {...sipProps} />
+    <>{LoggedInAlertToRender}</>
   );
 };
 
