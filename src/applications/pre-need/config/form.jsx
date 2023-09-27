@@ -9,6 +9,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { useSelector } from 'react-redux';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -92,6 +93,20 @@ const {
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = omit('required', fullName);
+
+function MailingAddressStateTitle() {
+  const data = useSelector(state => state.form.data || {});
+  const country = get(
+    'application.applicant.view:applicantInfo.mailingAddress.country',
+    data,
+  );
+  if (!environment.isProduction() && country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
+}
+
+export const mailingAddressStateTitleWrapper = <MailingAddressStateTitle />;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -900,12 +915,12 @@ const formConfig = {
                               },
                               city: { 'ui:required': isAuthorizedAgent },
                               state: {
-                                'ui:title': 'State or territory',
+                                'ui:title': mailingAddressStateTitleWrapper,
                                 'ui:required': isAuthorizedAgent,
                                 'ui:options': {
                                   hideIf: formData =>
                                     !hasStateAddress(formData) &&
-                                    !environment.isProd(),
+                                    !environment.isProduction(),
                                 },
                               },
                               postalCode: { 'ui:required': isAuthorizedAgent },
