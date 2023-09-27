@@ -258,7 +258,6 @@ export default {
   2560: 'fibrosis',
   2570: 'fibrosis, interstitial pulmonary',
   2580: 'filariasis',
-  2590: 'finger(s)',
   2600: 'flatfoot, bilateral',
   2610: 'flatfoot, left',
   2620: 'flatfoot, right',
