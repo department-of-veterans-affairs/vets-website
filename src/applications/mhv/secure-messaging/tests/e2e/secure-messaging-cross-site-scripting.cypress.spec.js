@@ -28,7 +28,10 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     };
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.getCategory(requestBody.category).click();
+    composePage
+      .getCategory(requestBody.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
     composePage
       .getMessageBodyField()

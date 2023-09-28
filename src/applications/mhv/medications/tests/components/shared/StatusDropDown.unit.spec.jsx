@@ -19,13 +19,13 @@ describe('component that displays Status', () => {
   });
 
   it('displays Active: Parked when status is passed as activeParked', () => {
-    const screen = renderStatus('activeParked');
+    const screen = renderStatus('Active: Parked');
     const unknownStatus = screen.getAllByText('Active: Parked');
     expect(unknownStatus).to.exist;
   });
 
   it('displays correct Active: Parked description when drop down is clicked on', async () => {
-    const screen = renderStatus('activeParked');
+    const screen = renderStatus('Active: Parked');
     const statusDescription = screen.getAllByText(
       'Your VA provider prescribed this medication or supply to you. But we won’t send any shipments until you request to fill or refill it.',
     );
