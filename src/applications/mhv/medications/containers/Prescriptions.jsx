@@ -242,7 +242,7 @@ const Prescriptions = () => {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="vads-u-margin-top--neg4" data-testid="list-page-title">
+          <h1 className="vads-u-margin-top--neg3" data-testid="list-page-title">
             Medications
           </h1>
           <div
