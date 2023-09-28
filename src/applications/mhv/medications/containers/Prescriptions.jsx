@@ -23,6 +23,8 @@ import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { processList } from '../../medical-records/util/helpers';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const Prescriptions = () => {
   const currentDate = new Date();
@@ -31,6 +33,7 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.prescriptionsList,
   );
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
   const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
@@ -42,10 +45,7 @@ const Prescriptions = () => {
 
   const topAlert = () => {
     return (
-      <div
-        visible={isAlertVisible}
-        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print vads-u-margin-top--4"
-      >
+      <div visible={isAlertVisible} className="no-print vads-u-margin-top--5">
         {!prescriptions && (
           <va-alert
             close-btn-aria-label="Close notification"
@@ -73,11 +73,18 @@ const Prescriptions = () => {
           </va-alert>
         )}
         {prescriptions?.length <= 0 && (
-          <va-alert status="info" background-only>
+          <va-alert status="info" uswds>
             <div>
-              <p className="vads-u-margin--0">
-                You don’t have any medications in your VA medical records.
-              </p>
+              <h4 className="vads-u-margin-top--0">
+                You don’t have any medications in your medications list
+              </h4>
+              <strong>Note</strong>: This list doesn’t include older
+              prescriptions that have been inactive for more than{' '}
+              <strong>180 days</strong>. To find these older prescriptions, go
+              to your VA Blue Button report on the My HealtheVet website.{' '}
+              <a href={mhvUrl(ssoe, 'va-blue-button')} rel="noreferrer">
+                Go to VA Blue Button&reg; on the My HealtheVet website
+              </a>
             </div>
           </va-alert>
         )}
@@ -363,7 +370,7 @@ const Prescriptions = () => {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="vads-u-margin-top--neg4" data-testid="list-page-title">
+          <h1 className="vads-u-margin-top--neg3" data-testid="list-page-title">
             Medications
           </h1>
           <div
@@ -385,24 +392,24 @@ const Prescriptions = () => {
             </ul>
           </div>
           {topAlert()}
-          <div className="landing-page-content">
-            <div className="no-print">
-              <PrintDownload download={handleDownloadPDF} list />
-              <BeforeYouDownloadDropdown />
-              <MedicationsListSort
-                setSortOption={setSortOption}
-                sortOption={sortOption}
-                defaultSortOption={defaultSortOption}
-                sortRxList={sortRxList}
-              />
-              <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-            </div>
-            {prescriptions ? (
+          {prescriptions?.length ? (
+            <div className="landing-page-content">
+              <div className="no-print">
+                <PrintDownload download={handleDownloadPDF} list />
+                <BeforeYouDownloadDropdown />
+                <MedicationsListSort
+                  setSortOption={setSortOption}
+                  sortOption={sortOption}
+                  defaultSortOption={defaultSortOption}
+                  sortRxList={sortRxList}
+                />
+                <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+              </div>
               <MedicationsList rxList={prescriptions} />
-            ) : (
-              <MedicationsList rxList={[]} />
-            )}
-          </div>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       );
     }

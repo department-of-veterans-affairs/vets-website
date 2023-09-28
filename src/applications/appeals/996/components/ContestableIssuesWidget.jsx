@@ -152,8 +152,6 @@ const ContestableIssuesWidget = props => {
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
-        // focusIssue is called by form config scrollAndFocusTarget, but only on
-        // page change
         focusIssue(null, null, -1);
       });
 
