@@ -277,11 +277,7 @@ const Prescriptions = () => {
                 />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               </div>
-              {prescriptions ? (
-                <MedicationsList rxList={prescriptions} />
-              ) : (
-                <MedicationsList rxList={[]} />
-              )}
+              <MedicationsList rxList={prescriptions} />
             </div>
           ) : (
             ''
