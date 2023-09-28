@@ -16,7 +16,7 @@ describe('ezr <ServerErrorAlert>', () => {
 
     it('should render proper heading level & content', () => {
       const { container } = render(<ServerErrorAlert />);
-      const selector = container.querySelector('h2');
+      const selector = container.querySelector('h3');
       expect(selector).to.exist;
       expect(selector).to.contain.text(content['alert-server-title']);
     });
