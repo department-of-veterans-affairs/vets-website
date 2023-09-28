@@ -1,13 +1,13 @@
 import React from 'react';
 import { addDays, isValid } from 'date-fns';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatDate } from '../../../combined/utils/helpers';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
-    <va-telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+    <va-telephone contact={CONTACTS.DMC || '8008270648'} /> (or{' '}
     <va-telephone
-      contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
+      contact={CONTACTS.DMC_OVERSEAS || '6127136415'}
       international
     />{' '}
     from overseas)
@@ -241,7 +241,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             at{' '}
             <va-telephone
               className="vads-u-color--base "
-              contact="888-826-3127"
+              contact={CONTACTS.TREASURY_DMS}
             />
             , 8:30 a.m. to 6:30 p.m. ET. Don’t send us a payment directly. This
             will delay posting the payment to your account and the Treasury
@@ -476,7 +476,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             Treasury’s Debt. Management Services at{' '}
             <va-telephone
               className="vads-u-color--base "
-              contact="888-826-3127"
+              contact={CONTACTS.TREASURY_DMS}
             />
             , 8:30 a.m. to 6:30 p.m. ET. Don’t send us a payment directly. This
             will delay posting the payment to your account and the Treasury

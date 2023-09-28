@@ -141,6 +141,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       id: '1234',
       kind: 'clinic',
       clinic: 'fake',
+      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
       locationId: '983GC',
       status: 'booked',
@@ -162,13 +163,13 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     const timeHeader = within(firstCard).getAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(pastDate.format('h:mm'), 'i'),
     )[0];
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -187,6 +188,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       currentStatus: 'CHECKED OUT',
       kind: 'clinic',
       clinic: 'fake',
+      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
       locationId: '983GC',
       status: 'fulfilled',
@@ -265,15 +267,13 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
     );
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
-      within(firstCard).getByText(
-        new RegExp(pastDate.tz('America/Denver').format('h:mm'), 'i'),
-      ),
+      within(firstCard).getByText(new RegExp(pastDate.format('h:mm'), 'i')),
     ).to.exist;
     // TODO: Skipping until api call is made to get facility data on page load.
     // Currently, facility data is only retrieved when viewing appointment details
@@ -362,8 +362,12 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       facilityId: '983',
       kind: 'telehealth',
       locationId: '983',
+      localStartTime: pastDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: pastDate.format(),
       status: 'booked',
+      extention: {
+        patientHasMobileGfe: false,
+      },
       telehealth: {
         atlas: null,
         url:
@@ -384,7 +388,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+      new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -394,14 +398,12 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
 
     expect(
       within(firstCard).getByText(
-        new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+        new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
       ),
     ).to.exist;
 
     expect(
-      within(firstCard).getByText(
-        new RegExp(pastDate.tz('America/Denver').format('h:mm'), 'i'),
-      ),
+      within(firstCard).getByText(new RegExp(pastDate.format('h:mm'), 'i')),
     ).to.exist;
     expect(within(firstCard).getByText(/MT/i)).to.exist;
     expect(within(firstCard).getByText(/VA Video Connect at home/i)).to.exist;
@@ -418,6 +420,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       ...appointment.attributes,
       minutesDuration: 30,
       status: 'booked',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: yesterday.format(),
       locationId: '983',
       location: {
@@ -454,7 +457,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
 
     await screen.findAllByText(
-      new RegExp(yesterday.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;

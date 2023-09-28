@@ -13,9 +13,13 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API, CONTESTABLE_ISSUES_PATH } from '../constants';
-import { NOD_BASE_URL, SELECTED } from '../../shared/constants';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
+import {
+  CONTESTABLE_ISSUES_PATH,
+  NOD_BASE_URL,
+  SELECTED,
+} from '../../shared/constants';
 import { areaOfDisagreementPageHook } from '../../shared/tests/cypress.helpers';
 
 const testConfig = createTestConfig(
@@ -52,7 +56,7 @@ const testConfig = createTestConfig(
               'contain',
               testData.contestedIssues?.length
                 ? 'You’ll need to select an issue'
-                : 'Sorry, we couldn’t find any eligible issues',
+                : 'We can’t load your issues right now',
             );
 
             testData.additionalIssues?.forEach(additionalIssue => {

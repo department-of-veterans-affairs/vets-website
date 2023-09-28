@@ -2,11 +2,12 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 
 import {
   content,
-  extensionReasonReviewField,
+  ExtensionReasonReviewField,
 } from '../content/extensionReason';
 import { extensionReason } from '../validations/issues';
 import { showExtensionReason } from '../utils/helpers';
-import { MAX_LENGTH } from '../constants';
+
+import { MAX_LENGTH } from '../../shared/constants';
 
 const requestExtension = {
   uiSchema: {
@@ -14,7 +15,7 @@ const requestExtension = {
     'ui:description': content.description,
     extensionReason: {
       'ui:title': content.label,
-      'ui:reviewField': extensionReasonReviewField,
+      'ui:reviewField': ExtensionReasonReviewField,
       'ui:webComponentField': VaTextareaField,
       'ui:required': showExtensionReason,
       'ui:options': {
@@ -33,7 +34,7 @@ const requestExtension = {
     properties: {
       extensionReason: {
         type: 'string',
-        maxLength: MAX_LENGTH.EXTENSION_REASON,
+        maxLength: MAX_LENGTH.NOD_EXTENSION_REASON,
       },
     },
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordCustomProfileEvent } from '../../../util/analytics';
 
@@ -21,7 +22,7 @@ const handlers = {
   },
 };
 
-export default function ProfileAlert() {
+export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
   const heading = 'Review your mailing address';
   const linkText = 'Go to your contact information to review your address';
 
@@ -30,7 +31,7 @@ export default function ProfileAlert() {
       status="warning"
       data-testid="bad-address-profile-alert"
       onVa-component-did-load={handlers.recordView}
-      className="vads-u-margin-top--4"
+      className={className}
       role="alert"
       aria-live="polite"
     >
@@ -56,3 +57,7 @@ export default function ProfileAlert() {
     </VaAlert>
   );
 }
+
+ProfileAlert.propTypes = {
+  className: PropTypes.string,
+};

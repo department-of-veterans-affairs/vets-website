@@ -1,4 +1,5 @@
 import user from '@@profile/mocks/endpoints/user';
+import commPrefs from '@@profile/mocks/endpoints/communication-preferences';
 import { mockProfileLOA3, registerCypressHelpers } from '../helpers';
 
 import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
@@ -131,6 +132,46 @@ describe('Edit page', () => {
         });
 
       cy.url().should('contain', '/profile/notifications');
+    });
+
+    it('redirects to notification settings when no changes are made and the save button is clicked', () => {
+      cy.visit(
+        `${
+          PROFILE_PATHS.EDIT
+        }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
+      );
+
+      cy.intercept('PUT', '/v0/profile/telephones', {
+        data: {
+          id: '',
+          type: 'async_transaction_va_profile_telephone_transactions',
+          attributes: {
+            transactionId: '1234567890',
+            transactionStatus: 'COMPLETED_NO_CHANGES_DETECTED',
+            type: 'AsyncTransaction::VAProfile::TelephoneTransaction',
+            metadata: [],
+          },
+        },
+      });
+
+      cy.intercept('/v0/user?now=*', user.loa3User72);
+
+      cy.intercept(
+        '/v0/profile/communication_preferences',
+        commPrefs.maximalSetOfPreferences,
+      );
+
+      checkForLegacyLoadingIndicator();
+
+      cy.injectAxeThenAxeCheck();
+
+      cy.findByTestId('save-edit-button').click();
+
+      cy.url().should('contain', '/profile/notifications');
+
+      cy.findByText(
+        'We saved your mobile phone number to your profile.',
+      ).should('exist');
     });
   });
 });

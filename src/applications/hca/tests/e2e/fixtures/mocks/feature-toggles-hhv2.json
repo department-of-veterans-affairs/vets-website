@@ -17,10 +17,6 @@
       {
         "name": "hcaHouseholdV2Enabled",
         "value": true
-      },
-      {
-        "name": "hcaRemoveIdFieldsEnabled",
-        "value": false
       }
     ]
   }

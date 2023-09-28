@@ -50,16 +50,6 @@ describe('Check In Experience', () => {
         )
         .should('equal', false);
       cy.get('@demographicsPatchSuccessAlias')
-        .its(
-          'request.body.demographics.demographicConfirmations.emergencyContactUpToDate',
-        )
-        .should('equal', undefined);
-      cy.get('@demographicsPatchSuccessAlias')
-        .its(
-          'request.body.demographics.demographicConfirmations.nextOfKinUpToDate',
-        )
-        .should('equal', undefined);
-      cy.get('@demographicsPatchSuccessAlias')
         .its('response.statusCode')
         .should('equal', 200);
     });
@@ -92,11 +82,6 @@ describe('Check In Experience', () => {
           'request.body.demographics.demographicConfirmations.emergencyContactUpToDate',
         )
         .should('equal', false);
-      cy.get('@demographicsPatchSuccessAlias')
-        .its(
-          'request.body.demographics.demographicConfirmations.nextOfKinUpToDate',
-        )
-        .should('equal', undefined);
       cy.get('@demographicsPatchSuccessAlias')
         .its('response.statusCode')
         .should('equal', 200);

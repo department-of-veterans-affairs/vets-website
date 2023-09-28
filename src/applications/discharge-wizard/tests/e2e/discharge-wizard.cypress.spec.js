@@ -1,3 +1,5 @@
+import { questionLabels } from '../../constants';
+
 function axeTestPage() {
   cy.injectAxe();
   cy.axeCheck('main', {
@@ -24,13 +26,17 @@ describe('functionality of discharge wizard', () => {
       .click();
 
     cy.get('select[name="2_dischargeYear"]').select('2016');
-    cy.get('va-radio[name="4_reason"] va-radio-option')
-      .first()
-      .click();
+    cy.get(
+      `va-radio-option[label="${
+        questionLabels['4_reason']['1']
+      }"] input[type="radio"]`,
+    ).click();
 
-    cy.get('va-radio[name="6_intention"] va-radio-option')
-      .first()
-      .click();
+    cy.get(
+      `va-radio-option[label="Yes, ${
+        questionLabels['6_intention']['1']
+      }"] input[type="radio"]`,
+    ).click();
 
     cy.get('va-radio[name="7_courtMartial"] va-radio-option')
       .first()

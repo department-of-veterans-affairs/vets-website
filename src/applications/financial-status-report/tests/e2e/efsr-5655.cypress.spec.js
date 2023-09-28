@@ -224,7 +224,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.findAllByText(/Add vehicle/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click({ waitForAnimations: true });
         });
@@ -370,7 +370,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add a credit card bill/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click();
           // cy.get('.usa-button-primary').click();
@@ -433,7 +433,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add an installment contract/i, {
+          cy.findAllByText(/Continue/i, {
             selector: 'button',
           })
             .first()
@@ -492,8 +492,16 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`input[name="veteran-certify"]`).check();
-          cy.get(`input[name="privacy-policy"]`).check();
+          cy.get(`#veteran-certify`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
+          cy.get(`#privacy-policy`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

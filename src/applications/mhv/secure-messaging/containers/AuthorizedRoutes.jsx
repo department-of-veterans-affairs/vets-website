@@ -13,7 +13,11 @@ import { Paths } from '../util/constants';
 
 const AuthorizedRoutes = () => {
   return (
-    <div className="vads-u-flex--fill" data-testid="secure-messaing">
+    <div
+      className="vads-l-col--12
+      medium-screen:vads-l-col--9"
+      data-testid="secure-messaging"
+    >
       <ScrollToTop />
       <Switch>
         <Route exact path="/" key="App">

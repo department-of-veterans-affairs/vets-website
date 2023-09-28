@@ -13,9 +13,11 @@ import {
   FacilityInfoDescription,
   LastTreatmentFacilityDescription,
   PreferredFacilityDescription,
+  PreferredFacilityAPIDescription,
 } from '../../components/FormDescriptions';
-import VaMedicalCenter from '../../components/FormFields/VaMedicalCenter';
+// import VaMedicalCenter from '../../components/FormFields/VaMedicalCenter';
 import { veteranFields } from '../constants';
+import FacilitySearch from '../../components/FormFields/FacilitySearch';
 
 const emptyFacilityList = [];
 const stateLabels = createUSAStateLabels(states);
@@ -133,15 +135,14 @@ export const LastTreatmentFacilityAPIUI = {
 };
 
 export const PreferredFacilityAPIUI = {
-  'ui:title': 'VA health care services',
-  'ui:description': PreferredFacilityDescription,
-  veteranFacilityState: {
-    'ui:title': 'State',
-    'ui:required': () => true,
-  },
+  'ui:title': 'The Veteran’s VA health care facility',
+  'ui:description': PreferredFacilityAPIDescription,
   plannedClinic: {
-    'ui:title': 'VA medical center',
-    'ui:widget': VaMedicalCenter,
+    'ui:title': 'Search by city, state or postal code',
+    'ui:errorMessages': {
+      required: 'Please enter a city, state or postal code',
+    },
+    'ui:widget': FacilitySearch,
     'ui:options': {
       hideLabelText: true,
     },

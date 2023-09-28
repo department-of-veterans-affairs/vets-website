@@ -33,20 +33,31 @@ export const IssueCardContent = ({
   return (
     <div id={id} className="widget-content-wrap">
       {description && (
-        <p className="vads-u-margin-bottom--0 dd-privacy-hidden">
+        <p
+          className="vads-u-margin-bottom--0 dd-privacy-hidden"
+          data-dd-action-name="rated issue description"
+        >
           {replaceDescriptionContent(description)}
         </p>
       )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
           Current rating:{' '}
-          <strong className="dd-privacy-hidden">{`${ratingIssuePercentNumber}%`}</strong>
+          <strong
+            className="dd-privacy-hidden"
+            data-dd-action-name="rated issue percentage"
+          >
+            {`${ratingIssuePercentNumber}%`}
+          </strong>
         </p>
       )}
       {date && (
         <p>
           Decision date:{' '}
-          <strong className="dd-privacy-hidden">
+          <strong
+            className="dd-privacy-hidden"
+            data-dd-action-name="rated issue decision date"
+          >
             {moment(date, FORMAT_YMD).format(FORMAT_READABLE)}
           </strong>
         </p>
@@ -172,7 +183,11 @@ export const IssueCard = ({
               aria-describedby={`issue-${index}-description`}
               aria-labelledby={`issue-${index}-title`}
             />
-            <label className="schemaform-label" htmlFor={elementId}>
+            <label
+              className="schemaform-label"
+              htmlFor={elementId}
+              data-dd-action-name="contestable issue"
+            >
               {' '}
             </label>
           </div>
@@ -183,7 +198,11 @@ export const IssueCard = ({
           }`}
           data-index={index}
         >
-          <Header id={`issue-${index}-title`} className={titleClass}>
+          <Header
+            id={`issue-${index}-title`}
+            className={titleClass}
+            data-dd-action-name="issue name"
+          >
             {issueName}
           </Header>
           <IssueCardContent id={`issue-${index}-description`} {...item} />

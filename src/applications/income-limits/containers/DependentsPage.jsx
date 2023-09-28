@@ -83,7 +83,12 @@ const DependentsPage = ({
 
   const onDependentsInput = event => {
     setError(false);
-    updateDependentsField(parseInt(event.target.value, 10).toString());
+
+    if (event?.target?.value) {
+      updateDependentsField(parseInt(event.target.value, 10)?.toString());
+    } else {
+      updateDependentsField('');
+    }
   };
 
   const onBackClick = () => {

@@ -67,6 +67,8 @@ describe('Pre-Check In Experience ', () => {
     NextOfKin.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Pre-check-in--Next-of-kin');
+    NextOfKin.openAdditionalInfo();
+    cy.createScreenshots('Pre-check-in--Next-of-kin--additional-info-open');
     NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation

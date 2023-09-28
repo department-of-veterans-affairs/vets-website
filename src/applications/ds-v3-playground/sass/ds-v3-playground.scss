@@ -1,4 +1,4 @@
-
+@import "~@department-of-veterans-affairs/css-library/dist/utilities.css";
 
 @font-face {
   font-family: "Font Awesome 5 Free";
@@ -10,8 +10,20 @@
   font-display: swap;
 }
 
-.grid-container {
-  font-family: var(--font-source-sans);
+@font-face {
+  font-family: "Source Sans Pro Web";
+  src: url("/generated/sourcesanspro-regular-webfont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans Pro Web";
+  src: url("/generated/sourcesanspro-bold-webfont.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 .border-bottom {

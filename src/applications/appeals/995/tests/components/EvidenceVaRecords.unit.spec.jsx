@@ -4,14 +4,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
-import {
-  errorMessages,
-  SELECTED,
-  MAX_LENGTH,
-  EVIDENCE_VA_PATH,
-} from '../../constants';
+import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
+
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -197,12 +194,12 @@ describe('<EvidenceVaRecords>', () => {
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
 
-      expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[2].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[2].invalidMonth).to.be.true;
       expect(errorEls[2].invalidDay).to.be.true;
       expect(errorEls[2].invalidYear).to.be.true;
 
-      expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[3].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[3].invalidMonth).to.be.true;
       expect(errorEls[3].invalidDay).to.be.true;
       expect(errorEls[3].invalidYear).to.be.true;
@@ -441,7 +438,9 @@ describe('<EvidenceVaRecords>', () => {
 
     // *** OTHER ERRORS ***
     it('should show error when location name is too long', async () => {
-      const name = 'abcdef '.repeat(MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6);
+      const name = 'abcdef '.repeat(
+        MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME / 6,
+      );
       const data = { ...mockData, locations: [{ locationAndName: name }] };
       const page = setup({ index: 0, data });
       const { container } = render(page);

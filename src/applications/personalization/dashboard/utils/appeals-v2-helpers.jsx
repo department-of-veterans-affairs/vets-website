@@ -4,7 +4,7 @@ import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { ITEMS_PER_PAGE } from './constants';
 
-// This literally determines how many rows are displayed per page on the v2 index page
+// This literally determines how many rows are displayed per page on the index page
 export const DECISION_REVIEW_URL = '/decision-reviews';
 
 export const APPEAL_ACTIONS = {

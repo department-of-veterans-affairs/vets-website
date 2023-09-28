@@ -9,26 +9,28 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCard';
+import { APP_NAME } from '../constants';
+import { focusIssue } from '../utils/focus';
+
 import {
-  SELECTED,
+  LAST_ISSUE,
   MAX_LENGTH,
-  LAST_SC_ITEM,
   REVIEW_ISSUES,
-} from '../constants';
+  SELECTED,
+} from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
-} from '../content/contestableIssues';
+} from '../../shared/content/contestableIssues';
 import {
   getSelected,
   someSelected,
-  isEmptyObject,
   calculateIndexOffset,
-} from '../utils/helpers';
-import { focusIssue } from '../utils/focus';
+} from '../../shared/utils/issues';
+import { isEmptyObject } from '../../shared/utils/helpers';
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget
@@ -62,12 +64,12 @@ const ContestableIssuesWidget = props => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [editState] = useState(window.sessionStorage.getItem(LAST_SC_ITEM));
+  const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
 
   useEffect(
     () => {
       if (editState) {
-        window.sessionStorage.removeItem(LAST_SC_ITEM);
+        window.sessionStorage.removeItem(LAST_ISSUE);
         const [lastEdited, returnState] = editState.split(',');
         setTimeout(() => {
           const card = `#issue-${lastEdited}`;
@@ -105,7 +107,13 @@ const ContestableIssuesWidget = props => {
   const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
-    return <NoneSelectedAlert count={items.length} headerLevel={5} />;
+    return (
+      <NoneSelectedAlert
+        count={items.length}
+        headerLevel={5}
+        inReviewMode={inReviewMode}
+      />
+    );
   }
 
   const handlers = {
@@ -151,7 +159,7 @@ const ContestableIssuesWidget = props => {
         (issue, indx) => removeIndex !== indx,
       );
       // Focus management: target add a new issue action link
-      window.sessionStorage.setItem(LAST_SC_ITEM, -1);
+      window.sessionStorage.setItem(LAST_ISSUE, -1);
       setShowRemoveModal(false);
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
@@ -188,19 +196,19 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues =
-    showNoLoadedIssues && (!onReviewPage || (onReviewPage && inReviewMode));
+  const showNoIssues = showNoLoadedIssues && !onReviewPage;
 
   return (
     <>
       <div name="eligibleScrollElement" />
       {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
-        submitted &&
-        !hasSelected && (
+        !hasSelected &&
+        (onReviewPage || submitted) && (
           <NoneSelectedAlert
             count={value.length}
             headerLevel={onReviewPage ? 4 : 3}
+            inReviewMode={inReviewMode}
           />
         )}
       <fieldset className="review-fieldset">
@@ -235,14 +243,18 @@ const ContestableIssuesWidget = props => {
             className="add-new-issue vads-c-action-link--green"
             to={{
               pathname: '/add-issue',
-              search: `?index=${items.length},new=true`,
+              search: `?index=${items.length}`,
             }}
           >
             Add a new issue
           </Link>
         )}
         {showErrorModal && (
-          <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+          <MaxSelectionsAlert
+            showModal
+            closeModal={handlers.closeModal}
+            appName={APP_NAME}
+          />
         )}
       </fieldset>
     </>

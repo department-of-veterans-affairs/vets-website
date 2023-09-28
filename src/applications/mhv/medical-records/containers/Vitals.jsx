@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { RecordType, vitalTypes } from '../util/constants';
+import { recordType, vitalTypes, pageTitles } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getVitals());
-  }, []);
+
+  useEffect(
+    () => {
+      dispatch(getVitals());
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          { url: '/my-health/medical-records/vitals', label: 'VA vitals' },
-        ),
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
       );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },
     [dispatch],
   );
@@ -46,7 +53,7 @@ const Vitals = () => {
       return (
         <RecordList
           records={cards}
-          type={RecordType.VITALS}
+          type={recordType.VITALS}
           perPage={7}
           hidePagination
         />
@@ -72,15 +79,12 @@ const Vitals = () => {
   };
 
   return (
-    <div className="vaccines" id="vitals">
-      <h1>Vitals</h1>
-      <section className="set-width-486">
-        <p>Review vitals in your VA medical records.</p>
-        <va-additional-info trigger="What to know about vitals">
-          This is some additional info about vitals, though we are waiting on
-          the Content Team to tell us what should be here...
-        </va-additional-info>
-      </section>
+    <div className="vads-l-col--12 medium-screen:vads-l-col--8" id="vitals">
+      <h1 className="vads-u-margin--0">Vitals</h1>
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+        Vitals are basic health numbers your providers check at your
+        appointments.
+      </p>
       {content()}
     </div>
   );

@@ -167,7 +167,12 @@ export const updateFormDataAddress = (
  * schema: {
  *   address: addressUI()
  *   simpleAddress: addressUI({ omit: ['street2', 'street3'] })
- *   futureAddress: addressUI({ militaryCheckboxLabel: 'I will live on a United States military base outside of the U.S.'; })
+ *   futureAddress: addressUI({
+ *     labels: {
+ *      militaryCheckbox: 'I will live on a United States military base outside of the U.S.'
+ *      street3: 'Apt or Unit number',
+ *     }
+ *   })
  *   changeRequired: addressUI({
  *     required: {
  *       country: (formData) => false,
@@ -177,7 +182,12 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {{
- *   militaryCheckboxLabel?: string,
+ *   labels?: {
+ *     militaryCheckbox?: string
+ *     street?: string,
+ *     street2?: string,
+ *     street3?: string,
+ *   }},
  *   omit?: Array<AddressSchemaKey>,
  *   required?: Record<AddressSchemaKey, (formData:any) => boolean>
  * }} [options]
@@ -194,7 +204,7 @@ export function addressUI(options) {
   if (!omit('isMilitary')) {
     uiSchema.isMilitary = {
       'ui:title':
-        options?.militaryCheckboxLabel ??
+        options?.labels?.militaryCheckbox ??
         'I live on a United States military base outside of the U.S.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
@@ -264,7 +274,7 @@ export function addressUI(options) {
   if (!omit('street')) {
     uiSchema.street = {
       'ui:required': customRequired('street') || (() => true),
-      'ui:title': 'Street address',
+      'ui:title': options?.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Street address is required',
@@ -276,7 +286,7 @@ export function addressUI(options) {
 
   if (!omit('street2')) {
     uiSchema.street2 = {
-      'ui:title': 'Street address line 2',
+      'ui:title': options?.labels?.street2 || 'Street address line 2',
       'ui:autocomplete': 'address-line2',
       'ui:required': customRequired('street2') || (() => false),
       'ui:options': {
@@ -288,7 +298,7 @@ export function addressUI(options) {
 
   if (!omit('street3')) {
     uiSchema.street3 = {
-      'ui:title': 'Street address line 3',
+      'ui:title': options?.labels?.street3 || 'Street address line 3',
       'ui:autocomplete': 'address-line3',
       'ui:required': customRequired('street3') || (() => false),
       'ui:options': {

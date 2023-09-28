@@ -11,12 +11,23 @@ import ClaimsBreadcrumbs from '../ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../ClaimsUnavailable';
 import { getClaimType } from '../../utils/helpers';
 
+const MAX_CONTENTIONS = 3;
+
 export const isPopulatedClaim = ({ attributes }) =>
   !!attributes.claimType &&
   (attributes.contentionList && !!attributes.contentionList.length) &&
   !!attributes.dateFiled;
 
-const MAX_CONTENTIONS = 3;
+const getBreadcrumbText = (currentTab, claimType) => {
+  let joiner;
+  if (currentTab === 'Status' || currentTab === 'Details') {
+    joiner = 'of';
+  } else {
+    joiner = 'for';
+  }
+
+  return `${currentTab} ${joiner} your ${claimType} claim`;
+};
 
 export default function ClaimDetailLayout(props) {
   const {
@@ -31,6 +42,8 @@ export default function ClaimDetailLayout(props) {
   const tabs = ['Status', 'Files', 'Details'];
   const claimsPath = `your-claims/${id}`;
 
+  const claimType = getClaimType(claim).toLowerCase();
+
   let bodyContent;
   let headingContent;
   if (loading) {
@@ -41,7 +54,7 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claim !== null) {
-    const claimTitle = `Your ${getClaimType(claim)} claim`;
+    const claimTitle = `Your ${claimType} claim`;
 
     headingContent = (
       <>
@@ -121,7 +134,9 @@ export default function ClaimDetailLayout(props) {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>Status details</Link>
+              <Link to={claimsPath}>
+                {getBreadcrumbText(currentTab, claimType)}
+              </Link>
             </ClaimsBreadcrumbs>
           </div>
         </div>
