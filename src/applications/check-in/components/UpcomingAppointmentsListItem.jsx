@@ -73,11 +73,19 @@ const UpcomingAppointmentsListItem = props => {
                 {appointment?.kind === 'phone' ? (
                   t('phone')
                 ) : (
-                  <>{`${t('in-person')} at ${appointment.facility}`}</>
+                  <>
+                    {t('in-person')} at {appointment.facility}
+                  </>
                 )}
               </div>
             </div>
-            <div>{appointment?.kind === 'clinic' && <>Clinic: {clinic}</>}</div>
+            <div>
+              {appointment?.kind === 'clinic' && (
+                <>
+                  {t('clinic')}: {clinic}
+                </>
+              )}
+            </div>
 
             <div className="vads-u-margin-y--1p5">
               <a
