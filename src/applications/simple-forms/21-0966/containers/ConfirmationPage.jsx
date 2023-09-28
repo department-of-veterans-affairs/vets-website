@@ -9,8 +9,10 @@ import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
-  preparerIsSurvivingDependant,
-  preparerIsThirdPartyToASurvivingDependant,
+  getClaimType,
+  getAlreadySubmittedIntentText,
+  getAlreadySubmittedTitle,
+  getAlreadySubmittedText,
 } from '../config/helpers';
 
 export class ConfirmationPage extends React.Component {
@@ -27,77 +29,30 @@ export class ConfirmationPage extends React.Component {
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
 
-    let title = 'You’ve submitted your intent to file request';
-    let claimType;
-    let expirationDate;
-    let expirationDateText;
+    const title = 'You’ve submitted your intent to file request';
+    const claimType = getClaimType(data);
+    const expirationDate = new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1),
+    ).toDateString();
+    const expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
     const alreadySubmittedIntents = {
       compensation: !!submission.response?.compensationIntent?.status,
       pension: !!submission.response?.pensionIntent?.status,
     };
-    let alreadySubmittedIntentText;
-    let alreadySubmittedTitle;
-    let alreadySubmittedText;
-    switch (data.benefitSelection) {
-      case 'Compensation':
-        claimType = 'disability compensation claim';
-        expirationDate = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1),
-        ).toDateString();
-        expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
-        if (alreadySubmittedIntents.compensation) {
-          alreadySubmittedIntentText = `Our records show that you already have an intent to file for a disability compensation claim and it will expire on ${expirationDate}.`;
-        }
-        break;
-      case 'Pension':
-        if (
-          preparerIsSurvivingDependant({ formData: data }) ||
-          preparerIsThirdPartyToASurvivingDependant({ formData: data })
-        ) {
-          claimType = 'pension claim for survivors';
-        } else {
-          claimType = 'pension claim';
-        }
-        expirationDate = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1),
-        ).toDateString();
-        expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
-        if (alreadySubmittedIntents.pension) {
-          alreadySubmittedIntentText = `Our records show that you already have an intent to file for a ${claimType} and it will expire on ${expirationDate}.`;
-        }
-        break;
-      case 'Compensation,Pension':
-        claimType = 'disability compensation and pension claims';
-        expirationDate = new Date(
-          new Date().setFullYear(new Date().getFullYear() + 1),
-        ).toDateString();
-        expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
-        if (submission.response?.compensationIntent?.status === 'active') {
-          title = `You’ve submitted your intent to file request for a pension claim`;
-          alreadySubmittedTitle =
-            'You’ve already submitted an intent to file for a disability compensation claim';
-          alreadySubmittedText = `Our records show that you already have an Intent to File (ITF) for disability compensation. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
-          expirationDateText = `Your intent to file will expire on ${expirationDate}.`;
-        } else if (submission.response?.pensionIntent?.status === 'active') {
-          title = `You’ve submitted your intent to file request for a disability compensation claim`;
-          alreadySubmittedTitle =
-            'You’ve already submitted an intent to file for a pension claim';
-          alreadySubmittedText = `Our records show that you already have an Intent to File (ITF) for pension. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
-          expirationDateText = `Your intent to file will expire on ${expirationDate}.`;
-        }
-
-        if (
-          alreadySubmittedIntents.compensation &&
-          alreadySubmittedIntents.pension
-        ) {
-          alreadySubmittedIntentText =
-            'Our records show that you already have an intent to file for disability compensation and for pension claims.';
-        }
-        break;
-      default:
-        claimType = 'boop';
-        expirationDate = 'beep';
-    }
+    const alreadySubmittedIntentText = getAlreadySubmittedIntentText(
+      data,
+      alreadySubmittedIntents,
+      expirationDate,
+    );
+    const alreadySubmittedTitle = getAlreadySubmittedTitle(
+      data,
+      submission.response,
+    );
+    const alreadySubmittedText = getAlreadySubmittedText(
+      data,
+      submission.response,
+      expirationDate,
+    );
 
     return (
       <div>

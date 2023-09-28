@@ -84,3 +84,84 @@ export const contactInformationStepperTitle = ({ formData } = {}) => {
       return 'Your contact information';
   }
 };
+
+export const getClaimType = data => {
+  switch (data.benefitSelection) {
+    case 'Compensation':
+      return 'disability compensation claim';
+    case 'Pension':
+      if (
+        preparerIsSurvivingDependant({ formData: data }) ||
+        preparerIsThirdPartyToASurvivingDependant({ formData: data })
+      ) {
+        return 'pension claim for survivors';
+      }
+      return 'pension claim';
+    case 'Compensation,Pension':
+      return 'disability compensation and pension claims';
+    default:
+      return 'disability compensation claim';
+  }
+};
+
+export const getAlreadySubmittedIntentText = (
+  data,
+  alreadySubmittedIntents,
+  expirationDate,
+) => {
+  switch (data.benefitSelection) {
+    case 'Compensation':
+      if (alreadySubmittedIntents.compensation) {
+        return `Our records show that you already have an intent to file for a disability compensation claim and it will expire on ${expirationDate}.`;
+      }
+
+      return null;
+    case 'Pension':
+      if (alreadySubmittedIntents.pension) {
+        return `Our records show that you already have an intent to file for a ${getClaimType(
+          data,
+        )} and it will expire on ${expirationDate}.`;
+      }
+
+      return null;
+    case 'Compensation,Pension':
+      if (
+        alreadySubmittedIntents.compensation &&
+        alreadySubmittedIntents.pension
+      ) {
+        return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
+      }
+
+      return null;
+    default:
+      return null;
+  }
+};
+
+export const getAlreadySubmittedTitle = (data, response) => {
+  if (data.benefitSelection === 'compensation,Pension') {
+    if (response?.compensationIntent?.status === 'active') {
+      return 'You’ve already submitted an intent to file for a disability compensation claim';
+    }
+    if (response?.pensionIntent?.status === 'active') {
+      return 'You’ve already submitted an intent to file for a pension claim';
+    }
+
+    return null;
+  }
+  return null;
+};
+
+export const getAlreadySubmittedText = (data, response, expirationDate) => {
+  if (data.benefitSelection === 'compensation,Pension') {
+    if (response?.compensationIntent?.status === 'active') {
+      return `Our records show that you already have an Intent to File (ITF) for disability compensation. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
+    }
+    if (response?.pensionIntent?.status === 'active') {
+      return `Our records show that you already have an Intent to File (ITF) for pension. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
+    }
+
+    return null;
+  }
+  return null;
+};

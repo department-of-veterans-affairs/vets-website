@@ -7,20 +7,18 @@ import { relationshipToVeteranKeys } from '../definitions/constants';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    relationshipToVeteran: {
-      ...radioUI({
-        title: 'What’s the claimant’s relationship to the Veteran?',
-        labels: {
-          SPOUSE: 'The claimant is the Veteran’s spouse.',
-          CHILD: 'The claimant is the Veteran’s child.',
-        },
-        labelHeaderLevel: '3',
-      }),
+    relationshipToVeteran: radioUI({
+      title: 'What’s the claimant’s relationship to the Veteran?',
+      labels: {
+        SPOUSE: 'The claimant is the Veteran’s spouse.',
+        CHILD: 'The claimant is the Veteran’s child.',
+      },
+      labelHeaderLevel: '3',
       // TODO: Add correct error message
-      //   'ui:errorMessages': {
-      //     required: 'Please select your identity',
-      //   },
-    },
+      errorMessages: {
+        required: '',
+      },
+    }),
   },
   schema: {
     type: 'object',
