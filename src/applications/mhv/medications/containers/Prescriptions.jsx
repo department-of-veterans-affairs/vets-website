@@ -104,7 +104,7 @@ const Prescriptions = () => {
   const buildPrescriptionPDFList = useCallback(
     () => {
       return prescriptions?.map(rx => {
-        // TODO: integrate image when CORS issue is resolved
+        // Image (to be added later)
         // const cmopNdcNumber = rx.rxRfRecords.length && rx.rxRfRecords[0][1]?.[0]?.cmopNdcNumber || rx.cmopNdcNumber;
         return {
           header: rx.prescriptionName,
@@ -184,14 +184,11 @@ const Prescriptions = () => {
                   value: validateField(rx.quantity),
                   inline: true,
                 },
-                {
-                  title: 'Image of the medication or supply',
-                  // TODO: integrate image when CORS issue is resolved
-                  // value: !!cmopNdcNumber ? { type: 'image', value: getImageUri(cmopNdcNumber) } : 'Image not available',
-                  value: 'Image not available',
-                  inline: false,
-                },
-                // TODO: add when image CORS issue is resolved
+                // {
+                //   title: 'Image of the medication or supply',
+                //   value: !!cmopNdcNumber ? { type: 'image', value: getImageUri(cmopNdcNumber) } : 'Image not available',
+                //   inline: false,
+                // },
                 // {
                 //   title: 'Note',
                 //   value: 'This image is from your last refill of this medication.',
@@ -342,11 +339,11 @@ const Prescriptions = () => {
         preface: `Showing ${
           prescriptionsPdfList?.length
         } medications, available to fill or refill first`,
-        medicationsList: prescriptionsPdfList,
+        list: prescriptionsPdfList,
       },
       {
         header: 'Allergies',
-        medicationsList: allergiesPdfList,
+        list: allergiesPdfList,
       },
     ],
   };

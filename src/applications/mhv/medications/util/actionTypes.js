@@ -9,7 +9,7 @@ export const Actions = {
     FILL: 'RX_PRESCRIPTIONS_FILL',
     FILL_ERROR: 'RX_PRESCRIPTIONS_FILL_ERROR',
   },
-  // TODO: refactor into shared with medical records
+  // TODO: consider re-using this from medical-records
   Allergies: {
     GET_LIST: 'RX_ALLERGIES_GET_LIST',
   },

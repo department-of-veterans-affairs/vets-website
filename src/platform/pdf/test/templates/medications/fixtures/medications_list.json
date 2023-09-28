@@ -21,7 +21,7 @@
     {
       "header": "Medications list",
       "preface": "Showing 100 medications, available to fill or refill first",
-      "medicationsList": [
+      "list": [
         {
           "header": "ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB",
           "sections": [
@@ -275,7 +275,7 @@
     },
     {
       "header": "Allergies",
-      "medicationsList": [
+      "list": [
         {
           "header": "RED FOOD DYE",
           "sections": [

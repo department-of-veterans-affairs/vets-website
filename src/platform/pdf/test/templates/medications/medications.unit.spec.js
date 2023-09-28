@@ -80,9 +80,7 @@ describe('Medications PDF template', () => {
       const { tag } = content.items[76];
       expect(tag).to.equal('P');
       const text = content.items[80].str;
-      expect(text).to.equal(
-        data.results[0].medicationsList[0].sections[0].items[5].value,
-      );
+      expect(text).to.equal(data.results[0].list[0].sections[0].items[5].value);
     });
 
     it('Horizontal rules are added below each item', async () => {

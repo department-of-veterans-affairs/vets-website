@@ -1,4 +1,4 @@
-// TODO: this needs to be refactored into shared with medical-records
+// TODO: consider re-using medical-records reducer
 /* eslint-disable sonarjs/no-small-switch */
 import { Actions } from '../util/actionTypes';
 import { convertAllergy } from '../../medical-records/reducers/allergies';

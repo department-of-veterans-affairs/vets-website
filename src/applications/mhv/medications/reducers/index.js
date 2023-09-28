@@ -8,7 +8,7 @@ const rootReducer = {
   rx: combineReducers({
     prescriptions: prescriptionsReducer,
     breadcrumbs: breadcrumbsReducer,
-    // TODO: refactor into shared with medical-records
+    // TODO: consider re-using this from medical-records
     allergies: allergiesReducer,
   }),
 };

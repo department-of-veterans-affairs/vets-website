@@ -96,6 +96,248 @@ const addHorizontalRule = (
 };
 
 /**
+ * Add a span struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createSpan = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'Span',
+    config.text.font,
+    config.text.size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Add a text artifact struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createArtifactText = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'Artifact',
+    config.text.font,
+    config.text.size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Generates Header Banner
+ *
+ * @param {Object} doc
+ * @param {Object} header header struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateHeaderBanner = async (doc, header, data, config) => {
+  doc.moveDown(1);
+  const currentHeight = doc.y;
+
+  // Calculate text width
+  let width = 0;
+  for (let i = 0; i < data.headerBanner.length; i += 1) {
+    const element = data.headerBanner[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+
+    doc.font(font);
+    doc.fontSize(config.text.size);
+    width += doc.widthOfString(element.text);
+  }
+
+  // This math is based on US Letter page size and will have to be adjusted
+  // if we ever offer document size as a parameter.
+  const leftMargin = (612 - 32 - width) / 2 + config.margins.left;
+
+  for (let i = 0; i < data.headerBanner.length; i += 1) {
+    const element = data.headerBanner[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const paragraphOptions = {};
+    if (i < data.headerBanner.length) {
+      paragraphOptions.continued = true;
+    }
+
+    header.add(
+      doc.struct('Span', () => {
+        doc
+          .font(font)
+          .fontSize(config.text.size)
+          .text(element.text, leftMargin, doc.y, paragraphOptions);
+      }),
+    );
+  }
+
+  const height = doc.y - currentHeight + 25;
+
+  doc.rect(config.margins.left, currentHeight - 4, 580, height).stroke();
+
+  doc.moveDown(3);
+
+  // This is an ugly hack that resets the document X position
+  // so that the document header is shown correctly.
+  header.add(
+    doc.struct('Artifact', () => {
+      doc.text('', config.margins.left, doc.y);
+    }),
+  );
+};
+
+/**
+ * Generates Initial Header Content
+ *
+ * @param {Object} doc
+ * @param {Object} parent parent struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateInitialHeaderContent = async (doc, parent, data, config) => {
+  // Adjust page margins so that we can write in the header/footer area.
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = {
+    top: 0,
+    bottom: 0,
+    left: config.margins.left,
+    right: 16,
+  };
+
+  const header = doc.struct('Sect', {
+    type: 'Pagination',
+    title: 'Header',
+    attached: 'Top',
+  });
+  parent.add(header);
+  const leftOptions = { continued: true, x: config.margins.left, y: 12 };
+  header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+  const rightOptions = { align: 'right' };
+  header.add(createSpan(doc, config, data.headerRight, rightOptions));
+
+  if (data.headerBanner) {
+    generateHeaderBanner(doc, header, data, config);
+  }
+
+  header.end();
+
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = config.margins;
+};
+
+/**
+ * Generates Final Header Content
+ *
+ * @param {Object} doc
+ * @param {Object} parent parent struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateFinalHeaderContent = async (doc, parent, data, config) => {
+  const pages = doc.bufferedPageRange();
+  for (let i = 1; i < pages.count; i += 1) {
+    doc.switchToPage(i);
+
+    // Adjust page margins so that we can write in the header/footer area.
+    // eslint-disable-next-line no-param-reassign
+    doc.page.margins = {
+      top: 0,
+      bottom: 0,
+      left: config.margins.left,
+      right: 16,
+    };
+
+    const header = doc.struct('Artifact', {
+      type: 'Pagination',
+      title: 'Header',
+      attached: 'Top',
+    });
+    parent.add(header);
+    const leftOptions = { continued: true, x: 16, y: 12 };
+    header.add(createArtifactText(doc, config, data.headerLeft, leftOptions));
+    const rightOptions = { align: 'right' };
+    header.add(createArtifactText(doc, config, data.headerRight, rightOptions));
+    header.end();
+  }
+};
+
+/**
+ * Generates Final Header Content
+ *
+ * @param {Object} doc
+ * @param {Object} parent parent struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateFooterContent = async (doc, parent, data, config) => {
+  const pages = doc.bufferedPageRange();
+  for (let i = 0; i < pages.count; i += 1) {
+    doc.switchToPage(i);
+
+    // Adjust page margins so that we can write in the header/footer area.
+    // eslint-disable-next-line no-param-reassign
+    doc.page.margins = {
+      top: 0,
+      bottom: 0,
+      left: config.margins.left,
+      right: 16,
+    };
+
+    const groupingStruct = i === pages.count - 1 ? 'Struct' : 'Artifact';
+    const footer = doc.struct(groupingStruct, {
+      type: 'Pagination',
+      title: 'Footer',
+      attached: 'Bottom',
+    });
+    parent.add(footer);
+
+    let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
+    footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
+    const footerLeftOptions = {
+      continued: true,
+      x: config.margins.left,
+      y: 766,
+    };
+    const footerRightOptions = { align: 'right' };
+
+    // Only allow the last footer element to be read by screen readers.
+    if (i === pages.count - 1) {
+      footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
+      footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
+    } else {
+      footer.add(
+        createArtifactText(doc, config, data.footerLeft, footerLeftOptions),
+      );
+      footer.add(
+        createArtifactText(doc, config, footerRightText, footerRightOptions),
+      );
+    }
+    footer.end();
+  }
+};
+
+/**
  * Add a details item to the given PDFKit structure element.
  *
  * @param {Object} doc
@@ -152,7 +394,6 @@ const createDetailItem = async (doc, config, x, item) => {
   return content;
 };
 
-// TODO: Check integration when CORS issue is resolved
 /**
  * Add an image item to the given PDFKit structure element.
  *
@@ -212,48 +453,6 @@ const createHeading = (doc, headingLevel, config, text, options) => {
     headingLevel,
     config.headings[headingLevel].font,
     config.headings[headingLevel].size,
-    text,
-    options,
-  );
-};
-
-/**
- * Add a text artifact struct to the given PDFKit document.
- *
- * @param {Object} doc
- * @param {Object} config
- * @param {string} text
- * @param {Object} options
- *
- * @returns {Object} doc
- */
-const createArtifactText = (doc, config, text, options) => {
-  return createStruct(
-    doc,
-    'Artifact',
-    config.text.font,
-    config.text.size,
-    text,
-    options,
-  );
-};
-
-/**
- * Add a span struct to the given PDFKit document.
- *
- * @param {Object} doc
- * @param {Object} config
- * @param {string} text
- * @param {Object} options
- *
- * @returns {Object} doc
- */
-const createSpan = (doc, config, text, options) => {
-  return createStruct(
-    doc,
-    'Span',
-    config.text.font,
-    config.text.size,
     text,
     options,
   );
@@ -389,4 +588,8 @@ export {
   getTestResultBlockHeight,
   registerVaGovFonts,
   createImageDetailItem,
+  generateHeaderBanner,
+  generateInitialHeaderContent,
+  generateFinalHeaderContent,
+  generateFooterContent,
 };

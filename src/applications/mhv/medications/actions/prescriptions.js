@@ -16,7 +16,7 @@ export const getPrescriptionsList = () => async dispatch => {
   }
 };
 
-// TODO: refactor to shared with medical-records
+// TODO: consider re-using this action from medical-records
 export const getAllergiesList = () => async dispatch => {
   try {
     const response = await getAllergies();
