@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
@@ -6,6 +7,7 @@ import {
   singleAppointment,
   multipleAppointments,
 } from '../../tests/unit/mocks/mock-appointments';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 import PreCheckinConfirmation from '../PreCheckinConfirmation';
 
@@ -21,6 +23,10 @@ describe('pre-check-in', () => {
   const mockRouter = {
     currentPage: '/health-care/appointment-pre-check-in',
   };
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { is45MinuteReminderEnabled } = featureToggles;
 
   describe('Confirmation page', () => {
     describe('appointment without friendly name', () => {
@@ -56,9 +62,15 @@ describe('pre-check-in', () => {
         );
         expect(screen.getByTestId('confirmation-wrapper')).to.exist;
         screen.getAllByTestId('in-person-msg-confirmation').forEach(message => {
-          expect(message).to.have.text(
-            'Please bring your insurance cards with you to your appointment.',
-          );
+          if (is45MinuteReminderEnabled) {
+            expect(message).to.have.text(
+              'Remember to bring your insurance cards with you. On the day of the appointment, we’ll send you a text when it’s time to check in.',
+            );
+          } else {
+            expect(message).to.have.text(
+              'Please bring your insurance cards with you to your appointment.',
+            );
+          }
         });
       });
     });
