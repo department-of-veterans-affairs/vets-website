@@ -239,7 +239,6 @@ class ClaimStatusPage extends React.Component {
     const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
-    const events = generateEventTimeline(claim);
 
     return (
       <div>
@@ -260,7 +259,7 @@ class ClaimStatusPage extends React.Component {
             id={claim.id}
             phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
             currentPhaseBack={claimPhaseDates.currentPhaseBack}
-            events={events}
+            events={generateEventTimeline(claim)}
           />
         ) : null}
       </div>
