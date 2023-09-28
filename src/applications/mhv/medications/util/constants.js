@@ -81,3 +81,16 @@ export const dispStatusForRefillsLeft = [
 ];
 
 export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
+
+export const dispStatusObj = {
+  unknown: 'Unknown',
+  active: 'Active',
+  refillinprocess: 'Active: Refill in Process',
+  submitted: 'Active: Submitted',
+  expired: 'Expired',
+  discontinued: 'Discontinued',
+  transferred: 'Transferred',
+  nonVA: 'Active: Non-VA',
+  onHold: 'Active: On Hold',
+  activeParked: 'Active: Parked',
+};
