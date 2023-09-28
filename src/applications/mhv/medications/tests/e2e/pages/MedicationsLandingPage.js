@@ -62,5 +62,11 @@ class MedicationsLandingPage {
       )
       .should('be.visible');
   };
+
+  verifyNavigationToLandingPageAfterClickingBreadcrumb = () => {
+    cy.get('[data-testid="landing-page-heading"]')
+      .should('be.visible')
+      .and('contain', 'About medications');
+  };
 }
 export default MedicationsLandingPage;

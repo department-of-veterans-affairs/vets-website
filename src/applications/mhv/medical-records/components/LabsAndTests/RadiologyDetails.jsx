@@ -43,7 +43,7 @@ const RadiologyDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -143,7 +143,7 @@ const RadiologyDetails = props => {
             </va-alert-expandable>
             <p className="monospace">{record.results}</p>
           </div>
-        </div>
+        </>
       );
     }
     return <></>;

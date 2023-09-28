@@ -19,6 +19,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   getSelected,
   issuesNeedUpdating,
@@ -140,6 +141,16 @@ export const Form0996App = ({
       </h1>
     );
   }
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'hlr', // becomes "nodBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    applicationId: '321995f8-5fed-4b4f-907b-e3f5ec34c28f',
+    clientToken: 'pub780eb728ff6dc0306d17cbb08743f86b',
+    service: 'benefits---higher-level-review',
+  });
 
   // Add data-location attribute to allow styling specific pages
   return (

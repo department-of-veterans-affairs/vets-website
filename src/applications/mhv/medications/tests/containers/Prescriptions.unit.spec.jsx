@@ -18,7 +18,7 @@ describe('Medicaitons Prescriptions container', () => {
     return renderWithStoreAndRouter(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
-      path: '/prescriptions/',
+      path: '/',
     });
   };
 
