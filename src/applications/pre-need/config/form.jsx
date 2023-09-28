@@ -96,30 +96,10 @@ const {
 
 const nonRequiredFullName = omit('required', fullName);
 
-function ApplicantMailingAddressStateTitle() {
+function MailingAddressStateTitle(props) {
+  const { elementPath } = props;
   const data = useSelector(state => state.form.data || {});
-  const country = get('application.claimant.address.country', data);
-  if (!environment.isProduction() && country === 'CAN') {
-    return 'Province';
-  }
-  return 'State or territory';
-}
-
-function PreparerMailingAddressStateTitle() {
-  const data = useSelector(state => state.form.data || {});
-  const country = get(
-    'application.applicant.view:applicantInfo.mailingAddress.country',
-    data,
-  );
-  if (!environment.isProduction() && country === 'CAN') {
-    return 'Province';
-  }
-  return 'State or territory';
-}
-
-function SponsorMailingAddressStateTitle() {
-  const data = useSelector(state => state.form.data || {});
-  const country = get('application.veteran.address.country', data);
+  const country = get(elementPath, data);
   if (!environment.isProduction() && country === 'CAN') {
     return 'Province';
   }
@@ -127,13 +107,13 @@ function SponsorMailingAddressStateTitle() {
 }
 
 export const applicantMailingAddressStateTitleWrapper = (
-  <ApplicantMailingAddressStateTitle />
+  <MailingAddressStateTitle elementPath="application.claimant.address.country" />
 );
 export const preparerMailingAddressStateTitleWrapper = (
-  <PreparerMailingAddressStateTitle />
+  <MailingAddressStateTitle elementPath="application.applicant.view:applicantInfo.mailingAddress.country" />
 );
 export const sponsorMailingAddressStateTitleWrapper = (
-  <SponsorMailingAddressStateTitle />
+  <MailingAddressStateTitle elementPath="application.veteran.address.country" />
 );
 
 const formConfig = {
