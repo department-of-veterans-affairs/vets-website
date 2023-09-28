@@ -42,6 +42,7 @@ describe('VAOS appointment list', () => {
             id: 1,
             kind: 'cc',
             status: 'booked',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
@@ -76,6 +77,7 @@ describe('VAOS appointment list', () => {
             id: 1,
             kind: 'clinic',
             status: 'booked',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
@@ -128,6 +130,7 @@ describe('VAOS appointment list', () => {
             //   },
             // },
             locationId: '983',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             status: 'booked',
           },
@@ -189,6 +192,7 @@ describe('VAOS appointment list', () => {
               },
             },
             locationId: '983',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             status: 'booked',
             telehealth: {
@@ -231,6 +235,7 @@ describe('VAOS appointment list', () => {
             clinic: '308',
             id: 1,
             kind: 'telehealth',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             status: 'booked',
             extension: {
@@ -288,6 +293,7 @@ describe('VAOS appointment list', () => {
             clinic: '308',
             id: 1,
             kind: 'telehealth',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             status: 'booked',
             telehealth: {
@@ -330,6 +336,7 @@ describe('VAOS appointment list', () => {
             id: 1,
             kind: 'clinic',
             status: 'booked',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
             cancellable: true,
           },
@@ -410,6 +417,7 @@ describe('VAOS appointment list', () => {
             id: 1,
             kind: 'clinic',
             status: 'booked',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
@@ -439,6 +447,7 @@ describe('VAOS appointment list', () => {
             ],
             serviceType: '408',
             status: 'proposed',
+            localStartTime: moment().format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment().format('YYYY-MM-DDTHH:mm:ss'),
           },
         },
@@ -509,6 +518,9 @@ describe('VAOS appointment list', () => {
           attributes: {
             id: 1,
             status: 'booked',
+            localStartTime: moment()
+              .subtract(1, 'month')
+              .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment()
               .subtract(1, 'month')
               .format('YYYY-MM-DDTHH:mm:ss'),
@@ -600,6 +612,9 @@ describe('VAOS appointment list', () => {
           attributes: {
             id: 1,
             status: 'cancelled',
+            localStartTime: moment()
+              .subtract(30, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment()
               .subtract(30, 'days')
               .format('YYYY-MM-DDTHH:mm:ss'),
@@ -638,6 +653,9 @@ describe('VAOS appointment list', () => {
           attributes: {
             id: 1,
             status: 'cancelled',
+            localStartTime: moment()
+              .subtract(30, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
             start: moment()
               .subtract(30, 'days')
               .format('YYYY-MM-DDTHH:mm:ss'),
