@@ -278,7 +278,7 @@ describe('getAddress', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
     const result = { zipCode5: '00000' };
     const wrap = obj => ({
-      // definet countryCodeIso2 to '' until we remove SHOW_PART3 flag
+      // define countryCodeIso2 to '' until we remove SHOW_PART3 flag
       veteran: { address: { countryCodeIso2: '', ...obj } },
     });
     expect(getAddress()).to.deep.equal(result);
@@ -365,7 +365,7 @@ describe('getAddress', () => {
     expect(
       getAddress(
         wrap({
-          countryName: 'Great Britian',
+          countryName: 'Great Britain',
           countryCodeIso2: 'GB',
           zipCode: '10101',
           internationalPostalCode: '55555',
@@ -373,7 +373,7 @@ describe('getAddress', () => {
       ),
     ).to.deep.equal({
       // countryCodeISO2: 'GB',
-      countryName: 'Great Britian',
+      countryName: 'Great Britain',
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });
