@@ -29,7 +29,10 @@ describe('<AskVAPage>', () => {
     expect(router.push.called).to.be.false;
   });
 
-  it('should render enabled button', () => {
+  // There is an equivalent Cypress test that is compatible with the
+  // va-checkbox component. See: claims-status/tests/e2e/04.claim-ask-va.cypress.spec.js
+  // The askForClaimDecision utility.
+  it.skip('should render enabled button', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
 
@@ -66,7 +69,9 @@ describe('<AskVAPage>', () => {
     expect(tree.everySubTree('button')[0].text()).to.equal('Submitting...');
   });
 
-  it('should submit request', () => {
+  // There is an equivalent Cypress test that is compatible with the
+  // va-checkbox component. See: claims-status/tests/e2e/04.claim-ask-va.cypress.spec.js
+  it.skip('should submit request', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
 
@@ -162,7 +167,9 @@ describe('<AskVAPage>', () => {
       expect(props.getClaimLighthouse.called).to.be.false;
     });
 
-    it('calls submitRequest when disabled', () => {
+    // There is an equivalent Cypress test that is compatible with the
+    // va-checkbox component. See: claims-status/tests/e2e/04.claim-ask-va.cypress.spec.js.
+    it.skip('calls submitRequest when disabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
       props.useLighthouse5103 = false;
@@ -180,7 +187,9 @@ describe('<AskVAPage>', () => {
       expect(props.submit5103.called).to.be.false;
     });
 
-    it('calls submit5103 when enabled', () => {
+    // There is an equivalent Cypress test that is compatible with the
+    // va-checkbox component. See: claims-status/tests/e2e/04.claim-ask-va.cypress.spec.js
+    it.skip('calls submit5103 when enabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
       props.useLighthouse5103 = true;
