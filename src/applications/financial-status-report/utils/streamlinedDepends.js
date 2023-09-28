@@ -1,6 +1,6 @@
 import { DEBT_TYPES } from '../constants';
 import { getMonthlyIncome } from './calculateIncome';
-import { getTotalAssets, getMonthlyExpenses } from './helpers';
+import { getMonthlyExpenses } from './helpers';
 
 const VHA_LIMIT = 5000;
 
@@ -31,13 +31,13 @@ export const isEligibleForStreamlined = formData => {
  * @returns true if the following conditions are met:
  * - isEligeibleForStreamlined is true
  * - Total income below GMT
- * - Assets (cash on hand  specific page) below 6.5% of GMT
+ * - Assets (cash on hand and cash in bank specific pages) below 6.5% of GMT
  */
 export const isStreamlinedShortForm = ({ gmtData }) => {
   return (
     gmtData?.isEligibleForStreamlined &&
     gmtData?.incomeBelowGmt &&
-    gmtData?.cashBelowGmt
+    gmtData.assetsBelowGmt
   );
 };
 
@@ -83,10 +83,10 @@ export const calculateTotalAnnualIncome = formData => {
 /**
  *  Long form only; short form uses cash on hand
  * @param {object} formData - all formData
- * @returns {number} Sum of total assets
+ * @returns {number} Sum of liquid assets
  */
-export const calculateTotalAssets = formData => {
-  return getTotalAssets(formData);
+export const calculateLiquidAssets = formData => {
+  return formData?.assets?.cashInBank + formData?.assets?.cashOnHand;
 };
 
 /**

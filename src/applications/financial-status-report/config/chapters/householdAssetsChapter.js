@@ -31,6 +31,7 @@ import {
 import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
+import { CashInBank } from '../../components/monetary/CashInBank';
 
 export default {
   householdAssetsChapter: {
@@ -45,7 +46,17 @@ export default {
         CustomPage: CashOnHand,
         CustomPageReview: CashOnHandReview,
         depends: ({ gmtData }) =>
-          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt,
+          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt,
+      },
+      cashInBank: {
+        path: 'cash-in-bank',
+        title: 'Cash in bank',
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: CashInBank,
+        CustomPageReview: null,
+        depends: ({ gmtData }) =>
+          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt,
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only

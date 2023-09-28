@@ -45,9 +45,14 @@ const MonetaryCheckList = () => {
   // removing cash as an option if the user is eligible for streamlined
   // but the amount of cash they have is above the threshold
   const adjustForStreamlined =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt;
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt;
   const adjustedAssetList = adjustForStreamlined
-    ? monetaryAssetList.filter(asset => asset.toLowerCase() !== 'cash')
+    ? monetaryAssetList.filter(
+        asset =>
+          asset.toLowerCase() !== 'cash' &&
+          asset.toLowerCase() !== 'checking accounts' &&
+          asset.toLowerCase() !== 'savings accounts',
+      )
     : monetaryAssetList;
 
   return (

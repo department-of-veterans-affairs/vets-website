@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -7,7 +7,6 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsSummary = ({
   data,
@@ -17,26 +16,8 @@ const OtherAssetsSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const { assets } = data;
   const { otherAssets = [] } = assets;
-
-  useEffect(
-    () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
-
-      const calculatedAssets = calculateTotalAssets(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [otherAssets, gmtData?.isEligibleForStreamlined, gmtData?.assetThreshold],
-  );
 
   const onDelete = deleteIndex => {
     setFormData({

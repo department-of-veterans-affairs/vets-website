@@ -4,7 +4,6 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = ({
   data,
@@ -14,28 +13,8 @@ const OtherAssetsChecklist = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const { assets } = data;
   const { otherAssets = [] } = assets;
-
-  // Calculate total assets as necessary
-  // - Calculating these assets is only necessary in the long form version
-  const updateStreamlinedValues = () => {
-    if (
-      otherAssets?.length ||
-      !gmtData?.isEligibleForStreamlined ||
-      gmtData?.incomeBelowGmt
-    )
-      return;
-
-    const calculatedAssets = calculateTotalAssets(data);
-    setFormData({
-      ...data,
-      gmtData: {
-        ...gmtData,
-        assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-      },
-    });
-  };
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -87,7 +66,7 @@ const OtherAssetsChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}

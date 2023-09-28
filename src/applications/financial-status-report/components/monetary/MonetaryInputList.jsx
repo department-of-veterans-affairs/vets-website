@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import InputList from '../shared/InputList';
+// import { safeNumber } from '../../utils/calculateIncome';
 
 const MonetaryInputList = props => {
   const { errorSchema, formContext } = props;
@@ -11,10 +12,51 @@ const MonetaryInputList = props => {
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
+
   const {
     assets: { monetaryAssets = [] },
     gmtData,
   } = data;
+
+  // useEffect(() => {
+  //   if (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt) {
+  //     const cashInBank = monetaryAssets.filter(
+  //       asset =>
+  //         asset.name.toLowerCase() === 'checking accounts' &&
+  //         asset.name.toLowerCase() === 'savings accounts',
+  //     );
+
+  //     if (cashInBank.length === 0) return;
+
+  //     const nonLiquidAssets = monetaryAssets.filter(
+  //       asset =>
+  //         asset.name.toLowerCase() !== 'checking accounts' &&
+  //         asset.name.toLowerCase() !== 'savings accounts',
+  //     );
+
+  //     const cashInBankTotal = cashInBank.reduce(
+  //       (total, asset) => total + safeNumber(asset.amount),
+  //       0,
+  //     );
+
+  //     dispatch(
+  //       setData({
+  //         ...data,
+  //         assets: {
+  //           ...data.assets,
+  //           monetaryAssets: [
+  //             ...nonLiquidAssets,
+  //             {
+  //               amount: cashInBankTotal,
+  //               name: 'Cash in a bank (savings and checkings)',
+  //             },
+  //           ],
+  //         },
+  //       }),
+  //     );
+  //   }
+  // }),
+  //   [];
 
   const onChange = ({ target }) => {
     return dispatch(
@@ -43,12 +85,16 @@ const MonetaryInputList = props => {
   // removing cash as an option if the user is eligible for streamlined
   // but the amount of cash they have is above the threshold
   const adjustForStreamlined =
-    gmtData?.isEligibleForStreamlined &&
-    gmtData?.incomeBelowGmt &&
-    !gmtData.cashOnHandBelowThreshold;
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt;
 
   const adjustedAssetList = adjustForStreamlined
-    ? monetaryAssets.filter(asset => asset?.name?.toLowerCase() !== 'cash')
+    ? monetaryAssets.filter(
+        asset =>
+          asset.name.toLowerCase() !== 'cash' &&
+          asset.name.toLowerCase() !== 'checking accounts' &&
+          asset.name.toLowerCase() !== 'savings accounts' &&
+          asset.name.toLowerCase() !== 'Cash on hand (not in bank)',
+      )
     : monetaryAssets;
 
   return (

@@ -140,11 +140,14 @@ export const transform = (formConfig, form) => {
   // Cash on hand is stored separately for potential short forms
   // Same conditions for the cash on hand page depends
   const calculatedCashOnHand =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt
       ? filterReduceByName(monetaryAssets, cashFilters) +
         safeNumber(assets.cashOnHand)
       : filterReduceByName(monetaryAssets, cashFilters);
-  const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
+  const calculatedCashInBank =
+    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt
+      ? safeNumber(assets.cashInBank)
+      : filterReduceByName(monetaryAssets, bankFilters);
   const calculatedUsSavingsBonds = filterReduceByName(
     monetaryAssets,
     usSavingsFilters,

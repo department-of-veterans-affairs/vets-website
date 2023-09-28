@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import { safeNumber } from '../../utils/calculateIncome';
 
-const CashOnHand = ({
+const CashInBank = ({
   contentBeforeButtons,
   contentAfterButtons,
   data,
@@ -13,10 +13,14 @@ const CashOnHand = ({
   goForward,
   setFormData,
 }) => {
-  const { assets } = data;
-  const { cashOnHand } = assets;
+  const { assets, gmtData } = data;
+  const { cashOnHand = 0, monetaryAssets = [] } = assets;
 
-  const [cash, setCash] = useState(cashOnHand);
+  const cashInBankTotal = monetaryAssets.find(
+    f => f.name === 'Cash in a bank (savings and checkings)',
+  ) ?? { name: 'Cash in a bank (savings and checkings)', amount: '' };
+
+  const [cash, setCash] = useState(cashInBankTotal.amount);
   const ERR_MSG = 'Please enter a valid dollar amount';
   const [error, setError] = useState(null);
 
@@ -25,16 +29,25 @@ const CashOnHand = ({
       return setError(ERR_MSG);
     }
 
+    const totalLiquidCash = safeNumber(cash) + safeNumber(cashOnHand);
+
+    const newMonetaryAssetsArray = monetaryAssets.filter(
+      asset => asset.name !== 'Cash in a bank (savings and checkings)',
+    );
+
     // update form data & gmtIsShort
     setFormData({
       ...data,
       assets: {
         ...data.assets,
-        cashOnHand: cash,
-        // monetaryAssets: [
-        //   ...data.assets.monetaryAssets,
-        //   { name: 'Cash on hand (not in bank)', amount: cash },
-        // ],
+        monetaryAssets: [
+          ...newMonetaryAssetsArray,
+          { name: 'Cash in a bank (savings and checkings)', amount: cash },
+        ],
+      },
+      gmtData: {
+        ...gmtData,
+        assetsBelowGmt: totalLiquidCash < gmtData?.assetThreshold,
       },
     });
 
@@ -60,7 +73,7 @@ const CashOnHand = ({
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">Cash on hand</h3>
+          <h3 className="vads-u-margin--0">Cash in bank</h3>
         </legend>
         <VaNumberInput
           currency
@@ -68,7 +81,7 @@ const CashOnHand = ({
           hint={null}
           id="cash"
           inputmode="decimal"
-          label="What is the dollar amount of available cash (not in a bank) you currently have?"
+          label="What is the dollar amount of all checkings and savings accounts?"
           name="cash"
           onBlur={onBlur}
           onInput={({ target }) => setCash(target.value)}
@@ -88,12 +101,12 @@ const CashOnHand = ({
   );
 };
 
-CashOnHand.propTypes = {
+CashInBank.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
     assets: PropTypes.shape({
-      cashOnHand: PropTypes.string,
+      cashInBank: PropTypes.string,
     }),
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
@@ -104,33 +117,33 @@ CashOnHand.propTypes = {
   setFormData: PropTypes.func,
 };
 
-const CashOnHandReview = ({ data }) => {
-  const { assets } = data;
-  const { cashOnHand } = assets;
+// const CashInBankReview = ({ data }) => {
+//   const { assets } = data;
+//   const { cashInBank } = assets;
 
-  return (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Cash on hand
-        </h4>
-      </div>
-      <dl className="review">
-        <div className="review-row">
-          <dt>Available cash (not in a bank)</dt>
-          <dd>{currencyFormatter(cashOnHand)}</dd>
-        </div>
-      </dl>
-    </div>
-  );
-};
+//   return (
+//     <div className="form-review-panel-page">
+//       <div className="form-review-panel-page-header-row">
+//         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+//           Cash in bank
+//         </h4>
+//       </div>
+//       <dl className="review">
+//         <div className="review-row">
+//           <dt>Cash in a bank (savings and checkings)</dt>
+//           <dd>{currencyFormatter(cashInBank)}</dd>
+//         </div>
+//       </dl>
+//     </div>
+//   );
+// };
 
-CashOnHandReview.propTypes = {
-  data: PropTypes.shape({
-    assets: PropTypes.shape({
-      cashOnHand: PropTypes.string,
-    }),
-  }),
-};
+// CashInBankReview.propTypes = {
+//   data: PropTypes.shape({
+//     assets: PropTypes.shape({
+//       cashInBank: PropTypes.string,
+//     }),
+//   }),
+// };
 
-export { CashOnHand, CashOnHandReview };
+export { CashInBank };
