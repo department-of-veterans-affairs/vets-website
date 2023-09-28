@@ -62,7 +62,9 @@ import {
   buriedWSponsorsEligibility,
   nonRequiredFullNameUI,
   PreparerPhoneNumberDescription,
-  hasStateAddress,
+  preparerAddressHasState,
+  applicantsMailingAddressHasState,
+  sponsorMailingAddressHasState,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -94,7 +96,16 @@ const {
 
 const nonRequiredFullName = omit('required', fullName);
 
-function MailingAddressStateTitle() {
+function ApplicantMailingAddressStateTitle() {
+  const data = useSelector(state => state.form.data || {});
+  const country = get('application.claimant.address.country', data);
+  if (!environment.isProduction() && country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
+}
+
+function PreparerMailingAddressStateTitle() {
   const data = useSelector(state => state.form.data || {});
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -106,7 +117,24 @@ function MailingAddressStateTitle() {
   return 'State or territory';
 }
 
-export const mailingAddressStateTitleWrapper = <MailingAddressStateTitle />;
+function SponsorMailingAddressStateTitle() {
+  const data = useSelector(state => state.form.data || {});
+  const country = get('application.veteran.address.country', data);
+  if (!environment.isProduction() && country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
+}
+
+export const applicantMailingAddressStateTitleWrapper = (
+  <ApplicantMailingAddressStateTitle />
+);
+export const preparerMailingAddressStateTitleWrapper = (
+  <PreparerMailingAddressStateTitle />
+);
+export const sponsorMailingAddressStateTitleWrapper = (
+  <SponsorMailingAddressStateTitle />
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -732,7 +760,20 @@ const formConfig = {
               uiSchema: {
                 application: {
                   claimant: {
-                    address: address.uiSchema('Applicant’s mailing address'),
+                    address: merge(
+                      {},
+                      address.uiSchema('Applicant’s mailing address'),
+                      {
+                        state: {
+                          'ui:title': applicantMailingAddressStateTitleWrapper,
+                          'ui:options': {
+                            hideIf: formData =>
+                              !applicantsMailingAddressHasState(formData) &&
+                              !environment.isProduction(),
+                          },
+                        },
+                      },
+                    ),
                     'view:contactInfoDescription': {
                       'ui:description': contactInfoDescription,
                     },
@@ -772,7 +813,16 @@ const formConfig = {
               uiSchema: {
                 application: {
                   veteran: {
-                    address: address.uiSchema('Sponsor’s address'),
+                    address: merge({}, address.uiSchema('Sponsor’s address'), {
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData) &&
+                            !environment.isProduction(),
+                        },
+                      },
+                    }),
                   },
                 },
               },
@@ -915,11 +965,11 @@ const formConfig = {
                               },
                               city: { 'ui:required': isAuthorizedAgent },
                               state: {
-                                'ui:title': mailingAddressStateTitleWrapper,
+                                'ui:title': preparerMailingAddressStateTitleWrapper,
                                 'ui:required': isAuthorizedAgent,
                                 'ui:options': {
                                   hideIf: formData =>
-                                    !hasStateAddress(formData) &&
+                                    !preparerAddressHasState(formData) &&
                                     !environment.isProduction(),
                                 },
                               },

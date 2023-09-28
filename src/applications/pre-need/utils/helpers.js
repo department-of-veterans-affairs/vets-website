@@ -157,11 +157,23 @@ export const desiredCemeteryNoteDescription = (
     gravesite in a cemetery with available space at the time of need.
   </va-alert>
 );
-export function hasStateAddress(item) {
+export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
     item,
   );
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
+export function applicantsMailingAddressHasState(item) {
+  const country = get('application.claimant.address.country', item);
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
+export function sponsorMailingAddressHasState(item) {
+  const country = get('application.veteran.address.country', item);
   const countriesWithStates = ['USA', 'CAN'];
   return countriesWithStates.includes(country);
 }
