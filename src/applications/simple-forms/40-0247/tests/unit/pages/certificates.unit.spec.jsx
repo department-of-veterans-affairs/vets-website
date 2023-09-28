@@ -1,18 +1,18 @@
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
+  testNumberOfErrorsOnSubmit,
+  testNumberOfFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.certificatesChapter.pages.certificates;
+} = formConfig.chapters.certificatesChapter.pages.certificatesPage;
 
-const pageTitle = 'claimant address';
+const pageTitle = 'Certificates';
 
 const expectedNumberOfFields = 1;
-testNumberOfWebComponentFields(
+testNumberOfFields(
   formConfig,
   schema,
   uiSchema,
@@ -21,7 +21,7 @@ testNumberOfWebComponentFields(
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmitForWebComponents(
+testNumberOfErrorsOnSubmit(
   formConfig,
   schema,
   uiSchema,

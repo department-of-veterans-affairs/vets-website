@@ -1,27 +1,27 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranIdentificationInfoChapter.pages.veteranIdInfoPage;
+} = formConfig.chapters.veteranIdentificationInfoChapter.pages.veteranIdentificationInfoPage;
 
 const pageTitle = 'Veteran’s identification information';
 
-const expectedNumberOfFields = 2;
-testNumberOfFields(
+const expectedNumberOfWcFields = 2;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfFields,
+  expectedNumberOfWcFields,
   pageTitle,
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
