@@ -45,7 +45,7 @@ export function transform(formConfig, form) {
         clonedData.isActiveDuty = isActiveDuty(formData);
         return clonedData;
       } catch (e) {
-        // Do Nothing.
+        return formData;
       }
     }
     return formData;
