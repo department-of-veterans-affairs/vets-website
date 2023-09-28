@@ -68,9 +68,9 @@ src/applications/static-pages/view-payment-history @department-of-veterans-affai
 src/applications/veteran-id-card @department-of-veterans-affairs/benefits-management-tools-fe
 
 # Benefits Decision Reviews (DSVA Slack: #benefits-decision-reviews)
-src/applications/appeals @department-of-veterans-affairs/benefits-decision-reviews
-src/applications/static-pages/nod-cta @department-of-veterans-affairs/benefits-decision-reviews
-src/applications/static-pages/supplemental-claim @department-of-veterans-affairs/benefits-decision-reviews
+src/applications/appeals @department-of-veterans-affairs/benefits-decision-reviews-fe
+src/applications/static-pages/nod-cta @department-of-veterans-affairs/benefits-decision-reviews-fe
+src/applications/static-pages/supplemental-claim @department-of-veterans-affairs/benefits-decision-reviews-fe
 
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability
