@@ -1,13 +1,30 @@
 import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
+
 import {
   getFormDOM,
   DefinitionTester,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import configureMockStore from 'redux-mock-store';
 import { $$ } from '../../../appeals/996/utils/ui';
 
 import formConfig from '../../config/form';
+
+const mockStore = configureMockStore();
+
+const payload = {
+  claimant: {
+    hasCurrentlyBuried: '1',
+  },
+};
+
+const store = mockStore({
+  form: {
+    data: payload,
+  },
+});
 
 describe('Pre-need preparer info', () => {
   const {
@@ -17,12 +34,16 @@ describe('Pre-need preparer info', () => {
 
   it('should render contact details', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+      <div>
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            data={{}}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}
+          />
+        </Provider>
+      </div>,
     );
 
     const formDOM = getFormDOM(form);
@@ -37,12 +58,16 @@ describe('Pre-need preparer info', () => {
 
   it('should render contact details', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+      <div>
+        <Provider store={store}>
+          <DefinitionTester
+            schema={schema}
+            data={{}}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}
+          />
+        </Provider>
+      </div>,
     );
 
     const formDOM = getFormDOM(form);
