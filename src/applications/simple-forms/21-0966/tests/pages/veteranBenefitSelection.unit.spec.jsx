@@ -11,7 +11,7 @@ const {
 
 const pageTitle = '';
 
-const expectedNumberOfFields = 7;
+const expectedNumberOfFields = 1;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 4;
+const expectedNumberOfErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

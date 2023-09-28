@@ -7,11 +7,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.contactInformationChapter.pages.mailingAddress;
+} = formConfig.chapters.preparerIdentificationChapter.pages.preparerName;
 
-const pageTitle = 'Mailing address';
+const pageTitle = '';
 
-const expectedNumberOfFields = 8;
+const expectedNumberOfFields = 3;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 4;
+const expectedNumberOfErrors = 2;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
