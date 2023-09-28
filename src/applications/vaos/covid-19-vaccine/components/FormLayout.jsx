@@ -3,7 +3,7 @@ import { useLocation, useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
