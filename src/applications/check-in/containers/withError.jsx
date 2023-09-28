@@ -34,7 +34,7 @@ export const withError = Component => {
           goToErrorPage(error);
         }
       },
-      [error, goToErrorPage],
+      [error, goToErrorPage, app],
     );
     // Allowing for HOC
     // eslint-disable-next-line react/jsx-props-no-spreading
