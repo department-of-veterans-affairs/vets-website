@@ -45,9 +45,16 @@ const currentOrPastDateUI = options => {
       <Tag className="review-row">
         <dt>{uiTitle}</dt>
         <dd>
-          {new Date(`${children.props.formData}T00:00:00`).toLocaleDateString(
-            'en-us',
-            { year: 'numeric', month: 'long', day: 'numeric' },
+          {children.props.formData && (
+            <>
+              {new Date(
+                `${children.props.formData}T00:00:00`,
+              ).toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </>
           )}
         </dd>
       </Tag>
