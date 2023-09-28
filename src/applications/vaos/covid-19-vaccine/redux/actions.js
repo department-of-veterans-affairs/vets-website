@@ -11,6 +11,7 @@ import {
   selectFeatureFacilitiesServiceV2,
   selectSystemIds,
   selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -29,7 +30,7 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import newBookingFlow from '../flow';
+import getNewBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
 import {
   selectCovid19VaccineNewBooking,
@@ -387,6 +388,10 @@ export function confirmAppointment(history) {
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
+      getState(),
+    );
+
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -402,7 +407,7 @@ export function confirmAppointment(history) {
     });
 
     try {
-      await createAppointment({
+      const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
         useAcheron: featureAcheronVAOSServiceRequests,
       });
@@ -423,7 +428,11 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push('/new-covid-19-vaccine-appointment/confirmation');
+      history.push(
+        featureBreadcrumbUrlUpdate
+          ? `/${appointment.id}?confirmMsg=true`
+          : '/new-covid-19-vaccine-appointment/confirmation',
+      );
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({
@@ -440,8 +449,10 @@ export function confirmAppointment(history) {
     }
   };
 }
-export function routeToPageInFlow(flow, history, current, action, data) {
+export function routeToPageInFlow(callback, history, current, action, data) {
   return async (dispatch, getState) => {
+    const flow = callback(getState());
+
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
@@ -530,9 +541,15 @@ export function openContactFacilitiesPage() {
   };
 }
 export function routeToNextAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'next', data);
+  return routeToPageInFlow(getNewBookingFlow, history, current, 'next', data);
 }
 
 export function routeToPreviousAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'previous', data);
+  return routeToPageInFlow(
+    getNewBookingFlow,
+    history,
+    current,
+    'previous',
+    data,
+  );
 }
