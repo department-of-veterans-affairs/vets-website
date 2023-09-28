@@ -107,7 +107,13 @@ export function NewAppointment() {
           <Route path={`${match.url}/preferred-date`}>
             <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route exact path={`${match.url}/va-request/`}>
+          <Route
+            exact
+            path={[
+              `${match.url}/va-request/`,
+              `${match.url}/community-request/`,
+            ]}
+          >
             <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route path={`${match.url}/date-time`}>
