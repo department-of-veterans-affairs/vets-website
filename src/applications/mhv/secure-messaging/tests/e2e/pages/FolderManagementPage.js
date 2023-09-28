@@ -1,6 +1,7 @@
 import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
+import { Locators, Paths } from '../utils/constants';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -13,7 +14,7 @@ class FolderManagementPage {
   };
 
   editFolderNameButton = () => {
-    return cy.get('[data-testid="edit-folder-button"]');
+    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
   };
 
   createFolderTextBox = () => {
@@ -38,13 +39,13 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}*`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}*`,
       folderData,
     ).as('customFolderID');
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads*`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
       folderMessages,
     ).as('customFolderMessages');
 
@@ -115,7 +116,7 @@ class FolderManagementPage {
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.SM_API_EXTENDED}/${
         this.currentThread.data.at(0).attributes.messageId
       }`,
       mockParentMessageDetails,
@@ -123,7 +124,7 @@ class FolderManagementPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.SM_API_EXTENDED}/${
         mockParentMessageDetails.data.attributes.messageId
       }/thread`,
       this.currentThread,
@@ -162,20 +163,20 @@ class FolderManagementPage {
   selectFolderfromModal = () => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.SM_API_EXTENDED}/${
         mockMessageResponse.data.at(1).attributes.messageId
       }`,
       mockMessageResponse,
     );
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
+      `${Paths.SM_API_EXTENDED}/${
         mockMessageResponse.data.at(2).attributes.messageId
       }`,
       mockMessageResponse,
     );
-    cy.get('[data-testid="move-button-text"]').click();
-    cy.get('[data-testid = "move-to-modal"')
+    cy.get(Locators.FolderManagement.MOVE_BUTTON).click();
+    cy.get(Locators.FolderManagement.MOVE_MODAL)
 
       .find('[class = "form-radio-buttons hydrated"]', {
         includeShadowDom: true,
@@ -187,12 +188,12 @@ class FolderManagementPage {
   moveCustomFolderMessageToDifferentFolder = () => {
     cy.intercept(
       'PATCH',
-      `/my_health/v1/messaging/threads/${
+      `${Paths.SM_API_BASE}/threads/${
         mockCustomResponse.data.attributes.threadId
       }/move?folder_id=-3`,
       mockCustomResponse,
     ).as('moveMockCustomResponse');
-    cy.get('[data-testid="move-to-modal"]')
+    cy.get(Locators.FolderManagement.MOVE_MODAL)
       .shadow()
       .find('button')
       .contains('Confirm')
@@ -212,12 +213,12 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'PATCH',
-      `my_health/v1/messaging/threads/${
+      `${Paths.SM_API_BASE}/threads/${
         mockCustomResponse.data.attributes.threadId
       }/move?folder_id=${folderId}`,
       {},
     );
-    cy.get('[data-testid="move-button-text"]').click({ force: true });
+    cy.get(Locators.FolderManagement.MOVE_BUTTON).click({ force: true });
     cy.get(`[data-testid="radiobutton-${folderName}"]`)
       .should('exist')
       .click();
@@ -231,7 +232,7 @@ class FolderManagementPage {
   };
 
   deleteFolder = () => {
-    cy.get('[data-testid="remove-folder-button"]').click();
+    cy.get(Locators.FolderManagement.REMOVE_FOLDER).click();
     cy.get('[text="Yes, remove this folder"]')
       .shadow()
       .find('[type="button"]')

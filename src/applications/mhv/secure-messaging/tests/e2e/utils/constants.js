@@ -37,8 +37,14 @@ export const Locators = {
     CONTINUE: '[data-testid="continue-button"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="Send-Button"]',
+    EDIT_FOLDER: '[data-testid="edit-folder-button"]',
   },
   InboxPage: {
     COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',
+  },
+  FolderManagement: {
+    MOVE_BUTTON: '[data-testid="move-button-text"]',
+    MOVE_MODAL: '[data-testid = "move-to-modal"]',
+    REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
   },
 };
