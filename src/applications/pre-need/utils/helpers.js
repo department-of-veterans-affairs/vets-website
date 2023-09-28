@@ -150,11 +150,29 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescription = (
+export const desiredCemeteryNoteDescriptionProd = (
   <va-alert status="info" background-only id="burial-cemetary-note">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.
+  </va-alert>
+);
+
+export const desiredCemeteryNoteDescriptionVeteran = (
+  <va-alert status="info" background-only id="burial-cemetary-note">
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
+    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </va-alert>
+);
+
+export const desiredCemeteryNoteDescriptionNonVeteran = (
+  <va-alert status="info" background-only id="burial-cemetary-note">
+    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
+    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
+    If space is unavailable, we’ll work with their family to assign a gravesite
+    in a cemetery with available space at the time of need.
   </va-alert>
 );
 
@@ -462,64 +480,123 @@ export const veteranUI = {
   },
 };
 
-export const serviceRecordsUI = {
-  'ui:title': 'Service periods',
-  'ui:description':
-    'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
-  'ui:options': {
-    viewField: ServicePeriodView,
-    itemName: 'Service period',
-    keepInPageOnReview: true,
-  },
-  items: {
-    'ui:order': [
-      'serviceBranch',
-      'dateRange',
-      'dischargeType',
-      'highestRank',
-      'nationalGuardState',
-    ],
-    'ui:options': {
-      itemName: 'Service Period',
-    },
-    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+export const serviceRecordsUI = environment.isProduction()
+  ? {
+      'ui:title': 'Service periods',
+      'ui:description':
+        'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
       'ui:options': {
-        labels: serviceLabels,
+        viewField: ServicePeriodView,
+        itemName: 'Service period',
+        keepInPageOnReview: true,
       },
-    }),
-    dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
-      'Service start date must be after end date',
-    ),
-    dischargeType: {
-      'ui:title': 'Discharge character of service',
-      'ui:options': {
-        labels: {
-          1: 'Honorable',
-          2: 'General',
-          3: 'Entry Level Separation/Uncharacterized',
-          4: 'Other Than Honorable',
-          5: 'Bad Conduct',
-          6: 'Dishonorable',
-          7: 'Other',
+      items: {
+        'ui:order': [
+          'serviceBranch',
+          'dateRange',
+          'dischargeType',
+          'highestRank',
+          'nationalGuardState',
+        ],
+        'ui:options': {
+          itemName: 'Service Period',
+        },
+        serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+          'ui:options': {
+            labels: serviceLabels,
+          },
+        }),
+        dateRange: dateRangeUI(
+          'Service start date',
+          'Service end date',
+          'Service start date must be after end date',
+        ),
+        dischargeType: {
+          'ui:title': 'Discharge character of service',
+          'ui:options': {
+            labels: {
+              1: 'Honorable',
+              2: 'General',
+              3: 'Entry Level Separation/Uncharacterized',
+              4: 'Other Than Honorable',
+              5: 'Bad Conduct',
+              6: 'Dishonorable',
+              7: 'Other',
+            },
+          },
+        },
+        highestRank: {
+          'ui:title': 'Highest rank attained',
+        },
+        nationalGuardState: {
+          'ui:title': 'State (for National Guard Service only)',
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !['AG', 'NG'].includes(
+                formData.application.veteran.serviceRecords[index]
+                  .serviceBranch,
+              ),
+          },
         },
       },
-    },
-    highestRank: {
-      'ui:title': 'Highest rank attained',
-    },
-    nationalGuardState: {
-      'ui:title': 'State (for National Guard Service only)',
+    }
+  : {
+      'ui:title': 'Service period(s)',
       'ui:options': {
-        hideIf: (formData, index) =>
-          !['AG', 'NG'].includes(
-            formData.application.veteran.serviceRecords[index].serviceBranch,
-          ),
+        viewField: ServicePeriodView,
+        itemName: 'Service period',
+        keepInPageOnReview: true,
       },
-    },
-  },
-};
+      items: {
+        'ui:order': [
+          'serviceBranch',
+          'highestRank',
+          'dateRange',
+          'dischargeType',
+          'nationalGuardState',
+        ],
+        'ui:options': {
+          itemName: 'Service Period',
+        },
+        serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+          'ui:options': {
+            labels: serviceLabels,
+          },
+        }),
+        dateRange: dateRangeUI(
+          'Service start date',
+          'Service end date',
+          'Service start date must be after end date',
+        ),
+        dischargeType: {
+          'ui:title': 'Discharge character of service',
+          'ui:options': {
+            labels: {
+              1: 'Honorable',
+              2: 'General',
+              3: 'Entry Level Separation/Uncharacterized',
+              4: 'Other Than Honorable',
+              5: 'Bad Conduct',
+              6: 'Dishonorable',
+              7: 'Other',
+            },
+          },
+        },
+        highestRank: {
+          'ui:title': 'Highest rank attained',
+        },
+        nationalGuardState: {
+          'ui:title': 'State (for National Guard Service only)',
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !['AG', 'NG'].includes(
+                formData.application.veteran.serviceRecords[index]
+                  .serviceBranch,
+              ),
+          },
+        },
+      },
+    };
 
 export const militaryNameUI = {
   application: {

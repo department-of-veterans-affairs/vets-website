@@ -17,9 +17,8 @@ describe('Burial Widget <App>', () => {
 
   it('renders the burial widget app', () => {
     const wrapper = shallow(<App />);
-    expect(wrapper.find('h2').text()).to.equal(`How do I apply?`);
     expect(wrapper.find('h3').text()).to.equal(
-      `Our online burial form isn’t working right now`,
+      `Our online burial benefits form isn’t working right now`,
     );
     wrapper.unmount();
   });

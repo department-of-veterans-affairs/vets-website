@@ -20,19 +20,13 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouter(<PrescriptionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/prescriptions/1234567891',
+      path: '/1234567891',
     });
   };
 
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
-  });
-
-  it('displays a print button', () => {
-    const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
-    expect(printButton).to.exist;
   });
 
   it('displays the prescription name and filled by date', () => {
@@ -67,7 +61,7 @@ describe('Prescription details container', () => {
     );
   });
 
-  it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
+  it('displays "Documented on" instead of "filled by" date, when med is non VA', () => {
     const nonVaRxState = {
       rx: {
         prescriptions: {
@@ -78,7 +72,7 @@ describe('Prescription details container', () => {
     const screen = setup(nonVaRxState);
 
     expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      `Information entered on ${dateFormat(
+      `Documented on ${dateFormat(
         nonVaRxResponse.data.attributes.orderedDate,
         'MMMM D, YYYY',
       )}`,

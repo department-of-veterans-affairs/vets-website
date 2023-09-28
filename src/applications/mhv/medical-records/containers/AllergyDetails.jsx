@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
-import { getAllergyDetails } from '../actions/allergies';
+import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -50,6 +51,9 @@ const AllergyDetails = () => {
           },
         ]),
       );
+      return () => {
+        dispatch(clearAllergyDetails());
+      };
     },
     [dispatch],
   );
@@ -126,7 +130,15 @@ const AllergyDetails = () => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'allergy_report', scaffold);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Allergies-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        scaffold,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Allergy details');
     }
@@ -209,11 +221,7 @@ const AllergyDetails = () => {
     );
   };
 
-  return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--5">
-      {content()}
-    </div>
-  );
+  return <div className="vads-u-margin-bottom--5">{content()}</div>;
 };
 
 export default AllergyDetails;

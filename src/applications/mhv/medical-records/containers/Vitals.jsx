@@ -12,19 +12,25 @@ const Vitals = () => {
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getVitals());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getVitals());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        { url: '/my-health/medical-records/', label: 'Medical records' },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -73,7 +79,7 @@ const Vitals = () => {
   };
 
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8" id="vitals">
+    <div id="vitals">
       <h1 className="vads-u-margin--0">Vitals</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
         Vitals are basic health numbers your providers check at your

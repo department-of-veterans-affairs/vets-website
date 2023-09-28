@@ -26,18 +26,21 @@ const AdmissionAndDischargeDetails = props => {
       ],
   );
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate =
-      record.startDate && record.endDate
-        ? `${record.startDate} to ${record.endDate} - `
-        : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate =
+        record.startDate && record.endDate
+          ? `${record.startDate} to ${record.endDate} - `
+          : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
+        }`,
+      );
+    },
+    [record.endDate, record.name, record.startDate],
+  );
 
   const generateCareNotesPDF = async () => {
     const title = `Admission and discharge summary on ${formatDateLong(
@@ -101,7 +104,7 @@ const AdmissionAndDischargeDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -161,7 +164,7 @@ const AdmissionAndDischargeDetails = props => {
             <h2>Summary</h2>
             <p>{record.summary}</p>
           </div>
-        </div>
+        </>
       );
     }
     return <></>;

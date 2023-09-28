@@ -28,15 +28,18 @@ const PathologyDetails = props => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generatePathologyPdf = async () => {
     const pdfData = {
@@ -106,7 +109,7 @@ const PathologyDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -127,7 +130,6 @@ const PathologyDetails = props => {
           </div>
           <div className="no-print">
             <PrintDownload
-              list
               download={generatePathologyPdf}
               allowTxtDownloads={allowTxtDownloads}
             />
@@ -172,7 +174,7 @@ const PathologyDetails = props => {
             </va-additional-info>
             <p>{record.results}</p>
           </div>
-        </div>
+        </>
       );
     }
     return <></>;

@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCareSummaryAndNotesDetails } from '../actions/careSummariesAndNotes';
+import {
+  getCareSummaryAndNotesDetails,
+  clearCareSummariesDetails,
+} from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
@@ -14,16 +17,22 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/summaries-and-notes',
-          label: 'Care summaries and notes',
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/summaries-and-notes',
+            label: 'Care summaries and notes',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearCareSummariesDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -31,7 +40,7 @@ const CareSummariesDetails = () => {
         dispatch(getCareSummaryAndNotesDetails(summaryId));
       }
     },
-    [summaryId],
+    [summaryId, dispatch],
   );
 
   if (careSummary?.name) {

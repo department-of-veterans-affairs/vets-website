@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+// eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 import { getServiceAvailability } from '../actions/post-911-gib-status';
@@ -23,7 +24,7 @@ export class ServiceAvailabilityBanner extends React.Component {
       }
       case SERVICE_AVAILABILITY_STATES.pending: {
         content = (
-          <LoadingIndicator message="Please wait while we check if the tool is available." />
+          <va-loading-indicator message="Please wait while we check if the tool is available." />
         );
         break;
       }

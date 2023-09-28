@@ -7,7 +7,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 // import Navigation from '../components/Navigation';
-import { useDatadogRum } from '../hooks/useDatadogRum';
+import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
@@ -17,7 +17,20 @@ const App = ({ children }) => {
   const location = useLocation();
   const measuredRef = useRef();
 
-  useDatadogRum();
+  const datadogRumConfig = {
+    applicationId: '04496177-4c70-4caf-9d1e-de7087d1d296',
+    clientToken: 'pubf11b8d8bfe126a01d84e01c177a90ad3',
+    site: 'ddog-gov.com',
+    service: 'va.gov-mhv-medical-records',
+    sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
+    sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
+    trackInteractions: true,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  };
+  useDatadogRum(datadogRumConfig);
 
   useEffect(
     () => {
@@ -54,13 +67,14 @@ const App = ({ children }) => {
         className="vads-l-grid-container vads-u-padding-left--2"
       >
         <MrBreadcrumbs />
-        <div className="medical-records-container">
-          {/* <Navigation /> */}
-          <div className="vads-l-grid-container main-content">
+        {/* <Navigation /> */}
+        <div className="vads-l-grid-container vads-u-padding-left--0">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 no-print">
             <ScrollToTop />
             {children}
             <va-back-to-top hidden={isHidden} />
           </div>
+          <div className="vads-l-col--12 print-only">{children}</div>
         </div>
       </div>
     </RequiredLoginView>

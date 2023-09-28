@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
@@ -11,7 +11,6 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
-
 import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../constants';
 
@@ -21,7 +20,6 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
-
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -177,8 +175,6 @@ const ContestableIssuesWidget = props => {
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
-        // focusIssue is called by form config scrollAndFocusTarget, but only on
-        // page change
         focusIssue(null, null, -1);
       });
 

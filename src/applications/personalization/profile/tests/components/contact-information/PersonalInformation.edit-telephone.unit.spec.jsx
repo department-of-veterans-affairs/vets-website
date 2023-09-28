@@ -90,12 +90,7 @@ async function testQuickSuccess(numberName) {
   ).to.exist;
   // and the new number should exist in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(
-    numbers.length,
-  );
-  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(
-    numbers.length,
-  );
+  expect(view.getAllByTestId('phoneNumber').length).to.eql(numbers.length);
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -132,12 +127,7 @@ async function testSlowSuccess(numberName) {
   ).to.exist;
   // and the updated phone numbers should be in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(
-    numbers.length,
-  );
-  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(
-    numbers.length,
-  );
+  expect(view.getAllByTestId('phoneNumber').length).to.eql(numbers.length);
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {

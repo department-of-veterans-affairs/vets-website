@@ -30,15 +30,18 @@ const ChemHemDetails = props => {
   );
   const formattedDate = formatDateLong(record?.date);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generateChemHemPdf = async () => {
     const title = `Lab and test results: ${record.name} on ${formatDateLong(
@@ -130,7 +133,7 @@ const ChemHemDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--1"
@@ -151,7 +154,6 @@ const ChemHemDetails = props => {
           </div>
           <div className="no-print">
             <PrintDownload
-              list
               download={generateChemHemPdf}
               allowTxtDownloads={allowTxtDownloads}
             />
@@ -230,7 +232,7 @@ const ChemHemDetails = props => {
             </div>
             <ChemHemResults results={record.results} />
           </div>
-        </div>
+        </>
       );
     }
     return <></>;
