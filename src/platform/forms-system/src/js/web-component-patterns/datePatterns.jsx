@@ -26,7 +26,6 @@ const currentOrPastDateUI = options => {
   const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
-  const Tag = uiOptions?.useDlWrap ? 'dl' : 'div';
   const uiTitle = title ?? 'Date';
 
   return {
@@ -42,7 +41,7 @@ const currentOrPastDateUI = options => {
       ...uiOptions,
     },
     'ui:reviewField': ({ children }) => (
-      <Tag className="review-row">
+      <div className="review-row">
         <dt>{uiTitle}</dt>
         <dd>
           {children.props.formData && (
@@ -57,7 +56,7 @@ const currentOrPastDateUI = options => {
             </>
           )}
         </dd>
-      </Tag>
+      </div>
     ),
   };
 };
