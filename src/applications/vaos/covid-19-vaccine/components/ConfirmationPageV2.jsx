@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from '../../lib/moment-tz';
@@ -17,6 +17,7 @@ import {
 } from '../../services/location';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 import { startNewAppointmentFlow } from '../redux/actions';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -36,13 +37,20 @@ function ConfirmationPageV2({
   facilityDetails,
   slot,
   submitStatus,
+  changeCrumb,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   if (submitStatus !== FETCH_STATUS.succeeded) {
@@ -148,6 +156,7 @@ function ConfirmationPageV2({
 export default connect(selectConfirmationPage)(ConfirmationPageV2);
 
 ConfirmationPageV2.propTypes = {
+  changeCrumb: PropTypes.func,
   clinic: PropTypes.object,
   data: PropTypes.object,
   facilityDetails: PropTypes.object,

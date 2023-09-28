@@ -22,6 +22,9 @@ export const getAppData = state => ({
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
+  showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
+  ],
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
   ],
