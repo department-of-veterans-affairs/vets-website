@@ -55,14 +55,16 @@ button {
     cursor: pointer;
 }
 
+/* eslint-disable color-no-hex*/
+
 /* Style the wide button */
 .wide-button {
     display: block;
     width: 100%; /* Make the button fill the entire width of its container */
     max-width: 300px; /* Set a maximum width for the button */
     padding: 15px 20px; /* Add padding to the button for better readability */
-    background-color: #3498db;
-    color: #fff;
+    background-color: rgb(52,152,219);
+    color: rgb(255,255,255);
     font-size: 18px;
     text-align: center;
     border-radius: 5px;
