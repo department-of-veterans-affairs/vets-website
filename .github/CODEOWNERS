@@ -57,7 +57,7 @@ src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-f
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Benefits Team 1
-src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/benefits-management
+src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/DBEX-TREX
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
