@@ -147,7 +147,7 @@ const ConditionDetails = () => {
   const content = () => {
     if (condition) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -196,7 +196,7 @@ const ConditionDetails = () => {
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList list={condition.comments} />
           </div>
-        </div>
+        </>
       );
     }
 

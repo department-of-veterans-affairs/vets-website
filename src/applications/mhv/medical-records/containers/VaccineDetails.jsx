@@ -130,7 +130,7 @@ const VaccineDetails = () => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0p5"
@@ -164,7 +164,7 @@ const VaccineDetails = () => {
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList list={record.notes} />
           </div>
-        </div>
+        </>
       );
     }
     return (

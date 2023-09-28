@@ -32,9 +32,9 @@ const VitalListItem = props => {
             to={`/vitals/${_.kebabCase(record.type)}-history`}
             className="vads-u-margin-y--0p5 no-print"
           >
-            <span className="vads-u-font-weight--bold">
+            <strong>
               View {vitalTypeDisplayNames[record.type].toLowerCase()} over time
-            </span>
+            </strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

@@ -14,6 +14,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -732,6 +733,7 @@ export function submitAppointmentOrRequest(history) {
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       state,
     );
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -775,7 +777,11 @@ export function submitAppointmentOrRequest(history) {
         resetDataLayer();
 
         if (featureVAOSServiceVAAppointments) {
-          history.push(`/va/${appointment.id}?confirmMsg=true`);
+          if (featureBreadcrumbUrlUpdate) {
+            history.push(`/${appointment.id}?confirmMsg=true`);
+          } else {
+            history.push(`/va/${appointment.id}?confirmMsg=true`);
+          }
         } else {
           history.push('/new-appointment/confirmation');
         }
