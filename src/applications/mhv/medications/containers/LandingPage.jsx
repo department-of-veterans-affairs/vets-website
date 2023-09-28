@@ -39,8 +39,8 @@ const LandingPage = () => {
           <section>
             <h1 data-testid="landing-page-heading">About medications</h1>
             <p className="vads-u-font-size--lg">
-              Learn how to manage your VA prescriptions and review all
-              medications in your VA medical records.
+              Learn how to manage your VA prescriptions and review your
+              medications list.
             </p>
           </section>
           <section>
@@ -120,17 +120,35 @@ const LandingPage = () => {
                   </p>
                   <ul>
                     <li>
+                      <strong>
+                        Older prescriptions that have been inactive for more
+                        than 180 days.{' '}
+                      </strong>
+                      To find these older prescriptions, go to your VA Blue
+                      Button report on the My HealthVet website{' '}
+                      <a
+                        href={mhvUrl(
+                          isAuthenticatedWithSSOe(fullState),
+                          'va-blue-button',
+                        )}
+                        rel="noreferrer"
+                      >
+                        Go to VA Blue Button® on the My HealtheVet website
+                      </a>
+                    </li>
+                    <li>
                       <strong>Medications you entered yourself. </strong>
                       To find your self-entered medications, go back to your
                       medications list on the My HealtheVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
-                          'my-complete-medications-list',
+                          'self-entered-medications-supplements',
                         )}
                         rel="noreferrer"
                       >
-                        Go to your medications list on the My HealtheVet website
+                        Go to your self-entered medications on the My HealtheVet
+                        website
                       </a>
                     </li>
                     <li>
