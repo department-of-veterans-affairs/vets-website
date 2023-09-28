@@ -72,7 +72,6 @@ describe('<AddIssue>', () => {
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;
-
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {

@@ -54,6 +54,7 @@ describe('<AddIssue>', () => {
 
   it('should render', () => {
     const { container } = render(setup());
+    expect($('h3', container)).to.exist;
     expect($('va-text-input')).to.exist;
     expect($('va-memorable-date', container)).to.exist;
   });
