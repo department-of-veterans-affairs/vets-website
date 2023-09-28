@@ -253,6 +253,21 @@ const ReplyForm = props => {
     [checkMessageValidity],
   );
 
+  // Before Save
+  useEffect(
+    () => {
+      if (!messageBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
+      }
+    },
+    [messageBody],
+  );
+
+  // On Save
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
