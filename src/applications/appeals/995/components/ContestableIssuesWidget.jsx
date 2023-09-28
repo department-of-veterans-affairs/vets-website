@@ -148,13 +148,10 @@ const ContestableIssuesWidget = props => {
       const updatedAdditionalIssues = additionalIssues.filter(
         (issue, indx) => removeIndex !== indx,
       );
-      // Focus management: target add a new issue action link
       setShowRemoveModal(false);
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
-        // focusIssue is called by form config scrollAndFocusTarget, but only on
-        // page change
         focusIssue(null, null, -1);
       });
 
