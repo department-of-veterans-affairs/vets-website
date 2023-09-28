@@ -55,10 +55,10 @@ const UpcomingAppointmentsList = props => {
               className="vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
               data-testid="appointment-list"
             >
-              {days.map(day => {
+              {days.map((day, dayIndex) => {
                 const { appointments, dayKey } = day;
                 return (
-                  <>
+                  <React.Fragment key={dayIndex}>
                     {appointments.map((appointment, index) => {
                       const dayKeyString = index === 0 ? dayKey : null;
                       return (
@@ -73,7 +73,7 @@ const UpcomingAppointmentsList = props => {
                         />
                       );
                     })}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </ul>
