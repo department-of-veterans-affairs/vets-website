@@ -133,7 +133,7 @@ const ChemHemDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--1"
@@ -232,7 +232,7 @@ const ChemHemDetails = props => {
             </div>
             <ChemHemResults results={record.results} />
           </div>
-        </div>
+        </>
       );
     }
     return <></>;
