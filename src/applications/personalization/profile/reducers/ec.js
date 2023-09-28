@@ -2,7 +2,7 @@ import {
   FETCH_EMERGENCY_CONTACTS_FAILED,
   FETCH_EMERGENCY_CONTACTS_STARTED,
   FETCH_EMERGENCY_CONTACTS_SUCCEEDED,
-} from '../actions/ec';
+} from '@@profile/actions/ec';
 
 export const initialState = {
   data: false,

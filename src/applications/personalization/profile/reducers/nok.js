@@ -2,7 +2,7 @@ import {
   FETCH_NEXT_OF_KIN_FAILED,
   FETCH_NEXT_OF_KIN_STARTED,
   FETCH_NEXT_OF_KIN_SUCCEEDED,
-} from '../actions/nok';
+} from '@@profile/actions/nok';
 
 export const initialState = {
   data: false,

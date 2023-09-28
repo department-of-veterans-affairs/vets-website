@@ -3,7 +3,8 @@ import hcaEnrollmentStatus from '~/applications/hca/reducers/enrollment-status';
 import ratedDisabilities from '~/applications/personalization/rated-disabilities/reducers';
 import vaProfile from './vaProfile';
 import communicationPreferences from '../ducks/communicationPreferences';
-import { emergencyContactsReducer, nextOfKinReducer } from './ec';
+import { emergencyContactsReducer } from './ec';
+import { nextOfKinReducer } from './nok';
 
 export default {
   communicationPreferences,

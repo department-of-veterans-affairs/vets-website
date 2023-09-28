@@ -14,6 +14,12 @@ import {
 import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
 import { PROFILE_TOGGLES } from './constants';
 
+export const selectEmergencyContacts = state =>
+  state?.associatedPersons?.emergencyContacts || false;
+
+export const selectNextOfKin = state =>
+  state?.associatedPersons?.nextOfKin || false;
+
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
 
