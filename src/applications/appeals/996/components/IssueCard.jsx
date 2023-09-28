@@ -34,19 +34,33 @@ export const IssueCardContent = ({
   return (
     <div id={id} className="widget-content-wrap">
       {description && (
-        <p className="vads-u-margin-bottom--0">
+        <p
+          className="vads-u-margin-bottom--0 dd-privacy-hidden"
+          data-dd-action-name="rated issue description"
+        >
           {replaceDescriptionContent(description)}
         </p>
       )}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{`${ratingIssuePercentNumber}%`}</strong>
+          Current rating:{' '}
+          <strong
+            className="dd-privacy-hidden"
+            data-dd-action-name="rated issue percentage"
+          >
+            {`${ratingIssuePercentNumber}%`}
+          </strong>
         </p>
       )}
       {date && (
         <p>
           Decision date:{' '}
-          <strong>{moment(date, FORMAT_YMD).format(FORMAT_READABLE)}</strong>
+          <strong
+            className="dd-privacy-hidden"
+            data-dd-action-name="rated issue decision date"
+          >
+            {moment(date, FORMAT_YMD).format(FORMAT_READABLE)}
+          </strong>
         </p>
       )}
     </div>
@@ -182,7 +196,11 @@ export const IssueCard = ({
           }`}
           data-index={index}
         >
-          <Header id={`issue-${index}-title`} className={titleClass}>
+          <Header
+            id={`issue-${index}-title`}
+            className={titleClass}
+            data-dd-action-name="issue name"
+          >
             {issueName}
           </Header>
           <IssueCardContent id={`issue-${index}-description`} {...item} />

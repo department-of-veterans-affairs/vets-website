@@ -409,7 +409,15 @@ export default function getNewAppointmentFlow(state) {
     vaccineFlow: {
       ...flow.vaccineFlow,
       url: featureBreadcrumbUrlUpdate
-        ? '/schedule/new-covid-19-vaccine-appointment'
+        ? // IMPORTANT!!!
+          // The trailing slash is needed for going back to the previous page to work properly.
+          // The trainling slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
+          // with children.
+          //
+          // Ex. /schedule/new-covid-19-vaccine-appointment/
+          //
+          // Leaving the '/' off makes '/schedule' the parent.
+          'covid-vaccine/'
         : '/new-covid-19-vaccine-appointment',
     },
     vaFacility: {
