@@ -37,6 +37,61 @@ const StatusDropdown = props => {
           </>
         );
       }
+      case dispStatusObj.nonVA: {
+        return (
+          <>
+            <div data-testid="status">Active: Non-VA</div>
+            <div className="no-print">
+              <va-additional-info trigger="What does this status mean?">
+                <p className="vads-u-padding-bottom--1">
+                  A VA provider added this medication record in your VA medical
+                  records. But this isn’t a prescription you filled through a VA
+                  pharmacy. You can’t request this medication through this
+                  online tool.
+                </p>
+                <p>Non-VA medications include these types:</p>
+                <ul className="vads-u-padding-bottom--1">
+                  <li className="vads-u-margin-bottom--0">
+                    Prescriptions you filled through a non-VA pharmacy
+                  </li>
+                  <li className="vads-u-margin-bottom--0">
+                    Over-the-counter medications, supplements, and herbal
+                    remedies
+                  </li>
+                  <li className="vads-u-margin-bottom--0">
+                    Sample medications a provider gave you
+                  </li>
+                  <li className="vads-u-margin-bottom--0">
+                    Other drugs you’re taking that you don’t have a prescription
+                    for, including recreational drugs
+                  </li>
+                </ul>
+              </va-additional-info>
+            </div>
+            <div className="print-only vads-u-margin-top--2">
+              {' '}
+              <p>
+                A VA provider added this medication record in your VA medical
+                records. But this isn’t a prescription you filled through a VA
+                pharmacy. You can’t request this medication through this online
+                tool.
+              </p>
+              <p>Non-VA medications include these types:</p>
+              <ul>
+                <li>Prescriptions you filled through a non-VA pharmacy</li>
+                <li>
+                  Over-the-counter medications, supplements, and herbal remedies
+                </li>
+                <li>Sample medications a provider gave you</li>
+                <li>
+                  Other drugs you’re taking that you don’t have a prescription
+                  for, including recreational drugs
+                </li>
+              </ul>
+            </div>
+          </>
+        );
+      }
       case dispStatusObj.activeParked: {
         return (
           <>
