@@ -3,10 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
