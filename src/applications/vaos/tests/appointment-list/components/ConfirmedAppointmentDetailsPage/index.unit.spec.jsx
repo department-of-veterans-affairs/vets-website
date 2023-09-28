@@ -180,6 +180,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
+      localStartTime: futureDate
+        .add(1, 'days')
+        .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: futureDate.add(1, 'days').format(),
       status: 'booked',
       cancellable: true,
@@ -298,6 +301,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
+      localStartTime: futureDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: futureDate.format(),
       status: 'cancelled',
       cancelationReason: { coding: [{ code: 'pat' }] },
@@ -356,10 +360,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(futureDate.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -433,6 +434,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
+      localStartTime: futureDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: futureDate.format(),
       status: 'booked',
       cancellable: true,
@@ -467,10 +469,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(futureDate.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -501,6 +500,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
+      localStartTime: futureDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: futureDate.format(),
       status: 'booked',
       cancellable: true,
@@ -536,10 +536,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(futureDate.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
