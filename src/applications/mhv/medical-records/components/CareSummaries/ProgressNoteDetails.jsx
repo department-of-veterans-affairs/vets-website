@@ -97,7 +97,7 @@ const ProgressNoteDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -149,7 +149,7 @@ const ProgressNoteDetails = props => {
             <h2>Note</h2>
             <p>{record.summary}</p>
           </div>
-        </div>
+        </>
       );
     }
     return <></>;
