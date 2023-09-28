@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { dateFormat } from '../../util/helpers';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
+import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
 
 const MedicationsListCard = props => {
@@ -35,14 +35,7 @@ const MedicationsListCard = props => {
             {rx.prescriptionName}
           </Link>
         </h3>
-        {rx.dispensedDate && rx.dispStatus !== 'Transferred' ? (
-          <p>
-            {rx.refillStatus === 'non-va' ? 'Documented' : 'Last filled'} on{' '}
-            {dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
-          </p>
-        ) : (
-          <p>You haven’t filled this prescription yet</p>
-        )}
+        {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
         {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
