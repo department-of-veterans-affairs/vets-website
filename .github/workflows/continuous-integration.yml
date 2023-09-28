@@ -115,9 +115,6 @@ jobs:
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
       - name: Download Allow List
         uses: actions/download-artifact@v3
         with:
