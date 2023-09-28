@@ -59,17 +59,13 @@ const STATUSES = getStatusMap();
 const getPhaseFromStatus = latestStatus =>
   [...STATUSES.keys()].indexOf(latestStatus) + 1;
 
-const isEventOrPrimaryPhase = event => {
+function isEventOrPrimaryPhase(event) {
   if (event.type === 'phase_entered') {
     return event.phase <= 3 || event.phase >= 7;
   }
 
   return !!getItemDate(event);
-};
-
-const isCurrentOrPastPhase = (event, currentPhase) => {
-  return event.phase <= currentPhase;
-};
+}
 
 const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
@@ -94,11 +90,15 @@ const generatePhases = claim => {
     });
   });
 
-  const firstPass = phases.filter(isEventOrPrimaryPhase);
-  const currentPhase = getPhaseFromStatus(
-    claim.attributes.claimPhaseDates.latestPhaseType,
-  );
-  return firstPass.filter(phase => isCurrentOrPastPhase(phase, currentPhase));
+  if (claim.attributes.closeDate !== null) {
+    phases.push({
+      type: 'complete',
+      phase: 8,
+      date: claim.closeDate,
+    });
+  }
+
+  return phases.filter(isEventOrPrimaryPhase);
 };
 
 const generateSupportingDocuments = claim => {
@@ -128,15 +128,7 @@ const generateEventTimeline = claim => {
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
 
-  const events = [
-    ...trackedItems,
-    ...supportingDocuments,
-    ...phases,
-    {
-      type: 'filed',
-      date: claim.attributes.claimDate,
-    },
-  ];
+  const events = [...trackedItems, ...supportingDocuments, ...phases];
 
   // Sort events from least to most recent
   events.sort((a, b) => {
@@ -327,7 +319,7 @@ ClaimStatusPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  message: PropTypes.object,
+  message: PropTypes.string,
   params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
