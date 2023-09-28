@@ -6,7 +6,7 @@
                 "prescriptionId": 22220410,
                 "prescriptionNumber": "3636930",
                 "prescriptionName": "ABACAVIR SULF 600/LAMIVUDINE 300MG TAB",
-                "refillStatus": "active",
+                "refillStatus": "unknown",
                 "refillSubmitDate": null,
                 "refillDate": "2023-04-15T04:00:00.000Z",
                 "refillRemaining": 3,
