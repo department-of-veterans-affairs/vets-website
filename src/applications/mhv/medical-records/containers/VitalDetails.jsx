@@ -178,7 +178,7 @@ const VitalDetails = () => {
   const content = () => {
     if (records?.length) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
             download={generateVitalsPdf}
@@ -239,7 +239,7 @@ const VitalDetails = () => {
               showLastPage
             />
           </div>
-        </div>
+        </>
       );
     }
     return (

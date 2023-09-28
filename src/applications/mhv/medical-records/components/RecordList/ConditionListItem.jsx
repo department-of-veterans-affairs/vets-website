@@ -27,7 +27,7 @@ const ConditionListItem = props => {
             className="vads-u-margin--0"
             aria-describedby={`details-button-description-${record.id}`}
           >
-            <span className="vads-u-font-weight--bold">Details</span>
+            <strong>Details</strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"
