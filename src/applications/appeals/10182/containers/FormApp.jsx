@@ -7,7 +7,6 @@ import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
-import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import formConfig from '../config/form';
 import { SHOW_PART3 } from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
@@ -15,6 +14,7 @@ import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
 
 export const FormApp = ({
@@ -115,7 +115,14 @@ export const FormApp = ({
   );
 
   // Add Datadog UX monitoring to the application
-  useBrowserMonitoring();
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'nod', // becomes "nodBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    applicationId: 'cabce133-7a68-46ba-ac9b-68c57e8375eb',
+    clientToken: 'pubb208973905b7f32eb100b1c27688ecc9',
+    service: 'benefits-notice-of-disagreement',
+  });
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>

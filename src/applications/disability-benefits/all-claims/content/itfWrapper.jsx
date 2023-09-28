@@ -36,6 +36,7 @@ const expander = (
   <VaAdditionalInfo
     trigger="What is an Intent to File?"
     disableAnalytics
+    disable-border
     onClick={recordITFHelpEvent}
   >
     <p className="vads-u-font-size--base">

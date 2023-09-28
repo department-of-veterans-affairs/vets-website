@@ -28,18 +28,15 @@ describe('The Burial Widget unauthenticed Veteran', () => {
   });
 
   it('Displays the correct page content for unauthenticated user', () => {
-    cy.get('h3').contains('Our online burial form isn’t working right now');
-    cy.get('p').contains(
-      'You can still apply for VA pension benefits by mail, in person at a VA regional office, or with the help of a Veterans Service Officer (VSO) or another accredited representative. Download the PDF form we provide on this page.',
-    );
-    cy.get('h4').contains('If you started your form online already');
-    cy.get('p').contains(
-      `You’ll need to start over using a PDF form. But you can still sign in to VA.gov to refer to the information you saved in your online form.`,
+    cy.get('h3').contains(
+      'Our online burial benefits form isn’t working right now',
     );
     cy.get('p').contains(
-      'We’ll record the potential start date for your benefits as the date you first saved your online form. You have 1 year from this date to submit your application. If we approve your claim, you may be able to get retroactive payments.',
+      `You can still apply for a VA burial allowance by mail. Download the PDF form we provide on this page.`,
     );
-    cy.get('strong').contains('Note: ');
+    cy.get('p').contains(
+      `If you started your form online already, you’ll need to start over using a PDF form. But you can still sign in to VA.gov to refer to the information you saved in your online form.`,
+    );
     cy.get('va-button')
       .contains('Sign in to VA.gov')
       .should('exist');
@@ -54,13 +51,14 @@ describe('The Burial Widget for authenticed Veteran', () => {
   });
 
   it('Displays the correct page content for authenticated user', () => {
-    cy.get('h3').contains('Our online burial form isn’t working right now');
-    cy.get('div').contains(
+    cy.get('h3').contains(
+      'Our online burial benefits form isn’t working right now',
+    );
+    cy.get('p').contains(
       'You can still apply for a VA burial allowance by mail. Download the PDF form we provide on this page.',
     );
-    cy.get('h4').contains('If you started your form online already');
     cy.get('p').contains(
-      `You’ll need to start over using a PDF form. But you can still refer to the information you saved in your online form.`,
+      `If you started your form online already, you’ll need to start over using a PDF form. But you can still sign in to VA.gov to refer to the information you saved in your online form.`,
     );
     cy.get('a')
       .contains('Refer to your saved form')

@@ -46,19 +46,22 @@ const VitalDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/vitals',
-          label: 'Vitals',
-        },
-      ]),
-    );
-    return () => {
-      dispatch(clearVitalDetails());
-    };
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/vitals',
+            label: 'Vitals',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearVitalDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -107,7 +110,7 @@ const VitalDetails = () => {
         dispatch(getVitalDetails(macroCase(vitalType)));
       }
     },
-    [vitalType],
+    [vitalType, dispatch],
   );
 
   const generateVitalsPdf = async () => {
@@ -175,7 +178,7 @@ const VitalDetails = () => {
   const content = () => {
     if (records?.length) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
             download={generateVitalsPdf}
@@ -236,7 +239,7 @@ const VitalDetails = () => {
               showLastPage
             />
           </div>
-        </div>
+        </>
       );
     }
     return (

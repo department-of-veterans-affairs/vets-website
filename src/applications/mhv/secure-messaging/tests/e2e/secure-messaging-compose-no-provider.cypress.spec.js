@@ -17,7 +17,10 @@ describe('Secure Messaging Compose with No Provider', () => {
     patientInterstitialPage.getContinueButton().click({ force: true });
 
     composePage.selectRecipient('');
-    composePage.getCategory('COVID').click();
+    composePage
+      .getCategory('COVID')
+      .first()
+      .click();
     composePage.getMessageSubjectField().type('Test Subject');
     composePage
       .getMessageBodyField()

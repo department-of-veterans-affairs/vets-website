@@ -168,7 +168,7 @@ const Allergies = () => {
   };
 
   return (
-    <div id="allergies" className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies</h1>
       <p className="page-description">
@@ -176,7 +176,7 @@ const Allergies = () => {
         message to your care team.
       </p>
       <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
         className="page-description-link vads-u-margin-bottom--3 no-print"
       >
         Compose a message on the My HealtheVet website

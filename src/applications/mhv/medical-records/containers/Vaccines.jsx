@@ -11,6 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import {
   dateFormat,
   nameFormat,
@@ -32,23 +33,29 @@ const Vaccines = () => {
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
 
-  useEffect(() => {
-    dispatch(getVaccinesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getVaccinesList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs(
-        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-        {
-          url: '/my-health/medical-records/vaccines',
-          label: 'VA vaccines',
-        },
-      ),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/vaccines',
+            label: 'VA vaccines',
+          },
+        ),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const generateVaccinesPdf = async () => {
     const pdfData = {
@@ -125,7 +132,7 @@ const Vaccines = () => {
   };
 
   return (
-    <div id="vaccines" className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
       <p>
@@ -143,6 +150,7 @@ const Vaccines = () => {
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
       />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );
