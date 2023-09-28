@@ -7,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('RJSF'),
+    ...titleUI('Web component number input'),
     amountOrNumber: numberUI({
       title: 'Amount',
       hint: 'Hint text',
