@@ -37,7 +37,7 @@ const LandingPage = () => {
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <div className="main-content">
           <section>
-            <h1>About medications</h1>
+            <h1 data-testid="landing-page-heading">About medications</h1>
             <p className="vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review all
               medications in your VA medical records.
