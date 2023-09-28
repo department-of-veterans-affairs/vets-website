@@ -26,9 +26,13 @@ const PersonalHealthCareContacts = () => {
           Who we’ll contact in case of a medical emergency
         </p>
 
-        {/* <Contact givenName="Barbara" familyName="Allen" primaryPhone="555-555-5555" /> */}
+        <Contact
+          givenName="Barbara"
+          familyName="Allen"
+          primaryPhone="555-555-5555"
+        />
 
-        <Contact />
+        {/* <Contact /> */}
 
         <p>
           <span className="vads-u-font-weight--bold">
