@@ -368,6 +368,10 @@ export default function getNewAppointmentFlow(state) {
         ? 'request-date'
         : '/new-appointment/request-date',
     },
+    review: {
+      ...flow.review,
+      url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
+    },
     scheduleCerner: {
       ...flow.scheduleCerner,
       url: featureBreadcrumbUrlUpdate
