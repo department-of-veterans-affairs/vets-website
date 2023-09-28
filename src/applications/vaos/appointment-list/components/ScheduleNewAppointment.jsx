@@ -12,17 +12,13 @@ import {
 } from '../../redux/selectors';
 
 function handleClick(history, dispatch, featureBreadcrumbUrlUpdate) {
-  return () => {
-    recordEvent({
-      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-    });
-    dispatch(startNewAppointmentFlow());
-    history.push(
-      featureBreadcrumbUrlUpdate
-        ? '/schedule/type-of-care'
-        : '/new-appointment',
-    );
-  };
+  recordEvent({
+    event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+  });
+  dispatch(startNewAppointmentFlow());
+  history.push(
+    featureBreadcrumbUrlUpdate ? '/schedule/type-of-care' : '/new-appointment',
+  );
 }
 
 function ScheduleNewAppointmentButton() {
@@ -41,7 +37,7 @@ function ScheduleNewAppointmentButton() {
       } vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4`}
       aria-label="Start scheduling an appointment"
       id="schedule-button"
-      onClick={handleClick(history, dispatch, featureBreadcrumbUrlUpdate)}
+      onClick={() => handleClick(history, dispatch, featureBreadcrumbUrlUpdate)}
     >
       Start scheduling
     </button>
@@ -56,6 +52,9 @@ export default function ScheduleNewAppointment() {
     selectFeatureStatusImprovement(state),
   );
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
+  const featureBreadcrumbUrlUpdate = useSelector(
+    selectFeatureBreadcrumbUrlUpdate,
+  );
 
   if (featureStatusImprovement) {
     // Only display scheduling button on upcoming appointments page
@@ -82,7 +81,9 @@ export default function ScheduleNewAppointment() {
         className="vaos-hide-for-print"
         aria-label="Start scheduling an appointment"
         id="schedule-button"
-        onClick={handleClick(history, dispatch)}
+        onClick={() =>
+          handleClick(history, dispatch, featureBreadcrumbUrlUpdate)
+        }
       >
         Start scheduling
       </button>
