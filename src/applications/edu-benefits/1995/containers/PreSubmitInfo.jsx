@@ -1,12 +1,27 @@
 import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
+function isNoToDate(to) {
+  return to == null;
+}
+
+function isFutureDate(to) {
+  const toDate = new Date(to);
+  const now = new Date();
+  //  To Date is in the past.
+  return toDate > now;
+}
+
+function inValidToDate(to) {
+  return isFutureDate(to) || isNoToDate(to);
+}
+
 export function isActiveDuty(formData) {
   try {
     let result = false;
     const toursOfDuty = formData?.toursOfDuty || [];
     toursOfDuty.map(data => {
-      if (data && data.dateRange && data?.dateRange?.to == null) {
+      if (data && data.dateRange && inValidToDate(data?.dateRange?.to)) {
         result = true;
       }
       return data;
