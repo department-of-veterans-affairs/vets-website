@@ -84,7 +84,7 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
         <div role="text">
           {appealTitle}
           {requestEvent && (
-            <span>
+            <span className="vads-u-margin-top--0p5">
               Submitted on {moment(requestEvent.date).format('MMMM D, YYYY')}
             </span>
           )}
