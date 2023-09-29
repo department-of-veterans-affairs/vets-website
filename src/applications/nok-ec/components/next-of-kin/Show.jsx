@@ -2,10 +2,16 @@ import React from 'react';
 
 const Show = props => {
   const {
-    name,
+    givenName,
+    familyName,
     relationship,
-    address,
-    phoneNumber,
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    state,
+    zipCode,
+    primaryPhone,
     // handleSubmit,
   } = props;
 
@@ -13,7 +19,7 @@ const Show = props => {
     <>
       <div>
         <h3>Name</h3>
-        {name}
+        {givenName} {familyName}
       </div>
 
       <div>
@@ -23,29 +29,23 @@ const Show = props => {
 
       <div>
         <h3>Address</h3>
-        {address}
+        {addressLine1}
+        <br />
+        {addressLine2}
+        <br />
+        {addressLine3}
+        <br />
+        {city}, {state} {zipCode}
       </div>
 
       <div>
         <h3>Phone</h3>
-        {phoneNumber}
+        {primaryPhone}
       </div>
 
-      <div>
-        <h3>Work phone</h3>
-        {phoneNumber}
-
-        {/* <va-button text="Edit" onClick={handleSubmit} /> */}
-      </div>
+      {/* <va-button text="Edit" onClick={handleSubmit} /> */}
     </>
   );
-};
-
-Show.defaultProps = {
-  name: 'Jonnie Shaye',
-  relationship: 'Brother',
-  address: '123 Main St, Ste 234; Los Angeles, CA 90089',
-  phoneNumber: '111-222-3333',
 };
 
 export default Show;

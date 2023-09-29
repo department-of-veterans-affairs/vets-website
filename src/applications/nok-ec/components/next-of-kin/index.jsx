@@ -16,6 +16,7 @@ const NextOfKin = () => {
 
   useEffect(() => !data && !loading && !error && dispatch(fetchNextOfKin()), [
     data,
+    dispatch,
     loading,
     error,
   ]);
