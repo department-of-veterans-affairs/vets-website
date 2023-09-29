@@ -365,8 +365,13 @@ export default function getNewAppointmentFlow(state) {
     requestDateTime: {
       ...flow.requestDateTime,
       url: featureBreadcrumbUrlUpdate
-        ? 'request-date'
+        ? 'va-request/'
         : '/new-appointment/request-date',
+    },
+    root: {
+      url: featureBreadcrumbUrlUpdate
+        ? '/my-health/appointments'
+        : '/health-care/schedule-view-va-appointments/appointments/',
     },
     review: {
       ...flow.review,
@@ -390,7 +395,9 @@ export default function getNewAppointmentFlow(state) {
     },
     typeOfCare: {
       ...flow.typeOfCare,
-      url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
+      url: featureBreadcrumbUrlUpdate
+        ? '/schedule/type-of-care'
+        : '/new-appointment',
     },
     typeOfEyeCare: {
       ...flow.typeOfEyeCare,
@@ -401,7 +408,7 @@ export default function getNewAppointmentFlow(state) {
     typeOfFacility: {
       ...flow.typeOfFacility,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-facility-type'
+        ? 'facility-type'
         : '/new-appointment/choose-facility-type',
     },
     typeOfSleepCare: {
@@ -439,7 +446,7 @@ export default function getNewAppointmentFlow(state) {
     visitType: {
       ...flow.visitType,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-visit-type'
+        ? 'preferred-method'
         : '/new-appointment/choose-visit-type',
     },
   };
