@@ -12,7 +12,6 @@ export default {
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
-  emis: 'emis',
   // Enrollment System (HCA submissions)
   es: 'es',
   evss: 'evss',

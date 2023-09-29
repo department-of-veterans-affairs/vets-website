@@ -10,7 +10,6 @@ import {
 } from '../../authentication/utilities';
 
 const commonServices = {
-  EMIS: 'EMIS',
   MVI: 'MVI',
   VA_PROFILE: 'Vet360',
 };
