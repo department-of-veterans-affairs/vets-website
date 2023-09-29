@@ -32,3 +32,10 @@ export const preparerSigningReasonOptions = Object.freeze({
     'They have an illness, injury, or other health condition that prevents them from being able to make decisions for themselves or provide the information needed to complete forms.',
   PHYSICALLY_INCAPABLE: 'They can’t physically sign the forms.',
 });
+
+export const workInProgressContent = Object.freeze({
+  description:
+    'We’re rolling out Alternate Signer (VA Form 21-0972) in stages. It’s not quite ready yet. Please check back again soon.',
+  redirectLink: '/',
+  redirectText: 'Return to VA home page',
+});

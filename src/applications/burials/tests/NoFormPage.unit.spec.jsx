@@ -86,7 +86,7 @@ describe('NoFormPage', () => {
     expect($('va-loading-indicator', container)).to.exist;
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
-        'Review Burial Benefits Application',
+        'Review burial benefits application',
       );
       expect($$('h2', container)[0].textContent).to.eql(
         'You don’t have any saved online burial forms.',
@@ -112,7 +112,7 @@ describe('NoFormPage', () => {
     );
     await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
-        'Review Burial Benefits Application',
+        'Review burial benefits application',
       );
     });
   });

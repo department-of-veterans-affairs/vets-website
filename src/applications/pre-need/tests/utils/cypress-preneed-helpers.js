@@ -200,10 +200,10 @@ function fillPreparerInfo(preparer) {
       'input[name$="applicantPhoneNumber"]',
       preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
     );
-    cy.axeCheck();
-    clickContinue();
-    cy.url().should('not.contain', '/preparer');
   }
+  cy.axeCheck();
+  clickContinue();
+  cy.url().should('not.contain', '/preparer');
 }
 
 // Submit Form
