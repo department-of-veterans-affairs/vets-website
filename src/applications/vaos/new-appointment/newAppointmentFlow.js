@@ -148,10 +148,10 @@ const flow = {
           // If CC enabled systems and toc is podiatry, skip typeOfFacility
           dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
           dispatch(startRequestAppointmentFlow(true));
-          return 'requestDateTime';
+          return 'ccRequestDateTime';
         }
         if (isEligible) {
-          return 'typeOfFacility';
+          return 'ccTypeOfFacility';
         }
         if (isPodiatry(state)) {
           // If no CC enabled systems and toc is podiatry, show modal
@@ -366,6 +366,12 @@ export default function getNewAppointmentFlow(state) {
       ...flow.requestDateTime,
       url: featureBreadcrumbUrlUpdate
         ? 'va-request/'
+        : '/new-appointment/request-date',
+    },
+    ccRequestDateTime: {
+      ...flow.requestDateTime,
+      url: featureBreadcrumbUrlUpdate
+        ? 'community-request/'
         : '/new-appointment/request-date',
     },
     root: {
