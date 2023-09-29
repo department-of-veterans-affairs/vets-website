@@ -110,7 +110,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name, url'
+          output-type: 'folder'
 
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
