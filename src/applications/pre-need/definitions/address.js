@@ -11,6 +11,8 @@ import {
 } from 'platform/forms/address';
 import environment from 'platform/utilities/environment';
 
+let priorCountry = '';
+
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
 
@@ -322,6 +324,18 @@ export function uiSchema(
             currentSchema = set('required', [], currentSchema);
           }
         }
+
+        // Veteran address state must be reset if prior country had a state list.
+        if (
+          (priorCountry === 'CAN' &&
+            modifiedData.application.veteran.address.country === 'USA') ||
+          (priorCountry === 'USA' &&
+            modifiedData.application.veteran.address.country === 'CAN')
+        ) {
+          modifiedData.application.veteran.address.state = undefined;
+        }
+        priorCountry = formData.application.veteran.address.country;
+
         return addressChangeSelector({
           formData,
           addressSchema: currentSchema,
