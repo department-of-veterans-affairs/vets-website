@@ -18,7 +18,7 @@ import {
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 import { startNewAppointmentFlow } from '../redux/actions';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
-import getNewBookingFlow from '../flow';
+import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -28,7 +28,7 @@ function handleClick(history, dispatch, typeOfCare) {
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare);
+    history.push(typeOfCare.url);
   };
 }
 
@@ -45,7 +45,7 @@ function ConfirmationPageV2({
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-  const { typeOfCare, root } = useSelector(getNewBookingFlow);
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -78,7 +78,7 @@ function ConfirmationPageV2({
         <br />
         <div className="vads-u-margin-y--1">
           <va-link
-            href={root}
+            href={root.url}
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,

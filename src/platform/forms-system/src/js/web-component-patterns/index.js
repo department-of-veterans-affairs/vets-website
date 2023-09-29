@@ -2,6 +2,7 @@ export * from './addressPattern';
 export * from './datePatterns';
 export * from './emailPattern';
 export * from './fullNamePattern';
+export * from './numberPattern';
 export * from './phonePattern';
 export * from './relationshipToVeteranPattern';
 export * from './radioPattern';

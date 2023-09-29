@@ -16,8 +16,8 @@ const initialState = {
 };
 
 const interpretObservedOrReported = code => {
-  if (code === 'confirmed') return allergyTypes.OBSERVED;
-  if (code === 'unconfirmed') return allergyTypes.REPORTED;
+  if (code === 'o') return allergyTypes.OBSERVED;
+  if (code === 'h') return allergyTypes.REPORTED;
   return EMPTY_FIELD;
 };
 
@@ -30,12 +30,16 @@ export const convertAllergy = allergy => {
           allergy.category[0].slice(1)) ||
       EMPTY_FIELD,
     name: allergy?.code?.text || EMPTY_FIELD,
-    date: formatDateLong(allergy.onsetDateTime),
+    date: formatDateLong(allergy.recordedDate),
     reaction: getReactions(allergy),
     location: allergy.recorder?.display || EMPTY_FIELD,
     observedOrReported:
-      isArrayAndHasItems(allergy.verificationStatus?.coding) &&
-      interpretObservedOrReported(allergy.verificationStatus.coding[0].code),
+      isArrayAndHasItems(allergy.extension) &&
+      interpretObservedOrReported(
+        allergy.extension.filter(item =>
+          item.url.includes('allergyObservedHistoric'),
+        )[0].valueString,
+      ),
     notes:
       (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
   };
