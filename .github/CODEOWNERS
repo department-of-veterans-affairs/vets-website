@@ -56,17 +56,21 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-sta
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
-# Claims & appeals (Benefits Team 1)
-
-src/applications/letters @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/benefits-management
-src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend
-src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+# Benefits Team 1
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
-src/applications/static-pages/nod-cta @department-of-veterans-affairs/benefits-team-1-frontend
-src/applications/static-pages/supplemental-claim @department-of-veterans-affairs/benefits-team-1-frontend
-src/applications/static-pages/view-payment-history @department-of-veterans-affairs/benefits-team-1-frontend
-src/applications/veteran-id-card @department-of-veterans-affairs/benefits-team-1-frontend
+
+# Benefits Management Tools (DSVA Slack: #benefits-management-tools)
+src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe
+src/applications/disability-benefits/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe
+src/applications/letters @department-of-veterans-affairs/benefits-management-tools-fe
+src/applications/personalization/rated-disabilities @department-of-veterans-affairs/benefits-management-tools-fe
+src/applications/static-pages/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe
+src/applications/veteran-id-card @department-of-veterans-affairs/benefits-management-tools-fe
+
+# Benefits Decision Reviews (DSVA Slack: #benefits-decision-reviews)
+src/applications/appeals @department-of-veterans-affairs/benefits-decision-reviews-fe
+src/applications/static-pages/nod-cta @department-of-veterans-affairs/benefits-decision-reviews-fe
+src/applications/static-pages/supplemental-claim @department-of-veterans-affairs/benefits-decision-reviews-fe
 
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability
@@ -77,6 +81,9 @@ src/applications/pensions @department-of-veterans-affairs/benefits-non-disabilit
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability
+
+# Disability Benefits Experience
+src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX
 
 # VSA Debt
 

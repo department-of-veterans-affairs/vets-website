@@ -32,7 +32,6 @@ const ConfirmationPage = ({
         className="vads-u-margin-bottom--2"
       />
       <h1 className="vads-u-font-size--h3">Order {supplyDescription}</h1>
-      <span>Form 2346A</span>
       <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
         We’ll send you an email confirming your order to{' '}
