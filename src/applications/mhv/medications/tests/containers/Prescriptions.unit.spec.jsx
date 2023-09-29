@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
-import prescriptions from '../fixtures/presciptions.json';
+import prescriptions from '../fixtures/prescriptions.json';
 import Prescriptions from '../../containers/Prescriptions';
 
 describe('Medicaitons Prescriptions container', () => {
