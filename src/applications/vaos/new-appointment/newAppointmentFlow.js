@@ -151,7 +151,7 @@ const flow = {
           return 'ccRequestDateTime';
         }
         if (isEligible) {
-          return 'ccTypeOfFacility';
+          return 'typeOfFacility';
         }
         if (isPodiatry(state)) {
           // If no CC enabled systems and toc is podiatry, show modal
@@ -173,7 +173,7 @@ const flow = {
 
       if (isCCFacility(state)) {
         dispatch(startRequestAppointmentFlow(true));
-        return 'requestDateTime';
+        return 'ccRequestDateTime';
       }
 
       return VA_FACILITY_V2_KEY;
