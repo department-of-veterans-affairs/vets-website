@@ -51,4 +51,7 @@ TransitionPageDescription.propTypes = {
   preferredRepresentative: PropTypes.object,
 };
 
-export default connect(mapStateToProps, {})(TransitionPageDescription);
+export default connect(
+  mapStateToProps,
+  {},
+)(TransitionPageDescription);
