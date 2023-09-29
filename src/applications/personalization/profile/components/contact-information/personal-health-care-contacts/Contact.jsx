@@ -35,7 +35,8 @@ const Contact = ({
     return (
       <div>
         To add an emergency contact or next of kin please call the Help Desk at
-        800-698-2411
+        {' '}
+        <va-telephone contact="8006982411" />
       </div>
     );
   }

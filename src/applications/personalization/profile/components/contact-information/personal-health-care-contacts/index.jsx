@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Contact from './Contact';
+import EmergencyContact from './EmergencyContact';
 
 const PersonalHealthCareContacts = () => {
   return (
@@ -26,13 +27,15 @@ const PersonalHealthCareContacts = () => {
           Who we’ll contact in case of a medical emergency
         </p>
 
-        <Contact
+        {/* <Contact
           givenName="Barbara"
           familyName="Allen"
           primaryPhone="555-555-5555"
-        />
+        /> */}
 
         {/* <Contact /> */}
+
+        <EmergencyContact />
 
         <p>
           <span className="vads-u-font-weight--bold">
