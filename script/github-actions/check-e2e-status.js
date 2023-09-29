@@ -20,8 +20,13 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(
   spec => spec.allowed === false,
 ).map(spec => spec.spec_path.substring(spec.spec_path.indexOf('src')));
 
+const TESTS_BLOCKING_MERGE = DISALLOWED_SPECS.filter(specPath =>
+  CHANGED_APPS.some(filePath => specPath.includes(filePath)),
+);
+
 console.log(CHANGED_APPS);
 console.log(DISALLOWED_SPECS);
+console.log(TESTS_BLOCKING_MERGE);
 
 // function getDaysSinceDate(diff) {
 //   if (!diff) {
