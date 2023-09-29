@@ -162,16 +162,6 @@ describe('Compose form component', () => {
       level: 2,
     });
 
-    //----------------
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
-    fireEvent.input(screen.getByTestId('message-subject-field'), {
-      target: { innerHTML: 'Hello' },
-    });
-
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
-    //----------------
-
     const deleteButton = await screen.getByTestId('delete-draft-button');
 
     expect(draftMessageHeadingText).to.exist;
@@ -256,5 +246,50 @@ describe('Compose form component', () => {
       .not.equal(
         messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
       );
+  });
+
+  it('adds eventListener if path is /new-message', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-subject-field'), {
+      target: { innerHTML: 'test beforeunload event' },
+    });
+
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+  });
+
+  it('adds eventListener if path is /draft/:id', async () => {
+    const state = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: { draftMessage },
+      },
+    };
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm draft={draftMessage} recipients={triageTeams} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-subject-field'), {
+      target: { innerHTML: 'test beforeunload event' },
+    });
+
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
   });
 });
