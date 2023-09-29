@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField } from '../../util/helpers';
+import { validateField, dateFormat } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
 
 const NonVaPrescription = prescription => {
@@ -59,7 +59,7 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             When you started taking this medication
           </h3>
-          <p>{validateField(prescription.dispensedDate, 'date')}</p>
+          <p>{dateFormat(prescription.dispensedDate)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">

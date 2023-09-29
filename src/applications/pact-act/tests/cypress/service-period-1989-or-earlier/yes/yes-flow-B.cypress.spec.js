@@ -12,8 +12,8 @@ import { ROUTES } from '../../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
-  describe('1989 or earlier - "Yes" to ORANGE_2_2_1_A - "Yes" to two or more categories (Results Screen 1)', () => {
+describe('PACT Act', () => {
+  describe('1989 or earlier - "Yes" to ORANGE_2_2_1_A - "Yes" to one category (Results Screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
 
