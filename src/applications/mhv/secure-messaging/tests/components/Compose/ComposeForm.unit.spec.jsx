@@ -2,6 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
@@ -156,11 +157,21 @@ describe('Compose form component', () => {
         path: `/draft/${draftMessage.id}`,
       },
     );
-
     const draftMessageHeadingText = await screen.getAllByRole('heading', {
       name: 'COVID: Covid-Inquiry',
       level: 2,
     });
+
+    //----------------
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-subject-field'), {
+      target: { innerHTML: 'Hello' },
+    });
+
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    //----------------
+
     const deleteButton = await screen.getByTestId('delete-draft-button');
 
     expect(draftMessageHeadingText).to.exist;
