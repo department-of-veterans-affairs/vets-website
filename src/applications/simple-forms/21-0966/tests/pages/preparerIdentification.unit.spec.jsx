@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.preparerIdentificationChapter.pages.preparerIdentification;
 
-const pageTitle = '';
+const pageTitle = 'Preparer identification';
 
 const expectedNumberOfFields = 1;
 testNumberOfWebComponentFields(

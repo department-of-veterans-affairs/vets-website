@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.contactInformationChapter.pages.phoneAndEmailAddress;
 
-const pageTitle = '';
+const pageTitle = 'Phone and email address';
 
 const expectedNumberOfFields = 3;
 testNumberOfWebComponentFields(

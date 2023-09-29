@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.personalInformationChapter.pages.personalInformation;
 
-const pageTitle = '';
+const pageTitle = 'Preparer personal information';
 
 const expectedNumberOfFields = 4;
 testNumberOfWebComponentFields(

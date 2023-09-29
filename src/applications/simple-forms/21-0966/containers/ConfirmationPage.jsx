@@ -32,7 +32,7 @@ export class ConfirmationPage extends React.Component {
     const title = 'You’ve submitted your intent to file request';
     const claimType = getClaimType(data);
     const expirationDate = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1),
+      submission.response?.expirationDate,
     ).toDateString();
     const expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
     const alreadySubmittedIntents = {

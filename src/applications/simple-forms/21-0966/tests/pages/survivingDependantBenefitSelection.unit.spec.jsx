@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.benefitSelectionChapter.pages.survivingDependantBenefitSelection;
 
-const pageTitle = '';
+const pageTitle = 'Surviving dependant benefit selection';
 
 const expectedNumberOfFields = 1;
 testNumberOfWebComponentFields(

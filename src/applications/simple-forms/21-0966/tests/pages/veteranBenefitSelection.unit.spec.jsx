@@ -9,7 +9,7 @@ const {
   uiSchema,
 } = formConfig.chapters.benefitSelectionChapter.pages.veteranBenefitSelection;
 
-const pageTitle = '';
+const pageTitle = 'Veteran benefit selection';
 
 const expectedNumberOfFields = 1;
 testNumberOfWebComponentFields(
