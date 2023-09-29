@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { SchoolSelectField } from '../../../feedback-tool/components/SchoolSelectField';
 
 describe('<SchoolSelectField>', () => {
-  it('', () => {
+  it('should render initial search view', () => {
     const tree = mount(
       <SchoolSelectField
         formData={{}}
