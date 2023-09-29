@@ -1,19 +1,28 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import newAppointmentFlow from '../../newAppointmentFlow';
 
+import { useSelector } from 'react-redux';
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history) {
+function handleClick(history, pageFlow) {
+  const { home, ccPreferences } = pageFlow;
+
   return () => {
-    history.push(newAppointmentFlow.ccPreferences.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (ccPreferences.url.endsWith('/') && ccPreferences.url !== home.url)
+    )
+      history.push(`../${ccPreferences.url}`);
+    else history.push(ccPreferences.url);
   };
 }
 
 export default function PreferredProviderSection(props) {
   const history = useHistory();
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   return (
     <>
@@ -52,7 +61,7 @@ export default function PreferredProviderSection(props) {
             </div>
             <div>
               <va-link
-                onClick={handleClick(history)}
+                onClick={handleClick(history, pageFlow)}
                 aria-label="Edit provider preference"
                 text="Edit"
                 data-testid="edit-new-appointment"
@@ -85,7 +94,7 @@ export default function PreferredProviderSection(props) {
               </div>
               <div>
                 <va-link
-                  href={newAppointmentFlow.ccPreferences.url}
+                  href={pageFlow.ccPreferences.url}
                   aria-label="Edit provider preference"
                   text="Edit"
                   data-testid="edit-new-appointment"
@@ -100,5 +109,6 @@ export default function PreferredProviderSection(props) {
 }
 
 PreferredProviderSection.propTypes = {
-  props: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  vaCityState: PropTypes.string,
 };
