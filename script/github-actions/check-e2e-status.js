@@ -54,11 +54,11 @@ if (TESTS_BLOCKING_MERGE.length > 0) {
     `${process.env.TEST_TYPE}-annotations-json`,
     JSON.stringify(annotationsJson),
   );
-  core.setFailed(
-    `This PR contains code to test specs that are disallowed for flakiness. Currently there is a grace period, beginning on October 4, to allow time for tests to be corrected. If not corrected by November 6, this application will be blocked from merging code changes. The file paths causing this status are: \n ${TESTS_BLOCKING_MERGE.join(
-      '\n',
-    )}`,
-  );
+  // core.setFailed(
+  //   `This PR contains code to test specs that are disallowed for flakiness. Currently there is a grace period, beginning on October 4, to allow time for tests to be corrected. If not corrected by November 6, this application will be blocked from merging code changes. The file paths causing this status are: \n ${TESTS_BLOCKING_MERGE.join(
+  //     '\n',
+  //   )}`,
+  // );
 } else {
   core.exportVariable(
     `${process.env.TEST_TYPE}-annotations-json`,
