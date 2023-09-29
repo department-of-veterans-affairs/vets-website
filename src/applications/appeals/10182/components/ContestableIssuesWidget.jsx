@@ -63,7 +63,7 @@ const ContestableIssuesWidget = props => {
     id,
     options,
     formContext = {},
-    contestableIssues, // API loaded issues
+    apiLoadStatus, // API loaded status
     getContestableIssues,
     additionalIssues,
     setFormData,
@@ -77,15 +77,12 @@ const ContestableIssuesWidget = props => {
 
   useEffect(
     () => {
-      if (
-        attempts < 1 &&
-        contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_FAILED
-      ) {
+      if (attempts < 1 && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED) {
         attempts += 1; // only attempt reload once
         getContestableIssues();
       }
     },
-    [contestableIssues, getContestableIssues],
+    [apiLoadStatus, getContestableIssues],
   );
 
   useEffect(
@@ -115,8 +112,6 @@ const ContestableIssuesWidget = props => {
     .concat((additionalIssues || []).filter(Boolean));
 
   const hasSelected = someSelected(items);
-  // Only show alert initially when no issues loaded
-  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return (
@@ -205,7 +200,8 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues = showNoLoadedIssues && !onReviewPage;
+  const showNoIssues =
+    !onReviewPage && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
 
   return (
     <>
@@ -272,11 +268,7 @@ const ContestableIssuesWidget = props => {
 
 ContestableIssuesWidget.propTypes = {
   additionalIssues: PropTypes.array,
-  contestableIssues: PropTypes.shape({
-    status: PropTypes.string,
-    issues: PropTypes.array,
-    error: PropTypes.string,
-  }),
+  apiLoadStatus: PropTypes.string,
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
@@ -293,7 +285,7 @@ ContestableIssuesWidget.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
-  contestableIssues: state.contestableIssues,
+  apiLoadStatus: state.contestableIssues?.status || '',
   additionalIssues: state.form?.data.additionalIssues || [],
 });
 const mapDispatchToProps = {

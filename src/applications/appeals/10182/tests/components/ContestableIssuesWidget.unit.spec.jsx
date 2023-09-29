@@ -19,7 +19,7 @@ describe('<ContestableIssuesWidget>', () => {
     onChange = () => {},
     setFormData = () => {},
     getContestableIssues = () => {},
-    contestableIssues = { status: '' },
+    apiLoadStatus = '',
   } = {}) => ({
     id: 'id',
     value: [
@@ -35,7 +35,7 @@ describe('<ContestableIssuesWidget>', () => {
     },
     setFormData,
     getContestableIssues,
-    contestableIssues,
+    apiLoadStatus,
   });
 
   it('should render a list of check boxes (IssueCard component)', () => {
@@ -151,7 +151,7 @@ describe('<ContestableIssuesWidget>', () => {
   });
 
   it('should not show no loaded issues alert after remove all additional items', async () => {
-    const props = getProps();
+    const props = getProps({ apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED });
     const { container } = render(
       <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
     );
@@ -179,7 +179,7 @@ describe('<ContestableIssuesWidget>', () => {
   it('should call getContestableIssues only once, if there was a previous failure', async () => {
     const getContestableIssuesSpy = sinon.spy();
     const props = getProps({
-      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_FAILED },
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
       getContestableIssues: getContestableIssuesSpy,
     });
     const { rerender } = render(
