@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField, getImageUri } from '../../util/helpers';
+import { validateField, getImageUri, dateFormat } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
@@ -44,7 +44,7 @@ const VaPrescription = prescription => {
               Request refills by this prescription expiration date
             </h3>
             <p data-testid="expiration-date">
-              {validateField(prescription.expirationDate, 'date')}
+              {dateFormat(prescription.expirationDate)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
@@ -56,7 +56,7 @@ const VaPrescription = prescription => {
               Prescribed on
             </h3>
             <p datat-testid="ordered-date">
-              {validateField(prescription.orderedDate, 'date')}
+              {dateFormat(prescription.orderedDate)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
@@ -134,13 +134,13 @@ const VaPrescription = prescription => {
                   Filled by pharmacy on
                 </h4>
                 <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {validateField(entry.dispensedDate, 'date')}
+                  {dateFormat(entry.dispensedDate)}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Shipped on
                 </h4>
                 <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
+                  {dateFormat(shippedOn?.[i]?.completeDateTime)}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Image of the medication or supply
