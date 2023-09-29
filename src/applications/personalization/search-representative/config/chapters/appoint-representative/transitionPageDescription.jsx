@@ -17,15 +17,6 @@ const TransitionPageDescription = props => {
   return (
     <>
       <RepCard preferredRepresentative={props.preferredRepresentative} />
-      <SaveInProgressIntro
-        buttonOnly
-        unauthStartText="Sign in and search for a representative"
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        formConfig={formConfig}
-        pageList={pageList}
-        downtime={formConfig.downtime}
-      />
       <va-alert status="warning">
         <h3 slot="headline">Before you continue</h3>
         <div>
@@ -35,6 +26,15 @@ const TransitionPageDescription = props => {
           </p>
         </div>
       </va-alert>
+      <SaveInProgressIntro
+        buttonOnly
+        unauthStartText="Sign in and search for a representative"
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        formConfig={formConfig}
+        pageList={pageList}
+        downtime={formConfig.downtime}
+      />
       <p className="vads-u-padding-top--4 vads-u-padding-bottom--4">
         Continue to the next step to pre-fill the Appointment Form 21-22a for
         this selected representative
@@ -51,7 +51,4 @@ TransitionPageDescription.propTypes = {
   preferredRepresentative: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  {},
-)(TransitionPageDescription);
+export default connect(mapStateToProps, {})(TransitionPageDescription);
