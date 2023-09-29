@@ -7,6 +7,7 @@ export const PAW_UPDATE_ORANGE_2_2_3 = 'pact-act/PAW_UPDATE_ORANGE_2_2_3';
 export const PAW_UPDATE_BURN_PIT_2_1 = 'pact-act/PAW_UPDATE_BURN_PIT_2_1';
 export const PAW_UPDATE_BURN_PIT_2_1_1 = 'pact-act/PAW_UPDATE_BURN_PIT_2_1_1';
 export const PAW_UPDATE_BURN_PIT_2_1_2 = 'pact-act/PAW_UPDATE_BURN_PIT_2_1_2';
+export const PAW_UPDATE_FORM_STORE = 'pact-act/PAW_UPDATE_FORM_STORE';
 export const PAW_UPDATE_SERVICE_PERIOD = 'pact-act/PAW_UPDATE_SERVICE_PERIOD';
 export const PAW_VIEWED_INTRO_PAGE = 'pact-act/PAW_VIEWED_INTRO_PAGE';
 export const PAW_VIEWED_RESULTS_PAGE_1 = 'pact-act/PAW_VIEWED_RESULTS_PAGE_1';
