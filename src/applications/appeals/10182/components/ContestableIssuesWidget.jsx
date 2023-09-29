@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -34,8 +34,6 @@ import {
   calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { focusIssue } from '../../shared/utils/focus';
-
-let attempts = 0;
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget
@@ -74,11 +72,15 @@ const ContestableIssuesWidget = props => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
+  const hasAttempted = useRef(false);
 
   useEffect(
     () => {
-      if (attempts < 1 && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED) {
-        attempts += 1; // only attempt reload once
+      if (
+        !hasAttempted.current &&
+        apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED
+      ) {
+        hasAttempted.current = true; // only call API once if previously failed
         getContestableIssues();
       }
     },
