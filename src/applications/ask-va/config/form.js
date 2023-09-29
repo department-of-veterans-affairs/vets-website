@@ -19,6 +19,17 @@ import submitterContactPage from './chapters/submitterInformation/submitterConta
 // Contact Information
 import veteransAddressPage from './chapters/contactInformation/veteransAddress';
 
+import ReviewPage from '../containers/ReviewPage';
+
+const review = {
+  uiSchema: {},
+  schema: {
+    definitions: {},
+    type: 'object',
+    properties: {},
+  },
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -44,11 +55,18 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for ask the va test.',
   },
-  title: 'Ask VA',
+  title: '',
   defaultDefinitions: {},
+  formOptions: {
+    noTitle: true,
+    noTopNav: true,
+    // noBottomNav: true,
+    fullWidth: true,
+  },
   chapters: {
     categoryAndTopic: {
       title: 'Category and Topic',
+      // disableOnReview: true,
       pages: {
         selectCategory: {
           path: 'category-topic-1',
@@ -79,6 +97,7 @@ const formConfig = {
     },
     submitterInfo: {
       title: "Submitter's Information",
+      // disableOnReview: true,
       pages: {
         submitterContactInfo: {
           path: 'submitter-info-1',
@@ -96,6 +115,19 @@ const formConfig = {
           title: 'Veteran Address',
           uiSchema: veteransAddressPage.uiSchema,
           schema: veteransAddressPage.schema,
+        },
+      },
+    },
+    review: {
+      title: 'Review and submit',
+      pages: {
+        reviewForm: {
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: review.uiSchema,
+          schema: review.schema,
         },
       },
     },
