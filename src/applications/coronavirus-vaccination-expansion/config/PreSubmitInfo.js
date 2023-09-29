@@ -41,16 +41,18 @@ const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
         label="I have been provided access to VA's Notice of Privacy Practices."
         error={privacyErrorMessage}
         required
-      />
-      <a
-        id="kif-privacy-policy"
-        className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4"
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.va.gov/files/2022-10/10-163p_(004)_-Notices_of_Privacy_Practices-_PRINT_ONLY.pdf"
       >
-        VA’s Notice of Privacy Practices.
-      </a>{' '}
+        <span slot="description">
+          <a
+            id="kif-privacy-policy"
+            target="_blank"
+            rel="noreferrer"
+            href="https://www.va.gov/files/2022-10/10-163p_(004)_-Notices_of_Privacy_Practices-_PRINT_ONLY.pdf"
+          >
+            VA’s Notice of Privacy Practices.
+          </a>
+        </span>
+      </VaCheckbox>{' '}
       <VaCheckbox
         id="truthfulness-checkbox"
         class="vads-u-margin-top--3"
@@ -65,16 +67,13 @@ const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
       also read and accept the privacy policy."
         error={truthfulnessErrorMessage}
         required
-      />
-      <span>
-        <a
-          className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4"
-          target="_blank"
-          href="/privacy-policy/"
-        >
-          VA.gov Privacy Policy
-        </a>
-      </span>
+      >
+        <span slot="description">
+          <a target="_blank" href="/privacy-policy/">
+            VA.gov Privacy Policy
+          </a>
+        </span>
+      </VaCheckbox>
     </>
   );
 };
