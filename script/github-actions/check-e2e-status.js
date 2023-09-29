@@ -51,7 +51,7 @@ if (TESTS_BLOCKING_MERGE.length > 0) {
     };
   });
   core.exportVariable(
-    `${process.env.TEST_TYPE}-annotations-json`,
+    `${process.env.TEST_TYPE.toUpperCase()}_ANNOTATIONS_JSON`,
     JSON.stringify(annotationsJson),
   );
   // core.setFailed(
@@ -61,7 +61,7 @@ if (TESTS_BLOCKING_MERGE.length > 0) {
   // );
 } else {
   core.exportVariable(
-    `${process.env.TEST_TYPE}-annotations-json`,
+    `${process.env.TEST_TYPE.toUpperCase()}_ANNOTATIONS_JSON`,
     JSON.stringify([]),
   );
 }

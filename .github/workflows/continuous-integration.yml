@@ -226,13 +226,13 @@ jobs:
       - name: Create E2E annotations file
         if: ${{ env.e2e-annotations-json != '[]' }}
         run: |
-          echo "$ANNOTATIONS_JSON" > e2e-annotations.json
+          echo "$E2E_ANNOTATIONS_JSON" > e2e-annotations.json
           cat e2e-annotations.json
 
       - name: Create Unit Test annotations file
         if: ${{ env.e2e-annotations-json != '[]' }}
         run: |
-          echo "$ANNOTATIONS_JSON" > unit-test-annotations.json
+          echo "$UNIT_TEST_ANNOTATIONS_JSON" > unit-test-annotations.json
           cat unit-test-annotations.json
 
       - name: Annotate E2E Files accordingly
