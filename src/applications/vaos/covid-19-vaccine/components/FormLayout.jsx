@@ -44,6 +44,6 @@ export default function FormLayout({ children, pageTitle }) {
   );
 }
 FormLayout.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
   pageTitle: PropTypes.string,
 };
