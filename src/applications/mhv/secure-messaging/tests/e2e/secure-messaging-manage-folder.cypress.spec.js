@@ -1,15 +1,13 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
-// import MockFoldersResponse from './fixtures/folder-response.json';
-// import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
-// import mockCustomFolderNoMessages from './fixtures/empty-thread-response.json';
-import createdFolderResponse from './fixtures/customResponse/ctreated-folder-response.json';
+import createdFolderResponse from './fixtures/customResponse/created-folder-response.json';
 import mockFolders from './fixtures/generalResponses/folders.json';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Paths } from './utils/constants';
+import mockFolderWithoutMessages from './fixtures/customResponse/folder-no-messages-response.json';
 
-describe('Secure Messaging Manage Folder AXE check', () => {
+describe('create custom folder', () => {
   const folderPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
@@ -21,7 +19,7 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     landingPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList();
   });
-  it('Create Folder Success Check', () => {
+  it('verify create folder success message', () => {
     PatientMessageCustomFolderPage.createCustomFolder(newFolder);
     folderPage.verifyCreateFolderSuccessMessage();
     cy.injectAxe();
@@ -33,44 +31,53 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       },
     });
   });
-  it.skip('Check Delete Folder Success', () => {
-    const folderName = createdFolderResponse.data.attributes.name;
-    // const folderId = createdFolderResponse.data.attributes;
+});
+describe('delete custom folder', () => {
+  const folderPage = new FolderManagementPage();
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const folderName = createdFolderResponse.data.attributes.name;
+  const { folderId } = createdFolderResponse.data.attributes;
+  before(() => {
+    site.login();
+    landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/${folderId}?useCache=false`,
+      createdFolderResponse,
+    ).as('singleFolder');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/${folderId}/threads?*`,
+      mockFolderWithoutMessages,
+    ).as('singleFolderThread');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
+      mockFolderWithoutMessages,
+    ).as('foldersWithZero');
 
     cy.contains(folderName).click({ waitForAnimations: true });
+  });
+  it('verify delete folder success message', () => {
+    mockFolders.data.pop(createdFolderResponse.data);
 
-    // PatientMessageCustomFolderPage.loadSingleFolder(200, folderId, folderName);
-    // const folderWithoutMessages = {
-    //   errors: [
-    //     {
-    //       title: 'Operation failed',
-    //       detail: 'No messages in the requested folder',
-    //       code: 'VA900',
-    //       status: '400',
-    //     },
-    //   ],
-    // };
+    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
+      statusCode: 204,
+    }).as('deleteFolder');
 
-    // cy.intercept(
-    //   'GET',
-    //   `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-    //   createdFolderResponse,
-    // ).as('singleFolderThread');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page=1&per_page=999&useCache=false',
+      mockFolders,
+    ).as('updatedFoldersList');
 
-    // cy.contains(folderName).click();
-    // folderPage.clickAndLoadCustomFolder(
-    //   folderName,
-    //   folderId,
-    //   createdFolderResponse,
-    //   folderWithoutMessages,
-    // );
+    folderPage.deleteFolder();
 
-    // cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
-    //   statusCode: 204,
-    // }).as('deleteFolder');
-    // folderPage.deleteFolder();
-
-    // folderPage.verifyDeleteSuccessMessage();
+    folderPage.verifyDeleteSuccessMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

@@ -4,7 +4,7 @@ import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators } from '../utils/constants';
-import createdFolderResponse from '../fixtures/customResponse/ctreated-folder-response.json';
+import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -38,38 +38,6 @@ class PatientMessageCustomFolderPage {
         cy.stub(win, 'print');
       },
     });
-  };
-
-  loadSingleFolder = (foldersStatus = 200, folderId, folderName) => {
-    const errorResponse = {
-      errors: [
-        {
-          title: 'Operation failed',
-          detail: 'No messages in the requested folder',
-          code: 'VA900',
-          status: '400',
-        },
-      ],
-    };
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`,
-      createdFolderResponse,
-    ).as('singleFolder');
-
-    if (foldersStatus === 200) {
-      cy.intercept(
-        'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
-        mockFolders,
-      ).as('folders');
-    } else {
-      cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
-        statusCode: 400,
-        body: errorResponse,
-      }).as('folders');
-    }
-    cy.contains(folderName).click();
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
