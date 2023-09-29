@@ -139,7 +139,7 @@ export const getAlreadySubmittedIntentText = (
 };
 
 export const getAlreadySubmittedTitle = (data, response) => {
-  if (data.benefitSelection === 'compensation,Pension') {
+  if (data.benefitSelection === 'Compensation,Pension') {
     if (response?.compensationIntent?.status === 'active') {
       return 'You’ve already submitted an intent to file for a disability compensation claim';
     }
@@ -153,7 +153,7 @@ export const getAlreadySubmittedTitle = (data, response) => {
 };
 
 export const getAlreadySubmittedText = (data, response, expirationDate) => {
-  if (data.benefitSelection === 'compensation,Pension') {
+  if (data.benefitSelection === 'Compensation,Pension') {
     if (response?.compensationIntent?.status === 'active') {
       return `Our records show that you already have an Intent to File (ITF) for disability compensation. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
     }

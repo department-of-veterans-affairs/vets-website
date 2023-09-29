@@ -10,7 +10,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Phone and email address'),
+    ...titleUI('Phone and email address'),
     phone: phoneUI('Phone number'),
     internationalPhone: phoneUI('International phone number'),
     email: emailUI('Email address'),

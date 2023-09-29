@@ -11,7 +11,7 @@ import React from 'react';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Your name'),
+    ...titleUI('Your name'),
     'view:description': descriptionUI(
       <p>
         <b>Note:</b> If you’re a representative who is recognized by the VA to

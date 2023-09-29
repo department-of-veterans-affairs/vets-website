@@ -20,7 +20,6 @@ export default {
       },
     },
     additionalInfo: {
-      'ui:title': '',
       'ui:widget': VaAdditionalInfo,
       'ui:description': (
         <va-additional-info trigger="What's an intent to file?">

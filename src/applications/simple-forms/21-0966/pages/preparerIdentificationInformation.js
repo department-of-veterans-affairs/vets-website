@@ -8,7 +8,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Identification information'),
+    ...titleUI('Identification information'),
     preparerId: ssnOrVaFileNumberUI(),
   },
   schema: {

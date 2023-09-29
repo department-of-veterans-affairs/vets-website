@@ -8,7 +8,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Veteran’s identification information'),
+    ...titleUI('Veteran’s identification information'),
     veteranId: ssnOrVaFileNumberUI(),
   },
   schema: {
