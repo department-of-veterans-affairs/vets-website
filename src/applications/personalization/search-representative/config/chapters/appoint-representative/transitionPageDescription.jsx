@@ -2,37 +2,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import {
+  createPageList,
+  createFormPageList,
+} from 'platform/forms-system/src/js/helpers';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import formConfig from '../../form';
+import RepCard from '../../../components/RepCard';
+
 const TransitionPageDescription = props => {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+
   return (
     <>
+      <RepCard preferredRepresentative={props.preferredRepresentative} />
+      <SaveInProgressIntro
+        buttonOnly
+        unauthStartText="Sign in and search for a representative"
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        formConfig={formConfig}
+        pageList={pageList}
+        downtime={formConfig.downtime}
+      />
       <va-alert status="warning">
-        <h3 slot="headline">You aren’t finished yet</h3>
+        <h3 slot="headline">Before you continue</h3>
         <div>
           <p>
-            Your representation is not official until the completed form has
-            been signed by both you and your selected representative and has
-            been proccessed by the VA.{' '}
+            Keep in mind, appointing this representative will replace your
+            current representative.
           </p>
         </div>
       </va-alert>
       <p className="vads-u-padding-top--4 vads-u-padding-bottom--4">
-        After you have contacted the accredited representative you want to use
-        to find out if they’re available, continue this form to create a
-        pre-filled PDF Form to submit.
+        Continue to the next step to pre-fill the Appointment Form 21-22a for
+        this selected representative
       </p>
-      <div className="vads-u-margin-top--4 vads-u-background-color--gray-lightest vads-u-padding--4">
-        <p className="vads-u-margin-top--0 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
-          {props?.preferredRepresentative?.name}
-        </p>
-        <p className="vads-u-font-weight--bold">
-          {props?.preferredRepresentative?.type}
-        </p>
-        <p>{props?.preferredRepresentative?.address}</p>
-        <p>{props?.preferredRepresentative?.city}</p>
-        <p className="vads-u-margin-bottom--0">
-          {props?.preferredRepresentative?.phone}
-        </p>
-      </div>
     </>
   );
 };
@@ -45,7 +51,4 @@ TransitionPageDescription.propTypes = {
   preferredRepresentative: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  {},
-)(TransitionPageDescription);
+export default connect(mapStateToProps, {})(TransitionPageDescription);
