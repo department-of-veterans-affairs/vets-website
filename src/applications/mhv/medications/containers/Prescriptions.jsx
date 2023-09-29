@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getPrescriptionsList,
-  setSortedRxList,
-} from '../actions/prescriptions';
+import { getPrescriptionsList } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
@@ -22,11 +19,16 @@ const Prescriptions = () => {
   );
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
-  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
+  const pagination = useSelector(
+    state => state.rx.prescriptions?.prescriptionsPagination,
+  );
+  const defaultSortEndpoint =
+    rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT;
   const [pdfList, setPdfList] = useState([]);
-  const [sortOption, setSortOption] = useState('');
+  const [sortEndpoint, setSortEndpoint] = useState(defaultSortEndpoint);
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const topAlert = () => {
     return (
@@ -74,20 +76,9 @@ const Prescriptions = () => {
     );
   };
 
-  const sortRxList = useCallback(
-    () => {
-      if (sortOption) {
-        const newList = [...prescriptions];
-        newList.sort(a => {
-          return a.refillStatus?.toLowerCase() === sortOption.toLowerCase()
-            ? -1
-            : 0;
-        });
-        dispatch(setSortedRxList(newList));
-      }
-    },
-    [dispatch, prescriptions, sortOption],
-  );
+  const sortRxList = endpoint => {
+    setSortEndpoint(endpoint);
+  };
 
   const buildPrescriptionPDFList = useCallback(
     () => {
@@ -184,9 +175,11 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      dispatch(getPrescriptionsList()).then(() => setLoading(false));
+      dispatch(getPrescriptionsList(currentPage, sortEndpoint)).then(() =>
+        setLoading(false),
+      );
     },
-    [dispatch],
+    [dispatch, currentPage, sortEndpoint],
   );
 
   useEffect(
@@ -261,16 +254,15 @@ const Prescriptions = () => {
             <div className="no-print">
               <PrintDownload download={handleDownloadPDF} list />
               <BeforeYouDownloadDropdown />
-              <MedicationsListSort
-                setSortOption={setSortOption}
-                sortOption={sortOption}
-                defaultSortOption={defaultSortOption}
-                sortRxList={sortRxList}
-              />
+              <MedicationsListSort sortRxList={sortRxList} />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
             </div>
             {prescriptions ? (
-              <MedicationsList rxList={prescriptions} />
+              <MedicationsList
+                rxList={prescriptions}
+                pagination={pagination}
+                setCurrentPage={setCurrentPage}
+              />
             ) : (
               <MedicationsList rxList={[]} />
             )}
