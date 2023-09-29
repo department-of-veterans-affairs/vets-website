@@ -11,15 +11,6 @@ export const accountTitleLabels = {
   NOBANK: 'No Bank Account',
 };
 
-const directDepositAlert = (
-  <p>
-    Thank you for providing your direct deposit information.{' '}
-    <strong>This new account won’t be updated right away.</strong> We’ll deposit
-    your housing stipend into this account if your VET TEC application is
-    approved.
-  </p>
-);
-
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
   const bankAccount = _.get(formData, 'bankAccount', {});
   const {
@@ -61,7 +52,10 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p>Bank routing number: {maskBankInformation(bankRoutingNumber, 4)}</p>
       </div>
       <VaAlert visible={hasNewBankAccountInfo} status="success">
-        {directDepositAlert}
+        Thank you for providing your direct deposit information.{' '}
+        <strong>This new account won’t be updated right away.</strong> We’ll
+        deposit your housing stipend into this account if your VET TEC
+        application is approved.
       </VaAlert>
     </div>
   );

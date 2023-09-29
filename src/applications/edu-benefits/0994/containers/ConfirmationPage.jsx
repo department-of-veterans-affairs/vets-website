@@ -35,15 +35,13 @@ class ConfirmationPage extends React.Component {
       <ConfirmationPageContent
         afterTitleContent={
           <VaAlert visible={!appliedForVaEducationBenefits} status="warning">
-            <div>
-              <h3 slot="headline">
-                Don’t forget to apply for VA education benefits
-              </h3>
-              Now that you've submitted your application for VET TEC, you’ll
-              need to complete an Application for VA Education Benefits (VA Form
-              22-1990). Click the button on the bottom of this page to go to
-              that application.
-            </div>
+            <h3 slot="headline">
+              Don’t forget to apply for VA education benefits
+            </h3>
+            Now that you've submitted your application for VET TEC, you’ll need
+            to complete an Application for VA Education Benefits (VA Form
+            22-1990). Click the button on the bottom of this page to go to that
+            application.
           </VaAlert>
         }
         additionalGuidance={
