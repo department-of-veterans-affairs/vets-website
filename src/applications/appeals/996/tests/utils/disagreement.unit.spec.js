@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   copyAreaOfDisagreementOptions,
   calculateOtherMaxLength,
-} from '../../utils/disagreement';
+} from '../../../shared/utils/areaOfDisagreement';
 
 import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../../shared/constants';
 
