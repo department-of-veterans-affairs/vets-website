@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-unresolved
@@ -20,6 +21,7 @@ const UpcomingAppointmentsList = props => {
   const { jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { upcomingAppointments } = useSelector(selectVeteranData);
+  const { t } = useTranslation();
 
   const groupedAppointments = organizeAppointmentsByYearMonthDay(
     upcomingAppointments,
@@ -44,26 +46,25 @@ const UpcomingAppointmentsList = props => {
   return (
     <>
       {groupedAppointments.map(month => {
-        const { monthYearKey, days } = month;
-
+        const { firstAppointmentStartTime, days } = month;
+        const monthDate = new Date(firstAppointmentStartTime);
         return (
-          <div key={monthYearKey}>
+          <div key={firstAppointmentStartTime}>
             <h3 data-testid="appointments-list-monthyear-heading">
-              {`${monthYearKey.split('-')[1]} ${monthYearKey.split('-')[0]}`}
+              {t('date-month-and-year', { date: monthDate })}
             </h3>
             <ul
               className="vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
               data-testid="appointment-list"
             >
               {days.map((day, dayIndex) => {
-                const { appointments, dayKey } = day;
+                const { appointments } = day;
                 return (
                   <React.Fragment key={dayIndex}>
                     {appointments.map((appointment, index) => {
-                      const dayKeyString = index === 0 ? dayKey : null;
                       return (
                         <UpcomingAppointmentsListItem
-                          dayKey={dayKeyString}
+                          dayKey={index === 0}
                           key={`${appointment.appointmentIen}-${
                             appointment.stationNo
                           }`}

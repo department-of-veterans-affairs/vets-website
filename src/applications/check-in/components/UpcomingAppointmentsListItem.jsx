@@ -32,10 +32,10 @@ const UpcomingAppointmentsListItem = props => {
                 data-testid="day-label"
               >
                 <p className="vads-u-line-height--2">
-                  {`${dayKey.split('-')[0]} `}
+                  {t('date-day-of-week', { date: appointmentDateTime })}
                   <br />
                   <span className="vads-u-font-size--md vads-u-font-weight--bold">
-                    {dayKey.split('-')[1]}
+                    {t('date-day-of-month', { date: appointmentDateTime })}
                   </span>
                 </p>
               </div>
@@ -113,7 +113,7 @@ const UpcomingAppointmentsListItem = props => {
 
 UpcomingAppointmentsListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
-  dayKey: PropTypes.string,
+  dayKey: PropTypes.bool,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
 };
