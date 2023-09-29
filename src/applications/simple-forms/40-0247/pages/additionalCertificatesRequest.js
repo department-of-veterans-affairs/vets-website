@@ -1,64 +1,71 @@
 import React from 'react';
 
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { uiSchema, schema } from 'platform/forms/definitions/address';
+import {
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
+} from 'platform/forms-system/src/js/web-component-patterns/addressPattern.jsx';
+import {
+  titleUI,
+  titleSchema,
+} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
-// TODO: Once v3-web-component VaNumberInput's available,
-// refactor this whole page to use v3-web-components.
 export default {
   uiSchema: {
-    additionalAddress: uiSchema(
-      () => (
-        <>
-          <p className="vads-u-font-size--h3 vads-u-margin-top--0">
-            Where should we send your additional certificates?
-          </p>
-          <p className="vads-u-margin-bottom--0">Additional address</p>
-        </>
-      ),
-      false,
+    ...titleUI(
+      'Where should we send your additional certificates?',
+      <span className="custom-label h4">Additional address</span>,
     ),
-    additionalCopies: {
-      // TODO: sync w/ Forgers on pattern refactors, then remove hack below
+    additionalAddress: addressNoMilitaryUI({
+      omit: ['isMilitary', 'street3'],
+      required: true,
+    }),
+    'view:title2': {
       'ui:title': (
-        <>
-          <span className="custom-label h4">
-            How many certificates should we send to this address?
-          </span>{' '}
-          <span className="custom-required">(*Required)</span>
-          <br />
-          <span className="custom-hint">
-            You may request up to 99 certificates
-          </span>
-        </>
-      ),
-      'ui:errorMessages': {
-        required: 'Please provide the number of certificates you would like',
-        minimum:
-          'Please raise the number of certificates to at least 1, you can request up to 99',
-        maximum:
-          'Please lower the number of certificates, you can only request up to 99',
-      },
-      'ui:reviewField': ({ children }) => (
-        <div className="review-row">
-          <dt>
-            <span className="vads-u-font-size--base">
-              How many certificates should we send to your address?
-            </span>
-          </dt>
-          <dd>{children}</dd>
-        </div>
+        <h4 className="vads-u-margin-y--0">Number of certificates</h4>
       ),
     },
+    additionalCopies: {
+      'ui:title': 'How many certificates should we send to this address?',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        hint: 'You may request up to 99 certificates',
+        inputmode: 'numeric',
+      },
+      'ui:errorMessages': {
+        required:
+          'Please provide the number of certificates you’d like to request',
+        pattern:
+          'Please enter a valid number of certificates, between 1 and 99',
+      },
+    },
+    'ui:validations': [
+      (errors, field) => {
+        const { additionalCopies } = field;
+        const nbrCopies = parseInt(additionalCopies, 10);
+        if (nbrCopies < 1) {
+          errors.additionalCopies.addError(
+            'Please raise the number of certificates to at least 1, you may request up to 99.',
+          );
+        } else if (nbrCopies > 99) {
+          errors.additionalCopies.addError(
+            'Please lower the number of certificates, you may only request up to 99.',
+          );
+        }
+      },
+    ],
   },
   schema: {
     type: 'object',
     properties: {
-      additionalAddress: schema({ definitions }, true, 'address'),
+      'view:title1': titleSchema,
+      additionalAddress: addressNoMilitarySchema({
+        omit: ['isMilitary', 'street3'],
+      }),
+      'view:title2': titleSchema,
       additionalCopies: {
-        type: 'number',
-        minimum: 1,
-        maximum: 99,
+        type: 'string',
+        pattern: '^\\d*$',
       },
     },
     required: ['additionalAddress', 'additionalCopies'],
