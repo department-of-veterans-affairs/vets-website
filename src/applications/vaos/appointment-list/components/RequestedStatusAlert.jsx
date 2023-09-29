@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoAlert from '../../components/InfoAlert';
 import {
@@ -10,19 +10,16 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+// eslint-disable-next-line import/no-restricted-paths
+import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
-function handleClick(history, dispatch, featureBreadcrumbUrlUpdate) {
+function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(
-      featureBreadcrumbUrlUpdate
-        ? '/schedule/type-of-care'
-        : `/new-appointment`,
-    );
+    history.push(typeOfCare.url);
   };
 }
 
@@ -30,9 +27,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const { search } = useLocation();
-  const featureBreadcrumbUrlUpdate = useSelector(
-    selectFeatureBreadcrumbUrlUpdate,
-  );
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
 
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
@@ -64,11 +59,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             <br />
             <div className=" vads-u-margin-top--1">
               <va-link
-                href={
-                  featureBreadcrumbUrlUpdate
-                    ? `/my-health/appointments`
-                    : '/health-care/schedule-view-va-appointments/appointments/'
-                }
+                href={root.url}
                 onClick={() =>
                   recordEvent({
                     event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
@@ -80,11 +71,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             </div>
             <div className=" vads-u-margin-top--1">
               <va-link
-                onClick={handleClick(
-                  history,
-                  dispatch,
-                  featureBreadcrumbUrlUpdate,
-                )}
+                onClick={handleClick(history, dispatch, typeOfCare)}
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
               />
