@@ -24,18 +24,15 @@ const AttachmentsList = props => {
     return `${num} B`;
   };
 
-  useEffect(
-    () => {
-      if (
-        attachments?.length > 0 &&
-        editingEnabled &&
-        attachmentReference.current
-      ) {
-        focusElement(attachmentReference.current);
-      }
-    },
-    [attachments, editingEnabled],
-  );
+  useEffect(() => {
+    if (
+      attachments?.length > 0 &&
+      editingEnabled &&
+      attachmentReference.current
+    ) {
+      focusElement(attachmentReference.current);
+    }
+  }, [attachments, editingEnabled]);
 
   const removeAttachment = file => {
     const newAttArr = attachments.filter(item => {
@@ -60,7 +57,7 @@ const AttachmentsList = props => {
   };
   return (
     <div>
-      <div className="message-body-attachments-label vads-u-margin-bottom--1">
+      <div className="message-bodyy-attachments-label vads-u-margin-bottom--1">
         Attachments
       </div>
       {editingEnabled && <HowToAttachFiles />}

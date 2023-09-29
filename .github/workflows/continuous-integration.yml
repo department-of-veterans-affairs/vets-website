@@ -136,7 +136,7 @@ jobs:
       - name: Check if code can be merged (Unit Test Verification)
         run: node script/github-actions/check-e2e-status.js
         env:
-          TEST_TYPE: unit
+          TEST_TYPE: unit_test
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
   build:
     name: Build
