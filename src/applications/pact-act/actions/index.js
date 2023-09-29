@@ -8,6 +8,7 @@ import {
   PAW_UPDATE_BURN_PIT_2_1,
   PAW_UPDATE_BURN_PIT_2_1_1,
   PAW_UPDATE_BURN_PIT_2_1_2,
+  PAW_UPDATE_FORM_STORE,
   PAW_UPDATE_SERVICE_PERIOD,
   PAW_VIEWED_INTRO_PAGE,
   PAW_VIEWED_RESULTS_PAGE_1,
@@ -93,6 +94,13 @@ export const updateOrange222 = value => {
 export const updateOrange223 = value => {
   return {
     type: PAW_UPDATE_ORANGE_2_2_3,
+    payload: value,
+  };
+};
+
+export const updateFormStore = value => {
+  return {
+    type: PAW_UPDATE_FORM_STORE,
     payload: value,
   };
 };
