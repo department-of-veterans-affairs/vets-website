@@ -5,7 +5,7 @@ const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 
-const mergeCheckType = function() {
+const mergeCheckType = (function() {
   switch (process.env.TEST_TYPE) {
     case 'unit_test':
       return 'Unit Test';
@@ -14,7 +14,7 @@ const mergeCheckType = function() {
     default:
       return 'E2E';
   }
-};
+})();
 const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`)),
 );
