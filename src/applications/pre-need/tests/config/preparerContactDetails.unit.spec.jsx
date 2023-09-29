@@ -2,14 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-
 import {
   getFormDOM,
   DefinitionTester,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import configureMockStore from 'redux-mock-store';
-import { $$ } from '../../../appeals/996/utils/ui';
-
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
