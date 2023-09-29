@@ -1,10 +1,20 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 
-// const core = require('@actions/core');
+const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 
+const mergeCheckType = function() {
+  switch (process.env.TEST_TYPE) {
+    case 'unit_test':
+      return 'Unit Test';
+    case 'e2e':
+      return 'E2E';
+    default:
+      return 'E2E';
+  }
+};
 const ALLOW_LIST = JSON.parse(
   fs.readFileSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`)),
 );
@@ -27,6 +37,34 @@ const TESTS_BLOCKING_MERGE = DISALLOWED_SPECS.filter(specPath =>
 console.log(CHANGED_APPS);
 console.log(DISALLOWED_SPECS);
 console.log(TESTS_BLOCKING_MERGE);
+
+if (TESTS_BLOCKING_MERGE.length > 0) {
+  const annotationsJson = TESTS_BLOCKING_MERGE.map(spec => {
+    return {
+      path: spec,
+      start_line: 1,
+      end_line: 1,
+      title: `${mergeCheckType} Allow List Merge Block Warning`,
+      message:
+        'This spec is currently disallowed from running due to flakiness. Currently there is a grace period, beginning on October 4, to allow time for tests to be corrected. If not corrected by November 6, this application will be blocked from merging code changes.',
+      annotation_level: 'warning',
+    };
+  });
+  core.exportVariable(
+    `${process.env.TEST_TYPE}-annotations-json`,
+    JSON.stringify(annotationsJson),
+  );
+  core.setFailed(
+    `This PR contains code to test specs that are disallowed for flakiness. Currently there is a grace period, beginning on October 4, to allow time for tests to be corrected. If not corrected by November 6, this application will be blocked from merging code changes. The file paths causing this status are: \n ${TESTS_BLOCKING_MERGE.join(
+      '\n',
+    )}`,
+  );
+} else {
+  core.exportVariable(
+    `${process.env.TEST_TYPE}-annotations-json`,
+    JSON.stringify([]),
+  );
+}
 
 // function getDaysSinceDate(diff) {
 //   if (!diff) {

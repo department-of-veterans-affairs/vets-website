@@ -188,6 +188,7 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
@@ -221,6 +222,33 @@ jobs:
         env:
           TEST_TYPE: unit_test
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create E2E annotations file
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        run: |
+          echo "$ANNOTATIONS_JSON" > e2e-annotations.json
+          cat annotations.json
+
+      - name: Create Unit Test annotations file
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        run: |
+          echo "$ANNOTATIONS_JSON" > unit-test-annotations.json
+          cat annotations.json
+
+      - name: Annotate E2E Files accordingly
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'E2E Allow List Annotations'
+          input: './e2e-annotations.json'
+
+      - name: Annotate Unit Test Files accordingly
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'E2E Allow List Annotations'
+          input: './unit-test-annotations.json'
+
   unit-tests:
     name: Unit Tests
     needs: [fetch-allow-lists]
