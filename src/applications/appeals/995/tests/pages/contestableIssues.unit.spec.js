@@ -3,10 +3,10 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-
-import { $ } from '../../utils/ui';
 
 import formConfig from '../../config/form';
 import maximalData from '../fixtures/data/maximal-test.json';

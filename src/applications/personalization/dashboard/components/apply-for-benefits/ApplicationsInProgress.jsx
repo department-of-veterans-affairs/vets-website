@@ -2,10 +2,7 @@ import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import {
-  isLOA3 as isLOA3Selector,
-  selectProfile,
-} from '~/platform/user/selectors';
+import { selectProfile } from '~/platform/user/selectors';
 
 import {
   filterOutExpiredForms,
@@ -18,7 +15,7 @@ import {
 
 import ApplicationInProgress from './ApplicationInProgress';
 
-const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
+const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
@@ -29,8 +26,8 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
     [savedForms],
   );
 
-  // if LOA3 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
-  const emptyStateText = isLOA3
+  // if LOA1 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
+  const emptyStateText = isLOA1
     ? 'You have no benefit application drafts to show.'
     : 'You have no applications in progress.';
 
@@ -83,16 +80,13 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA3 }) => {
 
 ApplicationsInProgress.propTypes = {
   hideH3: PropTypes.bool,
-  isLOA3: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   savedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => {
-  const isLOA3 = isLOA3Selector(state);
-
   return {
     savedForms: selectProfile(state).savedForms || [],
-    isLOA3,
   };
 };
 

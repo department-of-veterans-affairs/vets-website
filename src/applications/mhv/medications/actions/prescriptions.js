@@ -1,5 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import { getPrescription, getPrescriptionList, fillRx } from '../api/rxApi';
+import { getAllergies } from '../../medical-records/api/MrApi';
 
 export const setSortedRxList = rxList => async dispatch => {
   dispatch({ type: Actions.Prescriptions.SET_SORTED_LIST, rxList });
@@ -12,6 +13,17 @@ export const getPrescriptionsList = (
   try {
     const response = await getPrescriptionList(pageNumber, sortEndpoint);
     dispatch({ type: Actions.Prescriptions.GET_LIST, response });
+    return null;
+  } catch (error) {
+    return error;
+  }
+};
+
+// TODO: consider re-using this action from medical-records
+export const getAllergiesList = () => async dispatch => {
+  try {
+    const response = await getAllergies();
+    dispatch({ type: Actions.Allergies.GET_LIST, response });
     return null;
   } catch (error) {
     return error;
