@@ -246,7 +246,7 @@ jobs:
         uses: yuzutech/annotations-action@v0.4.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'E2E Allow List Annotations'
+          title: 'Unit Test Allow List Annotations'
           input: './unit-test-annotations.json'
 
   unit-tests:
