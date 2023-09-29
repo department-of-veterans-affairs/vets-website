@@ -5,6 +5,9 @@ import { VaNumberInput } from '@department-of-veterans-affairs/component-library
 import { isValidCurrency } from '../../utils/validations';
 import { safeNumber } from '../../utils/calculateIncome';
 
+const CASH_IN_BANK = 'Cash in a bank (savings and checkings)';
+const CASH_ON_HAND = 'Cash on hand (not in bank)';
+
 const CashInBank = ({
   contentBeforeButtons,
   contentAfterButtons,
@@ -14,11 +17,14 @@ const CashInBank = ({
   setFormData,
 }) => {
   const { assets, gmtData } = data;
-  const { cashOnHand = 0, monetaryAssets = [] } = assets;
+  const { monetaryAssets = [] } = assets;
 
-  const cashInBankTotal = monetaryAssets.find(
-    f => f.name === 'Cash in a bank (savings and checkings)',
-  ) ?? { name: 'Cash in a bank (savings and checkings)', amount: '' };
+  const cashInBankTotal = monetaryAssets.find(f => f.name === CASH_IN_BANK) ?? {
+    amount: '',
+  };
+  const cashOnHandTotal = monetaryAssets.find(f => f.name === CASH_ON_HAND) ?? {
+    amount: '',
+  };
 
   const [cash, setCash] = useState(cashInBankTotal.amount);
   const ERR_MSG = 'Please enter a valid dollar amount';
@@ -29,25 +35,25 @@ const CashInBank = ({
       return setError(ERR_MSG);
     }
 
-    const totalLiquidCash = safeNumber(cash) + safeNumber(cashOnHand);
-
     const newMonetaryAssetsArray = monetaryAssets.filter(
-      asset => asset.name !== 'Cash in a bank (savings and checkings)',
+      asset => asset.name !== CASH_IN_BANK,
     );
+
+    const liquidCash = safeNumber(cash) + safeNumber(cashOnHandTotal);
 
     // update form data & gmtIsShort
     setFormData({
       ...data,
       assets: {
-        ...data.assets,
+        ...assets,
         monetaryAssets: [
           ...newMonetaryAssetsArray,
-          { name: 'Cash in a bank (savings and checkings)', amount: cash },
+          { name: CASH_IN_BANK, amount: cash },
         ],
       },
       gmtData: {
         ...gmtData,
-        assetsBelowGmt: totalLiquidCash < gmtData?.assetThreshold,
+        liquidAssetsBelowGmt: liquidCash < gmtData?.assetThreshold,
       },
     });
 
@@ -106,7 +112,7 @@ CashInBank.propTypes = {
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
     assets: PropTypes.shape({
-      cashInBank: PropTypes.string,
+      monetaryAssets: PropTypes.array,
     }),
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
@@ -117,33 +123,4 @@ CashInBank.propTypes = {
   setFormData: PropTypes.func,
 };
 
-// const CashInBankReview = ({ data }) => {
-//   const { assets } = data;
-//   const { cashInBank } = assets;
-
-//   return (
-//     <div className="form-review-panel-page">
-//       <div className="form-review-panel-page-header-row">
-//         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-//           Cash in bank
-//         </h4>
-//       </div>
-//       <dl className="review">
-//         <div className="review-row">
-//           <dt>Cash in a bank (savings and checkings)</dt>
-//           <dd>{currencyFormatter(cashInBank)}</dd>
-//         </div>
-//       </dl>
-//     </div>
-//   );
-// };
-
-// CashInBankReview.propTypes = {
-//   data: PropTypes.shape({
-//     assets: PropTypes.shape({
-//       cashInBank: PropTypes.string,
-//     }),
-//   }),
-// };
-
-export { CashInBank };
+export default CashInBank;

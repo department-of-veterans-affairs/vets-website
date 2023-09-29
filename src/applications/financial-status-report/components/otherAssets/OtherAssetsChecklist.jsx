@@ -4,6 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = ({
   data,
@@ -13,8 +14,31 @@ const OtherAssetsChecklist = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets } = data;
+  const { assets, gmtData } = data;
   const { otherAssets = [] } = assets;
+
+  // Calculate total assets as necessary
+  // - Calculating these assets is only necessary in the long form version
+  const updateStreamlinedValues = () => {
+    if (
+      otherAssets?.length ||
+      !gmtData?.isEligibleForStreamlined ||
+      gmtData?.incomeBelowGmt
+    )
+      return;
+
+    // liquid assets are caluclated in cash in bank with this ff
+    if (data['view:streamlinedWaiverAssetUpdate']) return;
+
+    const calculatedAssets = calculateLiquidAssets(data);
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+      },
+    });
+  };
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -66,7 +90,7 @@ const OtherAssetsChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={goForward}
+            goForward={updateStreamlinedValues}
             submitToContinue
           />
           {contentAfterButtons}
@@ -91,6 +115,7 @@ OtherAssetsChecklist.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

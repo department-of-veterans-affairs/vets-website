@@ -18,46 +18,6 @@ const MonetaryInputList = props => {
     gmtData,
   } = data;
 
-  // useEffect(() => {
-  //   if (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt) {
-  //     const cashInBank = monetaryAssets.filter(
-  //       asset =>
-  //         asset.name.toLowerCase() === 'checking accounts' &&
-  //         asset.name.toLowerCase() === 'savings accounts',
-  //     );
-
-  //     if (cashInBank.length === 0) return;
-
-  //     const nonLiquidAssets = monetaryAssets.filter(
-  //       asset =>
-  //         asset.name.toLowerCase() !== 'checking accounts' &&
-  //         asset.name.toLowerCase() !== 'savings accounts',
-  //     );
-
-  //     const cashInBankTotal = cashInBank.reduce(
-  //       (total, asset) => total + safeNumber(asset.amount),
-  //       0,
-  //     );
-
-  //     dispatch(
-  //       setData({
-  //         ...data,
-  //         assets: {
-  //           ...data.assets,
-  //           monetaryAssets: [
-  //             ...nonLiquidAssets,
-  //             {
-  //               amount: cashInBankTotal,
-  //               name: 'Cash in a bank (savings and checkings)',
-  //             },
-  //           ],
-  //         },
-  //       }),
-  //     );
-  //   }
-  // }),
-  //   [];
-
   const onChange = ({ target }) => {
     return dispatch(
       setData({
@@ -82,19 +42,35 @@ const MonetaryInputList = props => {
   const prompt =
     'How much are each of your financial assets worth? Include the total amounts for you and your spouse.';
 
-  // removing cash as an option if the user is eligible for streamlined
-  // but the amount of cash they have is above the threshold
+  // noCashList - remove cash in hand for original asset implementation
+  //  only used to protect save in progress for forms prior to streamlinedWaiverAssetUpdate
+  const noCashList = monetaryAssets.filter(
+    asset => asset.toLowerCase() !== 'cash',
+  );
+
+  // noLiquidAssetsList - remove liquid assets for streamlinedWaiverAssetUpdate
+  //  this filter hides all the newly populated fields we collect in previous steps
+  const noLiquidAssetsList = noCashList.filter(
+    asset =>
+      asset.toLowerCase() !== 'checking accounts' &&
+      asset.toLowerCase() !== 'savings accounts' &&
+      asset.toLowerCase() !== 'Cash on hand (not in bank)' &&
+      asset.toLowerCase() !== 'Cash in a bank (savings and checkings)',
+  );
+
+  const streamlinedList = data['view:streamlinedWaiverAssetUpdate']
+    ? noLiquidAssetsList
+    : noCashList;
+
+  // only filtering out these options for streamlined candidiates
   const adjustForStreamlined =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt;
+    (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
+    (data['view:streamlinedWaiverAssetUpdate'] &&
+      gmtData?.isEligibleForStreamlined &&
+      gmtData?.incomeBelowOneFiftyGmt);
 
   const adjustedAssetList = adjustForStreamlined
-    ? monetaryAssets.filter(
-        asset =>
-          asset.name.toLowerCase() !== 'cash' &&
-          asset.name.toLowerCase() !== 'checking accounts' &&
-          asset.name.toLowerCase() !== 'savings accounts' &&
-          asset.name.toLowerCase() !== 'Cash on hand (not in bank)',
-      )
+    ? streamlinedList
     : monetaryAssets;
 
   return (

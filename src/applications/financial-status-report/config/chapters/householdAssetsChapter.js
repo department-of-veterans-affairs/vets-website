@@ -31,7 +31,7 @@ import {
 import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
-import { CashInBank } from '../../components/monetary/CashInBank';
+import CashInBank from '../../components/monetary/CashInBank';
 
 export default {
   householdAssetsChapter: {
@@ -45,8 +45,16 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: CashOnHand,
         CustomPageReview: CashOnHandReview,
-        depends: ({ gmtData }) =>
-          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt,
+        depends: formData => {
+          const { gmtData } = formData;
+          // Also show if the new asset update is true
+          return (
+            (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
+            (gmtData?.isEligibleForStreamlined &&
+              gmtData?.incomeBelowOneFiftyGmt &&
+              formData['view:streamlinedWaiverAssetUpdate'])
+          );
+        },
       },
       cashInBank: {
         path: 'cash-in-bank',
@@ -55,8 +63,15 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: CashInBank,
         CustomPageReview: null,
-        depends: ({ gmtData }) =>
-          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt,
+        depends: formData => {
+          const { gmtData } = formData;
+          // Only show if the new asset update is true
+          return (
+            gmtData?.isEligibleForStreamlined &&
+            gmtData?.incomeBelowOneFiftyGmt &&
+            formData['view:streamlinedWaiverAssetUpdate']
+          );
+        },
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only

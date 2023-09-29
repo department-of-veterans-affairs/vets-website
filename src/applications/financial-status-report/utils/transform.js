@@ -59,13 +59,14 @@ export const transform = (formConfig, form) => {
     additionalData,
     selectedDebtsAndCopays = [],
     realEstateRecords,
-    gmtData,
   } = form.data;
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
   const isShortStreamlined = isStreamlinedShortForm(form.data);
   const isLongStreamlined = isStreamlinedLongForm(form.data);
+  const streamlinedAssetUpdateActive =
+    form.data['view:streamlinedWaiverAssetUpdate'];
 
   // === Set Streamlined FSR flag ===
   let streamlinedData;
@@ -125,8 +126,12 @@ export const transform = (formConfig, form) => {
   const totalAssets = getTotalAssets(form.data);
 
   // monetary asset filters
-  const cashFilters = ['Cash'];
-  const bankFilters = ['Checking accounts', 'Savings accounts'];
+  const cashFilters = ['Cash', 'Cash on hand (not in bank)'];
+  const bankFilters = [
+    'Checking accounts',
+    'Savings accounts',
+    'Cash in a bank (savings and checkings)',
+  ];
   const usSavingsFilters = ['U.S. Savings Bonds'];
   const otherStocksFilters = [
     'Other stocks and bonds (not in your retirement accounts)',
@@ -137,17 +142,22 @@ export const transform = (formConfig, form) => {
 
   // monetary assets
   const { monetaryAssets } = assets;
-  // Cash on hand is stored separately for potential short forms
+  // Cash on hand is stored separately for potential short forms until streamlined asset update
   // Same conditions for the cash on hand page depends
-  const calculatedCashOnHand =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt
-      ? filterReduceByName(monetaryAssets, cashFilters) +
-        safeNumber(assets.cashOnHand)
-      : filterReduceByName(monetaryAssets, cashFilters);
-  const calculatedCashInBank =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt
-      ? safeNumber(assets.cashInBank)
-      : filterReduceByName(monetaryAssets, bankFilters);
+  const cashFilteredMonetaryAssets = filterReduceByName(
+    monetaryAssets,
+    cashFilters,
+  );
+  // streamlinedCashOnHand - Asset determination for short form prior to streamlined asset update
+  const streamlinedCashOnHand =
+    cashFilteredMonetaryAssets + safeNumber(assets?.cashOnHand);
+
+  const calculatedCashOnHand = streamlinedAssetUpdateActive
+    ? cashFilteredMonetaryAssets
+    : streamlinedCashOnHand;
+
+  const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
+
   const calculatedUsSavingsBonds = filterReduceByName(
     monetaryAssets,
     usSavingsFilters,
