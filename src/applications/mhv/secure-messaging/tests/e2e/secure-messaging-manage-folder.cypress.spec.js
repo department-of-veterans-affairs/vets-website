@@ -14,7 +14,7 @@ describe('create custom folder', () => {
   const newFolder = `folder${Date.now()}`;
   mockFolders.data.push(createdFolderResponse.data);
 
-  beforeEach(() => {
+  before(() => {
     site.login();
     landingPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList();
@@ -50,7 +50,7 @@ describe('delete custom folder', () => {
     PatientMessageCustomFolderPage.loadFoldersList();
   });
 
-  it('verify delete folder success message', () => {
+  it('verify folder deleted', () => {
     PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
       folderId,
       folderName,
