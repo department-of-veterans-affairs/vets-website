@@ -23,7 +23,11 @@ const MedicationsListSort = props => {
       >
         {rxSortingOptions.map((option, i) => {
           return (
-            <option key={`option-${i}`} value={option.API_ENDPOINT}>
+            <option
+              key={`option-${i}`}
+              value={option.API_ENDPOINT}
+              data-testid="sort-option"
+            >
               {option.LABEL}
             </option>
           );
