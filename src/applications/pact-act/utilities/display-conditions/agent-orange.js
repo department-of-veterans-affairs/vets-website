@@ -1,4 +1,4 @@
-import { RESPONSES } from '../question-data-map';
+import { RESPONSES } from '../../constants/question-data-map';
 
 const {
   DURING_BOTH_PERIODS,

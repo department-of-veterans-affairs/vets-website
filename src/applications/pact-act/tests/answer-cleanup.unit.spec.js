@@ -8,7 +8,7 @@ import {
   gatherWrongFlowQuestions,
   getNonNullShortNamesFromStore,
 } from '../utilities/answer-cleanup';
-import { RESPONSES, SHORT_NAME_MAP } from '../utilities/question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
 
 const {
   BURN_PIT_2_1,

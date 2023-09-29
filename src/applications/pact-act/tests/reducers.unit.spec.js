@@ -5,7 +5,7 @@ import {
   setShortNameValue,
   updateFormValue,
 } from '../reducers/utilities';
-import { RESPONSES, SHORT_NAME_MAP } from '../utilities/question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
 
 describe('reducer', () => {
   describe('utilities: createFormStore', () => {
@@ -14,12 +14,15 @@ describe('reducer', () => {
         BURN_PIT_2_1: null,
         BURN_PIT_2_1_1: null,
         BURN_PIT_2_1_2: null,
+        LEJEUNE_2_4: null,
         ORANGE_2_2_1_A: null,
         ORANGE_2_2_1_B: null,
         ORANGE_2_2_2: null,
         ORANGE_2_2_3: null,
         ORANGE_2_2_A: null,
         ORANGE_2_2_B: null,
+        RADIATION_2_3_A: null,
+        RADIATION_2_3_B: null,
         SERVICE_PERIOD: null,
       });
     });
