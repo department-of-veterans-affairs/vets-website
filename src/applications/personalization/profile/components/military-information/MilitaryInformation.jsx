@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import DowntimeNotification, {
-  externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
+import DowntimeNotification from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
 
@@ -201,7 +199,6 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.emis]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
