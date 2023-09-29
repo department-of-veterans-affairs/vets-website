@@ -26,8 +26,10 @@ describe('<PreSubmitInfo>', () => {
       </Provider>,
     );
 
+    const checkbox = tree.find('va-privacy-agreement');
+
     expect(tree).to.not.be.undefined;
-    expect(tree.text()).to.include('privacy policy');
+    expect(checkbox.length).to.equal(1);
     tree.unmount();
   });
 });
