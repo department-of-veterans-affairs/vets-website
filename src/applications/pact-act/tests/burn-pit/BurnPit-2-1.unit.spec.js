@@ -3,18 +3,21 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { RESPONSES } from '../../utilities/question-data-map';
 import { ROUTES } from '../../constants';
+import { RESPONSES, SHORT_NAME_MAP } from '../../utilities/question-data-map';
+import { displayConditionsMet } from '../../utilities/display-logic';
 
 import BurnPit21 from '../../containers/questions/burn-pit/BurnPit-2-1';
+
+// Form data is intentionally skipped for the render tests since these are very basic "does it load?" tests
+
+// This file contains tests for the component's display as well as testing displayConditionsMet
+// for this question specifically
 
 const mockStoreStandard = {
   getState: () => ({
     pactAct: {
-      form: {
-        BURN_PIT_2_1: null,
-        SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
-      },
+      form: {},
       viewedIntroPage: true,
     },
   }),
@@ -25,10 +28,7 @@ const mockStoreStandard = {
 const mockStoreNoIntroPage = {
   getState: () => ({
     pactAct: {
-      form: {
-        BURN_PIT_2_1: null,
-        SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
-      },
+      form: {},
       viewedIntroPage: false,
     },
   }),
@@ -40,10 +40,7 @@ const setBurnPitStub = sinon.stub();
 const pushStub = sinon.stub();
 
 const propsStandard = {
-  formResponses: {
-    BURN_PIT_2_1: null,
-    SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
-  },
+  formResponses: {},
   setBurnPit21: setBurnPitStub,
   router: {
     push: pushStub,
@@ -52,10 +49,7 @@ const propsStandard = {
 };
 
 const propsNoIntroPage = {
-  formResponses: {
-    BURN_PIT_2_1: null,
-    SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
-  },
+  formResponses: {},
   setBurnPit21: setBurnPitStub,
   router: {
     push: pushStub,
@@ -89,5 +83,27 @@ describe('Burn Pit 2.1 Page', () => {
 
       expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
     });
+  });
+});
+
+describe('displayConditionsAreMet', () => {
+  it('BURN_PIT_2_1: should return true when the display conditions are met', () => {
+    const formResponses = {
+      SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
+    };
+
+    expect(
+      displayConditionsMet(SHORT_NAME_MAP.BURN_PIT_2_1, formResponses),
+    ).to.equal(true);
+  });
+
+  it('BURN_PIT_2_1: should return false when the display conditions are not met', () => {
+    const formResponses = {
+      SERVICE_PERIOD: RESPONSES.EIGHTYNINE_OR_EARLIER,
+    };
+
+    expect(
+      displayConditionsMet(SHORT_NAME_MAP.BURN_PIT_2_1, formResponses),
+    ).to.equal(false);
   });
 });
