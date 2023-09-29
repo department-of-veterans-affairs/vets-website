@@ -10,7 +10,7 @@ function mockSearchResults() {
         id: 12345,
         name: 'Veterans of Foreign Wars (033)',
         type: 'Veteran Service Organization (VSO)',
-        address: 'PO Box 1509',
+        address: '123 Main Street',
         city: 'Montgomery',
         state: 'Alabama',
         postalCode: '36102-1509',
