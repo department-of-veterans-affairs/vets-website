@@ -327,15 +327,20 @@ export function uiSchema(
 
         // Veteran address state must be reset if prior country had a state list.
         if (
-          (priorCountry === 'CAN' &&
-            modifiedData.application.veteran.address.country === 'USA') ||
-          (priorCountry === 'USA' &&
-            modifiedData.application.veteran.address.country === 'CAN')
+          modifiedData &&
+          modifiedData.application &&
+          modifiedData.application.veteran
         ) {
-          modifiedData.application.veteran.address.state = undefined;
+          if (
+            (priorCountry === 'CAN' &&
+              modifiedData.application.veteran.address.country === 'USA') ||
+            (priorCountry === 'USA' &&
+              modifiedData.application.veteran.address.country === 'CAN')
+          ) {
+            modifiedData.application.veteran.address.state = undefined;
+          }
+          priorCountry = formData.application.veteran.address.country;
         }
-        priorCountry = formData.application.veteran.address.country;
-
         return addressChangeSelector({
           formData,
           addressSchema: currentSchema,
