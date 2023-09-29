@@ -10,6 +10,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
+import { textInputNumericRange } from '../validations';
+
 export default {
   uiSchema: {
     ...titleUI(
@@ -43,18 +45,17 @@ export default {
       },
     },
     'ui:validations': [
-      (errors, field) => {
-        const { additionalCopies } = field;
-        const nbrCopies = parseInt(additionalCopies, 10);
-        if (nbrCopies < 1) {
-          errors.additionalCopies.addError(
-            'Please raise the number of certificates to at least 1, you may request up to 99.',
-          );
-        } else if (nbrCopies > 99) {
-          errors.additionalCopies.addError(
-            'Please lower the number of certificates, you may only request up to 99.',
-          );
-        }
+      (errors, formData) => {
+        return textInputNumericRange(errors, formData, {
+          schemaKey: 'additionalCopies',
+          range: { min: 1, max: 99 },
+          customErrorMessages: {
+            min:
+              'Please raise the number of certificates, you may request up to 99',
+            max:
+              'Please lower the number of certificates, you may request up to 99',
+          },
+        });
       },
     ],
   },
