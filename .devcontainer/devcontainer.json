@@ -1,11 +1,8 @@
 {
 	"name": "Node.js",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"VARIANT": "14"
-		}
-	},
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -41,7 +38,8 @@
 	"forwardPorts": [
 		3000,
 		3001,
-		3002
+		3002,
+		10100
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
 	"remoteUser": "node",
