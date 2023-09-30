@@ -326,11 +326,7 @@ export function uiSchema(
         }
 
         // Veteran address state must be reset if prior country had a state list.
-        if (
-          modifiedData &&
-          modifiedData.application &&
-          modifiedData.application.veteran
-        ) {
+        if (modifiedData.application && modifiedData.application.veteran) {
           if (
             (priorCountry === 'CAN' &&
               modifiedData.application.veteran.address.country === 'USA') ||
