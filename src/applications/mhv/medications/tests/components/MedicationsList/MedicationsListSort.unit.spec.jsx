@@ -20,7 +20,7 @@ describe('Medicaitons List Sort component', () => {
     expect(screen);
   });
 
-  it('shows default list option', () => {
+  it('has the same number of list options as preset constant rxSortingListOptions', () => {
     const screen = setup();
 
     const sortOptions = screen.getAllByTestId('sort-option');
