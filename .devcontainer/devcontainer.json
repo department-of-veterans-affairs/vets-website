@@ -1,7 +1,7 @@
 {
 	"name": "Node.js",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
+	"service": "vets-website",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"customizations": {
 		"vscode": {
