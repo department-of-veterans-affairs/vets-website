@@ -143,7 +143,7 @@
 
   // TODO: We may or may not use this
   &.in-progress {
-    box-shadow: 1px 1px 5px rgba(0,0,0, 0.32);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.32);
   }
 
   .card-status {
@@ -1414,4 +1414,37 @@ $marker-text-width: 9rem;
   background-color: transparent;
   box-shadow: inset 0 0 0 2px $color-primary-darkest;
   color: $color-primary-darkest;
+}
+
+.claim-card-link {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px;
+
+  &:focus i::before,
+  &:hover i::before {
+    margin-left: 1.2rem;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: margin;
+  }
+
+  i::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 1.6rem;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 900;
+    line-height: 1;
+    margin-right: 0.8rem;
+    text-rendering: auto;
+    content: "\f105"; /* fa-angle-right */
+    margin-bottom: 0.1rem;
+    margin-left: 0.8rem;
+    margin-right: 0;
+    vertical-align: middle;
+  }
 }
