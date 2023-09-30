@@ -10,6 +10,10 @@ const initialState = {
    * The prescription currently being displayed to the user
    */
   prescriptionDetails: undefined,
+  /**
+   * Pagination received form meta object in prescriptionsList payload
+   */
+  prescriptionsPagination: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -26,12 +30,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionsList: action.response.data.map(rx => {
           return { ...rx.attributes };
         }),
-      };
-    }
-    case Actions.Prescriptions.SET_SORTED_LIST: {
-      return {
-        ...state,
-        prescriptionsList: action.rxList,
+        prescriptionsPagination: action.response.meta.pagination,
       };
     }
     case Actions.Prescriptions.FILL: {
