@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../../constants';
-import { RESPONSES, SHORT_NAME_MAP } from '../../utilities/question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { displayConditionsMet } from '../../utilities/display-logic';
 
 import BurnPit21 from '../../containers/questions/burn-pit/BurnPit-2-1';

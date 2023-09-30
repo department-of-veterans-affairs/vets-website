@@ -9,7 +9,7 @@ import {
   responseMatchesRequired,
 } from '../utilities/display-logic';
 import { ROUTES } from '../constants';
-import { RESPONSES, SHORT_NAME_MAP } from '../utilities/question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
 
 // displayConditionsMet is tested for every question within their respective file (e.g. BurnPit-2-1-1.unit.spec.js)
 

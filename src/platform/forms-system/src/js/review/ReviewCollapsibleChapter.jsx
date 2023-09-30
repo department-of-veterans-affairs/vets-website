@@ -112,6 +112,19 @@ class ReviewCollapsibleChapter extends React.Component {
     return chapterTitle;
   };
 
+  getPageTitle = rawPageTitle => {
+    const { form } = this.props;
+    const formData = form.data;
+
+    let pageTitle = rawPageTitle;
+
+    if (typeof rawPageTitle === 'function') {
+      pageTitle = rawPageTitle({ formData });
+    }
+
+    return pageTitle;
+  };
+
   getSchemaformPageContent = (page, props, editing) => {
     const {
       chapterFormConfig,
@@ -194,7 +207,7 @@ class ReviewCollapsibleChapter extends React.Component {
           hideTitle={this.shouldHideExpandedPageTitle(
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
-            title,
+            this.getPageTitle(title),
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
