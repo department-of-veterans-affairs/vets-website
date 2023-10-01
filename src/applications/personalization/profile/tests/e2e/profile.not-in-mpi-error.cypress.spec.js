@@ -1,4 +1,4 @@
-import { checkForLegacyLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
+import { checkForWebComponentLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
@@ -19,7 +19,7 @@ function test(mobile = false) {
     cy.viewport('iphone-4');
   }
 
-  checkForLegacyLoadingIndicator('loading your information');
+  checkForWebComponentLoadingIndicator('loading your information');
 
   // should redirect to profile/account-security on load
   cy.url().should(

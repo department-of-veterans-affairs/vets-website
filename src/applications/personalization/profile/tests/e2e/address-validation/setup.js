@@ -8,7 +8,7 @@ import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-chang
 import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
 
 export const setUp = type => {
@@ -48,7 +48,7 @@ export const setUp = type => {
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.injectAxe();
 
-  checkForLegacyLoadingIndicator();
+  checkForWebComponentLoadingIndicator();
 
   cy.findByRole('button', { name: /edit mailing address/i }).click({
     force: true,
