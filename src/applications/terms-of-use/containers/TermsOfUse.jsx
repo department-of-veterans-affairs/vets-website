@@ -11,6 +11,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
   termsOfUseEnabled,
   logout as IAMLogout,
+  AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import touData from '../touData';
 
@@ -48,8 +49,10 @@ export default function TermsOfUse() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const redirectLocation = new URL(window.location);
   const termsCodeExists =
-    new URL(window.location).searchParams.get('terms_code')?.length > 1;
+    redirectLocation.searchParams.get('terms_code')?.length > 1;
+  const redirectUrl = redirectLocation.searchParams.get('redirect_url');
 
   useEffect(
     () => {
@@ -61,16 +64,22 @@ export default function TermsOfUse() {
           }
         });
       }
+      if (redirectUrl) {
+        sessionStorage.setItem(
+          AUTHN_SETTINGS.RETURN_URL,
+          parseRedirectUrl(redirectUrl),
+        );
+      }
     },
-    [termsCodeExists],
+    [termsCodeExists, redirectUrl],
   );
 
   const handleTouClick = async type => {
     const url = new URL(window.location);
-    const redirectUrl = parseRedirectUrl(url.searchParams.get('redirect_url'));
     const termsCode = termsCodeExists
       ? `?terms_code=${url.searchParams.get('terms_code')}`
       : '';
+
     try {
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${type}${termsCode}`,
@@ -84,7 +93,10 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
-          window.location = redirectUrl;
+          const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+          window.location = returnUrl
+            ? encodeURI(parseRedirectUrl(returnUrl))
+            : encodeURI(parseRedirectUrl(redirectUrl));
         }
 
         if (type === 'decline') {
