@@ -78,7 +78,7 @@ const formConfig = {
         selectTopic: {
           path: 'category-topic-2',
           title: 'Topic Selected',
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
           uiSchema: selectTopicPage.uiSchema,
           schema: selectTopicPage.schema,
         },

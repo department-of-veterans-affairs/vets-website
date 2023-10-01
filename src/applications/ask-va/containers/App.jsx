@@ -14,22 +14,24 @@ export default function App(props) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {!noHeader.includes(currentPath) && (
-        <div>
-          <h1>Ask VA</h1>
-          <div className="usa-width-two-thirds medium-8 vads-u-margin-top--2 vads-u-padding-x--0">
-            <va-segmented-progress-bar
-              current={chapterIndex + 1}
-              heading-text={chapterTitles[chapterIndex]}
-              label=""
-              labels={chapterTitles.join(';')}
-              total={chapterTitles.length}
-              uswds
-            />
+      <div className="row">
+        {!noHeader.includes(currentPath) && (
+          <div>
+            <h1>Ask VA</h1>
+            <div className="usa-width-two-thirds medium-8 vads-u-margin-top--2 vads-u-padding-x--0">
+              <va-segmented-progress-bar
+                current={chapterIndex + 1}
+                heading-text={chapterTitles[chapterIndex]}
+                label=""
+                labels={chapterTitles.join(';')}
+                total={chapterTitles.length}
+                uswds
+              />
+            </div>
           </div>
-        </div>
-      )}
-      {children}
+        )}
+        {children}
+      </div>
     </RoutedSavableApp>
   );
 }
