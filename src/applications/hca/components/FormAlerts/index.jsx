@@ -17,10 +17,14 @@ export const DowntimeWarning = () => (
         deadline for certain combat Veterans
       </strong>
       , you can also apply in other ways. Call us at{' '}
-      <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
-      8:00 a.m. to 8:00 p.m.{' '}
+      <va-telephone contact={CONTACTS['222_VETS']} />. We’re here Friday,
+      September 29, 7:00 a.m. to 9:00 p.m.{' '}
       <dfn>
-        <abbr title="Eastern Time">ET</abbr>
+        <abbr title="Central Time">CT</abbr>
+      </dfn>
+      , and Saturday, September 30, 7:00 a.m. to 11:59 p.m.{' '}
+      <dfn>
+        <abbr title="Central Time">CT</abbr>
       </dfn>
       . Mail us an application postmarked by September 30, 2023. Or bring your
       application in person to your nearest VA health facility.{' '}
@@ -47,10 +51,14 @@ export const PerformanceWarning = () => (
           deadline for certain combat Veterans
         </strong>
         , you can also apply in other ways. Call us at{' '}
-        <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
-        8:00 a.m. to 8:00 p.m.{' '}
+        <va-telephone contact={CONTACTS['222_VETS']} />. We’re here Friday,
+        September 29, 7:00 a.m. to 9:00 p.m.{' '}
         <dfn>
-          <abbr title="Eastern Time">ET</abbr>
+          <abbr title="Central Time">CT</abbr>
+        </dfn>
+        , and Saturday, September 30, 7:00 a.m. to 11:59 p.m.{' '}
+        <dfn>
+          <abbr title="Central Time">CT</abbr>
         </dfn>
         . Mail us an application postmarked by September 30, 2023. Or bring your
         application in person to your nearest VA health facility.{' '}
@@ -76,10 +84,14 @@ export const ServerErrorAlert = () => (
     </p>
     <ul>
       <li>
-        Call us at <va-telephone contact={CONTACTS['222_VETS']} />, Monday
-        through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+        Call us at <va-telephone contact={CONTACTS['222_VETS']} />. We’re here
+        Friday, September 29, 7:00 a.m. to 9:00 p.m.{' '}
         <dfn>
-          <abbr title="Eastern Time">ET</abbr>
+          <abbr title="Central Time">CT</abbr>
+        </dfn>
+        , and Saturday, September 30, 7:00 a.m. to 11:59 p.m.{' '}
+        <dfn>
+          <abbr title="Central Time">CT</abbr>
         </dfn>
         .
       </li>
