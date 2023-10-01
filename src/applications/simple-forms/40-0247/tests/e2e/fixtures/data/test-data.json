@@ -29,6 +29,6 @@
       "state": "NY",
       "postalCode": "12345"
     },
-    "additionalCopies": 3
+    "additionalCopies": "3"
   }
 }
