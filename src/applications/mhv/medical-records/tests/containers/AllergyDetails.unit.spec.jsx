@@ -45,7 +45,7 @@ describe('Allergy details container', () => {
       exact: false,
       selector: 'h1',
     });
-    const allergyName = screen.getByText('FISH', {
+    const allergyName = screen.getByText('NUTS', {
       exact: true,
       selector: 'span',
     });
@@ -54,7 +54,7 @@ describe('Allergy details container', () => {
   });
 
   it('displays the date entered', () => {
-    expect(screen.getByText('July', { exact: false })).to.exist;
+    expect(screen.getByText('August', { exact: false })).to.exist;
   });
 
   it('displays the reaction', () => {
@@ -67,7 +67,7 @@ describe('Allergy details container', () => {
 
   it('displays the location', () => {
     expect(
-      screen.getByText('SLC4.FO-BAYPINES.MED.VA.GOV', {
+      screen.getByText('SLC10.FO-BAYPINES.MED.VA.GOV', {
         exact: true,
         selector: 'p',
       }),
@@ -75,6 +75,6 @@ describe('Allergy details container', () => {
   });
 
   it('displays provider notes', () => {
-    expect(screen.getByText("maruf's test comment", { exact: false })).to.exist;
+    expect(screen.getByText("Maruf's test", { exact: false })).to.exist;
   });
 });

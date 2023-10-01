@@ -132,7 +132,7 @@ const Vaccines = () => {
   };
 
   return (
-    <div id="vaccines" className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
       <p>
