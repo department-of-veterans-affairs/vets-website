@@ -55,7 +55,7 @@ describe('ezr ConfirmationPage', () => {
   });
 
   describe('when the submission is parsed', () => {
-    describe('when there is no response data', () => {
+    context('when there is no response data', () => {
       it('should not render the application date container', () => {
         const store = mockStore(initState);
         const { container } = render(
@@ -68,7 +68,7 @@ describe('ezr ConfirmationPage', () => {
       });
     });
 
-    describe('when there is response data', () => {
+    context('when there is response data', () => {
       it('should not render the application date container', () => {
         const formData = {
           submission: {

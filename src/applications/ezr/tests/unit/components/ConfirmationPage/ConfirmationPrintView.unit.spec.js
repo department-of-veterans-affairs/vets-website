@@ -16,7 +16,7 @@ describe('ezr <ConfirmationPrintView>', () => {
   };
 
   describe('when the component renders', () => {
-    describe('default behavior', () => {
+    context('default behavior', () => {
       it('should render logo, title and applicant name', () => {
         const { container } = render(
           <ConfirmationPrintView {...defaultProps} />,
@@ -36,7 +36,7 @@ describe('ezr <ConfirmationPrintView>', () => {
       });
     });
 
-    describe('when timestamp is not provided', () => {
+    context('when timestamp is not provided', () => {
       it('should not render timestamp in `application information` section', () => {
         const { container } = render(
           <ConfirmationPrintView {...defaultProps} />,
@@ -46,7 +46,7 @@ describe('ezr <ConfirmationPrintView>', () => {
       });
     });
 
-    describe('when timestamp is provided', () => {
+    context('when timestamp is provided', () => {
       it('should render timestamp with the correct date format', () => {
         const props = { ...defaultProps, timestamp: 1666887649663 };
         const { container } = render(<ConfirmationPrintView {...props} />);
