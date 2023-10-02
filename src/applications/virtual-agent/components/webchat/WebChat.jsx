@@ -15,21 +15,9 @@ import {
   clearBotSessionStorage,
   IS_RX_SKILL,
 } from '../chatbox/utils';
+import { cardActionMiddleware } from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
-
-export const cardActionMiddleware = () => next => card => {
-  const isDecisionLetter = card.cardAction.value.includes('/v0/claim_letters/');
-  if (isDecisionLetter) {
-    // Track decision letter downloads
-    recordEvent({
-      event: 'file_download',
-      'button-click-label': 'Decision Letter',
-      time: new Date(Date.now()),
-    });
-  }
-  next(card);
-};
 
 const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventObject from 'platform/monitoring/record-event';
-import { cardActionMiddleware } from '../../../components/webchat/WebChat';
+import { cardActionMiddleware } from '../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
 
@@ -20,7 +20,7 @@ describe('Webchat.jsx', () => {
       nextSpy: sandbox.spy(),
       recordEventStub: sandbox.stub(recordEventObject, 'default'),
     });
-
+    const decisionLetterEnabled = true;
     /**
      * create a fake action card
      * @param {string} value url for the cardAction
@@ -41,7 +41,9 @@ describe('Webchat.jsx', () => {
         time: new Date(Date.now()),
       };
 
-      cardActionMiddleware()(nextSpy)(decisionLetterCard);
+      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+        decisionLetterCard,
+      );
 
       expect(recordEventStub.calledOnce).to.be.true;
       expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
@@ -56,7 +58,9 @@ describe('Webchat.jsx', () => {
         'random_thing_we_dont_use',
       );
       const { nextSpy, recordEventStub } = generateSinonFunctions();
-      cardActionMiddleware()(nextSpy)(nonDecisionLetterCard);
+      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+        nonDecisionLetterCard,
+      );
       expect(recordEventStub.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
