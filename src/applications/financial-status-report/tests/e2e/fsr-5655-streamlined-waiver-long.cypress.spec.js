@@ -17,7 +17,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['sw-long-path-minimal'],
+    dataSets: ['sw-long-path-minimal-asset'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -37,7 +37,7 @@ const testConfig = createTestConfig(
             },
             {
               name: 'financial_status_report_streamlined_waiver_assets',
-              value: false,
+              value: true,
             },
           ],
         },
@@ -120,6 +120,56 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('4639.90');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'monetary-asset-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 5);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'monetary-asset-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get(`[name="U.S. Savings Bonds"]`)
+            .shadow()
+            .find('input')
+            .type('135');
+          cy.get(`[name="Retirement accounts (401k, IRAs, 403b, TSP)"]`)
+            .shadow()
+            .find('input')
+            .type('3500');
           cy.get('.usa-button-primary').click();
         });
       },

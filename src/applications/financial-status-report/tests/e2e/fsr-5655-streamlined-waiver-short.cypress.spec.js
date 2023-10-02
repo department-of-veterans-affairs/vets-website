@@ -17,7 +17,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['sw-long-path-minimal'],
+    dataSets: ['sw-short-path-minimal-asset'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -37,7 +37,7 @@ const testConfig = createTestConfig(
             },
             {
               name: 'financial_status_report_streamlined_waiver_assets',
-              value: false,
+              value: true,
             },
           ],
         },
@@ -105,39 +105,23 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'additional-income-checklist': ({ afterHook }) => {
+      'cash-on-hand': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Social Security"]`)
-            .first()
-            .check();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'additional-income-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-number-input[name="Social Security"]')
+          cy.get('#cash')
             .first()
             .shadow()
             .find('input')
-            .type('4639.90');
+            .type('125');
           cy.get('.usa-button-primary').click();
         });
       },
-      'other-expenses-checklist': ({ afterHook }) => {
+      'cash-in-bank': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Clothing"]`)
-            .first()
-            .check();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'other-expenses-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-number-input[name="Clothing"]')
+          cy.get('#cash')
             .first()
             .shadow()
             .find('input')
-            .type('6759');
+            .type('329.12');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -152,7 +136,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.accordion-header').should('have.length', 4);
+          cy.get('.accordion-header').should('have.length', 3);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')
