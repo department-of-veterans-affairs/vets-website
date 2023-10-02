@@ -1,8 +1,9 @@
 name: E2E Allow List Cleanup
 
 on:
-  schedule:
-    - cron: '0 12 * * 1-5'
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
+  push
 
 jobs:
   fetch-e2e-allow-list:
@@ -41,8 +42,8 @@ jobs:
 
       - name: Get list of existing specs in vets-website
         run: node script/github-actions/export-cypress-spec-list.js
-        # exports spec list and assigns to environmental variable at this step
 
+        # exports spec list and assigns to environmental variable at this step
       - name: Set Spec List Output
         id: spec-list-output
         run: echo specs=$ALL_CYPRESS_SPECS >> $GITHUB_OUTPUT
@@ -96,5 +97,5 @@ jobs:
         run: yarn cleanup-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           ALL_SPECS: ${{ needs.fetch-e2e-allow-list.outputs.all_specs }}
+          TEST_TYPE: e2e
