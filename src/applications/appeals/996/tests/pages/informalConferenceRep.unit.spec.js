@@ -3,13 +3,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { $$ } from '../../utils/ui';
 
 describe('HLR informal conference rep v2 page', () => {
   const {

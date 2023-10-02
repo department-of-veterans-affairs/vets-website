@@ -27,6 +27,7 @@ const responses = {
     myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
+    myVaHideNotificationsSection: true,
     myVaNotificationDotIndicator: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,

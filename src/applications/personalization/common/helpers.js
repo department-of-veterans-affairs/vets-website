@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { CSP_IDS } from 'platform/user/authentication/constants';
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
 
 export function makeUserObject(options = {}) {
   const services = options.services || ['vet360'];
@@ -98,3 +98,19 @@ export function formatFullName({
 }) {
   return [first, middle, last, suffix].filter(name => !!name).join(' ');
 }
+
+export const normalizePath = path => {
+  // trim whitespace and remove trailing slash
+  const pathTrimmed = path.trim();
+  return pathTrimmed.endsWith('/') ? path.slice(0, -1) : path;
+};
+
+export const getRouteInfoFromPath = (path, routes) => {
+  const returnRouteInfo = routes.find(({ path: routePath }) => {
+    return routePath === path;
+  });
+  if (!returnRouteInfo) {
+    return { ...routes[0], name: 'profile' };
+  }
+  return returnRouteInfo;
+};

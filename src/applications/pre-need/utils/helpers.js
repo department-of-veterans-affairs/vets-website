@@ -37,25 +37,22 @@ export const contactInfoDescription = (
   </va-additional-info>
 );
 
-export const authorizedAgentDescription = (
-  // TODO va-additional-info component to be replaced with a more optimal solution
-  <va-additional-info trigger="Who can a preparer sign for?">
-    <p>A preparer may sign for an individual who’s:</p>
-    <ul>
-      <li>
-        Under 18 years of age, <strong>or</strong>
-      </li>
-      <li>
-        Is mentally incompetent, <strong>or</strong>
-      </li>
-      <li>Is physically unable to sign the application</li>
-    </ul>
-    <p>
-      If you’re the preparer of this application, you’ll need to provide your
-      contact information.
-    </p>
+export const PreparerPhoneNumberDescription = (
+  <va-additional-info trigger="Why do we need your phone number?">
+    {environment.isProduction() ? (
+      <p>
+        If you’re the preparer of this application, you’ll need to provide your
+        contact information.
+      </p>
+    ) : (
+      <p>
+        We may contact you by phone if we need more information about the
+        application.
+      </p>
+    )}
   </va-additional-info>
 );
+
 export const veteranRelationshipDescription = (
   <va-alert
     status="info"
@@ -67,6 +64,48 @@ export const veteranRelationshipDescription = (
     you questions about your military status and history to determine if you
     qualify for burial in a VA national cemetery.
   </va-alert>
+);
+
+export const authorizedAgentDescription = (
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info
+    trigger={
+      environment.isProduction()
+        ? 'Who can a preparer sign for?'
+        : "If you're applying for someone else, who can you sign for?"
+    }
+  >
+    <p>
+      A preparer can sign for an{' '}
+      {environment.isProduction() ? 'individual' : 'applicant'} who’s:
+    </p>
+    <ul>
+      {environment.isProduction() ? (
+        <>
+          <li>
+            Under 18 years of age, <strong>or</strong>
+          </li>
+          <li>
+            Is mentally incompetent, <strong>or</strong>
+          </li>
+          <li>Is physically unable to sign the application</li>
+        </>
+      ) : (
+        <>
+          <li>
+            Mentally incompetent <strong>or</strong>
+          </li>
+          <li>Physically unable to sign the application</li>
+        </>
+      )}
+    </ul>
+    {environment.isProduction() && (
+      <p>
+        If you’re the preparer of this application, you’ll need to provide your
+        contact information.
+      </p>
+    )}
+  </va-additional-info>
 );
 
 export const spouseRelationshipDescription = (
@@ -111,11 +150,29 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescription = (
+export const desiredCemeteryNoteDescriptionProd = (
   <va-alert status="info" background-only id="burial-cemetary-note">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.
+  </va-alert>
+);
+
+export const desiredCemeteryNoteDescriptionVeteran = (
+  <va-alert status="info" background-only id="burial-cemetary-note">
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
+    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </va-alert>
+);
+
+export const desiredCemeteryNoteDescriptionNonVeteran = (
+  <va-alert status="info" background-only id="burial-cemetary-note">
+    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
+    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
+    If space is unavailable, we’ll work with their family to assign a gravesite
+    in a cemetery with available space at the time of need.
   </va-alert>
 );
 
@@ -187,8 +244,16 @@ export function transform(formConfig, form) {
             dateOfBirth: application.claimant.dateOfBirth,
             ssn: application.claimant.ssn,
             isDeceased: 'no',
-            serviceName:
-              application.veteran.serviceName || application.claimant.name,
+            // eslint-disable-next-line no-nested-ternary
+            serviceName: environment.isProduction()
+              ? application.veteran.serviceName || application.claimant.name
+              : // eslint-disable-next-line no-nested-ternary
+                application.veteran.serviceName === undefined
+                ? application.claimant.name
+                : application.veteran.serviceName.first === undefined
+                  ? application.claimant.name
+                  : application.veteran.serviceName ||
+                    application.claimant.name,
           },
         })
       : application;
@@ -208,8 +273,16 @@ export function transform(formConfig, form) {
   const populateVeteranData = application =>
     merge({}, application, {
       veteran: {
-        serviceName:
-          application.veteran.serviceName || application.veteran.currentName,
+        // eslint-disable-next-line no-nested-ternary
+        serviceName: environment.isProduction()
+          ? application.veteran.serviceName || application.veteran.currentName
+          : // eslint-disable-next-line no-nested-ternary
+            application.veteran.serviceName === undefined
+            ? application.veteran.currentName
+            : application.veteran.serviceName.first === undefined
+              ? application.veteran.currentName
+              : application.veteran.serviceName ||
+                application.veteran.currentName,
       },
       applicant: {
         applicantEmail: application.claimant.email,
@@ -230,52 +303,52 @@ export function transform(formConfig, form) {
   return JSON.stringify({ application }, stringifyFormReplacer);
 
   /* Transformation for multiple applicants.
-   *
-   *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
-   *
-   *  formCopy.applications = formCopy.applications.map(application => {
-   *    // Fill in veteran info that veterans didn't need to enter separately.
-   *    if (isVeteran(application)) {
-   *      return merge({}, application, {
-   *        veteran: {
-   *          address: application.claimant.address,
-   *          currentName: application.claimant.name,
-   *          dateOfBirth: application.claimant.dateOfBirth,
-   *          ssn: application.claimant.ssn,
-   *          isDeceased: 'no'
-   *        }
-   *      });
-   *    }
-   *
-   *    // Fill in veteran info in each application
-   *    // where the sponsor is another claimant.
-   *    const sponsorName = application['view:sponsor'];
-   *    if (sponsorName !== 'Other') {
-   *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
-   *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
-   *      return set('veteran', veteran, application);
-   *    }
-   *
-   *    return application;
-   *  });
-   *
-   *  // Fill in applicant info in each application
-   *  // if the applicant is another claimant.
-   *  const applicantName = form['view:preparer'];
-   *  if (applicantName !== 'Other') {
-   *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
-   *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
-   *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
-   *      applicantEmail: email,
-   *      applicantPhoneNumber: phoneNumber,
-   *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
-   *      completingReason: '',
-   *      mailingAddress: address,
-   *      name
-   *    }, application));
-   *  }
-   *
-   */
+     *
+     *  const matchClaimant = name => a => formatName(a.claimant.name) === name;
+     *
+     *  formCopy.applications = formCopy.applications.map(application => {
+     *    // Fill in veteran info that veterans didn't need to enter separately.
+     *    if (isVeteran(application)) {
+     *      return merge({}, application, {
+     *        veteran: {
+     *          address: application.claimant.address,
+     *          currentName: application.claimant.name,
+     *          dateOfBirth: application.claimant.dateOfBirth,
+     *          ssn: application.claimant.ssn,
+     *          isDeceased: 'no'
+     *        }
+     *      });
+     *    }
+     *
+     *    // Fill in veteran info in each application
+     *    // where the sponsor is another claimant.
+     *    const sponsorName = application['view:sponsor'];
+     *    if (sponsorName !== 'Other') {
+     *      const veteranApplication = form.applications.find(matchClaimant(sponsorName));
+     *      const veteran = set('isDeceased', 'no', veteranApplication.veteran);
+     *      return set('veteran', veteran, application);
+     *    }
+     *
+     *    return application;
+     *  });
+     *
+     *  // Fill in applicant info in each application
+     *  // if the applicant is another claimant.
+     *  const applicantName = form['view:preparer'];
+     *  if (applicantName !== 'Other') {
+     *    const applicantApplication = form.applications.find(matchClaimant(applicantName));
+     *    const { address, email, name, phoneNumber } = applicantApplication.claimant;
+     *    formCopy.applications = formCopy.applications.map(application => set('applicant',  {
+     *      applicantEmail: email,
+     *      applicantPhoneNumber: phoneNumber,
+     *      applicantRelationshipToClaimant: application.claimant.ssn === applicantApplication.claimant.ssn ? 'Self' : 'Authorized Agent/Rep',
+     *      completingReason: '',
+     *      mailingAddress: address,
+     *      name
+     *    }, application));
+     *  }
+     *
+     */
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
@@ -407,64 +480,123 @@ export const veteranUI = {
   },
 };
 
-export const serviceRecordsUI = {
-  'ui:title': 'Service periods',
-  'ui:description':
-    'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
-  'ui:options': {
-    viewField: ServicePeriodView,
-    itemName: 'Service period',
-    keepInPageOnReview: true,
-  },
-  items: {
-    'ui:order': [
-      'serviceBranch',
-      'dateRange',
-      'dischargeType',
-      'highestRank',
-      'nationalGuardState',
-    ],
-    'ui:options': {
-      itemName: 'Service Period',
-    },
-    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+export const serviceRecordsUI = environment.isProduction()
+  ? {
+      'ui:title': 'Service periods',
+      'ui:description':
+        'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
       'ui:options': {
-        labels: serviceLabels,
+        viewField: ServicePeriodView,
+        itemName: 'Service period',
+        keepInPageOnReview: true,
       },
-    }),
-    dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
-      'Service start date must be after end date',
-    ),
-    dischargeType: {
-      'ui:title': 'Discharge character of service',
-      'ui:options': {
-        labels: {
-          1: 'Honorable',
-          2: 'General',
-          3: 'Entry Level Separation/Uncharacterized',
-          4: 'Other Than Honorable',
-          5: 'Bad Conduct',
-          6: 'Dishonorable',
-          7: 'Other',
+      items: {
+        'ui:order': [
+          'serviceBranch',
+          'dateRange',
+          'dischargeType',
+          'highestRank',
+          'nationalGuardState',
+        ],
+        'ui:options': {
+          itemName: 'Service Period',
+        },
+        serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+          'ui:options': {
+            labels: serviceLabels,
+          },
+        }),
+        dateRange: dateRangeUI(
+          'Service start date',
+          'Service end date',
+          'Service start date must be after end date',
+        ),
+        dischargeType: {
+          'ui:title': 'Discharge character of service',
+          'ui:options': {
+            labels: {
+              1: 'Honorable',
+              2: 'General',
+              3: 'Entry Level Separation/Uncharacterized',
+              4: 'Other Than Honorable',
+              5: 'Bad Conduct',
+              6: 'Dishonorable',
+              7: 'Other',
+            },
+          },
+        },
+        highestRank: {
+          'ui:title': 'Highest rank attained',
+        },
+        nationalGuardState: {
+          'ui:title': 'State (for National Guard Service only)',
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !['AG', 'NG'].includes(
+                formData.application.veteran.serviceRecords[index]
+                  .serviceBranch,
+              ),
+          },
         },
       },
-    },
-    highestRank: {
-      'ui:title': 'Highest rank attained',
-    },
-    nationalGuardState: {
-      'ui:title': 'State (for National Guard Service only)',
+    }
+  : {
+      'ui:title': 'Service period(s)',
       'ui:options': {
-        hideIf: (formData, index) =>
-          !['AG', 'NG'].includes(
-            formData.application.veteran.serviceRecords[index].serviceBranch,
-          ),
+        viewField: ServicePeriodView,
+        itemName: 'Service period',
+        keepInPageOnReview: true,
       },
-    },
-  },
-};
+      items: {
+        'ui:order': [
+          'serviceBranch',
+          'highestRank',
+          'dateRange',
+          'dischargeType',
+          'nationalGuardState',
+        ],
+        'ui:options': {
+          itemName: 'Service Period',
+        },
+        serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+          'ui:options': {
+            labels: serviceLabels,
+          },
+        }),
+        dateRange: dateRangeUI(
+          'Service start date',
+          'Service end date',
+          'Service start date must be after end date',
+        ),
+        dischargeType: {
+          'ui:title': 'Discharge character of service',
+          'ui:options': {
+            labels: {
+              1: 'Honorable',
+              2: 'General',
+              3: 'Entry Level Separation/Uncharacterized',
+              4: 'Other Than Honorable',
+              5: 'Bad Conduct',
+              6: 'Dishonorable',
+              7: 'Other',
+            },
+          },
+        },
+        highestRank: {
+          'ui:title': 'Highest rank attained',
+        },
+        nationalGuardState: {
+          'ui:title': 'State (for National Guard Service only)',
+          'ui:options': {
+            hideIf: (formData, index) =>
+              !['AG', 'NG'].includes(
+                formData.application.veteran.serviceRecords[index]
+                  .serviceBranch,
+              ),
+          },
+        },
+      },
+    };
 
 export const militaryNameUI = {
   application: {

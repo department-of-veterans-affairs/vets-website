@@ -52,12 +52,6 @@ const testConfig = createTestConfig(
               'eq',
               `${NOD_BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
             );
-            cy.get('va-alert[status="error"] h3').should(
-              'contain',
-              testData.contestedIssues?.length
-                ? 'You’ll need to select an issue'
-                : 'We can’t load your issues right now',
-            );
 
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
@@ -103,27 +97,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      // 'area-of-disagreement/:index': areaOfDisagreementPageHook,
-
-      // temporary pageHooks until PR #25197 is approved & merged in
-      'area-of-disagreement/0': ({ afterHook }) => {
-        areaOfDisagreementPageHook({ afterHook, index: 0 });
-      },
-      'area-of-disagreement/1': ({ afterHook }) => {
-        areaOfDisagreementPageHook({ afterHook, index: 1 });
-      },
-      'area-of-disagreement/2': ({ afterHook }) => {
-        areaOfDisagreementPageHook({ afterHook, index: 2 });
-      },
-
-      'area-of-disagreement/:index': ({ afterHook /* , index */ }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.fillPage(); // temporary until page is updated with web components
-          // console.log('testing :index pageHooks', index);
-          cy.findByText('Continue', { selector: 'button' }).click();
-        });
-      },
+      'area-of-disagreement/:index': areaOfDisagreementPageHook,
 
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')

@@ -7,6 +7,7 @@
     "wcv3VaCompensationType": "highDisability",
     "wcv3VaTileCompensationType": "none",
     "wcv3IsCurrentlyActiveDuty": true,
+    "amountOrNumber": "123",
     "selectDefault": "option1",
     "wcOldSelectFirst": "option1",
     "wcOldSelectSecond": "option1",

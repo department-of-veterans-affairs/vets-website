@@ -28,29 +28,35 @@ function handleLoadError(err) {
 }
 
 export default function createRoutesWithStore(store) {
+  const newAppointmentPaths = ['/new-appointment', '/schedule'];
+  const vaccinePaths = [
+    '/new-covid-19-vaccine-appointment',
+    '/schedule/covid-vaccine',
+  ];
+
   return (
     <ErrorBoundary fullWidth>
       <VAOSApp>
         <Switch>
           <EnrolledRoute
-            path="/new-appointment"
+            path={vaccinePaths}
+            component={asyncLoader(() =>
+              import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
+                .then(({ NewBookingSection, reducer }) => {
+                  store.injectReducer('covid19Vaccine', reducer);
+                  return NewBookingSection;
+                })
+                .catch(handleLoadError),
+            )}
+          />
+          <EnrolledRoute
+            path={newAppointmentPaths}
             component={asyncLoader(() =>
               import(/* webpackChunkName: "vaos-form" */ './new-appointment')
                 .then(({ NewAppointment, reducer }) => {
                   connectDrupalSourceOfTruthCerner(store.dispatch);
                   store.injectReducer('newAppointment', reducer);
                   return NewAppointment;
-                })
-                .catch(handleLoadError),
-            )}
-          />
-          <EnrolledRoute
-            path="/new-covid-19-vaccine-appointment"
-            component={asyncLoader(() =>
-              import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
-                .then(({ NewBookingSection, reducer }) => {
-                  store.injectReducer('covid19Vaccine', reducer);
-                  return NewBookingSection;
                 })
                 .catch(handleLoadError),
             )}

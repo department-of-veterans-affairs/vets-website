@@ -21,9 +21,8 @@ describe('nonVaPrescription details container', () => {
 
   it('displays the status', () => {
     const screen = setup();
-    const status = screen.getAllByText(
-      nonVaRxDetailsResponse.data.attributes.refillStatus,
-    );
+    const { dispStatus } = nonVaRxDetailsResponse.data.attributes;
+    const status = screen.getAllByText(dispStatus);
     expect(status).to.exist;
   });
 });

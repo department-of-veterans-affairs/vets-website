@@ -3,10 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import AddIssue from '../../components/AddIssue';
 import { errorMessages } from '../../constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 import {
   LAST_ISSUE,
@@ -68,11 +72,10 @@ describe('<AddIssue>', () => {
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(errorMessages.missingIssue);
-    expect(elems[1].error).to.contain(errorMessages.decisions.missingDate);
+    expect(elems[1].error).to.contain(errorMessages.decisions.blankDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;
-
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {

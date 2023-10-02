@@ -7,7 +7,7 @@ describe('Medications Download PDF on List Page', () => {
     const listPage = new MedicationsListPage();
     cy.visit('my-health/about-medications/');
     site.login();
-    listPage.clickGotoMedicationsLink();
+
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -19,7 +19,8 @@ describe('Medications Download PDF on List Page', () => {
         },
       },
     });
-    listPage.clickPrintOrDownloadThisListDropDown();
+    listPage.clickGotoMedicationsLink();
+
     listPage.verifyDownloadListAsPDFButtonOnListPage();
   });
 });

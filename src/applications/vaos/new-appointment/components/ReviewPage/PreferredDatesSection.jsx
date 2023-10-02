@@ -1,17 +1,27 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import newAppointmentFlow from '../../newAppointmentFlow';
+import { useSelector } from 'react-redux';
 import PreferredDates from './PreferredDates';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history) {
+function handleClick(history, pageFlow) {
+  const { home, requestDateTime } = pageFlow;
+
   return () => {
-    history.push(newAppointmentFlow.requestDateTime.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (requestDateTime.url.endsWith('/') && requestDateTime.url !== home.url)
+    )
+      history.push(`../${requestDateTime.url}`);
+    else history.push(requestDateTime.url);
   };
 }
 
 export default function PreferredDatesSection(props) {
   const history = useHistory();
+  const pageFlow = useSelector(getNewAppointmentFlow);
+
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -28,7 +38,7 @@ export default function PreferredDatesSection(props) {
               aria-label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history)}
+              onClick={handleClick(history, pageFlow)}
             />
           </div>
         </div>
@@ -38,5 +48,5 @@ export default function PreferredDatesSection(props) {
 }
 
 PreferredDatesSection.propTypes = {
-  props: PropTypes.object,
+  data: PropTypes.object,
 };

@@ -14,6 +14,7 @@ describe('hca <SubmissionErrorAlert>', () => {
         'We didn’t receive your online application',
       );
     });
+
     it('should render PDF form download link', () => {
       const { container } = render(<SubmissionErrorAlert />);
       const selector = container.querySelector(

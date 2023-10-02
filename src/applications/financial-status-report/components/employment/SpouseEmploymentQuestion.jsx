@@ -8,6 +8,7 @@ const SpouseEmploymentQuestion = props => {
   const {
     data,
     goBack,
+    goForward,
     goToPath,
     setFormData,
     contentBeforeButtons,
@@ -85,7 +86,7 @@ const SpouseEmploymentQuestion = props => {
         </VaRadio>
       </fieldset>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons goBack={goBack} goForward={goForward} />
       {contentAfterButtons}
     </form>
   );

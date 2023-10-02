@@ -148,6 +148,21 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [pagePaths.numberInput]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // widgets
+            cy.fillPage();
+
+            // web components
+            fillTextWebComponent('amountOrNumber', data.amountOrNumber);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       [pagePaths.select]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
