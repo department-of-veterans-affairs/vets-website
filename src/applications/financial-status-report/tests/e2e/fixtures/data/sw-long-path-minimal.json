@@ -1,4 +1,7 @@
 {
+  "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
+  "view:streamlinedWaiverAssetUpdate": false,
   "questions": {
     "hasRepayments": false,
     "hasCreditCardBills": false,

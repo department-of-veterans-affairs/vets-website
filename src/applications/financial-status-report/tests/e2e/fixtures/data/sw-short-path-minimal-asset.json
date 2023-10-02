@@ -1,4 +1,7 @@
 {
+  "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
+  "view:streamlinedWaiverAssetUpdate": true,
   "questions": {
     "hasDependents": "2",
     "isMarried": false,
