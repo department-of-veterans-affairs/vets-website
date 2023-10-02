@@ -52,6 +52,7 @@ const ReplyForm = props => {
   const [saveError, setSaveError] = useState(null);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
+  const [modalVisible, updateModalVisible] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -253,20 +254,6 @@ const ReplyForm = props => {
     [checkMessageValidity],
   );
 
-  // Before Save
-  useEffect(
-    () => {
-      if (!messageBody) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-          confirmButtonText: 'Continue editing',
-          cancelButtonText: 'Delete draft',
-        });
-      }
-    },
-    [messageBody],
-  );
-
   // On Save
   const saveDraftHandler = useCallback(
     async (type, e) => {
@@ -338,13 +325,36 @@ const ReplyForm = props => {
     ],
   );
 
+  // Before Save
   useEffect(
     () => {
-      if (debouncedMessageBody && isAutosave && !cannotReply) {
+      const draftBody = draft && draft.body;
+      if (messageBody !== draftBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
+      } else if (messageBody === draftBody) {
+        setNavigationError(null);
+      }
+    },
+    [draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      if (debouncedMessageBody && isAutosave && !cannotReply && !modalVisible) {
         saveDraftHandler('auto');
       }
     },
-    [debouncedMessageBody],
+    [
+      cannotReply,
+      debouncedMessageBody,
+      isAutosave,
+      modalVisible,
+      saveDraftHandler,
+    ],
   );
 
   const messageBodyHandler = e => {
@@ -390,6 +400,8 @@ const ReplyForm = props => {
             )}
             <RouteLeavingGuard
               when={!!navigationError}
+              modalVisible={modalVisible}
+              updateModalVisible={updateModalVisible}
               navigate={path => {
                 history.push(path);
               }}
@@ -457,6 +469,7 @@ const ReplyForm = props => {
                   <AttachmentsList
                     attachments={attachments}
                     setAttachments={setAttachments}
+                    setNavigationError={setNavigationError}
                     editingEnabled
                   />
 
