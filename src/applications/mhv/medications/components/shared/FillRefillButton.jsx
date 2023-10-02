@@ -17,15 +17,6 @@ const FillRefillButton = rx => {
     success,
   } = rx;
 
-  const pharmacyPhone = () => {
-    return (
-      <p className="vads-u-margin-y--0">
-        If it still doesn’t work, call your VA pharmacy
-        <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
-      </p>
-    );
-  };
-
   if (
     (dispStatus === 'Active' && refillRemaining !== 0) ||
     dispStatus === 'Active: Parked'
@@ -46,9 +37,10 @@ const FillRefillButton = rx => {
                 We didn’t get your [fill/refill] request. Try again.
               </p>
             </va-alert>
-            <div className="vads-u-visibility--visible vads-u-margin-top--1 vads-u-margin-bottom--1 medium-screen:vads-u-visibility--hidden medium-screen:vads-u-margin-bottom--neg3">
-              {pharmacyPhone()}
-            </div>
+            <p className="vads-u-margin-bottom--0 vads-u-margin-top--1">
+              If it still doesn’t work, call your VA pharmacy
+              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+            </p>
           </>
         )}
         <button
@@ -62,11 +54,6 @@ const FillRefillButton = rx => {
         >
           {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
         </button>
-        {error && (
-          <div className="vads-u-visibility--hidden vads-u-margin-bottom--neg4 medium-screen:vads-u-visibility--visible medium-screen:vads-u-margin-bottom--0">
-            {pharmacyPhone()}
-          </div>
-        )}
       </div>
     );
   }
