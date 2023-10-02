@@ -15,10 +15,9 @@ import { createNotListedTextKey } from './util/personal-information/personalInfo
 import { PROFILE_TOGGLES } from './constants';
 
 export const selectEmergencyContacts = state =>
-  state?.associatedPersons?.emergencyContacts || false;
+  state?.emergencyContacts || false;
 
-export const selectNextOfKin = state =>
-  state?.associatedPersons?.nextOfKin || false;
+export const selectNextOfKin = state => state?.nextOfKin || false;
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;

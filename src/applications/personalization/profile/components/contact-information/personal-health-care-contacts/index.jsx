@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Contact from './Contact';
+import NextOfKin from './NextOfKin';
 import EmergencyContact from './EmergencyContact';
 
 const PersonalHealthCareContacts = () => {
@@ -23,42 +23,24 @@ const PersonalHealthCareContacts = () => {
           </p>
         </va-additional-info>
 
-        <p className="vads-u-font-weight--bold">
-          Who we’ll contact in case of a medical emergency
-        </p>
+        <div>
+          <h3 className="vads-u-font-family--sans vads-u-font-size--base">
+            Who we’ll contact in case of a medical emergency
+          </h3>
+          <EmergencyContact />
+        </div>
 
-        {/* <Contact
-          givenName="Barbara"
-          familyName="Allen"
-          primaryPhone="555-555-5555"
-        /> */}
-
-        {/* <Contact /> */}
-
-        <EmergencyContact />
-
-        <p>
-          <span className="vads-u-font-weight--bold">
+        <div>
+          <h3 className="vads-u-font-family--sans vads-u-font-size--base">
             Who you’d like to represent your wishes for care and medical
             documentation, if needed.
-          </span>
-          <br />
-          <span className="vads-u-color--gray-medium">
+          </h3>
+          <p className="vads-u-color--gray-medium">
             Your next of kin is often your closest living relative, like your
             spouse, child, parent, or sibling.
-          </span>
-          <br />
-        </p>
-
-        <Contact
-          givenName="Barbara"
-          familyName="Allen"
-          addressLine1="1221 Douglas Way"
-          city="Douglas"
-          state="MA"
-          zipCode="00000"
-          primaryPhone="555-555-5555"
-        />
+          </p>
+          <NextOfKin />
+        </div>
       </div>
     </section>
   );

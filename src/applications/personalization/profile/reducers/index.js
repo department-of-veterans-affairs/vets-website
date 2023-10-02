@@ -12,8 +12,8 @@ export default {
   vapService,
   hcaEnrollmentStatus,
   ...ratedDisabilities,
-  emergencyContactsReducer,
-  nextOfKinReducer,
+  emergencyContacts: emergencyContactsReducer,
+  nextOfKin: nextOfKinReducer,
 };
 
 export const selectCommunicationPreferences = state => {

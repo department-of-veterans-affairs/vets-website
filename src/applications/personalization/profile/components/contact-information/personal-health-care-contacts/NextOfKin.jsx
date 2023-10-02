@@ -4,16 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchNextOfKin } from '@@profile/actions';
 import { selectNextOfKin } from '@@profile/selectors';
 
-import Loading from '../Loading';
+import Contact from './Contact';
+import Loading from './Loading';
 
 const NextOfKin = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector(selectNextOfKin);
 
-  useEffect(
-    () => !data && !loading && !error && dispatch(fetchNextOfKin()),
-    [data, dispatch, loading, error],
-  );
+  useEffect(() => !data && !loading && !error && dispatch(fetchNextOfKin()), [
+    data,
+    dispatch,
+    loading,
+    error,
+  ]);
 
   // Select the first record returned from the API. Perhaps move this the reducer.
   const [nextOfKin] = data || [];

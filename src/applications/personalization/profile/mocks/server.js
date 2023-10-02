@@ -38,6 +38,9 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
+const ec = require('../tests/fixtures/ec.json');
+const nok = require('../tests/fixtures/nok.json');
+
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
 
@@ -270,6 +273,8 @@ const responses = {
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
+  'GET /v0/emergency_contacts': ec,
+  'GET /v0/next_of_kin': nok,
 };
 
 function terminationHandler(signal) {

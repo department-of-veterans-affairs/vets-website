@@ -16,7 +16,7 @@ const EmergencyContact = () => {
     [data, dispatch, loading, error],
   );
 
-  // Select the first record returned from the API. Perhaps move this the reducer.
+  // Select the first record returned from the API.
   const [emergencyContact] = data || [];
   const { attributes } = emergencyContact || {};
 
