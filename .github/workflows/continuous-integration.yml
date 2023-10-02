@@ -270,7 +270,7 @@ jobs:
     name: Unit Tests Stress Test
     runs-on: self-hosted
     needs: [unit-tests]
-    if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' &&  (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -1315,7 +1315,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() }}
+    if: ${{ always() && github.ref != 'refs/heads/main' }}
     continue-on-error: true
     steps:
       - name: Checkout
