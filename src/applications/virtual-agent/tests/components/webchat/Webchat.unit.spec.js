@@ -47,7 +47,7 @@ describe('Webchat.jsx', () => {
       expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
 
       expect(nextSpy.calledOnce).to.be.true;
-      expect(nextSpy.firstCall.args[0]).to.eql(decisionLetterCard.cardAction);
+      expect(nextSpy.firstCall.args[0]).to.eql(decisionLetterCard);
       dateStub.restore();
     });
 

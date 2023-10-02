@@ -18,8 +18,8 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-export const cardActionMiddleware = () => next => ({ cardAction }) => {
-  const isDecisionLetter = cardAction.value.includes('/v0/claim_letters/');
+export const cardActionMiddleware = () => next => card => {
+  const isDecisionLetter = card.cardAction.value.includes('/v0/claim_letters/');
   if (isDecisionLetter) {
     // Track decision letter downloads
     recordEvent({
@@ -28,7 +28,7 @@ export const cardActionMiddleware = () => next => ({ cardAction }) => {
       time: new Date(Date.now()),
     });
   }
-  next(cardAction);
+  next(card);
 };
 
 const WebChat = ({ token, WebChatFramework, apiSession }) => {
