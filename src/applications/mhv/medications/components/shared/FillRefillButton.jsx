@@ -37,7 +37,7 @@ const FillRefillButton = rx => {
                 We didn’t get your [fill/refill] request. Try again.
               </p>
             </va-alert>
-            <p className="vads-u-margin-bottom--0 vads-u-margin-top--1">
+            <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
               If it still doesn’t work, call your VA pharmacy
               <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
             </p>
