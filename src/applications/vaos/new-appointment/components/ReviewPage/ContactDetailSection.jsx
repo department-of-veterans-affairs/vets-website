@@ -2,17 +2,56 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-
 import newAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history) {
+import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
+import { selectFeatureAcheronService } from '../../../redux/selectors';
+import { getFlowType, getFormData } from '../../redux/selectors';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
+
+function formatBestTimetoCall(bestTime) {
+  const times = [];
+  let output = '';
+  if (bestTime?.morning) {
+    times.push('Morning');
+  }
+
+  if (bestTime?.afternoon) {
+    times.push('Afternoon');
+  }
+
+  if (bestTime?.evening) {
+    times.push('Evening');
+  }
+
+  if (times.length === 1) {
+    output = times[0];
+  } else if (times.length === 2) {
+    output = `${times[0]} or ${times[1]}`;
+  } else {
+    output = 'Anytime during the day';
+  }
+
+  return output.toLowerCase();
+}
+
+
+function handleClick(history, pageFlow) {
+  const { home, contactInfo } = pageFlow;
+
   return () => {
-    history.push(newAppointmentFlow.contactInfo.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (contactInfo.url.endsWith('/') && contactInfo.url !== home.url)
+    )
+      history.push(`../${contactInfo.url}`);
+    else history.push(contactInfo.url);
   };
 }
 
 export default function ContactDetailSection({ data }) {
   const history = useHistory();
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   return (
     <>
@@ -35,7 +74,7 @@ export default function ContactDetailSection({ data }) {
               aria-label="Edit call back time"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history)}
+              onClick={handleClick(history, pageFlow)}
             />
           </div>
         </div>

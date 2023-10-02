@@ -42,7 +42,10 @@ function AppointmentListSection() {
             path="/:pending?/requests/:id"
             component={RequestedAppointmentDetailsPage}
           />
-          <Route path="/:id" component={ConfirmedAppointmentDetailsPage} />
+          <Route
+            path={['/va/:id', '/:id']}
+            component={ConfirmedAppointmentDetailsPage}
+          />
           <Route path="/" component={AppointmentsPageV2} />
         </Switch>
       )}

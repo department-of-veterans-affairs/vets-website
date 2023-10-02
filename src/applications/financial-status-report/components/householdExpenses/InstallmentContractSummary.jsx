@@ -58,6 +58,13 @@ const InstallmentContractSummary = ({
 
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
 
+  const reformattedDateReceived = dateReceived => {
+    const dateYear = dateReceived.split('-')[0];
+    const dateMonth = dateReceived.split('-')[1];
+
+    return `${dateMonth}/XX/${dateYear}`;
+  };
+
   const billBody = ({
     creditorName,
     originalAmount,
@@ -75,11 +82,12 @@ const InstallmentContractSummary = ({
       'Minimum monthly payment amount': amountDueMonthly
         ? currencyFormatter(amountDueMonthly)
         : null,
-      'Date received': dateStarted,
+      'Date received': reformattedDateReceived(dateStarted),
       'Amount overdue': amountPastDue
         ? currencyFormatter(amountPastDue)
         : currencyFormatter(0.0),
     };
+
     return (
       <p className="vads-u-margin--0">
         {Object.entries(formattedFields).map(
