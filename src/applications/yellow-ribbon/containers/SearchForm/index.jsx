@@ -205,7 +205,7 @@ export class SearchForm extends Component {
               checked={contributionAmount === 'unlimited'}
               name="contributionAmount"
               label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
-              onVaChange={() => onCheckboxChange('contributionAmount')}
+              onVaChange={onCheckboxChange('contributionAmount')}
               required={false}
             />
 
@@ -214,7 +214,7 @@ export class SearchForm extends Component {
               name="numberOfStudents"
               checked={numberOfStudents === 'unlimited'}
               label="Only show schools that provide funding to all eligible students"
-              onVaChange={() => onCheckboxChange('numberOfStudents')}
+              onVaChange={onCheckboxChange('numberOfStudents')}
               required={false}
             />
           </div>
