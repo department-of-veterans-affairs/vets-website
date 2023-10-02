@@ -16,7 +16,7 @@ describe(appName, () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('landing page is disabled for patients with no facilities', () => {
       ApiInitializer.initializeUserData.withFacilities({ facilities: [] });
-      LandingPage.visitPageAsCernerPatient();
+      LandingPage.visitPage();
       LandingPage.validateRedirectHappened();
       cy.wait('@mhvRedirect');
     });
