@@ -6,27 +6,27 @@ import { cardActionMiddleware } from '../../../components/webchat/helpers/webCha
 const sandbox = sinon.createSandbox();
 
 describe('Webchat.jsx', () => {
-  describe('decision letter tracking', () => {
-    afterEach(() => {
-      sandbox.restore();
-    });
+  /**
+   * create a fake action card
+   * @param {string} value url for the cardAction
+   * @returns {{cardAction: {value: string}}} fake cardAction card
+   */
+  const generateFakeCard = value => ({ cardAction: { value } });
+  /**
+   * creates sinon functions for the tests
+   * @returns {{nextSpy: SinonSpy, recordEventStub: SinonStub}}
+   *          an object containing sinon functions for next and recordEvent
+   */
 
-    /**
-     * creates sinon functions for the tests
-     * @returns {{nextSpy: SinonSpy, recordEventStub: SinonStub}}
-     *          an object contianing sinon functions for next and recordEvent
-     */
-    const generateSinonFunctions = () => ({
-      nextSpy: sandbox.spy(),
-      recordEventStub: sandbox.stub(recordEventObject, 'default'),
-    });
+  const generateSinonFunctions = () => ({
+    nextSpy: sandbox.spy(),
+    recordEventStub: sandbox.stub(recordEventObject, 'default'),
+  });
+  afterEach(() => {
+    sandbox.restore();
+  });
+  describe('when decision letter tracking is enabled', () => {
     const decisionLetterEnabled = true;
-    /**
-     * create a fake action card
-     * @param {string} value url for the cardAction
-     * @returns {{cardAction: {value: string}}} fake cardAction card
-     */
-    const generateFakeCard = value => ({ cardAction: { value } });
 
     it('should call recordEvent and next when card is a decision letter', () => {
       const decisionLetterCard = generateFakeCard(
@@ -53,7 +53,7 @@ describe('Webchat.jsx', () => {
       dateStub.restore();
     });
 
-    it('should only call next when card is not a decision letter', () => {
+    it('should not call recordEvent when card is not a decision letter', () => {
       const nonDecisionLetterCard = generateFakeCard(
         'random_thing_we_dont_use',
       );
@@ -63,6 +63,23 @@ describe('Webchat.jsx', () => {
       );
       expect(recordEventStub.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
+      expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+    });
+  });
+
+  describe('when decision letter tracking is disabled', () => {
+    it('should not call recordEvent', () => {
+      const decisionLetterEnabled = false;
+      const nonDecisionLetterCard = generateFakeCard(
+        'random_thing_we_dont_use',
+      );
+      const { nextSpy, recordEventStub } = generateSinonFunctions();
+      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+        nonDecisionLetterCard,
+      );
+      expect(recordEventStub.notCalled).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+      expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
     });
   });
 });

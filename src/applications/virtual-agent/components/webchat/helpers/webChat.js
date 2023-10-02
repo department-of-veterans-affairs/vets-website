@@ -1,0 +1,30 @@
+// import recordEvent from 'platform/monitoring/record-event';
+
+// export const cardActionMiddleware = () => next => card => {
+//   const isDecisionLetter = card.cardAction.value.includes('/v0/claim_letters/');
+//   if (isDecisionLetter) {
+//     // Track decision letter downloads
+//     recordEvent({
+//       event: 'file_download',
+//       'button-click-label': 'Decision Letter',
+//       time: new Date(Date.now()),
+//     });
+//   }
+//   next(card);
+// };
+
+import recordEvent from 'platform/monitoring/record-event';
+
+export const cardActionMiddleware = decisionLetterEnabled => () => next => card => {
+  const isDecisionLetter = card.cardAction.value.includes('/v0/claim_letters/');
+  if (decisionLetterEnabled && isDecisionLetter) {
+    const recordDecisionLetterDownload = () =>
+      recordEvent({
+        event: 'file_download',
+        'button-click-label': 'Decision Letter',
+        time: new Date(Date.now()),
+      });
+    recordDecisionLetterDownload();
+  }
+  next(card);
+};
