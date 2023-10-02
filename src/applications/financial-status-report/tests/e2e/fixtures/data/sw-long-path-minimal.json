@@ -302,8 +302,6 @@
   "additionalData": {
     "bankruptcy": {}
   },
-  "view:enhancedFinancialStatusReport": true,
-  "view:streamlinedWaiver": true,
   "income": [
     {
       "veteranOrSpouse": "VETERAN",

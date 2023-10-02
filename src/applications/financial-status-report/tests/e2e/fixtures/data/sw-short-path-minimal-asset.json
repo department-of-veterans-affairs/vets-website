@@ -282,7 +282,16 @@
     "spouseBenefits": {}
   },
   "assets": {
-    "cashOnHand": "0"
+    "monetaryAssets": [
+      {
+        "name": "Cash on hand (not in bank)",
+        "amount": "125"
+      },
+      {
+        "name": "Cash in a bank (savings and checkings)",
+        "amount": "329.12"
+      }
+    ]
   },
   "expenses": {},
   "additionalData": {
