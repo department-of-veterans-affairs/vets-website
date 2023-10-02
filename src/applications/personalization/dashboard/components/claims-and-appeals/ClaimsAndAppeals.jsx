@@ -11,8 +11,7 @@ import {
 import IconCTALink from '../IconCTALink';
 import {
   getAppealsV2 as getAppealsAction,
-  getClaimsV2 as getClaimsAction,
-  getLighthouseClaims as getLighthouseClaimsAction,
+  getClaims as getClaimsAction,
 } from '../../actions/claims';
 import {
   appealsAvailability,
@@ -111,11 +110,9 @@ const ClaimsAndAppeals = ({
   isLOA1,
   loadAppeals,
   loadClaims,
-  loadLighthouseClaims,
   shouldLoadAppeals,
   shouldLoadClaims,
   shouldShowLoadingIndicator,
-  useLighthouseClaims,
 }) => {
   React.useEffect(
     () => {
@@ -129,22 +126,10 @@ const ClaimsAndAppeals = ({
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
-        // stop polling the claims API after 45 seconds
-        const pollingExpiration = Date.now() + 45 * 1000;
-        if (useLighthouseClaims) {
-          loadLighthouseClaims({ pollingExpiration });
-        } else {
-          loadClaims({ pollingExpiration });
-        }
+        loadClaims();
       }
     },
-    [
-      dataLoadingDisabled,
-      loadClaims,
-      loadLighthouseClaims,
-      shouldLoadClaims,
-      useLighthouseClaims,
-    ],
+    [dataLoadingDisabled, loadClaims, shouldLoadClaims],
   );
 
   // the most recently updated open claim or appeal or
@@ -179,7 +164,6 @@ const ClaimsAndAppeals = ({
               {highlightedClaimOrAppeal && !isLOA1 ? (
                 <HighlightedClaimAppeal
                   claimOrAppeal={highlightedClaimOrAppeal}
-                  useLighthouseClaims={useLighthouseClaims}
                 />
               ) : (
                 <>
@@ -206,11 +190,9 @@ ClaimsAndAppeals.propTypes = {
   hasAPIError: PropTypes.bool.isRequired,
   loadAppeals: PropTypes.func.isRequired,
   loadClaims: PropTypes.func.isRequired,
-  loadLighthouseClaims: PropTypes.func.isRequired,
   shouldLoadAppeals: PropTypes.bool.isRequired,
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  useLighthouseClaims: PropTypes.bool.isRequired,
   userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
@@ -223,7 +205,7 @@ PopularActionsForClaimsAndAppeals.propTypes = {
 };
 
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(
-  backendServices.EVSS_CLAIMS,
+  backendServices.LIGHTHOUSE,
 );
 const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
@@ -266,7 +248,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   loadAppeals: getAppealsAction,
   loadClaims: getClaimsAction,
-  loadLighthouseClaims: getLighthouseClaimsAction,
 };
 
 export default connect(
