@@ -19,18 +19,7 @@ const capitalizeWord = word => {
 
 const formatDate = buildDateFormatter('MMMM d, yyyy');
 
-const getHref = (appeal, isExternal) => {
-  const parts = [`appeals/${appeal.id}/status`];
-  if (isExternal) {
-    parts.unshift('/trackClaims/');
-  }
-
-  return parts.join('');
-};
-
-// This component is also used by the personalization application, which will pass the external flag.
-
-export default function AppealListItemV3({ appeal, name, external = false }) {
+export default function AppealListItemV3({ appeal, name }) {
   let requestEventType;
   let isAppeal;
 
@@ -87,7 +76,7 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
   updatedOn = formatDate(updatedEventDateString);
 
   const ariaLabel = `View details for ${appealTitle}`;
-  const href = getHref(appeal, external);
+  const href = `appeals/${appeal.id}/status`;
 
   return (
     <ClaimCard
@@ -133,7 +122,6 @@ AppealListItemV3.propTypes = {
     }),
     type: PropTypes.string,
   }),
-  external: PropTypes.bool,
   name: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
