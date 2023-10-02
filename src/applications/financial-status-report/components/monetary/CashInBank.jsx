@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
-import { currency as currencyFormatter } from '../../utils/helpers';
 import { safeNumber } from '../../utils/calculateIncome';
+import { currency as currencyFormatter } from '../../utils/helpers';
+import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
 
+const CASH_IN_BANK = 'Cash in a bank (savings and checkings)';
 const CASH_ON_HAND = 'Cash on hand (not in bank)';
 
-const CashOnHand = ({
+const CashInBank = ({
   contentBeforeButtons,
   contentAfterButtons,
   data,
@@ -17,17 +19,16 @@ const CashOnHand = ({
   setFormData,
 }) => {
   const { assets, gmtData } = data;
-  const { cashOnHand, monetaryAssets = [] } = assets;
+  const { monetaryAssets = [] } = assets;
 
+  const cashInBankTotal = monetaryAssets.find(f => f.name === CASH_IN_BANK) ?? {
+    amount: '',
+  };
   const cashOnHandTotal = monetaryAssets.find(f => f.name === CASH_ON_HAND) ?? {
     amount: '',
   };
 
-  const [cash, setCash] = useState(
-    data['view:streamlinedWaiverAssetUpdate']
-      ? cashOnHandTotal.amount
-      : cashOnHand,
-  );
+  const [cash, setCash] = useState(cashInBankTotal.amount);
   const ERR_MSG = 'Please enter a valid dollar amount';
   const [error, setError] = useState(null);
 
@@ -36,37 +37,28 @@ const CashOnHand = ({
       return setError(ERR_MSG);
     }
 
-    const filteredMonetaryAssets = monetaryAssets.filter(
-      asset => asset.name !== CASH_ON_HAND,
+    const newMonetaryAssetsArray = monetaryAssets.filter(
+      asset => asset.name !== CASH_IN_BANK,
     );
 
-    // New asset caclulation adds cash on hand to monetary assets array.
-    // secondary condition can be removed when feature flag is disabled
-    if (data['view:streamlinedWaiverAssetUpdate']) {
-      setFormData({
-        ...data,
-        assets: {
-          ...data.assets,
-          monetaryAssets: [
-            ...filteredMonetaryAssets,
-            { name: CASH_ON_HAND, amount: cash },
-          ],
-        },
-      });
-    } else {
-      // update form data & gmtIsShort
-      setFormData({
-        ...data,
-        assets: {
-          ...data.assets,
-          cashOnHand: cash,
-        },
-        gmtData: {
-          ...gmtData,
-          cashBelowGmt: safeNumber(cash) < gmtData?.assetThreshold,
-        },
-      });
-    }
+    const liquidCash = safeNumber(cash) + safeNumber(cashOnHandTotal.amount);
+
+    // update form data & gmtIsShort
+    setFormData({
+      ...data,
+      assets: {
+        ...assets,
+        monetaryAssets: [
+          ...newMonetaryAssetsArray,
+          { name: CASH_IN_BANK, amount: cash },
+        ],
+      },
+      gmtData: {
+        ...gmtData,
+        liquidAssetsBelowGmt: liquidCash < gmtData?.assetThreshold,
+      },
+    });
+
     return setError(null);
   };
 
@@ -89,7 +81,7 @@ const CashOnHand = ({
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">Cash on hand</h3>
+          <h3 className="vads-u-margin--0">Cash in bank</h3>
         </legend>
         <VaNumberInput
           currency
@@ -97,7 +89,7 @@ const CashOnHand = ({
           hint={null}
           id="cash"
           inputmode="decimal"
-          label="What is the dollar amount of available cash (not in a bank) you currently have?"
+          label="What is the dollar amount of all checkings and savings accounts?"
           name="cash"
           onBlur={onBlur}
           onInput={({ target }) => setCash(target.value)}
@@ -117,15 +109,13 @@ const CashOnHand = ({
   );
 };
 
-CashOnHand.propTypes = {
+CashInBank.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
   data: PropTypes.shape({
     assets: PropTypes.shape({
-      cashOnHand: PropTypes.string,
       monetaryAssets: PropTypes.array,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
     }),
@@ -135,36 +125,43 @@ CashOnHand.propTypes = {
   setFormData: PropTypes.func,
 };
 
-// Cash on hand review component won't be necessary after feature flag is disabled
-//  because cash on hand will be added to monetary assets array
-const CashOnHandReview = ({ data }) => {
+// This review section should only show for SW short form
+//  otherwise the assets will show in the monetary assets section
+const CashInBankReview = formData => {
+  const { data } = formData;
   const { assets } = data;
-  const { cashOnHand } = assets;
+  const { monetaryAssets = [] } = assets;
 
-  return data['view:streamlinedWaiverAssetUpdate'] ? null : (
+  return isStreamlinedShortForm(data) ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Cash on hand
+          Monetary assets
         </h4>
       </div>
       <dl className="review">
-        <div className="review-row">
-          <dt>Available cash (not in a bank)</dt>
-          <dd>{currencyFormatter(cashOnHand)}</dd>
-        </div>
+        {monetaryAssets.map((income, index) => {
+          return (
+            <div
+              className="review-row"
+              key={income.name + income.amount + index}
+            >
+              <dt>{income.name}</dt>
+              <dd>{currencyFormatter(income.amount)}</dd>
+            </div>
+          );
+        })}
       </dl>
     </div>
-  );
+  ) : null;
 };
 
-CashOnHandReview.propTypes = {
+CashInBankReview.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
       cashOnHand: PropTypes.string,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
 };
 
-export { CashOnHand, CashOnHandReview };
+export { CashInBank, CashInBankReview };
