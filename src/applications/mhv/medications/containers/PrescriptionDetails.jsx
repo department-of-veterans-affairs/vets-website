@@ -108,9 +108,9 @@ const PrescriptionDetails = () => {
   const handleDownloadPDF = () => {
     generateMedicationsPDF(
       'medications',
-      `${prescription.prescriptionName
-        .replace(/\s/g, '_')
-        .replace(/\//g, '-')}`,
+      `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
+        userName.first ? `${userName.first}-${userName.last}` : userName.last
+      }-${dateFormat(Date.now(), 'MM-DD-YYYY_hmmssa')}`,
       pdfData,
     );
   };
