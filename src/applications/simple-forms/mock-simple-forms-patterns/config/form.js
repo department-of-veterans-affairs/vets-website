@@ -7,6 +7,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import textInput from '../pages/mockTextInput';
 import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import numberInput from '../pages/mockNumberInput';
 import textInputFullName from '../pages/mockTextInputFullName';
 import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
@@ -22,6 +23,7 @@ import arrayMultiplePageItem from '../pages/mockArrayMultiplePageItem';
 // helps for dev testing and e2e
 const INCLUDE_PAGE = {
   text: true,
+  number: true,
   radio: true,
   checkbox: true,
   select: true,
@@ -101,6 +103,18 @@ const formConfig = {
         },
       },
       depends: () => false,
+    },
+    numberInput: {
+      title: 'Number Input',
+      pages: {
+        numberInput: {
+          path: 'number-input',
+          title: 'Number Input', // for review page (has to be more than one word)
+          uiSchema: numberInput.uiSchema,
+          schema: numberInput.schema,
+          depends: includePage('number'),
+        },
+      },
     },
     checkbox: {
       title: 'Checkbox',

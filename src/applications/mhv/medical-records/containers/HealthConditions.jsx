@@ -56,7 +56,7 @@ const HealthConditions = () => {
   };
 
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <>
       <h1 className="vads-u-margin--0">Health conditions</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
         Health condition records are available{' '}
@@ -64,7 +64,7 @@ const HealthConditions = () => {
         providers enter them.
       </p>
       {content()}
-    </div>
+    </>
   );
 };
 

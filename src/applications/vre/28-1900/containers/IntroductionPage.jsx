@@ -74,7 +74,7 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-two">
-            <h4>Apply</h4>
+            <h3>Apply</h3>
             <p>Complete this Veteran Readiness and Employment form.</p>
             <p>
               After submitting your application, you’ll get a confirmation
@@ -83,14 +83,14 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-three">
-            <h4>VA review</h4>
+            <h3>VA review</h3>
             <p>
               We process applications in the order we receive them. We may
               contact you if we have questions or need more information.
             </p>
           </li>
           <li className="process-step list-four">
-            <h4>Decision</h4>
+            <h3>Decision</h3>
             <p>
               If you’re eligible for Veteran Readiness and Employment benefits,
               we’ll schedule a meeting for you with a Vocational Rehabilitation

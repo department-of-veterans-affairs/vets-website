@@ -165,8 +165,7 @@ const PrescriptionDetails = () => {
     if (nonVaPrescription) {
       return (
         <>
-          Information entered on{' '}
-          {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+          Documented on {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
         </>
       );
     }
