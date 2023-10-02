@@ -11,10 +11,7 @@ import {
 
 import EnrollmentStatus from '../components/IntroductionPage/EnrollmentStatus';
 import GetStartedContent from '../components/IntroductionPage/GetStarted';
-import {
-  IdentityVerificationAlert,
-  PerformanceWarning,
-} from '../components/FormAlerts';
+import { IdentityVerificationAlert } from '../components/FormAlerts';
 
 import {
   isLoading,
@@ -33,7 +30,7 @@ const IntroductionPage = props => {
     showLOA3Content,
     showGetStartedContent,
   } = displayConditions;
-  const { enrollmentOverrideEnabled, performanceAlertEnabled } = features;
+  const { enrollmentOverrideEnabled } = features;
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -54,8 +51,6 @@ const IntroductionPage = props => {
         appTitle="Application for VA health care"
         dependencies={[externalServices.es]}
       >
-        {performanceAlertEnabled && <PerformanceWarning />}
-
         {!showLoader &&
           !showLOA3Content && (
             <p data-testid="hca-loa1-description">
@@ -103,7 +98,6 @@ const mapStateToProps = state => ({
   features: {
     enrollmentOverrideEnabled:
       state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
-    performanceAlertEnabled: state.featureToggles.hcaPerformanceAlertEnabled,
   },
 });
 
