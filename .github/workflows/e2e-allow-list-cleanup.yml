@@ -100,7 +100,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: e2e-allow-list
-          path: .
+          path: ./qa-standards
 
       - name: Run cleanup script
         run: yarn cleanup-allow-list
