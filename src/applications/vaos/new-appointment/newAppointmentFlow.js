@@ -148,7 +148,7 @@ const flow = {
           // If CC enabled systems and toc is podiatry, skip typeOfFacility
           dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
           dispatch(startRequestAppointmentFlow(true));
-          return 'requestDateTime';
+          return 'ccRequestDateTime';
         }
         if (isEligible) {
           return 'typeOfFacility';
@@ -173,7 +173,7 @@ const flow = {
 
       if (isCCFacility(state)) {
         dispatch(startRequestAppointmentFlow(true));
-        return 'requestDateTime';
+        return 'ccRequestDateTime';
       }
 
       return VA_FACILITY_V2_KEY;
@@ -205,7 +205,7 @@ const flow = {
     url: '/new-appointment/audiology',
     next(state, dispatch) {
       dispatch(startRequestAppointmentFlow(true));
-      return 'requestDateTime';
+      return 'ccRequestDateTime';
     },
   },
   ccPreferences: {
@@ -366,6 +366,12 @@ export default function getNewAppointmentFlow(state) {
       ...flow.requestDateTime,
       url: featureBreadcrumbUrlUpdate
         ? 'va-request/'
+        : '/new-appointment/request-date',
+    },
+    ccRequestDateTime: {
+      ...flow.requestDateTime,
+      url: featureBreadcrumbUrlUpdate
+        ? 'community-request/'
         : '/new-appointment/request-date',
     },
     root: {

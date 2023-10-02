@@ -21,6 +21,8 @@ import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
 import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
 import PreferredDatePage from './components/PreferredDatePage';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
+import VARequest from './components/DateTimeRequestPage/VA';
+import CCRequest from './components/DateTimeRequestPage/CommunityCare';
 import DateTimeSelectPage from './components/DateTimeSelectPage';
 import VAFacilityPageV2 from './components/VAFacilityPage/VAFacilityPageV2';
 import ClosestCityStatePage from './components/ClosestCityStatePage';
@@ -108,17 +110,11 @@ export function NewAppointment() {
           <Route path={`${match.url}/preferred-date`}>
             <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route
-            exact
-            path={[
-              `${match.url}/va-request/`,
-              `${match.url}/community-request/`,
-            ]}
-          >
-            <DateTimeRequestPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <Route exact path={`${match.url}/va-request/`}>
+            <VARequest changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
-          <Route path={`${match.url}/date-time`}>
-            <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
+          <Route exact path={`${match.url}/community-request/`}>
+            <CCRequest changeCrumb={newTitle => setCrumb(newTitle)} />
           </Route>
           <Route path={`${match.url}/location`}>
             <VAFacilityPageV2 changeCrumb={newTitle => setCrumb(newTitle)} />
