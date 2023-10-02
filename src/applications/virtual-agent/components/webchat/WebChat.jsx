@@ -18,17 +18,18 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-export function cardActionMiddleware(next, card) {
-  // Track decision letter downloads
-  if (card.cardAction.value.includes('/v0/claim_letters/')) {
+export const cardActionMiddleware = () => next => ({ cardAction }) => {
+  const isDecisionLetter = cardAction.value.includes('/v0/claim_letters/');
+  if (isDecisionLetter) {
+    // Track decision letter downloads
     recordEvent({
       event: 'file_download',
       'button-click-label': 'Decision Letter',
       time: new Date(Date.now()),
     });
   }
-  next(card);
-}
+  next(cardAction);
+};
 
 const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
@@ -230,8 +231,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
-          cardActionMiddleware={() => next => card =>
-            cardActionMiddleware(next, card)}
+          cardActionMiddleware={cardActionMiddleware}
           styleOptions={styleOptions}
           directLine={directLine}
           store={store}

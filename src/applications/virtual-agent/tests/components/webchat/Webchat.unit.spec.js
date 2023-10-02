@@ -41,12 +41,13 @@ describe('Webchat.jsx', () => {
         time: new Date(Date.now()),
       };
 
-      cardActionMiddleware(nextSpy, decisionLetterCard);
+      cardActionMiddleware()(nextSpy)(decisionLetterCard);
 
       expect(recordEventStub.calledOnce).to.be.true;
       expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
 
       expect(nextSpy.calledOnce).to.be.true;
+      expect(nextSpy.firstCall.args[0]).to.eql(decisionLetterCard.cardAction);
       dateStub.restore();
     });
 
@@ -55,7 +56,7 @@ describe('Webchat.jsx', () => {
         'random_thing_we_dont_use',
       );
       const { nextSpy, recordEventStub } = generateSinonFunctions();
-      cardActionMiddleware(nextSpy, nonDecisionLetterCard);
+      cardActionMiddleware()(nextSpy)(nonDecisionLetterCard);
       expect(recordEventStub.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
