@@ -70,10 +70,12 @@ const generateIntroductionContent = async (doc, parent, data) => {
 
   // preface
   if (data.preface) {
-    introduction.add(createSubHeading(doc, config, data.preface, { x: 16 }));
+    introduction.add(
+      createSubHeading(doc, config, data.preface, { x: 16, paragraphGap: 6 }),
+    );
   }
 
-  doc.moveDown();
+  doc.moveDown(0.5);
   introduction.end();
 };
 

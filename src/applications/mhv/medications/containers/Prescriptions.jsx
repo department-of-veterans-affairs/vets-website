@@ -183,8 +183,7 @@ const Prescriptions = () => {
     )}`,
     footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
     title: 'Medications',
-    preface:
-      'This is a list of all medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.',
+    preface: `This is a list of recent prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\nNote: This list doesn’t include older prescriptions that have been inactive for more than 6 months.`,
     results: [
       {
         header: 'Medications list',
