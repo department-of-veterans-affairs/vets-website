@@ -174,8 +174,8 @@ const generateResultsContent = async (doc, parent, data) => {
     }
 
     // results --> items
-    const hasHorizontalRule = resultItem.sectionSeparators !== false;
     for (const listItem of resultItem.list) {
+      const hasHorizontalRule = listItem.sectionSeparators !== false;
       await generateResultsMedicationListContent(
         listItem,
         doc,

@@ -8,23 +8,18 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
-import {
-  dateFormat,
-  generateMedicationsPDF,
-  validateField,
-} from '../util/helpers';
+import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
-import {
-  rxListSortingOptions,
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
-} from '../util/constants';
+import { rxListSortingOptions } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
-import { processList } from '../../medical-records/util/helpers';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  buildPrescriptionsPDFList,
+  buildAllergiesPDFList,
+} from '../util/pdfConfigs';
 
 const Prescriptions = () => {
   const currentDate = new Date();
@@ -108,155 +103,6 @@ const Prescriptions = () => {
     [dispatch, prescriptions, sortOption],
   );
 
-  const buildPrescriptionPDFList = useCallback(
-    () => {
-      return prescriptions?.map(rx => {
-        // Image (to be added later)
-        // const cmopNdcNumber = rx.rxRfRecords.length && rx.rxRfRecords[0][1]?.[0]?.cmopNdcNumber || rx.cmopNdcNumber;
-        return {
-          header: rx.prescriptionName,
-          sections: [
-            {
-              header: 'About your prescription',
-              items: [
-                {
-                  title: 'Last filled on',
-                  value: dateFormat(rx.dispensedDate, 'MMMM D, YYYY'),
-                  inline: true,
-                },
-                {
-                  title: 'Status',
-                  value: validateField(rx.dispStatus),
-                  inline: true,
-                },
-                {
-                  value:
-                    pdfStatusDefinitions[rx.refillStatus] ||
-                    pdfDefaultStatusDefinition,
-                },
-                {
-                  title: 'Refills left',
-                  value: validateField(rx.refillRemaining),
-                  inline: true,
-                },
-                {
-                  title: 'Request refills by this prescription expiration date',
-                  value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
-                  inline: true,
-                },
-                {
-                  title: 'Prescription number',
-                  value: rx.prescriptionNumber,
-                  inline: true,
-                },
-                {
-                  title: 'Prescribed on',
-                  value: dateFormat(rx.orderedDate, 'MMMM D, YYYY'),
-                  inline: true,
-                },
-                {
-                  title: 'Prescribed by',
-                  value:
-                    (rx.providerFirstName && rx.providerLastName) ||
-                    'None noted',
-                  inline: true,
-                },
-                {
-                  title: 'Facility',
-                  value: validateField(rx.facilityName),
-                  inline: true,
-                },
-                {
-                  title: 'Pharmacy phone number',
-                  value: validateField(rx.phoneNumber),
-                  inline: true,
-                },
-              ],
-            },
-            {
-              header: 'About this medication or supply',
-              items: [
-                {
-                  title: 'Instructions',
-                  value: validateField(rx.sig),
-                  inline: true,
-                },
-                {
-                  title: 'Reason for use',
-                  value: validateField(rx.indicationForUse),
-                  inline: true,
-                },
-                {
-                  title: 'Quantity',
-                  value: validateField(rx.quantity),
-                  inline: true,
-                },
-                // {
-                //   title: 'Image of the medication or supply',
-                //   value: !!cmopNdcNumber ? { type: 'image', value: getImageUri(cmopNdcNumber) } : 'Image not available',
-                //   inline: false,
-                // },
-                // {
-                //   title: 'Note',
-                //   value: 'This image is from your last refill of this medication.',
-                //   inline: true,
-                // }
-              ],
-            },
-          ],
-        };
-      });
-    },
-    [prescriptions],
-  );
-
-  const buildAllergiesPDFList = useCallback(
-    () => {
-      return allergies?.map(item => {
-        return {
-          header: item.name,
-          sections: [
-            {
-              items: [
-                {
-                  title: 'Reaction',
-                  value: processList(item.reaction),
-                  inline: true,
-                },
-                {
-                  title: 'Type of allergy',
-                  value: validateField(item.type),
-                  inline: true,
-                },
-                {
-                  title: 'Date entered',
-                  value: validateField(item.date),
-                  inline: true,
-                },
-                {
-                  title: 'Location',
-                  value: validateField(item.location),
-                  inline: true,
-                },
-                {
-                  title: 'Observed or reported',
-                  value: validateField(item.observedOrReported),
-                  inline: true,
-                },
-                {
-                  title: 'Provider notes',
-                  value: validateField(item.notes),
-                  inline: !item.notes,
-                },
-              ],
-            },
-          ],
-        };
-      });
-    },
-    [allergies],
-  );
-
   useEffect(
     () => {
       dispatch(
@@ -279,12 +125,16 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      Promise.all([
-        dispatch(getPrescriptionsList()),
-        dispatch(getAllergiesList()),
-      ]).then(() => setLoading(false));
+      dispatch(getPrescriptionsList()).then(() => setLoading(false));
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (!allergies) dispatch(getAllergiesList());
+    },
+    [allergies, dispatch],
   );
 
   useEffect(
@@ -299,19 +149,19 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (prescriptions) {
-        setPrescriptionsPdfList(buildPrescriptionPDFList());
+        setPrescriptionsPdfList(buildPrescriptionsPDFList(prescriptions));
       }
     },
-    [buildPrescriptionPDFList, prescriptions],
+    [prescriptions],
   );
 
   useEffect(
     () => {
       if (allergies) {
-        setAllergiesPdfList(buildAllergiesPDFList());
+        setAllergiesPdfList(buildAllergiesPDFList(allergies));
       }
     },
-    [buildAllergiesPDFList, allergies],
+    [allergies],
   );
 
   const pdfData = {
