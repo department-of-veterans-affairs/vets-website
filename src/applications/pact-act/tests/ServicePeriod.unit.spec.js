@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../constants';
-import { RESPONSES } from '../utilities/question-data-map';
+import { RESPONSES } from '../constants/question-data-map';
 import { displayConditionsMet } from '../utilities/display-logic';
 
 import ServicePeriod from '../containers/questions/ServicePeriod';

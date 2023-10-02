@@ -8,6 +8,7 @@ export default {
   textInputAddress: formChapters.textInput.pages.textInputAddress.path,
   textInputSsn: formChapters.textInput.pages.textInputSsn.path,
   checkboxAndTextInput: formChapters.checkbox.pages.checkboxAndTextInput.path,
+  numberInput: formChapters.numberInput.pages.numberInput.path,
   select: formChapters.select.pages.select.path,
   radio: formChapters.radio.pages.radio.path,
   radioRelationshipToVeteran:

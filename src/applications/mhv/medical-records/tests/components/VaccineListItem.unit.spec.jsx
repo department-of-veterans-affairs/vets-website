@@ -47,7 +47,7 @@ describe('VaccineListItem', () => {
 
   it('should contain the date of the record', () => {
     const screen = setup();
-    const recordDate = screen.getAllByText('August', { exact: false });
+    const recordDate = screen.getAllByText('December', { exact: false });
     expect(recordDate).to.exist;
   });
 
