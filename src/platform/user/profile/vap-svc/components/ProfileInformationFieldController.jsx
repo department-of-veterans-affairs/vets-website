@@ -308,6 +308,7 @@ class ProfileInformationFieldController extends React.Component {
       data,
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
+      CustomConfirmCancelModal,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -438,12 +439,22 @@ class ProfileInformationFieldController extends React.Component {
         data-field-name={fieldName}
         data-testid={fieldName}
       >
-        <ConfirmCancelModal
-          activeSection={activeSection}
-          closeModal={this.closeModal}
-          onHide={() => this.setState({ showConfirmCancelModal: false })}
-          isVisible={this.state.showConfirmCancelModal}
-        />
+        {CustomConfirmCancelModal ? (
+          <>
+            <CustomConfirmCancelModal
+              activeSection={activeSection}
+              isVisible={this.state.showConfirmCancelModal}
+              onHide={() => this.setState({ showConfirmCancelModal: false })}
+            />
+          </>
+        ) : (
+          <ConfirmCancelModal
+            activeSection={activeSection}
+            closeModal={this.closeModal}
+            onHide={() => this.setState({ showConfirmCancelModal: false })}
+            isVisible={this.state.showConfirmCancelModal}
+          />
+        )}
 
         <CannotEditModal
           activeSection={activeSection}
@@ -502,6 +513,11 @@ ProfileInformationFieldController.propTypes = {
   ariaDescribedBy: PropTypes.string,
   cancelButtonText: PropTypes.string,
   cancelCallback: PropTypes.func,
+  CustomConfirmCancelModal: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   data: PropTypes.object,
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,
@@ -544,10 +560,11 @@ export const mapStateToProps = (state, ownProps) => {
     title,
   } = getProfileInfoFieldAttributes(fieldName);
 
+  const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {
-    hasUnsavedEdits: state.vapService.hasUnsavedEdits,
+    hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
-    blockEditMode: !!activeEditView,
+    blockEditMode: !!(activeEditView && hasUnsavedEdits),
     /*
     This ternary is to deal with an edge case: if the user is currently viewing
     the address validation view we need to handle things differently or text in

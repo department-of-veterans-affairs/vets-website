@@ -7,7 +7,6 @@ export const veteranFields = {
   veteranServiceNumber: 'veteranServiceNumber',
   address: 'address',
   homePhone: 'homePhone',
-  internationalPhone: 'internationalPhone',
   email: 'email',
 };
 

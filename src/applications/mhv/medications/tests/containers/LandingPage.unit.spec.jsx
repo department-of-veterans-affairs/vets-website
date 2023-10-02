@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
-import prescriptions from '../fixtures/presciptions.json';
+import prescriptions from '../fixtures/prescriptions.json';
 import LandingPage from '../../containers/LandingPage';
 
 describe('Medicaitons Landing page container', () => {
@@ -29,7 +29,7 @@ describe('Medicaitons Landing page container', () => {
 
   it('renders without errors', () => {
     expect(
-      screen.getByText('About Medications', {
+      screen.getByText('About medications', {
         exact: true,
       }),
     ).to.exist;

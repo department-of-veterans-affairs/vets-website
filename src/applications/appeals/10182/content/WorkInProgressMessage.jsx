@@ -2,7 +2,7 @@ import React from 'react';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import { NOD_INFO_URL } from '../constants';
+import { NOD_INFO_URL } from '../../shared/constants';
 
 export const showWorkInProgress = ({ title, subTitle }) => (
   <div className="row">

@@ -1,6 +1,7 @@
 import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
@@ -8,9 +9,10 @@ describe(manifest.appName, () => {
     site.login();
     FolderLoadPage.loadInboxMessages();
   });
+
   it('Check the Inbox folder', () => {
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -24,7 +26,7 @@ describe(manifest.appName, () => {
   it('Check the Draft folder', () => {
     FolderLoadPage.loadDraftMessages();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -38,21 +40,21 @@ describe(manifest.appName, () => {
   it('Check the Sent folder', () => {
     FolderLoadPage.loadSentMessages();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
         },
       },
     });
-    FolderLoadPage.getFolderHeader('Sent messages');
+    FolderLoadPage.getFolderHeader('Sent');
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
-  it('Check the header', () => {
+  it('Check the Trash folder', () => {
     FolderLoadPage.loadDeletedMessages();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

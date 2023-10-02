@@ -25,11 +25,12 @@ class FindFormComponent {
       cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
         .shadow()
         .find(SELECTORS.FINDFORM_INPUT)
-        .scrollIntoView()
-        .clear()
-        .focus()
-        .type(str, { force: true })
-        .should('not.be.disabled');
+        .as('formInput');
+      cy.get('@formInput').scrollIntoView();
+      cy.get('@formInput').clear();
+      cy.get('@formInput').focus();
+      cy.get('@formInput').type(str, { force: true });
+      cy.get('@formInput').should('not.be.disabled');
     }
   };
 
@@ -37,8 +38,9 @@ class FindFormComponent {
     cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
       .shadow()
       .find(SELECTORS.FINDFORM_SEARCH)
-      .should('exist')
-      .focus();
+      .as('formSearch');
+    cy.get('@formSearch').focus();
+    cy.get('@formSearch').should('exist');
   };
 
   clickSearch = () => {
@@ -46,8 +48,9 @@ class FindFormComponent {
     cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
       .shadow()
       .find(SELECTORS.FINDFORM_SEARCH)
-      .should('exist')
-      .click();
+      .as('formSearch');
+    cy.get('@formSearch').click();
+    cy.get('@formSearch').should('exist');
   };
 
   inputTextAndSearch = str => {
@@ -82,10 +85,6 @@ class FindFormComponent {
 
 // Tests for find-forms application
 describe('Find a VA form smoke test', () => {
-  beforeEach(() => {
-    cy.server();
-  });
-
   const findFormComponent = new FindFormComponent();
 
   it('does not display an error on initial page load with no URL query', () => {

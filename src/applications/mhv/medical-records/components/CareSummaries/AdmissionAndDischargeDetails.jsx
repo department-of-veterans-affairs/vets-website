@@ -1,18 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { sendErrorToSentry } from '../../util/helpers';
-import { generatePdfScaffold } from '../../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
+
+import { pageTitles } from '../../util/constants';
 
 const AdmissionAndDischargeDetails = props => {
   const { record } = props;
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate =
+        record.startDate && record.endDate
+          ? `${record.startDate} to ${record.endDate} - `
+          : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
+        }`,
+      );
+    },
+    [record.endDate, record.name, record.startDate],
+  );
 
   const generateCareNotesPDF = async () => {
-    const title = 'Admission and discharge summary';
+    const title = `Admission and discharge summary on ${formatDateLong(
+      record.date,
+    )}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
@@ -73,39 +106,35 @@ const AdmissionAndDischargeDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="admission-discharge-date"
+          >
+            {record.name}
+          </h1>
           <div className="time-header">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="admission-discharge-date"
+            >
               Dates:{' '}
+              <span className="vads-u-font-weight--normal">
+                {record.startDate} to {record.endDate}
+              </span>
             </h2>
-            <p>
-              {record.startDate} to {record.endDate}
-            </p>
           </div>
 
-          <section className="set-width-486">
-            <p className="vads-u-margin-bottom--0">
-              Review a summary of your stay at a hospital or other health
-              facility (called an admission and discharge summary).
-            </p>
-            <div className="no-print">
-              <PrintDownload download={generateCareNotesPDF} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
-            </div>
-          </section>
+          <p className="vads-u-margin-bottom--0">
+            Review a summary of your stay at a hospital or other health facility
+            (called an admission and discharge summary).
+          </p>
+          <div className="no-print">
+            <PrintDownload
+              download={generateCareNotesPDF}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
 
           <div className="test-details-container max-80">
             <h2>Details</h2>

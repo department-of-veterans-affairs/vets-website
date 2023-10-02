@@ -39,6 +39,7 @@ const confirmedV2 = require('./v2/confirmed.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
+const momentTz = require('../../lib/moment-tz');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
@@ -218,13 +219,17 @@ const responses = {
     } = req.body;
     const providerNpi = practitioners[0]?.identifier[0].value;
     const selectedTime = appointmentSlotsV2.data
-      .filter(slot => slot.id === req.body.slot.id)
+      .filter(slot => slot.id === req.body.slot?.id)
       .map(slot => slot.attributes.start);
+    // convert to local time in America/Denver timezone
+    const localTime = momentTz(selectedTime[0])
+      .tz('America/Denver')
+      .format('YYYY-MM-DDTHH:mm:ss');
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
-        start: req.body.slot.id ? selectedTime[0] : null,
+        localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
       },
     };
@@ -647,6 +652,8 @@ const responses = {
         { name: 'vaOnlineSchedulingPrintList', value: true },
         { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
+        { name: 'vaOnlineSchedulingGA4Migration', value: true },
+        { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

@@ -13,35 +13,26 @@ import {
 
 import { apiRequest } from 'platform/utilities/api';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { ServerErrorAlert } from '../../config/helpers'; // '  ../config/helpers';
-// import { set } from 'date-fns';
+import { ServerErrorAlert } from '../../config/helpers';
 
 const TopicList = props => {
-  const {
-    formContext,
-    id,
-    onChange,
-    required,
-    value,
-    loggedIn,
-    profile,
-  } = props;
-  const { reviewMode, submitted } = formContext;
+  const { formContext, id, onChange, value, loggedIn, profile } = props;
+  const { reviewMode } = formContext;
 
   const [devs, setDevs] = useState([]);
   //   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
-  const [dirty, setDirty] = useState(false);
+  // const [dirty, setDirty] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   // define our error message(s)
-  const errorMessages = { required: 'Please provide a response' };
+  // const errorMessages = { required: 'Please provide a response' };
 
   // define our custom onchange event
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    setDirty(true);
+    // setDirty(true);
     onChange(selectedValue);
     if (selectedValue === 'eddie' && !loggedIn) setShowModal(true);
   };
@@ -52,14 +43,14 @@ const TopicList = props => {
   };
 
   // define our custom onblur event
-  const handleBlur = () => {
-    setDirty(true);
-  };
+  // const handleBlur = () => {
+  //   setDirty(true);
+  // };
 
   // check field for validation errors only if field is dirty or form has been submitted
-  const showError = () => {
-    return (submitted || dirty) && !value ? errorMessages.required : false;
-  };
+  // const showError = () => {
+  //   return (submitted || dirty) && !value ? errorMessages.required : false;
+  // };
 
   const STATIC_DATA = `${environment.API_URL}/ask_va_api/v0/static_data`;
   const STATIC_DATA_AUTH = `${
@@ -78,21 +69,23 @@ const TopicList = props => {
 
     // format for the widget
     const data = [];
-    for (const key of Object.keys(response)) {
-      data.push({ id: response[key].dataInfo, name: key });
+    if (response) {
+      for (const key of Object.keys(response)) {
+        data.push({ id: response[key].dataInfo, name: key });
+      }
     }
 
     // set the dev list in the formConfig
     setDevs(data);
   };
 
-  const hasPermission = () => {
+  const hasPermission = async () => {
     if (loggedIn) {
       const email = profile.email.split('@')[1];
       if (email === 'email.com') setShowAlert(true);
-      getUsers(STATIC_DATA_AUTH);
+      await getUsers(STATIC_DATA_AUTH);
     } else {
-      getUsers(STATIC_DATA);
+      await getUsers(STATIC_DATA);
     }
   };
 
@@ -146,11 +139,8 @@ const TopicList = props => {
           id={id}
           name={id}
           value={value}
-          label="Dev List"
-          error={showError() || null}
-          required={required}
           onVaSelect={handleChange}
-          onBlur={handleBlur}
+          // onBlur={handleBlur}
         >
           <option value="">&nbsp;</option>
           {devs.map(f => (
@@ -178,9 +168,7 @@ const TopicList = props => {
       </VaModal>
     </>
   ) : (
-    <div className="server-error-message vads-u-margin-top--4">
-      <ServerErrorAlert />
-    </div>
+    <ServerErrorAlert />
   );
 };
 

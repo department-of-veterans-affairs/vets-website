@@ -45,7 +45,7 @@ const CourtMartial = ({
   const radioButtonProps = {
     name: key,
     label: 'Was your discharge the outcome of a general court-martial?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {

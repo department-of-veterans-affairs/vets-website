@@ -130,11 +130,11 @@ const SpousePayrollDeductionInputList = props => {
           <h3 className="vads-u-margin--0">
             Your spouse’s job at {employerName}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            How much does your spouse pay monthly for each of their payroll
+            deductions?
+          </p>
         </legend>
-        <p>
-          How much does your spouse pay monthly for each of their payroll
-          deductions?
-        </p>
         {selectedDeductions?.map((deduction, key) => (
           <div
             key={deduction.name + key}

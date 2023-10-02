@@ -7,6 +7,7 @@ import truncateOtherAtRiskHousing from '../../migrations/05-truncate-otherAtRisk
 import fixTreatedDisabilityNamesKey from '../../migrations/06-fix-treatedDisabilityNames';
 import mapServiceBranches from '../../migrations/07-map-service-branches';
 import reorderHousingIllnessRemoveFdc from '../../migrations/08-paper-sync';
+import redirectToxicExposure from '../../migrations/09-redirect-toxic-exposure';
 
 import formConfig from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
@@ -279,9 +280,8 @@ describe('526 v2 migrations', () => {
 
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-      // TODO: #59003 Rename for prod launch
       expect(migratedData.metadata.returnUrl).to.deep.equal(
-        '/housing-situation-1',
+        '/housing-situation',
       );
     });
 
@@ -298,10 +298,7 @@ describe('526 v2 migrations', () => {
 
       const migratedData = reorderHousingIllnessRemoveFdc(savedData);
 
-      // TODO: #59003 Rename for prod launch
-      expect(migratedData.metadata.returnUrl).to.deep.equal(
-        '/terminally-ill-1',
-      );
+      expect(migratedData.metadata.returnUrl).to.deep.equal('/terminally-ill');
     });
 
     it('should change returnUrl to review and submit if on the fdc page', () => {
@@ -321,6 +318,50 @@ describe('526 v2 migrations', () => {
       expect(migratedData.metadata.returnUrl).to.deep.equal(
         '/review-and-submit',
       );
+    });
+  });
+
+  describe('09-redirect-toxic-exposure', () => {
+    it('should not change returnUrl if user left off on a page before toxic exposure pages', () => {
+      const savedData = {
+        formData: {},
+        metadata: {
+          version: 9,
+          returnUrl: '/contact-information',
+        },
+      };
+      const migratedData = redirectToxicExposure(savedData);
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/contact-information',
+      );
+    });
+
+    it('should change returnUrl if user left off on a page after toxic exposure pages and has not filled out toxic exposure intro', () => {
+      const savedData = {
+        formData: {},
+        metadata: {
+          version: 9,
+          returnUrl: '/claim-type',
+        },
+      };
+      const migratedData = redirectToxicExposure(savedData);
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/toxic-exposure-intro',
+      );
+    });
+
+    it('should not change returnUrl if user has filled out toxic exposure intro', () => {
+      const savedData = {
+        formData: {
+          'view:exposureStatus': 'no',
+        },
+        metadata: {
+          version: 9,
+          returnUrl: '/claim-type',
+        },
+      };
+      const migratedData = redirectToxicExposure(savedData);
+      expect(migratedData.metadata.returnUrl).to.deep.equal('/claim-type');
     });
   });
 });

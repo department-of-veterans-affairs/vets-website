@@ -13,6 +13,7 @@ export default {
     },
     authorizerEmail: {
       'ui:title': 'Email address',
+      'ui:widget': 'email',
       'ui:errorMessages': {
         required: 'Please enter an email address.',
         format:

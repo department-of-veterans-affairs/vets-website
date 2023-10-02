@@ -10,23 +10,6 @@ export const CurrentDebtTitle = ({ formContext }) => {
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
   const { deductionCode, benefitType } = currentDebt;
 
-  return (
-    <legend className="schemaform-block-title">
-      <h3 className="vads-u-margin--0">
-        Debt {parseInt(formContext.pagePerItemIndex, 10) + 1} of{' '}
-        {selectedDebtsAndCopays.length}:{' '}
-        {currentDebt.debtType === 'COPAY'
-          ? `Copay debt for ${currentDebt.station.facilityName}`
-          : deductionCodes[deductionCode] || benefitType}
-      </h3>{' '}
-    </legend>
-  );
-};
-
-export const CurrentDebtDescription = ({ formContext }) => {
-  const formData = useSelector(state => state.form.data);
-  const { selectedDebtsAndCopays = [] } = formData;
-  const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
   const showRequiredText =
     formContext?.pageTitle !== 'Resolution Option' ? null : (
       <span className="required-text">(*Required)</span>
@@ -42,10 +25,19 @@ export const CurrentDebtDescription = ({ formContext }) => {
         }` || currentDebt.benefitType;
 
   return (
-    <p>
-      Which repayment or relief option would you like for your{' '}
-      <strong>{formattedDebtTitle}</strong>? {showRequiredText}
-    </p>
+    <legend className="schemaform-block-title">
+      <h3 className="vads-u-margin--0">
+        Debt {parseInt(formContext.pagePerItemIndex, 10) + 1} of{' '}
+        {selectedDebtsAndCopays.length}:{' '}
+        {currentDebt.debtType === 'COPAY'
+          ? `Copay debt for ${currentDebt.station.facilityName}`
+          : deductionCodes[deductionCode] || benefitType}
+      </h3>{' '}
+      <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+        Which repayment or relief option would you like for your{' '}
+        <strong>{formattedDebtTitle}</strong>? {showRequiredText}
+      </p>
+    </legend>
   );
 };
 
@@ -54,13 +46,5 @@ CurrentDebtTitle.propTypes = {
   formContext: PropTypes.shape({
     pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
-  }),
-};
-
-CurrentDebtDescription.propTypes = {
-  formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-      .isRequired,
-    pageTitle: PropTypes.string.isRequired,
   }),
 };

@@ -1,22 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
+import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import { dateFormat, nameFormat, sendErrorToSentry } from '../../util/helpers';
+import { updatePageTitle } from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 
 const MicroDetails = props => {
   const { record, fullState } = props;
   const user = useSelector(state => state.user.profile);
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const name = nameFormat(user.userFullName);
   const dob = dateFormat(user.dob, 'LL');
-
   const formattedDate = formatDateLong(record?.date);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const generateMicrobiologyPdf = async () => {
     const pdfData = {
@@ -107,92 +130,88 @@ const MicroDetails = props => {
       return (
         <>
           <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0">{record.name}</h1>
-          <section className="set-width-486">
-            <div className="time-header">
-              <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date:{' '}
-              </h2>
-              <p>{formattedDate}</p>
-            </div>
-            <div className="no-print">
-              <PrintDownload list download={generateMicrobiologyPdf} />
-              <va-additional-info trigger="What to know about downloading records">
-                <ul>
-                  <li>
-                    <strong>If you’re on a public or shared computer,</strong>{' '}
-                    print your records instead of downloading. Downloading will
-                    save a copy of your records to the public computer.
-                  </li>
-                  <li>
-                    <strong>If you use assistive technology,</strong> a Text
-                    file (.txt) may work better for technology such as screen
-                    reader, screen enlargers, or Braille displays.
-                  </li>
-                </ul>
-              </va-additional-info>
-            </div>
-            <div className="test-details-container max-80">
-              <h2>Details about this test</h2>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Sample tested
-              </h3>
-              <p>{record.sampleTested}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Sample from
-              </h3>
-              <p>{record.sampleFrom}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Ordered by
-              </h3>
-              <p>{record.orderedBy}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Ordering location
-              </h3>
-              <p>{record.orderingLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Collecting location
-              </h3>
-              <p>{record.collectingLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Lab location
-              </h3>
-              <p>{record.labLocation}</p>
-              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Date completed
-              </h3>
-              <p>{formattedDate}</p>
-            </div>
+          <h1
+            className="vads-u-margin-bottom--0"
+            aria-describedby="microbio-date"
+          >
+            {record.name}
+          </h1>
+          <div className="time-header">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans"
+              id="microbio-date"
+            >
+              Date:{' '}
+              <span className="vads-u-font-weight--normal">
+                {formattedDate}
+              </span>
+            </h2>
+          </div>
+          <div className="no-print">
+            <PrintDownload
+              download={generateMicrobiologyPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </div>
+          <div className="test-details-container max-80">
+            <h2>Details about this test</h2>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Sample tested
+            </h3>
+            <p>{record.sampleTested}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Sample from
+            </h3>
+            <p>{record.sampleFrom}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Ordered by
+            </h3>
+            <p>{record.orderedBy}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Ordering location
+            </h3>
+            <p>{record.orderingLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Collecting location
+            </h3>
+            <p>{record.collectingLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Lab location
+            </h3>
+            <p>{record.labLocation}</p>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Date completed
+            </h3>
+            <p>{formattedDate}</p>
+          </div>
 
-            <div className="test-results-container">
-              <h2>Results</h2>
-              <va-additional-info
-                trigger="Need help understanding your results?"
-                class="no-print"
-              >
-                <p>
-                  Your provider will review your results and explain what they
-                  mean for your health. To ask a question now, send a secure
-                  message to your care team.
-                </p>
-                <p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'secure-messaging',
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Start a new message
-                  </a>
-                </p>
-              </va-additional-info>
-              <p className="vads-u-font-size--base make-monospace">
-                {record.results}
-              </p>{' '}
-            </div>
-          </section>
+          <div className="test-results-container">
+            <h2>Results</h2>
+            <va-additional-info
+              trigger="Need help understanding your results?"
+              class="no-print"
+            >
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <p>
+                <a
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'secure-messaging',
+                  )}
+                >
+                  Start a new message
+                </a>
+              </p>
+            </va-additional-info>
+            <p className="vads-u-font-size--base make-monospace">
+              {record.results}
+            </p>{' '}
+          </div>
         </>
       );
     }

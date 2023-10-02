@@ -5,30 +5,37 @@ export const claimantIdentificationKeys = [
   'CHILD',
 ];
 
-export const claimantIdentificationOptions = {
-  [claimantIdentificationKeys[0]]: 'Veteran',
-  [claimantIdentificationKeys[1]]: 'Spouse of a Veteran',
-  [claimantIdentificationKeys[2]]: 'Parent of a Veteran',
-  [claimantIdentificationKeys[3]]: 'Child of a Veteran',
-};
+export const claimantIdentificationOptions = Object.freeze({
+  [claimantIdentificationKeys[0]]: 'I’m signing for a Veteran.',
+  [claimantIdentificationKeys[1]]: 'I’m signing for a spouse of a Veteran.',
+  [claimantIdentificationKeys[2]]: 'I’m signing for a parent of a Veteran.',
+  [claimantIdentificationKeys[3]]: 'I’m signing for a child of a Veteran.',
+});
 
-export const claimantIdentificationDisplayOptions = {
+export const claimantIdentificationDisplayOptions = Object.freeze({
   [claimantIdentificationKeys[0]]: 'Veteran',
   [claimantIdentificationKeys[1]]: 'Veteran’s spouse',
   [claimantIdentificationKeys[2]]: 'Veteran’s parent',
   [claimantIdentificationKeys[3]]: 'Veteran’s child',
-};
+});
 
-export const preparerQualificationsOptions = {
+export const preparerQualificationsOptions = Object.freeze({
   COURT_APPOINTED_REP: 'Court-appointed representative',
   ATTORNEY: 'Attorney in fact or agent',
   CAREGIVER: 'Caregiver',
   MANAGER: 'Manager or Principal Officer',
-};
+});
 
-export const preparerSigningReasonOptions = {
+export const preparerSigningReasonOptions = Object.freeze({
   UNDER18: 'They’re under 18 years old.',
   MENTALLY_INCAPABLE:
-    'They don’t have the mental capacity to provide all the information needed for the form or to certify that the statements on the form are true and complete.',
+    'They have an illness, injury, or other health condition that prevents them from being able to make decisions for themselves or provide the information needed to complete forms.',
   PHYSICALLY_INCAPABLE: 'They can’t physically sign the forms.',
-};
+});
+
+export const workInProgressContent = Object.freeze({
+  description:
+    'We’re rolling out Alternate Signer (VA Form 21-0972) in stages. It’s not quite ready yet. Please check back again soon.',
+  redirectLink: '/',
+  redirectText: 'Return to VA home page',
+});

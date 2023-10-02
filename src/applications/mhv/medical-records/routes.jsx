@@ -25,6 +25,21 @@ const routes = (
       <Route exact path="/" key="Medical Records Home">
         <LandingPage />
       </Route>
+      <Route exact path="/allergies" key="Allergies">
+        <Allergies />
+      </Route>
+      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
+        <AllergyDetails />
+      </Route>
+      <Route exact path="/conditions" key="Health Conditions">
+        <HealthConditions />
+      </Route>
+      <Route path="/conditions/:conditionId" key="Condition Details">
+        <ConditionDetails />
+      </Route>
+      <Route path="/download-all" key="DownloadRecords">
+        <DownloadRecordsPage />
+      </Route>
       <Route exact path="/labs-and-tests" key="LabsAndTests">
         <LabsAndTests />
       </Route>
@@ -33,36 +48,27 @@ const routes = (
       </Route>
       <Route
         exact
-        path="/labs-and-tests/radiology-images/:labId"
+        path="/labs-and-tests/:labId/images"
         key="RadiologyImagesList"
       >
         <RadiologyImagesList />
       </Route>
       <Route
         exact
-        path="/labs-and-tests/radiology-images/:labId/:imageId"
+        path="/labs-and-tests/:labId/images/:imageId"
         key="RadiologySingleImage"
       >
         <RadiologySingleImage />
       </Route>
-      <Route path="/download-your-medical-records" key="DownloadRecords">
-        <DownloadRecordsPage />
-      </Route>
       <Route path="/settings" key="Settings">
         <SettingsPage />
       </Route>
-      <Route exact path="/allergies" key="Allergies">
-        <Allergies />
-      </Route>
-      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
-        <AllergyDetails />
-      </Route>
-      <Route exact path="/care-summaries-and-notes" key="CareSummariesAndNotes">
+      <Route exact path="/summaries-and-notes" key="CareSummariesAndNotes">
         <CareSummariesAndNotes />
       </Route>
       <Route
         exact
-        path="/care-summaries-and-notes/:summaryId"
+        path="/summaries-and-notes/:summaryId"
         key="CareSummaryAndNotesDetails"
       >
         <CareSummariesDetails />
@@ -76,14 +82,8 @@ const routes = (
       <Route exact path="/vitals" key="Vitals">
         <Vitals />
       </Route>
-      <Route path="/vitals/:vitalType" key="VitalDetails">
+      <Route path="/vitals/:vitalType-history" key="VitalDetails">
         <VitalDetails />
-      </Route>
-      <Route exact path="/health-conditions" key="Health Conditions">
-        <HealthConditions />
-      </Route>
-      <Route path="/health-conditions/:conditionId" key="Condition Details">
-        <ConditionDetails />
       </Route>
     </Switch>
   </App>

@@ -1,6 +1,5 @@
 import {
   addIncludedIssues,
-  addAreaOfDisagreement,
   addUploads,
   getAddress,
   getPhone,
@@ -8,6 +7,8 @@ import {
   getTimeZone,
   getPart3Data,
 } from '../utils/submit';
+
+import { addAreaOfDisagreement } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current

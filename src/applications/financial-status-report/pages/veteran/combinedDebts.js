@@ -6,6 +6,10 @@ export const uiSchema = {
     <>
       <legend className="schemaform-block-title">
         <h3 className="vads-u-margin--0">What debt do you need help with?</h3>
+        <p className="vads-u-margin-bottom--neg1 vads--u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+          Select one or more debts you want to request relief for:{' '}
+          <span className="required-text">(*Required)</span>
+        </p>
       </legend>
     </>
   ),

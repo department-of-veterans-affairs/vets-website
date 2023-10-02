@@ -3,7 +3,7 @@ import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
   RELATIONSHIP_TO_CLAIMANT_OPTIONS,
 } from '../definitions/constants';
-import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
+import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
@@ -34,6 +34,9 @@ export default {
         ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
         labels: RELATIONSHIP_TO_VETERAN_OPTIONS,
       },
+      'ui:errorMessages': {
+        required: 'Please select at least one relationship',
+      },
     },
   },
   uiSchemaB: {
@@ -47,13 +50,16 @@ export default {
         ...commonUiSchema.witnessRelationshipToClaimant['ui:options'],
         labels: RELATIONSHIP_TO_CLAIMANT_OPTIONS,
       },
+      'ui:errorMessages': {
+        required: 'Please select at least one relationship',
+      },
     },
   },
   schema: {
     type: 'object',
     required: ['witnessFullName', 'witnessRelationshipToClaimant'],
     properties: {
-      witnessFullName: schema(),
+      witnessFullName: pdfFullNameNoSuffixSchema(),
       witnessRelationshipToClaimant: {
         type: 'string',
       },

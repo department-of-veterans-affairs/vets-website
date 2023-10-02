@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+// <va-telephone /> doesn't display 1-800 numbers correctly
 import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -17,52 +19,67 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Authorize VA to release your information to a third-party source"
-          subtitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
+          subTitle="Authorization To Disclose Personal Information To a Third Party (VA Form 21-0845)"
         />
-        <h2>Here’s how to apply online</h2>
         <p>
-          Complete this form. After you submit the form, you’ll get a
-          confirmation message. You can print this page for your records.
+          Use this form if you want us to release information from your VA
+          records with a non-VA (third-party) individual or organization. This
+          may include information about your VA claims or benefits.
         </p>
-        <p>
-          A Veteran may submit an Authorization to Disclose Personal Information
-          to a third party on their own. Alternatively, a claimant or witness
-          may submit on behalf of a Veteran.
-        </p>
-        <h2>Who is eligible to use this form?</h2>
+        <h2>What to know before you fill out this form</h2>
         <ul>
-          <li>A Veteran or claimant submitting on their own behalf</li>
           <li>
-            A non-Veteran beneficiary or claimant submitting on behalf of a
-            Veteran
+            If you want to keep some information from your records private, you
+            can use this form to authorize us to release only specific
+            information.
+          </li>
+          <li>
+            If we’ve determined that you can’t make decisions about VA benefits
+            for yourself, then we can’t accept this online form from you. You’ll
+            need to have your court-ordered or VA-appointed fiduciary complete
+            and sign the PDF version of this form.
+          </li>
+          <li>
+            This form doesn’t give the third-party individual or organization
+            permission to manage or change the information in your VA record.
+            They can only access the information.
+          </li>
+          <li>
+            You can change your mind and tell us to stop releasing your
+            information at any time. We can’t take back any information we may
+            have already released based on your authorization.
           </li>
         </ul>
-        <h2>How do I prepare before starting this form?</h2>
+        <h2>How to cancel your authorization</h2>
         <p>
-          Gather the required information listed below that you’ll need to
-          submit this form:
+          If you change your mind and don’t want us to release your information,
+          you can tell us online through Ask VA.
         </p>
-        <ul>
-          <li>Veteran’s Full Name</li>
-          <li>Veteran’s Social Security number</li>
-          <li>Veteran's Date of Birth</li>
-        </ul>
-        <h2>What if I change my mind?</h2>
         <p>
-          If you change your mind and do not want VA to give out your personal
-          benefit or claim information, you may notify us in writing, or by
-          telephone at <va-telephone contact="8008271000" /> or online through{' '}
-          <a href="https://ask.va.gov/">Ask VA</a>. Upon notification from you
-          VA will no longer give out benefit or claim information (except for
-          the information VA has already given out based on your permission).
+          <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
+        </p>
+        {/* TODO: Use <va-telephone> once DST's fixed the 1-800 display bug: https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1932 */}
+        {/* <va-telephone contact="18008271000" /> */}
+        <p>
+          Or call us at{' '}
+          <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
+            1-800-827-1000
+          </a>{' '}
+          (
+          <va-telephone tty="true" contact="711">
+            TTY:711
+          </va-telephone>
+          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>
         <SaveInProgressIntro
+          formConfig={formConfig}
           headingLevel={2}
           alertTitle="Save time and save your work in progress by signing in"
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the Application"
+          startText="Start your authorization"
+          unauthStartText="Sign in to start your authorization"
           verifiedPrefillAlert={
             <div>
               <div className="usa-alert usa-alert-info schemaform-sip-alert">
@@ -91,3 +108,4 @@ class IntroductionPage extends React.Component {
 }
 
 export default IntroductionPage;
+/* eslint-enable @department-of-veterans-affairs/prefer-telephone-component */

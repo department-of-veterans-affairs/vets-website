@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
 
-const DownloadFormPDF = ({ pdfContent, useContent }) => {
+const DownloadFormPDF = ({ pdfContent }) => {
   const [pdfBlob, setPdfBlob] = useState(null);
 
   useEffect(
     () => {
       const fetchData = async () => {
-        if (useContent) {
+        try {
           const pdfData = await fetch(
             `data:application/pdf;base64,${pdfContent}`,
           );
@@ -19,51 +18,20 @@ const DownloadFormPDF = ({ pdfContent, useContent }) => {
           return recordEvent({
             event: 'debt-fsr-pdf-content-fetch',
           });
-        }
-        try {
-          const response = await fetch(
-            `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
-            {
-              method: 'GET',
-              credentials: 'include',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-Key-Inflection': 'camel',
-                'Source-App-Name': window.appName,
-              },
-            },
-          );
-
-          // only set the blob if the response is successful
-          // otherwise just log to sentry & leave blob null
-          if (response.ok) {
-            setPdfBlob(await response.blob());
-          } else {
-            Sentry.withScope(scope => {
-              scope.setExtra(
-                `FSR Download failed fetch status: ${response.status}`,
-              );
-              Sentry.captureMessage(`debt-fsr-pdf-fetch-response-not-ok`);
-            });
-          }
-
-          return recordEvent({
-            event: 'debt-fsr-pdf-fetch',
-          });
         } catch (error) {
           Sentry.withScope(scope => {
             scope.setExtra(`Error: ${error}`);
-            Sentry.captureMessage(`debt-fsr-pdf-fetch-fail`);
+            Sentry.captureMessage(`debt-fsr-pdf-content-fetch-fail`);
           });
 
           return recordEvent({
-            event: 'debt-fsr-pdf-fetch-fail',
+            event: 'debt-fsr-pdf-content-fetch-fail',
           });
         }
       };
       fetchData();
     },
-    [pdfContent, useContent],
+    [pdfContent],
   );
 
   const handlePdfDownload = () => {

@@ -3,11 +3,15 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
+import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -62,7 +66,7 @@ describe('<AddIssue>', () => {
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
-    expect(elems[1].error).to.contain(issueErrorMessages.missingDecisionDate);
+    expect(elems[1].error).to.contain(issueErrorMessages.blankDecisionDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;

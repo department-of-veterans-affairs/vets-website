@@ -1,10 +1,16 @@
+import { CONFERENCE_TIMES_V2 } from '../constants';
+
 import {
-  SELECTED,
-  CONFERENCE_TIMES_V2,
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
+import { returnUniqueIssues } from '../../shared/utils/issues';
+import '../../shared/definitions';
+import {
   MAX_LENGTH,
+  SELECTED,
   SUBMITTED_DISAGREEMENTS,
-} from '../constants';
-import { replaceSubmittedData, fixDateFormat } from './replace';
+} from '../../shared/constants';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -63,7 +69,7 @@ export const getTimeZone = () =>
 
 /**
  * Combine issues values into one field
- * @param {ContestableIssue~Attributes} attributes
+ * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
 export const createIssueName = ({ attributes } = {}) => {
@@ -78,9 +84,8 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ')
-    .substring(0, MAX_LENGTH.ISSUE_NAME);
-  return replaceSubmittedData(result);
+    .join(' - ');
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
 };
 
 /* submitted contested issue format
@@ -126,31 +131,14 @@ export const getContestedIssues = ({ contestedIssues } = {}) =>
   });
 
 /**
- * @typedef AdditionalIssues
- * @type {Array<Object>}
- * @property {AdditionalIssue~Item}
- */
-/**
- * @typedef AdditionalIssue~Item - user-added issues
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- * @property {Boolean} 'view:selected' - user selected issue
- * @returns {ContestableIssue~Submittable}
- * @example
- *  [{
-      "issue": "right shoulder",
-      "decisionDate": "2010-01-06"
-    }]
- */
-/**
  * Combine included issues and additional issues
  * @param {FormData}
- * @returns {ContestableIssue~Submittable}
+ * @returns {ContestableIssueSubmittable}
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  return issues.concat(
+
+  const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue[SELECTED] && issue.issue && issue.decisionDate) {
         // match contested issue pattern
@@ -165,13 +153,15 @@ export const addIncludedIssues = formData => {
       return issuesToAdd;
     }, []),
   );
+  // Ensure only unique entries are submitted
+  return returnUniqueIssues(result);
 };
 
 /**
  * Add area of disagreement
- * @param {ContestableIssue~Submittable} issues - selected & processed issues
+ * @param {ContestableIssueSubmittable} issues - selected & processed issues
  * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
+ * @return {ContestableIssuesSubmittable} issues with "disagreementArea" added
  */
 export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   const keywords = {
@@ -213,33 +203,6 @@ export const getContact = ({ informalConference }) => {
 };
 
 /**
- * Veteran~submittable
- * @property {Address~submittable} address
- * @property {Phone~submittable} phone
- * @property {String} emailAddressText
- * @property {Boolean} homeless
- */
-/**
- * Address~submittableV2
- * @typedef {Object}
- * @property {String} addressLine1
- * @property {String} addressLine2
- * @property {String} addressLine3
- * @property {String} city
- * @property {String} stateCode
- * @property {String} zipCode5
- * @property {String} countryCodeISO2
- * @property {String} internationalPostalCode
- */
-/**
- * Phone~submittable
- * @typedef {Object}
- * @property {String} countryCode
- * @property {String} areaCode
- * @property {String} phoneNumber
- * @property {String} phoneNumberExt
- */
-/**
  * FormData
  * @typedef {Object}
  * @property {Veteran} veteran - Veteran formData object
@@ -247,27 +210,36 @@ export const getContact = ({ informalConference }) => {
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {FormData} formData
- * @returns {Address~submittableV2}
+ * @returns {AddressSubmittableV2}
  */
 export const getAddress = formData => {
   const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  // note "ISO2" is submitted, "Iso2" is from profile address
+  const countryCodeISO2 = truncate(
+    'countryCodeIso2',
+    MAX_LENGTH.ADDRESS_COUNTRY,
+  );
+  // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
     MAX_LENGTH.POSTAL_CODE,
   );
+  // zipCode5 is always required, set to 00000 for addresses outside the U.S.
+  // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+  const zipCode5 =
+    countryCodeISO2 !== 'US'
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
     addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
     city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: internationalPostalCode
-      ? '00000'
-      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    countryCodeISO2,
+    zipCode5,
     internationalPostalCode,
   });
 };
@@ -281,8 +253,8 @@ export const getPhone = ({ veteran = {} } = {}) => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
   return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });

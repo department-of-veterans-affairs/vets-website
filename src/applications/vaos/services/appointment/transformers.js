@@ -256,9 +256,7 @@ export function transformVAOSAppointment(appt) {
     appointmentType === APPOINTMENT_TYPES.ccRequest;
   const isUpcoming = isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
-  const timezone = getTimezoneByFacilityId(appt.locationId);
-
-  const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
+  const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   const isCancellable = appt.cancellable;
@@ -281,6 +279,7 @@ export function transformVAOSAppointment(appt) {
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
+      extension: appt.extension,
     };
   }
 

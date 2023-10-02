@@ -1,6 +1,6 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
@@ -37,22 +37,29 @@ export const convertNote = note => {
     summary:
       (isArrayAndHasItems(note.content) &&
         typeof note.content[0].attachment?.data === 'string' &&
-        Buffer.from(note.content[0].attachment.data, 'base64').toString()) ||
-      emptyField,
+        Buffer.from(note.content[0].attachment.data, 'base64')
+          .toString()
+          .split('\r')
+          .filter(i => i !== '\r')
+          .join('')) ||
+      EMPTY_FIELD,
     location:
       (isArrayAndHasItems(note.context?.related) &&
         note.context.related[0].text) ||
-      emptyField,
+      EMPTY_FIELD,
     physician:
-      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+      (isArrayAndHasItems(note.author) && note.author[0].display) ||
+      EMPTY_FIELD,
     admittingPhysician:
-      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
+      (isArrayAndHasItems(note.author) && note.author[0].display) ||
+      EMPTY_FIELD,
     dischargePhysician:
-      (isArrayAndHasItems(note.author) && note.author[0].display) || emptyField,
-    admissionDate: emptyField,
-    dischargeDate: emptyField,
-    admittedBy: emptyField,
-    dischargeBy: emptyField,
+      (isArrayAndHasItems(note.author) && note.author[0].display) ||
+      EMPTY_FIELD,
+    admissionDate: EMPTY_FIELD,
+    dischargeDate: EMPTY_FIELD,
+    admittedBy: EMPTY_FIELD,
+    dischargeBy: EMPTY_FIELD,
   };
 };
 
@@ -67,9 +74,16 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
-        careSummariesAndNotesList: action.response.entry.map(note => {
-          return convertNote(note.resource);
-        }),
+        careSummariesAndNotesList:
+          action.response.entry?.map(note => {
+            return convertNote(note.resource);
+          }) || [],
+      };
+    }
+    case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {
+      return {
+        ...state,
+        careSummariesDetails: undefined,
       };
     }
     default:

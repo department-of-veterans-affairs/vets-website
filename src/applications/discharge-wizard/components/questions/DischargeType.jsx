@@ -33,7 +33,7 @@ const DischargeType = ({
   const radioButtonProps = {
     name: key,
     label: 'Which of the following categories best describes you?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {

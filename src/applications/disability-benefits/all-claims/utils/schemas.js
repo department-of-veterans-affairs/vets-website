@@ -3,11 +3,11 @@ import { merge, omit } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import _ from 'platform/utilities/data';
-import environment from 'platform/utilities/environment';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import ReviewCardField from '@department-of-veterans-affairs/platform-forms-system/ReviewCardField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   validateMilitaryCity,
@@ -30,6 +30,8 @@ import {
 import {
   capitalizeEachWord,
   disabilityIsSelected,
+  isClaimingIncrease,
+  isClaimingNew,
   pathWithIndex,
   sippableId,
 } from './index';
@@ -47,8 +49,12 @@ const createCheckboxSchema = (schema, disabilityName) => {
   );
 };
 
+/**
+ * Create the checkbox schema for new disabilities if user has selected
+ * New claim type
+ */
 export const makeSchemaForNewDisabilities = createSelector(
-  formData => formData.newDisabilities,
+  formData => (isClaimingNew(formData) ? formData.newDisabilities : []),
   (newDisabilities = []) => ({
     properties: newDisabilities
       .map(disability => disability.condition)
@@ -56,8 +62,12 @@ export const makeSchemaForNewDisabilities = createSelector(
   }),
 );
 
+/**
+ * Create the checkbox schema for rated disabilities based if user has selected
+ * Increase claim type
+ */
 export const makeSchemaForRatedDisabilities = createSelector(
-  formData => formData.ratedDisabilities,
+  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
       .filter(disabilityIsSelected)
@@ -66,6 +76,10 @@ export const makeSchemaForRatedDisabilities = createSelector(
   }),
 );
 
+/**
+ * Dynamically creates the checkbox schema for new conditions and/or rated
+ * disabilities, based on the claim type user has selected
+ */
 export const makeSchemaForAllDisabilities = createSelector(
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,
@@ -260,6 +274,7 @@ export const ancillaryFormUploadUi = (
     widgetType = 'select',
     customClasses = '',
     isDisabled = false,
+    buttonText = '',
     addAnotherLabel = 'Add Another',
   } = {},
 ) => {
@@ -276,6 +291,7 @@ export const ancillaryFormUploadUi = (
     itemDescription,
     hideLabelText: !label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
+    buttonText,
     addAnotherLabel,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'txt'],
     // not sure what to do here... we need to differentiate pdf vs everything
@@ -302,7 +318,7 @@ export const ancillaryFormUploadUi = (
       };
     },
     attachmentSchema: ({ fileId }) => ({
-      'ui:title': 'Document type',
+      'ui:title': 'File type',
       'ui:disabled': isDisabled,
       'ui:widget': widgetType,
       'ui:options': {

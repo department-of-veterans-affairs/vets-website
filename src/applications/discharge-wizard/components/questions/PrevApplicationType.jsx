@@ -50,7 +50,7 @@ const PrevApplicationType = ({
     name: key,
     label:
       'What type of application did you make to upgrade your discharge previously?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {

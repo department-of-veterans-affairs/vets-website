@@ -178,3 +178,34 @@ export const convertPathNameToTitleCase = str => {
 
   return capitalizedWords.join(' '); // Join the words with spaces
 };
+
+export const messageSignatureFormatter = singatureObj => {
+  if (singatureObj?.includeSignature) {
+    return `\n\n\n${singatureObj.signatureName}\n${
+      singatureObj.signatureTitle
+    }`;
+  }
+  return null;
+};
+
+const setSelectionRange = (input, selectionStart, selectionEnd) => {
+  if (input.setSelectionRange) {
+    input.focus();
+    input.setSelectionRange(selectionStart, selectionEnd);
+  } else if (input.createTextRange) {
+    const range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', selectionEnd);
+    range.moveStart('character', selectionStart);
+    range.select();
+  }
+};
+
+/**
+ * Setting a text input cursor to a specific position
+ * @param {*} input
+ * @param {*} pos
+ */
+export const setCaretToPos = (input, pos) => {
+  setSelectionRange(input, pos, pos);
+};

@@ -5,11 +5,9 @@ describe('Medications List Page DropDown', () => {
   it('visits Medications List Page DropDown', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    cy.visit('my-health/medications/');
+    cy.visit('my-health/about-medications/');
     site.login();
-    listPage.clickGotoMedicationsLink();
-    listPage.clickWhatToKnowAboutMedicationsDropDown();
-    listPage.verifyTextInsideDropDownOnListPage();
+
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -21,5 +19,8 @@ describe('Medications List Page DropDown', () => {
         },
       },
     });
+    listPage.clickGotoMedicationsLink();
+    listPage.clickWhatToKnowAboutMedicationsDropDown();
+    listPage.verifyTextInsideDropDownOnListPage();
   });
 });

@@ -10,6 +10,10 @@ const initialState = {
    * The prescription currently being displayed to the user
    */
   prescriptionDetails: undefined,
+  /**
+   * Pagination received form meta object in prescriptionsList payload
+   */
+  prescriptionsPagination: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -26,28 +30,38 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionsList: action.response.data.map(rx => {
           return { ...rx.attributes };
         }),
-      };
-    }
-    case Actions.Prescriptions.SET_SORTED_LIST: {
-      return {
-        ...state,
-        prescriptionsList: action.rxList,
+        prescriptionsPagination: action.response.meta.pagination,
       };
     }
     case Actions.Prescriptions.FILL: {
       return {
         ...state,
+        prescriptionsList: state.prescriptionsList?.map(
+          rx =>
+            rx.prescriptionId === action.response.id
+              ? { ...rx, error: undefined, success: true }
+              : rx,
+        ),
+        prescriptionDetails: {
+          ...state.prescriptionDetails,
+          error: undefined,
+          success: true,
+        },
       };
     }
     case Actions.Prescriptions.FILL_ERROR: {
       return {
         ...state,
         prescriptionsList: state.prescriptionsList?.map(
-          rx => (rx.id === action.err.id ? { ...rx, error: action.err } : rx),
+          rx =>
+            rx.prescriptionId === action.err.id
+              ? { ...rx, error: action.err, success: undefined }
+              : rx,
         ),
         prescriptionDetails: {
           ...state.prescriptionDetails,
           error: action.err,
+          success: undefined,
         },
       };
     }

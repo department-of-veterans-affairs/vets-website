@@ -1,6 +1,5 @@
-import phoneUIDefinition from 'platform/forms-system/src/js/definitions/phone';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
+import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
  * Web component uiSchema for phone number
@@ -8,30 +7,41 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  * ```js
  * examplePhone: phoneUI() // Phone number
  * examplePhone: phoneUI('Cell phone number')
+ * examplePhone: phoneUI({
+ *   title: 'Cell phone number',
+ *   hint: 'This is a hint'
+ * })
  * examplePhone: {
  *  ...phoneUI('Main phone number')
  * }
  * ```
- * @param {string} [title] - optional title to override default
+ * @param {string | {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
-export const phoneUI = title => {
+export const phoneUI = options => {
+  const { title, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
+
   return {
-    ...phoneUIDefinition,
     'ui:title': title ?? 'Phone number',
     'ui:webComponentField': VaTextInputField,
+    'ui:reviewWidget': PhoneNumberReviewWidget,
+    'ui:autocomplete': 'tel',
     'ui:options': {
       inputType: 'tel',
+      ...uiOptions,
     },
     'ui:errorMessages': {
       required: 'Please enter a 10-digit phone number (with or without dashes)',
-      minLength:
-        'Please enter a 10-digit phone number (with or without dashes)',
+      pattern: 'Please enter a 10-digit phone number (with or without dashes)',
     },
   };
 };
 
-/**
- * @returns `commonDefinitions.phone`
- */
-export const phoneSchema = commonDefinitions.phone;
+export const phoneSchema = {
+  type: 'string',
+  pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+};

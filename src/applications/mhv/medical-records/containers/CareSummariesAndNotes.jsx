@@ -1,35 +1,40 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const fullState = useSelector(state => state);
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
 
-  useEffect(() => {
-    dispatch(getCareSummariesAndNotesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getCareSummariesAndNotesList());
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: '/my-health/medical-records',
-              label: 'Medical records',
-            },
-          ],
+        setBreadcrumbs([
           {
-            url: '/my-health/medical-records/care-summaries-and-notes',
-            label: 'VA care summaries and notes',
+            url: '/my-health/medical-records',
+            label: 'Medical records',
           },
-        ),
+        ]),
       );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
     },
     [dispatch],
   );
@@ -49,6 +54,7 @@ const CareSummariesAndNotes = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   };
@@ -56,14 +62,22 @@ const CareSummariesAndNotes = () => {
   return (
     <div id="care-summaries-and-notes">
       <h1 className="page-title">Care summaries and notes</h1>
-      <section className="set-width-486">
-        <p>Review care summaries and notes in your VA medical records.</p>
-        <va-additional-info trigger="What to know about your care summaries and notes">
-          This is some additional info about your care summaries and notes,
-          though we are waiting on the Content Team to tell us what should be
-          here...
-        </va-additional-info>
-      </section>
+      <p>
+        Most care summaries and notes are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after
+        providers sign them. This list doesn’t include care summaries from
+        before 2013.
+      </p>
+      <p>
+        To find after-visit summaries from your VA appointments, go to your
+        appointment records.
+      </p>
+      <a
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'appointments')}
+        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
+      >
+        Go to your appointments to find after-visit summaries
+      </a>
       {content()}
     </div>
   );

@@ -1,24 +1,43 @@
 const { snakeCase } = require('lodash');
 
-const defaultToggleValues = {
-  profileDoNotRequireInternationalZipCode: true,
+// add and remove feature toggles here by name, but generally keep all values as false
+// instead use generateFeatureToggles in server.js to set the toggle values
+const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
-  profileShowPaymentsNotificationSetting: true,
-  profileUseInfoCard: true,
-  profileUseFieldEditingPage: true,
-  profileShowMhvNotificationSettings: true,
+  profileShowPaymentsNotificationSetting: false,
+  profileUseFieldEditingPage: false,
+  profileUseHubPage: false,
+  profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
-  profileShowEmailNotificationSettings: true,
+  profileShowEmailNotificationSettings: false,
+  showAuthenticatedMenuEnhancements: false,
 };
 
-const generateFeatureToggles = (values = defaultToggleValues) => {
-  const mergedValues = { ...defaultToggleValues, ...values };
+const makeAllTogglesTrue = toggles => {
+  const result = { ...toggles };
+  Object.keys(result).forEach(key => {
+    result[key] = true;
+  });
+  return result;
+};
 
-  const features = Object.entries(mergedValues).map(([key, value]) => {
+const generateFeatureToggles = (values = profileToggles, allOn = false) => {
+  const toggles = allOn
+    ? makeAllTogglesTrue(profileToggles)
+    : { ...profileToggles, ...values };
+
+  const togglesCamelCased = Object.entries(toggles).map(([key, value]) => {
+    return {
+      name: key,
+      value,
+    };
+  });
+
+  const togglesSnakeCased = Object.entries(toggles).map(([key, value]) => {
     return {
       name: snakeCase(key),
       value,
@@ -28,7 +47,7 @@ const generateFeatureToggles = (values = defaultToggleValues) => {
   return {
     data: {
       type: 'feature_toggles',
-      features,
+      features: [...togglesSnakeCased, ...togglesCamelCased],
     },
   };
 };

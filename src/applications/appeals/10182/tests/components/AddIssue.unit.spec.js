@@ -7,12 +7,13 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_LENGTH, LAST_ISSUE } from '../../constants';
-import { getDate } from '../../utils/dates';
+
+import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
-  const contestableIssues = [
+  const contestedIssues = [
     {
       type: 'contestableIssue',
       attributes: {
@@ -53,6 +54,7 @@ describe('<AddIssue>', () => {
 
   it('should render', () => {
     const { container } = render(setup());
+    expect($('h3', container)).to.exist;
     expect($('va-text-input')).to.exist;
     expect($('va-memorable-date', container)).to.exist;
   });
@@ -63,7 +65,7 @@ describe('<AddIssue>', () => {
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
-    expect(elems[1].error).to.contain(issueErrorMessages.missingDecisionDate);
+    expect(elems[1].error).to.contain(issueErrorMessages.blankDecisionDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;
@@ -78,10 +80,10 @@ describe('<AddIssue>', () => {
   });
 
   it('should show error when issue name is too long', () => {
-    const issue = 'abcdef '.repeat(MAX_LENGTH.ISSUE_NAME / 6);
+    const issue = 'abcdef '.repeat(MAX_LENGTH.NOD_ISSUE_NAME / 6);
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ issue }] },
+        data: { contestedIssues, additionalIssues: [{ issue }] },
         index: 1,
       }),
     );
@@ -94,14 +96,14 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { years: +200 } });
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ decisionDate }] },
+        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
         index: 1,
       }),
     );
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain('past decision date');
+    expect(date.error).to.contain('decision date that’s in the past');
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
@@ -110,7 +112,7 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { months: +13 } });
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ decisionDate }] },
+        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
         index: 1,
       }),
     );
@@ -126,14 +128,14 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { months: -13 } });
     const { container } = render(
       setup({
-        data: { contestableIssues, additionalIssues: [{ decisionDate }] },
+        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
         index: 1,
       }),
     );
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(issueErrorMessages.newerDate);
+    expect(date.error).to.contain(issueErrorMessages.recentDate);
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
@@ -145,7 +147,7 @@ describe('<AddIssue>', () => {
     const { container } = render(
       setup({
         goToPath: goToPathSpy,
-        data: { contestableIssues, additionalIssues },
+        data: { contestedIssues, additionalIssues },
         index: 1,
       }),
     );
@@ -163,7 +165,7 @@ describe('<AddIssue>', () => {
     const { container } = render(
       setup({
         goToPath: goToPathSpy,
-        data: { contestableIssues, additionalIssues },
+        data: { contestedIssues, additionalIssues },
         index: 1,
       }),
     );

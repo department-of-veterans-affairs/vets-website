@@ -2,11 +2,12 @@
   list-style: none;
   margin: 0px;
   padding: 0px;
+  border-bottom: 1px solid $color-gray-lightest;
 
   li {
     margin: 0px;
     padding: 24px 0px 24px 0px;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid $color-gray-lightest;
     @media print {
       break-inside: avoid;
     }
@@ -48,4 +49,8 @@
     border: 0px;
     padding: 0px;
   }
+}
+
+va-pagination {
+  border-top: 0;
 }

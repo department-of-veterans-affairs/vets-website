@@ -100,7 +100,7 @@ ConfirmRemoveModal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   onHide: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.object,
 };
 
 export default ConfirmRemoveModal;

@@ -22,7 +22,7 @@ export const IntroductionPageView = ({
     displayNonVeteranMessaging = false,
     verifiedPrefillAlert = null,
   } = content;
-  const { resBurden, ombNumber, expDate } = ombInfo;
+  const { resBurden, ombNumber, expDate, customPrivacyActStmt } = ombInfo;
 
   useEffect(() => {
     focusElement(breadcrumbsRef.current);
@@ -41,16 +41,27 @@ export const IntroductionPageView = ({
         unauthStartText={unauthStartText}
         displayNonVeteranMessaging={displayNonVeteranMessaging}
         verifiedPrefillAlert={verifiedPrefillAlert}
+        formConfig={formConfig}
       >
         {saveInProgressText}
       </SaveInProgressIntro>
       {additionalChildContent || null}
       <p />
-      <va-omb-info
-        res-burden={resBurden}
-        omb-number={ombNumber}
-        exp-date={expDate}
-      />
+      {!customPrivacyActStmt ? (
+        <va-omb-info
+          res-burden={resBurden}
+          omb-number={ombNumber}
+          exp-date={expDate}
+        />
+      ) : (
+        <va-omb-info
+          res-burden={resBurden}
+          omb-number={ombNumber}
+          exp-date={expDate}
+        >
+          {customPrivacyActStmt}
+        </va-omb-info>
+      )}
     </article>
   );
 };

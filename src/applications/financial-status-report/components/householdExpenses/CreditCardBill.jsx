@@ -84,8 +84,19 @@ const CreditCardBill = props => {
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
+
+    // Create a copy of the current creditCardBills array
     const newCreditCardBillArray = [...creditCardBills];
-    newCreditCardBillArray[index] = creditCardBillRecord;
+    // If it's a new record, set the purpose to 'Credit card payment' explicitly
+    if (creditCardBills.length === index) {
+      newCreditCardBillArray.push({
+        ...defaultRecord[0], // You can include other default values as needed
+        ...creditCardBillRecord,
+      });
+    } else {
+      // Update an existing record
+      newCreditCardBillArray[index] = creditCardBillRecord;
+    }
 
     if (
       creditCardBillRecord.amountDueMonthly &&
@@ -99,7 +110,7 @@ const CreditCardBill = props => {
         }));
       }
 
-      // update form data
+      // Update form data
       setFormData({
         ...data,
         expenses: {
@@ -132,6 +143,54 @@ const CreditCardBill = props => {
     },
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto usa-button-primary"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            creditCardBills.length === index ? 'Add' : 'Update'
+          } a credit card bill`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -141,8 +200,10 @@ const CreditCardBill = props => {
               creditCardBills.length === index ? 'Add' : 'Update'
             } a credit card bill`}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            Enter your credit card bill’s information.
+          </p>
         </legend>
-        <p>Enter your credit card bill’s information.</p>
         <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && unpaidBalanceError) || null}
@@ -185,24 +246,9 @@ const CreditCardBill = props => {
           />
         </div>
         <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            id="submit"
-            className="vads-u-width--auto usa-button-primary"
-            onClick={handlers.onUpdate}
-          >
-            {`${
-              creditCardBills.length === index ? 'Add' : 'Update'
-            } a credit card bill`}
-          </button>
+          {creditCardBills.length > 0
+            ? renderAddCancelButtons()
+            : renderContinueBackButtons()}
         </p>
       </fieldset>
     </form>

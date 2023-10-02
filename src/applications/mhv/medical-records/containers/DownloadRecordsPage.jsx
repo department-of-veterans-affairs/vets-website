@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { updatePageTitle } from '../../shared/util/helpers';
+import { pageTitles } from '../util/constants';
 
 const DownloadRecordsPage = () => {
   const dispatch = useDispatch();
@@ -11,11 +14,13 @@ const DownloadRecordsPage = () => {
         setBreadcrumbs(
           [{ url: '/my-health/medical-records', label: 'Medical records' }],
           {
-            url: '/my-health/medical-records/download-your-medical-records',
+            url: '/my-health/medical-records/download-all',
             label: 'Download all medical records',
           },
         ),
       );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },
     [dispatch],
   );
@@ -29,7 +34,7 @@ const DownloadRecordsPage = () => {
           Button&#174;.
         </p>
       </section>
-      <section className="set-width-486">
+      <section>
         <h2>What you can download here</h2>
         <p>
           Your downloaded file will include these types of records from your VA
@@ -43,7 +48,9 @@ const DownloadRecordsPage = () => {
           </li>
         </ul>
         <p className="vads-u-margin-bottom--0">
-          <strong>What to know before you download </strong>
+          <span className="vads-u-font-weight--bold">
+            What to know before you download{' '}
+          </span>
         </p>
         <ul>
           <li>
@@ -76,14 +83,10 @@ const DownloadRecordsPage = () => {
         </h3>
         <p>
           If you’re looking for recent records, check back later. It may take{' '}
-          <strong>36 hours</strong> for some records to become available for
-          download.
+          <span className="vads-u-font-weight--bold">36 hours</span> for some
+          records to become available for download.
         </p>
-        <a
-          href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
           Learn how to find other types of records
         </a>
       </section>

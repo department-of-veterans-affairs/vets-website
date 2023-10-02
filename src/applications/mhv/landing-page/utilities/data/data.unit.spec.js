@@ -1,11 +1,7 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { countUnreadMessages, resolveToggleLink } from './index';
+import { resolveToggleLink } from './index';
 import manifest from '../../manifest.json';
-import {
-  allFoldersWithUnreadMessages,
-  oneFolderWithUnreadMessages,
-} from '../../api/mocks/folders';
 
 const initializeFeatureToggles = ({
   mhvLinkOneEnabled = false,
@@ -21,25 +17,6 @@ const initializeFeatureToggles = ({
 
 describe(manifest.appName, () => {
   describe('utilities/data', () => {
-    describe('countUnreadMessages', () => {
-      it('should return correct count for multiple folders', () => {
-        const count = countUnreadMessages(allFoldersWithUnreadMessages);
-
-        expect(count).to.equal(29);
-      });
-
-      it('should return correct count for single folder', () => {
-        const count = countUnreadMessages(oneFolderWithUnreadMessages);
-
-        expect(count).to.equal(68);
-      });
-
-      it('should return 0 if undefined', () => {
-        const count = countUnreadMessages();
-
-        expect(count).to.equal(0);
-      });
-    });
     describe('resolveToggleLink', () => {
       it('resolves to the new href when available and no toggle matches', () => {
         const link = {

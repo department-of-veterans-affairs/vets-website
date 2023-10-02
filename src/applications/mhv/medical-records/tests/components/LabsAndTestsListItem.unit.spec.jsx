@@ -5,7 +5,7 @@ import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import labsAndTests from '../fixtures/labsAndTests.json';
-import { RecordType } from '../../util/constants';
+import { recordType } from '../../util/constants';
 
 describe('LabsAndTestsListItem component', () => {
   const initialState = {
@@ -21,7 +21,7 @@ describe('LabsAndTestsListItem component', () => {
     return renderWithStoreAndRouter(
       <RecordListItem
         record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
-        type={RecordType.LABS_AND_TESTS}
+        type={recordType.LABS_AND_TESTS}
       />,
       {
         initialState: state,
@@ -49,7 +49,7 @@ describe('LabsAndTestsListItem component', () => {
         exact: true,
       },
     )[0];
-    const recordDate = screen.getByText('January', { exact: false });
+    const recordDate = screen.getAllByText('January', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
   });
@@ -57,7 +57,7 @@ describe('LabsAndTestsListItem component', () => {
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'Details',
+      name: /Details/,
     });
     expect(recordDetailsLink).to.exist;
   });

@@ -1,9 +1,8 @@
 import React from 'react';
+
+// eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import {
@@ -45,9 +44,9 @@ export function VAProfileInitError(props) {
             </strong>
           </p>
           <p>
-            Contact us at <Telephone contact={CONTACTS.MY_HEALTHEVET} />. We’re
-            here Monday - Friday, 8:00 a.m - 8:00 p.m. ET. If you have hearing
-            loss, call <Telephone contact="800-877-3399" />. Tell the
+            Contact us at <va-telephone contact={CONTACTS.MY_HEALTHEVET} />.
+            We’re here Monday - Friday, 8:00 a.m - 8:00 p.m. ET. If you have
+            hearing loss, call <va-telephone contact="8008773399" />. Tell the
             representative that you tried to sign in to VA.gov, but got an error
             message that you may have more than one My HealtheVet account or ID.
           </p>
@@ -65,9 +64,8 @@ export function VAProfileInitError(props) {
           <p>
             To find out if this is about an account with the Department of
             Defense, call our MyVA411 main information line for help at
-            <Telephone contact={CONTACTS.HELP_DESK} />
-            (TTY:{' '}
-            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+            <va-telephone contact={CONTACTS.HELP_DESK} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ).
           </p>
         </div>

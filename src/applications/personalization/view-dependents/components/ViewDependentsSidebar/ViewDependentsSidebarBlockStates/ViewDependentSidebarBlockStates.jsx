@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const firstSidebarBlock = {
   heading: 'When should I notify VA about dependents on my benefits?',
@@ -44,8 +45,8 @@ export const thirdSidebarBlock = {
   content: (
     <>
       <p>
-        You can call us at <a href="tel:8008271000">800-827-1000</a>. We’re here
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
+        You can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
+        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
       </p>
     </>
   ),

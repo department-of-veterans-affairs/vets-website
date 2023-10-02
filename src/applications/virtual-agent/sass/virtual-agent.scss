@@ -97,3 +97,30 @@ button.webchat__suggested-actions__button:active {
 #corner-bot {
   z-index: 999;
 }
+.webchat__microphone-button.webchat__microphone-button--dictating .webchat__microphone-button__button:hover .webchat__microphone-button__icon{
+  fill: rgb(118, 118, 118) !important;
+}
+.webchat__microphone-button--dictating {
+  .webchat__icon-button:not(:disabled):not([aria-disabled="true"]):not(:active):hover .webchat__icon-button__shade {
+    background:
+    linear-gradient(to top left,
+      rgba(227, 28, 61, 0) 0%,
+      rgba(227, 28, 61, 0) calc(50% - 2px),
+      rgba(227, 28, 61, 1) 50%,
+      rgba(227, 28, 61, 0) calc(50% + 2px),
+      rgba(227, 28, 61, 0) 100%),
+  }
+  button {
+    background: rgb(227, 28, 61) !important;
+    &:not([disabled]):focus {
+      outline: 2px solid rgb(227, 28, 61) !important;
+      outline-offset: 2px;
+      height: 31.4px;
+
+    }
+  }
+}
+
+.ac-textBlock {
+  color: rgb(0, 0, 0) !important;
+}

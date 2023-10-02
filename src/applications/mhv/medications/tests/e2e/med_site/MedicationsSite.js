@@ -77,9 +77,9 @@ class MedicationsSite {
     displayedEndNumber,
     threadLength,
   ) => {
-    cy.get('[class ="rx-page-total-info no-print"]').should(
+    cy.get('[data-testid="page-total-info"]').should(
       'have.text',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications`,
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, available to fill or refill first`,
     );
   };
 }

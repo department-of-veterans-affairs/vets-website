@@ -1,16 +1,16 @@
-import { convertToDateField } from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import {
-  errorMessages,
-  MAX_LENGTH,
-  REGEX_COMMA,
-  REGEX_EMPTY_DATE,
-} from '../constants';
-import { getSelected, getIssueName } from '../utils/helpers';
+import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
 import { validateDate } from './date';
-import { fixDateFormat } from '../utils/replace';
+
+import { MAX_LENGTH } from '../../shared/constants';
+import { fixDateFormat } from '../../shared/utils/replace';
+import {
+  validateAddressParts,
+  validateIssues,
+  validateToDate,
+  validateUniqueLocationOrFacility,
+} from '../../shared/validations/evidence';
 
 // Needed for uniqueness string comparison
 const sortIssues = issues =>
@@ -21,7 +21,9 @@ export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
   if (!locationAndName) {
     errors.addError(errorMessages.evidence.locationMissing);
-  } else if (locationAndName.length > MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME) {
+  } else if (
+    locationAndName.length > MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME
+  ) {
     errors.addError(errorMessages.evidence.locationMaxLength);
   }
 };
@@ -34,14 +36,15 @@ export const validateVaIssues = (
   _uiSchema,
   currentIndex = 0,
 ) => {
-  const issues = fullData?.locations?.[currentIndex]?.issues || [];
-  const selectedIssues = getSelected(fullData).map(getIssueName);
-  const allSelectedIssues = issues.every(issue =>
-    selectedIssues.includes(issue),
+  validateIssues(
+    errors,
+    _data,
+    fullData,
+    _schema,
+    _uiSchema,
+    currentIndex,
+    'locations',
   );
-  if (!issues?.length || !allSelectedIssues) {
-    errors.addError(errorMessages.evidence.issuesMissing);
-  }
 };
 
 // Overloading fullDate parameter with evidence date type to control error
@@ -50,17 +53,7 @@ export const validateVaFromDate = (errors, data) =>
   validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
 export const validateVaToDate = (errors, data) => {
-  const dates = data.evidenceDates || {};
-  validateDate(errors, dates?.to, { dateType: 'evidence' });
-
-  // modified from validateDateRange
-  const fromDate = convertToDateField(dates?.from);
-  const toDate = convertToDateField(dates?.to);
-
-  if (!isValidDateRange(fromDate, toDate, true)) {
-    errors.addError(errorMessages.endDateBeforeStart);
-    errors.addError('other'); // invalid inputs
-  }
+  validateToDate(errors, data, 'evidenceDates');
 };
 
 export const buildVaLocationString = (
@@ -91,21 +84,8 @@ export const validateVaUnique = (
   const locations = (fullData?.locations || []).map(data =>
     buildVaLocationString(data, ',').toLowerCase(),
   );
-  const uniqueLocations = new Set(locations);
-  if (locations.length > 1 && locations.length !== uniqueLocations.size) {
-    const hasDuplicate = locations.find(location => {
-      if (location.replace(REGEX_COMMA, '') === '') {
-        return false;
-      }
-      const firstIndex = locations.indexOf(location);
-      const lastIndex = locations.lastIndexOf(location);
-      // only
-      return firstIndex !== lastIndex && lastIndex === currentIndex;
-    });
-    if (hasDuplicate) {
-      errors.addError(errorMessages.evidence.uniqueVA);
-    }
-  }
+
+  validateUniqueLocationOrFacility(currentIndex, errors, 'uniqueVA', locations);
 };
 
 /* *** Private *** */
@@ -117,29 +97,18 @@ export const validatePrivateName = (errors, data) => {
 };
 
 export const validateCountry = (errors, data) => {
-  const { country } = data?.providerFacilityAddress || {};
-  if (!country) {
-    errors.addError(errorMessages.evidence.country);
-  }
+  validateAddressParts(errors, data, 'country');
 };
 export const validateStreet = (errors, data) => {
-  const { street } = data?.providerFacilityAddress || {};
-  if (!street) {
-    errors.addError(errorMessages.evidence.street);
-  }
+  validateAddressParts(errors, data, 'street');
 };
 export const validateCity = (errors, data) => {
-  const { city } = data?.providerFacilityAddress || {};
-  if (!city) {
-    errors.addError(errorMessages.evidence.city);
-  }
+  validateAddressParts(errors, data, 'city');
 };
 export const validateState = (errors, data) => {
-  const { state } = data?.providerFacilityAddress || {};
-  if (!state) {
-    errors.addError(errorMessages.evidence.state);
-  }
+  validateAddressParts(errors, data, 'state');
 };
+
 export const validatePostal = (errors, data) => {
   const { postalCode } = data?.providerFacilityAddress || {};
   if (!postalCode) {
@@ -151,20 +120,21 @@ export const validatePostal = (errors, data) => {
 
 export const validatePrivateIssues = (
   errors,
-  data,
+  _data,
   fullData,
   _schema,
   _uiSchema,
   currentIndex = 0,
 ) => {
-  const issues = fullData?.providerFacility?.[currentIndex]?.issues || [];
-  const selectedIssues = getSelected(fullData).map(getIssueName);
-  const allSelectedIssues = issues.every(issue =>
-    selectedIssues.includes(issue),
+  validateIssues(
+    errors,
+    _data,
+    fullData,
+    _schema,
+    _uiSchema,
+    currentIndex,
+    'providerFacility',
   );
-  if (!issues?.length || !allSelectedIssues) {
-    errors.addError(errorMessages.evidence.issuesMissing);
-  }
 };
 
 // Overloading fullDate parameter with evidence date type to control error
@@ -173,17 +143,7 @@ export const validatePrivateFromDate = (errors, data) =>
   validateDate(errors, data.treatmentDateRange?.from, { dateType: 'evidence' });
 
 export const validatePrivateToDate = (errors, data) => {
-  const dates = data.treatmentDateRange || {};
-  validateDate(errors, dates?.to, { dateType: 'evidence' });
-
-  // modified from validateDateRange
-  const fromDate = convertToDateField(dates?.from);
-  const toDate = convertToDateField(dates?.to);
-
-  if (!isValidDateRange(fromDate, toDate, true)) {
-    errors.addError(errorMessages.endDateBeforeStart);
-    errors.addError('other'); // invalid inputs
-  }
+  validateToDate(errors, data, 'treatmentDateRange');
 };
 
 export const buildPrivateString = (
@@ -223,20 +183,10 @@ export const validatePrivateUnique = (
   const facilities = (fullData?.providerFacility || []).map(facility =>
     buildPrivateString(facility, ',').toLowerCase(),
   );
-  const uniqueFacilities = new Set(facilities);
-  const len = facilities.length;
-  if (len > 1 && len !== uniqueFacilities.size) {
-    const hasDuplicate = facilities.find(facility => {
-      if (facility.replace(REGEX_COMMA, '') === '') {
-        return false;
-      }
-      const firstIndex = facilities.indexOf(facility);
-      const lastIndex = facilities.lastIndexOf(facility);
-      // only
-      return firstIndex !== lastIndex && lastIndex === currentIndex;
-    });
-    if (hasDuplicate) {
-      errors.addError(errorMessages.evidence.uniquePrivate);
-    }
-  }
+  validateUniqueLocationOrFacility(
+    currentIndex,
+    errors,
+    'uniquePrivate',
+    facilities,
+  );
 };

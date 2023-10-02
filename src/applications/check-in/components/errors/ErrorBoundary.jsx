@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { captureError } from '../../utils/analytics';
-import { createSessionStorageKeys } from '../../utils/session-storage';
+import { createStorageKeys } from '../../utils/storage';
 import { withAppName } from '../../containers/withAppName';
 
 class ErrorBoundary extends React.Component {
@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error) {
     // get token from session store
     const { isPreCheckIn } = this.props;
-    const KEYS = createSessionStorageKeys({
+    const KEYS = createStorageKeys({
       isPreCheckIn,
     });
     const data = window.sessionStorage.getItem(KEYS.CURRENT_UUID);

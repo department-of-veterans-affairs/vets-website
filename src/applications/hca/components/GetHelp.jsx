@@ -10,7 +10,7 @@ const GetHelp = () => (
       <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here 24/7.
     </p>
-    <p>
+    <p className="help-talk">
       <strong>
         If you need help to gather your information or fill out your
         application,{' '}

@@ -10,10 +10,11 @@ const aliasMap = Object.keys(moduleResolverAlias).map(alias => [
 
 module.exports = {
   // All rules should be disabled or they should produce errors. No warnings.
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
@@ -62,11 +63,6 @@ module.exports = {
         use: 'a custom solution',
       },
       {
-        name:
-          '@department-of-veterans-affairs/component-library/AdditionalInfo',
-        use: '<va-additional-info>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
         use: '<va-breadcrumbs>',
       },
@@ -78,22 +74,6 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/OMBInfo',
-        use: '<va-omb-info>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Pagination',
-        use: '<va-pagination>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Telephone',
-        use: '<va-telephone>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Select',
-        use: '<va-select>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',
@@ -113,6 +93,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['*'],
+      rules: {
+        'cypress/unsafe-to-chain-command': 'warn',
+      },
+    },
+    {
       files: [
         '**/*.spec.jsx',
         '**/*.spec.js',
@@ -120,6 +106,7 @@ module.exports = {
         'src/platform/testing/**/*.jsx',
       ],
       rules: {
+        'cypress/unsafe-to-chain-command': 'warn',
         'no-restricted-imports': ['error', 'raven'],
         'no-unused-expressions': 0,
         'react/no-find-dom-node': 0,
@@ -130,6 +117,7 @@ module.exports = {
     {
       files: ['**/*.cypress.spec.js'],
       rules: {
+        'cypress/unsafe-to-chain-command': 'warn',
         '@department-of-veterans-affairs/axe-check-required': 1,
         '@department-of-veterans-affairs/cypress-viewport-deprecated': 1,
       },

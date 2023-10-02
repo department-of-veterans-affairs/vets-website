@@ -58,7 +58,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for substitute claimant.',
   },
-  title: 'Request to be a substitute for a deceased claimant',
+  title: 'Request to be a substitute claimant for a deceased claimant',
   subTitle:
     'Request for substitution of claimant upon death of claimant (VA Form 21P-0847)',
   defaultDefinitions: {},
@@ -125,7 +125,7 @@ const formConfig = {
       },
     },
     relationshipToDeceasedClaimantChapter: {
-      title: 'Your relationship',
+      title: 'Your relationship to the deceased claimant',
       pages: {
         relationshipToDeceasedClaimant: {
           path: 'relationship-to-deceased-claimant',

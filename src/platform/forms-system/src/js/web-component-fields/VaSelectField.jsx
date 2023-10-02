@@ -11,7 +11,30 @@ function optionsList(schema) {
   });
 }
 
-/** @param {WebComponentFieldProps} props */
+/**
+ * Usage uiSchema:
+ * ```
+ * select: {
+ *   'ui:title': 'Select field',
+ *   'ui:webComponentField': VaSelectField,
+ *   'ui:description': 'description',
+ *   'ui:options': {
+ *     labels: {
+ *       option1: 'Option 1',
+ *       option2: 'Option 2',
+ *     },
+ *   },
+ * }
+ * ```
+ *
+ * Usage schema:
+ * ```
+ * select: {
+ *   type: 'string',
+ *   enum: ['option1', 'option2'],
+ * }
+ * ```
+ * @param {WebComponentFieldProps} props */
 export default function VaSelectField(props) {
   let addDefaultEntry = false;
   const mappedProps = vaSelectFieldMapping(props);

@@ -18,9 +18,9 @@
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-
 .main-content {
-  max-width: 650px;
+  padding: 0;
+  margin-bottom: 40px;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
@@ -34,31 +34,30 @@
   .right-angle {
     text-decoration: none;
   }
-
 }
 .landing-page {
-  @media (min-width: $medium-screen) {
-    margin-left: -180px;
-  }
   h1 {
     color: $color-gray-dark;
     margin: 0;
   }
   .medications-list-sort {
-    margin-top: -25px;
-    width: 272;
+    display: flex;
+    flex-direction: row;
+    .sort-button {
+      margin-left: 8px;
+      margin-top: 57px;
+    }
   }
   .rx-page-total-info {
     margin-top: 15px;
     margin-bottom: 15px;
     max-width: 500px;
+    font-size: 1.6rem;
+    font-weight: normal;
   }
   .pagination {
     max-width: 500px;
     border-top: 0px;
-  }
-  .landing-page-content {
-    max-width: 500px;
   }
   section {
     .feedback {
@@ -72,13 +71,15 @@
     color: $color-gray-dark;
     .rx-card-detials{
       margin-left: 5px;
-      h4 {
+      h3 {
         margin: 8px 0;
       }
+      p {
+        margin: 0;
+      }
       .shipping-info {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        padding: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -88,6 +89,30 @@
           height: 20px;
           border: 1px solid $color-base;
         }
+      }
+      .statusIcon {
+        padding: 4px 20px 4px 28px;
+        position: relative;
+        display: inline-block;
+      }
+      .statusIcon:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+        font-size: 120%;
+        position: absolute;
+        left: 0px;
+      }
+
+      .refillProcessIcon:before {
+        content: "\f56e";
+      }
+
+      .unknownIcon:before {
+        content: "\f071";
+      }
+
+      .submittedIcon:before {
+        content: "\f572";
       }
     }
   }
@@ -157,5 +182,11 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
+  }
+}
+
+.vads-u-width--responsive{
+  @media (max-width: $small-screen) {
+    width: 100% !important;
   }
 }

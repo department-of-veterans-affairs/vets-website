@@ -1,22 +1,30 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import { schema } from '../../shared/definitions/pdfFullNameNoSuffix';
+import { cloneDeep } from 'lodash';
+
+import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern.js';
+import {
+  dateOfBirthUI,
+  dateOfBirthSchema,
+} from 'platform/forms-system/src/js/web-component-patterns/datePatterns.jsx';
+import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
+
+const veteranFullNameUI = cloneDeep(fullNameNoSuffixUI());
+
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    veteranFullName: fullNameUI,
-    veteranDateOfBirth: {
-      'ui:title': 'Date of birth',
-      'ui:widget': 'date',
-    },
+    veteranFullName: veteranFullNameUI,
+    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
-      veteranFullName: schema(),
-      veteranDateOfBirth: definitions.date,
+      veteranFullName: pdfFullNameNoSuffixSchema({
+        pdfMaxLengths: { first: 12, middle: 1, last: 18 },
+      }),
+      veteranDateOfBirth: dateOfBirthSchema,
     },
   },
 };

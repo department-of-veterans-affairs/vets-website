@@ -1,6 +1,12 @@
 .record-list-item {
   line-height: 2;
-  max-width: 486px;
+  padding: 24px;
+  h3 {
+    margin: 0;
+  }
+  h4 {
+    line-height: 1.5;
+  }
 
   .details-link-icon {
     margin-left: 8px;
@@ -25,6 +31,11 @@
     border-bottom: 2px solid $color-black !important;
     border-radius: 0px;
     background-color: $color-white !important;
+    max-width: none;
+    padding: 16px 0px 24px;
+    h3 {
+      margin-bottom: 16px;
+    }
   }
   .fields {
     * {
@@ -35,8 +46,4 @@
       font-weight: 600;
     }
   }
-}
-
-.pagination {
-  max-width: 486px;
 }

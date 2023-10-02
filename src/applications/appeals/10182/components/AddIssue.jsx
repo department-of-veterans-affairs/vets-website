@@ -14,37 +14,37 @@ import recordEvent from 'platform/monitoring/record-event';
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import {
-  SELECTED,
-  MAX_LENGTH,
-  LAST_ISSUE,
-  CONTESTABLE_ISSUES_PATH,
-  REVIEW_ISSUES,
-} from '../constants';
-
 import { validateDate } from '../validations/date';
 import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../validations/issues';
 import { content } from '../content/addIssue';
 
+import {
+  CONTESTABLE_ISSUES_PATH,
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_AND_SUBMIT,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
+import { checkValidations } from '../../shared/validations/issues';
+import { getSelected, calculateIndexOffset } from '../../shared/utils/issues';
+
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
-const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const AddIssue = props => {
   const { data, goToPath, setFormData, testingIndex } = props;
-  const { contestableIssues = [], additionalIssues = [] } = data || {};
+  const { contestedIssues = [], additionalIssues = [] } = data || {};
 
-  const allIssues = contestableIssues.concat(additionalIssues);
+  const allIssues = contestedIssues.concat(additionalIssues);
 
   // get index from url '/add-issue?index={index}' or testingIndex
   const searchIndex = new URLSearchParams(window.location.search);
   let index = parseInt(searchIndex.get('index') || testingIndex, 10);
-  if (Number.isNaN(index) || index < contestableIssues.length) {
+  if (Number.isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
   const setStorage = (type, value = '') => {
@@ -54,7 +54,7 @@ const AddIssue = props => {
     window.sessionStorage.setItem(LAST_ISSUE, value || `${index},${type}`);
     window.sessionStorage.removeItem(REVIEW_ISSUES);
   };
-  const offsetIndex = calculateIndexOffset(index, contestableIssues.length);
+  const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
@@ -84,7 +84,7 @@ const AddIssue = props => {
   );
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
-    contestableIssues,
+    contestedIssues,
     additionalIssues: [
       // remove current issue from list - clicking "update issue" won't show
       // unique issue error message
@@ -187,6 +187,7 @@ const AddIssue = props => {
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
+          message-aria-describedby={content.name.hintText}
         >
           {content.name.hint}
         </VaTextInput>

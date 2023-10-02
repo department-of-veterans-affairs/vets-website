@@ -6,11 +6,11 @@ import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import EmergencyNote from '../components/EmergencyNote';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { PageTitles, Paths } from '../util/constants';
+import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const Compose = () => {
 
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
+  const [pageTitle, setPageTitle] = useState('Start a new message');
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -28,6 +29,7 @@ const Compose = () => {
   useEffect(
     () => {
       dispatch(getTriageTeams());
+      dispatch(getPatientSignature());
 
       if (location.pathname === Paths.COMPOSE) {
         dispatch(clearDraft());
@@ -56,13 +58,14 @@ const Compose = () => {
     [isDraftPage, draftMessage, history, dispatch],
   );
 
-  let pageTitle;
-
-  if (isDraftPage) {
-    pageTitle = 'Edit draft';
-  } else {
-    pageTitle = 'Start a new message';
-  }
+  useEffect(
+    () => {
+      if (isDraftPage) {
+        setPageTitle('Edit draft');
+      }
+    },
+    [isDraftPage],
+  );
 
   useEffect(
     () => {
@@ -79,7 +82,6 @@ const Compose = () => {
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             {pageTitle}
           </h1>
-          <EmergencyNote dropDownFlag />
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </>
       );

@@ -31,7 +31,7 @@ describe('SIP Load Fail Test', () => {
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
     });
-    cy.get('va-button')
+    cy.get('va-button[data-testid="continue-your-application"]')
       .first()
       .shadow()
       .find('button')
@@ -55,8 +55,7 @@ describe('SIP Load Fail Test', () => {
       statusCode: 404,
     });
 
-    cy.get('va-button');
-    cy.get('va-button')
+    cy.get('va-button[data-testid="continue-your-application"]')
       .first()
       .shadow()
       .find('button')

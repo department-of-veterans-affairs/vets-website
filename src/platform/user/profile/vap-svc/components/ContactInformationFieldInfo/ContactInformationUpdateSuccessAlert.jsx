@@ -17,8 +17,10 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const id = `${fieldName}-alert`;
   const useLink =
     !!fieldData &&
-    referrer?.pathname === PROFILE_PATHS.NOTIFICATION_SETTINGS &&
+    (referrer?.pathname === PROFILE_PATHS.NOTIFICATION_SETTINGS ||
+      document.referrer?.endsWith(PROFILE_PATHS.NOTIFICATION_SETTINGS)) &&
     fieldName === FIELD_NAMES.MOBILE_PHONE;
+
   useEffect(
     () => {
       const editButton = document

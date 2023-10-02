@@ -8,14 +8,13 @@ import { retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
-import EmergencyNote from '../components/EmergencyNote';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
-import { retrieveFolder } from '../actions/folders';
+import { getFolders, retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -45,12 +44,20 @@ const ThreadDetails = props => {
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
   useEffect(
     () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (!folder && draftMessage) {
         dispatch(retrieveFolder(draftMessage?.threadFolderId));
       }
     },
     [draftMessage, dispatch, folder],
   );
+
   useEffect(
     () => {
       if (threadId) {
@@ -130,8 +137,6 @@ const ThreadDetails = props => {
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
-          <EmergencyNote dropDownFlag />
-
           <ComposeForm draft={draftMessage} recipients={triageTeams} />
         </div>
       );
@@ -164,7 +169,7 @@ const ThreadDetails = props => {
   };
 
   return (
-    <div className="vads-l-grid-container message-detail-container">
+    <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
       <AlertBackgroundBox closeable />
 

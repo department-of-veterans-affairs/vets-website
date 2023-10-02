@@ -8,19 +8,19 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
-import NeedsToVerify from '../../shared/components/NeedsToVerify';
-import {
-  FACILITY_LOCATOR_URL,
-  GET_HELP_REQUEST_URL,
-  BOARD_APPEAL_OPTIONS_URL,
-} from '../constants';
-
 import {
   startText,
   unauthStartText,
   customText,
 } from '../content/saveInProgress';
 import { filingDeadlineContent } from '../content/FilingDeadlines';
+
+import NeedsToVerify from '../../shared/components/NeedsToVerify';
+import {
+  FACILITY_LOCATOR_URL,
+  GET_HELP_REVIEW_REQUEST_URL,
+  NOD_OPTIONS_URL,
+} from '../../shared/constants';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -107,7 +107,7 @@ export class IntroductionPage extends React.Component {
                 A Veterans Law Judge at the Board of Veterans’ Appeals will
                 review your case. The amount of time it takes the Board to
                 complete its review depends on which review option you choose.{' '}
-                <a href={BOARD_APPEAL_OPTIONS_URL}>
+                <a href={NOD_OPTIONS_URL}>
                   Read about the 3 Board Appeal options
                 </a>
               </p>
@@ -129,7 +129,9 @@ export class IntroductionPage extends React.Component {
           A Veteran Service Organization or VA-accredited representative or
           agent can also help you request a Board Appeal.
         </p>
-        <a href={GET_HELP_REQUEST_URL}>Get help requesting a Board Appeal</a>
+        <a href={GET_HELP_REVIEW_REQUEST_URL}>
+          Get help requesting a Board Appeal
+        </a>
         <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--4">
           <va-omb-info
             res-burden={30}
