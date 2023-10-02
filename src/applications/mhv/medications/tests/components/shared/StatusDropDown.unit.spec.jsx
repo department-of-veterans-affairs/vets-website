@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import StatusDropdown from '../../../components/shared/StatusDropdown';
+import { dispStatusObj } from '../../../util/constants';
 
 describe('component that displays Status', () => {
   const renderStatus = status => {
@@ -30,5 +31,13 @@ describe('component that displays Status', () => {
       'Your VA provider prescribed this medication or supply to you. But we won’t send any shipments until you request to fill or refill it.',
     );
     expect(statusDescription).to.exist;
+  });
+
+  it('displays all correctly formatted status', () => {
+    Object.values(dispStatusObj).map(formattedStatus => {
+      const screen = renderStatus(formattedStatus);
+      expect(screen.getAllByText(formattedStatus, { exact: false })).to.exist;
+      return null;
+    });
   });
 });
