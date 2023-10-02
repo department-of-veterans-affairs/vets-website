@@ -18,6 +18,7 @@ import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
 import addlCertsReqPg from '../pages/additionalCertificatesRequest';
 import transformForSubmit from './submit-transformer';
+import { getInitialData } from '../helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -29,10 +30,10 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({
-      confirmationNumber: '[mock-confirmation-number]',
-    }),
+  // submit: () =>
+  //   Promise.resolve({
+  //     confirmationNumber: '[mock-confirmation-number]',
+  //   }),
   // Coordinate with backend to determine final submitUrl
   // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '0247-pmc',
@@ -85,10 +86,7 @@ const formConfig = {
           title: '',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          initialData: getInitialData({ mockData, environment }),
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
           pageClass: 'veteran-personal-information',

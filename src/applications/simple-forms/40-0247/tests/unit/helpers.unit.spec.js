@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { textInputNumericRange } from '../../validations';
+import { getInitialData, textInputNumericRange } from '../../helpers';
 
 describe('textInputNumericRange', () => {
   it('should add an error if the number of copies is less than the minimum range', () => {
@@ -47,5 +47,36 @@ describe('textInputNumericRange', () => {
     textInputNumericRange(errors, formData, input);
     expect(errors.copies.addError.calledWith('Custom min error message')).to.be
       .true;
+  });
+});
+
+describe('getInitialData', () => {
+  it('returns mockData if environment is localhost and Cypress is not running', () => {
+    const mockData = { foo: 'bar' };
+    const environment = {
+      isLocalhost: () => true,
+    };
+    const result = getInitialData({ mockData, environment });
+    expect(result).to.deep.equal(mockData);
+  });
+
+  it('returns undefined if environment is not localhost', () => {
+    const mockData = { foo: 'bar' };
+    const environment = {
+      isLocalhost: () => false,
+    };
+    const result = getInitialData({ mockData, environment });
+    expect(result).to.be.undefined;
+  });
+
+  it('returns undefined if Cypress is running', () => {
+    const mockData = { foo: 'bar' };
+    const environment = {
+      isLocalhost: () => true,
+    };
+    window.Cypress = true;
+    const result = getInitialData({ mockData, environment });
+    expect(result).to.be.undefined;
+    window.Cypress = undefined;
   });
 });

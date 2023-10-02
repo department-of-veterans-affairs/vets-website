@@ -10,7 +10,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
-import { textInputNumericRange } from '../validations';
+import { textInputNumericRange } from '../helpers';
 
 export default {
   uiSchema: {
