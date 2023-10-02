@@ -139,7 +139,7 @@ const PrescriptionDetails = () => {
         );
       }
     },
-    [prescription],
+    [nonVaPrescription, prescription],
   );
 
   useEffect(
