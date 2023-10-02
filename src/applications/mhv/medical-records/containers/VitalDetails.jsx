@@ -9,7 +9,7 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getVitalDetails } from '../actions/vitals';
+import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
@@ -46,16 +46,22 @@ const VitalDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/vitals',
-          label: 'Vitals',
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/vitals',
+            label: 'Vitals',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearVitalDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -104,7 +110,7 @@ const VitalDetails = () => {
         dispatch(getVitalDetails(macroCase(vitalType)));
       }
     },
-    [vitalType],
+    [vitalType, dispatch],
   );
 
   const generateVitalsPdf = async () => {
@@ -155,7 +161,15 @@ const VitalDetails = () => {
     });
 
     try {
-      await generatePdf('medicalRecords', 'vitals_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Vital-details-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Vital details');
     }
@@ -164,10 +178,9 @@ const VitalDetails = () => {
   const content = () => {
     if (records?.length) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
-            list
             download={generateVitalsPdf}
             allowTxtDownloads={allowTxtDownloads}
           />
@@ -226,7 +239,7 @@ const VitalDetails = () => {
               showLastPage
             />
           </div>
-        </div>
+        </>
       );
     }
     return (

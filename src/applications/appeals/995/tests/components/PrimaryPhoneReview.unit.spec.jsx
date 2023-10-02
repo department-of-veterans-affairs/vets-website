@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import PrimaryPhoneReview from '../../components/PrimaryPhoneReview';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
 
 import maximalData from '../fixtures/data/maximal-test.json';
-
-import { $ } from '../../utils/ui';
 
 describe('<PrimaryPhoneReview>', () => {
   const setup = ({

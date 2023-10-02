@@ -23,15 +23,18 @@ const RadiologyDetails = props => {
   );
   const formattedDate = formatDateLong(record?.date);
 
-  useEffect(() => {
-    focusElement(document.querySelector('h1'));
-    const titleDate = formattedDate ? `${formattedDate} - ` : '';
-    updatePageTitle(
-      `${titleDate}${record.name} - ${
-        pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-      }`,
-    );
-  }, []);
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${
+          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
+        }`,
+      );
+    },
+    [formattedDate, record.name],
+  );
 
   const download = () => {
     GenerateRadiologyPdf(record);
@@ -40,7 +43,7 @@ const RadiologyDetails = props => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -133,14 +136,14 @@ const RadiologyDetails = props => {
                 </a>
               </p>
               <p>
-                <strong>Note: </strong>
+                <span className="vads-u-font-weight--bold">Note: </span>
                 If you have questions about more than 1 test ordered by the same
                 care team, send 1 message with all of your questions.
               </p>
             </va-alert-expandable>
             <p className="monospace">{record.results}</p>
           </div>
-        </div>
+        </>
       );
     }
     return <></>;

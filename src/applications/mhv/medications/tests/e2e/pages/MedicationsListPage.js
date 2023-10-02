@@ -1,14 +1,21 @@
 import prescriptions from '../fixtures/prescriptions.json';
+import allergies from '../fixtures/allergies.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
-    cy.intercept('GET', '/my-health/medications', prescriptions);
+    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
   verifyTextInsideDropDownOnListPage = () => {
     cy.contains(
-      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
+      'If you print this page, it won’t include your allergies and reactions to medications.',
     );
   };
 
@@ -40,7 +47,7 @@ class MedicationsListPage {
 
   verifyDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download list as PDF')
+      .should('contain', 'Download your medication list as a PDF')
       .should('be.visible');
   };
 }

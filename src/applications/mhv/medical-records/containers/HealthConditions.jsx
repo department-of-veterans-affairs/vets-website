@@ -10,19 +10,25 @@ import { updatePageTitle } from '../../shared/util/helpers';
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getConditionsList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getConditionsList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        { url: '/my-health/medical-records/', label: 'Medical records' },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.HEALTH_CONDITIONS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (conditions?.length > 0) {
@@ -50,14 +56,15 @@ const HealthConditions = () => {
   };
 
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <>
       <h1 className="vads-u-margin--0">Health conditions</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-        Health condition records are available <strong>36 hours</strong> after
-        your providers enter them.
+        Health condition records are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after your
+        providers enter them.
       </p>
       {content()}
-    </div>
+    </>
   );
 };
 

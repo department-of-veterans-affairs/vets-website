@@ -6,10 +6,12 @@ import { waitFor } from '@testing-library/react';
 import Allergies from '../../containers/Allergies';
 import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
+import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
 describe('Allergies list container', () => {
   const initialState = {
+    user,
     mr: {
       allergies: {
         allergiesList: allergies.entry.map(item =>
@@ -42,7 +44,7 @@ describe('Allergies list container', () => {
   });
 
   it('displays a count of the records', () => {
-    expect(screen.getByText('Showing 1 – 5 of 5 records', { exact: false })).to
+    expect(screen.getByText('Showing 1 to 5 of 5 records', { exact: false })).to
       .exist;
   });
 

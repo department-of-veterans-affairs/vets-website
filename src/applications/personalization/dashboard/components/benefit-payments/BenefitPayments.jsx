@@ -14,7 +14,7 @@ const NoRecentPaymentText = () => {
   return (
     <p
       className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-      data-testid="no-recent-payments-paragraph"
+      data-testid="no-recent-payments-text"
     >
       You have no recent payments to show.
     </p>
@@ -76,7 +76,7 @@ const PaymentsError = () => {
 
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status={status} show-icon data-testid="payments-v2-error">
+      <va-alert status={status} show-icon data-testid="payments-error">
         <h2 slot="headline">We can’t access your payment history</h2>
         <div>
           We’re sorry. We can’t access your payment history right now. We’re

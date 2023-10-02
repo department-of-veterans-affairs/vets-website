@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
 import {
@@ -9,14 +9,16 @@ import {
   selectFeatureStatusImprovement,
   selectFeaturePrintList,
 } from '../../redux/selectors';
+// eslint-disable-next-line import/no-restricted-paths
+import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
+    history.push(typeOfCare.url);
   };
 }
 
@@ -24,6 +26,7 @@ function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
   const isPrintList = useSelector(state => selectFeaturePrintList(state));
+  const { typeOfCare } = useSelector(getNewAppointmentFlow);
 
   return (
     <button
@@ -33,7 +36,7 @@ function ScheduleNewAppointmentButton() {
       } vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4`}
       aria-label="Start scheduling an appointment"
       id="schedule-button"
-      onClick={handleClick(history, dispatch)}
+      onClick={handleClick(history, dispatch, typeOfCare)}
     >
       Start scheduling
     </button>
@@ -48,6 +51,7 @@ export default function ScheduleNewAppointment() {
     selectFeatureStatusImprovement(state),
   );
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
+  const { typeOfCare } = useSelector(getNewAppointmentFlow);
 
   if (featureStatusImprovement) {
     // Only display scheduling button on upcoming appointments page
@@ -74,7 +78,7 @@ export default function ScheduleNewAppointment() {
         className="vaos-hide-for-print"
         aria-label="Start scheduling an appointment"
         id="schedule-button"
-        onClick={handleClick(history, dispatch)}
+        onClick={handleClick(history, dispatch, typeOfCare)}
       >
         Start scheduling
       </button>

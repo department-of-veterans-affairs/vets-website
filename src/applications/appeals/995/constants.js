@@ -66,15 +66,16 @@ export const errorMessages = {
   cardInvalidDate: 'Invalid decision date',
 
   decisions: {
-    missingDate: 'You must enter a decision date',
+    blankDate: 'You must enter a decision date',
     pastDate: 'You must add a decision date that’s in the past',
-    newerDate: 'You must add a more recent decision date',
+    newerDate:
+      'You must add an issue with a decision date that’s less than 100 years old',
   },
   evidence: {
     // VA evidence
     pastDate: 'You must add a past treatment date',
     newerDate: 'You must add a more recent treatment date',
-    missingDate: 'You must enter a treatment date',
+    blankDate: 'You must enter a treatment date',
     missing: 'You must include at least 1 type of supporting evidence',
     locationMissing: 'You must enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',

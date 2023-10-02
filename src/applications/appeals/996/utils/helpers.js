@@ -1,8 +1,11 @@
 import moment from 'moment';
 
 import { LEGACY_TYPE } from '../constants';
-import { processContestableIssues } from '../../shared/utils/issues';
-import { SELECTED } from '../../shared/constants';
+
+import {
+  getSelected,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 import '../../shared/definitions';
 
 /**
@@ -70,26 +73,6 @@ export const mayHaveLegacyAppeals = ({
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
 
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
-
-export const hasSomeSelected = ({ contestedIssues, additionalIssues } = {}) =>
-  someSelected(contestedIssues) || someSelected(additionalIssues);
-
-export const getSelected = formData => {
-  const eligibleIssues = (formData?.contestedIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  const addedIssues = (formData?.additionalIssues || []).filter(
-    issue => issue[SELECTED],
-  );
-  // include index to help with error messaging
-  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
-    ...issue,
-    index,
-  }));
-};
-
 // additionalIssues (items) are separate because we're checking the count before
 // the formData is updated
 export const getSelectedCount = (formData, items) =>
@@ -145,21 +128,6 @@ export const getItemSchema = (schema, index) => {
     return itemSchema.items[index];
   }
   return itemSchema.additionalItems;
-};
-
-/**
- * Convert an array into a readable list of items
- * @param {String[]} list - Array of items. Empty entries are stripped out
- * @returns {String}
- * @example
- * readableList(['1', '2', '3', '4', 'five'])
- * // => '1, 2, 3, 4 and five'
- */
-export const readableList = list => {
-  const cleanedList = list.filter(Boolean);
-  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
-    cleanedList.length < 2 ? '' : ' and ',
-  );
 };
 
 /**

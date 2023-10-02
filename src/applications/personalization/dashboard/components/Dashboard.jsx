@@ -12,7 +12,10 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -53,6 +56,11 @@ import SavedApplications from './apply-for-benefits/SavedApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const hideNotificationsSection = useToggleValue(
+    TOGGLE_NAMES.myVaHideNotificationsSection,
+  );
+
   return (
     <div>
       <h1
@@ -75,7 +83,7 @@ const DashboardHeader = ({ showNotifications }) => {
           });
         }}
       />
-      {showNotifications && <Notifications />}
+      {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );
 };
@@ -98,7 +106,7 @@ const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
 
           <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
           <EducationAndTraining isLOA1={isLOA1} />
-          <SavedApplications />
+          <SavedApplications isLOA1={isLOA1} />
         </>
       </Toggler.Enabled>
 

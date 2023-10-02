@@ -246,8 +246,12 @@ const CreateSummarySections = ({
     <>
       {!bypassData ? (
         <>
-          <h2 id={id}>{title}</h2>
-          <hr className="vads-u-border-color--primary-darker" />
+          <h2
+            id={id}
+            className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary"
+          >
+            {title}
+          </h2>
         </>
       ) : null}
       <div>
@@ -255,7 +259,7 @@ const CreateSummarySections = ({
           <React.Fragment key={key}>
             {h3Subsections.includes(key) && typeof value !== 'string' ? (
               <>
-                <h3>{key}</h3>
+                <h3 className="vads-u-font-size--h4">{key}</h3>
                 <CreateSummarySections formData={value} bypassData />
               </>
             ) : (
@@ -314,7 +318,7 @@ export const NoFormPage = () => {
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       {data?.metadata?.inProgressFormId ? (
         <>
@@ -326,14 +330,13 @@ export const NoFormPage = () => {
             <h2 id="track-your-status-on-mobile" slot="headline">
               This online form isn’t working right now
             </h2>
-            <div>
-              <p className="vads-u-margin-y--0">
-                You can apply by mail instead. Download a PDF Application for
-                Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
-                information on this page to fill out the form.
-              </p>
-            </div>
-            <br />
+
+            <p>
+              You can apply by mail instead. Download a PDF Application for
+              Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
+              information on this page to fill out the form.
+            </p>
+
             <va-link
               download
               filetype="PDF"
@@ -343,8 +346,9 @@ export const NoFormPage = () => {
             />
           </va-alert>
           <div>
+            <h2>How to apply by mail</h2>
             <p className="vads-u-margin-bottom--4">
-              Mail your completed burial form to this address:
+              Mail the completed form to the pension management center (PMC):
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />
@@ -356,7 +360,10 @@ export const NoFormPage = () => {
               <br />
             </p>
             <article>
-              <va-on-this-page />
+              <h2>Saved information</h2>
+              <div className="vads-u-padding-x--1">
+                <va-on-this-page />
+              </div>
               {renderFields.map(props => (
                 <CreateSummarySections
                   {...props}
@@ -372,17 +379,16 @@ export const NoFormPage = () => {
               include a fine, imprisonment for up to 5 years, or both.
               (Reference: 18 U.S.C. 1001)
             </p>
-            <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+            <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
               Need help?
             </h2>
-            <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
             <p>
-              Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
-              . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
-              you have hearing loss, call TTY:{' '}
-              <va-link href="tel:711" text="711" />.
+              Call us at <va-telephone contact="8008271000" />. We’re here
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+              hearing loss, call <va-telephone contact="711" tty />.
             </p>
           </div>
+          <va-back-to-top />
         </>
       ) : (
         <>
@@ -407,21 +413,20 @@ export const NoFormPage = () => {
               text="Learn more about how to apply for VA burial benefits"
             />
           </va-alert>
-          <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+          <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
             Need help?
           </h2>
-          <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
           <p>
-            Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
-            have hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+            Call us at <va-telephone contact="8008271000" />. We’re here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call <va-telephone contact="711" tty />.
           </p>
         </>
       )}
     </div>
   ) : (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
@@ -440,14 +445,13 @@ export const NoFormPage = () => {
           text="Learn more about how to apply for VA burial benefits"
         />
       </va-alert>
-      <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
         Need help?
       </h2>
-      <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
       <p>
-        Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-        We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-        hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+        Call us at <va-telephone contact="8008271000" />. We’re here Monday
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
+        <va-telephone contact="711" tty />.
       </p>
     </div>
   );

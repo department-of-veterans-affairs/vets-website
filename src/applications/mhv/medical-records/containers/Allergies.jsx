@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -124,7 +125,15 @@ const Allergies = () => {
     });
 
     try {
-      await generatePdf('medicalRecords', 'allergies_report', pdfData);
+      await generatePdf(
+        'medicalRecords',
+        `VA-Allergies-list-${user.userFullName.first}-${
+          user.userFullName.last
+        }-${moment()
+          .format('M-D-YYYY_hhmmssa')
+          .replace(/\./g, '')}`,
+        pdfData,
+      );
     } catch (error) {
       sendErrorToSentry(error, 'Allergies');
     }
@@ -159,7 +168,7 @@ const Allergies = () => {
   };
 
   return (
-    <div id="allergies" className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <div id="allergies">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Allergies</h1>
       <p className="page-description">
@@ -167,7 +176,7 @@ const Allergies = () => {
         message to your care team.
       </p>
       <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
+        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
         className="page-description-link vads-u-margin-bottom--3 no-print"
       >
         Compose a message on the My HealtheVet website
