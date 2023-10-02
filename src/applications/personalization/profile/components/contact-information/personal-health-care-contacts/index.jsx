@@ -1,9 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
+import { nokEcReadOnly } from '@@profile/selectors';
+
+import Loading from './Loading';
 import NextOfKin from './NextOfKin';
 import EmergencyContact from './EmergencyContact';
 
 const PersonalHealthCareContacts = () => {
+  const { featureToggles, user } = useSelector(state => state);
+  const enabled = useSelector(nokEcReadOnly);
+  if (featureToggles.loading || user.loading) return <Loading />;
+  if (!enabled) return <></>;
   return (
     <section className="profile-info-card vads-u-margin-y--4 vads-u-border-color--gray-lighter vads-u-border--1px">
       <h2 className="heading vads-u-background-color--gray-lightest vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-border-bottom--1px vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2">
@@ -24,14 +32,14 @@ const PersonalHealthCareContacts = () => {
         </va-additional-info>
 
         <div>
-          <h3 className="vads-u-font-family--sans vads-u-font-size--base">
+          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--1">
             Who we’ll contact in case of a medical emergency
           </h3>
           <EmergencyContact />
         </div>
 
         <div>
-          <h3 className="vads-u-font-family--sans vads-u-font-size--base">
+          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--1">
             Who you’d like to represent your wishes for care and medical
             documentation, if needed.
           </h3>

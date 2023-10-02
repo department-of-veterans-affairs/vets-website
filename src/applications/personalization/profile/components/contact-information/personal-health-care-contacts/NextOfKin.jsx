@@ -18,14 +18,14 @@ const NextOfKin = () => {
     error,
   ]);
 
-  // Select the first record returned from the API. Perhaps move this the reducer.
+  // Select the first record returned from the API.
   const [nextOfKin] = data || [];
   const { attributes } = nextOfKin || {};
 
   return (
     <>
       {loading && <Loading testId="nok-loading" />}
-      {!loading && <Contact {...attributes} />}
+      {!loading && data && <Contact key={nextOfKin.id} {...attributes} />}
     </>
   );
 };

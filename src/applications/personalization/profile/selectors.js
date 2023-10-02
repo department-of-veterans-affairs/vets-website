@@ -14,11 +14,6 @@ import {
 import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
 import { PROFILE_TOGGLES } from './constants';
 
-export const selectEmergencyContacts = state =>
-  state?.emergencyContacts || false;
-
-export const selectNextOfKin = state => state?.nextOfKin || false;
-
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
 
@@ -165,3 +160,11 @@ export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
 
 export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
+
+export const selectEmergencyContacts = state =>
+  state?.emergencyContacts || false;
+
+export const selectNextOfKin = state => state?.nextOfKin || false;
+
+export const nokEcReadOnly = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.nokEcReadOnly];

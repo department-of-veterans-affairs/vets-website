@@ -112,6 +112,7 @@ export default Object.freeze({
   myVaUpdateErrorsWarnings: 'my_va_update_errors_warnings',
   nodBrowserMonitoringEnabled: 'nod_browser_monitoring_enabled',
   nodPart3Update: 'nod_part3_update',
+  nokEcReadOnly: 'nok_ec_read_only',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
   pensionFormEnabled: 'pension_form_enabled',

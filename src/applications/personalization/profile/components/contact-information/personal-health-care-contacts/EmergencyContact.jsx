@@ -23,7 +23,8 @@ const EmergencyContact = () => {
   return (
     <>
       {loading && <Loading testId="ec-loading" />}
-      {!loading && <Contact {...attributes} />}
+      {!loading &&
+        data && <Contact key={emergencyContact.id} {...attributes} />}
     </>
   );
 };
