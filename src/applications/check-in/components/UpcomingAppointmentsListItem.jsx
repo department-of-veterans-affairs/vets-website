@@ -32,7 +32,7 @@ const UpcomingAppointmentsListItem = props => {
                 data-testid="day-label"
               >
                 <p className="vads-u-line-height--2">
-                  {t('date-day-of-week', { date: appointmentDateTime })}
+                  {`${t('date-day-of-week', { date: appointmentDateTime })} `}
                   <br />
                   <span className="vads-u-font-size--md vads-u-font-weight--bold">
                     {t('date-day-of-month', { date: appointmentDateTime })}

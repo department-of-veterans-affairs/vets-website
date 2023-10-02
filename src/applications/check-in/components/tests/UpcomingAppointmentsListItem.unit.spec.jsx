@@ -46,12 +46,12 @@ describe('unified check-in experience', () => {
           <UpcomingAppointmentsListItem
             appointment={appointments[0]}
             goToDetails={goToDetails}
-            dayKey="Nov-16"
+            dayKey
             router={mockRouter}
           />
         </CheckInProvider>,
       );
-      expect(screen.getByTestId('day-label')).to.have.text('Nov 16');
+      expect(screen.getByTestId('day-label')).to.have.text('Tue 16');
 
       expect(screen.getByTestId('appointment-time')).to.have.text('9:39 p.m.');
 
