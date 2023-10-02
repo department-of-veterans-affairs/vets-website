@@ -15,6 +15,7 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
@@ -146,7 +147,7 @@ const ConditionDetails = () => {
   const content = () => {
     if (condition) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
@@ -170,6 +171,7 @@ const ConditionDetails = () => {
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -194,7 +196,7 @@ const ConditionDetails = () => {
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList list={condition.comments} />
           </div>
-        </div>
+        </>
       );
     }
 

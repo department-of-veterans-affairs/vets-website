@@ -29,7 +29,9 @@ describe('Secure Messaging Compose', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4', {
       force: true,
     });
-    cy.get('[name="COVID"]').click();
+    cy.get('[name="COVID"]')
+      .first()
+      .click();
     composePage.attachMessageFromFile('test_image.jpg', { force: true });
     composePage.getMessageSubjectField().type('Test Subject', { force: true });
     composePage

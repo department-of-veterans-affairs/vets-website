@@ -30,8 +30,8 @@ const getRoutes = (
             component: Hub,
             name: PROFILE_PATH_NAMES.PROFILE_ROOT,
             path: PROFILE_PATHS.PROFILE_ROOT,
-            requiresLOA3: false,
-            requiresMVI: false,
+            requiresLOA3: true,
+            requiresMVI: true,
           },
         ]
       : []),

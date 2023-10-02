@@ -3,7 +3,7 @@ import { ROUTES } from '../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('During both of these time periods - deep linking', () => {
     it('redirects to home when the service period page is loaded without the right criteria', () => {
       cy.visit(`/pact-act-wizard-test/${ROUTES.SERVICE_PERIOD}`);
