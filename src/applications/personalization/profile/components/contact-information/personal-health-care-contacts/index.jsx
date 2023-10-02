@@ -8,9 +8,9 @@ import NextOfKin from './NextOfKin';
 import EmergencyContact from './EmergencyContact';
 
 const PersonalHealthCareContacts = () => {
-  const { featureToggles, user } = useSelector(state => state);
+  const { featureToggles } = useSelector(state => state);
   const enabled = useSelector(nokEcReadOnly);
-  if (featureToggles.loading || user.loading) return <Loading />;
+  if (featureToggles.loading) return <Loading testId="phcc-loading" />;
   if (!enabled) return <></>;
   return (
     <section className="profile-info-card vads-u-margin-y--4 vads-u-border-color--gray-lighter vads-u-border--1px">
@@ -32,14 +32,14 @@ const PersonalHealthCareContacts = () => {
         </va-additional-info>
 
         <div>
-          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--1">
+          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--2">
             Who we’ll contact in case of a medical emergency
           </h3>
           <EmergencyContact />
         </div>
 
         <div>
-          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--1">
+          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--2">
             Who you’d like to represent your wishes for care and medical
             documentation, if needed.
           </h3>

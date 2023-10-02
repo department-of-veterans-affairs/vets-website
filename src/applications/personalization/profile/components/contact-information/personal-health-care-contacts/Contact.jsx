@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// modeled after VA Profile's Health Benefit AssociatedPersonBio
 
 const Contact = ({
   prefix,
@@ -34,8 +37,7 @@ const Contact = ({
   if (!givenName && !familyName && !primaryPhone) {
     return (
       <div>
-        To add an emergency contact or next of kin please call the Help Desk at
-        {' '}
+        To add an emergency contact or next of kin please call the Help Desk at{' '}
         <va-telephone contact="8006982411" />
       </div>
     );
@@ -55,6 +57,28 @@ const Contact = ({
       {primaryPhone}
     </div>
   );
+};
+
+Contact.propTypes = {
+  prefix: PropTypes.string,
+  givenName: PropTypes.string,
+  middleName: PropTypes.string,
+  familyName: PropTypes.string,
+  suffix: PropTypes.string,
+  // relationship: PropTypes.string,
+  addressLine1: PropTypes.string,
+  addressLine2: PropTypes.string,
+  addressLine3: PropTypes.string,
+  city: PropTypes.string,
+  state: PropTypes.string,
+  // county: PropTypes.string,
+  zipCode: PropTypes.string,
+  // zipPlus4: PropTypes.string,
+  // postalCode: PropTypes.string,
+  // provinceCode: PropTypes.string,
+  // country: PropTypes.string,
+  primaryPhone: PropTypes.string,
+  // alternatePhone: PropTypes.string,
 };
 
 export default Contact;
