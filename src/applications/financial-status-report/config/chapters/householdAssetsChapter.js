@@ -31,7 +31,10 @@ import {
 import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
-import CashInBank from '../../components/monetary/CashInBank';
+import {
+  CashInBank,
+  CashInBankReview,
+} from '../../components/monetary/CashInBank';
 
 export default {
   householdAssetsChapter: {
@@ -62,7 +65,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: CashInBank,
-        CustomPageReview: null,
+        CustomPageReview: CashInBankReview,
         depends: formData => {
           const { gmtData } = formData;
           // Only show if the new asset update is true

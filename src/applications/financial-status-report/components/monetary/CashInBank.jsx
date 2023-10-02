@@ -4,6 +4,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { safeNumber } from '../../utils/calculateIncome';
+import { currency as currencyFormatter } from '../../utils/helpers';
+import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
 
 const CASH_IN_BANK = 'Cash in a bank (savings and checkings)';
 const CASH_ON_HAND = 'Cash on hand (not in bank)';
@@ -123,4 +125,43 @@ CashInBank.propTypes = {
   setFormData: PropTypes.func,
 };
 
-export default CashInBank;
+// This review section should only show for SW short form
+//  otherwise the assets will show in the monetary assets section
+const CashInBankReview = formData => {
+  const { data } = formData;
+  const { assets } = data;
+  const { monetaryAssets = [] } = assets;
+
+  return isStreamlinedShortForm(data) ? (
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          Monetary assets
+        </h4>
+      </div>
+      <dl className="review">
+        {monetaryAssets.map((income, index) => {
+          return (
+            <div
+              className="review-row"
+              key={income.name + income.amount + index}
+            >
+              <dt>{income.name}</dt>
+              <dd>{currencyFormatter(income.amount)}</dd>
+            </div>
+          );
+        })}
+      </dl>
+    </div>
+  ) : null;
+};
+
+CashInBankReview.propTypes = {
+  data: PropTypes.shape({
+    assets: PropTypes.shape({
+      cashOnHand: PropTypes.string,
+    }),
+  }),
+};
+
+export { CashInBank, CashInBankReview };
