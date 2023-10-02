@@ -16,7 +16,7 @@ import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
-      event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
     history.push(typeOfCare.url);
@@ -65,15 +65,15 @@ export default function RequestedStatusAlert({ appointment, facility }) {
                     event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
                   })
                 }
-                text="View your appointments"
-                data-testid="view-appointments-link"
+                text="Review your appointments"
+                data-testid="review-appointments-link"
               />
             </div>
             <div className=" vads-u-margin-top--1">
               <va-link
                 onClick={handleClick(history, dispatch, typeOfCare)}
-                text="New appointment"
-                data-testid="new-appointment-link"
+                text="Schedule a new appointment"
+                data-testid="schedule-appointment-link"
               />
             </div>
           </>
