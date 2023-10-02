@@ -61,9 +61,12 @@ jobs:
           TEST_TYPE: e2e
       # exports allow list and assigns to environmental variable at this step
 
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+      - name: Archive e2e allow list
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
 
   clean-up-allow-list:
     name: Clean up E2E Allow List
@@ -92,6 +95,12 @@ jobs:
 
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
 
       - name: Run cleanup script
         run: yarn cleanup-allow-list
