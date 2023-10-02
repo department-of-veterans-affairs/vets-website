@@ -37,6 +37,16 @@ const formConfig = {
       saved: content['sip-message-saved'],
     },
   },
+  customText: {
+    appType: content['sip-text-app-type'],
+    appAction: content['sip-text-app-action'],
+    continueAppButtonText: content['sip-text-continue-btn-text'],
+    startNewAppButtonText: content['sip-text-start-new-btn-text'],
+    appSavedSuccessfullyMessage: content['sip-text-app-saved-message'],
+    finishAppLaterMessage: content['sip-text-finish-later'],
+    reviewPageTitle: content['sip-text-review-page-title'],
+    submitButtonText: content['sip-text-submit-btn-text'],
+  },
   savedFormMessages: {
     notFound: content['sip-savedform-not-found'],
     noAuth: content['sip-savedform-no-auth'],
