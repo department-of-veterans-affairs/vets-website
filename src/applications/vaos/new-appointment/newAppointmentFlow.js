@@ -325,19 +325,19 @@ export default function getNewAppointmentFlow(state) {
     ccClosestCity: {
       ...flow.ccClosestCity,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-closest-city'
+        ? 'closest-city'
         : '/new-appointment/choose-closest-city',
     },
     ccLanguage: {
       ...flow.ccLanguage,
       url: featureBreadcrumbUrlUpdate
-        ? 'community-care-language'
+        ? 'preferred-language'
         : '/new-appointment/community-care-language',
     },
     ccPreferences: {
       ...flow.ccPreferences,
       url: featureBreadcrumbUrlUpdate
-        ? 'community-care-preferences'
+        ? 'preferred-provider'
         : '/new-appointment/community-care-preferences',
     },
     clinicChoice: {
