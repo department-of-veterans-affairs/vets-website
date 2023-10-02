@@ -12,7 +12,6 @@ import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 const OtherAssetsSummary = ({
   data,
   goToPath,
-  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -127,7 +126,10 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={() => goToPath('/expenses-explainer')}
+          />
           {contentAfterButtons}
         </div>
       </fieldset>
@@ -149,7 +151,6 @@ OtherAssetsSummary.propTypes = {
     }),
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
-  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };

@@ -39,7 +39,7 @@ const CashInBank = ({
       asset => asset.name !== CASH_IN_BANK,
     );
 
-    const liquidCash = safeNumber(cash) + safeNumber(cashOnHandTotal);
+    const liquidCash = safeNumber(cash) + safeNumber(cashOnHandTotal.amount);
 
     // update form data & gmtIsShort
     setFormData({
