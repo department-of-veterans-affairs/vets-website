@@ -25,10 +25,6 @@ describe('VAOS <ContactInfoPage>', () => {
     // Using userEvent.type here doesn't work when the test is run with CHOMA_SEED=lDgiaNUkvl
     // for some inexplicable reason
     fireEvent.change(input, { target: { value: '5555555555' } });
-
-    let checkbox = screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/);
-    userEvent.click(checkbox);
-
     input = screen.getByLabelText(/^Your email address/);
     userEvent.type(input, 'joe.blow@gmail.com');
 
@@ -67,9 +63,6 @@ describe('VAOS <ContactInfoPage>', () => {
     input = await screen.findByLabelText(/^Your phone number/);
     expect(input.value).to.equal('5555555555');
 
-    checkbox = screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/);
-    expect(checkbox.checked).to.be.true;
-
     input = screen.getByLabelText(/^Your email address/);
     expect(input.value).to.equal('joe.blow@gmail.com');
   });
@@ -97,10 +90,6 @@ describe('VAOS <ContactInfoPage>', () => {
 
     // it should display page heading
     expect(screen.getByText('Confirm your contact information')).to.be.ok;
-
-    expect(await screen.getByText(/^Please choose at least one option/)).to.be
-      .ok;
-
     userEvent.click(button);
     expect(screen.history.push.called).to.be.false;
   });
@@ -138,8 +127,6 @@ describe('VAOS <ContactInfoPage>', () => {
         event: 'vaos-contact-info-phone-populated',
       });
     });
-
-    userEvent.click(screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/));
 
     userEvent.click(screen.getByText(/^Continue/));
 

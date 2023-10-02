@@ -17,70 +17,9 @@ describe('VAOS <ContactDetailSection>', () => {
         },
       });
     });
-
-    it('should return single time', async () => {
-      const screen = renderWithStoreAndRouter(
-        <ContactDetailSection
-          data={{
-            bestTimeToCall: { morning: true },
-          }}
-        />,
-        store,
-      );
-
-      expect(await screen.findByText('Call morning')).to.exist;
-    });
-
-    it('should return two times', async () => {
-      const screen = renderWithStoreAndRouter(
-        <ContactDetailSection
-          data={{ bestTimeToCall: { morning: true, afternoon: true } }}
-        />,
-        store,
-      );
-
-      expect(await screen.findByText('Call morning or afternoon')).to.exist;
-    });
-
-    it('should return message for all times', async () => {
-      const screen = renderWithStoreAndRouter(
-        <ContactDetailSection
-          data={{
-            bestTimeToCall: { morning: true, afternoon: true, evening: true },
-          }}
-        />,
-        store,
-      );
-
-      expect(await screen.findByText('Call anytime during the day')).to.exist;
-    });
   });
 
   describe('best time to call - acheron flag is true', () => {
-    it('should display best time to call when community care appointment', async () => {
-      const store = createTestStore({
-        featureToggles: {
-          vaOnlineSchedulingAcheronService: true,
-        },
-        newAppointment: {
-          flowType: 'request',
-          data: {
-            facilityType: 'communityCare',
-          },
-        },
-      });
-
-      const screen = renderWithStoreAndRouter(
-        <ContactDetailSection
-          data={{
-            bestTimeToCall: { morning: true },
-          }}
-        />,
-        { store },
-      );
-
-      expect(await screen.queryByText('Call morning')).to.exist;
-    });
 
     it('should not display best time to call when request schedule', async () => {
       const store = createTestStore({
