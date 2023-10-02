@@ -117,8 +117,8 @@ export default {
           const { monetaryAssets = [] } = assets;
           const filteredLiquidAssets = monetaryAssets.filter(
             asset =>
-              asset.name.toLowerCase() !== 'cash on hand (not in bank)' &&
-              asset.name.toLowerCase() !==
+              asset?.name?.toLowerCase() !== 'cash on hand (not in bank)' &&
+              asset?.name?.toLowerCase() !==
                 'cash in a bank (savings and checkings)',
           );
 

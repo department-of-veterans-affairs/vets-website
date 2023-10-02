@@ -45,17 +45,17 @@ const MonetaryInputList = props => {
   // noCashList - remove cash in hand for original asset implementation
   //  only used to protect save in progress for forms prior to streamlinedWaiverAssetUpdate
   const noCashList = monetaryAssets.filter(
-    asset => asset.name.toLowerCase() !== 'cash',
+    asset => asset?.name?.toLowerCase() !== 'cash',
   );
 
   // noLiquidAssetsList - remove liquid assets for streamlinedWaiverAssetUpdate
   //  this filter hides all the newly populated fields we collect in previous steps
   const noLiquidAssetsList = noCashList.filter(
     asset =>
-      asset.name.toLowerCase() !== 'checking accounts' &&
-      asset.name.toLowerCase() !== 'savings accounts' &&
-      asset.name.toLowerCase() !== 'cash on hand (not in bank)' &&
-      asset.name.toLowerCase() !== 'cash in a bank (savings and checkings)',
+      asset?.name?.toLowerCase() !== 'checking accounts' &&
+      asset?.name?.toLowerCase() !== 'savings accounts' &&
+      asset?.name?.toLowerCase() !== 'cash on hand (not in bank)' &&
+      asset?.name?.toLowerCase() !== 'cash in a bank (savings and checkings)',
   );
 
   const streamlinedList = data['view:streamlinedWaiverAssetUpdate']

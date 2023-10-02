@@ -107,8 +107,8 @@ export const calculateLiquidAssets = formData => {
   // Assets considered for streamlined waiver include cash in bank and on hand
   const liquidAssets = monetaryAssets.reduce((acc, asset) => {
     if (
-      asset.name === 'Cash in a bank (savings and checkings)' ||
-      asset.name === 'Cash on hand (not in bank)'
+      asset?.name === 'Cash in a bank (savings and checkings)' ||
+      asset?.name === 'Cash on hand (not in bank)'
     ) {
       return acc + safeNumber(asset.amount);
     }
