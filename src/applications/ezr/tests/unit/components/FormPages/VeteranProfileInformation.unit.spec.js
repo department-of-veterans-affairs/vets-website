@@ -26,7 +26,7 @@ describe('ezr VeteranProfileInformation', () => {
   const props = { goBack: sinon.spy(), goForward: sinon.spy() };
 
   describe('when the component renders', () => {
-    describe('default behavior', () => {
+    context('default behavior', () => {
       it('should render full name from the profile data', () => {
         const store = mockStore(defaultData);
         const { container } = render(
@@ -59,7 +59,7 @@ describe('ezr VeteranProfileInformation', () => {
       });
     });
 
-    describe('when date of birth is not in the profile data', () => {
+    context('when date of birth is not in the profile data', () => {
       const store = mockStore(defaultData);
 
       it('should only reference `name` in the opening paragraph', () => {
@@ -89,7 +89,7 @@ describe('ezr VeteranProfileInformation', () => {
       });
     });
 
-    describe('when date of birth is in the profile data', () => {
+    context('when date of birth is in the profile data', () => {
       const data = {
         ...defaultData,
         user: {
