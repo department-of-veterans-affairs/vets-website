@@ -10,8 +10,8 @@ const createSuccessPayment = (hasRecentPayment = false) => {
           {
             payCheckAmount: '$1561.92',
             payCheckDt: hasRecentPayment
-              ? fns.subDays(Date.now(), 3)
-              : fns.subDays(Date.now(), 32),
+              ? fns.sub(Date.now(), { days: 3 })
+              : fns.sub(Date.now(), { days: 32 }),
             payCheckId: '001',
             payCheckReturnFiche: 'C',
             payCheckType: 'Compensation & Pension - Recurring',

@@ -1,8 +1,8 @@
 import React from 'react';
-import { endOfDay, isAfter, subDays } from 'date-fns';
+import { endOfToday, isAfter, sub } from 'date-fns';
 
 const isWithinPast60Days = date => {
-  return isAfter(new Date(date), subDays(endOfDay(Date.now()), 60));
+  return isAfter(new Date(date), sub(endOfToday(), { days: 60 }));
 };
 
 const isClaimOpen = claim => {
