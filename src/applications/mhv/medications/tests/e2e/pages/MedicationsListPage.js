@@ -1,8 +1,15 @@
 import prescriptions from '../fixtures/prescriptions.json';
+import allergies from '../fixtures/allergies.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
-    cy.intercept('GET', '/my-health/medications', prescriptions);
+    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
