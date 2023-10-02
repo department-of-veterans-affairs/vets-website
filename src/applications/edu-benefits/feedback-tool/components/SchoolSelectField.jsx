@@ -407,8 +407,7 @@ export class SchoolSelectField extends React.Component {
                     ),
                   )}
                 </div>
-              )}
-            ={' '}
+              )}{' '}
             {showSearchResults &&
               showInstitutionsLoading && (
                 <div>
