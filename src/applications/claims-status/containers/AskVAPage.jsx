@@ -88,7 +88,7 @@ class AskVAPage extends React.Component {
     let buttonMsg = 'Submit';
     if (loadingDecisionRequest) {
       buttonMsg = 'Submitting...';
-    } else if (decisionRequestError !== null) {
+    } else if (decisionRequestError) {
       buttonMsg = 'Something went wrong...';
     }
 
@@ -128,12 +128,10 @@ class AskVAPage extends React.Component {
               </ul>
               <div>
                 <VaCheckbox
-                  description=""
                   error={this.state.submitErrorMessage}
                   hint={null}
                   label="I don't have any other documents to provide to support my claim. I'd like you to make a decision on my claim based on the evidence you have already."
                   onVaChange={e => this.setSubmittedDocs(e.target.checked)}
-                  onBlur={function noRefCheck() {}}
                   required
                   class="vads-u-background-color--gray-light-alt vads-u-padding--2 vads-u-margin-bottom--2"
                 />
