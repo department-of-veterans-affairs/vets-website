@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventObject from 'platform/monitoring/record-event';
-import { cardActionMiddleware } from '../../../components/webchat/helpers/webChat';
+import { cardActionMiddleware } from '../../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
 
@@ -11,7 +11,9 @@ describe('Webchat.jsx', () => {
    * @param {string} value url for the cardAction
    * @returns {{cardAction: {value: string}}} fake cardAction card
    */
-  const generateFakeCard = value => ({ cardAction: { value } });
+  const generateFakeCard = (value, type = 'openUrl') => ({
+    cardAction: { value, type },
+  });
   /**
    * creates sinon functions for the tests
    * @returns {{nextSpy: SinonSpy, recordEventStub: SinonStub}}
@@ -64,6 +66,17 @@ describe('Webchat.jsx', () => {
       expect(recordEventStub.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
       expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+    });
+    it('should not call recordEvent when cardAction.type is not openUrl', () => {
+      const notOpenUrl = generateFakeCard(
+        'https://www.va.gov/v0/claim_letters/abc',
+        'notOpenUrl',
+      );
+      const { nextSpy, recordEventStub } = generateSinonFunctions();
+      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(notOpenUrl);
+      expect(recordEventStub.notCalled).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+      expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
     });
   });
 

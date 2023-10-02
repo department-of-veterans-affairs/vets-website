@@ -16,8 +16,10 @@
 import recordEvent from 'platform/monitoring/record-event';
 
 export const cardActionMiddleware = decisionLetterEnabled => () => next => card => {
-  const isDecisionLetter = card.cardAction.value.includes('/v0/claim_letters/');
-  if (decisionLetterEnabled && isDecisionLetter) {
+  const { cardAction } = card;
+  const isDecisionLetter = cardAction.value.includes('/v0/claim_letters/');
+  const actionIsOpenUrl = cardAction.type === 'openUrl';
+  if (decisionLetterEnabled && actionIsOpenUrl && isDecisionLetter) {
     const recordDecisionLetterDownload = () =>
       recordEvent({
         event: 'file_download',
