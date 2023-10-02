@@ -24,7 +24,7 @@ describe('ezr <ConfirmationScreenView>', () => {
   };
 
   describe('when the component renders', () => {
-    describe('default behavior', () => {
+    context('default behavior', () => {
       it('should render section titles and applicant name', () => {
         const { container } = render(
           <ConfirmationScreenView {...defaultProps} />,
@@ -57,7 +57,7 @@ describe('ezr <ConfirmationScreenView>', () => {
       });
     });
 
-    describe('when timestamp is not provided', () => {
+    context('when timestamp is not provided', () => {
       it('should not render application date', () => {
         const { container } = render(
           <ConfirmationScreenView {...defaultProps} />,
@@ -67,7 +67,7 @@ describe('ezr <ConfirmationScreenView>', () => {
       });
     });
 
-    describe('when timestamp is provided', () => {
+    context('when timestamp is provided', () => {
       it('should render application date with the correct date format', () => {
         const props = { ...defaultProps, timestamp: 1666887649663 };
         const { container } = render(<ConfirmationScreenView {...props} />);
