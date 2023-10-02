@@ -63,7 +63,7 @@ const FillRefillButton = rx => {
           {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
         </button>
         {error && (
-          <div className="vads-u-visibility--hidden vads-u-margin-bottom--neg4 medium-screen:vads-u-visibility--visible medium-screen:vads-u-margin-bottom--2">
+          <div className="vads-u-visibility--hidden vads-u-margin-bottom--neg4 medium-screen:vads-u-visibility--visible medium-screen:vads-u-margin-bottom--0">
             {pharmacyPhone()}
           </div>
         )}
