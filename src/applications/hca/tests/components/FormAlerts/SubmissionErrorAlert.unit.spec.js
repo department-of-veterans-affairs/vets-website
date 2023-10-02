@@ -14,5 +14,17 @@ describe('hca <SubmissionErrorAlert>', () => {
         'We didn’t receive your online application',
       );
     });
+
+    it('should render PDF form download link', () => {
+      const { container } = render(<SubmissionErrorAlert />);
+      const selector = container.querySelector(
+        '[data-testid="hca-fillable-pdf-link"]',
+      );
+      expect(selector).to.exist;
+      expect(selector).to.have.attribute(
+        'href',
+        'https://www.va.gov/vaforms/medical/pdf/10-10EZ-fillable.pdf',
+      );
+    });
   });
 });
