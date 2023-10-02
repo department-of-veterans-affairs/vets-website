@@ -112,10 +112,22 @@ export default {
         uiSchema: monetaryValues.uiSchema,
         schema: monetaryValues.schema,
         CustomPageReview: MonetaryAssetsSummaryReview,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          formData.assets?.monetaryAssets?.length > 0 &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => {
+          const { assets } = formData;
+          const { monetaryAssets = [] } = assets;
+          const filteredLiquidAssets = monetaryAssets.filter(
+            asset =>
+              asset.name.toLowerCase() !== 'cash on hand (not in bank)' &&
+              asset.name.toLowerCase() !==
+                'cash in a bank (savings and checkings)',
+          );
+
+          return (
+            formData['view:enhancedFinancialStatusReport'] &&
+            filteredLiquidAssets.length > 0 &&
+            !isStreamlinedShortForm(formData)
+          );
+        },
       },
       realEstate: {
         path: 'real-estate-assets',
