@@ -1018,9 +1018,10 @@ export function routeToPageInFlow(callback, history, current, action, data) {
       checkPage(nextPage);
 
       if (
-        // for new URL CC flow
-        history.location.pathname.endsWith('/') &&
-        !nextPage.url.endsWith('/')
+        // HACK: For new CC primary care facility flow, very hacky
+        // TODO: Clean up how we handle new flow
+        !nextPage.url.endsWith('/') &&
+        previousPage !== 'typeOfFacility'
       ) {
         history.push(nextPage.url);
       } else if (
