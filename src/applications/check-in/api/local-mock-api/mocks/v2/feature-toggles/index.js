@@ -6,7 +6,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
     checkInExperienceTravelLogic = false,
-    checkInExperience45MinuteReminder = true,
+    checkInExperience45MinuteReminder = false,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
     checkInExperienceUnifiedLandingPage = false,
