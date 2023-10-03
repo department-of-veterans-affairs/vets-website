@@ -215,6 +215,7 @@ export default Object.freeze({
   vaOnlineSchedulingStaticLandingPage: 'va_online_scheduling_static_landing_page',
   vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',
   vaOnlineSchedulingAfterVisitSummary: 'va_online_scheduling_after_visit_summary',
+  vaOnlineSchedulingStartSchedulingLink: 'va_online_scheduling_start_scheduling_link',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentDecisionLetterDownloadTracking: 'virtual_agent_decision_letter_download_tracking',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',

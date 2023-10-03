@@ -4,6 +4,8 @@ import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators } from '../utils/constants';
+import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
+import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -12,21 +14,48 @@ class PatientMessageCustomFolderPage {
 
   folderName = mockFolders.data[mockFolders.data.length - 1].attributes.name;
 
-  loadFoldersList = () => {
-    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
-      'customFoldersList',
-    );
-    cy.get('[data-testid="my-folders-sidebar"]').click();
+  loadFoldersList = (foldersList = mockFolders) => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      foldersList,
+    ).as('customFoldersList');
+    cy.get(Locators.FOLDERS_LIST).click();
   };
 
-  loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
-    cy.intercept('GET', `/my_health/v1/messaging/folders/${this.folderId}*`, {
-      data: this.folder,
-    }).as('customFolder');
+  loadSingleFolderWithNoMessages = (folderId, folderName) => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`,
+      createdFolderResponse,
+    ).as('singleFolder');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
+      mockFolderWithoutMessages,
+    ).as('singleFolderThread');
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}/threads*`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
+      mockFolderWithoutMessages,
+    ).as('inboxFolderWithNoMessage');
+
+    cy.contains(folderName).click({ waitForAnimations: true });
+  };
+
+  loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${this.folderId}*`,
+      {
+        data: this.folder,
+      },
+    ).as('customFolder');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
       mockSingleThreadResponse,
     ).as('customFolderThread');
 
@@ -113,6 +142,30 @@ class PatientMessageCustomFolderPage {
 
   VerifyFilterBtnExist = () => {
     cy.get('[data-testid="filter-messages-button"]').contains('Filter');
+  };
+
+  createCustomFolder = folderName => {
+    cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.get('[name="folder-name"]')
+      .shadow()
+      .find('[name="folder-name"]')
+      .type(folderName);
+
+    cy.intercept(
+      'POST',
+      Paths.SM_API_BASE + Paths.FOLDERS,
+      createdFolderResponse,
+    ).as('createFolder');
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}?*`,
+      mockFolders,
+    ).as('updatedFoldersList');
+
+    cy.get('[text="Create"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
   };
 }
 
