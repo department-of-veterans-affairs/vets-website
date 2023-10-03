@@ -60,6 +60,7 @@ const ComposeForm = props => {
   const [saveError, setSaveError] = useState(null);
   const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [modalVisible, updateModalVisible] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -373,7 +374,8 @@ const ComposeForm = props => {
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
-        debouncedMessageBody
+        debouncedMessageBody &&
+        !modalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -384,6 +386,7 @@ const ComposeForm = props => {
       debouncedSubject,
       debouncedRecipient,
       saveDraftHandler,
+      modalVisible,
     ],
   );
 
@@ -431,6 +434,8 @@ const ComposeForm = props => {
         )}
         <RouteLeavingGuard
           when={!!navigationError}
+          modalVisible={modalVisible}
+          updateModalVisible={updateModalVisible}
           navigate={path => {
             history.push(path);
           }}
