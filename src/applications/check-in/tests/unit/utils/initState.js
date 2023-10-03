@@ -30,6 +30,14 @@ const createStore = ({
       clinicName: 'Green Team Clinic1',
     },
   ],
+  upcomingAppointments = [
+    {
+      clinicPhone: '555-867-5309',
+      startTime: '2021-07-19T13:56:31',
+      facilityName: 'Acme VA',
+      clinicName: 'Green Team Clinic1',
+    },
+  ],
   veteranData = {},
   formPages = ['first-page', 'second-page', 'third-page', 'fourth-page'],
   features = {},
@@ -64,6 +72,7 @@ const createStore = ({
         },
       },
       appointments,
+      upcomingAppointments,
       veteranData,
       error,
       seeStaffMessage,

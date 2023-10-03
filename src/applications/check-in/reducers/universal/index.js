@@ -10,4 +10,13 @@ const setFormHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
-export { setAppHandler, setErrorHandler, setFormHandler };
+const receivedUpcomingAppointmentsHandler = (state, action) => {
+  return { ...state, ...action.payload };
+};
+
+export {
+  setAppHandler,
+  setErrorHandler,
+  setFormHandler,
+  receivedUpcomingAppointmentsHandler,
+};
