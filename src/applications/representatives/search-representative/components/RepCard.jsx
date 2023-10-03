@@ -12,7 +12,7 @@ const RepCard = props => {
     city,
     state,
     postalCode,
-  } = props?.preferredRepresentative;
+  } = props?.selectedRepresentative;
   const cityStateZip = `${city}, ${state} ${postalCode}`;
   const isPOBox =
     address &&
@@ -24,40 +24,42 @@ const RepCard = props => {
   return (
     <>
       {name && (
-        <p className="va-address-block">
-          <strong>{name}</strong>, {type}
-          <br />
-          <va-telephone contact={phone} />
-          <br />
-          {address && (
-            <>
-              {address}
-              <br />
-            </>
-          )}
-          {cityStateZip}
-          <br />
-          {!isPOBox && (
-            <>
-              <MapLink
-                name={name}
-                address={address}
-                city={city}
-                state={state}
-                postalCode={postalCode}
-              />
+        <>
+          <p className="va-address-block vads-u-margin-bottom--4">
+            <strong>{name}</strong>, {type}
+            <br />
+            <va-telephone contact={phone} />
+            <br />
+            {address && (
+              <>
+                {address}
+                <br />
+              </>
+            )}
+            {cityStateZip}
+            <br />
+            {!isPOBox && (
+              <>
+                <MapLink
+                  name={name}
+                  address={address}
+                  city={city}
+                  state={state}
+                  postalCode={postalCode}
+                />
 
-              <br />
-            </>
-          )}
-        </p>
+                <br />
+              </>
+            )}
+          </p>
+        </>
       )}
     </>
   );
 };
 
 RepCard.propTypes = {
-  preferredRepresentative: PropTypes.shape({
+  selectedRepresentative: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
     phone: PropTypes.string.isRequired,
