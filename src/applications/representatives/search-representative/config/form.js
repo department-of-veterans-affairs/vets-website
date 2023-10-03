@@ -1,19 +1,14 @@
 import manifest from '../manifest.json';
 
 import GetFormHelp from '../components/GetFormHelp';
+// eslint-disable-next-line import/no-cycle
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   addressChangeAuthorization,
-  basicInformation,
   contactInformation,
-  location,
-  organizationName,
-  representative,
-  search,
   serviceFileInformation,
-  transitionPage,
   treatmentDisclosureAuthorization,
   personalInformation,
 } from './chapters';
@@ -21,14 +16,14 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   customText: {
-    appType: 'search',
+    appType: 'Form 21-21 or Form 21-22a',
   },
   urlPrefix: '/',
   submitUrl: '/v0/api',
   trackingPrefix: 'search-representative-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-22a',
+  formId: '21-22',
   getHelp: GetFormHelp,
   saveInProgress: {},
   version: 0,
@@ -38,41 +33,9 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for search for a representative.',
   },
-  title: 'Find an accredited representative',
+  title: 'Find a Representative',
   defaultDefinitions: {},
   chapters: {
-    basicInformation: {
-      title: 'Representative Selected',
-      pages: {
-        representativeType: {
-          path: 'representative-type',
-          ...basicInformation,
-        },
-        location: {
-          path: 'location',
-          ...location,
-        },
-        representative: {
-          path: 'representative-name',
-          uiSchema: representative.uiSchema,
-          schema: representative.schema,
-        },
-        organizationName: {
-          path: 'organization-name',
-          ...organizationName,
-        },
-        searchRepresentative: {
-          path: 'search-for-representative',
-          uiSchema: search.uiSchema,
-          schema: search.schema,
-        },
-        transitionPage: {
-          path: 'more-information',
-          uiSchema: transitionPage.uiSchema,
-          schema: transitionPage.schema,
-        },
-      },
-    },
     personalInformation: {
       title: 'Your personal information',
       pages: {
