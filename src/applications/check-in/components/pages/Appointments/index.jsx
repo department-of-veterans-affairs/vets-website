@@ -9,6 +9,7 @@ import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp } from '../../../selectors';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import UpcomingAppointments from '../../UpcomingAppointments';
 
 const AppointmentsPage = props => {
   const { router } = props;
@@ -55,16 +56,15 @@ const AppointmentsPage = props => {
       <div>
         <va-loading-indicator
           data-testid="loading-indicator"
-          message={t('loading-upcoming-appointments')}
+          message={t('loading-your-appointment-information')}
         />
       </div>
     );
   }
   return (
     <Wrapper pageTitle="Your Appointments" eyebrow="Check-In" withBackButton>
-      <div data-testid="what-next">Region 1: What to do next</div>
       <div data-testid="upcoming-appointments">
-        Region 2: Upcoming appointments
+        <UpcomingAppointments router={router} />
       </div>
       <button
         type="button"
