@@ -14,11 +14,11 @@ import {
   hasDuplicates,
   isEmptyObject,
   appStateSelector,
-  getItemSchema,
   calculateIndexOffset,
 } from '../../utils/helpers';
 
 import { SELECTED } from '../../../shared/constants';
+import { getItemSchema } from '../../../shared/utils/helpers';
 import {
   someSelected,
   hasSomeSelected,

@@ -128,14 +128,6 @@ export const appStateSelector = state => ({
   additionalIssues: state.form?.data?.additionalIssues || [],
 });
 
-export const getItemSchema = (schema, index) => {
-  const itemSchema = schema;
-  if (itemSchema.items.length > index) {
-    return itemSchema.items[index];
-  }
-  return itemSchema.additionalItems;
-};
-
 /**
  * Calculate the index offset for the additional issue
  * @param {Number} index - index of data in combined array of contestable issues
