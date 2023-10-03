@@ -198,9 +198,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
-  formData: PropTypes.shape({
-    informalConferenceRep: PropTypes.shape({}),
-  }),
   getContestableIssues: getContestableIssuesAction,
 };
 
