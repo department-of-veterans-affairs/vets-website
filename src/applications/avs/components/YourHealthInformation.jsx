@@ -36,7 +36,7 @@ const getAppointmentContent = (type, appointments) => {
 };
 
 const primaryCareProvider = avs => {
-  if (avs.primaryCareProviders.length) {
+  if (avs.primaryCareProviders?.length) {
     return (
       <div>
         <h3>Primary care provider</h3>
