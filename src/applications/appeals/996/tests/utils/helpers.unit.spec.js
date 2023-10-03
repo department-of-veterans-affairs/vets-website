@@ -8,11 +8,13 @@ import {
   getLegacyAppealsLength,
   mayHaveLegacyAppeals,
   isVersion1Data,
-  returnPhoneObject,
 } from '../../utils/helpers';
 
 import { SELECTED } from '../../../shared/constants';
-import { isEmptyObject } from '../../../shared/utils/helpers';
+import {
+  isEmptyObject,
+  returnPhoneObject,
+} from '../../../shared/utils/helpers';
 import {
   getIssueDate,
   getIssueName,
