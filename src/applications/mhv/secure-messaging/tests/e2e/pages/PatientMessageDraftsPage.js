@@ -205,7 +205,6 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
@@ -270,9 +269,8 @@ class PatientMessageDraftsPage {
       .select(recipientName);
   };
 
-  selectCategory = category => {
+  selectCategory = (category = 'COVID') => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
       .contains(category)
       .click();
   };

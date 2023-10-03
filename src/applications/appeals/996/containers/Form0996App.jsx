@@ -11,7 +11,6 @@ import formConfig from '../config/form';
 import { SAVED_CLAIM_TYPE } from '../constants';
 import forcedMigrations from '../migrations/forceMigrations';
 import { getIssueNameAndDate } from '../utils/helpers';
-import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 import {
@@ -19,6 +18,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
+import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   getSelected,
