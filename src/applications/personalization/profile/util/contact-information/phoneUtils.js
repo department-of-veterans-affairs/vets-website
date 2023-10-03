@@ -10,7 +10,7 @@ export const phoneFormSchema = {
     },
     inputPhoneNumber: {
       type: 'string',
-      pattern: '^[0-9-]+$',
+      pattern: '^[0-9- ]+$',
       maxLength: 14,
     },
     extension: {
