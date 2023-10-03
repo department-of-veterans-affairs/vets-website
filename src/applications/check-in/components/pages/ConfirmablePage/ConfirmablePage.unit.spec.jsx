@@ -76,13 +76,14 @@ describe('pre-check-in experience', () => {
         );
         expect(getByTestId('help-text')).to.exist;
       });
-      it('does not render help text if not provided', () => {
+      it('does not render additional info components if not provided', () => {
         const { queryByTestId } = render(
           <CheckInProvider>
             <ConfirmablePage />
           </CheckInProvider>,
         );
         expect(queryByTestId('help-text')).to.not.exist;
+        expect(queryByTestId('additional-info')).to.not.exist;
       });
       it('renders additional info if provided', () => {
         const additionalInfo = <div data-testid="additional-info">FOO</div>;
@@ -92,14 +93,6 @@ describe('pre-check-in experience', () => {
           </CheckInProvider>,
         );
         expect(getByTestId('additional-info')).to.exist;
-      });
-      it("doesn't render additional info if not provided", () => {
-        const { queryByTestId } = render(
-          <CheckInProvider>
-            <ConfirmablePage />
-          </CheckInProvider>,
-        );
-        expect(queryByTestId('additional-info')).to.not.exist;
       });
       it('renders the yes and no buttons with the usa-button-big css class', () => {
         const { getByTestId } = render(
