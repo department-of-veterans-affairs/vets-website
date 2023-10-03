@@ -1018,7 +1018,6 @@ export function routeToPageInFlow(callback, history, current, action, data) {
       checkPage(nextPage);
 
       if (
-        // TODO: Needs to be refactored and simplified probably
         // for new URL CC flow
         history.location.pathname.endsWith('/') &&
         !nextPage.url.endsWith('/')
