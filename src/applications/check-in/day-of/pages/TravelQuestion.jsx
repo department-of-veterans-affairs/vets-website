@@ -75,7 +75,7 @@ const TravelQuestion = props => {
     </div>
   );
 
-  const helpText = (
+  const additionalInfoSecond = (
     <Trans
       i18nKey="you-can-also-file-a-claim-online--help-text"
       components={[<span key="bold" className="vads-u-font-weight--bold" />]}
@@ -88,7 +88,7 @@ const TravelQuestion = props => {
       eyebrow={t('check-in')}
       bodyText={<p>{t('we-encourage-you-to-file-travel-reimbursement-now')}</p>}
       additionalInfo={additionalInfoText}
-      helpText={helpText}
+      additionalInfoSecond={additionalInfoSecond}
       pageType="travel-question"
       router={router}
     />

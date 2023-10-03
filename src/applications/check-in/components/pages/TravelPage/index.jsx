@@ -20,6 +20,7 @@ const TravelPage = ({
   bodyText,
   helpText,
   additionalInfo,
+  additionalInfoSecond,
   pageType,
   router,
 }) => {
@@ -75,6 +76,11 @@ const TravelPage = ({
             <>{additionalInfo}</>
           </va-additional-info>
         )}
+        {additionalInfoSecond && (
+          <va-additional-info trigger="File for travel reimbursement later">
+            <>{additionalInfoSecond}</>
+          </va-additional-info>
+        )}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
@@ -116,6 +122,7 @@ TravelPage.propTypes = {
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
   additionalInfo: PropTypes.node,
+  additionalInfoSecond: PropTypes.node,
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,
