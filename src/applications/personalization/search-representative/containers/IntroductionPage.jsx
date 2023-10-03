@@ -75,6 +75,28 @@ const IntroductionPage = props => {
             </p>
           </div>
         </va-alert>
+
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          class="vads-u-margin-bottom--4"
+          visible
+        >
+          <h2 id="track-your-status-on-mobile" slot="headline">
+            Sign in to see your current representative
+          </h2>
+          <div>
+            <SaveInProgressIntro
+              buttonOnly
+              unauthStartText="Sign in"
+              prefillEnabled={formConfig.prefillEnabled}
+              messages={formConfig.savedFormMessages}
+              formConfig={formConfig}
+              pageList={props.route.pageList}
+              downtime={formConfig.downtime}
+            />
+          </div>
+        </va-alert>
         <SaveInProgressIntro
           startText="Sign in to see your current representative."
           unauthStartText="Sign in"
@@ -103,6 +125,45 @@ const IntroductionPage = props => {
         <p>
           Where can I submit my completed Appointment of Representative VA Form
           21-22?
+        </p>
+        <ul>
+          <li>Online</li>
+          <li>Upload to VA.gov Claim Status Tool</li>
+          <li>Or upload to Access VA Quick Submit Tool</li>
+        </ul>
+        <p>
+          <strong>By Mail</strong>
+          <br />
+          Compensation Claims Department of Veterans Affairs Evidence Intake
+          <br />
+          Center PO Box 4444 Janesville, WI 53547-4444
+        </p>
+        <p>
+          <strong>Board of Veterans' Appeals</strong>
+          <br />
+          Department of Veterans Affairs Board of Veterans' Appeals PO Box 27063
+          <br />
+          Washington, DC 20038
+        </p>
+        <p>
+          <strong>Fiduciary</strong>
+          <br />
+          Department of Veterans Affairs Fiduciary Intake PO Box 95211 Lakeland,
+          <br />
+          FL 33804-5211
+        </p>
+        <p>
+          <strong>Pension & Survivors Benefit Claims</strong>
+          <br />
+          Department of Veterans Affairs Pension Intake Center PO Box 5365
+          <br />
+          Janesville, WI 53547-5365
+        </p>
+        <p>
+          <strong>In Person</strong>
+          <ul>
+            <li>Find a VA regional office near you</li>
+          </ul>
         </p>
       </div>
     </>
