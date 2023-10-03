@@ -9,7 +9,6 @@ import {
   mayHaveLegacyAppeals,
   isVersion1Data,
   getSelectedCount,
-  getIssueName,
   getIssueDate,
   getIssueNameAndDate,
   hasDuplicates,
@@ -19,9 +18,10 @@ import {
 
 import { SELECTED } from '../../../shared/constants';
 import {
-  someSelected,
-  hasSomeSelected,
+  getIssueName,
   getSelected,
+  hasSomeSelected,
+  someSelected,
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
