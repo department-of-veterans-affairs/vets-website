@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TernaryRadios from '../TernaryRadios';
-import { updateOrange221A } from '../../../actions';
+import { updateLejeune24 } from '../../../actions';
 import {
   QUESTION_MAP,
   RESPONSES,
@@ -11,16 +11,16 @@ import {
 import { ROUTES } from '../../../constants';
 import { pageSetup } from '../../../utilities/page-setup';
 
-const Orange221A = ({
+const Lejeune24 = ({
   formResponses,
   router,
-  setOrange221A,
+  setLejeune24,
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
-  const shortName = SHORT_NAME_MAP.ORANGE_2_2_1_A;
+  const shortName = SHORT_NAME_MAP.LEJEUNE_2_4;
   const H1 = QUESTION_MAP[shortName];
-  const orange221A = formResponses[shortName];
+  const lejeune24 = formResponses[shortName];
   const { NO, NOT_SURE, YES } = RESPONSES;
 
   useEffect(
@@ -41,12 +41,8 @@ const Orange221A = ({
 
   const locationList = (
     <ul>
-      <li>{RESPONSES.AMERICAN_SAMOA}</li>
-      <li>{RESPONSES.CAMBODIA}</li>
-      <li>{RESPONSES.GUAM}</li>
-      <li>{RESPONSES.JOHNSTON_ATOLL}</li>
-      <li>{RESPONSES.LAOS}</li>
-      <li>{RESPONSES.THAILAND}</li>
+      <li>{RESPONSES.LEJEUNE_MARINE}</li>
+      <li>{RESPONSES.NEW_RIVER_MARINE}</li>
     </ul>
   );
 
@@ -54,15 +50,15 @@ const Orange221A = ({
     <TernaryRadios
       formError={formError}
       formResponses={formResponses}
-      formValue={orange221A}
+      formValue={lejeune24}
       h1={H1}
       locationList={locationList}
       responses={[YES, NO, NOT_SURE]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}
-      testId="paw-orange2_2_1_A"
-      valueSetter={setOrange221A}
+      testId="paw-lejeune2_4"
+      valueSetter={setLejeune24}
     />
   );
 };
@@ -73,12 +69,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setOrange221A: updateOrange221A,
+  setLejeune24: updateLejeune24,
 };
 
-Orange221A.propTypes = {
+Lejeune24.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setOrange221A: PropTypes.func.isRequired,
+  setLejeune24: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
@@ -88,4 +84,4 @@ Orange221A.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Orange221A);
+)(Lejeune24);

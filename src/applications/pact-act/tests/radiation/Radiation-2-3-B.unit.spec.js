@@ -7,15 +7,14 @@ import { ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { displayConditionsMet } from '../../utilities/display-logic';
 
-import Orange221A from '../../containers/questions/agent-orange/AgentOrange-2-2-1-A';
+import Radiation23B from '../../containers/questions/radiation/Radiation-2-3-B';
 
-const { ORANGE_2_2_1_A } = SHORT_NAME_MAP;
+const { RADIATION_2_3_B } = SHORT_NAME_MAP;
 const {
   DURING_BOTH_PERIODS,
   EIGHTYNINE_OR_EARLIER,
   NINETY_OR_LATER,
   NO,
-  NOT_SURE,
   YES,
 } = RESPONSES;
 
@@ -46,12 +45,12 @@ const mockStoreNoIntroPage = {
   dispatch: () => {},
 };
 
-const setAgentOrangeStub = sinon.stub();
+const setRadiationStub = sinon.stub();
 const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setOrange221A: setAgentOrangeStub,
+  setRadiation23B: setRadiationStub,
   router: {
     push: pushStub,
   },
@@ -60,34 +59,34 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setOrange221A: setAgentOrangeStub,
+  setRadiation23B: setRadiationStub,
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Agent Orange 2.2.1.A Page', () => {
+describe('Radiation 2.3.B Page', () => {
   afterEach(() => {
-    setAgentOrangeStub.resetHistory();
+    setRadiationStub.resetHistory();
     pushStub.resetHistory();
   });
 
-  it('should correctly load the agent orange page in the standard flow', () => {
+  it('should correctly load the radiation page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <Orange221A {...propsStandard} />
+        <Radiation23B {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('paw-orange2_2_1_A')).to.exist;
+    expect(screen.getByTestId('paw-radiation2_3_B')).to.exist;
   });
 
   describe('redirects', () => {
     it('should redirect to home when the intro page has not been viewed', () => {
       render(
         <Provider store={mockStoreNoIntroPage}>
-          <Orange221A {...propsNoIntroPage} />
+          <Radiation23B {...propsNoIntroPage} />
         </Provider>,
       );
 
@@ -97,65 +96,53 @@ describe('Agent Orange 2.2.1.A Page', () => {
 });
 
 describe('displayConditionsAreMet', () => {
-  it('ORANGE_2_2_1_A: should return true when the display conditions are met', () => {
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
     const formResponses = {
-      ORANGE_2_2_A: NO,
+      RADIATION_2_3_A: YES,
       SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
     };
 
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(true);
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
   });
 
-  it('ORANGE_2_2_1_A: should return true when the display conditions are met', () => {
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
     const formResponses = {
-      ORANGE_2_2_A: NOT_SURE,
-      SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
-    };
-
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(true);
-  });
-
-  it('ORANGE_2_2_1_A: should return true when the display conditions are met', () => {
-    const formResponses = {
-      ORANGE_2_2_A: NO,
+      RADIATION_2_3_A: YES,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(true);
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
   });
 
-  it('ORANGE_2_2_1_A: should return true when the display conditions are met', () => {
-    const formResponses = {
-      ORANGE_2_2_A: NOT_SURE,
-      SERVICE_PERIOD: DURING_BOTH_PERIODS,
-    };
-
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(true);
-  });
-
-  it('ORANGE_2_2_1_A: should return false when the display conditions are not met', () => {
+  it('RADIATION_2_3_B: should return false when the display conditions are not met', () => {
     const formResponses = {
       SERVICE_PERIOD: NINETY_OR_LATER,
     };
 
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(false);
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(
+      false,
+    );
   });
 
-  it('ORANGE_2_2_1_A: should return false when the display conditions are not met', () => {
+  it('RADIATION_2_3_B: should return false when the display conditions are not met', () => {
     const formResponses = {
-      ORANGE_2_2_A: YES,
+      RADIATION_2_3_A: NO,
       SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
     };
 
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(false);
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(
+      false,
+    );
   });
 
-  it('ORANGE_2_2_1_A: should return false when the display conditions are not met', () => {
+  it('RADIATION_2_3_B: should return false when the display conditions are not met', () => {
     const formResponses = {
-      ORANGE_2_2_A: YES,
+      RADIATION_2_3_A: NO,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
-    expect(displayConditionsMet(ORANGE_2_2_1_A, formResponses)).to.equal(false);
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(
+      false,
+    );
   });
 });

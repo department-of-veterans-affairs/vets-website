@@ -37,7 +37,34 @@ describe('PACT Act', () => {
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
       h.clickContinue();
 
-      // TODO add Radiation & Lejeune questions when they exist
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 0);
+      h.clickContinue();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 0);
+      h.clickContinue();
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.clickContinue();
+
+      // TODO add Results screen 1 when it exists
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.clickBack();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.clickBack();
+
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.clickBack();
 
       // ORANGE_2_2_B
       h.verifyUrl(ROUTES.ORANGE_2_2_B);
