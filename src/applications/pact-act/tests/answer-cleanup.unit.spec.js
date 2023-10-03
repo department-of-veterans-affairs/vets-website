@@ -20,15 +20,22 @@ const {
   ORANGE_2_2_1_B,
   ORANGE_2_2_2,
   ORANGE_2_2_3,
+  RADIATION_2_3_A,
+  RADIATION_2_3_B,
+  LEJEUNE_2_4,
   SERVICE_PERIOD,
 } = SHORT_NAME_MAP;
 
 const {
   DURING_BOTH_PERIODS,
   EIGHTYNINE_OR_EARLIER,
+  ENEWETAK_ATOLL,
+  GREENLAND_THULE,
+  KOREA_DMZ,
   NINETY_OR_LATER,
   NO,
   NOT_SURE,
+  VIETNAM_WATERS,
   YES,
 } = RESPONSES;
 
@@ -42,6 +49,9 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_B,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
       ]);
     });
 
@@ -64,6 +74,9 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_B,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
       ]);
     });
   });
@@ -94,6 +107,9 @@ describe('answer cleanup utilities', () => {
         BURN_PIT_2_1_2: NOT_SURE,
         ORANGE_2_2_A: NOT_SURE,
         ORANGE_2_2_1_A: NOT_SURE,
+        RADIATION_2_3_A: null,
+        RADIATION_2_3_B: null,
+        LEJEUNE_2_4: null,
       };
 
       expect(getNonNullShortNamesFromStore(responsesToClean)).to.deep.equal([
@@ -117,6 +133,9 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
       ];
 
       const questionsAfterCurrent = [
@@ -132,6 +151,9 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
       ]);
     });
 
@@ -151,6 +173,9 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
       ];
 
       expect(
@@ -200,15 +225,22 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
       ];
 
       const currentQuestionName = ORANGE_2_2_2;
       const questionsToBeNulled = [];
       const responsesToClean = {
+        SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
         ORANGE_2_2_A: NO,
         ORANGE_2_2_1_A: NO,
         ORANGE_2_2_2: YES,
         ORANGE_2_2_3: NOT_SURE,
+        RADIATION_2_3_A: YES,
+        RADIATION_2_3_B: [ENEWETAK_ATOLL],
+        LEJEUNE_2_4: YES,
       };
 
       expect(
@@ -232,6 +264,8 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
       ];
 
       const questionsAfterCurrent = [
@@ -251,6 +285,8 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A: NO,
         ORANGE_2_2_2: NO,
         ORANGE_2_2_3: NO,
+        RADIATION_2_3_A: YES,
+        RADIATION_2_3_B: [GREENLAND_THULE],
       };
 
       expect(
@@ -265,6 +301,8 @@ describe('answer cleanup utilities', () => {
         ORANGE_2_2_1_A,
         ORANGE_2_2_2,
         ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
         BURN_PIT_2_1_2,
       ]);
     });
@@ -278,7 +316,7 @@ describe('answer cleanup utilities', () => {
         BURN_PIT_2_1_1: NOT_SURE,
         BURN_PIT_2_1_2: NO,
         ORANGE_2_2_A: YES,
-        ORANGE_2_2_B: ['Test'],
+        ORANGE_2_2_B: [KOREA_DMZ, VIETNAM_WATERS],
       };
 
       const updateCleanedFormStoreSpy = sinon.spy();
@@ -296,8 +334,8 @@ describe('answer cleanup utilities', () => {
           BURN_PIT_2_1: null,
           BURN_PIT_2_1_1: null,
           BURN_PIT_2_1_2: null,
-          ORANGE_2_2_A: 'Yes',
-          ORANGE_2_2_B: ['Test'],
+          ORANGE_2_2_A: YES,
+          ORANGE_2_2_B: [KOREA_DMZ, VIETNAM_WATERS],
         }),
       ).to.be.true;
     });

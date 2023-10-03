@@ -21,7 +21,14 @@ const Orange22A = ({
   const shortName = SHORT_NAME_MAP.ORANGE_2_2_A;
   const H1 = QUESTION_MAP[shortName];
   const orange22A = formResponses[shortName];
-  const { NO, NOT_SURE, YES } = RESPONSES;
+  const {
+    KOREA_DMZ,
+    NO,
+    NOT_SURE,
+    VIETNAM_REP,
+    VIETNAM_WATERS,
+    YES,
+  } = RESPONSES;
 
   useEffect(
     () => {
@@ -41,9 +48,9 @@ const Orange22A = ({
 
   const locationList = (
     <ul>
-      <li>The Republic of Vietnam</li>
-      <li>The waters in or around Vietnam</li>
-      <li>At or near the Korean Demilitarized Zone (DMZ)</li>
+      <li>{VIETNAM_REP}</li>
+      <li>{VIETNAM_WATERS}</li>
+      <li>{KOREA_DMZ}</li>
     </ul>
   );
 
