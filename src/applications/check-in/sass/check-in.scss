@@ -47,6 +47,13 @@ ul.check-in--appointment-list {
   }
 }
 
+// Unified Appointments list
+.check-in--appointment-item:first-child {
+  div {
+    border-top: 0 !important;
+  }
+}
+
 // check-in specific
 .appointment-check-in{
   h1{

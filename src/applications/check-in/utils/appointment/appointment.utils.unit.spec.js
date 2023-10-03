@@ -8,6 +8,7 @@ import {
   intervalUntilNextAppointmentIneligibleForCheckin,
   preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
+  organizeAppointmentsByYearMonthDay,
   removeTimeZone,
   preCheckinExpired,
   locationShouldBeDisplayed,
@@ -348,6 +349,74 @@ describe('check in', () => {
         const appointments = [latest, earliest, midday];
         const sortedAppointments = [earliest, midday, latest];
         expect(sortAppointmentsByStartTime(appointments)).to.deep.equal(
+          sortedAppointments,
+        );
+      });
+    });
+    describe('organizeAppointmentsByYearMonthDay', () => {
+      it('returns an empty object when appointments is undefined', () => {
+        expect(organizeAppointmentsByYearMonthDay(undefined)).to.deep.equal([]);
+      });
+      it('returns an empty object when appointments is empty', () => {
+        expect(organizeAppointmentsByYearMonthDay(undefined)).to.deep.equal([]);
+      });
+      it('returns the expected object organized by month and day and sorted by acending time', () => {
+        const first = createAppointment();
+        first.startTime = '2023-01-01T08:00:00.000Z';
+        const second = createAppointment();
+        second.startTime = '2023-01-02T08:00:00.000Z';
+        const third = createAppointment();
+        third.startTime = '2023-01-02T08:01:30.000Z';
+        const fourth = createAppointment();
+        fourth.startTime = '2023-01-02T08:02:30.000Z';
+        const fifth = createAppointment();
+        fifth.startTime = '2023-02-03T08:02:30.000Z';
+        const sixth = createAppointment();
+        sixth.startTime = '2024-02-03T08:02:30.000Z';
+
+        const appointments = [sixth, fifth, third, fourth, second, first];
+
+        const sortedAppointments = [
+          {
+            monthYearKey: '2023-1',
+            days: [
+              {
+                dayKey: '0-1',
+                appointments: [first],
+                firstAppointmentStartTime: '2023-01-01T08:00:00.000Z',
+              },
+              {
+                dayKey: '1-2',
+                appointments: [second, third, fourth],
+                firstAppointmentStartTime: '2023-01-02T08:00:00.000Z',
+              },
+            ],
+            firstAppointmentStartTime: '2023-01-01T08:00:00.000Z',
+          },
+          {
+            monthYearKey: '2023-2',
+            days: [
+              {
+                dayKey: '5-3',
+                appointments: [fifth],
+                firstAppointmentStartTime: '2023-02-03T08:02:30.000Z',
+              },
+            ],
+            firstAppointmentStartTime: '2023-02-03T08:02:30.000Z',
+          },
+          {
+            monthYearKey: '2024-2',
+            days: [
+              {
+                dayKey: '6-3',
+                appointments: [sixth],
+                firstAppointmentStartTime: '2024-02-03T08:02:30.000Z',
+              },
+            ],
+            firstAppointmentStartTime: '2024-02-03T08:02:30.000Z',
+          },
+        ];
+        expect(organizeAppointmentsByYearMonthDay(appointments)).to.deep.equal(
           sortedAppointments,
         );
       });
