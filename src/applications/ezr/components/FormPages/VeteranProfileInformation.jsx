@@ -16,25 +16,35 @@ const VeteranProfileInformation = ({ goBack, goForward, profile }) => {
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
         <p data-testid="ezr-veteran-profile-intro">
-          {dob
+          {veteranDOB
             ? 'This is the personal information we have on file for you.'
-            : 'Here’s the name we have on file for you.'}
+            : 'Here\u2019s the name we have on file for you.'}
         </p>
         <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
-          <div className="vads-u-padding-left--1">
-            <p
-              className="vads-u-font-weight--bold vads-u-margin--1px"
-              data-testid="ezr-veteran-fullname"
-            >
-              {veteranName}
-            </p>
-
-            {dob ? (
-              <p className="vads-u-margin--1px" data-testid="ezr-veteran-dob">
-                Date of birth: {veteranDOB}
-              </p>
+          <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
+            <div data-testid="ezr-veteran-fullname">
+              <dt className="vads-u-visibility--screen-reader">Full name:</dt>
+              <dd
+                className="vads-u-font-weight--bold dd-privacy-mask"
+                data-dd-action-name="Full name"
+              >
+                {veteranName}
+              </dd>
+            </div>
+            {veteranDOB ? (
+              <div data-testid="ezr-veteran-dob">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
+                  Date of birth:
+                </dt>
+                <dd
+                  className="vads-u-display--inline-block dd-privacy-mask"
+                  data-dd-action-name="Date of birth"
+                >
+                  {veteranDOB}
+                </dd>
+              </div>
             ) : null}
-          </div>
+          </dl>
         </div>
         <p>
           <strong>Note:</strong> If you need to update your personal

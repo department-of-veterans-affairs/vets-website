@@ -8,10 +8,9 @@ export default function StemClaimListItemV3({ claim }) {
   if (!claim.attributes.automatedDenial) {
     return null;
   }
-  const formattedDeniedAtDate = () =>
-    buildDateFormatter('MMMM d, yyyy')(claim.attributes.deniedAt);
-  const formattedReceiptDate = () =>
-    buildDateFormatter('MMMM d, yyyy')(claim.attributes.submittedAt);
+  const formatDate = buildDateFormatter('MMMM d, yyyy');
+  const formattedDeniedAtDate = formatDate(claim.attributes.deniedAt);
+  const formattedReceiptDate = formatDate(claim.attributes.submittedAt);
 
   const handlers = {
     openClaimClick: () =>
@@ -33,7 +32,9 @@ export default function StemClaimListItemV3({ claim }) {
         {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div role="text">
           Edith Nourse Rogers STEM Scholarship application
-          <span>Submitted on {formattedReceiptDate}</span>
+          <span className="vads-u-margin-top--0p5">
+            Submitted on {formattedReceiptDate}
+          </span>
         </div>
       </h3>
       <div className="card-status">

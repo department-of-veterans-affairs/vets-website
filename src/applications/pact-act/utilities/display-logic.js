@@ -1,5 +1,5 @@
 import { DISPLAY_CONDITIONS } from './display-conditions';
-import { SHORT_NAME_MAP } from './question-data-map';
+import { SHORT_NAME_MAP } from '../constants/question-data-map';
 import { ROUTES } from '../constants';
 
 /** ================================================================
