@@ -33,3 +33,16 @@ export const setForm = form => {
     payload: { form },
   };
 };
+
+export const RECEIVED_UPCOMING_APPOINTMENTS = 'RECEIVED_UPCOMING_APPOINTMENTS';
+
+export const recievedUpcomingAppointments = payload => {
+  const data = { upcomingAppointments: [...payload] };
+
+  return {
+    type: RECEIVED_UPCOMING_APPOINTMENTS,
+    payload: {
+      ...data,
+    },
+  };
+};
