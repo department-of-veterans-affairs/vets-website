@@ -28,7 +28,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     composePage.verifyAlertModal();
     composePage.clickOnContinueEditingButton();
 
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+    composePage.verifyComposePageValuesRetainedAfterContinueEditing();
 
     composePage.verifyRecipient('6832726');
     composePage.verifySubjectField('testSubject');

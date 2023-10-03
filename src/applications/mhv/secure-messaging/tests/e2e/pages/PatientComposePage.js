@@ -300,7 +300,7 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyComosePageValuesRetainedAfterContinueEditing = () => {
+  verifyComposePageValuesRetainedAfterContinueEditing = () => {
     // cy.get('[data-testid=compose-category-radio-button]')
     //   .should('have.value', 'OTHER')
     //   .and('have.attr', 'checked');
