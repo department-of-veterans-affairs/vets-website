@@ -8,7 +8,7 @@ import {
 
 describe('ezr validation utils', () => {
   describe('when `validateDependentDate` executes', () => {
-    describe('when form data is valid', () => {
+    context('when form data is valid', () => {
       it('should not set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -20,7 +20,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when birth date is after dependent date', () => {
+    context('when birth date is after dependent date', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -34,7 +34,7 @@ describe('ezr validation utils', () => {
   });
 
   describe('when `validateCurrency` executes', () => {
-    describe('when form data is valid', () => {
+    context('when form data is valid', () => {
       it('should not set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -44,7 +44,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value has three decimals', () => {
+    context('when value has three decimals', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -54,7 +54,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value has trailing whitespace', () => {
+    context('when value has trailing whitespace', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -64,7 +64,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value has leading whitespace', () => {
+    context('when value has leading whitespace', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -74,7 +74,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value includes dollar sign', () => {
+    context('when value includes dollar sign', () => {
       it('should not set error message', () => {
         const errors = {
           addError: sinon.spy(),
