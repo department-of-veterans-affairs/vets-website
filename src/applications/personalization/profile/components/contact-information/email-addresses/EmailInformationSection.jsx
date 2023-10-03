@@ -12,9 +12,7 @@ import {
   CSP_IDS,
 } from '~/platform/user/authentication/constants';
 
-import ProfileInfoTable from '../../ProfileInfoTable';
 import { ProfileInfoCard } from '../../ProfileInfoCard';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 /**
  * only id.me and login.gov use email for sign in / show the sign-in email section.
@@ -77,27 +75,13 @@ const generateRows = signInServiceName => {
 const EmailInformationSection = ({ className, signInServiceName }) => {
   return (
     <div className={className}>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Enabled>
-          <ProfileInfoCard
-            title="Email addresses"
-            level={2}
-            namedAnchor="email-address"
-            data={generateRows(signInServiceName)}
-            className="vads-u-margin-y--4"
-          />
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <ProfileInfoTable
-            title="Email addresses"
-            fieldName="emailAddress"
-            namedAnchor="email-address"
-            level={2}
-            data={generateRows(signInServiceName)}
-            className="vads-u-margin-y--4"
-          />
-        </Toggler.Disabled>
-      </Toggler>
+      <ProfileInfoCard
+        title="Email addresses"
+        level={2}
+        namedAnchor="email-address"
+        data={generateRows(signInServiceName)}
+        className="vads-u-margin-y--4"
+      />
     </div>
   );
 };

@@ -1,11 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import ProfileInfoTable from '../../../src/applications/personalization/profile/components/ProfileInfoTable';
+// eslint-disable-next-line deprecate/import
+import ProfileInfoCard from '../../../src/applications/personalization/profile/components/ProfileInfoCard';
 
 export const Sample = () => (
-  <AdditionalInfo
-    className="vads-u-margin-bottom--2"
-    triggerText="Why aren’t all my issues listed here?"
+  <va-additional-info
+    class="vads-u-margin-bottom--2"
+    trigger="Why aren’t all my issues listed here?"
     disableAnalytics
     onClick={null}
   >
@@ -14,12 +15,12 @@ export const Sample = () => (
       system yet. This can happen if it’s a more recent claim decision. We may
       still be processing it.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 export const SampleOther = () => (
-  <AdditionalInfo
-    triggerText="Learn more about military base addresses"
+  <va-additional-info
+    trigger="Learn more about military base addresses"
     onClick={null}
     disableAnalytics
     status="info"
@@ -28,13 +29,13 @@ export const SampleOther = () => (
       The United States is automatically chosen as your country if you live on a
       military base outside of the country.
     </span>
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 export const Sample3 = ({ className = 'sample' }) => (
   <div className={className}>
     <div className="vads-u-margin-bottom--2">
-      <AdditionalInfo triggerText="How do I update my personal information?">
+      <va-additional-info trigger="How do I update my personal information?">
         <h2 className="vads-u-font-size--h5 vads-u-margin-top--3">
           If you’re enrolled in the VA health care program
         </h2>
@@ -55,9 +56,9 @@ export const Sample3 = ({ className = 'sample' }) => (
         <a href="/find-locations/?facilityType=benefits">
           Find your nearest VA regional office
         </a>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
-    <ProfileInfoTable
+    <ProfileInfoCard
       title="Personal information"
       data={[
         { title: 'Date of birth', value: 'N/A' },
@@ -71,21 +72,19 @@ export const Sample3 = ({ className = 'sample' }) => (
 
 export const Sample4 = () => (
   <div className="vads-u-margin-y--3 available-connected-apps">
-    <AdditionalInfo
-      triggerText={`What other third-party apps can I connect to my profile?`}
-    >
+    <va-additional-info trigger="What other third-party apps can I connect to my profile?">
       To find out what other third-party apps are available to connect to your
       profile,{' '}
       <a href="/resources/find-apps-you-can-use" onClick={null}>
         go to the app directory
       </a>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
 export const Sample5 = () => (
-  <AdditionalInfo
-    triggerText="What if I don’t have a bank account?"
+  <va-additional-info
+    trigger="What if I don’t have a bank account?"
     onClick={null}
   >
     <p>
@@ -116,5 +115,5 @@ export const Sample5 = () => (
       representative who handles waiver requests. They can answer any questions
       or concerns you may have.
     </p>
-  </AdditionalInfo>
+  </va-additional-info>
 );

@@ -4,7 +4,6 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
 import {
   GrossIncomeDescription,
-  NetIncomeDescription,
   OtherIncomeDescription,
 } from '../../../components/FormDescriptions';
 
@@ -30,7 +29,8 @@ export default {
     },
     'view:veteranNetIncome': {
       'ui:title': 'Net income from a farm, property, or business',
-      'ui:description': NetIncomeDescription,
+      'ui:description':
+        'Net income is income after any taxes and other deductions are subtracted.',
       veteranNetIncome: {
         ...currencyUI(
           `Enter your net annual income from a farm, property, or business from ${lastYear}`,

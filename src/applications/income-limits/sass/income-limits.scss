@@ -24,4 +24,19 @@
   h1:focus {
     outline: none;
   }
+
+  .il-results-more-info {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: 16px;
+    }
+  }
+
+  .income-limits-breadcrumbs {
+    &:focus {
+      outline: none;
+    }
+  }
 }

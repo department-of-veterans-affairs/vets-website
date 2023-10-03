@@ -22,13 +22,7 @@ export const getSecondAccordionHeader = (pension, national) => {
 // ACCORDION 3
 // Non-standard: national_threshold + $1 through national_threshold + 10%
 // Standard: national_threshold + $1 through gmt_threshold
-export const getThirdAccordionHeader = (national, gmt, isStandard) => {
-  if (!isStandard) {
-    return `${formatter.format(national + 1)} - ${formatter.format(
-      Math.ceil(national * 1.1).toFixed(),
-    )}`;
-  }
-
+export const getThirdAccordionHeader = (national, gmt) => {
   return `${formatter.format(national + 1)} - ${formatter.format(gmt)}`;
 };
 
@@ -37,9 +31,9 @@ export const getThirdAccordionHeader = (national, gmt, isStandard) => {
 // Standard: gmt_threshold + $1 through gmt_threshold + 10%
 export const getFourthAccordionHeader = (national, gmt, isStandard) => {
   if (!isStandard) {
-    return `${formatter.format(
-      Math.ceil((national * 1.1).toFixed(2)) + 1,
-    )} or more`;
+    return `${formatter.format(national + 1)} - ${formatter.format(
+      Math.ceil(national * 1.1).toFixed(),
+    )}`;
   }
 
   return `${formatter.format(gmt + 1)} - ${formatter.format(
@@ -49,6 +43,12 @@ export const getFourthAccordionHeader = (national, gmt, isStandard) => {
 
 // ACCORDION 5 (does not appear for Non-standard case)
 // Geographic threshold + 10% + $1 "or more"
-export const getFifthAccordionHeader = gmt => {
+export const getFifthAccordionHeader = (national, gmt, isStandard) => {
+  if (!isStandard) {
+    return `${formatter.format(
+      Math.ceil((national * 1.1).toFixed(2)) + 1,
+    )} or more`;
+  }
+
   return `${formatter.format(Math.ceil((gmt * 1.1).toFixed(2)) + 1)} or more`;
 };

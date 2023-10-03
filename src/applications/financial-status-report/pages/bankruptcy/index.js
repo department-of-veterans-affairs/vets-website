@@ -13,9 +13,6 @@ export const uiSchema = {
       'ui:title': 'Have you ever declared bankruptcy?',
       'ui:required': () => true,
       'ui:widget': 'yesNo',
-      'ui:options': {
-        showFieldLabel: 'label',
-      },
     },
   },
 };

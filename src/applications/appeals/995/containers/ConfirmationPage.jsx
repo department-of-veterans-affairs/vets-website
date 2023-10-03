@@ -8,9 +8,11 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
 
-import { FORMAT_READABLE } from '../constants';
-import { getSelected, getIssueName } from '../utils/helpers';
+import { getIssueName } from '../utils/helpers';
 import GetFormHelp from '../content/GetFormHelp';
+
+import { FORMAT_READABLE } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -32,7 +34,7 @@ export const ConfirmationPage = () => {
   const { submission, data } = form;
   const issues = getSelected(data || []).map((issue, index) => (
     <li key={index} className="vads-u-margin-bottom--0">
-      {getIssueName(issue)}
+      <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
     </li>
   ));
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -62,7 +64,7 @@ export const ConfirmationPage = () => {
         </h3>
         <h4>Your name</h4>
         {fullName ? (
-          <div>
+          <div className="dd-privacy-hidden">
             {name.first} {name.middle} {name.last}
             {name.suffix ? `, ${name.suffix}` : null}
           </div>

@@ -6,48 +6,48 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { IssueCard } from './IssueCard';
+import { APP_NAME } from '../constants';
+
 import {
-  SELECTED,
+  LAST_ISSUE,
   MAX_LENGTH,
-  LAST_SC_ITEM,
   REVIEW_ISSUES,
-} from '../constants';
+  SELECTED,
+} from '../../shared/constants';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
-} from '../content/contestableIssues';
+} from '../../shared/content/contestableIssues';
+import { focusIssue } from '../../shared/utils/focus';
 import {
   getSelected,
   someSelected,
-  isEmptyObject,
   calculateIndexOffset,
-} from '../utils/helpers';
-import { focusIssue } from '../utils/focus';
+} from '../../shared/utils/issues';
+import { isEmptyObject } from '../../shared/utils/helpers';
 
 /**
- * ContestableIssuesWidget
- * Form system parameters passed into this widget
- * @typedef {Object}
- * @property {Boolean} autofocus - should auto focus
- * @property {Boolean} disabled -  is disabled?
- * @property {Object} formContext -  state
- * @property {String} id - ID base for form elements
- * @property {String} label - label text
- * @property {func} onBlur - blur callback
- * @property {func} onChange - on change callback
- * @property {Object} options - ui:options
- * @property {String} placeholder - placeholder text
- * @property {Boolean} readonly - readonly state
- * @property {Object} registry - contains definitions, fields, widgets & templates
- * @property {Boolean} required - Show required flag
- * @property {Object} schema - array schema
- * @property {Object[]} value - array value
+ * ContestableIssuesWidget - Form system parameters passed into this widget
+ * @param {Boolean} autofocus - should auto focus
+ * @param {Boolean} disabled -  is disabled?
+ * @param {Object} formContext -  state
+ * @param {String} id - ID base for form elements
+ * @param {String} label - label text
+ * @param {func} onBlur - blur callback
+ * @param {func} onChange - on change callback
+ * @param {Object} options - ui:options
+ * @param {String} placeholder - placeholder text
+ * @param {Boolean} readonly - readonly state
+ * @param {Object} registry - contains definitions, fields, widgets & templates
+ * @param {Boolean} required - Show required flag
+ * @param {Object} schema - array schema
+ * @param {Object[]} value - array value
+ * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
   const {
@@ -63,22 +63,12 @@ const ContestableIssuesWidget = props => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
-  const [editState] = useState(window.sessionStorage.getItem(LAST_SC_ITEM));
+  const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
 
   useEffect(
     () => {
       if (editState) {
-        window.sessionStorage.removeItem(LAST_SC_ITEM);
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const card = `#issue-${lastEdited}`;
-          const target =
-            returnState === 'cancel'
-              ? `${card} .edit-issue-link`
-              : `${card} input`;
-          scrollTo(card);
-          focusElement(target);
-        }, 100);
+        focusIssue();
       }
     },
     [editState],
@@ -102,9 +92,17 @@ const ContestableIssuesWidget = props => {
     .concat(additionalIssues);
 
   const hasSelected = someSelected(items);
+  // Only show alert initially when no issues loaded
+  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
-    return <NoneSelectedAlert count={items.length} headerLevel={5} />;
+    return (
+      <NoneSelectedAlert
+        count={items.length}
+        headerLevel={5}
+        inReviewMode={inReviewMode}
+      />
+    );
   }
 
   const handlers = {
@@ -142,6 +140,7 @@ const ContestableIssuesWidget = props => {
       setShowRemoveModal(true);
     },
     onRemoveModalClose: () => {
+      focusIssue(null, null, `${value.length + removeIndex},remove-cancel`);
       setShowRemoveModal(false);
       setRemoveIndex(null);
     },
@@ -149,15 +148,11 @@ const ContestableIssuesWidget = props => {
       const updatedAdditionalIssues = additionalIssues.filter(
         (issue, indx) => removeIndex !== indx,
       );
-      // Focus management: target add a new issue action link
-      window.sessionStorage.setItem(LAST_SC_ITEM, -1);
       setShowRemoveModal(false);
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
-        // focusIssue is called by form config scrollAndFocusTarget, but only on
-        // page change
-        focusIssue();
+        focusIssue(null, null, -1);
       });
 
       setFormData({
@@ -187,19 +182,19 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues =
-    items.length === 0 && (!onReviewPage || (onReviewPage && inReviewMode));
+  const showNoIssues = showNoLoadedIssues && !onReviewPage;
 
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {showNoIssues && <NoIssuesLoadedAlert />}
       {!showNoIssues &&
-        submitted &&
-        !hasSelected && (
+        !hasSelected &&
+        (onReviewPage || submitted) && (
           <NoneSelectedAlert
             count={value.length}
             headerLevel={onReviewPage ? 4 : 3}
+            inReviewMode={inReviewMode}
           />
         )}
       <fieldset className="review-fieldset">
@@ -234,14 +229,18 @@ const ContestableIssuesWidget = props => {
             className="add-new-issue vads-c-action-link--green"
             to={{
               pathname: '/add-issue',
-              search: `?index=${items.length},new=true`,
+              search: `?index=${items.length}`,
             }}
           >
             Add a new issue
           </Link>
         )}
         {showErrorModal && (
-          <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+          <MaxSelectionsAlert
+            showModal
+            closeModal={handlers.closeModal}
+            appName={APP_NAME}
+          />
         )}
       </fieldset>
     </>

@@ -112,6 +112,19 @@ class ReviewCollapsibleChapter extends React.Component {
     return chapterTitle;
   };
 
+  getPageTitle = rawPageTitle => {
+    const { form } = this.props;
+    const formData = form.data;
+
+    let pageTitle = rawPageTitle;
+
+    if (typeof rawPageTitle === 'function') {
+      pageTitle = rawPageTitle({ formData });
+    }
+
+    return pageTitle;
+  };
+
   getSchemaformPageContent = (page, props, editing) => {
     const {
       chapterFormConfig,
@@ -194,7 +207,7 @@ class ReviewCollapsibleChapter extends React.Component {
           hideTitle={this.shouldHideExpandedPageTitle(
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
-            title,
+            this.getPageTitle(title),
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
@@ -412,12 +425,6 @@ class ReviewCollapsibleChapter extends React.Component {
         <ul className="usa-unstyled-list" role="list">
           <li>
             <h3 className={headerClasses}>
-              {this.props.hasUnviewedPages && (
-                <span
-                  aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-error-icon"
-                />
-              )}
               <button
                 className="usa-button-unstyled"
                 aria-expanded={this.props.open ? 'true' : 'false'}
@@ -437,7 +444,7 @@ class ReviewCollapsibleChapter extends React.Component {
                 aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
-                {chapterTitle} needs to be updated
+                <span>Some information has changed. Please review.</span>
               </va-alert>
             )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>

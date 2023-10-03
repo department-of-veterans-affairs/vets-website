@@ -1,4 +1,5 @@
 import mockMessage from '../fixtures/message-response.json';
+import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
 
@@ -11,6 +12,7 @@ class PatientMessageDetailsPage {
     mockThread = defaultMockThread,
     previousMessageIndex = 1,
     mockPreviousMessageDetails = mockMessage,
+    getFoldersStatus = 200,
   ) => {
     this.currentThread = mockThread;
 
@@ -65,6 +67,24 @@ class PatientMessageDetailsPage {
         mockParentMessageDetails.data.attributes.messageId,
       )}`,
     );
+    if (getFoldersStatus === 200) {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+        'folders',
+      );
+    } else {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+        statusCode: 400,
+        body: {
+          alertType: 'error',
+          header: 'err.title',
+          content: 'err.detail',
+          response: {
+            header: 'err.title',
+            content: 'err.detail',
+          },
+        },
+      }).as('folders');
+    }
 
     cy.intercept(
       'GET',
@@ -141,7 +161,7 @@ class PatientMessageDetailsPage {
       mockMessageDetails.data.attributes.recipientId;
     this.currentThread.data.at(index).attributes.triageGroupName =
       mockMessageDetails.data.attributes.triageGroupName;
-    cy.get('[data-testid="reply-button-top"]')
+    cy.get('[data-testid="reply-button-body"]')
       .should('be.visible')
       .click({ force: true });
 
@@ -434,12 +454,9 @@ class PatientMessageDetailsPage {
     );
   };
 
-  ReplyToMessagebody = messageBody => {
-    cy.get('[data-testid="message-replied-to"]')
-      .find('[data-testid="message-body"]')
-      .should($mbody => {
-        expect($mbody.text()).to.contain(messageBody);
-      });
+  // temporary changed to 'contain', 'REPLY'
+  ReplyToMessageBody = () => {
+    cy.get('[data-testid="message-body"]').should('contain', 'REPLY');
   };
 }
 

@@ -34,8 +34,11 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Veteran’s name
             </dt>
-            <dd className="hca-veteran-fullname">
-              {name.first} {name.middle} {name.last} {name.suffix}
+            <dd
+              className="hca-veteran-fullname dd-privacy-mask"
+              data-dd-action-name="Veteran name"
+            >
+              {name}
             </dd>
           </div>
           {!!timestamp && (
@@ -43,7 +46,12 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
               <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
                 Date you applied
               </dt>
-              <dd>{moment(timestamp).format('MMM D, YYYY')}</dd>
+              <dd
+                className="dd-privacy-mask"
+                data-dd-action-name="Applied date"
+              >
+                {moment(timestamp).format('MMM D, YYYY')}
+              </dd>
             </div>
           )}
           <div>

@@ -1,36 +1,36 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import {
   VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
-
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import {
-  SELECTED,
-  MAX_LENGTH,
-  LAST_ISSUE,
-  CONTESTABLE_ISSUES_PATH,
-  REVIEW_ISSUES,
-} from '../constants';
-
+import { calculateIndexOffset } from '../utils/helpers';
 import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
+
+import {
+  CONTESTABLE_ISSUES_PATH,
+  REVIEW_ISSUES,
+  LAST_ISSUE,
+  MAX_LENGTH,
+  SELECTED,
+} from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -187,6 +187,7 @@ const AddIssue = props => {
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
+          message-aria-describedby={content.name.hintText}
         >
           {content.name.hint}
         </VaTextInput>

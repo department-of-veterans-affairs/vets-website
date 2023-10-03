@@ -1,6 +1,6 @@
 import React from 'react';
-import Benefits from '../../components/Benefits';
-import EnhancedBenefits from '../../components/EnhancedBenefits';
+import Benefits from '../../components/debtsAndCopays/Benefits';
+import EnhancedBenefits from '../../components/debtsAndCopays/EnhancedBenefits';
 
 export const uiSchema = {
   'ui:title': 'Your VA benefits',

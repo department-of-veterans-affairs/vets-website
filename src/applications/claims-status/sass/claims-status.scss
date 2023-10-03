@@ -48,10 +48,6 @@
   }
 }
 
-.claim-list-item-container a {
-  position: relative;
-}
-
 @media (max-width: $medium-screen) {
   .claims-status-content .help-sidebar {
     margin-top: 0px;
@@ -97,14 +93,20 @@
   margin: 0;
 }
 
-.communications {
+.communications,
+.communications-old {
   list-style: none;
   padding: 0;
 }
 
+.communications-old,
+.status-old {
+  margin: 0 0 0.5em;
+}
+
 .communications,
 .status {
-  margin: 0 0 0.5em;
+  margin: 0;
 }
 
 // Index page V2
@@ -135,6 +137,43 @@
   }
 }
 
+// Index page V3
+.claim-list-item {
+  margin-bottom: 1em;
+
+  // TODO: We may or may not use this
+  &.in-progress {
+    box-shadow: 1px 1px 5px rgba(0,0,0, 0.32);
+  }
+
+  .card-status {
+    margin: 0 0 1em;
+    // display: flex;
+
+    p {
+      margin-top: 0.25em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.claim-list-item-header {
+  margin-top: 0;
+
+  span {
+    display: block;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-family: var(--font-source-sans);
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
+  .usa-label {
+    margin-bottom: 1em;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -146,21 +185,7 @@
   border-radius: 0 0 0.5em 0.5em;
 }
 
-.claim-list-item {
-  text-decoration: none;
-  display: block;
-  color: inherit;
-
-  &:visited,
-  &:hover,
-  &:active {
-    color: inherit;
-    text-decoration: none;
-    background-color: inherit;
-  }
-}
-
-.claim-list-item-header {
+.claim-list-item-header-old {
   color: $color-primary;
   margin-top: 0;
 }
@@ -168,10 +193,6 @@
 .claim-list-item-header-v2 {
   margin-top: -2rem;
   white-space: pre-line;
-}
-
-.claim-list-item:hover .claim-list-item-header {
-  color: $color-primary-darker;
 }
 
 .claims-status {
@@ -213,7 +234,7 @@
 
   &.soc,
   &.ssoc {
-    background: $color-gibill-accent;
+    background: $color-gold-lightest;
     padding-left: 2.5em;
 
     &:before {
@@ -512,10 +533,6 @@ h1:focus {
     display: block;
     margin: 1.4rem 0;
   }
-}
-
-.claims-closed-text {
-  margin-top: 1em;
 }
 
 .claims-breadcrumbs {

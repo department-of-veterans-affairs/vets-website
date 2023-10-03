@@ -25,8 +25,8 @@ export default {
         hideIf: formData => !formData['view:isLoggedIn'],
       },
     },
-    veteranHomeAddress: merge({}, addressUI('Home address', true), {
-      'ui:description': HomeAddressDescription,
+    veteranHomeAddress: merge({}, addressUI(null, true), {
+      'ui:title': HomeAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {

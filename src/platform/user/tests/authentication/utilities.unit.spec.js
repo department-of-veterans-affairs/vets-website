@@ -422,9 +422,7 @@ describe('Authentication Utilities', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
 
       authUtilities.redirect(base);
-      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
-        `${EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]}?deeplinking=home`,
-      );
+      expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(null);
     });
 
     it('should redirect with GA Client ID appended for redirects that include `idme`', async () => {
@@ -530,78 +528,83 @@ describe('Authentication Utilities', () => {
           type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
         }),
       );
-      describe('signupOrVerify (SAML)', () => {
-        ['idme', 'logingov'].forEach(policy => {
-          it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
-            const signupUrl = await authUtilities.signupOrVerify({
-              policy,
-              isLink: true,
-            });
-            expect(signupUrl).contain(
-              API_SESSION_URL({
-                type: SIGNUP_TYPES[policy],
-              }),
-            );
-          });
+    });
+  });
 
-          it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
-            await authUtilities.signupOrVerify({ policy });
-            expect(global.window.location).contain(
-              API_SESSION_URL({
-                type: SIGNUP_TYPES[policy],
-              }),
-            );
-          });
-
-          it(`should generate a verified URL for signup '${policy}_signup_verified'`, async () => {
-            const url = await authUtilities.signupOrVerify({
-              policy,
-              isLink: true,
-              isSignup: false,
-            });
-            expect(url).to.include(`${policy}_signup_verified`);
-          });
+  describe('signupOrVerify (SAML)', () => {
+    ['idme', 'logingov'].forEach(policy => {
+      it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
+        const signupUrl = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
         });
+        expect(signupUrl).contain(
+          API_SESSION_URL({
+            type: SIGNUP_TYPES[policy],
+          }),
+        );
       });
 
-      describe('logout', () => {
-        it('should redirect to the logout session url', () => {
-          setup({ path: nonUsipPath });
-          authUtilities.logout();
-          expect(global.window.location).to.equal(
-            API_SESSION_URL({ type: POLICY_TYPES.SLO }),
-          );
-        });
-
-        it('should redirect to the logout session url with appended params if provided', () => {
-          setup({ path: nonUsipPath });
-          const params = { foo: 'bar' };
-          authUtilities.logout(API_VERSION, AUTH_EVENTS.LOGOUT, params);
-          expect(global.window.location).to.equal(
-            appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
-          );
-        });
+      it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
+        await authUtilities.signupOrVerify({ policy });
+        expect(global.window.location).contain(
+          API_SESSION_URL({
+            type: SIGNUP_TYPES[policy],
+          }),
+        );
       });
 
-      describe('generateReturnURL', () => {
-        const homepageModalRoute = `${base}/?next=loginModal`;
-        const usipRoute = `${base}`;
-        const nonHomepageRoute = `${base}/education/eligibility/`;
-        const myVARoute = `${base}/my-va/`;
-        it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
-          expect(authUtilities.generateReturnURL(usipRoute)).to.eql(myVARoute);
+      it(`should generate a verified URL for signup '${policy}_signup_verified'`, async () => {
+        const url = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
+          isSignup: false,
         });
-        it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
-          expect(authUtilities.generateReturnURL(homepageModalRoute)).to.eql(
-            myVARoute,
-          );
-        });
-        it('should return users signing in on non-default routes to original location', () => {
-          expect(authUtilities.generateReturnURL(nonHomepageRoute)).to.eql(
-            nonHomepageRoute,
-          );
-        });
+        expect(url).to.include(`${policy}_signup_verified`);
       });
+    });
+  });
+
+  describe('logout', () => {
+    it('should redirect to the logout session url', () => {
+      setup({ path: nonUsipPath });
+      authUtilities.logout();
+      expect(global.window.location).to.equal(
+        API_SESSION_URL({ type: POLICY_TYPES.SLO }),
+      );
+    });
+
+    it('should redirect to the logout session url with appended params if provided', () => {
+      setup({ path: nonUsipPath });
+      const params = { foo: 'bar' };
+      authUtilities.logout({
+        version: API_VERSION,
+        clickedEvent: AUTH_EVENTS.LOGOUT,
+        queryParams: params,
+      });
+      expect(global.window.location).to.equal(
+        appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
+      );
+    });
+  });
+
+  describe('generateReturnURL', () => {
+    const homepageModalRoute = `${base}/?next=loginModal`;
+    const usipRoute = `${base}`;
+    const nonHomepageRoute = `${base}/education/eligibility/`;
+    const myVARoute = `${base}/my-va/`;
+    it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(usipRoute)).to.eql(myVARoute);
+    });
+    it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(homepageModalRoute)).to.eql(
+        myVARoute,
+      );
+    });
+    it('should return users signing in on non-default routes to original location', () => {
+      expect(authUtilities.generateReturnURL(nonHomepageRoute)).to.eql(
+        nonHomepageRoute,
+      );
     });
   });
 });

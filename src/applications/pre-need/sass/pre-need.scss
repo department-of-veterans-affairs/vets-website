@@ -56,3 +56,48 @@ article#pre-need[data-location="veteran-applicant-information"] {
     margin-top: 0 !important;
   }
 }
+
+dl.review + dl.review .review-row {
+  border-top: none;
+  padding-top: 0px;
+}
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: -2em;
+  margin-bottom: -1em;
+}
+
+.schemaform-file-list > li {
+  margin-top: 3em;
+  margin-bottom: -2em;
+}
+
+.schemaform-first-field .schemaform-label {
+  padding-top: 1em;
+}
+
+.vads-u-font-size--h5 {
+  margin-top: 0em;
+}
+
+.preparer-contact-details-title {
+  margin-bottom: -0.5em;
+}
+
+.preparer-contact-details-additional-info {
+  padding-top: 1em;
+}
+.preparer-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.preparer-va-radio {
+  padding-top: 0.5em;
+}
+
+.desiredCemeteryNoteTitle {
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: normal;
+}

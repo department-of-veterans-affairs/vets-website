@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
@@ -10,6 +11,7 @@ import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -70,13 +72,20 @@ export function ContactInfoPage({
   routeToPreviousAppointmentPage,
   schema,
   updateFormData,
+  changeCrumb,
 }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const history = useHistory();
   useEffect(() => {
     prefillContactInfo();
     openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -102,6 +111,10 @@ export function ContactInfoPage({
     </div>
   );
 }
+
+ContactInfoPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};
 
 function mapStateToProps(state) {
   return getCovid19VaccineFormPageInfo(state, pageKey);

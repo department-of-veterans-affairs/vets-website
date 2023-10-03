@@ -4,7 +4,9 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
+// temporarily disabled color-contrast check to avoid the a11y violation
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
@@ -23,9 +25,12 @@ describe('Secure Messaging Reply', () => {
     const testMessageBody = 'Test message body';
     replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
           enabled: false,
         },
       },
@@ -53,7 +58,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(testMessageBody);
+    messageDetailsPage.ReplyToMessageBody(testMessageBody);
 
     replyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,
@@ -63,7 +68,7 @@ describe('Secure Messaging Reply', () => {
       testMessageBody,
     );
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

@@ -22,7 +22,7 @@ import {
 } from '../utils/selectors';
 
 const IntroductionPage = props => {
-  const { route, displayConditions, enrollmentOverrideEnabled } = props;
+  const { route, displayConditions, features } = props;
   const {
     showLoader,
     showLoginAlert,
@@ -30,6 +30,7 @@ const IntroductionPage = props => {
     showLOA3Content,
     showGetStartedContent,
   } = displayConditions;
+  const { enrollmentOverrideEnabled } = features;
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -39,10 +40,10 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       {!showLoader && (
         <>
-          <FormTitle title="Apply for VA health care" />
-          <p className="vads-u-margin-top--neg2">
-            Enrollment Application for Health Benefits (VA Form 10-10EZ)
-          </p>
+          <FormTitle
+            title="Apply for VA health care"
+            subTitle="Enrollment Application for Health Benefits (VA Form 10-10EZ)"
+          />
         </>
       )}
 
@@ -52,7 +53,7 @@ const IntroductionPage = props => {
       >
         {!showLoader &&
           !showLOA3Content && (
-            <p>
+            <p data-testid="hca-loa1-description">
               VA health care covers care for your physical and mental health.
               This includes a range of services from checkups to surgeries to
               home health care. It also includes prescriptions and medical
@@ -82,7 +83,7 @@ const IntroductionPage = props => {
 
 IntroductionPage.propTypes = {
   displayConditions: PropTypes.object,
-  enrollmentOverrideEnabled: PropTypes.bool,
+  features: PropTypes.object,
   route: PropTypes.object,
 };
 
@@ -94,8 +95,10 @@ const mapStateToProps = state => ({
     showLoginAlert: isLoggedOut(state),
     showIdentityAlert: isUserLOA1(state),
   },
-  enrollmentOverrideEnabled:
-    state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
+  features: {
+    enrollmentOverrideEnabled:
+      state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
+  },
 });
 
 export { IntroductionPage };

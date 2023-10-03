@@ -13,9 +13,13 @@ const Checklist = ({
       {title && (
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">{title}</h3>
+          {prompt && (
+            <p className="vads-u-margin-bottom--0p5 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+              {prompt}
+            </p>
+          )}
         </legend>
       )}
-      {prompt && <p className="vads-u-margin-bottom--4">{prompt}</p>}
       {options?.map((option, key) => (
         <div key={option + key} className="checkbox-list-item">
           <input

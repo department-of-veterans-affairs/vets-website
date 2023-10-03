@@ -5,6 +5,7 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockMessages from './fixtures/messages-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -40,13 +41,13 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessagebody(messageDetailsBody);
+    messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
-    landingPage.verifyDeleteConfirmMessage();
+    draftsPage.verifyDeleteConfirmationMessage();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

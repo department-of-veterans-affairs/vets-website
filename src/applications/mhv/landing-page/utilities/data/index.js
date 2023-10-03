@@ -146,7 +146,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const myVaHealthBenefitsLinks = resolveLinkCollection(
     [
       {
-        href: '/manage-va-debt/summary/copay-balances/',
+        href: '/health-care/copay-rates/',
         text: 'Current Veteran copay rates',
       },
       {
@@ -217,12 +217,18 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Track Your Blood Pressure Online',
+        text: 'Emergency Medical Care Coverage',
         href: null,
         oldHref: mhvUrl(
           authdWithSSOe,
-          'ss20190822-track-health-blood-pressure',
+          'ss20221207-emergency-medical-care-coverage',
         ),
+        toggle: null,
+      },
+      {
+        text: 'Exercise to Build Healthy Lungs',
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, 'ss20181019-build-healthy-lungs'),
         toggle: null,
       },
       {
@@ -231,15 +237,6 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         oldHref: mhvUrl(
           authdWithSSOe,
           'ss20230428-pact-act-special-enrollment',
-        ),
-        toggle: null,
-      },
-      {
-        text: 'Easy Exercises to Reduce Back Pain',
-        href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20210329-simple-exercises-to-reduce-back-pain',
         ),
         toggle: null,
       },

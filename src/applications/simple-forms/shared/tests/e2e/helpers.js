@@ -142,6 +142,23 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
   }
 };
 
+export const selectRelationshipToVeteranPattern = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    selectRadioWebComponent(
+      `${fieldName}_relationshipToVeteran`,
+      value?.relationshipToVeteran,
+    );
+    if (value?.relationshipToVeteran === 'other') {
+      cy.get(
+        `va-text-input[name="root_${fieldName}_otherRelationshipToVeteran"]`,
+      )
+        .shadow()
+        .find('input')
+        .type(value?.otherRelationshipToVeteran);
+    }
+  }
+};
+
 // page test definitions
 
 export const introductionPageFlow = () => {
@@ -151,20 +168,27 @@ export const introductionPageFlow = () => {
     .click({ force: true });
 };
 
-export const reviewAndSubmitPageFlow = signerName => {
+export const reviewAndSubmitPageFlow = (
+  signerName,
+  submitButtonText = 'Submit application',
+) => {
+  let veteranSignature = signerName;
+
+  if (typeof veteranSignature === 'object') {
+    veteranSignature = signerName.middle
+      ? `${signerName.first} ${signerName.middle} ${signerName.last}`
+      : `${signerName.first} ${signerName.last}`;
+  }
+
   cy.get('#veteran-signature')
     .shadow()
     .get('#inputField')
-    .type(
-      signerName.middle
-        ? `${signerName.first} ${signerName.middle} ${signerName.last}`
-        : `${signerName.first} ${signerName.last}`,
-    );
+    .type(veteranSignature);
   cy.get(`va-checkbox[name="veteran-certify"]`)
     .shadow()
     .find('input')
     .check();
-  cy.findAllByText(/Submit application/i, {
+  cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();
 };

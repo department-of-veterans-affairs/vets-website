@@ -4,7 +4,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { mfa } from '~/platform/user/authentication/utilities';
 import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 
-import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
+import SignInServiceUpdateLink from '../contact-information/email-addresses/SignInServiceUpdateLink';
 import { ConditionalProcessList as List } from './ConditionalProcessList';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
@@ -66,7 +66,6 @@ AccountSetupList.propTypes = {
 };
 
 export const AccountSecurityTables = ({
-  signInServiceName,
   isIdentityVerified,
   isMultifactorEnabled,
 }) => {
@@ -82,11 +81,9 @@ export const AccountSecurityTables = ({
     <>
       {/* legacy toble view for email address table */}
       <ProfileInfoCard
-        title="Sign in information"
+        title="Sign-in information"
         level={2}
-        data={
-          <EmailAddressNotification signInServiceName={signInServiceName} />
-        }
+        data={<SignInServiceUpdateLink />}
         className="vads-u-margin-bottom--2"
       />
 
@@ -98,5 +95,4 @@ export const AccountSecurityTables = ({
 AccountSecurityTables.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  signInServiceName: PropTypes.string.isRequired,
 };

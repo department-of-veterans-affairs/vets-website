@@ -8,10 +8,6 @@
       {
         "name": "profile_show_pronouns_and_sexual_orientation",
         "value": true
-      },
-      {
-        "name": "profile_use_info_card",
-        "value": true
       }
     ]
   }

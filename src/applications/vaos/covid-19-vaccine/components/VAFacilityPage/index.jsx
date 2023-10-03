@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-
+import { usePrevious } from 'platform/utilities/react-hooks';
+import PropTypes from 'prop-types';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import * as actions from '../../redux/actions';
 import { getFacilityPageInfo } from '../../redux/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
@@ -18,8 +18,8 @@ import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
 import InfoAlert from '../../../components/InfoAlert';
-import { usePrevious } from 'platform/utilities/react-hooks';
 import useFormState from '../../../hooks/useFormState';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageKey = 'vaFacility';
 
@@ -42,12 +42,23 @@ function VAFacilityPage({
   sortMethod,
   updateFacilitySortMethod,
   supportedFacilities,
+  changeCrumb,
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const pageTitle = singleValidVALocation
     ? 'Your appointment location'
     : 'Choose a location';
+
+  useEffect(() => {
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -317,6 +328,10 @@ function VAFacilityPage({
     </div>
   );
 }
+
+VAFacilityPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};
 
 function mapStateToProps(state) {
   return getFacilityPageInfo(state);

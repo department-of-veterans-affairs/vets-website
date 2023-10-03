@@ -27,7 +27,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            { name: 'combined_financial_status_report', value: true },
             {
               name: 'combined_financial_status_report_enhancements',
               value: true,
@@ -225,7 +224,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.findAllByText(/Add vehicle/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click({ waitForAnimations: true });
         });
@@ -244,7 +243,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'cfsr-recreational-vehicle-records': ({ afterHook }) => {
+      'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
             /What is the estimated value of all of your trailers, campers, and boats?/,
@@ -371,7 +370,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add a credit card bill/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click();
           // cy.get('.usa-button-primary').click();
@@ -434,7 +433,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add an installment contract/i, {
+          cy.findAllByText(/Continue/i, {
             selector: 'button',
           })
             .first()
@@ -453,7 +452,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Original Loan Amount: $10,000.00')
             .and('contain', 'Unpaid balance: $1,000.00')
             .and('contain', 'Minimum monthly payment amount: $100.00')
-            .and('contain', 'Date received: 2010-01-XX')
+            .and('contain', 'Date received: 01/XX/2010')
             .and('contain', 'Amount overdue: $10.00');
           cy.get('.usa-button-primary').click();
         });
@@ -493,8 +492,16 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`input[name="veteran-certify"]`).check();
-          cy.get(`input[name="privacy-policy"]`).check();
+          cy.get(`#veteran-certify`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
+          cy.get(`#privacy-policy`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

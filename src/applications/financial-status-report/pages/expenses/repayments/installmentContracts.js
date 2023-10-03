@@ -1,4 +1,5 @@
 import React from 'react';
+import ContractsExplainer from '../../../components/householdExpenses/ContractsExplainer';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -10,40 +11,24 @@ export const uiSchema = {
       </legend>
     </>
   ),
-  'ui:options': {
-    classNames: 'repayments',
-  },
   questions: {
     hasRepayments: {
       'ui:title':
         'Do you make monthly payments on any installments contracts or other debts you make monthly payments on?',
-      'ui:required': () => true,
-      'ui:description': () => (
-        <>
-          <div className="vads-u-margin-y--2">
-            Examples include:
-            <ul>
-              <li>Medical bills</li>
-              <li>Student loans</li>
-              <li>Auto loans</li>
-              <li>Home loans</li>
-              <li>Personal debts</li>
-            </ul>
-          </div>
-        </>
-      ),
       'ui:widget': 'yesNo',
-      'ui:options': {
-        showFieldLabel: 'label',
-      },
+      'ui:required': () => true,
       'ui:errorMessages': {
         required:
           'Please provide your installment contracts or other debts information.',
       },
     },
   },
+  'view:components': {
+    'view:contractsAdditionalInfo': {
+      'ui:description': ContractsExplainer,
+    },
+  },
 };
-
 export const schema = {
   type: 'object',
   properties: {
@@ -52,6 +37,15 @@ export const schema = {
       properties: {
         hasRepayments: {
           type: 'boolean',
+        },
+      },
+    },
+    'view:components': {
+      type: 'object',
+      properties: {
+        'view:contractsAdditionalInfo': {
+          type: 'object',
+          properties: {},
         },
       },
     },

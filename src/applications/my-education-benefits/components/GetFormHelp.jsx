@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getAppData } from '../selectors/selectors';
 
 function GetFormHelp({ showMebDgi40Features }) {
@@ -18,8 +19,8 @@ function GetFormHelp({ showMebDgi40Features }) {
           <p className="vads-u-margin-bottom--0">
             If you have technical difficulties using this online application,
             call our MyVA411 main information line at{' '}
-            <va-telephone contact="8006982411" /> (TTY:{' '}
-            <va-telephone contact="711" />
+            <va-telephone contact={CONTACTS.VA_411} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ). We're here 24/7.
           </p>
         </>
@@ -35,8 +36,8 @@ function GetFormHelp({ showMebDgi40Features }) {
           <p className="vads-u-margin-bottom--0">
             If you have technical difficulties using this online application,
             call our MyVA411 main information line at{' '}
-            <va-telephone contact="8006982411" /> (TTY:{' '}
-            <va-telephone contact="711" />
+            <va-telephone contact={CONTACTS.VA_411} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ). We're here 24/7.
           </p>
         </>

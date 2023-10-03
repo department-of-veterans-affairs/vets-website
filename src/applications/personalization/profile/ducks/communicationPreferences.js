@@ -19,10 +19,17 @@ const getErrorKey = errors => {
   return key;
 };
 
-const recordAPIEvent = ({ method, success, errors }) => {
+const recordAPIEvent = ({
+  method,
+  success,
+  errors,
+  usingCheckboxes = false,
+}) => {
   const event = {
     event: 'api_call',
-    'api-name': `${method} communication_preferences`,
+    'api-name': `${method} communication_preferences${
+      usingCheckboxes ? ' - checkboxes' : ''
+    }`,
     'api-status': 'started',
   };
   if (success) {
@@ -194,7 +201,7 @@ export const selectGroups = state => {
 export const selectGroupById = (state, groupId) => {
   return selectGroups(state).entities[groupId];
 };
-const selectItems = state => {
+export const selectItems = state => {
   return state.items;
 };
 export const selectItemById = (state, itemId) => {
@@ -373,6 +380,7 @@ export default function reducer(state = initialState, action = {}) {
       };
       const newState = { ...state };
       newState.channels.entities[channelId] = { ...updatedChannel };
+
       return newState;
     }
     case SAVE_CHANNEL_FAILED: {

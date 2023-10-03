@@ -1,6 +1,7 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { emptyField } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
+import { isArrayAndHasItems } from '../util/helpers';
 
 const initialState = {
   /**
@@ -19,18 +20,21 @@ const initialState = {
  * @param {Object} vaccine a FHIR vaccine resource
  * @returns a vaccine object that this application can use, or null if the param is null/undefined
  */
-const convertVaccine = vaccine => {
+export const convertVaccine = vaccine => {
   if (typeof vaccine === 'undefined' || vaccine === null) {
     return null;
   }
   return {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
-    date: formatDateLong(vaccine.occurrenceDateTime) || emptyField,
-    location: vaccine.location?.display || emptyField,
-    manufacturer: vaccine.manufacturer || emptyField,
-    reactions: vaccine.reaction || [],
-    notes: vaccine.note?.map(note => note.text) || [],
+    date: formatDateLong(vaccine.occurrenceDateTime) || EMPTY_FIELD,
+    location: vaccine.location?.display || EMPTY_FIELD,
+    manufacturer: vaccine.manufacturer || EMPTY_FIELD,
+    reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
+    notes:
+      (isArrayAndHasItems(vaccine.note) &&
+        vaccine.note.map(note => note.text)) ||
+      [],
   };
 };
 
@@ -47,10 +51,18 @@ export const vaccineReducer = (state = initialState, action) => {
       const vaccineList = action.response.entry;
       return {
         ...state,
-        vaccinesList: vaccineList.map(record => {
-          const vaccine = record.resource;
-          return convertVaccine(vaccine);
-        }),
+        vaccinesList: vaccineList
+          .map(record => {
+            const vaccine = record.resource;
+            return convertVaccine(vaccine);
+          })
+          .sort((a, b) => new Date(b.date) - new Date(a.date)),
+      };
+    }
+    case Actions.Vaccines.CLEAR_DETAIL: {
+      return {
+        ...state,
+        vaccineDetails: undefined,
       };
     }
     default:

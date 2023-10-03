@@ -1,18 +1,21 @@
 import React from 'react';
-import CallNCACenter from 'platform/static-data/CallNCACenter';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function GetFormHelp() {
   return (
     <div>
       <p className="help-talk">
-        For questions about eligibility for burial in a VA national cemetery,
-        please <CallNCACenter />
-        <br />7 days a week, 8:00 a.m. - 7:30 p.m. ET. To speak to someone in
-        Eligibility, select option 3.
+        Call the National Cemetery Scheduling Office at{' '}
+        <va-telephone contact={CONTACTS.NCA} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ), and select option 4. We’re here Monday through Friday, 8:00 a.m. to
+        5:30 p.m. ET.
       </p>
       <p className="help-talk">
-        For other benefit-related questions, please <CallVBACenter />
+        For benefit-related questions, call VA Benefits and Services at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET.
       </p>
     </div>
   );

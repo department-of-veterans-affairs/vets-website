@@ -5,6 +5,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../shared/sass/appeals";
 
 .schemaform-intro {
   padding: 0 0 2rem 0;
@@ -76,7 +77,7 @@
 
   .checkbox-hidden {
     .widget-content {
-      margin: 2rem 0 0 2rem;
+      margin: 2rem 0 0 0;
     }
   }
 }
@@ -92,17 +93,6 @@ ul.issues,
   .va-profile-wrapper button {
     width: auto;
   }
-}
-
-/* IE11 hack to fix edit button placement, see
- * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
- */
- _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
-  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
-}
-/* IE11 fix legend not wrapping on small screens */
-legend.schemaform-block-title {
-  width: 100%;
 }
 
 /* empty header on additional-issues-intro page */
@@ -145,53 +135,6 @@ article[data-location="add-issue"] {
   }
 }
 
-/* Area of disagreement */
-.area-of-disagreement-label {
-  margin-top: 0;
-}
-.area-of-disagreement-label .usa-input-error-message {
-  display: none;
-}
-.area-of-disagreement-label[data-submitted="true"].usa-input-error {
-  .usa-input-error-message {
-    display: block;
-  }
-  .input-section {
-    margin-bottom: 0;
-  }
-}
-.area-of-disagreement-label:not(.usa-input-error) {
-  margin: 2rem 0;
-}
-
-article[data-location^="area-of-disagreement"],
-article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
-  .schemaform-block-header,
-  .schemaform-block-header + .usa-input-error {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  .area-of-disagreement-label.usa-input-error ~ div {
-    /* add left red border to 2 associated divs */
-    border-left: 4px solid var(--color-secondary-dark);
-    position: relative;
-    right: 1.9rem;
-    padding-left: 1.9rem;
-
-    .vads-u-margin-y--2 {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-    }
-    #root_otherEntry-label {
-      margin-top: 0 !important;
-      padding-top: 2rem;
-    }
-    label[for="root_disagreementOptions_evaluation"] {
-      margin-bottom: 0;
-    }
-  }
-}
-
 /* override formation to maintain margin between checkboxes */
 .usa-input-error label {
   margin-top: 3rem;
@@ -208,12 +151,8 @@ article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0
   text-transform: capitalize;
 }
 
-article[data-location^="area-of-disagreement/"],
-article[data-location="issue-summary"],
-article[data-location="evidence-submission"] {
-  fieldset {
-    margin-top: 0 !important;
-  }
+form.rjsf > fieldset {
+  margin-top: 0 !important;
 }
 
 /* additional evidence */
@@ -248,5 +187,13 @@ article[data-location="review-and-submit"] {
   }
   dd {
     word-break: break-all;
+  }
+
+  .form-review-panel-page-header {
+    padding-right: 1rem;
+    line-height: 2.5rem;
+  }
+  .form-review-panel-page-header-row {
+    align-items: flex-start;
   }
 }

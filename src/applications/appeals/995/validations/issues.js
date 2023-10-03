@@ -1,27 +1,11 @@
-import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
-import {
-  noneSelected,
-  maxSelectedErrorMessage,
-} from '../content/contestableIssues';
-import { errorMessages, MAX_LENGTH } from '../constants';
+import { getIssueName, getIssueDate } from '../utils/helpers';
+import { errorMessages } from '../constants';
+import { validateDate } from './date';
 
-export const selectionRequired = (
-  errors,
-  _fieldData,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  // formData === pageData on review & submit page. It should include the entire
-  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
-  // Fall back to formData for unit testing
-  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  if (errors && !hasSomeSelected(data)) {
-    errors.addError(noneSelected);
-  }
-};
+import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
+import { MAX_LENGTH } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
+import { addUniqueIssueErrorMessage } from '../../shared/validations/issues';
 
 // Alert Veteran to duplicates based on name & decision date
 export const uniqueIssue = (
@@ -33,25 +17,40 @@ export const uniqueIssue = (
   _index,
   appStateData,
 ) => {
-  if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(errorMessages.uniqueIssue);
-  }
+  addUniqueIssueErrorMessage(errors, formData, appStateData, errorMessages);
 };
 
-export const maxIssues = (error, data) => {
+export const maxIssues = (errors, data) => {
   if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
-    error.addError(maxSelectedErrorMessage);
+    errors.addError(maxSelectedErrorMessage);
   }
 };
 
-export const missingIssueName = (error, data) => {
+export const missingIssueName = (errors, data) => {
   if (!data) {
-    error.addError(errorMessages.missingIssue);
+    errors.addError(errorMessages.missingIssue);
   }
 };
 
-export const maxNameLength = (error, data) => {
+export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {
-    error.addError(errorMessages.maxLength);
+    errors.addError(errorMessages.maxLength);
   }
+};
+
+export const checkIssues = (
+  errors,
+  _fieldData,
+  formData,
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
+  // Only use selected in case an API loaded issues includes an invalid date
+  getSelected(data).forEach(issue => {
+    missingIssueName(errors, getIssueName(issue));
+    validateDate(errors, getIssueDate(issue));
+  });
 };

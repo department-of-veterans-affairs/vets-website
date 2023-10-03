@@ -13,12 +13,14 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockUser from './fixtures/mocks/user.json';
+import { CONTESTABLE_ISSUES_API } from '../constants';
+
 import {
-  CONTESTABLE_ISSUES_API,
   CONTESTABLE_ISSUES_PATH,
-  BASE_URL,
+  NOD_BASE_URL,
   SELECTED,
-} from '../constants';
+} from '../../shared/constants';
+import { areaOfDisagreementPageHook } from '../../shared/tests/cypress.helpers';
 
 const testConfig = createTestConfig(
   {
@@ -48,19 +50,13 @@ const testConfig = createTestConfig(
             // prevent continuing without any issues selected
             cy.location('pathname').should(
               'eq',
-              `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
-            );
-            cy.get('va-alert[status="error"] h3').should(
-              'contain',
-              testData.contestableIssues?.length
-                ? 'You’ll need to select an issue'
-                : 'Sorry, we couldn’t find any eligible issues',
+              `${NOD_BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
             );
 
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
                 cy.get('.add-new-issue').click();
-                cy.url().should('include', `${BASE_URL}/add-issue?index=`);
+                cy.url().should('include', `${NOD_BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
                 cy.get('#issue-name')
                   .shadow()
@@ -70,7 +66,7 @@ const testConfig = createTestConfig(
                 cy.get('#submit').click();
               }
             });
-            testData.contestableIssues?.forEach(issue => {
+            testData.contestedIssues?.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
                   `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
@@ -84,6 +80,25 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'extension-reason': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { extensionReason } = testData;
+            if (extensionReason) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(extensionReason);
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'area-of-disagreement/:index': areaOfDisagreementPageHook,
+
       'evidence-submission/upload': () => {
         cy.get('input[type="file"]')
           .upload(
@@ -103,13 +118,14 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
+      cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
         cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
-          data: fixDecisionDates(data.contestableIssues, { unselected: true }),
+          data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         });
       });
     },

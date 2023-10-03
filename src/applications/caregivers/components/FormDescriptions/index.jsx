@@ -97,6 +97,20 @@ export const PreferredFacilityDescription = (
   </>
 );
 
+export const PreferredFacilityAPIDescription = (
+  <div>
+    <p>
+      Select the facility where the Veteran gets or plans to get their care.
+      <span className="vads-u-color--secondary-darkest">(*Required)</span>
+    </p>
+    <p>
+      <strong>Note:</strong> We use the location of the Veteran’s health care
+      facility to find the nearest facility that processes applications. Only
+      some facilities process caregiver program applications.
+    </p>
+  </div>
+);
+
 export const RepresentativeDescription = (
   <>
     <h3 className="vads-u-font-size--h4">
@@ -173,4 +187,29 @@ export const VeteranSSNDescription = (
     process the application when it’s submitted online, but it’s not a
     requirement to apply for the program.
   </va-additional-info>
+);
+
+export const VeteranFullNameDescription = (
+  <>
+    <span className="vads-u-display--block vads-u-color--gray-medium">
+      Enter the name on the Veteran’s government-issued ID, like a driver’s
+      license or passport
+    </span>
+  </>
+);
+export const CaregiverFullNameDescription = (
+  <>
+    <span className="vads-u-display--block vads-u-color--gray-medium">
+      Enter the name on the Caregiver’s government-issued ID, like a driver’s
+      license or passport
+    </span>
+  </>
+);
+
+export const VeteranHomeAddressDescription = (
+  <>
+    <span className="vads-u-display--block vads-u-color--gray-medium">
+      This is the address where the Veteran lives
+    </span>
+  </>
 );

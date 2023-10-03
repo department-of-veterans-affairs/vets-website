@@ -15,6 +15,7 @@ import {
   selectCheckboxWebComponent,
   selectDropdownWebComponent,
   selectRadioWebComponent,
+  selectRelationshipToVeteranPattern,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
@@ -115,7 +116,7 @@ const testConfig = createTestConfig(
 
             // web components
             fillTextWebComponent('wcOldSsn', data.wcOldSsn);
-            fillTextWebComponent('wcv3SsnNew', data.wcv3SsnNew);
+            fillTextWebComponent('wcv3SsnNew_ssn', data.wcv3SsnNew.ssn);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -141,6 +142,21 @@ const testConfig = createTestConfig(
             );
 
             fillTextWebComponent('wcV3CheckSsn', data.wcV3CheckSsn);
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.numberInput]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // widgets
+            cy.fillPage();
+
+            // web components
+            fillTextWebComponent('amountOrNumber', data.amountOrNumber);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -204,6 +220,20 @@ const testConfig = createTestConfig(
             selectYesNoWebComponent(
               'wcv3IsCurrentlyActiveDuty',
               data.wcv3IsCurrentlyActiveDuty,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.radioRelationshipToVeteran]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            selectRelationshipToVeteranPattern(
+              'wcv3RelationshipToVeteran',
+              data.wcv3RelationshipToVeteran,
             );
 
             cy.axeCheck();

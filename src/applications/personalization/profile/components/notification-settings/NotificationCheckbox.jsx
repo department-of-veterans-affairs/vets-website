@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import uniqueId from 'lodash/uniqueId';
-import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
+import classNames from 'classnames';
 import { NotificationStatusMessage } from './NotificationStatusMessage';
 
 export const NotificationCheckbox = ({
   channelId,
-  channelType,
+  label,
   isOptedIn,
   onValueChange,
   loadingMessage,
   successMessage,
   errorMessage,
   disabled,
+  last,
+  defaultSendIndicator,
 }) => {
-  const id = uniqueId('notification-checkbox-');
-  const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
-
-  const checked = isOptedIn;
+  const checked = useMemo(
+    () => {
+      if (isOptedIn === null) {
+        return defaultSendIndicator;
+      }
+      return !!isOptedIn;
+    },
+    [isOptedIn, defaultSendIndicator],
+  );
 
   const handleChange = e => {
     onValueChange(e);
   };
 
+  const checkboxId = `checkbox-${channelId}`;
+
   let errorSpan = '';
   let errorSpanId;
   if (errorMessage) {
-    errorSpanId = `${id}-error-message`;
+    errorSpanId = `${channelId}-error-message`;
     errorSpan = (
       <NotificationStatusMessage
         id={errorSpanId}
-        classes="rb-input-message-error"
+        classes="vads-u-background-color--secondary-lightest vads-u-font-weight--bold"
         alert
       >
         <i
@@ -46,7 +54,7 @@ export const NotificationCheckbox = ({
   let loadingSpan = '';
   let loadingSpanId;
   if (loadingMessage) {
-    loadingSpanId = `${id}-loading-message`;
+    loadingSpanId = `${channelId}-loading-message`;
     loadingSpan = (
       <NotificationStatusMessage
         id={loadingSpanId}
@@ -65,11 +73,11 @@ export const NotificationCheckbox = ({
   let successSpan = '';
   let successSpanId;
   if (successMessage) {
-    successSpanId = `${id}-success-message`;
+    successSpanId = `${channelId}-success-message`;
     successSpan = (
       <NotificationStatusMessage
         id={successSpanId}
-        classes="rb-input-message-success"
+        classes="vads-u-background-color--green-lightest vads-u-font-weight--bold"
         alert
       >
         <i className="fas fa-check vads-u-margin-right--1" aria-hidden="true" />{' '}
@@ -78,32 +86,39 @@ export const NotificationCheckbox = ({
     );
   }
 
+  const className = classNames({
+    'vads-u-padding-bottom--0p5': last,
+    'vads-u-display--none': loadingMessage,
+  });
+
   return (
     <div>
       {!loadingMessage && !successMessage && errorSpan}
       {!loadingMessage && !errorMessage && successSpan}
       {!errorMessage && !successMessage && loadingSpan}
-      {!loadingMessage && (
-        <VaCheckbox
-          checked={checked}
-          label={label}
-          onVaChange={handleChange}
-          data-testid={`checkbox-${channelId}`}
-          uswds
-          disabled={disabled}
-        />
-      )}
+      <VaCheckbox
+        checked={checked}
+        label={label}
+        onVaChange={handleChange}
+        data-testid={checkboxId}
+        id={checkboxId}
+        disabled={disabled}
+        uswds
+        className={className}
+      />{' '}
     </div>
   );
 };
 
 NotificationCheckbox.propTypes = {
   channelId: PropTypes.string.isRequired,
-  channelType: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
+  defaultSendIndicator: PropTypes.bool,
   disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
   isOptedIn: PropTypes.bool,
+  last: PropTypes.bool,
   loadingMessage: PropTypes.string,
   successMessage: PropTypes.string,
 };

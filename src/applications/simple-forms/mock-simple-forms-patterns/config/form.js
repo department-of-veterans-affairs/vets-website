@@ -7,11 +7,13 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import textInput from '../pages/mockTextInput';
 import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import numberInput from '../pages/mockNumberInput';
 import textInputFullName from '../pages/mockTextInputFullName';
 import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import radio from '../pages/mockRadio';
+import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 import arraySinglePage from '../pages/mockArraySinglePage';
@@ -21,6 +23,7 @@ import arrayMultiplePageItem from '../pages/mockArrayMultiplePageItem';
 // helps for dev testing and e2e
 const INCLUDE_PAGE = {
   text: true,
+  number: true,
   radio: true,
   checkbox: true,
   select: true,
@@ -30,7 +33,7 @@ const INCLUDE_PAGE = {
 };
 
 function includePage(page) {
-  return INCLUDE_PAGE[page] ?? true;
+  return () => INCLUDE_PAGE[page] ?? true;
 }
 
 /** @type {FormConfig} */
@@ -44,6 +47,7 @@ const formConfig = {
   trackingPrefix: 'mock-simple-forms-patterns-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   formId: 'FORM_MOCK_SF_PATTERNS',
   saveInProgress: {},
   version: 0,
@@ -72,7 +76,7 @@ const formConfig = {
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
           uiSchema: textInputWidgets1.uiSchema,
           schema: textInputWidgets1.schema,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
         textInputFullName: {
           path: 'text-input-full-name',
@@ -80,7 +84,7 @@ const formConfig = {
           uiSchema: textInputFullName.uiSchema,
           schema: textInputFullName.schema,
           initialData: textInputFullName.initialData,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
         textInputAddress: {
           title: 'Text Input Address', // for review page (has to be more than one word)
@@ -88,17 +92,29 @@ const formConfig = {
           uiSchema: textInputAddress.uiSchema,
           schema: textInputAddress.schema,
           initialData: textInputAddress.initialData,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
         textInputSsn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
-          depends: () => includePage('text'),
+          depends: includePage('text'),
         },
       },
       depends: () => false,
+    },
+    numberInput: {
+      title: 'Number Input',
+      pages: {
+        numberInput: {
+          path: 'number-input',
+          title: 'Number Input', // for review page (has to be more than one word)
+          uiSchema: numberInput.uiSchema,
+          schema: numberInput.schema,
+          depends: includePage('number'),
+        },
+      },
     },
     checkbox: {
       title: 'Checkbox',
@@ -108,7 +124,7 @@ const formConfig = {
           path: 'checkbox-and-text-input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
-          depends: () => includePage('checkbox'),
+          depends: includePage('checkbox'),
         },
       },
     },
@@ -120,7 +136,7 @@ const formConfig = {
           path: 'select',
           uiSchema: select.uiSchema,
           schema: select.schema,
-          depends: () => includePage('select'),
+          depends: includePage('select'),
         },
       },
     },
@@ -132,7 +148,13 @@ const formConfig = {
           path: 'radio',
           uiSchema: radio.uiSchema,
           schema: radio.schema,
-          depends: () => includePage('radio'),
+          depends: includePage('radio'),
+        },
+        radioRelationshipToVeteran: {
+          path: 'radio-relationship-to-veteran',
+          title: 'Radio Relationship to Veteran',
+          uiSchema: radioRelationshipToVeteran.uiSchema,
+          schema: radioRelationshipToVeteran.schema,
         },
       },
     },
@@ -144,7 +166,7 @@ const formConfig = {
           path: 'date',
           uiSchema: date.uiSchema,
           schema: date.schema,
-          depends: () => includePage('date'),
+          depends: includePage('date'),
         },
       },
     },
@@ -156,7 +178,7 @@ const formConfig = {
           title: 'Information for Single Page', // for review page (has to be more than one word)
           uiSchema: arraySinglePage.uiSchema,
           schema: arraySinglePage.schema,
-          depends: () => includePage('arraySingle'),
+          depends: includePage('arraySingle'),
         },
       },
     },
@@ -168,7 +190,7 @@ const formConfig = {
           path: 'array-multiple-page',
           uiSchema: arrayMultiplePageStart.uiSchema,
           schema: arrayMultiplePageStart.schema,
-          depends: () => includePage('arrayMulti'),
+          depends: includePage('arrayMulti'),
         },
         multiplePageItem: {
           title: 'Multiple Page Item Title', // for review page (has to be more than one word)
@@ -177,7 +199,7 @@ const formConfig = {
           arrayPath: 'exampleArrayData',
           uiSchema: arrayMultiplePageItem.uiSchema,
           schema: arrayMultiplePageItem.schema,
-          depends: () => includePage('arrayMulti'),
+          depends: includePage('arrayMulti'),
         },
       },
     },

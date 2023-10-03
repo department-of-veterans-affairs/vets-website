@@ -14,17 +14,14 @@ describe('hca DependentSummary', () => {
     };
 
     it('should not render a title', () => {
-      const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('#root__title').textContent).to.be
-        .empty;
+      const { container } = render(<DependentSummary {...props} />);
+      expect(container.querySelector('#root__title').textContent).to.be.empty;
     });
 
     it('should not render the dependents list field', () => {
-      const view = render(<DependentSummary {...props} />);
+      const { container } = render(<DependentSummary {...props} />);
       expect(
-        view.container.querySelector(
-          '[data-testid="hca-dependent-list-field"]',
-        ),
+        container.querySelector('[data-testid="hca-dependent-list-field"]'),
       ).to.not.exist;
     });
   });
@@ -43,18 +40,16 @@ describe('hca DependentSummary', () => {
     };
 
     it('should render the specific form page title', () => {
-      const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('#root__title').textContent).to.match(
+      const { container } = render(<DependentSummary {...props} />);
+      expect(container.querySelector('#root__title').textContent).to.match(
         /^review your dependents/i,
       );
     });
 
     it('should render the dependents list field', () => {
-      const view = render(<DependentSummary {...props} />);
+      const { container } = render(<DependentSummary {...props} />);
       expect(
-        view.container.querySelector(
-          '[data-testid="hca-dependent-list-field"]',
-        ),
+        container.querySelector('[data-testid="hca-dependent-list-field"]'),
       ).to.exist;
     });
   });
@@ -73,23 +68,23 @@ describe('hca DependentSummary', () => {
     };
 
     it('should render the dependent declaration field', () => {
-      const view = render(<DependentSummary {...props} />);
+      const { container } = render(<DependentSummary {...props} />);
       expect(
-        view.container.querySelector(
+        container.querySelector(
           '[data-testid="hca-dependent-declaration-field"]',
         ),
       ).to.exist;
     });
 
     it('should render the form progress buttons', () => {
-      const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('.form-progress-buttons')).to.exist;
+      const { container } = render(<DependentSummary {...props} />);
+      expect(container.querySelector('.form-progress-buttons')).to.exist;
     });
 
     it('should not render the `update page` button', () => {
-      const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('[data-testid="hca-update-button"]'))
-        .to.not.exist;
+      const { container } = render(<DependentSummary {...props} />);
+      expect(container.querySelector('[data-testid="hca-update-button"]')).to
+        .not.exist;
     });
   });
 
@@ -107,24 +102,23 @@ describe('hca DependentSummary', () => {
     };
 
     it('should not render the dependent declaration field', () => {
-      const view = render(<DependentSummary {...props} />);
+      const { container } = render(<DependentSummary {...props} />);
       expect(
-        view.container.querySelector(
+        container.querySelector(
           '[data-testid="hca-dependent-declaration-field"]',
         ),
       ).to.not.exist;
     });
 
     it('should not render the form progress buttons', () => {
-      const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('.form-progress-buttons')).to.not
-        .exist;
+      const { container } = render(<DependentSummary {...props} />);
+      expect(container.querySelector('.form-progress-buttons')).to.not.exist;
     });
 
     it('should render the `update page` button', () => {
-      const view = render(<DependentSummary {...props} />);
-      expect(view.container.querySelector('[data-testid="hca-update-button"]'))
-        .to.exist;
+      const { container } = render(<DependentSummary {...props} />);
+      expect(container.querySelector('[data-testid="hca-update-button"]')).to
+        .exist;
     });
   });
 });

@@ -17,35 +17,29 @@ import VaCheckboxField from '../web-component-fields/VaCheckboxField';
  * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  */
-export const STREET_PATTERN = '^.*\\S.*';
-export const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+const STREET_PATTERN = '^.*\\S.*';
+const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 
-export const MILITARY_CITY_VALUES = constants.militaryCities.map(
-  city => city.value,
-);
-export const MILITARY_CITY_NAMES = constants.militaryCities.map(
-  city => city.label,
-);
+const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
+const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
 
-export const MILITARY_STATE_VALUES = constants.militaryStates.map(
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
   state => state.value,
 );
-export const MILITARY_STATE_NAMES = constants.militaryStates.map(
-  state => state.label,
-);
+const MILITARY_STATE_NAMES = constants.militaryStates.map(state => state.label);
 
-export const COUNTRY_VALUES = constants.countries.map(country => country.value);
-export const COUNTRY_NAMES = constants.countries.map(country => country.label);
+const COUNTRY_VALUES = constants.countries.map(country => country.value);
+const COUNTRY_NAMES = constants.countries.map(country => country.label);
 
 // filtered States that include US territories
-export const filteredStates = constants.states.USA.filter(
+const filteredStates = constants.states.USA.filter(
   state => !MILITARY_STATE_VALUES.includes(state.value),
 );
 
-export const STATE_VALUES = filteredStates.map(state => state.value);
-export const STATE_NAMES = filteredStates.map(state => state.label);
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
 
-export const schemaCrossXRef = {
+const schemaCrossXRef = {
   isMilitary: 'isMilitary',
   'view:militaryBaseDescription': 'view:militaryBaseDescription',
   country: 'country',
@@ -173,7 +167,12 @@ export const updateFormDataAddress = (
  * schema: {
  *   address: addressUI()
  *   simpleAddress: addressUI({ omit: ['street2', 'street3'] })
- *   futureAddress: addressUI({ militaryCheckboxLabel: 'I will live on a United States military base outside of the U.S.'; })
+ *   futureAddress: addressUI({
+ *     labels: {
+ *      militaryCheckbox: 'I will live on a United States military base outside of the U.S.'
+ *      street3: 'Apt or Unit number',
+ *     }
+ *   })
  *   changeRequired: addressUI({
  *     required: {
  *       country: (formData) => false,
@@ -183,7 +182,12 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {{
- *   militaryCheckboxLabel?: string,
+ *   labels?: {
+ *     militaryCheckbox?: string
+ *     street?: string,
+ *     street2?: string,
+ *     street3?: string,
+ *   }},
  *   omit?: Array<AddressSchemaKey>,
  *   required?: Record<AddressSchemaKey, (formData:any) => boolean>
  * }} [options]
@@ -200,7 +204,7 @@ export function addressUI(options) {
   if (!omit('isMilitary')) {
     uiSchema.isMilitary = {
       'ui:title':
-        options?.militaryCheckboxLabel ??
+        options?.labels?.militaryCheckbox ??
         'I live on a United States military base outside of the U.S.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
@@ -270,7 +274,7 @@ export function addressUI(options) {
   if (!omit('street')) {
     uiSchema.street = {
       'ui:required': customRequired('street') || (() => true),
-      'ui:title': 'Street address',
+      'ui:title': options?.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Street address is required',
@@ -282,7 +286,7 @@ export function addressUI(options) {
 
   if (!omit('street2')) {
     uiSchema.street2 = {
-      'ui:title': 'Street address line 2',
+      'ui:title': options?.labels?.street2 || 'Street address line 2',
       'ui:autocomplete': 'address-line2',
       'ui:required': customRequired('street2') || (() => false),
       'ui:options': {
@@ -294,7 +298,7 @@ export function addressUI(options) {
 
   if (!omit('street3')) {
     uiSchema.street3 = {
-      'ui:title': 'Street address line 3',
+      'ui:title': options?.labels?.street3 || 'Street address line 3',
       'ui:autocomplete': 'address-line3',
       'ui:required': customRequired('street3') || (() => false),
       'ui:options': {
@@ -477,3 +481,15 @@ export const addressSchema = options => {
 
   return schema;
 };
+
+export const addressNoMilitaryUI = options =>
+  addressUI({
+    omit: ['isMilitary'],
+    ...options,
+  });
+
+export const addressNoMilitarySchema = options =>
+  addressSchema({
+    omit: ['isMilitary'],
+    ...options,
+  });

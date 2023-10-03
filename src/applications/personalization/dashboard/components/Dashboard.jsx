@@ -13,6 +13,10 @@ import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/ds
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
+import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
@@ -38,13 +42,12 @@ import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
-
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
-import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
-import HealthCareV2 from './health-care-v2/HealthCareV2';
+import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
+import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
-import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
-import DebtsV2 from './debts-v2/DebtsV2';
+import BenefitPayments from './benefit-payments/BenefitPayments';
+import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
@@ -53,6 +56,11 @@ import SavedApplications from './apply-for-benefits/SavedApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const hideNotificationsSection = useToggleValue(
+    TOGGLE_NAMES.myVaHideNotificationsSection,
+  );
+
   return (
     <div>
       <h1
@@ -75,13 +83,53 @@ const DashboardHeader = ({ showNotifications }) => {
           });
         }}
       />
-      {showNotifications && <Notifications />}
+      {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
+  );
+};
+
+const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
+  return (
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
+      <Toggler.Enabled>
+        <>
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+              <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
+            </div>
+          </div>
+
+          <ClaimsAndAppeals
+            useLighthouseClaims={useLighthouseClaims}
+            isLOA1={isLOA1}
+          />
+
+          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+          <EducationAndTraining isLOA1={isLOA1} />
+          <SavedApplications isLOA1={isLOA1} />
+        </>
+      </Toggler.Enabled>
+
+      <Toggler.Disabled>
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+            <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
+          </div>
+        </div>
+        <ApplyForBenefits />
+      </Toggler.Disabled>
+    </Toggler>
   );
 };
 
 DashboardHeader.propTypes = {
   showNotifications: PropTypes.bool,
+};
+
+LOA1Content.propTypes = {
+  isLOA1: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
+  useLighthouseClaims: PropTypes.bool,
 };
 
 const Dashboard = ({
@@ -93,8 +141,8 @@ const Dashboard = ({
   fetchTotalDisabilityRating,
   getPayments,
   isLOA3,
+  isLOA1,
   payments,
-  shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
   showNameTag,
@@ -108,13 +156,6 @@ const Dashboard = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-    // v1 is retired
-    recordEvent({
-      event: 'phased-roll-out-enabled',
-      'product-description': 'My VA v2',
-    });
-
     // use Drupal based Cerner facility data
     connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
@@ -170,7 +211,7 @@ const Dashboard = ({
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
       user={props.user}
-      showProfileErrorMessage={shouldShowV2Dashboard}
+      showProfileErrorMessage
     >
       <DowntimeNotification
         appTitle="user dashboard"
@@ -198,30 +239,32 @@ const Dashboard = ({
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader showNotifications={showNotifications} />
 
-              {showMPIConnectionError ? (
+              {showMPIConnectionError && (
                 <div className="vads-l-row">
                   <MPIConnectionError className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3" />
                 </div>
-              ) : null}
+              )}
 
-              {showNotInMPIError ? (
+              {showNotInMPIError && (
                 <div className="vads-l-row">
                   <NotInMPIError
                     className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3"
                     level={2}
                   />
                 </div>
-              ) : null}
+              )}
 
-              {props.showValidateIdentityAlert ? (
-                <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
-                  </div>
-                </div>
-              ) : null}
+              {/* LOA1 user experience */}
+              {isLOA1 && (
+                <LOA1Content
+                  isLOA1={isLOA1}
+                  isVAPatient={isVAPatient}
+                  useLighthouseClaims={useLighthouseClaims}
+                />
+              )}
 
-              {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
+              {/* LOA3 user experience */}
+              {props.showClaimsAndAppeals && (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
@@ -229,34 +272,20 @@ const Dashboard = ({
                   ]}
                   render={RenderClaimsWidgetDowntimeNotification}
                 >
-                  <ClaimsAndAppealsV2
-                    useLighthouseClaims={useLighthouseClaims}
-                  />
+                  <ClaimsAndAppeals useLighthouseClaims={useLighthouseClaims} />
                 </DowntimeNotification>
-              ) : null}
-
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <HealthCareV2 isVAPatient={isVAPatient} />
-              ) : null}
-
-              {isLOA3 &&
-                shouldShowV2Dashboard &&
-                canAccessPaymentHistory && (
-                  <>
-                    <DebtsV2 />
-                    <BenefitPaymentsV2
-                      payments={payments}
-                      showNotifications={showNotifications}
-                    />
-                  </>
-                )}
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <EducationAndTraining />
-              ) : null}
-              {isLOA3 && shouldShowV2Dashboard ? (
-                <SavedApplications />
-              ) : (
-                <ApplyForBenefits />
+              )}
+              {isLOA3 && (
+                <>
+                  <HealthCare isVAPatient={isVAPatient} />
+                  <Debts />
+                  <BenefitPayments
+                    payments={payments}
+                    showNotifications={showNotifications}
+                  />
+                  <EducationAndTraining />
+                  <SavedApplications />
+                </>
               )}
             </div>
           </div>
@@ -288,7 +317,6 @@ const mapStateToProps = state => {
     isAppealsAvailableSelector(state) ||
     isClaimsAvailableSelector(state) ||
     isLighthouseClaimsAvailableSelector(state);
-
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
   );
@@ -301,6 +329,7 @@ const mapStateToProps = state => {
   const hasLoadedDisabilityRating = canAccessRatingInfo
     ? state.totalRating?.loading === false
     : true;
+
   const hasLoadedMilitaryInformation = canAccessMilitaryHistory
     ? state.vaProfile?.militaryInformation
     : true;
@@ -329,10 +358,6 @@ const mapStateToProps = state => {
     isLOA3 &&
     isVAPatient;
 
-  const shouldShowV2Dashboard = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMyVADashboardV2
-  ];
-
   const useLighthouseClaims = toggleValues(state)[
     FEATURE_FLAG_NAMES.myVaUseLighthouseClaims
   ];
@@ -345,6 +370,7 @@ const mapStateToProps = state => {
     canAccessPaymentHistory,
     canAccessRatingInfo,
     isLOA3,
+    isLOA1,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
@@ -356,7 +382,6 @@ const mapStateToProps = state => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     useLighthouseClaims,
     user: state.user,
-    shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
@@ -372,6 +397,7 @@ Dashboard.propTypes = {
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
   getPayments: PropTypes.func,
+  isLOA1: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   payments: PropTypes.arrayOf(
@@ -386,7 +412,6 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  shouldShowV2Dashboard: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

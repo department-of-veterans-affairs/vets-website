@@ -1,52 +1,55 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { rxListSortingOptions } from '../../util/constants';
 
-let sortOrderValue;
 const MedicationsListSort = props => {
-  const { setSortOption, sortOption, defaultSortOption } = props;
-
-  useEffect(
-    () => {
-      if (sortOption) {
-        setSortOption(sortOrderValue);
-      }
-    },
-    [setSortOption, sortOption],
+  const { sortRxList } = props;
+  const [sortListOption, setSortListOption] = useState(
+    rxListSortingOptions.availableToFillOrRefillFirst.LABEL,
   );
 
+  const rxSortingOptions = Object.values(rxListSortingOptions);
   return (
     <div className="medications-list-sort">
       <VaSelect
         id="sort-order-dropdown"
         label="Show medications in this order"
         name="sort-order"
-        value={defaultSortOption}
+        value={sortListOption}
         onVaSelect={e => {
-          setSortOption(e.detail.value);
+          setSortListOption(e.detail.value);
         }}
       >
-        {rxListSortingOptions.map((option, i) => {
-          const optionProperties = Object.keys(option);
+        {rxSortingOptions.map((option, i) => {
           return (
             <option
               key={`option-${i}`}
-              value={option[optionProperties[0]].value}
+              value={option.API_ENDPOINT}
+              data-testid="sort-option"
             >
-              {option[optionProperties[0]].label}
+              {option.LABEL}
             </option>
           );
         })}
       </VaSelect>
+      <div className="sort-button">
+        <button
+          type="button"
+          className="vads-u-line-height--4"
+          onClick={() => {
+            sortRxList(sortListOption);
+          }}
+        >
+          Sort
+        </button>
+      </div>
     </div>
   );
 };
 
 MedicationsListSort.propTypes = {
-  defaultSortOption: PropTypes.string,
-  setSortOption: PropTypes.func,
-  sortOption: PropTypes.string,
+  sortRxList: PropTypes.func,
 };
 
 export default MedicationsListSort;

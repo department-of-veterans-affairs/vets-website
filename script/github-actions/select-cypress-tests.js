@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 
 const core = require('@actions/core');
 const fs = require('fs');
@@ -13,9 +14,15 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
-const ALLOW_LIST = process.env.ALLOW_LIST
-  ? JSON.parse(process.env.ALLOW_LIST)
-  : [];
+const ALLOW_LIST =
+  process.env.TEST_TYPE &&
+  fs.existsSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`))
+    ? JSON.parse(
+        fs.readFileSync(
+          path.resolve(`${process.env.TEST_TYPE}_allow_list.json`),
+        ),
+      )
+    : [];
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
@@ -263,7 +270,6 @@ function main() {
   const allDisallowedTestPaths = ALLOW_LIST.filter(
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
-
   // groups of tests based on test selection and filtering the groups from the allow list
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
   const newTests = testsSelectedByTestSelection.filter(
@@ -278,6 +284,7 @@ function main() {
       CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
       !newTests.includes(test),
   );
+
   const testsToRunNormally = testsSelectedByTestSelection.filter(
     test =>
       !disallowedTests.includes(test) &&

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import CommunicationChannelModel from '@@profile/models/CommunicationChannel';
 import {
   saveCommunicationPreferenceChannel,
-  selectItemById,
   selectChannelById,
   selectChannelUiById,
 } from '@@profile/ducks/communicationPreferences';
@@ -18,9 +17,9 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { LOADING_STATES } from '../../../common/constants';
 
-import NotificationChannelUnavailable from './NotificationChannelUnavailable';
 import NotificationRadioButtons from './NotificationRadioButtons';
 import { NotificationCheckbox } from './NotificationCheckbox';
+import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
 
 const channelTypes = {
   1: 'text',
@@ -40,6 +39,8 @@ const NotificationChannel = props => {
     description,
     saveSetting,
     disabledForCheckbox,
+    last,
+    defaultSendIndicator,
   } = props;
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
@@ -83,15 +84,11 @@ const NotificationChannel = props => {
   );
 
   if (isMissingContactInfo) {
-    return (
-      <div className="vads-u-margin-bottom--3">
-        <p className="vads-u-font-weight--bold vads-u-font-size--base vads-u-margin-y--1">
-          {itemName}
-        </p>
-        <NotificationChannelUnavailable channelType={channelType} />
-      </div>
-    );
+    return null;
   }
+
+  const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
+
   return (
     <>
       <Toggler
@@ -101,8 +98,9 @@ const NotificationChannel = props => {
       >
         <Toggler.Enabled>
           <NotificationCheckbox
-            channelType={channelType}
+            label={label}
             isOptedIn={isOptedIn}
+            defaultSendIndicator={defaultSendIndicator}
             channelId={channelId}
             onValueChange={e => {
               const newValue = e.target.checked;
@@ -121,14 +119,15 @@ const NotificationChannel = props => {
                 isAllowed: newValue,
                 wasAllowed: isOptedIn,
               });
-              recordEvent({
-                event: 'int-radio-button-option-click',
-                'radio-button-label': itemName,
-                'radio-button-optionLabel': `${
-                  channelTypes[channelType]
-                } - ${newValue}`,
-                'radio-button-required': false,
-              });
+
+              const eventPayload = {
+                event: 'int-checkbox-group-option-click',
+                'checkbox-group-optionLabel': `${label} - ${newValue}`,
+                'checkbox-group-label': itemName,
+                'checkbox-group-required': '-',
+              };
+
+              recordEvent(eventPayload);
 
               saveSetting(channelId, model.getApiCallObject());
             }}
@@ -136,6 +135,7 @@ const NotificationChannel = props => {
             successMessage={apiStatusInfo.successMessage}
             errorMessage={apiStatusInfo.errorMessage}
             disabled={disabledForCheckbox}
+            last={last}
           />
         </Toggler.Enabled>
 
@@ -148,7 +148,7 @@ const NotificationChannel = props => {
             description={description}
             options={[
               {
-                label: `Notify me by ${channelTypes[channelType]}`,
+                label,
                 value: 'true',
                 ariaLabel: `Notify me of ${itemName} by ${
                   channelTypes[channelType]
@@ -201,16 +201,18 @@ const NotificationChannel = props => {
 };
 
 NotificationChannel.propTypes = {
-  disabledForCheckbox: PropTypes.bool.isRequired,
   saveSetting: PropTypes.func.isRequired,
   apiStatus: PropTypes.string,
   channelId: PropTypes.string,
   channelType: PropTypes.number,
+  defaultSendIndicator: PropTypes.bool,
   description: PropTypes.string,
+  disabledForCheckbox: PropTypes.bool,
   isMissingContactInfo: PropTypes.bool,
   isOptedIn: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   itemId: PropTypes.string,
   itemName: PropTypes.string,
+  last: PropTypes.bool,
   permissionId: PropTypes.number,
   radioButtonDescription: PropTypes.string,
 };
@@ -226,7 +228,6 @@ const mapStateToProps = (state, ownProps) => {
     ownProps.channelId,
   );
   const itemId = channel.parentItem;
-  const item = selectItemById(communicationPreferencesState, itemId);
   const contactInfoSelector = getContactInfoSelectorByChannelType(
     channel.channelType,
   );
@@ -235,11 +236,11 @@ const mapStateToProps = (state, ownProps) => {
   return {
     apiStatus: uiState.updateStatus,
     channelType: channel.channelType,
-    itemName: item.name,
     itemId,
     isOptedIn: channel.isAllowed,
     isMissingContactInfo,
     permissionId: channel.permissionId,
+    defaultSendIndicator: channel?.defaultSendIndicator,
   };
 };
 

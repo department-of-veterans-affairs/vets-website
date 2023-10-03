@@ -1,0 +1,5 @@
+
+/* area of disagreement input error removes top margin */
+va-checkbox-group va-text-input[error]::part(label) {
+  margin-top: 3rem;
+}

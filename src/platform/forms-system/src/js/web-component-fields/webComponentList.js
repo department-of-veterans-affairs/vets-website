@@ -1,0 +1,18 @@
+export const webComponentList = [
+  'va-accordion-item',
+  'va-accordion',
+  'va-alert',
+  'va-breadcrumbs',
+  'va-button-pair',
+  'va-button',
+  'va-checkbox-group',
+  'va-checkbox',
+  'va-memorable-date',
+  'va-number-input',
+  'va-privacy-agreement',
+  'va-radio-option',
+  'va-radio',
+  'va-select',
+  'va-text-input',
+  'va-textarea',
+];

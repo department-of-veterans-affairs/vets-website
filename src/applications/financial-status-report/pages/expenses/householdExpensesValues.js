@@ -1,4 +1,4 @@
-import HouseholdExpensesInputList from '../../components/HouseholdExpensesInputList';
+import HouseholdExpensesInputList from '../../components/householdExpenses/HouseholdExpensesInputList';
 import { validateCurrencyArray } from '../../utils/validations';
 
 export const uiSchema = {

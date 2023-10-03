@@ -7,6 +7,13 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
   eligibility: state.data?.eligibility,
+  duplicateEmail: state.data?.duplicateEmail,
+  duplicatePhone: state.data?.duplicatePhone,
+  email: state?.form?.data?.email?.email,
+  mobilePhone:
+    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
+      ?.mobilePhoneNumber,
+  openModal: state?.data?.openModal,
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
@@ -15,11 +22,11 @@ export const getAppData = state => ({
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
+  showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
+  ],
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
-  ],
-  showMebCh33SelfForm: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebCh33SelfForm
   ],
   showMebDgi42Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi42Features
@@ -31,6 +38,12 @@ export const getAppData = state => ({
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06
+  ],
+  showMebEnhancements08: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements08
+  ],
+  showMebEnhancements09: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebEnhancements09
   ],
   user: state.user || {},
 });

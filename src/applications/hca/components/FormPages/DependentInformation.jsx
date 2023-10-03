@@ -2,7 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// eslint-disable-next-line deprecate/import
 import { focusElement } from 'platform/utilities/ui';
+// eslint-disable-next-line deprecate/import
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 
@@ -24,7 +26,7 @@ const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 const SUB_PAGES = [
   {
     id: 'basic',
-    title: '%s\u2019s basic information',
+    title: '%s\u2019s personal information',
   },
   {
     id: 'education',

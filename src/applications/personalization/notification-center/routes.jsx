@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import App from './containers/App';
+import NotificationCenter from './containers/NotificationCenter';
 
-const routes = <Route path="/" component={App} />;
+const routes = <Route path="/" component={NotificationCenter} />;
 
 export default routes;

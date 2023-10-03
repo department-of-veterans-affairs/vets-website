@@ -10,7 +10,7 @@ const Navigation = () => {
   const paths = [
     {
       path: '/',
-      label: 'About VA medical records',
+      label: 'Medical records',
       datatestid: 'about-va-medical-records-sidebar',
       subpaths: [
         {
@@ -19,34 +19,39 @@ const Navigation = () => {
           datatestid: 'labs-and-tests-sidebar',
         },
         {
-          path: '/health-history/care-summaries-and-notes',
+          path: '/summaries-and-notes',
           label: 'Care summaries and notes',
           datatestid: 'care-summaries-and-notes-sidebar',
         },
         {
-          path: '/health-history/vaccines',
+          path: '/vaccines',
           label: 'Vaccines',
           datatestid: 'vaccines-sidebar',
         },
         {
-          path: '/health-history/allergies',
+          path: '/allergies',
           label: 'Allergies',
           datatestid: 'allergies-sidebar',
         },
         {
-          path: '/health-history/health-conditions',
+          path: '/conditions',
           label: 'Health conditions',
           datatestid: 'health-conditions-sidebar',
         },
         {
-          path: '/health-history/vitals',
+          path: '/vitals',
           label: 'Vitals',
           datatestid: 'vitals-sidebar',
         },
         {
-          path: '/share-your-medical-record',
-          label: 'Share your medical record',
-          datatestid: 'share-your-medical-record-sidebar',
+          path: '/download-all',
+          label: 'Download all medical records',
+          datatestid: 'download-your-medical-records-sidebar',
+        },
+        {
+          path: '/settings',
+          label: 'Medical records settings',
+          datatestid: 'settings-sidebar',
         },
       ],
     },

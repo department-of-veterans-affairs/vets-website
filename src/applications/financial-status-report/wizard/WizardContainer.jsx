@@ -10,9 +10,9 @@ import {
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import { MaintenanceAlert } from '../components/Alerts';
+import { MaintenanceAlert } from '../components/alerts/Alerts';
 import pages from './pages';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../components/shared/GetFormHelp';
 
 const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
@@ -25,7 +25,7 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
         <div className="wizard-container">
           <DowntimeNotification
             appTitle="VA Form 5655"
-            dependencies={[externalServices.dmc]}
+            dependencies={[externalServices.dmc, externalServices.vbs]}
             render={({ status }) => {
               return (
                 (!showFSR || status === externalServiceStatus.down) && (

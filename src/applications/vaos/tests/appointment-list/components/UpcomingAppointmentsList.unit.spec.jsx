@@ -4,10 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
-import {
-  getTimezoneTestDate,
-  renderWithStoreAndRouter,
-} from '../../mocks/setup';
+import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
@@ -22,7 +19,7 @@ const initialState = {
 describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTimezoneTestDate());
+    MockDate.set(getTestDate());
   });
   afterEach(() => {
     MockDate.reset();
@@ -66,6 +63,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
           },
         },
       },
+      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
@@ -83,9 +81,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       reducers,
     });
 
-    await screen.findByText(
-      new RegExp(now.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
@@ -108,6 +104,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       ...appointment.attributes,
       kind: 'cc',
       status: 'booked',
+      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
@@ -148,8 +145,10 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       ...appointment.attributes,
       kind: 'telehealth',
       status: 'booked',
+      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      telehealth: { vvsKind: 'MOBILE_ANY' },
     };
 
     mockVAOSAppointmentsFetch({
@@ -164,7 +163,6 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       initialState: myInitialState,
       reducers,
     });
-
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('VA Video Connect at home');
   });
@@ -188,6 +186,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       ...appointment.attributes,
       kind: 'phone',
       status: 'booked',
+      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
@@ -228,6 +227,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       ...appointment.attributes,
       kind: 'cc',
       status: 'cancelled',
+      localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
       name: { firstName: 'Jane', lastName: 'Doctor' },

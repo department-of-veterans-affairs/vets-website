@@ -28,3 +28,10 @@ testNumberOfErrorsOnSubmit(
   expectedNumberOfErrors,
   pageTitle,
 );
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+);

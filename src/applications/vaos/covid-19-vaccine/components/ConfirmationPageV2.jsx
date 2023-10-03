@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
@@ -17,16 +17,18 @@ import {
 } from '../../services/location';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 import { startNewAppointmentFlow } from '../redux/actions';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
+    history.push(typeOfCare.url);
   };
 }
 
@@ -36,13 +38,21 @@ function ConfirmationPageV2({
   facilityDetails,
   slot,
   submitStatus,
+  changeCrumb,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   if (submitStatus !== FETCH_STATUS.succeeded) {
@@ -68,7 +78,7 @@ function ConfirmationPageV2({
         <br />
         <div className="vads-u-margin-y--1">
           <va-link
-            href="/health-care/schedule-view-va-appointments/appointments/"
+            href={root.url}
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
@@ -82,7 +92,7 @@ function ConfirmationPageV2({
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch)}
+            onClick={handleClick(history, dispatch, typeOfCare)}
           />
         </div>
       </InfoAlert>
@@ -148,6 +158,7 @@ function ConfirmationPageV2({
 export default connect(selectConfirmationPage)(ConfirmationPageV2);
 
 ConfirmationPageV2.propTypes = {
+  changeCrumb: PropTypes.func,
   clinic: PropTypes.object,
   data: PropTypes.object,
   facilityDetails: PropTypes.object,

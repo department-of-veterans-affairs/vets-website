@@ -22,7 +22,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
-} from './transformers.v2';
+} from './transformers';
 import { captureError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
 import {
@@ -862,15 +862,25 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({ featureStatusImprovement, appointment }) {
+export function getLink({
+  featureBreadcrumbUrlUpdate,
+  featureStatusImprovement,
+  appointment,
+}) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-        appointment.id
-      }`;
+
+  if (!featureBreadcrumbUrlUpdate) {
+    return isCommunityCare
+      ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
+          appointment.id
+        }`
+      : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
+          appointment.id
+        }`;
+  }
+  return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
+    appointment.id
+  }`;
 }
 
 export function getPractitionerName(appointment) {

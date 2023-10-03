@@ -1,6 +1,4 @@
 import {
-  SELECTED,
-  MAX_LENGTH,
   CLAIMANT_TYPES,
   PRIMARY_PHONE,
   EVIDENCE_VA,
@@ -12,11 +10,18 @@ import {
   hasHomePhone,
   hasMobilePhone,
 } from './contactInfo';
-import { replaceSubmittedData, fixDateFormat } from './replace';
 import {
   buildVaLocationString,
   buildPrivateString,
 } from '../validations/evidence';
+
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
+import { returnUniqueIssues } from '../../shared/utils/issues';
+import '../../shared/definitions';
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -57,7 +62,7 @@ export const getClaimantData = ({
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
     result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
       0,
-      MAX_LENGTH.CLAIMANT_OTHER,
+      MAX_LENGTH.SC_CLAIMANT_OTHER,
     );
   }
   return result;
@@ -65,7 +70,7 @@ export const getClaimantData = ({
 
 /**
  * Combine issues values into one field
- * @param {ContestableIssue~Attributes} attributes
+ * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
 export const createIssueName = ({ attributes } = {}) => {
@@ -80,9 +85,8 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ')
-    .substring(0, MAX_LENGTH.ISSUE_NAME);
-  return replaceSubmittedData(result);
+    .join(' - ');
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
 };
 
 /* submitted contested issue format
@@ -128,31 +132,14 @@ export const getContestedIssues = ({ contestedIssues } = {}) =>
   });
 
 /**
- * @typedef AdditionalIssues
- * @type {Array<Object>}
- * @property {AdditionalIssue~Item}
- */
-/**
- * @typedef AdditionalIssue~Item - user-added issues
- * @type {Object}
- * @property {String} issue - user entered issue name
- * @property {String} decisionDate - user entered decision date
- * @property {Boolean} 'view:selected' - user selected issue
- * @returns {ContestableIssue~Submittable}
- * @example
- *  [{
-      "issue": "right shoulder",
-      "decisionDate": "2010-01-06"
-    }]
- */
-/**
  * Combine included issues and additional issues
  * @param {FormData}
- * @returns {ContestableIssue~Submittable}
+ * @returns {ContestableIssueSubmittable}
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  return issues.concat(
+
+  const result = issues.concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue[SELECTED] && issue.issue && issue.decisionDate) {
         // match contested issue pattern
@@ -167,34 +154,10 @@ export const addIncludedIssues = formData => {
       return issuesToAdd;
     }, []),
   );
+  // Ensure only unique entries are submitted
+  return returnUniqueIssues(result);
 };
 
-/**
- * Veteran~submittable
- * @property {Address~submittable} address
- * @property {Phone~submittable} phone
- * @property {String} emailAddressText
- */
-/**
- * Address~submittableV2
- * @typedef {Object}
- * @property {String} addressLine1
- * @property {String} addressLine2
- * @property {String} addressLine3
- * @property {String} city
- * @property {String} stateCode
- * @property {String} zipCode5
- * @property {String} countryCodeISO2
- * @property {String} internationalPostalCode
- */
-/**
- * Phone~submittable
- * @typedef {Object}
- * @property {String} countryCode
- * @property {String} areaCode
- * @property {String} phoneNumber
- * @property {String} phoneNumberExt
- */
 /**
  * FormData
  * @typedef {Object}
@@ -203,16 +166,28 @@ export const addIncludedIssues = formData => {
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {FormData} formData
- * @returns {Address~submittableV2}
+ * @returns {AddressSubmittableV2}
  */
 export const getAddress = formData => {
   const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
+  const countryCodeISO2 = truncate(
+    'countryCodeIso2',
+    MAX_LENGTH.ADDRESS_COUNTRY,
+  );
+  // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
     MAX_LENGTH.POSTAL_CODE,
   );
+  // zipCode5 is always required, set to 00000 for addresses outside the U.S.
+  // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+  const zipCode5 =
+    countryCodeISO2 !== 'US'
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
     // Long addresses will overflow to an attachment page
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
@@ -221,13 +196,9 @@ export const getAddress = formData => {
     city: truncate('city', MAX_LENGTH.CITY),
     // stateCode is from enum
     stateCode: truncate('stateCode'),
-    // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY),
-    // zipCode5 is always required, set to 00000 for international codes
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
-    zipCode5: internationalPostalCode
-      ? '00000'
-      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    countryCodeISO2,
+    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+    zipCode5,
     internationalPostalCode,
   });
 };
@@ -295,32 +266,32 @@ export const getEmail = formData => {
 /**
  * @typedef EvidenceSubmission
  * @type {Array<Object>}
- * @property {EvidenceSubmission~upload|EvidenceSubmission~retrieval}
+ * @property {EvidenceSubmissionUpload|EvidenceSubmissionRetrieval}
  */
 /**
- * @typedef EvidenceSubmission~upload - uploaded evidence
+ * @typedef EvidenceSubmissionUpload - uploaded evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'upload'
  * @example [{ "evidenceType": "upload" }]
  */
 /**
- * @typedef EvidenceSubmission~none - No evidence
+ * @typedef EvidenceSubmissionNone - No evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'none'
  * @example [{ "evidenceType": "none" }]
  */
 /**
- * @typedef EvidenceSubmission~evidenceDates
+ * @typedef EvidenceSubmissionEvidenceDates
  * @type {Array<Object>}
  * @property {string} startDate (YYYY-MM-DD)
  * @property {string} endDate (YYYY-MM-DD)
  */
 /**
- * @typedef EvidenceSubmission~retrieval - retrieve evidence
+ * @typedef EvidenceSubmissionRetrieval - retrieve evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'retrieval'
  * @property {String} locationAndName - VA or private medical records name
- * @property {EvidenceSubmission~evidenceDates} - date range
+ * @property {EvidenceSubmissionEvidenceDates} - date range
  * @example
   "evidenceSubmission": [{
     "evidenceType": ["retrieval", "upload"],
@@ -354,7 +325,7 @@ export const getEvidence = formData => {
     evidenceType: [],
   };
   // Add VA evidence data
-  if (formData[EVIDENCE_VA] && formData.locations.length) {
+  if (formData[EVIDENCE_VA] && formData.locations?.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {

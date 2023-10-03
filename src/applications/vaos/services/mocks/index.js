@@ -39,6 +39,7 @@ const confirmedV2 = require('./v2/confirmed.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
+const momentTz = require('../../lib/moment-tz');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
@@ -216,12 +217,19 @@ const responses = {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
     } = req.body;
-    const providerNpi = practitioners[0].identifier[0].value;
+    const providerNpi = practitioners[0]?.identifier[0].value;
+    const selectedTime = appointmentSlotsV2.data
+      .filter(slot => slot.id === req.body.slot?.id)
+      .map(slot => slot.attributes.start);
+    // convert to local time in America/Denver timezone
+    const localTime = momentTz(selectedTime[0])
+      .tz('America/Denver')
+      .format('YYYY-MM-DDTHH:mm:ss');
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
-        start: req.body.slot ? req.body.slot.start : null,
+        localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
       },
     };
@@ -640,10 +648,12 @@ const responses = {
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
-        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: false },
+        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
         { name: 'vaOnlineSchedulingPrintList', value: true },
         { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
+        { name: 'vaOnlineSchedulingGA4Migration', value: true },
+        { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

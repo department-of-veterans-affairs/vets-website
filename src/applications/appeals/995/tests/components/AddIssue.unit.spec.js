@@ -3,15 +3,20 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
-import AddIssue from '../../components/AddIssue';
 import {
-  errorMessages,
-  MAX_LENGTH,
-  LAST_SC_ITEM,
-  MAX_YEARS_PAST,
-} from '../../constants';
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import AddIssue from '../../components/AddIssue';
+import { errorMessages } from '../../constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
+
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+} from '../../../shared/constants';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -32,9 +37,9 @@ describe('<AddIssue>', () => {
     onReviewPage = false,
   } = {}) => {
     if (index !== null) {
-      window.sessionStorage.setItem(LAST_SC_ITEM, index);
+      window.sessionStorage.setItem(LAST_ISSUE, index);
     } else {
-      window.sessionStorage.removeItem(LAST_SC_ITEM);
+      window.sessionStorage.removeItem(LAST_ISSUE);
     }
     return (
       <div>
@@ -51,7 +56,7 @@ describe('<AddIssue>', () => {
   };
 
   afterEach(() => {
-    window.sessionStorage.removeItem(LAST_SC_ITEM);
+    window.sessionStorage.removeItem(LAST_ISSUE);
   });
 
   it('should render', () => {
@@ -67,11 +72,10 @@ describe('<AddIssue>', () => {
     const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(errorMessages.missingIssue);
-    expect(elems[1].error).to.contain(errorMessages.decisions.missingDate);
+    expect(elems[1].error).to.contain(errorMessages.decisions.blankDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;
-
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {

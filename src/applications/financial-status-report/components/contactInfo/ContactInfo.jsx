@@ -197,11 +197,12 @@ const ContactInfo = ({
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"
-          className="vads-u-margin-top--4"
+          className="vads-u-margin-top--5 vads-u-margin-bottom--3"
         >
           {content.title}
         </MainHeader>
         {content.description}
+
         <div ref={wrapRef}>
           {hadError &&
             missingInfo.length === 0 && (

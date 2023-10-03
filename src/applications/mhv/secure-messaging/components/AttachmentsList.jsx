@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
+import HowToAttachFiles from './HowToAttachFiles';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -59,9 +60,10 @@ const AttachmentsList = props => {
   };
   return (
     <div>
-      <div className="message-body-attachments-label">
-        <strong>Attachments</strong>
+      <div className="message-body-attachments-label vads-u-margin-bottom--1">
+        Attachments
       </div>
+      {editingEnabled && <HowToAttachFiles />}
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (

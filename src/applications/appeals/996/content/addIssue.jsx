@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../../shared/constants';
+
+const hintText =
+  'You can only add an issue that you’ve received a VA decision notice for.';
 
 export const issueErrorMessages = {
   missingIssue: 'Please add the name of an issue',
@@ -10,7 +13,7 @@ export const issueErrorMessages = {
   } characters for this issue name`,
 
   invalidDate: 'Please provide a valid date',
-  missingDecisionDate: 'Please enter a decision date',
+  blankDecisionDate: 'Please enter a decision date',
   invalidDateRange: (min, max) =>
     `Please enter a year between ${min} and ${max}`,
   pastDate: 'Please add a past decision date',
@@ -30,10 +33,9 @@ export const content = {
   },
   name: {
     label: 'Name of issue',
+    hintText,
     hint: (
-      <div>
-        You can only add an issue that you’ve received a VA decision notice for.
-      </div>
+      <p className="vads-u-font-weight--normal label-description">{hintText}</p>
     ),
   },
   date: {

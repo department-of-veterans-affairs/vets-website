@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { readableList } from '../utils/helpers';
 import { getDate } from '../utils/dates';
 
 import {
-  FORMAT_COMPACT,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
@@ -16,6 +16,8 @@ import {
   ATTACHMENTS_OTHER,
   LIMITATION_KEY,
 } from '../constants';
+
+import { FORMAT_COMPACT } from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',
@@ -64,8 +66,9 @@ const getHeaderLevelH6toH5 = ({ onReviewPage, reviewMode }) =>
   onReviewPage || reviewMode ? 'h6' : 'h5';
 /**
  * Build VA evidence list
- * @param {Object[]} vaEvidence - VA evidence array
+ * @param {Object[]} list - VA evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -151,8 +154,10 @@ VaContent.propTypes = {
 
 /**
  * Build private evidence list
- * @param {Object[]} privateEvidence - Private medical evidence array
+ * @param {Object[]} list - Private medical evidence array
+ * @param {String} limitContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -282,6 +287,7 @@ PrivateContent.propTypes = {
  * Build uploaded evidence list
  * @param {Object[]} list - Uploaded evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router

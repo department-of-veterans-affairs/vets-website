@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getlabsAndTestsDetails } from '../actions/labsAndTests';
+import {
+  clearLabsAndTestDetails,
+  getlabsAndTestsDetails,
+} from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
@@ -20,24 +23,19 @@ const LabAndTestDetails = () => {
 
   useEffect(
     () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: '/my-health/medical-records/labs-and-tests',
-                label: 'Lab and test results',
-              },
-            ],
-            {
-              url: `/my-health/medical-records/labs-and-tests/${labId}`,
-              label: labAndTestDetails?.name,
-            },
-          ),
-        );
-      }
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/labs-and-tests',
+            label: 'Lab and test results',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearLabsAndTestDetails());
+      };
     },
-    [labAndTestDetails, dispatch],
+    [dispatch],
   );
 
   useEffect(
@@ -78,6 +76,7 @@ const LabAndTestDetails = () => {
         message="Loading..."
         setFocus
         data-testid="loading-indicator"
+        class="loading-indicator"
       />
     );
   }

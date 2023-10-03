@@ -6,8 +6,12 @@ const HouseholdExpensesSummaryReview = ({ data }) => {
   const { expenseRecords = [] } = data.expenses;
 
   return (
-    <div>
-      <h4>Housing expenses</h4>
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          Housing expenses
+        </h4>
+      </div>
       <dl className="review">
         {expenseRecords.map((expense, index) => {
           return (

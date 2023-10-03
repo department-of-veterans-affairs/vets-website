@@ -7,11 +7,7 @@ import { veteranFields } from '../definitions/constants';
 const { required, properties } = fullSchema.properties[
   veteranFields.parentObject
 ];
-const pageFields = [
-  veteranFields.homePhone,
-  veteranFields.internationalPhone,
-  veteranFields.email,
-];
+const pageFields = [veteranFields.homePhone, veteranFields.email];
 
 /** @type {PageSchema} */
 export default {
@@ -21,6 +17,8 @@ export default {
         ...phoneUI('Home phone number'),
         'ui:errorMessages': {
           ...phoneUI()['ui:errorMessages'],
+          pattern:
+            'Please enter a 10-digit phone number (with or without dashes)',
           required:
             'Please enter a 10-digit phone number (with or without dashes)',
         },
@@ -28,24 +26,7 @@ export default {
           ...phoneUI()['ui:options'],
           updateSchema: () => ({
             type: 'string',
-            maxLength: 10,
-          }),
-        },
-      },
-      [veteranFields.internationalPhone]: {
-        ...phoneUI('International phone number'),
-        'ui:errorMessages': {
-          ...phoneUI()['ui:errorMessages'],
-          pattern:
-            'Please enter a valid 10 to 15 digit international phone number (with or without dashes)',
-          minLength:
-            'Please enter a valid 10 to 15 digit international phone number (with or without dashes)',
-        },
-        'ui:options': {
-          ...phoneUI()['ui:options'],
-          updateSchema: () => ({
-            type: 'string',
-            maxLength: 15,
+            pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
           }),
         },
       },

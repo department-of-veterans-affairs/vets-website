@@ -3,7 +3,6 @@ import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
-import { getEligibleContestableIssues } from '../utils/submit';
 
 const initialState = {
   issues: [],
@@ -22,7 +21,7 @@ export default function contestableIssues(state = initialState, action) {
     case FETCH_CONTESTABLE_ISSUES_SUCCEEDED: {
       return {
         ...state,
-        issues: getEligibleContestableIssues(action.response?.data),
+        issues: action.response?.data,
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         error: '',
       };

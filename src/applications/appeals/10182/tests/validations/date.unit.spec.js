@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
+import { SHOW_PART3 } from '../../constants';
+
+import { getDate } from '../../../shared/utils/dates';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];
@@ -27,14 +29,14 @@ describe('validateDate & isValidDate', () => {
     const year = today.getFullYear();
     // getMonth => zero based month; we're trying to process a single digit
     // month and day here
-    const date = today.getMonth() > 9 ? `${year}-1-1` : `${year - 1}-8-1`;
+    const date = today.getMonth() > 9 ? `${year}-1-1` : `${year - 1}-12-31`;
     validateDate(errors, date);
     expect(errorMessage[0]).to.be.undefined;
     expect(isValidDate(date)).to.be.true;
   });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
     expect(errorMessage[1]).to.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -52,7 +54,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -82,7 +84,7 @@ describe('validateDate & isValidDate', () => {
   it('should throw an error for dates in the distant past', () => {
     const date = getDate({ offset: { years: -2 } });
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -93,7 +95,7 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY-MM-' (contact center reported errors; FE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).substring(0, 8);
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -104,11 +106,26 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY--DD' (contact center reported errors; BE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).replace(/-.*-/, '--');
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
     expect(errorMessage[1]).to.contain('other');
+    expect(isValidDate(date)).to.be.false;
+  });
+  it('should not throw an error for older dates when feature toggle is set to support the new form', () => {
+    const date = getDate({ offset: { years: -2 } });
+    validateDate(errors, date, { [SHOW_PART3]: true });
+    expect(errorMessage[0]).to.be.undefined;
+  });
+  it('should throw an error for dates in the distant past when feature toggle is set to support the new form', () => {
+    const date = getDate({ offset: { years: -110 } });
+    validateDate(errors, date, { [SHOW_PART3]: true });
+    expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
+    expect(errorMessage[1]).to.not.contain('month');
+    expect(errorMessage[1]).to.not.contain('day');
+    expect(errorMessage[1]).to.contain('year');
+    expect(errorMessage[1]).to.not.contain('other');
     expect(isValidDate(date)).to.be.false;
   });
 });
