@@ -16,20 +16,23 @@ const VaccinesListItem = props => {
       <h3
         className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
         aria-label={`${record.name} ${formattedDate}`}
+        data-dd-privacy="mask"
       >
         {record.name}
       </h3>
 
       <div className="fields">
         <div>
-          <span className="field-label">Date received:</span> {formattedDate}
+          <span className="field-label">Date received:</span>{' '}
+          <span data-dd-privacy="mask">{formattedDate}</span>
         </div>
         <div className="print-only">
           <span className="field-label">Manufacturer</span>{' '}
-          {record.manufacturer}
+          <span data-dd-privacy="mask">{record.manufacturer}</span>
         </div>
         <div className="location-collapsed vads-u-line-height--3">
-          <span className="field-label">Location:</span> {record.location}
+          <span className="field-label">Location:</span>{' '}
+          <span data-dd-privacy="mask">{record.location}</span>
         </div>
         <div className="print-only">
           <span className="field-label">Reaction:</span>{' '}
