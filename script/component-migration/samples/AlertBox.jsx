@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export function Sample() {
   const myStatus = 'info';
@@ -7,7 +6,10 @@ export function Sample() {
   const myHeadline = 'Pay attention!';
 
   return (
-    <AlertBox status={myStatus} headline={myHeadline} content={someContent} />
+    <va-alert status={myStatus} visible>
+      <h3 slot="headline">{myHeadline}</h3>
+      {someContent}
+    </va-alert>
   );
 }
 
@@ -16,17 +18,11 @@ export function OtherSample() {
     <div>
       <div>
         <div>
-          <AlertBox
-            status="error"
-            headline="This is a multiline component"
-            level="2"
-            content={
-              <div>
-                <p>I'm some child content</p>
-                <span>Blah blah</span>
-              </div>
-            }
-          />
+          <va-alert status="error" visible>
+            <h3 slot="headline">This is a multiline component</h3>
+            <p>I'm some child content</p>
+            <span>Blah blah</span>
+          </va-alert>
         </div>
       </div>
     </div>
@@ -37,13 +33,14 @@ export function NamedClosing() {
   const myHeadline = 'Another headline';
 
   return (
-    <AlertBox headline={myHeadline}>
+    <va-alert visible status="info">
+      <h3 slot="headline">{myHeadline}</h3>
       <div>I'm the child content!</div>
       <ul>
         <li>Dog</li>
         <li>Cat</li>
         <li>Mouse</li>
       </ul>
-    </AlertBox>
+    </va-alert>
   );
 }
