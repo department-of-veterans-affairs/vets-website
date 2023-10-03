@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TernaryRadios from '../TernaryRadios';
-import { updateOrange221A } from '../../../actions';
+import CheckboxGroup from '../CheckboxGroup';
+import { updateRadiation23B } from '../../../actions';
 import {
   QUESTION_MAP,
   RESPONSES,
@@ -11,17 +11,16 @@ import {
 import { ROUTES } from '../../../constants';
 import { pageSetup } from '../../../utilities/page-setup';
 
-const Orange221A = ({
+const Radiation23B = ({
   formResponses,
   router,
-  setOrange221A,
+  setRadiation23B,
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
-  const shortName = SHORT_NAME_MAP.ORANGE_2_2_1_A;
+  const shortName = SHORT_NAME_MAP.RADIATION_2_3_B;
   const H1 = QUESTION_MAP[shortName];
-  const orange221A = formResponses[shortName];
-  const { NO, NOT_SURE, YES } = RESPONSES;
+  const radiation23B = formResponses[shortName];
 
   useEffect(
     () => {
@@ -39,30 +38,24 @@ const Orange221A = ({
     [router, viewedIntroPage],
   );
 
-  const locationList = (
-    <ul>
-      <li>{RESPONSES.AMERICAN_SAMOA}</li>
-      <li>{RESPONSES.CAMBODIA}</li>
-      <li>{RESPONSES.GUAM}</li>
-      <li>{RESPONSES.JOHNSTON_ATOLL}</li>
-      <li>{RESPONSES.LAOS}</li>
-      <li>{RESPONSES.THAILAND}</li>
-    </ul>
-  );
+  const locations = [
+    RESPONSES.ENEWETAK_ATOLL,
+    RESPONSES.SPAIN_PALOMARES,
+    RESPONSES.GREENLAND_THULE,
+  ];
 
   return (
-    <TernaryRadios
+    <CheckboxGroup
       formError={formError}
       formResponses={formResponses}
-      formValue={orange221A}
+      formValue={radiation23B}
       h1={H1}
-      locationList={locationList}
-      responses={[YES, NO, NOT_SURE]}
+      responses={locations}
       router={router}
       setFormError={setFormError}
       shortName={shortName}
-      testId="paw-orange2_2_1_A"
-      valueSetter={setOrange221A}
+      testId="paw-radiation2_3_B"
+      valueSetter={setRadiation23B}
     />
   );
 };
@@ -73,12 +66,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setOrange221A: updateOrange221A,
+  setRadiation23B: updateRadiation23B,
 };
 
-Orange221A.propTypes = {
+Radiation23B.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setOrange221A: PropTypes.func.isRequired,
+  setRadiation23B: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
@@ -88,4 +81,4 @@ Orange221A.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Orange221A);
+)(Radiation23B);
