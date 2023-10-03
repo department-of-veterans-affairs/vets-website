@@ -43,7 +43,7 @@ const useGetUpcomingAppointmentsData = () => {
           });
       }
     },
-    [token, isComplete, setUpcomingAppointmentsDataError],
+    [token, isComplete, setUpcomingAppointmentsData],
   );
 
   return { upcomingAppointmentsDataError, isComplete };
