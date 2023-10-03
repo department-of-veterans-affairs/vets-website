@@ -78,9 +78,14 @@ const AppointmentDetails = props => {
     </p>
   );
   if (is45MinuteReminderEnabled) {
-    <span data-testid="in-person-msg-confirmation">
-      {t('remember-to-bring-your-insurance-cards-with-you')}
-    </span>;
+    preCheckInSubTitle = (
+      <span
+        data-testid="in-person-msg-confirmation"
+        className="vads-u-margin--0"
+      >
+        {t('remember-to-bring-your-insurance-cards-with-you')}
+      </span>
+    );
   }
   if (isPhoneAppointment) {
     preCheckInSubTitle = (
