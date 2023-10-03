@@ -14,8 +14,6 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
 import { requestStates } from 'platform/utilities/constants';

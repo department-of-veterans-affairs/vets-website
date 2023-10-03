@@ -23,7 +23,9 @@ const getAppointmentContent = (type, appointments) => {
       <div key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
         <p>
-          {item.location} ({item.physicalLocation})<br />
+          {item.location}
+          {item.physicalLocation && ` (${item.physicalLocation})`}
+          <br />
           Clinic location: {item.site}
         </p>
       </div>
@@ -34,7 +36,7 @@ const getAppointmentContent = (type, appointments) => {
 };
 
 const primaryCareProvider = avs => {
-  if (avs.primaryCareProviders) {
+  if (avs.primaryCareProviders?.length) {
     return (
       <div>
         <h3>Primary care provider</h3>
