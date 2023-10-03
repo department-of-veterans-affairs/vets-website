@@ -41,8 +41,10 @@ if (TESTS_BLOCKING_MERGE.length > 0) {
       start_line: 1,
       end_line: 1,
       title: `${mergeCheckType} Allow List Merge Block Warning`,
-      message:
-        'This spec is currently disallowed from running due to flakiness. Currently there is a grace period, beginning on October 4, to allow time for tests to be corrected. If not corrected by November 6, this application will be blocked from merging code changes.',
+      message: `*MERGE BLOCK WARNING* This PR contains changes related to this test spec which has been disabled for flakiness.
+                \n Beginning on Nov 6th, 2023, merging will be blocked for PRs in products that have flaky Unit/E2E tests associated with them.
+                \n Please resolve these tests BY 11/5/23 in order to avoid merge blocking.
+                \n More information is available at: https://depo-platform-documentation.scrollhelp.site/developer-docs/test-stability-review.`,
       annotation_level: 'warning',
     };
   });
