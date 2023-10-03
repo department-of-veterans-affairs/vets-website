@@ -93,6 +93,7 @@ const RecordList = props => {
               pages={paginatedRecords.current.length}
               maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
+              uswds
             />
           </div>
         ) : (

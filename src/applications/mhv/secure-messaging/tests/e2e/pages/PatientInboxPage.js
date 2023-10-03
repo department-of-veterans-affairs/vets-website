@@ -9,7 +9,6 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
@@ -41,7 +40,7 @@ class PatientInboxPage {
 
   loadInboxMessages = (
     inboxMessages = mockMessages,
-    detailedMessage = mockSpecialCharsMessage,
+    detailedMessage = mockSingleMessage,
     recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
@@ -323,27 +322,31 @@ class PatientInboxPage {
     return this.loadedMessagesData;
   };
 
-  replyToMesage = () => {
+  replyToMessage = () => {
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE}/messages/${
-        mockMessageDetails.data[0].attributes.messageId
+        mockSingleThread.data[0].attributes.messageId
       }/thread`,
       mockSingleThread,
     ).as('singleThread');
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE}/messages/${
-        mockMessageDetails.data[0].attributes.messageId
+        mockSingleThread.data[0].attributes.messageId
       }`,
       mockSingleMessage,
     ).as('singleThread');
 
-    cy.get('[data-testid="thread-list-item"]')
+    cy.get(Locators.THREADS)
       .first()
-      .find(`#message-link-${mockMessageDetails.data[0].attributes.messageId}`)
+      .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
       .click();
+    cy.get(Locators.BUTTONS.REPLY).click({
+      waitForAnimations: true,
+    });
+    cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
   verifySentSuccessMessage = () => {
@@ -462,37 +465,6 @@ class PatientInboxPage {
       .shadow()
       .find('#textarea')
       .type('testMessage', { force: true });
-  };
-
-  composeDraftByKeyboard = () => {
-    cy.tabToElement('#recipient-dropdown')
-      .shadow()
-      .find('#select')
-      .select(1, { force: true });
-    cy.tabToElement('[data-testid="compose-category-radio-button"]')
-      .first()
-      .click();
-    cy.tabToElement('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('#inputField')
-      .type('testSubject');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('#textarea')
-      .type('testMessage', { force: true });
-  };
-
-  saveDraftByKeyboard = () => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE}/message_drafts`,
-      mockDraftResponse,
-    ).as('draft_message');
-    cy.tabToElement('[data-testid="Save-Draft-Button"]');
-    cy.realPress('Enter');
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
   };
 
   verifySorting = () => {

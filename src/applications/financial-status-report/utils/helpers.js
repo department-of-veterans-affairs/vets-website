@@ -28,6 +28,12 @@ export const streamlinedWaiverFeatureToggle = state => {
   ];
 };
 
+export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiverAssets
+  ];
+};
+
 export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 

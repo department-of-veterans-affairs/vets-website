@@ -6,13 +6,18 @@ import { ROUTES } from '../../../constants';
 // Agent Orange 2.2.A - No
 // Agent Orange 2.2.1.A - No
 // Agent Orange 2.2.2 - Yes
-// Radiation 2.3 - No
+// Radiation 2.3.A - Click back
+// Agent Orange 2.2.2 - Click back
+// Agent Orange 2.2.1.A - Yes
+// Agent Orange 2.2.1.B - Select 2 checkboxes
+// Radiation 2.3.A - Yes
+// Radiation 2.3.B - Select 1 checkbox
 // Camp Lejeune 2.4 - I'm not sure
 // Results 1
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('1989 or earlier - Mixed responses (Results screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
@@ -42,10 +47,56 @@ xdescribe('PACT Act', () => {
       h.selectRadio(h.ORANGE_2_2_2_INPUT, 0);
       h.clickContinue();
 
-      // TODO add Radiation & Lejeune questions when they exist
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.clickBack();
 
       // ORANGE_2_2_2
       h.verifyUrl(ROUTES.ORANGE_2_2_2);
+      h.clickBack();
+
+      // ORANGE_2_2_1_A
+      h.verifyUrl(ROUTES.ORANGE_2_2_1_A);
+      h.selectRadio(h.ORANGE_2_2_1_A_INPUT, 0);
+      h.clickContinue();
+
+      // ORANGE_2_2_1_B
+      h.verifyUrl(ROUTES.ORANGE_2_2_1_B);
+      h.selectCheckbox(h.ORANGE_2_2_1_B_INPUT, 0);
+      h.selectCheckbox(h.ORANGE_2_2_1_B_INPUT, 1);
+      h.clickContinue();
+
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 0);
+      h.clickContinue();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 1);
+      h.clickContinue();
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 2);
+      h.clickContinue();
+
+      // TODO add Results screen 1 when it exists
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.clickBack();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.clickBack();
+
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.clickBack();
+
+      // ORANGE_2_2_1_B
+      h.verifyUrl(ROUTES.ORANGE_2_2_1_B);
       h.clickBack();
 
       // ORANGE_2_2_1_A

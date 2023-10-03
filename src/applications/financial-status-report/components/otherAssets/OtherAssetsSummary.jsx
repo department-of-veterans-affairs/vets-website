@@ -13,14 +13,14 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
+
 
 export const keyFieldsForOtherAssets = ['name', 'amount'];
 
 const OtherAssetsSummary = ({
   data,
   goToPath,
-  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -30,29 +30,18 @@ const OtherAssetsSummary = ({
 
   useEffect(
     () => {
-      let isMounted = true;
+      if (!gmtData?.isEligibleForStreamlined) return;
+      // liquid assets are caluclated in cash in bank with this ff
+      if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-      function fetchData() {
-        const calculatedAssets = calculateTotalAssets(data);
-        if (isMounted) {
-          // Check here
-          setFormData({
-            ...data,
-            gmtData: {
-              ...gmtData,
-              assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-            },
-          });
-        }
-      }
-
-      if (gmtData?.isEligibleForStreamlined) {
-        fetchData();
-      }
-
-      return () => {
-        isMounted = false;
-      };
+      const calculatedAssets = calculateLiquidAssets(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+        },
+      });
     },
     // avoiding use of data since it changes so often
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,7 +141,10 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={() => goToPath('/expenses-explainer')}
+          />
           {contentAfterButtons}
         </div>
         {isModalOpen ? (
@@ -180,8 +172,8 @@ OtherAssetsSummary.propTypes = {
       assetsBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
-  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };

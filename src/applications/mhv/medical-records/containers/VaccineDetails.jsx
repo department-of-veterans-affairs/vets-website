@@ -18,6 +18,7 @@ import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { EMPTY_FIELD, pageTitles } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 
@@ -129,11 +130,12 @@ const VaccineDetails = () => {
   const content = () => {
     if (record) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
+            data-dd-privacy="mask"
           >
             {record.name}
           </h1>
@@ -143,7 +145,10 @@ const VaccineDetails = () => {
               id="vaccine-date"
             >
               Date:{' '}
-              <span className="vads-u-font-weight--normal">
+              <span
+                className="vads-u-font-weight--normal"
+                data-dd-privacy="mask"
+              >
                 {formattedDate}
               </span>
             </h2>
@@ -152,9 +157,10 @@ const VaccineDetails = () => {
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
           />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="detail-block max-80">
             <h2>Location</h2>
-            <p>{record.location}</p>
+            <p data-dd-privacy="mask">{record.location}</p>
             <h2 className="vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
@@ -162,7 +168,7 @@ const VaccineDetails = () => {
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList list={record.notes} />
           </div>
-        </div>
+        </>
       );
     }
     return (

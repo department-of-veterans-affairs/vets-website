@@ -25,7 +25,7 @@ describe('ezr disability rating actions', () => {
       thunk = fetchTotalDisabilityRating();
     });
 
-    describe('when fetch operation starts', () => {
+    context('when fetch operation starts', () => {
       it('should dispatch a fetch started action', done => {
         mockApiRequest(mockData);
         thunk(dispatch)
@@ -37,7 +37,7 @@ describe('ezr disability rating actions', () => {
       });
     });
 
-    describe('when fetch operation succeeds', () => {
+    context('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', done => {
         mockApiRequest(mockData);
         thunk(dispatch)
@@ -50,7 +50,7 @@ describe('ezr disability rating actions', () => {
       });
     });
 
-    describe('when fetch operation fails', () => {
+    context('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', done => {
         mockApiRequest(mockData, false);
         setFetchJSONResponse(

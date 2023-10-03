@@ -9,20 +9,19 @@ import {
   mayHaveLegacyAppeals,
   isVersion1Data,
   getSelectedCount,
-  getIssueName,
   getIssueDate,
   getIssueNameAndDate,
   hasDuplicates,
   isEmptyObject,
-  readableList,
   returnPhoneObject,
 } from '../../utils/helpers';
 
 import { SELECTED } from '../../../shared/constants';
 import {
-  someSelected,
-  hasSomeSelected,
+  getIssueName,
   getSelected,
+  hasSomeSelected,
+  someSelected,
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
@@ -339,22 +338,6 @@ describe('isEmptyObject', () => {
     expect(isEmptyObject(true)).to.be.false;
     expect(isEmptyObject(() => {})).to.be.false;
     expect(isEmptyObject({ test: '' })).to.be.false;
-  });
-});
-
-describe('readableList', () => {
-  it('should return an empty string', () => {
-    expect(readableList([])).to.eq('');
-    expect(readableList(['', null, 0])).to.eq('');
-  });
-  it('should return a combined list with commas with "and" for the last item', () => {
-    expect(readableList(['one'])).to.eq('one');
-    expect(readableList(['', 'one', null])).to.eq('one');
-    expect(readableList(['one', 'two'])).to.eq('one and two');
-    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
-    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
-      'v, w, x, y and z',
-    );
   });
 });
 

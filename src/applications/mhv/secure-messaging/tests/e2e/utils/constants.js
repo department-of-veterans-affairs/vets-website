@@ -25,6 +25,7 @@ export const Locators = {
   HEADER: 'h1',
   FOLDERS_LIST: '[data-testid ="my-folders-sidebar"]',
   MESSAGES: '[data-testid="message-list-item"]',
+  THREADS: '[data-testid="thread-list-item"]',
   FOLDERS: {
     INBOX: '[data-testid="inbox-sidebar"]',
     DRAFTS: '[data-testid="drafts-sidebar"]',
@@ -37,6 +38,9 @@ export const Locators = {
     CONTINUE: '[data-testid="continue-button"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="Send-Button"]',
+    SAVE_DRAFT: '#save-draft-button',
+    DELETE_DRAFT: '#delete-draft-button',
+    CREATE_FOLDER: '[data-testid="create-new-folder"]',
   },
   InboxPage: {
     COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',

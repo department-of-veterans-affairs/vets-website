@@ -7,8 +7,8 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement, scrollTo, scrollAndFocus } from 'platform/utilities/ui';
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
-import { readableList } from '../utils/helpers';
 import {
   getFormattedPhone,
   getReturnState,
