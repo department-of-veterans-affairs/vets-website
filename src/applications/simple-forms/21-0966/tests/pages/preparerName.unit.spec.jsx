@@ -7,7 +7,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.preparerIdentificationChapter.pages.preparerName;
+} = formConfig.chapters.preparerIdentificationChapter.pages.thirdPartyPreparerFullName;
 
 const pageTitle = 'Preparer name';
 
