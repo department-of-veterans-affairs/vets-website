@@ -25,7 +25,14 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21-22',
   getHelp: GetFormHelp,
-  saveInProgress: {},
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your Form 21-21 or Form 21-22a is in progress.',
+      expired:
+        'Your saved Form 21-21 or Form 21-22a has expired. Please start over to continue.',
+      saved: 'Your Form 21-21 or Form 21-22a has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
