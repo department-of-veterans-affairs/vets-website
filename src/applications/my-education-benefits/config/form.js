@@ -275,9 +275,11 @@ function AdditionalConsiderationTemplate(page, formField) {
     path: page.name,
     title: data => {
       return additionalConsiderationsQuestionTitleText(
-        data[(formFields?.viewBenefitSelection)][
-          (formFields?.benefitRelinquished)
-        ] || 'NotEligible',
+        (data[(formFields?.viewBenefitSelection)] &&
+          data[(formFields?.viewBenefitSelection)][
+            (formFields?.benefitRelinquished)
+          ]) ||
+          'NotEligible',
         page.order,
       );
     },
