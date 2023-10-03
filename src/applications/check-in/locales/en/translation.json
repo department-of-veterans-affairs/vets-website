@@ -254,5 +254,6 @@
   "check-if-your-info-is-up-to-date": "Check if your information is up to date",
   "upcoming-appointments": "Upcoming Appointments",
   "loading-your-appointment-information": "Loading your appointment information…",
-  "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…"
+  "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
+  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments"
 }

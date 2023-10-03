@@ -61,7 +61,7 @@ const UpcomingAppointments = props => {
           {t('upcoming-appointments')}
         </h2>
         <p data-testid="upcoming-appointments-error-message">
-          There was an error retreiving upcoming appointments
+          {t('error-retrieving-upcoming-appointments')}
         </p>
       </div>
     );
