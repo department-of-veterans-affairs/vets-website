@@ -9,6 +9,16 @@ import { displayConditionsMet } from '../../utilities/display-logic';
 
 import Orange22A from '../../containers/questions/agent-orange/AgentOrange-2-2-A';
 
+const { ORANGE_2_2_A } = SHORT_NAME_MAP;
+const {
+  DURING_BOTH_PERIODS,
+  EIGHTYNINE_OR_EARLIER,
+  NINETY_OR_LATER,
+  NO,
+  NOT_SURE,
+  YES,
+} = RESPONSES;
+
 // Form data is intentionally skipped for the render tests since these are very basic "does it load?" tests
 
 // This file contains tests for the component's display as well as testing displayConditionsMet
@@ -89,57 +99,84 @@ describe('Agent Orange 2.2.A Page', () => {
 describe('displayConditionsAreMet', () => {
   it('ORANGE_2_2_A: should return true when the display conditions are met', () => {
     const formResponses = {
-      SERVICE_PERIOD: RESPONSES.EIGHTYNINE_OR_EARLIER,
+      SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses),
-    ).to.equal(true);
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(true);
   });
 
   it('ORANGE_2_2_A: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: RESPONSES.NOT_SURE,
-      BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-      BURN_PIT_2_1_2: RESPONSES.NOT_SURE,
-      SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+      BURN_PIT_2_1_2: NOT_SURE,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses),
-    ).to.equal(true);
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(true);
   });
 
   it('ORANGE_2_2_A: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: RESPONSES.YES,
-      SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+      BURN_PIT_2_1_2: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses),
-    ).to.equal(true);
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(true);
   });
 
   it('ORANGE_2_2_A: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: RESPONSES.NO,
-      BURN_PIT_2_1_1: RESPONSES.YES,
-      SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+      BURN_PIT_2_1_2: NO,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses),
-    ).to.equal(true);
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(true);
+  });
+
+  it('ORANGE_2_2_A: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: YES,
+      BURN_PIT_2_1_1: NO,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(true);
+  });
+
+  it('ORANGE_2_2_A: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: NO,
+      BURN_PIT_2_1_1: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(true);
   });
 
   it('ORANGE_2_2_A: should return false when the display conditions are not met', () => {
     const formResponses = {
-      SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
+      SERVICE_PERIOD: NINETY_OR_LATER,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses),
-    ).to.equal(false);
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(false);
+  });
+
+  it('ORANGE_2_2_A: should return false when the display conditions are not met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: NO,
+      BURN_PIT_2_1_1: NO,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(false);
+  });
+
+  it('ORANGE_2_2_A: should return false when the display conditions are not met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: NOT_SURE,
+      BURN_PIT_2_1_1: NOT_SURE,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(ORANGE_2_2_A, formResponses)).to.equal(false);
   });
 });
