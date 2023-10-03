@@ -7,12 +7,11 @@ import {
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsSummary = ({
   data,
   goToPath,
-  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -23,8 +22,10 @@ const OtherAssetsSummary = ({
   useEffect(
     () => {
       if (!gmtData?.isEligibleForStreamlined) return;
+      // liquid assets are caluclated in cash in bank with this ff
+      if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-      const calculatedAssets = calculateTotalAssets(data);
+      const calculatedAssets = calculateLiquidAssets(data);
       setFormData({
         ...data,
         gmtData: {
@@ -125,7 +126,10 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={() => goToPath('/expenses-explainer')}
+          />
           {contentAfterButtons}
         </div>
       </fieldset>
@@ -145,8 +149,8 @@ OtherAssetsSummary.propTypes = {
       assetsBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
-  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };

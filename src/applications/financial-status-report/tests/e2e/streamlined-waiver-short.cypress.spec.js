@@ -35,6 +35,10 @@ const testConfig = createTestConfig(
               name: 'financial_status_report_streamlined_waiver',
               value: true,
             },
+            {
+              name: 'financial_status_report_streamlined_waiver_assets',
+              value: false,
+            },
           ],
         },
       });
@@ -102,6 +106,16 @@ const testConfig = createTestConfig(
         });
       },
       'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('200');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#cash')
             .first()
