@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// eslint-disable-next-line deprecate/import
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   VaRadio,
@@ -60,7 +60,7 @@ export function DynamicRadioWidget(props) {
 
   if (loading === true) {
     locationsList = (
-      <LoadingIndicator message="Loading VA medical centers near you..." />
+      <va-loading-indicator message="Loading VA medical centers near you..." />
     );
   } else if (locations.length > 0 && loading === false) {
     upperContent = (
