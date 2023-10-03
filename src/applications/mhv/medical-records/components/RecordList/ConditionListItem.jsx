@@ -14,23 +14,23 @@ const ConditionListItem = props => {
           className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h3
-            className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-            aria-label={`${record.name} ${formattedDate}`}
-            data-dd-privacy="mask"
-          >
-            {record.name}
+          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
+            <Link
+              to={`/conditions/${record.id}`}
+              className="vads-u-margin--0"
+              aria-label={`${record.name} on ${formattedDate}`}
+            >
+              {record.name}
+            </Link>
           </h3>
 
-          <p className="vads-u-margin--0">
-            Date entered: <span data-dd-privacy="mask">{formattedDate}</span>
-          </p>
+          <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
           <Link
             to={`/conditions/${record.id}`}
             className="vads-u-margin--0"
             aria-describedby={`details-button-description-${record.id}`}
           >
-            <strong>Details</strong>
+            <span className="vads-u-font-weight--bold">Details</span>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

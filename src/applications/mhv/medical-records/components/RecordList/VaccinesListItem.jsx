@@ -13,10 +13,19 @@ const VaccinesListItem = props => {
       className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
+      <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
+        <Link
+          to={`/vaccines/${record.id}`}
+          className="vads-u-margin--0"
+          aria-label={`${record.name} on ${record.date}`}
+        >
+          {record.name}
+        </Link>
+      </h3>
+
       <h3
-        className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-        aria-label={`${record.name} ${formattedDate}`}
-        data-dd-privacy="mask"
+        className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        aria-label={`${record.name} ${record.date}`}
       >
         {record.name}
       </h3>
@@ -48,7 +57,7 @@ const VaccinesListItem = props => {
         className="vads-u-margin-y--0p5 no-print"
         aria-describedby={`details-button-description-${record.id}`}
       >
-        <strong>Details</strong>
+        <span className="vads-u-font-weight--bold">Details</span>
         <i
           className="fas fa-angle-right details-link-icon"
           aria-hidden="true"
