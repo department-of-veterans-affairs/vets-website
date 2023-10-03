@@ -42,26 +42,33 @@ export default function NextOfKinDisplay({
     },
   ];
   const helpText = (
-    <div data-testid="help-text">
-      <va-additional-info uswds trigger={t('next-of-kin-explanation')}>
-        {t('confirm-who-youd-like-to-represent-your-wishes')}
+    <div>
+      <va-additional-info
+        data-testid="help-text"
+        uswds
+        trigger={t('next-of-kin-explanation')}
+      >
+        <div>{t('confirm-who-youd-like-to-represent-your-wishes')}</div>
       </va-additional-info>
     </div>
   );
   const additionalInfo = (
-    <div
-      data-testid="additional-info"
-      className="vads-u-margin-top--3 vads-u-margin-bottom--3"
-    >
-      <va-additional-info uswds trigger={t('how-to-update-next-of-kin')}>
-        <Trans
-          i18nKey={t(
-            `if-this-is-not-your-correct-information-a-staff-member-can-help--${app}`,
-          )}
-          components={[
-            <span key="bold" className="vads-u-font-weight--bold" />,
-          ]}
-        />
+    <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
+      <va-additional-info
+        data-testid="additional-info"
+        uswds
+        trigger={t('how-to-update-next-of-kin')}
+      >
+        <div>
+          <Trans
+            i18nKey={t(
+              `if-this-is-not-your-correct-information-a-staff-member-can-help--${app}`,
+            )}
+            components={[
+              <span key="bold" className="vads-u-font-weight--bold" />,
+            ]}
+          />
+        </div>
       </va-additional-info>
     </div>
   );
