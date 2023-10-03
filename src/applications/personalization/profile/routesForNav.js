@@ -5,6 +5,7 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
+import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
 // the routesForNav array is used in the routes file to build the routes
@@ -59,5 +60,12 @@ export const routesForNav = [
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
+  },
+  {
+    component: PersonalHealthCareContacts,
+    name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
+    path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
+    requiresLOA3: true,
+    requiresMVI: false,
   },
 ];

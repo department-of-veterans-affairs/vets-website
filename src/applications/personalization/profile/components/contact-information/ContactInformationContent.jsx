@@ -7,8 +7,6 @@ import ContactInformationSection from './ContactInformationSection';
 import EmailInformationSection from './email-addresses/EmailInformationSection';
 import LoadFail from '../alerts/LoadFail';
 
-import PersonalHealthCareContacts from './personal-health-care-contacts';
-
 const ContactInformationContent = ({ hasVAPServiceError, showBadAddress }) => {
   return (
     <>
@@ -21,7 +19,6 @@ const ContactInformationContent = ({ hasVAPServiceError, showBadAddress }) => {
             showBadAddress={showBadAddress}
           />
           <EmailInformationSection />
-          <PersonalHealthCareContacts />
         </InitializeVAPServiceID>
       )}
     </>
