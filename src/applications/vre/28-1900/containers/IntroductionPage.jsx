@@ -142,12 +142,7 @@ const IntroductionPage = props => {
         className="vads-u-padding-bottom--2 vads-u-display--inline-block"
         href="/find-forms/about-form-28-1900/"
       >
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm"
-        />
-        Download VA Form 28-1900
+        Get VA Form 28-1900 to download
       </a>
       <div className="vads-u-border-left--5px vads-u-border-color--primary vads-u-padding--0p5">
         <p className="vads-u-margin--0p5">
