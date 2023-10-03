@@ -1,8 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
-// eslint-disable-next-line deprecate/import
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings'; // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
@@ -45,11 +43,10 @@ export class ThirdPartyAppList extends Component {
     // Show the error alert box if there was an error.
     if (error) {
       return (
-        <AlertBox
-          headline="Something went wrong"
-          content={error}
-          status="error"
-        />
+        <VaAlert visible status="error">
+          <h3 slot="headline">Something went wrong</h3>
+          {error}
+        </VaAlert>
       );
     }
 

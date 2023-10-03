@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { has, head } from 'lodash';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
@@ -63,11 +63,6 @@ class Main extends React.Component {
   }
 
   renderVicError() {
-    const headline = (
-      <h4 className="usa-alert-heading">
-        We’re sorry. Something went wrong when loading the page.
-      </h4>
-    );
     const content = (
       <p>
         Please refresh the page or try again later. You can also{' '}
@@ -76,12 +71,13 @@ class Main extends React.Component {
     );
 
     return (
-      <AlertBox
-        headline={headline}
-        content={content}
-        isVisible
-        status="error"
-      />
+      <VaAlert visible status="error">
+        <h4 slot="headline">
+          {' '}
+          We’re sorry. Something went wrong when loading the page.
+        </h4>
+        {content}
+      </VaAlert>
     );
   }
 
@@ -91,13 +87,12 @@ class Main extends React.Component {
     const detail = has(config.messages, code)
       ? config.messages[code]
       : config.messages.default;
-    const content = (
-      <div>
-        <h4 className="usa-alert-heading">We can’t process your request</h4>
+    return (
+      <VaAlert visible status="error">
+        <h4 slot="headline">We can't process your request</h4>
         {detail}
-      </div>
+      </VaAlert>
     );
-    return <AlertBox content={content} isVisible status="error" />;
   }
 
   render() {
