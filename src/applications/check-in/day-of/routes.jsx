@@ -48,6 +48,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
