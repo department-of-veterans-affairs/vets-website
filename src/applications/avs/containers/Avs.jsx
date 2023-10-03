@@ -10,6 +10,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
+import BreadCrumb from '../components/BreadCrumb';
 import YourAppointment from '../components/YourAppointment';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
 import YourHealthInformation from '../components/YourHealthInformation';
@@ -84,6 +85,7 @@ const Avs = props => {
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
       >
+        <BreadCrumb />
         <h1>After-visit Summary</h1>
 
         <va-accordion>

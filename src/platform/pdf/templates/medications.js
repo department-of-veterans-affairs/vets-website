@@ -70,10 +70,12 @@ const generateIntroductionContent = async (doc, parent, data) => {
 
   // preface
   if (data.preface) {
-    introduction.add(createSubHeading(doc, config, data.preface, { x: 16 }));
+    introduction.add(
+      createSubHeading(doc, config, data.preface, { x: 16, paragraphGap: 6 }),
+    );
   }
 
-  doc.moveDown();
+  doc.moveDown(0.5);
   introduction.end();
 };
 
@@ -174,8 +176,8 @@ const generateResultsContent = async (doc, parent, data) => {
     }
 
     // results --> items
-    const hasHorizontalRule = resultItem.sectionSeparators !== false;
     for (const listItem of resultItem.list) {
+      const hasHorizontalRule = listItem.sectionSeparators !== false;
       await generateResultsMedicationListContent(
         listItem,
         doc,
