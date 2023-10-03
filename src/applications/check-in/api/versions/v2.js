@@ -260,7 +260,18 @@ const v2 = {
       uuid,
       true,
     );
-
+    return {
+      ...json,
+    };
+  },
+  getUpcomingAppointmentsData: async token => {
+    const url = '/check_in/v2/upcoming_appointments/';
+    const requestUrl = `${environment.API_URL}${url}${token}`;
+    const json = await makeApiCallWithSentry(
+      apiRequest(requestUrl),
+      'get-lorota-data',
+      token,
+    );
     return {
       ...json,
     };

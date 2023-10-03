@@ -52,6 +52,9 @@
   "date-long": "{{date, dayOfWeek}}, {{date, long}}",
   "date-of-birth": "Date of birth",
   "date-time": "{{date, time}}",
+  "date-month-and-year": "{{date, monthAndYear}}",
+  "date-day-of-week": "{{date, dayOfWeek}}",
+  "date-day-of-month": "{{date, dayOfMonth}}",
   "daughter": "Daughter",
   "details": "Details",
   "details-for": "Details for",
@@ -356,5 +359,9 @@
   "check-current-mileage-rates": "Check current mileage rates",
   "start-checking-in-for-your-appointment": "Start checking in for your appointment",
   "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
-  "check-if-your-info-is-up-to-date": "Check if your information is up to date"
+  "check-if-your-info-is-up-to-date": "Check if your information is up to date",
+  "upcoming-appointments": "Upcoming Appointments",
+  "loading-your-appointment-information": "Loading your appointment information…",
+  "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
+  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments"
 }
