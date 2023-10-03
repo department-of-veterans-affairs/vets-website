@@ -1018,6 +1018,12 @@ export function routeToPageInFlow(callback, history, current, action, data) {
       checkPage(nextPage);
 
       if (
+        // for new URL CC flow
+        history.location.pathname.endsWith('/') &&
+        !nextPage.url.endsWith('/')
+      ) {
+        history.push(nextPage.url);
+      } else if (
         history.location.pathname.endsWith('/') ||
         (nextPage.url.endsWith('/') && nextPage.url !== flow.home.url)
       )
