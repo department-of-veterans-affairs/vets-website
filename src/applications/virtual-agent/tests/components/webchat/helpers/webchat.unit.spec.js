@@ -1,98 +1,128 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventObject from 'platform/monitoring/record-event';
+import { describe } from 'mocha';
 import { cardActionMiddleware } from '../../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
 
-describe('Webchat.jsx', () => {
-  /**
-   * create a fake action card
-   * @param {string} value url for the cardAction
-   * @returns {{cardAction: {value: string}}} fake cardAction card
-   */
-  const generateFakeCard = (value, type = 'openUrl') => ({
-    cardAction: { value, type },
+describe('Webchat.jsx Helpers', () => {
+  describe('activityMiddleware', () => {
+    /**
+     * Pseudo code for the activityMiddleware
+     * 1. Create a curried version of a activityMiddleware that takes in a
+     *    set.
+     * 2. only do main body of function if and only if the feature flag is
+     *    enabled
+     * 3. update the set to contain the urls for the decision letters if and
+     *    only if the card is an decision letter card containing openUrl actions
+     *
+     * Test cases:
+     * 1. when the feature flag is enabled and the card is a decision letter
+     *   - we should add url to set when there is only one decision letter
+     *   - we should add urls to set when there are multiple decision letters
+     * 2. when the feature flag is enabled and the card is not a decision letter
+     * 3. when the feature flag is disabled
+     */
   });
-  /**
-   * creates sinon functions for the tests
-   * @returns {{nextSpy: SinonSpy, recordEventStub: SinonStub}}
-   *          an object containing sinon functions for next and recordEvent
-   */
+  describe('cardActionMiddleware', () => {
+    /**
+     * Pseudo code for the middleware
+     * 1. update the cardActionMiddleware to take in a Set containing decision
+     *    letter urls
+     * 2. update the middleware to check if the url to check if the url is in
+     *    the set
+     * 3. if the url is in the set, call recordEvent otherwise skip
+     */
 
-  const generateSinonFunctions = () => ({
-    nextSpy: sandbox.spy(),
-    recordEventStub: sandbox.stub(recordEventObject, 'default'),
-  });
-  afterEach(() => {
-    sandbox.restore();
-  });
-  describe('when decision letter tracking is enabled', () => {
-    const decisionLetterEnabled = true;
+    /**
+     * create a fake action card
+     * @param {string} value url for the cardAction
+     * @returns {{cardAction: {value: string}}} fake cardAction card
+     */
+    const generateFakeCard = (value, type = 'openUrl') => ({
+      cardAction: { value, type },
+    });
+    /**
+     * creates sinon functions for the tests
+     * @returns {{nextSpy: SinonSpy, recordEventStub: SinonStub}}
+     *          an object containing sinon functions for next and recordEvent
+     */
 
-    it('should call recordEvent and next when card is a decision letter', () => {
-      const decisionLetterCard = generateFakeCard(
-        'https://www.va.gov/v0/claim_letters/abc',
-      );
-      const { nextSpy, recordEventStub } = generateSinonFunctions();
-      const dateStub = sandbox.stub(Date, 'now');
-      dateStub.returns(1234567890);
-      const recordEventData = {
-        event: 'file_download',
-        'button-click-label': 'Decision Letter',
-        time: new Date(Date.now()),
-      };
+    const generateSinonFunctions = () => ({
+      nextSpy: sandbox.spy(),
+      recordEventStub: sandbox.stub(recordEventObject, 'default'),
+    });
+    afterEach(() => {
+      sandbox.restore();
+    });
+    describe('when decision letter tracking is enabled', () => {
+      const decisionLetterEnabled = true;
 
-      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-        decisionLetterCard,
-      );
+      it('should call recordEvent and next when card is a decision letter', () => {
+        const decisionLetterCard = generateFakeCard(
+          'https://www.va.gov/v0/claim_letters/abc',
+        );
+        const { nextSpy, recordEventStub } = generateSinonFunctions();
+        const dateStub = sandbox.stub(Date, 'now');
+        dateStub.returns(1234567890);
+        const recordEventData = {
+          event: 'file_download',
+          'button-click-label': 'Decision Letter',
+          time: new Date(Date.now()),
+        };
 
-      expect(recordEventStub.calledOnce).to.be.true;
-      expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
+        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+          decisionLetterCard,
+        );
 
-      expect(nextSpy.calledOnce).to.be.true;
-      expect(nextSpy.firstCall.args[0]).to.eql(decisionLetterCard);
-      dateStub.restore();
+        expect(recordEventStub.calledOnce).to.be.true;
+        expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
+
+        expect(nextSpy.calledOnce).to.be.true;
+        expect(nextSpy.firstCall.args[0]).to.eql(decisionLetterCard);
+        dateStub.restore();
+      });
+
+      it('should not call recordEvent when card is not a decision letter', () => {
+        const nonDecisionLetterCard = generateFakeCard(
+          'random_thing_we_dont_use',
+        );
+        const { nextSpy, recordEventStub } = generateSinonFunctions();
+        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+          nonDecisionLetterCard,
+        );
+        expect(recordEventStub.notCalled).to.be.true;
+        expect(nextSpy.calledOnce).to.be.true;
+        expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+      });
+      it('should not call recordEvent when cardAction.type is not openUrl', () => {
+        const notOpenUrl = generateFakeCard(
+          'https://www.va.gov/v0/claim_letters/abc',
+          'notOpenUrl',
+        );
+        const { nextSpy, recordEventStub } = generateSinonFunctions();
+        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(notOpenUrl);
+        expect(recordEventStub.notCalled).to.be.true;
+        expect(nextSpy.calledOnce).to.be.true;
+        expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
+      });
     });
 
-    it('should not call recordEvent when card is not a decision letter', () => {
-      const nonDecisionLetterCard = generateFakeCard(
-        'random_thing_we_dont_use',
-      );
-      const { nextSpy, recordEventStub } = generateSinonFunctions();
-      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-        nonDecisionLetterCard,
-      );
-      expect(recordEventStub.notCalled).to.be.true;
-      expect(nextSpy.calledOnce).to.be.true;
-      expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
-    });
-    it('should not call recordEvent when cardAction.type is not openUrl', () => {
-      const notOpenUrl = generateFakeCard(
-        'https://www.va.gov/v0/claim_letters/abc',
-        'notOpenUrl',
-      );
-      const { nextSpy, recordEventStub } = generateSinonFunctions();
-      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(notOpenUrl);
-      expect(recordEventStub.notCalled).to.be.true;
-      expect(nextSpy.calledOnce).to.be.true;
-      expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
-    });
-  });
-
-  describe('when decision letter tracking is disabled', () => {
-    it('should not call recordEvent', () => {
-      const decisionLetterEnabled = false;
-      const nonDecisionLetterCard = generateFakeCard(
-        'random_thing_we_dont_use',
-      );
-      const { nextSpy, recordEventStub } = generateSinonFunctions();
-      cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-        nonDecisionLetterCard,
-      );
-      expect(recordEventStub.notCalled).to.be.true;
-      expect(nextSpy.calledOnce).to.be.true;
-      expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+    describe('when decision letter tracking is disabled', () => {
+      it('should not call recordEvent', () => {
+        const decisionLetterEnabled = false;
+        const nonDecisionLetterCard = generateFakeCard(
+          'random_thing_we_dont_use',
+        );
+        const { nextSpy, recordEventStub } = generateSinonFunctions();
+        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+          nonDecisionLetterCard,
+        );
+        expect(recordEventStub.notCalled).to.be.true;
+        expect(nextSpy.calledOnce).to.be.true;
+        expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+      });
     });
   });
 });
