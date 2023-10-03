@@ -6,8 +6,12 @@ const testsBlockingMerge = process.env.TESTS_BLOCKING_MERGE
 
 if (testsBlockingMerge.length > 0) {
   core.setFailed(
-    `This PR contains code to test specs that are disallowed for flakiness. Currently there is a grace period, beginning on October 4, to allow time for tests to be corrected. If not corrected by November 6, this application will be blocked from merging code changes. The file paths causing this status are: \n ${testsBlockingMerge.join(
-      '\n',
-    )}`,
+    `*MERGE BLOCK WARNING* This PR has test specs that have been disabled to to flakiness. \n 
+     Beginning on Nov 6th, 2023, merging will be blocked to PRs in products that have flaky Unit/E2E tests associated with them. Please resolve these tests BY 11/5/23 in order to avoid merge blocking.\n
+     More information is available at: https://depo-platform-documentation.scrollhelp.site/developer-docs/test-stability-review.\n
+    
+     The file paths causing this status are: \n ${testsBlockingMerge.join(
+       '\n',
+     )}`,
   );
 }
