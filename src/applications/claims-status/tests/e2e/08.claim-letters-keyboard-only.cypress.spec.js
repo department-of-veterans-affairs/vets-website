@@ -14,6 +14,7 @@ describe('Claim Letters Page', () => {
   });
 
   it('Can tab to download link and pagination', () => {
+    cy.get('.va-header-logo').focus();
     cy.tabToElement('va-link').should('exist');
     cy.tabToElement('va-pagination').should('exist');
     cy.axeCheck();
