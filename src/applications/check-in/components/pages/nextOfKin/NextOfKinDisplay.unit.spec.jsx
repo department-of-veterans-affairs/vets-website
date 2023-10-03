@@ -103,6 +103,14 @@ describe('pre-check-in experience', () => {
         );
         expect(getByTestId('additional-info')).to.exist;
       });
+      it('renders help text', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('help-text')).to.exist;
+      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
