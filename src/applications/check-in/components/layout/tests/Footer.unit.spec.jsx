@@ -18,19 +18,6 @@ describe('check-in', () => {
       expect(heading).to.contain.text('Need help?');
       expect(component.getByTestId('day-of-check-in-message')).to.exist;
       expect(component.queryByTestId('pre-check-in-message')).to.not.exist;
-      expect(component.queryByTestId('day-of-travel-extra-message')).to.not
-        .exist;
-    });
-    it('Renders extra messages on the day of footer', () => {
-      const component = render(
-        <CheckInProvider
-          store={{ app: 'dayOf' }}
-          router={{ currentPage: '/complete' }}
-        >
-          <Footer isPreCheckIn={false} />
-        </CheckInProvider>,
-      );
-      expect(component.getByTestId('day-of-travel-extra-message')).to.exist;
     });
     it('Renders default pre-check-in footer', () => {
       const component = render(
