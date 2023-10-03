@@ -57,9 +57,11 @@ export const allergyReducer = (state = initialState, action) => {
       return {
         ...state,
         allergiesList:
-          action.response.entry?.map(allergy => {
-            return convertAllergy(allergy.resource);
-          }) || [],
+          action.response.entry
+            ?.map(allergy => {
+              return convertAllergy(allergy.resource);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
       };
     }
     case Actions.Allergies.CLEAR_DETAIL: {

@@ -6,7 +6,7 @@ import { updateOrange22B } from '../../../actions';
 import {
   QUESTION_MAP,
   SHORT_NAME_MAP,
-} from '../../../utilities/question-data-map';
+} from '../../../constants/question-data-map';
 import { ROUTES } from '../../../constants';
 import { pageSetup } from '../../../utilities/page-setup';
 

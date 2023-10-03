@@ -8,6 +8,12 @@ import { focusElement } from 'platform/utilities/ui';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import {
+  getClaimType,
+  getAlreadySubmittedIntentText,
+  getAlreadySubmittedTitle,
+  getAlreadySubmittedText,
+} from '../config/helpers';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -23,6 +29,31 @@ export class ConfirmationPage extends React.Component {
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
 
+    const title = 'You’ve submitted your intent to file request';
+    const claimType = getClaimType(data);
+    const expirationDate = new Date(
+      submission.response?.expirationDate,
+    ).toDateString();
+    const expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
+    const alreadySubmittedIntents = {
+      compensation: !!submission.response?.compensationIntent?.status,
+      pension: !!submission.response?.pensionIntent?.status,
+    };
+    const alreadySubmittedIntentText = getAlreadySubmittedIntentText(
+      data,
+      alreadySubmittedIntents,
+      expirationDate,
+    );
+    const alreadySubmittedTitle = getAlreadySubmittedTitle(
+      data,
+      submission.response,
+    );
+    const alreadySubmittedText = getAlreadySubmittedText(
+      data,
+      submission.response,
+      expirationDate,
+    );
+
     return (
       <div>
         <div className="print-only">
@@ -32,21 +63,25 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="success"
-          visible
-        >
-          <h2 slot="headline">
-            Thank you for submitting your authorization request
-          </h2>
-          <p>
-            After we review your application, we will contact the private
-            provider or hospital to obtain the requested records. If we cannot
-            obtain the records within 15 days we will send you a follow up
-            letter.
-          </p>
-        </va-alert>
+        {alreadySubmittedIntentText ? (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            visible
+          >
+            <h2 slot="headline">You've already submitted an intent to file</h2>
+            <p>{alreadySubmittedIntentText}</p>
+          </va-alert>
+        ) : (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="success"
+            visible
+          >
+            <h2 slot="headline">{title}</h2>
+            <p>{expirationDateText}</p>
+          </va-alert>
+        )}
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
           {fullName ? (
@@ -82,6 +117,49 @@ export class ConfirmationPage extends React.Component {
           >
             Print this page
           </button>
+        </div>
+        {alreadySubmittedTitle && alreadySubmittedText ? (
+          <div>
+            <h2>{alreadySubmittedTitle}</h2>
+            <p>{alreadySubmittedText}</p>
+          </div>
+        ) : null}
+        <div>
+          <h2>What are my next steps?</h2>
+          <p>You should complete and file your claim as soon as possible.</p>
+          <p>
+            Your intent to file for {claimType} expires on {expirationDate}.
+            You’ll need to file your claim by this date to get retroactive
+            payments (payments for the time between when you submit your intent
+            to file and when we approve your claim).
+          </p>
+          {data.benefitSelection === 'Compensation,Pension' ? (
+            <ul style={{ listStyleType: 'none' }}>
+              <li>
+                <a
+                  className="vads-c-action-link--green vads-u-margin-bottom--4"
+                  href="/"
+                >
+                  Complete your disability compensation claim
+                </a>
+              </li>
+              <li>
+                <a
+                  className="vads-c-action-link--green vads-u-margin-bottom--4"
+                  href="/"
+                >
+                  Complete your pension claim
+                </a>
+              </li>
+            </ul>
+          ) : (
+            <a
+              className="vads-c-action-link--green vads-u-margin-bottom--4"
+              href="/"
+            >
+              Complete your {claimType}
+            </a>
+          )}
         </div>
         <a
           className="vads-c-action-link--green vads-u-margin-bottom--4"

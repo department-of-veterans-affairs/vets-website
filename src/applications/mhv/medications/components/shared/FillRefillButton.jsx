@@ -24,18 +24,24 @@ const FillRefillButton = rx => {
     return (
       <div>
         {success && (
-          <va-alert status="success">
+          <va-alert status="success" setFocus>
             <p className="vads-u-margin-y--0">
               The fill request has been submitted successfully
             </p>
           </va-alert>
         )}
         {error && (
-          <va-alert status="error">
-            <p className="vads-u-margin-y--0">
-              We didn’t get your [fill/refill] request. Try again.
+          <>
+            <va-alert status="error" setFocus>
+              <p className="vads-u-margin-y--0">
+                We didn’t get your [fill/refill] request. Try again.
+              </p>
+            </va-alert>
+            <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
+              If it still doesn’t work, call your VA pharmacy
+              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
             </p>
-          </va-alert>
+          </>
         )}
         <button
           type="button"
@@ -46,12 +52,6 @@ const FillRefillButton = rx => {
             dispatch(fillPrescription(prescriptionId));
           }}
         >
-          {error && (
-            <p className="vads-u-margin-y--0">
-              If it still doesn’t work, call your VA pharmacy
-              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
-            </p>
-          )}
           {`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
         </button>
       </div>

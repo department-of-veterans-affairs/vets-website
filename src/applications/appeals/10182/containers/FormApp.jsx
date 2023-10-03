@@ -101,7 +101,7 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3],
+    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
   );
 
   const content = isLoading ? (

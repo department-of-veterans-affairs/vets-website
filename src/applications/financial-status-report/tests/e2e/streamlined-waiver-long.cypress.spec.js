@@ -35,6 +35,10 @@ const testConfig = createTestConfig(
               name: 'financial_status_report_streamlined_waiver',
               value: true,
             },
+            {
+              name: 'financial_status_report_streamlined_waiver_assets',
+              value: false,
+            },
           ],
         },
       });
