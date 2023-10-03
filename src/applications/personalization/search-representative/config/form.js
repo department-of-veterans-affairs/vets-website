@@ -29,11 +29,11 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for search for a representative.',
+    notFound: 'Please start over by searching for a representative.',
     noAuth:
-      'Please sign in again to continue your application for search for a representative.',
+      'Please sign in again to continue filling out Form 21-21 or Form 21-22a.',
   },
-  title: 'Find a Representative',
+  title: 'Find a Local Representative',
   defaultDefinitions: {},
   chapters: {
     personalInformation: {
