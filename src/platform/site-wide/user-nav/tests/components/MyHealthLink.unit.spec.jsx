@@ -8,6 +8,8 @@ import MyHealthLink from '../../components/MyHealthLink';
 import MY_HEALTH_LINK from '~/platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
+const recordNavUserEventStub = () => {};
+
 const store = ({ featureToggleOn = false } = {}) => ({
   getState: () => ({
     featureToggles: {
@@ -23,9 +25,10 @@ describe('MyHealthLink', () => {
   describe('should render link when', () => {
     it('`mhv_landing_page_enabled`: false | isSSOe: true', async () => {
       const mockStore = store();
+
       const { container } = render(
         <Provider store={mockStore}>
-          <MyHealthLink isSSOe />
+          <MyHealthLink isSSOe recordNavUserEvent={recordNavUserEventStub} />
         </Provider>,
       );
       expect($('.my-health-link', container).textContent).to.eql('My Health');
@@ -35,7 +38,7 @@ describe('MyHealthLink', () => {
       const mockStore = store();
       const { container } = render(
         <Provider store={mockStore}>
-          <MyHealthLink />
+          <MyHealthLink recordNavUserEvent={recordNavUserEventStub} />
         </Provider>,
       );
       expect($('.my-health-link', container).textContent).to.eql('My Health');
@@ -47,7 +50,7 @@ describe('MyHealthLink', () => {
       const mockStore = store({ featureToggleOn: true });
       const { container } = render(
         <Provider store={mockStore}>
-          <MyHealthLink />
+          <MyHealthLink recordNavUserEvent={recordNavUserEventStub} />
         </Provider>,
       );
       expect($('.my-health-link', container).textContent).to.eql(
