@@ -44,11 +44,14 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.preparerName]: ({ afterHook }) => {
+      [pagePaths.thirdPartyPreparerFullName]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern('preparerName', data.preparerName);
+            fillFullNameWebComponentPattern(
+              'thirdPartyPreparerFullName',
+              data.thirdPartyPreparerFullName,
+            );
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
