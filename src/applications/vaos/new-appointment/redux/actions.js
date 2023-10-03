@@ -873,7 +873,11 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(`/requests/${requestData.id}?confirmMsg=true`);
+        history.push(
+          `${featureBreadcrumbUrlUpdate ? '/pending' : '/requests'}/${
+            requestData.id
+          }?confirmMsg=true`,
+        );
       } catch (error) {
         let extraData = null;
         if (requestBody) {
