@@ -42,7 +42,6 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['educationTypeUpdate', 'newSchoolName'],
   properties: {
     newSchoolName: {
       type: 'string',
