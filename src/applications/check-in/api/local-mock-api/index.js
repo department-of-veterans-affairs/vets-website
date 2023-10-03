@@ -112,6 +112,14 @@ const responses = {
     }
     return res.status(202).json(btsss.post.createMockSuccessResponse({}));
   },
+  'GET /check_in/v2/upcoming_appointments/:uuid': (req, res) => {
+    const { uuid } = req.params;
+    if (hasBeenValidated) {
+      hasBeenValidated = false;
+      return res.json(sharedData.get.createUpcomingAppointments(uuid));
+    }
+    return res.json(sharedData.get.createUpcomingAppointments(uuid));
+  },
 };
 
 module.exports = delay(responses, 2000);

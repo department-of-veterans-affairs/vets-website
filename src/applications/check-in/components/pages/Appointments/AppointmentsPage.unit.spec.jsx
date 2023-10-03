@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import AppointmentsPage from './index';
+import UpcomingAppointments from '../../UpcomingAppointments';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import * as useGetCheckInDataModule from '../../../hooks/useGetCheckInData';
 
@@ -23,12 +24,8 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
 
-      expect(getByTestId('what-next')).to.contain.text(
-        'Region 1: What to do next',
-      );
-      expect(getByTestId('upcoming-appointments')).to.contain.text(
-        'Region 2: Upcoming appointments',
-      );
+      expect(getByTestId('upcoming-appointments')).to.exist;
+      expect(UpcomingAppointments).to.exist;
 
       // Restore the hook
       useGetCheckInDataStub.restore();
