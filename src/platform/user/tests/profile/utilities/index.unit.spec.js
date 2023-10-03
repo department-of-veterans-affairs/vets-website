@@ -201,24 +201,6 @@ describe('Profile utilities', () => {
       expect(mappedData.status).to.equal('SERVER_ERROR');
     });
 
-    it('should handle veteran status error', () => {
-      const data = createDefaultData();
-      data.attributes.veteran_status = null;
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: [
-            {
-              externalService: 'EMIS',
-              status: 404,
-            },
-          ],
-        },
-      });
-
-      expect(mappedData.veteranStatus.status).to.equal('NOT_FOUND');
-    });
-
     it('should handle vet 360 error', () => {
       const data = createDefaultData();
       data.attributes.vet360_contact_information = null;

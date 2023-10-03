@@ -125,11 +125,11 @@ const mockUser = {
   meta: {
     errors: [
       {
-        externalService: 'EMIS',
+        externalService: 'MVI',
         startTime: '2020-06-18T21:15:34Z',
         endTime: null,
         description:
-          'IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].',
+          'IOError, Betamocks default response requested but none exist. Please create one at: [/cache/mvi/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/mvi/veteran_status/default.yml].',
         status: 503,
       },
     ],

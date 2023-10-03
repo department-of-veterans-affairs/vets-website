@@ -81,14 +81,7 @@ export function mapRawUserDataToState(json) {
     veteranStatus: {},
   };
 
-  if (meta && veteranStatus === null) {
-    const errorStatus = meta.errors.find(
-      error => error.externalService === commonServices.EMIS,
-    ).status;
-    userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
-  } else {
-    userState.veteranStatus = { ...veteranStatus };
-  }
+  userState.veteranStatus = { ...veteranStatus };
 
   if (meta && vaProfile === null) {
     const errorStatus = meta.errors.find(
