@@ -42,7 +42,7 @@ export const fillPrescription = prescriptionId => async dispatch => {
     dispatch({ type: Actions.Prescriptions.FILL, response });
     return null;
   } catch (error) {
-    const err = error.errors[0];
+    const err = error;
     err.id = prescriptionId;
     dispatch({
       type: Actions.Prescriptions.FILL_ERROR,

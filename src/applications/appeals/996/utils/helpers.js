@@ -3,6 +3,7 @@ import moment from 'moment';
 import { LEGACY_TYPE } from '../constants';
 
 import {
+  getIssueName,
   getSelected,
   processContestableIssues,
 } from '../../shared/utils/issues';
@@ -83,8 +84,6 @@ export const getSelectedCount = (formData, items) =>
  * the API
  * @param {AdditionalIssueItem|ContestableIssueItem}
  */
-export const getIssueName = (entry = {}) =>
-  entry.issue || entry.attributes?.ratingIssueSubjectText;
 
 export const getIssueDate = (entry = {}) =>
   entry.decisionDate || entry.attributes?.approxDecisionDate || '';
