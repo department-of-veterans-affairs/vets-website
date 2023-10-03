@@ -1,5 +1,6 @@
 const initialState = {
   appointments: [],
+  upcomingAppointments: [],
   veteranData: {
     demographics: {},
   },
@@ -34,7 +35,20 @@ import {
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
-import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
+import {
+  SET_APP,
+  RECORD_ANSWER,
+  SET_ERROR,
+  SET_FORM,
+  RECEIVED_UPCOMING_APPOINTMENTS,
+} from '../actions/universal';
+
+import {
+  setAppHandler,
+  setErrorHandler,
+  setFormHandler,
+  receivedUpcomingAppointmentsHandler,
+} from './universal';
 
 import { INIT_FORM } from '../actions/navigation';
 
@@ -43,13 +57,6 @@ import { initFormHandler, updateFormHandler } from './navigation';
 import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
-
-import {
-  SET_APP,
-  RECORD_ANSWER,
-  SET_ERROR,
-  SET_FORM,
-} from '../actions/universal';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
@@ -65,6 +72,7 @@ const handler = Object.freeze({
   [SET_APP]: setAppHandler,
   [SET_ERROR]: setErrorHandler,
   [SET_FORM]: setFormHandler,
+  [RECEIVED_UPCOMING_APPOINTMENTS]: receivedUpcomingAppointmentsHandler,
 
   default: state => {
     return { ...state };
