@@ -15,7 +15,7 @@ import {
   clearBotSessionStorage,
   IS_RX_SKILL,
 } from '../chatbox/utils';
-import { cardActionMiddleware } from './helpers/webChat';
+import { cardActionMiddleware, activityMiddleware } from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -218,6 +218,10 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware(
           virtualAgentDecisionLetterDownloadTracking,
+        )}
+        activityMiddleware={activityMiddleware(
+          virtualAgentDecisionLetterDownloadTracking,
+          new Set(),
         )}
         styleOptions={styleOptions}
         directLine={directLine}

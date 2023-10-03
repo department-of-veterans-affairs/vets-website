@@ -2,11 +2,17 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventObject from 'platform/monitoring/record-event';
 import { describe } from 'mocha';
-import { cardActionMiddleware } from '../../../../components/webchat/helpers/webChat';
+import {
+  cardActionMiddleware,
+  activityMiddleware,
+} from '../../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
 
 describe('Webchat.jsx Helpers', () => {
+  afterEach(() => {
+    sandbox.restore();
+  });
   describe('activityMiddleware', () => {
     /**
      * Pseudo code for the activityMiddleware
@@ -21,9 +27,143 @@ describe('Webchat.jsx Helpers', () => {
      * 1. when the feature flag is enabled and the card is a decision letter
      *   - we should add url to set when there is only one decision letter
      *   - we should add urls to set when there are multiple decision letters
-     * 2. when the feature flag is enabled and the card is not a decision letter
-     * 3. when the feature flag is disabled
      */
+
+    describe('When decision letter feature flag is enabled', () => {
+      const generateFakeCard = (text, ...urls) => {
+        const newCard = {
+          activity: {
+            type: 'message',
+            attachments: [
+              {
+                content: {
+                  body: [
+                    {
+                      text,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        };
+        return urls.reduce((card, url) => {
+          card.activity.attachments[0].content.body.push({
+            columns: [
+              {
+                items: [
+                  {
+                    actions: [
+                      {
+                        type: 'Action.OpenUrl',
+                        url,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          });
+          return card;
+        }, newCard);
+        // return newCard
+      };
+      const featureFlagEnabled = true;
+      it('should call next and not add anything to the set when the card is not a decision letter', () => {
+        const nextStub = sandbox.stub();
+        const card = generateFakeCard('not a decision letter');
+        const setOfDecisionLetterUrls = new Set();
+        const childrenObject = {};
+        const childrenSpy = sandbox.spy();
+
+        nextStub.returns(childrenSpy);
+
+        activityMiddleware(featureFlagEnabled, setOfDecisionLetterUrls)()(
+          nextStub,
+        )(card)(childrenObject);
+
+        expect(nextStub.calledOnce).to.be.true;
+        expect(nextStub.firstCall.args[0]).to.equal(card);
+
+        expect(childrenSpy.calledOnce).to.be.true;
+        expect(childrenSpy.firstCall.args[0]).to.equal(childrenObject);
+
+        expect(setOfDecisionLetterUrls.size).to.equal(0);
+      });
+      it('should add url to set when there is only one decision letter', () => {
+        const nextStub = sandbox.stub();
+        const card = generateFakeCard('Claims Decision Letters', 'url1');
+        const setOfDecisionLetterUrls = new Set();
+        const childrenObject = {};
+        const childrenSpy = sandbox.spy();
+
+        nextStub.returns(childrenSpy);
+
+        activityMiddleware(featureFlagEnabled, setOfDecisionLetterUrls)()(
+          nextStub,
+        )(card)(childrenObject);
+
+        expect(nextStub.calledOnce).to.be.true;
+        expect(nextStub.firstCall.args[0]).to.equal(card);
+
+        expect(childrenSpy.calledOnce).to.be.true;
+        expect(childrenSpy.firstCall.args[0]).to.equal(childrenObject);
+
+        expect(setOfDecisionLetterUrls.size).to.equal(1);
+        expect(setOfDecisionLetterUrls.has('url1')).to.be.true;
+      });
+      it('should add urls to set when there are multiple decision letters', () => {
+        const nextStub = sandbox.stub();
+        const card = generateFakeCard(
+          'Claims Decision Letters',
+          'url1',
+          'url2',
+          'url3',
+        );
+        const setOfDecisionLetterUrls = new Set();
+        const childrenObject = {};
+        const childrenSpy = sandbox.spy();
+
+        nextStub.returns(childrenSpy);
+
+        activityMiddleware(featureFlagEnabled, setOfDecisionLetterUrls)()(
+          nextStub,
+        )(card)(childrenObject);
+
+        expect(nextStub.calledOnce).to.be.true;
+        expect(nextStub.firstCall.args[0]).to.equal(card);
+
+        expect(childrenSpy.calledOnce).to.be.true;
+        expect(childrenSpy.firstCall.args[0]).to.equal(childrenObject);
+
+        expect(setOfDecisionLetterUrls.size).to.equal(3);
+        expect(setOfDecisionLetterUrls.has('url1')).to.be.true;
+        expect(setOfDecisionLetterUrls.has('url2')).to.be.true;
+        expect(setOfDecisionLetterUrls.has('url3')).to.be.true;
+      });
+    });
+    it('should call only next when the feature flag is disabled', () => {
+      //  3. when the feature flag is disabled
+      const nextStub = sandbox.stub();
+      const card = {};
+      const setOfDecisionLetterUrls = new Set();
+      const childrenObject = {};
+      const childrenSpy = sandbox.spy();
+
+      nextStub.returns(childrenSpy);
+
+      activityMiddleware(false, setOfDecisionLetterUrls)()(nextStub)(card)(
+        childrenObject,
+      );
+
+      expect(nextStub.calledOnce).to.be.true;
+      expect(nextStub.firstCall.args[0]).to.equal(card);
+
+      expect(childrenSpy.calledOnce).to.be.true;
+      expect(childrenSpy.firstCall.args[0]).to.equal(childrenObject);
+
+      expect(setOfDecisionLetterUrls.size).to.equal(0);
+    });
   });
   describe('cardActionMiddleware', () => {
     /**
@@ -53,9 +193,7 @@ describe('Webchat.jsx Helpers', () => {
       nextSpy: sandbox.spy(),
       recordEventStub: sandbox.stub(recordEventObject, 'default'),
     });
-    afterEach(() => {
-      sandbox.restore();
-    });
+
     describe('when decision letter tracking is enabled', () => {
       const decisionLetterEnabled = true;
 
