@@ -46,12 +46,12 @@ const formConfig = {
     personalInformation: {
       title: 'Your personal information',
       pages: {
-        personalInformationAuth: {
-          path: 'personal-information-auth',
-          title: personalInformation.title,
-          ...personalInformation.authenticated,
-          depends: () => false,
-        },
+        // personalInformationAuth: {
+        //   path: 'personal-information-auth',
+        //   title: personalInformation.title,
+        //   ...personalInformation.authenticated,
+        //   depends: () => false,
+        // },
         personalInformationNoAuth: {
           path: 'personal-information',
           title: personalInformation.title,
