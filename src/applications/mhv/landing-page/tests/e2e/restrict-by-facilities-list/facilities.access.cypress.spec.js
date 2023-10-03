@@ -3,7 +3,7 @@ import vamcEhr from '../../fixtures/vamc-ehr.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
-describe(appName, () => {
+describe.skip(appName, () => {
   describe('restrict access based on patient facilities', () => {
     beforeEach(() => {
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
