@@ -6,12 +6,11 @@ import {
   otherDescription,
   missingAreaOfDisagreementErrorMessage,
 } from '../content/areaOfDisagreement';
-
 import { areaOfDisagreementRequired } from '../validations/issues';
-import { calculateOtherMaxLength } from '../utils/disagreement';
-import { getIssueName } from '../utils/helpers';
 
 import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
+import { calculateOtherMaxLength } from '../../shared/utils/areaOfDisagreement';
+import { getIssueName } from '../../shared/utils/issues';
 
 // add 1 for last comma
 const allDisagreementsLength =
