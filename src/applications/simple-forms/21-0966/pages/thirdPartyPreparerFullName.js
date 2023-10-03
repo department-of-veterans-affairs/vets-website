@@ -17,13 +17,13 @@ export default {
         sign this application for them.
       </p>,
     ),
-    preparerName: fullNameNoSuffixUI(),
+    thirdPartyPreparerFullName: fullNameNoSuffixUI(),
   },
   schema: {
     type: 'object',
     properties: {
       'view:title': titleSchema,
-      preparerName: fullNameNoSuffixSchema,
+      thirdPartyPreparerFullName: fullNameNoSuffixSchema,
     },
   },
 };
