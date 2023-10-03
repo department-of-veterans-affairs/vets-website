@@ -8,18 +8,18 @@ import {
   getLegacyAppealsLength,
   mayHaveLegacyAppeals,
   isVersion1Data,
-  getSelectedCount,
-  getIssueDate,
-  getIssueNameAndDate,
-  hasDuplicates,
-  isEmptyObject,
   returnPhoneObject,
 } from '../../utils/helpers';
 
 import { SELECTED } from '../../../shared/constants';
+import { isEmptyObject } from '../../../shared/utils/helpers';
 import {
+  getIssueDate,
   getIssueName,
+  getIssueNameAndDate,
   getSelected,
+  getSelectedCount,
+  hasDuplicates,
   hasSomeSelected,
   someSelected,
 } from '../../../shared/utils/issues';

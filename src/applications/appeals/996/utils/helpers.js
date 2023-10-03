@@ -2,11 +2,7 @@ import moment from 'moment';
 
 import { LEGACY_TYPE } from '../constants';
 
-import {
-  getIssueName,
-  getSelected,
-  processContestableIssues,
-} from '../../shared/utils/issues';
+import { processContestableIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
 
 /**
@@ -73,45 +69,6 @@ export const mayHaveLegacyAppeals = ({
   legacyCount = 0,
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
-
-// additionalIssues (items) are separate because we're checking the count before
-// the formData is updated
-export const getSelectedCount = (formData, items) =>
-  getSelected({ ...formData, additionalIssues: items }).length;
-
-/**
- * Get issue name/title from either a manually added issue or issue loaded from
- * the API
- * @param {AdditionalIssueItem|ContestableIssueItem}
- */
-
-export const getIssueDate = (entry = {}) =>
-  entry.decisionDate || entry.attributes?.approxDecisionDate || '';
-
-export const getIssueNameAndDate = (entry = {}) =>
-  `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
-    entry.attributes?.approxDecisionDate ||
-    ''}`;
-
-const processIssues = (array = []) =>
-  array
-    .filter(entry => getIssueName(entry) && getIssueDate(entry))
-    .map(entry => getIssueNameAndDate(entry));
-
-export const hasDuplicates = (data = {}) => {
-  const contestedIssues = processIssues(data.contestedIssues);
-  const additionalIssues = processIssues(data.additionalIssues);
-  // ignore duplicate contestable issues (if any)
-  const fullList = [...new Set(contestedIssues)].concat(additionalIssues);
-
-  return fullList.length !== new Set(fullList).size;
-};
-
-// Simple one level deep check
-export const isEmptyObject = obj =>
-  obj && typeof obj === 'object' && !Array.isArray(obj)
-    ? Object.keys(obj)?.length === 0 || false
-    : false;
 
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the

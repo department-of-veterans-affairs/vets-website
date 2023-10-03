@@ -10,7 +10,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import formConfig from '../config/form';
 import { SAVED_CLAIM_TYPE } from '../constants';
 import forcedMigrations from '../migrations/forceMigrations';
-import { getIssueNameAndDate } from '../utils/helpers';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 import {
@@ -21,6 +20,7 @@ import {
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
+  getIssueNameAndDate,
   getSelected,
   issuesNeedUpdating,
   processContestableIssues,
@@ -198,6 +198,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
+  formData: PropTypes.shape({
+    informalConferenceRep: PropTypes.shape({}),
+  }),
   getContestableIssues: getContestableIssuesAction,
 };
 
