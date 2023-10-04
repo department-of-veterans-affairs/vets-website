@@ -11,7 +11,7 @@ export default {
   vapService,
   hcaEnrollmentStatus,
   ...ratedDisabilities,
-  contacts: profileContactsReducer,
+  profileContacts: profileContactsReducer,
 };
 
 export const selectCommunicationPreferences = state => {

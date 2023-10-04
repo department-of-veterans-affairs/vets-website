@@ -4,25 +4,19 @@ import { expect } from 'chai';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
-import emergencyContacts from '@@profile/tests/fixtures/ec.json';
-import nextOfKin from '@@profile/tests/fixtures/nok.json';
+import contacts from '@@profile/tests/fixtures/contacts.json';
 import PersonalHealthCareContacts from './index';
 
 const stateFn = ({
   featureTogglesLoading = false,
-  nok_ec_read_only = true,
+  profile_contacts = true,
 } = {}) => ({
   featureToggles: {
     loading: featureTogglesLoading,
-    nok_ec_read_only,
+    profile_contacts,
   },
-  emergencyContacts: {
-    data: emergencyContacts.data,
-    loading: false,
-    error: false,
-  },
-  nextOfKin: {
-    data: nextOfKin.data,
+  contacts: {
+    data: contacts.data,
     loading: false,
     error: false,
   },
@@ -38,7 +32,7 @@ describe('PersonalHealthCareContacts component', () => {
   });
 
   it('does not render when disabled', () => {
-    const initialState = stateFn({ nok_ec_read_only: false });
+    const initialState = stateFn({ profile_contacts: false });
     const { container } = setup({ initialState });
     expect(container).to.be.empty;
   });

@@ -1,17 +1,38 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { nokEcReadOnly } from '@@profile/selectors';
+import {
+  selectProfileContactsToggle,
+  selectProfileContacts,
+  selectEmergencyContact,
+  selectNextOfKin,
+} from '@@profile/selectors';
+import { fetchProfileContacts } from '@@profile/actions';
 
+import Contact from './Contact';
 import Loading from './Loading';
-import NextOfKin from './NextOfKin';
-import EmergencyContact from './EmergencyContact';
 
 const PersonalHealthCareContacts = () => {
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector(selectProfileContacts);
   const { featureToggles } = useSelector(state => state);
-  const enabled = useSelector(nokEcReadOnly);
+  const enabled = useSelector(selectProfileContactsToggle);
+  const emergencyContact = useSelector(selectEmergencyContact);
+  const nextOfKin = useSelector(selectNextOfKin);
+
+  useEffect(
+    () =>
+      enabled &&
+      !data &&
+      !loading &&
+      !error &&
+      dispatch(fetchProfileContacts()),
+    [data, dispatch, enabled, loading, error, fetchProfileContacts],
+  );
+
   if (featureToggles.loading) return <Loading testId="phcc-loading" />;
   if (!enabled) return <></>;
+
   return (
     <section className="profile-info-card vads-u-margin-y--4 vads-u-border-color--gray-lighter vads-u-border--1px">
       <h2 className="heading vads-u-background-color--gray-lightest vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-border-bottom--1px vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2">
@@ -35,7 +56,12 @@ const PersonalHealthCareContacts = () => {
           <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-measure--2">
             Who we’ll contact in case of a medical emergency
           </h3>
-          <EmergencyContact />
+          {emergencyContact && (
+            <Contact
+              key={emergencyContact.id}
+              {...emergencyContact.attributes}
+            />
+          )}
         </div>
 
         <div>
@@ -47,7 +73,9 @@ const PersonalHealthCareContacts = () => {
             Your next of kin is often your closest living relative, like your
             spouse, child, parent, or sibling.
           </p>
-          <NextOfKin />
+          {nextOfKin && (
+            <Contact key={nextOfKin.id} {...nextOfKin.attributes} />
+          )}
         </div>
       </div>
     </section>

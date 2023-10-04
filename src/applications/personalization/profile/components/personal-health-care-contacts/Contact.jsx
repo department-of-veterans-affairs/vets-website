@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // modeled after VA Profile's Health Benefit AssociatedPersonBio
 
 const Contact = ({
+  contactType,
   prefix,
   givenName,
   middleName,
@@ -33,6 +34,7 @@ const Contact = ({
     addressLine3,
     addressLine4,
   ].filter(line => !!line);
+  const showAddress = contactType.match(/next of kin/i);
 
   if (!givenName && !familyName && !primaryPhone) {
     return (
@@ -47,7 +49,8 @@ const Contact = ({
     <div>
       {name}
       <br />
-      {addressLines.length >= 2 &&
+      {showAddress &&
+        addressLines.length >= 2 &&
         addressLines.map(line => (
           <>
             {line}
@@ -60,6 +63,7 @@ const Contact = ({
 };
 
 Contact.propTypes = {
+  contactType: PropTypes.string,
   prefix: PropTypes.string,
   givenName: PropTypes.string,
   middleName: PropTypes.string,

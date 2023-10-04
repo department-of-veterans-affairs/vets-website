@@ -5,7 +5,7 @@ import {
 } from '@@profile/actions/contacts';
 
 export const initialState = {
-  data: [],
+  data: false,
   error: false,
   loading: false,
 };
@@ -16,9 +16,9 @@ export const profileContactsReducer = (state = initialState, action) => {
     case FETCH_PROFILE_CONTACTS_STARTED:
       return { ...state, loading: true };
     case FETCH_PROFILE_CONTACTS_SUCCEEDED:
-      return { ...state, data: payload, loading: false };
+      return { ...state, data: payload.data, loading: false };
     case FETCH_PROFILE_CONTACTS_FAILED:
-      return { ...state, data: [], loading: false, error: payload };
+      return { ...state, data: false, loading: false, error: true };
     default:
       return state;
   }

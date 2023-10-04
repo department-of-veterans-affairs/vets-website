@@ -1,8 +1,9 @@
 // import * as Sentry from '@sentry/browser';
 import { apiRequest } from '~/platform/utilities/api';
 
-export const FETCH_PROFILE_CONTACTS_STARTED ='FETCH_PROFILE_CONTACTS_STARTED';
-export const FETCH_PROFILE_CONTACTS_SUCCEEDED = 'FETCH_PROFILE_CONTACTS_SUCCEEDED';
+export const FETCH_PROFILE_CONTACTS_STARTED = 'FETCH_PROFILE_CONTACTS_STARTED';
+export const FETCH_PROFILE_CONTACTS_SUCCEEDED =
+  'FETCH_PROFILE_CONTACTS_SUCCEEDED';
 export const FETCH_PROFILE_CONTACTS_FAILED = 'FETCH_PROFILE_CONTACTS_FAILED';
 
 export const fetchProfileContactsStarted = () => ({
@@ -22,7 +23,7 @@ export const fetchProfileContactsFailed = payload => ({
 export const fetchProfileContacts = () => dispatch => {
   dispatch(fetchProfileContactsStarted());
   return apiRequest('/profile/contacts')
-    .then(({ data }) => dispatch(fetchProfileContactsSucceeded(data)))
+    .then(payload => dispatch(fetchProfileContactsSucceeded(payload)))
     .catch(err => {
       // // report fetching data failed
       // Sentry.withScope(scope => {
