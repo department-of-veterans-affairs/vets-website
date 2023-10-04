@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { has, head } from 'lodash';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EmailVICHelp from 'platform/static-data/EmailVICHelp';
 import { initiateIdRequest, timeoutRedirect } from '../actions';
 import config from '../config';
@@ -71,13 +70,12 @@ class Main extends React.Component {
     );
 
     return (
-      <VaAlert visible status="error">
+      <va-alert visible status="error">
         <h4 slot="headline">
-          {' '}
           We’re sorry. Something went wrong when loading the page.
         </h4>
         {content}
-      </VaAlert>
+      </va-alert>
     );
   }
 
@@ -88,10 +86,10 @@ class Main extends React.Component {
       ? config.messages[code]
       : config.messages.default;
     return (
-      <VaAlert visible status="error">
+      <va-alert visible status="error">
         <h4 slot="headline">We can't process your request</h4>
         {detail}
-      </VaAlert>
+      </va-alert>
     );
   }
 

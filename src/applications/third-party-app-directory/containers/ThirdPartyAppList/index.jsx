@@ -1,6 +1,5 @@
 // Node modules.
 import React, { Component } from 'react';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings'; // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
@@ -43,10 +42,10 @@ export class ThirdPartyAppList extends Component {
     // Show the error alert box if there was an error.
     if (error) {
       return (
-        <VaAlert visible status="error">
+        <va-alert visible status="error">
           <h3 slot="headline">Something went wrong</h3>
           {error}
-        </VaAlert>
+        </va-alert>
       );
     }
 

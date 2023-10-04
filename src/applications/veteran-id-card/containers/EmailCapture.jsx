@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { submitEmail, setEmail, setDirty } from '../actions';
 
 class EmailCapture extends React.Component {
@@ -26,12 +25,12 @@ class EmailCapture extends React.Component {
       view = (
         <div>
           <h1>Veteran ID Card</h1>
-          <VaAlert visible status="success">
+          <va-alert visible status="success">
             <h3 slot="headline">
               Thank you for your email address. We will follow up with
               instructions on how to proceed with the application.
             </h3>
-          </VaAlert>
+          </va-alert>
         </div>
       );
     } else {
