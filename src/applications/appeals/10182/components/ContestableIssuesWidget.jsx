@@ -11,7 +11,6 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
-import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../constants';
 
 import {
@@ -20,6 +19,7 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
+import { IssueCard } from '../../shared/components/IssueCard';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,

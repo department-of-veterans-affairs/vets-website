@@ -74,7 +74,7 @@ describe('add issue page', () => {
   });
   it('should show error with invalid date', () => {
     const data = cloneDeep(maximalData.data);
-    data.additionalIssues[0].decisionDate = '2022-?-?';
+    data.additionalIssues[0].decisionDate = null;
 
     const { container } = render(
       <div>
