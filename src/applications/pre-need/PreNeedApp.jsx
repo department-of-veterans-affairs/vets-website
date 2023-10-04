@@ -19,7 +19,6 @@ export default function PreNeedApp({ loading, location, children }) {
         radio.onclick = e => {
           const name = e.target.attributes.name.value;
           let optionalLabel = e.target.nextElementSibling.innerHTML;
-
           // conditional to remove PII on page 5/6 of 6/7
           if (
             name ===
@@ -29,7 +28,6 @@ export default function PreNeedApp({ loading, location, children }) {
               optionalLabel = 'Authorized Agent/Rep';
             else optionalLabel = 'Self';
           }
-          // prevents the bug involving Va radios and regular radio buttons producing double event logging
           const currentEvent = {
             event: 'int-radio-option-click',
             'radio-button-label': name,
