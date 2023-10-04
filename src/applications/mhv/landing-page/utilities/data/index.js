@@ -66,14 +66,14 @@ const resolveLandingPageLinks = (
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
         text: (
           <span>
-            {unreadMessageCount > 0 && (
-              <span className="indicator" role="status">
-                <span className="sr-only">
-                  {`${unreadMessageCount} unread messages`}
-                </span>
-              </span>
-            )}
             Inbox
+            {unreadMessageCount > 0 && (
+              <span
+                className="indicator"
+                role="status"
+                aria-label="You have unread messages. Go to your inbox."
+              />
+            )}
           </span>
         ),
         toggle: null,
