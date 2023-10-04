@@ -1,4 +1,4 @@
-import { repData } from 'applications/personalization/view-representative/static/representative-dummy';
+import { repData } from 'applications/representatives/view-representative/static/representative-dummy';
 
 export const FETCH_REPRESENTATIVE_STARTED = 'FETCH_REPRESENTATIVE_STARTED';
 export const FETCH_REPRESENTATIVE_SUCCESS = 'FETCH_REPRESENTATIVE_SUCCESS';

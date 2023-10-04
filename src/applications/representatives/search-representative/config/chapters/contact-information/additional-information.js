@@ -31,7 +31,8 @@ export const uiSchema = {
     'ui:title': 'Phone number',
   },
   email: emailUI(),
-  'view:confirmEmail': Object.assign({}, emailUI(), {
+  'view:confirmEmail': {
+    ...emailUI(),
     'ui:title': 'Confirm email address',
     'ui:required': () => true,
     'ui:validations': [
@@ -48,5 +49,5 @@ export const uiSchema = {
         },
       },
     ],
-  }),
+  },
 };

@@ -1,0 +1,7 @@
+{
+  "appName": "Representative Locator",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "locate-representative",
+  "rootUrl": "/representative/search/locate",
+  "productId": "f497dc81-4669-4b66-977b-35e5e8b1a12c"
+}

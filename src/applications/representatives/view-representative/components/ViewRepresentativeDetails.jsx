@@ -34,7 +34,7 @@ export const ViewRepresentativeDetails = props => (
         </a>
       </li>
       <li className="vads-u-margin-top--3">
-        <a href="/">
+        <a href="#whatDoesItCost">
           <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
           Need help?
         </a>
