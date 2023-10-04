@@ -9,7 +9,7 @@ describe('hca <GetHelp>', () => {
     it('should render with the correct number of sections', () => {
       const { container } = render(<GetHelp />);
       const selector = container.querySelectorAll('.help-talk');
-      expect(selector).to.have.lengthOf(4);
+      expect(selector).to.have.lengthOf(3);
     });
   });
 });

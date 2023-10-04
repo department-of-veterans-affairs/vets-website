@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TernaryRadios from './TernaryRadios';
 import { updateServicePeriod } from '../../actions';
-import { RESPONSES, SHORT_NAME_MAP } from '../../utilities/question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 

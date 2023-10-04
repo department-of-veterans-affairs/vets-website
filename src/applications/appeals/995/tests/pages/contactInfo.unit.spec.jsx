@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { $ } from '../../utils/ui';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 

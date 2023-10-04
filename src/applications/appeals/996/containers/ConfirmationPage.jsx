@@ -9,10 +9,9 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
-import { getIssueName } from '../utils/helpers';
 
 import { FORMAT_READABLE } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import { getIssueName, getSelected } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {

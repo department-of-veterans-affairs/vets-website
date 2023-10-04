@@ -168,7 +168,7 @@ class PatientMessageDraftsPage {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
       'sentDraftResponse',
     );
-    cy.get(Locators.DraftsPage.SEND_BTN).click({ force: true });
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
     cy.wait('@sentDraftResponse');
   };
 
@@ -205,7 +205,6 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
@@ -270,9 +269,8 @@ class PatientMessageDraftsPage {
       .select(recipientName);
   };
 
-  selectCategory = category => {
+  selectCategory = (category = 'COVID') => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
       .contains(category)
       .click();
   };

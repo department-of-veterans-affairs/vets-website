@@ -15,6 +15,7 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
@@ -146,11 +147,12 @@ const ConditionDetails = () => {
   const content = () => {
     if (condition) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <PrintHeader />
           <h1
             className="vads-u-margin-bottom--0"
             aria-describedby="condition-date"
+            data-dd-privacy="mask"
           >
             {condition.name.split(' (')[0]}
           </h1>
@@ -161,7 +163,10 @@ const ConditionDetails = () => {
                 id="condition-date"
               >
                 Date entered:{' '}
-                <span className="vads-u-font-weight--normal">
+                <span
+                  className="vads-u-font-weight--normal"
+                  data-dd-privacy="mask"
+                >
                   {formattedDate}
                 </span>
               </h2>
@@ -170,31 +175,34 @@ const ConditionDetails = () => {
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Status of health condition
             </h2>
-            <p>{condition.active ? 'Active' : 'Inactive'}</p>
+            <p data-dd-privacy="mask">
+              {condition.active ? 'Active' : 'Inactive'}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
             </h2>
-            <p>{condition.provider}</p>
+            <p data-dd-privacy="mask">{condition.provider}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p>
+            <p data-dd-privacy="mask">
               {condition.facility ||
                 'There is no facility reported at this time'}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               SNOMED Clinical term
             </h2>
-            <p>{condition.name}</p>
+            <p data-dd-privacy="mask">{condition.name}</p>
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
             <ItemList list={condition.comments} />
           </div>
-        </div>
+        </>
       );
     }
 

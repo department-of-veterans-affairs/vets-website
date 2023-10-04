@@ -3,7 +3,7 @@ import { ROUTES } from '../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('During both of these time periods - deep linking', () => {
     it('redirects to home when the service period page is loaded without the right criteria', () => {
       cy.visit(`/pact-act-wizard-test/${ROUTES.SERVICE_PERIOD}`);
@@ -97,6 +97,36 @@ xdescribe('PACT Act', () => {
 
     it('redirects to home when the agent orange 2-2-3 page is loaded without the right criteria', () => {
       cy.visit(`/pact-act-wizard-test/${ROUTES.ORANGE_2_2_3}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the radiation 2-3-A page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RADIATION_2_3_A}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the radiation 2-3-B page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RADIATION_2_3_B}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the lejeune 2-4 page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.LEJEUNE_2_4}`);
 
       h.verifyUrl(ROUTES.HOME);
 

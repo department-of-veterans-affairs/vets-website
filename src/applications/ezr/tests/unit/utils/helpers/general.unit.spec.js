@@ -10,13 +10,13 @@ describe('ezr general helpers', () => {
       suffix: 'Jr.',
     };
 
-    describe('when name object is omitted from the function', () => {
+    context('when name object is omitted from the function', () => {
       it('should gracefully return an empty string', () => {
         expect(normalizeFullName()).to.be.empty;
       });
     });
 
-    describe('when name object is provided to the function', () => {
+    context('when name object is provided to the function', () => {
       describe('when the `outputMiddle` param is excluded', () => {
         it('should return first name, last name and suffix', () => {
           expect(normalizeFullName(fullName)).to.equal('John Smith Jr.');

@@ -3,11 +3,15 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
 import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });

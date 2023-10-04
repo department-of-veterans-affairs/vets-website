@@ -9,23 +9,22 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
+// eslint-disable-next-line deprecate/import
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
 import { requestStates } from 'platform/utilities/constants';
 import { focusElement } from 'platform/utilities/ui';
 
+import FormFooter from 'platform/forms/components/FormFooter';
 import * as actions from '../actions';
 
 import useInitializeForm from '../hooks/useInitializeForm';
 import useSubmitForm from '../hooks/useSubmitForm';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import GetHelp from './GetHelp';
 
 function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
@@ -74,7 +73,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
   );
 
   if (submitStatus === requestStates.pending) {
-    return <LoadingIndicator message="Submitting your form..." />;
+    return <va-loading-indicator message="Submitting your form..." />;
   }
   return (
     <>
@@ -160,7 +159,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
             </button>
           </SchemaForm>
         ) : (
-          <LoadingIndicator message="Loading the form..." />
+          <va-loading-indicator message="Loading the form..." />
         )}
       </DowntimeNotification>
       <div className="vads-u-margin-top--1">

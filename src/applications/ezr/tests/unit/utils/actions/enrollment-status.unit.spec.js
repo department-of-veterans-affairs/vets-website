@@ -5,7 +5,7 @@ import {
   mockApiRequest,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-import { fetchEnrollmentStatus } from '../../../../utils/actions/entrollment-status';
+import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
 import { ENROLLMENT_STATUS_ACTIONS } from '../../../../utils/constants';
 
 describe('ezr enrollment status actions', () => {
@@ -29,7 +29,7 @@ describe('ezr enrollment status actions', () => {
       thunk = fetchEnrollmentStatus();
     });
 
-    describe('when fetch operation starts', () => {
+    context('when fetch operation starts', () => {
       it('should dispatch a fetch started action', done => {
         mockApiRequest(mockData);
         thunk(dispatch, getState)
@@ -41,7 +41,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when fetch operation succeeds', () => {
+    context('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', done => {
         mockApiRequest(mockData);
         thunk(dispatch, getState)
@@ -54,7 +54,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when fetch operation fails', () => {
+    context('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', done => {
         mockApiRequest(mockData, false);
         setFetchJSONResponse(
@@ -71,7 +71,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when fetch operation is already in progress', () => {
+    context('when fetch operation is already in progress', () => {
       it('should not dispatch anything', done => {
         getState = () => ({
           enrollmentStatus: { loading: true },
@@ -82,7 +82,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when form data is provided to fetch operation', () => {
+    context('when form data is provided to fetch operation', () => {
       it('should append the form data to the request URL', done => {
         mockData = {
           data: {
