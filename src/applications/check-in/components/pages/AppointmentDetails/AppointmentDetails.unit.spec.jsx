@@ -54,6 +54,13 @@ describe('check-in experience', () => {
       app: 'preCheckIn',
       appointments: initAppointments,
     };
+    const preCheckInStoreWith45MinuteFlag = {
+      app: 'preCheckIn',
+      appointments: initAppointments,
+      features: {
+        check_in_experience_45_minute_reminder: true,
+      },
+    };
     const dayOfCheckInStore = {
       app: 'dayOf',
       appointments: initAppointments,
@@ -140,6 +147,17 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(getByTestId('in-person-appointment-subtitle')).to.exist;
+        });
+        it('renders correct subtitle for 45 minute reminder feature flag', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStoreWith45MinuteFlag}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('in-person-45-minute-subtitle')).to.exist;
         });
         it('renders where to attend instead of clinic', () => {
           const { getByRole } = render(

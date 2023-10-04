@@ -21,6 +21,28 @@ const interpretObservedOrReported = code => {
   return EMPTY_FIELD;
 };
 
+export const extractLocation = allergy => {
+  if (
+    allergy?.recorder?.extension &&
+    isArrayAndHasItems(allergy.recorder.extension)
+  ) {
+    // Strip the leading "#" from the reference.
+    const ref = allergy.recorder.extension[0].valueReference?.reference?.substring(
+      1,
+    );
+    // Use the reference inside "recorder" to get the value from "contained".
+    if (ref && isArrayAndHasItems(allergy.contained)) {
+      const org = allergy.contained.filter(
+        containedItem => containedItem.id === ref,
+      );
+      if (org.length > 0 && org[0].name) {
+        return org[0].name;
+      }
+    }
+  }
+  return EMPTY_FIELD;
+};
+
 export const convertAllergy = allergy => {
   return {
     id: allergy.id,
@@ -32,7 +54,7 @@ export const convertAllergy = allergy => {
     name: allergy?.code?.text || EMPTY_FIELD,
     date: formatDateLong(allergy.recordedDate),
     reaction: getReactions(allergy),
-    location: allergy.recorder?.display || EMPTY_FIELD,
+    location: extractLocation(allergy),
     observedOrReported:
       isArrayAndHasItems(allergy.extension) &&
       interpretObservedOrReported(
