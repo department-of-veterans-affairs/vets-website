@@ -6,65 +6,47 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
 import formConfig from './config/form';
-import { getRequiredMap } from './utils/helpers';
 
 export default function PreNeedApp({ loading, location, children }) {
   const selectorData = useSelector(state => state.form || {});
   const [data, setData] = useState(selectorData);
-  const [priorEvent, setPriorEvent] = useState();
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
       setData(selectorData);
       const radios = document.querySelectorAll('input[type="radio"], va-radio');
-      let totalPages;
-      if(document.querySelectorAll('va-segmented-progress-bar')[0])
-      totalPages = document.querySelectorAll('va-segmented-progress-bar')[0].total;
 
       for (const radio of radios) {
         radio.onclick = e => {
           const name = e.target.attributes.name.value;
           let optionalLabel = e.target.nextElementSibling.innerHTML;
 
-          const secondLastIndex = name.lastIndexOf(
-            '_',
-            name.lastIndexOf('_') - 1,
-          );
-          const requiredMap = getRequiredMap(new Map(), data.pages, '', '');
-          const required = requiredMap.has(name.substring(secondLastIndex + 1));
-
           // conditional to remove PII on page 5/6 of 6/7
           if (
             name ===
-              'root_application_applicant_applicantRelationshipToClaimant' &&
-            optionalLabel !== 'Someone else, such as a preparer'
+              'root_application_applicant_applicantRelationshipToClaimant' 
           )
           {
-            // if total pages is equal to 6, the vet is filling it out. Otherwise, the authorized agent or rep is.
-            if (totalPages && totalPages === 6)
-            optionalLabel = 'Self';
-            else
+            if (optionalLabel === 'Someone else, such as a preparer')
             optionalLabel = 'Authorized Agent/Rep';
+          else
+          optionalLabel = 'Self';
           }
-
-
           // prevents the bug involving Va radios and regular radio buttons producing double event logging
-          setPriorEvent({name, optionalLabel, required});
-          const currentEvent = {name, optionalLabel, required};
+          const currentEvent = {event: 'int-radio-option-click', 'radio-button-label': name, 'radio-button-optionLabel': optionalLabel, 'radio-button-required': true};
+          const priorEvent = window.dataLayer[window.dataLayer.length - 1];
           // if prior event is identical to next event it must be a duplicate.
           if(!priorEvent ||  JSON.stringify(currentEvent) !== JSON.stringify(priorEvent))
           recordEvent({
             event: 'int-radio-option-click',
             'radio-button-label': name,
             'radio-button-optionLabel': optionalLabel,
-            'radio-button-required': required,
+            'radio-button-required': true,
           });
-          setPriorEvent({name, optionalLabel, required});
-
         };
       }
     },
-    [loading, location, selectorData, data, priorEvent],
+    [loading, location, selectorData, data],
   );
   return (
     <article id="pre-need" data-location={`${location?.pathname?.slice(1)}`}>

@@ -647,23 +647,6 @@ export function getCemeteries() {
     });
 }
 
-export function getRequiredMap(requiredMap, node, key, path) {
-  if (node && typeof node === 'object') {
-    if (key === 'required') {
-      const pathArray = path.split('.');
-      const requiredArray = node;
-      const finalMember = pathArray[pathArray.length - 1];
-
-      for (const req of requiredArray)
-        requiredMap.set(`${finalMember}_${req}`, true);
-    }
-
-    for (const nextKey of Object.keys(node))
-      getRequiredMap(requiredMap, node[nextKey], nextKey, `${path}.${key}`);
-  }
-  return requiredMap;
-}
-
 SSNWidget.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
