@@ -16,7 +16,7 @@ export const Hub = () => {
   const hasBadAddress = useSelector(hasBadAddressSelector);
 
   useEffect(() => {
-    document.title = `Your Profile | Veterans Affairs`;
+    document.title = `Profile | Veterans Affairs`;
   }, []);
 
   return (
