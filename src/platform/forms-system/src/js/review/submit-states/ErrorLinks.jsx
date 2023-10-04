@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { focusAndScrollToReviewElement } from '../../utilities/review';
+import {
+  scrollToReviewElement,
+  openAndEditChapter,
+} from '../../utilities/review';
 import { setEditMode } from '../../actions';
 
 const ErrorLinks = props => {
   const { appType, testId, errors } = props;
-
   const errorRef = useRef(null);
   const [hadErrors, setHadErrors] = useState(false);
 
@@ -69,19 +71,16 @@ const ErrorLinks = props => {
                 {errors.map(error => (
                   <li key={error.name}>
                     {error.chapterKey ? (
-                      <va-button
+                      <a // eslint-disable-line jsx-a11y/anchor-is-valid
                         href="#"
                         onClick={event => {
                           event.preventDefault();
-                          props.setEditMode(
-                            error.pageKey,
-                            true, // enable edit mode
-                            error.index || null,
-                          );
-                          focusAndScrollToReviewElement(error);
+                          openAndEditChapter(error.chapterKey);
+                          scrollToReviewElement(error);
                         }}
-                        text={error.message}
-                      />
+                      >
+                        {error.message}
+                      </a>
                     ) : (
                       error.message
                     )}
@@ -106,9 +105,9 @@ const mapDispatchToProps = {
 
 ErrorLinks.propTypes = {
   appType: PropTypes.string,
-  testId: PropTypes.string,
   errors: PropTypes.array,
   setEditMode: PropTypes.func,
+  testId: PropTypes.string,
 };
 
 export default connect(
