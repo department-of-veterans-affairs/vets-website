@@ -97,7 +97,7 @@ const IntroductionPage = props => {
             />
           </div>
         </va-alert>
-        <SaveInProgressIntro
+        {/* <SaveInProgressIntro
           startText="Sign in to see your current representative."
           unauthStartText="Sign in"
           prefillEnabled={formConfig.prefillEnabled}
@@ -105,7 +105,7 @@ const IntroductionPage = props => {
           formConfig={formConfig}
           pageList={props.route.pageList}
           downtime={formConfig.downtime}
-        />
+        /> */}
         <h2>What can I expect next?</h2>
         <ol>
           <li>
