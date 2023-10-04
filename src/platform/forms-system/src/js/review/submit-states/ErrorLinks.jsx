@@ -6,7 +6,6 @@ import {
   scrollToReviewElement,
   openAndEditChapter,
 } from '../../utilities/review';
-import { setEditMode } from '../../actions';
 
 const ErrorLinks = props => {
   const { appType, testId, errors } = props;
@@ -75,8 +74,8 @@ const ErrorLinks = props => {
                         href="#"
                         onClick={event => {
                           event.preventDefault();
-                          openAndEditChapter(error.chapterKey);
                           scrollToReviewElement(error);
+                          openAndEditChapter(error.chapterKey);
                         }}
                       >
                         {error.message}
@@ -99,20 +98,12 @@ const mapStateToProps = state => ({
   errors: state.form?.formErrors?.errors || [],
 });
 
-const mapDispatchToProps = {
-  setEditMode,
-};
-
 ErrorLinks.propTypes = {
   appType: PropTypes.string,
   errors: PropTypes.array,
-  setEditMode: PropTypes.func,
   testId: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ErrorLinks);
+export default connect(mapStateToProps)(ErrorLinks);
 
 export { ErrorLinks };
