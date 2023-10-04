@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -9,8 +9,8 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { apiRequest } from 'platform/utilities/api';
-import { isLoggedIn } from 'platform/user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { ServerErrorAlert } from '../../config/helpers';
 import { URL } from '../../constants';
 
@@ -37,7 +37,7 @@ const CategorySelect = props => {
     setDirty(true);
     onChange(selectedValue);
     // TODO: change this to look for education and other categories that require loggedIn
-    if (selectedValue === 'eddie' && !loggedIn) setShowModal(true);
+    if (selectedValue === 'Test Category 1' && !loggedIn) setShowModal(true);
   };
 
   //   define our custom onblur event
@@ -56,16 +56,7 @@ const CategorySelect = props => {
     // TODO: Update this to work with data when we get it
     return apiRequest(url)
       .then(res => {
-        const data = [];
-        if (res) {
-          for (const key of Object.keys(res)) {
-            data.push({ id: res[key].dataInfo, name: key });
-          }
-        }
-        return data;
-      })
-      .then(data => {
-        setApiData(data);
+        setApiData(res.data);
         isLoading(false);
       })
       .catch(() => {
@@ -102,8 +93,8 @@ const CategorySelect = props => {
         <option value="">&nbsp;</option>
         {/* TODO: Update this to work with data when we get it */}
         {apiData.map(f => (
-          <option key={f.id} value={f.name}>
-            {f.name}
+          <option key={f.id} value={f.attributes.name}>
+            {f.attributes.name}
           </option>
         ))}
       </VaSelect>
@@ -132,6 +123,9 @@ const CategorySelect = props => {
 
 CategorySelect.propTypes = {
   loggedIn: PropTypes.bool,
+  id: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 function mapStateToProps(state) {
