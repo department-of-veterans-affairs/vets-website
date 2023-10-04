@@ -355,10 +355,6 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
@@ -390,15 +386,29 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode,
-        postalCode: address?.zipCode || address?.zipcode,
-        country: getSchemaCountryCode(address?.countryCode),
+        street:
+          vapContactInfo.mailingAddress?.addressLine1 ||
+          contactInfo?.addressLine1,
+        street2:
+          vapContactInfo.mailingAddress?.addressLine2 ||
+          contactInfo?.addressLine2 ||
+          undefined,
+        city: vapContactInfo.mailingAddress?.city || contactInfo?.city,
+        state:
+          vapContactInfo.mailingAddress?.stateCode || contactInfo?.stateCode,
+        postalCode:
+          vapContactInfo.mailingAddress?.zipCode ||
+          vapContactInfo.mailingAddress?.zipcode ||
+          contactInfo?.zipCode ||
+          contactInfo?.zipcode,
+        country: getSchemaCountryCode(
+          vapContactInfo.mailingAddress?.countryCode ||
+            contactInfo?.countryCode,
+        ),
       },
       [formFields.livesOnMilitaryBase]:
-        address?.addressType === 'MILITARY_OVERSEAS',
+        vapContactInfo.mailingAddress?.addressType === 'MILITARY_OVERSEAS' ||
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.bankAccount]: {
       ...bankInformation,
