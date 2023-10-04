@@ -1,13 +1,16 @@
 import React from 'react';
 
 import {
-  // titleSchema,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import {
   addressNoMilitaryUI,
   addressNoMilitarySchema,
 } from 'platform/forms-system/src/js/web-component-patterns/addressPattern.jsx';
+import {
+  titleUI,
+  titleSchema,
+} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
+import { textInputNumericRange } from '../helpers';
 
 export default {
   uiSchema: {
@@ -16,53 +19,57 @@ export default {
       <span className="custom-label h4">Additional address</span>,
     ),
     additionalAddress: addressNoMilitaryUI({
-      // TODO: Customize street2 label if Designer confirms we should
+      labels: {
+        street2: 'Apartment or unit number',
+      },
       omit: ['isMilitary', 'street3'],
       required: true,
     }),
-    additionalCopies: {
-      // TODO: sync w/ Forgers on pattern refactors, then remove hack below
+    'view:title2': {
       'ui:title': (
-        <>
-          <span className="custom-label h4">
-            How many certificates should we send to this address?
-          </span>{' '}
-          <span className="custom-required">(*Required)</span>
-          <br />
-          <span className="custom-hint">
-            You may request up to 99 certificates
-          </span>
-        </>
-      ),
-      'ui:errorMessages': {
-        required: 'Please provide the number of certificates you would like',
-        minimum:
-          'Please raise the number of certificates to at least 1, you can request up to 99',
-        maximum:
-          'Please lower the number of certificates, you can only request up to 99',
-      },
-      'ui:reviewField': ({ children }) => (
-        <div className="review-row">
-          <dt>
-            <span className="vads-u-font-size--base">
-              How many certificates should we send to your address?
-            </span>
-          </dt>
-          <dd>{children}</dd>
-        </div>
+        <h4 className="vads-u-margin-y--0">Number of certificates</h4>
       ),
     },
+    additionalCopies: {
+      'ui:title': 'How many certificates should we send to this address?',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        hint: 'You may request up to 99 certificates',
+        inputmode: 'numeric',
+      },
+      'ui:errorMessages': {
+        required:
+          'Please provide the number of certificates you’d like to request',
+        pattern:
+          'Please enter a valid number of certificates, between 1 and 99',
+      },
+    },
+    'ui:validations': [
+      (errors, formData) => {
+        return textInputNumericRange(errors, formData, {
+          schemaKey: 'additionalCopies',
+          range: { min: 1, max: 99 },
+          customErrorMessages: {
+            min:
+              'Please raise the number of certificates, you may request up to 99',
+            max:
+              'Please lower the number of certificates, you may request up to 99',
+          },
+        });
+      },
+    ],
   },
   schema: {
     type: 'object',
     properties: {
+      'view:title1': titleSchema,
       additionalAddress: addressNoMilitarySchema({
         omit: ['isMilitary', 'street3'],
       }),
+      'view:title2': titleSchema,
       additionalCopies: {
-        type: 'number',
-        minimum: 1,
-        maximum: 99,
+        type: 'string',
+        pattern: '^\\d*$',
       },
     },
     required: ['additionalAddress', 'additionalCopies'],

@@ -218,13 +218,15 @@ const PreCheckInAccordionBlock = ({
   }
 
   return (
-    <va-accordion bordered data-testid="pre-check-in-accordions">
+    <va-accordion uswds bordered data-testid="pre-check-in-accordions">
       {accordions.map((accordion, index) => {
         return (
           <va-accordion-item
             header={accordion.header}
             key={index}
             open={accordion.open}
+            uswds
+            bordered
           >
             {accordion.body}
           </va-accordion-item>
