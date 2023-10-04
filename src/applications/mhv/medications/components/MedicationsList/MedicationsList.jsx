@@ -4,6 +4,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MedicationsListCard from './MedicationsListCard';
 
+const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
   const { rxList, pagination, setCurrentPage } = props;
@@ -36,7 +37,7 @@ const MedicationsList = props => {
         data-testid="page-total-info"
         id="showingRx"
       >
-        Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
+        Showing {displayNums[0]} - {displayNums[1]} of {pagination.totalEntries}{' '}
         medications, available to fill or refill first
       </h2>
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
@@ -45,12 +46,12 @@ const MedicationsList = props => {
           rxList.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
       </div>
       <VaPagination
+        max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"
-        className="pagination"
+        className="pagination vads-u-max-width--none vads-u-justify-content--center"
         onPageSelect={e => onPageChange(e.detail.page)}
         page={pagination.currentPage}
         pages={pagination.totalPages}
-        maxPageListLength={pagination.perPage}
         uswds
       />
     </>
