@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import contacts from '@@profile/tests/fixtures/contacts.json';
-import PersonalHealthCareContacts from './index';
+import PersonalHealthCareContacts from './PersonalHealthCareContacts';
 
 const stateFn = ({
   featureTogglesLoading = false,
