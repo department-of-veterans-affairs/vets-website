@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -24,25 +23,31 @@ export default function PreNeedApp({ loading, location, children }) {
           // conditional to remove PII on page 5/6 of 6/7
           if (
             name ===
-              'root_application_applicant_applicantRelationshipToClaimant' 
-          )
-          {
+            'root_application_applicant_applicantRelationshipToClaimant'
+          ) {
             if (optionalLabel === 'Someone else, such as a preparer')
-            optionalLabel = 'Authorized Agent/Rep';
-          else
-          optionalLabel = 'Self';
+              optionalLabel = 'Authorized Agent/Rep';
+            else optionalLabel = 'Self';
           }
           // prevents the bug involving Va radios and regular radio buttons producing double event logging
-          const currentEvent = {event: 'int-radio-option-click', 'radio-button-label': name, 'radio-button-optionLabel': optionalLabel, 'radio-button-required': true};
-          const priorEvent = window.dataLayer[window.dataLayer.length - 1];
-          // if prior event is identical to current event it must be a duplicate.
-          if(!priorEvent ||  JSON.stringify(currentEvent) !== JSON.stringify(priorEvent))
-          recordEvent({
+          const currentEvent = {
             event: 'int-radio-option-click',
             'radio-button-label': name,
             'radio-button-optionLabel': optionalLabel,
             'radio-button-required': true,
-          });
+          };
+          const priorEvent = window.dataLayer[window.dataLayer.length - 1];
+          // if prior event is identical to current event it must be a duplicate.
+          if (
+            !priorEvent ||
+            JSON.stringify(currentEvent) !== JSON.stringify(priorEvent)
+          )
+            recordEvent({
+              event: 'int-radio-option-click',
+              'radio-button-label': name,
+              'radio-button-optionLabel': optionalLabel,
+              'radio-button-required': true,
+            });
         };
       }
     },
