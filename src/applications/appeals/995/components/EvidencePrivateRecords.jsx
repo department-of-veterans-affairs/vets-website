@@ -494,6 +494,7 @@ const EvidencePrivateRecords = ({
                 key={index}
                 name="issues"
                 class="dd-privacy-hidden"
+                data-dd-action-name="issue name"
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
