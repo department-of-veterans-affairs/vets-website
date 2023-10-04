@@ -19,38 +19,6 @@ const IntroductionPage = props => {
   };
 
   return (
-<<<<<<< HEAD:src/applications/personalization/search-representative/containers/IntroductionPage.jsx
-    <div className="schemaform-intro">
-      <FormTitle title="Find an accredited representative" />
-      <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
-        An accredited attorney, claims agent, or Veterans Service Officer (VSO)
-        can help you file VA claims and appeals.
-      </p>
-      <h2>Search for a representative</h2>
-      <p>
-        Click the link below and follow the steps to find a representative near
-        you.
-      </p>
-      <SaveInProgressIntro
-        buttonOnly
-        unauthStartText="Sign in and search for a representative"
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        formConfig={formConfig}
-        pageList={props.route.pageList}
-        downtime={formConfig.downtime}
-      />
-      <h3>Learn more about accredited representatives</h3>
-      <p>
-        If you’re not ready to look for an accredited representative, you can
-        find out more about how a representative can help with your VA claims
-        and appeals
-      </p>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a href="#">Get help filing your claim or appeal</a>
-      <FormFooter formConfig={formConfig} />
-    </div>
-=======
     <>
       <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
         <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
@@ -167,7 +135,6 @@ const IntroductionPage = props => {
         </p>
       </div>
     </>
->>>>>>> d563e829a3 (move content from TransitionPageDescription to IntroductionPage):src/applications/representatives/search-representative/containers/IntroductionPage.jsx
   );
 };
 
