@@ -41,12 +41,12 @@ const Orange221A = ({
 
   const locationList = (
     <ul>
-      <li>American Samoa or its territorial waters</li>
-      <li>Cambodia at Mimot or Krek, Kampong Cham Province</li>
-      <li>Guam or its territorial waters</li>
-      <li>Johnston Atoll or on a ship that called at Johnston Atoll</li>
-      <li>Laos</li>
-      <li>On a U.S. or Royal Thai military base in Thailand</li>
+      <li>{RESPONSES.AMERICAN_SAMOA}</li>
+      <li>{RESPONSES.CAMBODIA}</li>
+      <li>{RESPONSES.GUAM}</li>
+      <li>{RESPONSES.JOHNSTON_ATOLL}</li>
+      <li>{RESPONSES.LAOS}</li>
+      <li>{RESPONSES.THAILAND}</li>
     </ul>
   );
 

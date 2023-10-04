@@ -5,8 +5,10 @@ import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import MY_HEALTH_LINK from '~/platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 
-const MyHealthLink = ({ isSSOe, onClick }) => {
+const MyHealthLink = ({ isSSOe, recordNavUserEvent }) => {
   const newLandingPageEnabled = useSelector(isLandingPageEnabled);
+  const eventName = newLandingPageEnabled ? 'my-healthevet' : 'my-health';
+  const recordMyHealthEvent = recordNavUserEvent(eventName);
   const href = newLandingPageEnabled
     ? MY_HEALTH_LINK.href
     : mhvUrl(isSSOe, 'home');
@@ -14,7 +16,7 @@ const MyHealthLink = ({ isSSOe, onClick }) => {
 
   return (
     <li>
-      <a className="my-health-link" href={href} onClick={onClick}>
+      <a className="my-health-link" href={href} onClick={recordMyHealthEvent}>
         {content}
       </a>
     </li>
@@ -23,7 +25,7 @@ const MyHealthLink = ({ isSSOe, onClick }) => {
 
 MyHealthLink.propTypes = {
   isSSOe: PropTypes.bool,
-  onClick: PropTypes.func,
+  recordNavUserEvent: PropTypes.func,
 };
 
 export default MyHealthLink;

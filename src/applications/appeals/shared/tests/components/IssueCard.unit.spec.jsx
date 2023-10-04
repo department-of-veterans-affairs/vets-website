@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { IssueCardContent, IssueCard } from '../../components/IssueCard';
-import { SELECTED } from '../../../shared/constants';
+import { SELECTED } from '../../constants';
 
 const getContestableIssue = (id, selected) => ({
   ratingIssueSubjectText: `issue-${id}`,
@@ -99,9 +99,11 @@ describe('<IssueCard>', () => {
 });
 
 describe('<IssueCardContent>', () => {
-  it('should render an empty div', () => {
+  it('should render an error message for empty date', () => {
     const { container } = render(<IssueCardContent />);
-    expect($('.widget-content-wrap', container).textContent).to.equal('');
+    expect($('.widget-content-wrap', container).textContent).to.equal(
+      'Decision date: Invalid decision date',
+    );
   });
   it('should render Contestable issue content', () => {
     const issue = getContestableIssue('20');

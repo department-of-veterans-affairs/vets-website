@@ -89,7 +89,7 @@ const CashInBank = ({
           hint={null}
           id="cash"
           inputmode="decimal"
-          label="What is the dollar amount of all checkings and savings accounts?"
+          label="What is the total amount you have in all checking and savings accounts?"
           name="cash"
           onBlur={onBlur}
           onInput={({ target }) => setCash(target.value)}
@@ -132,7 +132,16 @@ const CashInBankReview = formData => {
   const { assets } = data;
   const { monetaryAssets = [] } = assets;
 
-  return isStreamlinedShortForm(data) ? (
+  // we want this to show if a short form exited early and they have no other monetary assets where it
+  //  would normally render the monetary asset list
+  const noOtherMonetaryAssets =
+    monetaryAssets.filter(
+      asset =>
+        asset?.name?.toLowerCase() !== 'cash on hand (not in bank)' &&
+        asset?.name?.toLowerCase() !== 'cash in a bank (savings and checkings)',
+    ).length === 0;
+
+  return isStreamlinedShortForm(data) || noOtherMonetaryAssets ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
