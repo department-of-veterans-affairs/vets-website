@@ -1025,7 +1025,8 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         // HACK: For new CC primary care facility flow, very hacky
         // TODO: Clean up how we handle new flow
         !nextPage.url.endsWith('/') &&
-        previousPage !== 'typeOfFacility'
+        (previousPage !== 'typeOfFacility' &&
+          previousPage !== 'audiologyCareType')
       ) {
         history.push(nextPage.url);
       } else if (
