@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { openCrisisModal } from '../util/helpers';
+import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 
 const InterstitialPage = props => {
   const { acknowledge, type } = props;
+
   const handleKeyPress = e => {
     if (e.key === 'Enter' || e.key === ' ') {
       // prevent from scrolling to the footer
@@ -15,7 +16,7 @@ const InterstitialPage = props => {
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
-  });
+  }, []);
 
   const continueButtonText = useMemo(
     () => {
@@ -56,11 +57,7 @@ const InterstitialPage = props => {
               support anytime, day or night.
             </p>
 
-            <va-button
-              secondary="true"
-              text="Connect with the Veterans Crisis Line"
-              onClick={openCrisisModal}
-            />
+            <CrisisLineConnectButton />
           </li>
           <li>
             <p>
