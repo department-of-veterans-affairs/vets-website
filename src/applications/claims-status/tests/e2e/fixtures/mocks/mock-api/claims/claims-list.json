@@ -89,6 +89,72 @@
       }
     },
     {
+      "id": "closed-w-documents-needed",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 600382810,
+        "dateFiled": "2023-02-08",
+        "minEstDate": "2023-06-25",
+        "maxEstDate": "2023-09-03",
+        "phaseChangeDate": "2010-03-15",
+        "open": false,
+        "waiverSubmitted": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": false,
+        "phase": 8,
+        "everPhaseBack": false,
+        "currentPhaseBack": false,
+        "requestedDecision": false,
+        "claimType": "Compensation",
+        "updatedAt": "2011-03-30T18:19:29.857Z"
+      }
+    },
+    {
+      "id": "phase3-w-documents-needed",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 600382810,
+        "dateFiled": "2023-02-08",
+        "minEstDate": "2023-06-25",
+        "maxEstDate": "2023-09-03",
+        "phaseChangeDate": "2010-03-15",
+        "open": true,
+        "waiverSubmitted": false,
+        "documentsNeeded": false,
+        "developmentLetterSent": true,
+        "decisionLetterSent": false,
+        "phase": 3,
+        "everPhaseBack": false,
+        "currentPhaseBack": false,
+        "requestedDecision": false,
+        "claimType": "Compensation",
+        "updatedAt": "2010-03-30T18:19:29.857Z"
+      }
+    },
+    {
+      "id": "phase4-w-documents-needed",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 600382810,
+        "dateFiled": "2023-02-08",
+        "minEstDate": "2023-06-25",
+        "maxEstDate": "2023-09-03",
+        "phaseChangeDate": "2009-03-15",
+        "open": true,
+        "waiverSubmitted": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": false,
+        "phase": 4,
+        "everPhaseBack": false,
+        "currentPhaseBack": false,
+        "requestedDecision": false,
+        "claimType": "Compensation",
+        "updatedAt": "2009-03-30T18:19:29.857Z"
+      }
+    },
+    {
       "id": "phase3-decision-mailed",
       "type": "evss_claims",
       "attributes": {

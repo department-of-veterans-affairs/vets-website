@@ -13,7 +13,7 @@ import { ROUTES } from '../../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('1989 or earlier - "Yes" to LEJEUNE_2_4 - "Yes" to only Camp Lejeune (Results Screen 2)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
@@ -48,7 +48,25 @@ xdescribe('PACT Act', () => {
       h.selectRadio(h.ORANGE_2_2_3_INPUT, 1);
       h.clickContinue();
 
-      // TODO add Radiation & Lejeune questions when they exist
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 1);
+      h.clickContinue();
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.clickContinue();
+
+      // TODO add Results screen 2 when it exists
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.clickBack();
+
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.clickBack();
 
       // ORANGE_2_2_3
       h.verifyUrl(ROUTES.ORANGE_2_2_3);

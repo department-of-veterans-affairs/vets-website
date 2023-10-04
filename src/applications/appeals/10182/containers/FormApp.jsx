@@ -7,7 +7,6 @@ import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
-import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import formConfig from '../config/form';
 import { SHOW_PART3 } from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
@@ -15,6 +14,7 @@ import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
 
 export const FormApp = ({
@@ -101,7 +101,7 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3],
+    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
   );
 
   const content = isLoading ? (

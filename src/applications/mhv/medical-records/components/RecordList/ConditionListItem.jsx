@@ -17,17 +17,20 @@ const ConditionListItem = props => {
           <h3
             className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
             aria-label={`${record.name} ${formattedDate}`}
+            data-dd-privacy="mask"
           >
             {record.name}
           </h3>
 
-          <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
+          <p className="vads-u-margin--0">
+            Date entered: <span data-dd-privacy="mask">{formattedDate}</span>
+          </p>
           <Link
             to={`/conditions/${record.id}`}
             className="vads-u-margin--0"
             aria-describedby={`details-button-description-${record.id}`}
           >
-            <span className="vads-u-font-weight--bold">Details</span>
+            <strong>Details</strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

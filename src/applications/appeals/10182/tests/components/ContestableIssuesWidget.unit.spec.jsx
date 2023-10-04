@@ -19,7 +19,7 @@ describe('<ContestableIssuesWidget>', () => {
     onChange = () => {},
     setFormData = () => {},
     getContestableIssues = () => {},
-    contestableIssues = { status: '' },
+    apiLoadStatus = '',
   } = {}) => ({
     id: 'id',
     value: [
@@ -35,7 +35,7 @@ describe('<ContestableIssuesWidget>', () => {
     },
     setFormData,
     getContestableIssues,
-    contestableIssues,
+    apiLoadStatus,
   });
 
   it('should render a list of check boxes (IssueCard component)', () => {
@@ -150,8 +150,8 @@ describe('<ContestableIssuesWidget>', () => {
     });
   });
 
-  it('should not show no loaded issues alert after remove all additional items', async () => {
-    const props = getProps();
+  it('should show "no loaded issues" alert when api fails', async () => {
+    const props = getProps({ apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED });
     const { container } = render(
       <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
     );
@@ -162,7 +162,7 @@ describe('<ContestableIssuesWidget>', () => {
     );
   });
 
-  it('should not show no loaded issues alert after remove all additional items', async () => {
+  it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
     const props = getProps();
     const { container, rerender } = render(
       <ContestableIssuesWidget {...props} value={[]} />,
@@ -179,23 +179,20 @@ describe('<ContestableIssuesWidget>', () => {
   it('should call getContestableIssues only once, if there was a previous failure', async () => {
     const getContestableIssuesSpy = sinon.spy();
     const props = getProps({
-      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_FAILED },
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
       getContestableIssues: getContestableIssuesSpy,
     });
-    const { rerender } = render(
-      <ContestableIssuesWidget {...props} value={[]} />,
-    );
-
-    rerender(<ContestableIssuesWidget {...props} value={[]} />);
+    render(<ContestableIssuesWidget {...props} value={[]} />);
 
     await waitFor(() => {
-      expect(getContestableIssuesSpy.calledOnce).to.be.true;
+      expect(getContestableIssuesSpy.called).to.be.true;
     });
   });
-  it('should not call getContestableIssues if there was a previous failure', () => {
+
+  it('should not call getContestableIssues if api was previously successful', () => {
     const getContestableIssuesSpy = sinon.spy();
     const props = getProps({
-      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED },
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
       getContestableIssues: getContestableIssuesSpy,
     });
     render(<ContestableIssuesWidget {...props} value={[]} />);

@@ -178,7 +178,7 @@ const VitalDetails = () => {
   const content = () => {
     if (records?.length) {
       return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <>
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
             download={generateVitalsPdf}
@@ -194,17 +194,28 @@ const VitalDetails = () => {
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <h2>{moment(vital.date).format('LLL')}</h2>
+                  <h2 data-dd-privacy="mask">
+                    {moment(vital.date).format('LLL')}
+                  </h2>
                   <h3>Result:</h3>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                  <p
+                    className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+                    data-dd-privacy="mask"
+                  >
                     {vital.measurement}
                   </p>
                   <h3>Location:</h3>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                  <p
+                    className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+                    data-dd-privacy="mask"
+                  >
                     {vital.location}
                   </p>
                   <h3>Provider notes:</h3>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                  <p
+                    className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+                    data-dd-privacy="mask"
+                  >
                     {vital.notes}
                   </p>
                 </li>
@@ -216,13 +227,18 @@ const VitalDetails = () => {
             {records?.length > 0 &&
               records?.map((vital, idx) => (
                 <li key={idx}>
-                  <h2>{moment(vital.date).format('LLL')}</h2>
+                  <h2 data-dd-privacy="mask">
+                    {moment(vital.date).format('LLL')}
+                  </h2>
                   <h3>Result:</h3>
-                  <p>{vital.measurement}</p>
+                  <p data-dd-privacy="mask">{vital.measurement}</p>
                   <h3>Location:</h3>
-                  <p>{vital.location}</p>
+                  <p data-dd-privacy="mask">{vital.location}</p>
                   <h3>Provider notes:</h3>
-                  <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+                  <p
+                    className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+                    data-dd-privacy="mask"
+                  >
                     {vital.notes}
                   </p>
                 </li>
@@ -239,7 +255,7 @@ const VitalDetails = () => {
               showLastPage
             />
           </div>
-        </div>
+        </>
       );
     }
     return (

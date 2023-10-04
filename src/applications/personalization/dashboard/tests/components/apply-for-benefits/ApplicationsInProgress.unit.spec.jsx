@@ -172,7 +172,7 @@ describe('ApplicationsInProgress component', () => {
 
     expect(view.getByTestId('applications-in-progress-header')).to.exist;
     expect(
-      view.getByText('You have no benefit application drafts to show', {
+      view.getByText('You have no applications in progress', {
         exact: false,
       }),
     ).to.exist;

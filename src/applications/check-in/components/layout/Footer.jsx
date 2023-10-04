@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import ExternalLink from '../ExternalLink';
 import BackToHome from '../BackToHome';
+import TravelHelpBlock from '../TravelHelpBlock';
 import { phoneNumbers } from '../../utils/appConstants';
 
 const Footer = ({ router, isPreCheckIn }) => {
@@ -13,6 +14,13 @@ const Footer = ({ router, isPreCheckIn }) => {
   const { getCurrentPageFromRouter } = useFormRouting(router);
 
   const currentPage = getCurrentPageFromRouter();
+
+  const travelPages = [
+    'travel-pay',
+    'travel-address',
+    'travel-vehicle',
+    'travel-mileage',
+  ];
   return (
     <footer>
       <h2
@@ -50,14 +58,21 @@ const Footer = ({ router, isPreCheckIn }) => {
           </p>
         </div>
       ) : (
-        <p data-testid="day-of-check-in-message">
-          <Trans
-            i18nKey="for-questions-about-your-appointment"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
-        </p>
+        <div data-testid="day-of-check-in-message">
+          {travelPages.includes(currentPage) ||
+          (currentPage && currentPage.includes('complete')) ? (
+            <TravelHelpBlock />
+          ) : (
+            <p>
+              <Trans
+                i18nKey="for-questions-about-your-appointment"
+                components={[
+                  <span key="bold" className="vads-u-font-weight--bold" />,
+                ]}
+              />
+            </p>
+          )}
+        </div>
       )}
       {currentPage === 'introduction' && (
         <p data-testid="intro-extra-message">
