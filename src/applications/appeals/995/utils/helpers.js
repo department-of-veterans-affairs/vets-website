@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { LEGACY_TYPE, AMA_DATE } from '../constants';
+import { AMA_DATE } from '../constants';
 
 import { FORMAT_YMD } from '../../shared/constants';
 import {
@@ -37,24 +37,6 @@ export const getEligibleContestableIssues = issues => {
   });
   return processContestableIssues(result);
 };
-
-/**
- * Find legacy appeal array included with contestable issues & return length
- * Note: we are using the length of this array instead of trying to do a 1:1
- * coorelation of contestable issues to legacy issues since we're only getting a
- * summary and not a matching name or date (at least in the mock data).
- * @param {ContestableIssues} issues - Array of both eligible & ineligible
- *  contestable issues, plus legacy issues
- * @return {Number} - length of legacy array
- */
-export const getLegacyAppealsLength = issues =>
-  (issues || []).reduce((count, issue) => {
-    if (issue.type === LEGACY_TYPE) {
-      // add just-in-case there is more than one legacy type entry
-      return count + (issue.attributes?.issues?.length || 0);
-    }
-    return count;
-  }, 0);
 
 const amaCutoff = moment(AMA_DATE).startOf('day');
 /**

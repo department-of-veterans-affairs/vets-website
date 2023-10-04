@@ -74,8 +74,6 @@ const supportedBenefitTypes = [
   // 'nca',
 ];
 
-export const LEGACY_TYPE = 'legacyAppeal';
-
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
   isSupported: supportedBenefitTypes.includes(type.value),
