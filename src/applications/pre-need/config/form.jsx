@@ -9,6 +9,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { useSelector } from 'react-redux';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -61,6 +62,9 @@ import {
   buriedWSponsorsEligibility,
   nonRequiredFullNameUI,
   PreparerPhoneNumberDescription,
+  preparerAddressHasState,
+  applicantsMailingAddressHasState,
+  sponsorMailingAddressHasState,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -91,6 +95,26 @@ const {
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = omit('required', fullName);
+
+function MailingAddressStateTitle(props) {
+  const { elementPath } = props;
+  const data = useSelector(state => state.form.data || {});
+  const country = get(elementPath, data);
+  if (!environment.isProduction() && country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
+}
+
+export const applicantMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.claimant.address.country" />
+);
+export const preparerMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.applicant.view:applicantInfo.mailingAddress.country" />
+);
+export const sponsorMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.veteran.address.country" />
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -716,7 +740,20 @@ const formConfig = {
               uiSchema: {
                 application: {
                   claimant: {
-                    address: address.uiSchema('Applicant’s mailing address'),
+                    address: merge(
+                      {},
+                      address.uiSchema('Applicant’s mailing address'),
+                      {
+                        state: {
+                          'ui:title': applicantMailingAddressStateTitleWrapper,
+                          'ui:options': {
+                            hideIf: formData =>
+                              !applicantsMailingAddressHasState(formData) &&
+                              !environment.isProduction(),
+                          },
+                        },
+                      },
+                    ),
                     'view:contactInfoDescription': {
                       'ui:description': contactInfoDescription,
                     },
@@ -756,7 +793,16 @@ const formConfig = {
               uiSchema: {
                 application: {
                   veteran: {
-                    address: address.uiSchema('Sponsor’s address'),
+                    address: merge({}, address.uiSchema('Sponsor’s address'), {
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData) &&
+                            !environment.isProduction(),
+                        },
+                      },
+                    }),
                   },
                 },
               },
@@ -899,8 +945,13 @@ const formConfig = {
                               },
                               city: { 'ui:required': isAuthorizedAgent },
                               state: {
-                                'ui:title': 'State or territory',
+                                'ui:title': preparerMailingAddressStateTitleWrapper,
                                 'ui:required': isAuthorizedAgent,
+                                'ui:options': {
+                                  hideIf: formData =>
+                                    !preparerAddressHasState(formData) &&
+                                    !environment.isProduction(),
+                                },
                               },
                               postalCode: { 'ui:required': isAuthorizedAgent },
                             },
