@@ -204,6 +204,16 @@ function mapNotificaitonMethodV1(notificationMethod) {
   return notificationMethod;
 }
 
+function selectAddressSource(primary, secondary, tertiary) {
+  if (primary?.addressLine1) {
+    return primary;
+  }
+  if (secondary?.addressLine1) {
+    return secondary;
+  }
+  return tertiary || {};
+}
+
 function mapNotificationMethodV2({ notificationMethod }) {
   if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
@@ -310,6 +320,11 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
   const vet360ContactInformation =
     stateUser.vet360ContactInformation.mailingAddress || {};
+  const address = selectAddressSource(
+    vet360ContactInformation,
+    vapContactInfo.mailingAddress,
+    contactInfo,
+  );
 
   let firstName;
   let middleName;
@@ -388,34 +403,20 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street:
-          vapContactInfo.mailingAddress?.addressLine1 ||
-          contactInfo?.addressLine1,
-        street2:
-          vapContactInfo.mailingAddress?.addressLine2 ||
-          contactInfo?.addressLine2 ||
-          undefined,
-        city: vapContactInfo.mailingAddress?.city || contactInfo?.city,
-        state:
-          vapContactInfo.mailingAddress?.stateCode ||
-          vet360ContactInformation?.province ||
-          contactInfo?.stateCode,
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode || address?.province,
         postalCode:
-          vapContactInfo.mailingAddress?.zipCode ||
-          vapContactInfo.mailingAddress?.zipcode ||
-          vet360ContactInformation?.InternationalPostalCode ||
-          contactInfo?.zipCode ||
-          contactInfo?.zipcode,
+          address?.zipCode ||
+          address?.zipcode ||
+          address?.InternationalPostalCode,
         country: getSchemaCountryCode(
-          vapContactInfo.mailingAddress?.countryCode ||
-            vet360ContactInformation?.countryCodeIso3 ||
-            contactInfo?.countryCode,
+          address?.countryCode || address?.countryCodeIso3,
         ),
       },
       [formFields.livesOnMilitaryBase]:
-        vapContactInfo.mailingAddress?.addressType === 'MILITARY_OVERSEAS' ||
-        contactInfo?.addressType === 'MILITARY_OVERSEAS' ||
-        vet360ContactInformation?.addressType === 'MILITARY_OVERSEAS',
+        address?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.bankAccount]: {
       ...bankInformation,
