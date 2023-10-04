@@ -1026,7 +1026,8 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         // TODO: Clean up how we handle new flow
         !nextPage.url.endsWith('/') &&
         (previousPage !== 'typeOfFacility' &&
-          previousPage !== 'audiologyCareType')
+          previousPage !== 'audiologyCareType' &&
+          previousPage !== 'vaFacilityV2')
       ) {
         history.push(nextPage.url);
       } else if (
