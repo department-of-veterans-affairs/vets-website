@@ -329,14 +329,17 @@ const ReplyForm = props => {
   useEffect(
     () => {
       const draftBody = draft && draft.body;
-      if (messageBody !== draftBody) {
+      if (
+        messageBody === draftBody ||
+        (messageBody === '' && draftBody === null)
+      ) {
+        setNavigationError(null);
+      } else if (messageBody !== draftBody) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
           confirmButtonText: 'Continue editing',
           cancelButtonText: 'Delete draft',
         });
-      } else if (messageBody === draftBody) {
-        setNavigationError(null);
       }
     },
     [draft, messageBody],
