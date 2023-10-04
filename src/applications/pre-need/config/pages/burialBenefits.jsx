@@ -1,22 +1,64 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import React from 'react';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import environment from 'platform/utilities/environment';
 
+import { useSelector } from 'react-redux';
 import {
   isVeteran,
   getCemeteries,
-  desiredCemeteryNoteDescription,
+  desiredCemeteryNoteDescriptionVeteran,
+  desiredCemeteryNoteDescriptionNonVeteran,
+  desiredCemeteryNoteDescriptionProd,
 } from '../../utils/helpers';
 
 const {
   hasCurrentlyBuried,
 } = fullSchemaPreNeed.properties.application.properties;
 
+function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (environment.isProduction()) {
+    return desiredCemeteryNoteDescriptionProd;
+  }
+  return isVeteran(data)
+    ? desiredCemeteryNoteDescriptionVeteran
+    : desiredCemeteryNoteDescriptionNonVeteran;
+}
+
+function DesiredCemeteryTitle() {
+  const data = useSelector(state => state.form.data || {});
+  return environment.isProduction() || isVeteran(data)
+    ? 'Which VA national cemetery would you prefer to be buried in?'
+    : 'Which VA national cemetery would the applicant prefer to be buried in?';
+}
+
+export const desiredCemeteryNoteTitleWrapper = (
+  <a
+    href="https://www.va.gov/find-locations/"
+    rel="noreferrer"
+    target="_blank"
+    className="desiredCemeteryNoteTitle"
+  >
+    Find a VA national cemetery
+  </a>
+);
+
+function DesiredCemeteryNoteTitle() {
+  if (environment.isProduction()) {
+    return null;
+  }
+  return desiredCemeteryNoteTitleWrapper;
+}
+
+export const desiredCemeteryTitleWrapper = <DesiredCemeteryTitle />;
+
 export const uiSchema = {
   application: {
     claimant: {
       desiredCemetery: autosuggest.uiSchema(
-        'Which VA national cemetery would you prefer to be buried in?',
+        desiredCemeteryTitleWrapper,
         getCemeteries,
         {
           'ui:options': {
@@ -27,16 +69,25 @@ export const uiSchema = {
         },
       ),
       'view:desiredCemeteryNote': {
-        'ui:description': desiredCemeteryNoteDescription,
+        'ui:title': DesiredCemeteryNoteTitle,
+        'ui:description': DesiredCemeteryNoteDescription,
       },
     },
     hasCurrentlyBuried: {
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: formData => {
-          const title = isVeteran(formData)
-            ? 'Is there anyone currently buried in a VA national cemetery under your eligibility?'
-            : 'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+          let title = '';
+          if (isVeteran(formData)) {
+            title =
+              'Is there anyone currently buried in a VA national cemetery under your eligibility?';
+          } else if (environment.isProduction()) {
+            title =
+              'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
+          } else {
+            title =
+              'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';
+          }
           return { title };
         },
         labels: {

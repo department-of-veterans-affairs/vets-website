@@ -59,10 +59,7 @@ const LabsAndTests = () => {
   };
 
   return (
-    <div
-      id="labs-and-tests"
-      className="vads-l-col--12 medium-screen:vads-l-col--8"
-    >
+    <div id="labs-and-tests">
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>

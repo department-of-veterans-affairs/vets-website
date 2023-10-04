@@ -13,7 +13,7 @@ import { ROUTES } from '../../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('During both of these time periods - "Yes" to two or more categories (Results Screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
@@ -43,7 +43,34 @@ xdescribe('PACT Act', () => {
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
       h.clickContinue();
 
-      // TODO add Radiation & Lejeune questions and Results screen 1
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 0);
+      h.clickContinue();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 1);
+      h.clickContinue();
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.clickContinue();
+
+      // TODO add Results screen 1
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.clickBack();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.clickBack();
+
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.clickBack();
 
       // ORANGE_2_2_B
       h.verifyUrl(ROUTES.ORANGE_2_2_B);

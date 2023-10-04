@@ -106,7 +106,7 @@ const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
 
           <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
           <EducationAndTraining isLOA1={isLOA1} />
-          <SavedApplications />
+          <SavedApplications isLOA1={isLOA1} />
         </>
       </Toggler.Enabled>
 
@@ -385,7 +385,7 @@ const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
-    payments: state.allPayments.payments || [],
+    payments: state.allPayments?.payments || [],
   };
 };
 

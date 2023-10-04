@@ -68,7 +68,8 @@ export const errorMessages = {
   decisions: {
     blankDate: 'You must enter a decision date',
     pastDate: 'You must add a decision date that’s in the past',
-    newerDate: 'You must add a more recent decision date',
+    newerDate:
+      'You must add an issue with a decision date that’s less than 100 years old',
   },
   evidence: {
     // VA evidence
