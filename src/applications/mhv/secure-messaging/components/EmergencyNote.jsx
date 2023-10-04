@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { openCrisisModal } from '../util/helpers';
+import CrisisLineConnectButton from './CrisisLineConnectButton';
 
 const EmergencyNote = props => {
   const { dropDownFlag } = props;
@@ -22,13 +22,8 @@ const EmergencyNote = props => {
             connect with our Veterans Crisis Line. We offer confidential support
             anytime, day or night.
           </li>
-          <va-button
-            className="vads-u-margin-top--1"
-            // style={{ position: 'relative', left: '-25px' }}
-            secondary
-            onClick={openCrisisModal}
-            text="Connect with the Veterans Crisis Line"
-          />
+
+          <CrisisLineConnectButton />
           <li>
             <strong>If you think your life or health is in danger,</strong> Call{' '}
             <va-telephone contact="911" /> or go to the nearest emergency room.
