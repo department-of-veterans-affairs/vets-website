@@ -54,10 +54,9 @@ const alertMessage = (alertType, appType) => {
                 </p>
                 <p className="vads-u-font-family--sans">
                   If you continue having trouble viewing information about your{' '}
-                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`}, email
-                  us at{' '}
-                  <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>
-                  .
+                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`},
+                  contact us online through{' '}
+                  <a href="https://ask.va.gov">Ask VA</a>.
                 </p>
               </>
             ) : (
@@ -118,8 +117,9 @@ const alertMessage = (alertType, appType) => {
         secondBody: (
           <p className="vads-u-font-family--sans">
             If you continue having trouble viewing information about your
-            current debts and bills, email us at{' '}
-            <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+            current debts and bills, contact us online through{' '}
+            <a href="https://ask.va.gov">Ask VA</a>
+            ..
           </p>
         ),
       };
