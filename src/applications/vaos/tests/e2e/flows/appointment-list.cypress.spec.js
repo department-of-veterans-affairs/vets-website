@@ -1,7 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
 import {
   mockFeatureToggles,
   mockAppointmentsApi,
@@ -17,9 +16,7 @@ import {
   mockVamcEhr,
 } from '../vaos-cypress-helpers';
 
-const rootUrl = environment.isProduction()
-  ? 'health-care/schedule-view-va-appointments/appointments/'
-  : 'my-health/appointments/';
+const rootUrl = 'my-health/appointments/';
 describe('VAOS appointment list', () => {
   describe('appointments details', () => {
     beforeEach(() => {
