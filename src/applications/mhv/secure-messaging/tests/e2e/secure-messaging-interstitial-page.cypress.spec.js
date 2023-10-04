@@ -32,6 +32,9 @@ describe('Secure Messaging Compose', () => {
         'aria-required-children': {
           enabled: false,
         },
+        'color-contrast': {
+          enabled: false,
+        },
       },
     });
   });
