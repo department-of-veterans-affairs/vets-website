@@ -13,13 +13,13 @@ import {
   getIssueNameAndDate,
   hasDuplicates,
   isEmptyObject,
-  appStateSelector,
   calculateIndexOffset,
 } from '../../utils/helpers';
 
 import { SELECTED } from '../../../shared/constants';
 import { getItemSchema } from '../../../shared/utils/helpers';
 import {
+  appStateSelector,
   someSelected,
   hasSomeSelected,
   getSelected,

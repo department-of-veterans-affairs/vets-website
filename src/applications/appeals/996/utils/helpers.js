@@ -70,14 +70,6 @@ export const mayHaveLegacyAppeals = ({
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
 
-export const appStateSelector = state => ({
-  // Validation functions are provided the pageData and not the
-  // formData on the review & submit page. For more details
-  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-  contestedIssues: state.form?.data?.contestedIssues || [],
-  additionalIssues: state.form?.data?.additionalIssues || [],
-});
-
 /**
  * Calculate the index offset for the additional issue
  * @param {Number} index - index of data in combined array of contestable issues
