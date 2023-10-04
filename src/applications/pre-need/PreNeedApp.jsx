@@ -17,8 +17,10 @@ export default function PreNeedApp({ loading, location, children }) {
     () => {
       setData(selectorData);
       const radios = document.querySelectorAll('input[type="radio"], va-radio');
-      const totalPages = document.querySelectorAll('va-segmented-progress-bar')[0].total;
-      
+      let totalPages;
+      if(document.querySelectorAll('va-segmented-progress-bar')[0])
+      totalPages = document.querySelectorAll('va-segmented-progress-bar')[0].total;
+
       for (const radio of radios) {
         radio.onclick = e => {
           const name = e.target.attributes.name.value;
@@ -39,7 +41,7 @@ export default function PreNeedApp({ loading, location, children }) {
           )
           {
             // if total pages is equal to 6, the vet is filling it out. Otherwise, the authorized agent or rep is.
-            if (totalPages === 6)
+            if (totalPages && totalPages === 6)
             optionalLabel = 'Self';
             else
             optionalLabel = 'Authorized Agent/Rep';
@@ -49,7 +51,7 @@ export default function PreNeedApp({ loading, location, children }) {
           // prevents the bug involving Va radios and regular radio buttons producing double event logging
           setPriorEvent({name, optionalLabel, required});
           const currentEvent = {name, optionalLabel, required};
-
+          // if prior event is identical to next event it must be a duplicate.
           if(!priorEvent ||  JSON.stringify(currentEvent) !== JSON.stringify(priorEvent))
           recordEvent({
             event: 'int-radio-option-click',
