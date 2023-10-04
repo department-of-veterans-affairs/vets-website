@@ -1,5 +1,4 @@
-import { compact, isEmpty } from 'lodash';
-import { LocationType } from '../constants';
+import { compact } from 'lodash';
 
 export function titleCase(str) {
   if (!str) return null;
@@ -12,21 +11,6 @@ export function titleCase(str) {
 }
 
 export function buildAddressArray(location, titleCaseText = false) {
-  if (location && location.type === LocationType.CC_PROVIDER) {
-    const { address } = location.attributes;
-
-    if (!isEmpty(address)) {
-      return compact([
-        titleCaseText ? titleCase(address.street) : address.street,
-        address.appt,
-        `${titleCaseText ? titleCase(address.city) : address.city}, ${
-          address.state
-        } ${address.zip}`,
-      ]);
-    }
-
-    return [];
-  }
   if (location && location.attributes) {
     const {
       address: { physical: address },
