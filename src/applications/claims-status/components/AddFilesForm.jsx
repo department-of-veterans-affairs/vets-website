@@ -289,12 +289,12 @@ class AddFilesForm extends React.Component {
           }}
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
-          message-aria-describedby="To submit supporting documents for a new disability claim, please please visit our How to File a Claim page."
+          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page."
           label="The files I uploaded are supporting documents for this claim only."
         />
         <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
           To submit supporting documents for a new disability claim, please
-          please visit our{' '}
+          visit our{' '}
           <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
         </div>
         <div>
