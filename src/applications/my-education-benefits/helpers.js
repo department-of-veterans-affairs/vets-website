@@ -408,7 +408,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
           contactInfo?.zipcode,
         country: getSchemaCountryCode(
           vapContactInfo.mailingAddress?.countryCode ||
-            vet360ContactInformation?.countryName ||
+            vet360ContactInformation?.countryCodeIso3 ||
             contactInfo?.countryCode,
         ),
       },
