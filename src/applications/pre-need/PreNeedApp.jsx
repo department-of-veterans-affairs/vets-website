@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
-import { useSelector } from 'react-redux';
 import formConfig from './config/form';
 
 export default function PreNeedApp({ loading, location, children }) {
-  const selectorData = useSelector(state => state.form || {});
-  const [data, setData] = useState(selectorData);
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
-      setData(selectorData);
       const radios = document.querySelectorAll('input[type="radio"], va-radio');
 
       for (const radio of radios) {
@@ -49,7 +45,7 @@ export default function PreNeedApp({ loading, location, children }) {
         };
       }
     },
-    [loading, location, selectorData, data],
+    [loading, location],
   );
   return (
     <article id="pre-need" data-location={`${location?.pathname?.slice(1)}`}>
