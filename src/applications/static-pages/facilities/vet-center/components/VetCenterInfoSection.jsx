@@ -74,7 +74,7 @@ function VetCenterInfoSection(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Get Directions on Google Maps
+            Get directions on Google Maps
             <span className="sr-only">{`to ${props.vetCenter.title}`}</span>
           </a>
         </div>
