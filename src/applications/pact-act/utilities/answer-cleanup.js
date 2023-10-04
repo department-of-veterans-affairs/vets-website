@@ -26,7 +26,7 @@ export const gatherFlowSpecificQuestions = servicePeriodResponse => {
   const flowSpecificQuestions = [];
 
   for (const questionName of ROADMAP) {
-    const paths = DISPLAY_CONDITIONS?.[questionName]?.PATHS;
+    const paths = DISPLAY_CONDITIONS?.[questionName]?.SERVICE_PERIOD_SELECTION;
     const mayShowInCurrentFlow = paths?.[servicePeriodResponse];
 
     if (mayShowInCurrentFlow) {

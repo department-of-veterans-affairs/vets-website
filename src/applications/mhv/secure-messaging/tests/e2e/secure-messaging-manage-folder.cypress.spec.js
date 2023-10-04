@@ -1,32 +1,32 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
-import MockFoldersResponse from './fixtures/folder-response.json';
-import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
-import mockCustomFolderNoMessages from './fixtures/empty-thread-response.json';
+import createdFolderResponse from './fixtures/customResponse/created-folder-response.json';
+import mockFolders from './fixtures/generalResponses/folders.json';
+import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Manage Folder AXE check', () => {
+describe('create custom folder', () => {
   const folderPage = new FolderManagementPage();
-  beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const folderName = createdFolderResponse.data.attributes.name;
+  const newFolder = `folder${Date.now()}`;
+  mockFolders.data.push(createdFolderResponse.data);
+
+  before(() => {
     site.login();
     landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
   });
-  it('Create Folder Success Check', () => {
-    cy.get('[data-testid="my-folders-sidebar"]').click();
-    folderPage.createANewFolderButton().click();
-    const createFolderName = 'create folder test';
-    folderPage.createFolderTextBox().type(createFolderName, { force: true });
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/folders',
-      MockCustomFolderResponse,
-    ).as('createFolder');
-    folderPage.createFolderModalButton().click();
-    cy.wait('@createFolder');
+
+  it('verify folder created', () => {
+    PatientMessageCustomFolderPage.createCustomFolder(newFolder);
+
     folderPage.verifyCreateFolderSuccessMessage();
+
+    cy.get('.folders-list').should('contain.text', folderName);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -36,23 +36,33 @@ describe('Secure Messaging Manage Folder AXE check', () => {
       },
     });
   });
-  it('Check Delete Folder Success', () => {
-    cy.get('[data-testid="my-folders-sidebar"]').click();
-    const folderName = MockFoldersResponse.data.at(4).attributes.name;
-    const { folderId } = MockFoldersResponse.data.at(4).attributes;
+});
+describe('delete custom folder', () => {
+  const folderPage = new FolderManagementPage();
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const folderName = createdFolderResponse.data.attributes.name;
+  const { folderId } = createdFolderResponse.data.attributes;
 
-    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
-      statusCode: 204,
-    }).as('deleteFolder');
-    folderPage.clickAndLoadCustomFolder(
-      folderName,
+  before(() => {
+    site.login();
+    landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
+  });
+
+  it('verify folder deleted', () => {
+    PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
       folderId,
-      MockCustomFolderResponse,
-      mockCustomFolderNoMessages,
+      folderName,
     );
-    folderPage.deleteFolder();
+    mockFolders.data.pop(createdFolderResponse.data);
+
+    folderPage.deleteFolder(folderId);
 
     folderPage.verifyDeleteSuccessMessage();
+
+    cy.get('.folders-list').should('not.contain.text', folderName);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

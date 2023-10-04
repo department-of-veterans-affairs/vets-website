@@ -111,12 +111,10 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
             label: 'Cancel',
             onClick: onCancel,
             secondary: true,
-            iconLeft: '«',
           },
           {
             label: 'Update',
             onClick: onUpdate,
-            iconRight: '»',
           },
         ]}
       />

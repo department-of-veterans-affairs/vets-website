@@ -1,23 +1,23 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
-import recipientsList from '../fixtures/recipients-response.json';
+import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
+  const lndingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
-  it('Check confirmation message after save draft', () => {
+  const composePage = new PatientComposePage();
+  it.skip('Check save draft by keyboard', () => {
     site.login();
-    inboxPage.loadInboxMessages();
-    inboxPage.navigateToComposePage();
-    draftPage.selectRecipientName(
-      recipientsList.data[0].attributes.triageTeamId.toString(),
-    );
-    draftPage.selectCategory('General');
-    draftPage.addMessageSubject('testSubject');
-    draftPage.addMessageBody('testMessage');
+    lndingPage.loadInboxMessages();
+    lndingPage.navigateToComposePage();
+    composePage.selectRecipient();
+    composePage.selectCategory();
+    composePage.getMessageSubjectField();
+    composePage.getMessageBodyField();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

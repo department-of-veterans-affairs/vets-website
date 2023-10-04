@@ -13,6 +13,11 @@ export const ORANGE_2_2_1_B_INPUT = 'paw-orange2_2_1_B';
 export const ORANGE_2_2_2_INPUT = 'paw-orange2_2_2';
 export const ORANGE_2_2_3_INPUT = 'paw-orange2_2_3';
 
+export const RADIATION_2_3_A_INPUT = 'paw-radiation2_3_A';
+export const RADIATION_2_3_B_INPUT = 'paw-radiation2_3_B';
+
+export const LEJEUNE_2_4_INPUT = 'paw-lejeune2_4';
+
 export const clickStart = () =>
   cy
     .findByTestId(START_LINK)
