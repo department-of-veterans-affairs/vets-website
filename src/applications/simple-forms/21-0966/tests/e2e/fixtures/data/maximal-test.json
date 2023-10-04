@@ -17,7 +17,9 @@
     "ssn": "445565612",
     "vaFileNumber": "445565612"
   },
-  "relationshipToVeteran": "SPOUSE",
+  "relationshipToVeteran": {
+    "relationshipToVeteran": "spouse"
+  },
   "thirdPartyPreparerFullName": {
     "first": "Thierry",
     "middle": "P.",
