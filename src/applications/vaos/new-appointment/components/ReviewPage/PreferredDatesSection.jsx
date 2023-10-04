@@ -3,24 +3,29 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import PreferredDates from './PreferredDates';
+import { FACILITY_TYPES } from '../../../utils/constants';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history, pageFlow) {
-  const { home, requestDateTime } = pageFlow;
+function handleClick(history, pageFlow, isCommunityCare) {
+  const { home, ccRequestDateTime, requestDateTime } = pageFlow;
+  const url = isCommunityCare ? ccRequestDateTime.url : requestDateTime.url;
 
   return () => {
     if (
       history.location.pathname.endsWith('/') ||
-      (requestDateTime.url.endsWith('/') && requestDateTime.url !== home.url)
+      (url.endsWith('/') && url !== home.url)
     )
-      history.push(`../${requestDateTime.url}`);
-    else history.push(requestDateTime.url);
+      history.push(`../${url}`);
+    else history.push(url);
   };
 }
 
 export default function PreferredDatesSection(props) {
   const history = useHistory();
   const pageFlow = useSelector(getNewAppointmentFlow);
+
+  const isCommunityCare =
+    props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
 
   return (
     <>
@@ -38,7 +43,7 @@ export default function PreferredDatesSection(props) {
               aria-label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, pageFlow)}
+              onClick={handleClick(history, pageFlow, isCommunityCare)}
             />
           </div>
         </div>
