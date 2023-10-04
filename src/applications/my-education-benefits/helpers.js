@@ -308,6 +308,8 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
 
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  const vet360ContactInformation =
+    stateUser.vet360ContactInformation.mailingAddress || {};
 
   let firstName;
   let middleName;
@@ -395,20 +397,25 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
           undefined,
         city: vapContactInfo.mailingAddress?.city || contactInfo?.city,
         state:
-          vapContactInfo.mailingAddress?.stateCode || contactInfo?.stateCode,
+          vapContactInfo.mailingAddress?.stateCode ||
+          vet360ContactInformation?.province ||
+          contactInfo?.stateCode,
         postalCode:
           vapContactInfo.mailingAddress?.zipCode ||
           vapContactInfo.mailingAddress?.zipcode ||
+          vet360ContactInformation?.InternationalPostalCode ||
           contactInfo?.zipCode ||
           contactInfo?.zipcode,
         country: getSchemaCountryCode(
           vapContactInfo.mailingAddress?.countryCode ||
+            vet360ContactInformation?.countryName ||
             contactInfo?.countryCode,
         ),
       },
       [formFields.livesOnMilitaryBase]:
         vapContactInfo.mailingAddress?.addressType === 'MILITARY_OVERSEAS' ||
-        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+        contactInfo?.addressType === 'MILITARY_OVERSEAS' ||
+        vet360ContactInformation?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.bankAccount]: {
       ...bankInformation,
