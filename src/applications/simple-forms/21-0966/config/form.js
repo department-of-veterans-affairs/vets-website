@@ -25,7 +25,7 @@ import {
 import survivingDependantBenefitSelection from '../pages/survivingDependantBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
-import preparerName from '../pages/preparerName';
+import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/minimal-test.json';
@@ -72,7 +72,10 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'preparerFullName',
+      fullNamePath: formData =>
+        preparerIsThirdParty({ formData })
+          ? 'thirdPartyPreparerFullName'
+          : 'preparerFullName',
     },
   },
   formId: '21-0966',
@@ -112,13 +115,13 @@ const formConfig = {
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
         },
-        preparerName: {
+        thirdPartyPreparerFullName: {
           path: 'preparer-name',
           // display only if preparer is a third-party
           depends: formData => preparerIsThirdParty({ formData }),
           title: 'Your name',
-          uiSchema: preparerName.uiSchema,
-          schema: preparerName.schema,
+          uiSchema: thirdPartyPreparerFullName.uiSchema,
+          schema: thirdPartyPreparerFullName.schema,
         },
       },
     },

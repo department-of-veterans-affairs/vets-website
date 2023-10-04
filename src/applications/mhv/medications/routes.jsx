@@ -6,7 +6,7 @@ import RxBreadcrumbs from './containers/RxBreadcrumbs';
 
 const routes = (
   <div className="vads-l-grid-container">
-    <div className="main-content vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-margin-left--neg2">
+    <div className="main-content vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100">
       <RxBreadcrumbs />
       <div>
         <Switch>

@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
-import { replaceDescriptionContent } from '../../shared/utils/replace';
-import '../../shared/definitions';
+import { replaceDescriptionContent } from '../utils/replace';
+import { FORMAT_YMD, FORMAT_READABLE, SELECTED } from '../constants';
+import '../definitions';
 
-/** HLR v2 card */
+// It would be better to validate the date based on the app's requirements
+// import { isValidDate } from '../validations/date';
+
 /**
  * IssueCardContent
  * @param {String} id - unique ID
@@ -17,7 +19,7 @@ import '../../shared/definitions';
  *   "YYYY-MM-DD"
  * @param {String} decisionDate - additional issue date formatted as
  *   "YYYY-MM-DD"
- * @return {React Component}
+ * @return {JSX.Element}
  */
 export const IssueCardContent = ({
   id,
@@ -29,7 +31,22 @@ export const IssueCardContent = ({
   // May need to throw an error to Sentry if any of these don't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
-  const date = approxDecisionDate || decisionDate;
+  // If moment is passed an undefined it returns todays date
+  const date = moment(approxDecisionDate || decisionDate || null, FORMAT_YMD);
+
+  // const dateMessage = isValidDate(date) ? (
+  const dateMessage = date.isValid() ? (
+    <strong
+      className="dd-privacy-hidden"
+      data-dd-action-name="rated issue decision date"
+    >
+      {date.format(FORMAT_READABLE)}
+    </strong>
+  ) : (
+    <span className="usa-input-error-message vads-u-display--inline">
+      Invalid decision date
+    </span>
+  );
 
   return (
     <div id={id} className="widget-content-wrap">
@@ -52,17 +69,7 @@ export const IssueCardContent = ({
           </strong>
         </p>
       )}
-      {date && (
-        <p>
-          Decision date:{' '}
-          <strong
-            className="dd-privacy-hidden"
-            data-dd-action-name="rated issue decision date"
-          >
-            {moment(date, FORMAT_YMD).format(FORMAT_READABLE)}
-          </strong>
-        </p>
-      )}
+      <p>Decision date: {dateMessage}</p>
     </div>
   );
 };
@@ -83,10 +90,10 @@ IssueCardContent.propTypes = {
  * @param {Object} options - ui:options
  * @param {func} onChange - onChange callback
  * @param {Boolean} showCheckbox - don't show checkbox on review & submit
- *  page when not in edit mode
  * @param {func} onRemove - remove issue callback
- * @param {Boolean} onReviewPage - when true, card renders on the review page
- * @return {JSX}
+ *  page when not in edit mode
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @return {JSX.Element}
  */
 export const IssueCard = ({
   id,
@@ -175,7 +182,6 @@ export const IssueCard = ({
       <div className={wrapperClass}>
         {showCheckbox ? (
           <div className="widget-checkbox-wrap">
-            {/* Using va-checkbox here causes alignment issues */}
             <input
               type="checkbox"
               id={elementId}
@@ -228,7 +234,6 @@ IssueCard.propTypes = {
   }),
   showCheckbox: PropTypes.bool,
   onChange: PropTypes.func,
-  onEdit: PropTypes.func,
   onRemove: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
