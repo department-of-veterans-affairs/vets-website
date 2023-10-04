@@ -106,16 +106,17 @@ describe('avs', () => {
     describe('format appointment date', () => {
       it('correctly returns the date', () => {
         const avs = {
-          appointments: [
+          clinicsVisited: [
             {
-              datetime: '09/09/2023@10:00',
+              date: '09/09/2023',
+              time: '10:00',
             },
           ],
         };
         expect(getFormattedAppointmentDate(avs)).to.equal('September 9, 2023');
       });
       it('returns an empty string when the datetime is not available', () => {
-        const avs = { appointments: [{ foo: 'bar' }] };
+        const avs = { clinicsVisited: [{ foo: 'bar' }] };
         expect(getFormattedAppointmentDate(avs)).to.be.empty;
       });
     });
