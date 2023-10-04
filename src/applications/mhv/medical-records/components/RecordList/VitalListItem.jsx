@@ -19,15 +19,17 @@ const VitalListItem = props => {
             {vitalTypeDisplayNames[record.type]}
           </h3>
           <div className="vads-u-line-height--3">
-            Result: {record.measurement}
+            Result: <span data-dd-privacy="mask">{record.measurement}</span>
           </div>
-          <div className="vads-u-line-height--3">
+          <div className="vads-u-line-height--3" data-dd-privacy="mask">
             {moment(record.date).format('LLL')}
           </div>
           <div className="location-collapsed vads-u-line-height--3">
-            Location: {record.location}
+            Location: <span data-dd-privacy="mask">{record.location}</span>
           </div>
-          <div className="print-only">Provider notes: {record.notes}</div>
+          <div className="print-only">
+            Provider notes: <span data-dd-privacy="mask">{record.notes}</span>
+          </div>
           <Link
             to={`/vitals/${_.kebabCase(record.type)}-history`}
             className="vads-u-margin-y--0p5 no-print"
