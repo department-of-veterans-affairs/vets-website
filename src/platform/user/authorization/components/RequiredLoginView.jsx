@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
+// import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
@@ -20,7 +21,11 @@ const verifyUrl = appendQuery('/verify', nextQuery);
 const RequiredLoginLoader = () => {
   return (
     <div className="vads-u-margin-y--5" data-testid="req-loader">
-      <va-loading-indicator setFocus message="Loading your information..." />
+      <va-loading-indicator
+        setFocus
+        message="Loading your information..."
+        set-focus
+      />
     </div>
   );
 };
