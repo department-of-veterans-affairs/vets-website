@@ -2,12 +2,28 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+
+const mockStore = configureMockStore();
+
+const payload = {
+  claimant: {
+    hasCurrentlyBuried: '1',
+  },
+};
+
+const store = mockStore({
+  form: {
+    data: payload,
+  },
+});
 
 describe('Pre-need sponsor mailing address', () => {
   const {
@@ -16,15 +32,21 @@ describe('Pre-need sponsor mailing address', () => {
   } = formConfig.chapters.contactInformation.pages.sponsorMailingAddress;
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
-
+    fillData(form, 'select#root_application_veteran_address_country', 'USA');
     expect(form.find('input').length).to.equal(4);
     expect(form.find('select').length).to.equal(2);
+
+    fillData(form, 'select#root_application_veteran_address_country', 'MEX');
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('select').length).to.equal(1);
     form.unmount();
   });
 
@@ -49,12 +71,14 @@ describe('Pre-need sponsor mailing address', () => {
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     fillData(form, 'input#root_application_veteran_address_street', 'Test');
