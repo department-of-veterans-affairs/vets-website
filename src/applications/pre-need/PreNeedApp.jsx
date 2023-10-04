@@ -35,7 +35,7 @@ export default function PreNeedApp({ loading, location, children }) {
           // prevents the bug involving Va radios and regular radio buttons producing double event logging
           const currentEvent = {event: 'int-radio-option-click', 'radio-button-label': name, 'radio-button-optionLabel': optionalLabel, 'radio-button-required': true};
           const priorEvent = window.dataLayer[window.dataLayer.length - 1];
-          // if prior event is identical to next event it must be a duplicate.
+          // if prior event is identical to current event it must be a duplicate.
           if(!priorEvent ||  JSON.stringify(currentEvent) !== JSON.stringify(priorEvent))
           recordEvent({
             event: 'int-radio-option-click',
