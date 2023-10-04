@@ -11,6 +11,8 @@ import {
 } from 'platform/forms/address';
 import environment from 'platform/utilities/environment';
 
+let priorCountry = '';
+
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
 
@@ -285,33 +287,46 @@ export function uiSchema(
 
         const modifiedData = { ...formData };
 
-        if (
-          modifiedData.application &&
-          modifiedData.application.claimant &&
-          modifiedData.application.claimant.address &&
-          (modifiedData.application.claimant.address.country !== 'USA' ||
-            modifiedData.application.claimant.address.country !== 'CAN') &&
-          !modifiedData.application.claimant.address.state
-        ) {
-          modifiedData.application.claimant.address.state = '';
-        }
+        if (modifiedData.application) {
+          if (
+            modifiedData.application.claimant &&
+            modifiedData.application.claimant.address &&
+            (modifiedData.application.claimant.address.country !== 'USA' ||
+              modifiedData.application.claimant.address.country !== 'CAN') &&
+            !modifiedData.application.claimant.address.state
+          ) {
+            modifiedData.application.claimant.address.state = '';
+          }
 
-        if (
-          modifiedData.application &&
-          modifiedData.application.applicant &&
-          modifiedData.application.applicant['view:applicantInfo'] &&
-          modifiedData.application.applicant['view:applicantInfo']
-            .mailingAddress &&
-          (modifiedData.application.applicant['view:applicantInfo']
-            .mailingAddress.country !== 'USA' ||
+          if (
+            modifiedData.application.applicant &&
+            modifiedData.application.applicant['view:applicantInfo'] &&
             modifiedData.application.applicant['view:applicantInfo']
-              .mailingAddress.country !== 'CAN') &&
-          !modifiedData.application.applicant['view:applicantInfo']
-            .mailingAddress.state
-        ) {
-          modifiedData.application.applicant[
-            'view:applicantInfo'
-          ].mailingAddress.state = '';
+              .mailingAddress &&
+            (modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.country !== 'USA' ||
+              modifiedData.application.applicant['view:applicantInfo']
+                .mailingAddress.country !== 'CAN') &&
+            !modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.state
+          ) {
+            modifiedData.application.applicant[
+              'view:applicantInfo'
+            ].mailingAddress.state = '';
+          }
+
+          // Veteran address state must be reset if prior country had a state list.
+          if (modifiedData.application.veteran) {
+            if (
+              (priorCountry === 'CAN' &&
+                modifiedData.application.veteran.address.country === 'USA') ||
+              (priorCountry === 'USA' &&
+                modifiedData.application.veteran.address.country === 'CAN')
+            ) {
+              modifiedData.application.veteran.address.state = undefined;
+            }
+            priorCountry = formData.application.veteran.address.country;
+          }
         }
 
         if (isRequired) {
@@ -322,6 +337,7 @@ export function uiSchema(
             currentSchema = set('required', [], currentSchema);
           }
         }
+
         return addressChangeSelector({
           formData,
           addressSchema: currentSchema,
