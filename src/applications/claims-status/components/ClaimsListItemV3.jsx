@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { getClaimType, buildDateFormatter } from '../utils/helpers';
+import ClaimCard from './ClaimCard';
 
 const statusMap = {
   CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
@@ -64,19 +65,15 @@ export default function ClaimsListItemV3({ claim }) {
   const humanStatus = getStatusDescription(status);
   const showAlert = showPrecomms && documentsNeeded;
 
-  return (
-    <va-card class="claim-list-item">
-      <h3 className="claim-list-item-header vads-u-margin-bottom--2">
-        {/* eslint-disable-next-line jsx-a11y/aria-role */}
-        <div role="text">
-          {inProgress ? <span className="usa-label">In Progress</span> : ''}
-          {getTitle(claim)}
-          <span className="vads-u-margin-top--0p5">
-            Submitted on {formattedReceiptDate}
-          </span>
-        </div>
-      </h3>
+  const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
+  const href = `your-claims/${claim.id}/status`;
 
+  return (
+    <ClaimCard
+      title={getTitle(claim)}
+      label={inProgress ? 'In Progress' : null}
+      subtitle={`Submitted on ${formattedReceiptDate}`}
+    >
       <ul className="communications">
         {showPrecomms && developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
@@ -98,14 +95,8 @@ export default function ClaimsListItemV3({ claim }) {
           An item in the claim needs your attention
         </va-alert>
       )}
-      <va-link
-        active
-        aria-label={`View details for claim submitted on ${formattedReceiptDate}`}
-        class="vads-u-margin-top--2 vads-u-display--block"
-        href={`your-claims/${claim.id}/status`}
-        text="View details"
-      />
-    </va-card>
+      <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
+    </ClaimCard>
   );
 }
 
