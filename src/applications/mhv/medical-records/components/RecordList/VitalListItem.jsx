@@ -15,14 +15,8 @@ const VitalListItem = props => {
           className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
-            <Link
-              to={`/vitals/${_.kebabCase(record.type)}-history`}
-              className="vads-u-margin--0"
-              aria-label={`${record.type} on ${record.date}`}
-            >
-              {vitalTypeDisplayNames[record.type]}
-            </Link>
+          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4">
+            {vitalTypeDisplayNames[record.type]}
           </h3>
           <div className="vads-u-line-height--3">
             Result: <span data-dd-privacy="mask">{record.measurement}</span>
@@ -36,7 +30,18 @@ const VitalListItem = props => {
           <div className="print-only">
             Provider notes: <span data-dd-privacy="mask">{record.notes}</span>
           </div>
-          <div className="print-only">Provider notes: {record.notes}</div>
+          <Link
+            to={`/vitals/${_.kebabCase(record.type)}-history`}
+            className="vads-u-margin-y--0p5 no-print"
+          >
+            <strong>
+              View {vitalTypeDisplayNames[record.type].toLowerCase()} over time
+            </strong>
+            <i
+              className="fas fa-angle-right details-link-icon"
+              aria-hidden="true"
+            />
+          </Link>
         </div>
       );
     }

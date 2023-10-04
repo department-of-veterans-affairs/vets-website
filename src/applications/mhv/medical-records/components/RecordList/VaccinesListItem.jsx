@@ -52,23 +52,6 @@ const VaccinesListItem = props => {
           <ItemList list={record.notes} />
         </div>
       </div>
-      <Link
-        to={`/vaccines/${record.id}`}
-        className="vads-u-margin-y--0p5 no-print"
-        aria-describedby={`details-button-description-${record.id}`}
-      >
-        <span className="vads-u-font-weight--bold">Details</span>
-        <i
-          className="fas fa-angle-right details-link-icon"
-          aria-hidden="true"
-        />
-        <span
-          id={`details-button-description-${record.id}`}
-          className="sr-only"
-        >
-          {record.name} {formattedDate}
-        </span>
-      </Link>
     </div>
   );
 };

@@ -25,23 +25,6 @@ const ConditionListItem = props => {
           </h3>
 
           <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
-          <Link
-            to={`/conditions/${record.id}`}
-            className="vads-u-margin--0"
-            aria-describedby={`details-button-description-${record.id}`}
-          >
-            <span className="vads-u-font-weight--bold">Details</span>
-            <i
-              className="fas fa-angle-right details-link-icon"
-              aria-hidden="true"
-            />
-            <span
-              id={`details-button-description-${record.id}`}
-              className="sr-only"
-            >
-              {record.name} {formattedDate}
-            </span>
-          </Link>
         </div>
       );
     }
