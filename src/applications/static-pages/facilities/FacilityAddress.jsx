@@ -30,7 +30,7 @@ export default function FacilityAddress({ facility }) {
           rel="noopener noreferrer"
         >
           Get directions on Google Maps
-          <span className="sr-only">{` to ${facility.attributes.name}`}</span>
+          <span className="sr-only">{`to ${facility.attributes.name}`}</span>
         </a>
       </div>
     </div>

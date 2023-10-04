@@ -73,7 +73,7 @@ function VetCenterInfoSection(props) {
             aria-label={`Directions to ${props.vetCenter.title} on Google Maps`}
           >
             Get directions on Google Maps
-            <span className="sr-only">{` to ${props.vetCenter.title}`}</span>
+            <span className="sr-only">{`to ${props.vetCenter.title}`}</span>
           </a>
         </div>
       </div>
