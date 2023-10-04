@@ -80,7 +80,7 @@ const AppointmentDetails = props => {
   if (is45MinuteReminderEnabled) {
     preCheckInSubTitle = (
       <p
-        data-testid="in-person-appointment-subtitle"
+        data-testid="in-person-45-minute-subtitle"
         className="vads-u-margin--0"
       >
         {t('remember-to-bring-your-insurance-cards-with-you')}

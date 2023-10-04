@@ -157,7 +157,7 @@ describe('check-in experience', () => {
               <AppointmentDetails />
             </CheckInProvider>,
           );
-          expect(getByTestId('in-person-appointment-subtitle')).to.exist;
+          expect(getByTestId('in-person-45-minute-subtitle')).to.exist;
         });
         it('renders where to attend instead of clinic', () => {
           const { getByRole } = render(
