@@ -15,9 +15,9 @@ export const QUESTION_MAP = {
   ORANGE_2_2_3:
     'Agent orange S2.2.3, did you help transport, test, store, or use Agent Orange?',
   RADIATION_2_3_A:
-    'Radiation 2.3.A, did you take part in any of these response efforts?',
+    'Radiation S2.3.A, did you take part in any of these response efforts?',
   RADIATION_2_3_B:
-    'Radiation 2.3.B, which response efforts did you participate in?',
+    'Radiation S2.3.B, which response efforts did you participate in?',
   LEJEUNE_2_4:
     'Camp lejeune S2.4, did you spend time at either of these bases in North Carolina?',
 };
