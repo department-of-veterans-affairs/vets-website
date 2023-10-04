@@ -5,11 +5,13 @@ const commonResponses = require('../../../../../platform/testing/local-dev-mock-
 
 const featureToggles = require('./feature-toggles/index');
 const user = require('./user/index');
+const contentBuild = require('./content-build/index');
 
 const responses = {
   ...commonResponses,
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({}),
+  'GET /data/cms/vamc-ehr.json': contentBuild.vamcEhr,
 };
 
 module.exports = delay(responses, 2000);

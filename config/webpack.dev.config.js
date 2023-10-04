@@ -77,6 +77,9 @@ function generateWebpackDevConfig(buildOptions) {
 
       return middlewares;
     },
+    proxy: {
+      '/data/cms': 'http://localhost:3000',
+    },
   };
 }
 
