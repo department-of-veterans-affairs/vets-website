@@ -15,6 +15,7 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
 
@@ -31,25 +32,28 @@ const ConditionDetails = () => {
   const dispatch = useDispatch();
   const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/conditions',
-          label: 'Conditions',
-        },
-      ]),
-    );
-    return () => {
-      dispatch(clearConditionDetails());
-    };
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/conditions',
+            label: 'Conditions',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearConditionDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       if (conditionId) dispatch(getConditionDetails(conditionId));
     },
-    [conditionId],
+    [conditionId, dispatch],
   );
 
   useEffect(
@@ -64,7 +68,7 @@ const ConditionDetails = () => {
         );
       }
     },
-    [condition],
+    [condition, formattedDate],
   );
 
   const generateConditionDetails = async () => {
@@ -167,6 +171,7 @@ const ConditionDetails = () => {
               download={download}
               allowTxtDownloads={allowTxtDownloads}
             />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">

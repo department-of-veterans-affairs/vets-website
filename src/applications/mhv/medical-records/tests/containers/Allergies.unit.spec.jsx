@@ -6,10 +6,12 @@ import { waitFor } from '@testing-library/react';
 import Allergies from '../../containers/Allergies';
 import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
+import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
 describe('Allergies list container', () => {
   const initialState = {
+    user,
     mr: {
       allergies: {
         allergiesList: allergies.entry.map(item =>

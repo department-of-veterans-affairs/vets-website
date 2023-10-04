@@ -45,13 +45,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  Select: [
-    {
-      action: 'change',
-      event: 'int-select-box-option-click',
-      prefix: 'select',
-    },
-  ],
   TextArea: [
     { action: 'blur', event: 'int-text-area-blur', prefix: 'text-area' },
   ],

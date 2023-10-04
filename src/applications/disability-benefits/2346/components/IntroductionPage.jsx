@@ -55,6 +55,7 @@ const IntroductionPage = props => {
                 <li>Shipping address</li>
                 <li>Email address</li>
                 <li>Hearing aid information</li>
+                <li>CPAP machine information</li>
               </ul>
               <p className="vads-u-font-weight--bold">
                 What if I need help with my order?
