@@ -42,7 +42,7 @@ The program is called Chapter 36 or Personalized Career Planning and Guidance (P
 
 - Save claim
 
-  - SavedClaim::EducationCareerCounselingClaim < ApplictionRecord < ActiveRecord::Base
+  - SavedClaim::EducationCareerCounselingClaim < ApplicationRecord < ActiveRecord::Base
 
 - If return is FALSE (`unless claim.save`)
 
