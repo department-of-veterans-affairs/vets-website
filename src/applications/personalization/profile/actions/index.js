@@ -1,12 +1,9 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { getData } from '../util';
 import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
-import { fetchEmergencyContacts } from './ec';
-import { fetchNextOfKin } from './nok';
-
-export { fetchEmergencyContacts, fetchNextOfKin };
 
 export * from './personalInformation';
+export { fetchProfileContacts } from './contacts';
 
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';

@@ -3,8 +3,7 @@ import hcaEnrollmentStatus from '~/applications/hca/reducers/enrollment-status';
 import ratedDisabilities from '~/applications/personalization/rated-disabilities/reducers';
 import vaProfile from './vaProfile';
 import communicationPreferences from '../ducks/communicationPreferences';
-import { emergencyContactsReducer } from './ec';
-import { nextOfKinReducer } from './nok';
+import { profileContactsReducer } from './contacts';
 
 export default {
   communicationPreferences,
@@ -12,8 +11,7 @@ export default {
   vapService,
   hcaEnrollmentStatus,
   ...ratedDisabilities,
-  emergencyContacts: emergencyContactsReducer,
-  nextOfKin: nextOfKinReducer,
+  contacts: profileContactsReducer,
 };
 
 export const selectCommunicationPreferences = state => {

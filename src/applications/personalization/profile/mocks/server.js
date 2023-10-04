@@ -62,7 +62,7 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            nokEcReadOnly: true,
+            profileContacts: true,
             profileLighthouseDirectDeposit: true,
             profileUseFieldEditingPage: true,
             profileUseHubPage: true,
