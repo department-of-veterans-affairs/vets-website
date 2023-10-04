@@ -1029,6 +1029,11 @@ export function routeToPageInFlow(callback, history, current, action, data) {
       ) {
         history.push(nextPage.url);
       } else if (
+        !nextPage.url.endsWith('/') &&
+        previousPage === 'audiologyCareType'
+      ) {
+        history.push(`../${nextPage.url}`);
+      } else if (
         history.location.pathname.endsWith('/') ||
         (nextPage.url.endsWith('/') && nextPage.url !== flow.home.url)
       )
