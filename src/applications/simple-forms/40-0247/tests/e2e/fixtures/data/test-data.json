@@ -4,6 +4,8 @@
       "first": "John",
       "last": "Veteran"
     },
+    "veteranDateOfBirth": "1985-01-01",
+    "veteranDateOfDeath": "2015-01-01",
     "veteranId": { "ssn": "333221111" },
     "isFirstRequest": true,
     "applicantFullName": {
@@ -27,6 +29,6 @@
       "state": "NY",
       "postalCode": "12345"
     },
-    "additionalCopies": 3
+    "additionalCopies": "3"
   }
 }

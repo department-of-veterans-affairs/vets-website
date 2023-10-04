@@ -654,6 +654,7 @@ const responses = {
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
         { name: 'vaOnlineSchedulingGA4Migration', value: true },
         { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
+        { name: 'vaOnlineSchedulingStartSchedulingLink', value: false },
         { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

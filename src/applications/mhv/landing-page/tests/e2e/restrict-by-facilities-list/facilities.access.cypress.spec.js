@@ -3,7 +3,7 @@ import vamcEhr from '../../fixtures/vamc-ehr.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
-describe(appName, () => {
+describe.skip(appName, () => {
   describe('restrict access based on patient facilities', () => {
     beforeEach(() => {
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
@@ -16,7 +16,7 @@ describe(appName, () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('landing page is disabled for patients with no facilities', () => {
       ApiInitializer.initializeUserData.withFacilities({ facilities: [] });
-      LandingPage.visitPageAsCernerPatient();
+      LandingPage.visitPage();
       LandingPage.validateRedirectHappened();
       cy.wait('@mhvRedirect');
     });

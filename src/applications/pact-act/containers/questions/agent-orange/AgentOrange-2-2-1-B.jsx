@@ -5,6 +5,7 @@ import CheckboxGroup from '../CheckboxGroup';
 import { updateOrange221B } from '../../../actions';
 import {
   QUESTION_MAP,
+  RESPONSES,
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
 import { ROUTES } from '../../../constants';
@@ -37,13 +38,13 @@ const Orange221B = ({
     [router, viewedIntroPage],
   );
 
-  const locationList = [
-    'American Samoa or its territorial waters',
-    'Cambodia at Mimot or Krek, Kampong Cham Province',
-    'Guam or its territorial waters',
-    'Johnston Atoll or on a ship that called at Johnston Atoll',
-    'Laos',
-    'On a U.S. or Royal Thai military base in Thailand',
+  const locations = [
+    RESPONSES.AMERICAN_SAMOA,
+    RESPONSES.CAMBODIA,
+    RESPONSES.GUAM,
+    RESPONSES.JOHNSTON_ATOLL,
+    RESPONSES.LAOS,
+    RESPONSES.THAILAND,
   ];
 
   return (
@@ -52,7 +53,7 @@ const Orange221B = ({
       formResponses={formResponses}
       formValue={orange221B}
       h1={H1}
-      responses={locationList}
+      responses={locations}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

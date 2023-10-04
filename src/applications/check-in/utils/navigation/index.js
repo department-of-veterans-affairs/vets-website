@@ -67,10 +67,10 @@ const updateFormPages = (
   let skipLogic = appointments.length > 1;
 
   if (isTravelLogicEnabled) {
-    const { facility } = appointments[0];
+    const { stationNo } = appointments[0];
     skipLogic =
-      facility in travelPaySent &&
-      !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[facility]));
+      stationNo in travelPaySent &&
+      !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
   }
 
   if (

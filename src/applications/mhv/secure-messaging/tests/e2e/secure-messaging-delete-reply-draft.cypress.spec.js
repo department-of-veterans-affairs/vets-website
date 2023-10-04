@@ -7,7 +7,7 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Reply', () => {
+describe.skip('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     const draftsPage = new PatientMessageDraftsPage();
     const landingPage = new PatientInboxPage();

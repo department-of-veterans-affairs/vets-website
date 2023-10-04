@@ -74,6 +74,7 @@ const YourTreatmentPlan = props => {
       />
       <OrdersBlock
         heading="Other orders"
+        intro=""
         orders={orders}
         type={ORDER_TYPES.OTHER}
       />

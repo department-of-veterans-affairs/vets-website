@@ -182,7 +182,7 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('typeOfCare');
       });
 
-      it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
+      it('should be ccRequestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
         mockFacilitiesFetchByVersion({
           children: true,
@@ -230,7 +230,7 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
 
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).to.equal('ccRequestDateTime');
       });
 
       it('should be typeOfSleepCare if sleep care chosen', async () => {
@@ -341,7 +341,7 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).to.equal('ccRequestDateTime');
         expect(dispatch.firstCall.args[0].type).to.equal(
           'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
         );
