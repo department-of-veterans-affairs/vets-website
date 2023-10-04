@@ -21,11 +21,7 @@ const verifyUrl = appendQuery('/verify', nextQuery);
 const RequiredLoginLoader = () => {
   return (
     <div className="vads-u-margin-y--5" data-testid="req-loader">
-      <va-loading-indicator
-        setFocus
-        message="Loading your information..."
-        set-focus
-      />
+      <va-loading-indicator message="Loading your information..." set-focus />
     </div>
   );
 };
