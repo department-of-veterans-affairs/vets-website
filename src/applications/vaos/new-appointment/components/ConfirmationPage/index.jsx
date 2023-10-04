@@ -40,9 +40,7 @@ export default function ConfirmationPage() {
   }, []);
 
   if (submitStatus !== FETCH_STATUS.succeeded) {
-    return (
-      <Redirect to="/health-care/schedule-view-va-appointments/appointments/new-appointment" />
-    );
+    return <Redirect to="/my-health/appointments/schedule/type-of-care" />;
   }
 
   return (
