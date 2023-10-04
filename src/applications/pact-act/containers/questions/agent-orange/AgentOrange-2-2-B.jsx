@@ -5,6 +5,7 @@ import CheckboxGroup from '../CheckboxGroup';
 import { updateOrange22B } from '../../../actions';
 import {
   QUESTION_MAP,
+  RESPONSES,
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
 import { ROUTES } from '../../../constants';
@@ -37,10 +38,10 @@ const Orange22B = ({
     [router, viewedIntroPage],
   );
 
-  const locationList = [
-    'The Republic of Vietnam',
-    'The waters in or around Vietnam',
-    'At or near the Korean Demilitarized Zone (DMZ)',
+  const locations = [
+    RESPONSES.VIETNAM_REP,
+    RESPONSES.VIETNAM_WATERS,
+    RESPONSES.KOREA_DMZ,
   ];
 
   return (
@@ -49,7 +50,7 @@ const Orange22B = ({
       formResponses={formResponses}
       formValue={orange22B}
       h1={H1}
-      responses={locationList}
+      responses={locations}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

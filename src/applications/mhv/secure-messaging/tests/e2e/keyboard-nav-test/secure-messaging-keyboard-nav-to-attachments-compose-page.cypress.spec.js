@@ -12,10 +12,12 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    cy.tabToElement('#OTHEROTHER');
+    cy.tabToElement('#OTHEROTHERinput');
     cy.realPress(['Enter']);
-    composePage.getMessageSubjectField().type('Test Attachment Focus');
-    composePage.getMessageBodyField().type('Focus Attachment');
+    composePage
+      .getMessageSubjectField()
+      .type('Test Attachment Focus', { force: true });
+    composePage.getMessageBodyField().type('Focus Attachment', { force: true });
     composePage.attachMessageFromFile('test_image.jpg');
     composePage.verifyFocusonMessageAttachment();
     cy.injectAxe();

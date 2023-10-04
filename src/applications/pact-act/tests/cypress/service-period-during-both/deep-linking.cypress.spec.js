@@ -104,5 +104,35 @@ describe('PACT Act', () => {
       h.verifyElement(h.START_LINK);
       cy.injectAxeThenAxeCheck();
     });
+
+    it('redirects to home when the radiation 2-3-A page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RADIATION_2_3_A}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the radiation 2-3-B page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RADIATION_2_3_B}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the lejeune 2-4 page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.LEJEUNE_2_4}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });
