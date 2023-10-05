@@ -85,6 +85,9 @@ export default function VARequest({ changeCrumb }) {
   return (
     <div className="vaos-form__detailed-radio">
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal">
+        (*Required)
+      </span>
       <p>
         Choose your preferred date and time for this appointment. You can
         request up to 3 dates. A scheduling coordinator will call you to
