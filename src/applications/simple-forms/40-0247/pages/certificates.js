@@ -1,40 +1,44 @@
-import React from 'react';
+import {
+  titleUI,
+  numberUI,
+  numberSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CERTIFICATES_LABEL } from '../config/constants';
-import { certificatesReviewField } from '../reviewFields';
+import { textInputNumericRange } from '../helpers';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
-    certificates: {
-      // a11y: labels should not have <h?> elements
-      // use custom-styling instead
-      'ui:title': (
-        <>
-          <span className="custom-label">{CERTIFICATES_LABEL}</span>{' '}
-          <span className="custom-required">(*Required)</span>
-          <p className="custom-hint hide-following-required-span vads-u-margin-top--4 vads-u-margin-bottom--0">
-            You may request up to 99 certificates
-          </p>
-        </>
-      ),
-      'ui:errorMessages': {
-        required: 'Please provide the number of certificates you would like',
-        minimum:
-          'Please raise the number of certificates to at least 1, you can request up to 99',
-        maximum:
-          'Please lower the number of certificates, you can only request up to 99',
+    ...titleUI('How many certificates should we send to your address?'),
+    certificates: numberUI({
+      title: 'Number of certificates',
+      hint: 'You may request up to 99 certificates',
+      inputmode: 'numeric',
+      errorMessages: {
+        required: 'Please enter a number between 1 and 99',
+        pattern: 'Please enter a number between 1 and 99',
       },
-      'ui:reviewField': certificatesReviewField,
-    },
+      width: undefined,
+    }),
+    'ui:validations': [
+      (errors, formData) => {
+        return textInputNumericRange(errors, formData, {
+          schemaKey: 'certificates',
+          range: { min: 1, max: 99 },
+          customErrorMessages: {
+            min:
+              'Please raise the number of certificates, you may request up to 99',
+            max:
+              'Please lower the number of certificates, you may request up to 99',
+          },
+        });
+      },
+    ],
   },
   schema: {
     type: 'object',
     properties: {
-      certificates: {
-        type: 'number',
-        minimum: 1,
-        maximum: 99,
-      },
+      certificates: numberSchema,
     },
     required: ['certificates'],
   },

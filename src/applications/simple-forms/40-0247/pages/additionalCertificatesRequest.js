@@ -50,10 +50,8 @@ export default {
           schemaKey: 'additionalCopies',
           range: { min: 1, max: 99 },
           customErrorMessages: {
-            min:
-              'Please raise the number of certificates, you may request up to 99',
-            max:
-              'Please lower the number of certificates, you may request up to 99',
+            min: 'Please enter a number between 1 and 99',
+            max: 'Please enter a number between 1 and 99',
           },
         });
       },
