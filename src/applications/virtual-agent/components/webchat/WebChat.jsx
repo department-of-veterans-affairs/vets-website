@@ -213,17 +213,17 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       sendBox.setAttribute('placeholder', 'Type your message');
     }
   }
-  const urls = new Set();
+  const decisionLetterUrls = new Set();
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware(
           virtualAgentDecisionLetterDownloadTracking,
-          urls,
+          decisionLetterUrls,
         )}
         activityMiddleware={activityMiddleware(
           virtualAgentDecisionLetterDownloadTracking,
-          urls,
+          decisionLetterUrls,
         )}
         styleOptions={styleOptions}
         directLine={directLine}
