@@ -15,7 +15,6 @@ import {
   DATA_DOG_SERVICE,
 } from '../constants';
 import forcedMigrations from '../migrations/forceMigrations';
-import { getIssueNameAndDate } from '../utils/helpers';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 import {
@@ -26,6 +25,7 @@ import {
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
+  getIssueNameAndDate,
   getSelected,
   issuesNeedUpdating,
   processContestableIssues,
