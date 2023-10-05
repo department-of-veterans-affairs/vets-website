@@ -17,6 +17,7 @@ const VaccinesListItem = props => {
         <Link
           to={`/vaccines/${record.id}`}
           className="vads-u-margin--0"
+          data-dd-privacy="mask"
           aria-label={`${record.name} on ${record.date}`}
         >
           {record.name}
@@ -25,6 +26,7 @@ const VaccinesListItem = props => {
 
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        data-dd-privacy="mask"
         aria-label={`${record.name} ${record.date}`}
       >
         {record.name}

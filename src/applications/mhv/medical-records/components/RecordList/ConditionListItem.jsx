@@ -18,6 +18,7 @@ const ConditionListItem = props => {
             <Link
               to={`/conditions/${record.id}`}
               className="vads-u-margin--0"
+              data-dd-privacy="mask"
               aria-label={`${record.name} on ${formattedDate}`}
             >
               {record.name}
@@ -25,6 +26,7 @@ const ConditionListItem = props => {
           </h3>
           <h3
             className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+            data-dd-privacy="mask"
             aria-label={`${record.name} ${formattedDate}`}
           >
             {record.name}
