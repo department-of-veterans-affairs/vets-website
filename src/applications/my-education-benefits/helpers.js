@@ -204,16 +204,6 @@ function mapNotificaitonMethodV1(notificationMethod) {
   return notificationMethod;
 }
 
-function selectAddressSource(primary, secondary, tertiary) {
-  if (primary?.addressLine1) {
-    return primary;
-  }
-  if (secondary?.addressLine1) {
-    return secondary;
-  }
-  return tertiary || {};
-}
-
 function mapNotificationMethodV2({ notificationMethod }) {
   if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
@@ -317,14 +307,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const stateUser = state.user || {};
 
   const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo.mailingAddress || {};
-  const vet360ContactInformation =
-    stateUser.vet360ContactInformation.mailingAddress || {};
-  const address = selectAddressSource(
-    vet360ContactInformation,
-    vapContactInfo,
-    contactInfo,
-  );
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
   let firstName;
   let middleName;
@@ -372,6 +355,10 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
+
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
@@ -406,14 +393,9 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         street: address?.addressLine1,
         street2: address?.addressLine2 || undefined,
         city: address?.city,
-        state: address?.stateCode || address?.province,
-        postalCode:
-          address?.zipCode ||
-          address?.zipcode ||
-          address?.InternationalPostalCode,
-        country: getSchemaCountryCode(
-          address?.countryCode || address?.countryCodeIso3,
-        ),
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
       },
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
