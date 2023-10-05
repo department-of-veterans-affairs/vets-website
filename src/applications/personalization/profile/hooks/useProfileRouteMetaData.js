@@ -4,5 +4,11 @@ import { getRouteInfoFromPath } from '../../common/helpers';
 
 export const useProfileRouteMetaData = () => {
   const { pathname } = useLocation();
-  return getRouteInfoFromPath(pathname, PROFILE_PATHS_WITH_NAMES);
+  return (() => {
+    try {
+      return getRouteInfoFromPath(pathname, PROFILE_PATHS_WITH_NAMES);
+    } catch (e) {
+      return PROFILE_PATHS_WITH_NAMES.PROFILE_ROOT;
+    }
+  })();
 };
