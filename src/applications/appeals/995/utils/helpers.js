@@ -82,26 +82,6 @@ export const getIssueNameAndDate = (entry = {}) =>
     entry.attributes?.approxDecisionDate ||
     ''}`;
 
-const processIssues = (array = []) =>
-  array
-    .filter(entry => getIssueName(entry) && getIssueDate(entry))
-    .map(entry => getIssueNameAndDate(entry));
-
-export const hasDuplicates = (data = {}) => {
-  const contestedIssues = processIssues(data.contestedIssues);
-  const additionalIssues = processIssues(data.additionalIssues);
-  // ignore duplicate contestable issues (if any)
-  const fullList = [...new Set(contestedIssues)].concat(additionalIssues);
-
-  return fullList.length !== new Set(fullList).size;
-};
-
-// Simple one level deep check
-export const isEmptyObject = obj =>
-  obj && typeof obj === 'object' && !Array.isArray(obj)
-    ? Object.keys(obj)?.length === 0 || false
-    : false;
-
 /**
  * Calculate the index offset for the additional issue
  * @param {Number} index - index of data in combined array of contestable issues
