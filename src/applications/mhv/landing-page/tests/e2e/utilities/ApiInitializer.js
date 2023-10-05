@@ -1,6 +1,10 @@
 import featureToggles from '../../../mocks/api/feature-toggles';
 import userData from '../../../mocks/api/user';
 import vamcEhr from '../../fixtures/vamc-ehr.json';
+import {
+  allFoldersWithUnreadMessages,
+  oneFolderWithNoUnreadMessages,
+} from '../../../mocks/api/mhv-api/messaging/folders/index';
 
 class ApiInitializer {
   initializeFeatureToggle = {
@@ -31,6 +35,23 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: true,
         }),
+      );
+    },
+  };
+
+  initializeMessageData = {
+    withUnreadMessages: () => {
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders*',
+        allFoldersWithUnreadMessages,
+      );
+    },
+    withNoUnreadMessages: () => {
+      cy.intercept(
+        'GET',
+        '/my_health/v1/messaging/folders*',
+        oneFolderWithNoUnreadMessages,
       );
     },
   };

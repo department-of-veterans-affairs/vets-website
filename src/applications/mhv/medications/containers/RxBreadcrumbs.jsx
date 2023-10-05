@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 // temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
@@ -25,11 +26,20 @@ const RxBreadcrumbs = () => {
               label="Breadcrumb"
               className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
             >
-              {crumbs.map((crumb, idx) => (
-                <a href={crumb.url} key={idx}>
-                  {crumb.label}
-                </a>
-              ))}
+              {crumbs.map((crumb, idx) => {
+                if (crumb.isRelative) {
+                  return (
+                    <Link to={crumb.url} key={idx}>
+                      {crumb.label}
+                    </Link>
+                  );
+                }
+                return (
+                  <a href={crumb.url} key={idx}>
+                    {crumb.label}
+                  </a>
+                );
+              })}
               <a href={currentPath?.url}>{currentPath?.label}</a>
             </Breadcrumbs>
           </div>
