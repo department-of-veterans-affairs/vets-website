@@ -1,28 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MedicationsListCard from './MedicationsListCard';
 
-const MAX_PAGE_LIST_LENGTH = 5;
+const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
-  const { rxList } = props;
-
-  const [currentRx, setCurrentRx] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const paginatedRx = useRef([]);
-
-  const paginateData = data => {
-    return chunk(data, perPage);
-  };
-
+  const { rxList, pagination, setCurrentPage } = props;
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
   const onPageChange = page => {
-    setCurrentRx(paginatedRx.current[page - 1]);
     setCurrentPage(page);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
@@ -36,17 +25,10 @@ const MedicationsList = props => {
     return [from, to];
   };
 
-  useEffect(
-    () => {
-      if (rxList?.length) {
-        paginatedRx.current = paginateData(rxList);
-        setCurrentRx(paginatedRx.current[currentPage - 1]);
-      }
-    },
-    [currentPage, rxList],
+  const displayNums = fromToNumbs(
+    pagination.currentPage,
+    pagination.totalEntries,
   );
-
-  const displayNums = fromToNumbs(currentPage, rxList?.length);
 
   return (
     <>
@@ -55,22 +37,22 @@ const MedicationsList = props => {
         data-testid="page-total-info"
         id="showingRx"
       >
-        Showing {displayNums[0]} - {displayNums[1]} of {rxList.length}{' '}
+        Showing {displayNums[0]} - {displayNums[1]} of {pagination.totalEntries}{' '}
         medications, available to fill or refill first
       </h2>
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="vads-u-display--block vads-u-margin-top--3">
         {rxList?.length > 0 &&
-          currentRx.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
+          rxList.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
       </div>
       <VaPagination
+        max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"
-        className="pagination"
+        className="pagination vads-u-max-width--none vads-u-justify-content--center"
         onPageSelect={e => onPageChange(e.detail.page)}
-        page={currentPage}
-        pages={paginatedRx.current.length}
-        maxPageListLength={MAX_PAGE_LIST_LENGTH}
-        showLastPage
+        page={pagination.currentPage}
+        pages={pagination.totalPages}
+        uswds
       />
     </>
   );
@@ -79,5 +61,7 @@ const MedicationsList = props => {
 export default MedicationsList;
 
 MedicationsList.propTypes = {
+  pagination: PropTypes.object,
   rxList: PropTypes.array,
+  setCurrentPage: PropTypes.func,
 };

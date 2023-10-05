@@ -5,27 +5,17 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const {
-    children,
-    features,
-    formData,
-    getTotalDisabilityRating,
-    location,
-    setFormData,
-    totalDisabilityRating,
-    user,
-  } = props;
+  const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
   const { loading, isSigiEnabled } = features;
   const { dob: veteranDateOfBirth } = user;
 
   /**
-   * Fetch total disability rating & set default view fields in the form data
+   * Set default view fields in the form data
    *
    * NOTE: veteranFullName is included in the dependency list to reset view fields when
    * starting a new application from save-in-progress.
@@ -40,11 +30,8 @@ const App = props => {
         const defaultViewFields = {
           'view:userDob': veteranDateOfBirth,
           'view:isSigiEnabled': isSigiEnabled,
-          'view:totalDisabilityRating':
-            parseInt(totalDisabilityRating, 10) || 0,
         };
 
-        getTotalDisabilityRating();
         setFormData({
           ...formData,
           ...defaultViewFields,
@@ -52,13 +39,7 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      isSigiEnabled,
-      loading,
-      totalDisabilityRating,
-      veteranFullName,
-      veteranDateOfBirth,
-    ],
+    [isSigiEnabled, loading, veteranFullName, veteranDateOfBirth],
   );
 
   return loading ? (
@@ -77,10 +58,8 @@ App.propTypes = {
   ]),
   features: PropTypes.object,
   formData: PropTypes.object,
-  getTotalDisabilityRating: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
 };
 
@@ -90,13 +69,11 @@ const mapStateToProps = state => ({
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,
-  totalDisabilityRating: state.disabilityRating.totalDisabilityRating,
   user: state.user.profile,
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getTotalDisabilityRating: fetchTotalDisabilityRating,
 };
 
 export default connect(

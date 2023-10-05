@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getPrescriptionsList,
-  setSortedRxList,
+  getAllergiesList,
 } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -13,6 +13,12 @@ import { rxListSortingOptions } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  buildPrescriptionsPDFList,
+  buildAllergiesPDFList,
+} from '../util/pdfConfigs';
 
 const Prescriptions = () => {
   const currentDate = new Date();
@@ -20,20 +26,25 @@ const Prescriptions = () => {
   const prescriptions = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
+  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
-  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
-  const [pdfList, setPdfList] = useState([]);
-  const [sortOption, setSortOption] = useState('');
+  const pagination = useSelector(
+    state => state.rx.prescriptions?.prescriptionsPagination,
+  );
+  const defaultSortEndpoint =
+    rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT;
+  const [sortEndpoint, setSortEndpoint] = useState(defaultSortEndpoint);
+  const [prescriptionsPdfList, setPrescriptionsPdfList] = useState([]);
+  const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const topAlert = () => {
     return (
-      <div
-        visible={isAlertVisible}
-        className="vads-l-col--12 medium-screen:vads-l-col--9 no-print vads-u-margin-top--4"
-      >
+      <div visible={isAlertVisible} className="no-print vads-u-margin-top--5">
         {!prescriptions && (
           <va-alert
             close-btn-aria-label="Close notification"
@@ -61,11 +72,18 @@ const Prescriptions = () => {
           </va-alert>
         )}
         {prescriptions?.length <= 0 && (
-          <va-alert status="info" background-only>
+          <va-alert status="info" uswds>
             <div>
-              <p className="vads-u-margin--0">
-                You don’t have any medications in your VA medical records.
-              </p>
+              <h4 className="vads-u-margin-top--0">
+                You don’t have any medications in your medications list
+              </h4>
+              <strong>Note</strong>: This list doesn’t include older
+              prescriptions that have been inactive for more than{' '}
+              <strong>180 days</strong>. To find these older prescriptions, go
+              to your VA Blue Button report on the My HealtheVet website.{' '}
+              <a href={mhvUrl(ssoe, 'va-blue-button')} rel="noreferrer">
+                Go to VA Blue Button&reg; on the My HealtheVet website
+              </a>
             </div>
           </va-alert>
         )}
@@ -74,93 +92,9 @@ const Prescriptions = () => {
     );
   };
 
-  const sortRxList = useCallback(
-    () => {
-      if (sortOption) {
-        const newList = [...prescriptions];
-        newList.sort(a => {
-          return a.refillStatus?.toLowerCase() === sortOption.toLowerCase()
-            ? -1
-            : 0;
-        });
-        dispatch(setSortedRxList(newList));
-      }
-    },
-    [dispatch, prescriptions, sortOption],
-  );
-
-  const buildPrescriptionPDFList = useCallback(
-    () => {
-      return prescriptions?.map(rx => {
-        return {
-          header: rx.prescriptionName,
-          items: [
-            {
-              title: 'Prescription number',
-              value: rx.prescriptionNumber,
-              inline: true,
-            },
-            {
-              title: 'Status',
-              value: rx.refillStatus,
-              inline: true,
-            },
-            {
-              title: 'Refills left',
-              value: rx.refillRemaining,
-              inline: true,
-            },
-            {
-              title: 'Quantity',
-              value: rx.quantity,
-              inline: true,
-            },
-            {
-              title: 'Prescribed on',
-              value: 'not in vets api data',
-              inline: true,
-            },
-            {
-              title: 'Prescription expires on',
-              value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
-              inline: true,
-            },
-            {
-              title: 'Prescribed by',
-              value: 'not in vets api data',
-              inline: true,
-            },
-            {
-              title: 'Facility',
-              value: rx.facilityName,
-              inline: true,
-            },
-            {
-              title: 'Phone number',
-              value: 'not in vets api data',
-              inline: true,
-            },
-            {
-              title: 'Category',
-              value: 'not in vets api data',
-              inline: true,
-            },
-            {
-              title: 'Source',
-              value: 'not in vets api data',
-              inline: true,
-            },
-            {
-              title: 'Image',
-              value: 'not in vets api data',
-              inline: true,
-            },
-          ],
-        };
-      });
-    },
-    [prescriptions],
-  );
+  const sortRxList = endpoint => {
+    setSortEndpoint(endpoint);
+  };
 
   useEffect(
     () => {
@@ -184,9 +118,18 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      dispatch(getPrescriptionsList()).then(() => setLoading(false));
+      dispatch(getPrescriptionsList(currentPage, sortEndpoint)).then(() =>
+        setLoading(false),
+      );
     },
-    [dispatch],
+    [dispatch, currentPage, sortEndpoint],
+  );
+
+  useEffect(
+    () => {
+      if (!allergies) dispatch(getAllergiesList());
+    },
+    [allergies, dispatch],
   );
 
   useEffect(
@@ -201,16 +144,38 @@ const Prescriptions = () => {
   useEffect(
     () => {
       if (prescriptions) {
-        setPdfList(buildPrescriptionPDFList());
+        setPrescriptionsPdfList(buildPrescriptionsPDFList(prescriptions));
       }
     },
-    [buildPrescriptionPDFList, prescriptions],
+    [prescriptions],
+  );
+
+  useEffect(
+    () => {
+      if (allergies) {
+        setAllergiesPdfList(buildAllergiesPDFList(allergies));
+      }
+    },
+    [allergies],
   );
 
   const pdfData = {
+    headerBanner: [
+      {
+        text:
+          'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+      },
+      {
+        text: '988',
+        weight: 'bold',
+      },
+      {
+        text: '. Then select 1.',
+      },
+    ],
     headerLeft: userName.first
       ? `${userName.last}, ${userName.first}`
-      : `${userName.last}`,
+      : `${userName.last || ' '}`,
     headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
     footerLeft: `Report generated by My HealtheVet and VA on ${dateFormat(
       currentDate,
@@ -218,16 +183,30 @@ const Prescriptions = () => {
     )}`,
     footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
     title: 'Medications',
-    preface:
-      'This is a list of your current prescriptions, allergies, and adverse reactions.',
-    results: {
-      header: '',
-      items: pdfList,
-    },
+    preface: `This is a list of recent prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\nNote: This list doesn’t include older prescriptions that have been inactive for more than 6 months.`,
+    results: [
+      {
+        header: 'Medications list',
+        preface: `Showing ${
+          prescriptionsPdfList?.length
+        } medications, available to fill or refill first`,
+        list: prescriptionsPdfList,
+      },
+      {
+        header: 'Allergies',
+        list: allergiesPdfList,
+      },
+    ],
   };
 
   const handleDownloadPDF = () => {
-    generateMedicationsPDF('medicalRecords', 'rx_list', pdfData);
+    generateMedicationsPDF(
+      'medications',
+      `VA-medications-list-${
+        userName.first ? `${userName.first}-${userName.last}` : userName.last
+      }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+      pdfData,
+    );
   };
 
   const content = () => {
@@ -235,7 +214,7 @@ const Prescriptions = () => {
       return (
         <div className="landing-page">
           <PrintHeader />
-          <h1 className="vads-u-margin-top--neg4" data-testid="list-page-title">
+          <h1 className="vads-u-margin-top--neg3" data-testid="list-page-title">
             Medications
           </h1>
           <div
@@ -257,24 +236,23 @@ const Prescriptions = () => {
             </ul>
           </div>
           {topAlert()}
-          <div className="landing-page-content">
-            <div className="no-print">
-              <PrintDownload download={handleDownloadPDF} list />
-              <BeforeYouDownloadDropdown />
-              <MedicationsListSort
-                setSortOption={setSortOption}
-                sortOption={sortOption}
-                defaultSortOption={defaultSortOption}
-                sortRxList={sortRxList}
+          {prescriptions?.length ? (
+            <div className="landing-page-content">
+              <div className="no-print">
+                <PrintDownload download={handleDownloadPDF} list />
+                <BeforeYouDownloadDropdown />
+                <MedicationsListSort sortRxList={sortRxList} />
+                <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+              </div>
+              <MedicationsList
+                rxList={prescriptions}
+                pagination={pagination}
+                setCurrentPage={setCurrentPage}
               />
-              <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
             </div>
-            {prescriptions ? (
-              <MedicationsList rxList={prescriptions} />
-            ) : (
-              <MedicationsList rxList={[]} />
-            )}
-          </div>
+          ) : (
+            ''
+          )}
         </div>
       );
     }
