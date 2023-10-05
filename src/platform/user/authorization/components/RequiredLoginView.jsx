@@ -21,7 +21,7 @@ const verifyUrl = appendQuery('/verify', nextQuery);
 const RequiredLoginLoader = () => {
   return (
     <div className="vads-u-margin-y--5" data-testid="req-loader">
-      <VaLoadingIndicator setFocus message="Loading your information..." />
+      <VaLoadingIndicator set-focus message="Loading your information..." />
     </div>
   );
 };
@@ -85,7 +85,7 @@ export const RequiredLoginView = props => {
   const renderVerifiedContent = () => {
     if (shouldVerify()) {
       return (
-        <va-loading-indicator setFocus message="Redirecting to verify..." />
+        <va-loading-indicator set-focus message="Redirecting to verify..." />
       );
     }
 
@@ -170,7 +170,7 @@ export const RequiredLoginView = props => {
     if (shouldSignIn()) {
       return (
         <div className="vads-u-margin-y--5" data-testid="redirect-to-login">
-          <va-loading-indicator setFocus message="Redirecting to login..." />;
+          <va-loading-indicator set-focus message="Redirecting to login..." />;
         </div>
       );
     }

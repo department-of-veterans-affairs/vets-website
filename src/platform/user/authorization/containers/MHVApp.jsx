@@ -281,7 +281,7 @@ export class MHVApp extends React.Component {
 
     if (loading) {
       return (
-        <va-loading-indicator setFocus message="Loading your information..." />
+        <va-loading-indicator set-focus message="Loading your information..." />
       );
     }
 
@@ -308,14 +308,14 @@ export class MHVApp extends React.Component {
     if (!this.hasService()) {
       if (accountState === 'needs_identity_verification') {
         return (
-          <va-loading-indicator setFocus message="Redirecting to verify..." />
+          <va-loading-indicator set-focus message="Redirecting to verify..." />
         );
       }
 
       if (accountState === 'needs_terms_acceptance') {
         return (
           <va-loading-indicator
-            setFocus
+            set-focus
             message="Redirecting to terms and conditions..."
           />
         );
