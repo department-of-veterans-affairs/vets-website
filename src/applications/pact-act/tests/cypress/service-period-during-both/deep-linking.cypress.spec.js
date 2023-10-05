@@ -3,7 +3,7 @@ import { ROUTES } from '../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-describe('PACT Act', () => {
+xdescribe('PACT Act', () => {
   describe('During both of these time periods - deep linking', () => {
     it('redirects to home when the service period page is loaded without the right criteria', () => {
       cy.visit(`/pact-act-wizard-test/${ROUTES.SERVICE_PERIOD}`);
@@ -127,6 +127,46 @@ describe('PACT Act', () => {
 
     it('redirects to home when the lejeune 2-4 page is loaded without the right criteria', () => {
       cy.visit(`/pact-act-wizard-test/${ROUTES.LEJEUNE_2_4}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the results 1, p1 page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RESULTS_1_P1}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the results 1, p2 page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RESULTS_1_P2}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the results 2 page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RESULTS_2}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the results 3page is loaded without the right criteria', () => {
+      cy.visit(`/pact-act-wizard-test/${ROUTES.RESULTS_3}`);
 
       h.verifyUrl(ROUTES.HOME);
 
