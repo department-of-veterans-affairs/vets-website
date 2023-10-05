@@ -8,8 +8,6 @@ import {
   hasHomeAndMobilePhone,
 } from '../../utils/contactInfo';
 
-import { returnPhoneObject } from '../../../shared/utils/helpers';
-
 const getPhone = ({
   country = '1',
   area = '800',
