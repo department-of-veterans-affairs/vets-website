@@ -56,30 +56,3 @@ export const claimantInfo = {
     },
   },
 };
-
-export const mockUserState = {
-  user: {
-    profile: {
-      vapContactInfo: {
-        mailingAddress: {
-          addressLine1: '456 Liberty Street',
-          addressLine2: 'Suite 789',
-          city: 'Liberty City',
-          stateCode: 'LC',
-          zipCode: '12345',
-          countryCode: 'US',
-          addressType: 'DOMESTIC',
-        },
-      },
-    },
-    vet360ContactInformation: {
-      addressLine1: '789 Freedom Blvd',
-      addressLine2: 'Apt 101',
-      city: 'Freedom Town',
-      stateCode: 'FT',
-      zipCode: '67890',
-      countryCodeIso3: 'USA',
-      addressType: 'Domestic',
-    },
-  },
-};

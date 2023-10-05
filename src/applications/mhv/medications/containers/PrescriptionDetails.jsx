@@ -44,8 +44,9 @@ const PrescriptionDetails = () => {
               label: 'About Medications',
             },
             {
-              url: '/my-health/medications/',
+              url: '/',
               label: 'Medications',
+              isRelative: true,
             },
           ],
           {

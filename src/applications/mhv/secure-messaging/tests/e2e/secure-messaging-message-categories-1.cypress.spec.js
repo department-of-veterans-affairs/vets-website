@@ -28,9 +28,9 @@ describe('Secure Messaging Compose Categories', () => {
     });
   });
 
-  it('can send message for category General', () => {
+  it('can send message for category Appointment-APPOINTMENTS', () => {
     landingPage.navigateToComposePage();
-    composePage.enterComposeMessageDetails('General');
+    composePage.enterComposeMessageDetails('APPOINTMENTS');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -41,7 +41,7 @@ describe('Secure Messaging Compose Categories', () => {
     });
   });
 
-  it('can send message for category Covid', () => {
+  it('can send message for category Covid-COVID', () => {
     landingPage.navigateToComposePage();
     composePage.enterComposeMessageDetails('COVID');
     cy.injectAxe();
@@ -54,46 +54,9 @@ describe('Secure Messaging Compose Categories', () => {
     });
   });
 
-  it('can send message for category Appointment', () => {
+  it('can send message for category Education-EDUCATION', () => {
     landingPage.navigateToComposePage();
-    composePage.enterComposeMessageDetails('Appointment');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
-  it('can send message for category Medication', () => {
-    landingPage.navigateToComposePage();
-    composePage.enterComposeMessageDetails('Medication');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
-  it('can send message for category Test', () => {
-    landingPage.navigateToComposePage();
-    composePage.enterComposeMessageDetails('Test');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
-
-  it('can send message for category Education', () => {
-    landingPage.navigateToComposePage();
-    composePage.enterComposeMessageDetails('Education');
+    composePage.enterComposeMessageDetails('EDUCATION');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
