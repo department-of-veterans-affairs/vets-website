@@ -38,7 +38,7 @@ function ScheduleNewAppointmentButton() {
   return featureStartSchedulingLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
-      className="vads-c-action-link--green vads-u-margin-bottom--2p5"
+      className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
       href="/"
       onClick={handleClick(history, dispatch, typeOfCare)}
     >
