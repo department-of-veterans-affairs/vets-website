@@ -16,8 +16,7 @@ describe('check-in', () => {
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
       expect(heading).to.contain.text('Need help?');
-      expect(component.getByTestId('day-of-check-in-message')).to.exist;
-      expect(component.queryByTestId('pre-check-in-message')).to.not.exist;
+      expect(component.getByTestId('check-in-message')).to.exist;
     });
     it('Renders default pre-check-in footer', () => {
       const component = render(
@@ -28,9 +27,8 @@ describe('check-in', () => {
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
       expect(heading).to.contain.text('Need help?');
-      expect(component.queryByTestId('day-of-check-in-message')).to.not.exist;
       expect(component.queryByTestId('intro-extra-message')).to.not.exist;
-      expect(component.getByTestId('pre-check-in-message')).to.exist;
+      expect(component.getByTestId('check-in-message')).to.exist;
     });
     it('Render extra message on the intro page for pre-check-in', () => {
       const component = render(
@@ -43,7 +41,7 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('intro-extra-message')).to.exist;
     });
-    it('Renders TravelHelpBlock for travel-pay page', () => {
+    it('Renders HelpBlock for travel-pay page', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
@@ -54,7 +52,7 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('travel-help-block')).to.exist;
     });
-    it('Renders TravelHelpBlock for travel-vehicle page', () => {
+    it('Renders HelpBlock for travel-vehicle page', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
@@ -65,7 +63,7 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('travel-help-block')).to.exist;
     });
-    it('Renders TravelHelpBlock for travel-address page', () => {
+    it('Renders HelpBlock for travel-address page', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
@@ -76,7 +74,7 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('travel-help-block')).to.exist;
     });
-    it('Renders TravelHelpBlock for complete page', () => {
+    it('Renders HelpBlock for complete page', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
@@ -86,6 +84,18 @@ describe('check-in', () => {
         </CheckInProvider>,
       );
       expect(component.getByTestId('travel-help-block')).to.exist;
+    });
+    it('Renders HelpBlock for complete page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'contact-information' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.queryByTestId('for-questions-about-filing')).to.not
+        .exist;
     });
   });
 });

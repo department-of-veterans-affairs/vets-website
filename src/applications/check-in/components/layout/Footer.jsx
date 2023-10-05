@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../BackToHome';
-import TravelHelpBlock from '../TravelHelpBlock';
-import MainHelpBlock from '../MainHelpBlock';
+import HelpBlock from '../HelpBlock';
 
-const Footer = ({ router, isPreCheckIn }) => {
+const Footer = ({ router }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
 
@@ -28,18 +27,14 @@ const Footer = ({ router, isPreCheckIn }) => {
       >
         {t('need-help')}
       </h2>
-      {isPreCheckIn ? (
-        <div data-testid="pre-check-in-message">
-          <MainHelpBlock />
+      {travelPages.includes(currentPage) ||
+      (currentPage && currentPage.includes('complete')) ? (
+        <div data-testid="check-in-message">
+          <HelpBlock travel />
         </div>
       ) : (
-        <div data-testid="day-of-check-in-message">
-          {travelPages.includes(currentPage) ||
-          (currentPage && currentPage.includes('complete')) ? (
-            <TravelHelpBlock />
-          ) : (
-            <MainHelpBlock />
-          )}
+        <div data-testid="check-in-message">
+          <HelpBlock />
         </div>
       )}
       {currentPage === 'introduction' && (
@@ -61,7 +56,6 @@ const Footer = ({ router, isPreCheckIn }) => {
 };
 
 Footer.propTypes = {
-  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 
