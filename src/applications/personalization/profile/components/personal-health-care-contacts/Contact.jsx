@@ -51,11 +51,11 @@ const Contact = ({
       <br />
       {showAddress &&
         addressLines.length >= 2 &&
-        addressLines.map(line => (
-          <>
+        addressLines.map((line, i) => (
+          <React.Fragment key={i}>
             {line}
             <br />
-          </>
+          </React.Fragment>
         ))}
       {primaryPhone}
     </div>

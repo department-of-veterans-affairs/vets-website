@@ -27,6 +27,13 @@ export const routesForNav = [
     requiresMVI: true,
   },
   {
+    component: PersonalHealthCareContacts,
+    name: PROFILE_PATH_NAMES.CONTACTS,
+    path: PROFILE_PATHS.CONTACTS,
+    requiresLOA3: true,
+    requiresMVI: false,
+  },
+  {
     component: MilitaryInformation,
     name: PROFILE_PATH_NAMES.MILITARY_INFORMATION,
     path: PROFILE_PATHS.MILITARY_INFORMATION,
@@ -60,12 +67,5 @@ export const routesForNav = [
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
-  },
-  {
-    component: PersonalHealthCareContacts,
-    name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
-    path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
-    requiresLOA3: true,
-    requiresMVI: false,
   },
 ];
