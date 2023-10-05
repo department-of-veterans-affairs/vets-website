@@ -1,20 +1,23 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import recordEvent from 'platform/monitoring/record-event';
 
 import { buildDateFormatter } from '../utils/helpers';
+import ClaimCard from './ClaimCard';
+
+const formatDate = buildDateFormatter('MMMM d, yyyy');
 
 export default function StemClaimListItemV3({ claim }) {
   if (!claim.attributes.automatedDenial) {
     return null;
   }
-  const formattedDeniedAtDate = () =>
-    buildDateFormatter('MMMM d, yyyy')(claim.attributes.deniedAt);
-  const formattedReceiptDate = () =>
-    buildDateFormatter('MMMM d, yyyy')(claim.attributes.submittedAt);
+
+  const formattedDeniedAtDate = formatDate(claim.attributes.deniedAt);
+  const formattedReceiptDate = formatDate(claim.attributes.submittedAt);
 
   const handlers = {
-    openClaimClick: () =>
+    onClick: () => {
       recordEvent({
         event: 'cta-action-link-click',
         'action-link-type': 'secondary',
@@ -22,33 +25,30 @@ export default function StemClaimListItemV3({ claim }) {
         'action-link-icon-color': 'blue',
         'claim-type': 'STEM Scholarship',
         'claim-last-updated-date': formattedDeniedAtDate,
-        'claim-submitted-date': formattedDeniedAtDate,
+        'claim-submitted-date': formattedReceiptDate,
         'claim-status': 'Denied',
-      }),
+      });
+    },
   };
 
+  const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
+  const href = `your-stem-claims/${claim.id}/status`;
+
   return (
-    <va-card class="claim-list-item">
-      <h3 className="claim-list-item-header vads-u-margin-bottom--2">
-        {/* eslint-disable-next-line jsx-a11y/aria-role */}
-        <div role="text">
-          Edith Nourse Rogers STEM Scholarship application
-          <span>Submitted on {formattedReceiptDate}</span>
-        </div>
-      </h3>
+    <ClaimCard
+      title="Edith Nourse Rogers STEM Scholarship application"
+      subtitle={`Submitted on ${formattedReceiptDate}`}
+    >
       <div className="card-status">
         <p>Status: Denied</p>
         <p>Last updated on: {formattedDeniedAtDate}</p>
       </div>
-      <va-link
-        active
-        aria-label={`View details for claim submitted on ${formattedReceiptDate}`}
-        href={`your-stem-claims/${claim.id}/status`}
-        text="View details"
-        class="vads-u-margin-top--2 vads-u-display--block"
-        onClick={handlers.openClaimClick}
+      <ClaimCard.Link
+        ariaLabel={ariaLabel}
+        href={href}
+        onClick={handlers.onClick}
       />
-    </va-card>
+    </ClaimCard>
   );
 }
 

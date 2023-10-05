@@ -67,13 +67,14 @@ const App = ({ children }) => {
         className="vads-l-grid-container vads-u-padding-left--2"
       >
         <MrBreadcrumbs />
-        <div className="medical-records-container">
-          {/* <Navigation /> */}
-          <div className="vads-l-grid-container main-content">
+        {/* <Navigation /> */}
+        <div className="vads-l-grid-container vads-u-padding-left--0">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 no-print">
             <ScrollToTop />
             {children}
             <va-back-to-top hidden={isHidden} />
           </div>
+          <div className="vads-l-col--12 print-only">{children}</div>
         </div>
       </div>
     </RequiredLoginView>

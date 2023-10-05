@@ -148,7 +148,7 @@ const flow = {
           // If CC enabled systems and toc is podiatry, skip typeOfFacility
           dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
           dispatch(startRequestAppointmentFlow(true));
-          return 'requestDateTime';
+          return 'ccRequestDateTime';
         }
         if (isEligible) {
           return 'typeOfFacility';
@@ -173,7 +173,7 @@ const flow = {
 
       if (isCCFacility(state)) {
         dispatch(startRequestAppointmentFlow(true));
-        return 'requestDateTime';
+        return 'ccRequestDateTime';
       }
 
       return VA_FACILITY_V2_KEY;
@@ -205,7 +205,7 @@ const flow = {
     url: '/new-appointment/audiology',
     next(state, dispatch) {
       dispatch(startRequestAppointmentFlow(true));
-      return 'requestDateTime';
+      return 'ccRequestDateTime';
     },
   },
   ccPreferences: {
@@ -325,19 +325,19 @@ export default function getNewAppointmentFlow(state) {
     ccClosestCity: {
       ...flow.ccClosestCity,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-closest-city'
+        ? 'closest-city'
         : '/new-appointment/choose-closest-city',
     },
     ccLanguage: {
       ...flow.ccLanguage,
       url: featureBreadcrumbUrlUpdate
-        ? 'community-care-language'
+        ? 'preferred-language'
         : '/new-appointment/community-care-language',
     },
     ccPreferences: {
       ...flow.ccPreferences,
       url: featureBreadcrumbUrlUpdate
-        ? 'community-care-preferences'
+        ? 'preferred-provider'
         : '/new-appointment/community-care-preferences',
     },
     clinicChoice: {
@@ -365,8 +365,19 @@ export default function getNewAppointmentFlow(state) {
     requestDateTime: {
       ...flow.requestDateTime,
       url: featureBreadcrumbUrlUpdate
-        ? 'request-date'
+        ? 'va-request/'
         : '/new-appointment/request-date',
+    },
+    ccRequestDateTime: {
+      ...flow.requestDateTime,
+      url: featureBreadcrumbUrlUpdate
+        ? 'community-request/'
+        : '/new-appointment/request-date',
+    },
+    root: {
+      url: featureBreadcrumbUrlUpdate
+        ? '/my-health/appointments'
+        : '/health-care/schedule-view-va-appointments/appointments/',
     },
     review: {
       ...flow.review,
@@ -390,7 +401,9 @@ export default function getNewAppointmentFlow(state) {
     },
     typeOfCare: {
       ...flow.typeOfCare,
-      url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
+      url: featureBreadcrumbUrlUpdate
+        ? '/schedule/type-of-care'
+        : '/new-appointment',
     },
     typeOfEyeCare: {
       ...flow.typeOfEyeCare,
@@ -401,7 +414,7 @@ export default function getNewAppointmentFlow(state) {
     typeOfFacility: {
       ...flow.typeOfFacility,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-facility-type'
+        ? 'facility-type'
         : '/new-appointment/choose-facility-type',
     },
     typeOfSleepCare: {
@@ -439,7 +452,7 @@ export default function getNewAppointmentFlow(state) {
     visitType: {
       ...flow.visitType,
       url: featureBreadcrumbUrlUpdate
-        ? 'choose-visit-type'
+        ? 'preferred-method'
         : '/new-appointment/choose-visit-type',
     },
   };

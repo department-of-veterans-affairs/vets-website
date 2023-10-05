@@ -873,7 +873,11 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(`/requests/${requestData.id}?confirmMsg=true`);
+        history.push(
+          `${featureBreadcrumbUrlUpdate ? '/pending' : '/requests'}/${
+            requestData.id
+          }?confirmMsg=true`,
+        );
       } catch (error) {
         let extraData = null;
         if (requestBody) {
@@ -989,6 +993,14 @@ export function routeToPageInFlow(callback, history, current, action, data) {
 
     let nextPage;
     let nextStateKey;
+    const checkPage = page => {
+      if (!page) {
+        throw new Error('Tried to route to page that does not exist');
+      }
+      if (page.url === null || page.url === undefined) {
+        throw new Error(`Tried to route to a page without a url: ${page}`);
+      }
+    };
 
     if (action === 'next') {
       const nextAction = flow[current][action];
@@ -999,25 +1011,44 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         nextStateKey = await nextAction(getState(), dispatch);
         nextPage = flow[nextStateKey];
       }
+      checkPage(nextPage);
+
+      history.push(nextPage.url);
     } else {
       const state = getState();
       const previousPage = state.newAppointment.previousPages[current];
       nextPage = flow[previousPage];
+
+      checkPage(nextPage);
+
+      if (
+        // HACK: For new CC primary care facility flow, very hacky
+        // TODO: Clean up how we handle new flow
+        !nextPage.url.endsWith('/') &&
+        (previousPage !== 'typeOfFacility' &&
+          previousPage !== 'audiologyCareType' &&
+          previousPage !== 'vaFacilityV2')
+      ) {
+        history.push(nextPage.url);
+      } else if (
+        !nextPage.url.endsWith('/') &&
+        previousPage === 'audiologyCareType'
+      ) {
+        history.push(`../${nextPage.url}`);
+      } else if (
+        history.location.pathname.endsWith('/') ||
+        (nextPage.url.endsWith('/') && nextPage.url !== flow.home.url)
+      )
+        history.push(`../${nextPage.url}`);
+      else history.push(nextPage.url);
     }
 
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: current,
-        pageKeyNext: nextStateKey,
-        direction: action,
-      });
-      history.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
+    dispatch({
+      type: FORM_PAGE_CHANGE_COMPLETED,
+      pageKey: current,
+      pageKeyNext: nextStateKey,
+      direction: action,
+    });
   };
 }
 

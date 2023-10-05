@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  generateUniqueKey,
+} from '../../utils/helpers';
 
-import { currency as currencyFormatter } from '../../utils/helpers';
-
+export const keyFieldsForVehicles = ['year', 'make', 'model', 'resaleValue'];
 const VehicleSummaryWidget = ({
   data,
   goToPath,
@@ -19,10 +23,6 @@ const VehicleSummaryWidget = ({
 }) => {
   const { assets } = data;
   const { automobiles = [] } = assets;
-
-  useEffect(() => {
-    clearJobIndex();
-  }, []);
 
   const handlers = {
     onSubmit: event => {
@@ -40,12 +40,19 @@ const VehicleSummaryWidget = ({
       ...data,
       assets: {
         ...assets,
-        automobiles: automobiles.filter(
-          (source, index) => index !== deleteIndex,
-        ),
+        automobiles: automobiles.filter((_, index) => index !== deleteIndex),
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
+
   const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
   const cardBody = text => (
     <p className="vads-u-margin--0">
@@ -75,8 +82,8 @@ const VehicleSummaryWidget = ({
                 heading={`${vehicle.year || ''} ${vehicle.make} ${
                   vehicle.model
                 }`}
-                key={index + vehicle.make + vehicle.model + vehicle.year}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(vehicle, keyFieldsForVehicles, index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 body={cardBody(vehicle.resaleValue)}
                 index={index}
@@ -93,10 +100,20 @@ const VehicleSummaryWidget = ({
         >
           Add additional vehicle
         </Link>
+        {contentBeforeButtons}
+        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        {contentAfterButtons}
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={`${automobiles[deleteIndex]?.year || ''} ${
+              automobiles[deleteIndex]?.make
+            } ${automobiles[deleteIndex]?.model}`}
+          />
+        ) : null}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onBack} submitToContinue />
-      {contentAfterButtons}
     </form>
   );
 };

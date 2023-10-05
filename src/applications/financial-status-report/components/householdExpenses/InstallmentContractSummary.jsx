@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
 import {
   currency as currencyFormatter,
+  firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
 
@@ -32,10 +33,6 @@ const InstallmentContractSummary = ({
   const formData = useSelector(state => state.form.data);
   const { installmentContracts = [] } = formData;
 
-  useEffect(() => {
-    clearJobIndex();
-  }, []);
-
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
@@ -51,12 +48,27 @@ const InstallmentContractSummary = ({
     setFormData({
       ...formData,
       installmentContracts: installmentContracts.filter(
-        (source, index) => index !== deleteIndex,
+        (_, index) => index !== deleteIndex,
       ),
     });
   };
 
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
+
   const emptyPrompt = `Select the 'add additional installment contract link to add another installment contract or other debt. Select the continue button to move on to the next question.`;
+
+  const reformattedDateReceived = dateReceived => {
+    const dateYear = dateReceived.split('-')[0];
+    const dateMonth = dateReceived.split('-')[1];
+
+    return `${dateMonth}/XX/${dateYear}`;
+  };
 
   const billBody = ({
     creditorName,
@@ -75,11 +87,12 @@ const InstallmentContractSummary = ({
       'Minimum monthly payment amount': amountDueMonthly
         ? currencyFormatter(amountDueMonthly)
         : null,
-      'Date received': dateStarted,
+      'Date received': reformattedDateReceived(dateStarted),
       'Amount overdue': amountPastDue
         ? currencyFormatter(amountPastDue)
         : currencyFormatter(0.0),
     };
+
     return (
       <p className="vads-u-margin--0">
         {Object.entries(formattedFields).map(
@@ -120,7 +133,7 @@ const InstallmentContractSummary = ({
                   keyFieldsForInstallmentContract,
                   index,
                 )}
-                onDelete={() => onDelete(index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 body={billBody(bill)}
                 index={index}
@@ -151,10 +164,20 @@ const InstallmentContractSummary = ({
             <li>Personal debts</li>
           </ul>
         </va-additional-info>
+        {contentBeforeButtons}
+        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        {contentAfterButtons}
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(
+              installmentContracts[deleteIndex]?.purpose,
+            )}
+          />
+        ) : null}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onBack} submitToContinue />
-      {contentAfterButtons}{' '}
     </form>
   );
 };

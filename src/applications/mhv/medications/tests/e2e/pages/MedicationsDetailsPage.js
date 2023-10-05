@@ -83,9 +83,9 @@ class MedicationsDetailsPage {
   };
 
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.get('#va-breadcrumbs-list-2 > li:nth-child(1) > a').click({
-      force: true,
-    });
+    cy.contains('About Medications')
+      .should('be.visible')
+      .click({ force: true });
   };
 
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {

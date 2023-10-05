@@ -89,7 +89,7 @@ export const IntroductionPageFormProcess = () => (
           </p>
         </li>
         <li className="process-step list-two">
-          <h4>Apply</h4>
+          <h3>Apply</h3>
           <p>
             Complete this dependents form and upload additional information if
             needed.
@@ -157,14 +157,14 @@ export const IntroductionPageFormProcess = () => (
           </p>
         </li>
         <li className="process-step list-three">
-          <h4>VA Review</h4>
+          <h3>VA Review</h3>
           <p>
             We process applications in the order we receive them. We may contact
             you if we have questions or need more information.
           </p>
         </li>
         <li className="process-step list-four vads-u-padding-bottom--0p25">
-          <h4>Decision</h4>
+          <h3>Decision</h3>
           <p>
             You’ll get a notice in the mail once we’ve processed your claim.
           </p>

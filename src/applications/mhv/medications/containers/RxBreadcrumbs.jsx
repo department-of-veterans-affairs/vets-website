@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
@@ -18,15 +19,27 @@ const RxBreadcrumbs = () => {
     <>
       {allCrumbs.length > 0 &&
         allCrumbs[0]?.url && (
-          <div
-            className={`${alignToLeft} vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
-          >
-            <VaBreadcrumbs label="Breadcrumb">
-              {allCrumbs.map((crumb, idx) => (
-                <a href={crumb.url} key={idx}>
-                  {crumb.label}
-                </a>
-              ))}
+          <div>
+            {/* per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296 */}
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library */}
+            <VaBreadcrumbs
+              label="Breadcrumb"
+              className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+            >
+              {allCrumbs.map((crumb, idx) => {
+                if (crumb.isRelative) {
+                  return (
+                    <Link to={crumb.url} key={idx}>
+                      {crumb.label}
+                    </Link>
+                  );
+                }
+                return (
+                  <a href={crumb.url} key={idx}>
+                    {crumb.label}
+                  </a>
+                );
+              })}
             </VaBreadcrumbs>
           </div>
         )}
