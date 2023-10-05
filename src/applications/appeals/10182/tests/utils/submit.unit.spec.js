@@ -2,15 +2,15 @@ import { expect } from 'chai';
 
 import { SHOW_PART3 } from '../../constants';
 import {
-  getEligibleContestableIssues,
-  createIssueName,
-  getContestableIssues,
   addIncludedIssues,
   addUploads,
+  createIssueName,
   getAddress,
+  getContestableIssues,
+  getEligibleContestableIssues,
+  getPart3Data,
   getPhone,
   getTimeZone,
-  getPart3Data,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';

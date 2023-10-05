@@ -1,9 +1,9 @@
 import {
   CLAIMANT_TYPES,
-  PRIMARY_PHONE,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_VA,
+  PRIMARY_PHONE,
 } from '../constants';
 import {
   hasHomeAndMobilePhone,
@@ -11,16 +11,15 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import {
-  buildVaLocationString,
   buildPrivateString,
+  buildVaLocationString,
 } from '../validations/evidence';
 
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import { MAX_LENGTH } from '../../shared/constants';
 import '../../shared/definitions';
-import { returnUniqueIssues } from '../../shared/utils/issues';
 import {
-  replaceSubmittedData,
   fixDateFormat,
+  replaceSubmittedData,
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
@@ -56,96 +55,6 @@ export const getClaimantData = ({
     );
   }
   return result;
-};
-
-/**
- * Combine issues values into one field
- * @param {ContestableIssueAttributes} attributes
- * @returns {String} Issue name - rating % - description combined
- */
-export const createIssueName = ({ attributes } = {}) => {
-  const {
-    ratingIssueSubjectText,
-    ratingIssuePercentNumber,
-    description,
-  } = attributes;
-  const result = [
-    ratingIssueSubjectText,
-    `${ratingIssuePercentNumber || '0'}%`,
-    description,
-  ]
-    .filter(part => part)
-    .join(' - ');
-  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
-};
-
-/* submitted contested issue format
-[{
-  "type": "contestableIssue",
-  "attributes": {
-    "issue": "tinnitus - 10% - some longer description",
-    "decisionDate": "1900-01-01",
-    "decisionIssueId": 1,
-    "ratingIssueReferenceId": "2",
-    "ratingDecisionReferenceId": "3",
-    "socDate": "2000-01-01"
-  }
-}]
-*/
-export const getContestedIssues = ({ contestedIssues } = {}) =>
-  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
-    const attr = issue.attributes;
-    const attributes = [
-      'decisionIssueId',
-      'ratingIssueReferenceId',
-      'ratingDecisionReferenceId',
-      'socDate',
-    ].reduce(
-      (acc, key) => {
-        // Don't submit null or empty strings
-        if (attr[key]) {
-          acc[key] = attr[key];
-        }
-        return acc;
-      },
-      {
-        issue: createIssueName(issue),
-        decisionDate: fixDateFormat(attr.approxDecisionDate),
-      },
-    );
-
-    return {
-      // type: "contestableIssues"
-      type: issue.type,
-      attributes,
-    };
-  });
-
-/**
- * Combine included issues and additional issues
- * @param {FormData}
- * @returns {ContestableIssueSubmittable}
- */
-export const addIncludedIssues = formData => {
-  const issues = getContestedIssues(formData);
-
-  const result = issues.concat(
-    (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
-      if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-        // match contested issue pattern
-        issuesToAdd.push({
-          type: 'contestableIssue',
-          attributes: {
-            issue: replaceSubmittedData(issue.issue),
-            decisionDate: fixDateFormat(issue.decisionDate),
-          },
-        });
-      }
-      return issuesToAdd;
-    }, []),
-  );
-  // Ensure only unique entries are submitted
-  return returnUniqueIssues(result);
 };
 
 /**
