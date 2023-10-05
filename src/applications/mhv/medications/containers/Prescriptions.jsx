@@ -204,7 +204,7 @@ const Prescriptions = () => {
       'medications',
       `VA-medications-list-${
         userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'MM-DD-YYYY_hmmssa')}`,
+      }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       pdfData,
     );
   };
