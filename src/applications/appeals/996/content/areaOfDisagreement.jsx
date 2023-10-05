@@ -111,5 +111,5 @@ export const AreaOfDisagreementReviewField = ({ children }) => {
 };
 
 AreaOfDisagreementReviewField.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
