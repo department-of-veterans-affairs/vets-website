@@ -9,25 +9,24 @@ export default function PreNeedApp({ loading, location, children }) {
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
-      const radios = document.querySelectorAll('input[type="radio"], va-radio');
-
+      const radios = document.querySelectorAll('input[type="radio"]');
       for (const radio of radios) {
         radio.onclick = e => {
-          const name = e.target.attributes.name.value;
-          let optionalLabel = e.target.nextElementSibling.innerHTML;
+          const title = e.target.attributes.name.value;
+          let optionLabel = e.target.nextElementSibling.innerHTML;
           // conditional to remove PII on page 5/6 of 6/7
           if (
-            name ===
+            title ===
             'root_application_applicant_applicantRelationshipToClaimant'
           ) {
-            if (optionalLabel === 'Someone else, such as a preparer')
-              optionalLabel = 'Authorized Agent/Rep';
-            else optionalLabel = 'Self';
+            if (optionLabel === 'Someone else, such as a preparer')
+              optionLabel = 'Authorized Agent/Rep';
+            else optionLabel = 'Self';
           }
           const currentEvent = {
             event: 'int-radio-option-click',
-            'radio-button-label': name,
-            'radio-button-optionLabel': optionalLabel,
+            'radio-button-label': title,
+            'radio-button-optionLabel': optionLabel,
             'radio-button-required': true,
           };
           const priorEvent = window.dataLayer[window.dataLayer.length - 1];
@@ -36,12 +35,7 @@ export default function PreNeedApp({ loading, location, children }) {
             !priorEvent ||
             JSON.stringify(currentEvent) !== JSON.stringify(priorEvent)
           )
-            recordEvent({
-              event: 'int-radio-option-click',
-              'radio-button-label': name,
-              'radio-button-optionLabel': optionalLabel,
-              'radio-button-required': true,
-            });
+            recordEvent(currentEvent);
         };
       }
     },
