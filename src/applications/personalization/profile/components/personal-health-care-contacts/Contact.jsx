@@ -36,15 +36,6 @@ const Contact = ({
   ].filter(line => !!line);
   const showAddress = contactType.match(/next of kin/i);
 
-  if (!givenName && !familyName && !primaryPhone) {
-    return (
-      <div>
-        To add an emergency contact or next of kin please call the Help Desk at{' '}
-        <va-telephone contact="8006982411" />
-      </div>
-    );
-  }
-
   return (
     <div>
       {name}

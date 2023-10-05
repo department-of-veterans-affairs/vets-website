@@ -21,13 +21,14 @@ const PersonalHealthCareContacts = () => {
   const nextOfKin = useSelector(selectNextOfKin);
 
   useEffect(
+    /* eslint-disable-next-line max-len */
     () =>
       enabled &&
       !data &&
       !loading &&
       !error &&
       dispatch(fetchProfileContacts()),
-    [data, dispatch, enabled, loading, error, fetchProfileContacts],
+    [data, dispatch, enabled, error, loading],
   );
 
   if (featureToggles.loading) return <Loading testId="phcc-loading" />;

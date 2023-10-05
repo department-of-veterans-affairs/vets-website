@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Loading = ({ message, testId }) => {
   return (
@@ -11,6 +12,11 @@ const Loading = ({ message, testId }) => {
 Loading.defaultProps = {
   message: 'Please wait...',
   testId: 'nok-ec-loading',
+};
+
+Loading.propTypes = {
+  message: PropTypes.string,
+  testId: PropTypes.string,
 };
 
 export default Loading;
