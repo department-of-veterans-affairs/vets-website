@@ -32,7 +32,7 @@ const FillRefillButton = rx => {
         )}
         {error && (
           <>
-            <va-alert status="error" setFocus>
+            <va-alert status="error" setFocus id="fill-error-alert">
               <p className="vads-u-margin-y--0">
                 We didn’t get your [fill/refill] request. Try again.
               </p>

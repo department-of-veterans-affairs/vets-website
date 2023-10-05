@@ -1,53 +1,27 @@
-import formSchema from '../config/form-0995-schema.json';
+import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import set from 'platform/utilities/data/set';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile.js';
 
-const { address, phone } = formSchema.definitions;
-const {
-  addressLine1,
-  addressLine2,
-  addressLine3,
-  city,
-  stateCode,
-  countryCodeISO2,
-  zipCode5,
-  internationalPostalCode,
-} = address.properties;
-const contactInfo = {
-  uiSchema: {},
+import { contactInfoValidation } from '../../shared/validations/contactInfo';
 
-  schema: {
-    type: 'object',
-    properties: {
-      veteran: {
-        type: 'object',
-        required: ['address', 'email'],
-        properties: {
-          address: {
-            type: 'object',
-            properties: {
-              addressLine1,
-              addressLine2,
-              addressLine3,
-              city,
-              stateCode,
-              countryCodeIso2: countryCodeISO2,
-              zipCode: zipCode5,
-              internationalPostalCode,
-            },
-            // the schema has countryCodeISO2 and zipCode5
-            required: ['addressLine1', 'city', 'countryCodeIso2', 'zipCode'],
-          },
-          homePhone: phone,
-          mobilePhone: phone,
-          email: {
-            type: 'string',
-            format: 'email',
-            minLength: 6,
-            maxLength: 255,
-          },
-        },
-      },
+const allContacts = ['mobilePhone', 'homePhone', 'address', 'email'];
+const homelessContacts = ['mobilePhone', 'homePhone', 'email'];
+
+export default profileContactInfo({
+  content: getContent('appeal'),
+  contactInfoRequiredKeys: [],
+  included: allContacts,
+  addressKey: 'address',
+  contactInfoUiSchema: {
+    'ui:options': {
+      updateSchema: (formData, schema) =>
+        set(
+          'properties.veteran.required',
+          formData.homeless ? homelessContacts : allContacts,
+          schema,
+        ),
     },
+    'ui:required': () => true,
+    'ui:validations': [contactInfoValidation],
   },
-};
-
-export default contactInfo;
+});
