@@ -57,17 +57,20 @@ const App = () => {
 
   const redirecting = signedIn && !loading && !enabled;
 
-  useEffect(() => {
-    async function loadMessages() {
-      const folders = await getFolderList();
-      const unreadMessages = countUnreadMessages(folders);
-      setUnreadMessageCount(unreadMessages);
-    }
+  useEffect(
+    () => {
+      async function loadMessages() {
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+        setUnreadMessageCount(unreadMessages);
+      }
 
-    if (isLandingPageEnabledForUser) {
-      loadMessages();
-    }
-  }, []);
+      if (enabled) {
+        loadMessages();
+      }
+    },
+    [enabled],
+  );
 
   useEffect(
     () => {
