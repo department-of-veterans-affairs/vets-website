@@ -4,7 +4,7 @@
 
 CH31 is also called form 28-1900
 
-### Async and Error Handling for CH36
+### Async and Error Handling for CH31
 
 - VRE::Submit1900Job
   - Finds SavedClaim::VeteranReadinessEmploymentClaim by claim_id
