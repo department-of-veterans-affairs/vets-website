@@ -22,7 +22,7 @@ import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageKey = 'requestDateTime';
-const pageTitle = 'Choose an appointment day and time';
+const pageTitle = 'When would you like an appointment';
 
 const maxSelections = 3;
 
