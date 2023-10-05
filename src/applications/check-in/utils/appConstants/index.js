@@ -1,4 +1,6 @@
 import { stateList } from './stateList';
+import wilkesBarre from './travelLists/wilkesBarre.json';
+import salem from './travelLists/salem.json';
 
 const APP_NAMES = Object.freeze({
   CHECK_IN: 'dayOf',
@@ -238,15 +240,23 @@ const travelAllowList = {
   },
   '500': {},
   '530': {},
-  '693B4': {},
-  '693GA': {},
-  '693GB': {},
-  '693': {},
-  '693GC': {},
-  '693GG': {},
-  '693QA': {},
-  '693GF': {},
-  '693QB': {},
+  ...wilkesBarre,
+  // Week 1
+  ...salem,
+  // Week 2
+  // ...fayetteville,
+  // Week 3
+  // ...durham,
+  // Week 4
+  // ...hunterHolmes,
+  // Week 5
+  // ...hampton,
+  // Week 6
+  // ...salisbury,
+  // Week 7
+  // ...asheville,
+  // Week 8
+  // VISN 15
 };
 
 const isInAllowList = appointment => {
