@@ -334,7 +334,7 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0"
+                    className="vads-u-margin-top--0 medium-screen:vads-u-width--auto"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
@@ -344,7 +344,7 @@ export class ProfileInformationEditView extends Component {
                     <button
                       data-testid="cancel-edit-button"
                       type="button"
-                      className="usa-button-secondary small-screen:vads-u-margin-top--0"
+                      className="usa-button-secondary medium-screen:vads-u-width--auto small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
                       {cancelButtonText || 'Cancel'}
