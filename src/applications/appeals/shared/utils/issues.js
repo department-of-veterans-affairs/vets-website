@@ -17,7 +17,9 @@ export const getIssueDate = (entry = {}) =>
 
 // used for string comparison
 export const getIssueNameAndDate = (entry = {}) =>
-  `${(getIssueName(entry) || '').toLowerCase()}${getIssueDate(entry)}`;
+  `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
+    entry.attributes?.approxDecisionDate ||
+    ''}`;
 
 /*
  * Selected issues helpers

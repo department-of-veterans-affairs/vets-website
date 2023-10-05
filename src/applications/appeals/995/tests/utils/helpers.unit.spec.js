@@ -6,9 +6,6 @@ import {
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
   getSelectedCount,
-  getIssueName,
-  getIssueDate,
-  getIssueNameAndDate,
   calculateIndexOffset,
 } from '../../utils/helpers';
 
@@ -18,6 +15,9 @@ import {
   appStateSelector,
   hasDuplicates,
   hasSomeSelected,
+  getIssueDate,
+  getIssueName,
+  getIssueNameAndDate,
   getLegacyAppealsLength,
   getSelected,
   someSelected,

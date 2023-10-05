@@ -67,22 +67,6 @@ export const getSelectedCount = (formData, items) =>
   getSelected({ ...formData, additionalIssues: items }).length;
 
 /**
- * Get issue name/title from either a manually added issue or issue loaded from
- * the API
- * @param {AdditionalIssueItem|ContestableIssueItem}
- */
-export const getIssueName = (entry = {}) =>
-  entry.issue || entry.attributes?.ratingIssueSubjectText;
-
-export const getIssueDate = (entry = {}) =>
-  entry.decisionDate || entry.attributes?.approxDecisionDate || '';
-
-export const getIssueNameAndDate = (entry = {}) =>
-  `${(getIssueName(entry) || '').toLowerCase()}${entry.decisionDate ||
-    entry.attributes?.approxDecisionDate ||
-    ''}`;
-
-/**
  * Calculate the index offset for the additional issue
  * @param {Number} index - index of data in combined array of contestable issues
  *   and additional issues
