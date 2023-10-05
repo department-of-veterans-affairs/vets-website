@@ -9,14 +9,7 @@ import migrations from '../migrations';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import {
-  EditHomePhone,
-  EditMobilePhone,
-  EditEmail,
-  EditAddress,
-} from '../components/EditContactInfo';
-import ContactInfo, { customContactFocus } from '../components/ContactInfo';
-import ContactInfoReview from '../components/ContactInfoReview';
+
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
@@ -55,7 +48,6 @@ import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
-  CONTACT_INFO_PATH,
   ADD_ISSUE_PATH,
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
@@ -123,52 +115,8 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: CONTACT_INFO_PATH,
-          CustomPage: ContactInfo,
-          CustomPageReview: ContactInfoReview,
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-          // needs useCustomScrollAndFocus: true to work
-          scrollAndFocusTarget: customContactFocus,
-        },
-        editHomePhone: {
-          title: 'Edit home phone number',
-          path: 'edit-home-phone',
-          CustomPage: EditHomePhone,
-          CustomPageReview: EditHomePhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
-        editMobilePhone: {
-          title: 'Edit mobile phone number',
-          path: 'edit-mobile-phone',
-          CustomPage: EditMobilePhone,
-          CustomPageReview: EditMobilePhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
-        editEmailAddress: {
-          title: 'Edit email address',
-          path: 'edit-email-address',
-          CustomPage: EditEmail,
-          CustomPageReview: EditEmail,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
-        editMailingAddress: {
-          title: 'Edit mailing address',
-          path: 'edit-mailing-address',
-          CustomPage: EditAddress,
-          CustomPageReview: EditAddress,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
+
+        ...contactInfo,
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
