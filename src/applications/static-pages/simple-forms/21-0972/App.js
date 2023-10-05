@@ -18,7 +18,7 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/alternate-signer-form-21-0972"
         >
-          Submit an request to sign VA claim forms as an alternate signer
+          Submit a request to sign VA claim forms as an alternate signer
         </a>
       </>
     );
