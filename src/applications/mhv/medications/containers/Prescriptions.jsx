@@ -125,7 +125,7 @@ const Prescriptions = () => {
         getPrescriptionsList(currentPage, sortEndpoint || defaultSortEndpoint),
       ).then(() => setLoading(false));
     },
-    [dispatch, currentPage, sortEndpoint],
+    [dispatch, currentPage, sortEndpoint, defaultSortEndpoint],
   );
 
   useEffect(
