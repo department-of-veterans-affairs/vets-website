@@ -114,7 +114,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     : initialSchema.default;
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
-    : 'Whats the reason for this appointment';
+    : "What's the reason for this appointment";
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
   const useAcheron = useSelector(state => selectFeatureAcheronService(state));
 
