@@ -140,4 +140,20 @@ describe('<Dashboard />', () => {
         .exist;
     });
   });
+
+  it("should show the loader if feature toggles aren't loaded", async () => {
+    mockFetch();
+    initialState.featureToggles = { loading: true };
+    let tree;
+    await act(async () => {
+      tree = renderInReduxProvider(<Dashboard />, {
+        initialState,
+        reducers,
+      });
+    });
+
+    await waitFor(() => {
+      expect(tree.getByTestId('req-loader')).to.exist;
+    });
+  });
 });
