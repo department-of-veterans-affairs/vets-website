@@ -234,10 +234,10 @@ class VAPServiceProfileField extends React.Component {
           }
         >
           <ProfileInformationFieldController
-            forceEditView
             fieldName={fieldName}
             isDeleteDisabled
             successCallback={() => this.onSuccessfulSave()}
+            cancelCallback={() => this.onCancel()}
           />
         </div>
         <div
