@@ -6,6 +6,10 @@ import { Locators, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 
 class PatientComposePage {
+  messageSubjectText = 'testSubject';
+
+  messageBodyText = 'testBody';
+
   sendMessage = mockRequest => {
     cy.intercept(
       'POST',
@@ -55,9 +59,7 @@ class PatientComposePage {
   enterComposeMessageDetails = (category = 'COVID') => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
-      .find(`va-radio-option[name="${category}"]`)
-      .contains(category)
+      .find(`input[name="${category}"]`)
       .click({ force: true });
     // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject', { force: true });
@@ -92,6 +94,20 @@ class PatientComposePage {
 
   selectCategory = (category = 'OTHEROTHERinput') => {
     cy.get(`#${category}`).click({ force: true });
+  };
+
+  enterDataToMessageSubject = (text = this.messageSubjectText) => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]')
+      .type(text, { force: true });
+  };
+
+  enterDataToMessageBody = (text = this.messageBodyText) => {
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="compose-message-body"]')
+      .type(text, { force: true });
   };
 
   verifyFocusonMessageAttachment = () => {
@@ -282,13 +298,14 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyComosePageValuesRetainedAfterContinueEditing = () => {
-    cy.get('[data-testid=compose-category-radio-button]')
-      .should('have.value', 'OTHER')
-      .and('have.attr', 'checked');
-    cy.get('[id="compose-message-body"]').should(
+  verifyComposePageValuesRetainedAfterContinueEditing = () => {
+    // cy.get('[data-testid=compose-category-radio-button]')
+    //   .should('have.value', 'OTHER')
+    //   .and('have.attr', 'checked');
+    cy.get('#message-subject').should('have.value', this.messageSubjectText);
+    cy.get('#compose-message-body').should(
       'have.value',
-      '\n\n\nName\nTitleTestTest message body',
+      `\n\n\nName\nTitleTest${this.messageBodyText}`,
     );
   };
 

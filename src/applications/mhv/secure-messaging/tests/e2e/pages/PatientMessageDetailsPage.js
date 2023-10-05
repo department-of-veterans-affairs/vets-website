@@ -455,8 +455,8 @@ class PatientMessageDetailsPage {
   };
 
   // temporary changed to 'contain', 'REPLY'
-  ReplyToMessageBody = () => {
-    cy.get('[data-testid="message-body"]').should('contain', 'REPLY');
+  ReplyToMessageBody = testMessageBody => {
+    cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
   };
 }
 

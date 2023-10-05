@@ -18,6 +18,11 @@ export const RADIATION_2_3_B_INPUT = 'paw-radiation2_3_B';
 
 export const LEJEUNE_2_4_INPUT = 'paw-lejeune2_4';
 
+export const RESULTS_1_P1_HEADER = 'paw-results-1-p1';
+export const RESULTS_1_P2_HEADER = 'paw-results-1-p2';
+export const RESULTS_2_HEADER = 'paw-results-2';
+export const RESULTS_3_HEADER = 'paw-results-3';
+
 export const clickStart = () =>
   cy
     .findByTestId(START_LINK)
@@ -61,6 +66,18 @@ export const clickContinue = () =>
     .shadow()
     .get('va-button')
     .eq(1)
+    .should('be.visible')
+    .click();
+
+export const clickResultsContinue = () =>
+  cy
+    .findByTestId('paw-results-1-p1-continue')
+    .should('be.visible')
+    .click();
+
+export const clickResultsBack = () =>
+  cy
+    .findByTestId('paw-results-back')
     .should('be.visible')
     .click();
 
