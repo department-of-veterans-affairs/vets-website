@@ -11,7 +11,7 @@ describe('Claim Letters Page', () => {
     cy.login();
     cy.visit('track-claims/your-claim-letters');
     // adds .focus() so tests are able to work with the va-loading-indicator web component
-    cy.get('.va-header-logo').focus();
+    // cy.get('.va-header-logo').focus();
     cy.injectAxe();
   });
 
