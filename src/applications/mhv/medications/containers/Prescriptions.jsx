@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setSortEndpoint,
   getPrescriptionsList,
   getAllergiesList,
 } from '../actions/prescriptions';
@@ -33,9 +34,11 @@ const Prescriptions = () => {
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
   );
+  const sortEndpoint = useSelector(
+    state => state.rx.prescriptions?.sortEndpoint,
+  );
   const defaultSortEndpoint =
     rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT;
-  const [sortEndpoint, setSortEndpoint] = useState(defaultSortEndpoint);
   const [prescriptionsPdfList, setPrescriptionsPdfList] = useState([]);
   const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
@@ -93,7 +96,7 @@ const Prescriptions = () => {
   };
 
   const sortRxList = endpoint => {
-    setSortEndpoint(endpoint);
+    dispatch(setSortEndpoint(endpoint));
   };
 
   useEffect(
@@ -118,11 +121,11 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      dispatch(getPrescriptionsList(currentPage, sortEndpoint)).then(() =>
-        setLoading(false),
-      );
+      dispatch(
+        getPrescriptionsList(currentPage, sortEndpoint || defaultSortEndpoint),
+      ).then(() => setLoading(false));
     },
-    [dispatch, currentPage, sortEndpoint],
+    [dispatch, currentPage, sortEndpoint, defaultSortEndpoint],
   );
 
   useEffect(
@@ -204,7 +207,7 @@ const Prescriptions = () => {
       'medications',
       `VA-medications-list-${
         userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'MM-DD-YYYY_hmmssa')}`,
+      }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       pdfData,
     );
   };
@@ -241,7 +244,10 @@ const Prescriptions = () => {
               <div className="no-print">
                 <PrintDownload download={handleDownloadPDF} list />
                 <BeforeYouDownloadDropdown />
-                <MedicationsListSort sortRxList={sortRxList} />
+                <MedicationsListSort
+                  value={sortEndpoint || defaultSortEndpoint}
+                  sortRxList={sortRxList}
+                />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               </div>
               <MedicationsList

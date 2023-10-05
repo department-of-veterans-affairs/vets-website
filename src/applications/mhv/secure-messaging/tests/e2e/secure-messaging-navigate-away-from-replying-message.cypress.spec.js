@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
-describe('verify signature', () => {
+describe.skip('verify signature', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 

@@ -202,3 +202,16 @@ src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appoi
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
 src/applications/virtual-agent @department-of-veterans-affairs/orchid
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv
+
+# Need more specific owners
+
+src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/e-folders @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/messages @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/post-911-gib-status @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend

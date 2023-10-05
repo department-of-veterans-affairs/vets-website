@@ -1,6 +1,5 @@
 import moment from 'moment/moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
-import environment from 'platform/utilities/environment';
 
 import {
   vaosSetup,
@@ -20,9 +19,7 @@ import {
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
-const rootUrl = environment.isProduction()
-  ? 'health-care/schedule-view-va-appointments/appointments/'
-  : 'my-health/appointments/';
+const rootUrl = 'my-health/appointments/';
 describe('VAOS VA request flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
