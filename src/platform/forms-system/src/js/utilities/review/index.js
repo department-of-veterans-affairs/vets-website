@@ -27,9 +27,7 @@ const findTargets = error => {
       `[name$="${error.pageKey}${error.index || ''}${scrollElementName}"]`,
     ].join(','),
   );
-  if (error.pageKey === error.chapterKey) {
-    return { scroll: el };
-  }
+
   return {
     scroll: el,
   };
@@ -41,18 +39,20 @@ const findTargets = error => {
  * interacrtive element in the content.
  * @param {String} chapterKey - a chapter key
  */
-export const openAndEditChapter = chapterKey => {
+export const openAndEditChapter = error => {
   const accordionItem = document.querySelector(
-    `va-accordion-item[data-chapter="${chapterKey}"`,
+    `va-accordion-item[data-chapter="${error.chapterKey}"`,
   );
 
   const accordionItemButton = accordionItem.shadowRoot.querySelector(
     "button[aria-controls='content']",
   );
 
-  const editButton = accordionItem.querySelector('va-button');
-
   accordionItemButton.click();
+
+  const pageTarget = findTargets(error).scroll;
+
+  const editButton = pageTarget.parentNode.querySelector('va-button');
 
   // editButton will be undefined if it's already in the edit state
   editButton?.click();

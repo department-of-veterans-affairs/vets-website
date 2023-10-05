@@ -75,7 +75,7 @@ const ErrorLinks = props => {
                         onClick={event => {
                           event.preventDefault();
                           scrollToReviewElement(error);
-                          openAndEditChapter(error.chapterKey);
+                          openAndEditChapter(error);
                         }}
                       >
                         {error.message}
