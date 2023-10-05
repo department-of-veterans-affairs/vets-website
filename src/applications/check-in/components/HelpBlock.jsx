@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import { phoneNumbers } from '../utils/appConstants';
 import ExternalLink from './ExternalLink';
 
-const MainHelpBlock = () => {
+const HelpBlock = ({ travel }) => {
   const { t } = useTranslation();
 
   return (
@@ -42,6 +43,32 @@ const MainHelpBlock = () => {
       >
         {t('find-your-va-health-facility')}
       </ExternalLink>
+
+      {travel && (
+        <>
+          <p data-testid="for-questions-about-filing">
+            <Trans
+              i18nKey="for-questions-about-filing-a-travel-reimbursement-claim"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+                <va-telephone
+                  key={phoneNumbers.btsssCallCenter}
+                  contact={phoneNumbers.btsssCallCenter}
+                />,
+              ]}
+            />
+          </p>
+          <ExternalLink
+            href="https://www.va.gov/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
+            hrefLang="en"
+            eventId="find-health-benefits-travel-pocs--link-clicked"
+            eventPrefix="nav"
+          >
+            {t('find-the-travel-contact-for-your-facility')}
+          </ExternalLink>
+        </>
+      )}
+
       <p data-testid="if-yourre-in-crisis">
         <Trans
           i18nKey="if-yourre-in-crisis-or-having-thoughts-of-suicide-call-the"
@@ -75,4 +102,8 @@ const MainHelpBlock = () => {
   );
 };
 
-export default MainHelpBlock;
+HelpBlock.propTypes = {
+  travel: PropTypes.bool.isRequired,
+};
+
+export default HelpBlock;
