@@ -31,9 +31,10 @@ export default function PatientFacilities({ facilityIds, value, onChange }) {
     }
     case requestStates.failed: {
       return (
-        <va-alert visible status="error" >
-          <h3 slot='headline'>We had trouble loading your VA locations</h3>
-          An error occurred while trying to loading your locations. Please try again later.
+        <va-alert visible status="error">
+          <h3 slot="headline">We had trouble loading your VA locations</h3>
+          An error occurred while trying to loading your locations. Please try
+          again later.
         </va-alert>
       );
     }

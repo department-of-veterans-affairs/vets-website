@@ -139,8 +139,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           >
             {submitStatus === requestStates.failed ? (
               <div className="vads-u-margin-bottom-2">
-                <va-alert visible status="error" >
-                  An error occurred while trying to save your form. Please try again later.
+                <va-alert visible status="error">
+                  An error occurred while trying to save your form. Please try
+                  again later.
                 </va-alert>
               </div>
             ) : null}
