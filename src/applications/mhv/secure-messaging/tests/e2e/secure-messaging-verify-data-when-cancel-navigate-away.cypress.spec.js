@@ -1,7 +1,6 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientComposePage from './pages/PatientComposePage';
-import mockMessageDetails from './fixtures/thread-message-details-afterNavAway-cancel.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
@@ -21,17 +20,17 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
         },
       },
     });
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/message_drafts',
-      mockMessageDetails,
-    ).as('ComposeMessageDetails');
-    composePage.enterComposeMessageDetails('General');
-    composePage.selectSideBarMenuOption('Sent');
+    composePage.selectRecipient();
+    composePage.selectCategory();
+    composePage.enterDataToMessageSubject();
+    composePage.enterDataToMessageBody();
+    composePage.selectSideBarMenuOption('Inbox');
     composePage.verifyAlertModal();
     composePage.clickOnContinueEditingButton();
-    composePage.verifyComosePageValuesRetainedAfterContinueEditing();
+
+    composePage.verifyComposePageValuesRetainedAfterContinueEditing();
+
     composePage.verifyRecipient('6832726');
-    composePage.verifySubjectField('Test Subject');
+    composePage.verifySubjectField('testSubject');
   });
 });

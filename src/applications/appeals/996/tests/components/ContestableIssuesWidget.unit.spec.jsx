@@ -6,6 +6,8 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
+import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../actions';
+
 import { SELECTED } from '../../../shared/constants';
 
 describe('<ContestableIssuesWidget>', () => {
@@ -14,6 +16,7 @@ describe('<ContestableIssuesWidget>', () => {
     submitted = false,
     onChange = () => {},
     setFormData = () => {},
+    apiLoadStatus = '',
   } = {}) => ({
     id: 'id',
     value: [
@@ -28,6 +31,7 @@ describe('<ContestableIssuesWidget>', () => {
       submitted,
     },
     setFormData,
+    apiLoadStatus,
   });
 
   it('should render a list of check boxes (IssueCard component)', () => {
@@ -142,8 +146,8 @@ describe('<ContestableIssuesWidget>', () => {
     });
   });
 
-  it('should not show no loaded issues alert after remove all additional items', async () => {
-    const props = getProps();
+  it('should show "no loaded issues" alert when api fails', async () => {
+    const props = getProps({ apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED });
     const { container } = render(
       <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
     );
