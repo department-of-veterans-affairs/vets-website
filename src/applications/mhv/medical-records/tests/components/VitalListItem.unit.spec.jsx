@@ -51,7 +51,9 @@ describe('Vital list item component', () => {
 
   it('should contain a link to view record details', () => {
     const screen = setup();
-    const recordName = screen.getByRole('link');
-    expect(recordName).to.exist;
+    const recordDetailsLink = screen.getByRole('link', {
+      name: 'View blood pressure over time',
+    });
+    expect(recordDetailsLink).to.exist;
   });
 });
