@@ -30,37 +30,6 @@ export const VIDEO_TYPES = {
   storeForward: 'STORE_FORWARD',
 };
 
-export const PURPOSE_TEXT = [
-  {
-    id: 'routine-follow-up',
-    short: 'Follow-up/Routine',
-    commentShort: 'ROUTINEVISIT',
-    label: 'This is a routine or follow-up visit.',
-    serviceName: 'Routine Follow-up',
-  },
-  {
-    id: 'new-issue',
-    short: 'New issue',
-    commentShort: 'MEDICALISSUE',
-    label: 'I have a new medical issue.',
-    serviceName: 'New Issue',
-  },
-  {
-    id: 'medication-concern',
-    short: 'Medication concern',
-    commentShort: 'QUESTIONMEDS',
-    label: 'I have a concern or question about my medication.',
-    serviceName: 'Medication Concern',
-  },
-  {
-    id: 'other',
-    short: 'My reason isn’t listed',
-    commentShort: 'OTHER_REASON',
-    label: 'My reason isn’t listed here.',
-    serviceName: 'Other',
-  },
-];
-
 export const PURPOSE_TEXT_V2 = [
   {
     id: 'routine-follow-up',
