@@ -13,7 +13,9 @@ class LandingPage {
   }
 
   unreadMessageIndicator = () =>
-    cy.get('[role="status"]', { timeout: Timeouts.slow });
+    cy.get('[aria-label="You have unread messages. Go to your inbox."]', {
+      timeout: Timeouts.slow,
+    });
 
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })

@@ -18,7 +18,7 @@ import {
   selectVamcEhrData,
   signInServiceEnabled,
 } from '../selectors';
-import { getFolderList } from '../utilities/api/getApiPath';
+import { getFolderList } from '../utilities/api';
 
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
@@ -57,21 +57,22 @@ const App = () => {
 
   const redirecting = signedIn && !loading && !enabled;
 
+  useEffect(() => {
+    async function loadMessages() {
+      const folders = await getFolderList();
+      const unreadMessages = countUnreadMessages(folders);
+      setUnreadMessageCount(unreadMessages);
+    }
+
+    if (isLandingPageEnabledForUser) {
+      loadMessages();
+    }
+  }, []);
+
   useEffect(
     () => {
-      async function loadMessages() {
-        const folders = await getFolderList();
-        const unreadMessages = countUnreadMessages(folders);
-        setUnreadMessageCount(unreadMessages);
-      }
-
-      if (isLandingPageEnabledForUser) {
-        loadMessages();
-      }
-
       const redirect = () => {
         const redirectUrl = mhvUrl(ssoe, 'home');
-        // console.log({ redirectUrl }); // eslint-disable-line no-console
         window.location.replace(redirectUrl);
       };
       if (redirecting) redirect();
