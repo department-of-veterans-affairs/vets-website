@@ -241,19 +241,19 @@ const travelAllowList = {
   '500': {},
   '530': {},
   ...wilkesBarre,
-  // Week 1
+  // Week 1 658
   ...salem,
-  // Week 2
+  // Week 2 565
   // ...fayetteville,
-  // Week 3
+  // Week 3 558
   // ...durham,
-  // Week 4
+  // Week 4 652
   // ...hunterHolmes,
-  // Week 5
+  // Week 5 590
   // ...hampton,
-  // Week 6
+  // Week 6 659
   // ...salisbury,
-  // Week 7
+  // Week 7 637
   // ...asheville,
   // Week 8
   // VISN 15
