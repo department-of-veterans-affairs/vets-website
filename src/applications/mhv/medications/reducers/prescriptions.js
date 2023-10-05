@@ -75,6 +75,21 @@ export const prescriptionsReducer = (state = initialState, action) => {
         },
       };
     }
+    case Actions.Prescriptions.CLEAR_ERROR: {
+      return {
+        ...state,
+        prescriptionsList: state.prescriptionsList?.map(
+          rx =>
+            rx.prescriptionId === action.prescriptionId
+              ? { ...rx, error: undefined }
+              : rx,
+        ),
+        prescriptionDetails: {
+          ...state.prescriptionDetails,
+          error: undefined,
+        },
+      };
+    }
     default:
       return state;
   }
