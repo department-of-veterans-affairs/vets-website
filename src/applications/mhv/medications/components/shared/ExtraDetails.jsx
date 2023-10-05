@@ -31,7 +31,7 @@ const ExtraDetails = rx => {
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, or call your VA pharmacy
+            If you need it sooner, call your VA pharmacy
             <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
