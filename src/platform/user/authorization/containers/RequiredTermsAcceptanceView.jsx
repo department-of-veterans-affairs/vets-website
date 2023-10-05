@@ -33,7 +33,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
 
     if (terms.loading === true) {
       view = (
-        <va-loading-indicator setFocus message="Loading your information..." />
+        <va-loading-indicator set-focus message="Loading your information..." />
       );
     } else if (!this.props.termsNeeded) {
       view = React.Children.map(this.props.children, child => {
