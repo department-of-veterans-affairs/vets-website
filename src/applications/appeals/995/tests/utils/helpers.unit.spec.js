@@ -9,7 +9,6 @@ import {
   getIssueName,
   getIssueDate,
   getIssueNameAndDate,
-  hasDuplicates,
   isEmptyObject,
   calculateIndexOffset,
 } from '../../utils/helpers';
@@ -18,6 +17,7 @@ import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
 import { getItemSchema } from '../../../shared/utils/helpers';
 import {
   appStateSelector,
+  hasDuplicates,
   hasSomeSelected,
   getLegacyAppealsLength,
   getSelected,
