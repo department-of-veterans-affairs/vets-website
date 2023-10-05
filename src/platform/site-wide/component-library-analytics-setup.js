@@ -17,13 +17,6 @@ const analyticsEvents = {
       prefix: 'accordion',
     },
   ],
-  AlertBox: [
-    {
-      action: 'linkClick',
-      event: 'nav-alert-box-link-click',
-      prefix: 'alert-box',
-    },
-  ],
   Breadcrumbs: [
     {
       action: 'linkClick',
