@@ -87,12 +87,7 @@ const MessageDetailBlock = props => {
         </h1>
         <CannotReplyAlert visible={cannotReply} />
       </header>
-      <MessageActionButtons
-        id={messageId}
-        threadId={threadId}
-        onReply={handleReplyButton}
-        hideReplyButton={cannotReply}
-      />
+      <MessageActionButtons threadId={threadId} hideReplyButton={cannotReply} />
       <section
         className="message-detail-content"
         aria-label="Most recent message in this conversation"
