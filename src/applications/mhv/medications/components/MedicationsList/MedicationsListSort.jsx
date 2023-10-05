@@ -48,6 +48,7 @@ const MedicationsListSort = props => {
 
 MedicationsListSort.propTypes = {
   sortRxList: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default MedicationsListSort;
