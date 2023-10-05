@@ -5,6 +5,8 @@ import * as militaryHistory from './militaryHistory';
 import * as newSchool from './newSchool';
 import * as newSchoolUpdate from './newSchoolUpdate';
 import * as servicePeriods from './servicePeriods';
+import * as servicePeriodsUpdate from './servicePeriodsUpdate';
+import * as currentlyActiveDuty from './currentlyActiveDuty';
 
 export {
   benefitSelection,
@@ -14,4 +16,6 @@ export {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  servicePeriodsUpdate,
+  currentlyActiveDuty,
 };

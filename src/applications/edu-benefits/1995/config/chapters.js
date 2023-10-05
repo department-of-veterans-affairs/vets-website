@@ -14,6 +14,8 @@ import {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  servicePeriodsUpdate,
+  currentlyActiveDuty,
 } from '../pages';
 
 export const chapters = {
@@ -53,8 +55,12 @@ export const chapters = {
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        uiSchema: servicePeriods.uiSchema,
-        schema: servicePeriods.schema,
+        uiSchema: environment.isProduction()
+          ? servicePeriods.uiSchema
+          : servicePeriodsUpdate.uiSchema,
+        schema: environment.isProduction()
+          ? servicePeriods.schema
+          : servicePeriodsUpdate.schema,
       },
       militaryHistory: {
         title: 'Military history',
@@ -62,6 +68,12 @@ export const chapters = {
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
+      },
+      currentlyActiveDuty: {
+        title: 'Military history',
+        path: 'military/active-duty',
+        uiSchema: currentlyActiveDuty.uiSchema,
+        schema: currentlyActiveDuty.schema,
       },
     },
   },

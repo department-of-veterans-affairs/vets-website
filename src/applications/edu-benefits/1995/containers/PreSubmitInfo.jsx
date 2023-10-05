@@ -1,14 +1,8 @@
 import React from 'react';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
-export function isActiveDuty(/* formData */) {
-  return false;
-  /*
-  try {
-    // VFEP-875 will go here
-  } catch (e) {
-    return false;
-  } */
+export function isActiveDuty(formData) {
+  return formData.currentlyActiveDuty.yes === true;
 }
 
 function PreSubmitNotice({
@@ -30,7 +24,7 @@ function PreSubmitNotice({
             of your knowledge and belief
           </li>
           {/* if applicant is on active duty, show below <li> */
-          isActiveDuty(/* formData */) && (
+          isActiveDuty(formData) && (
             <li>
               As an active-duty service member, you have consulted with an
               Education Service Officer (ESO) regarding your education program
