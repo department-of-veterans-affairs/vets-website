@@ -27,7 +27,7 @@ function VetCenterInfoSection(props) {
         </h4>
         <div className="main-phone">
           <strong />
-          <va-telephone contact="" />
+          <va-telephone contact={phoneNumber} />
         </div>
       </>
     );
