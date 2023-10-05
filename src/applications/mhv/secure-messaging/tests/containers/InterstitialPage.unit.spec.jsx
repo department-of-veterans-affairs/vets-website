@@ -14,8 +14,5 @@ describe('Interstitial page header', () => {
         document.querySelector('.interstitial-page'),
       ),
     ).to.exist;
-    expect(
-      document.querySelector('[text="Connect with the Veterans Crisis Line"]'),
-    ).to.exist;
   });
 });

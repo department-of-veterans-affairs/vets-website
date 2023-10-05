@@ -1,13 +1,21 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
 import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
+
+export const keyFieldsForOtherExpenses = ['name', 'amount'];
 
 const OtherExpensesSummary = ({
   data,
@@ -45,14 +53,21 @@ const OtherExpensesSummary = ({
 
   const onDelete = deleteIndex => {
     const newExpenses = otherExpenses.filter(
-      (source, index) => index !== deleteIndex,
+      (_, index) => index !== deleteIndex,
     );
-
     setFormData({
       ...data,
       otherExpenses: newExpenses,
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (otherExpenses.length === 0) {
@@ -90,8 +105,12 @@ const OtherExpensesSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={expense.name}
-                key={expense.name + expense.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(
+                  expense,
+                  keyFieldsForOtherExpenses,
+                  index,
+                )}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
               />
             ))
@@ -109,6 +128,14 @@ const OtherExpensesSummary = ({
           <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(otherExpenses[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );
