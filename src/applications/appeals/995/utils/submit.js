@@ -15,24 +15,14 @@ import {
   buildPrivateString,
 } from '../validations/evidence';
 
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import '../../shared/definitions';
+import { returnUniqueIssues } from '../../shared/utils/issues';
 import {
   replaceSubmittedData,
   fixDateFormat,
 } from '../../shared/utils/replace';
-import { returnUniqueIssues } from '../../shared/utils/issues';
-import '../../shared/definitions';
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
-
-/**
- * Remove objects with empty string values; Lighthouse doesn't like `null`
- *  values
- * @param {Object}
- * @returns {Object} minus any empty string values
- */
-export const removeEmptyEntries = object =>
-  Object.fromEntries(
-    Object.entries(object).filter(([_, value]) => value !== ''),
-  );
+import { removeEmptyEntries } from '../../shared/utils/submit';
 
 export const getTimeZone = () =>
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions

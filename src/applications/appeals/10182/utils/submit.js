@@ -2,16 +2,17 @@ import moment from 'moment';
 
 import { SHOW_PART3 } from '../constants';
 
-import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import '../../shared/definitions';
 import {
   returnUniqueIssues,
   processContestableIssues,
 } from '../../shared/utils/issues';
-import '../../shared/definitions';
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
+import { removeEmptyEntries } from '../../shared/utils/submit';
 
 /** Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
@@ -157,17 +158,6 @@ export const addUploads = formData =>
         confirmationCode,
       }))
     : [];
-
-/**
- * Remove objects with empty string values; Lighthouse doesn't like `null`
- *  values
- * @param {Object}
- * @returns {Object} minus any empty string values
- */
-export const removeEmptyEntries = object =>
-  Object.fromEntries(
-    Object.entries(object).filter(([_, value]) => value !== ''),
-  );
 
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5

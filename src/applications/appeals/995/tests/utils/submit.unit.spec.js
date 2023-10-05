@@ -8,7 +8,6 @@ import {
 } from '../../constants';
 import { getDate } from '../../utils/dates';
 import {
-  removeEmptyEntries,
   getTimeZone,
   createIssueName,
   getContestedIssues,
@@ -22,6 +21,7 @@ import {
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { removeEmptyEntries } from '../../../shared/utils/submit';
 
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';

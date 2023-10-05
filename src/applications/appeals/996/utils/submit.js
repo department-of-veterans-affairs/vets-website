@@ -1,27 +1,17 @@
 import { CONFERENCE_TIMES_V2 } from '../constants';
 
 import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import { returnUniqueIssues } from '../../shared/utils/issues';
-import '../../shared/definitions';
-import {
   MAX_LENGTH,
   SELECTED,
   SUBMITTED_DISAGREEMENTS,
 } from '../../shared/constants';
-
-/**
- * Remove objects with empty string values; Lighthouse doesn't like `null`
- *  values
- * @param {Object}
- * @returns {Object} minus any empty string values
- */
-export const removeEmptyEntries = object =>
-  Object.fromEntries(
-    Object.entries(object).filter(([_, value]) => value !== ''),
-  );
+import '../../shared/definitions';
+import { returnUniqueIssues } from '../../shared/utils/issues';
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
+import { removeEmptyEntries } from '../../shared/utils/submit';
 
 // We require the user to input a 10-digit number; assuming we get a 3-digit
 // area code + 7 digit number. We're not yet supporting international numbers

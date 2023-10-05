@@ -1,19 +1,20 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../../shared/constants';
-import { getDate } from '../../utils/dates';
 
+import { getDate } from '../../utils/dates';
 import {
   createIssueName,
   getContestedIssues,
   addIncludedIssues,
   addAreaOfDisagreement,
   getConferenceTime,
-  removeEmptyEntries,
   getRep,
   getAddress,
   getPhone,
   getTimeZone,
 } from '../../utils/submit';
+
+import { SELECTED } from '../../../shared/constants';
+import { removeEmptyEntries } from '../../../shared/utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {

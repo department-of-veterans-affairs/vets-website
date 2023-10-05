@@ -2,6 +2,17 @@ import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { replaceSubmittedData } from './replace';
 
 /**
+ * Remove objects with empty string values; Lighthouse doesn't like `null`
+ *  values
+ * @param {Object}
+ * @returns {Object} minus any empty string values
+ */
+export const removeEmptyEntries = object =>
+  Object.fromEntries(
+    Object.entries(object).filter(([_, value]) => value !== ''),
+  );
+
+/**
  * Add area of disagreement
  * @param {ContestableIssueSubmittable} issues - selected & processed issues
  * @param {AreaOfDisagreement} areaOfDisagreement - in formData
