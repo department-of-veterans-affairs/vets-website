@@ -40,8 +40,7 @@ export default {
       'ui:errorMessages': {
         required:
           'Please provide the number of certificates you’d like to request',
-        pattern:
-          'Please enter a valid number of certificates, between 1 and 99',
+        pattern: 'Please enter a valid number between 1 and 99',
       },
     },
     'ui:validations': [

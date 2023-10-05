@@ -15,8 +15,9 @@ export default {
       hint: 'You may request up to 99 certificates',
       inputmode: 'numeric',
       errorMessages: {
-        required: 'Please enter a number between 1 and 99',
-        pattern: 'Please enter a number between 1 and 99',
+        required:
+          'Please provide the number of certificates you’d like to request',
+        pattern: 'Please enter a valid number between 1 and 99',
       },
       width: undefined,
     }),
@@ -26,10 +27,8 @@ export default {
           schemaKey: 'certificates',
           range: { min: 1, max: 99 },
           customErrorMessages: {
-            min:
-              'Please raise the number of certificates, you may request up to 99',
-            max:
-              'Please lower the number of certificates, you may request up to 99',
+            min: 'Please enter a number between 1 and 99',
+            max: 'Please enter a number between 1 and 99',
           },
         });
       },
