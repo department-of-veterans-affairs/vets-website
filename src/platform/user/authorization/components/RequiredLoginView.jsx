@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
 
 import { connect } from 'react-redux';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
@@ -20,7 +21,7 @@ const verifyUrl = appendQuery('/verify', nextQuery);
 const RequiredLoginLoader = () => {
   return (
     <div className="vads-u-margin-y--5" data-testid="req-loader">
-      <va-loading-indicator set-focus message="Loading your information..." />
+      <VaLoadingIndicator setFocus message="Loading your information..." />
     </div>
   );
 };
@@ -83,9 +84,7 @@ export const RequiredLoginView = props => {
 
   const renderVerifiedContent = () => {
     if (shouldVerify()) {
-      return (
-        <va-loading-indicator set-focus message="Redirecting to verify..." />
-      );
+      return <VaLoadingIndicator setFocus message="Redirecting to verify..." />;
     }
 
     const { serviceRequired } = props;
@@ -169,7 +168,7 @@ export const RequiredLoginView = props => {
     if (shouldSignIn()) {
       return (
         <div className="vads-u-margin-y--5" data-testid="redirect-to-login">
-          <va-loading-indicator set-focus message="Redirecting to login..." />;
+          <VaLoadingIndicator setFocus message="Redirecting to login..." />;
         </div>
       );
     }
