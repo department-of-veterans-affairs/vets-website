@@ -24,8 +24,14 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
-import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import {
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+  SUPPORTED_BENEFIT_TYPES_LIST,
+} from '../constants';
 
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
   processContestableIssues,
@@ -141,6 +147,17 @@ export const App = ({
       </ITFWrapper>
     </RoutedSavableApp>
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    sessionReplaySampleRate: 10,
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+  });
 
   if (isLoadingFeatures) {
     return wrapInH1(<va-loading-indicator message="Loading application..." />);
