@@ -334,7 +334,9 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 medium-screen:vads-u-width--auto"
+                    className="vads-u-margin-top--0 vads-u-width--responsive"
+                    /* to override the `width: 100%` given to SchemaForm submit buttons */
+                    style={{ width: '40%' }}
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
@@ -344,8 +346,10 @@ export class ProfileInformationEditView extends Component {
                     <button
                       data-testid="cancel-edit-button"
                       type="button"
-                      className="usa-button-secondary medium-screen:vads-u-width--auto small-screen:vads-u-margin-top--0"
+                      className="usa-button-secondary vads-u-width--responsive small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
+                      /* to override the `width: 100%` given to SchemaForm submit buttons */
+                      style={{ width: '40%' }}
                     >
                       {cancelButtonText || 'Cancel'}
                     </button>
