@@ -6,11 +6,12 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
-import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../actions';
+
+import { SELECTED } from '../../../shared/constants';
 
 describe('<ContestableIssuesWidget>', () => {
   const getProps = ({
