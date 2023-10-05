@@ -49,3 +49,23 @@ toursOfDuty: toursOfDuty.schema(fullSchema1995, {
                 ],
               }),
  */
+
+/*
+
+toursOfDuty: merge(
+    {},
+    {
+      'ui:options': {
+        expandUnder: 'view:newService',
+      },
+      to: {
+        'ui:required': formData => formData['view:newService'],
+      },
+      from: {
+        'ui:required': formData => formData['view:newService'],
+      },
+    },
+    dateRangeUI('Start date', 'End date'),
+  ),
+
+ */

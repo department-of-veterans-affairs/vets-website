@@ -70,8 +70,8 @@ export const chapters = {
         schema: militaryHistory.schema,
       },
       currentlyActiveDuty: {
-        title: 'Military history',
-        path: 'military/active-duty',
+        title: 'Service periods',
+        path: 'military-history/service-periods',
         uiSchema: currentlyActiveDuty.uiSchema,
         schema: currentlyActiveDuty.schema,
       },
