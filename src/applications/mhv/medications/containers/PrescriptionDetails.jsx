@@ -110,7 +110,7 @@ const PrescriptionDetails = () => {
       'medications',
       `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
         userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'MM-DD-YYYY_hmmssa')}`,
+      }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       pdfData,
     );
   };
