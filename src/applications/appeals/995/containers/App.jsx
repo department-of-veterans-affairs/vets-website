@@ -27,7 +27,12 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
-import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import {
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+  SUPPORTED_BENEFIT_TYPES_LIST,
+} from '../constants';
 
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
@@ -179,11 +184,10 @@ export const App = ({
     loggedIn,
     formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
-    applicationId: '2779ccc3-be87-4b2d-a757-9ff54b58761b',
-    clientToken: 'pub442ae6e93be9f8d93a358bf78095c88a',
-    site: 'ddog-gov.com',
-    service: 'benefits---supplemental-claim',
     sessionReplaySampleRate: 10,
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
   });
 
   if (isLoadingFeatures) {
