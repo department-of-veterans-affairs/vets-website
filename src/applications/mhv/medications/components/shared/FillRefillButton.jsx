@@ -47,6 +47,7 @@ const FillRefillButton = rx => {
           type="button"
           aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
+          data-testid="refill-request-button"
           hidden={success}
           onClick={() => {
             dispatch(fillPrescription(prescriptionId));
