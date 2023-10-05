@@ -95,7 +95,7 @@ export default function ConfirmationPage() {
       </div>
       <div className="vads-u-margin-y--2">
         <va-link
-          href="/health-care/schedule-view-va-appointments/appointments/"
+          href="/my-health/appointments/"
           className="usa-button vads-u-padding-right--2"
           onClick={() => {
             recordEvent({
