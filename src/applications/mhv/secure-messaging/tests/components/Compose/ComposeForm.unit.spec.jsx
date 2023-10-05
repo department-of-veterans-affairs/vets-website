@@ -94,6 +94,7 @@ describe('Compose form component', () => {
       document.querySelector('.vads-c-action-link--green').getAttribute('href'),
     ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences');
     expect(modalContent).to.exist;
+    fireEvent.click(document.querySelector('.vads-c-action-link--green'));
   });
 
   it('displays compose action buttons if path is /new-message', async () => {
