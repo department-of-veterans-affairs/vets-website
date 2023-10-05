@@ -8,7 +8,10 @@ describe('Medicaitons List Sort component', () => {
   const sortRxList = () => {};
   const setup = () => {
     return renderWithStoreAndRouter(
-      <MedicationsListSort sortRxList={sortRxList} />,
+      <MedicationsListSort
+        value={rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT}
+        sortRxList={sortRxList}
+      />,
       {
         path: '/',
       },
