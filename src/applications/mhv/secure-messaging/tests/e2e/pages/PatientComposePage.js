@@ -59,9 +59,7 @@ class PatientComposePage {
   enterComposeMessageDetails = (category = 'COVID') => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
-      .find(`va-radio-option[name="${category}"]`)
-      .contains(category)
+      .find(`input[name="${category}"]`)
       .click({ force: true });
     // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject', { force: true });

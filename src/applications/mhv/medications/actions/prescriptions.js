@@ -37,6 +37,7 @@ export const getPrescriptionDetails = prescriptionId => async dispatch => {
 
 export const fillPrescription = prescriptionId => async dispatch => {
   try {
+    dispatch({ type: Actions.Prescriptions.CLEAR_ERROR, prescriptionId });
     const response = await fillRx(prescriptionId);
     response.id = prescriptionId;
     dispatch({ type: Actions.Prescriptions.FILL, response });
