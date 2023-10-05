@@ -66,7 +66,6 @@ describe('Webchat.jsx Helpers', () => {
           });
           return card;
         }, newCard);
-        // return newCard
       };
       const featureFlagEnabled = true;
       it('should call next and not add anything to the set when the card is not a decision letter', () => {
@@ -170,6 +169,7 @@ describe('Webchat.jsx Helpers', () => {
      * Pseudo code for the middleware
      * 1. update the cardActionMiddleware to take in a Set containing decision
      *    letter urls
+     * 1.5 strip url to only contain the path and not https://
      * 2. update the middleware to check if the url to check if the url is in
      *    the set
      * 3. if the url is in the set, call recordEvent otherwise skip
@@ -209,8 +209,9 @@ describe('Webchat.jsx Helpers', () => {
           'button-click-label': 'Decision Letter',
           time: new Date(Date.now()),
         };
-
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+        const urls = new Set();
+        urls.add('www.va.gov/v0/claim_letters/abc');
+        cardActionMiddleware(decisionLetterEnabled, urls)()(nextSpy)(
           decisionLetterCard,
         );
 
@@ -227,7 +228,8 @@ describe('Webchat.jsx Helpers', () => {
           'random_thing_we_dont_use',
         );
         const { nextSpy, recordEventStub } = generateSinonFunctions();
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+        const urls = new Set();
+        cardActionMiddleware(decisionLetterEnabled, urls)()(nextSpy)(
           nonDecisionLetterCard,
         );
         expect(recordEventStub.notCalled).to.be.true;
@@ -240,7 +242,10 @@ describe('Webchat.jsx Helpers', () => {
           'notOpenUrl',
         );
         const { nextSpy, recordEventStub } = generateSinonFunctions();
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(notOpenUrl);
+        const urls = new Set();
+        cardActionMiddleware(decisionLetterEnabled, urls)()(nextSpy)(
+          notOpenUrl,
+        );
         expect(recordEventStub.notCalled).to.be.true;
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
@@ -254,7 +259,8 @@ describe('Webchat.jsx Helpers', () => {
           'random_thing_we_dont_use',
         );
         const { nextSpy, recordEventStub } = generateSinonFunctions();
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+        const urls = new Set();
+        cardActionMiddleware(decisionLetterEnabled, urls)()(nextSpy)(
           nonDecisionLetterCard,
         );
         expect(recordEventStub.notCalled).to.be.true;
