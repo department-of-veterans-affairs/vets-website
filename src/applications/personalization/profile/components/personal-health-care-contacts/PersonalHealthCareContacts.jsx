@@ -21,7 +21,6 @@ const PersonalHealthCareContacts = () => {
   const nextOfKin = useSelector(selectNextOfKin);
 
   useEffect(
-    /* eslint-disable-next-line max-len */
     () =>
       enabled &&
       !data &&
