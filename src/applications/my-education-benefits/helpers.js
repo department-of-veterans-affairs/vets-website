@@ -317,9 +317,10 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const stateUser = state.user || {};
 
   const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo.mailingAddress || {};
+  const vapContactInfo =
+    stateUser.profile?.vapContactInfo?.mailingAddress || {};
   const vet360ContactInformation =
-    stateUser.vet360ContactInformation.mailingAddress || {};
+    stateUser?.vet360ContactInformation?.mailingAddress || {};
   const address = selectAddressSource(
     vet360ContactInformation,
     vapContactInfo,
