@@ -64,14 +64,14 @@ export const PURPOSE_TEXT = [
 export const PURPOSE_TEXT_V2 = [
   {
     id: 'routine-follow-up',
-    short: 'Routine Follow-up',
+    short: 'Routine/Follow-up',
     commentShort: 'ROUTINEVISIT',
     label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },
   {
     id: 'new-issue',
-    short: 'New problem',
+    short: 'New medical issue',
     commentShort: 'MEDICALISSUE',
     label: 'I have a new medical problem.',
     serviceName: 'New Problem',
