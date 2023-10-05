@@ -233,7 +233,7 @@ export const PrivateContent = ({
                 )}
                 <div
                   className="dd-privacy-hidden"
-                  data-dd-action-name="Private facility issues treated"
+                  data-dd-action-name="Private facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
                 </div>
