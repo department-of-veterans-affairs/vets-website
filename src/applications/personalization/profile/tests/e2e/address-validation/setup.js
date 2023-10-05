@@ -49,6 +49,8 @@ export const setUp = type => {
   cy.injectAxe();
 
   checkForWebComponentLoadingIndicator();
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(5000);
 
   cy.findByRole('button', { name: /edit mailing address/i }).click({
     force: true,

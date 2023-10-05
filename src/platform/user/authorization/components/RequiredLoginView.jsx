@@ -8,6 +8,7 @@ import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
+// import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const signInQuery = useSiS => ({
   next: window.location.pathname,
