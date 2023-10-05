@@ -4,8 +4,7 @@ import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { selectProfile, isLoggedIn } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
+import { isLoggedIn } from 'platform/user/selectors';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getStoredSubTask } from 'platform/forms/sub-task';
@@ -16,8 +15,6 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
-
-import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import {
@@ -38,7 +35,6 @@ export const App = ({
   loggedIn,
   location,
   children,
-  profile,
   formData,
   setFormData,
   router,
@@ -51,18 +47,6 @@ export const App = ({
   inProgressFormId,
   show995,
 }) => {
-  // vapContactInfo is an empty object locally, so mock it
-  const data = environment.isLocalhost()
-    ? user.data.attributes.vet360ContactInformation
-    : profile?.vapContactInfo || {};
-
-  const {
-    email = {},
-    homePhone = {},
-    mobilePhone = {},
-    mailingAddress = {},
-  } = data;
-
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -96,16 +80,11 @@ export const App = ({
             benefitType: subTaskBenefitType,
           });
         } else if (loggedIn && formData.benefitType) {
-          const { veteran = {} } = formData || {};
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
-            email?.emailAddress !== veteran.email ||
-            homePhone?.updatedAt !== veteran.homePhone?.updatedAt ||
-            mobilePhone?.updatedAt !== veteran.mobilePhone?.updatedAt ||
-            mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
             issuesNeedUpdating(
               contestableIssues?.issues,
               formData?.contestedIssues,
@@ -115,13 +94,6 @@ export const App = ({
             // resetStoredSubTask();
             setFormData({
               ...formData,
-              veteran: {
-                ...veteran,
-                address: mailingAddress,
-                mobilePhone,
-                homePhone,
-                email: email?.emailAddress,
-              },
               contestedIssues: processContestableIssues(
                 contestableIssues?.issues,
               ),
@@ -136,15 +108,12 @@ export const App = ({
     },
     [
       contestableIssues,
-      email,
       formData,
       getContestableIssues,
-      homePhone,
       isLoadingIssues,
       legacyCount,
       loggedIn,
-      mailingAddress,
-      mobilePhone,
+
       setFormData,
       subTaskBenefitType,
       show995,
@@ -242,7 +211,6 @@ const mapStateToProps = state => ({
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
-  profile: selectProfile(state) || {},
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,

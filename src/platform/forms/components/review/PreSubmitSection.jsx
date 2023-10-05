@@ -148,6 +148,11 @@ export function PreSubmitSection(props) {
               >
                 privacy policy
                 <span className="sr-only">opens in a new window</span>
+                <i
+                  className="fas fa-arrow-up-right-from-square"
+                  aria-hidden="true"
+                  role="img"
+                />
               </a>
               .
             </p>
