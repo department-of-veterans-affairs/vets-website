@@ -5,12 +5,11 @@ import {
   addressNoMilitarySchema,
 } from 'platform/forms-system/src/js/web-component-patterns/addressPattern.jsx';
 import {
+  numberUI,
+  numberSchema,
   titleUI,
   titleSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-
-import { textInputNumericRange } from '../helpers';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
@@ -30,31 +29,17 @@ export default {
         <h4 className="vads-u-margin-y--0">Number of certificates</h4>
       ),
     },
-    additionalCopies: {
-      'ui:title': 'How many certificates should we send to this address?',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'You may request up to 99 certificates',
-        inputmode: 'numeric',
-      },
-      'ui:errorMessages': {
+    additionalCopies: numberUI({
+      title: 'How many certificates should we send to this address?',
+      hint: 'You may request up to 99 certificates',
+      errorMessages: {
         required:
           'Please provide the number of certificates you’d like to request',
         pattern: 'Please enter a valid number between 1 and 99',
       },
-    },
-    'ui:validations': [
-      (errors, formData) => {
-        return textInputNumericRange(errors, formData, {
-          schemaKey: 'additionalCopies',
-          range: { min: 1, max: 99 },
-          customErrorMessages: {
-            min: 'Please enter a number between 1 and 99',
-            max: 'Please enter a number between 1 and 99',
-          },
-        });
-      },
-    ],
+      min: 1,
+      max: 99,
+    }),
   },
   schema: {
     type: 'object',
@@ -64,10 +49,7 @@ export default {
         omit: ['isMilitary', 'street3'],
       }),
       'view:title2': titleSchema,
-      additionalCopies: {
-        type: 'string',
-        pattern: '^\\d*$',
-      },
+      additionalCopies: numberSchema,
     },
     required: ['additionalAddress', 'additionalCopies'],
   },
