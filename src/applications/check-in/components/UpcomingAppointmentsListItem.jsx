@@ -18,6 +18,9 @@ const UpcomingAppointmentsListItem = props => {
     <li
       className="check-in--appointment-item"
       data-testid="appointment-list-item"
+      aria-label={t('appointment-on-date-at-time', {
+        dateTime: appointmentDateTime,
+      })}
     >
       <div className="vads-l-grid-container vads-u-padding-x--0">
         <div className="vads-l-row">
@@ -94,8 +97,8 @@ const UpcomingAppointmentsListItem = props => {
                   router.location.basename
                 }/appointment-details/${getAppointmentId(appointment)}`}
                 onClick={e => goToDetails(e, appointment)}
-                aria-label={t('details-for-appointment', {
-                  time: appointmentDateTime,
+                aria-label={t('details-for-appointment-on-date-at-time', {
+                  dateTime: appointmentDateTime,
                   type: appointment.clinicStopCodeName
                     ? appointment.clinicStopCodeName
                     : 'VA',
