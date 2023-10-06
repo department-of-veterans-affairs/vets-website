@@ -133,8 +133,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
       </h3>
       <va-number-input
         label="What’s your spouse's gross monthly income at this job?"
-        hint="You’ll find this in your spouse's pay stub. It’s the amount of your spouse's pay before
-        taxes and deductions."
+        hint="Gross income is income before taxes and any other deductions. You can use information from your spouse's paystub to calculate your spouse's gross monthly income."
         inputmode="numeric"
         id="gross-monthly-income"
         currency
