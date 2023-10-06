@@ -26,5 +26,5 @@ export const checkForWebComponentLoadingIndicator = (loadingMessage = '') => {
       });
   }
 
-  cy.get('va-loading-indicator', { timeout: 3000 }).should('not.exist');
+  cy.get('va-loading-indicator', { timeout: 5000 }).should('not.exist');
 };

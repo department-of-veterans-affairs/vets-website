@@ -80,6 +80,7 @@ class AddressPage {
         waitForAnimations: true,
       });
       cy.wait('@saveAddressStatus');
+      cy.wait('@getUser');
     } else {
       cy.findByTestId('save-edit-button').click({
         force: true,
@@ -109,6 +110,8 @@ class AddressPage {
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
     if (saved) {
+      cy.wait('@saveAddressStatus');
+      cy.wait('@getUser');
       cy.findByTestId('update-success-alert').should('exist');
       cy.get('#edit-mailing-address').should('exist');
 
@@ -160,9 +163,13 @@ class AddressPage {
   editAddress = (labels, fields) => {
     cy.findByRole('button', { name: /go back to edit/i }).click();
     this.confirmAddressFields(labels, fields);
-    cy.findByRole('button', { name: /^Save$/i }).click({ force: true });
-    cy.findByRole('button', { name: /^use this address$/i }).click({
+    cy.findByTestId('save-edit-button').click({
       force: true,
+      waitForAnimations: true,
+    });
+    cy.findByTestId('confirm-address-button').click({
+      force: true,
+      waitForAnimations: true,
     });
   };
 

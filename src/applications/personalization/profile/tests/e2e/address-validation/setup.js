@@ -26,19 +26,15 @@ export const setUp = type => {
     body: type === 'no-change' ? noChangesTransaction : receivedTransaction,
   });
 
-  cy.intercept(
-    'GET',
-    '/v0/profile/status/bfedd909-9dc4-4b27-abc2-a6cccaece35d',
-    {
-      statusCode: 200,
-      body: finishedTransaction,
-    },
-  ).as('saveAddressStatus');
+  cy.intercept('GET', '/v0/profile/status/*', {
+    statusCode: 200,
+    body: finishedTransaction,
+  }).as('saveAddressStatus');
 
   cy.intercept('GET', '/v0/user?*', {
     statusCode: 200,
     body: createUserResponse(type),
-  });
+  }).as('getUser');
 
   cy.intercept('GET', '/v0/feature_toggles?*', {
     statusCode: 200,
@@ -49,8 +45,6 @@ export const setUp = type => {
   cy.injectAxe();
 
   checkForWebComponentLoadingIndicator();
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(5000);
 
   cy.findByRole('button', { name: /edit mailing address/i }).click({
     force: true,
