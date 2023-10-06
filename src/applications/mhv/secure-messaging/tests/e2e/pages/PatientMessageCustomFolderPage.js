@@ -91,7 +91,11 @@ class PatientMessageCustomFolderPage {
   };
 
   verifyFolderHeader = (text = this.folderName) => {
-    cy.get(Locators.HEADER).should('have.text', `${text}`);
+    cy.get('[data-testid="edit-folder-button"]')
+      .should('be.visible')
+      .then(() => {
+        cy.get(Locators.HEADER).should('have.text', `${text}`);
+      });
   };
 
   verifyResponseBodyLength = (responseData = mockCustomFolderMessages) => {
