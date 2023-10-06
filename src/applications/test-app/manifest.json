@@ -1,0 +1,7 @@
+{
+  "appName": "Test App",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "test-app",
+  "rootUrl": "/test-app",
+  "productId": "c7a9e7db-4682-43f9-9cb2-1b76a37f7ea5"
+}
