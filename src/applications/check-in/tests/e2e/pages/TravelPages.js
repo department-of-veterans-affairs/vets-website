@@ -36,7 +36,7 @@ class TravelPages {
       'call the Veterans Crisis Line at',
     );
     cy.get('[data-testid="if-you-think-your-life-is-in-danger"]').contains(
-      'call 911 or go to the nearest emergency room',
+      'If you think your life or health is in danger',
     );
   };
 

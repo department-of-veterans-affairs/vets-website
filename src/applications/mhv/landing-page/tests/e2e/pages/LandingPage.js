@@ -12,6 +12,11 @@ class LandingPage {
     this.pageUrl = '/my-health/';
   }
 
+  unreadMessageIndicator = () =>
+    cy.get('[aria-label="You have unread messages. Go to your inbox."]', {
+      timeout: Timeouts.slow,
+    });
+
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

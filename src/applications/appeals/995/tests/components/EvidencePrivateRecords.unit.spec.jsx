@@ -100,6 +100,11 @@ describe('<EvidencePrivateRecords>', () => {
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
+    // check Datadog classes
+    expect(
+      $$('va-checkbox.dd-privacy-hidden[data-dd-action-name]', container)
+        .length,
+    ).to.eq(2);
   });
 
   // *** VALID DATA ***
