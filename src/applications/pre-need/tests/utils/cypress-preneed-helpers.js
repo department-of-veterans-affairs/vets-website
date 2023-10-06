@@ -149,14 +149,13 @@ function fillBenefitSelection(
   // Page 2
   if (currentlyBuriedPersons.length) {
     currentlyBuriedPersons.forEach((person, index) => {
-      cy.fill(
-        `input[name="root_application_currentlyBuriedPersons_${index}_cemeteryNumber"]`,
-        person.cemeteryNumber.label,
-      );
-      cy.fillName(
-        `root_application_currentlyBuriedPersons_${index}_name`,
-        person.name,
-      );
+      cy.get(
+        `input#root_application_currentlyBuriedPersons_${index}_name_first`,
+      ).type('test');
+      cy.get(
+        `input#root_application_currentlyBuriedPersons_${index}_name_last`,
+      ).type('test');
+
       if (index < currentlyBuriedPersons.length - 1) {
         cy.get('.usa-button-secondary.va-growable-add-btn').click();
       }
@@ -183,11 +182,19 @@ function fillPreparerInfo(preparer) {
     'root_application_applicant_applicantRelationshipToClaimant',
     preparer.applicantRelationshipToClaimant,
   );
+  cy.axeCheck();
+  clickContinue();
   if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    cy.fillName(
-      'root_application_applicant_view:applicantInfo_name',
-      preparer['view:applicantInfo'].name,
+    cy.fill(
+      'input[name$="root_application_applicant_name_first"]',
+      preparer['view:applicantInfo'].name.first,
     );
+    cy.fill(
+      'input[name$="root_application_applicant_name_last"]',
+      preparer['view:applicantInfo'].name.last,
+    );
+    cy.axeCheck();
+    clickContinue();
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
       preparer['view:applicantInfo'].mailingAddress,
@@ -200,10 +207,9 @@ function fillPreparerInfo(preparer) {
       'input[name$="applicantPhoneNumber"]',
       preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
     );
+    cy.axeCheck();
+    clickContinue();
   }
-  cy.axeCheck();
-  clickContinue();
-  cy.url().should('not.contain', '/preparer');
 }
 
 // Submit Form
