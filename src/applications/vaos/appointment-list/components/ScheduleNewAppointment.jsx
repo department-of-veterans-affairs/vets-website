@@ -26,7 +26,7 @@ function handleClick(
 
     recordEvent({
       event: featureBreadcrumbUrlUpdate
-        ? `${GA_PREFIX}-vaos-start-scheduling-link`
+        ? `${GA_PREFIX}-start-scheduling-link`
         : `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
