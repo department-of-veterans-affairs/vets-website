@@ -34,7 +34,12 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       <h3 className="vads-u-font-size--h4">
         {content['confirm-app-list-name']}
       </h3>
-      <p className="ezr-veteran-fullname">{name}</p>
+      <p
+        className="ezr-veteran-fullname dd-privacy-mask"
+        data-dd-action-name="Full name"
+      >
+        {name}
+      </p>
 
       {timestamp ? (
         <>

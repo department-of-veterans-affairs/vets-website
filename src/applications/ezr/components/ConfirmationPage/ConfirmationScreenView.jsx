@@ -34,7 +34,12 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </h3>
 
         <h4>{content['confirm-app-list-name']}</h4>
-        <p className="ezr-veteran-fullname">{name}</p>
+        <p
+          className="ezr-veteran-fullname dd-privacy-mask"
+          data-dd-action-name="Full name"
+        >
+          {name}
+        </p>
 
         {timestamp ? (
           <>
