@@ -1,8 +1,9 @@
 name: E2E Stress Test
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 env:
   BUILDTYPE: vagovprod
@@ -228,7 +229,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 12
+      max-parallel: 20
       matrix:
         ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
 
