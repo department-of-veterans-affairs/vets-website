@@ -77,7 +77,9 @@ class AddressPage {
     if (confirm) {
       cy.findByTestId('confirm-address-button').click({
         force: true,
+        waitForAnimations: true,
       });
+      cy.wait('@saveAddressStatus');
     } else {
       cy.findByTestId('save-edit-button').click({
         force: true,
@@ -107,7 +109,6 @@ class AddressPage {
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
     if (saved) {
-      cy.wait('@saveAddressStatus');
       cy.findByTestId('update-success-alert').should('exist');
       cy.get('#edit-mailing-address').should('exist');
 
@@ -145,6 +146,7 @@ class AddressPage {
         .should('contain', 'Confirm your address');
     cy.findByTestId('confirm-address-button').click({
       force: true,
+      waitForAnimations: true,
     });
   };
 
