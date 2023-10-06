@@ -11,7 +11,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  *  title: 'Amount of documents',
  *  description: 'This is a description',
  *  hint: 'This is a hint'
- *  width: 'xs'
+ *  width: 'sm'
  * })
  * ```
  *
@@ -27,11 +27,12 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  *   hint?: string,
  *   width?: UISchemaOptions['ui:options']['width'],
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   validations?: UISchemaOptions['ui:validations'],
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
 export const numberUI = options => {
-  const { title, description, errorMessages, ...uiOptions } =
+  const { title, description, errorMessages, validations, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return {
@@ -44,7 +45,6 @@ export const numberUI = options => {
     'ui:webComponentField': VaTextInputField,
     'ui:options': {
       inputmode: 'numeric',
-      width: 'sm',
       ...uiOptions,
     },
     'ui:errorMessages': {
@@ -52,6 +52,7 @@ export const numberUI = options => {
       pattern: 'Please enter a valid number',
       ...errorMessages,
     },
+    'ui:validations': validations,
   };
 };
 

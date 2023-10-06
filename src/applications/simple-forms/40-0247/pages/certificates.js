@@ -19,20 +19,12 @@ export default {
           'Please provide the number of certificates you’d like to request',
         pattern: 'Please enter a valid number between 1 and 99',
       },
-      width: undefined,
+      validations: [
+        (errors, field) => {
+          textInputNumericRange(errors, field, { min: 1, max: 99 });
+        },
+      ],
     }),
-    'ui:validations': [
-      (errors, formData) => {
-        return textInputNumericRange(errors, formData, {
-          schemaKey: 'certificates',
-          range: { min: 1, max: 99 },
-          customErrorMessages: {
-            min: 'Please enter a number between 1 and 99',
-            max: 'Please enter a number between 1 and 99',
-          },
-        });
-      },
-    ],
   },
   schema: {
     type: 'object',
