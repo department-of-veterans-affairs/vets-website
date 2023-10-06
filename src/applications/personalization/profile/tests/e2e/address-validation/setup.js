@@ -33,7 +33,7 @@ export const setUp = type => {
       statusCode: 200,
       body: finishedTransaction,
     },
-  );
+  ).as('saveAddressStatus');
 
   cy.intercept('GET', '/v0/user?*', {
     statusCode: 200,
@@ -49,8 +49,6 @@ export const setUp = type => {
   cy.injectAxe();
 
   checkForWebComponentLoadingIndicator();
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(5000);
 
   cy.findByRole('button', { name: /edit mailing address/i }).click({
     force: true,
