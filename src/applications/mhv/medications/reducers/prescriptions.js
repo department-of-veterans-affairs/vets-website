@@ -2,10 +2,15 @@ import { Actions } from '../util/actionTypes';
 
 const initialState = {
   /**
-   * The list of prescriptions returned from the api
+   * The list of paginated and sorted prescriptions returned from the api
    * @type {array}
    */
   prescriptionsList: undefined,
+  /**
+   * The full list of sorted prescriptions returned from the api without pagination
+   * @type {array}
+   */
+  fullPrescriptionsList: undefined,
   /**
    * The prescription currently being displayed to the user
    */
@@ -28,13 +33,21 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionDetails: action.response.data.attributes,
       };
     }
-    case Actions.Prescriptions.GET_LIST: {
+    case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
         prescriptionsList: action.response.data.map(rx => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,
+      };
+    }
+    case Actions.Prescriptions.GET_FULL_SORTED_LIST: {
+      return {
+        ...state,
+        fullPrescriptionsList: action.response.data.map(rx => {
+          return { ...rx.attributes };
+        }),
       };
     }
     case Actions.Prescriptions.SET_SORT_ENDPOINT: {

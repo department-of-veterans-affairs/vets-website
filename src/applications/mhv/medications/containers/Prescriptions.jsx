@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setSortEndpoint,
-  getPrescriptionsList,
+  getPrescriptionsPaginatedSortedList,
   getAllergiesList,
+  getSortedListNoPagination,
 } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -26,6 +27,9 @@ const Prescriptions = () => {
   const dispatch = useDispatch();
   const prescriptions = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
+  );
+  const fullPrescriptionsList = useSelector(
+    state => state.rx.prescriptions?.fullPrescriptionsList,
   );
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -122,7 +126,10 @@ const Prescriptions = () => {
   useEffect(
     () => {
       dispatch(
-        getPrescriptionsList(currentPage, sortEndpoint || defaultSortEndpoint),
+        getPrescriptionsPaginatedSortedList(
+          currentPage,
+          sortEndpoint || defaultSortEndpoint,
+        ),
       ).then(() => setLoading(false));
     },
     [dispatch, currentPage, sortEndpoint, defaultSortEndpoint],
@@ -146,11 +153,20 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (prescriptions) {
-        setPrescriptionsPdfList(buildPrescriptionsPDFList(prescriptions));
+      dispatch(getSortedListNoPagination(sortEndpoint || defaultSortEndpoint));
+    },
+    [sortEndpoint, dispatch, defaultSortEndpoint],
+  );
+
+  useEffect(
+    () => {
+      if (fullPrescriptionsList) {
+        setPrescriptionsPdfList(
+          buildPrescriptionsPDFList(fullPrescriptionsList),
+        );
       }
     },
-    [prescriptions],
+    [fullPrescriptionsList],
   );
 
   useEffect(
