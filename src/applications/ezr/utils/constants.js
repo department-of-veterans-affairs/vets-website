@@ -1,3 +1,47 @@
+// declare address overrides for uiSchema and schema declarations
+export const DEFAULT_ADDRESS_OVERRIDES = {
+  uiSchema: {
+    street: {
+      'ui:title': 'Street address',
+      'ui:errorMessages': {
+        pattern: 'Please provide a valid street address.',
+      },
+    },
+    city: {
+      'ui:errorMessages': {
+        pattern: 'Please provide a valid city.',
+      },
+    },
+    state: {
+      'ui:title': 'State/Province/Region',
+      'ui:errorMessages': {
+        required: 'Please enter a state/province/region',
+      },
+    },
+  },
+  schema: {
+    properties: {
+      street: {
+        minLength: 1,
+        maxLength: 30,
+      },
+      street2: {
+        minLength: 1,
+        maxLength: 30,
+      },
+      street3: {
+        type: 'string',
+        minLength: 1,
+        maxLength: 30,
+      },
+      city: {
+        minLength: 1,
+        maxLength: 30,
+      },
+    },
+  },
+};
+
 // declare prefix for use in GA events related to disability rating
 export const DISABILITY_PREFIX = 'disability-ratings';
 
@@ -31,3 +75,14 @@ export const ENROLLMENT_STATUS_INIT_STATE = {
 
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
+
+// declare default SIGI values
+export const SIGI_GENDERS = {
+  NB: 'Non-binary',
+  M: 'Man',
+  F: 'Woman',
+  TM: 'Transgender man',
+  TF: 'Transgender woman',
+  O: 'A gender not listed here',
+  NA: 'Prefer not to answer',
+};
