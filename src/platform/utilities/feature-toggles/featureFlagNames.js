@@ -101,6 +101,7 @@ export default Object.freeze({
   mhvLandingPageEnabled: 'mhv_landing_page_enabled',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
+  mhvSecureMessagingToPhase1: 'mhv_secure_messaging_to_phase_1',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
