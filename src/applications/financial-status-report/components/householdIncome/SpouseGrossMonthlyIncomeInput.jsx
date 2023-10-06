@@ -151,6 +151,28 @@ const SpouseGrossMonthlyIncomeInput = props => {
             : ''
         }
       />
+      <va-additional-info
+        trigger="How to calculate gross monthly income? !"
+        class="vads-u-margin-top--2"
+        uswds
+      >
+        <p className="vads-u-padding-bottom--2">
+          <strong>If your spouse is a salaried employee,</strong> divide your
+          spouse’s gross annual income by 12.
+        </p>
+        <p>
+          <strong>If your spouse is an hourly employee,</strong> follow these
+          steps:
+        </p>
+        <ol className="vads-u-margin--0 vads-u-padding-left--4 vads-u-padding-top--2 vads-u-padding-bottom--0p25">
+          <li>
+            Multiply your spouse’s hourly rate by the number of hours your
+            spouse works each week
+          </li>
+          <li>Multiply that number by 52</li>
+          <li>Divide that number by 12</li>
+        </ol>
+      </va-additional-info>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
