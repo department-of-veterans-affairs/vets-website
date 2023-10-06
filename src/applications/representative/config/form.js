@@ -18,7 +18,7 @@ const formConfig = {
   customText: {
     appType: 'Form 21-21 or Form 21-22a',
   },
-  urlPrefix: '/',
+  urlPrefix: '/form',
   submitUrl: '/v0/api',
   trackingPrefix: 'search-representative-',
   introduction: IntroductionPage,
