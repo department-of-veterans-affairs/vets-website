@@ -17,9 +17,12 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       </h1>
       <div>{content['form-subtitle']}</div>
 
-      <h2 className="vads-u-font-size--h3">{content['confirm-page-title']}</h2>
+      <h2 className="vads-u-font-size--h3">
+        {content['confirm-success-title']}
+      </h2>
+      <p>{content['confirm-success-review-message']}</p>
       <p className="vads-u-margin-bottom--0">
-        {content['confirm-page-description']}
+        {content['confirm-success-changes-message']}
       </p>
 
       <hr className="vads-u-margin-y--4" />
@@ -27,22 +30,27 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
         {content['confirm-app-title']}
       </h2>
-      <dl className="vads-u-margin-bottom--0">
-        <div className="vads-u-margin-bottom--2">
-          <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-            {content['confirm-app-list-name']}
-          </dt>
-          <dd className="ezr-veteran-fullname">{name}</dd>
-        </div>
-        {timestamp ? (
-          <div className="ezr-application-date">
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              {content['confirm-app-list-date']}
-            </dt>
-            <dd>{moment(timestamp).format('MMM D, YYYY')}</dd>
-          </div>
-        ) : null}
-      </dl>
+
+      <h3 className="vads-u-font-size--h4">
+        {content['confirm-app-list-name']}
+      </h3>
+      <p
+        className="ezr-veteran-fullname dd-privacy-mask"
+        data-dd-action-name="Full name"
+      >
+        {name}
+      </p>
+
+      {timestamp ? (
+        <>
+          <h3 className="vads-u-font-size--h4">
+            {content['confirm-app-list-date']}
+          </h3>
+          <p className="ezr-application-date">
+            {moment(timestamp).format('MMM D, YYYY')}
+          </p>
+        </>
+      ) : null}
 
       <hr className="vads-u-margin-top--4 vads-u-margin-bottom--0" />
     </>
