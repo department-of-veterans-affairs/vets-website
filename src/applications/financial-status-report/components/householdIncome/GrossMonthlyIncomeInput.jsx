@@ -151,7 +151,7 @@ const GrossMonthlyIncomeInput = props => {
         }
       />
       <va-additional-info
-        trigger="How to calculate gross monthly income?"
+        trigger="How to calculate your gross monthly income"
         class="vads-u-margin-top--2"
         uswds
       >

@@ -152,7 +152,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
         }
       />
       <va-additional-info
-        trigger="How to calculate gross monthly income? !"
+        trigger="How to calculate your spouse’s gross monthly income"
         class="vads-u-margin-top--2"
         uswds
       >
