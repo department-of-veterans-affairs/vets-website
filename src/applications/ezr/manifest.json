@@ -1,7 +1,7 @@
 {
-  "appName": "10-10EZR Health Care Benefits Update form",
+  "appName": "10-10EZR Update health benefits info form",
   "entryFile": "./app-entry.jsx",
   "entryName": "ezr",
-  "rootUrl": "/health-care/update-health-benefits-form-10-10ezr",
+  "rootUrl": "/my-health/update-benefits-information-form-10-10ezr",
   "productId": "18af3734-b0ab-4ff2-862e-7c8bef0d0982"
 }

@@ -39,5 +39,16 @@
   "sip-text-review-page-title": "Review your form",
   "sip-text-submit-btn-text": "Submit form",
   "validation-currency-format": "Please enter a valid dollar amount",
-  "validation-dependent-date": "This date must come after the dependent\u2019s birth date"
+  "validation-dependent-date": "This date must come after the dependent\u2019s birth date",
+  "vet-address-match-title": "Is your home address the same as your mailing address?",
+  "vet-birth-sex-title": "What sex were you assigned at birth?",
+  "vet-date-of-birth-label": "Date of birth",
+  "vet-contact-info-title": "Phone and email address",
+  "vet-gender-identity-title": "Gender identity",
+  "vet-home-address-title": "Home address",
+  "vet-home-phone-label": "Home phone number",
+  "vet-mailing-address-title": "Mailing address",
+  "vet-mailing-address-description": "We\u2019ll send any important information about your application to this address.",
+  "vet-mobile-phone-label": "Mobile phone number",
+  "vet-sigi-title": "Select your gender identity"
 }
