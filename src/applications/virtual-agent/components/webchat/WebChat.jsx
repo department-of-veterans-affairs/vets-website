@@ -15,7 +15,7 @@ import {
   clearBotSessionStorage,
   IS_RX_SKILL,
 } from '../chatbox/utils';
-import { cardActionMiddleware, activityMiddleware } from './helpers/webChat';
+import { cardActionMiddleware } from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -213,17 +213,11 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       sendBox.setAttribute('placeholder', 'Type your message');
     }
   }
-  const decisionLetterUrls = new Set();
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware(
           virtualAgentDecisionLetterDownloadTracking,
-          decisionLetterUrls,
-        )}
-        activityMiddleware={activityMiddleware(
-          virtualAgentDecisionLetterDownloadTracking,
-          decisionLetterUrls,
         )}
         styleOptions={styleOptions}
         directLine={directLine}
