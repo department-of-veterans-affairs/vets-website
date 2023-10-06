@@ -54,7 +54,7 @@ const nonVeteranLabels = [
 const veteranLabelMap = new Map(veteranLabels);
 const nonVeteranMap = new Map(nonVeteranLabels);
 
-export default function PreNeedApp({ loading, location, children }) {
+export default function PreNeedApp({ location, children }) {
   const selectorData = useSelector(state => state.form || {});
   // find all yes/no check boxes and attach analytics events
   useEffect(
@@ -93,7 +93,7 @@ export default function PreNeedApp({ loading, location, children }) {
         };
       }
     },
-    [loading, location, selectorData],
+    [location, selectorData],
   );
   return (
     <article id="pre-need" data-location={`${location?.pathname?.slice(1)}`}>
