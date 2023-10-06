@@ -235,8 +235,31 @@ function selectTests(graph, pathsOfChangedFiles) {
 
 function exportVariables(tests) {
   const numTests = tests.length;
-
-  if (numTests <= 200) {
+  if (IS_STRESS_TEST) {
+    core.exportVariable('NUM_CONTAINERS', 20);
+    core.exportVariable('CI_NODE_INDEX', [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+    ]);
+  } else if (numTests <= 200) {
     core.exportVariable('NUM_CONTAINERS', 8);
     core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
   } else {
