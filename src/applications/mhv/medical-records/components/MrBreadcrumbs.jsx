@@ -6,18 +6,18 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 const MrBreadcrumbs = () => {
   const crumbs = useSelector(state => state.mr.breadcrumbs.list);
   const currentPath = useSelector(state => state.mr.breadcrumbs.location);
-  const allCrumbs = [...crumbs, currentPath];
 
   return (
     <>
-      {allCrumbs.length > 0 && crumbs[0]?.url ? (
+      {crumbs.length > 0 && crumbs[0]?.url ? (
         <div className="vads-l-row breadcrumbs-container no-print">
           <VaBreadcrumbs label="Breadcrumb" mobileFirstProp>
-            {allCrumbs.map((crumb, idx) => (
+            {crumbs.map((crumb, idx) => (
               <a href={crumb.url} key={idx}>
                 Back to {crumb.label}
               </a>
             ))}
+            <a href={currentPath?.url}>{currentPath?.label}</a>
           </VaBreadcrumbs>
         </div>
       ) : (
