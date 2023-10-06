@@ -14,6 +14,7 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
+
 const ALLOW_LIST =
   process.env.TEST_TYPE &&
   fs.existsSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`))
