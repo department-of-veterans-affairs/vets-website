@@ -8,8 +8,8 @@ import {
   VaModal,
   VaSelect,
   VaTextInput,
+  VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import {
   readAndCheckFile,
@@ -283,28 +283,20 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <Checkbox
-          onValueChange={checked => {
-            this.setState({ checked });
+        <VaCheckbox
+          onVaChange={event => {
+            this.setState({ checked: event.detail.checked });
           }}
           checked={this.state.checked}
-          errorMessage={this.state.errorMessageCheckbox}
-          label={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <div>
-              <strong>
-                The files I uploaded are supporting documents for this claim
-                only.
-              </strong>
-              <div className="vads-u-padding-top--1">
-                To submit supporting documents for a new disability claim,
-                please visit our{' '}
-                <a href="/disability/how-to-file-claim">How to File a Claim</a>{' '}
-                page.
-              </div>
-            </div>
-          }
+          error={this.state.errorMessageCheckbox}
+          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
+          label="The files I uploaded are supporting documents for this claim only."
         />
+        <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
+          To submit supporting documents for a new disability claim, please
+          visit our{' '}
+          <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
+        </div>
         <div>
           <button
             type="submit"

@@ -111,3 +111,6 @@ export const selectFeatureGA4Migration = state =>
 
 export const selectFeatureAfterVisitSummary = state =>
   toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
+
+export const selectFeatureStartSchedulingLink = state =>
+  toggleValues(state).vaOnlineSchedulingStartSchedulingLink;

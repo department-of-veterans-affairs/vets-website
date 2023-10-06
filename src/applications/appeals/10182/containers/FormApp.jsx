@@ -8,7 +8,12 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
-import { SHOW_PART3 } from '../constants';
+import {
+  SHOW_PART3,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+} from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
 import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
@@ -101,7 +106,7 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3],
+    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
   );
 
   const content = isLoading ? (
@@ -119,9 +124,9 @@ export const FormApp = ({
     loggedIn,
     formId: 'nod', // becomes "nodBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
-    applicationId: 'cabce133-7a68-46ba-ac9b-68c57e8375eb',
-    clientToken: 'pubb208973905b7f32eb100b1c27688ecc9',
-    service: 'benefits-notice-of-disagreement',
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
   });
 
   return (

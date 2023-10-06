@@ -31,6 +31,10 @@ import {
 import RecreationalVehiclesReview from '../../components/otherAssets/RecreationalVehcilesReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
+import {
+  CashInBank,
+  CashInBankReview,
+} from '../../components/monetary/CashInBank';
 
 export default {
   householdAssetsChapter: {
@@ -44,8 +48,33 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: CashOnHand,
         CustomPageReview: CashOnHandReview,
-        depends: ({ gmtData }) =>
-          gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt,
+        depends: formData => {
+          const { gmtData } = formData;
+          // Also show if the new asset update is true
+          return (
+            (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
+            (gmtData?.isEligibleForStreamlined &&
+              gmtData?.incomeBelowOneFiftyGmt &&
+              formData['view:streamlinedWaiverAssetUpdate'])
+          );
+        },
+      },
+      cashInBank: {
+        path: 'cash-in-bank',
+        title: 'Cash in bank',
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: CashInBank,
+        CustomPageReview: CashInBankReview,
+        depends: formData => {
+          const { gmtData } = formData;
+          // Only show if the new asset update is true
+          return (
+            gmtData?.isEligibleForStreamlined &&
+            gmtData?.incomeBelowOneFiftyGmt &&
+            formData['view:streamlinedWaiverAssetUpdate']
+          );
+        },
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only
@@ -83,10 +112,22 @@ export default {
         uiSchema: monetaryValues.uiSchema,
         schema: monetaryValues.schema,
         CustomPageReview: MonetaryAssetsSummaryReview,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          formData.assets?.monetaryAssets?.length > 0 &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => {
+          const { assets } = formData;
+          const { monetaryAssets = [] } = assets;
+          const filteredLiquidAssets = monetaryAssets.filter(
+            asset =>
+              asset?.name?.toLowerCase() !== 'cash on hand (not in bank)' &&
+              asset?.name?.toLowerCase() !==
+                'cash in a bank (savings and checkings)',
+          );
+
+          return (
+            formData['view:enhancedFinancialStatusReport'] &&
+            filteredLiquidAssets.length > 0 &&
+            !isStreamlinedShortForm(formData)
+          );
+        },
       },
       realEstate: {
         path: 'real-estate-assets',

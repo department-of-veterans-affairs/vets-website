@@ -176,6 +176,27 @@ export const desiredCemeteryNoteDescriptionNonVeteran = (
   </va-alert>
 );
 
+export function preparerAddressHasState(item) {
+  const country = get(
+    'application.applicant.view:applicantInfo.mailingAddress.country',
+    item,
+  );
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
+export function applicantsMailingAddressHasState(item) {
+  const country = get('application.claimant.address.country', item);
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
+export function sponsorMailingAddressHasState(item) {
+  const country = get('application.veteran.address.country', item);
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
