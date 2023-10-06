@@ -15,12 +15,6 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-const interpretObservedOrReported = code => {
-  if (code === 'o') return allergyTypes.OBSERVED;
-  if (code === 'h') return allergyTypes.REPORTED;
-  return EMPTY_FIELD;
-};
-
 export const extractLocation = allergy => {
   if (
     allergy?.recorder?.extension &&
@@ -43,6 +37,19 @@ export const extractLocation = allergy => {
   return EMPTY_FIELD;
 };
 
+export const extractObservedReported = allergy => {
+  if (allergy && isArrayAndHasItems(allergy.extension)) {
+    const extItem = allergy.extension.find(
+      item => item.url && item.url.includes('allergyObservedHistoric'),
+    );
+    if (extItem?.valueCode) {
+      if (extItem.valueCode === 'o') return allergyTypes.OBSERVED;
+      if (extItem.valueCode === 'h') return allergyTypes.REPORTED;
+    }
+  }
+  return EMPTY_FIELD;
+};
+
 export const convertAllergy = allergy => {
   return {
     id: allergy.id,
@@ -55,13 +62,7 @@ export const convertAllergy = allergy => {
     date: formatDateLong(allergy.recordedDate),
     reaction: getReactions(allergy),
     location: extractLocation(allergy),
-    observedOrReported:
-      isArrayAndHasItems(allergy.extension) &&
-      interpretObservedOrReported(
-        allergy.extension.filter(item =>
-          item.url.includes('allergyObservedHistoric'),
-        )[0].valueString,
-      ),
+    observedOrReported: extractObservedReported(allergy),
     notes:
       (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
   };

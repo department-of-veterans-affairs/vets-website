@@ -106,11 +106,12 @@ export const normalizePath = path => {
 };
 
 export const getRouteInfoFromPath = (path, routes) => {
+  const normalizedPath = normalizePath(path);
   const returnRouteInfo = routes.find(({ path: routePath }) => {
-    return routePath === path;
+    return routePath === normalizedPath;
   });
   if (!returnRouteInfo) {
-    return { ...routes[0], name: 'profile' };
+    throw new Error('No route found for path');
   }
   return returnRouteInfo;
 };
