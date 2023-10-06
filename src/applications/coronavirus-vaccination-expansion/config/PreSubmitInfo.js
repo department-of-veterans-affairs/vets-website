@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
   const [privacyAgreementAccepted, setPrivacyAgreementAccepted] = useState(
@@ -11,39 +11,15 @@ const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
     truthfullnessAgreementAccepted,
     setTruthfullnessAgreementAccepted,
   ] = useState(false);
-  const truthfulnessLabel = (
-    <span>
-      {' '}
-      I certify that the information I’ve provided in this form is true and
-      correct to the best of my knowledge and belief. I understand that it's a
-      crime to provide information that I know is untrue or incorrect. I
-      understand that doing so could result in a fine or other penalty. I have
-      also read and accept the{' '}
-      <a target="_blank" href="/privacy-policy/">
-        privacy policy.
-      </a>
-    </span>
-  );
-  const truthfulnessErrorMessage =
-    'You must certify that your submission is truthful before submitting';
   const [truthfullnessError, setTruthfullnessError] = useState(false);
+  const truthfulnessErrorMessage = truthfullnessError
+    ? 'You must certify that your submission is truthful before submitting'
+    : null;
 
-  const privacyLabel = (
-    <span>
-      I have been provided access to{' '}
-      <a
-        id="kif-privacy-policy"
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.va.gov/vhapublications/ViewPublication.asp?pub_ID=1090"
-      >
-        VA's Notice of Privacy Practices.
-      </a>{' '}
-    </span>
-  );
-  const privacyErrorMessage =
-    "You must certify that you have access to VA's privacy practice information before submitting";
   const [privacyError, setPrivacyError] = useState(false);
+  const privacyErrorMessage = privacyError
+    ? "You must certify that you have access to VA's privacy practice information before submitting"
+    : null;
 
   useEffect(
     () => {
@@ -58,20 +34,46 @@ const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
 
   return (
     <>
-      <Checkbox
+      <VaCheckbox
+        id="privacy-practices-checkbox"
         checked={privacyAgreementAccepted}
-        onValueChange={value => setPrivacyAgreementAccepted(value)}
-        label={privacyLabel}
-        errorMessage={privacyError && privacyErrorMessage}
+        onVaChange={event => setPrivacyAgreementAccepted(event.detail.checked)}
+        label="I have been provided access to VA's Notice of Privacy Practices."
+        error={privacyErrorMessage}
         required
-      />
-      <Checkbox
+      >
+        <span slot="description">
+          <a
+            id="kif-privacy-policy"
+            target="_blank"
+            rel="noreferrer"
+            href="https://www.va.gov/files/2022-10/10-163p_(004)_-Notices_of_Privacy_Practices-_PRINT_ONLY.pdf"
+          >
+            VA’s Notice of Privacy Practices.
+          </a>
+        </span>
+      </VaCheckbox>{' '}
+      <VaCheckbox
+        id="truthfulness-checkbox"
+        class="vads-u-margin-top--3"
         checked={truthfullnessAgreementAccepted}
-        onValueChange={value => setTruthfullnessAgreementAccepted(value)}
-        label={truthfulnessLabel}
-        errorMessage={truthfullnessError && truthfulnessErrorMessage}
+        onVaChange={event =>
+          setTruthfullnessAgreementAccepted(event.detail.checked)
+        }
+        label="I certify that the information I’ve provided in this form is true and
+      correct to the best of my knowledge and belief. I understand that it's a
+      crime to provide information that I know is untrue or incorrect. I
+      understand that doing so could result in a fine or other penalty. I have
+      also read and accept the privacy policy."
+        error={truthfulnessErrorMessage}
         required
-      />
+      >
+        <span slot="description">
+          <a target="_blank" href="/privacy-policy/">
+            VA.gov Privacy Policy
+          </a>
+        </span>
+      </VaCheckbox>
     </>
   );
 };
