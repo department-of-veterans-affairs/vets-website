@@ -31,22 +31,12 @@ const analyticsEvents = {
       prefix: 'breadcrumbs',
     },
   ],
-  Checkbox: [
-    {
-      action: 'change',
-      event: 'int-checkbox-option-click',
-      prefix: 'checkbox',
-    },
-  ],
   LoadingIndicator: [
     {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
     },
-  ],
-  TextArea: [
-    { action: 'blur', event: 'int-text-area-blur', prefix: 'text-area' },
   ],
   TextInput: [
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },

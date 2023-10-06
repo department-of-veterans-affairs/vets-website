@@ -1,3 +1,4 @@
+import React from 'react';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 // Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
@@ -18,10 +19,27 @@ const resolveToggleLink = (link, featureToggles) => {
   return { href, text, key: toggle };
 };
 
+const countUnreadMessages = folders => {
+  let unreadMessageCount = 0;
+  if (Array.isArray(folders?.data)) {
+    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
+      return accumulator + currentFolder.attributes?.unreadCount;
+    }, 0);
+  } else if (folders?.data?.attributes?.unreadCount > 0) {
+    unreadMessageCount = folders.data.attributes.unreadCount;
+  }
+
+  return unreadMessageCount;
+};
+
 const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
-const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
+const resolveLandingPageLinks = (
+  authdWithSSOe = false,
+  featureToggles,
+  unreadMessageCount = 0,
+) => {
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
     {
@@ -45,14 +63,25 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     [
       {
         href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
-        text: 'Compose message',
+        oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
+        text: (
+          <span>
+            Inbox
+            {unreadMessageCount > 0 && (
+              <span
+                className="indicator"
+                role="status"
+                aria-label="You have unread messages. Go to your inbox."
+              />
+            )}
+          </span>
+        ),
         toggle: null,
       },
       {
         href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        text: 'Inbox',
+        oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
+        text: 'Compose message',
         toggle: null,
       },
       {
@@ -294,4 +323,4 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   return { cards, hubs };
 };
 
-export { resolveLandingPageLinks, resolveToggleLink };
+export { countUnreadMessages, resolveLandingPageLinks, resolveToggleLink };

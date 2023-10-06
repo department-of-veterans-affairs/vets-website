@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import { rxListSortingOptions } from '../../util/constants';
 
 const MedicationsListSort = props => {
-  const { sortRxList } = props;
-  const [sortListOption, setSortListOption] = useState(
-    rxListSortingOptions.availableToFillOrRefillFirst.LABEL,
-  );
+  const { value, sortRxList } = props;
+  const [sortListOption, setSortListOption] = useState(value);
 
   const rxSortingOptions = Object.values(rxListSortingOptions);
   return (
@@ -50,6 +48,7 @@ const MedicationsListSort = props => {
 
 MedicationsListSort.propTypes = {
   sortRxList: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default MedicationsListSort;
