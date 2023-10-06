@@ -34,18 +34,26 @@ const IssueSummary = ({ formData }) => {
         {issues.length ? (
           issues.map((issue, index) => (
             <li key={index} className={listClassNames}>
-              <h4 className="capitalize vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden">
+              <h4
+                className="capitalize vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
+                data-dd-action-name="rated issue name"
+              >
                 {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
               </h4>
               <div>
                 Decision date:{' '}
-                {getDate({
-                  date:
-                    issue.attributes?.approxDecisionDate ||
-                    issue.decisionDate ||
-                    '',
-                  pattern: FORMAT_READABLE,
-                })}
+                <span
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="rated issue decision date"
+                >
+                  {getDate({
+                    date:
+                      issue.attributes?.approxDecisionDate ||
+                      issue.decisionDate ||
+                      '',
+                    pattern: FORMAT_READABLE,
+                  })}
+                </span>
               </div>
             </li>
           ))
