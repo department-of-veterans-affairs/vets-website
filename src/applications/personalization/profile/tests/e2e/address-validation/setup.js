@@ -13,10 +13,6 @@ import { checkForWebComponentLoadingIndicator } from '~/applications/personaliza
 import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/endpoints/feature-toggles';
 
 export const setUp = type => {
-  disableFTUXModals();
-
-  cy.login(mockUser);
-
   cy.intercept('POST', '/v0/profile/address_validation', {
     statusCode: 200,
     body: createAddressValidationResponse(type),
@@ -55,6 +51,10 @@ export const setUp = type => {
     statusCode: 200,
     body: generateFeatureToggles(),
   });
+
+  disableFTUXModals();
+
+  cy.login(mockUser);
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.injectAxe();
