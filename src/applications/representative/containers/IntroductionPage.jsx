@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+
+// SaveInProgressIntro is missing from babel.config.json
+// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 // eslint-disable-next-line import/no-cycle
 import formConfig from '../config/form';

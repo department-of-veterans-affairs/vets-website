@@ -1,7 +1,7 @@
 import React from 'react';
 
-import FormFooter from 'platform/forms/components/FormFooter';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 
 import formConfig from '../config/form';
 

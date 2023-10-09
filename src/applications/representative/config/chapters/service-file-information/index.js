@@ -1,4 +1,4 @@
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 
 export const schema = {
   type: 'object',

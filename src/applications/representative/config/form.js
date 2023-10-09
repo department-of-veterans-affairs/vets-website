@@ -1,5 +1,6 @@
 import manifest from '../manifest.json';
 import GetFormHelp from '../components/GetFormHelp';
+// eslint-disable-next-line import/no-cycle
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 

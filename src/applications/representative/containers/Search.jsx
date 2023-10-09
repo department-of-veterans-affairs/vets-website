@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FormFooter from 'platform/forms/components/FormFooter';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import formConfig from '../config/form';
 
 export default function Search() {
