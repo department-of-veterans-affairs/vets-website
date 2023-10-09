@@ -79,7 +79,6 @@ class AddressPage {
         force: true,
         waitForAnimations: true,
       });
-      cy.wait('@getUser');
     } else {
       cy.findByTestId('save-edit-button').click({
         force: true,
@@ -109,7 +108,6 @@ class AddressPage {
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
     if (saved) {
-      cy.wait('@getUser');
       cy.findByTestId('update-success-alert', { timeout: 10000 }).should(
         'exist',
       );
