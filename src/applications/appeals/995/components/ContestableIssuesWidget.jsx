@@ -7,7 +7,6 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../constants';
 
 import {
@@ -16,6 +15,7 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
+import { IssueCard } from '../../shared/components/IssueCard';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,

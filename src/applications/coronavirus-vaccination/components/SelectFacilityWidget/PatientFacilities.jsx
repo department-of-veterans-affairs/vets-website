@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { requestStates } from 'platform/utilities/constants';
 

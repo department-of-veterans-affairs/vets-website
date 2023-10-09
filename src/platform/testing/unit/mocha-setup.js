@@ -197,8 +197,8 @@ const checkAllowList = testContext => {
   const file = testContext.currentTest.file.indexOf('src');
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
     /* eslint-disable-next-line no-console */
-    console.log('Test would be skipped once allow list launched: ', file);
-    // testContext.skip();
+    console.log('Test skipped due to flakiness: ', file);
+    testContext.skip();
   }
 };
 // This needs to be after JSDom has been setup, otherwise

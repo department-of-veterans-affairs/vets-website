@@ -36,7 +36,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
       <div className="blue-bar-block">
         <strong
           className="name dd-privacy-hidden"
-          data-dd-action-name="full name"
+          data-dd-action-name="Veteran's name"
         >
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix && `, ${suffix}`}
@@ -44,7 +44,10 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
         {ssnLastFour && (
           <p className="ssn">
             Social Security number:{' '}
-            <span className="dd-privacy-mask" data-dd-action-name="SSN">
+            <span
+              className="dd-privacy-mask"
+              data-dd-action-name="Veteran's SSN"
+            >
               {mask(ssnLastFour)}
             </span>
           </p>
@@ -54,7 +57,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
             VA file number:{' '}
             <span
               className="dd-privacy-mask"
-              data-dd-action-name="VA file number"
+              data-dd-action-name="Veteran's VA file number"
             >
               {mask(vaFileLastFour)}
             </span>
@@ -65,7 +68,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
           {momentDob.isValid() ? (
             <span
               className="dob dd-privacy-mask"
-              data-dd-action-name="Date of birth"
+              data-dd-action-name="Veteran's date of birth"
             >
               {momentDob.format(FORMAT_READABLE)}
             </span>
@@ -75,7 +78,7 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
           Gender:{' '}
           <span
             className="gender dd-privacy-hidden"
-            data-dd-action-name="gender"
+            data-dd-action-name="Veteran's gender"
           >
             {(gender && genderLabels[gender]) || ''}
           </span>

@@ -14,12 +14,11 @@ import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
+import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 import {
-  getAppointmentSlots,
-  onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../redux/actions';
+} from '../flow';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Choose a date';
@@ -50,6 +49,9 @@ function ErrorMessage({ facilityId }) {
     </div>
   );
 }
+ErrorMessage.propTypes = {
+  facilityId: PropTypes.string,
+};
 
 function validate({ dates, setValidationError }) {
   if (dates?.length) {

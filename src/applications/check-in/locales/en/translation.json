@@ -118,6 +118,7 @@
   "phone": "Phone",
   "phone-call": "Phone Call",
   "please-bring-your-insurance-cards-with-you-to-your-appointment": "Please bring your insurance cards with you to your appointment.",
+  "remember-to-bring-your-insurance-cards-with-you": "Remember to bring your insurance cards with you. On the day of the appointment, we’ll send you a text when it’s time to check in.",
   "please-call": "Please call <0></0> and select 0. We’re here 24/7.",
   "please-call-our-myva411-main-information-line-at": "please call our MyVA411 main information line at",
   "please-enter-a-valid-date": "Please enter a valid date",
@@ -245,5 +246,8 @@
   "find-your-va-health-facility": "Find your VA health facility",
   "for-questions-about-filing-a-travel-reimbursement-claim": "<0>For questions about filing a travel reimbursement claim or to check your claim status,</0> call our BTSSS toll-free call center at <1></1> or call your VA health facility’s Beneficiary Travel contact.",
   "if-yourre-in-crisis-or-having-thoughts-of-suicide-call-the": "<0>If you’re in crisis or having thoughts of suicide,</0> call the Veterans Crisis Line at <1></1>. Then select 1. Or text <2></2>. We offer confidential support anytime, day or night.",
-  "if-you-think-your-life-or-health-is-in-danger": "<0>If you think your life or health is in danger,</0> call <1></1> or go to the nearest emergency room."
+  "if-you-think-your-life-or-health-is-in-danger": "<0>If you think your life or health is in danger,</0> call <1></1> or go to the nearest emergency room.",
+  "next-of-kin-explanation": "Next of kin explanation",
+  "if-this-is-not-your-correct-information-a-staff-member-can-help--dayOf": "If this is not your correct information, select <0>No</0> and a staff member can help you check in and update your information.",
+  "if-this-is-not-your-correct-information-a-staff-member-can-help--preCheckIn": "If this is not your correct information, select <0>No</0>. A staff member will help you update your next of kin information on the day of your appointment."
 }

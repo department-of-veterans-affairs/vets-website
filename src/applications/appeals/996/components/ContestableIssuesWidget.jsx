@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -7,9 +7,10 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { IssueCard } from './IssueCard';
+import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { APP_NAME } from '../constants';
 
+import { IssueCard } from '../../shared/components/IssueCard';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -55,6 +56,7 @@ const ContestableIssuesWidget = props => {
     id,
     options,
     formContext = {},
+    apiLoadStatus, // API loaded status
     additionalIssues,
     setFormData,
     formData,
@@ -64,6 +66,19 @@ const ContestableIssuesWidget = props => {
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
+  const hasChecked = useRef(false);
+
+  useEffect(
+    () => {
+      if (
+        !hasChecked.current &&
+        apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED
+      ) {
+        hasChecked.current = true;
+      }
+    },
+    [apiLoadStatus, hasChecked],
+  );
 
   useEffect(
     () => {
@@ -92,8 +107,6 @@ const ContestableIssuesWidget = props => {
     .concat((additionalIssues || []).filter(Boolean));
 
   const hasSelected = someSelected(items);
-  // Only show alert initially when no issues loaded
-  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return (
@@ -182,7 +195,8 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues = showNoLoadedIssues && !onReviewPage;
+  const showNoIssues =
+    !onReviewPage && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
 
   return (
     <>
@@ -249,6 +263,7 @@ const ContestableIssuesWidget = props => {
 
 ContestableIssuesWidget.propTypes = {
   additionalIssues: PropTypes.array,
+  apiLoadStatus: PropTypes.string,
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
@@ -266,6 +281,7 @@ ContestableIssuesWidget.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
+  apiLoadStatus: state.contestableIssues?.status || '',
   additionalIssues: state.form?.data.additionalIssues || [],
 });
 const mapDispatchToProps = {
