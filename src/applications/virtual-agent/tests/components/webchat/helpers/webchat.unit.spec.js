@@ -2,7 +2,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventObject from 'platform/monitoring/record-event';
 import { describe } from 'mocha';
-import { cardActionMiddleware } from '../../../../components/webchat/helpers/webChat';
+import * as Sentry from '@sentry/browser';
+import {
+  cardActionMiddleware,
+  ifMissingParamsCallSentry,
+} from '../../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
 
@@ -95,6 +99,24 @@ describe('Webchat.jsx Helpers', () => {
         expect(recordEventStub.notCalled).to.be.true;
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+      });
+    });
+  });
+  describe('ifMissingParamsCallSentry', () => {
+    describe('call sentry when the csrfToken is invalid', () => {
+      it('should call sentry when csrfToken is null', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = null;
+        const apiSession = '';
+        const userFirstName = '';
+        const userUuid = '';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
       });
     });
   });
