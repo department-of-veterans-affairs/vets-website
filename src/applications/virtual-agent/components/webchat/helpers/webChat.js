@@ -29,11 +29,25 @@ export const ifMissingParamsCallSentry = (
     typeof userFirstName === 'string' &&
     (userUuid === null || typeof userUuid === 'string');
   if (!hasAllParams) {
+    const sanitizedCsrfToken =
+      typeof csrfToken === 'string' && csrfToken
+        ? 'csrfToken present'
+        : csrfToken;
+    const sanitizedApiSession =
+      typeof apiSession === 'string' && apiSession
+        ? 'apiSession present'
+        : apiSession;
+    const sanitizedUserFirstName =
+      typeof userFirstName === 'string' && userFirstName
+        ? 'userFirstName present'
+        : userFirstName;
+    const sanitizedUserUuid =
+      typeof userUuid === 'string' && userUuid ? 'userUuid present' : userUuid;
     const params = {
-      csrfToken,
-      apiSession,
-      userFirstName,
-      userUuid,
+      sanitizedCsrfToken,
+      sanitizedApiSession,
+      sanitizedUserFirstName,
+      sanitizedUserUuid,
     };
     Sentry.captureException(
       new TypeError(`Missing required variables: ${JSON.stringify(params)}`),

@@ -239,5 +239,18 @@ describe('Webchat.jsx Helpers', () => {
       ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
       expect(captureExceptionStub.notCalled).to.be.true;
     });
+    it('should not log the value of the csrfToken to Sentry', () => {
+      const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+      const csrfToken = undefined;
+      const apiSession = 'apiSession';
+      const userFirstName = 'userFirstName';
+      const userUuid = 'userUuid';
+      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+      const expectedError = captureExceptionStub.firstCall.args[0];
+      expect(expectedError.name).to.equal('TypeError');
+      expect(expectedError.message).to.equal(
+        'Missing required variables: {"csrfToken": "csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+      );
+    });
   });
 });
