@@ -57,7 +57,6 @@ export const setUp = type => {
   cy.login(mockUser);
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
-  cy.injectAxe();
 
   checkForWebComponentLoadingIndicator();
 
