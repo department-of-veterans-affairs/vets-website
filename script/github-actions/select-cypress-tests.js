@@ -14,7 +14,6 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
-console.log(CHANGED_FILE_PATHS);
 
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
@@ -30,11 +29,6 @@ const ALLOW_LIST =
         ),
       )
     : [];
-
-// const ALLOW_LIST = fs.readFileSync(
-//   path.resolve(`${process.env.TEST_TYPE}_allow_list.json`),
-// );
-// const IS_STRESS_TEST = true;
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -330,7 +324,31 @@ function main() {
       );
     },
   );
+  // Reformat Stress Test
+  const ALLOW_LIST_SPECS = ALLOW_LIST.map(spec => spec.spec_path);
+  const CHANGED_APPS_FOR_STRESS_TEST = CHANGED_FILE_PATHS
+    ? CHANGED_FILE_PATHS.map(filePath =>
+        filePath
+          .split('/')
+          .slice(0, 3)
+          .join('/'),
+      )
+    : [];
 
+  const EXISTING_TESTS_TO_STRESS_TEST = ALLOW_LIST_SPECS.filter(specPath =>
+    CHANGED_APPS_FOR_STRESS_TEST.some(filePath => specPath.includes(filePath)),
+  );
+
+  const NEW_TESTS_TO_STRESS_TEST = CHANGED_FILE_PATHS.filter(
+    filePath =>
+      filePath.includes('.cypress.spec.js') &&
+      ALLOW_LIST_SPECS.indexOf(path) === -1,
+  );
+
+  const TESTS_TO_STRESS_TEST = EXISTING_TESTS_TO_STRESS_TEST.concat(
+    NEW_TESTS_TO_STRESS_TEST,
+  );
+  console.log(TESTS_TO_STRESS_TEST);
   exportVariables(testsToRunNormally);
 
   if (IS_STRESS_TEST) {
