@@ -30,7 +30,6 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import getNewBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
 import {
   selectCovid19VaccineNewBooking,
@@ -449,50 +448,6 @@ export function confirmAppointment(history) {
     }
   };
 }
-export function routeToPageInFlow(callback, history, current, action, data) {
-  return async (dispatch, getState) => {
-    const flow = callback(getState());
-
-    dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
-      pageKey: current,
-      data,
-    });
-
-    let nextPage;
-    let nextStateKey;
-
-    if (action === 'next') {
-      const nextAction = flow[current][action];
-      if (typeof nextAction === 'string') {
-        nextPage = flow[nextAction];
-        nextStateKey = nextAction;
-      } else {
-        nextStateKey = await nextAction(getState(), dispatch);
-        nextPage = flow[nextStateKey];
-      }
-    } else {
-      const state = getState();
-      const previousPage =
-        state.covid19Vaccine.newBooking.previousPages[current];
-      nextPage = flow[previousPage];
-    }
-
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: current,
-        pageKeyNext: nextStateKey,
-        direction: action,
-      });
-      history.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
-  };
-}
 
 export function onCalendarChange(selectedDates, pageKey) {
   return {
@@ -540,16 +495,46 @@ export function openContactFacilitiesPage() {
     }
   };
 }
-export function routeToNextAppointmentPage(history, current, data) {
-  return routeToPageInFlow(getNewBookingFlow, history, current, 'next', data);
+
+export function getVAFacilityNextPage() {
+  return async (state, dispatch) => {
+    const formData = selectCovid19VaccineFormData(state);
+    let clinics = selectCovid19VaccineNewBooking(state).clinics?.[
+      formData.vaFacility
+    ];
+    if (!clinics) {
+      clinics = await dispatch(
+        getClinics({
+          facilityId: formData.vaFacility,
+          showModal: true,
+        }),
+      );
+    }
+
+    if (!clinics?.length) {
+      dispatch(showEligibilityModal());
+      return 'vaFacility';
+    }
+
+    if (clinics.length === 1) {
+      return 'selectDate1';
+    }
+    return 'clinicChoice';
+  };
 }
 
-export function routeToPreviousAppointmentPage(history, current, data) {
-  return routeToPageInFlow(
-    getNewBookingFlow,
-    history,
-    current,
-    'previous',
-    data,
-  );
+export function getReceivedDoseScreenerNextPage() {
+  return async state => {
+    const formData = selectCovid19VaccineFormData(state);
+    if (formData.hasReceivedDose) {
+      recordEvent({
+        event: `${GA_PREFIX}-covid19-screener-yes`,
+      });
+      return 'contactFacilities';
+    }
+    recordEvent({
+      event: `${GA_PREFIX}-covid19-screener-no`,
+    });
+    return 'vaFacility';
+  };
 }
