@@ -7,10 +7,10 @@ export default {
     'ui:title': (
       <>
         <h3>Organization’s representatives</h3>
-        <p className="vads-u-margin-top--4 vads-u-margin-bottom--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark">
+        <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
           List at least one person from the organization who we can release your
           information to.
-        </p>
+        </span>
       </>
     ),
     organizationRepresentative: {

@@ -2,13 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import recordEvent from 'platform/monitoring/record-event';
+import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  openContactFacilitiesPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
+import { openContactFacilitiesPage } from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
@@ -24,6 +21,7 @@ import { getRealFacilityId } from '../../utils/appointment';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import { hasValidCovidPhoneNumber } from '../../services/appointment';
+import { routeToPreviousAppointmentPage } from '../flow';
 
 const pageKey = 'contactFacilities';
 

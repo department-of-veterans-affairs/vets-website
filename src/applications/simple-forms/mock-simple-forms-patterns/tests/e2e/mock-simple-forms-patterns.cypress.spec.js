@@ -148,6 +148,33 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [pagePaths.checkboxGroup]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            // widgets
+            cy.fillPage();
+
+            selectCheckboxWebComponent(
+              'checkboxGroupAtLeastOneRequired_hasA',
+              data.checkboxGroupAtLeastOneRequired.hasA,
+            );
+
+            selectCheckboxWebComponent(
+              'checkboxGroupTiledWithCustomErrorMessage_hasB',
+              data.checkboxGroupTiledWithCustomErrorMessage.hasB,
+            );
+
+            selectCheckboxWebComponent(
+              'checkboxGroupTiledWithHeaderLabel_hasB',
+              data.checkboxGroupTiledWithHeaderLabel.hasB,
+            );
+
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       [pagePaths.numberInput]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
