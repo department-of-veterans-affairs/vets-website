@@ -35,6 +35,7 @@ export const setUp = type => {
   });
 
   cy.intercept('GET', '/v0/profile/status/*', req => {
+    delete req.headers['if-none-match'];
     const id = req.url.split('/').pop();
     req.reply({
       statusCode: 200,
