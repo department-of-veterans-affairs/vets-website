@@ -10,7 +10,6 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -46,24 +45,18 @@ function ContinueButton({ isLoading }) {
 function LoginRequiredAlert({ handleLogin }) {
   return (
     <>
-      <AlertBox
-        isVisible
-        status="error"
-        headline="Please sign in to review your information"
-        content={
-          <>
-            <p>
-              We’re sorry for the interruption, but we’ve found some more
-              information that we need you to review before you can apply for VA
-              health care. Please sign in to VA.gov to review. If you don’t have
-              an account, you can create one now.
-            </p>
-            <button className="usa-button-primary" onClick={handleLogin}>
-              Sign in to VA.gov
-            </button>
-          </>
-        }
-      />
+      <va-alert visible status="error">
+        <h2 slot="headline">Please sign in to review your information</h2>
+        <p>
+          We’re sorry for the interruption, but we’ve found some more
+          information that we need you to review before you can apply for VA
+          health care. Please sign in to VA.gov to review. If you don’t have an
+          account, you can create one now.
+        </p>
+        <button className="usa-button-primary" onClick={handleLogin}>
+          Sign in to VA.gov
+        </button>
+      </va-alert>
       <br />
     </>
   );
@@ -71,14 +64,10 @@ function LoginRequiredAlert({ handleLogin }) {
 
 function ServerError() {
   return (
-    <AlertBox
-      isVisible
-      status="error"
-      headline="Something went wrong on our end"
-      content={
-        <p>We’re sorry. Something went wrong on our end. Please try again</p>
-      }
-    />
+    <va-alert visible status="error">
+      <h3 slot="headline">Something went wrong on our end</h3>
+      <p>We’re sorry. Something went wrong on our end. Please try again</p>
+    </va-alert>
   );
 }
 
