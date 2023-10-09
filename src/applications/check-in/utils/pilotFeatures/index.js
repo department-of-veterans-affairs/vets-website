@@ -1,5 +1,5 @@
 import wilkesBarre from './travelClaim/wilkesBarre.json';
-import salem from './travelClaim/salem.json';
+// import salem from './travelClaim/salem.json';
 
 const devStations = (withDev = true, withStage = true, withLocal = true) => {
   const dev = {
@@ -21,13 +21,13 @@ const devStations = (withDev = true, withStage = true, withLocal = true) => {
   };
 };
 
-const pilotNames = {
+const pilotFeatures = {
   fileTravelClaim: {
     pilotStations: {
       ...devStations(),
       ...wilkesBarre,
       // Week 1 658
-      ...salem,
+      // ...salem,
       // Week 2 565
       // ...fayetteville,
       // Week 3 558
@@ -61,11 +61,10 @@ const isInPilot = ({ appointment, pilotFeature }) => {
   let { clinicIen, stationNo } = appointment;
   clinicIen = String(clinicIen);
   stationNo = String(stationNo);
-
-  if (pilotFeature in pilotNames === false) {
+  if (pilotFeature in pilotFeatures === false) {
     return false;
   }
-  const featureList = pilotNames[pilotFeature].pilotStations;
+  const featureList = pilotFeatures[pilotFeature].pilotStations;
   const passesClinic = () => {
     const hasClinic = 'clinics' in featureList[stationNo];
     if (!hasClinic) {

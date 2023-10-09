@@ -72,12 +72,11 @@ const updateFormPages = (
       stationNo in travelPaySent &&
       !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
   }
-
   if (
     !isTravelReimbursementEnabled ||
     skipLogic ||
     !isInPilot({
-      appointments: appointments[0],
+      appointment: appointments[0],
       pilotFeature: 'fileTravelClaim',
     })
   ) {
