@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import ViewDependentsListItem from '../ViewDependentsList/ViewDependentsListItem';
+import ViewDependentsListItem from './ViewDependentsListItem';
 
 const RemoveDependentSuccessMessage = () => (
   <p
