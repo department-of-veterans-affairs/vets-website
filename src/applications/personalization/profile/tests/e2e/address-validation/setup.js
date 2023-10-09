@@ -5,6 +5,7 @@ import receivedTransaction from '@@profile/tests/fixtures/transactions/received-
 import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
 import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 
+import set from 'lodash/set';
 import { createAddressValidationResponse } from './addressValidation';
 import { createUserResponse } from './user';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
@@ -21,14 +22,28 @@ export const setUp = type => {
     body: createAddressValidationResponse(type),
   });
 
-  cy.intercept('PUT', '/v0/profile/addresses', {
-    statusCode: 200,
-    body: type === 'no-change' ? noChangesTransaction : receivedTransaction,
+  cy.intercept('PUT', '/v0/profile/addresses', req => {
+    const response =
+      type === 'no-change'
+        ? noChangesTransaction
+        : set(
+            receivedTransaction,
+            'data.attributes.transactionId',
+            `${Date.now()}`,
+          );
+
+    req.reply({
+      statusCode: 200,
+      body: response,
+    });
   });
 
-  cy.intercept('GET', '/v0/profile/status/*', {
-    statusCode: 200,
-    body: finishedTransaction,
+  cy.intercept('GET', '/v0/profile/status/*', req => {
+    const id = req.url.split('/').pop();
+    req.reply({
+      statusCode: 200,
+      body: set(finishedTransaction, 'data.attributes.transactionId', `${id}`),
+    });
   }).as('saveAddressStatus');
 
   cy.intercept('GET', '/v0/user?*', {
