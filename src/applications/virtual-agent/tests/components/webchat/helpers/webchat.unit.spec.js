@@ -191,5 +191,53 @@ describe('Webchat.jsx Helpers', () => {
         expect(captureExceptionStub.calledOnce).to.be.true;
       });
     });
+    describe('call sentry when the apiSession is invalid', () => {
+      it('should call sentry when userFirstName is null', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = 'csrfToken';
+        const apiSession = 'apiSession';
+        const userFirstName = null;
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+      it('should call sentry when userFirstName is undefined', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = 'csrfToken';
+        const apiSession = 'apiSession';
+        const userFirstName = undefined;
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+    });
+    it('should call sentry when userUuid is undefined', () => {
+      const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+      const csrfToken = 'csrfToken';
+      const apiSession = 'apiSession';
+      const userFirstName = 'userFirstName';
+      const userUuid = undefined;
+      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+      expect(captureExceptionStub.calledOnce).to.be.true;
+    });
+    it('should not call sentry when parameters are valid', () => {
+      const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+      const csrfToken = 'csrfToken';
+      const apiSession = 'apiSession';
+      const userFirstName = 'userFirstName';
+      const userUuid = 'userUuid';
+      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+      expect(captureExceptionStub.notCalled).to.be.true;
+    });
   });
 });

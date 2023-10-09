@@ -23,13 +23,12 @@ export const ifMissingParamsCallSentry = (
   userFirstName,
   userUuid,
 ) => {
-  const missingParams = !(
+  const hasAllParams =
     csrfToken &&
     apiSession &&
     typeof userFirstName === 'string' &&
-    (userUuid === null || typeof userUuid === 'string')
-  );
-  if (missingParams) {
+    (userUuid === null || typeof userUuid === 'string');
+  if (!hasAllParams) {
     const params = {
       csrfToken,
       apiSession,
