@@ -14,7 +14,8 @@ describe('Personal and contact information', () => {
           profileDoNotRequireInternationalZipCode: true,
         }),
       );
-
+    });
+    it('should successfully update without zip', () => {
       cy.intercept('GET', '/v0/profile/status/*', req => {
         const id = req.url.split('/').pop();
         req.reply({
@@ -26,8 +27,7 @@ describe('Personal and contact information', () => {
           ),
         });
       }).as('saveAddressStatus');
-    });
-    it('should successfully update without zip', () => {
+
       const formFields = {
         country: 'NLD',
         address: 'Dam 1',
