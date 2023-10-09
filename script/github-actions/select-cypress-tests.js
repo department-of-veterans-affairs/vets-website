@@ -14,6 +14,12 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
+console.log(CHANGED_FILE_PATHS);
+
+const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
+const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
+const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
+const IS_STRESS_TEST = Boolean(process.env.IS_STRESS_TEST);
 
 const ALLOW_LIST =
   process.env.TEST_TYPE &&
@@ -24,10 +30,11 @@ const ALLOW_LIST =
         ),
       )
     : [];
-const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
-const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
-const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
-const IS_STRESS_TEST = Boolean(process.env.IS_STRESS_TEST);
+
+// const ALLOW_LIST = fs.readFileSync(
+//   path.resolve(`${process.env.TEST_TYPE}_allow_list.json`),
+// );
+// const IS_STRESS_TEST = true;
 
 function getImports(filePath) {
   return findImports(filePath, {
