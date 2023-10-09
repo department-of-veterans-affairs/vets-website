@@ -26,7 +26,7 @@ describe('Personal and contact information', () => {
             `${id}`,
           ),
         });
-      }).as('saveAddressStatus');
+      });
 
       const formFields = {
         country: 'NLD',
@@ -36,13 +36,13 @@ describe('Personal and contact information', () => {
 
       const addressPage = new AddressPage();
       addressPage.loadPage('international');
-      cy.injectAxeThenAxeCheck();
       addressPage.fillAddressForm(formFields);
       addressPage.saveForm();
       addressPage.validateSavedForm(formFields, true, null, [
         'Noord-Holland',
         'Netherlands',
       ]);
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
