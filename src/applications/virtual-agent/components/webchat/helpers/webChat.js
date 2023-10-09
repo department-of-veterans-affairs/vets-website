@@ -31,7 +31,7 @@ export const ifMissingParamsCallSentry = (
   );
   if (missingParams) {
     const params = {
-      csrfToken: undefined,
+      csrfToken,
       apiSession,
       userFirstName,
       userUuid,

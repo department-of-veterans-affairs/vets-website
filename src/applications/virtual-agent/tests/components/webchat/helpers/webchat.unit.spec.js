@@ -107,9 +107,81 @@ describe('Webchat.jsx Helpers', () => {
       it('should call sentry when csrfToken is null', () => {
         const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
         const csrfToken = null;
+        const apiSession = 'apiSession';
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+      it('should call sentry when csrfToken is undefined', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = undefined;
+        const apiSession = 'apiSession';
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+      it('should call sentry when csrfToken is an empty string', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = '';
+        const apiSession = 'apiSession';
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+    });
+    describe('call sentry when the apiSession is invalid', () => {
+      it('should call sentry when apiSession is null', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = 'csrfToken';
+        const apiSession = null;
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+      it('should call sentry when apiSession is undefined', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = 'csrfToken';
+        const apiSession = undefined;
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        expect(captureExceptionStub.calledOnce).to.be.true;
+      });
+      it('should call sentry when apiSession is an empty string', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = 'csrfToken';
         const apiSession = '';
-        const userFirstName = '';
-        const userUuid = '';
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
         ifMissingParamsCallSentry(
           csrfToken,
           apiSession,
