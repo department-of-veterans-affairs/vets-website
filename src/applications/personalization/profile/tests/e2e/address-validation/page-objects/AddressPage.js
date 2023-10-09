@@ -112,7 +112,9 @@ class AddressPage {
     if (saved) {
       cy.wait('@saveAddressStatus');
       cy.wait('@getUser');
-      cy.findByTestId('update-success-alert').should('exist');
+      cy.findByTestId('update-success-alert', { timeout: 10000 }).should(
+        'exist',
+      );
       cy.get('#edit-mailing-address').should('exist');
 
       // this linting warning is actually a bug in cypress
