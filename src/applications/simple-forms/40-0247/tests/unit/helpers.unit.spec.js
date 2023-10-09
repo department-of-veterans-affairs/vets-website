@@ -1,7 +1,12 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { getInitialData, textInputNumericRange } from '../../helpers';
+import {
+  getInitialData,
+  textInputNumericRange,
+  createPayload,
+  parseResponse,
+} from '../../helpers';
 
 describe('textInputNumericRange', () => {
   it('should add an error if the number of copies is less than the minimum range', () => {
@@ -78,5 +83,45 @@ describe('getInitialData', () => {
     const result = getInitialData({ mockData, environment });
     expect(result).to.be.undefined;
     window.Cypress = undefined;
+  });
+});
+
+describe('createPayload', () => {
+  it('should create a FormData object with the file and password (if provided)', () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const formId = 'test-form';
+    const password = 'test-password';
+    const payload = createPayload(file, formId, password);
+
+    expect(payload.get('files_attachment[file_data]')).to.equal(file);
+    expect(payload.get('files_attachment[password]')).to.equal(password);
+  });
+
+  it('should create a FormData object with only the file if no password is provided', () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const formId = 'test-form';
+    const payload = createPayload(file, formId);
+
+    expect(payload.get('files_attachment[file_data]')).to.equal(file);
+    expect(payload.get('files_attachment[password]')).to.be.null;
+  });
+});
+
+describe('parseResponse', () => {
+  it('should return an object with the name and confirmation code from the response', () => {
+    const response = {
+      data: {
+        attributes: {
+          guid: 'test-guid',
+        },
+      },
+    };
+    const name = 'test-file.txt';
+    const result = parseResponse(response, { name });
+
+    expect(result).to.deep.equal({
+      name,
+      confirmationCode: 'test-guid',
+    });
   });
 });
