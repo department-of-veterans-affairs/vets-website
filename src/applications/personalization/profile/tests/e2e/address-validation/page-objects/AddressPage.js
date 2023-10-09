@@ -107,7 +107,6 @@ class AddressPage {
     fields.military &&
       cy.findByTestId('mailingAddress').should('contain', 'FPO');
     if (saved) {
-      cy.wait('@saveAddressStatus');
       cy.findByTestId('update-success-alert').should('exist');
       cy.get('#edit-mailing-address').should('exist');
 

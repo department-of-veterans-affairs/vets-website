@@ -33,7 +33,7 @@ export const setUp = type => {
       statusCode: 200,
       body: finishedTransaction,
     },
-  ).as('saveAddressStatus');
+  );
 
   cy.intercept('GET', '/v0/user?*', {
     statusCode: 200,
