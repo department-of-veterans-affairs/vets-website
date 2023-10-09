@@ -65,6 +65,11 @@ If you need more of this prescription, request a renewal.`,
 export const pdfDefaultStatusDefinition = `There’s a problem with our system. You can’t manage this prescription online right now.
 If you need this prescription now, call your VA pharmacy.`;
 
+export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
+* Over-the-counter medications, supplements, and herbal remedies
+* Sample medications a provider gave you
+* Other drugs you’re taking that you don’t have a prescription for, including recreational drugs`;
+
 export const dispStatusObj = {
   unknown: 'Unknown',
   active: 'Active',

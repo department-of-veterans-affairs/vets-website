@@ -146,7 +146,7 @@ export function schema(
 /*
  * Create uiSchema for addresses
  *
- * @param {string} label - Block label for the address
+ * @param {string|function} label - Block label for the address
  * @param {boolean} useStreet3 - Show a third line in the address
  * @param {function} isRequired - A function for conditionally setting if an address is required.
  *   Receives formData and an index (if in an array item)
@@ -273,7 +273,9 @@ export function uiSchema(
   );
 
   return {
-    'ui:title': label,
+    // TODO: Consider providing formData to label function
+    'ui:title': typeof label === 'function' ? label() : label,
+
     'ui:validations': [
       requireStateWithCountry,
       requireStateWithData,

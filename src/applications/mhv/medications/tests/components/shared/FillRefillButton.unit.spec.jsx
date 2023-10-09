@@ -29,17 +29,41 @@ describe('Fill Refill Button component', () => {
 
   it('renders a success message', () => {
     const screen = setup();
-    const successMessage = screen.getByText(
-      'The fill request has been submitted successfully',
-    );
+    const successMessage = screen.getByText('We got your refill request.');
     expect(successMessage).to.exist;
   });
 
   it('renders an error message', () => {
     const screen = setup();
     const errorMessage = screen.getByText(
-      'We didn’t get your [fill/refill] request. Try again.',
+      'We didn’t get your refill request. Try again.',
     );
     expect(errorMessage).to.exist;
+  });
+
+  it('changes text if it is the first fill', () => {
+    const screen = renderWithStoreAndRouter(
+      <FillRefillButton
+        {...{
+          cmopDivisionPhone: '1234567890',
+          error: true,
+          prescriptionId: 1234567890,
+          refillRemaining: 1,
+          dispStatus: 'Active',
+          success: true,
+        }}
+      />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: '/1234567890',
+      },
+    );
+
+    const successMessage = screen.getByText('We got your fill request.');
+    const errorMessage = screen.getByText(
+      'We didn’t get your fill request. Try again.',
+    );
+    expect(successMessage && errorMessage).to.exist;
   });
 });
