@@ -1,90 +1,145 @@
 import React from 'react';
-
-import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+// eslint-disable-next-line import/no-cycle
+import formConfig from '../config/form';
+import RepCard from '../components/RepCard';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+const IntroductionPage = props => {
+  const selectedRepresentative = {
+    id: 12345,
+    name: 'Veterans of Foreign Wars (033)',
+    type: 'Veteran Service Organization (VSO)',
+    address: '123 Main Street',
+    city: 'Montgomery',
+    state: 'Alabama',
+    postalCode: '36102-1509',
+    phone: '205-932-6262',
+  };
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  return (
+    <>
+      <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
+        <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
+          <a href="/">Home</a>
+          <a href="/view-change-representative/search/introduction">
+            Find a Local Representative
+          </a>
+          <a href="/view-change-representative/search/introduction">
+            Representative Selected
+          </a>
+        </va-breadcrumbs>
+      </div>
+      <div className="schemaform-intro">
+        <FormTitle title="Representative Selected" />
+        <RepCard selectedRepresentative={selectedRepresentative} />
+        <va-alert status="warning" class="vads-u-margin-bottom--4">
+          <h3 slot="headline">Before you continue</h3>
+          <div>
+            <p>
+              Keep in mind, appointing this representative will replace your
+              current representative.
+            </p>
+          </div>
+        </va-alert>
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="Find a Local Representative"
-          subtitle="Equal to VA Form 21-22 (Find a Local Representative)"
-        />
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          class="vads-u-margin-bottom--4"
+          visible
         >
-          Please complete the 21-22 form to apply for benefits.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for benefits.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
-        </va-process-list>
+          <h2 id="track-your-status-on-mobile" slot="headline">
+            Sign in to see your current representative
+          </h2>
+          <div>
+            <SaveInProgressIntro
+              buttonOnly
+              unauthStartText="Sign in"
+              prefillEnabled={formConfig.prefillEnabled}
+              messages={formConfig.savedFormMessages}
+              formConfig={formConfig}
+              pageList={props.route.pageList}
+              downtime={formConfig.downtime}
+            />
+          </div>
+        </va-alert>
         <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
+          startText="Sign in to see your current representative."
+          unauthStartText="Sign in"
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
+          formConfig={formConfig}
+          pageList={props.route.pageList}
+          downtime={formConfig.downtime}
         />
-        <p />
-        <OMBInfo resBurden={30} ombNumber="" expDate="12/31/2024" />
-      </article>
-    );
-  }
-}
+        <h2>What can I expect next?</h2>
+        <ol>
+          <li>
+            Pre-fill the Appointment of Representative VA Form 21-22 online
+            using the following steps, or download and fill out the form.
+          </li>
+          <li>Print and sign your completed form.</li>
+          <li>
+            Have your representative sign the form either through mail using the
+            address above or in person.
+          </li>
+          <li>
+            You or your representative can submit the form online, by mail, or
+            in person at a VA regional office.
+          </li>
+        </ol>
+        <p>
+          Where can I submit my completed Appointment of Representative VA Form
+          21-22?
+        </p>
+        <ul>
+          <li>Online</li>
+          <li>Upload to VA.gov Claim Status Tool</li>
+          <li>Or upload to Access VA Quick Submit Tool</li>
+        </ul>
+        <p>
+          <strong>By Mail</strong>
+          <br />
+          Compensation Claims Department of Veterans Affairs Evidence Intake
+          <br />
+          Center PO Box 4444 Janesville, WI 53547-4444
+        </p>
+        <p>
+          <strong>Board of Veterans' Appeals</strong>
+          <br />
+          Department of Veterans Affairs Board of Veterans' Appeals PO Box 27063
+          <br />
+          Washington, DC 20038
+        </p>
+        <p>
+          <strong>Fiduciary</strong>
+          <br />
+          Department of Veterans Affairs Fiduciary Intake PO Box 95211 Lakeland,
+          <br />
+          FL 33804-5211
+        </p>
+        <p>
+          <strong>Pension & Survivors Benefit Claims</strong>
+          <br />
+          Department of Veterans Affairs Pension Intake Center PO Box 5365
+          <br />
+          Janesville, WI 53547-5365
+        </p>
+        <p>
+          <strong>In Person</strong>
+        </p>
+        <ul>
+          <li>Find a VA regional office near you</li>
+        </ul>
+      </div>
+    </>
+  );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.object,
+};
 
 export default IntroductionPage;

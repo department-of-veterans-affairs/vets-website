@@ -1,93 +1,53 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-// import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('h2');
+    focusElement('.schemaform-title > h1');
     scrollToTop('topScrollElement');
   }
 
   render() {
-    const { form } = this.props;
-    // const { submission, formId, data } = form;
-    const { formId, data } = form;
-
-    const { fullName } = data;
-
     return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Find a Local Representative Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
+      <>
+        <p>
+          Appointment of Veterans Service Organization as Claimant's
+          Representative (VA Form 21-22)
+        </p>
 
-          {/* {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null} */}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            Your partially completed form is ready
+          </h2>
+          <p>
+            We have filled out VA Form 21-22 with the information you provided.
+            Download then print your form so that both you and your
+            representative can sign it.
+          </p>
+          {/* <a
+            className="vads-u-font-size--base vads-u-display--block vads-u-margin-top--2"
+            href="#"
           >
-            Print this for your records
-          </button>
-        </div>
-      </div>
+            <i
+              aria-hidden="true"
+              className="fas fa-download vads-u-padding-right--1"
+            />
+            Download your VA Form 21-22
+          </a> */}
+        </va-alert>
+
+        <h2>When can my representative begin helping me?</h2>
+
+        <p className="vads-u-margin-bottom--3">
+          Your representative can begin helping you only after we've received
+          and processed your signed form. At that point, we've officially
+          appointed your representative.
+        </p>
+      </>
     );
   }
 }
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
-};
-
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

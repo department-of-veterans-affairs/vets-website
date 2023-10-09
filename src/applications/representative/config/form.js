@@ -1,135 +1,99 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// Example of an imported schema:
-// import fullSchema from '../21-22-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/21-22-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-
-import fullSchema from '../21-22-schema.json';
-
 import manifest from '../manifest.json';
-
+import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// pages
-import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+import {
+  addressChangeAuthorization,
+  contactInformation,
+  serviceFileInformation,
+  treatmentDisclosureAuthorization,
+  personalInformation,
+} from './chapters';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'representative-app-',
+  customText: {
+    appType: 'Form 21-21 or Form 21-22a',
+  },
+  urlPrefix: '/form/',
+  submitUrl: '/v0/api',
+  trackingPrefix: 'search-representative-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-22',
+  getHelp: GetFormHelp,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21-22) is in progress.',
-    //   expired: 'Your saved benefits application (21-22) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your Form 21-21 or Form 21-22a is in progress.',
+      expired:
+        'Your saved Form 21-21 or Form 21-22a has expired. Please start over to continue.',
+      saved: 'Your Form 21-21 or Form 21-22a has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over by searching for a representative.',
+    noAuth:
+      'Please sign in again to continue filling out Form 21-21 or Form 21-22a.',
   },
-  title: 'Complex Form',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-  },
+  title: 'Find a Local Representative',
+  defaultDefinitions: {},
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    personalInformation: {
+      title: 'Your personal information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
-          },
+        // personalInformationAuth: {
+        //   path: 'personal-information-auth',
+        //   title: personalInformation.title,
+        //   ...personalInformation.authenticated,
+        //   depends: () => false,
+        // },
+        personalInformationNoAuth: {
+          path: 'personal-information',
+          title: personalInformation.title,
+          ...personalInformation.unauthenticated,
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    serviceFileInformation: {
+      title: 'Your service file information',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        serviceFileInformation: {
+          path: 'service-file-information',
+          ...serviceFileInformation,
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    contactInformation: {
+      title: 'Your contact information',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
+        mailingAddress: {
+          path: 'mailing-address',
+          ...contactInformation.mailingAddress,
         },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
+        additionalInformation: {
+          path: 'additional-contact-information',
+          ...contactInformation.additionalInformation,
+        },
+      },
+    },
+    treatmentDisclosureAuthorization: {
+      title: 'Authorization to disclose protected treatment records',
+      pages: {
+        treatmentDisclosureAuthorization: {
+          path: 'treatment-disclosure-authorization',
+          ...treatmentDisclosureAuthorization,
+        },
+      },
+    },
+    addressChangeAuthorization: {
+      title: 'Authorization to change your address',
+      pages: {
+        addressChangeAuthorization: {
+          path: 'address-change-authorization',
+          ...addressChangeAuthorization,
         },
       },
     },
