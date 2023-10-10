@@ -286,47 +286,22 @@ function exportVariables(tests) {
 
 function main() {
   const graph = dedupeGraph(buildGraph());
-
-  // groups of tests from the allow list
-  const allAllowListTestPaths = ALLOW_LIST.map(spec => spec.spec_path);
-  const allAllowedTestPaths = ALLOW_LIST.filter(
-    spec => spec.allowed === true,
-  ).map(spec => spec.spec_path);
+  const allAllowListSpecs = ALLOW_LIST.map(spec => spec.spec_path);
   const allDisallowedTestPaths = ALLOW_LIST.filter(
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
-  // groups of tests based on test selection and filtering the groups from the allow list
+
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
-  const newTests = testsSelectedByTestSelection.filter(
-    test =>
-      !allAllowListTestPaths.includes(test.substring(test.indexOf('src/'))),
-  );
+
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
-  const changedTests = testsSelectedByTestSelection.filter(
-    test =>
-      CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
-      !newTests.includes(test),
-  );
 
   const testsToRunNormally = testsSelectedByTestSelection.filter(
-    test =>
-      !disallowedTests.includes(test) &&
-      !newTests.includes(test) &&
-      !changedTests.includes(test),
+    test => !disallowedTests.includes(test),
   );
-  // const testsToStressTest = [...newTests, ...changedTests];
-  const testSelectionDisallowedTests = testsSelectedByTestSelection.filter(
-    test => {
-      return allDisallowedTestPaths.includes(
-        test.substring(test.indexOf('src/')),
-      );
-    },
-  );
-  // Reformat Stress Test
-  const ALLOW_LIST_SPECS = ALLOW_LIST.map(spec => spec.spec_path);
-  const CHANGED_APPS_FOR_STRESS_TEST = CHANGED_FILE_PATHS
+
+  const changedAppsForStressTest = CHANGED_FILE_PATHS
     ? CHANGED_FILE_PATHS.map(filePath =>
         filePath
           .split('/')
@@ -335,32 +310,26 @@ function main() {
       )
     : [];
 
-  const EXISTING_TESTS_TO_STRESS_TEST = ALLOW_LIST_SPECS.filter(specPath =>
-    CHANGED_APPS_FOR_STRESS_TEST.some(filePath => specPath.includes(filePath)),
+  const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
+    changedAppsForStressTest.some(filePath => specPath.includes(filePath)),
   );
 
-  const NEW_TESTS_TO_STRESS_TEST = CHANGED_FILE_PATHS.filter(
+  const newTestsToStressTest = CHANGED_FILE_PATHS.filter(
     filePath =>
       filePath.includes('.cypress.spec.js') &&
-      ALLOW_LIST_SPECS.indexOf(path) === -1,
+      allAllowListSpecs.indexOf(path) === -1,
   );
 
-  const TESTS_TO_STRESS_TEST = EXISTING_TESTS_TO_STRESS_TEST.concat(
-    NEW_TESTS_TO_STRESS_TEST,
+  const testsToStressTest = existingTestsToStressTest.concat(
+    newTestsToStressTest,
   );
-  console.log(TESTS_TO_STRESS_TEST);
   exportVariables(testsToRunNormally);
 
   if (RUN_FULL_SUITE) {
-    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowedTestPaths);
+    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowListSpecs);
   } else {
-    core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
+    core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
   }
-
-  core.exportVariable(
-    'TEST_SELECTION_DISALLOWED_TESTS',
-    testSelectionDisallowedTests,
-  );
 }
 if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
   main();

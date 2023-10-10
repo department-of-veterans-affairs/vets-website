@@ -792,7 +792,8 @@ jobs:
       fail-fast: false
       max-parallel: 20
       matrix:
-        ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
+        ci_node_index:
+          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
@@ -850,7 +851,7 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 90
         env:
           CYPRESS_CI: true
