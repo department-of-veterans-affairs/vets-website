@@ -12,7 +12,7 @@ const App = props => {
   const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
   const { loading, isSigiEnabled } = features;
-  const { dob: veteranDateOfBirth } = user;
+  const { dob: veteranDateOfBirth, gender: veteranGender } = user;
 
   /**
    * Set default view fields in the form data
@@ -20,14 +20,15 @@ const App = props => {
    * NOTE: veteranFullName is included in the dependency list to reset view fields when
    * starting a new application from save-in-progress.
    *
-   * NOTE (2): the Date of Birth value from the user's profile is included to fix a bug
-   * where some profiles do not contain a DOB value. In this case, we need to ask the
-   * user for that data for proper submission.
+   * NOTE (2): the Date of Birth & Gender values from the user's profile are included to
+   * fix a bug where some profiles do not contain a DOB value. In this case, we need to
+   * ask the user for that data for proper submission.
    */
   useEffect(
     () => {
       if (!loading) {
         const defaultViewFields = {
+          'view:userGender': veteranGender,
           'view:userDob': veteranDateOfBirth,
           'view:isSigiEnabled': isSigiEnabled,
         };
