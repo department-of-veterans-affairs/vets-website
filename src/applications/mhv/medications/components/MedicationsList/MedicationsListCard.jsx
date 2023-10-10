@@ -37,6 +37,11 @@ const MedicationsListCard = props => {
         </h3>
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
+        {rx.dispStatus !== 'Unknown' && (
+          <div className="vads-u-margin-top--1p5 vads-u-font-weight--bold">
+            {rx.dispStatus}
+          </div>
+        )}
         {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
       </div>
