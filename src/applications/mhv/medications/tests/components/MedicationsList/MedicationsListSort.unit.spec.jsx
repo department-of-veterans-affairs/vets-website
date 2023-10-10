@@ -9,7 +9,7 @@ describe('Medicaitons List Sort component', () => {
   const setup = () => {
     return renderWithStoreAndRouter(
       <MedicationsListSort
-        value={rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT}
+        value={rxListSortingOptions.lastFilledFirst.API_ENDPOINT}
         sortRxList={sortRxList}
       />,
       {
