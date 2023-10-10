@@ -19,4 +19,9 @@ describe('Medication card component', () => {
     const screen = setup();
     expect(screen);
   });
+
+  it('shows status', () => {
+    const screen = setup();
+    expect(screen.getByText(prescriptionsListItem.dispStatus)).to.exist;
+  });
 });
