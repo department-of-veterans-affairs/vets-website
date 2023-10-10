@@ -1,4 +1,4 @@
-import wilkesBarre from './travelClaim/wilkesBarre.json';
+import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
 // import salem from './travelClaim/salem.json';
 
 const devStations = (withDev = true, withStage = true, withLocal = true) => {
@@ -25,21 +25,21 @@ const pilotFeatures = {
   fileTravelClaim: {
     pilotStations: {
       ...devStations(),
-      ...wilkesBarre,
+      ...fileTravelClaimWilkesBarre,
       // Week 1 658
-      // ...salem,
+      // ...fileTravelClaimSalem,
       // Week 2 565
-      // ...fayetteville,
+      // ...fileTravelClaimFayetteville,
       // Week 3 558
-      // ...durham,
+      // ...fileTravelClaimDurham,
       // Week 4 652
-      // ...hunterHolmes,
+      // ...fileTravelClaimHunterHolmes,
       // Week 5 590
-      // ...hampton,
+      // ...fileTravelClaimHampton,
       // Week 6 659
-      // ...salisbury,
+      // ...fileTravelClaimSalisbury,
       // Week 7 637
-      // ...asheville,
+      // ...fileTravelClaimAsheville,
       // Week 8
       // VISN 15
     },
@@ -66,8 +66,8 @@ const isInPilot = ({ appointment, pilotFeature }) => {
   }
   const featureList = pilotFeatures[pilotFeature].pilotStations;
   const passesClinic = () => {
-    const hasClinic = 'clinics' in featureList[stationNo];
-    if (!hasClinic) {
+    const hasClinicKey = 'clinics' in featureList[stationNo];
+    if (!hasClinicKey) {
       return true;
     }
     const clinicsList = featureList[stationNo].clinics;
