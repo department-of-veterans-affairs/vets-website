@@ -37,8 +37,7 @@ const Prescriptions = () => {
   const sortEndpoint = useSelector(
     state => state.rx.prescriptions?.sortEndpoint,
   );
-  const defaultSortEndpoint =
-    rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT;
+  const defaultSortEndpoint = rxListSortingOptions.lastFilledFirst.API_ENDPOINT;
   const [prescriptionsPdfList, setPrescriptionsPdfList] = useState([]);
   const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
