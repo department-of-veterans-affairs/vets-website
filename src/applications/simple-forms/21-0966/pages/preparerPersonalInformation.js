@@ -21,6 +21,6 @@ export default {
       preparerFullName: fullNameNoSuffixSchema,
       preparerDateOfBirth: dateOfBirthSchema,
     },
-    required: ['preparerFullName'],
+    required: ['preparerFullName', 'preparerDateOfBirth'],
   },
 };

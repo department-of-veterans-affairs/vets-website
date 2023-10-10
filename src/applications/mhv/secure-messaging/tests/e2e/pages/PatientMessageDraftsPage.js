@@ -316,7 +316,7 @@ class PatientMessageDraftsPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-1/search',
+      '/my_health/v1/messaging/folders/-2/search',
       sentSearchResponse,
     );
     cy.get('[data-testid="filter-messages-button"]').click({ force: true });
