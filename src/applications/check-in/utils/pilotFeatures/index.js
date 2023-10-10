@@ -73,6 +73,10 @@ const isInPilot = ({ appointment, pilotFeature }) => {
   }
   const featureList = pilotFeatures[pilotFeature].pilotStations;
 
+  if (stationNo in featureList === false) {
+    return false;
+  }
+
   const passesClinic = clinicCheck(featureList[stationNo], clinicIen);
 
   const stations = Object.keys(featureList);
