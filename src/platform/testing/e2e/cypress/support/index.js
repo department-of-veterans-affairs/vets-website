@@ -56,6 +56,19 @@ beforeEach(() => {
   });
 });
 
+// fix for invalid string length error in cypress not being displayed correctly
+before(() => {
+  cy.configureCypressTestingLibrary({
+    getElementError(message, container) {
+      const error = new Error(
+        [message, container.tagName].filter(Boolean).join('\n\n'),
+      );
+      error.name = 'TestingLibraryElementError';
+      return error;
+    },
+  });
+});
+
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
