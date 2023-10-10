@@ -15,7 +15,10 @@ import {
   clearBotSessionStorage,
   IS_RX_SKILL,
 } from '../chatbox/utils';
-import { cardActionMiddleware } from './helpers/webChat';
+import {
+  cardActionMiddleware,
+  ifMissingParamsCallSentry,
+} from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -40,8 +43,9 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
 
   const store = useMemo(
-    () =>
-      createStore(
+    () => {
+      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+      return createStore(
         {},
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
@@ -51,7 +55,8 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
         ),
-      ),
+      );
+    },
     [createStore],
   );
   let directLineToken = token;
