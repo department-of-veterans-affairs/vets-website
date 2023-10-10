@@ -1,11 +1,26 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
+
+const mockStore = configureMockStore();
+
+const payload = {
+  claimant: {
+    hasCurrentlyBuried: '1',
+  },
+};
+
+const store = mockStore({
+  form: {
+    data: payload,
+  },
+});
 
 const response = {
   data: [
@@ -33,11 +48,13 @@ describe('Pre-need burial benefits', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(4);
@@ -47,12 +64,14 @@ describe('Pre-need burial benefits', () => {
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -65,12 +84,14 @@ describe('Pre-need burial benefits', () => {
   it('should fill in desired cemetery', done => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />{' '}
+      </Provider>,
     );
 
     const cemeteryField = form.find(

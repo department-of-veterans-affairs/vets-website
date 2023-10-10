@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   VaButtonPair,
@@ -9,6 +10,8 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../utilities/display-logic';
+import { updateFormStore } from '../../actions';
+import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 
 /**
  * Produces a set of 3 radio options
@@ -27,12 +30,20 @@ const TernaryRadios = ({
   setFormError,
   shortName,
   testId,
+  updateCleanedFormStore,
   valueSetter,
 }) => {
+  const [valueHasChanged, setValueHasChanged] = useState(false);
+
   const onContinueClick = () => {
     if (!formValue) {
       setFormError(true);
     } else {
+      if (valueHasChanged) {
+        // Remove answers from the Redux store if the display path ahead has changed
+        cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+      }
+
       setFormError(false);
       navigateForward(shortName, formResponses, router);
     }
@@ -52,6 +63,10 @@ const TernaryRadios = ({
     const { value } = event?.detail;
     valueSetter(value);
 
+    if (formValue) {
+      setValueHasChanged(true);
+    }
+
     if (value) {
       setFormError(false);
     }
@@ -63,7 +78,7 @@ const TernaryRadios = ({
         data-testid={testId}
         onBlur={onBlurInput}
         className="vads-u-margin-bottom--3"
-        error={(formError && 'Please select a response.') || null}
+        error={(formError && 'Select a response.') || null}
         hint=""
         label={h1}
         label-header-level="1"
@@ -99,6 +114,10 @@ const TernaryRadios = ({
   );
 };
 
+const mapDispatchToProps = {
+  updateCleanedFormStore: updateFormStore,
+};
+
 TernaryRadios.propTypes = {
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
@@ -108,9 +127,13 @@ TernaryRadios.propTypes = {
   setFormError: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.string,
   locationList: PropTypes.node,
 };
 
-export default TernaryRadios;
+export default connect(
+  null,
+  mapDispatchToProps,
+)(TernaryRadios);

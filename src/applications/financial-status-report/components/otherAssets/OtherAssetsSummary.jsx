@@ -1,18 +1,25 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
+
+export const keyFieldsForOtherAssets = ['name', 'amount'];
 
 const OtherAssetsSummary = ({
   data,
   goToPath,
-  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -23,8 +30,10 @@ const OtherAssetsSummary = ({
   useEffect(
     () => {
       if (!gmtData?.isEligibleForStreamlined) return;
+      // liquid assets are caluclated in cash in bank with this ff
+      if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-      const calculatedAssets = calculateTotalAssets(data);
+      const calculatedAssets = calculateLiquidAssets(data);
       setFormData({
         ...data,
         gmtData: {
@@ -43,12 +52,18 @@ const OtherAssetsSummary = ({
       ...data,
       assets: {
         ...assets,
-        otherAssets: otherAssets.filter(
-          (source, index) => index !== deleteIndex,
-        ),
+        otherAssets: otherAssets.filter((_, index) => index !== deleteIndex),
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (otherAssets.length === 0) {
@@ -86,8 +101,8 @@ const OtherAssetsSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(asset, keyFieldsForOtherAssets, index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -125,9 +140,20 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <FormNavButtons
+            goBack={goBack}
+            goForward={() => goToPath('/expenses-explainer')}
+          />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(otherAssets[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );
@@ -145,8 +171,8 @@ OtherAssetsSummary.propTypes = {
       assetsBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
-  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };

@@ -1,6 +1,7 @@
 import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
+import mockFolders from '../fixtures/generalResponses/folders.json';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -230,7 +231,16 @@ class FolderManagementPage {
       .and('have.text', 'Message conversation was successfully moved.');
   };
 
-  deleteFolder = () => {
+  deleteFolder = folderId => {
+    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
+      statusCode: 204,
+    }).as('deleteFolder');
+
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page=1&per_page=999&useCache=false',
+      mockFolders,
+    ).as('updatedFoldersList');
     cy.get('[data-testid="remove-folder-button"]').click();
     cy.get('[text="Yes, remove this folder"]')
       .shadow()

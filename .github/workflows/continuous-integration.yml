@@ -270,7 +270,7 @@ jobs:
     name: Unit Tests Stress Test
     runs-on: self-hosted
     needs: [unit-tests]
-    if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' }}
+    if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' &&  (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -990,53 +990,6 @@ jobs:
       #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
       #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
-  allow-list-merge-status:
-    name: E2E Allow List Merge Status Check
-    runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, update-e2e-allow-list]
-    if: ${{ always() }}
-    continue-on-error: true
-    env:
-      CHANGED_FILE_PATHS: ${{ needs.cypress-tests-prep.outputs.changed_file_paths }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 20
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
-
-      - name: Download Allow List
-        uses: actions/download-artifact@v3
-        with:
-          name: e2e-allow-list
-          path: .
-
-      - name: Check if code can be merged
-        run: node script/github-actions/check-e2e-status.js
-        env:
-          TEST_TYPE: e2e
-
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-latest
@@ -1350,6 +1303,121 @@ jobs:
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  test-stability-review-merge-status:
+    name: Test Stability Review Merge Status
+    runs-on: ubuntu-latest
+    needs:
+      [
+        cypress-tests,
+        cypress-tests-prep,
+        unit-tests,
+        update-e2e-allow-list,
+        update-unit-test-allow-list,
+      ]
+    if: ${{ always() && github.ref != 'refs/heads/main' }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'folder'
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch e2e allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+
+      - name: Fetch unit test allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Copy allow list files to vets-website
+        run: |
+          cp ./qa-standards-dashboard-data/unit_test_allow_list.json ./
+          cp ./qa-standards-dashboard-data/e2e_allow_list.json ./
+
+      - name: Check if code can be merged (E2E Test Verification)
+        run: node script/github-actions/annotate-disallowed-tests.js
+        env:
+          TEST_TYPE: e2e
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Check if code can be merged (Unit Test Verification)
+        run: node script/github-actions/annotate-disallowed-tests.js
+        env:
+          TEST_TYPE: unit_test
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create E2E annotations file
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        run: |
+          echo "$E2E_ANNOTATIONS_JSON" > e2e-annotations.json
+          cat e2e-annotations.json
+
+      - name: Create Unit Test annotations file
+        if: ${{ env.unit-test-annotations-json != '[]' }}
+        run: |
+          echo "$UNIT_TEST_ANNOTATIONS_JSON" > unit-test-annotations.json
+          cat unit-test-annotations.json
+
+      - name: Annotate E2E Files accordingly
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'E2E Allow List Annotations'
+          input: './e2e-annotations.json'
+
+      - name: Annotate Unit Test Files accordingly
+        if: ${{ env.unit-test-annotations-json != '[]' }}
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'Unit Test Allow List Annotations'
+          input: './unit-test-annotations.json'
+
+      - name: Verify Merge Eligibility
+        run: node script/github-actions/verify-merge-eligibility.js
 
   archive:
     name: Archive

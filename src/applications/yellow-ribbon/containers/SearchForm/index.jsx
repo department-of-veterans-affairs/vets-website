@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import URLSearchParams from 'url-search-params';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
@@ -201,20 +201,20 @@ export class SearchForm extends Component {
 
           <div>
             {/* Unlimited Contribution Amount */}
-            <Checkbox
+            <VaCheckbox
               checked={contributionAmount === 'unlimited'}
               name="contributionAmount"
               label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
-              onValueChange={onCheckboxChange('contributionAmount')}
+              onVaChange={onCheckboxChange('contributionAmount')}
               required={false}
             />
 
             {/* Unlimited Number of Students */}
-            <Checkbox
+            <VaCheckbox
               name="numberOfStudents"
               checked={numberOfStudents === 'unlimited'}
               label="Only show schools that provide funding to all eligible students"
-              onValueChange={onCheckboxChange('numberOfStudents')}
+              onVaChange={onCheckboxChange('numberOfStudents')}
               required={false}
             />
           </div>

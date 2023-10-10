@@ -15,7 +15,7 @@ import {
 import touData from '../touData';
 
 const touUpdatedDate = `September 2023`;
-const errorMessages = {
+export const errorMessages = {
   network: `We had a connection issue on our end. Please try again in a few minutes.`,
 };
 
@@ -48,25 +48,38 @@ export default function TermsOfUse() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const termsCodeExists =
+    new URL(window.location).searchParams.get('terms_code')?.length > 1;
 
-  useEffect(() => {
-    apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
-      const [{ code, title }] = response.errors;
-      if (code === '401' || title?.includes('Not authorized')) {
-        setIsAuthenticated(false);
+  useEffect(
+    () => {
+      if (!termsCodeExists) {
+        apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
+          const [{ code, title }] = response.errors;
+          if (code === '401' || title?.includes('Not authorized')) {
+            setIsAuthenticated(false);
+          }
+        });
       }
-    });
-  }, []);
+    },
+    [termsCodeExists],
+  );
 
   const handleTouClick = async type => {
     const url = new URL(window.location);
     const redirectUrl = parseRedirectUrl(url.searchParams.get('redirect_url'));
+    const termsCode = termsCodeExists
+      ? `?terms_code=${url.searchParams.get('terms_code')}`
+      : '';
     try {
-      const response = await apiRequest(`/terms_of_use_agreements/v1/${type}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await apiRequest(
+        `/terms_of_use_agreements/v1/${type}${termsCode}`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
 
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
@@ -84,6 +97,7 @@ export default function TermsOfUse() {
         }
       }
     } catch (err) {
+      if (type === 'decline') setShowDeclineModal(true);
       setError({
         isError: true,
         message: errorMessages.network,
@@ -134,23 +148,23 @@ export default function TermsOfUse() {
           <p>
             Your decision to decline these terms won’t affect your eligibility
             for VA health care and benefits in any way. You can still get VA
-            health care and benefits in-person without using online services. If
-            you need help or have questions, <SubmitSignInForm /> We’re here
-            24/7.
+            health care and benefits without using online services. If you need
+            help or have questions, <SubmitSignInForm /> We’re here 24/7.
           </p>
           <va-alert status="warning" visible>
             <h3 slot="headline" id="what-happens-if-you-decline">
               What will happen if you decline
             </h3>
             <p>
-              If you decline these terms, we’ll sign you out and take you back
-              to the VA.gov homepage. And you won’t be able to sign in to use
-              some VA online services, like:
+              If you decline these terms, we’ll sign you out. You can still get
+              VA health care and benefits by phone, by mail, or in person. But
+              you won't be able to use some online services, like:
             </p>
             <ul>
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
+              <li>VA Health and Benefits Mobile App</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA
@@ -167,6 +181,18 @@ export default function TermsOfUse() {
           <h2 id="do-you-accept-of-terms-of-use" className={className}>
             Do you accept these terms of use?
           </h2>
+          {error.isError && (
+            <va-alert
+              status="error"
+              slim
+              visible
+              uswds
+              data-testid="error-non-modal"
+              class="vads-u-margin-y--1p5"
+            >
+              {error.message}
+            </va-alert>
+          )}
           {isAuthenticated &&
             termsOfUseAuthorized && (
               <>
@@ -185,12 +211,10 @@ export default function TermsOfUse() {
                 />
               </>
             )}
-          {error.isError && <p>{error.message}</p>}
         </article>
       </div>
       <VaModal
         visible={showDeclineModal}
-        status="warning"
         clickToClose
         onCloseEvent={() => setShowDeclineModal(false)}
         modalTitle="Decline the terms of use and sign out?"
@@ -199,7 +223,19 @@ export default function TermsOfUse() {
         primaryButtonText="Decline and sign out"
         secondaryButtonText="Go back"
         data-testid="modal-show"
-      />
+      >
+        {error.isError && (
+          <va-alert
+            status="error"
+            slim
+            visible
+            uswds
+            class="vads-u-margin-y--1p5"
+          >
+            {error.message}
+          </va-alert>
+        )}
+      </VaModal>
     </section>
   );
 }

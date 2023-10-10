@@ -60,10 +60,7 @@ const CareSummariesAndNotes = () => {
   };
 
   return (
-    <div
-      id="care-summaries-and-notes"
-      className="vads-l-col--12 medium-screen:vads-l-col--8"
-    >
+    <div id="care-summaries-and-notes">
       <h1 className="page-title">Care summaries and notes</h1>
       <p>
         Most care summaries and notes are available{' '}

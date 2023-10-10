@@ -16,7 +16,9 @@ export default {
       </h3>
     ),
     applicantAddress: addressNoMilitaryUI({
-      // TODO: Customize street2 label if Designer confirms we should
+      labels: {
+        street2: 'Apartment or unit number',
+      },
       omit: ['isMilitary', 'street3'],
       required: true,
     }),

@@ -3,10 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import { errorMessages, EVIDENCE_PRIVATE_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 import { SELECTED } from '../../../shared/constants';
 /*
@@ -96,6 +100,11 @@ describe('<EvidencePrivateRecords>', () => {
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
+    // check Datadog classes
+    expect(
+      $$('va-checkbox.dd-privacy-hidden[data-dd-action-name]', container)
+        .length,
+    ).to.eq(2);
   });
 
   // *** VALID DATA ***
