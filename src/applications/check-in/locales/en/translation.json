@@ -264,5 +264,9 @@
   "upcoming-appointments": "Upcoming Appointments",
   "loading-your-appointment-information": "Loading your appointment information…",
   "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
-  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments"
+  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments",
+  "what-to-do-next": "What to do next",
+  "its-time-to-check-in-for-your-time-appointment": "It's time to check in for your {{time, time}} appointment",
+  "review-your-contact-information-for-your-appointment": "Review your contact information for your {{ date, day }}, {{ date, monthDay }} {{ date, time }} appointment.",
+  "review-your-information-now": "Review your information now"
 }
