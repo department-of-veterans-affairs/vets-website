@@ -1,7 +1,8 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/verify-your-enrollment.scss';
+import PropTypes from 'prop-types';
 
-import startApp from 'platform/startup';
+import startApp from '@department-of-veterans-affairs/platform-startup';
 
 import routes from './routes';
 import reducer from './reducers';
@@ -12,3 +13,7 @@ startApp({
   reducer,
   routes,
 });
+
+startApp.propTypes = {
+  children: PropTypes.any,
+};
