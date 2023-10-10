@@ -38,7 +38,7 @@ import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
 
-import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+import { mayHaveLegacyAppeals } from '../utils/helpers';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
@@ -70,6 +70,7 @@ import { focusEvidence, focusUploads } from '../utils/focus';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
+import { appStateSelector } from '../../shared/utils/issues';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };

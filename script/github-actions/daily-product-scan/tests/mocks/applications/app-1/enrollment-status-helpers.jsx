@@ -76,7 +76,7 @@ export function getWarningHeadline(enrollmentStatus) {
     default:
       break;
   }
-  return <h2 className="usa-alert-heading">{content}</h2>;
+  return content;
 }
 
 export function getEnrollmentDetails(
@@ -266,9 +266,10 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>
             If this information is incorrect, please call our enrollment case
             management team at{' '}
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
+            <va-telephone
+              className="help-phone-number-link"
+              contact="8772228387"
+            />
             .
           </p>
         </>
@@ -347,9 +348,7 @@ export function getFAQContent(enrollmentStatus) {
   const callOurTeam = (
     <>
       call our enrollment case management team at{' '}
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-8387
-      </a>
+      <va-telephone className="help-phone-number-link" contact="8772228387" />
     </>
   );
 
@@ -926,10 +925,8 @@ export function getAlertContent(
   const whatShouldIDo1 = (
     <p key="what-should-i-do-1">
       If you have questions, please call our enrollment case management team at
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-8387
-      </a>
-      . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      <va-telephone className="help-phone-number-link" contact="8772228387" />.
+      We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   );
   // this block will also be used for character of discharge status

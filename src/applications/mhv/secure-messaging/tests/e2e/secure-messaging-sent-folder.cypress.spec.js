@@ -11,16 +11,6 @@ describe('Secure Messaging Sent Folder checks', () => {
     landingPage.loadInboxMessages();
     PatientMessagesSentPage.loadMessages();
   });
-  it('Axe Check Sent Folder', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
 
   it('Verify folder header', () => {
     cy.injectAxe();
