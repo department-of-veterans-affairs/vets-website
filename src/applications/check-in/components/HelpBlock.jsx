@@ -8,7 +8,7 @@ const HelpBlock = ({ travel }) => {
   const { t } = useTranslation();
 
   return (
-    <div data-testid="travel-help-block">
+    <div data-testid="help-block">
       <p data-testid="for-help-using-this-tool">
         <Trans
           i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
