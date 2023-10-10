@@ -4,7 +4,10 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherLivingExpensesOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
+import {
+  calculateDiscretionaryIncome,
+  isStreamlinedLongForm,
+} from '../../utils/streamlinedDepends';
 
 const OtherExpensesChecklist = ({
   data,
@@ -48,7 +51,12 @@ const OtherExpensesChecklist = ({
 
   const onSubmit = event => {
     event.preventDefault();
-    if (!otherExpenses?.length && reviewNavigation) {
+    // heading back to review if nav is true and no other expenses and not streamlined
+    if (
+      !otherExpenses?.length &&
+      !isStreamlinedLongForm(data) &&
+      reviewNavigation
+    ) {
       setFormData({
         ...data,
         reviewNavigation: false,

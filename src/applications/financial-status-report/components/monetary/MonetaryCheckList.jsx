@@ -71,14 +71,14 @@ const MonetaryCheckList = ({
       asset.toLowerCase() !== 'savings accounts',
   );
 
-  const streamlinedList = formData['view:streamlinedWaiverAssetUpdate']
+  const streamlinedList = data['view:streamlinedWaiverAssetUpdate']
     ? noLiquidAssetsList
     : noCashList;
 
   // only filtering out these options for streamlined candidiates
   const adjustForStreamlined =
     (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-    (formData['view:streamlinedWaiverAssetUpdate'] &&
+    (data['view:streamlinedWaiverAssetUpdate'] &&
       gmtData?.isEligibleForStreamlined &&
       gmtData?.incomeBelowOneFiftyGmt);
 
@@ -128,11 +128,13 @@ MonetaryCheckList.propTypes = {
     gmtData: PropTypes.shape({
       incomeBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
+      incomeBelowOneFiftyGmt: PropTypes.bool,
     }),
     reviewNavigation: PropTypes.bool,
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

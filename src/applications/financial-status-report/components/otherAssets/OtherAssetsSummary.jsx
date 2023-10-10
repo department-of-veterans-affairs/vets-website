@@ -11,6 +11,7 @@ import ButtonGroup from '../shared/ButtonGroup';
 
 const OtherAssetsSummary = ({
   data,
+  goForward,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -180,6 +181,7 @@ OtherAssetsSummary.propTypes = {
     reviewNavigation: PropTypes.bool,
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
