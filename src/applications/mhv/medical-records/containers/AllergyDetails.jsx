@@ -62,10 +62,7 @@ const AllergyDetails = () => {
     () => {
       if (allergy) {
         focusElement(document.querySelector('h1'));
-        const titleDate = allergy.date ? `${allergy.date} - ` : '';
-        updatePageTitle(
-          `${titleDate}${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
-        );
+        updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
     [dispatch, allergy, allergyId],
@@ -165,8 +162,8 @@ const AllergyDetails = () => {
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--4">
             <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
+              <p
+                className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--bold"
                 id="allergy-date"
               >
                 Date entered:{' '}
@@ -176,7 +173,7 @@ const AllergyDetails = () => {
                 >
                   {allergy.date}
                 </span>
-              </h2>
+              </p>
             </div>
             <PrintDownload
               download={generateAllergyPdf}
