@@ -19,14 +19,16 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
  * current user. Returns false, otherwise.
  */
 export const isLandingPageEnabledForUser = state => {
+  let enabledForUser = false;
   const loggedIn = isLoggedIn(state);
-  if (!loggedIn) return false;
   const mhvlpFeatureToggle = FEATURE_FLAG_NAMES.mhvLandingPageEnabled;
   const featureToggleEnabled = toggleValues(state)[mhvlpFeatureToggle];
-  if (!featureToggleEnabled) return false;
   // selectPatientFacilites alters the facilities array using map. You _must_
   // use this selector. DO NOT traverse state. e.g. - state.user.profile.facilities
   const facilities = selectPatientFacilities(state) || [];
   const hasFacilities = facilities.length > 0;
-  return loggedIn && featureToggleEnabled && hasFacilities;
+  if (featureToggleEnabled && loggedIn && hasFacilities) {
+    enabledForUser = true;
+  }
+  return enabledForUser;
 };
