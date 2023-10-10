@@ -100,7 +100,7 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('help-block')).to.exist;
     });
-    it('Renders HelpBlock for contact-information page', () => {
+    it('Renders HelpBlock without travel link on non-travel pages', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
