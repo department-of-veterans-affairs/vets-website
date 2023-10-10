@@ -24,7 +24,11 @@ const LastFilledInfo = rx => {
         <p>Last filled on {dateFormat(dispensedDate, 'MMMM D, YYYY')}</p>
       )}
       {!nonVA &&
-        !showLastFilledDate && <p>You haven’t filled this prescription yet</p>}
+        !showLastFilledDate && (
+          <p data-testid="active-not-filled-rx">
+            You haven’t filled this prescription yet
+          </p>
+        )}
     </div>
   );
 };

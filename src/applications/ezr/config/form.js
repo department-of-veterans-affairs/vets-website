@@ -17,6 +17,12 @@ import GetFormHelp from '../components/GetFormHelp';
 
 // chapter 1 - Veteran Information
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
+import veteranDateOfBirth from './chapters/veteranInformation/dateOfBirth';
+import veteranBirthSex from './chapters/veteranInformation/birthSex';
+import veteranGenderIdentity from './chapters/veteranInformation/genderIdentity';
+import veteranMailingAddress from './chapters/veteranInformation/mailingAddress';
+import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
+import veteranContantInformation from './chapters/veteranInformation/contactInformation';
 
 const formConfig = {
   title: content['form-title'],
@@ -69,13 +75,59 @@ const formConfig = {
     veteranInformation: {
       title: 'Veteran information',
       pages: {
-        veteranProfileInformation: {
+        profileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran\u2019s personal information',
           CustomPage: VeteranProfileInformation,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
+        },
+        dateOfBirth: {
+          path: 'veteran-information/date-of-birth',
+          title: 'Veteran\u2019s date of birth',
+          initialData: {},
+          depends: formData => !formData['view:userDob'],
+          uiSchema: veteranDateOfBirth.uiSchema,
+          schema: veteranDateOfBirth.schema,
+        },
+        birthSex: {
+          path: 'veteran-information/birth-sex',
+          title: 'Veteran\u2019s sex assigned at birth',
+          initialData: {},
+          depends: formData => !formData['view:userGender'],
+          uiSchema: veteranBirthSex.uiSchema,
+          schema: veteranBirthSex.schema,
+        },
+        genderIdentity: {
+          path: 'veteran-information/gender-identity',
+          title: 'Veteran\u2019s gender identity',
+          initialData: {},
+          depends: formData => !formData['view:isSigiEnabled'],
+          uiSchema: veteranGenderIdentity.uiSchema,
+          schema: veteranGenderIdentity.schema,
+        },
+        mailingAddress: {
+          path: 'veteran-information/mailing-address',
+          title: 'Veteran\u2019s mailing address',
+          initialData: {},
+          uiSchema: veteranMailingAddress.uiSchema,
+          schema: veteranMailingAddress.schema,
+        },
+        homeAddress: {
+          path: 'veteran-information/home-address',
+          title: 'Veteran\u2019s home address',
+          initialData: {},
+          depends: formData => !formData['view:doesMailingMatchHomeAddress'],
+          uiSchema: veteranHomeAddress.uiSchema,
+          schema: veteranHomeAddress.schema,
+        },
+        contactInformation: {
+          path: 'veteran-information/contact-information',
+          title: 'Veteran\u2019s contact information',
+          initialData: {},
+          uiSchema: veteranContantInformation.uiSchema,
+          schema: veteranContantInformation.schema,
         },
       },
     },
