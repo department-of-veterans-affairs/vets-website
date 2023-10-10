@@ -4,6 +4,10 @@ import { MAX_LENGTH } from '../shared/constants';
 
 export const APP_NAME = 'Supplemental Claim';
 
+export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
+export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
+export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -109,7 +113,6 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
-export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';
 export const LIMITATION_KEY = 'limitation';
@@ -128,7 +131,6 @@ export const SUPPORTED_BENEFIT_TYPES_LIST = [
   // 'nationalCemeteryAdministration',
 ];
 
-export const LEGACY_TYPE = 'legacyAppeal';
 export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({

@@ -375,6 +375,16 @@ class PatientInboxPage {
     interstitialPage.getContinueButton().click({ force: true });
   };
 
+  navigateToInterstitialPage = () => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
+      mockSignature,
+    ).as('signature');
+    cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.wait('@signature');
+  };
+
   navigateToComposePageByKeyboard = () => {
     cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
     cy.realPress(['Enter']);

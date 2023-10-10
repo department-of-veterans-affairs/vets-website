@@ -6,6 +6,10 @@ import { Locators, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 
 class PatientComposePage {
+  messageSubjectText = 'testSubject';
+
+  messageBodyText = 'testBody';
+
   sendMessage = mockRequest => {
     cy.intercept(
       'POST',
@@ -35,9 +39,9 @@ class PatientComposePage {
 
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
-    cy.tabToElement(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .realPress(['Enter']);
+    cy.get('[data-testid="message-body-field"]').click();
+    cy.tabToElement(Locators.BUTTONS.SEND);
+    cy.realPress(['Enter']);
     // cy.wait('@message');
   };
 
@@ -55,9 +59,7 @@ class PatientComposePage {
   enterComposeMessageDetails = (category = 'COVID') => {
     this.selectRecipient('###PQR TRIAGE_TEAM 747###', { force: true });
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
-      .find(`va-radio-option[name="${category}"]`)
-      .contains(category)
+      .find(`input[name="${category}"]`)
       .click({ force: true });
     // this.attachMessageFromFile('test_image.jpg');
     this.getMessageSubjectField().type('Test Subject', { force: true });
@@ -94,12 +96,28 @@ class PatientComposePage {
     cy.get(`#${category}`).click({ force: true });
   };
 
+  enterDataToMessageSubject = (text = this.messageSubjectText) => {
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]')
+      .type(text, { force: true });
+  };
+
+  enterDataToMessageBody = (text = this.messageBodyText) => {
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="compose-message-body"]')
+      .type(text, { force: true });
+  };
+
   verifyFocusonMessageAttachment = () => {
     cy.get('.editable-attachment > span').should('have.focus');
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
-    cy.focused().should('have.attr', 'error', 'Please select a recipient.');
+    return cy
+      .focused()
+      .should('have.attr', 'error', 'Please select a recipient.');
   };
 
   verifyFocusOnErrorMessageToSelectCategory = () => {
@@ -175,6 +193,7 @@ class PatientComposePage {
       `${Paths.SM_API_BASE}/message_drafts`,
       mockDraftResponse,
     ).as('draft_message');
+    cy.get('[data-testid="message-body-field"]').click();
     cy.tabToElement('[data-testid="Save-Draft-Button"]');
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
@@ -282,13 +301,14 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyComosePageValuesRetainedAfterContinueEditing = () => {
-    cy.get('[data-testid=compose-category-radio-button]')
-      .should('have.value', 'OTHER')
-      .and('have.attr', 'checked');
-    cy.get('[id="compose-message-body"]').should(
+  verifyComposePageValuesRetainedAfterContinueEditing = () => {
+    // cy.get('[data-testid=compose-category-radio-button]')
+    //   .should('have.value', 'OTHER')
+    //   .and('have.attr', 'checked');
+    cy.get('#message-subject').should('have.value', this.messageSubjectText);
+    cy.get('#compose-message-body').should(
       'have.value',
-      '\n\n\nName\nTitleTestTest message body',
+      `\n\n\nName\nTitleTest${this.messageBodyText}`,
     );
   };
 

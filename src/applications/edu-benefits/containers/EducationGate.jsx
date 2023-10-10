@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -18,12 +18,15 @@ export function EducationGate({ user, location, children }) {
   ) {
     return (
       <div className="usa-grid full-page-alert">
-        <AlertBox
-          isVisible
-          headline="We’re sorry. It looks like we’re missing some information needed for your application"
-          content="For help with your application, please call Veterans Benefits Assistance at 800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. ET."
-          status="error"
-        />
+        <VaAlert visible status="error">
+          <h3 slot="headline">
+            We’re sorry. It looks like we’re missing some information needed for
+            your application
+          </h3>
+          For help with your application, please call Veterans Benefits
+          Assistance at 800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m.
+          ET.
+        </VaAlert>
       </div>
     );
   }

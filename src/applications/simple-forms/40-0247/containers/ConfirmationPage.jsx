@@ -5,16 +5,15 @@ import { connect, useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
-  headlineText: 'Thank you for submitting your request',
+  headlineText:
+    'You’ve submitted your Presidential Memorial Certificate request',
   nextStepsText:
-    'After we review your authorization, we’ll contact the private provider or hospital to get the requested records. If we can’t get the records within 15 days we’ll send you a follow-up letter by mail.',
+    'After we review your request, we’ll contact you to tell you what happens next in the process.',
 };
 
 export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  // TODO: Replace placeholder name below with actual name from form data
-  const preparerFullName = { first: 'John', last: 'Doe' };
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -22,7 +21,7 @@ export const ConfirmationPage = () => {
     <ConfirmationPageView
       formType="submission"
       submitterHeader="Who submitted this form"
-      submitterName={preparerFullName}
+      submitterName={form.data.applicantFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}
