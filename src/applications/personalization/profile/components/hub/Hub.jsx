@@ -16,7 +16,7 @@ export const Hub = () => {
   const hasBadAddress = useSelector(hasBadAddressSelector);
 
   useEffect(() => {
-    document.title = `Your Profile | Veterans Affairs`;
+    document.title = `Profile | Veterans Affairs`;
   }, []);
 
   return (
@@ -50,7 +50,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Contact information"
-          content="Manage your addresses, phone numbers, and contact email address."
+          content="Manage your addresses, phone numbers, and the email address we'll use to contact you."
         >
           <div className="vads-u-margin-bottom--0p5">
             <ProfileLink
@@ -114,7 +114,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Account security"
-          content="Review your sign-in information and account setup."
+          content="Review your sign-in and account information."
         >
           <>
             <div className="vads-u-display--block">
