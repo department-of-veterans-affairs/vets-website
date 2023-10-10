@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
-  setSortEndpoint,
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
 } from '../actions/prescriptions';
@@ -11,7 +10,10 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
-import { rxListSortingOptions } from '../util/constants';
+import {
+  rxListSortingOptions,
+  SESSION_SELECTED_SORT_OPTION,
+} from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
@@ -36,10 +38,10 @@ const Prescriptions = () => {
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
   );
-  const sortEndpoint = useSelector(
-    state => state.rx.prescriptions?.sortEndpoint,
+  const defaultSortOption = Object.keys(rxListSortingOptions)[0];
+  const [selectedSortOption, setSelectedSortOption] = useState(
+    sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) || defaultSortOption,
   );
-  const defaultSortEndpoint = rxListSortingOptions.lastFilledFirst.API_ENDPOINT;
   const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState(true);
@@ -95,8 +97,9 @@ const Prescriptions = () => {
     );
   };
 
-  const sortRxList = endpoint => {
-    dispatch(setSortEndpoint(endpoint));
+  const sortRxList = sortOption => {
+    setSelectedSortOption(sortOption);
+    sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     focusElement(document.getElementById('showingRx'));
   };
 
@@ -125,11 +128,11 @@ const Prescriptions = () => {
       dispatch(
         getPrescriptionsPaginatedSortedList(
           currentPage,
-          sortEndpoint || defaultSortEndpoint,
+          rxListSortingOptions[selectedSortOption].API_ENDPOINT,
         ),
       ).then(() => setLoading(false));
     },
-    [dispatch, currentPage, sortEndpoint, defaultSortEndpoint],
+    [dispatch, currentPage, selectedSortOption],
   );
 
   useEffect(
@@ -201,7 +204,7 @@ const Prescriptions = () => {
 
   const handleDownloadPDF = async () => {
     const response = await getPrescriptionSortedList(
-      sortEndpoint || defaultSortEndpoint,
+      rxListSortingOptions[selectedSortOption].API_ENDPOINT,
     );
     const listWithoutMetaFields = response.data.map(rx => {
       return { ...rx.attributes };
@@ -251,7 +254,7 @@ const Prescriptions = () => {
                 <PrintDownload download={handleDownloadPDF} list />
                 <BeforeYouDownloadDropdown />
                 <MedicationsListSort
-                  value={sortEndpoint || defaultSortEndpoint}
+                  value={selectedSortOption}
                   sortRxList={sortRxList}
                 />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
