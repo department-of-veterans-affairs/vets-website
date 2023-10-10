@@ -1,5 +1,5 @@
 const { runCommandSync } = require('../utils');
-
+/* eslint-disable no-console */
 let tests = JSON.parse(process.env.TESTS);
 const step = Number(process.env.STEP);
 const numContainers = Number(process.env.NUM_CONTAINERS);
@@ -27,6 +27,7 @@ const batch = tests
   .slice(step * divider, (step + 1) * divider)
   .join(',');
 
+console.log('batch: ', batch);
 let status = null;
 const runTestsInLoopUpTo = isStressTest ? 25 : 1;
 

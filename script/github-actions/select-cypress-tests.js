@@ -316,7 +316,7 @@ function main() {
       !newTests.includes(test) &&
       !changedTests.includes(test),
   );
-  const testsToStressTest = [...newTests, ...changedTests];
+  // const testsToStressTest = [...newTests, ...changedTests];
   const testSelectionDisallowedTests = testsSelectedByTestSelection.filter(
     test => {
       return allDisallowedTestPaths.includes(
@@ -351,10 +351,10 @@ function main() {
   console.log(TESTS_TO_STRESS_TEST);
   exportVariables(testsToRunNormally);
 
-  if (IS_STRESS_TEST) {
+  if (RUN_FULL_SUITE) {
     core.exportVariable('TESTS_TO_STRESS_TEST', allAllowedTestPaths);
   } else {
-    core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
+    core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
   }
 
   core.exportVariable(
