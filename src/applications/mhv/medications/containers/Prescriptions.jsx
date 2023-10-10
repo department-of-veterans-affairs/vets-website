@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setSortEndpoint,
   getPrescriptionsList,
   getAllergiesList,
 } from '../actions/prescriptions';
@@ -10,7 +9,10 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
-import { rxListSortingOptions } from '../util/constants';
+import {
+  rxListSortingOptions,
+  SESSION_SELECTED_SORT_OPTION,
+} from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
@@ -34,11 +36,10 @@ const Prescriptions = () => {
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
   );
-  const sortEndpoint = useSelector(
-    state => state.rx.prescriptions?.sortEndpoint,
+  const defaultSortOption = Object.keys(rxListSortingOptions)[0];
+  const [selectedSortOption, setSelectedSortOption] = useState(
+    sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) || defaultSortOption,
   );
-  const defaultSortEndpoint =
-    rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT;
   const [prescriptionsPdfList, setPrescriptionsPdfList] = useState([]);
   const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
@@ -95,8 +96,9 @@ const Prescriptions = () => {
     );
   };
 
-  const sortRxList = endpoint => {
-    dispatch(setSortEndpoint(endpoint));
+  const sortRxList = sortOption => {
+    setSelectedSortOption(sortOption);
+    sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
   };
 
   useEffect(
@@ -122,10 +124,13 @@ const Prescriptions = () => {
   useEffect(
     () => {
       dispatch(
-        getPrescriptionsList(currentPage, sortEndpoint || defaultSortEndpoint),
+        getPrescriptionsList(
+          currentPage,
+          rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+        ),
       ).then(() => setLoading(false));
     },
-    [dispatch, currentPage, sortEndpoint, defaultSortEndpoint],
+    [dispatch, currentPage, selectedSortOption],
   );
 
   useEffect(
@@ -245,7 +250,7 @@ const Prescriptions = () => {
                 <PrintDownload download={handleDownloadPDF} list />
                 <BeforeYouDownloadDropdown />
                 <MedicationsListSort
-                  value={sortEndpoint || defaultSortEndpoint}
+                  value={selectedSortOption}
                   sortRxList={sortRxList}
                 />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />

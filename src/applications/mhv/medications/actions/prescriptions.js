@@ -2,10 +2,6 @@ import { Actions } from '../util/actionTypes';
 import { getPrescription, getPrescriptionList, fillRx } from '../api/rxApi';
 import { getAllergies } from '../../medical-records/api/MrApi';
 
-export const setSortEndpoint = sortEndpoint => async dispatch => {
-  dispatch({ type: Actions.Prescriptions.SET_SORT_ENDPOINT, sortEndpoint });
-};
-
 export const getPrescriptionsList = (
   pageNumber,
   sortEndpoint,
