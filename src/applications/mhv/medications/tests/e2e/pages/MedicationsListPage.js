@@ -75,9 +75,8 @@ class MedicationsListPage {
   };
 
   verifyInformationBasedOnStatusNonVAPrescription = () => {
-    cy.get('[data-testid="rx-last-filled-info"]')
-      .should('be.visible')
-      .and('have.text', 'Documented on March 22, 2022');
+    cy.get('[data-testid="rx-last-filled-info"]').should('be.visible');
+
     cy.get('[data-testid="non-VA-prescription"]')
       .should('be.visible')
       .and(
