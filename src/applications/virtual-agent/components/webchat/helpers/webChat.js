@@ -28,26 +28,29 @@ export const ifMissingParamsCallSentry = (
     apiSession &&
     typeof userFirstName === 'string' &&
     (userUuid === null || typeof userUuid === 'string');
+  const getSanitizedVariable = (variable, variableName) => {
+    if (variable === undefined) {
+      return `${variableName} was undefined`;
+    }
+    if (typeof variable === 'string' && variable) {
+      return `${variableName} present`;
+    }
+    return variable;
+  };
+
   if (!hasAllParams) {
-    const sanitizedCsrfToken =
-      typeof csrfToken === 'string' && csrfToken
-        ? 'csrfToken present'
-        : csrfToken;
-    const sanitizedApiSession =
-      typeof apiSession === 'string' && apiSession
-        ? 'apiSession present'
-        : apiSession;
-    const sanitizedUserFirstName =
-      typeof userFirstName === 'string' && userFirstName
-        ? 'userFirstName present'
-        : userFirstName;
-    const sanitizedUserUuid =
-      typeof userUuid === 'string' && userUuid ? 'userUuid present' : userUuid;
+    const sanitizedCsrfToken = getSanitizedVariable(csrfToken, 'csrfToken');
+    const sanitizedApiSession = getSanitizedVariable(apiSession, 'apiSession');
+    const sanitizedUserFirstName = getSanitizedVariable(
+      userFirstName,
+      'userFirstName',
+    );
+    const sanitizedUserUuid = getSanitizedVariable(userUuid, 'userUuid');
     const params = {
-      sanitizedCsrfToken,
-      sanitizedApiSession,
-      sanitizedUserFirstName,
-      sanitizedUserUuid,
+      csrfToken: sanitizedCsrfToken,
+      apiSession: sanitizedApiSession,
+      userFirstName: sanitizedUserFirstName,
+      userUuid: sanitizedUserUuid,
     };
     Sentry.captureException(
       new TypeError(`Missing required variables: ${JSON.stringify(params)}`),
