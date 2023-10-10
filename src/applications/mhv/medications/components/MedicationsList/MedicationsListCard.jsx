@@ -24,6 +24,7 @@ const MedicationsListCard = props => {
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
         <h3
+          aria-describedby="status status-description fill-or-refill-button"
           className="vads-u-font-weight--bold"
           id={`card-header-${rx.prescriptionId}`}
         >
@@ -38,7 +39,10 @@ const MedicationsListCard = props => {
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
         {rx.dispStatus !== 'Unknown' && (
-          <div className="vads-u-margin-top--1p5 vads-u-font-weight--bold">
+          <div
+            id="status"
+            className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+          >
             {rx.dispStatus}
           </div>
         )}
