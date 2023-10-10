@@ -258,7 +258,7 @@ class PatientMessageDetailsPage {
   verifyTrashButtonModal = () => {
     cy.get('[data-testid=trash-button-text]')
       .should('be.visible')
-      .click();
+      .click({ waitForAnimations: true });
 
     cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
       .contains('Messages in the trash folder')

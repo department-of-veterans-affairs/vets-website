@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 
-describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
+describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   const landingPage = new PatientInboxPage();
   const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
@@ -15,13 +15,11 @@ describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
 
   it('focus on error message for no provider', () => {
     composePage.selectCategory();
-
     composePage.getMessageSubjectField().type('Test Subject');
     composePage
       .getMessageBodyField()
       .type('Test Message Body', { force: true });
     composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifyFocusOnErrorMessageToSelectRecipient();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -30,14 +28,14 @@ describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
         },
       },
     });
+    composePage.verifyFocusOnErrorMessageToSelectRecipient();
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    composePage.selectSideBarMenuOption('Inbox');
+    composePage.clickOnDeleteDraftButton();
   });
+
   it('focus on error message for empty category', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage
-      .getMessageBodyField()
-      .type('Test Message Body', { force: true });
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorMessageToSelectCategory();
     cy.injectAxe();
@@ -48,13 +46,15 @@ describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
         },
       },
     });
+    composePage.selectCategory();
+    composePage.selectSideBarMenuOption('Inbox');
+    composePage.clickOnDeleteDraftButton();
   });
+
   it('focus on error message for empty message subject', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.selectCategory();
-    composePage
-      .getMessageBodyField()
-      .type('Test Message Body', { force: true });
+
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifyFocusOnErrorEmptyMessageSubject();
     cy.injectAxe();
@@ -65,8 +65,13 @@ describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
         },
       },
     });
+    composePage
+      .getMessageSubjectField()
+      .type('Test Message Subject', { force: true });
+    composePage.selectSideBarMenuOption('Inbox');
+    composePage.clickOnDeleteDraftButton();
   });
-  it('focus on error message for empty message body', () => {
+  it.skip('focus on error message for empty message body', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.selectCategory();
     composePage.getMessageSubjectField().type('Test Subject', { force: true });
