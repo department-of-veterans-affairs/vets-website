@@ -45,10 +45,11 @@ class PatientComposePage {
     // cy.wait('@message');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.main-content > va-alert')
-      .should('have.text', 'Secure message was successfully sent.')
-      .and('be.focused');
+  verifySendMessageConfirmationMessageText = () => {
+    cy.get('.main-content > va-alert').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {

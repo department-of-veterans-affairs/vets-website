@@ -106,7 +106,7 @@ class PatientReplyPage {
       .find('[name="reply-message-body"]');
   };
 
-  verifySendMessageConfirmationMessage = () => {
+  verifySendMessageConfirmationMessageText = () => {
     cy.get('.vads-u-margin-bottom--1').should(
       'have.text',
       'Secure message was successfully sent.',
