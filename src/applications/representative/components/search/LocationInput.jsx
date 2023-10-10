@@ -61,20 +61,11 @@ const LocationInput = () => {
           City, state or postal code{' '}
           <span className="form-required-span">(*Required)</span>
         </label>
-        {/* {geolocationInProgress ? (
-              <div className="use-my-location-link">
-                <i
-                  className="fa fa-spinner fa-spin"
-                  aria-hidden="true"
-                  role="presentation"
-                />
-                <span aria-live="assertive">Finding your location...</span>
-              </div>
-            ) : ( */}
         <button
           onClick={handleGeolocationButtonClick}
           type="button"
           className="use-my-location-link"
+          aria-label="Use my location"
         >
           <i
             className="use-my-location-button"
