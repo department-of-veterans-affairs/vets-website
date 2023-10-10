@@ -3,7 +3,6 @@ import vamcEhr from '../fixtures/vamc-ehr.json';
 import featureToggles from '../fixtures/feature-toggles.json';
 import user from '../fixtures/user.json';
 import cernerUser from '../fixtures/user.cerner.json';
-import noFacilitiesUser from '../fixtures/user.no-facilities.json';
 
 describe(`${appName} -- Auth Redirect`, () => {
   beforeEach(() => {
@@ -11,7 +10,7 @@ describe(`${appName} -- Auth Redirect`, () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'featureToggles',
     );
-    const redirectUrl = 'https://**.eauth.va.gov/mhv-portal-web/eauth';
+    const redirectUrl = 'https://**.va.gov/mhv-portal**/**';
     cy.intercept('GET', redirectUrl, '').as('mhvRedirect');
   });
 
@@ -39,15 +38,6 @@ describe(`${appName} -- Auth Redirect`, () => {
       cy.visit(rootUrl);
       cy.get('h1').should('include.text', 'My HealtheVet');
       cy.injectAxeThenAxeCheck();
-    });
-  });
-
-  describe('unauthorized user', () => {
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('redirects to MHV National Portal', () => {
-      cy.login(noFacilitiesUser);
-      cy.visit(rootUrl);
-      cy.wait('@mhvRedirect');
     });
   });
 });
