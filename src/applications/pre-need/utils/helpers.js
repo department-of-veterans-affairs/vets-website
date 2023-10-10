@@ -24,6 +24,24 @@ import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
+export const applicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export const applicantDemographicsSubHeader = (
+  <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+  </div>
+);
+
+export const militaryDetailsSubHeader = (
+  <div className="militaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Military details</h3>
+  </div>
+);
+
 export const contactInfoDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
     <p>
