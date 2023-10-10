@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import RepTypeSelector from './RepTypeSelector';
 import LocationInput from './LocationInput';
 
@@ -18,6 +19,10 @@ const SearchControls = ({ handleSearch }) => {
       </div>
     </>
   );
+};
+
+SearchControls.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
 };
 
 export default SearchControls;

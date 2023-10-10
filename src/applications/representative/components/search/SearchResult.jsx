@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SearchResult = ({ name, type, address, phone, onSelect }) => {
   return (
@@ -14,6 +15,14 @@ const SearchResult = ({ name, type, address, phone, onSelect }) => {
       </div>
     </>
   );
+};
+
+SearchResult.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default SearchResult;
