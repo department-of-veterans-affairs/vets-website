@@ -50,9 +50,10 @@ describe('check-in', () => {
           <Footer isPreCheckIn={false} />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('travel-help-block')).to.exist;
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
     });
-    it('Renders HelpBlock for travel-vehicle page', () => {
+    it('Renders HelpBlock for travel-vehicle page and travel section', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
@@ -61,9 +62,10 @@ describe('check-in', () => {
           <Footer isPreCheckIn={false} />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('travel-help-block')).to.exist;
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
     });
-    it('Renders HelpBlock for travel-address page', () => {
+    it('Renders HelpBlock for travel-address page and travel section', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}
@@ -72,7 +74,20 @@ describe('check-in', () => {
           <Footer isPreCheckIn={false} />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('travel-help-block')).to.exist;
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
+    });
+    it('Renders HelpBlock for complete page pre-check and travel section', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'preCheckIn' }}
+          router={{ currentPage: 'complete' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
     });
     it('Renders HelpBlock for complete page', () => {
       const component = render(
@@ -83,9 +98,9 @@ describe('check-in', () => {
           <Footer isPreCheckIn={false} />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('travel-help-block')).to.exist;
+      expect(component.getByTestId('help-block')).to.exist;
     });
-    it('Renders HelpBlock for complete page', () => {
+    it('Renders HelpBlock for contact-information page', () => {
       const component = render(
         <CheckInProvider
           store={{ app: 'dayOf' }}

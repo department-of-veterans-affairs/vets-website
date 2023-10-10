@@ -7,7 +7,7 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../BackToHome';
 import HelpBlock from '../HelpBlock';
 
-const Footer = ({ router }) => {
+const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
 
@@ -28,7 +28,7 @@ const Footer = ({ router }) => {
         {t('need-help')}
       </h2>
       {travelPages.includes(currentPage) ||
-      (currentPage && currentPage.includes('complete')) ? (
+      (currentPage && currentPage.includes('complete') && !isPreCheckIn) ? (
         <div data-testid="check-in-message">
           <HelpBlock travel />
         </div>
@@ -56,6 +56,7 @@ const Footer = ({ router }) => {
 };
 
 Footer.propTypes = {
+  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 
