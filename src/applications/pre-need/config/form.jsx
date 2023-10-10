@@ -51,6 +51,8 @@ import {
   serviceRecordsUI,
   militaryNameUI,
   contactInfoDescription,
+  applicantContactInfoDescriptionNonVetNOTPROD,
+  applicantContactInfoDescriptionVetNOTPROD,
   authorizedAgentDescription,
   veteranRelationshipDescription,
   spouseRelationshipDescription,
@@ -115,6 +117,21 @@ export const preparerMailingAddressStateTitleWrapper = (
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
 );
+
+export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
+
+const applicantContactInfoSubheader = <Dummy />;
+
+function Dummy() {
+  return <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>;
+}
+
+function ApplicantContactInfoDescription() {
+  const data = useSelector(state => state.form.data || {});
+  return isVeteran(data)
+    ? applicantContactInfoDescriptionVetNOTPROD
+    : applicantContactInfoDescriptionNonVetNOTPROD;
+}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -744,6 +761,12 @@ const formConfig = {
                       {},
                       address.uiSchema('Applicant’s mailing address'),
                       {
+                        street: {
+                          'ui:title': 'Street address',
+                        },
+                        street2: {
+                          'ui:title': 'Street address line 2',
+                        },
                         state: {
                           'ui:title': applicantMailingAddressStateTitleWrapper,
                           'ui:options': {
@@ -754,11 +777,17 @@ const formConfig = {
                         },
                       },
                     ),
-                    'view:contactInfoDescription': {
-                      'ui:description': contactInfoDescription,
+                    'view:applicantContactInfoSubheader': {
+                      'ui:description': applicantContactInfoSubheader,
+                      'ui:options': {
+                        keepInPageOnReview: true,
+                      },
                     },
-                    phoneNumber: phoneUI('Primary telephone number'),
+                    phoneNumber: phoneUI('Phone number'),
                     email: emailUI(),
+                    'view:contactInfoDescription': {
+                      'ui:description': applicantContactInfoWrapper,
+                    },
                   },
                 },
               },
@@ -773,12 +802,16 @@ const formConfig = {
                         required: ['email', 'phoneNumber'],
                         properties: {
                           address: address.schema(fullSchemaPreNeed, true),
-                          'view:contactInfoDescription': {
+                          'view:applicantContactInfoSubheader': {
                             type: 'object',
                             properties: {},
                           },
                           phoneNumber: claimant.properties.phoneNumber,
                           email: claimant.properties.email,
+                          'view:contactInfoDescription': {
+                            type: 'object',
+                            properties: {},
+                          },
                         },
                       },
                     },
