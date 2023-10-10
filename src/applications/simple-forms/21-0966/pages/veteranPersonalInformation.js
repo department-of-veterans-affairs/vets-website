@@ -21,6 +21,6 @@ export default {
       veteranFullName: fullNameNoSuffixSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
-    required: ['veteranFullName'],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
   },
 };
