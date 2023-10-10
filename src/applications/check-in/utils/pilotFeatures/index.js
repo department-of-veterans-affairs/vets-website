@@ -77,7 +77,7 @@ const isInPilot = ({ appointment, pilotFeature }) => {
 
   const stations = Object.keys(featureList);
 
-  return stations.includes(stationNo) && passesClinic();
+  return stations.includes(stationNo) && passesClinic;
 };
 
 export { isInPilot };
