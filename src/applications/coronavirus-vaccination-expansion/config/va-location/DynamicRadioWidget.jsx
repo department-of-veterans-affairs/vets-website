@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
-// eslint-disable-next-line deprecate/import
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   VaRadio,
   VaRadioOption,
@@ -103,11 +101,10 @@ export function DynamicRadioWidget(props) {
   ) {
     // there are no locations returned or there is an error
     locationsList = (
-      <AlertBox
-        content={alertContent}
-        headline="We can't share your closest medical centers"
-        status="info"
-      />
+      <va-alert visible status="info">
+        <h3 slot="headline">We can't share your closest medical centers</h3>
+        {alertContent}
+      </va-alert>
     );
   }
   return (
