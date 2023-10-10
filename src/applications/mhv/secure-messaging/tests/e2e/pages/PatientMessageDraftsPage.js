@@ -182,8 +182,7 @@ class PatientMessageDraftsPage {
     ).as('deletedDraftResponse');
     cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.get('[data-testid="delete-draft-modal"]')
-      .shadow()
-      .find('[type ="button"]', { force: true })
+      .find('va-button[text="Delete draft"]', { force: true })
       .contains('Delete draft')
       .should('contain', 'Delete')
       .click({ force: true });
@@ -205,7 +204,7 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
 
