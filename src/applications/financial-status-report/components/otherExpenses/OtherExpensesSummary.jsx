@@ -88,7 +88,7 @@ const OtherExpensesSummary = ({
 
   const onSubmit = event => {
     event.preventDefault();
-    if (reviewNavigation) {
+    if (returnToReview) {
       setFormData({
         ...data,
         reviewNavigation: false,
