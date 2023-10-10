@@ -80,10 +80,10 @@ class AskVAPage extends React.Component {
     } = this.props;
 
     const submitFunc = useLighthouse5103 ? submit5103 : submitRequest;
-    const submitDisabled =
-      !this.state.submittedDocs ||
-      loadingDecisionRequest ||
-      decisionRequestError !== null;
+    const canSubmit =
+      this.state.submittedDocs &&
+      !loadingDecisionRequest &&
+      !decisionRequestError;
 
     let buttonMsg = 'Submit';
     if (loadingDecisionRequest) {
