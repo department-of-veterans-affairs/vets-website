@@ -202,7 +202,7 @@ const Prescriptions = () => {
 
   const handleDownloadPDF = async () => {
     const response = await getPrescriptionSortedList(
-      sortEndpoint || defaultSortEndpoint,
+      rxListSortingOptions[selectedSortOption].API_ENDPOINT,
     );
     const listWithoutMetaFields = response.data.map(rx => {
       return { ...rx.attributes };
