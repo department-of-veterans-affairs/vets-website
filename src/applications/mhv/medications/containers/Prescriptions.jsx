@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   setSortEndpoint,
   getPrescriptionsList,
@@ -96,6 +97,7 @@ const Prescriptions = () => {
 
   const sortRxList = endpoint => {
     dispatch(setSortEndpoint(endpoint));
+    focusElement(document.getElementById('showingRx'));
   };
 
   useEffect(
