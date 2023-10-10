@@ -23,7 +23,7 @@ function LocationDirectionsLink({ location, from }) {
       >
         {from === 'FacilityDetail' && <i className="fa fa-road" />}
         Get directions on Google Maps
-        <span className="sr-only">to {location.attributes.name}</span>
+        <span className="sr-only">{` to ${location.attributes.name}`}</span>
       </a>
     </div>
   );
