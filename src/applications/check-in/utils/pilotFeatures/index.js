@@ -1,5 +1,5 @@
 import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
-// import salem from './travelClaim/salem.json';
+import fileTravelClaimSalem from './fileTravelClaim/salem.json';
 
 const devStations = {
   // Dev
@@ -18,7 +18,7 @@ const pilotFeatures = {
       ...devStations,
       ...fileTravelClaimWilkesBarre,
       // Week 1 658
-      // ...fileTravelClaimSalem,
+      ...fileTravelClaimSalem,
       // Week 2 565
       // ...fileTravelClaimFayetteville,
       // Week 3 558
