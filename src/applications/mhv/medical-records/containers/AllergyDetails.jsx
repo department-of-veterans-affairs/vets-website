@@ -166,7 +166,7 @@ const AllergyDetails = () => {
           <div className="condition-subheader vads-u-margin-bottom--4">
             <div className="time-header">
               <p
-                className="vads-u-font-size--base vads-u-font-family--sans"
+                className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--bold"
                 id="allergy-date"
               >
                 Date entered:{' '}
