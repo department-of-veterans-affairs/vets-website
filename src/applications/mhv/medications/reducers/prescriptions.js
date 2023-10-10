@@ -17,7 +17,7 @@ const initialState = {
   /**
    * Sort endpoint currently being used
    */
-  sortEndpoint: undefined,
+  sortOption: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -37,10 +37,13 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionsPagination: action.response.meta.pagination,
       };
     }
-    case Actions.Prescriptions.SET_SORT_ENDPOINT: {
+    case Actions.Prescriptions.SET_SORT_OPTION: {
       return {
         ...state,
-        sortEndpoint: action.sortEndpoint,
+        sortOption: {
+          apiEndpoint: action.sortOption.API_ENDPOINT,
+          label: action.sortOption.LABEL,
+        },
       };
     }
     case Actions.Prescriptions.FILL: {

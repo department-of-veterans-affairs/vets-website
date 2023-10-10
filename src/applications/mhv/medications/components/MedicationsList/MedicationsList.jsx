@@ -7,7 +7,13 @@ import MedicationsListCard from './MedicationsListCard';
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
-  const { rxList, pagination, setCurrentPage } = props;
+  const {
+    rxList,
+    pagination,
+    setCurrentPage,
+    sortOption,
+    defaultSortListOption,
+  } = props;
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
@@ -38,7 +44,9 @@ const MedicationsList = props => {
         id="showingRx"
       >
         Showing {displayNums[0]} - {displayNums[1]} of {pagination.totalEntries}{' '}
-        medications, available to fill or refill first
+        medications,{' '}
+        {sortOption?.label.toLowerCase() ||
+          defaultSortListOption.LABEL.toLowerCase()}
       </h2>
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="vads-u-display--block vads-u-margin-top--3">
@@ -61,7 +69,9 @@ const MedicationsList = props => {
 export default MedicationsList;
 
 MedicationsList.propTypes = {
+  defaultSortListOption: PropTypes.object,
   pagination: PropTypes.object,
   rxList: PropTypes.array,
   setCurrentPage: PropTypes.func,
+  sortOption: PropTypes.object,
 };

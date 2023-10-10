@@ -8,6 +8,11 @@ const MedicationsListSort = props => {
   const [sortListOption, setSortListOption] = useState(value);
 
   const rxSortingOptions = Object.values(rxListSortingOptions);
+
+  const handleSelect = i => {
+    setSortListOption(rxSortingOptions[i]);
+  };
+
   return (
     <div className="medications-list-sort">
       <VaSelect
@@ -16,16 +21,12 @@ const MedicationsListSort = props => {
         name="sort-order"
         value={sortListOption}
         onVaSelect={e => {
-          setSortListOption(e.detail.value);
+          handleSelect(e.detail.value);
         }}
       >
         {rxSortingOptions.map((option, i) => {
           return (
-            <option
-              key={`option-${i}`}
-              value={option.API_ENDPOINT}
-              data-testid="sort-option"
-            >
+            <option key={`option-${i}`} value={i} data-testid="sort-option">
               {option.LABEL}
             </option>
           );
@@ -48,7 +49,7 @@ const MedicationsListSort = props => {
 
 MedicationsListSort.propTypes = {
   sortRxList: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.object,
 };
 
 export default MedicationsListSort;

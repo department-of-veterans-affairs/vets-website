@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import prescriptions from '../../fixtures/prescriptions.json';
 import MedicationsList from '../../../components/MedicationsList/MedicationsList';
 import reducer from '../../../reducers';
+import { rxListSortingOptions } from '../../../util/constants';
 
 describe('Medicaitons List component', () => {
   const initialState = {
@@ -27,6 +28,7 @@ describe('Medicaitons List component', () => {
         rxList={prescriptions}
         pagination={pagination}
         setCurrentPage={setCurrentPage}
+        defaultSortListOption={rxListSortingOptions.lastFilledFirst}
       />,
       {
         initialState: state,

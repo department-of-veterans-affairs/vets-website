@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  setSortEndpoint,
+  setSortListOption,
   getPrescriptionsList,
   getAllergiesList,
 } from '../actions/prescriptions';
@@ -34,11 +34,10 @@ const Prescriptions = () => {
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
   );
-  const sortEndpoint = useSelector(
-    state => state.rx.prescriptions?.sortEndpoint,
+  const sortListOption = useSelector(
+    state => state.rx.prescriptions?.sortOption,
   );
-  const defaultSortEndpoint =
-    rxListSortingOptions.availableToFillOrRefillFirst.API_ENDPOINT;
+  const defaultSortListOption = rxListSortingOptions.lastFilledFirst;
   const [prescriptionsPdfList, setPrescriptionsPdfList] = useState([]);
   const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
@@ -95,8 +94,8 @@ const Prescriptions = () => {
     );
   };
 
-  const sortRxList = endpoint => {
-    dispatch(setSortEndpoint(endpoint));
+  const sortRxList = option => {
+    dispatch(setSortListOption(option));
   };
 
   useEffect(
@@ -122,10 +121,13 @@ const Prescriptions = () => {
   useEffect(
     () => {
       dispatch(
-        getPrescriptionsList(currentPage, sortEndpoint || defaultSortEndpoint),
+        getPrescriptionsList(
+          currentPage,
+          sortListOption?.apiEndpoint || defaultSortListOption.API_ENDPOINT,
+        ),
       ).then(() => setLoading(false));
     },
-    [dispatch, currentPage, sortEndpoint, defaultSortEndpoint],
+    [dispatch, currentPage, sortListOption, defaultSortListOption],
   );
 
   useEffect(
@@ -192,7 +194,8 @@ const Prescriptions = () => {
         header: 'Medications list',
         preface: `Showing ${
           prescriptionsPdfList?.length
-        } medications, available to fill or refill first`,
+        } medications, ${sortListOption?.label.toLowerCase() ||
+          defaultSortListOption.LABEL.toLowerCase()}`,
         list: prescriptionsPdfList,
       },
       {
@@ -245,12 +248,14 @@ const Prescriptions = () => {
                 <PrintDownload download={handleDownloadPDF} list />
                 <BeforeYouDownloadDropdown />
                 <MedicationsListSort
-                  value={sortEndpoint || defaultSortEndpoint}
+                  value={sortListOption || defaultSortListOption}
                   sortRxList={sortRxList}
                 />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               </div>
               <MedicationsList
+                sortOption={sortListOption}
+                defaultSortListOption={defaultSortListOption}
                 rxList={prescriptions}
                 pagination={pagination}
                 setCurrentPage={setCurrentPage}
