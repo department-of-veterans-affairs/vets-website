@@ -121,8 +121,8 @@ describe('recipients dropdown box', () => {
         .its('length')
         .should('equal', 1);
       cy.get('[data-testid="compose-message-categories"]')
-      .first()
-      .click();
+        .first()
+        .click();
     });
   });
 });
