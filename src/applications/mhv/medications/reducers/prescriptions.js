@@ -7,11 +7,6 @@ const initialState = {
    */
   prescriptionsList: undefined,
   /**
-   * The full list of sorted prescriptions returned from the api without pagination
-   * @type {array}
-   */
-  fullPrescriptionsList: undefined,
-  /**
    * The prescription currently being displayed to the user
    */
   prescriptionDetails: undefined,
@@ -40,14 +35,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,
-      };
-    }
-    case Actions.Prescriptions.GET_FULL_SORTED_LIST: {
-      return {
-        ...state,
-        fullPrescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
       };
     }
     case Actions.Prescriptions.SET_SORT_ENDPOINT: {

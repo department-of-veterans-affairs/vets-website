@@ -1,10 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import {
-  getPrescription,
-  getPaginatedSortedList,
-  fillRx,
-  getPrescriptionSortedList,
-} from '../api/rxApi';
+import { getPrescription, getPaginatedSortedList, fillRx } from '../api/rxApi';
 import { getAllergies } from '../../medical-records/api/MrApi';
 
 export const setSortEndpoint = sortEndpoint => async dispatch => {
@@ -21,16 +16,6 @@ export const getPrescriptionsPaginatedSortedList = (
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
       response,
     });
-    return null;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getSortedListNoPagination = sortEndpoint => async dispatch => {
-  try {
-    const response = await getPrescriptionSortedList(sortEndpoint);
-    dispatch({ type: Actions.Prescriptions.GET_FULL_SORTED_LIST, response });
     return null;
   } catch (error) {
     return error;
