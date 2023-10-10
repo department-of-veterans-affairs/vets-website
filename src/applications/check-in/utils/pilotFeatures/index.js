@@ -1,24 +1,15 @@
 import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
 // import salem from './travelClaim/salem.json';
 
-const devStations = (withDev = true, withStage = true, withLocal = true) => {
-  const dev = {
-    '500': {},
-  };
-  const stage = {
-    '530': {},
-  };
-  const local = {
-    '0001': {
-      clinics: ['0001'],
-    },
-  };
-
-  return {
-    ...(withDev ? dev : {}),
-    ...(withStage ? stage : {}),
-    ...(withLocal ? local : {}),
-  };
+const devStations = {
+  // Dev
+  '500': {},
+  // Stage
+  '530': {},
+  // Local
+  '0001': {
+    clinics: ['0001'],
+  },
 };
 
 const pilotFeatures = {
