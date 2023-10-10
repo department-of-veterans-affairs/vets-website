@@ -15,7 +15,7 @@ const devStations = {
 const pilotFeatures = {
   fileTravelClaim: {
     pilotStations: {
-      ...devStations(),
+      ...devStations,
       ...fileTravelClaimWilkesBarre,
       // Week 1 658
       // ...fileTravelClaimSalem,
@@ -37,7 +37,7 @@ const pilotFeatures = {
   },
   fortyFiveMinuteText: {
     pilotStations: {
-      ...devStations(),
+      ...devStations,
     },
   },
 };
