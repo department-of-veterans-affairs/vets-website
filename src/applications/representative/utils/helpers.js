@@ -24,7 +24,7 @@ export const buildMarker = (type, values) => {
     markerElement.className = 'i-pin-card-map';
     markerElement.style.cursor = 'pointer';
     markerElement.textContent = attrs.letter;
-    markerElement.addEventListener('click', function() {
+    markerElement.addEventListener('click', function handleClick() {
       const locationElement = document.getElementById(loc.id);
       if (locationElement) {
         Array.from(document.getElementsByClassName('facility-result')).forEach(
