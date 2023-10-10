@@ -129,7 +129,6 @@ class AskVAPage extends React.Component {
               <div>
                 <VaCheckbox
                   error={this.state.submitErrorMessage}
-                  hint={null}
                   label="I don't have any other documents to provide to support my claim. I'd like you to make a decision on my claim based on the evidence you have already."
                   onVaChange={e => this.setSubmittedDocs(e.target.checked)}
                   required
