@@ -151,10 +151,10 @@ function fillBenefitSelection(
     currentlyBuriedPersons.forEach((person, index) => {
       cy.get(
         `input#root_application_currentlyBuriedPersons_${index}_name_first`,
-      ).type('test');
+      ).type(person.name.first);
       cy.get(
         `input#root_application_currentlyBuriedPersons_${index}_name_last`,
-      ).type('test');
+      ).type(person.name.last);
 
       if (index < currentlyBuriedPersons.length - 1) {
         cy.get('.usa-button-secondary.va-growable-add-btn').click();
