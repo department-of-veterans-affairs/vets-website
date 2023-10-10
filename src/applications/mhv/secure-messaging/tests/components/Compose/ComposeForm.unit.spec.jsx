@@ -240,6 +240,15 @@ describe('Compose form component', () => {
     );
   });
 
+  it('renders without errors on Delete draft button click', async () => {
+    const screen = setup(draftState, `/draft/${draftMessage.id}`, {
+      draft: draftMessage,
+    });
+
+    fireEvent.click(screen.getByTestId('delete-draft-button'));
+    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
+  });
+
   it('renders without errors to category selection', async () => {
     setup(initialState, Paths.COMPOSE);
     fireEvent.click(
