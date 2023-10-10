@@ -53,8 +53,8 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 
 # Authenticated Experience
 
-src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Team 1
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
