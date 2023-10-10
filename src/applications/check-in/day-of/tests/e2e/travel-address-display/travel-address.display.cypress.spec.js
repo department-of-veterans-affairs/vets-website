@@ -53,6 +53,7 @@ describe('Check In Experience', () => {
     it('renders the travel vehicle page with content', () => {
       TravelPages.validatePageLoaded('address');
       TravelPages.validateBackButton('address');
+      TravelPages.validateHelpSection();
       TravelPages.validateContent();
       cy.injectAxeThenAxeCheck();
     });

@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
+import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
-  const { dispStatus, cmopDivisionPhone } = rx;
+  const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
+  let noRefillRemaining = false;
+  if (refillRemaining === 0 && dispStatus === 'Active') {
+    noRefillRemaining = true;
+  }
   return (
     <div className="shipping-info">
-      {dispStatus === 'Unknown' && (
-        <div className="unknownIcon">
+      {dispStatus === dispStatusObj.unknown && (
+        <div className="statusIcon unknownIcon" data-testid="unknown">
           <div>
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
@@ -19,74 +24,95 @@ const ExtraDetails = rx => {
           </div>
         </div>
       )}
-      {dispStatus === 'Active: Refill in Process' && (
-        <div>
-          <p
-            className="refillProcessIcon"
-            data-testid="rx-refillinprocess-info"
-          >
+      {dispStatus === dispStatusObj.refillinprocess && (
+        <div className="statusIcon refillProcessIcon">
+          <p data-testid="rx-refillinprocess-info">
             Refill in process. We expect to fill it on{' '}
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, or call your VA pharmacy
+            If you need it sooner, call your VA pharmacy
             <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
       )}
-      {dispStatus === 'Active: Submitted' && (
-        <p className="submittedIcon">
+      {dispStatus === dispStatusObj.submitted && (
+        <p
+          className="statusIcon submittedIcon"
+          data-testid="submitted-refill-request"
+        >
           We got your request on{' '}
           {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
           updates.
         </p>
       )}
-      {dispStatus === 'Expired' && (
+      {dispStatus === dispStatusObj.expired && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="expired">
             This prescription is too old to refill. If you need more, request a
             renewal.
           </p>
           <va-link
             href="/my-health/about-medications/accordion-renew-rx"
             text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-precsriptions-link"
           />
         </div>
       )}
-      {dispStatus === 'Discontinued' && (
+      {dispStatus === dispStatusObj.discontinued && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="discontinued">
             You can’t refill this prescription. If you need more, send a message
             to your care team.
           </p>
           <va-link href="/" text="Compose a message" />
         </div>
       )}
-      {dispStatus === 'Transferred' && (
+      {dispStatus === dispStatusObj.transferred && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="transferred">
             To manage this prescription, go to our My VA Health portal.
           </p>
-          <va-link href="/" text="Go to your prescription in My VA Health" />
+          <va-link
+            href="/"
+            text="Go to your prescription in My VA Health"
+            data-testid="prescription-VA-health-link"
+          />
         </div>
       )}
-      {dispStatus === 'Active: Non-VA' && (
+      {dispStatus === dispStatusObj.nonVA && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
             This isn’t a prescription that you filled through a VA pharmacy. You
             can’t manage this medication in this online tool.
           </p>
         </div>
       )}
-      {dispStatus === 'Active: On Hold' && (
+      {dispStatus === dispStatusObj.onHold && (
         <div className="no-print">
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="active-onHold">
             We put a hold on this prescription. If you need it now, call your VA
             pharmacy
             <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
       )}
+      {dispStatus === dispStatusObj.active &&
+        noRefillRemaining && (
+          <div className="no-print">
+            <p
+              className="vads-u-margin-y--0"
+              data-testid="active-no-refill-left"
+            >
+              You have no refills left. If you need more, request a renewal.
+            </p>
+            <va-link
+              href="/my-health/about-medications/accordion-renew-rx"
+              text="Learn how to renew prescriptions"
+              data-testid="learn-to-renew-prescriptions-link"
+            />
+          </div>
+        )}
     </div>
   );
 };

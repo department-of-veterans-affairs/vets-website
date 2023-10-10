@@ -21,6 +21,25 @@ class TravelPages {
       .and('include.text', title);
   };
 
+  validateHelpSection = () => {
+    cy.get('[data-testid="for-help-using-this-tool"]').contains(
+      'For help using this tool to prepare for your appointments',
+    );
+
+    cy.get('[data-testid="if-you-have-questions"]').contains(
+      'If you have questions about your appointsments',
+    );
+    cy.get('[data-testid="for-questions-about-filing"]').contains(
+      'For questions about filing a travel reimbursement claim or to check',
+    );
+    cy.get('[data-testid="if-yourre-in-crisis"]').contains(
+      'call the Veterans Crisis Line at',
+    );
+    cy.get('[data-testid="if-you-think-your-life-is-in-danger"]').contains(
+      'If you think your life or health is in danger',
+    );
+  };
+
   attemptToGoToNextPage = (button = 'yes') => {
     cy.get(`button[data-testid="${button}-button"]`).click({
       waitForAnimations: true,

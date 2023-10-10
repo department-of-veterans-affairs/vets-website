@@ -3,10 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
@@ -82,6 +86,10 @@ describe('<EvidenceVaRecords>', () => {
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
+    // check Datadog classes
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(2);
   });
 
   const clickEvent = new MouseEvent('click', {

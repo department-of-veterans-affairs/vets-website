@@ -138,10 +138,9 @@ export const NoFormPage = () => {
               include a fine, imprisonment for up to 5 years, or both.
               (Reference: 18 U.S.C. 1001)
             </p>
-            <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+            <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--lg vads-u-border-bottom--2px vads-u-border-color--primary">
               Need help?
             </h2>
-            <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
             <p>
               Call us at <va-telephone contact="8008271000" />. We’re here
               Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
@@ -160,16 +159,19 @@ export const NoFormPage = () => {
             <h2 id="track-your-status-on-mobile" slot="headline">
               You don’t have any saved online pension forms.
             </h2>
-            <br />
+            <p>
+              You can apply for VA pension benefits by mail, in person at a VA
+              regional office, or with the help of a VSO or other accredited
+              representative.
+            </p>
             <va-link
               href="/pension/survivors-pension/"
               text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
-          <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+          <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--lg vads-u-border-bottom--2px vads-u-border-color--primary">
             Need help?
           </h2>
-          <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
           <p>
             Call us at <va-telephone contact="8008271000" />. We’re here Monday
             through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
@@ -186,16 +188,19 @@ export const NoFormPage = () => {
         <h2 id="track-your-status-on-mobile" slot="headline">
           You don’t have any saved online pension forms.
         </h2>
-        <br />
+        <p>
+          You can apply for VA pension benefits by mail, in person at a VA
+          regional office, or with the help of a VSO or other accredited
+          representative.
+        </p>
         <va-link
           href="/pension/survivors-pension/"
           text="Learn more about how to apply for VA pension benefits"
         />
       </va-alert>
-      <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--lg vads-u-border-bottom--2px vads-u-border-color--primary">
         Need help?
       </h2>
-      <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
       <p>
         Call us at <va-telephone contact="8008271000" />. We’re here Monday
         through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}

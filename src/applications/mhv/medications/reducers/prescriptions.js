@@ -2,7 +2,7 @@ import { Actions } from '../util/actionTypes';
 
 const initialState = {
   /**
-   * The list of prescriptions returned from the api
+   * The list of paginated and sorted prescriptions returned from the api
    * @type {array}
    */
   prescriptionsList: undefined,
@@ -10,6 +10,14 @@ const initialState = {
    * The prescription currently being displayed to the user
    */
   prescriptionDetails: undefined,
+  /**
+   * Pagination received form meta object in prescriptionsList payload
+   */
+  prescriptionsPagination: undefined,
+  /**
+   * Sort endpoint currently being used
+   */
+  sortEndpoint: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -20,18 +28,19 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionDetails: action.response.data.attributes,
       };
     }
-    case Actions.Prescriptions.GET_LIST: {
+    case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
         prescriptionsList: action.response.data.map(rx => {
           return { ...rx.attributes };
         }),
+        prescriptionsPagination: action.response.meta.pagination,
       };
     }
-    case Actions.Prescriptions.SET_SORTED_LIST: {
+    case Actions.Prescriptions.SET_SORT_ENDPOINT: {
       return {
         ...state,
-        prescriptionsList: action.rxList,
+        sortEndpoint: action.sortEndpoint,
       };
     }
     case Actions.Prescriptions.FILL: {
@@ -63,6 +72,21 @@ export const prescriptionsReducer = (state = initialState, action) => {
           ...state.prescriptionDetails,
           error: action.err,
           success: undefined,
+        },
+      };
+    }
+    case Actions.Prescriptions.CLEAR_ERROR: {
+      return {
+        ...state,
+        prescriptionsList: state.prescriptionsList?.map(
+          rx =>
+            rx.prescriptionId === action.prescriptionId
+              ? { ...rx, error: undefined }
+              : rx,
+        ),
+        prescriptionDetails: {
+          ...state.prescriptionDetails,
+          error: undefined,
         },
       };
     }

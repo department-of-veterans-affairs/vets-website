@@ -1422,6 +1422,12 @@ const loa3UserWithNoEmailOrMobilePhone = set(
   null,
 );
 
+const loa3UserWithNoHomeAddress = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.residentialAddress',
+  null,
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1435,6 +1441,7 @@ const responses = {
       { name: 'ratingInfo', value: false },
     ],
   ),
+  loa3UserWithNoHomeAddress,
 };
 
 // handler that can be used to customize the user data returned

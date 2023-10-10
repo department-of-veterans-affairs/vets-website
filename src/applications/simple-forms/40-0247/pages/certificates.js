@@ -1,6 +1,8 @@
 import React from 'react';
 
-const labelText = 'How many certificates should we send to your address?';
+import { CERTIFICATES_LABEL } from '../config/constants';
+import { certificatesReviewField } from '../reviewFields';
+
 export default {
   uiSchema: {
     certificates: {
@@ -8,7 +10,7 @@ export default {
       // use custom-styling instead
       'ui:title': (
         <>
-          <span className="custom-label">{labelText}</span>{' '}
+          <span className="custom-label">{CERTIFICATES_LABEL}</span>{' '}
           <span className="custom-required">(*Required)</span>
           <p className="custom-hint hide-following-required-span vads-u-margin-top--4 vads-u-margin-bottom--0">
             You may request up to 99 certificates
@@ -22,12 +24,7 @@ export default {
         maximum:
           'Please lower the number of certificates, you can only request up to 99',
       },
-      'ui:reviewField': ({ children }) => (
-        <div className="review-row">
-          <dt>{labelText}</dt>
-          <dd>{children}</dd>
-        </div>
-      ),
+      'ui:reviewField': certificatesReviewField,
     },
   },
   schema: {

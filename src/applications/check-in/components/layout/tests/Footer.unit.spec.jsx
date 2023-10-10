@@ -56,5 +56,49 @@ describe('check-in', () => {
       );
       expect(component.getByTestId('intro-extra-message')).to.exist;
     });
+    it('Renders TravelHelpBlock for travel-pay page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'travel-pay' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('travel-help-block')).to.exist;
+    });
+    it('Renders TravelHelpBlock for travel-vehicle page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'travel-vehicle' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('travel-help-block')).to.exist;
+    });
+    it('Renders TravelHelpBlock for travel-address page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'travel-address' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('travel-help-block')).to.exist;
+    });
+    it('Renders TravelHelpBlock for complete page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'complete' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('travel-help-block')).to.exist;
+    });
   });
 });

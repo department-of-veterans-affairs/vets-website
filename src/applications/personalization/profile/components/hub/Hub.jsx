@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { hasBadAddress as hasBadAddressSelector } from '@@profile/selectors';
 import { useSelector } from 'react-redux';
@@ -14,6 +14,11 @@ import { HubCard } from './HubCard';
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
+
+  useEffect(() => {
+    document.title = `Profile | Veterans Affairs`;
+  }, []);
+
   return (
     <>
       <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
@@ -45,7 +50,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Contact information"
-          content="Manage your addresses, phone numbers, and contact email address."
+          content="Manage your addresses, phone numbers, and the email address we'll use to contact you."
         >
           <div className="vads-u-margin-bottom--0p5">
             <ProfileLink
@@ -109,7 +114,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Account security"
-          content="Review your sign-in information and account setup."
+          content="Review your sign-in and account information."
         >
           <>
             <div className="vads-u-display--block">

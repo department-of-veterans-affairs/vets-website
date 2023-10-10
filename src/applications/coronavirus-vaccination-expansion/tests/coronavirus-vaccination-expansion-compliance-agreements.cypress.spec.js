@@ -31,7 +31,9 @@ describe('COVID-19 SAVE LIVES Act sign up', () => {
         body: {},
       }).as('submitForm');
 
-      cy.get('va-radio-option[label="No"]').click({ force: true });
+      cy.get('va-radio-option[label="No"]').click({
+        force: true,
+      });
 
       cy.get('button')
         .contains('Continue')
@@ -100,53 +102,73 @@ describe('COVID-19 SAVE LIVES Act sign up', () => {
         .should('have.attr', 'href')
         .and(
           'include',
-          'https://www.va.gov/vhapublications/ViewPublication.asp?pub_ID=1090',
+          'https://www.va.gov/files/2022-10/10-163p_(004)_-Notices_of_Privacy_Practices-_PRINT_ONLY.pdf',
         );
 
       // When neither truthfulness or privacy statements are checked, two errors are thrown.
       cy.get('.usa-button-primary')
         .contains('Submit form')
         .click();
-      cy.get('.usa-input-error-message').contains(
-        /You must certify that your submission is truthful before submitting/i,
-      );
-      cy.get('.usa-input-error-message').contains(
-        /You must certify that you have access to VA's privacy practice information before submitting/i,
-      );
 
-      // Check truthful statement.
-      cy.findByLabelText(
-        /I certify that the information I’ve provided in this form is true/i,
-      ).click();
+      cy.get('#truthfulness-checkbox')
+        .shadow()
+        .find('#checkbox-error-message')
+        .contains(
+          /You must certify that your submission is truthful before submitting/i,
+        );
+
+      cy.get('va-checkbox')
+        .shadow()
+        .find('#checkbox-error-message')
+        .contains(
+          /You must certify that you have access to VA's privacy practice information before submitting/i,
+        );
+
+      cy.get('#truthfulness-checkbox')
+        .shadow()
+        .find('input')
+        .click();
 
       // When truthful statement is checked and privacy is not, correct error is thrown.
       cy.get('.usa-button-primary')
         .contains('Submit form')
         .click();
-      cy.get('.usa-input-error-message').contains(
-        /You must certify that you have access to VA's privacy practice information before submitting/i,
-      );
+
+      cy.get('#privacy-practices-checkbox')
+        .shadow()
+        .find('#checkbox-error-message')
+        .contains(
+          /You must certify that you have access to VA's privacy practice information before submitting/i,
+        );
 
       // Uncheck truthful statement and check privacy statement.
-      cy.findByLabelText(
-        /I certify that the information I’ve provided in this form is true/i,
-      ).click();
-      cy.findByLabelText(
-        /I have been provided access to VA's Notice of Privacy Practices/i,
-      ).click();
+      cy.get('#truthfulness-checkbox')
+        .shadow()
+        .find('input')
+        .click();
+      cy.get('#privacy-practices-checkbox')
+        .shadow()
+        .find('input')
+        .click();
 
       // When privacy statement is checked and truthfulness is not, correct error is thrown.
       cy.get('.usa-button-primary')
         .contains('Submit form')
         .click();
-      cy.get('.usa-input-error-message').contains(
-        /You must certify that your submission is truthful before submitting/i,
-      );
+
+      cy.get('#truthfulness-checkbox')
+        .shadow()
+        .find('#checkbox-error-message')
+        .contains(
+          /You must certify that your submission is truthful before submitting/i,
+        );
 
       // When both are checked, form submits.
-      cy.findByLabelText(
-        /I certify that the information I’ve provided in this form is true/i,
-      ).click();
+      cy.get('#truthfulness-checkbox')
+        .shadow()
+        .find('input')
+        .click();
+
       cy.get('.usa-button-primary')
         .contains('Submit form')
         .click();
