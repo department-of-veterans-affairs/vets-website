@@ -62,10 +62,7 @@ const AllergyDetails = () => {
     () => {
       if (allergy) {
         focusElement(document.querySelector('h1'));
-        const titleDate = allergy.date ? `${allergy.date} - ` : '';
-        updatePageTitle(
-          `${titleDate}${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
-        );
+        updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
     [dispatch, allergy, allergyId],
