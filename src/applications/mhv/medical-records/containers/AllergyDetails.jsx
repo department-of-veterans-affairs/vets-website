@@ -165,7 +165,7 @@ const AllergyDetails = () => {
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--4">
             <div className="time-header">
-              <h2
+              <p
                 className="vads-u-font-size--base vads-u-font-family--sans"
                 id="allergy-date"
               >
@@ -176,7 +176,7 @@ const AllergyDetails = () => {
                 >
                   {allergy.date}
                 </span>
-              </h2>
+              </p>
             </div>
             <PrintDownload
               download={generateAllergyPdf}
