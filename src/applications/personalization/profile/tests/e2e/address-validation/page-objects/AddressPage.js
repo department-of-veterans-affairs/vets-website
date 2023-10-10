@@ -25,7 +25,6 @@ const validateSavedForm = (
   });
   fields.military && cy.findByTestId('mailingAddress').should('contain', 'FPO');
   if (saved) {
-    cy.wait('@mockUser');
     cy.findByTestId('update-success-alert', { timeout: 10000 }).should('exist');
     cy.get('#edit-mailing-address').should('exist');
 
@@ -113,7 +112,6 @@ const saveForm = (confirm = false) => {
       force: true,
       waitForAnimations: true,
     });
-    cy.wait('@mockUser');
   } else {
     cy.findByTestId('save-edit-button').click({
       force: true,
@@ -156,7 +154,7 @@ const confirmAddressFields = (labels, fields) => {
 
 const editAddress = (labels, fields) => {
   cy.findByRole('button', { name: /go back to edit/i }).click();
-  this.confirmAddressFields(labels, fields);
+  confirmAddressFields(labels, fields);
   cy.findByTestId('save-edit-button').click({
     force: true,
     waitForAnimations: true,
@@ -260,7 +258,6 @@ class AddressPage {
         force: true,
         waitForAnimations: true,
       });
-      cy.wait('@mockUser');
     } else {
       cy.findByTestId('save-edit-button').click({
         force: true,

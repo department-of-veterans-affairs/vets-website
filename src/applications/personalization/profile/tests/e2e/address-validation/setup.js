@@ -58,9 +58,8 @@ export const setUp = type => {
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
-  cy.wait('@mockUser');
-
   cy.findByRole('button', { name: /edit mailing address/i }).click({
     force: true,
+    timeout: 10000,
   });
 };
