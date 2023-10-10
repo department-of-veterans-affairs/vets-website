@@ -29,7 +29,7 @@ export default function FacilityAddress({ facility }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get Directions on Google Maps
+          Get Directions on Google Maps{' '}
           <span className="sr-only">{`to ${facility.attributes.name}`}</span>
         </a>
       </div>
