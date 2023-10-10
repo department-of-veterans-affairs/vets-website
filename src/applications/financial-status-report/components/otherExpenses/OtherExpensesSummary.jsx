@@ -12,7 +12,10 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
+import {
+  calculateDiscretionaryIncome,
+  isStreamlinedLongForm,
+} from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsForOtherExpenses = ['name', 'amount'];
@@ -26,9 +29,11 @@ const OtherExpensesSummary = ({
   contentAfterButtons,
 }) => {
   const { gmtData, otherExpenses = [], reviewNavigation = false } = data;
+  // only going back to review if reviewnav and not streamlined
+  const returnToReview = reviewNavigation && !isStreamlinedLongForm(data);
 
   // notify user they are returning to review page if they are in review mode
-  const continueButtonText = reviewNavigation
+  const continueButtonText = returnToReview
     ? 'Continue to review page'
     : 'Continue';
 
@@ -83,7 +88,7 @@ const OtherExpensesSummary = ({
 
   const onSubmit = event => {
     event.preventDefault();
-    if (reviewNavigation) {
+    if (returnToReview) {
       setFormData({
         ...data,
         reviewNavigation: false,

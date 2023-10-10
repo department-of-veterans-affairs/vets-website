@@ -1,15 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import ButtonGroup from './ButtonGroup';
 
 const StreamlinedExplainer = ({
   contentBeforeButtons,
   contentAfterButtons,
+  data,
   goBack,
   goForward,
+  setFormData,
 }) => {
+  const { reviewNavigation = false } = data;
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText = reviewNavigation
+    ? 'Continue to review page'
+    : 'Continue';
+
+  const onSubmit = event => {
+    event.preventDefault();
+    if (reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+    }
+    return goForward(data);
+  };
+
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <va-alert
           close-btn-aria-label="Close notification"
@@ -31,10 +50,20 @@ const StreamlinedExplainer = ({
           </p>
         </va-alert>
         {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={goForward}
-          submitToContinue
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Back',
+              onClick: goBack,
+              secondary: true,
+              iconLeft: '«',
+            },
+            {
+              label: continueButtonText,
+              type: 'submit',
+              iconRight: '»',
+            },
+          ]}
         />
         {contentAfterButtons}
       </fieldset>
@@ -45,8 +74,12 @@ const StreamlinedExplainer = ({
 StreamlinedExplainer.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
+  data: PropTypes.shape({
+    reviewNavigation: PropTypes.bool,
+  }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  setFormData: PropTypes.func,
 };
 
 export default StreamlinedExplainer;
