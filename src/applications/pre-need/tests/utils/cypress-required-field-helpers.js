@@ -35,7 +35,11 @@ const applicantContactInfoErrors = [
   'claimant_email',
 ];
 const preparerInfoErrors1 = ['applicant_applicantRelationshipToClaimant'];
-const preparerInfoErrors2 = ['applicant_name_first', 'applicant_name_last'];
+const preparerInfoErrors2 = [
+  'applicant_view\\:applicantInfo_name_first',
+  'applicant_view\\:applicantInfo_name_last',
+];
+
 module.exports = {
   applicantInfoErrors,
   veteranInfoErrors,
