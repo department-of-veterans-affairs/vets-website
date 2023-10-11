@@ -1,0 +1,28 @@
+{
+  "data": {
+    "homePhone": "345-345-3455",
+    "emailAddress": "person.name@testmail.com",
+    "address": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "city": "City",
+      "state": "ID",
+      "postalCode": "12345"
+    },
+    "relationshipToVeteran": {
+      "relationshipToVeteran": "other",
+      "otherRelationshipToVeteran": "second removed cousin"
+    },
+    "veteranId": {
+      "ssn": "454544545",
+      "vaFileNumber": "111223333"
+    },
+    "fullName": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
+    },
+    "dateOfBirth": "1995-01-09"
+  }
+}

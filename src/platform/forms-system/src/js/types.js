@@ -281,7 +281,7 @@
  * @property {boolean} required
  * @property {string} error
  * @property {UIOptions} uiOptions
- * @property {number} index
+ * @property {number | string} index
  * @property {{
  *  schema: SchemaOptions,
  *  uiSchema: UISchemaOptions,
