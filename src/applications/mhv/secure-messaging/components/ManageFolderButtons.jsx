@@ -23,7 +23,6 @@ const ManageFolderButtons = props => {
   const history = useHistory();
   const { folder } = props;
   const folders = useSelector(state => state.sm.folders.folderList);
-  // const folder = useSelector(state => state.sm.folders.folder);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const threads = useSelector(state => state.sm.threads);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);

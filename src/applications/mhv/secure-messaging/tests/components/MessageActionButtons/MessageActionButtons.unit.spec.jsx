@@ -48,16 +48,6 @@ describe('MessageActionButtons component', () => {
       'modaltitle',
       'What do you want to print?',
     );
-    // expect(printModal).to.have.attribute('primarybuttontext', 'Print');
-    // expect(printModal).to.have.attribute('secondarybuttontext', 'Cancel');
-    // fireEvent.click(screen.getByTestId('radio-print-one-message'));
-    // fireEvent.click(document.querySelector('va-button[text="Print"]'));
-    // screen.debug();
-    // fireEvent.click(document.querySelector('va-button[text="Cancel"]'));
-
-    // await waitFor(() => {
-    //   expect(screen.queryByTestId('print-modal-popup')).to.not.exist;
-    // });
   });
 
   it('print button must display an error if no option is selected', () => {
