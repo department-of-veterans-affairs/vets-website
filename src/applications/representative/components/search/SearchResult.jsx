@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 
-const SearchResult = ({ name, type, address, phone, onSelect }) => {
+const SearchResult = ({ name, type, address, phone }) => {
+  const redirectToForm = () => {
+    browserHistory.push('/representative/form/introduction');
+  };
+
   return (
     <>
       <div className="representative-result">
@@ -10,8 +15,9 @@ const SearchResult = ({ name, type, address, phone, onSelect }) => {
         </div>
         <div>{address}</div>
         <div className="primary">{phone}</div>
-        <va-button onClick={() => onSelect()} text="Select" />
+        <va-button onClick={redirectToForm} text="Select" />
         <div className="va-h-ruled" />
+        <input id="facility-search" type="submit" value="Search" />
       </div>
     </>
   );
