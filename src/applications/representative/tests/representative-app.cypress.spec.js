@@ -1,6 +1,6 @@
 import path from 'path';
 
-import testForm from '@department-of-veterans-affairs/platform-testing/e2e/cypress/support/form-tester';
+import testForm from '@department-of-veterans-affairs/platform-testing/form-tester';
 import { createTestConfig } from '@department-of-veterans-affairs/platform-testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../config/form';
