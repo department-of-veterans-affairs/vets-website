@@ -345,6 +345,25 @@ const ReplyForm = props => {
     });
   }
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (messageBody !== (draft ? draft.body : '')) {
+        e.returnValue = '';
+      }
+    },
+    [draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
   if (replyMessage) {
     return (
       <>
