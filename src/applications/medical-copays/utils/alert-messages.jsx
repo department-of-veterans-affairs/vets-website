@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ALERT_TYPES, APP_TYPES } from './helpers';
 
 const alertMessage = (alertType, appType) => {

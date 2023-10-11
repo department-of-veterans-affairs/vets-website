@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { FORMAT_READABLE } from '../../shared/constants';
 import { getSelected, getIssueName } from '../../shared/utils/issues';

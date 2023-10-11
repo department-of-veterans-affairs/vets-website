@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">

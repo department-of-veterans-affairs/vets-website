@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import recordEvent from 'platform/monitoring/record-event';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { addDays, isValid } from 'date-fns';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatDate } from '../../../combined/utils/helpers';
 
 const ContactDMC = () => (
