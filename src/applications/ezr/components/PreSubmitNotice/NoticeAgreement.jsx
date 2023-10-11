@@ -2,7 +2,7 @@ import React from 'react';
 
 const NoticeAgreement = () => (
   <>
-    <h3>Agreement</h3>
+    <h2>Agreement</h2>
     <p>By submitting this application, you agree to these statements:</p>
     <ul data-testid="ezr-agreement-statements">
       <li>

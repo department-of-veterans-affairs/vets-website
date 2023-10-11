@@ -54,7 +54,7 @@ export default function VaMemorableDateField(props) {
           props.childrenProps.onChange(formatISOPartialDate(newValues));
         }
       }}
-      onBlur={event => {
+      onDateBlur={event => {
         const newValues = parseISODate(event.target.value);
 
         if (isIncomplete(newValues)) {

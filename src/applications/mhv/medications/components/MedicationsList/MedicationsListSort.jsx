@@ -4,12 +4,10 @@ import PropTypes from 'prop-types';
 import { rxListSortingOptions } from '../../util/constants';
 
 const MedicationsListSort = props => {
-  const { sortRxList } = props;
-  const [sortListOption, setSortListOption] = useState(
-    rxListSortingOptions.availableToFillOrRefillFirst.LABEL,
-  );
+  const { value, sortRxList } = props;
+  const [sortListOption, setSortListOption] = useState(value);
 
-  const rxSortingOptions = Object.values(rxListSortingOptions);
+  const rxSortingOptions = Object.keys(rxListSortingOptions);
   return (
     <div className="medications-list-sort">
       <VaSelect
@@ -21,14 +19,10 @@ const MedicationsListSort = props => {
           setSortListOption(e.detail.value);
         }}
       >
-        {rxSortingOptions.map((option, i) => {
+        {rxSortingOptions.map(option => {
           return (
-            <option
-              key={`option-${i}`}
-              value={option.API_ENDPOINT}
-              data-testid="sort-option"
-            >
-              {option.LABEL}
+            <option key={option} value={option} data-testid="sort-option">
+              {rxListSortingOptions[option].LABEL}
             </option>
           );
         })}
@@ -50,6 +44,7 @@ const MedicationsListSort = props => {
 
 MedicationsListSort.propTypes = {
   sortRxList: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default MedicationsListSort;
