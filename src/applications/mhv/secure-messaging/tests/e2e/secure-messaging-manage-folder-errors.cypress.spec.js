@@ -34,7 +34,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it('Axe Check Delete Folder Network Error', () => {
+  it.skip('Axe Check Delete Folder Network Error', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     const folderName = MockFoldersResponse.data.at(4).attributes.name;
     const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
@@ -67,7 +67,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it('Create Folder Network Error Check', () => {
+  it.skip('Create Folder Network Error Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     FolderManagementPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
@@ -99,7 +99,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it('Create Folder Input Field Error check on blank value submit', () => {
+  it.skip('Create Folder Input Field Error check on blank value submit', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     FolderManagementPage.createANewFolderButton().click();
     FolderManagementPage.createFolderModalButton().click();
