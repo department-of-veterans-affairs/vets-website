@@ -59,8 +59,8 @@ describe('Secure Messaging Reply', () => {
 
     messageDetails.data.attributes.body = messageDetailsBody;
     messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
-    /*
-    Redundant with secure-messaging-reply
+
+    // Posssibly move this to another test
     replyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,
       messageDetails.data.attributes.senderId,
@@ -68,7 +68,7 @@ describe('Secure Messaging Reply', () => {
       messageDetails.data.attributes.subject,
       testMessageBody,
     );
-    */
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
