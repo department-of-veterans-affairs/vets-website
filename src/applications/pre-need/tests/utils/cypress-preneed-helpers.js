@@ -179,7 +179,7 @@ function fillApplicantContactInfo(contact) {
 // Fills Preparer Contact Information page, performs axe check, continues to next page
 function fillPreparerInfo(preparer) {
   cy.selectRadio(
-    'root_application_applicant_applicantRelationshipToClaimant',
+    'root_application_applicant_applicantRelationshipToClaimant_1',
     preparer.applicantRelationshipToClaimant,
   );
   cy.axeCheck();
