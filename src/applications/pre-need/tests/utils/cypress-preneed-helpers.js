@@ -179,22 +179,16 @@ function fillApplicantContactInfo(contact) {
 // Fills Preparer Contact Information page, performs axe check, continues to next page
 function fillPreparerInfo(preparer) {
   cy.selectRadio(
-    'root_application_applicant_applicantRelationshipToClaimant_1',
+    'root_application_applicant_applicantRelationshipToClaimant',
     preparer.applicantRelationshipToClaimant,
   );
   cy.axeCheck();
   clickContinue();
   if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    cy.fill(
-      'input[name$="root_application_applicant_name_first"]',
-      preparer['view:applicantInfo'].name.first,
+    cy.fillName(
+      'root_application_applicant_view:applicantInfo_name',
+      preparer['view:applicantInfo'].name,
     );
-    cy.fill(
-      'input[name$="root_application_applicant_name_last"]',
-      preparer['view:applicantInfo'].name.last,
-    );
-    cy.axeCheck();
-    clickContinue();
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
       preparer['view:applicantInfo'].mailingAddress,
