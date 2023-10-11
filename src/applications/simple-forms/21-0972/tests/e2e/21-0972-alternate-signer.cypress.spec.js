@@ -8,15 +8,9 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
-  fillDateWebComponentPattern,
-  fillFullNameWebComponentPattern,
-  fillTextAreaWebComponent,
-  fillTextWebComponent,
   introductionPageFlow,
   reviewAndSubmitPageFlow,
   selectGroupCheckboxWidget,
-  selectRadioWebComponent,
-  selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
 import { preparerQualificationsQuestionLabels } from '../../config/helpers';
@@ -36,6 +30,7 @@ testFormConfig.chapters.preparerPersonalInformationChapter.pages.preparerPersona
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -43,19 +38,6 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           introductionPageFlow();
-        });
-      },
-      [pagePaths.preparerPersonalInfo]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'preparerFullName',
-              data.preparerFullName,
-            );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
         });
       },
       [pagePaths.preparerAddress]: ({ afterHook }) => {
@@ -71,53 +53,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.preparerContactInformation]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('preparerPhone', data.preparerPhone);
-            fillTextWebComponent('preparerEmail', data.preparerEmail);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.claimantIdentification]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectRadioWebComponent(
-              'claimantIdentification',
-              data.claimantIdentification,
-            );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.claimantPersonalInformation]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'claimantFullName',
-              data.claimantFullName,
-            );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.claimantSsn]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('claimantSsn', data.claimantSsn);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [pagePaths.claimantAddress]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -125,17 +60,6 @@ const testConfig = createTestConfig(
               'claimantAddress',
               data.claimantAddress,
             );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.claimantContactInformation]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('claimantPhone', data.claimantPhone);
-            fillTextWebComponent('claimantEmail', data.claimantEmail);
 
             cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -173,67 +97,6 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectGroupCheckboxWidget(data.preparerSigningReason);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.veteranPersonalInformation]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'veteranFullName',
-              data.veteranFullName,
-            );
-            fillDateWebComponentPattern(
-              'veteranDateOfBirth',
-              data.veteranDateOfBirth,
-            );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.veteranIdentificationInformation1]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent(
-              'veteranHasFiledClaim',
-              data.veteranHasFiledClaim,
-            );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.veteranIdentificationInformation2]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('veteranSsn', data.veteranSsn);
-            fillTextWebComponent(
-              'veteranVaFileNumber',
-              data.veteranVaFileNumber,
-            );
-            fillTextWebComponent(
-              'veteranServiceNumber',
-              data.veteranServiceNumber,
-            );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.additionalInformation]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextAreaWebComponent(
-              'additionalInformation',
-              data.additionalInformation,
-            );
 
             cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
