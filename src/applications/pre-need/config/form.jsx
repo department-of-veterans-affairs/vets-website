@@ -225,7 +225,7 @@ const formConfig = {
               },
             },
             applicantDetails: {
-              title: applicantDetailsSubHeader,
+              title: 'Applicant details',
               path: 'applicant-details',
               uiSchema: {
                 'ui:description': applicantDescription,
@@ -269,7 +269,7 @@ const formConfig = {
               },
             },
             applicantDemographics: {
-              title: applicantDemographicsSubHeader,
+              title: 'Applicant demographics',
               path: 'applicant-demographics',
               uiSchema: {
                 'ui:description': applicantDescription,
@@ -300,7 +300,7 @@ const formConfig = {
             },
             militaryDetails: {
               path: 'applicant-military-details',
-              title: militaryDetailsSubHeader,
+              title: 'Military details',
               depends: isVeteran,
               uiSchema: {
                 application: {
