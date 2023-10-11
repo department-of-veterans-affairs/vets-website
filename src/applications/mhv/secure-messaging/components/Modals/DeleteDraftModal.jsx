@@ -10,10 +10,6 @@ const DeleteDraftModal = props => {
       data-testid="delete-draft-modal"
       modalTitle={Prompts.Draft.DELETE_DRAFT_CONFIRM}
       onCloseEvent={props.onClose}
-      // onPrimaryButtonClick={props.onDelete}
-      // onSecondaryButtonClick={props.onClose}
-      // primaryButtonText="Delete draft"
-      // secondaryButtonText="Cancel"
       visible={props.visible}
       status="warning"
     >
