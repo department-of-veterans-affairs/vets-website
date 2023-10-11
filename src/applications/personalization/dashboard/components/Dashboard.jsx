@@ -341,7 +341,10 @@ const mapStateToProps = state => {
       hasLoadedFullName &&
       hasLoadedDisabilityRating);
 
-  const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
+  const togglesAreLoaded = !toggleValues(state)?.loading;
+
+  const showLoader =
+    !hasLoadedScheduledDowntime || !hasLoadedAllData || !togglesAreLoaded;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);
@@ -385,7 +388,7 @@ const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
-    payments: state.allPayments.payments || [],
+    payments: state.allPayments?.payments || [],
   };
 };
 

@@ -1,11 +1,14 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
 import LandingPage from '../components/LandingPage';
-import { resolveLandingPageLinks } from '../utilities/data';
+import {
+  resolveLandingPageLinks,
+  countUnreadMessages,
+} from '../utilities/data';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
@@ -15,9 +18,11 @@ import {
   selectVamcEhrData,
   signInServiceEnabled,
 } from '../selectors';
+import { getFolderList } from '../utilities/api';
 
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
+  const [unreadMessageCount, setUnreadMessageCount] = useState();
   const enabled = useSelector(isLandingPageEnabledForUser);
   const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
@@ -27,9 +32,9 @@ const App = () => {
 
   const data = useMemo(
     () => {
-      return resolveLandingPageLinks(ssoe, featureToggles);
+      return resolveLandingPageLinks(ssoe, featureToggles, unreadMessageCount);
     },
-    [featureToggles, ssoe],
+    [featureToggles, ssoe, unreadMessageCount],
   );
 
   const datadogRumConfig = {
@@ -54,9 +59,23 @@ const App = () => {
 
   useEffect(
     () => {
+      async function loadMessages() {
+        const folders = await getFolderList();
+        const unreadMessages = countUnreadMessages(folders);
+        setUnreadMessageCount(unreadMessages);
+      }
+
+      if (enabled) {
+        loadMessages();
+      }
+    },
+    [enabled],
+  );
+
+  useEffect(
+    () => {
       const redirect = () => {
         const redirectUrl = mhvUrl(ssoe, 'home');
-        // console.log({ redirectUrl }); // eslint-disable-line no-console
         window.location.replace(redirectUrl);
       };
       if (redirecting) redirect();

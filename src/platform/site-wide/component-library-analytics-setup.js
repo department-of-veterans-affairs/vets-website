@@ -17,25 +17,11 @@ const analyticsEvents = {
       prefix: 'accordion',
     },
   ],
-  AlertBox: [
-    {
-      action: 'linkClick',
-      event: 'nav-alert-box-link-click',
-      prefix: 'alert-box',
-    },
-  ],
   Breadcrumbs: [
     {
       action: 'linkClick',
       event: 'nav-breadcrumb-link-click',
       prefix: 'breadcrumbs',
-    },
-  ],
-  Checkbox: [
-    {
-      action: 'change',
-      event: 'int-checkbox-option-click',
-      prefix: 'checkbox',
     },
   ],
   LoadingIndicator: [
@@ -44,9 +30,6 @@ const analyticsEvents = {
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
     },
-  ],
-  TextArea: [
-    { action: 'blur', event: 'int-text-area-blur', prefix: 'text-area' },
   ],
   TextInput: [
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },

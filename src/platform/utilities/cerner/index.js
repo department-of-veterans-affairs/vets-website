@@ -15,5 +15,4 @@ export const getCernerURL = (path, useSingleLogoutPaths = false) => {
   )}`;
 };
 
-export const appointmentsToolLink =
-  '/health-care/schedule-view-va-appointments/appointments';
+export const appointmentsToolLink = '/my-health/appointments';

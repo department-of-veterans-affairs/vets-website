@@ -48,7 +48,7 @@ describe('AppointmentListItem', () => {
           </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
-          '9:39 p.m.',
+          '9:39 p.m. ',
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
@@ -98,7 +98,7 @@ describe('AppointmentListItem', () => {
           </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
-          '9:39 p.m.',
+          '9:39 p.m. ',
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),

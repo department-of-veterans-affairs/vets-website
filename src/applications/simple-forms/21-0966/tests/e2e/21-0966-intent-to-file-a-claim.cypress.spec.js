@@ -11,6 +11,7 @@ import {
   introductionPageFlow,
   reviewAndSubmitPageFlow,
   selectRadioWebComponent,
+  selectRelationshipToVeteranPattern,
 } from '../../../shared/tests/e2e/helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
@@ -44,11 +45,14 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.preparerName]: ({ afterHook }) => {
+      [pagePaths.thirdPartyPreparerFullName]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern('preparerName', data.preparerName);
+            fillFullNameWebComponentPattern(
+              'thirdPartyPreparerFullName',
+              data.thirdPartyPreparerFullName,
+            );
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -173,7 +177,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectRadioWebComponent(
+            selectRelationshipToVeteranPattern(
               'relationshipToVeteran',
               data.relationshipToVeteran,
             );

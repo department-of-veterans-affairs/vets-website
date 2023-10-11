@@ -9,7 +9,7 @@ import content from '../../../../locales/en/content.json';
 describe('ezr <ConfirmationPrintView>', () => {
   const defaultProps = {
     name: normalizeFullName(
-      { first: 'John', middle: 'Marjorie', last: 'Smith', suffix: 'Sr.' },
+      { first: 'John', middle: 'David', last: 'Smith' },
       true,
     ),
     timestamp: undefined,
@@ -30,9 +30,7 @@ describe('ezr <ConfirmationPrintView>', () => {
         expect(selectors.image).to.exist;
         expect(selectors.title).to.contain.text(content['form-title']);
         expect(selectors.subtitles).to.have.lengthOf(2);
-        expect(selectors.veteranName).to.contain.text(
-          'John Marjorie Smith Sr.',
-        );
+        expect(selectors.veteranName).to.contain.text('John David Smith');
       });
     });
 

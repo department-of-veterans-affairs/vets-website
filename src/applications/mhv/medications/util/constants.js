@@ -5,7 +5,7 @@ export const rxListSortingOptions = {
     LABEL: 'Available to fill or refill first',
   },
   lastFilledFirst: {
-    API_ENDPOINT: '&sort[]=dispensed_date&sort[]=prescription_name',
+    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
     LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
@@ -65,6 +65,11 @@ If you need more of this prescription, request a renewal.`,
 export const pdfDefaultStatusDefinition = `There’s a problem with our system. You can’t manage this prescription online right now.
 If you need this prescription now, call your VA pharmacy.`;
 
+export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
+* Over-the-counter medications, supplements, and herbal remedies
+* Sample medications a provider gave you
+* Other drugs you’re taking that you don’t have a prescription for, including recreational drugs`;
+
 export const dispStatusObj = {
   unknown: 'Unknown',
   active: 'Active',
@@ -77,3 +82,5 @@ export const dispStatusObj = {
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
 };
+
+export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';

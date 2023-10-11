@@ -51,8 +51,6 @@ input[name="root_additionalCopies"] {
   max-width: 7rem;
 }
 
-.form-panel.additional-certificates-request
-  .rjsf-object-field:first-child
-  fieldset {
-  margin-bottom: 0 !important;
+va-text-input[name="root_additionalCopies"]::part(label) {
+  margin-top: 0;
 }

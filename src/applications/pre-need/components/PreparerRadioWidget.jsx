@@ -8,28 +8,36 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 export default function RadioWidget(props) {
   const { options, formContext = {}, value, disabled, onChange, id } = props;
-  const { enumOptions, labels = {}, enableAnalytics = false } = options;
+  const { enumOptions, labels = {} } = options;
 
   const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showRadio = !onReviewPage || (onReviewPage && !inReviewMode); // I think we need to take out first condition.
 
   const onChangeEvent = option => {
-    if (enableAnalytics) {
-      // title may be a React component
-      const title = options.title?.props?.children || options.title || '';
-      // this check isn't ideal since the message may exist and the question
-      // may be dynamically toggled between being required or not
-      const required = !!options.errorMessages?.required;
-      recordEvent({
-        event: 'int-radio-button-option-click',
-        'radio-button-label': title,
-        'radio-button-optionLabel':
-          enumOptions.find(item => item.value === option.detail.value)?.label ||
-          '',
-        'radio-button-required': required,
-      });
-    }
+    // title may be a React component
+    const title = options.title?.props?.children || options.title || '';
+    // this check isn't ideal since the message may exist and the question
+    // may be dynamically toggled between being required or not
+    let optionLabel =
+      enumOptions.find(item => item.value === option.detail.value)?.label || '';
+    if (optionLabel === 'Someone else, such as a preparer')
+      optionLabel = 'Authorized Agent/Rep';
+    else if (optionLabel !== '') optionLabel = 'Self';
+
+    const priorEvent = window.dataLayer[window.dataLayer.length - 1];
+    const currentEvent = {
+      event: 'int-radio-option-click',
+      'radio-button-label': title,
+      'radio-button-optionLabel': optionLabel,
+      'radio-button-required': true,
+    };
+    // if prior event is identical to current event it must be a duplicate.
+    if (
+      !priorEvent ||
+      JSON.stringify(currentEvent) !== JSON.stringify(priorEvent)
+    )
+      recordEvent(currentEvent);
     onChange(option.detail.value);
   };
   return (

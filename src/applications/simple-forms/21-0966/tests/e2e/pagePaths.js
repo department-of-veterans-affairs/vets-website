@@ -5,8 +5,9 @@ export default {
   preparerIdentification:
     formChapters.preparerIdentificationChapter.pages.preparerIdentification
       .path,
-  preparerName:
-    formChapters.preparerIdentificationChapter.pages.preparerName.path,
+  thirdPartyPreparerFullName:
+    formChapters.preparerIdentificationChapter.pages.thirdPartyPreparerFullName
+      .path,
   veteranBenefitSelection:
     formChapters.benefitSelectionChapter.pages.veteranBenefitSelection.path,
   survivingDependantBenefitSelection:
