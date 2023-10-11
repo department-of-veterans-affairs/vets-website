@@ -3,7 +3,7 @@ export const rxListSortingOptions = {
     API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
     LABEL: 'Last filled first',
   },
-  availableToFillOrRefillFirst: {
+  alphabeticallyByStatus: {
     API_ENDPOINT:
       '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     LABEL: 'Alphabetically by status',

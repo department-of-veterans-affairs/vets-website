@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
@@ -99,6 +100,7 @@ const Prescriptions = () => {
   const sortRxList = sortOption => {
     setSelectedSortOption(sortOption);
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
+    focusElement(document.getElementById('showingRx'));
   };
 
   useEffect(
