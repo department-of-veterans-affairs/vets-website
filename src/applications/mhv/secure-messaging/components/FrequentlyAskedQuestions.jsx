@@ -78,9 +78,9 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
               connect with our Veterans Crisis Line. We offer confidential
               support anytime, day or night.
             </li>
-          </ul>
 
-          <CrisisLineConnectButton />
+            <CrisisLineConnectButton />
+          </ul>
 
           <ul>
             <li>
