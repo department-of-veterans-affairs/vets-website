@@ -207,7 +207,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Preparer information Page
     preneedHelpers.validateProgressBar('6');
     cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant"]',
+      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
     preneedHelpers.clickContinue();
     errorCheck(requiredHelpers.preparerInfoErrors1);
