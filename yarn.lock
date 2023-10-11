@@ -14081,10 +14081,10 @@ mocha@^8.2.1:
     yargs-parser "13.1.2"
     yargs-unparser "2.0.0"
 
-mochawesome-report-generator@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-6.1.0.tgz#b15dda48671fea8a152525a972cf1b2492c3f773"
-  integrity sha512-qzSZu7gpddeFzRv1dCEQSFhmePg1sYzKfwXMSd5jSlthw5yDPdRV89yMc3NBpfPY/JjclZiHvDtz5S4HgWZ0Rg==
+mochawesome-report-generator@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-6.2.0.tgz#65a30a11235ba7a68e1cf0ca1df80d764b93ae78"
+  integrity sha512-Ghw8JhQFizF0Vjbtp9B0i//+BOkV5OWcQCPpbO0NGOoxV33o+gKDYU0Pr2pGxkIHnqZ+g5mYiXF7GMNgAcDpSg==
   dependencies:
     chalk "^4.1.2"
     dateformat "^4.5.1"
@@ -14099,10 +14099,10 @@ mochawesome-report-generator@^6.1.0:
     validator "^13.6.0"
     yargs "^17.2.1"
 
-mochawesome@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-7.1.1.tgz#e165a764eff8c15135332e9ce508e1529b0c66e2"
-  integrity sha512-fCWhFhTxTYZLNPpX1SXVRPOKWPluvhi9bhSfMUypHFn4p5pWYY96SniERDCgXjsBXtTklXm8F53S63AjWxRjxw==
+mochawesome@^7.1.3:
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-7.1.3.tgz#07b358138f37f5b07b51a1b255d84babfa36fa83"
+  integrity sha512-Vkb3jR5GZ1cXohMQQ73H3cZz7RoxGjjUo0G5hu0jLaW+0FdUxUwg3Cj29bqQdh0rFcnyV06pWmqmi5eBPnEuNQ==
   dependencies:
     chalk "^4.1.2"
     diff "^5.0.0"
@@ -14111,7 +14111,7 @@ mochawesome@^7.1.1:
     lodash.isfunction "^3.0.9"
     lodash.isobject "^3.0.2"
     lodash.isstring "^4.0.1"
-    mochawesome-report-generator "^6.1.0"
+    mochawesome-report-generator "^6.2.0"
     strip-ansi "^6.0.1"
     uuid "^8.3.2"
 
