@@ -162,6 +162,7 @@
       margin: 0px;
     }
   }
+
   .card {
     margin: 0px 0px 12px 0px !important;
     padding: 24px 0px 12px !important;
@@ -189,4 +190,27 @@
   @media (max-width: $small-screen) {
     width: 100% !important;
   }
+}
+
+@media print {
+  @page {
+      margin-top: 20px;
+      margin-bottom: 0;
+  }
+  body {
+    padding-top: 10px;
+    padding-bottom: 30px ;
+  }
+  button {
+    -webkit-print-color-adjust: exact;
+    width: 200px !important;
+  }
+}
+
+.print-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
 }

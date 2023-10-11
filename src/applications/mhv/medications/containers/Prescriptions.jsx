@@ -9,6 +9,7 @@ import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
+import PrintBottom from './PrintBottom';
 import {
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
@@ -228,22 +229,19 @@ const Prescriptions = () => {
             Medications
           </h1>
           <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 no-print"
             data-testid="Title-Notes"
           >
             Refill and track your VA prescriptions. And review all medications
             in your VA medical records.
           </div>
-          <div className="print-only">
-            <p className="vads-u-margin-y--0">
-              <strong>Note:</strong> This file doesn’t include:
+          <div className="print-only vads-l-col--12 medium-screen:vads-l-col--6">
+            <p className="vads-u-margin-y--1">
+              <strong>Note:</strong>
+              This document may not include all medications in your VA medical
+              records. And it doesn’t include a list of your allergies and
+              reactions to medications.
             </p>
-            <ul className="vads-u-margin-y--0">
-              <li className="vads-u-margin-y--0">All of your medications</li>
-              <li className="vads-u-margin-y--0">
-                Your allergies or adverse reactions
-              </li>
-            </ul>
           </div>
           {topAlert()}
           {prescriptions?.length ? (
@@ -266,6 +264,7 @@ const Prescriptions = () => {
           ) : (
             ''
           )}
+          <PrintBottom />
         </div>
       );
     }
