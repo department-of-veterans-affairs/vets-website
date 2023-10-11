@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 const FooterInfo = () => (
   <section className="need-help-footer row vads-u-padding-x--1p5">

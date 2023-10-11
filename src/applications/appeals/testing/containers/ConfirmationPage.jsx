@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import { FORMAT_READABLE } from '../../shared/constants';
 import { getSelected, getIssueName } from '../../shared/utils/issues';

@@ -7,7 +7,7 @@ import appendQuery from 'append-query';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // eslint-disable-next-line deprecate/import
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';

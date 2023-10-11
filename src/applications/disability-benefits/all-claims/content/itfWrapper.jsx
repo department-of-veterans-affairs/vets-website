@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 

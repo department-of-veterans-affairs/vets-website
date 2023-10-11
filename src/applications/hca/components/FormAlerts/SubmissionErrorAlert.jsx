@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import { focusElement } from 'platform/utilities/ui';
 
 const SubmissionErrorAlert = () => {

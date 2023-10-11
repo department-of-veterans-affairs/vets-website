@@ -1,6 +1,6 @@
 import React from 'react';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 export const directDepositAlert = () => (
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex

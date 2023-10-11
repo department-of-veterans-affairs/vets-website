@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
