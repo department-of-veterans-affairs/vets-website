@@ -27,7 +27,7 @@ function VetCenterInfoSection(props) {
         </h4>
         <div className="main-phone">
           <strong />
-          <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>
+          <va-telephone contact={phoneNumber} />
         </div>
       </>
     );
@@ -70,9 +70,11 @@ function VetCenterInfoSection(props) {
               });
             }}
             href={`https://www.google.com/maps?saddr=Current+Location&daddr=${addressDirections}`}
-            aria-label={`Directions to ${props.vetCenter.title} on Google Maps`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Directions on Google Maps
+            Get directions on Google Maps{' '}
+            <span className="sr-only">{`to ${props.vetCenter.title}`}</span>
           </a>
         </div>
       </div>
