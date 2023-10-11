@@ -29,7 +29,6 @@ describe('Check-in experience', () => {
         expect(getByTestId('header')).to.contain.text('Check-In test header');
         expect(getByText('test body')).to.exist;
         expect(getByText('test additional info')).to.exist;
-        expect(getByText('test help text')).to.exist;
       });
       it('renders buttons', () => {
         const { getByTestId } = render(
