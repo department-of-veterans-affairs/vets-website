@@ -31,8 +31,15 @@ describe('VAOS newAppointment actions', () => {
       const state = {};
       const getState = () => state;
       const data = {};
+      const getTestFlow = () => testFlow;
 
-      const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next', data);
+      const thunk = routeToPageInFlow(
+        getTestFlow,
+        history,
+        'page2',
+        'next',
+        data,
+      );
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
@@ -56,8 +63,9 @@ describe('VAOS newAppointment actions', () => {
       const dispatch = sinon.spy();
       const state = {};
       const getState = () => state;
+      const getTestFlow = () => testFlow;
 
-      const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next');
+      const thunk = routeToPageInFlow(getTestFlow, history, 'page2', 'next');
       await thunk(dispatch, getState);
 
       expect(history.push.firstCall.args[0]).to.equal('/page3');
@@ -70,8 +78,9 @@ describe('VAOS newAppointment actions', () => {
       const dispatch = sinon.spy();
       const state = {};
       const getState = () => state;
+      const getTestFlow = () => testFlow;
 
-      const thunk = routeToPageInFlow(testFlow, history, 'page3', 'next');
+      const thunk = routeToPageInFlow(getTestFlow, history, 'page3', 'next');
 
       thunk(dispatch, getState)
         .then(() => {
@@ -88,6 +97,7 @@ describe('VAOS newAppointment actions', () => {
     it('should route to previous page', async () => {
       const history = {
         push: sinon.spy(),
+        location: { pathname: '' },
       };
       const dispatch = sinon.spy();
       const state = {
@@ -97,9 +107,10 @@ describe('VAOS newAppointment actions', () => {
       };
       const getState = () => state;
       const data = {};
+      const getTestFlow = () => testFlow;
 
       const thunk = routeToPageInFlow(
-        testFlow,
+        getTestFlow,
         history,
         'page3',
         'previous',

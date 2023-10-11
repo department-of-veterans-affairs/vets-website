@@ -1,6 +1,4 @@
 import {
-  SELECTED,
-  MAX_LENGTH,
   CLAIMANT_TYPES,
   PRIMARY_PHONE,
   EVIDENCE_VA,
@@ -13,15 +11,17 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import {
   buildVaLocationString,
   buildPrivateString,
 } from '../validations/evidence';
+
+import {
+  replaceSubmittedData,
+  fixDateFormat,
+} from '../../shared/utils/replace';
 import { returnUniqueIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -62,7 +62,7 @@ export const getClaimantData = ({
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
     result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
       0,
-      MAX_LENGTH.CLAIMANT_OTHER,
+      MAX_LENGTH.SC_CLAIMANT_OTHER,
     );
   }
   return result;
@@ -172,10 +172,22 @@ export const getAddress = formData => {
   const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
+  const countryCodeISO2 = truncate(
+    'countryCodeIso2',
+    MAX_LENGTH.ADDRESS_COUNTRY,
+  );
+  // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
     MAX_LENGTH.POSTAL_CODE,
   );
+  // zipCode5 is always required, set to 00000 for addresses outside the U.S.
+  // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+  const zipCode5 =
+    countryCodeISO2 !== 'US'
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
     // Long addresses will overflow to an attachment page
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
@@ -184,13 +196,9 @@ export const getAddress = formData => {
     city: truncate('city', MAX_LENGTH.CITY),
     // stateCode is from enum
     stateCode: truncate('stateCode'),
-    // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY),
-    // zipCode5 is always required, set to 00000 for international codes
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
-    zipCode5: internationalPostalCode
-      ? '00000'
-      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    countryCodeISO2,
+    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+    zipCode5,
     internationalPostalCode,
   });
 };

@@ -28,9 +28,14 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     patientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient(requestBodyUpdated.recipientId);
-    composePage.getCategory(requestBodyUpdated.category).click();
+    composePage
+      .getCategory(requestBodyUpdated.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
-    composePage.getMessageBodyField().type(`${requestBodyUpdated.body}`);
+    composePage
+      .getMessageBodyField()
+      .type(`${requestBodyUpdated.body}`, { force: true });
     composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
     composePage.sendMessage(requestBodyUpdated);
     cy.injectAxe();

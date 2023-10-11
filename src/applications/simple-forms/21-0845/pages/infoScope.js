@@ -17,7 +17,7 @@ export default {
           [INFORMATION_SCOPES.LIMITED]: 'Limited information',
           [INFORMATION_SCOPES.ANY]: 'Any information',
         },
-        updateSchema: formData => {
+        updateSchema: (formData, schema, uiSchema) => {
           const {
             authorizerType,
             thirdPartyType,
@@ -33,14 +33,31 @@ export default {
               ? getFullNameString(personFullName)
               : organizationName;
 
+          // eslint-disable-next-line no-param-reassign
+          uiSchema['ui:reviewField'] = ({ children }) => (
+            // prevent ui:title's <h3> from getting pulled into
+            // review-field's <dt> & causing a11y headers-hierarchy errors.
+            <div className="review-row">
+              <dt>
+                {titleString.replace('[third-party-name]', thirdPartyName)}
+              </dt>
+              <dd>{children}</dd>
+            </div>
+          );
+
           return {
             title: (
-              <h3 className="custom-header">
+              <h3 style={{ display: 'inline' }}>
                 {titleString.replace('[third-party-name]', thirdPartyName)}
               </h3>
             ),
+            uiSchema,
           };
         },
+      },
+      'ui:errorMessages': {
+        required:
+          'Please select how much information you would like us to release',
       },
     },
   },

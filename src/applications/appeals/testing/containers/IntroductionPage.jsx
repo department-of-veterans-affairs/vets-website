@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -27,15 +28,31 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <div className="schemaform-intro vads-u-margin-left--1">
-      <va-breadcrumbs
-        label="Breadcrumbs"
-        class="vads-u-margin-left--neg1"
-        uswds
-      >
+      <va-breadcrumbs label="Breadcrumbs" class="vads-u-margin-left--neg1">
         <a href="/decision-reviews">Decision review and appeals</a>
         <a href="/decision-reviews/board-appeal">Board Appeals</a>
         <a href="/decision-reviews/appeals-testing">Request a Board Appeal</a>
       </va-breadcrumbs>
+
+      {/* <VaBreadcrumbs
+        label="Breadcrumbs"
+        class="vads-u-margin-left--neg1"
+        breadcrumbsList={[
+          {
+            href: '/decision-reviews',
+            label: 'Decision review and appeals',
+          },
+          {
+            href: '/decision-reviews/board-appeal',
+            label: 'Board Appeals',
+          },
+          {
+            href: '/decision-reviews/appeals-testing',
+            label: 'Request a Board Appeal',
+          },
+        ]}
+        uswds
+      /> */}
 
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
       <p>
@@ -87,7 +104,7 @@ const IntroductionPage = ({ route }) => {
           <li>
             <strong>If you have a claim from the old appeals system</strong>
             <p>
-              If you have a <strong>Statement of the Case (SOC)</strong> or a
+              If you have a <strong>Statement of the Case (SOC)</strong> or a{' '}
               <strong>Supplemental Statement of the Case (SSOC)</strong> from
               the old appeals system{' '}
               <strong>dated on or after February 19, 2019</strong>, the Board

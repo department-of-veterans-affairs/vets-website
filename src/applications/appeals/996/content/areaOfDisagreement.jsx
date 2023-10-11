@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import { getIssueName, getIssueDate } from '../utils/helpers';
-import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
+import { getIssueDate, getIssueName } from '../../shared/utils/issues';
+import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
 
 export const missingAreaOfDisagreementErrorMessage =
   'Please choose or enter a reason for disagreement';
@@ -107,4 +108,8 @@ export const AreaOfDisagreementReviewField = ({ children }) => {
       </dd>
     </div>
   ) : null;
+};
+
+AreaOfDisagreementReviewField.propTypes = {
+  children: PropTypes.node,
 };

@@ -14,13 +14,8 @@ import mockUser from './fixtures/mocks/user.json';
 import mockVamc from './fixtures/mocks/vamc-ehr.json';
 import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
 
-import {
-  CONTESTABLE_ISSUES_API,
-  WIZARD_STATUS,
-  BASE_URL,
-  CONTESTABLE_ISSUES_PATH,
-} from '../constants';
-import { SELECTED } from '../../shared/constants';
+import { CONTESTABLE_ISSUES_API, WIZARD_STATUS, BASE_URL } from '../constants';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {

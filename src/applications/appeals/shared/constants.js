@@ -8,6 +8,7 @@ export const SELECTED = 'view:selected';
  **** INTERNAL FORM URL PATHS ****
  */
 export const CONTACT_INFO_PATH = '/contact-information';
+export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
 
 /**
  **** URL PATHS ****
@@ -15,12 +16,14 @@ export const CONTACT_INFO_PATH = '/contact-information';
 export const DR_URL = '/decision-reviews';
 export const CONTESTED_CLAIMS_URL = `${DR_URL}/contested-claims`;
 export const GET_HELP_REVIEW_REQUEST_URL = `${DR_URL}/get-help-with-review-request`;
-
-export const SC_INFO_URL = `${DR_URL}/supplemental-claim`;
+export const SC_INFO_URL = `${DR_URL}/supplemental-claim`; // v2
 export const SC_BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
 export const SC_OTHER_WAYS_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
 export const SC_FORM_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
+
+// session storage keys
+export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 export const HLR_INFO_URL = `${DR_URL}/higher-level-review`;
 export const HLR_BASE_URL = `${HLR_INFO_URL}/request-higher-level-review-form-20-0996`;
@@ -53,9 +56,10 @@ export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
 export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
+// Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
 export const MAX_YEARS_PAST = 100;
-
+export const LEGACY_TYPE = 'legacyAppeal';
 export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 /**
@@ -70,26 +74,37 @@ export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
  **** MAX LENGTH ****
  */
 
-// Values from Lighthouse maintained schema v2
-// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
+// Values from Lighthouse maintained schema v1 & v2
+// v1 - see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
+// v2 - see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
 export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues (not in schema)
+  // used in 995 and 996
   ISSUE_NAME: 140,
-  DISAGREEMENT_REASON: 90,
   EMAIL: 255,
-  COUNTRY_CODE: 3,
-  AREA_CODE: 4,
+  // used in 995 and 10182
+  SELECTIONS: 100, // submitted issues (not in schema)
+  // used in all 3 forms
+  PHONE_COUNTRY_CODE: 3,
+  PHONE_AREA_CODE: 4,
   PHONE_NUMBER: 14,
   PHONE_NUMBER_EXT: 10,
   ADDRESS_LINE1: 60,
   ADDRESS_LINE2: 30,
   ADDRESS_LINE3: 10,
   CITY: 60,
-  COUNTRY: 2,
+  ADDRESS_COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
-  REP_FIRST_NAME: 30,
-  REP_LAST_NAME: 40,
+  // Supplemental Claim - 995
+  SC_CLAIMANT_OTHER: 25, // does this still exist?
+  SC_EVIDENCE_LOCATION_AND_NAME: 255,
+  // Higher Lever Review - 996
+  DISAGREEMENT_REASON: 90,
+  HLR_REP_FIRST_NAME: 30,
+  HLR_REP_LAST_NAME: 40,
+  // Notice of Disagreement - 10182
+  NOD_ISSUE_NAME: 180,
+  NOD_EXTENSION_REASON: 2300, // in v2 schema
 };
 
 /**

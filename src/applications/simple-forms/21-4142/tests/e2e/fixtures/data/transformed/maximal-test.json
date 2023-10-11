@@ -1,0 +1,126 @@
+{
+    "formNumber": "21-4142",
+    "preparerIdentification": {
+      "preparerAddress": {
+        "street": "address",
+        "street2": "address 2",
+        "city": "city",
+        "country": "USA",
+        "state": "FL",
+        "postalCode": "98745"
+      },
+      "preparerFullName": {
+        "first": "Alternate",
+        "middle": "Signer",
+        "last": "Name",
+        "suffix": "Jr."
+      },
+      "preparerTitle": "Super title",
+      "preparerOrganization": "Ultra org",
+      "courtAppointmentInfo": "court info here",
+      "relationshipToVeteran": "Alternate signer"
+    },
+    "limitedConsent": "limitations, limitations, limitations, limitations, limitations, limitations, ",
+    "providerFacility": [
+      {
+        "providerFacilityName": "Hospital 1",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
+        "treatmentDateRange": { "from": "2000-02-04", "to": "2000-03-04" },
+        "providerFacilityAddress": {
+          "street": "street",
+          "street2": "street 2",
+          "city": "city",
+          "country": "USA",
+          "state": "AL",
+          "postalCode": "45612"
+        }
+      },
+      {
+        "providerFacilityName": "Hospital 2",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
+        "treatmentDateRange": { "from": "2000-05-03", "to": "2001-04-15" },
+        "providerFacilityAddress": {
+          "street": "2 street",
+          "street2": "2 street 2",
+          "city": "city",
+          "country": "USA",
+          "state": "KY",
+          "postalCode": "78965"
+        }
+      },
+      {
+        "providerFacilityName": "Hospital 3",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
+        "treatmentDateRange": { "from": "2005-02-02", "to": "2005-03-02" },
+        "providerFacilityAddress": {
+          "street": "3 street",
+          "street2": "3 street 3",
+          "city": "city",
+          "country": "USA",
+          "state": "TN",
+          "postalCode": "12456"
+        }
+      },
+      {
+        "providerFacilityName": "Hospital 4",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
+        "treatmentDateRange": { "from": "2007-07-11", "to": "2007-07-16" },
+        "providerFacilityAddress": {
+          "street": "4 street",
+          "street2": "4 street 4",
+          "city": "city",
+          "country": "USA",
+          "state": "CA",
+          "postalCode": "55124"
+        }
+      },
+      {
+        "providerFacilityName": "Hospital 5",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
+        "treatmentDateRange": { "from": "2011-04-12", "to": "2011-08-16" },
+        "providerFacilityAddress": {
+          "street": "street",
+          "street2": "5 street 5",
+          "city": "city",
+          "country": "USA",
+          "state": "AZ",
+          "postalCode": "64855"
+        }
+      }
+    ],
+    "acknowledgeToReleaseInformation": true,
+    "patientIdentification": {
+      "patientFullName": {
+        "first": "Connected",
+        "middle": "To",
+        "last": "Veteran"
+      },
+      "patientSsn": "789541231",
+      "patientVaFileNumber": "123456789",
+      "isRequestingOwnMedicalRecords": false
+    },
+    "veteran": {
+      "homePhone": "9876543210",
+      "email": "email@address.com",
+      "address": {
+        "isMilitary": true,
+        "country": "USA",
+        "street": "street",
+        "street2": "street 2",
+        "street3": "street 3",
+        "city": "APO",
+        "state": "AE",
+        "postalCode": "78945"
+      },
+      "ssn": "789456122",
+      "vaFileNumber": "789456123",
+      "veteranServiceNumber": "aA7894561",
+      "fullName": {
+        "first": "First",
+        "middle": "Middle",
+        "last": "Last",
+        "suffix": "Jr."
+      },
+      "dateOfBirth": "1965-02-07"
+    }
+  }

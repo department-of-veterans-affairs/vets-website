@@ -3,9 +3,11 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import Vaccines from '../../containers/Vaccines';
 import reducer from '../../reducers';
+import user from '../fixtures/user.json';
 
 describe('Vaccines list container', () => {
   const initialState = {
+    user,
     mr: {
       vaccines: {
         vaccinesList: null,

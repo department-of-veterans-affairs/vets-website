@@ -9,20 +9,12 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
-  });
-  it('Axe Check Custom Folder List', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('Verify folder header', () => {
+    PatientMessageCustomFolderPage.verifyFolderHeader();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -31,11 +23,11 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
         },
       },
     });
-    PatientMessageCustomFolderPage.verifyFolderHeader();
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
   });
 
   it('Check sorting works properly', () => {
+    PatientMessageCustomFolderPage.verifySorting();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -44,6 +36,17 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
         },
       },
     });
-    PatientMessageCustomFolderPage.verifySorting();
+  });
+
+  it('Verify Filter btn exists', () => {
+    PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

@@ -26,14 +26,12 @@ import {
   draftAutoSaveTimeout,
   Categories,
   DefaultFolders,
-  Prompts,
   ErrorMessages,
 } from '../../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
+import EditContentListOrSignatureModal from '../Modals/EditContentListOrSignatureModal';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -65,7 +63,6 @@ const ComposeForm = props => {
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
-  const fullState = useSelector(state => state);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -142,10 +139,10 @@ const ComposeForm = props => {
       }
 
       if (!draft) {
-        setSelectedRecipient('');
+        setSelectedRecipient('0');
+        setCategory(null);
         setSubject('');
         setMessageBody('');
-        setCategory('');
       }
     },
     [recipients, draft],
@@ -158,8 +155,8 @@ const ComposeForm = props => {
           category,
           body: messageBody,
           subject,
-          draftId: draft?.messageId,
         };
+        messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
         if (attachments.length) {
           const sendData = new FormData();
@@ -208,7 +205,7 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
-  // Populates form fields with recipients and categories
+  //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
@@ -273,7 +270,6 @@ const ComposeForm = props => {
         !selectedRecipient
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -410,6 +406,31 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (
+        selectedRecipient.toString() !==
+          (draft ? draft.recipientId.toString() : '0') ||
+        category !== (draft ? draft.category : null) ||
+        subject !== (draft ? draft.subject : '') ||
+        messageBody !== (draft ? draft.body : '')
+      ) {
+        e.returnValue = '';
+      }
+    },
+    [draft, selectedRecipient, category, subject, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
   return (
     <>
       <EmergencyNote dropDownFlag />
@@ -478,39 +499,9 @@ const ComposeForm = props => {
                 ))}
               </VaSelect>
 
-              <VaModal
-                id="edit-list"
-                modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
-                name="edit-list"
-                visible={editListModal}
-                onCloseEvent={() => setEditListModal(false)}
-                status="warning"
-              >
-                <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
-                <a
-                  className="vads-c-action-link--green"
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'preferences',
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => {
-                    setEditListModal(false);
-                  }}
-                >
-                  Edit your contact list on the My HealtheVet website
-                </a>
-              </VaModal>
-
-              <va-button
-                id="edit-list-button"
-                text="Edit list"
-                label="Edit list"
-                secondary=""
-                class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
-                data-testid="Edit-List-Button"
-                onClick={() => setEditListModal(true)}
+              <EditContentListOrSignatureModal
+                editListModal={editListModal}
+                setEditListModal={setEditListModal}
               />
             </>
           )}
@@ -538,7 +529,7 @@ const ComposeForm = props => {
               data-dd-privacy="mask"
             />
           </div>
-          <div className="compose-form-div">
+          <div className="compose-form-div vads-u-margin-bottom--0">
             <va-textarea
               label="Message"
               required
@@ -554,6 +545,17 @@ const ComposeForm = props => {
               }}
               data-dd-privacy="mask"
             />
+            <div className="edit-contact-list-or-signature">
+              <va-button
+                id="edit-contact-list-or-signature-button"
+                text="Edit contact list or signature"
+                label="Edit contact list or signature"
+                secondary
+                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
+                data-testid="edit-list-button"
+                onClick={() => setEditListModal(true)}
+              />
+            </div>
           </div>
           <section className="attachments-section">
             <AttachmentsList

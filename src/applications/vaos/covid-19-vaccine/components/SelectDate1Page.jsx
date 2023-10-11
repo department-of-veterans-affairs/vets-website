@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
-import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
 import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
+import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 import {
-  getAppointmentSlots,
-  onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../redux/actions';
+} from '../flow';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Choose a date';
@@ -48,6 +49,9 @@ function ErrorMessage({ facilityId }) {
     </div>
   );
 }
+ErrorMessage.propTypes = {
+  facilityId: PropTypes.string,
+};
 
 function validate({ dates, setValidationError }) {
   if (dates?.length) {
@@ -75,7 +79,7 @@ function goForward({
   }
 }
 
-export default function SelectDate1Page() {
+export default function SelectDate1Page({ changeCrumb }) {
   const {
     appointmentSlotsStatus,
     availableSlots,
@@ -95,6 +99,9 @@ export default function SelectDate1Page() {
     appointmentSlotsStatus === FETCH_STATUS.loading ||
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   useEffect(() => {
     dispatch(
@@ -110,6 +117,9 @@ export default function SelectDate1Page() {
       ),
     );
     document.title = `${pageTitle} | Veterans Affairs`;
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   useEffect(
@@ -226,3 +236,7 @@ export default function SelectDate1Page() {
     </div>
   );
 }
+
+SelectDate1Page.propTypes = {
+  changeCrumb: PropTypes.func,
+};

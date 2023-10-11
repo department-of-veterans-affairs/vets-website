@@ -28,7 +28,7 @@ export const additionalInfoUploadUI = {
   ...fileUiSchema(AdditionalInfoUploadLabel, {
     fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
     addAnotherLabel: 'Add another document',
-    buttonText: 'Upload',
+    buttonText: 'Upload document',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1024,
@@ -44,6 +44,7 @@ export const additionalInfoUploadUI = {
     },
     classNames: '',
     attachmentName: false,
+    uswds: true,
   }),
   'ui:description': AdditionalInfoUploadDescription,
 };

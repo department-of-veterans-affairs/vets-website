@@ -13,22 +13,24 @@ import recordEvent from 'platform/monitoring/record-event';
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
-import { CONTESTABLE_ISSUES_PATH, REVIEW_ISSUES } from '../constants';
+
 import { validateDate } from '../validations/date';
 import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../validations/issues';
 import { content } from '../content/addIssue';
 
 import {
-  MAX_LENGTH,
-  SELECTED,
-  REVIEW_AND_SUBMIT,
+  CONTESTABLE_ISSUES_PATH,
   LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_AND_SUBMIT,
+  REVIEW_ISSUES,
+  SELECTED,
 } from '../../shared/constants';
+import { checkValidations } from '../../shared/validations/issues';
 import { getSelected, calculateIndexOffset } from '../../shared/utils/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;

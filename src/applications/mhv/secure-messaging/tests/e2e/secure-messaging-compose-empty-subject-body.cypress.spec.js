@@ -12,11 +12,16 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
-    composePage.getCategory('COVID').click();
+    composePage
+      .getCategory('COVID')
+      .first()
+      .click();
     composePage.attachMessageFromFile('test_image.jpg');
   });
   it('empty message subject error', () => {
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
     composePage.clickOnSendMessageButton();
     composePage.verifySubjectErrorMessage();
     cy.injectAxe();

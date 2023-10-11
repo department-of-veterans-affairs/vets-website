@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { useSelector } from 'react-redux';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
@@ -139,7 +138,7 @@ function App(props) {
     case ERROR:
       return <ChatbotError />;
     case LOADING:
-      return <LoadingIndicator message="Loading Chatbot" />;
+      return <va-loading-indicator message="Loading Chatbot" />;
     case COMPLETE:
       return (
         <WebChat

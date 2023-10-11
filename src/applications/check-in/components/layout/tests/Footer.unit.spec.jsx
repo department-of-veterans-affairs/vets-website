@@ -16,21 +16,7 @@ describe('check-in', () => {
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
       expect(heading).to.contain.text('Need help?');
-      expect(component.getByTestId('day-of-check-in-message')).to.exist;
-      expect(component.queryByTestId('pre-check-in-message')).to.not.exist;
-      expect(component.queryByTestId('day-of-travel-extra-message')).to.not
-        .exist;
-    });
-    it('Renders extra messages on the day of footer', () => {
-      const component = render(
-        <CheckInProvider
-          store={{ app: 'dayOf' }}
-          router={{ currentPage: '/complete' }}
-        >
-          <Footer isPreCheckIn={false} />
-        </CheckInProvider>,
-      );
-      expect(component.getByTestId('day-of-travel-extra-message')).to.exist;
+      expect(component.getByTestId('check-in-message')).to.exist;
     });
     it('Renders default pre-check-in footer', () => {
       const component = render(
@@ -41,9 +27,8 @@ describe('check-in', () => {
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
       expect(heading).to.contain.text('Need help?');
-      expect(component.queryByTestId('day-of-check-in-message')).to.not.exist;
       expect(component.queryByTestId('intro-extra-message')).to.not.exist;
-      expect(component.getByTestId('pre-check-in-message')).to.exist;
+      expect(component.getByTestId('check-in-message')).to.exist;
     });
     it('Render extra message on the intro page for pre-check-in', () => {
       const component = render(
@@ -55,6 +40,77 @@ describe('check-in', () => {
         </CheckInProvider>,
       );
       expect(component.getByTestId('intro-extra-message')).to.exist;
+    });
+    it('Renders HelpBlock for travel-pay page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'travel-pay' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
+    });
+    it('Renders HelpBlock for travel-vehicle page and travel section', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'travel-vehicle' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
+    });
+    it('Renders HelpBlock for travel-address page and travel section', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'travel-address' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
+    });
+    it('Renders HelpBlock for complete page pre-check and travel section', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'preCheckIn' }}
+          router={{ currentPage: 'complete' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('help-block')).to.exist;
+      expect(component.getByTestId('for-questions-about-filing')).to.exist;
+    });
+    it('Renders HelpBlock for complete page', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'complete' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('help-block')).to.exist;
+    });
+    it('Renders HelpBlock without travel link on non-travel pages', () => {
+      const component = render(
+        <CheckInProvider
+          store={{ app: 'dayOf' }}
+          router={{ currentPage: 'contact-information' }}
+        >
+          <Footer isPreCheckIn={false} />
+        </CheckInProvider>,
+      );
+      expect(component.queryByTestId('for-questions-about-filing')).to.not
+        .exist;
     });
   });
 });

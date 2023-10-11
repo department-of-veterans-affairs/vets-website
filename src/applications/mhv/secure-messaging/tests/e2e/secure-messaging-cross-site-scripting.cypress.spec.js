@@ -28,9 +28,14 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     };
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.getCategory(requestBody.category).click();
+    composePage
+      .getCategory(requestBody.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
-    composePage.getMessageBodyField().type(requestBodyUpdated.body);
+    composePage
+      .getMessageBodyField()
+      .type(requestBodyUpdated.body, { force: true });
     composePage.sendMessage(requestBodyUpdated);
 
     // this assertion already added to composePage.sendMessage method. Check if it still needed

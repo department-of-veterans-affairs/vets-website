@@ -1,4 +1,5 @@
 import { CONFERENCE_TIMES_V2 } from '../constants';
+
 import {
   replaceSubmittedData,
   fixDateFormat,
@@ -6,8 +7,8 @@ import {
 import { returnUniqueIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
 import {
-  SELECTED,
   MAX_LENGTH,
+  SELECTED,
   SUBMITTED_DISAGREEMENTS,
 } from '../../shared/constants';
 
@@ -215,21 +216,30 @@ export const getAddress = formData => {
   const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  // note "ISO2" is submitted, "Iso2" is from profile address
+  const countryCodeISO2 = truncate(
+    'countryCodeIso2',
+    MAX_LENGTH.ADDRESS_COUNTRY,
+  );
+  // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
     MAX_LENGTH.POSTAL_CODE,
   );
+  // zipCode5 is always required, set to 00000 for addresses outside the U.S.
+  // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+  const zipCode5 =
+    countryCodeISO2 !== 'US'
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
     addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
     city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: internationalPostalCode
-      ? '00000'
-      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    countryCodeISO2,
+    zipCode5,
     internationalPostalCode,
   });
 };
@@ -243,8 +253,8 @@ export const getPhone = ({ veteran = {} } = {}) => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
   return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });

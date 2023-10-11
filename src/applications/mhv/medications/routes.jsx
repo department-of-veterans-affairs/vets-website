@@ -5,17 +5,19 @@ import PrescriptionDetails from './containers/PrescriptionDetails';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 
 const routes = (
-  <div className="vads-l-grid-container main-content">
-    <RxBreadcrumbs />
-    <div>
-      <Switch>
-        <Route exact path="/" key="App">
-          <App />
-        </Route>
-        <Route exact path="/:prescriptionId" key="prescriptionDetails">
-          <PrescriptionDetails />
-        </Route>
-      </Switch>
+  <div className="vads-l-grid-container">
+    <div className="main-content vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100">
+      <RxBreadcrumbs />
+      <div>
+        <Switch>
+          <Route exact path="/" key="App">
+            <App />
+          </Route>
+          <Route exact path="/:prescriptionId" key="prescriptionDetails">
+            <PrescriptionDetails />
+          </Route>
+        </Switch>
+      </div>
     </div>
   </div>
 );

@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const DownloadLettersAlert = () => (
   <va-alert
@@ -96,8 +96,8 @@ export const ErrorMessage = () => (
       <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         If you continue having trouble viewing information about your current
-        debts, email us at{' '}
-        <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+        debts, contact us online through <a href="https://ask.va.gov">Ask VA</a>
+        .
       </p>
     </div>
   </va-alert>

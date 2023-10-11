@@ -52,7 +52,7 @@ function visitIntro() {
   cy.url().should('not.contain', '/introduction');
 }
 
-// Fills all fields on the Applicant Information page
+// Fills all fields on the Applicant Information page , performs axe check, continues to next page
 function fillApplicantInfo(name, ssn, dob, relationship) {
   cy.get('input[name="root_application_claimant_name_first"]');
   validateProgressBar('1');
@@ -69,7 +69,7 @@ function fillApplicantInfo(name, ssn, dob, relationship) {
   );
 }
 
-// Fills in any existing military history data
+// Fills in any existing military history data, performs axe check, continues to next page
 function fillMilitaryHistory(serviceRecord) {
   serviceRecord.forEach((tour, index) => {
     cy.fillDate(
@@ -117,7 +117,7 @@ function fillMilitaryHistory(serviceRecord) {
   clickContinue();
 }
 
-// Fills in previous name information
+// Fills in previous name information, performs axe check, continues to next page
 function fillPreviousName(serviceName) {
   cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
   cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
@@ -177,7 +177,7 @@ function fillApplicantContactInfo(contact) {
   cy.url().should('not.contain', '/applicant-contact-information');
 }
 
-// Fills Preparer Contact Information page
+// Fills Preparer Contact Information page, performs axe check, continues to next page
 function fillPreparerInfo(preparer) {
   cy.selectRadio(
     'root_application_applicant_applicantRelationshipToClaimant',
@@ -200,10 +200,10 @@ function fillPreparerInfo(preparer) {
       'input[name$="applicantPhoneNumber"]',
       preparer['view:applicantInfo']['view:contactInfo'].applicantPhoneNumber,
     );
-    cy.axeCheck();
-    clickContinue();
-    cy.url().should('not.contain', '/preparer');
   }
+  cy.axeCheck();
+  clickContinue();
+  cy.url().should('not.contain', '/preparer');
 }
 
 // Submit Form

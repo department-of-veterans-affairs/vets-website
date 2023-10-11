@@ -2,9 +2,10 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import { Alerts } from '../../../util/constants';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -160,7 +161,18 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
+    cy.get('[data-testid="delete-draft-button"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
+  };
+
+  sendDraftMessage = draftMessage => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
+      'sentDraftResponse',
+    );
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.wait('@sentDraftResponse');
   };
 
   confirmDeleteDraft = draftMessage => {
@@ -181,6 +193,13 @@ class PatientMessageDraftsPage {
     cy.wait('@deletedDraftResponse');
   };
 
+  verifyDeleteConfirmationMessage = () => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
+      'have.text',
+      `${Alerts.Message.DELETE_DRAFT_SUCCESS}`,
+    );
+  };
+
   confirmDeleteDraftWithEnterKey = draftMessage => {
     cy.intercept(
       'DELETE',
@@ -189,7 +208,6 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
@@ -226,10 +244,10 @@ class PatientMessageDraftsPage {
       .find('[name="compose-message-body"]');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+  verifySendConfirmationMessage = () => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
       'have.text',
-      'Secure message was successfully sent.',
+      Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
   };
 
@@ -254,9 +272,8 @@ class PatientMessageDraftsPage {
       .select(recipientName);
   };
 
-  selectCategory = category => {
+  selectCategory = (category = 'COVID') => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
       .contains(category)
       .click();
   };
@@ -302,7 +319,7 @@ class PatientMessageDraftsPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-1/search',
+      '/my_health/v1/messaging/folders/-2/search',
       sentSearchResponse,
     );
     cy.get('[data-testid="filter-messages-button"]').click({ force: true });

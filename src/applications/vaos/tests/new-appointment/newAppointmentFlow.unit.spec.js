@@ -11,7 +11,7 @@ import past from '../../services/mocks/var/past.json';
 import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
 import parentFacilities from '../../services/mocks/var/facilities.json';
 
-import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
+import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { mockParentSites } from '../mocks/helpers';
 import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
@@ -87,7 +87,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -116,7 +116,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -145,7 +145,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -174,7 +174,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -182,7 +182,7 @@ describe('VAOS newAppointmentFlow', () => {
         expect(nextState).to.equal('typeOfCare');
       });
 
-      it('should be requestDateTime if CC support and typeOfCare is podiatry', async () => {
+      it('should be ccRequestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
         mockFacilitiesFetchByVersion({
           children: true,
@@ -225,12 +225,12 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
 
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).to.equal('ccRequestDateTime');
       });
 
       it('should be typeOfSleepCare if sleep care chosen', async () => {
@@ -248,7 +248,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -298,7 +298,7 @@ describe('VAOS newAppointmentFlow', () => {
         const getState = () => state;
         const dispatch = action =>
           typeof action === 'function' ? action(sinon.spy(), getState) : null;
-        const nextState = await newAppointmentFlow.typeOfCare.next(
+        const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
           state,
           dispatch,
         );
@@ -319,7 +319,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+          state,
+        );
         expect(nextState).to.equal('audiologyCareType');
       });
 
@@ -335,11 +337,11 @@ describe('VAOS newAppointmentFlow', () => {
 
         const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
           state,
           dispatch,
         );
-        expect(nextState).to.equal('requestDateTime');
+        expect(nextState).to.equal('ccRequestDateTime');
         expect(dispatch.firstCall.args[0].type).to.equal(
           'newAppointment/START_REQUEST_APPOINTMENT_FLOW',
         );
@@ -358,7 +360,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.typeOfFacility.next(state);
+        const nextState = getNewAppointmentFlow(state).typeOfFacility.next(
+          state,
+        );
         expect(nextState).to.equal('vaFacilityV2');
       });
     });
@@ -423,7 +427,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacilityV2.next(
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -447,7 +451,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacilityV2.next(
+        const nextState = await getNewAppointmentFlow(state).vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -467,7 +471,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.requestDateTime.next(state);
+        const nextState = getNewAppointmentFlow(state).requestDateTime.next(
+          state,
+        );
 
         expect(nextState).to.equal('reasonForAppointment');
       });
@@ -486,7 +492,10 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
+        const nextState = getNewAppointmentFlow(state).clinicChoice.next(
+          state,
+          dispatch,
+        );
 
         expect(nextState).to.equal('preferredDate');
       });
@@ -501,7 +510,10 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = newAppointmentFlow.clinicChoice.next(state, dispatch);
+        const nextState = getNewAppointmentFlow(state).clinicChoice.next(
+          state,
+          dispatch,
+        );
 
         expect(nextState).to.equal('requestDateTime');
         expect(dispatch.called).to.be.true;
@@ -518,7 +530,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+        expect(getNewAppointmentFlow(state).ccPreferences.next(state)).to.equal(
           'reasonForAppointment',
         );
       });
@@ -539,7 +551,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        expect(newAppointmentFlow.ccPreferences.next(state)).to.equal(
+        expect(getNewAppointmentFlow(state).ccPreferences.next(state)).to.equal(
           'ccLanguage',
         );
       });
@@ -557,7 +569,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.reasonForAppointment.next(state);
+        const nextState = getNewAppointmentFlow(
+          state,
+        ).reasonForAppointment.next(state);
         expect(nextState).to.equal('visitType');
       });
 
@@ -570,7 +584,9 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        const nextState = newAppointmentFlow.reasonForAppointment.next(state);
+        const nextState = getNewAppointmentFlow(
+          state,
+        ).reasonForAppointment.next(state);
         expect(nextState).to.equal('contactInfo');
       });
     });
@@ -586,7 +602,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         },
       };
-      const nextState = await newAppointmentFlow.typeOfCare.next(
+      const nextState = await getNewAppointmentFlow(state).typeOfCare.next(
         state,
         dispatch,
       );
@@ -636,7 +652,7 @@ describe('VAOS newAppointmentFlow', () => {
       const getState = () => state;
       const dispatch = action =>
         typeof action === 'function' ? action(sinon.spy(), getState) : null;
-      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+      const nextState = await getNewAppointmentFlow(state).typeOfEyeCare.next(
         state,
         dispatch,
       );
@@ -670,7 +686,7 @@ describe('VAOS newAppointmentFlow', () => {
       const getState = () => state;
       const dispatch = action =>
         typeof action === 'function' ? action(sinon.spy(), getState) : null;
-      const nextState = await newAppointmentFlow.typeOfEyeCare.next(
+      const nextState = await getNewAppointmentFlow(state).typeOfEyeCare.next(
         state,
         dispatch,
       );

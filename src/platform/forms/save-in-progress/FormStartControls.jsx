@@ -103,6 +103,7 @@ class FormStartControls extends React.Component {
               onClick={this.handleLoadForm}
               text={continueAppButtonText}
               label={ariaLabel}
+              data-testid="continue-your-application"
             />
           )}
           {!this.props.resumeOnly && (

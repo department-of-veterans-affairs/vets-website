@@ -4,7 +4,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = ({
   data,
@@ -27,7 +27,10 @@ const OtherAssetsChecklist = ({
     )
       return;
 
-    const calculatedAssets = calculateTotalAssets(data);
+    // liquid assets are caluclated in cash in bank with this ff
+    if (data['view:streamlinedWaiverAssetUpdate']) return;
+
+    const calculatedAssets = calculateLiquidAssets(data);
     setFormData({
       ...data,
       gmtData: {
@@ -112,6 +115,7 @@ OtherAssetsChecklist.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

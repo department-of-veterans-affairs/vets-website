@@ -6,20 +6,21 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
+import {
+  SHOW_PART3,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+} from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
+import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
 
-import { SHOW_PART3 } from '../constants';
-
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
-
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
-
-import { issuesNeedUpdating } from '../utils/issues';
 
 export const FormApp = ({
   isLoading,
@@ -105,7 +106,7 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3],
+    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
   );
 
   const content = isLoading ? (
@@ -119,7 +120,14 @@ export const FormApp = ({
   );
 
   // Add Datadog UX monitoring to the application
-  useBrowserMonitoring();
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'nod', // becomes "nodBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+  });
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
