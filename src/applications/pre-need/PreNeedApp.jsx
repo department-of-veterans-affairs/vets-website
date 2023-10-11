@@ -59,6 +59,19 @@ export default function PreNeedApp({ location, children }) {
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
+      if (
+        document.getElementById(
+          'root_application_claimant_view:applicantContactInfoSubheader',
+        )
+      ) {
+        document.getElementById(
+          'root_application_claimant_view:applicantContactInfoSubheader',
+        ).style.visibility = 'hidden';
+        document.getElementById(
+          'root_application_claimant_view:applicantContactInfoSubheader',
+        ).style.maxHeight = 0;
+      }
+
       const hasVeteran = isVeteran(selectorData.data);
       const radios = document.querySelectorAll('input[type="radio"]');
       for (const radio of radios) {

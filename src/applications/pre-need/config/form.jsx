@@ -120,11 +120,9 @@ export const sponsorMailingAddressStateTitleWrapper = (
 
 export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 
-const applicantContactInfoSubheader = <Dummy />;
-
-function Dummy() {
-  return <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>;
-}
+const applicantContactInfoSubheader = (
+  <h3 className=".vads-u-font-size--h5">Applicant’s contact details</h3>
+);
 
 function ApplicantContactInfoDescription() {
   const data = useSelector(state => state.form.data || {});
@@ -778,10 +776,7 @@ const formConfig = {
                       },
                     ),
                     'view:applicantContactInfoSubheader': {
-                      'ui:description': applicantContactInfoSubheader,
-                      'ui:options': {
-                        keepInPageOnReview: true,
-                      },
+                      'ui:title': applicantContactInfoSubheader,
                     },
                     phoneNumber: phoneUI('Phone number'),
                     email: emailUI(),
@@ -803,8 +798,7 @@ const formConfig = {
                         properties: {
                           address: address.schema(fullSchemaPreNeed, true),
                           'view:applicantContactInfoSubheader': {
-                            type: 'object',
-                            properties: {},
+                            type: 'string',
                           },
                           phoneNumber: claimant.properties.phoneNumber,
                           email: claimant.properties.email,
