@@ -14,10 +14,6 @@ const initialState = {
    * Pagination received form meta object in prescriptionsList payload
    */
   prescriptionsPagination: undefined,
-  /**
-   * Sort endpoint currently being used
-   */
-  sortEndpoint: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -35,12 +31,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,
-      };
-    }
-    case Actions.Prescriptions.SET_SORT_ENDPOINT: {
-      return {
-        ...state,
-        sortEndpoint: action.sortEndpoint,
       };
     }
     case Actions.Prescriptions.FILL: {
