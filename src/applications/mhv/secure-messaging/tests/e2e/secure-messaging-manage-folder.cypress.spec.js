@@ -7,7 +7,7 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('create custom folder', () => {
-  const folderPage = new FolderManagementPage();
+  // const FolderManagementPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const folderName = createdFolderResponse.data.attributes.name;
@@ -23,7 +23,7 @@ describe('create custom folder', () => {
   it('verify folder created', () => {
     PatientMessageCustomFolderPage.createCustomFolder(newFolder);
 
-    folderPage.verifyCreateFolderSuccessMessage();
+    FolderManagementPage.verifyCreateFolderSuccessMessage();
 
     cy.get('.folders-list').should('contain.text', folderName);
 
@@ -38,7 +38,7 @@ describe('create custom folder', () => {
   });
 });
 describe('delete custom folder', () => {
-  const folderPage = new FolderManagementPage();
+  // const FolderManagementPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const folderName = createdFolderResponse.data.attributes.name;
@@ -57,9 +57,9 @@ describe('delete custom folder', () => {
     );
     mockFolders.data.pop(createdFolderResponse.data);
 
-    folderPage.deleteFolder(folderId);
+    FolderManagementPage.deleteFolder(folderId);
 
-    folderPage.verifyDeleteSuccessMessage();
+    FolderManagementPage.verifyDeleteSuccessMessage();
 
     cy.get('.folders-list').should('not.contain.text', folderName);
 

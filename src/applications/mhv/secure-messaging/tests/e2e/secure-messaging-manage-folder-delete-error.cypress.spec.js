@@ -5,10 +5,9 @@ import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe.skip('Secure Messaging Custom Folder Delete Error Message Validation', () => {
+describe('Secure Messaging Custom Folder Delete Error Message Validation', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
-  const folderPage = new FolderManagementPage();
 
   beforeEach(() => {
     site.login();
@@ -50,9 +49,10 @@ describe.skip('Secure Messaging Custom Folder Delete Error Message Validation', 
   });
 
   it('Edit Folder Name check error on blank input', () => {
-    folderPage
-      .editFolderNameButton()
-      .click({ force: true, waitforanimations: false });
+    FolderManagementPage.editFolderNameButton().click({
+      force: true,
+      waitforanimations: false,
+    });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -249,4 +249,4 @@ class FolderManagementPage {
   };
 }
 
-export default FolderManagementPage;
+export default new FolderManagementPage();
