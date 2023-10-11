@@ -2,22 +2,29 @@ import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/
 
 import Form from './containers/Form';
 import Search from './containers/Search';
+import Welcome from './containers/Welcome';
+import RepresentativeApp from './containers/RepresentativeApp';
 import formConfig from './config/form';
 
-const routes = [
-  {
-    path: '/',
-    component: Search,
+const routes = {
+  path: '/',
+  component: RepresentativeApp,
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/welcome'),
   },
-  {
-    path: '/form',
-    component: Form,
-    indexRoute: {
-      onEnter: (nextState, replace) => replace('/form/introduction'),
-    },
+  childRoutes: [
+    { path: 'welcome', component: Welcome },
+    { path: 'search', component: Search },
+    {
+      path: 'form',
+      component: Form,
+      indexRoute: {
+        onEnter: (nextState, replace) => replace('/form/introduction'),
+      },
 
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
-  },
-];
+      childRoutes: createRoutesWithSaveInProgress(formConfig),
+    },
+  ],
+};
 
 export default routes;
