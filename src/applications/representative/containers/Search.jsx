@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-// import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
+
 import SearchControls from '../components/search/SearchControls';
 import ResultsList from '../components/search/ResultsList';
 
-export default function Search() {
+export default function Search({ router }) {
   const [showResults, setShowResults] = useState(false);
 
   const handleSearch = e => {
     e.preventDefault();
     setShowResults(!showResults);
+  };
+
+  const handleRedirect = e => {
+    e.preventDefault();
+    router.replace('form');
   };
 
   return (
@@ -19,8 +25,13 @@ export default function Search() {
         </div>
 
         <SearchControls handleSearch={handleSearch} />
-        {showResults && <ResultsList onSelect />}
+
+        {showResults && <ResultsList handleRedirect={e => handleRedirect(e)} />}
       </div>
     </>
   );
 }
+
+Search.propTypes = {
+  router: PropTypes.object,
+};

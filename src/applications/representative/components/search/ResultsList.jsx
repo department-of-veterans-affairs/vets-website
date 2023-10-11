@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchResult from './SearchResult';
 
-const ResultsList = () => {
+const ResultsList = ({ handleRedirect }) => {
   const resultData = [
     {
       name: 'Jane Doe',
@@ -40,7 +40,7 @@ const ResultsList = () => {
               type={result.type}
               address={result.address}
               phone={result.phone}
-              //   onSelect
+              handleRedirect={e => handleRedirect(e)}
             />
           );
         })}
