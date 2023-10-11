@@ -93,5 +93,28 @@ describe('pre-check-in', () => {
         ),
       ).to.exist;
     });
+    it('has a clickable no button', () => {
+      const component = render(
+        <CheckInProvider store={{ veteranData }}>
+          <Demographics />
+        </CheckInProvider>,
+      );
+
+      expect(component.getByText('Is this your current contact information?'))
+        .to.exist;
+      component.getByTestId('no-button').click();
+    });
+
+    it('has a clickable yes button', () => {
+      const component = render(
+        <CheckInProvider store={{ veteranData }}>
+          <Demographics />
+        </CheckInProvider>,
+      );
+
+      expect(component.getByText('Is this your current contact information?'))
+        .to.exist;
+      component.getByTestId('yes-button').click();
+    });
   });
 });
