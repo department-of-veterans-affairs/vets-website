@@ -5,12 +5,12 @@ import { SHOW_PART3 } from '../constants';
 import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
 import {
-  returnUniqueIssues,
   processContestableIssues,
+  returnUniqueIssues,
 } from '../../shared/utils/issues';
 import {
-  replaceSubmittedData,
   fixDateFormat,
+  replaceSubmittedData,
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
