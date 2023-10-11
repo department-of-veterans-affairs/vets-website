@@ -213,7 +213,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     errorCheck(requiredHelpers.preparerInfoErrors1);
 
     cy.selectRadio(
-      'root_application_applicant_applicantRelationshipToClaimant',
+      'root_application_applicant_applicantRelationshipToClaimant_1',
       testData.data.application.applicant.applicantRelationshipToClaimant,
     );
     preneedHelpers.clickContinue();
