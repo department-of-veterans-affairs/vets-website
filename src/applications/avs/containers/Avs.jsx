@@ -89,7 +89,10 @@ const Avs = props => {
         <h1>After-visit Summary</h1>
 
         <va-accordion>
-          <va-accordion-item header={generateAppointmentHeader(avs)}>
+          <va-accordion-item
+            header={generateAppointmentHeader(avs)}
+            open="true"
+          >
             <YourAppointment avs={avs} />
           </va-accordion-item>
           <va-accordion-item header="Your treatment plan from this appointment">
