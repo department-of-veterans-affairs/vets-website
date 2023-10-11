@@ -31,8 +31,8 @@ const numbers = [
   FIELD_NAMES.WORK_PHONE,
 ];
 
-const newAreaCode = '415';
-const newPhoneNumber = '555-0055';
+const defaultAreaCode = '415';
+const defaultPhoneNumber = '555-0055';
 const ui = (
   <MemoryRouter>
     <ContactInformation />
@@ -59,7 +59,7 @@ function getEditButton(numberName) {
 // and clicks the `Update` button.
 function editPhoneNumber(
   numberName,
-  { newAreaCodeToSet, newPhoneNumberToSet } = { newAreaCode, newPhoneNumber },
+  options = { areaCode: defaultAreaCode, phoneNumber: defaultPhoneNumber },
 ) {
   const editButton = getEditButton(numberName);
   editButton.click();
@@ -73,7 +73,7 @@ function editPhoneNumber(
 
   // enter a new phone number in the form
   user.clear(phoneNumberInput);
-  user.type(phoneNumberInput, `${newAreaCodeToSet} ${newPhoneNumberToSet}`);
+  user.type(phoneNumberInput, `${options.areaCode} ${options.phoneNumber}`);
   user.clear(extensionInput);
 
   // save
@@ -253,8 +253,8 @@ describe('Editing', () => {
     server.use(...mocks.transactionSucceeded);
 
     editPhoneNumber(FIELD_TITLES[FIELD_NAMES.HOME_PHONE], {
-      newAreaCodeToSet: '231',
-      newPhoneNumberToSet: '45678',
+      areaCode: '231',
+      phoneNumber: '45678',
     });
 
     fireEvent.click(await view.findByText(/Save/i));
@@ -271,8 +271,8 @@ describe('Editing', () => {
     server.use(...mocks.transactionSucceeded);
 
     editPhoneNumber(FIELD_TITLES[FIELD_NAMES.HOME_PHONE], {
-      newAreaCodeToSet: '231',
-      newPhoneNumberToSet: '45678a',
+      areaCode: '231',
+      phoneNumber: '45678a',
     });
 
     fireEvent.click(await view.findByText(/Save/i));
