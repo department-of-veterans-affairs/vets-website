@@ -19,9 +19,7 @@ describe('Secure Messaging Compose', () => {
     );
 
     cy.get('[text="Connect with the Veterans Crisis Line"]').click();
-
     cy.get('.va-modal-close').click();
-
     cy.get('[text="Connect with the Veterans Crisis Line"]').should(
       'have.focus',
     );
