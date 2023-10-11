@@ -23,7 +23,6 @@ describe('Check-in experience', () => {
               eyebrow="Check-In"
               bodyText="test body"
               additionalInfoItems={additionalInfoItems}
-              helpText="test help text"
             />
           </CheckInProvider>,
         );
