@@ -71,7 +71,7 @@ const TravelPage = ({
           </div>
         )}
         {additionalInfo && (
-          <va-additional-info trigger="Travel reimbursement eligibility">
+          <va-additional-info trigger="Travel reimbursement eligibility" uswds>
             <>{additionalInfo}</>
           </va-additional-info>
         )}
