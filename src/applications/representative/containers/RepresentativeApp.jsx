@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function RepresentativeApp({ children }) {
   return (
@@ -7,3 +8,7 @@ export default function RepresentativeApp({ children }) {
     </>
   );
 }
+
+RepresentativeApp.propTypes = {
+  children: PropTypes.node.isRequired,
+};
