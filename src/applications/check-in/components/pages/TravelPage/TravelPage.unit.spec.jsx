@@ -9,13 +9,20 @@ describe('Check-in experience', () => {
   describe('shared components', () => {
     describe('TravelPage', () => {
       it('renders custom header, eyebrow, body, and helptext', () => {
+        const additionalInfoItems = [
+          {
+            info: 'test additional info',
+            trigger: 'Additional Info Trigger',
+          },
+        ];
+
         const { getByText, getByTestId } = render(
           <CheckInProvider>
             <TravelPage
               header="test header"
               eyebrow="Check-In"
               bodyText="test body"
-              additionalInfo="test additional info"
+              additionalInfoItems={additionalInfoItems}
               helpText="test help text"
             />
           </CheckInProvider>,
