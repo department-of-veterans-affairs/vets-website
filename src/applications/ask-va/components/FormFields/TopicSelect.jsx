@@ -8,11 +8,11 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/e
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import RequireSignInModal from '../RequireSignInModal';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInCategories } from '../../constants';
-import { setCategoryID } from '../../actions';
+import { URL, requireSignInTopics } from '../../constants';
+import { setTopicID } from '../../actions';
 
-const CategorySelect = props => {
-  const { id, onChange, value, loggedIn } = props;
+const TopicSelect = props => {
+  const { id, onChange, value, loggedIn, categoryID } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -30,12 +30,14 @@ const CategorySelect = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
-    dispatch(setCategoryID(selected.id));
+    const selected = apiData.find(
+      topic => topic.attributes.name === selectedValue,
+    );
+    dispatch(setTopicID(selected.id));
     onChange(selectedValue);
     setDirty(true);
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn)
-      setShowModal({ show: true, selected: `${selectedValue}` });
+    if (requireSignInTopics.includes(selectedValue) && !loggedIn)
+      setShowModal({ show: true, selected: selectedValue });
   };
 
   const handleBlur = () => {
@@ -61,7 +63,11 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
+      getApiData(
+        `${environment.API_URL}${URL.GET_CATEGORIES}/${categoryID}${
+          URL.GET_TOPICS
+        }`,
+      );
     },
     [loggedIn],
   );
@@ -79,19 +85,15 @@ const CategorySelect = props => {
         id={id}
         name={id}
         value={value}
-        label="Select a category"
+        label="Select a topic"
         error={showError() || null}
         onVaSelect={handleChange}
         onBlur={handleBlur}
       >
         <option value="">&nbsp;</option>
-        {apiData.map(category => (
-          <option
-            key={category.id}
-            value={category.attributes.name}
-            id={category.id}
-          >
-            {category.attributes.name}
+        {apiData.map(topic => (
+          <option key={topic.id} value={topic.attributes.name} id={topic.id}>
+            {topic.attributes.name}
           </option>
         ))}
       </VaSelect>
@@ -107,17 +109,19 @@ const CategorySelect = props => {
   );
 };
 
-CategorySelect.propTypes = {
+TopicSelect.propTypes = {
   loggedIn: PropTypes.bool,
   id: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  categoryID: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
+    categoryID: state.askVA.categoryID,
   };
 }
 
-export default connect(mapStateToProps)(CategorySelect);
+export default connect(mapStateToProps)(TopicSelect);
