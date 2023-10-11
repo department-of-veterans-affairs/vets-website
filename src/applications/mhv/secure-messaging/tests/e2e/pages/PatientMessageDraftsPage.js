@@ -161,7 +161,10 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
+    cy.get('[data-testid="delete-draft-button"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
   };
 
   sendDraftMessage = draftMessage => {
