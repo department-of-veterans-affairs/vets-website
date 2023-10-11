@@ -1,9 +1,10 @@
 import moment from 'moment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
 import { get } from 'lodash';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { deductionCodes } from '../constants/deduction-codes';
+import { ignoreFields } from '../constants/ignoreFields';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -24,6 +25,12 @@ export const enhancedFSRFeatureToggle = state => {
 export const streamlinedWaiverFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiver
+  ];
+};
+
+export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiverAssets
   ];
 };
 
@@ -376,4 +383,13 @@ export const generateUniqueKey = (data, fields, index = null) => {
     keyParts.push(index);
   }
   return keyParts.join('-');
+};
+
+export const firstLetterLowerCase = str => {
+  if (!str || str.length === 0) return '';
+  // Check if the string is in the ignoreFields array
+  if (ignoreFields.includes(str)) {
+    return str;
+  }
+  return str.charAt(0).toLowerCase() + str.slice(1);
 };

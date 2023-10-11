@@ -1,0 +1,43 @@
+{
+  "phone": "1234567890",
+  "email": "a@b.com",
+  "veteranMailingAddress": {
+    "street": "123 Fake St.",
+    "street2": "Apt. 2",
+    "city": "Fakesville",
+    "country": "USA",
+    "state": "GA",
+    "postalCode": "12345"
+  },
+  "preparerId": {
+    "ssn": "554565676",
+    "vaFileNumber": "554565676"
+  },
+  "veteranId": {
+    "ssn": "445565612",
+    "vaFileNumber": "445565612"
+  },
+  "relationshipToVeteran": {
+    "relationshipToVeteran": "spouse"
+  },
+  "thirdPartyPreparerFullName": {
+    "first": "Thierry",
+    "middle": "P.",
+    "last": "Dependant"
+  },
+  "preparerFullName": {
+    "first": "Vinnie",
+    "middle": "V.",
+    "last": "Vet"
+  },
+  "veteranFullName": {
+    "first": "Vinnie",
+    "middle": "V.",
+    "last": "Vet"
+  },
+  "veteranDateOfBirth": "1970-06-21",
+  "preparerDateOfBirth": "1980-07-12",
+  "benefitSelection": "Survivors",
+  "additionalInfo": null,
+  "preparerIdentification": "THIRD_PARTY_SURVIVING_DEPENDANT"
+}

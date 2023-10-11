@@ -43,7 +43,7 @@ describe('ezr disability rating helpers', () => {
   });
 
   describe('when `parseResponseErrors` executes', () => {
-    describe('default behavior', () => {
+    context('default behavior', () => {
       it('should return `null` when no props object is passed', () => {
         expect(parseResponseErrors()).to.be.null;
       });
@@ -53,7 +53,7 @@ describe('ezr disability rating helpers', () => {
       });
     });
 
-    describe('when there is a single error', () => {
+    context('when there is a single error', () => {
       it('should return a properly formatted response', () => {
         const response = { status: 503, error: 'detail' };
         expect(parseResponseErrors(response).code).to.eq(response.status);
@@ -61,7 +61,7 @@ describe('ezr disability rating helpers', () => {
       });
     });
 
-    describe('when there is an array of multiple errors', () => {
+    context('when there is an array of multiple errors', () => {
       it('should return the first error in the array', () => {
         const errors = [
           { code: 503, detail: 'first error' },

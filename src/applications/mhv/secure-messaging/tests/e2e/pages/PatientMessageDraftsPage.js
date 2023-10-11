@@ -161,7 +161,10 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
+    cy.get('[data-testid="delete-draft-button"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
   };
 
   sendDraftMessage = draftMessage => {
@@ -205,7 +208,6 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
@@ -270,9 +272,8 @@ class PatientMessageDraftsPage {
       .select(recipientName);
   };
 
-  selectCategory = category => {
+  selectCategory = (category = 'COVID') => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
       .contains(category)
       .click();
   };
@@ -318,7 +319,7 @@ class PatientMessageDraftsPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-1/search',
+      '/my_health/v1/messaging/folders/-2/search',
       sentSearchResponse,
     );
     cy.get('[data-testid="filter-messages-button"]').click({ force: true });

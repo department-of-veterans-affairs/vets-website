@@ -5,7 +5,7 @@ import appendQuery from 'append-query';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
@@ -22,7 +22,7 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const { submission, formId } = form;
 
     const appliedForVaEducationBenefits = _.get(
@@ -34,24 +34,20 @@ class ConfirmationPage extends React.Component {
     return (
       <ConfirmationPageContent
         afterTitleContent={
-          <AlertBox
-            isVisible={!appliedForVaEducationBenefits}
-            status="warning"
-            headline="Don’t forget to apply for VA education benefits"
-            content={
-              <span>
-                Now that you've submitted your application for VET TEC, you’ll
-                need to complete an Application for VA Education Benefits (VA
-                Form 22-1990). Click the button on the bottom of this page to go
-                to that application.
-              </span>
-            }
-          />
+          <VaAlert visible={!appliedForVaEducationBenefits} status="warning">
+            <h3 slot="headline">
+              Don’t forget to apply for VA education benefits
+            </h3>
+            Now that you've submitted your application for VET TEC, you’ll need
+            to complete an Application for VA Education Benefits (VA Form
+            22-1990). Click the button on the bottom of this page to go to that
+            application.
+          </VaAlert>
         }
         additionalGuidance={
           <div>
             {!appliedForVaEducationBenefits && (
-              <div className={'apply-for-1990'}>
+              <div className="apply-for-1990">
                 <p>
                   <strong>{'Note: '}</strong>
                   We’ll also need you to complete the Application for VA

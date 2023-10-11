@@ -1,13 +1,12 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 
 const PrefillAlert = ({ user, formContext }) => {
   return formContext.prefilled && user.userFullName.first !== null ? (
-    <AlertBox
-      status="info"
-      content="This is the personal information we have on file for you."
-    />
+    <VaAlert status="info" visible>
+      This is the personal information we have on file for you.
+    </VaAlert>
   ) : null;
 };
 

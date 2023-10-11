@@ -150,13 +150,52 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescription = (
+export const desiredCemeteryNoteDescriptionProd = (
   <va-alert status="info" background-only id="burial-cemetary-note">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.
   </va-alert>
 );
+
+export const desiredCemeteryNoteDescriptionVeteran = (
+  <va-alert status="info" background-only id="burial-cemetary-note">
+    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
+    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </va-alert>
+);
+
+export const desiredCemeteryNoteDescriptionNonVeteran = (
+  <va-alert status="info" background-only id="burial-cemetary-note">
+    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
+    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
+    If space is unavailable, we’ll work with their family to assign a gravesite
+    in a cemetery with available space at the time of need.
+  </va-alert>
+);
+
+export function preparerAddressHasState(item) {
+  const country = get(
+    'application.applicant.view:applicantInfo.mailingAddress.country',
+    item,
+  );
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
+export function applicantsMailingAddressHasState(item) {
+  const country = get('application.claimant.address.country', item);
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
+
+export function sponsorMailingAddressHasState(item) {
+  const country = get('application.veteran.address.country', item);
+  const countriesWithStates = ['USA', 'CAN'];
+  return countriesWithStates.includes(country);
+}
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';

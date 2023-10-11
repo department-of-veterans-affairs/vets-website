@@ -30,10 +30,11 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
-import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+import { mayHaveLegacyAppeals } from '../utils/helpers';
 import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { appStateSelector } from '../../shared/utils/issues';
 
 // import initialData from '../tests/schema/initialData';
 
