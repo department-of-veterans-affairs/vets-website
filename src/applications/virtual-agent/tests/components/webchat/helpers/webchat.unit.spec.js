@@ -2,7 +2,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventObject from 'platform/monitoring/record-event';
 import { describe } from 'mocha';
-import { cardActionMiddleware } from '../../../../components/webchat/helpers/webChat';
+import * as Sentry from '@sentry/browser';
+import {
+  cardActionMiddleware,
+  ifMissingParamsCallSentry,
+} from '../../../../components/webchat/helpers/webChat';
 
 const sandbox = sinon.createSandbox();
 
@@ -95,6 +99,250 @@ describe('Webchat.jsx Helpers', () => {
         expect(recordEventStub.notCalled).to.be.true;
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
+      });
+    });
+  });
+  describe('ifMissingParamsCallSentry', () => {
+    describe('Invalid params', () => {
+      describe('call sentry when the csrfToken is invalid', () => {
+        it('should call sentry when csrfToken is null', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = null;
+          const apiSession = 'apiSession';
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+        it('should call sentry when csrfToken is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = undefined;
+          const apiSession = 'apiSession';
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+        it('should call sentry when csrfToken is an empty string', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = '';
+          const apiSession = 'apiSession';
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+      });
+      describe('call sentry when the apiSession is invalid', () => {
+        it('should call sentry when apiSession is null', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = null;
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+        it('should call sentry when apiSession is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = undefined;
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+        it('should call sentry when apiSession is an empty string', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = '';
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+      });
+      describe('call sentry when the apiSession is invalid', () => {
+        it('should call sentry when userFirstName is null', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = 'apiSession';
+          const userFirstName = null;
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+        it('should call sentry when userFirstName is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = 'apiSession';
+          const userFirstName = undefined;
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          expect(captureExceptionStub.calledOnce).to.be.true;
+        });
+      });
+      describe('should indicate if a variable is undefined', () => {
+        it('should indicate when userUuid is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = 'apiSession';
+          const userFirstName = 'userFirstName';
+          const userUuid = undefined;
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+
+          const expectedError = captureExceptionStub.firstCall.args[0];
+          expect(expectedError.name).to.equal('TypeError');
+          expect(expectedError.message).to.equal(
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid was undefined"}',
+          );
+        });
+        it('Should indicate when csrfToke is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = undefined;
+          const apiSession = 'apiSession';
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          const expectedError = captureExceptionStub.firstCall.args[0];
+          expect(expectedError.name).to.equal('TypeError');
+          expect(expectedError.message).to.equal(
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+          );
+        });
+        it('Should indicate when apiSession is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = undefined;
+          const userFirstName = 'userFirstName';
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          const expectedError = captureExceptionStub.firstCall.args[0];
+          expect(expectedError.name).to.equal('TypeError');
+          expect(expectedError.message).to.equal(
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession was undefined","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+          );
+        });
+        it('Should indicate when userFirstName is undefined', () => {
+          const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+          const csrfToken = 'csrfToken';
+          const apiSession = 'apiSession';
+          const userFirstName = undefined;
+          const userUuid = 'userUuid';
+          ifMissingParamsCallSentry(
+            csrfToken,
+            apiSession,
+            userFirstName,
+            userUuid,
+          );
+          const expectedError = captureExceptionStub.firstCall.args[0];
+          expect(expectedError.name).to.equal('TypeError');
+          expect(expectedError.message).to.equal(
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession present","userFirstName":"userFirstName was undefined","userUuid":"userUuid present"}',
+          );
+        });
+      });
+    });
+    it('should not call sentry when parameters are valid', () => {
+      const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+      const csrfToken = 'csrfToken';
+      const apiSession = 'apiSession';
+      const userFirstName = 'userFirstName';
+      const userUuid = 'userUuid';
+      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+      expect(captureExceptionStub.notCalled).to.be.true;
+    });
+    describe('variables should be obfuscated', () => {
+      it('should not log the value of the apiSession, userFirstName, and userUuid to Sentry', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = undefined;
+        const apiSession = 'apiSession';
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        const expectedError = captureExceptionStub.firstCall.args[0];
+        expect(expectedError.name).to.equal('TypeError');
+        expect(expectedError.message).to.equal(
+          'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+        );
+      });
+      it('should not log the value of the csrfToken, userFirstName, and userUuid to Sentry', () => {
+        const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
+        const csrfToken = 'csrfToken';
+        const apiSession = undefined;
+        const userFirstName = 'userFirstName';
+        const userUuid = 'userUuid';
+        ifMissingParamsCallSentry(
+          csrfToken,
+          apiSession,
+          userFirstName,
+          userUuid,
+        );
+        const expectedError = captureExceptionStub.firstCall.args[0];
+        expect(expectedError.name).to.equal('TypeError');
+        expect(expectedError.message).to.equal(
+          'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession was undefined","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+        );
       });
     });
   });
