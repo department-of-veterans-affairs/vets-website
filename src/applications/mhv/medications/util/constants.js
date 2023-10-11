@@ -82,3 +82,5 @@ export const dispStatusObj = {
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
 };
+
+export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
