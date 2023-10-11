@@ -1,16 +1,16 @@
 export const rxListSortingOptions = {
-  availableToFillOrRefillFirst: {
-    API_ENDPOINT:
-      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-    LABEL: 'Available to fill or refill first',
-  },
   lastFilledFirst: {
     API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
     LABEL: 'Last filled first',
   },
+  availableToFillOrRefillFirst: {
+    API_ENDPOINT:
+      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    LABEL: 'Alphabetically by status',
+  },
   alphabeticalOrder: {
     API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
-    LABEL: 'Alphabetical Order',
+    LABEL: 'Alphabetically by name',
   },
 };
 
