@@ -75,11 +75,7 @@ export const getFocusableElements = block => {
 export const scrollElementName = 'ScrollElement';
 
 // Set focus on target _after_ the content has been updated
-export function focusOnChange(
-  name,
-  target = '.edit-btn',
-  shadowTarget = undefined,
-) {
+export function focusOnChange(name, target, shadowTarget = undefined) {
   setTimeout(() => {
     const el = $(`[name="${name}${scrollElementName}"]`);
     // nextElementSibling = page form
