@@ -64,14 +64,16 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <VaBreadcrumbs label="Breadcrumb">
-            <a href="/">Home</a>
-            {/* this will get updated when this route is added */}
-            <a href="/health-care">Health care</a>
-            <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-              Order {supplyDescription}
-            </a>
-          </VaBreadcrumbs>
+          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+            <VaBreadcrumbs label="Breadcrumb">
+              <a href="/">Home</a>
+              {/* this will get updated when this route is added */}
+              <a href="/health-care">Health care</a>
+              <a href="/health-care/order-hearing-aid-batteries-and-accessories">
+                Order {supplyDescription}
+              </a>
+            </VaBreadcrumbs>
+          </div>
         )}
         {pending && (
           <va-loading-indicator>
