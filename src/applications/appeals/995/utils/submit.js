@@ -107,6 +107,8 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
+
+// NOTE: This one stays in 995 because 995 includes a mobile phone number while 996 and 10182 do not
 export const getPhone = formData => {
   const data = formData || {};
   const { veteran = {} } = data;

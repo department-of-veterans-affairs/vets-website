@@ -5,7 +5,6 @@ import {
   addAreaOfDisagreement,
   getAddress,
   getConferenceTime,
-  getPhone,
   getRep,
   getTimeZone,
 } from '../../utils/submit';
@@ -15,6 +14,7 @@ import {
   addIncludedIssues,
   createIssueName,
   getContestedIssues,
+  getPhone,
   removeEmptyEntries,
 } from '../../../shared/utils/submit';
 

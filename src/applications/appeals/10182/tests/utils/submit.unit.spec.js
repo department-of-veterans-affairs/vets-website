@@ -9,13 +9,12 @@ import {
   getContestableIssues,
   getEligibleContestableIssues,
   getPart3Data,
-  getPhone,
   getTimeZone,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
-import { removeEmptyEntries } from '../../../shared/utils/submit';
+import { getPhone, removeEmptyEntries } from '../../../shared/utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {

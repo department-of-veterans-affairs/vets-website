@@ -199,22 +199,6 @@ export const getAddress = (formData = {}) => {
 };
 
 /**
- * Strip out extra profile phone data
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
- */
-export const getPhone = ({ veteran = {} } = {}) => {
-  const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
-  });
-};
-
-/**
  * Return v0 or v1 key with email data
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable email

@@ -5,16 +5,6 @@ import '../../shared/definitions';
 import { replaceSubmittedData } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
-// We require the user to input a 10-digit number; assuming we get a 3-digit
-// area code + 7 digit number. We're not yet supporting international numbers
-export const getPhoneNumber = (phone = '') => ({
-  countryCode: '1',
-  areaCode: phone.substring(0, 3),
-  phoneNumber: phone.substring(3),
-  // Empty string/null are not permitted values
-  // phoneNumberExt: '',
-});
-
 export const getRep = formData => {
   if (formData.informalConference !== 'rep') {
     return null;
@@ -133,21 +123,5 @@ export const getAddress = formData => {
     countryCodeISO2,
     zipCode5,
     internationalPostalCode,
-  });
-};
-
-/**
- * Strip out extra profile phone data
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
- */
-export const getPhone = ({ veteran = {} } = {}) => {
-  const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
 };

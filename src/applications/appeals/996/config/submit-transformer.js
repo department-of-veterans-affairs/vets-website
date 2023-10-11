@@ -5,12 +5,11 @@ import {
   getAddress,
   getConferenceTime, // v2
   getContact,
-  getPhone,
   getRep,
   getTimeZone,
 } from '../utils/submit';
 
-import { addIncludedIssues } from '../../shared/utils/submit';
+import { addIncludedIssues, getPhone } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
