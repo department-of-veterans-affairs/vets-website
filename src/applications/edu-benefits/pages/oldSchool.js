@@ -1,5 +1,5 @@
 import set from 'platform/utilities/data/set';
-
+import environment from 'platform/utilities/environment';
 import * as address from 'platform/forms/definitions/address';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 
@@ -16,12 +16,14 @@ export default function createOldSchoolPage(schema) {
       },
     },
     uiSchema: {
-      'ui:title':
-        'School, university, program, or training facility you last attended',
+      'ui:title': environment.isProduction()
+        ? 'School, university, program, or training facility you last attended'
+        : 'School or training facility you last attended',
       oldSchool: {
         name: {
-          'ui:title':
-            'Name of school, university, program, or training facility',
+          'ui:title': environment.isProduction()
+            ? 'Name of school, university, program, or training facility'
+            : 'Name of school or training facility',
         },
         address: address.uiSchema(),
       },
