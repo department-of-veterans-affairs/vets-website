@@ -6,17 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
-import { makeSelectApp, makeSelectVeteranData } from '../selectors';
+import { makeSelectApp } from '../selectors';
 import { APP_NAMES } from '../utils/appConstants';
 
 import { getAppointmentId } from '../utils/appointment';
 
 const WhatToDoNext = props => {
-  const { router } = props;
+  const { router, appointments } = props;
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const { appointments } = useSelector(selectVeteranData);
   const { goToNextPage, jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
 
@@ -69,7 +67,7 @@ const WhatToDoNext = props => {
   };
 
   return (
-    <div>
+    <div data-testid="action-item-display">
       <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
       <va-card show-shadow>
         <h4 className="vads-u-margin-top--0">{cardTitle}</h4>
@@ -98,6 +96,7 @@ const WhatToDoNext = props => {
 
 WhatToDoNext.propTypes = {
   router: PropTypes.object,
+  appointments: PropTypes.array,
 };
 
 export default WhatToDoNext;

@@ -9,7 +9,7 @@ import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp } from '../../../selectors';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import UpcomingAppointments from '../../UpcomingAppointments';
-import WhatToDoNext from '../../WhatToDoNext';
+import ActionItemDisplay from '../../ActionItemDisplay';
 
 const AppointmentsPage = props => {
   const { router } = props;
@@ -58,9 +58,8 @@ const AppointmentsPage = props => {
   }
   return (
     <Wrapper pageTitle="Your Appointments" eyebrow="Check-In" withBackButton>
-      <div data-testid="what-to-do-next">
-        <WhatToDoNext router={router} />
-      </div>
+      <ActionItemDisplay router={router} />
+
       <div data-testid="upcoming-appointments">
         <UpcomingAppointments router={router} />
       </div>
