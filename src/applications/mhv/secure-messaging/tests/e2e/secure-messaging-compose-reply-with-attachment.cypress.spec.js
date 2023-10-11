@@ -63,6 +63,6 @@ describe('Start a new message With Attacments and Errors', () => {
       .type('Test message body', { force: true });
     composePage.sendMessage();
     composePage.verifySendMessageConfirmationMessage();
-    composePage.verifySendMessageConfirmationMessageHasFocus();
+    cy.get('h1').should('be.focused');
   });
 });
