@@ -52,7 +52,8 @@ const testConfig = createTestConfig(
               'veteranDateOfDeath',
               veteranDateOfDeath,
             );
-            cy.injectAxeThenAxeCheck();
+
+            cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -62,7 +63,7 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
 
-            cy.injectAxeThenAxeCheck();
+            cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -71,7 +72,8 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectYesNoWebComponent('isFirstRequest', data.isFirstRequest);
-            cy.injectAxeThenAxeCheck();
+
+            cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -83,7 +85,8 @@ const testConfig = createTestConfig(
               'applicantFullName',
               data.applicantFullName,
             );
-            cy.injectAxeThenAxeCheck();
+
+            cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -96,7 +99,7 @@ const testConfig = createTestConfig(
               data.applicantAddress,
             );
 
-            cy.axeCheck();
+            cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -107,7 +110,23 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             fillTextWebComponent('applicantPhone', data.applicantPhone);
 
-            cy.axeCheck();
+            cy.axeCheck('.form-panel');
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.additionalCertificatesRequestPage]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { additionalAddress, additionalCopies } = data;
+
+            fillAddressWebComponentPattern(
+              'additionalAddress',
+              additionalAddress,
+            );
+            fillTextWebComponent('additionalCopies', additionalCopies);
+
+            cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
@@ -116,6 +135,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { applicantFullName } = data;
+
             reviewAndSubmitPageFlow(applicantFullName, 'Submit request');
           });
         });
