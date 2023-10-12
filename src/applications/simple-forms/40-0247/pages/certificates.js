@@ -7,9 +7,9 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('How many certificates should we send to your address?'),
+    ...titleUI('Number of certificates'),
     certificates: numberUI({
-      title: 'Number of certificates',
+      title: 'How many certificates should we send to your address?',
       hint: 'You may request up to 99 certificates',
       errorMessages: {
         required:
