@@ -7,7 +7,7 @@ const MedicationsListSort = props => {
   const { value, sortRxList } = props;
   const [sortListOption, setSortListOption] = useState(value);
 
-  const rxSortingOptions = Object.values(rxListSortingOptions);
+  const rxSortingOptions = Object.keys(rxListSortingOptions);
   return (
     <div className="medications-list-sort">
       <VaSelect
@@ -19,14 +19,10 @@ const MedicationsListSort = props => {
           setSortListOption(e.detail.value);
         }}
       >
-        {rxSortingOptions.map((option, i) => {
+        {rxSortingOptions.map(option => {
           return (
-            <option
-              key={`option-${i}`}
-              value={option.API_ENDPOINT}
-              data-testid="sort-option"
-            >
-              {option.LABEL}
+            <option key={option} value={option} data-testid="sort-option">
+              {rxListSortingOptions[option].LABEL}
             </option>
           );
         })}
