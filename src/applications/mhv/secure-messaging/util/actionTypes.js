@@ -53,6 +53,7 @@ export const Actions = {
   },
   Preferences: {
     GET_USER_SIGNATURE: 'SM_GET_USER_SIGNATURE',
+    GET_USER_SIGNATURE_ERROR: 'SM_GET_USER_SIGNATURE_ERROR',
   },
   Search: {
     RUN_BASIC: 'SM_SEARCH_RUN_BASIC',
