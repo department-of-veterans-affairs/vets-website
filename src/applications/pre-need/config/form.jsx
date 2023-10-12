@@ -226,9 +226,10 @@ const formConfig = {
                 },
               },
             },
-            applicantDetails: {
+            veteranApplicantDetails: {
               title: 'Applicant details',
-              path: 'applicant-details',
+              path: 'veteran-applicant-details',
+              depends: isVeteran,
               uiSchema: {
                 'ui:description': applicantDescription,
                 application: {
@@ -270,6 +271,41 @@ const formConfig = {
                 },
               },
             },
+            nonVeteranApplicantDetails: {
+              title: 'Applicant details',
+              path: 'nonVeteran-applicant-details',
+              depends: !isVeteran,
+              uiSchema: {
+                'ui:description': applicantDescription,
+                application: {
+                  'ui:title': applicantDetailsSubHeader,
+                  claimant: {
+                    name: fullMaidenNameUI,
+                    ssn: ssnDashesUI,
+                    dateOfBirth: currentOrPastDateUI('Date of birth'),
+                  },
+                },
+              },
+              schema: {
+                type: 'object',
+                properties: {
+                  application: {
+                    type: 'object',
+                    properties: {
+                      claimant: {
+                        type: 'object',
+                        required: ['name', 'ssn', 'dateOfBirth'],
+                        properties: pick(claimant.properties, [
+                          'name',
+                          'ssn',
+                          'dateOfBirth',
+                        ]),
+                      },
+                    },
+                  },
+                },
+              },
+            },
             applicantDemographics: {
               title: 'Applicant demographics',
               path: 'applicant-demographics',
@@ -289,7 +325,7 @@ const formConfig = {
                     properties: {
                       veteran: {
                         type: 'object',
-                        required: ['race', 'gender', 'maritalStatus'],
+                        required: ['gender', 'race', 'maritalStatus'],
                         properties: pick(veteran.properties, [
                           'gender',
                           'race',
