@@ -1,7 +1,10 @@
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
   preparerIdentifications,
   veteranBenefits,
 } from '../definitions/constants';
+import formConfig from './form';
 
 export const preparerIsVeteran = ({ formData } = {}) => {
   // key 0 corresponds to claimant is the Veteran
@@ -95,6 +98,14 @@ export const contactInformationStepperTitle = ({ formData } = {}) => {
     default:
       return 'Your contact information';
   }
+};
+
+export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
+  return set(
+    'preparerIdentification',
+    preparerIdentification,
+    createInitialState(formConfig).data,
+  );
 };
 
 // Confirmation Page

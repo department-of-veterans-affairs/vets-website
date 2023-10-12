@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
   contactInformationStepperTitle,
   preparerIsSurvivingDependant,
@@ -9,12 +10,17 @@ import {
   benefitSelectionTitle,
   personalInformationStepperTitle,
   benefitSelectionStepperTitle,
+  initializeFormDataWithPreparerIdentification,
   getClaimType,
   getAlreadySubmittedIntentText,
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
 } from '../../config/helpers';
-import { veteranBenefits } from '../../definitions/constants';
+import {
+  preparerIdentifications,
+  veteranBenefits,
+} from '../../definitions/constants';
+import formConfig from '../../config/form';
 
 describe('form helper functions', () => {
   it('provides the correct information for a veteran', () => {
@@ -105,6 +111,19 @@ describe('form helper functions', () => {
     expect(benefitSelectionTitle({ formData })).to.match(/you/i);
     expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
     expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+  });
+});
+
+describe('initializeFormDataWithPreparerIdentification', () => {
+  it('returns an initialized formData object with preparerIdentification selection', () => {
+    expect(
+      initializeFormDataWithPreparerIdentification(
+        preparerIdentifications.veteran,
+      ),
+    ).to.deep.equal({
+      ...createInitialState(formConfig).data,
+      preparerIdentification: preparerIdentifications.veteran,
+    });
   });
 });
 
