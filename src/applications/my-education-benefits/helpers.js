@@ -194,16 +194,6 @@ function transformServiceHistory(serviceHistory) {
   };
 }
 
-function mapNotificaitonMethodV1(notificationMethod) {
-  if (notificationMethod === 'mail') {
-    return 'Mail';
-  }
-  if (notificationMethod === 'email') {
-    return 'Email';
-  }
-  return notificationMethod;
-}
-
 function selectAddressSource(primary, secondary, tertiary) {
   if (primary?.addressLine1) {
     return primary;
@@ -247,60 +237,112 @@ export const formatHyphenlessDate = b => {
 };
 
 export function prefillTransformerV1(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
-
+  const stateUser = state.user || {};
+  const profile = stateUser?.profile;
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+  const emailAddress =
+    vapContactInfo.email?.emailAddress ||
+    profile?.email ||
+    contactInfo.emailAddress ||
+    undefined;
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
   const newData = {
     ...formData,
-    formId: state.data?.formData?.data?.id,
-    claimantId: claimant.claimantId,
-    'view:userFullName': {
-      userFullName: {
-        first: claimant.firstName || undefined,
-        middle: claimant.middleName || undefined,
-        last: claimant.lastName || undefined,
+    [formFields.formId]: state.data?.formData?.data?.id,
+    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
+        first: firstName || undefined,
+        middle: middleName || undefined,
+        last: lastName || undefined,
       },
     },
-    dateOfBirth: claimant.dateOfBirth,
-    email: {
-      email: contactInfo.emailAddress,
-      confirmEmail: contactInfo.emailAddress,
+    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
       },
-      phoneNumber: {
-        phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
       },
     },
-    'view:contactMethod': {
-      contactMethod: mapNotificaitonMethodV1(claimant?.notificationMethod),
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
     },
-    'view:mailingAddress': {
-      address: {
-        street: contactInfo?.addressLine1,
-        street2: contactInfo?.addressLine2 || undefined,
-        city: contactInfo?.city,
-        state: contactInfo?.stateCode,
-        postalCode: contactInfo?.zipcode,
-        country: getSchemaCountryCode(contactInfo?.countryCode),
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
       },
-      livesOnMilitaryBase: contactInfo?.addressType === 'MILITARY_OVERSEAS',
+      [formFields.livesOnMilitaryBase]:
+        address?.addressType === 'MILITARY_OVERSEAS',
     },
-    toursOfDuty: serviceData.map(transformServiceHistory),
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
+    },
+    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
   };
-
-  if (claimant?.suffix) {
-    newData['view:userFullName'].userFullName.suffix =
+  if (suffix) {
+    newData[formFields.viewUserFullName].userFullName.suffix =
       state?.form?.pages?.applicantInformation?.schema?.properties[
-        'view:userFullName'
+        formFields.viewUserFullName
       ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
+        equalsAlphaOnlyIgnoreCase(e, suffix),
       ) || undefined;
   }
-
   return {
     metadata,
     formData: newData,
