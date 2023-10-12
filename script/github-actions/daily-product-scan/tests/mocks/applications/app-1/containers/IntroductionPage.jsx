@@ -9,6 +9,8 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from 'platform/utilities/ui';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -193,7 +195,7 @@ class IntroductionPage extends React.Component {
             </strong>
           </p>
         )}
-        {showMainLoader && <va-loading-indicator />}
+        {showMainLoader && <VaLoadingIndicator />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
         {showLoggedOutContent && (
           <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />

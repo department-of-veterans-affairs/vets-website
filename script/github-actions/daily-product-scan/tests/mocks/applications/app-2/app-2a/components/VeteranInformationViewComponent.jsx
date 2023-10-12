@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import moment from 'moment';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const VeteranInformationViewComponent = props => {
   const { profile } = props;
@@ -47,7 +48,7 @@ const VeteranInformationViewComponent = props => {
           </p>
         </div>
       ) : (
-        <va-loading-indicator message="Loading profile information..." />
+        <VaLoadingIndicator message="Loading profile information..." />
       )}
     </>
   );

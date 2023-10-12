@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
@@ -156,7 +157,7 @@ class IDPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="We need some information before you can start your application" />
-        {showLoadingIndicator && <va-loading-indicator />}
+        {showLoadingIndicator && <VaLoadingIndicator />}
         {!showLoadingIndicator && (
           <>
             <p>
