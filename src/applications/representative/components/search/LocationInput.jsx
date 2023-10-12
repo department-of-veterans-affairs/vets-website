@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+// import IconSearch
 
 const LocationInput = () => {
   const locationInputFieldRef = useRef(null);
@@ -56,6 +57,7 @@ const LocationInput = () => {
     //     'usa-input-error': showError,
     //   })}
     >
+      <h3>Search for your representative:</h3>
       <div id="location-input-field">
         <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
           City, state or postal code{' '}
@@ -102,6 +104,26 @@ const LocationInput = () => {
             // onClick={handleClearInput}
           />
         )}
+      </div>
+      <div>
+        <div>
+          <label
+            htmlFor="street-city-state-zip"
+            id="street-city-state-zip-label"
+          >
+            Organization or Representative Name{' '}
+          </label>
+        </div>
+        <input
+          id="street-city-state-zip"
+          ref={locationInputFieldRef}
+          name="street-city-state-zip"
+          type="text"
+          onChange={handleQueryChange}
+          onBlur={handleLocationBlur}
+          value={searchString}
+          title="Organization or Representative Name"
+        />
       </div>
     </div>
   );
