@@ -4,12 +4,15 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import mockAutoSaveDraftResponse from './fixtures/autosafe-draft-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 import { draftAutoSaveTimeout } from '../../util/constants';
+import PatientComposePage from './pages/PatientComposePage';
 
 describe(manifest.appName, () => {
+  const composePage = new PatientComposePage();
   describe('Verify draft auto save', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       const landingPage = new PatientInboxPage();
+
       site.login();
       landingPage.loadInboxMessages();
       landingPage.navigateToComposePage();
@@ -49,6 +52,7 @@ describe(manifest.appName, () => {
           },
         },
       });
+      composePage.sendMessage();
     });
   });
 });

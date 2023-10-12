@@ -5,11 +5,12 @@ import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/export
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
+import { recordType, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../util/helpers';
@@ -18,7 +19,8 @@ import {
   generatePdfScaffold,
 } from '../../shared/util/helpers';
 
-const Vaccines = () => {
+const Vaccines = props => {
+  const { runningUnitTest } = props;
   const dispatch = useDispatch();
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
@@ -67,12 +69,12 @@ const Vaccines = () => {
         items: [
           {
             title: 'Date received',
-            value: item.date || EMPTY_FIELD,
+            value: item.date,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || EMPTY_FIELD,
+            value: item.location,
             inline: true,
           },
           {
@@ -90,15 +92,17 @@ const Vaccines = () => {
     });
 
     try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Vaccines-list-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        pdfData,
-      );
+      if (!runningUnitTest) {
+        await generatePdf(
+          'medicalRecords',
+          `VA-Vaccines-list-${user.userFullName.first}-${
+            user.userFullName.last
+          }-${moment()
+            .format('M-D-YYYY_hhmmssa')
+            .replace(/\./g, '')}`,
+          pdfData,
+        );
+      }
     } catch (error) {
       sendErrorToSentry(error, 'Vaccines');
     }
@@ -144,3 +148,7 @@ const Vaccines = () => {
 };
 
 export default Vaccines;
+
+Vaccines.propTypes = {
+  runningUnitTest: PropTypes.bool,
+};
