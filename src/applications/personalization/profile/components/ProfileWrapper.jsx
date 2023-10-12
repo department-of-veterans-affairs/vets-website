@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import { useLocation } from 'react-router-dom';
-import { hasTotalDisabilityServerError } from '../selectors/ratedDisabilities';
+import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
