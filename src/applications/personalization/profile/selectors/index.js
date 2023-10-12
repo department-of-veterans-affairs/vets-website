@@ -10,9 +10,9 @@ import {
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
-} from './util';
-import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
-import { PROFILE_TOGGLES } from './constants';
+} from '../util';
+import { createNotListedTextKey } from '../util/personal-information/personalInformationUtils';
+import { PROFILE_TOGGLES } from '../constants';
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;

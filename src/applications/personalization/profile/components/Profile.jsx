@@ -47,7 +47,7 @@ import {
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../actions/ratedDisabilities';
 
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
