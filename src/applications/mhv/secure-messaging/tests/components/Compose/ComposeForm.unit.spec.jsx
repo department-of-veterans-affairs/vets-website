@@ -1,4 +1,5 @@
 import React from 'react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -11,6 +12,9 @@ import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
+import * as messageActions from '../../../actions/messages';
+import * as draftActions from '../../../actions/draftDetails';
+import { selectVaRadio } from '../../../util/testUtils';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -147,15 +151,27 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on send button click', async () => {
-    const screen = setup(draftState, `/draft/${draftMessage.id}`);
+    const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
+    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
+      draft: draftMessage,
+    });
 
     fireEvent.click(screen.getByTestId('Send-Button'));
+    await waitFor(() => {
+      expect(sendMessageSpy.calledOnce).to.be.true;
+    });
   });
 
-  it('renders without errors on send button click', async () => {
-    const screen = setup(draftState, `/draft/${draftMessage.id}`);
+  it('renders without errors on Save Draft button click', async () => {
+    const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
+    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
+      draft: draftMessage,
+    });
 
     fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    await waitFor(() => {
+      expect(saveDraftSpy.calledOnce).to.be.true;
+    });
   });
 
   it('displays user signature on /new-message when signature is enabled', async () => {
@@ -242,19 +258,34 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on Delete draft button click', async () => {
-    const screen = setup(draftState, `/draft/${draftMessage.id}`, {
+    const deleteDraftSpy = sinon.spy(draftActions, 'deleteDraft');
+    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
     });
 
     fireEvent.click(screen.getByTestId('delete-draft-button'));
     fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
+    await waitFor(() => {
+      expect(deleteDraftSpy.calledOnce).to.be.true;
+    });
   });
 
   it('renders without errors to category selection', async () => {
-    setup(initialState, Paths.COMPOSE);
-    fireEvent.click(
-      document.querySelector('va-radio-option[value="EDUCATION"]'),
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
     );
+
+    await waitFor(() => {
+      selectVaRadio(screen.container, 'COVID');
+      expect(
+        $('va-radio-option[value="COVID"]', screen.container),
+      ).to.have.attribute('checked', 'true');
+    });
   });
 
   it.skip('renders without errors to recipient selection', async () => {
