@@ -235,7 +235,7 @@ describe('Schemaform helpers:', () => {
       };
       // TypeError: Cannot read property 'address' of undefined is thrown
       // without optional chaining
-      const fields = getArrayFields(data, {});
+      const fields = getArrayFields(data);
 
       expect(fields).to.be.empty;
     });

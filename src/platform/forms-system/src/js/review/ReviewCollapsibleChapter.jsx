@@ -154,7 +154,7 @@ class ReviewCollapsibleChapter extends React.Component {
       pageSchema: pageSchemaObjects.schema,
       pageUiSchema: pageSchemaObjects.uiSchema,
       pageData: form.data,
-      arrayFields: getArrayFields(pageState, page),
+      arrayFields: getArrayFields(pageState),
       fullPageKey: page.pageKey,
     };
   };
