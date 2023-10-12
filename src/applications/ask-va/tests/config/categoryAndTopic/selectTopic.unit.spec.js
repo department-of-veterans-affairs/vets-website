@@ -53,7 +53,9 @@ describe('selectTopic config', () => {
     const mockStore = {
       getState: () => ({
         form: {
-          data: {},
+          data: {
+            selectCategory: 'Benefits Issues Outside the US',
+          },
         },
         user: {
           login: {
@@ -66,6 +68,9 @@ describe('selectTopic config', () => {
               last: 'Parker',
             },
           },
+        },
+        askVA: {
+          categoryID: '2',
         },
       }),
       subscribe: () => {},

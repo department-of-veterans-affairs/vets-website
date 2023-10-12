@@ -7,21 +7,19 @@ import { setupServer } from 'msw/node';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { userData } from '../fixtures/data/mock-form-data';
 
-import TopicSelect from '../../components/FormFields/TopicSelect';
+import SubtopicSelect from '../../components/FormFields/SubtopicSelect';
 
-describe('<TopicSelect /> component', () => {
+describe('<SubtopicSelect /> component', () => {
   const apiRequestWithUrl = `${
     environment.API_URL
-  }/ask_va_api/v0/categories/2/topics`;
+  }/ask_va_api/v0/topics/1/subtopics`;
 
   let server = null;
 
   const mockStore = {
     getState: () => ({
       form: {
-        data: {
-          selectCategory: 'Benefits Issues Outside the US',
-        },
+        data: {},
       },
       user: {
         login: {
@@ -29,9 +27,7 @@ describe('<TopicSelect /> component', () => {
         },
         profile: userData,
       },
-      askVA: {
-        categoryID: '2',
-      },
+      askVA: {},
     }),
     subscribe: () => {},
     dispatch: () => {},
@@ -39,7 +35,7 @@ describe('<TopicSelect /> component', () => {
 
   const props = {
     formContext: { reviewMode: false, submitted: undefined },
-    id: 'root_selectTopic',
+    id: 'root_selectSubtopic',
     onChange: () => {},
     required: true,
     value: undefined,
@@ -52,24 +48,17 @@ describe('<TopicSelect /> component', () => {
           ctx.json({
             data: [
               {
-                id: '6',
-                type: 'topics',
+                id: '1',
+                type: 'subtopics',
                 attributes: {
-                  name: 'Spider-man',
+                  name: 'Avengers Assemble',
                 },
               },
               {
-                id: '7',
-                type: 'topics',
+                id: '2',
+                type: 'subtopics',
                 attributes: {
-                  name: 'Captain America',
-                },
-              },
-              {
-                id: '8',
-                type: 'topics',
-                attributes: {
-                  name: 'Iron man',
+                  name: 'Avengers Defend',
                 },
               },
             ],
@@ -87,18 +76,18 @@ describe('<TopicSelect /> component', () => {
     server.close();
   });
 
-  it('should get the topics list', async () => {
+  it('should get the subtopic list', async () => {
     const { container } = render(
       <Provider store={mockStore}>
-        <TopicSelect {...props} />
+        <SubtopicSelect {...props} />
       </Provider>,
     );
 
     const selector = container.querySelectorAll('option');
     waitFor(() => {
       expect(selector[0]).to.have.text('');
-      expect(selector[1]).to.have.text('Spider-man');
-      expect(selector[2]).to.have.text('Captain America');
+      expect(selector[1]).to.have.text('Avengers Assemble');
+      expect(selector[2]).to.have.text('Avengers Defend');
     });
   });
 });
