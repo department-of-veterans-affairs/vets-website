@@ -9,7 +9,7 @@ describe('Medications Prescriptions container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionDetails: prescriptions,
+        prescriptionsList: prescriptions,
       },
     },
   };

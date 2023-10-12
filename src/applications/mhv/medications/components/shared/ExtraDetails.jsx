@@ -11,7 +11,7 @@ const ExtraDetails = rx => {
     noRefillRemaining = true;
   }
   return (
-    <div className="shipping-info">
+    <div className="shipping-info" id="status-description">
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
           <div>
