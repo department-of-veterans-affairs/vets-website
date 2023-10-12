@@ -158,7 +158,8 @@ const AllergyDetails = () => {
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
           >
-            Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
+            Allergies and reactions:{' '}
+            <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--4">
             <div className="time-header">
@@ -183,7 +184,7 @@ const AllergyDetails = () => {
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Reaction
+              Signs and symptoms
             </h2>
             <ItemList list={allergy.reaction} />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -194,10 +195,6 @@ const AllergyDetails = () => {
               Location
             </h2>
             <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Observed or reported
-            </h2>
-            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
