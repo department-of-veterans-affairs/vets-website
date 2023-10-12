@@ -105,10 +105,12 @@ export const FormApp = ({
 
   useEffect(
     () => {
-      setFormData({
-        ...formData,
-        [SHOW_PART3]: showPart3,
-      });
+      if (showPart3 !== formData[SHOW_PART3]) {
+        setFormData({
+          ...formData,
+          [SHOW_PART3]: showPart3,
+        });
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [showPart3, formData[SHOW_PART3]],
