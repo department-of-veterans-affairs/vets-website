@@ -53,7 +53,11 @@ export const ifMissingParamsCallSentry = (
       userUuid: sanitizedUserUuid,
     };
     Sentry.captureException(
-      new TypeError(`Missing required variables: ${JSON.stringify(params)}`),
+      new TypeError(
+        `Virtual Agent chatbot bad start - missing required variables: ${JSON.stringify(
+          params,
+        )}`,
+      ),
     );
   }
 };

@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import { phoneNumbers } from '../utils/appConstants';
 import ExternalLink from './ExternalLink';
 
-const NeedHelpBlock = () => {
+const HelpBlock = ({ travel }) => {
   const { t } = useTranslation();
 
   return (
-    <div data-testid="travel-help-block">
+    <div data-testid="help-block">
       <p data-testid="for-help-using-this-tool">
         <Trans
           i18nKey="for-help-using-this-tool-to-prepare-for-your-appointments"
@@ -42,26 +43,32 @@ const NeedHelpBlock = () => {
       >
         {t('find-your-va-health-facility')}
       </ExternalLink>
-      <p data-testid="for-questions-about-filing">
-        <Trans
-          i18nKey="for-questions-about-filing-a-travel-reimbursement-claim"
-          components={[
-            <span key="bold" className="vads-u-font-weight--bold" />,
-            <va-telephone
-              key={phoneNumbers.btsssCallCenter}
-              contact={phoneNumbers.btsssCallCenter}
-            />,
-          ]}
-        />
-      </p>
-      <ExternalLink
-        href="https://www.va.gov/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
-        hrefLang="en"
-        eventId="find-health-benefits-travel-pocs--link-clicked"
-        eventPrefix="nav"
-      >
-        {t('find-the-travel-contact-for-your-facility')}
-      </ExternalLink>
+
+      {travel && (
+        <>
+          <p data-testid="for-questions-about-filing">
+            <Trans
+              i18nKey="for-questions-about-filing-a-travel-reimbursement-claim"
+              components={[
+                <span key="bold" className="vads-u-font-weight--bold" />,
+                <va-telephone
+                  key={phoneNumbers.btsssCallCenter}
+                  contact={phoneNumbers.btsssCallCenter}
+                />,
+              ]}
+            />
+          </p>
+          <ExternalLink
+            href="https://www.va.gov/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
+            hrefLang="en"
+            eventId="find-health-benefits-travel-pocs--link-clicked"
+            eventPrefix="nav"
+          >
+            {t('find-the-travel-contact-for-your-facility')}
+          </ExternalLink>
+        </>
+      )}
+
       <p data-testid="if-yourre-in-crisis">
         <Trans
           i18nKey="if-yourre-in-crisis-or-having-thoughts-of-suicide-call-the"
@@ -95,4 +102,8 @@ const NeedHelpBlock = () => {
   );
 };
 
-export default NeedHelpBlock;
+HelpBlock.propTypes = {
+  travel: PropTypes.bool.isRequired,
+};
+
+export default HelpBlock;
