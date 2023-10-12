@@ -12,6 +12,14 @@ import { fetchProfileContacts } from '@@profile/actions';
 import Contact from './Contact';
 import Loading from './Loading';
 
+const ContactUs = () => (
+  <>
+    Call us at <va-telephone contact="8006982411" /> (
+    <va-telephone contact="711" tty="true" />
+    ). We’re here 24/7.
+  </>
+);
+
 const PersonalHealthCareContacts = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector(selectProfileContacts);
@@ -50,10 +58,15 @@ const PersonalHealthCareContacts = () => {
           uswds
         >
           <p>
-            If this isn’t your correct information, a staff member can help
-            update your information or you can call the help desk at
-            <br />
-            <va-telephone contact="8006982411" />
+            If this information isn’t correct, here’s how to update it:
+            <ul className="vads-u-margin-y--0">
+              <li>Ask a staff member at your next appointment, or</li>
+              <li>
+                Call us at <va-telephone contact="8006982411" /> (
+                <va-telephone contact="711" tty="true" />
+                ). We’re here 24/7.
+              </li>
+            </ul>
           </p>
         </va-additional-info>
       </div>
@@ -64,7 +77,7 @@ const PersonalHealthCareContacts = () => {
             Medical emergency contact
           </h2>
           <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            This person may be contacted in the event of an emergency.
+            The person we’ll contact in an emergency.
           </p>
           {emergencyContact && (
             <Contact
@@ -74,8 +87,7 @@ const PersonalHealthCareContacts = () => {
           )}
           {!emergencyContact && (
             <p>
-              To add an emergency contact please call the Help Desk at
-              800-698-2411
+              To add an emergency contact: <ContactUs />
             </p>
           )}
         </div>
@@ -85,16 +97,14 @@ const PersonalHealthCareContacts = () => {
             Next of kin contact
           </h3>
           <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            This person is who you’d like to represent your wishes for care and
-            medical documentation if needed. Your next of kin is often your
-            closest living relative, like your spouse, child, or sibling.
+            The person you want to represent your health care wishes if needed.
           </p>
           {nextOfKin && (
             <Contact key={nextOfKin.id} {...nextOfKin.attributes} />
           )}
           {!nextOfKin && (
             <p>
-              To add a next of kin please call the Help Desk at 800-698-2411
+              To add a next of kin: <ContactUs />
             </p>
           )}
         </div>
