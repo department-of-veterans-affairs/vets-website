@@ -22,8 +22,6 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const Allergies = () => {
   const dispatch = useDispatch();
@@ -37,7 +35,6 @@ const Allergies = () => {
   const user = useSelector(state => state.user.profile);
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
-  const fullState = useSelector(state => state);
 
   useEffect(
     () => {
@@ -170,17 +167,16 @@ const Allergies = () => {
   return (
     <div id="allergies">
       <PrintHeader />
-      <h1 className="vads-u-margin--0">Allergies</h1>
+      <h1 className="vads-u-margin--0">Allergies and reactions</h1>
       <p className="page-description">
-        If you have allergies that are missing from this list, send a secure
-        message to your care team.
+        Review allergies, reactions, and side effects in your VA medical
+        records. This includes medication side effects (also called adverse drug
+        reactions).
       </p>
-      <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
-        className="page-description-link vads-u-margin-bottom--3 no-print"
-      >
-        Compose a message on the My HealtheVet website
-      </a>
+      <p className="page-description">
+        If you have allergies that are missing from this list, tell your care
+        team at your next appointment.
+      </p>
       {!accessAlert && (
         <>
           <PrintDownload
