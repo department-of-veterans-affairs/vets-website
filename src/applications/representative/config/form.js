@@ -40,6 +40,7 @@ const formConfig = {
       'Please sign in again to continue filling out Form 21-21 or Form 21-22a.',
   },
   title: 'Find a Local Representative',
+  subTitle: 'Form 21-22 / Form 21-22a',
   defaultDefinitions: {},
   chapters: {
     personalInformation: {
