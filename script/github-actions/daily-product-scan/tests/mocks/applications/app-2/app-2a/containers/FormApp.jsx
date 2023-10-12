@@ -47,7 +47,9 @@ function FormApp(props) {
   );
 
   if (isLoading) {
-    return <VaLoadingIndicator message="Loading your information..." />;
+    return (
+      <VaLoadingIndicator message="Loading your information..." setFocus />
+    );
   }
 
   // if a user has a saved form but starts a new session, keep them here instead of
@@ -68,7 +70,7 @@ function FormApp(props) {
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
   if (!wizardStatus) {
     router.push('/start');
-    return <VaLoadingIndicator message="Loading VRE Orientation..." />;
+    return <VaLoadingIndicator message="Loading VRE Orientation..." setFocus />;
   }
   if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
     router.push('/introduction');

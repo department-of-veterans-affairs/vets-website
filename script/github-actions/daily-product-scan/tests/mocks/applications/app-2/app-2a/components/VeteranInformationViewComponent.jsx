@@ -48,7 +48,7 @@ const VeteranInformationViewComponent = props => {
           </p>
         </div>
       ) : (
-        <VaLoadingIndicator message="Loading profile information..." />
+        <VaLoadingIndicator message="Loading profile information..." setFocus />
       )}
     </>
   );

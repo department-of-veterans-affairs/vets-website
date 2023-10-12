@@ -157,7 +157,7 @@ class IDPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="We need some information before you can start your application" />
-        {showLoadingIndicator && <VaLoadingIndicator />}
+        {showLoadingIndicator && <VaLoadingIndicator setFocus />}
         {!showLoadingIndicator && (
           <>
             <p>

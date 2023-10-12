@@ -195,7 +195,7 @@ class IntroductionPage extends React.Component {
             </strong>
           </p>
         )}
-        {showMainLoader && <VaLoadingIndicator />}
+        {showMainLoader && <VaLoadingIndicator setFocus />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
         {showLoggedOutContent && (
           <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
