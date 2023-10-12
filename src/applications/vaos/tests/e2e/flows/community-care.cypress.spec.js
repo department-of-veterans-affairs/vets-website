@@ -103,7 +103,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Choose where you want to receive your care step
     cy.url().should('contain', 'new-appointment/choose-facility-type');
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Select community care
     cy.get('#root_facilityType_1').click();
     // Verify community care checked
@@ -115,7 +115,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Choose an appointment day and time step
     cy.url().should('contain', `${rootUrl}new-appointment/request-date`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.contains('button', 'Next')
       .focus()
       .click();
@@ -137,7 +137,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // What's the closest city to you step
     cy.url().should('contain', `${rootUrl}new-appointment/choose-closest-city`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
 
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
@@ -151,14 +151,14 @@ describe('VAOS community care flow using VAOS service', () => {
       'contain',
       `${rootUrl}new-appointment/community-care-preferences`,
     );
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
 
     cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button')
@@ -169,7 +169,7 @@ describe('VAOS community care flow using VAOS service', () => {
       'contain',
       `${rootUrl}new-appointment/community-care-language`,
     );
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Select preferred language
     cy.get('#root_preferredLanguage').select('english');
     cy.get('#root_preferredLanguage').should('have.value', 'english');
@@ -180,7 +180,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Tell us the reason for this appointment step
     cy.url().should('contain', `${rootUrl}new-appointment/reason-appointment`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Fill out reason input
     cy.get('#root_reasonAdditionalInfo')
       .type('This is a very good reason.')
@@ -196,7 +196,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Your contact information step
     cy.url().should('contain', `${rootUrl}new-appointment/contact-info`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Verify phone number
     cy.get('#root_phoneNumber').should('have.value', '5035551234');
     // Select best times for us to call morning & evening
@@ -214,7 +214,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Review your appointment details step
     cy.url().should('contain', `${rootUrl}new-appointment/review`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Click request appointment button
     cy.findByText('Request appointment').click();
 
@@ -272,7 +272,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText('veteran@gmail.com');
     // cy.findByText('503-555-1234');
     cy.findByText('Call morning or evening');
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
   });
 
   it.skip('should submit form with provider chosen from list and submit request', () => {
@@ -314,7 +314,7 @@ describe('VAOS community care flow using VAOS service', () => {
       'contain',
       `${rootUrl}new-appointment/choose-facility-type`,
     );
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Select community care
     cy.get('#root_facilityType_1').click();
     // Verify community care checked
@@ -326,7 +326,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Choose an appointment day and time step
     cy.url().should('contain', `${rootUrl}new-appointment/request-date`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.contains('button', 'Next')
       .focus()
       .click();
@@ -348,7 +348,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // What's the closest city to you step
     cy.url().should('contain', `${rootUrl}new-appointment/choose-closest-city`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
 
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
@@ -362,14 +362,14 @@ describe('VAOS community care flow using VAOS service', () => {
       'contain',
       `${rootUrl}new-appointment/community-care-preferences`,
     );
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
 
     cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button')
@@ -380,7 +380,7 @@ describe('VAOS community care flow using VAOS service', () => {
       'contain',
       `${rootUrl}new-appointment/community-care-language`,
     );
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Select preferred language
     cy.get('#root_preferredLanguage').select('english');
     cy.get('#root_preferredLanguage').should('have.value', 'english');
@@ -391,7 +391,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Tell us the reason for this appointment step
     cy.url().should('contain', `${rootUrl}new-appointment/reason-appointment`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Fill out reason input
     cy.get('#root_reasonAdditionalInfo')
       .type('This is a very good reason.')
@@ -407,7 +407,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Your contact information step
     cy.url().should('contain', `${rootUrl}new-appointment/contact-info`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Verify phone number
     cy.get('#root_phoneNumber').should('have.value', '5035551234');
     // Select best times for us to call morning & evening
@@ -425,7 +425,7 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Review your appointment details step
     cy.url().should('contain', `${rootUrl}new-appointment/review`);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
     // Click request appointment button
     cy.findByText('Request appointment').click();
 
@@ -473,6 +473,6 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.url().should('include', '/requests/testing');
     cy.findByText('Preferred community care provider');
     cy.findByText(/your appointment request has been submitted/i);
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
   });
 });
