@@ -9,7 +9,6 @@ import {
   fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
   fillTextWebComponent,
-  introductionPageFlow,
   reviewAndSubmitPageFlow,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
@@ -30,7 +29,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          introductionPageFlow();
+          cy.findAllByText(/start/i, { selector: 'a' })
+            .first()
+            .click();
         });
       },
       [pagePaths.veteranPersonalInfoPage]: ({ afterHook }) => {
