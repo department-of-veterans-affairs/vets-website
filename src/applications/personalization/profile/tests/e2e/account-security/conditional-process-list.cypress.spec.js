@@ -1,4 +1,4 @@
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 import { PROFILE_PATHS } from '../../../constants';
 
@@ -19,7 +19,7 @@ context('when user is LOA3 but Non 2Fa', () => {
   it('should show conditional process list section', () => {
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
 
-    checkForLegacyLoadingIndicator();
+    checkForWebComponentLoadingIndicator();
 
     // check that process list component list has rendered
     cy.get('ol.va-conditional-process-list').should('exist');
