@@ -224,17 +224,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             responsibility for protecting that information.
           </p>
         </va-accordion-item>
-        {/*
-          <va-accordion-item>
-          <h3 slot="headline">
-          Will my messages become part of my VA medical record?
-          </h3>
-          <p>
-          This depends. Your care team may decide to include certain messages
-          in your medical record.
-          </p>
-          </va-accordion-item>
-        */}
+
         <va-accordion-item>
           <h3 slot="headline">
             What happened to my settings from My HealtheVet secure messaging?

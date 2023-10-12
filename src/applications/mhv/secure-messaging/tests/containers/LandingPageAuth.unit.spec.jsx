@@ -99,4 +99,36 @@ describe('Landing dashboard', () => {
     const screen = setup();
     expect(screen.getByText(`Questions about using messages`)).to.exist;
   });
+
+  it('displays a FAQ component with phase 1 copy if phase 1 is enabled', () => {
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_phase_1: true,
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+    });
+    expect(screen.queryByText(/Who can I send messages to?/)).to.exist;
+    expect(screen.queryByText(/Who can I communicate with in messages?/)).to.not
+      .exist;
+  });
+
+  it('displays a FAQ component with original copy if phase 1 is disabled', () => {
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_phase_1: false,
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+    });
+    expect(screen.queryByText(/Who can I send messages to?/)).to.not.exist;
+    expect(screen.queryByText(/Who can I communicate with in messages?/)).to
+      .exist;
+  });
 });
