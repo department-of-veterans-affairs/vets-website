@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { multipleAppointments } from '../../../../tests/unit/mocks/mock-appointments';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
@@ -94,27 +95,31 @@ describe('pre-check-in', () => {
       ).to.exist;
     });
     it('has a clickable no button', () => {
+      const push = sinon.spy();
+      const router = { push };
       const component = render(
-        <CheckInProvider store={{ veteranData }}>
+        <CheckInProvider store={{ veteranData }} router={router}>
           <Demographics />
         </CheckInProvider>,
       );
-
-      expect(component.getByText('Is this your current contact information?'))
-        .to.exist;
-      component.getByTestId('no-button').click();
+      const noButton = component.getByTestId('no-button');
+      expect(noButton).to.exist;
+      noButton.click();
+      sinon.assert.calledOnce(push);
     });
 
     it('has a clickable yes button', () => {
+      const push = sinon.spy();
+      const router = { push };
       const component = render(
-        <CheckInProvider store={{ veteranData }}>
+        <CheckInProvider store={{ veteranData }} router={router}>
           <Demographics />
         </CheckInProvider>,
       );
-
-      expect(component.getByText('Is this your current contact information?'))
-        .to.exist;
-      component.getByTestId('yes-button').click();
+      const yesButton = component.getByTestId('yes-button');
+      expect(yesButton).to.exist;
+      yesButton.click();
+      sinon.assert.calledOnce(push);
     });
   });
 });
