@@ -53,7 +53,7 @@ describe('Radiology Images List container', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays Date of birth for the print view', () => {
