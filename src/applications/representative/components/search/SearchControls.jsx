@@ -9,11 +9,13 @@ const SearchControls = ({ handleSearch }) => {
       <div className="search-controls-container">
         <form id="facility-search-controls" onSubmit={e => handleSearch(e)}>
           <div className="columns">
-            <LocationInput />
             <div id="search-controls-bottom-row">
               <RepTypeSelector />
-              <input id="facility-search" type="submit" value="Search" />
             </div>
+            <LocationInput />
+            <button id="repreentative-search" type="submit" value="Search">
+              <i className="fas fa-search" /> Search
+            </button>
           </div>
         </form>
       </div>
