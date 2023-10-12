@@ -342,7 +342,7 @@ class PatientInboxPage {
     cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
-      .click();
+      .click({ waitForAnimations: true });
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
