@@ -1,18 +1,16 @@
 import React from 'react';
-
-import {
-  LoginHeader,
-  LoginActions,
-  LoginInfo,
-} from 'platform/user/authentication/components';
 import environment from 'platform/utilities/environment';
+import LoginHeader from './LoginHeader';
+import LoginActions from './LoginActions';
+import LoginInfo from './LoginInfo';
 
-const vaGovFullDomain = environment.BASE_URL;
-export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
+export const logoSrc = `${environment.BASE_URL}/img/design/logo/va-logo.png`;
 
-export const LoginContainer = props => {
-  const { externalApplication, isUnifiedSignIn, loggedOut } = props;
-
+export default function LoginContainer({
+  externalApplication,
+  isUnifiedSignIn,
+  loggedOut,
+}) {
   return (
     <section className="login">
       <div className="container">
@@ -33,6 +31,4 @@ export const LoginContainer = props => {
       </div>
     </section>
   );
-};
-
-export default LoginContainer;
+}
