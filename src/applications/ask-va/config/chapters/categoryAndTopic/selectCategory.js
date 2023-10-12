@@ -1,4 +1,4 @@
-import TopicList from '../../../components/FormFields/TopicList';
+import CategorySelect from '../../../components/FormFields/CategorySelect';
 import FormElementTitle from '../../../components/FormFields/FormElementTitle';
 
 const selectCategoryPage = {
@@ -7,7 +7,7 @@ const selectCategoryPage = {
       'ui:title': FormElementTitle({
         title: 'Which category best describes your question?',
       }),
-      'ui:widget': TopicList,
+      'ui:widget': CategorySelect,
     },
   },
   schema: {

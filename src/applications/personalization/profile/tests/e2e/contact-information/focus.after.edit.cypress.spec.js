@@ -29,12 +29,17 @@ describe('focus after editing fields', () => {
     it('should focus on mailing address button when editing is complete', () => {
       cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
-      cy.findByRole('progressbar').should('exist');
-      cy.findByText(/loading your information/i).should('exist');
+      cy.get('va-loading-indicator')
+        .should('exist')
+        .then($container => {
+          cy.wrap($container)
+            .shadow()
+            .findByRole('progressbar')
+            .should('contain', /loading your information/i);
+        });
 
       // and then the loading indicator should be removed
-      cy.findByText(/loading your information/i).should('not.exist');
-      cy.findByRole('progressbar').should('not.exist');
+      cy.get('va-loading-indicator').should('not.exist');
       cy.injectAxeThenAxeCheck();
       cy.get('#edit-mailing-address').click({ waitForAnimations: true });
       cy.get('[data-testid="save-edit-button"]').click({
@@ -62,12 +67,17 @@ describe('focus after editing fields', () => {
     it('should focus on edit phone number button when editing is complete', () => {
       cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
-      cy.findByRole('progressbar').should('exist');
-      cy.findByText(/loading your information/i).should('exist');
+      cy.get('va-loading-indicator')
+        .should('exist')
+        .then($container => {
+          cy.wrap($container)
+            .shadow()
+            .findByRole('progressbar')
+            .should('contain', /loading your information/i);
+        });
 
       // and then the loading indicator should be removed
-      cy.findByText(/loading your information/i).should('not.exist');
-      cy.findByRole('progressbar').should('not.exist');
+      cy.get('va-loading-indicator').should('not.exist');
       cy.injectAxeThenAxeCheck();
 
       cy.get('#edit-home-phone-number').click({ waitForAnimations: true });
