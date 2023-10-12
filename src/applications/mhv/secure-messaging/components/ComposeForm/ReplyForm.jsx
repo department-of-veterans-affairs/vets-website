@@ -336,6 +336,33 @@ const ReplyForm = props => {
     if (e.target.value) setBodyError('');
   };
 
+  if (!sendMessageFlag && !navigationError && attachments.length) {
+    setNavigationError({
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+      confirmButtonText: 'Continue editing',
+      cancelButtonText: 'OK',
+    });
+  }
+
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (messageBody !== (draft ? draft.body : '')) {
+        e.returnValue = '';
+      }
+    },
+    [draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
   if (replyMessage) {
     return (
       <>

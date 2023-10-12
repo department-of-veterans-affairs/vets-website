@@ -1,7 +1,7 @@
 import { PROFILE_PATHS } from '../../constants';
 import mockUser from '../fixtures/users/user-36.json';
 import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.json';
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import { mockFeatureToggles } from './helpers';
 
 /**
@@ -36,7 +36,7 @@ function disconnectApps(mobile = false, error = false) {
     cy.viewport('iphone-4');
   }
 
-  checkForLegacyLoadingIndicator();
+  checkForWebComponentLoadingIndicator();
 
   cy.get('.connected-app').should('have.length', 2);
 
