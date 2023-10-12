@@ -299,9 +299,9 @@ function main() {
       allAllowListSpecs.indexOf(path) === -1,
   );
 
-  const testsToStressTest = existingTestsToStressTest.concat(
-    newTestsToStressTest,
-  );
+  const testsToStressTest = existingTestsToStressTest
+    .concat(newTestsToStressTest)
+    .filter(testSpec => fs.existsSync(testSpec));
 
   exportVariables(testsToRunNormally);
 
