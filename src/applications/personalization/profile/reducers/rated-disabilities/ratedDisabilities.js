@@ -3,7 +3,7 @@ import set from 'platform/utilities/data/set';
 import {
   FETCH_RATED_DISABILITIES_SUCCESS,
   FETCH_RATED_DISABILITIES_FAILED,
-} from '../../actions/ratedDisabilities';
+} from '../../../common/actions/ratedDisabilities';
 
 const initialState = {
   ratedDisabilities: null,

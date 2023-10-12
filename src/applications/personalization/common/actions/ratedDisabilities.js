@@ -1,6 +1,6 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { getData, isClientError, isServerError } from '../util';
+import { getData, isClientError, isServerError } from '../../profile/util';
 
 function getResponseError(response) {
   if (response.errors?.length) {

@@ -2,7 +2,7 @@ import {
   FETCH_TOTAL_RATING_STARTED,
   FETCH_TOTAL_RATING_SUCCEEDED,
   FETCH_TOTAL_RATING_FAILED,
-} from '../../actions/ratedDisabilities';
+} from '../../../common/actions/ratedDisabilities';
 
 const initialState = {
   loading: true, // app starts in loading state
