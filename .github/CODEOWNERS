@@ -152,13 +152,13 @@ src/applications/static-pages/school-resources @department-of-veterans-affairs/g
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # CTO Health Products
 
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/coronavirus-vaccination-expansion @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My Education Benefits Team
 
