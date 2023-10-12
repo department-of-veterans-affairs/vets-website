@@ -1,13 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 
 import formConfig from '../config/form';
+import FormBreadcrumbs from '../components/breadcrumbs/form';
 
-export default function Form({ children, location }) {
+function Form({ children, location }) {
   return (
     <>
+      <FormBreadcrumbs />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -15,3 +18,10 @@ export default function Form({ children, location }) {
     </>
   );
 }
+
+Form.propTypes = {
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
+};
+
+export default Form;
