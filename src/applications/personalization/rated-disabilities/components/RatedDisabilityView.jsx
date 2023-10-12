@@ -57,7 +57,8 @@ const RatedDisabilityView = ({
   let content;
   let onThisPageHeader = '';
   let combinedRatingLink = '';
-  let ratedDisabilitiesLink = '';
+  let serviceConnectedLink = '';
+  let nonServiceConnectedLink = '';
   let learnMoreLink = '';
 
   // If there are rated disabilites then the page gets long enough to fill these links
@@ -65,15 +66,22 @@ const RatedDisabilityView = ({
     onThisPageHeader = <h2 className="vads-u-font-size--h3">On this page</h2>;
     combinedRatingLink = (
       <OnThisPageLink
-        text="Your combined disability rating"
+        text={`${totalDisabilityRating}% combined disability rating`}
         link="#combined-rating"
       />
     );
 
-    ratedDisabilitiesLink = (
+    serviceConnectedLink = (
       <OnThisPageLink
-        text="Your individual ratings"
-        link="#individual-ratings"
+        text="Service-connected ratings"
+        link="#individual-ratings-connected"
+      />
+    );
+
+    nonServiceConnectedLink = (
+      <OnThisPageLink
+        text="Non service-connected ratings"
+        link="#individual-ratings-non-connected"
       />
     );
 
@@ -94,7 +102,8 @@ const RatedDisabilityView = ({
             <div className="usa-width-one-third">
               {onThisPageHeader}
               {combinedRatingLink}
-              {ratedDisabilitiesLink}
+              {serviceConnectedLink}
+              {nonServiceConnectedLink}
               {learnMoreLink}
             </div>
           </div>

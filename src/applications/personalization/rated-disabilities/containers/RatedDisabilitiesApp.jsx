@@ -92,7 +92,7 @@ const mapStateToProps = state => ({
   sortToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.ratedDisabilitiesSortAbTest
   ],
-  totalDisabilityRating: state.totalRating.totalDisabilityRating,
+  totalDisabilityRating: 100,
   user: state.user,
 });
 

@@ -5,6 +5,11 @@ const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 
 export async function getData(apiRoute, options) {
   try {
+    if (apiRoute === '/disability_compensation_form/rating_info') {
+      return {
+        userPercentageOfDisability: 100,
+      };
+    }
     const response = await apiRequest(apiRoute, options);
     return response.data.attributes;
   } catch (error) {

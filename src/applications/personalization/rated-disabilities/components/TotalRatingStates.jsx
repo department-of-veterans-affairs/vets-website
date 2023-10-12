@@ -43,19 +43,14 @@ export const missingTotalMessage = () => (
 export const totalRatingMessage = totalDisabilityRating => (
   <>
     <h2 id="combined-rating" className="vads-u-margin-top--0">
-      Your combined disability rating
+      {totalDisabilityRating}% combined disability rating
     </h2>
-    <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
-      <dl className="vads-u-display--block vads-u-margin--0">
-        <dt className="vads-u-display--inline-block vads-u-font-size--h2 vads-u-font-weight--bold vads-u-margin--0 vads-u-border-color--gray-light vads-u-border-bottom--1px">
-          {totalDisabilityRating}%
-        </dt>
-        <dd className="vads-u-display--inline-block vads-u-margin-y--1">
-          This rating doesn’t include any disabilities for your claims that are
-          still in process. You can check the status of your disability claims
-          or appeals with the Claim Status tool.
-        </dd>
-      </dl>
+    <va-alert uswds background-only>
+      <div className="vads-u-margin-bottom--1">
+        This rating doesn’t include any disabilities for your claims that are
+        still in process. You can check the status of your disability claims or
+        appeals with the Claim Status tool.
+      </div>
       <a
         href="/claim-or-appeal-status/"
         arial-label="check your claims or appeals status"
@@ -68,6 +63,6 @@ export const totalRatingMessage = totalDisabilityRating => (
       >
         Check your claims or appeals
       </a>
-    </div>
+    </va-alert>
   </>
 );
