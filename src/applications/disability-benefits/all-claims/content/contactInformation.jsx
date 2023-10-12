@@ -66,7 +66,7 @@ export const forwardingAddressDescription = () => (
 
 export const contactInfoDescription = ({ formName = 'disability claim' }) => (
   <p className="contact-info-description" id="contact-info">
-    This is the contact information we have on file for you. Please review it
+    This is the contact information we have on file for you. Please review it to
     make sure the information below is correct. We’ll send any important
     information about your {formName} to your mailing address. After you submit
     your claim, we’ll send you a confirmation email to your email address.

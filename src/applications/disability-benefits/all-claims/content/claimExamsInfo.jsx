@@ -18,6 +18,13 @@ export const claimExamsDescription = (
         schedule your exam. It’s important that you answer any calls you receive
         after you file a disability claim.
       </p>
+      <p>
+        You can go to your{' '}
+        <a href="/profile" target="_blank" rel="noreferrer">
+          VA.gov profile
+        </a>{' '}
+        to confirm your phone number.
+      </p>
     </va-alert>
 
     <p>At this time we partner with 3 vendors:</p>
@@ -26,6 +33,18 @@ export const claimExamsDescription = (
       <li>Veterans Evaluation Services (VES)</li>
       <li>Logistics Health Inc. (LHI)</li>
     </ul>
+    <p>
+      If you’re a Veteran who lives overseas, you may{' '}
+      <a
+        href="https://www.benefits.va.gov/persona/veteran-abroad.asp"
+        target="_blank"
+        rel="noreferrer"
+      >
+        {' '}
+        contact an Overseas Military Services Coordinator
+      </a>
+      for help scheduling a claim exam.
+    </p>
   </div>
 );
 
