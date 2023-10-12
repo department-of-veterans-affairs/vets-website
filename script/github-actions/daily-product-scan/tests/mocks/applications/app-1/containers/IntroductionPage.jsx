@@ -5,7 +5,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
@@ -194,7 +193,7 @@ class IntroductionPage extends React.Component {
             </strong>
           </p>
         )}
-        {showMainLoader && <LoadingIndicator />}
+        {showMainLoader && <va-loading-indicator set-focus />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
         {showLoggedOutContent && (
           <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
