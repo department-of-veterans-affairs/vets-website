@@ -274,7 +274,7 @@ const formConfig = {
             nonVeteranApplicantDetails: {
               title: 'Applicant details',
               path: 'nonVeteran-applicant-details',
-              depends: !isVeteran,
+              depends: formData => !isVeteran(formData),
               uiSchema: {
                 'ui:description': applicantDescription,
                 application: {
@@ -309,6 +309,7 @@ const formConfig = {
             applicantDemographics: {
               title: 'Applicant demographics',
               path: 'applicant-demographics',
+              depends: isVeteran,
               uiSchema: {
                 'ui:description': applicantDescription,
                 application: {
