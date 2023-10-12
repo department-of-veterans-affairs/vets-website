@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { capitalizeEachWord, isBDD } from '../utils';
-import disabilityLabels from '../content/disabilityLabels';
+import { getDisabilityLabels } from '../content/disabilityLabels';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import {
@@ -109,7 +109,7 @@ export const uiSchema = {
             formData.newDisabilities[index]?.cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
-            labels: disabilityLabels,
+            labels: getDisabilityLabels(),
             updateSchema: (formData, primarySchema, primaryUISchema, index) => {
               const disabilitiesList = getDisabilitiesList(formData, index);
               if (!disabilitiesList.length) {

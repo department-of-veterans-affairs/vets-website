@@ -2,7 +2,7 @@ import * as autosuggest from 'platform/forms-system/src/js/definitions/autosugge
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
-import disabilityLabels from '../content/disabilityLabels';
+import { getDisabilityLabels } from '../content/disabilityLabels';
 import {
   autoSuggestTitle,
   newOnlyAlert,
@@ -49,7 +49,7 @@ export const uiSchema = {
         autoSuggestTitle,
         () =>
           Promise.resolve(
-            Object.entries(disabilityLabels).map(([key, value]) => ({
+            Object.entries(getDisabilityLabels()).map(([key, value]) => ({
               id: key,
               label: value,
             })),
