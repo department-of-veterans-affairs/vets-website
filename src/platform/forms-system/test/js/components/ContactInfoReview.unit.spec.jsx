@@ -70,4 +70,15 @@ describe('<ContactInfoReview>', () => {
 
     expect(editPageSpy.called).to.be.true;
   });
+
+  it('should show missing error messages', () => {
+    const data = getData({
+      home: false,
+      mobile: false,
+      email: false,
+      address: false,
+    });
+    const { container } = render(<ContactInfoReview {...data} />);
+    expect($$('.usa-input-error-message', container).length).to.eq(5);
+  });
 });

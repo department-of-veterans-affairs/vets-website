@@ -48,28 +48,34 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
   const isUS = address.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'state' : 'province';
 
+  const errorMsg = errorMessage => (
+    <span className="usa-input-error-message">{errorMessage}</span>
+  );
+
   // Label: formatted value in (design) display order
   const display = [
     [content.homePhone, () => renderTelephone(homePhone)],
     [content.mobilePhone, () => renderTelephone(mobilePhone)],
-    [
-      content.email,
-      () =>
-        email || (
-          <span className="usa-input-error-message">
-            {content.missingEmailError}
-          </span>
-        ),
-    ],
+    [content.email, () => email || errorMsg(content.missingEmailError)],
     [content.country, () => address.countryName],
-    [content.address1, () => address.addressLine1],
+    [
+      content.address1,
+      () => address.addressLine1 || errorMsg(content.missingStreetAddress),
+    ],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
-    [content.city, () => address.city],
-    [content[stateOrProvince], () => address[isUS ? 'stateCode' : 'province']],
+    [content.city, () => address.city || errorMsg(content.missingCity)],
     [
-      content.postal,
-      () => address[isUS ? 'zipCode' : 'internationalPostalCode'],
+      content[stateOrProvince],
+      () =>
+        address[isUS ? 'stateCode' : 'province'] ||
+        errorMsg(content.missingStateOrProvince(isUS)),
+    ],
+    [
+      isUS ? content.zipCode : content.postal,
+      () =>
+        address[isUS ? 'zipCode' : 'internationalPostalCode'] ||
+        errorMsg(content.missingZip(isUS)),
     ],
   ];
 
