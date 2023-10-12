@@ -213,6 +213,32 @@ describe('Schemaform helpers:', () => {
 
       expect(fields).to.be.empty;
     });
+    it('should not throw an error', () => {
+      const data = {
+        schema: {
+          type: 'object',
+          properties: {
+            veteran: {
+              type: 'object',
+              required: ['address'],
+              properties: {
+                address: {
+                  type: 'object',
+                  required: [],
+                  properties: {},
+                },
+              },
+            },
+          },
+        },
+        uiSchema: {},
+      };
+      // TypeError: Cannot read property 'address' of undefined is thrown
+      // without optional chaining
+      const fields = getArrayFields(data, {});
+
+      expect(fields).to.be.empty;
+    });
   });
   describe('transformForSubmit', () => {
     it('should flatten page data within chapter', () => {
