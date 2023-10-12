@@ -46,6 +46,6 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
         },
       },
     });
-    composePage.verifySendMessageConfirmationMessage();
+    composePage.verifySendMessageConfirmationMessageText();
   });
 });

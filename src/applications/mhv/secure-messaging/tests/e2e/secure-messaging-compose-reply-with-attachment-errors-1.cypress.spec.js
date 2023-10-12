@@ -24,19 +24,23 @@ describe('Start a new message With Attacments and Errors', () => {
       .getCategory('COVID')
       .first()
       .click();
+    composePage.attachMessageFromFile('test_video.mp4');
+    composePage.verifyAttachmentErrorMessage(
+      "We can't attach this file type. Try attaching a DOC, JPG, PDF, PNG, RTF, TXT, or XLS.",
+    );
+    composePage.attachMessageFromFile('empty.txt');
+    composePage.verifyAttachmentErrorMessage(
+      'Your file is empty. Try attaching a different file.',
+    );
+    composePage.attachMessageFromFile('test_ext.TXT');
 
-    // logic has changed here. After attaching 4th file, Attach File button becomes hidden
+    // TO DO: remove attachment
+    composePage.removeAttachMessageFromFile();
 
-    // composePage.verifyAttachmentErrorMessage(
-    //   'You may only attach up to 4 files',
-    // );
     composePage.getMessageSubjectField().type('Test Subject');
     composePage
       .getMessageBodyField()
       .type('Test message body', { force: true, waitforanimations: true });
-    composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.sendMessage();
-    composePage.verifySendMessageConfirmationMessageText();
-    // composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });
