@@ -488,13 +488,14 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
 export function prefillTransformer(pages, formData, metadata, state) {
   const featureTogglesLoaded = state.featureToggles?.loading === false;
   // eslint-disable-next-line camelcase
-  const showMebDgi40Features = state.featureToggles?.show_meb_dgi40_features;
+  const showInternationalAddressPrefill =
+    state.featureToggles?.showMebInternationalAddressPrefill;
 
   if (!featureTogglesLoaded) {
     return {};
   }
 
-  if (showMebDgi40Features) {
+  if (showInternationalAddressPrefill) {
     return prefillTransformerV2(pages, formData, metadata, state);
   }
 
