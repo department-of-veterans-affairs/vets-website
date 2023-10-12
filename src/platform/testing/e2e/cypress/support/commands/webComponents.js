@@ -54,6 +54,7 @@ Cypress.Commands.add('selectYesNoVaRadioOption', (field, value) => {
 
 Cypress.Commands.add('selectVaSelect', (field, value) => {
   if (typeof value !== 'undefined') {
+    const strValue = value.toString();
     const element =
       typeof field === 'string'
         ? cy.get(`va-select[name="${field}"]`)
@@ -63,13 +64,13 @@ Cypress.Commands.add('selectVaSelect', (field, value) => {
       .shadow()
       .find('select')
       .as('currentElement')
-      .select(value, FORCE_OPTION);
-    cy.get('@currentElement').should('have.value', value);
+      .select(strValue, FORCE_OPTION);
+    cy.get('@currentElement').should('have.value', strValue);
   }
 });
 
 Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
-  if (isChecked) {
+  if (typeof isChecked !== 'undefined') {
     const element =
       typeof field === 'string'
         ? cy.get(`va-checkbox[name="${field}"]`)
@@ -78,8 +79,15 @@ Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
     element
       .shadow()
       .find('input')
-      .check(FORCE_OPTION)
-      .should('be.checked');
+      .as('currentElement');
+
+    if (isChecked) {
+      cy.get('@currentElement').check(FORCE_OPTION);
+      cy.get('@currentElement').should('be.checked');
+    } else {
+      cy.get('@currentElement').uncheck(FORCE_OPTION);
+      cy.get('@currentElement').should('not.be.checked');
+    }
   }
 });
 
