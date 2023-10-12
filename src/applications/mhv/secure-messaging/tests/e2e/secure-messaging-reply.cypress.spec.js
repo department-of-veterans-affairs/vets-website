@@ -32,6 +32,6 @@ describe('Secure Messaging Reply', () => {
       },
     });
     replyPage.sendReplyMessageDetails(testMessage);
-    replyPage.verifySendMessageConfirmationMessageText();
+    replyPage.verifySendMessageConfirmationMessage();
   });
 });

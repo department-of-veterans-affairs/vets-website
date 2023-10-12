@@ -83,9 +83,7 @@ describe('recipients dropdown box', () => {
       .find('option')
       .its('length')
       .should('equal', 3);
-    cy.get('[data-testid="compose-message-categories"]')
-      .first()
-      .click();
+    cy.get('[name="COVID"]').click();
   });
   it('preferredTriageTeam select dropdown false', () => {
     const landingPage = new PatientInboxPage();
@@ -120,9 +118,7 @@ describe('recipients dropdown box', () => {
         // .filter(':visible', { timeout: 5000 })
         .its('length')
         .should('equal', 1);
-      cy.get('[data-testid="compose-message-categories"]')
-        .first()
-        .click();
+      cy.get('[name="COVID"]').click();
     });
   });
 });
