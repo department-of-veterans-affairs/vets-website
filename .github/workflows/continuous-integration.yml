@@ -262,7 +262,7 @@ jobs:
           fail_on_failure: 'true'
 
       - name: Set output of TESTS_TO_STRESS_TEST
-        if: ${{ always() && env.TESTS_TO_STRESS_TEST != '[]' }}
+        if: ${{ always() }}
         id: tests-to-stress-test
         run: echo "tests=$TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
 
