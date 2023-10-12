@@ -31,13 +31,26 @@ describe('Allergies list container', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Allergies', { exact: true })).to.exist;
+    expect(screen.getByText('Allergies and reactions', { exact: true })).to
+      .exist;
   });
 
-  it('displays a subheading', () => {
+  it('displays the first part of the subheading', () => {
     expect(
       screen.getByText(
-        'If you have allergies that are missing from this list, send a secure message to your care team.',
+        `Review allergies, reactions, and side effects in your VA medical
+        records. This includes medication side effects (also called adverse drug
+        reactions).`,
+        { exact: false },
+      ),
+    ).to.exist;
+  });
+
+  it('displays the second part of the subheading', () => {
+    expect(
+      screen.getByText(
+        `If you have allergies that are missing from this list, tell your care
+        team at your next appointment.`,
         { exact: false },
       ),
     ).to.exist;
