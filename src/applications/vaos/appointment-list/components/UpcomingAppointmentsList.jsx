@@ -234,6 +234,7 @@ export default function UpcomingAppointmentsList() {
               });
               dispatch(startNewAppointmentFlow());
             }}
+            level={2}
           />
         </div>
       )}

@@ -7,12 +7,15 @@ export default function NoAppointments({
   startNewAppointmentFlow,
   showAdditionalRequestDescription,
   description = 'appointments',
+  level = 3,
 }) {
+  const Heading = `h${level}`;
+
   return (
     <>
-      <h3 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
+      <Heading className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
         You don’t have any {description}
-      </h3>
+      </Heading>
       {showScheduleButton && (
         <>
           {showAdditionalRequestDescription ? (
@@ -63,6 +66,7 @@ NoAppointments.propTypes = {
   showScheduleButton: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
   description: PropTypes.string,
+  level: PropTypes.number,
   showAdditionalRequestDescription: PropTypes.bool,
 };
 
