@@ -9,11 +9,6 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-// eslint-disable-next-line deprecate/import
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import * as userSelectors from 'platform/user/selectors';
 import { requestStates } from 'platform/utilities/constants';
@@ -144,10 +139,10 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           >
             {submitStatus === requestStates.failed ? (
               <div className="vads-u-margin-bottom-2">
-                <AlertBox
-                  status={ALERT_TYPE.ERROR}
-                  content="An error occurred while trying to save your form. Please try again later."
-                />
+                <va-alert visible status="error">
+                  An error occurred while trying to save your form. Please try
+                  again later.
+                </va-alert>
               </div>
             ) : null}
             <button

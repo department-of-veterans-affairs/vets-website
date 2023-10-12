@@ -39,9 +39,9 @@ class PatientComposePage {
 
   pushSendMessageWithKeyboardPress = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
-    cy.tabToElement(Locators.BUTTONS.SEND)
-      .contains('Send')
-      .realPress(['Enter']);
+    cy.get('[data-testid="message-body-field"]').click();
+    cy.tabToElement(Locators.BUTTONS.SEND);
+    cy.realPress(['Enter']);
     // cy.wait('@message');
   };
 
@@ -115,7 +115,9 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
-    cy.focused().should('have.attr', 'error', 'Please select a recipient.');
+    return cy
+      .focused()
+      .should('have.attr', 'error', 'Please select a recipient.');
   };
 
   verifyFocusOnErrorMessageToSelectCategory = () => {
@@ -167,6 +169,20 @@ class PatientComposePage {
       });
   };
 
+  keyboardNavToMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('#textarea');
+  };
+
+  keyboardNavToMessageSubjectField = () => {
+    return cy
+      .tabToElement('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField');
+  };
+
   composeDraftByKeyboard = () => {
     cy.tabToElement('#recipient-dropdown')
       .shadow()
@@ -191,6 +207,7 @@ class PatientComposePage {
       `${Paths.SM_API_BASE}/message_drafts`,
       mockDraftResponse,
     ).as('draft_message');
+    cy.get('[data-testid="message-body-field"]').click();
     cy.tabToElement('[data-testid="Save-Draft-Button"]');
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
