@@ -14,6 +14,7 @@ import {
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
 } from '../../config/helpers';
+import { veteranBenefits } from '../../definitions/constants';
 
 describe('form helper functions', () => {
   it('provides the correct information for a veteran', () => {
@@ -110,8 +111,9 @@ describe('form helper functions', () => {
 describe('confirmation page helper functions', () => {
   describe('Compensation claim type', () => {
     const data = {
-      benefitSelection: 'Compensation',
+      benefitSelection: {},
     };
+    data.benefitSelection[veteranBenefits.compensation] = true;
 
     it('correctly gets the claim type and already submitted title and text', () => {
       expect(getClaimType(data)).to.match(/compensation/i);
@@ -143,8 +145,9 @@ describe('confirmation page helper functions', () => {
 
   describe('Pension claim type', () => {
     const data = {
-      benefitSelection: 'Pension',
+      benefitSelection: {},
     };
+    data.benefitSelection[veteranBenefits.pension] = true;
 
     it('correctly gets the claim type and already submitted title and text', () => {
       expect(getClaimType(data)).to.match(/pension/i);
@@ -176,8 +179,10 @@ describe('confirmation page helper functions', () => {
 
   describe('both claim types', () => {
     const data = {
-      benefitSelection: 'Compensation,Pension',
+      benefitSelection: {},
     };
+    data.benefitSelection[veteranBenefits.compensation] = true;
+    data.benefitSelection[veteranBenefits.pension] = true;
 
     it('correctly gets the claim types', () => {
       expect(getClaimType(data)).to.match(/compensation and pension/i);
@@ -207,81 +212,79 @@ describe('confirmation page helper functions', () => {
 
     describe('getting already submitted title', () => {
       it('correctly gets the title when the compensation intent is active', () => {
-        const response = {
-          compensationIntent: {
-            status: 'active',
-          },
+        const alreadySubmittedIntents = {
+          compensation: 'active',
         };
 
-        expect(getAlreadySubmittedTitle(data, response)).to.match(
-          /compensation/i,
-        );
-        expect(getAlreadySubmittedTitle(data, response)).not.to.match(
-          /pension/i,
-        );
+        expect(
+          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+        ).to.match(/compensation/i);
+        expect(
+          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+        ).not.to.match(/pension/i);
       });
 
       it('correctly gets the title when the pension intent is active', () => {
-        const response = {
-          pensionIntent: {
-            status: 'active',
-          },
+        const alreadySubmittedIntents = {
+          pension: 'active',
         };
 
-        expect(getAlreadySubmittedTitle(data, response)).to.match(/pension/i);
-        expect(getAlreadySubmittedTitle(data, response)).not.to.match(
-          /compensation/i,
-        );
+        expect(
+          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+        ).to.match(/pension/i);
+        expect(
+          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+        ).not.to.match(/compensation/i);
       });
 
       it('provides a reasonable default', () => {
-        const response = {};
+        const alreadySubmittedIntents = {};
 
-        expect(getAlreadySubmittedTitle(data, response)).to.equal(null);
+        expect(
+          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+        ).to.equal(null);
       });
     });
 
     describe('getting already submitted text', () => {
       it('correctly gets the text when the compensation intent is active', () => {
-        const response = {
-          compensationIntent: {
-            status: 'active',
-          },
+        const alreadySubmittedIntents = {
+          compensation: 'active',
         };
 
-        expect(getAlreadySubmittedText(data, response, '')).to.match(
-          /\(ITF\) for disability compensation/i,
-        );
+        expect(
+          getAlreadySubmittedText(data, alreadySubmittedIntents, ''),
+        ).to.match(/\(ITF\) for disability compensation/i);
       });
 
       it('correctly gets the title when the pension intent is active', () => {
-        const response = {
-          pensionIntent: {
-            status: 'active',
-          },
+        const alreadySubmittedIntents = {
+          pension: 'active',
         };
 
-        expect(getAlreadySubmittedText(data, response, '')).to.match(
-          /\(ITF\) for pension/i,
-        );
+        expect(
+          getAlreadySubmittedText(data, alreadySubmittedIntents, ''),
+        ).to.match(/\(ITF\) for pension/i);
       });
 
       it('provides a reasonable default', () => {
-        const response = {};
+        const alreadySubmittedIntents = {};
 
-        expect(getAlreadySubmittedText(data, response)).to.equal(null);
+        expect(getAlreadySubmittedText(data, alreadySubmittedIntents)).to.equal(
+          null,
+        );
       });
     });
   });
 
   it('provides a reasonable default', () => {
     const data = {
-      benefitSelection: '',
+      benefitSelection: {},
     };
     const alreadySubmittedIntents = {};
 
-    expect(getClaimType(data)).to.match(/compensation/i);
-    expect(getClaimType(data)).not.to.match(/pension/i);
+    expect(getClaimType(data)).not.to.match(/compensation/i);
+    expect(getClaimType(data)).to.match(/pension/i);
     expect(
       getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
     ).to.equal(null);
