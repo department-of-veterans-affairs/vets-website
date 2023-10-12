@@ -128,6 +128,9 @@ export default function FormNav(props) {
             // h2 fallback for confirmation page
             focusByOrder([defaultFocusSelector, 'h2']);
           }
+        } else {
+          // h2 fallback for confirmation page
+          focusByOrder([defaultFocusSelector, 'h2']);
         }
       };
     },
