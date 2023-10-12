@@ -781,10 +781,18 @@ jobs:
     if: |
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+      needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' &&
+      github.ref != 'refs/heads/main'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
+
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        ci_node_index:
+          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -878,7 +886,7 @@ jobs:
         stress-test-cypress-tests,
         fetch-allow-lists,
       ]
-    if: ${{ always() && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && github.ref != 'refs/heads/main' && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
