@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import SearchControls from '../components/search/SearchControls';
 import ResultsList from '../components/search/ResultsList';
@@ -52,15 +51,17 @@ Search.propTypes = {
   router: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    selectedResult: state.searchResult.selectedResult,
-    searchQuery: state.searchQuery,
-    results: state.searchResult.results,
-  };
-};
+export default Search;
 
-export default connect(
-  mapStateToProps,
-  null,
-)(Search);
+// const mapStateToProps = state => {
+//   return {
+//     selectedResult: state.searchResult.selectedResult,
+//     searchQuery: state.searchQuery,
+//     results: state.searchResult.results,
+//   };
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   null,
+// )(Search);
