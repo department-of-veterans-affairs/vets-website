@@ -58,7 +58,7 @@ const octokitResponses = {
         has_contract_tests: false,
         testrail_project_id: '',
         package_dependencies:
-          'append-query,react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,@department-of-veterans-affairs/react-components/LoadingIndicator,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,@sentry/browser',
+          'append-query,react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,@sentry/browser',
         loa: 1,
         cross_product_dependencies:
           '/src/applications/personalization/dashboard/components/DashboardAlert',
@@ -206,7 +206,7 @@ const octokitResponses = {
         has_contract_tests: 'TRUE',
         testrail_project_id: '',
         package_dependencies:
-          'react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,@department-of-veterans-affairs/react-components/LoadingIndicator,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,chai,sinon,skin-deep,enzyme,react-dom,react-dom/test-utils,fs,path,jsonschema,@sentry/browser',
+          'react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,chai,sinon,skin-deep,enzyme,react-dom,react-dom/test-utils,fs,path,jsonschema,@sentry/browser',
         loa: 1,
         cross_product_dependencies:
           'src/applications/personalization/dashboard/components/DashboardAlert,src/applications/facility-locator/manifest.json',
