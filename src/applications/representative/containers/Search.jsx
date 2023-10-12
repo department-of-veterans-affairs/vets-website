@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import SearchControls from '../components/search/SearchControls';
 import ResultsList from '../components/search/ResultsList';
+import Footer from '../components/NeedHelpFooter';
 
-export default function Search({ router }) {
+const Search = ({ router }) => {
   const [showResults, setShowResults] = useState(false);
 
   const handleSearch = e => {
@@ -19,19 +21,46 @@ export default function Search({ router }) {
 
   return (
     <>
-      <div className="representative-search">
+      <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
         <div className="title-section">
-          <h1>Find a Local Representative</h1>
+          <h1>Find an Accredited Representative</h1>
         </div>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          visible
+        >
+          <h2 slot="headline">Sign in to see your current representative.</h2>
+          <div>
+            <button className="usa-button-primary" type="button">
+              Sign in
+            </button>
+          </div>
+        </va-alert>
 
         <SearchControls handleSearch={handleSearch} />
 
         {showResults && <ResultsList handleRedirect={e => handleRedirect(e)} />}
+
+        <Footer />
       </div>
     </>
   );
-}
+};
 
 Search.propTypes = {
-  router: PropTypes.object,
+  router: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => {
+  return {
+    selectedResult: state.searchResult.selectedResult,
+    searchQuery: state.searchQuery,
+    results: state.searchResult.results,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Search);
