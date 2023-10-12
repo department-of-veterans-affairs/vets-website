@@ -5,10 +5,12 @@ import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFoote
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 
 import formConfig from '../config/form';
+import FormBreadcrumbs from '../components/breadcrumbs/form';
 
 function Form({ children, location }) {
   return (
     <>
+      <FormBreadcrumbs />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
