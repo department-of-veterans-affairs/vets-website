@@ -1,31 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import PmcModalContent from 'platform/forms/components/OMBInfoModalContent/PmcModalContent';
+import recordEvent from 'platform/monitoring/record-event';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const content = {
   formTitle: 'Request a Presidential Memorial Certificate',
   formSubTitle:
     'Presidential Memorial Certificate request form (VA Form 40-0247)',
-  authStartFormText: 'Start your request',
-  unauthStartText: 'Sign in to start your request',
-  saveInProgressText:
-    'Please complete the 40-0247 form to request a certificate.',
-  displayNonVeteranMessaging: true,
-  verifiedPrefillAlert: (
-    <div>
-      <div className="usa-alert usa-alert-info schemaform-sip-alert">
-        <div className="usa-alert-body">
-          <strong>Note:</strong> Since you’re signed in to your account, you can
-          save your request in progress and come back later to finish filling it
-          out.
-        </div>
-      </div>
-      <br />
-    </div>
-  ),
+  hideSipIntro: true, // hide <SaveInProgressIntro> [disable authd-exp]
 };
+
+// replace <SaveInProgressIntro> with no-auth start-link below
+const additionalChildContent = (
+  <Link
+    onClick={() => {
+      recordEvent({ event: 'no-login-start-form' });
+    }}
+    to="/veteran-personal-information"
+    className="vads-c-action-link--green"
+  >
+    Start your request
+  </Link>
+);
 
 const ombInfo = {
   resBurden: '3',
@@ -109,6 +108,7 @@ export const IntroductionPage = ({ route }) => {
       content={content}
       ombInfo={ombInfo}
       childContent={childContent}
+      additionalChildContent={additionalChildContent}
     />
   );
 };
