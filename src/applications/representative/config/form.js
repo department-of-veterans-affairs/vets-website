@@ -39,7 +39,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue filling out VA Form 21-21 / VA Form 21-22a.',
   },
-  title: 'Find a Local Representative',
+  title: 'Appoint a Representative',
   subTitle: 'VA Form 21-22 / VA Form 21-22a',
   defaultDefinitions: {},
   chapters: {
