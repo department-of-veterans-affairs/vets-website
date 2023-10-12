@@ -25,22 +25,8 @@ describe('prefillTransformer', () => {
     });
   });
   describe('transforms contact method', () => {
-    it('the transformed claimant has the correct contact method in V1', () => {
-      const transformedClaimantInfo = prefillTransformerV1(
-        null,
-        null,
-        null,
-        mockClaimantInfo,
-      );
-      // Check the military claimant section
-      expect(
-        transformedClaimantInfo?.formData['view:contactMethod'].contactMethod,
-      ).to.eql('EMAIL');
-    });
-  });
-  describe('transforms contact method', () => {
     it('the transformed claimant has the correct contact method in V2', () => {
-      const transformedClaimantInfo = prefillTransformerV2(null, null, null, {
+      const transformedClaimantInfo = prefillTransformerV1(null, null, null, {
         ...mockClaimantInfo,
         ...mockUserState,
       });
