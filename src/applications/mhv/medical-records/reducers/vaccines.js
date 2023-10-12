@@ -27,7 +27,9 @@ export const convertVaccine = vaccine => {
   return {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
-    date: formatDateLong(vaccine.occurrenceDateTime) || EMPTY_FIELD,
+    date: vaccine.occurrenceDateTime
+      ? formatDateLong(vaccine.occurrenceDateTime)
+      : EMPTY_FIELD,
     location: vaccine.location?.display || EMPTY_FIELD,
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
     reactions: vaccine.reaction?.map(item => item.detail?.display) || [],

@@ -28,7 +28,7 @@ describe('LabsAndTests details container', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays date of birth for the print view', () => {
