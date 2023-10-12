@@ -45,7 +45,7 @@ class PatientComposePage {
     // cy.wait('@message');
   };
 
-  verifySendMessageConfirmationMessage = () => {
+  verifySendMessageConfirmationMessageText = () => {
     cy.get('.main-content > va-alert').should(
       'have.text',
       'Secure message was successfully sent.',
