@@ -1,16 +1,11 @@
+import { profileReviewOverride } from '../pages/contactInformation';
+
 /**
  * Error messages on the review & submit page
  * See github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/docs/reviewErrors.md
  */
 const reviewErrors = {
-  _override: err => {
-    if (typeof err === 'string' && err.startsWith('veteran')) {
-      return {
-        chapterKey: 'infoPages',
-        pageKey: 'confirmContactInfo',
-      };
-    }
-    return null;
-  },
+  _override: profileReviewOverride,
 };
+
 export default reviewErrors;
