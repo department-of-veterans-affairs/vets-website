@@ -78,9 +78,9 @@ const Allergies = () => {
   );
 
   const generateAllergiesPdf = async () => {
-    const title = 'Allergies';
+    const title = 'Allergies and reactions';
     const subject = 'VA Medical Record';
-    const preface = `This list includes all allergies your VA providers have entered. If you have allergies that are missing from this list, contact your care team.\n\nShowing ${
+    const preface = `This list includes all allergies, reactions and side-effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.\n\nShowing ${
       allergies.length
     } records from newest to oldest`;
     const pdfData = generatePdfScaffold(user, title, subject, preface);
@@ -111,7 +111,7 @@ const Allergies = () => {
             inline: true,
           },
           {
-            title: 'Observed or reported',
+            title: 'Signs and symptoms',
             value: item.observedOrReported,
             inline: true,
           },
