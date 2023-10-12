@@ -74,9 +74,9 @@ describe('check in', () => {
           <Demographics />
         </CheckInProvider>,
       );
-      const yesButton = component.getByTestId('no-button');
-      expect(yesButton).to.exist;
-      yesButton.click();
+      const noButton = component.getByTestId('no-button');
+      expect(noButton).to.exist;
+      noButton.click();
       sinon.assert.calledOnce(push);
     });
 
