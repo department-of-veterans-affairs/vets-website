@@ -1,7 +1,8 @@
 const FORCE_OPTION = { force: true };
 
-Cypress.Commands.add('fillTextWebComponent', (field, value) => {
+Cypress.Commands.add('fillVaTextInput', (field, value) => {
   if (value) {
+    const strValue = value.toString();
     const element =
       typeof field === 'string'
         ? cy.get(`va-text-input[name="${field}"]`)
@@ -11,16 +12,15 @@ Cypress.Commands.add('fillTextWebComponent', (field, value) => {
       .shadow()
       .find('input')
       .as('currentElement')
-      .type(value);
+      .type(strValue);
 
-    cy.get('@currentElement').then(el => {
-      if (el.val()) cy.get(el).should('have.value', value);
-    });
+    cy.get('@currentElement').should('have.value', strValue);
   }
 });
 
-Cypress.Commands.add('fillTextAreaWebComponent', (field, value) => {
-  if (typeof value !== 'undefined') {
+Cypress.Commands.add('fillVaTextarea', (field, value) => {
+  if (value) {
+    const strValue = value.toString();
     const element =
       typeof field === 'string'
         ? cy.get(`va-textarea[name="${field}"]`)
@@ -30,15 +30,13 @@ Cypress.Commands.add('fillTextAreaWebComponent', (field, value) => {
       .shadow()
       .find('textarea')
       .as('currentElement')
-      .type(value);
+      .type(strValue);
 
-    cy.get('@currentElement').then(el => {
-      if (el.val()) cy.get(el).should('have.value', value);
-    });
+    cy.get('@currentElement').should('have.value', strValue);
   }
 });
 
-Cypress.Commands.add('selectRadioWebComponent', (field, value) => {
+Cypress.Commands.add('selectVaRadioOption', (field, value) => {
   if (typeof value !== 'undefined') {
     cy.get(`va-radio-option[name="${field}"][value="${value}"]`)
       .as('currentElement')
@@ -47,12 +45,14 @@ Cypress.Commands.add('selectRadioWebComponent', (field, value) => {
   }
 });
 
-Cypress.Commands.add('selectYesNoWebComponent', (field, value) => {
-  const selection = value ? 'Y' : 'N';
-  cy.selectRadioWebComponent(field, selection);
+Cypress.Commands.add('selectYesNoVaRadioOption', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const selection = value ? 'Y' : 'N';
+    cy.selectVaRadioOption(field, selection);
+  }
 });
 
-Cypress.Commands.add('selectDropdownWebComponent', (field, value) => {
+Cypress.Commands.add('selectVaSelect', (field, value) => {
   if (typeof value !== 'undefined') {
     const element =
       typeof field === 'string'
@@ -68,106 +68,158 @@ Cypress.Commands.add('selectDropdownWebComponent', (field, value) => {
   }
 });
 
-Cypress.Commands.add('selectCheckboxWebComponent', (field, isChecked) => {
-  const element =
-    typeof field === 'string'
-      ? cy.get(`va-checkbox[name="${field}"]`)
-      : cy.wrap(field);
-
-  element
-    .shadow()
-    .find('input')
-    .as('currentElement');
-
+Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   if (isChecked) {
-    cy.get('@currentElement').check(FORCE_OPTION);
-    cy.get('@currentElement').should('be.checked');
-  } else {
-    cy.get('@currentElement').uncheck(FORCE_OPTION);
-    cy.get('@currentElement').should('not.be.checked');
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-checkbox[name="${field}"]`)
+        : cy.wrap(field);
+
+    element
+      .shadow()
+      .find('input')
+      .check(FORCE_OPTION)
+      .should('be.checked');
   }
 });
 
-Cypress.Commands.add('fillMemorableDateWebComponent', (field, value) => {
-  // eslint-disable-next-line cypress/no-assigning-return-values
-  const element = cy.get(`va-memorable-date[name="${field}"]`);
+Cypress.Commands.add('fillVaDate', (field, dateString, monthYearOnly) => {
+  if (dateString) {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-date[name="${field}"]`)
+        : cy.wrap(field);
 
-  const [year, month, day] = value.split('-').map(
-    dateComponent =>
-      // eslint-disable-next-line no-restricted-globals
-      isFinite(dateComponent)
-        ? parseInt(dateComponent, 10).toString()
-        : dateComponent,
-  );
+    const [year, month, day] = dateString.split('-').map(
+      dateComponent =>
+        // eslint-disable-next-line no-restricted-globals
+        isFinite(dateComponent)
+          ? parseInt(dateComponent, 10).toString()
+          : dateComponent,
+    );
 
-  if (navigator.userAgent.includes('Chrome')) {
-    // There is a bug only on Chromium based browsers where
-    // VaMemorableDate text input fields will think they are
-    // disabled if you blur focus of the window while the test
-    // is running. realPress and realType solve this issue,
-    // but these are only available for Chromium based browsers.
-    // See cypress-real-events npmjs for more info.
-    element
+    cy.wrap(element)
       .shadow()
-      .find('va-select.usa-form-group--month-select')
-      .shadow()
-      .find('select')
-      .as('monthSelect')
-      .select(parseInt(month, 10));
-    cy.get('@monthSelect')
-      .realPress('Tab')
-      .realType(day)
-      .realPress('Tab')
-      .realType(year);
-  } else {
-    element
-      .shadow()
-      .find('va-select.usa-form-group--month-select')
-      .shadow()
-      .find('select')
-      .as('monthSelect')
-      .select(parseInt(month, 10));
-
-    cy.get('@monthSelect').then(() => {
-      cy.get(`va-memorable-date[name="root_${field}"]`)
-        .shadow()
-        .find('va-text-input.usa-form-group--day-input')
-        .shadow()
-        .find('input')
-        .as('dayInput')
-        .type(day);
-
-      cy.get('@dayInput').then(() => {
-        cy.get(`va-memorable-date[name="root_${field}"]`)
+      .then(el => {
+        cy.wrap(el)
+          .find('va-select.select-month')
           .shadow()
-          .find('va-text-input.usa-form-group--year-input')
+          .find('select')
+          .select(month);
+        if (!monthYearOnly) {
+          cy.wrap(el)
+            .find('va-select.select-day')
+            .shadow()
+            .find('select')
+            .select(day);
+        }
+        cy.wrap(el)
+          .find('va-text-input.input-year')
           .shadow()
           .find('input')
           .type(year);
       });
-    });
   }
 });
+
+Cypress.Commands.add(
+  'fillVaMemorableDate',
+  (field, dateString, useMonthSelect = true) => {
+    if (dateString) {
+      const element =
+        typeof field === 'string'
+          ? cy.get(`va-memorable-date[name="${field}"]`)
+          : cy.wrap(field);
+
+      const [year, month, day] = dateString.split('-').map(
+        dateComponent =>
+          // eslint-disable-next-line no-restricted-globals
+          isFinite(dateComponent)
+            ? parseInt(dateComponent, 10).toString()
+            : dateComponent,
+      );
+
+      element.shadow().then(el => {
+        // There is a bug only on Chromium based browsers where
+        // VaMemorableDate text input fields will think they are
+        // disabled if you blur focus of the window while the test
+        // is running. realPress and realType solve this issue,
+        // but these are only available for Chromium based browsers.
+        // See cypress-real-events npmjs for more info.
+        // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
+        const isChrome = navigator.userAgent.includes('Chrome');
+        const getSelectors = type =>
+          `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
+
+        // month
+        if (useMonthSelect) {
+          cy.wrap(el)
+            .find('va-select.usa-form-group--month-select')
+            .shadow()
+            .find('select')
+            .select(month);
+        } else if (isChrome) {
+          cy.wrap(el)
+            .find(getSelectors('month'))
+            .shadow()
+            .find('input')
+            .focus();
+          cy.realType(month);
+        } else {
+          cy.wrap(el)
+            .find(getSelectors('month'))
+            .shadow()
+            .find('input')
+            .type(month);
+        }
+
+        // day and year
+        if (isChrome) {
+          cy.realPress('Tab')
+            .realType(day)
+            .realPress('Tab')
+            .realType(year);
+        } else {
+          cy.wrap(el)
+            .find(getSelectors('day'))
+            .shadow()
+            .find('input')
+            .type(day);
+          cy.wrap(el)
+            .find(getSelectors('year'))
+            .shadow()
+            .find('input')
+            .type(year);
+        }
+      });
+    }
+  },
+);
 
 Cypress.Commands.add('enterWebComponentData', field => {
   switch (field.tagName) {
     case 'VA-TEXT-INPUT': {
-      cy.fillTextWebComponent(field.element, field.data);
+      cy.fillVaTextInput(field.element, field.data);
       break;
     }
 
     case 'VA-TEXTAREA': {
-      cy.fillTextAreaWebComponent(field.element, field.data);
+      cy.fillVaTextarea(field.element, field.data);
       break;
     }
 
     case 'VA-CHECKBOX': {
-      cy.selectCheckboxWebComponent(field.element, field.data);
+      cy.selectVaCheckbox(field.element, field.data);
       break;
     }
 
     case 'VA-SELECT': {
-      cy.selectDropdownWebComponent(field.element, field.data);
+      cy.selectVaSelect(field.element, field.data);
+      break;
+    }
+
+    case 'VA-DATE': {
+      cy.fillVaDate(field.element, field.data);
       break;
     }
 
@@ -175,16 +227,16 @@ Cypress.Commands.add('enterWebComponentData', field => {
       const value = field.data;
       if (typeof value !== 'undefined') {
         if (typeof value === 'boolean') {
-          cy.selectYesNoWebComponent(field.key, value);
+          cy.selectYesNoVaRadioOption(field.key, value);
         } else {
-          cy.selectRadioWebComponent(field.key, value);
+          cy.selectVaRadioOption(field.key, value);
         }
       }
       break;
     }
 
     case 'VA-MEMORABLE-DATE': {
-      cy.fillMemorableDateWebComponent(field.key, field.data);
+      cy.fillVaMemorableDate(field.key, field.data);
       break;
     }
 

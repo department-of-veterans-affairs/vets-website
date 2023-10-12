@@ -15,27 +15,27 @@ export const getPagePaths = formConfig => {
 };
 
 export const fillTextWebComponent = (fieldName, value) => {
-  cy.fillTextWebComponent(`root_${fieldName}`, value);
+  cy.fillVaTextInput(`root_${fieldName}`, value);
 };
 
 export const fillTextAreaWebComponent = (fieldName, value) => {
-  cy.fillTextAreaWebComponent(`root_${fieldName}`, value);
+  cy.fillVaTextarea(`root_${fieldName}`, value);
 };
 
 export const selectRadioWebComponent = (fieldName, value) => {
-  cy.selectRadioWebComponent(`root_${fieldName}`, value);
+  cy.selectVaRadioOption(`root_${fieldName}`, value);
 };
 
 export const selectYesNoWebComponent = (fieldName, value) => {
-  cy.selectYesNoWebComponent(`root_${fieldName}`, value);
+  cy.selectYesNoVaRadioOption(`root_${fieldName}`, value);
 };
 
 export const selectDropdownWebComponent = (fieldName, value) => {
-  cy.selectDropdownWebComponent(`root_${fieldName}`, value);
+  cy.selectVaSelect(`root_${fieldName}`, value);
 };
 
 export const selectCheckboxWebComponent = (fieldName, condition) => {
-  cy.selectCheckboxWebComponent(`root_${fieldName}`, condition);
+  cy.selectVaCheckbox(`root_${fieldName}`, condition);
 };
 
 export const selectGroupCheckboxWidget = label => {

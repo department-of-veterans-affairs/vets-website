@@ -38,50 +38,44 @@ declare namespace Cypress {
     fillPage(): Chainable<Subject>;
 
     /**
-     * Custom command to fill a text input web component.
+     * Custom command to fill a va-text-input web component.
      * @param field - The "name" of a va-text-input, or the element itself.
      * @param value
      */
-    fillTextWebComponent(
-      field: string | Element,
-      value: string,
-    ): Chainable<Subject>;
+    fillVaTextInput(field: string | Element, value: string): Chainable<Subject>;
 
     /**
-     * Custom command to fill a textarea web component.
+     * Custom command to fill a va-textarea web component.
      * @param field - The "name" of a va-textarea, or the element itself.
      * @param value
      */
-    fillTextAreaWebComponent(field: string, value: string): Chainable<Subject>;
+    fillVaTextarea(field: string, value: string): Chainable<Subject>;
 
     selectRadio(field: string, value: string): Chainable<Subject>;
 
     /**
-     * Custom command to select a radio web component.
+     * Custom command to select a va-radio-option web component.
      * @param field - The "name" of a va-radio-option
      * @param value
      */
-    selectRadioWebComponent(
+    selectVaRadioOption(
       field: string,
       value: string | boolean,
     ): Chainable<Subject>;
 
     /**
-     * Custom command to select a select web component.
+     * Custom command to select a va-select web component.
      * @param field - The "name" of a va-select, or the element itself.
      * @param value
      */
-    selectDropdownWebComponent(
-      field: string | Element,
-      value: string,
-    ): Chainable<Subject>;
+    selectVaSelect(field: string | Element, value: string): Chainable<Subject>;
 
     /**
-     * Custom command to select a checkbox web component.
+     * Custom command to select a va-checkbox web component.
      * @param field - The "name" of a va-checkbox, or the element itself.
      * @param value
      */
-    selectCheckboxWebComponent(
+    selectVaCheckbox(
       field: string | Element,
       value: string,
     ): Chainable<Subject>;
@@ -89,20 +83,34 @@ declare namespace Cypress {
     selectYesNo(fieldName: string, condition: boolean): Chainable<Subject>;
 
     /**
-     * Custom command to fill text in a web component.
+     * Custom command to fill a yes/no web component.
      * @param field - The "name" of a va-radio-option, or the element itself.
      * @param value
      */
-    selectYesNoWebComponent(field: string, value: boolean): Chainable<Subject>;
+    selectYesNoVaRadioOption(field: string, value: boolean): Chainable<Subject>;
 
     /**
-     * Custom command to fill text in a web component.
-     * @param field - The "name" of a va-memorable-date
-     * @param value - A string value of format XXXX-XX-XX
+     * Custom command to fill va-date web component.
+     * @param field - The "name" of a va-date, or the element itself.
+     * @param dateString - A string dateString of format XXXX-XX-XX
+     * @param monthYearOnly - is only month/year or not
      */
-    fillMemorableDateWebComponent(
-      field: string,
-      value: string,
+    fillVaDate(
+      field: string | Element,
+      dateString: string,
+      monthYearOnly?: boolean,
+    ): Chainable<Subject>;
+
+    /**
+     * Custom command to fill va-memorable-date web component.
+     * @param field - The "name" of a va-memorable-date, or the element itself.
+     * @param dateString - A string dateString of format XXXX-XX-XX
+     * @param useMonthSelect - Defaults to true. Whether to use the month select dropdown or a text field
+     */
+    fillVaMemorableDate(
+      field: string | Element,
+      dateString: string,
+      useMonthSelect?: boolean,
     ): Chainable<Subject>;
 
     injectAxeThenAxeCheck(): Chainable<Subject>;
