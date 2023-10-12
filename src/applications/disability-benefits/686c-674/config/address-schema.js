@@ -93,6 +93,16 @@ const getOldFormDataPath = (path, index) => {
   return path.slice(indexToSlice);
 };
 
+// const validateForeignAddress = (errors, value) => {
+//   //console.log(errors)
+//   //console.log(value)
+//   let cityPath = `${path}.city`;
+//   // console.log(formData);
+//   // console.log(cityPath)
+//   // console.log(get(cityPath, formData));
+//   return errors;
+// };
+
 // Temporary storage for city & state if military base checkbox is toggled more
 // than once. Not ideal, but works since this code isn't inside a React widget
 const savedAddress = {
@@ -463,18 +473,53 @@ export const addressUISchema = (
         'ui:required': (formData, index) => {
           let militaryBasePath = livesOnMilitaryBasePath;
           let countryNamePath = `${path}.countryName`;
+
           if (typeof index === 'number') {
             militaryBasePath = insertArrayIndex(livesOnMilitaryBasePath, index);
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const livesOnMilitaryBase = get(militaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
+
           return (
             (countryName && countryName === USA.value) ||
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
         'ui:title': 'Postal Code',
+        'ui:validations': [
+          (errors, zipCode, formData, _schema, _uiSchema, _index) => {
+            const militaryBasePath = livesOnMilitaryBasePath;
+            const livesOnMilitaryBase = get(militaryBasePath, formData);
+            if (isMilitaryBaseAddress && livesOnMilitaryBase) {
+              const statePath = `${path}.stateCode`;
+              const selectedState = get(statePath, formData);
+              switch (selectedState) {
+                case 'AA': {
+                  if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
+                    errors.addError(`AA format not matched`);
+                  }
+                  return true;
+                }
+                case 'AE': {
+                  if (!zipCode.match('^0{1}9{1}[0-9]{3}')) {
+                    errors.addError(`AE format not matched`);
+                  }
+                  return true;
+                }
+                case 'AP': {
+                  if (!zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}')) {
+                    errors.addError(`AP format not matched`);
+                  }
+                  return true;
+                }
+                default:
+                  return true;
+              }
+            }
+            return true;
+          },
+        ],
         'ui:errorMessages': {
           required: 'Postal code is required',
           pattern: 'Postal code must be 5 digits',
