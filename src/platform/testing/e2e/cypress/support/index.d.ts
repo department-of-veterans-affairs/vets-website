@@ -32,8 +32,6 @@ declare namespace Cypress {
      *     ...
      *   });
      * ```
-     * @param field - The "name" of a va-text-input, or the element itself.
-     * @param value
      */
     fillPage(): Chainable<Subject>;
 
