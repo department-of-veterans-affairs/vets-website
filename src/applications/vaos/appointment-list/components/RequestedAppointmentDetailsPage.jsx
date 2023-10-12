@@ -161,7 +161,9 @@ export default function RequestedAppointmentDetailsPage() {
         </Breadcrumbs>
       )}
       <h1 className="vads-u-margin-y--2p5">
-        {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
+        {canceled
+          ? `Canceled ${typeOfCareText} appointment`
+          : `We received your request`}
       </h1>
       <RequestedStatusAlert appointment={appointment} facility={facility} />
       {!isCCRequest && (

@@ -36,7 +36,7 @@ const uiSchema = {
 };
 
 const pageKey = 'visitType';
-const pageTitle = 'Choose a type of appointment';
+const pageTitle = 'How do you want to attend this appointment?';
 
 export default function TypeOfVisitPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>

@@ -103,7 +103,7 @@ function recordChangedEvents(email, phone, data) {
 
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
-const pageTitle = 'Confirm your contact information';
+const pageTitle = 'How should we contact you?';
 
 export default function ContactInfoPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>

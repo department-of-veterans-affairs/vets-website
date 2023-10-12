@@ -25,7 +25,7 @@ import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageKey = 'typeOfCare';
-const pageTitle = 'Choose the type of care you need';
+const pageTitle = 'Request an appointment';
 
 export default function TypeOfCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>

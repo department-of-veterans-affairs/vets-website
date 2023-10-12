@@ -13,7 +13,7 @@ import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
-const pageTitle = 'Review your appointment details';
+const pageTitle = 'Review and submit your request';
 
 export default function ReviewPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>

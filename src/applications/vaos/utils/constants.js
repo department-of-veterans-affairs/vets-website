@@ -330,19 +330,19 @@ export const FLOW_TYPES = {
 export const TYPE_OF_VISIT = [
   {
     id: 'clinic',
-    name: 'Office visit',
+    name: 'In Person',
     serviceName: 'Office Visit',
     vsGUI: 'FACE TO FACE',
   },
   {
     id: 'phone',
-    name: 'Phone call',
+    name: 'By Phone',
     serviceName: 'Phone Call',
     vsGUI: 'TELEPHONE',
   },
   {
     id: 'telehealth',
-    name: 'Telehealth (through VA Video Connect)',
+    name: 'Through VA Video Connect (teleheath)',
     serviceName: 'Video Conference',
     vsGUI: 'VIDEO',
   },
