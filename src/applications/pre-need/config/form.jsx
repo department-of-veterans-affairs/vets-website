@@ -68,6 +68,8 @@ import {
   applicantDetailsSubHeader,
   applicantDemographicsSubHeader,
   militaryDetailsSubHeader,
+  preNeedApplicantDescription,
+  applicantDemographicsDescription,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -176,7 +178,7 @@ const formConfig = {
             applicantRelationshipToVet: {
               path: 'applicant-relationship-to-vet',
               uiSchema: {
-                'ui:description': applicantDescription,
+                'ui:description': preNeedApplicantDescription,
                 application: {
                   claimant: {
                     relationshipToVet: {
@@ -275,6 +277,7 @@ const formConfig = {
                 'ui:description': applicantDescription,
                 application: {
                   'ui:title': applicantDemographicsSubHeader,
+                  'ui:description': applicantDemographicsDescription,
                   veteran: veteranUI,
                 },
               },

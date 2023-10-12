@@ -18,6 +18,7 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -30,9 +31,26 @@ export const applicantDetailsSubHeader = (
   </div>
 );
 
+export function preNeedApplicantDescription({ formContext }) {
+  return (
+    <div className="preNeedApplicantDescription">
+      <ApplicantDescription formContext={formContext} />
+    </div>
+  );
+}
+
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsDescription = (
+  <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
   </div>
 );
 
