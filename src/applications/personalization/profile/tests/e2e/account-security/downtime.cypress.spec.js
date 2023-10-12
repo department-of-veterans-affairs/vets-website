@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 import { PROFILE_PATHS } from '../../../constants';
 
@@ -45,7 +45,7 @@ context('downtime notification cases for Account Security', () => {
     });
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
 
-    checkForLegacyLoadingIndicator();
+    checkForWebComponentLoadingIndicator();
 
     cy.get('#downtime-approaching-modal').should('exist');
 
