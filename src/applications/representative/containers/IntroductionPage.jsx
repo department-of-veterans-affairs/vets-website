@@ -24,17 +24,6 @@ const IntroductionPage = props => {
 
   return (
     <>
-      <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
-        <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
-          <a href="/">Home</a>
-          <a href="/view-change-representative/search/introduction">
-            Find a Local Representative
-          </a>
-          <a href="/view-change-representative/search/introduction">
-            Representative Selected
-          </a>
-        </va-breadcrumbs>
-      </div>
       <div className="schemaform-intro">
         <FormTitle title="Representative Selected" />
         <RepCard selectedRepresentative={selectedRepresentative} />
@@ -47,7 +36,6 @@ const IntroductionPage = props => {
             </p>
           </div>
         </va-alert>
-
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
