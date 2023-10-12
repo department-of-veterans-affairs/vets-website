@@ -1,3 +1,5 @@
+import React from 'react';
+
 import environment from 'platform/utilities/environment';
 
 import { FileField } from 'platform/forms-system/src/js/fields/FileField';
@@ -11,6 +13,11 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:title': (
+      <h3 className="vads-u-margin-y--0">
+        Upload documents (preferably DD214)
+      </h3>
+    ),
     'ui:description': supportingDocsDescription,
     veteranSupportingDocuments: {
       'ui:title': 'Upload documents',
