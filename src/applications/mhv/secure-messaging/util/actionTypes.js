@@ -74,5 +74,6 @@ export const Actions = {
   },
   TriageTeam: {
     GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',
+    GET_LIST_ERROR: 'SM_TRIAGE_TEAM_GET_LIST_ERROR',
   },
 };
