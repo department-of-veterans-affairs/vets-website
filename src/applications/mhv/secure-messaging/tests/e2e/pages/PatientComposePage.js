@@ -170,6 +170,20 @@ class PatientComposePage {
       });
   };
 
+  keyboardNavToMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('#textarea');
+  };
+
+  keyboardNavToMessageSubjectField = () => {
+    return cy
+      .tabToElement('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField');
+  };
+
   composeDraftByKeyboard = () => {
     cy.tabToElement('#recipient-dropdown')
       .shadow()
