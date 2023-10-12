@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
-
 // SaveInProgressIntro is missing from babel.config.json
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -24,8 +22,13 @@ const IntroductionPage = props => {
 
   return (
     <>
+      <div className="schemaform-title">
+        <h1 data-testid="form-title">Appoint a Representative</h1>
+        <div className="schemaform-subtitle" data-testid="form-subtitle">
+          Selected Representative
+        </div>
+      </div>
       <div className="schemaform-intro">
-        <FormTitle title="Representative Selected" />
         <RepCard selectedRepresentative={selectedRepresentative} />
         <va-alert status="warning" class="vads-u-margin-bottom--4">
           <h3 slot="headline">Before you continue</h3>
