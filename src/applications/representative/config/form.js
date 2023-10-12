@@ -44,7 +44,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformation: {
-      title: 'Your personal information',
+      title: 'Veteran Personal Information',
       pages: {
         // personalInformationAuth: {
         //   path: 'personal-information-auth',
