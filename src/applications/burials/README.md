@@ -30,7 +30,7 @@ The applicant may click a link [Find out if you qualify for a burial allowance](
 
 ## Authentication
 
-The applicant is encourage to sign in to start the application.
+The applicant is encouraged to sign in to start the application.
 Note: The applicant may begin the application without signing in. (Review security risks and check save on progress endpoints)
 
 ## The Application
