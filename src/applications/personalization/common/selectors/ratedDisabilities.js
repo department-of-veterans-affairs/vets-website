@@ -1,6 +1,4 @@
-const SERVER_ERROR_REGEX = /^5\d{2}$/;
-
-export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
+import { isServerError } from '../helpers';
 
 export const totalDisabilityError = state => {
   return state.totalRating?.error ?? null;
