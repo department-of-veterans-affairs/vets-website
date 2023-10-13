@@ -462,7 +462,7 @@ describe('<EvidencePrivateRecords>', () => {
     const fromBlurEvent = new CustomEvent('blur', { detail: 'from' });
     const toBlurEvent = new CustomEvent('blur', { detail: 'to' });
 
-    it.skip('should show error when start treatment date is in the future', async () => {
+    it('should show error when start treatment date is in the future', async () => {
       const from = getDate({ offset: { years: +1 } });
       const data = {
         ...mockData,
@@ -525,7 +525,7 @@ describe('<EvidencePrivateRecords>', () => {
       });
     });
 
-    it.skip('should show an error when the last treatment date is too far in the past', async () => {
+    it('should show an error when the last treatment date is too far in the past', async () => {
       const to = getDate({ offset: { years: -101 } });
       const data = {
         ...mockData,

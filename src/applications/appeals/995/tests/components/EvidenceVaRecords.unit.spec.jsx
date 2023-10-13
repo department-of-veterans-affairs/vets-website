@@ -547,7 +547,7 @@ describe('<EvidenceVaRecords>', () => {
       });
     });
 
-    it.skip('should show an error when the last treatment date is before the start', async () => {
+    it('should show an error when the last treatment date is before the start', async () => {
       const from = getDate({ offset: { years: -5 } });
       const to = getDate({ offset: { years: -10 } });
       const data = {

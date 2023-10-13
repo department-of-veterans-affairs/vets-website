@@ -170,7 +170,7 @@ describe('DirectDepositCNP', () => {
       // ensure that the edit form was removed
       expect(view.queryByLabelText(/account number/i)).not.to.exist;
     });
-    it.skip('should handle adding bank info', async () => {
+    it('should handle adding bank info', async () => {
       userEvent.click(findSetUpBankInfoButton(view));
 
       expect(await view.findAllByLabelText(/account number/i)).to.exist;
