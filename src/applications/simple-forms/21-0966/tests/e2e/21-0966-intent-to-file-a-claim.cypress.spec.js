@@ -10,6 +10,7 @@ import {
   fillTextWebComponent,
   introductionPageFlow,
   reviewAndSubmitPageFlow,
+  selectCheckboxGroupWebComponent,
   selectRadioWebComponent,
   selectRelationshipToVeteranPattern,
 } from '../../../shared/tests/e2e/helpers';
@@ -63,7 +64,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectRadioWebComponent('benefitSelection', data.benefitSelection);
+            selectCheckboxGroupWebComponent(data.benefitSelection);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -74,7 +75,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectRadioWebComponent('benefitSelection', data.benefitSelection);
+            selectCheckboxGroupWebComponent(data.benefitSelection);
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
