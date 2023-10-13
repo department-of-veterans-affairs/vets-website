@@ -429,16 +429,16 @@ jobs:
       #   if: ${{ always() }}
       #   id: code-coverage
       #   run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
-      # - name: Publish test results
-      #   if: ${{ always() }}
-      #   continue-on-error: true
-      #   uses: mikepenz/action-junit-report@v2.8.4
-      #   with:
-      #     check_name: 'Unit Tests Summary'
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     report_paths: 'test-results/unit-tests.xml'
-      #     summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-      #     fail_on_failure: 'true'
+      - name: Publish test results
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: mikepenz/action-junit-report@v2.8.4
+        with:
+          check_name: 'Unit Tests Stress Test Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/unit-tests.xml'
+          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+          fail_on_failure: 'true'
 
   update-unit-test-allow-list:
     name: Update Unit Tests Allow List
@@ -505,12 +505,11 @@ jobs:
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
-      # - name: Update Unit Test Allow List
-      #   run: yarn update-allow-list
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
-      #     TEST_TYPE: unit_test
+      - name: Update Unit Test Allow List
+        run: yarn update-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
 
   security-audit:
     name: Security Audit
@@ -647,7 +646,6 @@ jobs:
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     steps:
       - name: Checkout
@@ -694,10 +692,6 @@ jobs:
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests-to-stress-test
         run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
-
-      - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
-        id: test_selection_disallowed_tests
-        run: echo test_selection_disallowed_tests=$TEST_SELECTION_DISALLOWED_TESTS >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
@@ -998,7 +992,6 @@ jobs:
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           TEST_TYPE: e2e
 
       - name: Create Cypress E2E report
@@ -1029,14 +1022,6 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-      # - name: Create GitHub Issues for new flaky tests
-      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-      #   run: yarn create-github-issues-for-flaky-tests
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
