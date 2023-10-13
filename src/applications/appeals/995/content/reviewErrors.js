@@ -1,6 +1,8 @@
+import { profileReviewErrorOverride } from 'platform/forms-system/src/js/definitions/profileContactInfo';
+
 import { PRIMARY_PHONE } from '../constants';
 
-import { profileReviewOverride } from '../pages/contactInformation';
+const profileOverride = profileReviewErrorOverride();
 
 /**
  * Error messages on the review & submit page
@@ -22,7 +24,7 @@ const reviewErrors = {
         };
       }
     }
-    return profileReviewOverride(err);
+    return profileOverride(err);
   },
 };
 
