@@ -12,11 +12,10 @@ import { fetchProfileContacts } from '@@profile/actions';
 import Contact from './Contact';
 import Loading from './Loading';
 
-const ContactUs = () => (
+const HelpDeskContact = () => (
   <>
-    Call us at <va-telephone contact="8006982411" /> (
-    <va-telephone contact="711" tty="true" />
-    ). We’re here 24/7.
+    <va-telephone contact="8006982411" /> (
+    <va-telephone contact="711" tty="true" />)
   </>
 );
 
@@ -62,9 +61,7 @@ const PersonalHealthCareContacts = () => {
             <ul className="vads-u-margin-y--0">
               <li>Ask a staff member at your next appointment, or</li>
               <li>
-                Call us at <va-telephone contact="8006982411" /> (
-                <va-telephone contact="711" tty="true" />
-                ). We’re here 24/7.
+                Call us at <HelpDeskContact />. We’re here 24/7.
               </li>
             </ul>
           </p>
@@ -86,9 +83,9 @@ const PersonalHealthCareContacts = () => {
             />
           )}
           {!emergencyContact && (
-            <p>
-              To add an emergency contact: <ContactUs />
-            </p>
+            <div>
+              To add an emergency contact, call us at <HelpDeskContact />.
+            </div>
           )}
         </div>
 
@@ -103,9 +100,9 @@ const PersonalHealthCareContacts = () => {
             <Contact key={nextOfKin.id} {...nextOfKin.attributes} />
           )}
           {!nextOfKin && (
-            <p>
-              To add a next of kin: <ContactUs />
-            </p>
+            <div>
+              To add a next of kin, call us at <HelpDeskContact />.
+            </div>
           )}
         </div>
       </section>
