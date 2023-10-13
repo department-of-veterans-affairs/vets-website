@@ -27,6 +27,20 @@ class MedicationsListPage {
     });
   };
 
+  verifyLearnHowToRenewPrescriptionsLinkExists = () => {
+    cy.get('[data-testid="active-no-refill-left"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
+  };
+
+  clickLearnHowToRenewPrescriptionsLink = () => {
+    cy.get('[data-testid="active-no-refill-left"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+
+      .shadow()
+      .find('[href="/my-health/about-medications/accordion-renew-rx"]')
+      .click({ waitForAnimations: true });
+  };
+
   clickPrintOrDownloadThisListDropDown = () => {
     cy.get('[data-testid="print-records-button"] > span').click({
       force: true,
