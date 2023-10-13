@@ -20,9 +20,11 @@ export const fetchProfileContactsFailed = payload => ({
   payload,
 });
 
+const CONTACTS_PATH = '/profile/contacts';
+
 export const fetchProfileContacts = () => dispatch => {
   dispatch(fetchProfileContactsStarted());
-  return apiRequest('/profile/contacts')
+  return apiRequest(CONTACTS_PATH)
     .then(payload => dispatch(fetchProfileContactsSucceeded(payload)))
     .catch(err => {
       // // report fetching data failed

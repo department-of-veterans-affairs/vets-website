@@ -90,9 +90,9 @@ const PersonalHealthCareContacts = () => {
         </div>
 
         <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border-left--1px vads-u-border-right--1px vads-u-border-bottom--1px">
-          <h3 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
+          <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
             Next of kin contact
-          </h3>
+          </h2>
           <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
             The person you want to represent your health care wishes if needed.
           </p>
