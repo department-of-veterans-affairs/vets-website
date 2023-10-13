@@ -192,7 +192,9 @@ const Prescriptions = () => {
           header: 'Medications list',
           preface: `Showing ${
             rxList?.length
-          } medications, available to fill or refill first`,
+          } medications, ${rxListSortingOptions[
+            selectedSortOption
+          ].LABEL.toLowerCase()}`,
           list: rxList,
         },
         {
@@ -261,6 +263,7 @@ const Prescriptions = () => {
                 rxList={prescriptions}
                 pagination={pagination}
                 setCurrentPage={setCurrentPage}
+                selectedSortOption={selectedSortOption}
               />
             </div>
           ) : (
