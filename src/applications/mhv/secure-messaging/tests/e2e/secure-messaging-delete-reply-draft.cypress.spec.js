@@ -36,16 +36,6 @@ describe('Secure Messaging Reply', () => {
         )}`,
       );
     });
-    /*
-      * This verification is redundant with secure-messaging-save-reply-draft
-      messageDetailsPage.ReplyToMessageTO(messageDetails);
-      messageDetailsPage.ReplyToMessagesenderName(messageDetails);
-      messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
-      messageDetailsPage.ReplyToMessageDate(messageDetails);
-      messageDetailsPage.ReplyToMessageId(messageDetails);
-      messageDetails.data.attributes.body = messageDetailsBody;
-      messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
-      */
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
     draftsPage.verifyDeleteConfirmationMessage();

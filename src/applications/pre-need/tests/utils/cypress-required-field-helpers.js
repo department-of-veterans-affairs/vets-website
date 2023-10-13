@@ -38,10 +38,6 @@ const preparerInfoErrors1 = ['applicant_applicantRelationshipToClaimant'];
 const preparerInfoErrors2 = [
   'applicant_view\\:applicantInfo_name_first',
   'applicant_view\\:applicantInfo_name_last',
-  'applicant_view\\:applicantInfo_mailingAddress_street',
-  'applicant_view\\:applicantInfo_mailingAddress_city',
-  'applicant_view\\:applicantInfo_mailingAddress_postalCode',
-  'applicant_view\\:applicantInfo_view\\:contactInfo_applicantPhoneNumber',
 ];
 
 module.exports = {
