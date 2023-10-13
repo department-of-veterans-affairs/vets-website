@@ -17,7 +17,7 @@ describe('Allergy details container', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays sharing status', () => {

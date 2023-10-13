@@ -43,7 +43,7 @@ describe('Microbiology details component', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the test name', () => {
