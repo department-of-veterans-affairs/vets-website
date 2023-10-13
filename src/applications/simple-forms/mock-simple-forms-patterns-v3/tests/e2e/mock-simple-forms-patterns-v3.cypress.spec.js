@@ -3,7 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import { selectDropdownWebComponent } from 'applications/simple-forms/shared/tests/e2e/helpers';
+import { fillAddressWebComponentPattern } from 'applications/simple-forms/shared/tests/e2e/helpers';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
@@ -28,10 +28,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.fillPage();
-
-            selectDropdownWebComponent(`address_state`, data.address.state);
-
+            fillAddressWebComponentPattern('address', data.address);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
