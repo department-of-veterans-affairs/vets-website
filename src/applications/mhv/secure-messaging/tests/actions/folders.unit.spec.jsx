@@ -20,7 +20,7 @@ import {
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
 
-describe('draftDetails actions', () => {
+describe('folders actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   const errorResponse = {

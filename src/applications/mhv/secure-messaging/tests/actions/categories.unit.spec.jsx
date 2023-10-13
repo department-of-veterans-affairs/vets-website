@@ -6,7 +6,7 @@ import { Actions } from '../../util/actionTypes';
 import { getCategories } from '../../actions/categories';
 import * as categoriesResponse from '../e2e/fixtures/categories-response.json';
 
-describe('messages actions', () => {
+describe('categories actions', () => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
 
