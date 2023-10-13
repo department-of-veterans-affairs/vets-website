@@ -7,12 +7,10 @@ import {
 import formConfig from './form';
 
 export const preparerIsVeteran = ({ formData } = {}) => {
-  // key 0 corresponds to claimant is the Veteran
   return formData?.preparerIdentification === preparerIdentifications.veteran;
 };
 
 export const preparerIsSurvivingDependant = ({ formData } = {}) => {
-  // key 1 corresponds to claimant is a Surviving Dependant
   return (
     formData?.preparerIdentification ===
     preparerIdentifications.survivingDependant
@@ -20,7 +18,6 @@ export const preparerIsSurvivingDependant = ({ formData } = {}) => {
 };
 
 export const preparerIsThirdPartyToTheVeteran = ({ formData } = {}) => {
-  // key 2 corresponds to claimant is a Third Party to the Veteran
   return (
     formData?.preparerIdentification ===
     preparerIdentifications.thirdPartyVeteran
@@ -30,7 +27,6 @@ export const preparerIsThirdPartyToTheVeteran = ({ formData } = {}) => {
 export const preparerIsThirdPartyToASurvivingDependant = ({
   formData,
 } = {}) => {
-  // key 3 corresponds to claimant is a Third Party to a Surviving Dependant
   return (
     formData?.preparerIdentification ===
     preparerIdentifications.thirdPartySurvivingDependant

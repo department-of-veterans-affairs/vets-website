@@ -3,7 +3,6 @@ import {
   dateOfBirthUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -17,7 +16,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       veteranFullName: fullNameNoSuffixSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
