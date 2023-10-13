@@ -8,8 +8,6 @@ import {
   STREET_PATTERN,
 } from '../../definitions/profileAddress';
 
-import { checkValidations } from '../validations';
-
 /**
  * @typedef ContactInfoContent
  * @type {Object}
@@ -104,7 +102,7 @@ export const getContent = (appName = 'application') => ({
   missingCity: 'Missing city',
   missingStateOrProvince: isUS => `Missing ${isUS ? 'state' : 'province'}`,
   // international postal code is optional
-  missingZip: isUS => `Missing ${isUS ? 'zip code' : ''}`,
+  missingZip: isUS => (isUS ? 'Missing zip code' : ''),
 });
 
 export const CONTACT_INFO_PATH = 'contact-information';
@@ -291,13 +289,6 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
   }
   return missingInfo.filter(Boolean);
 };
-
-/**
- *
- * @param {function[]} validations - validations array from ui:validations in uiSchema
- * @returns {string[]}
- */
-export const getValidationErrors = validations => checkValidations(validations);
 
 /**
  * Set sessionStorage of last edited contact field. We could have used

@@ -35,7 +35,7 @@ import {
   REVIEW_CONTACT,
   contactInfoPropTypes,
 } from '../utilities/data/profile';
-import { checkValidations } from '../utilities/validations';
+import { getValidationErrors } from '../utilities/validations';
 
 /**
  * Render contact info page
@@ -102,7 +102,7 @@ const ContactInfo = ({
   const plural = missingInfo.length > 1;
 
   const validationErrors = uiSchema?.['ui:required']?.(data)
-    ? checkValidations(uiSchema?.['ui:validations'] || [], {}, data)
+    ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
     : [];
 
   const handlers = {

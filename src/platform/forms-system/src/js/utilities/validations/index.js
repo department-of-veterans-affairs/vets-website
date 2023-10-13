@@ -144,7 +144,7 @@ export function isValidPartialMonthYearInPast(month, year) {
  * @param {*} fullData - full and appStateData passed to validation function
  * @returns {String[]} - error messages
  */
-export const checkValidations = (
+export const getValidationErrors = (
   validations = [],
   data = {},
   fullData = {},
