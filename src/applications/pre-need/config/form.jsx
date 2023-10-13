@@ -121,7 +121,7 @@ export const sponsorMailingAddressStateTitleWrapper = (
 export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 
 const applicantContactInfoSubheader = (
-  <h3 className=".vads-u-font-size--h5">Applicant’s contact details</h3>
+  <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
 );
 
 function ApplicantContactInfoDescription() {
