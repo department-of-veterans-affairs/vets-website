@@ -147,7 +147,7 @@ jobs:
           path: qa-standards-dashboard-data/unit_test_allow_list.json
 
   unit-tests-prep:
-    name: Unit Tests
+    name: Unit Tests Prep
     needs: [fetch-allow-lists]
     runs-on: self-hosted
     outputs:
@@ -505,12 +505,12 @@ jobs:
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Update Unit Test Allow List
-        run: yarn update-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
-          TEST_TYPE: unit_test
+      # - name: Update Unit Test Allow List
+      #   run: yarn update-allow-list
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+      #     TEST_TYPE: unit_test
 
   security-audit:
     name: Security Audit
