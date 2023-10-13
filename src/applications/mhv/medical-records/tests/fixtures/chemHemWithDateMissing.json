@@ -1,0 +1,339 @@
+{
+  "resourceType": "DiagnosticReport",
+  "id": "ex-MHV-chReport-1",
+  "meta": {
+    "lastUpdated": "2021-01-21T13:23:48-05:00",
+    "profile": [
+      "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.chReport"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: \">CH</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes: {http://loinc.org 2823-3}\">POTASSIUM:SCNC:PT:SER/PLAS:QN:</span>, <span title=\"Codes: {http://loinc.org 2951-2}\">SODIUM:SCNC:PT:SER/PLAS:QN:</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>L TESTFIVE MHVSYSTEST </b> unknown, DoB Unknown ( id:\u00a0942104\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>2021-01-21 11:32:47-0500</td></tr><tr><td>Reported</td><td>2021-01-21 11:32:47-0500</td></tr><tr><td>Identifier:</td><td> id:\u00a01110200002\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>Flags</b></td><td><b>Note</b></td></tr><tr><td colspan=\"5\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"5\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"5\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"5\"><i>This Observation could not be resolved</i></td></tr></table><p>Lisa's Test 1/20/2021 - Second lab\nAdded Potassium test</p></div>"
+  },
+  "contained": [
+    {
+      "resourceType": "Observation",
+      "id": "ex-MHV-chPanel-1a",
+      "meta": {
+        "profile": [
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.chPanel"
+        ]
+      },
+      "status": "final",
+      "category": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+              "code": "laboratory"
+            }
+          ]
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://va.gov/systems/99VA64",
+            "code": "84140.0000"
+          },
+          {
+            "system": "http://va.gov/systems/99VA60",
+            "code": "177",
+            "display": "POTASSIUM"
+          }
+        ],
+        "text": "Potassium"
+      },
+      "subject": {
+        "reference": "Patient/ex-MHV-patient-942104"
+      },
+      "hasMember": [
+        {
+          "reference": "#ex-MHV-chTest-1a"
+        }
+      ]
+    },
+    {
+      "resourceType": "Observation",
+      "id": "ex-MHV-chTest-1a",
+      "meta": {
+        "profile": [
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.chTest"
+        ]
+      },
+      "status": "final",
+      "category": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+              "code": "laboratory"
+            }
+          ]
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "version": "2.68",
+            "code": "2823-3"
+          },
+          {
+            "system": "http://va.gov/systems/99VA95.3",
+            "version": "2.68",
+            "code": "4670505"
+          }
+        ],
+        "text": "POTASSIUM"
+      },
+      "subject": {
+        "reference": "Patient/ex-MHV-patient-942104"
+      },
+      "performer": [
+        {
+          "reference": "Organization/ex-MHV-organization-552"
+        }
+      ],
+      "valueQuantity": {
+        "value": 3.5,
+        "unit": "mEq/L",
+        "system": "http://unitsofmeasure.org"
+      },
+      "interpretation": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+              "code": "L"
+            }
+          ],
+          "text": "L"
+        }
+      ],
+      "note": [
+        {
+          "text": "Normal Range Prior to 8-22-02 was: 3.6 - 5.0 mEq/L."
+        }
+      ],
+      "referenceRange": [
+        {
+          "text": "3.6-5.1"
+        }
+      ]
+    },
+    {
+      "resourceType": "Observation",
+      "id": "ex-MHV-chPanel-1b",
+      "meta": {
+        "profile": [
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.chPanel"
+        ]
+      },
+      "status": "final",
+      "category": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+              "code": "laboratory"
+            }
+          ]
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://va.gov/systems/99VA64",
+            "code": "84295.0000"
+          },
+          {
+            "system": "http://va.gov/systems/99VA60",
+            "code": "176",
+            "display": "SODIUM"
+          }
+        ],
+        "text": "Sodium"
+      },
+      "subject": {
+        "reference": "Patient/ex-MHV-patient-942104"
+      },
+      "hasMember": [
+        {
+          "reference": "#ex-MHV-chTest-1b"
+        }
+      ]
+    },
+    {
+      "resourceType": "Observation",
+      "id": "ex-MHV-chTest-1b",
+      "meta": {
+        "profile": [
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.chTest"
+        ]
+      },
+      "status": "final",
+      "category": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+              "code": "laboratory"
+            }
+          ]
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "version": "2.68",
+            "code": "2951-2"
+          },
+          {
+            "system": "http://va.gov/systems/99VA95.3",
+            "version": "2.68",
+            "code": "4671912"
+          }
+        ],
+        "text": "SODIUM:SCNC:PT:SER/PLAS:QN:"
+      },
+      "subject": {
+        "reference": "Patient/ex-MHV-patient-942104"
+      },
+      "performer": [
+        {
+          "reference": "Organization/ex-MHV-organization-552"
+        }
+      ],
+      "valueQuantity": {
+        "value": 138,
+        "unit": "mEq/L",
+        "system": "http://unitsofmeasure.org"
+      },
+      "interpretation": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+              "code": "L"
+            }
+          ],
+          "text": "L"
+        }
+      ],
+      "referenceRange": [
+        {
+          "text": "136-145"
+        }
+      ]
+    },
+    {
+      "resourceType": "Specimen",
+      "id": "ex-MHV-chSpecimen-1",
+      "meta": {
+        "profile": [
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.chSpecimen"
+        ]
+      },
+      "status": "available",
+      "type": {
+        "coding": [
+          {
+            "system": "http://va.gov/systems/HL70070",
+            "code": "SER",
+            "display": "Serum"
+          },
+          {
+            "system": "http://va.gov/systems/99VA61",
+            "version": "5.2",
+            "code": "72",
+            "display": "SERUM"
+          }
+        ],
+        "text": "SERUM"
+      },
+      "collection": {
+        "collectedDateTime": "2021-01-20T16:38:59-05:00"
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "use": "usual",
+      "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+      "value": "1110200002"
+    }
+  ],
+  "status": "final",
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+          "code": "LAB"
+        }
+      ]
+    },
+    {
+      "coding": [
+        {
+          "system": "http://loinc.org",
+          "version": "2.68",
+          "code": "2823-3"
+        }
+      ],
+      "text": "POTASSIUM:SCNC:PT:SER/PLAS:QN:"
+    },
+    {
+      "coding": [
+        {
+          "system": "http://loinc.org",
+          "version": "2.68",
+          "code": "2951-2"
+        }
+      ],
+      "text": "SODIUM:SCNC:PT:SER/PLAS:QN:"
+    }
+  ],
+  "code": {
+    "text": "CH"
+  },
+  "subject": {
+    "reference": "Patient/ex-MHV-patient-942104"
+  },
+  "effectiveDateTime": "",
+  "issued": "2021-01-21T11:32:47-05:00",
+  "performer": [
+    {
+      "reference": "Organization/ex-MHV-organization-552"
+    },
+    {
+      "reference": "Practitioner/ex-MHV-practitioner-14934-VA552"
+    },
+    {
+      "reference": "Organization/ex-MHV-organization-989"
+    }
+  ],
+  "specimen": [
+    {
+      "reference": "#ex-MHV-chSpecimen-1"
+    }
+  ],
+  "result": [
+    {
+      "reference": "#ex-MHV-chPanel-1a"
+    },
+    {
+      "reference": "#ex-MHV-chTest-1a"
+    },
+    {
+      "reference": "#ex-MHV-chPanel-1b"
+    },
+    {
+      "reference": "#ex-MHV-chTest-1b"
+    }
+  ],
+  "conclusion": "Lisa's Test 1/20/2021 - Second lab\nAdded Potassium test"
+}
