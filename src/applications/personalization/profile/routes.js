@@ -2,17 +2,30 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import { Edit } from './components/edit/Edit';
 import { routesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
+import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 
 // conditionally add the edit route based on feature toggle
 // conditionally add the profile hub route based on feature toggle
 const getRoutes = (
-  { useFieldEditingPage, profileUseHubPage } = {
+  { profileContactsPage, useFieldEditingPage, profileUseHubPage } = {
+    profileContactsPage: false,
     useFieldEditingPage: false,
     profileUseHubPage: false,
   },
 ) => {
   return [
     ...routesForNav,
+    ...(profileContactsPage
+      ? [
+          {
+            component: PersonalHealthCareContacts,
+            name: PROFILE_PATH_NAMES.CONTACTS,
+            path: PROFILE_PATHS.CONTACTS,
+            requiresLOA3: true,
+            requiresMVI: false,
+          },
+        ]
+      : []),
     ...(useFieldEditingPage
       ? [
           {
