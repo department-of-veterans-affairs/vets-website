@@ -58,7 +58,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/notice_of_disagreements',
+  submitUrl: 'notice_of_disagreements',
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
