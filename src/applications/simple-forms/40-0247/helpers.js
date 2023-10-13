@@ -1,5 +1,7 @@
 import React from 'react';
 
+import moment from 'moment';
+
 import { focusElement } from 'platform/utilities/ui';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -62,4 +64,16 @@ export function parseResponse({ data }, { name }) {
     name,
     confirmationCode: data.attributes.guid,
   };
+}
+
+export function dateOfDeathValidation(errors, fields) {
+  const { veteranDateOfBirth, veteranDateOfDeath } = fields;
+  const dob = moment(veteranDateOfBirth);
+  const dod = moment(veteranDateOfDeath);
+
+  if (dod.isBefore(dob)) {
+    errors.veteranDateOfDeath.addError(
+      'Provide a date that is after the date of birth',
+    );
+  }
 }
