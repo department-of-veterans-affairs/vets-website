@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useHistory } from 'react-router-dom';
