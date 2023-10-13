@@ -29,9 +29,9 @@ import {
 } from '../../shared/content/contestableIssues';
 import { isEmptyObject } from '../../shared/utils/helpers';
 import {
+  calculateIndexOffset,
   getSelected,
   someSelected,
-  calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { focusIssue } from '../../shared/utils/focus';
 

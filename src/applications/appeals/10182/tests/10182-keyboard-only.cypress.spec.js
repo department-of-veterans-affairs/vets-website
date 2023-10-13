@@ -5,20 +5,27 @@ import { fixDecisionDates } from './nod.cypress.helpers';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
+import mockVamc from './fixtures/mocks/vamc-ehr.json';
 import mockUser from './fixtures/mocks/user.json';
 
 import { CONTESTABLE_ISSUES_API } from '../constants';
 import { CONTACT_INFO_PATH } from '../../shared/constants';
 
 // Skipping for now
-describe.skip('Notice of Disagreement keyboard only navigation', () => {
+describe('Notice of Disagreement keyboard only navigation', () => {
   before(() => {
     cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test.json')).as(
       'testData',
     );
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
+    cy.intercept('GET', '/v0/profile/status', mockStatus);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
-    cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+    cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
+    cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
     cy.login(mockUser);
   });
 
@@ -37,7 +44,8 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       // Intro page
       // TODO: tabToStartForm Cypress function needs to be updated to only
       // target action links
-      cy.tabToStartForm();
+      cy.tabToElement('.vads-c-action-link--green');
+      cy.realPress('Enter');
 
       // Veteran details
       cy.url().should(
@@ -54,13 +62,42 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
 
       // Contact info
       cy.url().should('include', CONTACT_INFO_PATH);
-      cy.tabToContinueForm();
+      // cy.tabToContinueForm();
+      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+      cy.realPress('Space');
 
       // Filing deadlines
       cy.url().should(
         'include',
         chapters.conditions.pages.filingDeadlines.path,
       );
+      cy.tabToContinueForm();
+
+      // Request extension
+      cy.url().should(
+        'include',
+        chapters.conditions.pages.extensionRequest.path,
+      );
+      cy.tabToElement('[name="root_requestingExtension"]');
+      cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
+      cy.tabToContinueForm();
+
+      // Request reason
+      cy.url().should(
+        'include',
+        chapters.conditions.pages.extensionReason.path,
+      );
+      cy.tabToElement('textarea');
+      cy.realType(data.extensionReason);
+      cy.tabToContinueForm();
+
+      // Denial of VHA benefits
+      cy.url().should(
+        'include',
+        chapters.conditions.pages.appealingVhaDenial.path,
+      );
+      cy.tabToElement('[name="root_appealingVHADenial"]');
+      cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
       cy.tabToContinueForm();
 
       // Issues for review (sorted by random decision date) - only selecting one,
@@ -70,7 +107,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
-      cy.tabToInputWithLabel('tinnitus');
+      cy.tabToElement('[name="root_contestedIssues_1"]'); // tinnitus
       cy.realPress('Space');
       cy.tabToContinueForm();
 
@@ -84,9 +121,12 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToInputWithLabel('service connection');
       cy.realPress('Space');
-      cy.tabToElement('#root_otherEntry');
-      cy.typeInFocused('Few words');
-      cy.tabToContinueForm();
+      // input typing is flaky
+      // cy.tabToElement('input[name="otherEntry"]');
+      // cy.typeInFocused('Few words');
+      // cy.tabToContinueForm();
+      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+      cy.realPress('Space');
 
       // Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
@@ -115,7 +155,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
 
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('button.screen-only').should('exist');
+      cy.get('va-button.screen-only').should('exist');
     });
   });
 });

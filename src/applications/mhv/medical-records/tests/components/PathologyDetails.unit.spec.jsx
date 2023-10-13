@@ -32,7 +32,7 @@ describe('Pathology details component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the test name', () => {
