@@ -66,7 +66,7 @@ describe('Secure Messaging Reply', () => {
       messageDetails.data.attributes.senderId,
       messageDetails.data.attributes.category,
       messageDetails.data.attributes.subject,
-      testMessageBody,
+      `\n\n\nName\nTitleTest${testMessageBody}`,
     );
 
     cy.injectAxe();
