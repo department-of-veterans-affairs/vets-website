@@ -4,6 +4,8 @@ import { useTranslation, Trans } from 'react-i18next';
 import { phoneNumbers } from '../utils/appConstants';
 import ExternalLink from './ExternalLink';
 
+import '@department-of-veterans-affairs/component-library/i18n-setup';
+
 const HelpBlock = ({ travel }) => {
   const { t } = useTranslation();
 

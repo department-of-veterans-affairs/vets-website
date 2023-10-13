@@ -5,8 +5,6 @@ import sinon from 'sinon';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import BackButton from '../BackButton';
 
-import '@department-of-veterans-affairs/component-library/i18n-setup';
-
 describe('check-in', () => {
   describe('BackButton', () => {
     const store = {

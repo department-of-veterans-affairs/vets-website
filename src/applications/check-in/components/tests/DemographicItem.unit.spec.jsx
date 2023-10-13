@@ -4,8 +4,6 @@ import { render } from '@testing-library/react';
 
 import DemographicItem from '../DemographicItem';
 
-import '@department-of-veterans-affairs/component-library/i18n-setup';
-
 describe('check-in', () => {
   describe('DemographicItem', () => {
     const address = {

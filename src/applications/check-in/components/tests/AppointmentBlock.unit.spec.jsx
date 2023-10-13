@@ -4,8 +4,6 @@ import { render } from '@testing-library/react';
 import { format as formatDate } from 'date-fns';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
-import '@department-of-veterans-affairs/component-library/i18n-setup';
-
 import AppointmentBlock from '../AppointmentBlock';
 
 const appointments = [

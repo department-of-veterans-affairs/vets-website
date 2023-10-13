@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import ExternalLink from '../ExternalLink';
 
-import '@department-of-veterans-affairs/component-library/i18n-setup';
-
 describe('check-in', () => {
   describe('ExternalLink component - en', () => {
     it('renders link component - en', () => {

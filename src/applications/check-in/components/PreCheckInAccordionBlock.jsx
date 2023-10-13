@@ -2,6 +2,8 @@ import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import '@department-of-veterans-affairs/component-library/i18n-setup';
+
 import ExternalLink from './ExternalLink';
 import { phoneNumbers } from '../utils/appConstants';
 

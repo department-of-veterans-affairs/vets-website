@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 
 const AddressBlock = ({ address, showDirections = false, placeName }) => {
   const { t } = useTranslation();

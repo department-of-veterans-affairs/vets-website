@@ -2,8 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import '@department-of-veterans-affairs/component-library/i18n-setup';
-
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import HelpBlock from '../HelpBlock';
 
