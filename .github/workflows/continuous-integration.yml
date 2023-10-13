@@ -213,6 +213,7 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
 
     steps:
       - name: Checkout
@@ -320,7 +321,8 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
-      DISALLOWED_TESTS: ${{ needs.unit-tests-prep.}}
+      DISALLOWED_TESTS: '[]'
+
     strategy:
       fail-fast: false
       max-parallel: 20
