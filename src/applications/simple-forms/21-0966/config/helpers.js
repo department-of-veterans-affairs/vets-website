@@ -1,25 +1,36 @@
-import { preparerIdentificationKeys } from '../definitions/constants';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import {
+  preparerIdentifications,
+  veteranBenefits,
+} from '../definitions/constants';
+import formConfig from './form';
 
 export const preparerIsVeteran = ({ formData } = {}) => {
-  // key 0 corresponds to claimant is the Veteran
-  return formData?.preparerIdentification === preparerIdentificationKeys[0];
+  return formData?.preparerIdentification === preparerIdentifications.veteran;
 };
 
 export const preparerIsSurvivingDependant = ({ formData } = {}) => {
-  // key 1 corresponds to claimant is a Surviving Dependant
-  return formData?.preparerIdentification === preparerIdentificationKeys[1];
+  return (
+    formData?.preparerIdentification ===
+    preparerIdentifications.survivingDependant
+  );
 };
 
 export const preparerIsThirdPartyToTheVeteran = ({ formData } = {}) => {
-  // key 2 corresponds to claimant is a Third Party to the Veteran
-  return formData?.preparerIdentification === preparerIdentificationKeys[2];
+  return (
+    formData?.preparerIdentification ===
+    preparerIdentifications.thirdPartyVeteran
+  );
 };
 
 export const preparerIsThirdPartyToASurvivingDependant = ({
   formData,
 } = {}) => {
-  // key 3 corresponds to claimant is a Third Party to a Surviving Dependant
-  return formData?.preparerIdentification === preparerIdentificationKeys[3];
+  return (
+    formData?.preparerIdentification ===
+    preparerIdentifications.thirdPartySurvivingDependant
+  );
 };
 
 export const preparerIsThirdParty = ({ formData } = {}) => {
@@ -31,12 +42,12 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
 
 export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
-    case preparerIdentificationKeys[0]:
-    case preparerIdentificationKeys[1]:
+    case preparerIdentifications.veteran:
+    case preparerIdentifications.survivingDependant:
       return 'Your benefit selection';
-    case preparerIdentificationKeys[2]:
+    case preparerIdentifications.thirdPartyVeteran:
       return 'Veteran’s benefit selection';
-    case preparerIdentificationKeys[3]:
+    case preparerIdentifications.thirdPartySurvivingDependant:
       return 'Claimant’s benefit selection';
     default:
       return 'Your benefit selection';
@@ -45,12 +56,12 @@ export const benefitSelectionStepperTitle = ({ formData } = {}) => {
 
 export const benefitSelectionTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
-    case preparerIdentificationKeys[0]:
-    case preparerIdentificationKeys[1]:
+    case preparerIdentifications.veteran:
+    case preparerIdentifications.survivingDependant:
       return 'Select the benefits you intend to file a claim for. Select all that apply';
-    case preparerIdentificationKeys[2]:
+    case preparerIdentifications.thirdPartyVeteran:
       return 'Select the benefits the Veteran intends to file a claim for. Select all that apply';
-    case preparerIdentificationKeys[3]:
+    case preparerIdentifications.thirdPartySurvivingDependant:
       return 'Select the benefits the Claimant intends to file a claim for. Select all that apply';
     default:
       return 'Select the benefits you intend to file a claim for. Select all that apply';
@@ -59,12 +70,12 @@ export const benefitSelectionTitle = ({ formData } = {}) => {
 
 export const personalInformationStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
-    case preparerIdentificationKeys[0]:
-    case preparerIdentificationKeys[1]:
+    case preparerIdentifications.veteran:
+    case preparerIdentifications.survivingDependant:
       return 'Your personal information';
-    case preparerIdentificationKeys[2]:
+    case preparerIdentifications.thirdPartyVeteran:
       return 'Veteran’s personal information';
-    case preparerIdentificationKeys[3]:
+    case preparerIdentifications.thirdPartySurvivingDependant:
       return 'Claimant’s personal information';
     default:
       return 'Your personal information';
@@ -73,35 +84,50 @@ export const personalInformationStepperTitle = ({ formData } = {}) => {
 
 export const contactInformationStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
-    case preparerIdentificationKeys[0]:
-    case preparerIdentificationKeys[1]:
+    case preparerIdentifications.veteran:
+    case preparerIdentifications.survivingDependant:
       return 'Your contact information';
-    case preparerIdentificationKeys[2]:
+    case preparerIdentifications.thirdPartyVeteran:
       return 'Veteran’s contact information';
-    case preparerIdentificationKeys[3]:
+    case preparerIdentifications.thirdPartySurvivingDependant:
       return 'Claimant’s contact information';
     default:
       return 'Your contact information';
   }
 };
 
+export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
+  return set(
+    'preparerIdentification',
+    preparerIdentification,
+    createInitialState(formConfig).data,
+  );
+};
+
+// Confirmation Page
 export const getClaimType = data => {
-  switch (data.benefitSelection) {
-    case 'Compensation':
-      return 'disability compensation claim';
-    case 'Pension':
-      if (
-        preparerIsSurvivingDependant({ formData: data }) ||
-        preparerIsThirdPartyToASurvivingDependant({ formData: data })
-      ) {
-        return 'pension claim for survivors';
-      }
-      return 'pension claim';
-    case 'Compensation,Pension':
-      return 'disability compensation and pension claims';
-    default:
-      return 'disability compensation claim';
+  const benefitSelection = Object.keys(data.benefitSelection).filter(
+    key => data.benefitSelection[key],
+  );
+
+  if (
+    preparerIsSurvivingDependant({ formData: data }) ||
+    preparerIsThirdPartyToASurvivingDependant({ formData: data })
+  ) {
+    return 'pension claim for survivors';
   }
+  if (
+    benefitSelection.includes(veteranBenefits.compensation) &&
+    benefitSelection.includes(veteranBenefits.pension)
+  ) {
+    return 'disability compensation and pension claims';
+  }
+
+  if (benefitSelection.includes(veteranBenefits.compensation)) {
+    return 'disability compensation claim';
+  }
+
+  return 'pension claim';
 };
 
 export const getAlreadySubmittedIntentText = (
@@ -109,59 +135,85 @@ export const getAlreadySubmittedIntentText = (
   alreadySubmittedIntents,
   expirationDate,
 ) => {
-  switch (data.benefitSelection) {
-    case 'Compensation':
-      if (alreadySubmittedIntents.compensation) {
-        return `Our records show that you already have an intent to file for a disability compensation claim and it will expire on ${expirationDate}.`;
-      }
+  const benefitSelection = Object.keys(data.benefitSelection).filter(
+    key => data.benefitSelection[key],
+  );
 
-      return null;
-    case 'Pension':
-      if (alreadySubmittedIntents.pension) {
-        return `Our records show that you already have an intent to file for a ${getClaimType(
-          data,
-        )} and it will expire on ${expirationDate}.`;
-      }
-
-      return null;
-    case 'Compensation,Pension':
-      if (
-        alreadySubmittedIntents.compensation &&
-        alreadySubmittedIntents.pension
-      ) {
-        return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
-      }
-
-      return null;
-    default:
-      return null;
+  if (
+    preparerIsSurvivingDependant({ formData: data }) ||
+    (preparerIsThirdPartyToASurvivingDependant({ formData: data }) &&
+      alreadySubmittedIntents.survivors)
+  ) {
+    return `Our records show that you already have an intent to file for a pension claim for survivors and it will expire on ${expirationDate}.`;
   }
-};
-
-export const getAlreadySubmittedTitle = (data, response) => {
-  if (data.benefitSelection === 'Compensation,Pension') {
-    if (response?.compensationIntent?.status === 'active') {
-      return 'You’ve already submitted an intent to file for a disability compensation claim';
-    }
-    if (response?.pensionIntent?.status === 'active') {
-      return 'You’ve already submitted an intent to file for a pension claim';
-    }
-
-    return null;
+  if (
+    benefitSelection.includes(veteranBenefits.compensation) &&
+    benefitSelection.includes(veteranBenefits.pension) &&
+    alreadySubmittedIntents.compensation &&
+    alreadySubmittedIntents.pension
+  ) {
+    return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
   }
+  if (
+    benefitSelection.includes(veteranBenefits.compensation) &&
+    alreadySubmittedIntents.compensation
+  ) {
+    return `Our records show that you already have an intent to file for a disability compensation claim and it will expire on ${expirationDate}.`;
+  }
+  if (
+    benefitSelection.includes(veteranBenefits.pension) &&
+    alreadySubmittedIntents.pension
+  ) {
+    return `Our records show that you already have an intent to file for a pension claim and it will expire on ${expirationDate}.`;
+  }
+
   return null;
 };
 
-export const getAlreadySubmittedText = (data, response, expirationDate) => {
-  if (data.benefitSelection === 'Compensation,Pension') {
-    if (response?.compensationIntent?.status === 'active') {
-      return `Our records show that you already have an Intent to File (ITF) for disability compensation. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
-    }
-    if (response?.pensionIntent?.status === 'active') {
-      return `Our records show that you already have an Intent to File (ITF) for pension. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
-    }
+export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
+  const benefitSelection = Object.keys(data.benefitSelection).filter(
+    key => data.benefitSelection[key],
+  );
 
-    return null;
+  if (
+    benefitSelection.includes(veteranBenefits.compensation) &&
+    alreadySubmittedIntents.compensation === 'active'
+  ) {
+    return 'You’ve already submitted an intent to file for a disability compensation claim';
   }
+
+  if (
+    benefitSelection.includes(veteranBenefits.pension) &&
+    alreadySubmittedIntents.pension === 'active'
+  ) {
+    return 'You’ve already submitted an intent to file for a pension claim';
+  }
+
+  return null;
+};
+
+export const getAlreadySubmittedText = (
+  data,
+  alreadySubmittedIntents,
+  expirationDate,
+) => {
+  const benefitSelection = Object.keys(data.benefitSelection).filter(
+    key => data.benefitSelection[key],
+  );
+
+  if (
+    benefitSelection.includes(veteranBenefits.compensation) &&
+    alreadySubmittedIntents.compensation === 'active'
+  ) {
+    return `Our records show that you already have an Intent to File (ITF) for disability compensation. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
+  }
+
+  if (
+    benefitSelection.includes(veteranBenefits.pension) &&
+    alreadySubmittedIntents.pension === 'active'
+  ) {
+    return `Our records show that you already have an Intent to File (ITF) for pension. Your intent to file for disability compensation expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
+  }
+
   return null;
 };

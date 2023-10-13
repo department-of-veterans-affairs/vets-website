@@ -55,15 +55,9 @@ export const FormApp = ({
             ),
           });
         }
-        if (showPart3 && typeof formData[SHOW_PART3] === 'undefined') {
-          setFormData({
-            ...formData,
-            [SHOW_PART3]: showPart3,
-          });
-        }
       }
     },
-    [loggedIn, formData, setFormData, showPart3],
+    [loggedIn, formData, setFormData],
   );
 
   // This useEffect is responsible for 1) loading contestable issues from the API,
@@ -107,6 +101,19 @@ export const FormApp = ({
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
+  );
+
+  useEffect(
+    () => {
+      if (showPart3 !== formData[SHOW_PART3]) {
+        setFormData({
+          ...formData,
+          [SHOW_PART3]: showPart3,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showPart3, formData[SHOW_PART3]],
   );
 
   const content = isLoading ? (
