@@ -316,7 +316,7 @@ jobs:
     name: Unit Tests Stress Test
     runs-on: self-hosted
     needs: [fetch-allow-lists, unit-tests-prep]
-    if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' &&  (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
