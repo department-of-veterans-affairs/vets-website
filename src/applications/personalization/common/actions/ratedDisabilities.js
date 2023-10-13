@@ -8,9 +8,10 @@ function getResponseError(response) {
     return { code, detail };
   }
   if (response.error) {
+    const { error, status } = response.error;
     return {
-      code: response.status,
-      detail: response.error,
+      code: status,
+      detail: error,
     };
   }
   return null;
