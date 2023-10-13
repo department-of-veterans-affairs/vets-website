@@ -23,12 +23,12 @@ describe('unread message indicator', () => {
 
   it('includes unread messages message when greater than 0', () => {
     const unreadMessageCount = 4;
-    const { getByRole } = renderCards(unreadMessageCount);
+    const { getByText } = renderCards(unreadMessageCount);
 
-    const indicator = getByRole('status');
-    const message = indicator.getAttribute('aria-label');
+    const inboxSpan = getByText('Inbox');
+    const message = inboxSpan.parentNode.getAttribute('aria-label');
 
-    expect(indicator).to.exist;
+    expect(inboxSpan).to.exist;
     expect(message).to.equal(messagesMessage);
   });
 
