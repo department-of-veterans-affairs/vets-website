@@ -1,6 +1,21 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 
-import { getData, isClientError, isServerError } from '../../profile/util';
+const SERVER_ERROR_REGEX = /^5\d{2}$/;
+const CLIENT_ERROR_REGEX = /^4\d{2}$/;
+
+export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
+
+export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
+
+async function getData(apiRoute, options) {
+  try {
+    const response = await apiRequest(apiRoute, options);
+    return response.data.attributes;
+  } catch (error) {
+    return error;
+  }
+}
 
 function getResponseError(response) {
   if (response.errors?.length) {
@@ -8,10 +23,9 @@ function getResponseError(response) {
     return { code, detail };
   }
   if (response.error) {
-    const { error, status } = response.error;
     return {
-      code: status,
-      detail: error,
+      code: response.status,
+      detail: response.error,
     };
   }
   return null;
