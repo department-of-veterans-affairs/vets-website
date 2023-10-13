@@ -8,7 +8,6 @@ import DowntimeNotification, {
 import PropTypes from 'prop-types';
 import {
   selectFeatureStatusImprovement,
-  selectFeatureAppointmentList,
   selectFeaturePrintList,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
@@ -121,9 +120,6 @@ export default function AppointmentsPageV2() {
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
 
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -197,11 +193,8 @@ export default function AppointmentsPageV2() {
 
   const history = useHistory();
 
-  let paragraphText =
-    'Below is your list of appointment requests that haven’t been scheduled yet.';
-  if (featureAppointmentList) {
-    paragraphText = 'These appointment requests haven’t been scheduled yet.';
-  } else if (featureStatusImprovement) {
+  let paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  if (featureStatusImprovement) {
     paragraphText =
       'Your appointment requests that haven’t been scheduled yet.';
   }
