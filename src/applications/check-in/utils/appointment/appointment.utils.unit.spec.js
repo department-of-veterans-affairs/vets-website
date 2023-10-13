@@ -21,6 +21,7 @@ import {
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
 import { ELIGIBILITY } from './eligibility';
 
+// Re-test stress tests.
 describe('check in', () => {
   afterEach(() => {
     MockDate.reset();
