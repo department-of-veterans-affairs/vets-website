@@ -62,6 +62,7 @@ const createVaosAppointment = ({
       },
     },
     start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+    startsAt: format(now, "yyyy-MM-dd'T'HH:mm:ssxxx"),
     end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
   };
   return appointment;
