@@ -146,13 +146,69 @@ jobs:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json
 
-  unit-tests:
+  unit-tests-prep:
     name: Unit Tests
     needs: [fetch-allow-lists]
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
+      - name: Run Unit Test Selection
+        run: node script/github-actions/select-unit-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Set output of DISALLOWED_TESTS
+        if: ${{ always() }}
+        id: disallowed-tests
+        run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
+
+      - name: Set output of TESTS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: tests-to-stress-test
+        run: echo "tests=$TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
+  unit-tests:
+    name: Unit Tests
+    needs: [fetch-allow-lists, unit-tests-prep]
+    runs-on: self-hosted
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     env:
@@ -183,12 +239,6 @@ jobs:
         with:
           delimiter: ','
           output-type: 'folder'
-
-      - name: Download Allow List
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-allow-list
-          path: .
 
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
@@ -261,21 +311,16 @@ jobs:
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
 
-      - name: Set output of TESTS_TO_STRESS_TEST
-        if: ${{ always() }}
-        id: tests-to-stress-test
-        run: echo "tests=$TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
-
   unit-tests-stress-test:
     name: Unit Tests Stress Test
     runs-on: self-hosted
-    needs: [unit-tests]
+    needs: [fetch-allow-lists, unit-tests-prep]
     if: ${{ always() && needs.unit-tests.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' &&  (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      TESTS_TO_VERIFY: ${{ needs.unit-tests.outputs.tests-to-stress-test }}
-
+      TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
+      DISALLOWED_TESTS: ${{ needs.unit-tests-prep.}}
     strategy:
       fail-fast: false
       max-parallel: 20
@@ -322,13 +367,6 @@ jobs:
 
       - name: Create test results folder
         run: mkdir -p test-results
-
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
 
       - name: Download Allow List
         uses: actions/download-artifact@v3
