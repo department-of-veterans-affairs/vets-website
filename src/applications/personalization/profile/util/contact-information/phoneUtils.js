@@ -12,6 +12,7 @@ export const phoneFormSchema = {
       type: 'string',
       pattern: '^[0-9-() ]+$',
       maxLength: 14,
+      minLength: 10,
     },
     extension: {
       type: 'string',
@@ -22,12 +23,13 @@ export const phoneFormSchema = {
   required: ['inputPhoneNumber'],
 };
 
+const phoneErrorMessage = 'Enter a 10 digit phone number';
 export const phoneUiSchema = fieldName => {
   return {
     inputPhoneNumber: {
       'ui:title': `${fieldName} (U.S. numbers only)`,
       'ui:errorMessages': {
-        pattern: 'Enter a 10 digit phone number',
+        pattern: phoneErrorMessage,
       },
       'ui:options': {
         ariaDescribedby: 'error-message-details',

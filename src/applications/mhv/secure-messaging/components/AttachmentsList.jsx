@@ -6,7 +6,12 @@ import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
 
 const AttachmentsList = props => {
-  const { attachments, setAttachments, editingEnabled } = props;
+  const {
+    attachments,
+    setAttachments,
+    setNavigationError,
+    editingEnabled,
+  } = props;
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -153,6 +158,7 @@ const AttachmentsList = props => {
         onDelete={() => {
           setIsModalVisible(false);
           removeAttachment(fileToRemove);
+          setNavigationError(null);
         }}
       />
       {isAttachmentRemoved ? (
@@ -177,6 +183,8 @@ AttachmentsList.propTypes = {
   attachments: PropTypes.array,
   editingEnabled: PropTypes.bool,
   setAttachments: PropTypes.func,
+  setIsModalVisible: PropTypes.func,
+  setNavigationError: PropTypes.bool,
 };
 
 export default AttachmentsList;

@@ -8,7 +8,7 @@ describe('Record list item component', () => {
 
   it('renders without errors', () => {
     const screen = render(<ItemList list={itemList} />);
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display all items in the list', () => {

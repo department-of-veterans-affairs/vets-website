@@ -79,11 +79,13 @@ describe('recipients dropdown box', () => {
     });
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
+      .find('select')
       .find('option')
       .its('length')
       .should('equal', 3);
-    cy.get('[name="COVID"]').click();
+    cy.get('[data-testid="compose-message-categories"]')
+      .first()
+      .click();
   });
   it('preferredTriageTeam select dropdown false', () => {
     const landingPage = new PatientInboxPage();
@@ -112,13 +114,15 @@ describe('recipients dropdown box', () => {
     ).as('recipients');
     cy.wait('@recipients').then(() => {
       cy.get('[data-testid="compose-recipient-select"]')
-        .shadow()
+        .find('select')
         .find('option')
         // filtering not required. all elements should be visible due to inheritance from parent element
         // .filter(':visible', { timeout: 5000 })
         .its('length')
         .should('equal', 1);
-      cy.get('[name="COVID"]').click();
+      cy.get('[data-testid="compose-message-categories"]')
+        .first()
+        .click();
     });
   });
 });
