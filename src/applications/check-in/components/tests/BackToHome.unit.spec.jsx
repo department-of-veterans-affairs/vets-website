@@ -5,6 +5,8 @@ import sinon from 'sinon';
 
 import BackToHome from '../BackToHome';
 
+import '@department-of-veterans-affairs/component-library/i18n-setup';
+
 describe('pre-check-in', () => {
   describe('BackToHome', () => {
     it('Does not render when not run in a local environment', () => {

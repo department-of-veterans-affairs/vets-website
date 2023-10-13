@@ -8,6 +8,8 @@ import {
   multipleAppointments,
 } from '../../tests/unit/mocks/mock-appointments';
 
+import '@department-of-veterans-affairs/component-library/i18n-setup';
+
 import PreCheckinConfirmation from '../PreCheckinConfirmation';
 
 describe('pre-check-in', () => {
