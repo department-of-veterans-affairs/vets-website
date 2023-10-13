@@ -208,7 +208,7 @@ const Prescriptions = () => {
         ],
       };
     },
-    [userName, dob],
+    [userName, dob, currentDate, selectedSortOption],
   );
 
   const generatePDF = useCallback(

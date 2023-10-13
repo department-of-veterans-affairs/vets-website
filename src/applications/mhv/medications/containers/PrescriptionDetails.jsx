@@ -122,7 +122,7 @@ const PrescriptionDetails = () => {
         ],
       };
     },
-    [userName, dob, prescription, prescriptionPdfList],
+    [userName, dob, prescription, prescriptionPdfList, currentDate],
   );
 
   const handleDownloadPDF = async () => {
