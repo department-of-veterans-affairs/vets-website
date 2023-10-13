@@ -9,7 +9,11 @@ import { useFormRouting } from '../hooks/useFormRouting';
 import { makeSelectApp } from '../selectors';
 import { APP_NAMES } from '../utils/appConstants';
 
-import { getAppointmentId } from '../utils/appointment';
+import {
+  getAppointmentId,
+  getCheckinableAppointments,
+  sortAppointmentsByStartTime,
+} from '../utils/appointment';
 
 const WhatToDoNext = props => {
   const { router, appointments } = props;
@@ -18,30 +22,23 @@ const WhatToDoNext = props => {
   const { goToNextPage, jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
 
-  const appointment = appointments[0];
-  const appointmentDateTime = new Date(appointment.startTime);
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
+  const checkInableAppointments = getCheckinableAppointments(
+    sortedAppointments,
+  );
 
   const handleClick = e => {
     e.preventDefault();
     goToNextPage();
   };
 
-  const goToDetails = e => {
+  const goToDetails = (e, appointment) => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav', app),
     });
     jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
   };
-
-  let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
-    time: new Date(appointment.startTime),
-  });
-  if (app === APP_NAMES.PRE_CHECK_IN) {
-    cardTitle = t('review-your-contact-information-for-your-appointment', {
-      date: new Date(appointment.startTime),
-    });
-  }
 
   const ActionLink = () => {
     const linkText =
@@ -67,30 +64,50 @@ const WhatToDoNext = props => {
   };
 
   return (
-    <div data-testid="action-item-display">
+    <>
       <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
-      <va-card show-shadow>
-        <h4 className="vads-u-margin-top--0">{cardTitle}</h4>
-        <p>
-          <a
-            data-testid="details-link"
-            href={`${
-              router.location.basename
-            }/appointment-details/${getAppointmentId(appointment)}`}
-            onClick={e => goToDetails(e)}
-            aria-label={t('details-for-appointment', {
-              time: appointmentDateTime,
-              type: appointment.clinicStopCodeName
-                ? appointment.clinicStopCodeName
-                : 'VA',
-            })}
+      {checkInableAppointments.map(appointment => {
+        let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
+          time: new Date(appointment.startTime),
+        });
+        if (app === APP_NAMES.PRE_CHECK_IN) {
+          cardTitle = t(
+            'review-your-contact-information-for-your-appointment',
+            {
+              date: new Date(appointment.startTime),
+            },
+          );
+        }
+        return (
+          <div
+            className="vads-u-margin-bottom--2"
+            key={appointment.appointmentIen}
           >
-            {t('details')}
-          </a>
-        </p>
-        <ActionLink />
-      </va-card>
-    </div>
+            <va-card show-shadow={checkInableAppointments.length > 1}>
+              <h4 className="vads-u-margin-top--0">{cardTitle}</h4>
+              <p>
+                <a
+                  data-testid="details-link"
+                  href={`${
+                    router.location.basename
+                  }/appointment-details/${getAppointmentId(appointment)}`}
+                  onClick={e => goToDetails(e, appointment)}
+                  aria-label={t('details-for-appointment', {
+                    time: new Date(appointment.startTime),
+                    type: appointment.clinicStopCodeName
+                      ? appointment.clinicStopCodeName
+                      : 'VA',
+                  })}
+                >
+                  {t('details')}
+                </a>
+              </p>
+              <ActionLink />
+            </va-card>
+          </div>
+        );
+      })}
+    </>
   );
 };
 

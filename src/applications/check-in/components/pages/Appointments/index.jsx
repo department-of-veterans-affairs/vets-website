@@ -59,10 +59,7 @@ const AppointmentsPage = props => {
   return (
     <Wrapper pageTitle="Your Appointments" eyebrow="Check-In" withBackButton>
       <ActionItemDisplay router={router} />
-
-      <div data-testid="upcoming-appointments">
-        <UpcomingAppointments router={router} />
-      </div>
+      <UpcomingAppointments router={router} />
     </Wrapper>
   );
 };
