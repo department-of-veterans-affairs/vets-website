@@ -48,34 +48,53 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
   const isUS = address.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'state' : 'province';
 
-  const errorMsg = errorMessage => (
-    <span className="usa-input-error-message">{errorMessage}</span>
-  );
+  const showValueOrErrorMessage = (value, errorMessage) =>
+    (value || '').trim() || (
+      <span className="usa-input-error-message">{errorMessage}</span>
+    );
 
   // Label: formatted value in (design) display order
   const display = [
     [content.homePhone, () => renderTelephone(homePhone)],
     [content.mobilePhone, () => renderTelephone(mobilePhone)],
-    [content.email, () => email || errorMsg(content.missingEmailError)],
-    [content.country, () => address.countryName],
+    [
+      content.email,
+      () => showValueOrErrorMessage(email, content.missingEmailError),
+    ],
+    [
+      content.country,
+      () =>
+        showValueOrErrorMessage(address.countryName, content.missingCountry),
+    ],
     [
       content.address1,
-      () => address.addressLine1 || errorMsg(content.missingStreetAddress),
+      () =>
+        showValueOrErrorMessage(
+          address.addressLine1,
+          content.missingStreetAddress,
+        ),
     ],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
-    [content.city, () => address.city || errorMsg(content.missingCity)],
+    [
+      content.city,
+      () => showValueOrErrorMessage(address.city, content.missingCity),
+    ],
     [
       content[stateOrProvince],
       () =>
-        address[isUS ? 'stateCode' : 'province'] ||
-        errorMsg(content.missingStateOrProvince(isUS)),
+        showValueOrErrorMessage(
+          address[isUS ? 'stateCode' : 'province'],
+          content.missingStateOrProvince(isUS),
+        ),
     ],
     [
       isUS ? content.zipCode : content.postal,
       () =>
-        address[isUS ? 'zipCode' : 'internationalPostalCode'] ||
-        errorMsg(content.missingZip(isUS)),
+        showValueOrErrorMessage(
+          address[isUS ? 'zipCode' : 'internationalPostalCode'],
+          content.missingZip(isUS),
+        ),
     ],
   ];
 

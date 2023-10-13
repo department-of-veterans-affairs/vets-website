@@ -98,6 +98,7 @@ export const getContent = (appName = 'application') => ({
 
   // Error on review & submit
   missingEmailError: 'Missing email address',
+  missingCountry: 'Missing country',
   missingStreetAddress: 'Missing street address',
   missingCity: 'Missing city',
   missingStateOrProvince: isUS => `Missing ${isUS ? 'state' : 'province'}`,

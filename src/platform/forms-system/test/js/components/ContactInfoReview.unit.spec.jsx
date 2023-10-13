@@ -79,6 +79,7 @@ describe('<ContactInfoReview>', () => {
       address: false,
     });
     const { container } = render(<ContactInfoReview {...data} />);
-    expect($$('.usa-input-error-message', container).length).to.eq(5);
+    // 6 missing errors: email, country, street address, city, state, zip
+    expect($$('.usa-input-error-message', container).length).to.eq(6);
   });
 });
