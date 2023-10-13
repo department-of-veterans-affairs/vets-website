@@ -1,4 +1,5 @@
 import React from 'react';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
