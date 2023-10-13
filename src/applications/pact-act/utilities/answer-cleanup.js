@@ -2,9 +2,17 @@
 // the display of questions after it, the questions that will no longer show should have their answers
 // removed from the Redux store. These utilities take care of that.
 
-import { DISPLAY_CONDITIONS } from './display-conditions';
-import { displayConditionsMet, ROADMAP, ROADMAP_INDEX } from './display-logic';
+import { displayConditionsMet, makeRoadmap } from './display-logic-questions';
 import { SHORT_NAME_MAP } from '../constants/question-data-map';
+import { getNonNullShortNamesFromStore } from './shared';
+
+/**
+ * Filter object for a given value (predicate true/false function)
+ */
+Object.filter = (obj, predicate) =>
+  Object.keys(obj)
+    .filter(key => predicate(obj[key]))
+    .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
 
 /**
  * Use ROADMAP to determine if a question SHORT_NAME comes after the current question
@@ -12,48 +20,10 @@ import { SHORT_NAME_MAP } from '../constants/question-data-map';
  *
  * @param {string} shortName - name for question to evaluate
  * @param {string} currentQuestionShortName
+ * @param {object} roadmap - all questions shown in the flow per SERVICE_PERIOD response
  */
-const questionIsAfterCurrent = (shortName, currentQuestionShortName) =>
-  ROADMAP_INDEX(shortName) > ROADMAP_INDEX(currentQuestionShortName);
-
-/** ================================================================
- * Gather a list (in display order) of SHORT_NAMEs that come after the current question
- * based on SERVICE_PERIOD response (e.g. 1989 or earlier)
- *
- * @param {string} servicePeriodResponse - response for SERVICE_PERIOD in the form store
- */
-export const gatherFlowSpecificQuestions = servicePeriodResponse => {
-  const flowSpecificQuestions = [];
-
-  for (const questionName of ROADMAP) {
-    const paths = DISPLAY_CONDITIONS?.[questionName]?.SERVICE_PERIOD_SELECTION;
-    const mayShowInCurrentFlow = paths?.[servicePeriodResponse];
-
-    if (mayShowInCurrentFlow) {
-      flowSpecificQuestions.push(questionName);
-    }
-  }
-
-  return flowSpecificQuestions;
-};
-
-/** ================================================================
- * Return SHORT_NAMEs with answers in the store
- *
- * @param {object} responsesToClean - all answers in the store
- */
-export const getNonNullShortNamesFromStore = responsesToClean => {
-  const shortNames = Object.keys(responsesToClean);
-  const nonNullShortNames = [];
-
-  for (const shortName of shortNames) {
-    if (responsesToClean[shortName] !== null) {
-      nonNullShortNames.push(shortName);
-    }
-  }
-
-  return nonNullShortNames;
-};
+const questionIsAfterCurrent = (shortName, currentQuestionShortName, roadmap) =>
+  roadmap?.indexOf(shortName) > roadmap?.indexOf(currentQuestionShortName);
 
 /** ================================================================
  * Gathers SHORT_NAMEs with responses in the store that
@@ -67,18 +37,11 @@ export const gatherWrongFlowQuestions = (
   nonNullShortNames,
   flowSpecificQuestions,
 ) => {
-  const questionsToNull = [];
-
-  for (const nonNullShortName of nonNullShortNames) {
-    if (
-      nonNullShortName !== SHORT_NAME_MAP.SERVICE_PERIOD &&
-      !flowSpecificQuestions.includes(nonNullShortName)
-    ) {
-      questionsToNull.push(nonNullShortName);
-    }
-  }
-
-  return questionsToNull;
+  return nonNullShortNames.filter(
+    shortName =>
+      shortName !== SHORT_NAME_MAP.SERVICE_PERIOD &&
+      !flowSpecificQuestions.includes(shortName),
+  );
 };
 
 /** ================================================================
@@ -95,19 +58,23 @@ export const gatherDCsNotMetQuestions = (
   questionsToBeNulled,
   responsesToClean,
 ) => {
-  const questionsToNull = [];
+  const roadmap = makeRoadmap(
+    responsesToClean?.[SHORT_NAME_MAP.SERVICE_PERIOD],
+  );
 
-  for (const shortName of nonNullShortNames) {
-    if (
-      !questionsToBeNulled?.includes(shortName) &&
-      questionIsAfterCurrent(shortName, currentQuestionName) &&
-      !displayConditionsMet(shortName, responsesToClean)
-    ) {
-      questionsToNull.push(shortName);
-    }
+  if (roadmap?.length) {
+    const dcsNotMet = shortName => {
+      return (
+        !questionsToBeNulled?.includes(shortName) &&
+        questionIsAfterCurrent(shortName, currentQuestionName, roadmap) &&
+        !displayConditionsMet(shortName, responsesToClean)
+      );
+    };
+
+    return nonNullShortNames.filter(shortName => dcsNotMet(shortName));
   }
 
-  return questionsToNull;
+  return [];
 };
 
 /** ================================================================
@@ -168,9 +135,7 @@ export const cleanUpAnswers = (
   const responsesToClean = responsesInStore;
   const servicePeriodResponse = responsesInStore?.SERVICE_PERIOD;
 
-  const flowSpecificQuestions = gatherFlowSpecificQuestions(
-    servicePeriodResponse,
-  );
+  const flowSpecificQuestions = makeRoadmap(servicePeriodResponse);
 
   const nonNullShortNames = getNonNullShortNamesFromStore(responsesToClean);
   const questionsToBeNulled = gatherQuestionsToReset(

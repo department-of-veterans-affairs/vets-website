@@ -1,9 +1,5 @@
 # Display Conditions
 
-Display conditions are defined for every question in the flow. Instructions are cascading, meaning the display
-conditions for a question rely on the display conditions of the question before it. This allows the display
-conditions to be more concise and use less processing time when navigating backward or forward.
-
 **Note**
 - Refer to all files in this directory (other than `index.js`) for real examples.
 - See [this Mural](https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1692989444688/0044b9825c82d8d23920601f68c41a61d047d681?sender=ue51e6049230e03c1248b5078) for a visual diagram of the display conditions
@@ -13,7 +9,7 @@ every other question after it. Its responses ("1990 or later", "1989 or earlier"
 are used to refer to question sets throughout this document.
 - All examples below are for demonstration only and may not represent accurate display conditions for the PACT Act wizard
 
-## Basic Display Conditions
+## Basic Display Conditions - Questions
 
 ```
 BURN_PIT_2_1: {
@@ -40,22 +36,19 @@ Example:
 ```
 ORANGE_2_2_A: {
   SERVICE_PERIOD_SELECTION: {
-    EIGHTYNINE_OR_EARLIER: {
-      SERVICE_PERIOD: [EIGHTYNINE_OR_EARLIER]
+    [EIGHTYNINE_OR_EARLIER]: {
+      SERVICE_PERIOD: [EIGHTYNINE_OR_EARLIER],
     },
-    DURING_BOTH_PERIODS: {
-      SERVICE_PERIOD: [DURING_BOTH_PERIODS]
-      BURN_PIT_2_1_2: [YES, NO, NOT_SURE]
-    }
-  }
+    [DURING_BOTH_PERIODS]: {
+      SERVICE_PERIOD: [DURING_BOTH_PERIODS],
+      BURN_PIT_2_1: [YES],
+      BURN_PIT_2_1_1: [YES],
+    },
+  },
 }
 ```
 
-**Note**
-- In the `DURING_BOTH_PERIODS` flow, it is not necessary to specify other `BURN_PIT` questions that precede `BURN_PIT_2_1_2`.
-Those display conditions are listed in the `BURN_PIT_2_1_2` question, and need not be duplicated here.
-
-Per the above example, the question flows can be either of these:
+The question flows can be either of these:
 - Scenario 1
   - `SERVICE_PERIOD` "1989 or earlier"
   - `ORANGE_2_2_A`
@@ -63,7 +56,6 @@ Per the above example, the question flows can be either of these:
   - `SERVICE_PERIOD` "During both of these time periods"
   - `BURN_PIT_2_1` "No"
   - `BURN_PIT_2_1_1` "No"
-  - `BURN_PIT_2_1_2` "No"
   - `ORANGE_2_2_A`
 
 ## Nested and Forked Display Conditions
@@ -78,28 +70,30 @@ Example:
 ORANGE_2_2_A: {
   SERVICE_PERIOD_SELECTION: {
     [EIGHTYNINE_OR_EARLIER]: {
-      SERVICE_PERIOD: [EIGHTYNINE_OR_EARLIER]
-    }
+      SERVICE_PERIOD: [EIGHTYNINE_OR_EARLIER],
+    },
     [DURING_BOTH_PERIODS]: {
       FORK: {
         SHORT: {
-          SERVICE_PERIOD: [DURING_BOTH_PERIODS]
+          SERVICE_PERIOD: [DURING_BOTH_PERIODS],
           ONE_OF: {
-            BURN_PIT_2_1: [YES]
-            BURN_PIT_2_1_1: [YES]
-          }
-        }
+            BURN_PIT_2_1: [YES],
+            BURN_PIT_2_1_1: [YES],
+          },
+        },
         LONG: {
-          SERVICE_PERIOD: [DURING_BOTH_PERIODS]
-          BURN_PIT_2_1_2: [YES, NO, NOT_SURE]
-        }
-      }
-    }
-  }
+          SERVICE_PERIOD: [DURING_BOTH_PERIODS],
+          BURN_PIT_2_1: [NO, NOT_SURE],
+          BURN_PIT_2_1_1: [NO, NOT_SURE],
+          BURN_PIT_2_1_2: [YES, NO, NOT_SURE],
+        },
+      },
+    },
+  },
 }
 ```
 
-The question flows can be any of these:
+There are many different flows that would work for these display conditions. Here are a few:
 - Scenario 1:
   - `SERVICE_PERIOD` "1989 or earlier"
   - `ORANGE_2_2_A`
@@ -124,3 +118,49 @@ The **Long** flow (main flow line) follows the `No` and `I'm not sure` response 
 
 Nested, forked and pathed display conditions use all of the functionality above plus a layer of complexity. The example below demonstrates a `FORK` with a
 `SHORT` and `LONG` flow. The added complexity is inside the `SHORT` `FORK` below. It is unlikely that this structure will be used for the `LONG` `FORK`.
+
+## Display Conditions - Results Pages
+
+Results pages' display conditions follow the same general structure as that of the questions. But they are
+different in a couple of ways. Results screens care about "Yes" answers only and filter everything else
+out. 
+
+Results screen 3 is reached when there are no "Yes" responses at all. If any are found, it will not
+display.
+
+Results pages are also driven by question batches (`/constants/question-batches.js`). These constants
+group the question categories together for easy assessment and comparison by the Results pages.
+
+```
+SERVICE_PERIOD_SELECTION: {
+  [NINETY_OR_LATER]: {
+    YES: [BURN_PITS],
+  },
+}
+```
+
+In the above example, this results page will display if there is a "Yes" response to any of the 3 Burn Pit
+questions.
+
+```
+SERVICE_PERIOD_SELECTION: {
+  [DURING_BOTH_PERIODS]: {
+    YES: [BURN_PITS, ORANGE, RADIATION],
+  },
+}
+```
+
+In the above example, this results page will display if there is a "Yes" response to any of the Burn Pit,
+Agent Orange or Radiation questions. "B" questions (multi-checkboxes) will be ignored, as their display
+conditions are already outlined in other files, and they can't be reached without a "Yes" response on
+their parent.
+
+```
+SERVICE_PERIOD_SELECTION: {
+  [NINETY_OR_LATER]: {
+    YES: 'None',
+  },
+}
+```
+
+In the above example, this results page will display if there are no "Yes" responses in the form.

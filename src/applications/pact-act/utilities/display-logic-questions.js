@@ -1,16 +1,35 @@
-import { DISPLAY_CONDITIONS } from './display-conditions';
+import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
 import { SHORT_NAME_MAP } from '../constants/question-data-map';
-import { ROUTES } from '../constants';
+import { getServicePeriodResponse } from './shared';
+
+/**
+ * Filter object for a given value (predicate true/false function)
+ */
+Object.filter = (obj, predicate) =>
+  Object.keys(obj)
+    .filter(key => predicate(obj[key]))
+    .reduce((res, key) => Object.assign(res, { [key]: obj[key] }), {});
 
 /** ================================================================
- * ROADMAP: Array of all question SHORT_NAMEs in order, regardless of whether they will display
- * ROADMAP_INDEX: Index of given SHORT_NAME
- * ROADMAP_SHORT_NAME: SHORT_NAME of given ROADMAP index
+ * Make a roadmap (in display order) of SHORT_NAMEs that display in the
+ * flow based on SERVICE_PERIOD response (e.g. 1989 or earlier)
+ *
+ * @param {string} servicePeriodResponse - response for SERVICE_PERIOD in the form store
  */
-export const ROADMAP = Object.keys(SHORT_NAME_MAP);
-const END_INDEX = ROADMAP.length - 1;
-export const ROADMAP_INDEX = SHORT_NAME => ROADMAP.indexOf(SHORT_NAME);
-const ROADMAP_SHORT_NAME = index => ROADMAP[index];
+export const makeRoadmap = servicePeriodResponse => {
+  const questionIsInFlow = shortName => {
+    const dcsForServicePeriod =
+      DISPLAY_CONDITIONS?.[shortName]?.SERVICE_PERIOD_SELECTION?.[
+        servicePeriodResponse
+      ];
+
+    return shortName === SHORT_NAME_MAP.SERVICE_PERIOD || dcsForServicePeriod;
+  };
+
+  return Object.keys(SHORT_NAME_MAP).filter(shortName =>
+    questionIsInFlow(shortName),
+  );
+};
 
 /** ================================================================
  * Check form responses to see if they match the requirements in DISPLAY_CONDITIONS
@@ -25,6 +44,10 @@ export const responseMatchesRequired = (requiredResponses, formResponse) => {
 /** ================================================================
  * Check form responses against an array of checkbox responses to see if they match
  * the requirements in DISPLAY_CONDITIONS
+ *
+ * @param {array} requiredResponses Example: [VIETNAM_REP, VIETNAM_WATERS]
+ * @param {object} formResponses - all answers in the store
+ * @param {string} shortName
  */
 export const validateMultiCheckboxResponses = (
   requiredResponses,
@@ -85,6 +108,10 @@ export const checkResponses = (formResponses, displayConditionsForPath) => {
   for (const questionShortName of questionRequirements) {
     const formResponse = formResponses?.[questionShortName];
     const requiredResponses = displayConditionsForPath[questionShortName];
+
+    if (questionShortName !== 'ONE_OF' && formResponse === undefined) {
+      return false;
+    }
 
     if (questionShortName !== 'ONE_OF') {
       if (Array.isArray(formResponse)) {
@@ -151,12 +178,11 @@ export const evaluateNestedAndForkedDCs = (
       displayConditionsForPath.SHORT,
     );
 
-    const longDisplayConditionsMet = checkResponses(
-      formResponses,
-      displayConditionsForPath.LONG,
-    );
+    if (shortDisplayConditionsMet) {
+      return true;
+    }
 
-    return shortDisplayConditionsMet || longDisplayConditionsMet;
+    return checkResponses(formResponses, displayConditionsForPath.LONG);
   }
 
   return checkResponses(formResponses, displayConditionsForPath);
@@ -175,8 +201,7 @@ export const displayConditionsMet = (SHORT_NAME, formResponses) => {
     return true;
   }
 
-  const responseToServicePeriod =
-    formResponses?.[SHORT_NAME_MAP.SERVICE_PERIOD];
+  const responseToServicePeriod = getServicePeriodResponse(formResponses);
 
   const pathsForShortName =
     displayConditionsForShortName?.SERVICE_PERIOD_SELECTION;
@@ -198,99 +223,4 @@ export const displayConditionsMet = (SHORT_NAME, formResponses) => {
   }
 
   return evaluateNestedAndForkedDCs(formResponses, displayConditionsForPath);
-};
-
-/** ================================================================
- * Given a ROADMAP index, gets DISPLAY_CONDITIONS
- */
-const displayConditionsForIndex = index => {
-  return DISPLAY_CONDITIONS?.[ROADMAP?.[index]];
-};
-
-/**
- * Move to given route or error if route not found
- * @param {number} index - index within ROADMAP to go to
- * @param {object} router - contains push function for routing
- */
-const pushToRoute = (index, router) => {
-  const shortNameForPrev = ROADMAP_SHORT_NAME(index);
-  const previousRoute = ROUTES?.[shortNameForPrev];
-
-  if (previousRoute) {
-    router.push(previousRoute);
-  } else {
-    // eslint-disable-next-line no-console
-    console.error('Unable to determine question to display');
-  }
-};
-
-/** ================================================================
- * Responsible for determining next question in flow, or redirecting to a results screen
- *
- * @param {string} SHORT_NAME - name for the current question
- * @param {object} formResponses - all answers in the store
- * @param {object} router - contains push function for routing
- */
-export const navigateForward = (SHORT_NAME, formResponses, router) => {
-  const CURRENT_INDEX = ROADMAP_INDEX(SHORT_NAME);
-  let nextIndex = CURRENT_INDEX + 1;
-
-  if (CURRENT_INDEX === END_INDEX) {
-    // TODO go to a results page
-  }
-
-  while (CURRENT_INDEX !== END_INDEX) {
-    // Found entry in DISPLAY_CONDITIONS for next question
-    if (displayConditionsForIndex(nextIndex)) {
-      if (displayConditionsMet(ROADMAP?.[nextIndex], formResponses)) {
-        pushToRoute(nextIndex, router);
-        return;
-      }
-
-      nextIndex += 1;
-    } else {
-      // No entry in DISPLAY_CONDITIONS for next question
-      // eslint-disable-next-line no-console
-      console.error('Unable to determine next question to display');
-      return;
-    }
-  }
-};
-
-/** ================================================================
- * Responsible for determining previous question (answered) in the flow
- *
- * @param {string} SHORT_NAME - name for the current question
- * @param {object} formResponses - all answers in the store
- * @param {object} router - contains push function for routing
- */
-export const navigateBackward = (SHORT_NAME, formResponses, router) => {
-  const CURRENT_INDEX = ROADMAP_INDEX(SHORT_NAME);
-  let previousIndex = CURRENT_INDEX - 1;
-
-  if (CURRENT_INDEX === 0) {
-    router.push(ROUTES.HOME);
-  }
-
-  while (CURRENT_INDEX > 0) {
-    if (displayConditionsForIndex(previousIndex)) {
-      // Found entry in DISPLAY_CONDITIONS for previous question
-
-      if (previousIndex < 0) {
-        router.push(ROUTES.HOME);
-      }
-
-      if (displayConditionsMet(ROADMAP?.[previousIndex], formResponses)) {
-        pushToRoute(previousIndex, router);
-        return;
-      }
-
-      previousIndex -= 1;
-    } else {
-      // No entry in DISPLAY_CONDITIONS for previous question
-      // eslint-disable-next-line no-console
-      console.error('Unable to determine previous question to display');
-      return;
-    }
-  }
 };
