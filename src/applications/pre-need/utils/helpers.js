@@ -53,12 +53,12 @@ export const applicantContactInfoDescriptionVetNOTPROD = (
 export const applicantContactInfoDescriptionNonVetNOTPROD = (
   <va-additional-info trigger="Why do we need the applicant’s contact details?">
     <p>
-      We may reach out by phone if we need more information about your
+      We may reach out by phone if we need more information about the
       application.
     </p>
     <p>
       Their email address will be used to send a confirmation message once the
-      application is submitted.”
+      application is submitted.
     </p>
   </va-additional-info>
 );

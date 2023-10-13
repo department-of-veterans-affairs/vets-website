@@ -776,12 +776,18 @@ const formConfig = {
                       },
                     ),
                     'view:applicantContactInfoSubheader': {
-                      'ui:title': applicantContactInfoSubheader,
+                      'ui:description': applicantContactInfoSubheader,
+                      'ui:options': {
+                        onlyDisplayLabel: true,
+                      },
                     },
                     phoneNumber: phoneUI('Phone number'),
                     email: emailUI(),
                     'view:contactInfoDescription': {
                       'ui:description': applicantContactInfoWrapper,
+                      'ui:options': {
+                        onlyDisplayLabel: true,
+                      },
                     },
                   },
                 },
@@ -798,7 +804,8 @@ const formConfig = {
                         properties: {
                           address: address.schema(fullSchemaPreNeed, true),
                           'view:applicantContactInfoSubheader': {
-                            type: 'string',
+                            type: 'object',
+                            properties: {},
                           },
                           phoneNumber: claimant.properties.phoneNumber,
                           email: claimant.properties.email,

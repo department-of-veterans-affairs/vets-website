@@ -368,6 +368,13 @@ export function getNonArraySchema(schema, uiSchema = {}) {
   }
 
   if (schema.type === 'object') {
+    if (get('ui:options.onlyDisplayLabel', uiSchema)) {
+      return {
+        schema,
+        uiSchema,
+      };
+    }
+
     const newProperties = Object.keys(schema.properties).reduce(
       (current, next) => {
         const newSchema = getNonArraySchema(
