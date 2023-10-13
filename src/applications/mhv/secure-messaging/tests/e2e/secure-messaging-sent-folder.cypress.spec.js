@@ -65,4 +65,21 @@ describe('Secure Messaging Sent Folder checks', () => {
     });
     PatientMessagesSentPage.verifySorting();
   });
+
+  it('Checks for "End of conversations in this folder" text', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    cy.get('.endOfThreads').should('not.exist');
+    PatientMessagesSentPage.navigateToLastPage();
+    cy.get('.endOfThreads').should(
+      'have.text',
+      'End of conversations in this folder',
+    );
+  });
 });
