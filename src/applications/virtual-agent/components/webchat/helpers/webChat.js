@@ -3,7 +3,9 @@ import * as Sentry from '@sentry/browser';
 
 export const cardActionMiddleware = decisionLetterEnabled => () => next => card => {
   const { cardAction } = card;
-  const isDecisionLetter = cardAction.value.includes('/v0/claim_letters/');
+  const isDecisionLetter =
+    typeof cardAction.value === 'string' &&
+    cardAction.value.includes('/v0/claim_letters/');
   const actionIsOpenUrl = cardAction.type === 'openUrl';
   if (decisionLetterEnabled && actionIsOpenUrl && isDecisionLetter) {
     const recordDecisionLetterDownload = () =>

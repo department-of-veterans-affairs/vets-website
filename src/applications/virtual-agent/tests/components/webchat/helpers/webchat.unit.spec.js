@@ -84,6 +84,14 @@ describe('Webchat.jsx Helpers', () => {
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
       });
+      it('should not throw an error when cardAction.value is not a string', () => {
+        const notOpenUrl = generateFakeCard({}, 'notOpenUrl');
+        const { nextSpy, recordEventStub } = generateSinonFunctions();
+        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(notOpenUrl);
+        expect(recordEventStub.notCalled).to.be.true;
+        expect(nextSpy.calledOnce).to.be.true;
+        expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
+      });
     });
 
     describe('when decision letter tracking is disabled', () => {
