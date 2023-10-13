@@ -6,10 +6,8 @@ import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import TermsOfUse, {
-  parseRedirectUrl,
-  errorMessages,
-} from '../containers/TermsOfUse';
+import TermsOfUse from '../containers/TermsOfUse';
+import { errorMessages } from '../helpers';
 
 const store = ({ termsOfUseEnabled = true } = {}) => ({
   getState: () => ({
@@ -39,7 +37,6 @@ describe('TermsOfUse', () => {
     expect($('h1', container).textContent).to.eql(
       'VA online services terms of use',
     );
-    expect($('va-on-this-page', container)).to.exist;
     expect($('va-accordion', container)).to.exist;
     expect($('va-alert', container)).to.exist;
   });
@@ -58,7 +55,7 @@ describe('TermsOfUse', () => {
     );
 
     await waitFor(() => {
-      expect($$('va-button', container).length).to.eql(2);
+      expect($$('va-button', container).length).to.eql(4);
     });
   });
   it('should NOT display buttons if URL comes back as a 401', async () => {
@@ -122,14 +119,14 @@ describe('TermsOfUse', () => {
         (_, res, ctx) => res(ctx.status(200)),
       ),
     );
-    const { container, queryByTestId } = render(
+    const { container, queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const declineButton = queryByTestId('decline');
+      const declineButton = queryAllByTestId('decline')[0];
 
       fireEvent.click(declineButton);
 
@@ -160,14 +157,14 @@ describe('TermsOfUse', () => {
         },
       ),
     );
-    const { container, queryByTestId } = render(
+    const { container, queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const declineButton = queryByTestId('decline');
+      const declineButton = queryAllByTestId('decline')[0];
 
       fireEvent.click(declineButton);
 
@@ -198,14 +195,14 @@ describe('TermsOfUse', () => {
           ),
       ),
     );
-    const { queryByTestId } = render(
+    const { queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const acceptButton = queryByTestId('accept');
+      const acceptButton = queryAllByTestId('accept')[0];
       expect(acceptButton).to.exist;
 
       fireEvent.click(acceptButton);
@@ -234,14 +231,14 @@ describe('TermsOfUse', () => {
         },
       ),
     );
-    const { queryByTestId } = render(
+    const { queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const acceptButton = queryByTestId('accept');
+      const acceptButton = queryAllByTestId('accept')[0];
       expect(acceptButton).to.exist;
       fireEvent.click(acceptButton);
       expect(global.window.location).to.not.eql(redirectUrl);
@@ -262,19 +259,19 @@ describe('TermsOfUse', () => {
         (_, res) => res.networkError(),
       ),
     );
-    const { queryByTestId } = render(
+    const { queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const acceptButton = queryByTestId('accept');
-      expect(acceptButton).to.exist;
+      const accept = queryAllByTestId('accept')[0];
+      expect(accept).to.exist;
 
-      fireEvent.click(acceptButton);
+      fireEvent.click(accept);
 
-      const nonModalErrorState = queryByTestId('error-non-modal');
+      const nonModalErrorState = queryAllByTestId('error-non-modal')[0];
       expect(nonModalErrorState).to.exist;
       expect(nonModalErrorState.textContent).to.eql(errorMessages.network);
     });
@@ -287,14 +284,14 @@ describe('TermsOfUse', () => {
         (_, res, ctx) => res(ctx.status(200)),
       ),
     );
-    const { container, queryByTestId } = render(
+    const { container, queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const declineButton = queryByTestId('decline');
+      const declineButton = queryAllByTestId('decline')[0];
       expect(declineButton).to.exist;
 
       fireEvent.click(declineButton);
@@ -310,22 +307,6 @@ describe('TermsOfUse', () => {
       // click `Go back` button
       openedModal.__events.secondaryButtonClick();
       expect($('va-modal[visible="false"]', container)).to.be.exist;
-    });
-  });
-});
-
-describe('parseRedirectUrl', () => {
-  const testUrls = {
-    [`https%3A%2F%2Fdev.va.gov%2Fauth%2Flogin%2Fcallback%2F%3Ftype%3Didme`]: `https://dev.va.gov/auth/login/callback/?type=idme`,
-    [`https://staging-patientportal.myhealth.va.gov`]: `https://staging-patientportal.myhealth.va.gov`,
-    [`https://staging-patientportal.myhealth.va.gov/?authenticated=true`]: `https://staging-patientportal.myhealth.va.gov/?authenticated=true`,
-    [`https://int.eauth.va.gov/mhv-portal-web/eauth&postLogin=true`]: `https://int.eauth.va.gov/mhv-portal-web/eauth`,
-    [`https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=home&postLogin=true`]: `https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=home&postLogin=true`,
-    [`https://google.com?q=https://va.gov`]: `https://dev.va.gov`,
-  };
-  Object.entries(testUrls).forEach(([parsedUrl, formattedUrl]) => {
-    it('should return the proper url', () => {
-      expect(parseRedirectUrl(parsedUrl)).to.eql(formattedUrl);
     });
   });
 });
