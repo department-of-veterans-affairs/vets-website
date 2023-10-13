@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 class ClaimsBreadcrumbs extends React.Component {
   renderBreadcrumbs = childNodes => {
@@ -27,9 +26,9 @@ class ClaimsBreadcrumbs extends React.Component {
 
   render() {
     return (
-      <VaBreadcrumbs>
+      <va-breadcrumbs>
         {this.renderBreadcrumbs(this.props.children)}
-      </VaBreadcrumbs>
+      </va-breadcrumbs>
     );
   }
 }
