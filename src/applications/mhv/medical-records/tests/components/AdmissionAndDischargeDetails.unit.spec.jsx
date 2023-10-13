@@ -1,38 +1,43 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import AdmissionAndDischargeDetails from '../../components/CareSummaries/AdmissionAndDischargeDetails';
-import note from '../fixtures/note.json';
+import dischargeSummary from '../fixtures/dischargeSummary.json';
+import dischargeSummaryWithDateMissing from '../fixtures/dischargeSummaryWithDateMissing.json';
 import { convertNote } from '../../reducers/careSummariesAndNotes';
 
 describe('Admission and discharge summary details component', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesDetails: convertNote(note),
+        careSummariesAndNotesDetails: convertNote(dischargeSummary),
       },
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(
-      <AdmissionAndDischargeDetails record={convertNote(note)} />,
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <AdmissionAndDischargeDetails
+        record={convertNote(dischargeSummary)}
+        runningUnitTest
+      />,
       {
-        initialState: state,
+        initialState,
         reducers: reducer,
         path: '/summaries-and-notes/954',
       },
     );
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the summary name', () => {
-    const screen = setup();
     const header = screen.getAllByText('Physician procedure note', {
       exact: true,
       selector: 'h1',
@@ -41,12 +46,46 @@ describe('Admission and discharge summary details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const screen = setup();
-
     const formattedDate = screen.getAllByText('August', {
       exact: false,
       selector: 'p',
     });
     expect(formattedDate).to.exist;
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('Admission and discharge summary details component with no dates', () => {
+  const initialState = {
+    mr: {
+      careSummariesAndNotes: {
+        careSummariesAndNotesDetails: convertNote(
+          dischargeSummaryWithDateMissing,
+        ),
+      },
+    },
+  };
+
+  const screen = renderWithStoreAndRouter(
+    <AdmissionAndDischargeDetails
+      record={convertNote(dischargeSummaryWithDateMissing)}
+    />,
+    {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes/954',
+    },
+  );
+
+  it('should not display the formatted date if startDate or endDate is missing', () => {
+    waitFor(() => {
+      expect(screen.queryByTestId('header-times').innerHTML).to.contain(
+        'None noted',
+      );
+    });
   });
 });
