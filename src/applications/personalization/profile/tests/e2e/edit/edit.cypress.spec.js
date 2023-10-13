@@ -2,7 +2,7 @@ import user from '@@profile/mocks/endpoints/user';
 import commPrefs from '@@profile/mocks/endpoints/communication-preferences';
 import { mockProfileLOA3, registerCypressHelpers } from '../helpers';
 
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
+import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import { PROFILE_PATHS } from '../../../constants';
 
 registerCypressHelpers();
@@ -21,7 +21,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForLegacyLoadingIndicator();
+      checkForWebComponentLoadingIndicator();
 
       cy.injectAxeThenAxeCheck();
 
@@ -37,7 +37,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForLegacyLoadingIndicator();
+      checkForWebComponentLoadingIndicator();
 
       cy.injectAxeThenAxeCheck();
 
@@ -55,7 +55,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForLegacyLoadingIndicator();
+      checkForWebComponentLoadingIndicator();
 
       cy.injectAxeThenAxeCheck();
 
@@ -85,7 +85,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForLegacyLoadingIndicator();
+      checkForWebComponentLoadingIndicator();
 
       cy.injectAxeThenAxeCheck();
 
@@ -113,7 +113,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForLegacyLoadingIndicator();
+      checkForWebComponentLoadingIndicator();
 
       cy.injectAxeThenAxeCheck();
 
@@ -161,7 +161,7 @@ describe('Edit page', () => {
         commPrefs.maximalSetOfPreferences,
       );
 
-      checkForLegacyLoadingIndicator();
+      checkForWebComponentLoadingIndicator();
 
       cy.injectAxeThenAxeCheck();
 

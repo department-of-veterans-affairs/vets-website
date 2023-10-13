@@ -16,7 +16,7 @@ const IntroductionPage = props => {
   const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
   const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
   const supplyDescription = isSupplyReorderingSleepApneaEnabled
-    ? 'hearing aid and CPAP supplies'
+    ? 'hearing aid or CPAP supplies'
     : 'hearing aid batteries and accessories';
   if (isLoadingFeatureFlags)
     return <va-loading-indicator message="Loading your information..." />;
