@@ -1,7 +1,6 @@
-import React from 'react';
-
 import environment from 'platform/utilities/environment';
 
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { FileField } from 'platform/forms-system/src/js/fields/FileField';
 
 import {
@@ -13,11 +12,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-margin-y--0">
-        Upload documents (preferably DD214)
-      </h3>
-    ),
+    ...titleUI('Upload documents (preferably DD214)'),
     'ui:description': supportingDocsDescription,
     veteranSupportingDocuments: {
       'ui:title': 'Upload documents',
