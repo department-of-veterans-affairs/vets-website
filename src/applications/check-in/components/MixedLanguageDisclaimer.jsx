@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
-import '@department-of-veterans-affairs/component-library/i18n-setup';
-
 const MixedLanguageDisclaimer = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const {

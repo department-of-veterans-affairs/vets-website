@@ -3,6 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import i18next from 'i18next';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
 import MixedLanguageDisclaimer from '../MixedLanguageDisclaimer';

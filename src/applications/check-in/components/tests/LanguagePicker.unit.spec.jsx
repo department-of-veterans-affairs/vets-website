@@ -4,9 +4,8 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import i18next from 'i18next';
 import i18n from '../../utils/i18n/i18n';
-import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
-
 import '@department-of-veterans-affairs/component-library/i18n-setup';
+import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
 import LanguagePicker from '../LanguagePicker';
 
