@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
+  clearAllergisError,
 } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -11,12 +12,14 @@ import MedicationsListSort from '../components/MedicationsList/MedicationsListSo
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
 import {
+  PDF_GENERATE_STATUS,
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
+import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
@@ -28,10 +31,12 @@ import { getPrescriptionSortedList } from '../api/rxApi';
 const Prescriptions = () => {
   const currentDate = new Date();
   const dispatch = useDispatch();
-  const prescriptions = useSelector(
+  const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
-  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
+  const [fullPrescriptionsList, setFullPrescriptionsList] = useState([]);
+  const allergies = useSelector(state => state.rx.allergies.allergiesList);
+  const allergiesError = useSelector(state => state.rx.allergies.error);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -42,15 +47,17 @@ const Prescriptions = () => {
   const [selectedSortOption, setSelectedSortOption] = useState(
     sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) || defaultSortOption,
   );
-  const [allergiesPdfList, setAllergiesPdfList] = useState([]);
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
+    PDF_GENERATE_STATUS.NotStarted,
+  );
 
   const topAlert = () => {
     return (
       <div visible={isAlertVisible} className="no-print vads-u-margin-top--5">
-        {!prescriptions && (
+        {!paginatedPrescriptionsList && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="warning"
@@ -76,7 +83,7 @@ const Prescriptions = () => {
             </div>
           </va-alert>
         )}
-        {prescriptions?.length <= 0 && (
+        {paginatedPrescriptionsList?.length <= 0 && (
           <va-alert status="info" uswds>
             <div>
               <h4 className="vads-u-margin-top--0">
@@ -98,6 +105,7 @@ const Prescriptions = () => {
   };
 
   const sortRxList = sortOption => {
+    setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
     setSelectedSortOption(sortOption);
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     focusElement(document.getElementById('showingRx'));
@@ -137,30 +145,17 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!allergies) dispatch(getAllergiesList());
-    },
-    [allergies, dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (!isLoading && (!prescriptions || prescriptions?.length <= 0)) {
+      if (
+        !isLoading &&
+        (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
+      ) {
         setAlertVisible('true');
       }
     },
-    [isLoading, prescriptions],
+    [isLoading, paginatedPrescriptionsList],
   );
 
-  useEffect(
-    () => {
-      if (allergies) {
-        setAllergiesPdfList(buildAllergiesPDFList(allergies));
-      }
-    },
-    [allergies],
-  );
-
-  const pdfData = rxList => {
+  const pdfData = (rxList, allergiesList) => {
     return {
       headerBanner: [
         {
@@ -196,29 +191,76 @@ const Prescriptions = () => {
         },
         {
           header: 'Allergies',
-          list: allergiesPdfList,
+          list: allergiesList || [],
+          ...(allergiesList &&
+            !allergiesList.length && {
+              preface:
+                'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.',
+            }),
+          ...(!allergiesList && {
+            preface:
+              'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, email us at vamhvfeedback@va.gov.',
+          }),
         },
       ],
     };
   };
 
+  const generatePDF = useCallback(
+    (rxList, allergiesList) => {
+      generateMedicationsPDF(
+        'medications',
+        `VA-medications-list-${
+          userName.first ? `${userName.first}-${userName.last}` : userName.last
+        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        pdfData(rxList, allergiesList),
+      ).then(() => {
+        setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
+      });
+    },
+    [userName, pdfData, setPdfGenerateStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        fullPrescriptionsList?.length &&
+        allergies &&
+        pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress
+      ) {
+        generatePDF(
+          buildPrescriptionsPDFList(fullPrescriptionsList),
+          buildAllergiesPDFList(allergies),
+        );
+      }
+    },
+    [allergies, fullPrescriptionsList, pdfGenerateStatus, generatePDF],
+  );
+
   const handleDownloadPDF = async () => {
-    const response = await getPrescriptionSortedList(
-      rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-    );
-    const listWithoutMetaFields = response.data.map(rx => {
-      return { ...rx.attributes };
-    });
+    setPdfGenerateStatus(PDF_GENERATE_STATUS.InProgress);
+    await Promise.allSettled([
+      getPrescriptionSortedList(
+        rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+      ).then(response =>
+        setFullPrescriptionsList(
+          response.data.map(rx => {
+            return { ...rx.attributes };
+          }),
+        ),
+      ),
+      !allergies && dispatch(getAllergiesList()),
+    ]);
+  };
 
-    const pdfRxList = pdfData(buildPrescriptionsPDFList(listWithoutMetaFields));
+  const handleModalClose = () => {
+    dispatch(clearAllergisError());
+    setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
+  };
 
-    generateMedicationsPDF(
-      'medications',
-      `VA-medications-list-${
-        userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
-      pdfRxList,
-    );
+  const handleModalDownloadButton = () => {
+    generatePDF(buildPrescriptionsPDFList(fullPrescriptionsList));
+    dispatch(clearAllergisError());
   };
 
   const content = () => {
@@ -248,10 +290,20 @@ const Prescriptions = () => {
             </ul>
           </div>
           {topAlert()}
-          {prescriptions?.length ? (
+          <AllergiesErrorModal
+            onCloseButtonClick={handleModalClose}
+            onDownloadButtonClick={handleModalDownloadButton}
+            onCancelButtonClick={handleModalClose}
+            visible={Boolean(fullPrescriptionsList?.length && allergiesError)}
+          />
+          {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">
               <div className="no-print">
-                <PrintDownload download={handleDownloadPDF} list />
+                <PrintDownload
+                  download={handleDownloadPDF}
+                  isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
+                  list
+                />
                 <BeforeYouDownloadDropdown />
                 <MedicationsListSort
                   value={selectedSortOption}
@@ -260,7 +312,7 @@ const Prescriptions = () => {
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               </div>
               <MedicationsList
-                rxList={prescriptions}
+                rxList={paginatedPrescriptionsList}
                 pagination={pagination}
                 setCurrentPage={setCurrentPage}
               />
