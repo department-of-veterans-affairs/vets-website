@@ -7,11 +7,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.survivingDependentPersonalInformationChapter.pages.identificationInformation;
+} = formConfig.chapters.survivingDependentContactInformationChapter.pages.mailingAddress;
 
-const pageTitle = 'Preparer identification information';
+const pageTitle = 'Mailing address';
 
-const expectedNumberOfFields = 2;
+const expectedNumberOfFields = 8;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 4;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

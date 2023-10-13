@@ -8,12 +8,12 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Identification information'),
-    preparerId: ssnOrVaFileNumberUI(),
+    survivingDependentID: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      preparerId: ssnOrVaFileNumberSchema,
+      survivingDependentID: ssnOrVaFileNumberSchema,
     },
   },
 };

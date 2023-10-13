@@ -14,14 +14,17 @@ export default {
     formChapters.benefitSelectionChapter.pages
       .survivingDependantBenefitSelection.path,
   personalInformation:
-    formChapters.personalInformationChapter.pages.personalInformation.path,
+    formChapters.survivingDependentPersonalInformationChapter.pages
+      .personalInformation.path,
   identificationInformation:
-    formChapters.personalInformationChapter.pages.identificationInformation
-      .path,
+    formChapters.survivingDependentPersonalInformationChapter.pages
+      .identificationInformation.path,
   mailingAddress:
-    formChapters.contactInformationChapter.pages.mailingAddress.path,
+    formChapters.survivingDependentContactInformationChapter.pages
+      .mailingAddress.path,
   phoneAndEmailAddress:
-    formChapters.contactInformationChapter.pages.phoneAndEmailAddress.path,
+    formChapters.survivingDependentContactInformationChapter.pages
+      .phoneAndEmailAddress.path,
   veteranPersonalInformation:
     formChapters.veteranPersonalInformationChapter.pages
       .veteranPersonalInformation.path,
@@ -30,5 +33,10 @@ export default {
       .veteranIdentificationInformation.path,
   relationshipToVeteran:
     formChapters.veteranPersonalInformationChapter.pages.relationshipToVeteran
+      .path,
+  veteranMailingAddress:
+    formChapters.veteranContactInformationChapter.pages.mailingAddress.path,
+  veteranPhoneAndEmailAddress:
+    formChapters.veteranContactInformationChapter.pages.phoneAndEmailAddress
       .path,
 };
