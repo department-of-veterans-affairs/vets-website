@@ -11,6 +11,7 @@ import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
+import { selectVaRadio } from '../../../util/testUtils';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -251,10 +252,16 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors to category selection', async () => {
-    setup(initialState, Paths.COMPOSE);
+    const { container } = setup(initialState, Paths.COMPOSE);
     fireEvent.click(
       document.querySelector('va-radio-option[value="EDUCATION"]'),
     );
+    selectVaRadio(container, 'EDUCATION');
+    await waitFor(() => {
+      expect(
+        document.querySelector('va-radio-option[value="EDUCATION"]'),
+      ).to.have.attribute('checked', 'true');
+    });
   });
 
   it.skip('renders without errors to recipient selection', async () => {
