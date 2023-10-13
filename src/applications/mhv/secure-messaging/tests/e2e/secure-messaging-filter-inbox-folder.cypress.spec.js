@@ -11,16 +11,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     landingPage.loadInboxMessages();
     PatientMessagesSentPage.loadMessages();
   });
-  it('Axe Check Draft Folder', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
+
   it('Verify filter works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
@@ -34,6 +25,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     landingPage.filterMessages();
     landingPage.verifyFilterResults('test');
   });
+
   it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {

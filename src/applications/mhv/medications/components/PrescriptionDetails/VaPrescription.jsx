@@ -9,6 +9,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 const VaPrescription = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
   refillHistory.push({
+    prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
     cmopNdcNumber: prescription?.cmopNdcNumber,
     id: prescription?.prescriptionId,

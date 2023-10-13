@@ -26,15 +26,16 @@ const FillRefillButton = rx => {
         {success && (
           <va-alert status="success" setFocus>
             <p className="vads-u-margin-y--0">
-              The fill request has been submitted successfully
+              We got your {dispensedDate ? 'refill' : 'fill'} request.
             </p>
           </va-alert>
         )}
         {error && (
           <>
-            <va-alert status="error" setFocus>
+            <va-alert status="error" setFocus id="fill-error-alert">
               <p className="vads-u-margin-y--0">
-                We didn’t get your [fill/refill] request. Try again.
+                We didn’t get your {dispensedDate ? 'refill' : 'fill'} request.
+                Try again.
               </p>
             </va-alert>
             <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
@@ -45,8 +46,10 @@ const FillRefillButton = rx => {
         )}
         <button
           type="button"
+          id="fill-or-refill-button"
           aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
+          data-testid="refill-request-button"
           hidden={success}
           onClick={() => {
             dispatch(fillPrescription(prescriptionId));

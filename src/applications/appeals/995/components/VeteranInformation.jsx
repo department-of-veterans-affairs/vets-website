@@ -34,33 +34,52 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
         Confirm the personal information we have on file for you.
       </h3>
       <div className="blue-bar-block">
-        <strong className="name dd-privacy-hidden">
+        <strong
+          className="name dd-privacy-hidden"
+          data-dd-action-name="Veteran's name"
+        >
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix ? `, ${suffix}` : null}
         </strong>
         {ssnLastFour ? (
           <p className="ssn">
             Social Security number:{' '}
-            <span className="dd-privacy-mask">{mask(ssnLastFour)}</span>
+            <span
+              className="dd-privacy-mask"
+              data-dd-action-name="Veteran's SSN"
+            >
+              {mask(ssnLastFour)}
+            </span>
           </p>
         ) : null}
         {vaFileLastFour ? (
           <p className="vafn">
             VA file number:{' '}
-            <span className="dd-privacy-mask">{mask(vaFileLastFour)}</span>
+            <span
+              className="dd-privacy-mask"
+              data-dd-action-name="Veteran's VA file number"
+            >
+              {mask(vaFileLastFour)}
+            </span>
           </p>
         ) : null}
         <p>
           Date of birth:{' '}
           {momentDob.isValid() ? (
-            <span className="dob dd-privacy-mask">
+            <span
+              className="dob dd-privacy-mask"
+              data-dd-action-name="Veteran's date of birth"
+            >
               {momentDob.format(FORMAT_READABLE)}
             </span>
           ) : null}
         </p>
         <p>
           Gender:{' '}
-          <span className="gender dd-privacy-hidden">
+          <span
+            className="gender dd-privacy-hidden"
+            data-dd-action-name="Veteran's gender"
+          >
             {genderLabels?.[gender] || ''}
           </span>
         </p>

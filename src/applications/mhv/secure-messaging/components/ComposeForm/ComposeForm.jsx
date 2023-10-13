@@ -60,6 +60,7 @@ const ComposeForm = props => {
   const [saveError, setSaveError] = useState(null);
   const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [modalVisible, updateModalVisible] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -139,10 +140,10 @@ const ComposeForm = props => {
       }
 
       if (!draft) {
-        setSelectedRecipient('');
+        setSelectedRecipient('0');
+        setCategory(null);
         setSubject('');
         setMessageBody('');
-        setCategory('');
       }
     },
     [recipients, draft],
@@ -270,7 +271,6 @@ const ComposeForm = props => {
         !selectedRecipient
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -373,7 +373,8 @@ const ComposeForm = props => {
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
-        debouncedMessageBody
+        debouncedMessageBody &&
+        !modalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -384,6 +385,7 @@ const ComposeForm = props => {
       debouncedSubject,
       debouncedRecipient,
       saveDraftHandler,
+      modalVisible,
     ],
   );
 
@@ -406,6 +408,31 @@ const ComposeForm = props => {
     if (e.target.value) setBodyError('');
     setUnsavedNavigationError();
   };
+
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (
+        selectedRecipient.toString() !==
+          (draft ? draft.recipientId.toString() : '0') ||
+        category !== (draft ? draft.category : null) ||
+        subject !== (draft ? draft.subject : '') ||
+        messageBody !== (draft ? draft.body : '')
+      ) {
+        e.returnValue = '';
+      }
+    },
+    [draft, selectedRecipient, category, subject, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
 
   return (
     <>
@@ -431,6 +458,8 @@ const ComposeForm = props => {
         )}
         <RouteLeavingGuard
           when={!!navigationError}
+          modalVisible={modalVisible}
+          updateModalVisible={updateModalVisible}
           navigate={path => {
             history.push(path);
           }}

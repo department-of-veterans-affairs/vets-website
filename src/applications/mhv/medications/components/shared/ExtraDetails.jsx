@@ -11,9 +11,9 @@ const ExtraDetails = rx => {
     noRefillRemaining = true;
   }
   return (
-    <div className="shipping-info">
+    <div className="shipping-info" id="status-description">
       {dispStatus === dispStatusObj.unknown && (
-        <div className="statusIcon unknownIcon">
+        <div className="statusIcon unknownIcon" data-testid="unknown">
           <div>
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
@@ -31,13 +31,16 @@ const ExtraDetails = rx => {
             {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, or call your VA pharmacy
+            If you need it sooner, call your VA pharmacy
             <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
           </p>
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
-        <p className="statusIcon submittedIcon">
+        <p
+          className="statusIcon submittedIcon"
+          data-testid="submitted-refill-request"
+        >
           We got your request on{' '}
           {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
           updates.
@@ -45,19 +48,20 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.expired && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="expired">
             This prescription is too old to refill. If you need more, request a
             renewal.
           </p>
           <va-link
             href="/my-health/about-medications/accordion-renew-rx"
             text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-precsriptions-link"
           />
         </div>
       )}
       {dispStatus === dispStatusObj.discontinued && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="discontinued">
             You can’t refill this prescription. If you need more, send a message
             to your care team.
           </p>
@@ -66,15 +70,19 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.transferred && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="transferred">
             To manage this prescription, go to our My VA Health portal.
           </p>
-          <va-link href="/" text="Go to your prescription in My VA Health" />
+          <va-link
+            href="/"
+            text="Go to your prescription in My VA Health"
+            data-testid="prescription-VA-health-link"
+          />
         </div>
       )}
       {dispStatus === dispStatusObj.nonVA && (
         <div>
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
             This isn’t a prescription that you filled through a VA pharmacy. You
             can’t manage this medication in this online tool.
           </p>
@@ -82,7 +90,7 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.onHold && (
         <div className="no-print">
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" data-testid="active-onHold">
             We put a hold on this prescription. If you need it now, call your VA
             pharmacy
             <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
@@ -92,12 +100,16 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.active &&
         noRefillRemaining && (
           <div className="no-print">
-            <p className="vads-u-margin-y--0">
+            <p
+              className="vads-u-margin-y--0"
+              data-testid="active-no-refill-left"
+            >
               You have no refills left. If you need more, request a renewal.
             </p>
             <va-link
               href="/my-health/about-medications/accordion-renew-rx"
               text="Learn how to renew prescriptions"
+              data-testid="learn-to-renew-prescriptions-link"
             />
           </div>
         )}

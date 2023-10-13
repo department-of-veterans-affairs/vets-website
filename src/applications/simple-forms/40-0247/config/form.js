@@ -18,6 +18,7 @@ import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
 import addlCertsReqPg from '../pages/additionalCertificatesRequest';
 import transformForSubmit from './submit-transformer';
+import { getInitialData } from '../helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -28,7 +29,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({
       confirmationNumber: '[mock-confirmation-number]',
@@ -76,6 +77,7 @@ const formConfig = {
       enum: [true],
     },
   },
+  useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
       title: 'Veteran’s personal information',
@@ -85,13 +87,13 @@ const formConfig = {
           title: '',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          initialData: getInitialData({ mockData, environment }),
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
           pageClass: 'veteran-personal-information',
+          // for this 1st page, default scroll-n-focus is not working
+          scrollAndFocusTarget:
+            'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
         },
       },
     },

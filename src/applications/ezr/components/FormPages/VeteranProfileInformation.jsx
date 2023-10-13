@@ -5,22 +5,24 @@ import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { normalizeFullName } from '../../utils/helpers/general';
+import { genderLabels } from 'platform/static-data/labels';
+import { maskSSN, normalizeFullName } from '../../utils/helpers/general';
 
-const VeteranProfileInformation = ({ goBack, goForward, profile }) => {
-  const { userFullName, dob } = profile;
-  const veteranDOB = dob && moment(dob).format('MMMM DD, YYYY');
+const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
+  const { userFullName, dob, gender } = profile;
+  const { veteranSocialSecurityNumber } = veteran;
+
   const veteranName = normalizeFullName(userFullName, true);
+  const veteranSSN = maskSSN(veteranSocialSecurityNumber);
+  const veteranDOB = dob && moment(dob).format('MM/DD/YYYY');
+  const veteranGender = gender && genderLabels[gender];
 
   return (
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
-        <p data-testid="ezr-veteran-profile-intro">
-          {veteranDOB
-            ? 'This is the personal information we have on file for you.'
-            : 'Here\u2019s the name we have on file for you.'}
-        </p>
-        <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
+        <p>This is the personal information we have on file for you.</p>
+
+        <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-margin-bottom--3">
           <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
             <div data-testid="ezr-veteran-fullname">
               <dt className="vads-u-visibility--screen-reader">Full name:</dt>
@@ -29,6 +31,15 @@ const VeteranProfileInformation = ({ goBack, goForward, profile }) => {
                 data-dd-action-name="Full name"
               >
                 {veteranName}
+              </dd>
+            </div>
+            <div data-testid="ezr-veteran-ssn">
+              <dt>Social Security number:</dt>
+              <dd
+                className="dd-privacy-mask"
+                data-dd-action-name="Social Security number"
+              >
+                {veteranSSN}
               </dd>
             </div>
             {veteranDOB ? (
@@ -41,6 +52,14 @@ const VeteranProfileInformation = ({ goBack, goForward, profile }) => {
                   data-dd-action-name="Date of birth"
                 >
                   {veteranDOB}
+                </dd>
+              </div>
+            ) : null}
+            {veteranGender ? (
+              <div data-testid="ezr-veteran-gender">
+                <dt>Gender:</dt>
+                <dd className="dd-privacy-mask" data-dd-action-name="Gender">
+                  {veteranGender}
                 </dd>
               </div>
             ) : null}
@@ -58,10 +77,12 @@ const VeteranProfileInformation = ({ goBack, goForward, profile }) => {
           .
         </p>
         <p>
-          You can also call your VA medical center (
-          <va-link href="/find-locations/" text="find a VA location tool" />) to
-          get help changing your name on file with VA. Ask for the eligibility
-          department.
+          You can also call your VA medical center to get help changing your
+          name on file with VA. Ask for the eligibility department.{' '}
+          <va-link
+            href="/find-locations/"
+            text="Find your nearest VA health facility"
+          />
         </p>
       </div>
       <FormNavButtons goBack={goBack} goForward={goForward} />
@@ -73,10 +94,12 @@ VeteranProfileInformation.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   profile: PropTypes.object,
+  veteran: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   profile: state.user.profile,
+  veteran: state.form.data,
 });
 
 export default connect(mapStateToProps)(VeteranProfileInformation);

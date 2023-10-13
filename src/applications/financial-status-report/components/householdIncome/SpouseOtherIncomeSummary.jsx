@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
 
 import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+
+const keyFieldsSpouseOtherIncome = ['amount', 'name'];
 
 const SpouseOtherIncomeSummary = ({
   data,
@@ -55,12 +63,20 @@ const SpouseOtherIncomeSummary = ({
         ...additionalIncome,
         spouse: {
           spAddlIncome: spAddlIncome.filter(
-            (source, index) => index !== deleteIndex,
+            (_, index) => index !== deleteIndex,
           ),
         },
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (spAddlIncome.length === 0) {
@@ -100,8 +116,12 @@ const SpouseOtherIncomeSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(
+                  asset,
+                  keyFieldsSpouseOtherIncome,
+                  index,
+                )}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -120,6 +140,14 @@ const SpouseOtherIncomeSummary = ({
           <FormNavButtons goBack={goBack} goForward={goForward} />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(spAddlIncome[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );

@@ -164,7 +164,7 @@ export default function TermsOfUse() {
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
-              <li>VA: Health and Benefits</li>
+              <li>VA Health and Benefits Mobile App</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA

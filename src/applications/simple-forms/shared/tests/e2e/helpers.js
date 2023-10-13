@@ -1,3 +1,19 @@
+export const getPagePaths = formConfig => {
+  // For testing v3-web-component pages.
+  // Returns an flat object of page-paths, keyed by page-keys in formConfig.
+  const { chapters } = formConfig;
+  const pagePaths = {};
+
+  Object.keys(chapters).forEach(chapter => {
+    const { pages } = chapters[chapter];
+    Object.keys(pages).forEach(page => {
+      pagePaths[page] = pages[page].path;
+    });
+  });
+
+  return pagePaths;
+};
+
 // single fields
 export const fillTextWebComponent = (fieldName, value) => {
   if (typeof value !== 'undefined') {
@@ -62,6 +78,19 @@ export const selectGroupCheckboxWidget = label => {
       .get('#checkbox-element')
       .first()
       .click();
+  }
+};
+
+export const selectCheckboxGroupWebComponent = data => {
+  if (data && typeof data === 'object') {
+    const truthyKeys = Object.keys(data).filter(key => data[key]);
+
+    truthyKeys.forEach(truthyKey => {
+      cy.get(`va-checkbox[data-key="${truthyKey}"]`)
+        .shadow()
+        .find('label')
+        .click();
+    });
   }
 };
 
