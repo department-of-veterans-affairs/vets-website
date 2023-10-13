@@ -14,6 +14,7 @@ import {
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
 } from '../config/helpers';
+import { veteranBenefits } from '../definitions/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -38,6 +39,7 @@ export class ConfirmationPage extends React.Component {
     const alreadySubmittedIntents = {
       compensation: !!submission.response?.compensationIntent?.status,
       pension: !!submission.response?.pensionIntent?.status,
+      survivors: !!submission.response?.survivorsIntent?.status,
     };
     const alreadySubmittedIntentText = getAlreadySubmittedIntentText(
       data,
@@ -46,12 +48,15 @@ export class ConfirmationPage extends React.Component {
     );
     const alreadySubmittedTitle = getAlreadySubmittedTitle(
       data,
-      submission.response,
+      alreadySubmittedIntents,
     );
     const alreadySubmittedText = getAlreadySubmittedText(
       data,
-      submission.response,
+      alreadySubmittedIntents,
       expirationDate,
+    );
+    const benefitSelection = Object.keys(data.benefitSelection).filter(
+      key => data.benefitSelection[key],
     );
 
     return (
@@ -133,7 +138,8 @@ export class ConfirmationPage extends React.Component {
             payments (payments for the time between when you submit your intent
             to file and when we approve your claim).
           </p>
-          {data.benefitSelection === 'Compensation,Pension' ? (
+          {benefitSelection.includes(veteranBenefits.compensation) &&
+          benefitSelection.includes(veteranBenefits.pension) ? (
             <ul style={{ listStyleType: 'none' }}>
               <li>
                 <a

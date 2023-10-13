@@ -21,6 +21,7 @@ import {
   benefitSelectionStepperTitle,
   personalInformationStepperTitle,
   contactInformationStepperTitle,
+  initializeFormDataWithPreparerIdentification,
 } from './helpers';
 import survivingDependantBenefitSelection from '../pages/survivingDependantBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
@@ -114,6 +115,10 @@ const formConfig = {
               : undefined,
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
+          updateFormData: (oldFormData, newFormData) =>
+            initializeFormDataWithPreparerIdentification(
+              newFormData.preparerIdentification,
+            ),
         },
         thirdPartyPreparerFullName: {
           path: 'preparer-name',

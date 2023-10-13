@@ -37,7 +37,9 @@
   },
   "veteranDateOfBirth": "1970-06-21",
   "preparerDateOfBirth": "1980-07-12",
-  "benefitSelection": "Survivors",
+  "benefitSelection": {
+    "SURVIVORS": true
+  },
   "additionalInfo": null,
   "preparerIdentification": "THIRD_PARTY_SURVIVING_DEPENDANT"
 }
