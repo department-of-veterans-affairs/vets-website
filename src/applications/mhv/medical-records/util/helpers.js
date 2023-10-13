@@ -27,21 +27,6 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * @param {String} name
- * @param {Base64String} base64Str
- * @returns {Undefined} downloads the file
- */
-export const downloadFile = (name, base64Str) => {
-  const pdf = `data:application/pdf;base64, ${base64Str}`;
-  const link = document.createElement('a');
-  link.href = pdf;
-  link.setAttribute('download', name);
-  document.body.appendChild(link);
-  link.click();
-  link.parentNode.removeChild(link);
-};
-
-/**
  * @param {Object} record
  * @returns {Array of Strings} array of reactions
  */
@@ -54,15 +39,6 @@ export const getReactions = record => {
     });
   });
   return reactions;
-};
-
-/**
- * @param {Object} record
- * @returns {Array of Strings} array of names, separated by a comma
- */
-export const getNames = record => {
-  if (!record) return '';
-  return record.code.coding.map(code => code.display).join(', ');
 };
 
 /**

@@ -20,16 +20,17 @@ const formConfig = {
   urlPrefix: '/form/',
   submitUrl: '/v0/api',
   trackingPrefix: 'search-representative-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-22',
   getHelp: GetFormHelp,
   saveInProgress: {
     messages: {
-      inProgress: 'Your Form 21-21 or Form 21-22a is in progress.',
+      inProgress: 'Your VA Form 21-21 / VAForm 21-22a is in progress.',
       expired:
-        'Your saved Form 21-21 or Form 21-22a has expired. Please start over to continue.',
-      saved: 'Your Form 21-21 or Form 21-22a has been saved.',
+        'Your saved VA Form 21-21 / VA Form 21-22a has expired. Please start over to continue.',
+      saved: 'Your VA Form 21-21 / VA Form 21-22a has been saved.',
     },
   },
   version: 0,
@@ -37,13 +38,14 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over by searching for a representative.',
     noAuth:
-      'Please sign in again to continue filling out Form 21-21 or Form 21-22a.',
+      'Please sign in again to continue filling out VA Form 21-21 / VA Form 21-22a.',
   },
-  title: 'Find a Local Representative',
+  title: 'Appoint a Representative',
+  subTitle: 'VA Form 21-22 / VA Form 21-22a',
   defaultDefinitions: {},
   chapters: {
     personalInformation: {
-      title: 'Your personal information',
+      title: 'Veteran Personal Information',
       pages: {
         // personalInformationAuth: {
         //   path: 'personal-information-auth',
