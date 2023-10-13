@@ -1,26 +1,38 @@
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import {
-  radioUI,
-  radioSchema,
+  checkboxGroupUI,
+  checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/';
+import { veteranBenefits } from '../definitions/constants';
+
+const labels = {};
+
+labels[veteranBenefits.compensation] = {
+  title: 'Compensation',
+  description:
+    'Select this option if you intend to file for disability compensation (VA Form 21-526EZ).',
+};
+labels[veteranBenefits.pension] = {
+  title: 'Pension',
+  description:
+    'Select this option if you intend to file a pension claim (VA Form 21P-527EZ).',
+};
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    benefitSelection: {
-      ...radioUI({
-        title:
-          'Select the benefits you intend to file a claim for. Select all that apply',
-        labels: ['Compensation', 'Pension'],
-        labelHeaderLevel: '3',
-      }),
-      'ui:errorMessages': {
-        required: 'Please select at least one benefit',
+    benefitSelection: checkboxGroupUI({
+      title:
+        'Select the benefits you intend to file a claim for. Select all that apply',
+      required: true,
+      labelHeaderLevel: '3',
+      tile: true,
+      labels,
+      errorMessages: {
+        required: 'Select at least one benefit',
       },
-    },
-    additionalInfo: {
-      'ui:widget': VaAdditionalInfo,
+    }),
+    'view:additionalInfo': {
       'ui:description': (
         <va-additional-info trigger="What's an intent to file?">
           An intent to file request lets us know that you’re planning to file a
@@ -34,8 +46,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      benefitSelection: radioSchema(['Compensation', 'Pension']),
-      additionalInfo: {
+      benefitSelection: checkboxGroupSchema(Object.values(veteranBenefits)),
+      'view:additionalInfo': {
         type: 'object',
         properties: {},
       },

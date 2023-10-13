@@ -2,7 +2,6 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import React from 'react';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import environment from 'platform/utilities/environment';
 
 import { useSelector } from 'react-redux';
 import {
@@ -10,7 +9,6 @@ import {
   getCemeteries,
   desiredCemeteryNoteDescriptionVeteran,
   desiredCemeteryNoteDescriptionNonVeteran,
-  desiredCemeteryNoteDescriptionProd,
 } from '../../utils/helpers';
 
 const {
@@ -19,9 +17,6 @@ const {
 
 function DesiredCemeteryNoteDescription() {
   const data = useSelector(state => state.form.data || {});
-  if (environment.isProduction()) {
-    return desiredCemeteryNoteDescriptionProd;
-  }
   return isVeteran(data)
     ? desiredCemeteryNoteDescriptionVeteran
     : desiredCemeteryNoteDescriptionNonVeteran;
@@ -29,7 +24,7 @@ function DesiredCemeteryNoteDescription() {
 
 function DesiredCemeteryTitle() {
   const data = useSelector(state => state.form.data || {});
-  return environment.isProduction() || isVeteran(data)
+  return isVeteran(data)
     ? 'Which VA national cemetery would you prefer to be buried in?'
     : 'Which VA national cemetery would the applicant prefer to be buried in?';
 }
@@ -46,9 +41,6 @@ export const desiredCemeteryNoteTitleWrapper = (
 );
 
 function DesiredCemeteryNoteTitle() {
-  if (environment.isProduction()) {
-    return null;
-  }
   return desiredCemeteryNoteTitleWrapper;
 }
 
@@ -81,9 +73,6 @@ export const uiSchema = {
           if (isVeteran(formData)) {
             title =
               'Is there anyone currently buried in a VA national cemetery under your eligibility?';
-          } else if (environment.isProduction()) {
-            title =
-              'Is there anyone currently buried in a VA national cemetery under your sponsor’s eligibility?';
           } else {
             title =
               'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';

@@ -79,7 +79,7 @@ describe('recipients dropdown box', () => {
     });
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
+      .find('select')
       .find('option')
       .its('length')
       .should('equal', 3);
@@ -114,7 +114,7 @@ describe('recipients dropdown box', () => {
     ).as('recipients');
     cy.wait('@recipients').then(() => {
       cy.get('[data-testid="compose-recipient-select"]')
-        .shadow()
+        .find('select')
         .find('option')
         // filtering not required. all elements should be visible due to inheritance from parent element
         // .filter(':visible', { timeout: 5000 })
