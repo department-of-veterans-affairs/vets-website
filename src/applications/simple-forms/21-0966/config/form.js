@@ -14,16 +14,16 @@ import survivingDependentMailingAddress from '../pages/survivingDependentMailing
 import survivingDependentPhoneAndEmailAddress from '../pages/survivingDependentPhoneAndEmailAddress';
 import {
   preparerIsVeteran,
-  preparerIsSurvivingDependant,
+  preparerIsSurvivingDependent,
   preparerIsThirdParty,
   preparerIsThirdPartyToTheVeteran,
-  preparerIsThirdPartyToASurvivingDependant,
+  preparerIsThirdPartyToASurvivingDependent,
   benefitSelectionStepperTitle,
   personalInformationStepperTitle,
   contactInformationStepperTitle,
   initializeFormDataWithPreparerIdentification,
 } from './helpers';
-import survivingDependantBenefitSelection from '../pages/survivingDependantBenefitSelection';
+import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
@@ -143,14 +143,14 @@ const formConfig = {
           uiSchema: veteranBenefitSelection.uiSchema,
           schema: veteranBenefitSelection.schema,
         },
-        survivingDependantBenefitSelection: {
+        survivingDependentBenefitSelection: {
           path: 'surviving-dependent-benefit-selection',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: formData => benefitSelectionStepperTitle({ formData }),
-          uiSchema: survivingDependantBenefitSelection.uiSchema,
-          schema: survivingDependantBenefitSelection.schema,
+          uiSchema: survivingDependentBenefitSelection.uiSchema,
+          schema: survivingDependentBenefitSelection.schema,
         },
       },
     },
@@ -160,8 +160,8 @@ const formConfig = {
         personalInformation: {
           path: 'surviving-dependent-personal-information',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: formData => personalInformationStepperTitle({ formData }),
           uiSchema: survivingDependentPersonalInformation.uiSchema,
           schema: survivingDependentPersonalInformation.schema,
@@ -169,8 +169,8 @@ const formConfig = {
         identificationInformation: {
           path: 'surviving-dependent-identification-information',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Identification information',
           uiSchema: survivingDependentIdentificationInformation.uiSchema,
           schema: survivingDependentIdentificationInformation.schema,
@@ -183,8 +183,8 @@ const formConfig = {
         mailingAddress: {
           path: 'surviving-dependent-mailing-address',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Mailing address',
           uiSchema: survivingDependentMailingAddress.uiSchema,
           schema: survivingDependentMailingAddress.schema,
@@ -192,8 +192,8 @@ const formConfig = {
         phoneAndEmailAddress: {
           path: 'surviving-dependent-phone-and-email-address',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Phone and email address',
           uiSchema: survivingDependentPhoneAndEmailAddress.uiSchema,
           schema: survivingDependentPhoneAndEmailAddress.schema,
@@ -218,8 +218,8 @@ const formConfig = {
         relationshipToVeteran: {
           path: 'relationship-to-veteran',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: '',
           uiSchema: relationshipToVeteran.uiSchema,
           schema: relationshipToVeteran.schema,

@@ -71,7 +71,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.survivingDependantBenefitSelection]: ({ afterHook }) => {
+      [pagePaths.survivingDependentBenefitSelection]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {

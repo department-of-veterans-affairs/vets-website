@@ -10,9 +10,9 @@ export default {
       .path,
   veteranBenefitSelection:
     formChapters.benefitSelectionChapter.pages.veteranBenefitSelection.path,
-  survivingDependantBenefitSelection:
+  survivingDependentBenefitSelection:
     formChapters.benefitSelectionChapter.pages
-      .survivingDependantBenefitSelection.path,
+      .survivingDependentBenefitSelection.path,
   survivingDependentPersonalInformation:
     formChapters.survivingDependentPersonalInformationChapter.pages
       .personalInformation.path,
