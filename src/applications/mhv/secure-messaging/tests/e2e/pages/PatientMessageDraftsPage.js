@@ -161,7 +161,11 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
+    cy.get('[data-testid="delete-draft-button"]').should('be.visible');
+    cy.get('[data-testid="delete-draft-button"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
   };
 
   sendDraftMessage = draftMessage => {
@@ -180,7 +184,7 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
     cy.get('[data-testid="delete-draft-modal"]')
       .shadow()
       .find('[type ="button"]', { force: true })
@@ -220,8 +224,9 @@ class PatientMessageDraftsPage {
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
-    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
+    cy.realPress(['Tab']);
+    cy.realPress(['Enter']);
     cy.wait('@deletedDraftResponse')
       .its('request.url')
       .should('include', `${draftMessage.data.attributes.messageId}`);
