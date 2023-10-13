@@ -125,40 +125,6 @@ class ReviewCollapsibleChapter extends React.Component {
     return pageTitle;
   };
 
-  getPageDetails = page => {
-    const { form } = this.props;
-    const pageState = form.pages[page.pageKey];
-
-    if (page.showPagePerItem) {
-      return {
-        pageSchema:
-          pageState.schema.properties[page.arrayPath].items[page.index],
-        pageUiSchema: pageState.uiSchema[page.arrayPath].items,
-        pageData: get([page.arrayPath, page.index], form.data),
-        arrayFields: [],
-        fullPageKey: `${page.pageKey}${page.index}`,
-      };
-    }
-    // TODO: support array fields inside of an array page?
-    // Our pattern is to separate out array fields (growable tables) from
-    // the normal page and display them separately. The review version of
-    // ObjectField will hide them in the main section.
-
-    // This will be undefined if there are no fields other than an array
-    // in a page, in which case we won’t render the form, just the array
-    const pageSchemaObjects = getNonArraySchema(
-      pageState.schema || {},
-      pageState.uiSchema || {},
-    );
-    return {
-      pageSchema: pageSchemaObjects.schema,
-      pageUiSchema: pageSchemaObjects.uiSchema,
-      pageData: form.data,
-      arrayFields: getArrayFields(pageState),
-      fullPageKey: page.pageKey,
-    };
-  };
-
   getSchemaformPageContent = (page, props, editing) => {
     const {
       chapterFormConfig,
@@ -168,13 +134,37 @@ class ReviewCollapsibleChapter extends React.Component {
       viewedPages,
     } = props;
 
-    const {
-      pageSchema,
-      pageUiSchema,
-      pageData,
-      arrayFields,
-      fullPageKey,
-    } = this.getPageDetails(page);
+    const pageState = form.pages[page.pageKey];
+    let pageSchema;
+    let pageUiSchema;
+    let pageData;
+    let arrayFields;
+    let fullPageKey;
+
+    if (page.showPagePerItem) {
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
+      pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+      pageData = get([page.arrayPath, page.index], form.data);
+      arrayFields = [];
+      fullPageKey = `${page.pageKey}${page.index}`;
+    } else {
+      // TODO: support array fields inside of an array page?
+      // Our pattern is to separate out array fields (growable tables) from
+      // the normal page and display them separately. The review version of
+      // ObjectField will hide them in the main section.
+      arrayFields = getArrayFields(pageState, page);
+      // This will be undefined if there are no fields other than an array
+      // in a page, in which case we won’t render the form, just the array
+      const pageSchemaObjects = getNonArraySchema(
+        pageState.schema,
+        pageState.uiSchema,
+      );
+      pageSchema = pageSchemaObjects.schema;
+      pageUiSchema = pageSchemaObjects.uiSchema;
+      pageData = form.data;
+      fullPageKey = page.pageKey;
+    }
 
     const classes = classNames('form-review-panel-page', {
       'schemaform-review-page-error': !viewedPages.has(fullPageKey),
@@ -296,7 +286,22 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getCustomPageContent = (page, props, editing) => {
-    const { pageSchema, pageUiSchema } = this.getPageDetails(page);
+    const pageState = props.form.pages[page.pageKey];
+    let pageSchema;
+    let pageUiSchema;
+
+    if (page.showPagePerItem) {
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
+      pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+    } else {
+      const pageSchemaObjects = getNonArraySchema(
+        pageState.schema,
+        pageState.uiSchema,
+      );
+      pageSchema = pageSchemaObjects.schema;
+      pageUiSchema = pageSchemaObjects.uiSchema;
+    }
 
     if (editing) {
       // noop defined as a function for unit tests
