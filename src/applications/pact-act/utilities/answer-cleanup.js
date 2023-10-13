@@ -4,7 +4,7 @@
 
 import { DISPLAY_CONDITIONS } from './display-conditions';
 import { displayConditionsMet, ROADMAP, ROADMAP_INDEX } from './display-logic';
-import { SHORT_NAME_MAP } from './question-data-map';
+import { SHORT_NAME_MAP } from '../constants/question-data-map';
 
 /**
  * Use ROADMAP to determine if a question SHORT_NAME comes after the current question
@@ -26,7 +26,7 @@ export const gatherFlowSpecificQuestions = servicePeriodResponse => {
   const flowSpecificQuestions = [];
 
   for (const questionName of ROADMAP) {
-    const paths = DISPLAY_CONDITIONS?.[questionName]?.PATHS;
+    const paths = DISPLAY_CONDITIONS?.[questionName]?.SERVICE_PERIOD_SELECTION;
     const mayShowInCurrentFlow = paths?.[servicePeriodResponse];
 
     if (mayShowInCurrentFlow) {

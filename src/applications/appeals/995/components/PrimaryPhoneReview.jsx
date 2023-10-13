@@ -39,7 +39,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
       <dl className="review">
         <div className="review-row">
           <dt className={labelWrapClasses}>{error || label}</dt>
-          <dd>
+          <dd className="dd-privacy-hidden" data-dd-action-name="primary phone">
             <strong>{error ? '' : getFormattedPhone(phone)}</strong>
           </dd>
         </div>

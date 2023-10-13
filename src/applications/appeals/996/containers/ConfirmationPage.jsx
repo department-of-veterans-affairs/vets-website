@@ -9,10 +9,9 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
-import { getIssueName } from '../utils/helpers';
 
 import { FORMAT_READABLE } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import { getIssueName, getSelected } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -30,7 +29,9 @@ export class ConfirmationPage extends React.Component {
     const { response } = submission;
     const issues = getSelected(data || []).map((issue, index) => (
       <li key={index} className="vads-u-margin-bottom--0">
-        <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
+        <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+          {getIssueName(issue)}
+        </span>
       </li>
     ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
@@ -59,9 +60,14 @@ export class ConfirmationPage extends React.Component {
             Higher-Level Review{' '}
             <span className="additional">(Form {formId})</span>
           </h3>
-          for <span className="dd-privacy-hidden">{fullName}</span>
+          for{' '}
+          <span className="dd-privacy-hidden" data-dd-action-name="full name">
+            {fullName}
+          </span>
           {name.suffix && (
-            <span className="dd-privacy-hidden">{`, ${name.suffix}`}</span>
+            <span className="dd-privacy-hidden" data-dd-action-name="suffix">
+              {`, ${name.suffix}`}
+            </span>
           )}
           {response && (
             <>

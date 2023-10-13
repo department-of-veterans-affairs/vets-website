@@ -7,10 +7,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import textInput from '../pages/mockTextInput';
 import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import numberInput from '../pages/mockNumberInput';
 import textInputFullName from '../pages/mockTextInputFullName';
 import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
+import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
@@ -22,6 +24,7 @@ import arrayMultiplePageItem from '../pages/mockArrayMultiplePageItem';
 // helps for dev testing and e2e
 const INCLUDE_PAGE = {
   text: true,
+  number: true,
   radio: true,
   checkbox: true,
   select: true,
@@ -102,6 +105,18 @@ const formConfig = {
       },
       depends: () => false,
     },
+    numberInput: {
+      title: 'Number Input',
+      pages: {
+        numberInput: {
+          path: 'number-input',
+          title: 'Number Input', // for review page (has to be more than one word)
+          uiSchema: numberInput.uiSchema,
+          schema: numberInput.schema,
+          depends: includePage('number'),
+        },
+      },
+    },
     checkbox: {
       title: 'Checkbox',
       pages: {
@@ -110,6 +125,13 @@ const formConfig = {
           path: 'checkbox-and-text-input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
+          depends: includePage('checkbox'),
+        },
+        checkboxGroup: {
+          title: 'Checkbox group',
+          path: 'checkbox-group',
+          uiSchema: checkboxGroup.uiSchema,
+          schema: checkboxGroup.schema,
           depends: includePage('checkbox'),
         },
       },

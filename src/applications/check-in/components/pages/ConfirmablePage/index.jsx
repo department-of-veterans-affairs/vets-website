@@ -20,11 +20,12 @@ const ConfirmablePage = ({
   header,
   eyebrow = '',
   subtitle,
+  helpText,
   additionalInfo,
   dataFields = [],
   data = {},
-  yesAction = () => {},
-  noAction = () => {},
+  yesAction,
+  noAction,
   withBackButton = false,
   pageType,
   router,
@@ -66,6 +67,7 @@ const ConfirmablePage = ({
           {subtitle}
         </p>
       )}
+      {helpText}
       <div className="vads-u-margin-top--3">
         <ul
           data-testid="demographics-fields"
@@ -132,6 +134,7 @@ ConfirmablePage.propTypes = {
   yesAction: PropTypes.func.isRequired,
   additionalInfo: PropTypes.object,
   eyebrow: PropTypes.string,
+  helpText: PropTypes.object,
   pageType: PropTypes.string,
   router: PropTypes.object,
   subtitle: PropTypes.string,

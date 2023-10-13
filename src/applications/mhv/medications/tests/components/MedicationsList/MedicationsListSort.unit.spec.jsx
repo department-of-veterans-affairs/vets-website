@@ -5,16 +5,11 @@ import MedicationsListSort from '../../../components/MedicationsList/Medications
 import { rxListSortingOptions } from '../../../util/constants';
 
 describe('Medicaitons List Sort component', () => {
-  const defaultSortOption = rxListSortingOptions[0].ACTIVE.value;
-  const setSortOption = value => {
-    return value;
-  };
   const sortRxList = () => {};
   const setup = () => {
     return renderWithStoreAndRouter(
       <MedicationsListSort
-        setSortOption={setSortOption}
-        defaultSortOption={defaultSortOption}
+        value={Object.keys(rxListSortingOptions)[0]}
         sortRxList={sortRxList}
       />,
       {
@@ -26,5 +21,14 @@ describe('Medicaitons List Sort component', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('has the same number of list options as preset constant rxSortingListOptions', () => {
+    const screen = setup();
+
+    const sortOptions = screen.getAllByTestId('sort-option');
+    expect(sortOptions.length).to.equal(
+      Object.keys(rxListSortingOptions).length,
+    );
   });
 });
