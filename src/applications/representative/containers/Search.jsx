@@ -20,7 +20,7 @@ const Search = ({ router }) => {
 
   return (
     <>
-      <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
+      <div className="columns search-page-container">
         <div className="title-section">
           <h1>Find an Accredited Representative</h1>
         </div>

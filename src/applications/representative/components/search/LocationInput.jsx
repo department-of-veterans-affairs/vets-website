@@ -52,11 +52,7 @@ const LocationInput = () => {
   //     !geolocationInProgress &&
   //     (!searchString || searchString.length === 0);
   return (
-    <div
-    //   className={classNames('vads-u-margin--0', {
-    //     'usa-input-error': showError,
-    //   })}
-    >
+    <div className="vads-u-margin--0">
       <h3>Search for your representative:</h3>
       <div id="location-input-field">
         <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">

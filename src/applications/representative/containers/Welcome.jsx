@@ -11,7 +11,7 @@ export default function Welcome() {
   // };
   return (
     <>
-      <div className="welcome-container">
+      <div className="welcome-page-container">
         <FormTitle title="Find an accredited representative" />
         <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
           An accredited attorney, claims agent, or Veterans Service Officer
