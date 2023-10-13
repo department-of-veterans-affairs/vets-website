@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import '@department-of-veterans-affairs/component-library/i18n-setup';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useStorage } from '../../../hooks/useStorage';
