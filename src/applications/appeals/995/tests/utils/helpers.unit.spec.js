@@ -5,14 +5,13 @@ import { getDate } from '../../utils/dates';
 import {
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
-  getSelectedCount,
-  calculateIndexOffset,
 } from '../../utils/helpers';
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
 import { getItemSchema, isEmptyObject } from '../../../shared/utils/helpers';
 import {
   appStateSelector,
+  calculateIndexOffset,
   hasDuplicates,
   hasSomeSelected,
   getIssueDate,
@@ -20,6 +19,7 @@ import {
   getIssueNameAndDate,
   getLegacyAppealsLength,
   getSelected,
+  getSelectedCount,
   someSelected,
 } from '../../../shared/utils/issues';
 

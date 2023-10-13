@@ -1,40 +1,29 @@
-import React from 'react';
+import {
+  titleUI,
+  numberUI,
+  numberSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
-import { CERTIFICATES_LABEL } from '../config/constants';
-import { certificatesReviewField } from '../reviewFields';
-
+/** @type {PageSchema} */
 export default {
   uiSchema: {
-    certificates: {
-      // a11y: labels should not have <h?> elements
-      // use custom-styling instead
-      'ui:title': (
-        <>
-          <span className="custom-label">{CERTIFICATES_LABEL}</span>{' '}
-          <span className="custom-required">(*Required)</span>
-          <p className="custom-hint hide-following-required-span vads-u-margin-top--4 vads-u-margin-bottom--0">
-            You may request up to 99 certificates
-          </p>
-        </>
-      ),
-      'ui:errorMessages': {
-        required: 'Please provide the number of certificates you would like',
-        minimum:
-          'Please raise the number of certificates to at least 1, you can request up to 99',
-        maximum:
-          'Please lower the number of certificates, you can only request up to 99',
+    ...titleUI('Number of certificates'),
+    certificates: numberUI({
+      title: 'How many certificates should we send to your address?',
+      hint: 'You may request up to 99 certificates',
+      errorMessages: {
+        required:
+          'Please provide the number of certificates you’d like to request',
+        pattern: 'Please enter a valid number between 1 and 99',
       },
-      'ui:reviewField': certificatesReviewField,
-    },
+      min: 1,
+      max: 99,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      certificates: {
-        type: 'number',
-        minimum: 1,
-        maximum: 99,
-      },
+      certificates: numberSchema,
     },
     required: ['certificates'],
   },
