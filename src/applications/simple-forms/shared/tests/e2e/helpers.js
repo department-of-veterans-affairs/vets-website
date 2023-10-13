@@ -81,6 +81,19 @@ export const selectGroupCheckboxWidget = label => {
   }
 };
 
+export const selectCheckboxGroupWebComponent = data => {
+  if (data && typeof data === 'object') {
+    const truthyKeys = Object.keys(data).filter(key => data[key]);
+
+    truthyKeys.forEach(truthyKey => {
+      cy.get(`va-checkbox[data-key="${truthyKey}"]`)
+        .shadow()
+        .find('label')
+        .click();
+    });
+  }
+};
+
 // patterns
 
 export const fillFullNameWebComponentPattern = (fieldName, fullName) => {

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import appendQuery from 'append-query';
 // eslint-disable-next-line import/no-unresolved
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
