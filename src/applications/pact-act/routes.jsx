@@ -15,6 +15,10 @@ import CampLejeune24 from './containers/questions/camp-lejeune/Lejeune-2-4';
 import PACTActApp from './components/PACTActApp';
 import Results1Page1 from './containers/results/1/Page1';
 import Results1Page2 from './containers/results/1/Page2';
+import Results1Page1Temp from './containers/results/TempResults1Page1';
+import Results1Page2Temp from './containers/results/TempResults1Page2';
+import Results2 from './containers/results/Results2';
+import Results3 from './containers/results/Results3';
 import { ROUTES } from './constants';
 
 const routes = {
@@ -41,6 +45,10 @@ const routes = {
     { path: ROUTES.LEJEUNE_2_4, component: CampLejeune24 },
     { path: ROUTES.RESULTS_SET_1_PAGE_1, component: Results1Page1 },
     { path: ROUTES.RESULTS_SET_1_PAGE_2, component: Results1Page2 },
+    { path: ROUTES.RESULTS_1_P1, component: Results1Page1Temp },
+    { path: ROUTES.RESULTS_1_P2, component: Results1Page2Temp },
+    { path: ROUTES.RESULTS_2, component: Results2 },
+    { path: ROUTES.RESULTS_3, component: Results3 },
   ],
 };
 
