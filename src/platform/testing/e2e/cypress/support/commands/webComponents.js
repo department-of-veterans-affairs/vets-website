@@ -106,27 +106,25 @@ Cypress.Commands.add('fillVaDate', (field, dateString, monthYearOnly) => {
           : dateComponent,
     );
 
-    cy.wrap(element)
-      .shadow()
-      .then(el => {
+    element.shadow().then(el => {
+      cy.wrap(el)
+        .find('va-select.select-month')
+        .shadow()
+        .find('select')
+        .select(month);
+      if (!monthYearOnly) {
         cy.wrap(el)
-          .find('va-select.select-month')
+          .find('va-select.select-day')
           .shadow()
           .find('select')
-          .select(month);
-        if (!monthYearOnly) {
-          cy.wrap(el)
-            .find('va-select.select-day')
-            .shadow()
-            .find('select')
-            .select(day);
-        }
-        cy.wrap(el)
-          .find('va-text-input.input-year')
-          .shadow()
-          .find('input')
-          .type(year);
-      });
+          .select(day);
+      }
+      cy.wrap(el)
+        .find('va-text-input.input-year')
+        .shadow()
+        .find('input')
+        .type(year);
+    });
   }
 });
 
