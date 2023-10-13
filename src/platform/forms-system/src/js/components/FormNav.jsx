@@ -117,13 +117,17 @@ export default function FormNav(props) {
         // before the review & submit page may cause the customScrollAndFocus
         // function to be called inadvertently
         if (
-          formConfig.useCustomScrollAndFocus &&
           !(
             page.chapterKey === 'review' ||
             window.location.pathname.endsWith('review-and-submit')
           )
         ) {
-          customScrollAndFocus(page.scrollAndFocusTarget, index);
+          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
+            customScrollAndFocus(page.scrollAndFocusTarget, index);
+          } else {
+            // h2 fallback for confirmation page
+            focusByOrder([defaultFocusSelector, 'h2']);
+          }
         } else {
           // h2 fallback for confirmation page
           focusByOrder([defaultFocusSelector, 'h2']);

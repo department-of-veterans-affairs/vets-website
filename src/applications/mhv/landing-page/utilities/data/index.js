@@ -8,7 +8,7 @@ const hasOwn = (object, prop) =>
   Object.prototype.hasOwnProperty.call(object, prop);
 
 const resolveToggleLink = (link, featureToggles) => {
-  const { text, oldHref, href: newHref, toggle } = link;
+  const { text, oldHref, href: newHref, toggle, ariaLabel } = link;
   let href = newHref || oldHref;
   // If the link's toggle matches a feature toggle
   // check if the toggle is on. If so, show new href. Otherwise show old href
@@ -16,7 +16,7 @@ const resolveToggleLink = (link, featureToggles) => {
     const showNewHref = featureToggles[toggle] === true;
     href = showNewHref ? newHref : oldHref;
   }
-  return { href, text, key: toggle };
+  return { href, text, key: toggle, ariaLabel };
 };
 
 const countUnreadMessages = folders => {
@@ -68,15 +68,12 @@ const resolveLandingPageLinks = (
           <span>
             Inbox
             {unreadMessageCount > 0 && (
-              <span
-                className="indicator"
-                role="status"
-                aria-label="You have unread messages. Go to your inbox."
-              />
+              <span className="indicator" role="status" />
             )}
           </span>
         ),
         toggle: null,
+        ariaLabel: 'You have unread messages. Go to your inbox.',
       },
       {
         href: null,

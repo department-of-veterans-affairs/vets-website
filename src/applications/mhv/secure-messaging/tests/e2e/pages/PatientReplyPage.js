@@ -109,7 +109,7 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+    cy.get('va-alert').should(
       'have.text',
       'Secure message was successfully sent.',
     );
