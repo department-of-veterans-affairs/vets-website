@@ -1,7 +1,7 @@
 {
   "data": {
     "attributes": {
-      "guid": "123fake-submission-id"
+      "confirmation_code": "123fake-submission-id"
     },
     "id": "11",
     "type": "files_attachment"

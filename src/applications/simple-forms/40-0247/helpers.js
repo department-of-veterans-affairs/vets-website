@@ -62,7 +62,7 @@ export function parseResponse({ data }, { name }) {
 
   return {
     name,
-    confirmationCode: data.attributes.guid,
+    confirmationCode: data.attributes.confirmation_code,
   };
 }
 
