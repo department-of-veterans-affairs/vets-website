@@ -57,6 +57,12 @@ article#pre-need[data-location="applicant-demographics"] {
   }
 }
 
+article#pre-need[data-location="review-and-submit"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+}
+
 dl.review + dl.review .review-row {
   border-top: none;
   padding-top: 0px;
