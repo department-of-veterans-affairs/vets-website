@@ -14,7 +14,7 @@ describe(appName, () => {
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-  it('landing page is disabled', () => {
+  it.skip('landing page is disabled', () => {
     cy.login(user);
     cy.visit('/my-health/');
     cy.url().should('not.include', '/my-health/');

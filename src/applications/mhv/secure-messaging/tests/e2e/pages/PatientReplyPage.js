@@ -39,7 +39,9 @@ class PatientReplyPage {
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.get('[data-testid="Save-Draft-Button"]').click({
+      waitForAnimations: true,
+    });
     cy.wait('@replyDraftMessage').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -54,7 +56,7 @@ class PatientReplyPage {
         );
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
-        expect(message.body).to.contain(`\n\n\nName\nTitle`);
+        expect(message.body).to.contain(replyMessageBody);
         // data-testid="Save-Draft-Button"
         // Your message was saved on February 17, 2023 at 12:21 p.m. CST.
       });
@@ -106,8 +108,8 @@ class PatientReplyPage {
       .find('[name="reply-message-body"]');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+  verifySendMessageConfirmationMessageText = () => {
+    cy.get('va-alert').should(
       'have.text',
       'Secure message was successfully sent.',
     );
