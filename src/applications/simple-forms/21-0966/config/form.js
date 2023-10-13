@@ -203,13 +203,13 @@ const formConfig = {
     veteranPersonalInformationChapter: {
       title: 'Veteran’s personal information',
       pages: {
-        veteranPersonalInformation: {
+        personalInformation: {
           path: 'veteran-personal-information',
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
         },
-        veteranIdentificationInformation: {
+        identificationInformation: {
           path: 'veteran-identification-information',
           title: 'Identification information',
           uiSchema: veteranIdentificationInformation.uiSchema,

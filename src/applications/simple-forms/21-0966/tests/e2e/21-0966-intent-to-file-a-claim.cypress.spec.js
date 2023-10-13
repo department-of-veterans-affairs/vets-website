@@ -82,7 +82,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.personalInformation]: ({ afterHook }) => {
+      [pagePaths.survivingDependentPersonalInformation]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -100,7 +100,9 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.identificationInformation]: ({ afterHook }) => {
+      [pagePaths.survivingDependentIdentificationInformation]: ({
+        afterHook,
+      }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -118,7 +120,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.mailingAddress]: ({ afterHook }) => {
+      [pagePaths.survivingDependentMailingAddress]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -132,7 +134,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.phoneAndEmailAddress]: ({ afterHook }) => {
+      [pagePaths.survivingDepedentPhoneAndEmailAddress]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {

@@ -13,24 +13,24 @@ export default {
   survivingDependantBenefitSelection:
     formChapters.benefitSelectionChapter.pages
       .survivingDependantBenefitSelection.path,
-  personalInformation:
+  survivingDependentPersonalInformation:
     formChapters.survivingDependentPersonalInformationChapter.pages
       .personalInformation.path,
-  identificationInformation:
+  survivingDependentIdentificationInformation:
     formChapters.survivingDependentPersonalInformationChapter.pages
       .identificationInformation.path,
-  mailingAddress:
+  survivingDependentMailingAddress:
     formChapters.survivingDependentContactInformationChapter.pages
       .mailingAddress.path,
-  phoneAndEmailAddress:
+  survivingDepedentPhoneAndEmailAddress:
     formChapters.survivingDependentContactInformationChapter.pages
       .phoneAndEmailAddress.path,
   veteranPersonalInformation:
-    formChapters.veteranPersonalInformationChapter.pages
-      .veteranPersonalInformation.path,
+    formChapters.veteranPersonalInformationChapter.pages.personalInformation
+      .path,
   veteranIdentificationInformation:
     formChapters.veteranPersonalInformationChapter.pages
-      .veteranIdentificationInformation.path,
+      .identificationInformation.path,
   relationshipToVeteran:
     formChapters.veteranPersonalInformationChapter.pages.relationshipToVeteran
       .path,
