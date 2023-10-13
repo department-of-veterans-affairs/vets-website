@@ -99,7 +99,7 @@ const AllergyDetails = () => {
           inline: true,
         },
         {
-          title: 'Reaction',
+          title: 'Signs and symptoms',
           value: processList(allergy.reaction),
           inline: true,
         },
@@ -111,11 +111,6 @@ const AllergyDetails = () => {
         {
           title: 'Location',
           value: allergy.location || EMPTY_FIELD,
-          inline: true,
-        },
-        {
-          title: 'Signs and symptoms',
-          value: allergy.observedOrReported,
           inline: true,
         },
         {
