@@ -41,7 +41,7 @@ describe('Allergy details container', () => {
   });
 
   it('displays the allergy label and name', () => {
-    const allergyLabel = screen.getByText('Allergy:', {
+    const allergyLabel = screen.getByText('Allergies and reactions:', {
       exact: false,
       selector: 'h1',
     });
