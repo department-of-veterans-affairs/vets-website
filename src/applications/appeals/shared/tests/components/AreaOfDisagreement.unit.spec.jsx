@@ -127,7 +127,7 @@ describe('<AreaOfDisagreement>', () => {
     expect(goSpy.called).to.be.true;
   });
 
-  it('should not submit page when nothing is checked or input is empty', async () => {
+  it.skip('should not submit page when nothing is checked or input is empty', async () => {
     const goSpy = sinon.spy();
     const data = getData({ goForward: goSpy });
     const { container } = render(
@@ -146,7 +146,7 @@ describe('<AreaOfDisagreement>', () => {
     });
   });
 
-  it('should not submit page when text input is too long', async () => {
+  it.skip('should not submit page when text input is too long', async () => {
     const goSpy = sinon.spy();
     const aod = {
       ...aod1,

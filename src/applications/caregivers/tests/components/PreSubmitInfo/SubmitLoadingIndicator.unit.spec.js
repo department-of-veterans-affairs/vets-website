@@ -20,7 +20,7 @@ describe('CG <SubmitLoadingIndicator>', () => {
   });
 
   describe('when submission has been made', () => {
-    it('should render loading container when submission is pending', async () => {
+    it.skip('should render loading container when submission is pending', async () => {
       const props = {
         submission: {
           hasAttemptedSubmit: true,

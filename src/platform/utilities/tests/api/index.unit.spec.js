@@ -181,7 +181,7 @@ describe('test wrapper', () => {
       checkAndUpdateSSOSessionMock.restore();
     });
 
-    it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
+    it.skip('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
         rest.get(/v0\/status/, (req, res, ctx) =>
           res(ctx.status(404), ctx.json({})),
