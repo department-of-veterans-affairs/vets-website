@@ -42,7 +42,7 @@ const LandingPage = () => {
             Allergies and reactions
           </h2>
           <p className="vads-u-margin-bottom--2">
-            Get a list of all allergies, reactions, and side effects on your VA
+            Get a list of all allergies, reactions, and side effects in your VA
             medical records. This includes medication side effects (also called
             adverse drug reactions).
           </p>
