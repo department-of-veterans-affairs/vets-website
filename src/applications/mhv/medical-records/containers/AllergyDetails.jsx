@@ -13,14 +13,15 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { processList, sendErrorToSentry } from '../util/helpers';
-import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
+import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
 
-const AllergyDetails = () => {
+const AllergyDetails = props => {
+  const { runningUnitTest } = props;
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
@@ -95,7 +96,7 @@ const AllergyDetails = () => {
       items: [
         {
           title: 'Date entered',
-          value: allergy.date || EMPTY_FIELD,
+          value: allergy.date,
           inline: true,
         },
         {
@@ -105,12 +106,12 @@ const AllergyDetails = () => {
         },
         {
           title: 'Type of allergy',
-          value: allergy.type || EMPTY_FIELD,
+          value: allergy.type,
           inline: true,
         },
         {
           title: 'Location',
-          value: allergy.location || EMPTY_FIELD,
+          value: allergy.location,
           inline: true,
         },
         {
@@ -122,15 +123,17 @@ const AllergyDetails = () => {
     };
 
     try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Allergies-details-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        scaffold,
-      );
+      if (!runningUnitTest) {
+        await generatePdf(
+          'medicalRecords',
+          `VA-Allergies-details-${user.userFullName.first}-${
+            user.userFullName.last
+          }-${moment()
+            .format('M-D-YYYY_hhmmssa')
+            .replace(/\./g, '')}`,
+          scaffold,
+        );
+      }
     } catch (error) {
       sendErrorToSentry(error, 'Allergy details');
     }
@@ -165,6 +168,7 @@ const AllergyDetails = () => {
                 <span
                   className="vads-u-font-weight--normal"
                   data-dd-privacy="mask"
+                  data-testid="header-time"
                 >
                   {allergy.date}
                 </span>
@@ -184,11 +188,11 @@ const AllergyDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
+            <p data-dd-privacy="mask">{allergy.type}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
+            <p data-dd-privacy="mask">{allergy.location}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or reported
             </h2>
@@ -220,4 +224,5 @@ export default AllergyDetails;
 
 AllergyDetails.propTypes = {
   print: PropTypes.func,
+  runningUnitTest: PropTypes.bool,
 };

@@ -4,14 +4,10 @@ import moment from 'moment';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import PropTypes from 'prop-types';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import {
-  recordType,
-  EMPTY_FIELD,
-  ALERT_TYPE_ERROR,
-  pageTitles,
-} from '../util/constants';
+import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -25,7 +21,8 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-const Allergies = () => {
+const Allergies = props => {
+  const { runningUnitTest } = props;
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const allowTxtDownloads = useSelector(
@@ -92,7 +89,7 @@ const Allergies = () => {
         items: [
           {
             title: 'Date entered',
-            value: item.date || EMPTY_FIELD,
+            value: item.date,
             inline: true,
           },
           {
@@ -102,12 +99,12 @@ const Allergies = () => {
           },
           {
             title: 'Type of allergy',
-            value: item.type || EMPTY_FIELD,
+            value: item.type,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || EMPTY_FIELD,
+            value: item.location,
             inline: true,
           },
           {
@@ -120,15 +117,17 @@ const Allergies = () => {
     });
 
     try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Allergies-list-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        pdfData,
-      );
+      if (!runningUnitTest) {
+        await generatePdf(
+          'medicalRecords',
+          `VA-Allergies-list-${user.userFullName.first}-${
+            user.userFullName.last
+          }-${moment()
+            .format('M-D-YYYY_hhmmssa')
+            .replace(/\./g, '')}`,
+          pdfData,
+        );
+      }
     } catch (error) {
       sendErrorToSentry(error, 'Allergies');
     }
@@ -192,3 +191,7 @@ const Allergies = () => {
 };
 
 export default Allergies;
+
+Allergies.propTypes = {
+  runningUnitTest: PropTypes.bool,
+};

@@ -77,6 +77,7 @@ const formConfig = {
       enum: [true],
     },
   },
+  useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
       title: 'Veteran’s personal information',
@@ -90,6 +91,9 @@ const formConfig = {
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
           pageClass: 'veteran-personal-information',
+          // for this 1st page, default scroll-n-focus is not working
+          scrollAndFocusTarget:
+            'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
         },
       },
     },
