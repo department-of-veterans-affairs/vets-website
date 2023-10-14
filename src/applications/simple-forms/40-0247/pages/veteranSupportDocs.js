@@ -57,6 +57,7 @@ export default {
           size: fileInfo.data.attributes.size,
           confirmationCode: fileInfo.data.attributes.confirmationCode,
         }),
+        keepInPageOnReview: true,
         classNames: 'schemaform-file-upload',
       },
     },

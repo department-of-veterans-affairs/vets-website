@@ -117,6 +117,7 @@ const formConfig = {
           title: '',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
+          editModeOnReviewPage: false,
           pageClass: 'veteran-supporting-documentation',
         },
       },
