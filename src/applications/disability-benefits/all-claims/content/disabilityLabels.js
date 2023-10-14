@@ -1,5 +1,4 @@
 import disabilityLabelsReduced from './disabilityLabelsReduced';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 const disabilityLabelsFull = {
   10: 'abnormal heart',
@@ -837,9 +836,7 @@ const disabilityLabelsFull = {
   249482: 'Musculoskeletal - Bones',
 };
 
-export const getDisabilityLabels = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isReducedContentionList = useToggleValue(TOGGLE_NAMES.disability526ReducedContentionList);
+export const getDisabilityLabels = isReducedContentionList => {
   if (isReducedContentionList) return disabilityLabelsReduced;
   return disabilityLabelsFull;
 };

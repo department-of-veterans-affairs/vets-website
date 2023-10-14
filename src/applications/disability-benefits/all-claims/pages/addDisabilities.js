@@ -2,7 +2,6 @@ import * as autosuggest from 'platform/forms-system/src/js/definitions/autosugge
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
-import { getDisabilityLabels } from '../content/disabilityLabels';
 import {
   autoSuggestTitle,
   newOnlyAlert,
@@ -29,8 +28,8 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
-export const uiSchema = {
-  newDisabilities: {
+export const getUiSchema = disabilityLabels => {
+  const newDisabilities = {
     'ui:title': 'Please tell us the new conditions you want to claim.',
     'ui:field': ArrayField,
     'ui:options': {
@@ -49,7 +48,7 @@ export const uiSchema = {
         autoSuggestTitle,
         () =>
           Promise.resolve(
-            Object.entries(getDisabilityLabels()).map(([key, value]) => ({
+            Object.entries(disabilityLabels).map(([key, value]) => ({
               id: key,
               label: value,
             })),
@@ -91,9 +90,9 @@ export const uiSchema = {
         itemName: 'New condition',
       },
     },
-  },
+  };
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
-  'view:newDisabilityErrors': {
+  const viewNewDisabilityErrors = {
     'view:newOnlyAlert': {
       'ui:description': newOnlyAlert,
       'ui:options': {
@@ -110,7 +109,11 @@ export const uiSchema = {
           !(newAndIncrease(formData) && !hasClaimedConditions(formData)),
       },
     },
-  },
+  };
+  return {
+    newDisabilities,
+    'view:newDisabilityErrors': viewNewDisabilityErrors,
+  };
 };
 
 export const schema = {

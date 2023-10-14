@@ -128,8 +128,10 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
+import { get } from 'lodash';
 
-const formConfig = {
+// base config to be used w/ parameterized getFormConfig()
+const formConfigBase = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -322,21 +324,7 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        addDisabilities: {
-          title: 'Add a new disability',
-          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
-          uiSchema: addDisabilities.uiSchema,
-          schema: addDisabilities.schema,
-          updateFormData: addDisabilities.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
-        },
+        addDisabilities: null, // this part of form requires feature flag, see getAddDisabilitiesConfig()
         followUpDesc: {
           title: 'Follow-up questions',
           depends: formData => claimingNew(formData) && !isBDD(formData),
@@ -740,4 +728,31 @@ const formConfig = {
   },
 };
 
-export default formConfig;
+const getAddDisabilitiesConfig = disabilityLabels => {
+  return {
+    title: 'Add a new disability',
+    path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+    depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+    uiSchema: addDisabilities.getUiSchema(disabilityLabels),
+    schema: addDisabilities.schema,
+    updateFormData: addDisabilities.updateFormData,
+    appStateSelector: state => ({
+      // needed for validateDisabilityName to work properly on the review
+      // & submit page. Validation functions are provided the pageData and
+      // not the formData on the review & submit page. For more details
+      // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+      newDisabilities: state.form?.data?.newDisabilities || [],
+    }),
+  };
+};
+
+const getFormConfig = disabilityLabels => {
+  const formConfig = formConfigBase;
+  formConfig.chapters.disabilities.pages.addDisabilities = getAddDisabilitiesConfig(
+    disabilityLabels,
+  );
+
+  return formConfig;
+};
+
+export default getFormConfig;

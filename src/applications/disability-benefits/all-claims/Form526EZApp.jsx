@@ -15,7 +15,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import formConfig from './config/form';
+import getFormConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
 import {
@@ -45,6 +45,7 @@ import {
   fetchBranches,
   getBranches,
 } from './utils/serviceBranches';
+import { getDisabilityLabels } from './content/disabilityLabels';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -88,9 +89,17 @@ export const Form526Entry = ({
   const showToxicExposurePages = useToggleValue(
     TOGGLE_NAMES.disability526ToxicExposure,
   );
+
+  const isReducedContentionList = useToggleValue(
+    TOGGLE_NAMES.disability526ReducedContentionList,
+  );
+
+  const disabilityLabels = getDisabilityLabels(isReducedContentionList);
+
   const hasSavedForm = savedForms.some(
     form =>
-      form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
+      form.form === getFormConfig(disabilityLabels).formId &&
+      !isExpired(form.metaData?.expiresAt),
   );
 
   const title = `${getPageTitle(isBDDForm)}${
@@ -185,7 +194,10 @@ export const Form526Entry = ({
 
   // wraps the app and redirects user if they are not enrolled
   const content = (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <RoutedSavableApp
+      formConfig={getFormConfig(disabilityLabels)}
+      currentLocation={location}
+    >
       {children}
     </RoutedSavableApp>
   );
