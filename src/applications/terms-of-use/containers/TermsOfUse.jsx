@@ -108,8 +108,13 @@ export default function TermsOfUse() {
             </p>
             <div>
               <va-accordion bordered>
-                {touData.map(({ header, content }) => (
-                  <va-accordion-item header={header} level={3} key={header}>
+                {touData.map(({ header, content }, i) => (
+                  <va-accordion-item
+                    header={header}
+                    level={3}
+                    key={header}
+                    part={`item-${i}`}
+                  >
                     {content}
                   </va-accordion-item>
                 ))}

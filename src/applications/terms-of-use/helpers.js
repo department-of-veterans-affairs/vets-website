@@ -15,9 +15,13 @@ export const parseRedirectUrl = url => {
     `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}eauth.va.gov`, // eauth
     `${cernerEnvPrefixes[environment.BUILDTYPE]}patientportal.myhealth.va.gov`, // cerner
     `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}fed.eauth.va.gov`, // mobile
+    `vamobile://login-success`, // mobile again
   ];
 
-  const domain = new URL(parsedUrl).hostname;
+  const { protocol, hostname } = new URL(parsedUrl);
+  const domain = protocol.includes('http')
+    ? hostname
+    : `${protocol}//${hostname}`;
 
   if (allowedDomains.includes(domain)) {
     return parsedUrl.includes('mhv-portal-web') &&
