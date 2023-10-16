@@ -1,5 +1,5 @@
 import React from 'react';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 
@@ -93,8 +93,8 @@ export default {
           },
         },
         [providerFacilityFields.treatmentDateRange]: {
-          from: dateUI('First treatment date (you can estimate)'),
-          to: dateUI('Last treatment date (you can estimate)'),
+          from: currentOrPastDateUI('First treatment date (you can estimate)'),
+          to: currentOrPastDateUI('Last treatment date (you can estimate)'),
         },
         'ui:validations': [
           (errors, field) => {
