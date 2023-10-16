@@ -6,12 +6,11 @@ import { AXE_CONTEXT } from '../utils/constants';
 describe('Validate the category', () => {
   it.skip('selects a category', () => {
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     cy.tabToElement('[data-testid="Edit-List-Button"]').should('have.focus');
     cy.realPress(['Tab']);
     cy.realPress(['ArrowDown']);
