@@ -62,8 +62,9 @@ const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
     <va-additional-info trigger="Learn more about military base addresses">
       <span>
-        The United States is automatically chosen as your country if you live on
-        a military base outside of the country.
+        We consider U.S. military bases to be domestic addresses that are part
+        of the United States. When you check this checkbox, we automatically
+        choose the U.S. as the country.
       </span>
     </va-additional-info>
   </div>
@@ -93,15 +94,7 @@ const getOldFormDataPath = (path, index) => {
   return path.slice(indexToSlice);
 };
 
-// const validateForeignAddress = (errors, value) => {
-//   //console.log(errors)
-//   //console.log(value)
-//   let cityPath = `${path}.city`;
-//   // console.log(formData);
-//   // console.log(cityPath)
-//   // console.log(get(cityPath, formData));
-//   return errors;
-// };
+const editMailingAddressSubheader = () => <h3>Mailing Address</h3>;
 
 // Temporary storage for city & state if military base checkbox is toggled more
 // than once. Not ideal, but works since this code isn't inside a React widget
@@ -187,8 +180,11 @@ export const addressUISchema = (
 
   return (function returnAddressUI() {
     return {
+      'view:editMailingAddressSubheader': {
+        'ui:title': editMailingAddressSubheader,
+      },
       [MILITARY_BASE_PATH]: {
-        'ui:title': `${checkBoxTitleState} live on a United States military base outside of the U.S.`,
+        'ui:title': `${checkBoxTitleState} receive mail outside of the United States on a U.S. military base.`,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
           hideEmptyValueInReview: true,
@@ -351,7 +347,7 @@ export const addressUISchema = (
               // `src/platform/forms-system/src/js/validation.js` (`defaultMessages.enum`). There are no reasonable workarounds that I am
               // aware of.
               errors.addError(
-                `For ${city} addresses, you must check the “${checkBoxTitleState} live on a United States military base outside of the U.S.” checkbox above`,
+                `For ${city} addresses, check the "${checkBoxTitleState} live outside of the United States on a U.S. military base" checkbox. If you live on a military base in the U.S., enter your city.`,
               );
             }
           },
@@ -497,23 +493,38 @@ export const addressUISchema = (
               switch (selectedState) {
                 case 'AA': {
                   if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
-                    errors.addError(`AA format not matched`);
+                    errors.addError(
+                      `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
+                    );
                   }
                   return true;
                 }
                 case 'AE': {
                   if (!zipCode.match('^0{1}9{1}[0-9]{3}')) {
-                    errors.addError(`AE format not matched`);
+                    errors.addError(
+                      `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
+                    );
                   }
                   return true;
                 }
                 case 'AP': {
                   if (!zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}')) {
-                    errors.addError(`AP format not matched`);
+                    errors.addError(
+                      `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
+                    );
                   }
                   return true;
                 }
                 default:
+                  if (
+                    !zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}') &&
+                    !zipCode.match('^0{1}9{1}[0-9]{3}') &&
+                    !zipCode.match('^3{1}4{1}0{1}[0-9]{2}')
+                  ) {
+                    errors.addError(
+                      `This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.`,
+                    );
+                  }
                   return true;
               }
             }
