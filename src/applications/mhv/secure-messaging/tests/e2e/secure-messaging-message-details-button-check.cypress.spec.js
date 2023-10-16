@@ -36,6 +36,7 @@ describe('Secure Messaging Message Details Buttons Check', () => {
         },
       },
     });
+
     replyPage.getMessageBodyField().should('be.visible');
   });
 });

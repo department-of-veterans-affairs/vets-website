@@ -22,26 +22,20 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
     patientInterstitialPage.getContinueButton().click();
-    const testMessageBody = 'Test message body';
+    const testMessageBody = 'Test body';
+    replyPage.getMessageBodyField().click();
     replyPage.getMessageBodyField().type(testMessageBody, { force: true });
     cy.realPress(['Enter']).then(() => {
-      replyPage.saveReplyDraft(messageDetails, `${testMessageBody}\n`);
+      replyPage.saveReplyDraft(
+        messageDetails,
+        `\n\n\nName\nTitleTest${testMessageBody}`,
+      );
       cy.log(
         `the message details after saveReplyDraft ${JSON.stringify(
           messageDetails,
         )}`,
       );
     });
-    /*
-      * This verification is redundant with secure-messaging-save-reply-draft
-      messageDetailsPage.ReplyToMessageTO(messageDetails);
-      messageDetailsPage.ReplyToMessagesenderName(messageDetails);
-      messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
-      messageDetailsPage.ReplyToMessageDate(messageDetails);
-      messageDetailsPage.ReplyToMessageId(messageDetails);
-      messageDetails.data.attributes.body = messageDetailsBody;
-      messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
-      */
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
     draftsPage.verifyDeleteConfirmationMessage();

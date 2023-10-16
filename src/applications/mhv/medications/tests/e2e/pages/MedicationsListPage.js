@@ -9,7 +9,7 @@ class MedicationsListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
@@ -25,6 +25,20 @@ class MedicationsListPage {
     cy.contains('What to know before you download').click({
       force: true,
     });
+  };
+
+  verifyLearnHowToRenewPrescriptionsLinkExists = () => {
+    cy.get('[data-testid="active-no-refill-left"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
+  };
+
+  clickLearnHowToRenewPrescriptionsLink = () => {
+    cy.get('[data-testid="active-no-refill-left"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+
+      .shadow()
+      .find('[href="/my-health/about-medications/accordion-renew-rx"]')
+      .click({ waitForAnimations: true });
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
