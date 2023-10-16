@@ -64,7 +64,8 @@ describe('parseResponse', () => {
     const response = {
       data: {
         attributes: {
-          guid: 'test-guid',
+          // eslint-disable-next-line camelcase
+          confirmation_code: 'test-guid',
         },
       },
     };
