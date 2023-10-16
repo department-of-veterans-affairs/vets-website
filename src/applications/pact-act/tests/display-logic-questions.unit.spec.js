@@ -1,19 +1,83 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   checkResponses,
   evaluateNestedAndForkedDCs,
   evaluateOneOfChoices,
-  navigateBackward,
-  navigateForward,
+  makeRoadmap,
   responseMatchesRequired,
-} from '../utilities/display-logic';
-import { ROUTES } from '../constants';
+  validateMultiCheckboxResponses,
+} from '../utilities/display-logic-questions';
 import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
 
 // displayConditionsMet is tested for every question within their respective file (e.g. BurnPit-2-1-1.unit.spec.js)
 
-describe('utils: display logic', () => {
+const {
+  SERVICE_PERIOD,
+  BURN_PIT_2_1,
+  BURN_PIT_2_1_1,
+  BURN_PIT_2_1_2,
+  ORANGE_2_2_A,
+  ORANGE_2_2_B,
+  ORANGE_2_2_1_A,
+  ORANGE_2_2_1_B,
+  ORANGE_2_2_2,
+  ORANGE_2_2_3,
+  RADIATION_2_3_A,
+  RADIATION_2_3_B,
+  LEJEUNE_2_4,
+} = SHORT_NAME_MAP;
+
+const {
+  DURING_BOTH_PERIODS,
+  EIGHTYNINE_OR_EARLIER,
+  NINETY_OR_LATER,
+} = RESPONSES;
+
+describe('utils: display logic for questions', () => {
+  describe('makeRoadmap', () => {
+    it('should gather the correct list of SHORT_NAMEs for 1989 or earlier', () => {
+      expect(makeRoadmap(EIGHTYNINE_OR_EARLIER)).to.deep.equal([
+        SERVICE_PERIOD,
+        ORANGE_2_2_A,
+        ORANGE_2_2_B,
+        ORANGE_2_2_1_A,
+        ORANGE_2_2_1_B,
+        ORANGE_2_2_2,
+        ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
+      ]);
+    });
+
+    it('should gather the correct list of SHORT_NAMEs for 1990 or later', () => {
+      expect(makeRoadmap(NINETY_OR_LATER)).to.deep.equal([
+        SERVICE_PERIOD,
+        BURN_PIT_2_1,
+        BURN_PIT_2_1_1,
+        BURN_PIT_2_1_2,
+      ]);
+    });
+
+    it('should gather the correct list of SHORT_NAMEs for during both of these time periods', () => {
+      expect(makeRoadmap(DURING_BOTH_PERIODS)).to.deep.equal([
+        SERVICE_PERIOD,
+        BURN_PIT_2_1,
+        BURN_PIT_2_1_1,
+        BURN_PIT_2_1_2,
+        ORANGE_2_2_A,
+        ORANGE_2_2_B,
+        ORANGE_2_2_1_A,
+        ORANGE_2_2_1_B,
+        ORANGE_2_2_2,
+        ORANGE_2_2_3,
+        RADIATION_2_3_A,
+        RADIATION_2_3_B,
+        LEJEUNE_2_4,
+      ]);
+    });
+  });
+
   describe('responseMatchesRequired', () => {
     it('should return true when the response matches the required for an array of choices', () => {
       expect(
@@ -32,6 +96,44 @@ describe('utils: display logic', () => {
     it('should return false when the response does not match the required for an array of choices', () => {
       expect(responseMatchesRequired([RESPONSES.YES], RESPONSES.NO)).to.be
         .false;
+    });
+  });
+
+  describe('validateMultiCheckboxResponses', () => {
+    it('should return true when the responses match the required response', () => {
+      const formResponses = {
+        ORANGE_2_2_1_B: [RESPONSES.GUAM],
+        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+      };
+
+      const shortName = SHORT_NAME_MAP.ORANGE_2_2_1_B;
+      const requiredResponses = [RESPONSES.GUAM, RESPONSES.JOHNSTON_ATOLL];
+
+      expect(
+        validateMultiCheckboxResponses(
+          requiredResponses,
+          formResponses,
+          shortName,
+        ),
+      ).to.be.true;
+    });
+
+    it('should return false when the responses do not match the required response', () => {
+      const formResponses = {
+        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+        ORANGE_2_2_1_B: null,
+      };
+
+      const shortName = SHORT_NAME_MAP.ORANGE_2_2_1_B;
+      const requiredResponses = [RESPONSES.GUAM, RESPONSES.JOHNSTON_ATOLL];
+
+      expect(
+        validateMultiCheckboxResponses(
+          requiredResponses,
+          formResponses,
+          shortName,
+        ),
+      ).to.be.false;
     });
   });
 
@@ -253,159 +355,6 @@ describe('utils: display logic', () => {
       expect(
         evaluateNestedAndForkedDCs(formResponses, displayConditionsForPath),
       ).to.be.false;
-    });
-  });
-
-  describe('navigateForward', () => {
-    describe('routing to BURN_PIT_2_1', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
-        BURN_PIT_2_1: null,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('SERVICE_PERIOD: should correctly route to the next question', () => {
-        navigateForward(SHORT_NAME_MAP.SERVICE_PERIOD, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1)).to.be
-          .true;
-      });
-    });
-
-    describe('routing to BURN_PIT_2_1_2', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: RESPONSES.NO,
-        BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('BURN_PIT_2_1_1: should correctly route to the next question', () => {
-        navigateForward(SHORT_NAME_MAP.BURN_PIT_2_1_1, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1_2)).to.be
-          .true;
-      });
-    });
-
-    describe('routing to ORANGE_2_2_A', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: RESPONSES.NO,
-        BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-        BURN_PIT_2_1_2: RESPONSES.NOT_SURE,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('BURN_PIT_2_1_2: should correctly route to the next question', () => {
-        navigateForward(SHORT_NAME_MAP.BURN_PIT_2_1_2, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.ORANGE_2_2_A)).to.be
-          .true;
-      });
-    });
-
-    describe('routing to ORANGE_2_2_2', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: RESPONSES.NO,
-        BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-        BURN_PIT_2_1_2: RESPONSES.NOT_SURE,
-        ORANGE_2_2_A: RESPONSES.NO,
-        ORANGE_2_2_1_A: RESPONSES.NOT_SURE,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('ORANGE_2_2_1_A: should correctly route to the next question', () => {
-        navigateForward(SHORT_NAME_MAP.ORANGE_2_2_1_A, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.ORANGE_2_2_2)).to.be
-          .true;
-      });
-    });
-  });
-
-  describe('navigateBackward', () => {
-    describe('routing back home', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: null,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('SERVICE_PERIOD: should correctly route back home', () => {
-        navigateBackward(SHORT_NAME_MAP.SERVICE_PERIOD, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.HOME)).to.be.true;
-      });
-    });
-
-    describe('routing to BURN_PIT_2_1_1', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: RESPONSES.NO,
-        BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('BURN_PIT_2_1_2: should correctly route to the previous question', () => {
-        navigateBackward(SHORT_NAME_MAP.BURN_PIT_2_1_2, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1_1)).to.be
-          .true;
-      });
-    });
-
-    describe('routing to BURN_PIT_2_1_2', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: RESPONSES.NO,
-        BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-        BURN_PIT_2_1_2: RESPONSES.NO,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('ORANGE_2_2_A: should correctly route to the previous question', () => {
-        navigateBackward(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1_2)).to.be
-          .true;
-      });
-    });
-
-    describe('routing to ORANGE_2_2_1_A', () => {
-      const formResponses = {
-        SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: RESPONSES.NO,
-        BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
-        BURN_PIT_2_1_2: RESPONSES.NO,
-        ORANGE_2_2_A: RESPONSES.NOT_SURE,
-        ORANGE_2_2_1_A: RESPONSES.YES,
-      };
-
-      const router = {
-        push: sinon.spy(),
-      };
-
-      it('ORANGE_2_2_1_B: should correctly route to the previous question', () => {
-        navigateBackward(SHORT_NAME_MAP.ORANGE_2_2_1_B, formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.ORANGE_2_2_1_A)).to.be
-          .true;
-      });
     });
   });
 });

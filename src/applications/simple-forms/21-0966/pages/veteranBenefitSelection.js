@@ -5,19 +5,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns/';
 import { veteranBenefits } from '../definitions/constants';
 
-const labels = {};
-
-labels[veteranBenefits.compensation] = {
-  title: 'Compensation',
-  description:
-    'Select this option if you intend to file for disability compensation (VA Form 21-526EZ).',
-};
-labels[veteranBenefits.pension] = {
-  title: 'Pension',
-  description:
-    'Select this option if you intend to file a pension claim (VA Form 21P-527EZ).',
-};
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -27,7 +14,18 @@ export default {
       required: true,
       labelHeaderLevel: '3',
       tile: true,
-      labels,
+      labels: {
+        [veteranBenefits.compensation]: {
+          title: 'Compensation',
+          description:
+            'Select this option if you intend to file for disability compensation (VA Form 21-526EZ).',
+        },
+        [veteranBenefits.pension]: {
+          title: 'Pension',
+          description:
+            'Select this option if you intend to file a pension claim (VA Form 21P-527EZ).',
+        },
+      },
       errorMessages: {
         required: 'Select at least one benefit',
       },
