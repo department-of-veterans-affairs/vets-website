@@ -47,7 +47,7 @@ function makeAppealObject({
         },
       ],
       events: [
-        { type: 'nod', date: '2012-02-02' },
+        { type: 'nod', date: '2012-02-03' },
         { type: 'soc', date: '2012-03-03' },
         { type: 'form9', date: '2012-04-04' },
         { type: 'hearing_held', date: updateDate },
@@ -76,7 +76,7 @@ describe('<Appeal />', () => {
     ).to.exist;
     expect(tree.getByText(/Issue on appeal: Benefits as a result of VA error/))
       .to.exist;
-    expect(tree.getByText(/Submitted on: February 2, 2012/, { exact: false }))
+    expect(tree.getByText(/Submitted on: February 3, 2012/, { exact: false }))
       .to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
   });
