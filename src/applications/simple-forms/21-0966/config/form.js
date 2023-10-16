@@ -15,13 +15,13 @@ import survivingDependentPhoneAndEmailAddress from '../pages/survivingDependentP
 import {
   preparerIsVeteran,
   preparerIsSurvivingDependent,
-  preparerIsThirdParty,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
   benefitSelectionStepperTitle,
   personalInformationStepperTitle,
   contactInformationStepperTitle,
   initializeFormDataWithPreparerIdentification,
+  statementOfTruthFullNamePath,
 } from './helpers';
 import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
@@ -31,7 +31,7 @@ import veteranMailingAddress from '../pages/veteranMailingAddress';
 import veteranPhoneAndEmailAddress from '../pages/veteranPhoneAndEmailAddress';
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/minimal-test.json';
+import testData from '../tests/e2e/fixtures/data/veteran-minimal-test.json';
 import relationshipToVeteran from '../pages/relationshipToVeteran';
 
 const mockData = testData;
@@ -75,15 +75,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => {
-        if (preparerIsThirdParty({ formData })) {
-          return 'thirdPartyPreparerFullName';
-        }
-        if (preparerIsVeteran({ formData })) {
-          return 'veteranFullName';
-        }
-        return 'survivingDependentFullName';
-      },
+      fullNamePath: formData => statementOfTruthFullNamePath({ formData }),
     },
   },
   formId: '21-0966',
