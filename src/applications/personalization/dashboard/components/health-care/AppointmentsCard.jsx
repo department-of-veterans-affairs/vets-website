@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
@@ -8,7 +8,7 @@ import { getAppointmentTimezone } from '../../utils/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
-  const startFns = parseISO(nextAppointment?.startsAt);
+  const startFns = new Date(nextAppointment?.startsAt);
   let locationName;
 
   const timeZone = getAppointmentTimezone(nextAppointment);

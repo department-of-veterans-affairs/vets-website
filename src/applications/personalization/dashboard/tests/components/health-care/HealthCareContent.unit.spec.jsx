@@ -1,10 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { UnconnectedHealthCareContent } from '../../../components/health-care/HealthCareContent';
-import { v2 } from '../../../mocks/appointments/index';
+import { v2 } from '../../../mocks/appointments';
 
 describe('<UnconnectedHealthCareContent />', () => {
   // delete instances of Toggler when new appts URL is launched
@@ -57,16 +56,11 @@ describe('<UnconnectedHealthCareContent />', () => {
   });
 
   it('should render the Next appointments card', () => {
-    const appointments = v2.createAppointmentSuccess();
+    const appointments = v2.createAppointmentSuccess().data;
+    const appts = appointments.map(appointment => appointment.attributes);
 
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent
-        dataLoadingDisabled
-        isVAPatient
-        hasUpcomingAppointment
-        appointments={appointments}
-        isLOA1={false}
-      />,
+      <UnconnectedHealthCareContent appointments={appts} />,
       { initialState },
     );
 
@@ -93,11 +87,12 @@ describe('<UnconnectedHealthCareContent />', () => {
     });
 
     it("when a patient has appointments and doesn't have an appointment error", () => {
-      const appointments = v2.createAppointmentSuccess();
+      const appointments = v2.createAppointmentSuccess().data;
+      const appts = appointments.map(appointment => appointment.attributes);
 
       const tree = renderWithStoreAndRouter(
         <UnconnectedHealthCareContent
-          appointments={appointments}
+          appointments={appts}
           dataLoadingDisabled
           isVAPatient
           shouldFetchUnreadMessages
