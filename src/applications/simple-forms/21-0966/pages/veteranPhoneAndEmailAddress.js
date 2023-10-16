@@ -10,17 +10,17 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Phone and email address'),
-    phone: phoneUI('Phone number'),
-    internationalPhone: phoneUI('International phone number'),
-    email: emailUI('Email address'),
+    veteranPhone: phoneUI('Phone number'),
+    veteranInternationalPhone: phoneUI('International phone number'),
+    veteranEmail: emailUI('Email address'),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: phoneSchema,
-      internationalPhone: phoneSchema,
-      email: emailSchema,
+      veteranPhone: phoneSchema,
+      veteranInternationalPhone: phoneSchema,
+      veteranEmail: emailSchema,
     },
-    required: ['phone'],
+    required: ['veteranPhone'],
   },
 };

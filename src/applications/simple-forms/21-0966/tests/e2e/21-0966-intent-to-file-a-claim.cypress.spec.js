@@ -71,7 +71,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.survivingDependantBenefitSelection]: ({ afterHook }) => {
+      [pagePaths.survivingDependentBenefitSelection]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -82,17 +82,17 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.personalInformation]: ({ afterHook }) => {
+      [pagePaths.survivingDependentPersonalInformation]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern(
-              'preparerFullName',
-              data.preparerFullName,
+              'survivingDependentFullName',
+              data.survivingDependentFullName,
             );
             fillDateWebComponentPattern(
-              'preparerDateOfBirth',
-              data.preparerDateOfBirth,
+              'survivingDependentDateOfBirth',
+              data.survivingDependentDateOfBirth,
             );
 
             cy.axeCheck();
@@ -100,14 +100,19 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.identificationInformation]: ({ afterHook }) => {
+      [pagePaths.survivingDependentIdentificationInformation]: ({
+        afterHook,
+      }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent('preparerId_ssn', data.preparerId.ssn);
             fillTextWebComponent(
-              'preparerId_vaFileNumber',
-              data.preparerId.vaFileNumber,
+              'survivingDependentID_ssn',
+              data.survivingDependentID.ssn,
+            );
+            fillTextWebComponent(
+              'survivingDependentID_vaFileNumber',
+              data.survivingDependentID.vaFileNumber,
             );
 
             cy.axeCheck();
@@ -115,13 +120,13 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.mailingAddress]: ({ afterHook }) => {
+      [pagePaths.survivingDependentMailingAddress]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(
-              'veteranMailingAddress',
-              data.veteranMailingAddress,
+              'survivingDependentMailingAddress',
+              data.survivingDependentMailingAddress,
             );
 
             cy.axeCheck();
@@ -129,12 +134,18 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.phoneAndEmailAddress]: ({ afterHook }) => {
+      [pagePaths.survivingDepedentPhoneAndEmailAddress]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent('phone', data.phone);
-            fillTextWebComponent('email', data.email);
+            fillTextWebComponent(
+              'survivingDependentPhone',
+              data.survivingDependentPhone,
+            );
+            fillTextWebComponent(
+              'survivingDependentEmail',
+              data.survivingDependentEmail,
+            );
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -191,7 +202,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerName = data.preparerFullName;
+            const signerName = data.survivingDependentFullName;
             reviewAndSubmitPageFlow(signerName);
           });
         });
