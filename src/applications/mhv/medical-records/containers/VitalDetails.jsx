@@ -13,11 +13,7 @@ import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import { macroCase, sendErrorToSentry } from '../util/helpers';
-import {
-  EMPTY_FIELD,
-  vitalTypeDisplayNames,
-  pageTitles,
-} from '../util/constants';
+import { vitalTypeDisplayNames, pageTitles } from '../util/constants';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -118,12 +114,12 @@ const VitalDetails = () => {
       items: [
         {
           title: 'Result',
-          value: records.measurement || EMPTY_FIELD,
+          value: records.measurement,
           inline: true,
         },
         {
           title: 'Location',
-          value: records.location || EMPTY_FIELD,
+          value: records.location,
           inline: true,
         },
         {

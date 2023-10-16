@@ -57,7 +57,7 @@ describe('<MHVApp>', () => {
   it('should show a loading indicator when fetching an account', () => {
     const newProps = set('mhvAccount.loading', true, props);
     const wrapper = shallow(<MHVApp {...newProps} />, { context });
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
+    expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     wrapper.unmount();
   });
 

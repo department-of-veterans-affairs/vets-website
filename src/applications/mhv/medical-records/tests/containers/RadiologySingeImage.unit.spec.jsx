@@ -51,7 +51,7 @@ describe('Radiology Single Image container', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays the image', () => {

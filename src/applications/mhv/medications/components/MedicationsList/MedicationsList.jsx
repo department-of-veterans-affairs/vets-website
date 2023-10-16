@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MedicationsListCard from './MedicationsListCard';
+import { rxListSortingOptions } from '../../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
-  const { rxList, pagination, setCurrentPage } = props;
+  const { rxList, pagination, setCurrentPage, selectedSortOption } = props;
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
@@ -38,7 +39,8 @@ const MedicationsList = props => {
         id="showingRx"
       >
         Showing {displayNums[0]} - {displayNums[1]} of {pagination.totalEntries}{' '}
-        medications, available to fill or refill first
+        medications,{' '}
+        {rxListSortingOptions[selectedSortOption].LABEL.toLowerCase()}
       </h2>
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="vads-u-display--block vads-u-margin-top--3">
@@ -63,5 +65,6 @@ export default MedicationsList;
 MedicationsList.propTypes = {
   pagination: PropTypes.object,
   rxList: PropTypes.array,
+  selectedSortOption: PropTypes.string,
   setCurrentPage: PropTypes.func,
 };
