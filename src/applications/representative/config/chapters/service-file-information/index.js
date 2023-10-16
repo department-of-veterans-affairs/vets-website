@@ -1,7 +1,10 @@
 import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 
+export const title = 'Veteran’s Identification Information';
+
 export const schema = {
   type: 'object',
+  title,
   properties: {
     ssn: {
       type: 'string',
@@ -9,11 +12,11 @@ export const schema = {
     },
     vaFileNumber: {
       type: 'string',
-      title: 'Your VA file number',
+      title: 'VA file number',
     },
     serviceNumber: {
       type: 'string',
-      title: 'Your Service number (if applicable)',
+      title: 'Service number',
     },
   },
   required: ['ssn'],
@@ -23,5 +26,4 @@ export const uiSchema = {
   ssn: ssnUI,
   vaFileNumber: {},
   serviceNumber: {},
-  insuranceNumber: {},
 };
