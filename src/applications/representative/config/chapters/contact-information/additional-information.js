@@ -1,7 +1,7 @@
 import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 
-export const title = 'Additional contact information';
+export const title = 'Additional Contact Information';
 
 export const schema = {
   type: 'object',
