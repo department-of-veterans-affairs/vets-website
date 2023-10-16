@@ -97,7 +97,7 @@ function MailingAddressStateTitle(props) {
   const { elementPath } = props;
   const data = useSelector(state => state.form.data || {});
   const country = get(elementPath, data);
-  if (!environment.isProduction() && country === 'CAN') {
+  if (country === 'CAN') {
     return 'Province';
   }
   return 'State or territory';
@@ -545,8 +545,7 @@ const formConfig = {
                           'ui:title': applicantMailingAddressStateTitleWrapper,
                           'ui:options': {
                             hideIf: formData =>
-                              !applicantsMailingAddressHasState(formData) &&
-                              !environment.isProduction(),
+                              !applicantsMailingAddressHasState(formData),
                           },
                         },
                       },
@@ -595,8 +594,7 @@ const formConfig = {
                         'ui:title': sponsorMailingAddressStateTitleWrapper,
                         'ui:options': {
                           hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData) &&
-                            !environment.isProduction(),
+                            !sponsorMailingAddressHasState(formData),
                         },
                       },
                     }),
@@ -746,8 +744,7 @@ const formConfig = {
                                 'ui:required': isAuthorizedAgent,
                                 'ui:options': {
                                   hideIf: formData =>
-                                    !preparerAddressHasState(formData) &&
-                                    !environment.isProduction(),
+                                    !preparerAddressHasState(formData),
                                 },
                               },
                               postalCode: { 'ui:required': isAuthorizedAgent },
