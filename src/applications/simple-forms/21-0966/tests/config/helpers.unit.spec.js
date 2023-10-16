@@ -11,6 +11,7 @@ import {
   personalInformationStepperTitle,
   benefitSelectionStepperTitle,
   initializeFormDataWithPreparerIdentification,
+  statementOfTruthFullNamePath,
   getClaimType,
   getAlreadySubmittedIntentText,
   getAlreadySubmittedTitle,
@@ -124,6 +125,45 @@ describe('initializeFormDataWithPreparerIdentification', () => {
       ...createInitialState(formConfig).data,
       preparerIdentification: preparerIdentifications.veteran,
     });
+  });
+});
+
+describe('statementOfTruthFullNamePath', () => {
+  it('returns the required signature formData path for third parties', () => {
+    const formData = {
+      preparerIdentification: preparerIdentifications.thirdPartyVeteran,
+    };
+
+    expect(statementOfTruthFullNamePath({ formData })).to.equal(
+      'thirdPartyPreparerFullName',
+    );
+
+    formData.preparerIdentification =
+      preparerIdentifications.thirdPartySurvivingDependent;
+
+    expect(statementOfTruthFullNamePath({ formData })).to.equal(
+      'thirdPartyPreparerFullName',
+    );
+  });
+
+  it('returns the required signature formData path for veterans', () => {
+    const formData = {
+      preparerIdentification: preparerIdentifications.veteran,
+    };
+
+    expect(statementOfTruthFullNamePath({ formData })).to.equal(
+      'veteranFullName',
+    );
+  });
+
+  it('returns the required signature formData path for non-third party surviving dependents', () => {
+    const formData = {
+      preparerIdentification: preparerIdentifications.survivingDependent,
+    };
+
+    expect(statementOfTruthFullNamePath({ formData })).to.equal(
+      'survivingDependentFullName',
+    );
   });
 });
 
