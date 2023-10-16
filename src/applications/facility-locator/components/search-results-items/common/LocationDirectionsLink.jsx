@@ -22,8 +22,8 @@ function LocationDirectionsLink({ location, from }) {
         rel="noopener noreferrer"
       >
         {from === 'FacilityDetail' && <i className="fa fa-road" />}
-        Get directions on Google Maps
-        <span className="sr-only">to {location.attributes.name}</span>
+        Get directions on Google Maps{' '}
+        <span className="sr-only">{`to ${location.attributes.name}`}</span>
       </a>
     </div>
   );

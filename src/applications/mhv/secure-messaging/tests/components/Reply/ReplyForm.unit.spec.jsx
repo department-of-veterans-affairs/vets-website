@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import ReplyForm from '../../../components/ComposeForm/ReplyForm';
 import reducer from '../../../reducers';
 import { draftDetails } from '../../fixtures/threads/reply-draft-thread-reducer.json';
@@ -32,6 +33,17 @@ describe('Reply form component', () => {
   it('renders without errors', async () => {
     const screen = render();
     expect(screen).to.exist;
+  });
+
+  it('adds beforeunload event listener', () => {
+    const screen = render();
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-body-field'), {
+      target: { innerHTML: 'test beforeunload event' },
+    });
+
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
   });
 
   it('renders the subject header', async () => {

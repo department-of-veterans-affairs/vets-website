@@ -9,6 +9,8 @@ import {
   fullNameNoSuffixUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { dateOfDeathValidation } from '../helpers';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -20,6 +22,9 @@ export default {
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI(),
     veteranDateOfDeath: dateOfDeathUI(),
+    // can't move this validation to Forms-Library web-component-patterns
+    // since one pattern can't detect presence of the other
+    'ui:validations': [dateOfDeathValidation],
   },
   schema: {
     type: 'object',

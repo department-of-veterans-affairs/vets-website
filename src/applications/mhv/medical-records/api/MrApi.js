@@ -3,7 +3,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/e
 import vaccines from '../tests/fixtures/vaccines.json';
 import vaccine from '../tests/fixtures/vaccine.json';
 import notes from '../tests/fixtures/notes.json';
-import note from '../tests/fixtures/note.json';
+import note from '../tests/fixtures/dischargeSummary.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
@@ -15,8 +15,11 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export const getLabsAndTests = () => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getLabsAndTests = runningUnitTest => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
       headers,
     });
@@ -28,8 +31,11 @@ export const getLabsAndTests = () => {
   });
 };
 
-export const getLabOrTest = id => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getLabOrTest = (id, runningUnitTest) => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
       headers,
     });
@@ -42,8 +48,11 @@ export const getLabOrTest = id => {
   });
 };
 
-export const getNotes = () => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getNotes = runningUnitTest => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
       headers,
     });
@@ -55,8 +64,11 @@ export const getNotes = () => {
   });
 };
 
-export const getNote = id => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getNote = (id, runningUnitTest) => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
       headers,
     });
@@ -68,8 +80,11 @@ export const getNote = id => {
   });
 };
 
-export const getVitalsList = () => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getVitalsList = runningUnitTest => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/vitals`, {
       headers,
     });
@@ -81,8 +96,11 @@ export const getVitalsList = () => {
   });
 };
 
-export const getConditions = () => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getConditions = runningUnitTest => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/conditions`, {
       headers,
     });
@@ -94,8 +112,11 @@ export const getConditions = () => {
   });
 };
 
-export const getCondition = id => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getCondition = (id, runningUnitTest) => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/conditions/${id}`, {
       headers,
     });
@@ -124,8 +145,11 @@ export const getAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = () => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getVaccineList = runningUnitTest => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
       headers,
     });
@@ -142,8 +166,11 @@ export const getVaccineList = () => {
  * @param {Long} id
  * @returns vaccine details in FHIR format
  */
-export const getVaccine = id => {
-  if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
+export const getVaccine = (id, runningUnitTest) => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
     return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
       headers,
     });
