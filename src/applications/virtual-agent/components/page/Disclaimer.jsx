@@ -4,6 +4,12 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 export default function Disclaimer() {
   return (
     <>
+      <va-breadcrumbs label="Breadcrumb">
+        <a href="/">Home</a>
+        <a href="/contact-us">Contact us</a>
+        <a href="/contact-us/virtual-agent">VA chatbot</a>
+      </va-breadcrumbs>
+
       <h1>VA chatbot</h1>
 
       <div className="va-introtext">
