@@ -10,15 +10,15 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Name and date of birth'),
-    preparerFullName: fullNameNoSuffixUI(),
-    preparerDateOfBirth: dateOfBirthUI(),
+    survivingDependentFullName: fullNameNoSuffixUI(),
+    survivingDependentDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      preparerFullName: fullNameNoSuffixSchema,
-      preparerDateOfBirth: dateOfBirthSchema,
+      survivingDependentFullName: fullNameNoSuffixSchema,
+      survivingDependentDateOfBirth: dateOfBirthSchema,
     },
-    required: ['preparerFullName', 'preparerDateOfBirth'],
+    required: ['survivingDependentFullName', 'survivingDependentDateOfBirth'],
   },
 };

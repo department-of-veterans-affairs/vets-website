@@ -12,11 +12,11 @@ export default {
       labels: {
         [preparerIdentifications.veteran]:
           'I’m a Veteran, and I intend to file a VA claim.',
-        [preparerIdentifications.survivingDependant]:
+        [preparerIdentifications.survivingDependent]:
           'I’m the spouse or child of a Veteran, and I intend to file a VA claim.',
         [preparerIdentifications.thirdPartyVeteran]:
           'I’m an alternate signer, Veteran Service Officer, fiduciary, or third-party representative for a Veteran who intends to file a VA claim.',
-        [preparerIdentifications.thirdPartySurvivingDependant]:
+        [preparerIdentifications.thirdPartySurvivingDependent]:
           'I’m an alternate signer, Veterans Service Officer, fiduciary, or third-party representative for a Veteran’s spouse or child who intends to file a VA claim.',
       },
       labelHeaderLevel: '3',
