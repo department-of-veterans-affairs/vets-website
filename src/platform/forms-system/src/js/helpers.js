@@ -3,6 +3,7 @@ import moment from 'moment';
 import { intersection, matches, merge, uniq } from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import environment from 'platform/utilities/environment';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
@@ -369,7 +370,8 @@ export function getNonArraySchema(schema, uiSchema = {}) {
 
   if (
     schema.type === 'object' &&
-    !get('ui:options.onlyDisplayLabel', uiSchema)
+    (environment.isProduction() ||
+      !get('ui:options.onlyDisplayLabel', uiSchema))
   ) {
     const newProperties = Object.keys(schema.properties).reduce(
       (current, next) => {
