@@ -19,7 +19,9 @@
   },
   "veteranDateOfBirth": "1970-06-21",
   "preparerDateOfBirth": "1980-07-12",
-  "benefitSelection": "Compensation",
+  "benefitSelection": {
+    "COMPENSATION": true
+  },
   "additionalInfo": null,
   "preparerIdentification": "VETERAN"
 }

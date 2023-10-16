@@ -50,6 +50,7 @@ describe('Secure Messaging Reply', () => {
         messageDetails.data.attributes.body
       }`,
     );
+
     messageDetailsPage.ReplyToMessageTO(messageDetails);
     messageDetailsPage.ReplyToMessagesenderName(messageDetails);
     messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
@@ -57,15 +58,17 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    messageDetailsPage.ReplyToMessageBody(testMessageBody);
+    messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
 
+    // Posssibly move this to another test
     replyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,
       messageDetails.data.attributes.senderId,
       messageDetails.data.attributes.category,
       messageDetails.data.attributes.subject,
-      testMessageBody,
+      `\n\n\nName\nTitleTest${testMessageBody}`,
     );
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

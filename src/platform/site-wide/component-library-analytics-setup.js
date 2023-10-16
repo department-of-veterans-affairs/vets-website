@@ -17,25 +17,11 @@ const analyticsEvents = {
       prefix: 'accordion',
     },
   ],
-  AlertBox: [
-    {
-      action: 'linkClick',
-      event: 'nav-alert-box-link-click',
-      prefix: 'alert-box',
-    },
-  ],
   Breadcrumbs: [
     {
       action: 'linkClick',
       event: 'nav-breadcrumb-link-click',
       prefix: 'breadcrumbs',
-    },
-  ],
-  LoadingIndicator: [
-    {
-      action: 'displayed',
-      event: 'loading-indicator-displayed',
-      prefix: 'loading-indicator',
     },
   ],
   TextInput: [

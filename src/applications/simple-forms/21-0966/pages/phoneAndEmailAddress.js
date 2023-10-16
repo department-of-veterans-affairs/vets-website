@@ -4,7 +4,6 @@ import {
   phoneUI,
   phoneSchema,
   titleUI,
-  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -18,7 +17,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       phone: phoneSchema,
       internationalPhone: phoneSchema,
       email: emailSchema,
