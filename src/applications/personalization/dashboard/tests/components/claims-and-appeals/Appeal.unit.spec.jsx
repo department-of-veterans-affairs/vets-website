@@ -76,7 +76,8 @@ describe('<Appeal />', () => {
     ).to.exist;
     expect(tree.getByText(/Issue on appeal: Benefits as a result of VA error/))
       .to.exist;
-    expect(tree.getByText(/Submitted on: February 2, 2012/)).to.exist;
+    expect(tree.getByText(/Submitted on: February 2, 2012/, { exact: false }))
+      .to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
   });
 
