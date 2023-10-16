@@ -4,7 +4,67 @@ class AppointmentsPage {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'Check-In Your Appointments');
+      .and('include.text', 'Your Appointments');
+  };
+
+  validateWhatNextHeader = () => {
+    cy.get('[data-testid="what-next-header"]')
+      .should('be.visible')
+      .and('include.text', 'What to do next');
+  };
+
+  validateWhatNextCardTitle = {
+    dayOf: () => {
+      cy.get('[data-testid="what-next-card-title"]')
+        .should('be.visible')
+        .and(
+          'include.text',
+          "It's time to check in for your 3:00 p.m. appointment",
+        );
+    },
+    preCheckIn: () => {
+      cy.get('[data-testid="what-next-card-title"]')
+        .should('be.visible')
+        .and(
+          'include.text',
+          'Review your contact information for your {{ date, day }}, {{ date, monthDay }} {{ date, time }} appointment.',
+        );
+    },
+  };
+
+  validateWhatNextCardDetailsLink = () => {
+    cy.get('[data-testid="details-link"]')
+      .should('be.visible')
+      .and('include.text', 'Details');
+  };
+
+  validateWhatNextCardActionLink = {
+    dayOf: () => {
+      cy.get('[data-testid="action-link"]')
+        .should('be.visible')
+        .and('include.text', 'Check in now');
+    },
+    preCheckIn: () => {
+      cy.get('[data-testid="action-link"]')
+        .should('be.visible')
+        .and('include.text', 'Review your information now');
+    },
+  };
+
+  validateMultipleCards = (expectedCount = 2) => {
+    cy.get('[data-testid="what-next-card"]').should(
+      'have.length',
+      expectedCount,
+    );
+  };
+
+  validateCardOrder = () => {
+    cy.wrap(cy.get('[data-testid="what-next-card"]'))
+      .get('[data-testid="what-next-card-title"]')
+      .should('contain.text', '3:00 p.m.');
+    cy.wrap(cy.get('[data-testid="what-next-card"]'))
+      .get('[data-testid="what-next-card-title"]')
+      .should('contain.text', '5:00 p.m.');
   };
 
   validateUpcomingAppointmentsHeader = () => {
@@ -31,14 +91,20 @@ class AppointmentsPage {
       .should('eq', 5);
   };
 
+  attemptViewDetails = () => {
+    cy.get('[data-tesid="details-link"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   attemptCheckIn = () => {
-    cy.get('[data-testid="check-in-button"]').click({
+    cy.get('[data-testid="action-link"]').click({
       waitForAnimations: true,
     });
   };
 
   attemptPreCheckIn = () => {
-    cy.get('button[data-testid="check-in-button"]').click({
+    cy.get('button[data-testid="action-link"]').click({
       waitForAnimations: true,
     });
   };
