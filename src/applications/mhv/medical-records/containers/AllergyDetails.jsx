@@ -219,7 +219,14 @@ const AllergyDetails = props => {
     );
   };
 
-  return <div className="vads-u-margin-bottom--5">{content()}</div>;
+  return (
+    <div className="vads-u-margin-bottom--5">
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8 no-print">
+        {content()}
+      </div>
+      <div className="vads-l-col--12 print-only">{content()}</div>
+    </div>
+  );
 };
 
 export default AllergyDetails;

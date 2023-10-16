@@ -137,7 +137,35 @@ const Allergies = props => {
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
-  const content = () => {
+  const headerContent = () => {
+    return (
+      <>
+        <PrintHeader />
+        <h1 className="vads-u-margin--0">Allergies and reactions</h1>
+        <p className="page-description">
+          Review allergies, reactions, and side effects in your VA medical
+          records. This includes medication side effects (also called adverse
+          drug reactions).
+        </p>
+        <p className="page-description">
+          If you have allergies that are missing from this list, tell your care
+          team at your next appointment.
+        </p>
+        {!accessAlert && (
+          <>
+            <PrintDownload
+              list
+              download={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          </>
+        )}
+      </>
+    );
+  };
+
+  const listContent = () => {
     if (accessAlert) {
       return <AccessTroubleAlertBox />;
     }
@@ -164,30 +192,19 @@ const Allergies = props => {
   };
 
   return (
-    <div id="allergies">
-      <PrintHeader />
-      <h1 className="vads-u-margin--0">Allergies and reactions</h1>
-      <p className="page-description">
-        Review allergies, reactions, and side effects in your VA medical
-        records. This includes medication side effects (also called adverse drug
-        reactions).
-      </p>
-      <p className="page-description">
-        If you have allergies that are missing from this list, tell your care
-        team at your next appointment.
-      </p>
-      {!accessAlert && (
-        <>
-          <PrintDownload
-            list
-            download={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </>
-      )}
-      {content()}
-    </div>
+    <>
+      <div
+        id="allergies"
+        className="vads-l-col--12 medium-screen:vads-l-col--8 no-print"
+      >
+        {headerContent()}
+        {listContent()}
+      </div>
+      <div id="allergies-print" className="vads-l-col--12 print-only">
+        {headerContent()}
+        {listContent()}
+      </div>
+    </>
   );
 };
 
