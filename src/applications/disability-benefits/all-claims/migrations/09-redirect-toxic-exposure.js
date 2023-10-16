@@ -1,4 +1,6 @@
-import formConfig from '../config/form';
+// import formConfig from '../config/form';
+import { Form526Entry } from '../Form526EZApp';
+const { formConfig } = Form526Entry;
 
 /**
  * Adding new Toxic Exposure (TE) pages. If user has a return url for a save in

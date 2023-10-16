@@ -15,7 +15,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import getFormConfig from './config/form';
+import { getFormConfig } from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
 import {
@@ -90,11 +90,7 @@ export const Form526Entry = ({
     TOGGLE_NAMES.disability526ToxicExposure,
   );
 
-  const isReducedContentionList = useToggleValue(
-    TOGGLE_NAMES.disability526ReducedContentionList,
-  );
-
-  const disabilityLabels = getDisabilityLabels(isReducedContentionList);
+  const disabilityLabels = getDisabilityLabels();
 
   const hasSavedForm = savedForms.some(
     form =>
@@ -193,9 +189,11 @@ export const Form526Entry = ({
   }
 
   // wraps the app and redirects user if they are not enrolled
+  const formConfig = getFormConfig(disabilityLabels);
   const content = (
     <RoutedSavableApp
-      formConfig={getFormConfig(disabilityLabels)}
+      // formConfig={getFormConfig(disabilityLabels)}
+      formConfig={formConfig}
       currentLocation={location}
     >
       {children}
