@@ -6,7 +6,7 @@ import {
   unauthIdInfo,
   unauthMailingAddress,
   unauthNameAndDob,
-} from './veteran-personal-information';
+} from './personal-information';
 
 const personalInformation = {
   unauthContactInfo,
@@ -16,7 +16,7 @@ const personalInformation = {
 };
 
 export {
+  personalInformation,
   addressChangeAuthorization,
   treatmentDisclosureAuthorization,
-  personalInformation,
 };
