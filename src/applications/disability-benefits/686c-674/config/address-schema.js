@@ -485,8 +485,25 @@ export const addressUISchema = (
         'ui:title': 'Postal Code',
         'ui:validations': [
           (errors, zipCode, formData, _schema, _uiSchema, _index) => {
-            const militaryBasePath = livesOnMilitaryBasePath;
-            const livesOnMilitaryBase = get(militaryBasePath, formData);
+            // copied scheme from city ui:validations
+            let livesOnMilitaryBase =
+              get(livesOnMilitaryBasePath, formData) ||
+              get(`address[${MILITARY_BASE_PATH}]`, formData) ||
+              get(`childAddressInfo.address[${MILITARY_BASE_PATH}]`, formData);
+
+            if (window.location.href.includes('review-and-submit')) {
+              livesOnMilitaryBase =
+                livesOnMilitaryBase ||
+                (formData.stepChildren || []).some(stepChild =>
+                  get(`address[${MILITARY_BASE_PATH}]`, stepChild),
+                ) ||
+                (formData.childrenToAdd || []).some(stepChild =>
+                  get(
+                    `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
+                    stepChild,
+                  ),
+                );
+            }
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               const statePath = `${path}.stateCode`;
               const selectedState = get(statePath, formData);
