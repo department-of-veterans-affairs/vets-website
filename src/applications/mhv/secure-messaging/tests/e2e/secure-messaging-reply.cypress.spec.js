@@ -9,7 +9,6 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
@@ -19,9 +18,9 @@ describe('Secure Messaging Reply', () => {
 
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-    patientInterstitialPage
-      .getContinueButton()
-      .click({ waitforanimations: true });
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
     replyPage.getMessageBodyField().type('Test message body', { force: true });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

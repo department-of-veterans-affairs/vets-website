@@ -11,7 +11,6 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Message Details Buttons Check', () => {
   it('Message Details Buttons Check', () => {
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const replyPage = new PatientReplyPage();
@@ -25,9 +24,9 @@ describe('Secure Messaging Message Details Buttons Check', () => {
     messageDetailsPage.verifyTrashButtonModal();
     messageDetailsPage.verifyMoveToButtonModal();
     messageDetailsPage.loadReplyPageDetails(messageDetails, defaultMockThread);
-    patientInterstitialPage
-      .getContinueButton()
-      .click({ waitforanimations: true });
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

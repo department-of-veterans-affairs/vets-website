@@ -10,7 +10,6 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const replyPage = new PatientReplyPage();
 
@@ -20,9 +19,9 @@ describe('Secure Messaging Reply Message Details Thread', () => {
     landingPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-    patientInterstitialPage
-      .getContinueButton()
-      .click({ waitforanimations: true });
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
 
     replyPage.verifyExpandedMessageDateDisplay(testMessage);
 
