@@ -14,7 +14,6 @@ import {
   PAW_UPDATE_RADIATION_2_3_B,
   PAW_UPDATE_LEJEUNE_2_4,
   PAW_UPDATE_FORM_STORE,
-  PAW_VIEWED_RESULTS_PAGE_1,
 } from '../constants';
 import { SHORT_NAME_MAP } from '../constants/question-data-map';
 import { createFormStore, updateFormValue } from './utilities';
@@ -73,11 +72,6 @@ const pactAct = (state = initialState, action) => {
       return {
         ...state,
         viewedIntroPage: action.payload,
-      };
-    case PAW_VIEWED_RESULTS_PAGE_1:
-      return {
-        ...state,
-        viewedResultsPage1: action.payload,
       };
     case PAW_UPDATE_FORM_STORE:
       return {
