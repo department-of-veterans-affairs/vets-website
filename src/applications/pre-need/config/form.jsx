@@ -23,6 +23,11 @@ import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
+import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
+import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
+import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as applicantDemographics from './pages/applicantDemographics';
+import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
 import * as address from '../definitions/address';
@@ -62,11 +67,6 @@ import {
   preparerAddressHasState,
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
-  applicantDetailsSubHeader,
-  applicantDemographicsSubHeader,
-  militaryDetailsSubHeader,
-  applicantDemographicsDescription,
-  ApplicantDescriptionWrapper,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -174,204 +174,36 @@ const formConfig = {
         ? {
             applicantRelationshipToVet: {
               path: 'applicant-relationship-to-vet',
-              uiSchema: {
-                'ui:description': ApplicantDescriptionWrapper,
-                application: {
-                  claimant: {
-                    relationshipToVet: {
-                      'ui:title': 'Relationship to service member',
-                      'ui:widget': 'radio',
-                      'ui:options': {
-                        labels: {
-                          1: 'I am the service member/Veteran',
-                          2: 'Spouse or surviving spouse',
-                          3: 'Unmarried adult child',
-                          4: 'Other',
-                        },
-                        widgetProps: {
-                          1: { 'aria-describedby': 'veteran-relationship' },
-                          2: { 'aria-describedby': 'spouse-relationship' },
-                          3: { 'aria-describedby': 'child-relationship' },
-                          4: { 'aria-describedby': 'other-relationship' },
-                        },
-                        nestedContent: {
-                          1: veteranRelationshipDescription,
-                          2: spouseRelationshipDescription,
-                          3: childRelationshipDescription,
-                          4: otherRelationshipDescription,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      claimant: {
-                        type: 'object',
-                        required: ['relationshipToVet'],
-                        properties: pick(claimant.properties, [
-                          'relationshipToVet',
-                        ]),
-                      },
-                    },
-                  },
-                },
-              },
+              uiSchema: applicantRelationshipToVet.uiSchema,
+              schema: applicantRelationshipToVet.schema,
             },
             veteranApplicantDetails: {
               title: 'Applicant details',
               path: 'veteran-applicant-details',
               depends: isVeteran,
-              uiSchema: {
-                'ui:description': applicantDescription,
-                application: {
-                  'ui:title': applicantDetailsSubHeader,
-                  claimant: {
-                    name: fullMaidenNameUI,
-                    ssn: ssnDashesUI,
-                    dateOfBirth: currentOrPastDateUI('Date of birth'),
-                  },
-                  veteran: {
-                    placeOfBirth: {
-                      'ui:title': 'Place of birth (city, state, territory)',
-                    },
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      claimant: {
-                        type: 'object',
-                        required: ['name', 'ssn', 'dateOfBirth'],
-                        properties: pick(claimant.properties, [
-                          'name',
-                          'ssn',
-                          'dateOfBirth',
-                        ]),
-                      },
-                      veteran: {
-                        type: 'object',
-                        required: ['placeOfBirth'],
-                        properties: pick(veteran.properties, ['placeOfBirth']),
-                      },
-                    },
-                  },
-                },
-              },
+              uiSchema: veteranApplicantDetails.uiSchema,
+              schema: veteranApplicantDetails.schema,
             },
             nonVeteranApplicantDetails: {
               title: 'Applicant details',
               path: 'nonVeteran-applicant-details',
               depends: formData => !isVeteran(formData),
-              uiSchema: {
-                'ui:description': applicantDescription,
-                application: {
-                  'ui:title': applicantDetailsSubHeader,
-                  claimant: {
-                    name: fullMaidenNameUI,
-                    ssn: ssnDashesUI,
-                    dateOfBirth: currentOrPastDateUI('Date of birth'),
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      claimant: {
-                        type: 'object',
-                        required: ['name', 'ssn', 'dateOfBirth'],
-                        properties: pick(claimant.properties, [
-                          'name',
-                          'ssn',
-                          'dateOfBirth',
-                        ]),
-                      },
-                    },
-                  },
-                },
-              },
+              uiSchema: nonVeteranApplicantDetails.uiSchema,
+              schema: nonVeteranApplicantDetails.schema,
             },
             applicantDemographics: {
               title: 'Applicant demographics',
               path: 'applicant-demographics',
               depends: isVeteran,
-              uiSchema: {
-                'ui:description': applicantDescription,
-                application: {
-                  'ui:title': applicantDemographicsSubHeader,
-                  'ui:description': applicantDemographicsDescription,
-                  veteran: veteranUI,
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: ['gender', 'race', 'maritalStatus'],
-                        properties: pick(veteran.properties, [
-                          'gender',
-                          'race',
-                          'maritalStatus',
-                        ]),
-                      },
-                    },
-                  },
-                },
-              },
+              uiSchema: applicantDemographics.uiSchema,
+              schema: applicantDemographics.schema,
             },
             militaryDetails: {
               path: 'applicant-military-details',
               title: 'Military details',
               depends: isVeteran,
-              uiSchema: {
-                application: {
-                  'ui:title': militaryDetailsSubHeader,
-                  veteran: veteranUI,
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: ['militaryStatus'],
-                        properties: set(
-                          'militaryStatus.enum',
-                          veteran.properties.militaryStatus.enum.filter(
-                            // Doesn't make sense to have options for the
-                            // Veteran to say they're deceased
-                            opt => !['I', 'D'].includes(opt),
-                          ),
-                          pick(veteran.properties, [
-                            'militaryServiceNumber',
-                            'vaClaimNumber',
-                            'militaryStatus',
-                          ]),
-                        ),
-                      },
-                    },
-                  },
-                },
-              },
+              uiSchema: militaryDetails.uiSchema,
+              schema: militaryDetails.schema,
             },
           }
         : {
