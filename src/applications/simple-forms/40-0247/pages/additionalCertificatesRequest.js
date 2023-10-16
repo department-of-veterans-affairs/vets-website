@@ -3,7 +3,7 @@ import React from 'react';
 import {
   addressNoMilitaryUI,
   addressNoMilitarySchema,
-} from 'platform/forms-system/src/js/web-component-patterns/addressPattern.jsx';
+} from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 import {
   numberUI,
   numberSchema,

@@ -1,4 +1,5 @@
 import { within } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 export const getByBrokenText = (text, container) => {
   return within(container).getByText((content, node) => {
@@ -10,4 +11,11 @@ export const getByBrokenText = (text, container) => {
 
     return nodeHasText && childrenDontHaveText;
   });
+};
+
+export const selectVaRadio = (container, label) => {
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: label },
+  });
+  $('va-radio', container).__events.vaValueChange(changeEvent);
 };
