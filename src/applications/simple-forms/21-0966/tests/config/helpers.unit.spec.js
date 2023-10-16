@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
   contactInformationStepperTitle,
-  preparerIsSurvivingDependant,
+  preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
-  preparerIsThirdPartyToASurvivingDependant,
+  preparerIsThirdPartyToASurvivingDependent,
   preparerIsThirdParty,
   preparerIsVeteran,
   benefitSelectionTitle,
@@ -29,9 +29,9 @@ describe('form helper functions', () => {
     };
 
     expect(preparerIsVeteran({ formData })).to.equal(true);
-    expect(preparerIsSurvivingDependant({ formData })).to.equal(false);
+    expect(preparerIsSurvivingDependent({ formData })).to.equal(false);
     expect(preparerIsThirdPartyToTheVeteran({ formData })).to.equal(false);
-    expect(preparerIsThirdPartyToASurvivingDependant({ formData })).to.equal(
+    expect(preparerIsThirdPartyToASurvivingDependent({ formData })).to.equal(
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
@@ -41,15 +41,15 @@ describe('form helper functions', () => {
     expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
   });
 
-  it('provides the correct information for a surviving dependant', () => {
+  it('provides the correct information for a surviving dependent', () => {
     const formData = {
-      preparerIdentification: 'SURVIVING_DEPENDANT',
+      preparerIdentification: 'SURVIVING_DEPENDENT',
     };
 
     expect(preparerIsVeteran({ formData })).to.equal(false);
-    expect(preparerIsSurvivingDependant({ formData })).to.equal(true);
+    expect(preparerIsSurvivingDependent({ formData })).to.equal(true);
     expect(preparerIsThirdPartyToTheVeteran({ formData })).to.equal(false);
-    expect(preparerIsThirdPartyToASurvivingDependant({ formData })).to.equal(
+    expect(preparerIsThirdPartyToASurvivingDependent({ formData })).to.equal(
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
@@ -65,9 +65,9 @@ describe('form helper functions', () => {
     };
 
     expect(preparerIsVeteran({ formData })).to.equal(false);
-    expect(preparerIsSurvivingDependant({ formData })).to.equal(false);
+    expect(preparerIsSurvivingDependent({ formData })).to.equal(false);
     expect(preparerIsThirdPartyToTheVeteran({ formData })).to.equal(true);
-    expect(preparerIsThirdPartyToASurvivingDependant({ formData })).to.equal(
+    expect(preparerIsThirdPartyToASurvivingDependent({ formData })).to.equal(
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
@@ -77,15 +77,15 @@ describe('form helper functions', () => {
     expect(contactInformationStepperTitle({ formData })).to.match(/Veteran/i);
   });
 
-  it('provides the correct information for a third party to the surviving dependant', () => {
+  it('provides the correct information for a third party to the surviving dependent', () => {
     const formData = {
-      preparerIdentification: 'THIRD_PARTY_SURVIVING_DEPENDANT',
+      preparerIdentification: 'THIRD_PARTY_SURVIVING_DEPENDENT',
     };
 
     expect(preparerIsVeteran({ formData })).to.equal(false);
-    expect(preparerIsSurvivingDependant({ formData })).to.equal(false);
+    expect(preparerIsSurvivingDependent({ formData })).to.equal(false);
     expect(preparerIsThirdPartyToTheVeteran({ formData })).to.equal(false);
-    expect(preparerIsThirdPartyToASurvivingDependant({ formData })).to.equal(
+    expect(preparerIsThirdPartyToASurvivingDependent({ formData })).to.equal(
       true,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
@@ -101,9 +101,9 @@ describe('form helper functions', () => {
     };
 
     expect(preparerIsVeteran({ formData })).to.equal(false);
-    expect(preparerIsSurvivingDependant({ formData })).to.equal(false);
+    expect(preparerIsSurvivingDependent({ formData })).to.equal(false);
     expect(preparerIsThirdPartyToTheVeteran({ formData })).to.equal(false);
-    expect(preparerIsThirdPartyToASurvivingDependant({ formData })).to.equal(
+    expect(preparerIsThirdPartyToASurvivingDependent({ formData })).to.equal(
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
