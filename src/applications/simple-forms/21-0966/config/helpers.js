@@ -40,6 +40,16 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
   );
 };
 
+export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+  if (preparerIsThirdParty({ formData })) {
+    return 'thirdPartyPreparerFullName';
+  }
+  if (preparerIsVeteran({ formData })) {
+    return 'veteranFullName';
+  }
+  return 'survivingDependentFullName';
+};
+
 export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
