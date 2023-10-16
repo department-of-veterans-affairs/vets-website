@@ -6,6 +6,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 // internal app imports
 import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
+import { SHARED_PATHS } from '../utils/constants';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -24,6 +25,19 @@ import veteranMailingAddress from './chapters/veteranInformation/mailingAddress'
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
 
+// chapter 3 - Insurance Information
+import medicaidEligibility from './chapters/insuranceInformation/medicaid';
+import medicarePartAEnrollment from './chapters/insuranceInformation/medicare';
+import partAEffectiveDate from './chapters/insuranceInformation/partAEffectiveDate';
+import insurancePolicies from './chapters/insuranceInformation/insurancePolicies';
+import InsuranceSummaryPage from '../components/FormPages/InsuranceSummary';
+import InsurancePolicyInformationPage from '../components/FormPages/InsurancePolicyInformation';
+import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
+
+// declare shared paths for custom form page navigation
+const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
+
+// declare form config object
 const formConfig = {
   title: content['form-title'],
   subTitle: content['form-subtitle'],
@@ -128,6 +142,50 @@ const formConfig = {
           initialData: {},
           uiSchema: veteranContantInformation.uiSchema,
           schema: veteranContantInformation.schema,
+        },
+      },
+    },
+    insuranceInformation: {
+      title: 'Insurance information',
+      pages: {
+        medicaidEligibility: {
+          path: 'insurance-information/medicaid-eligibility',
+          title: 'Medicaid eligibility',
+          initialData: {},
+          uiSchema: medicaidEligibility.uiSchema,
+          schema: medicaidEligibility.schema,
+        },
+        medicarePartAEnrollment: {
+          path: 'insurance-information/medicare-part-a-enrollment',
+          title: 'Medicare Part A enrollment',
+          initialData: {},
+          uiSchema: medicarePartAEnrollment.uiSchema,
+          schema: medicarePartAEnrollment.schema,
+        },
+        medicarePartAEffectiveDate: {
+          path: 'insurance-information/medicare-part-a-effective-date',
+          title: 'Medicare Part A effective date',
+          initialData: {},
+          depends: formData => formData.isEnrolledMedicarePartA,
+          uiSchema: partAEffectiveDate.uiSchema,
+          schema: partAEffectiveDate.schema,
+        },
+        insurancePolicies: {
+          path: INSURANCE_PATHS.summary,
+          title: 'Insurance policies',
+          CustomPage: InsuranceSummaryPage,
+          CustomPageReview: InsurancePolicyReviewPage,
+          uiSchema: insurancePolicies.uiSchema,
+          schema: insurancePolicies.schema,
+        },
+        insurancePolicyInformation: {
+          path: INSURANCE_PATHS.info,
+          title: 'Insurance policy information',
+          depends: formData => !formData['view:skipDependentInfo'],
+          CustomPage: InsurancePolicyInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
