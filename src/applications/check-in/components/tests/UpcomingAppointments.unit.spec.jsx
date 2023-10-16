@@ -42,6 +42,7 @@ describe('unified check-in experience', () => {
         )
         .returns({
           isComplete: false,
+          isLoading: true,
           upcomingAppointmentsDataError: false,
         });
       const screen = render(
@@ -63,6 +64,7 @@ describe('unified check-in experience', () => {
         )
         .returns({
           isComplete: true,
+          isLoading: false,
           upcomingAppointmentsDataError: true,
         });
       const screen = render(

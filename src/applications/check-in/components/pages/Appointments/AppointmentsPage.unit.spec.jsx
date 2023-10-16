@@ -36,7 +36,7 @@ describe('unified check-in experience', () => {
         .stub(useGetCheckInDataModule, 'useGetCheckInData')
         .returns({
           isComplete: false,
-          refreshCheckInData: () => false,
+          isLoading: true,
         });
       const screen = render(
         <CheckInProvider>
