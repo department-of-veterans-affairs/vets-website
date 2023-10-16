@@ -100,6 +100,7 @@ export default function AppointmentColumnLayout({
             <span
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
+              data-testid="day"
             >
               {parsedDate.format('ddd')}
             </span>

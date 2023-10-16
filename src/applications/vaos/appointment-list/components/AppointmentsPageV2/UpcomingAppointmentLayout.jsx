@@ -31,7 +31,10 @@ export default function UpcomingAppointmentLayout({
             },
           )}
         >
-          <ul className="usa-unstyled-list vaos-appts__list">
+          <ul
+            className="usa-unstyled-list vaos-appts__list"
+            data-testid={`${key}-group`}
+          >
             {hashTable[key].map((appt, j) => {
               const isFirstInDay = j === 0;
               const link = getLink({

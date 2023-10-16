@@ -288,7 +288,7 @@ export default function PastAppointmentsListNew() {
                   'vads-u-border-color--gray-medium': featureAppointmentList,
                 },
               )}
-              data-cy="past-appointment-list"
+              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
               {featureAppointmentList &&
@@ -353,6 +353,7 @@ export default function PastAppointmentsListNew() {
               });
               dispatch(startNewAppointmentFlow());
             }}
+            level={2}
           />
         </div>
       )}

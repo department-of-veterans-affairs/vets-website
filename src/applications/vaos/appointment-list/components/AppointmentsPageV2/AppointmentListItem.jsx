@@ -4,7 +4,12 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { selectFeatureAppointmentList } from '../../../redux/selectors';
 
-export default function AppointmentListItem({ children, className, id }) {
+export default function AppointmentListItem({
+  children,
+  className,
+  id,
+  ...props
+}) {
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
   );
@@ -16,7 +21,8 @@ export default function AppointmentListItem({ children, className, id }) {
         `${className}`,
       )}
       data-request-id={id}
-      data-cy="appointment-list-item"
+      data-testid="appointment-list-item"
+      {...props}
     >
       {children}
     </li>
