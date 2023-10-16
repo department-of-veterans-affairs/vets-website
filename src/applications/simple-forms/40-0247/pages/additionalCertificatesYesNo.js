@@ -1,7 +1,7 @@
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern.jsx';
+} from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
 
 /* @type {PageSchema} */
 export default {

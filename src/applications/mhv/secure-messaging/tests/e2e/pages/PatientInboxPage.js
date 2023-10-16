@@ -342,7 +342,7 @@ class PatientInboxPage {
     cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
-      .click();
+      .click({ waitForAnimations: true });
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
@@ -371,8 +371,7 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   navigateToInterstitialPage = () => {
