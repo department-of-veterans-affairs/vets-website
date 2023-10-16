@@ -75,10 +75,15 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        preparerIsThirdParty({ formData })
-          ? 'thirdPartyPreparerFullName'
-          : 'survivingDependentFullName',
+      fullNamePath: formData => {
+        if (preparerIsThirdParty({ formData })) {
+          return 'thirdPartyPreparerFullName';
+        }
+        if (preparerIsVeteran({ formData })) {
+          return 'veteranFullName';
+        }
+        return 'survivingDependentFullName';
+      },
     },
   },
   formId: '21-0966',
