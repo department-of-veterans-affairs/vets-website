@@ -10,25 +10,33 @@ export default {
       .path,
   veteranBenefitSelection:
     formChapters.benefitSelectionChapter.pages.veteranBenefitSelection.path,
-  survivingDependantBenefitSelection:
+  survivingDependentBenefitSelection:
     formChapters.benefitSelectionChapter.pages
-      .survivingDependantBenefitSelection.path,
-  personalInformation:
-    formChapters.personalInformationChapter.pages.personalInformation.path,
-  identificationInformation:
-    formChapters.personalInformationChapter.pages.identificationInformation
-      .path,
-  mailingAddress:
-    formChapters.contactInformationChapter.pages.mailingAddress.path,
-  phoneAndEmailAddress:
-    formChapters.contactInformationChapter.pages.phoneAndEmailAddress.path,
+      .survivingDependentBenefitSelection.path,
+  survivingDependentPersonalInformation:
+    formChapters.survivingDependentPersonalInformationChapter.pages
+      .personalInformation.path,
+  survivingDependentIdentificationInformation:
+    formChapters.survivingDependentPersonalInformationChapter.pages
+      .identificationInformation.path,
+  survivingDependentMailingAddress:
+    formChapters.survivingDependentContactInformationChapter.pages
+      .mailingAddress.path,
+  survivingDepedentPhoneAndEmailAddress:
+    formChapters.survivingDependentContactInformationChapter.pages
+      .phoneAndEmailAddress.path,
   veteranPersonalInformation:
-    formChapters.veteranPersonalInformationChapter.pages
-      .veteranPersonalInformation.path,
+    formChapters.veteranPersonalInformationChapter.pages.personalInformation
+      .path,
   veteranIdentificationInformation:
     formChapters.veteranPersonalInformationChapter.pages
-      .veteranIdentificationInformation.path,
+      .identificationInformation.path,
   relationshipToVeteran:
     formChapters.veteranPersonalInformationChapter.pages.relationshipToVeteran
+      .path,
+  veteranMailingAddress:
+    formChapters.veteranContactInformationChapter.pages.mailingAddress.path,
+  veteranPhoneAndEmailAddress:
+    formChapters.veteranContactInformationChapter.pages.phoneAndEmailAddress
       .path,
 };
