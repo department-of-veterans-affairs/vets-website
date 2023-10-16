@@ -80,7 +80,7 @@ class MedicationsSite {
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
       'have.text',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, available to fill or refill first`,
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, last filled first`,
     );
   };
 }
