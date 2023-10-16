@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import prescriptions from '../../fixtures/prescriptions.json';
 import MedicationsList from '../../../components/MedicationsList/MedicationsList';
 import reducer from '../../../reducers';
+import { rxListSortingOptions } from '../../../util/constants';
 
 describe('Medicaitons List component', () => {
   const initialState = {
@@ -21,13 +22,13 @@ describe('Medicaitons List component', () => {
     return 1;
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, sortOption = 'lastFilledFirst') => {
     return renderWithStoreAndRouter(
       <MedicationsList
         rxList={prescriptions}
         pagination={pagination}
         setCurrentPage={setCurrentPage}
-        selectedSortOption="lastFilledFirst"
+        selectedSortOption={sortOption}
       />,
       {
         initialState: state,
@@ -45,5 +46,18 @@ describe('Medicaitons List component', () => {
   it('displays pagination list data ie Showing 1 - 20 of 20 medications', () => {
     const screen = setup();
     expect(screen.findByText('Showing 1 - 20 of 20 medications'));
+  });
+
+  it('shows sorting selection', () => {
+    const screen = setup();
+    expect(screen.findByText('medications, last filled first'));
+  });
+
+  it('shows different sorting selections', () => {
+    const screen1 = setup(initialState, 'alphabeticallyByStatus');
+    const screen2 = setup(initialState, 'alphabeticalOrder');
+
+    expect(screen1.findByText(rxListSortingOptions.alphabeticallyByStatus));
+    expect(screen2.findByText(rxListSortingOptions.alphabeticalOrder));
   });
 });
