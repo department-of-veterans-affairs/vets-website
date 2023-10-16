@@ -7,11 +7,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.benefitSelectionChapter.pages.survivingDependentBenefitSelection;
+} = formConfig.chapters.veteranContactInformationChapter.pages.mailingAddress;
 
-const pageTitle = 'Surviving dependent benefit selection';
+const pageTitle = 'Mailing address';
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 8;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 4;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
