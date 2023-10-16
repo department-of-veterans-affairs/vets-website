@@ -28,11 +28,21 @@ export default {
         attachmentDescription: {
           'ui:title': 'Document description',
         },
-        // TODO: Sync with b/e to determine proper URL
-        fileUploadUrl: `${environment.API_URL}/v0/simple-forms/40-0247/files`,
-        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-        createPayload,
-        parseResponse,
+        fileUploadUrl: `${
+          environment.API_URL
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+        fileTypes: ['jpg', 'jpeg', 'png'],
+        createPayload: file => {
+          const payload = new FormData();
+          payload.append('file', file);
+          payload.set('form_id', '40-0247');
+          return payload;
+        },
+        parseResponse: fileInfo => ({
+          name: fileInfo.data.attributes.name,
+          size: fileInfo.data.attributes.size,
+          confirmationCode: fileInfo.data.attributes.confirmationCode,
+        }),
         classNames: 'schemaform-file-upload',
       },
     },
