@@ -43,7 +43,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformation: {
-      title: 'Veteran Personal Information',
+      title: 'Veteran’s Personal Information',
       pages: {
         // personalInformationAuth: {
         //   title: personalInformation.authenticated.title,
