@@ -1,11 +1,10 @@
-// TODO: uncomment all when user research is complete
+// this file will be deleted when research is complete
+// and replaced with TempResults1Page2
 import React, { useEffect, useState } from 'react';
-// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { accordions } from '../../../constants/results-set-1-page-2-accordions';
 import { customizeTitle } from '../../../utilities/customize-title';
-// import { ROUTES } from '../../../constants';
 
 const ResultsSet1Page2 = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -14,15 +13,6 @@ const ResultsSet1Page2 = () => {
   useEffect(() => {
     document.title = customizeTitle(H1);
   });
-
-  // useEffect(
-  //   () => {
-  //     if (!viewedResultsPage1) {
-  //       router.push(ROUTES.RESULTS_SET_1_PAGE_1);
-  //     }
-  //   },
-  //   [viewedResultsPage1, router],
-  // );
 
   useEffect(
     () => {
@@ -129,12 +119,6 @@ ResultsSet1Page2.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  // viewedResultsPage1: PropTypes.bool.isRequired,
 };
 
-// const mapStateToProps = state => ({
-//   viewedResultsPage1: state?.pactAct?.viewedResultsPage1,
-// });
-
-// export default connect(mapStateToProps)(ResultsSet1Page2);
 export default ResultsSet1Page2;

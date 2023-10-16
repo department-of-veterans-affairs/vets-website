@@ -62,10 +62,6 @@ const PrintBtn = props => {
           large
           modalTitle="What do you want to print?"
           onCloseEvent={closeModal}
-          onPrimaryButtonClick={handleConfirmPrint}
-          onSecondaryButtonClick={closeModal}
-          primaryButtonText="Print"
-          secondaryButtonText="Cancel"
           data-testid="print-modal-popup"
           visible={isModalVisible}
         >
@@ -94,6 +90,8 @@ const PrintBtn = props => {
               />
             </VaRadio>
           </div>
+          <va-button text="Print" onClick={handleConfirmPrint} />
+          <va-button secondary text="Cancel" onClick={closeModal} />
         </VaModal>
       </div>
     );
