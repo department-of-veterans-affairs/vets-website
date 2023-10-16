@@ -1,5 +1,26 @@
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
+export function minMaxValidation(min, max) {
+  return (errors, formData, uiSchema, schema, errorMessages) => {
+    const value = parseInt(formData, 10);
+
+    let defaultErrorMessage = `Enter a number between ${min} and ${max}`;
+    if (min !== undefined && max === undefined) {
+      defaultErrorMessage = `Enter a number larger than ${
+        min - 1 > 0 ? min - 1 : 0
+      }`;
+    } else if (min === undefined && max !== undefined) {
+      defaultErrorMessage = `Enter a number smaller than ${max + 1}`;
+    }
+
+    if (value < min) {
+      errors.addError(errorMessages?.min || defaultErrorMessage);
+    } else if (value > max) {
+      errors.addError(errorMessages?.max || defaultErrorMessage);
+    }
+  };
+}
+
 /**
  * Web component uiSchema for a number based input which uses VaTextInputField
  *
@@ -11,7 +32,9 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  *  title: 'Amount of documents',
  *  description: 'This is a description',
  *  hint: 'This is a hint'
- *  width: 'xs'
+ *  width: 'sm'
+ *  min: 0,
+ *  max: 99
  * })
  * ```
  *
@@ -27,12 +50,22 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  *   hint?: string,
  *   width?: UISchemaOptions['ui:options']['width'],
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *   min?: number,
+ *   max?: number,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
 export const numberUI = options => {
-  const { title, description, errorMessages, ...uiOptions } =
+  const { title, description, errorMessages, min, max, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
+
+  let validations = {};
+
+  if (min !== undefined || max !== undefined) {
+    validations = {
+      'ui:validations': [minMaxValidation(min, max)],
+    };
+  }
 
   return {
     'ui:title': title,
@@ -44,7 +77,6 @@ export const numberUI = options => {
     'ui:webComponentField': VaTextInputField,
     'ui:options': {
       inputmode: 'numeric',
-      width: 'sm',
       ...uiOptions,
     },
     'ui:errorMessages': {
@@ -52,6 +84,7 @@ export const numberUI = options => {
       pattern: 'Please enter a valid number',
       ...errorMessages,
     },
+    ...validations,
   };
 };
 

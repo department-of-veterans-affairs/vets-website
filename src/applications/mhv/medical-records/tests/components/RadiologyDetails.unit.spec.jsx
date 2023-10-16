@@ -2,9 +2,11 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import RadiologyDetails from '../../components/LabsAndTests/RadiologyDetails';
 import radiology from '../fixtures/radiology.json';
+import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 
 describe('Radiology details component', () => {
@@ -20,7 +22,11 @@ describe('Radiology details component', () => {
   let screen;
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
-      <RadiologyDetails record={radiologyRecord} fullState={initialState} />,
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
       {
         initialState,
         reducers: reducer,
@@ -30,7 +36,7 @@ describe('Radiology details component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the test name', () => {
@@ -58,5 +64,43 @@ describe('Radiology details component', () => {
       selector: 'p',
     });
     expect(results).to.exist;
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('Radiology details component with missing fields', () => {
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          radiologyWithMissingFields,
+        ),
+      },
+    },
+  };
+
+  const screen = renderWithStoreAndRouter(
+    <RadiologyDetails
+      record={convertLabsAndTestsRecord(radiologyWithMissingFields)}
+      fullState={initialState}
+      runningUnitTest
+    />,
+    {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests/123',
+    },
+  );
+
+  it('should not display the date if date is missing', () => {
+    waitFor(() => {
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
+        'None noted',
+      );
+    });
   });
 });

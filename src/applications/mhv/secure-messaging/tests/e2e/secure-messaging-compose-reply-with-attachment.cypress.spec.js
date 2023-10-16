@@ -36,7 +36,8 @@ describe('Start a new message With Attacments and Errors', () => {
       .type('Test message body', { force: true, waitforanimations: true });
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.sendMessage();
+
     composePage.verifySendMessageConfirmationMessageText();
-    // composePage.verifySendMessageConfirmationMessageHasFocus();
+    cy.get('h1').should('be.focused');
   });
 });

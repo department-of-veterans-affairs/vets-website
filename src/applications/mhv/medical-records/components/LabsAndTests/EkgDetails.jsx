@@ -14,14 +14,14 @@ import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 
 const EkgDetails = props => {
-  const { record } = props;
+  const { record, runningUnitTest } = props;
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const formattedDate = formatDateLong(record?.date);
+  const formattedDate = record.date ? formatDateLong(record?.date) : '';
 
   useEffect(
     () => {
@@ -89,72 +89,74 @@ const EkgDetails = props => {
     };
 
     try {
-      await generatePdf('medicalRecords', 'electrocardiogram_report', pdfData);
+      if (!runningUnitTest) {
+        await generatePdf(
+          'medicalRecords',
+          'electrocardiogram_report',
+          pdfData,
+        );
+      }
     } catch (error) {
       sendErrorToSentry(error, 'EKG');
     }
   };
 
-  const download = () => {
-    generateEkgDetails();
-  };
-
   const content = () => {
-    if (record) {
-      return (
-        <>
-          <PrintHeader />
-          <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
-            {record.name}
-          </h1>
-          <div className="time-header">
-            <h2
-              className="vads-u-font-size--base vads-u-font-family--sans"
-              id="ekg-date"
+    return (
+      <>
+        <PrintHeader />
+        <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
+          {record.name}
+        </h1>
+        <div className="time-header">
+          <h2
+            className="vads-u-font-size--base vads-u-font-family--sans"
+            id="ekg-date"
+          >
+            Date:{' '}
+            <span
+              className="vads-u-font-weight--normal"
+              data-testid="header-time"
             >
-              Date:{' '}
-              <span className="vads-u-font-weight--normal">
-                {formattedDate}
-              </span>
-            </h2>
-          </div>
-          <div className="electrocardiogram-buttons no-print">
-            <PrintDownload
-              download={download}
-              allowTxtDownloads={allowTxtDownloads}
-            />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          </div>
-          <div className="electrocardiogram-details max-80">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Ordering location
-            </h2>
-            <p>
-              {record.facility || 'There is no facility reported at this time'}
-            </p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Results
-            </h2>
-            <p>
-              Your EKG results aren’t available in this tool. To get your EKG
-              results, you can request a copy of your complete medical record
-              from your VA health facility.
-            </p>
-            <p className="vads-u-margin-top--2 no-print">
-              <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
-                Learn how to get records from your VA health facility
-              </a>
-            </p>
-          </div>
-        </>
-      );
-    }
-    return <></>;
+              {formattedDate}
+            </span>
+          </h2>
+        </div>
+        <div className="electrocardiogram-buttons no-print">
+          <PrintDownload
+            download={generateEkgDetails}
+            allowTxtDownloads={allowTxtDownloads}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        </div>
+        <div className="electrocardiogram-details max-80">
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            Ordering location
+          </h2>
+          <p>
+            {record.facility || 'There is no facility reported at this time'}
+          </p>
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+            Results
+          </h2>
+          <p>
+            Your EKG results aren’t available in this tool. To get your EKG
+            results, you can request a copy of your complete medical record from
+            your VA health facility.
+          </p>
+          <p className="vads-u-margin-top--2 no-print">
+            <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
+              Learn how to get records from your VA health facility
+            </a>
+          </p>
+        </div>
+      </>
+    );
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {content()}
+      {record && content()}
     </div>
   );
 };
@@ -163,4 +165,5 @@ export default EkgDetails;
 
 EkgDetails.propTypes = {
   record: PropTypes.object,
+  runningUnitTest: PropTypes.bool,
 };
