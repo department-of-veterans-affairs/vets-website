@@ -60,9 +60,9 @@ describe('Medicaitons List component', () => {
   });
 
   it('shows different sorting selections', () => {
-    const screen1 = setup(initialState, 'alphabeticallyByStatus');
+    const screen = setup(initialState, 'alphabeticallyByStatus');
 
-    const alphabeticallyByStatus = screen1.getByTestId('page-total-info');
+    const alphabeticallyByStatus = screen.getByTestId('page-total-info');
 
     expect(alphabeticallyByStatus).to.contain.text(
       rxListSortingOptions.alphabeticallyByStatus.LABEL.toLowerCase(),
