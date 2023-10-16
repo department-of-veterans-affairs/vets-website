@@ -56,10 +56,9 @@ const recipientsResponseFalse = {
 };
 
 describe('recipients dropdown box', () => {
-  it('preferredTriageTeam selcet dropdown default ', () => {
+  it('preferredTriageTeam select dropdown default ', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
-    const patientInterstitialPage = new PatientInterstitialPage();
     site.login();
     landingPage.loadInboxMessages(
       mockMessages,
@@ -68,7 +67,7 @@ describe('recipients dropdown box', () => {
     );
 
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -79,7 +78,7 @@ describe('recipients dropdown box', () => {
     });
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
-      .shadow()
+      .find('select')
       .find('option')
       .its('length')
       .should('equal', 3);
@@ -89,7 +88,6 @@ describe('recipients dropdown box', () => {
   });
   it('preferredTriageTeam select dropdown false', () => {
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages(
@@ -98,7 +96,7 @@ describe('recipients dropdown box', () => {
       recipientsResponseFalse,
     );
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -114,7 +112,7 @@ describe('recipients dropdown box', () => {
     ).as('recipients');
     cy.wait('@recipients').then(() => {
       cy.get('[data-testid="compose-recipient-select"]')
-        .shadow()
+        .find('select')
         .find('option')
         // filtering not required. all elements should be visible due to inheritance from parent element
         // .filter(':visible', { timeout: 5000 })
