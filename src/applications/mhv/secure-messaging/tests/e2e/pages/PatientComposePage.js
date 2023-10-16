@@ -45,10 +45,11 @@ class PatientComposePage {
     // cy.wait('@message');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.main-content > va-alert')
-      .should('have.text', 'Secure message was successfully sent.')
-      .and('be.focused');
+  verifySendMessageConfirmationMessageText = () => {
+    cy.get('.main-content > va-alert').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
@@ -382,7 +383,7 @@ class PatientComposePage {
   };
 
   verifyDeleteDraftSuccessfulMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+    cy.get('.main-content > va-alert').should(
       'have.text',
       'Message conversation was successfully moved to Trash.',
     );
