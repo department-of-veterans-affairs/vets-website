@@ -1,16 +1,16 @@
 export const rxListSortingOptions = {
-  availableToFillOrRefillFirst: {
-    API_ENDPOINT:
-      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-    LABEL: 'Available to fill or refill first',
-  },
   lastFilledFirst: {
     API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
     LABEL: 'Last filled first',
   },
+  alphabeticallyByStatus: {
+    API_ENDPOINT:
+      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+    LABEL: 'Alphabetically by status',
+  },
   alphabeticalOrder: {
     API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
-    LABEL: 'Alphabetical Order',
+    LABEL: 'Alphabetically by name',
   },
 };
 
@@ -84,3 +84,9 @@ export const dispStatusObj = {
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+
+export const PDF_GENERATE_STATUS = {
+  NotStarted: 'PDF_GENERATE_NOT_STARTED',
+  InProgress: 'PDF_GENERATE_IN_PROGRESS',
+  Success: 'PDF_GENERATE_SUCESS',
+};

@@ -27,6 +27,7 @@ describe('Medicaitons List component', () => {
         rxList={prescriptions}
         pagination={pagination}
         setCurrentPage={setCurrentPage}
+        selectedSortOption="lastFilledFirst"
       />,
       {
         initialState: state,

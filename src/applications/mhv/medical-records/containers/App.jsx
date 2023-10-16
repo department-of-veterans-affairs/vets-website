@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 // import Navigation from '../components/Navigation';
@@ -11,6 +12,18 @@ import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
+  const { featureTogglesLoading, appEnabled } = useSelector(
+    state => {
+      return {
+        featureTogglesLoading: state.featureToggles.loading,
+        appEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease
+          ],
+      };
+    },
+    state => state.featureToggles,
+  );
 
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
@@ -60,6 +73,22 @@ const App = ({ children }) => {
     resizeObserver.observe(measuredRef.current);
   }, []);
 
+  if (featureTogglesLoading) {
+    return (
+      <div className="vads-l-grid-container">
+        <va-loading-indicator
+          message="Loading your medical records..."
+          setFocus
+          data-testid="mr-feature-flag-loading-indicator"
+        />
+      </div>
+    );
+  }
+  // If the user is not whitelisted or feature flag is disabled, redirect them.
+  if (!appEnabled) {
+    window.location.replace('/');
+    return <></>;
+  }
   return (
     <RequiredLoginView user={user}>
       <div

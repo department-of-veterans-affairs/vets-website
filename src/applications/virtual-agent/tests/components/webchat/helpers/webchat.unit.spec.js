@@ -84,6 +84,28 @@ describe('Webchat.jsx Helpers', () => {
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
       });
+      describe('When there are unexpected values', () => {
+        it('should not throw an error when cardAction.value is not a string', () => {
+          const missingCardActionValue = generateFakeCard({}, 'notOpenUrl');
+          const { nextSpy, recordEventStub } = generateSinonFunctions();
+          cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+            missingCardActionValue,
+          );
+          expect(recordEventStub.notCalled).to.be.true;
+          expect(nextSpy.calledOnce).to.be.true;
+          expect(nextSpy.firstCall.args[0]).to.eql(missingCardActionValue);
+        });
+        it('should not throw an error when cardAction is not present', () => {
+          const missingCardActionObj = {};
+          const { nextSpy, recordEventStub } = generateSinonFunctions();
+          cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+            missingCardActionObj,
+          );
+          expect(recordEventStub.notCalled).to.be.true;
+          expect(nextSpy.calledOnce).to.be.true;
+          expect(nextSpy.firstCall.args[0]).to.eql(missingCardActionObj);
+        });
+      });
     });
 
     describe('when decision letter tracking is disabled', () => {
@@ -239,7 +261,7 @@ describe('Webchat.jsx Helpers', () => {
           const expectedError = captureExceptionStub.firstCall.args[0];
           expect(expectedError.name).to.equal('TypeError');
           expect(expectedError.message).to.equal(
-            'Missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid was undefined"}',
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid was undefined"}',
           );
         });
         it('Should indicate when csrfToke is undefined', () => {
@@ -257,7 +279,7 @@ describe('Webchat.jsx Helpers', () => {
           const expectedError = captureExceptionStub.firstCall.args[0];
           expect(expectedError.name).to.equal('TypeError');
           expect(expectedError.message).to.equal(
-            'Missing required variables: {"csrfToken":"csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
           );
         });
         it('Should indicate when apiSession is undefined', () => {
@@ -275,7 +297,7 @@ describe('Webchat.jsx Helpers', () => {
           const expectedError = captureExceptionStub.firstCall.args[0];
           expect(expectedError.name).to.equal('TypeError');
           expect(expectedError.message).to.equal(
-            'Missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession was undefined","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession was undefined","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
           );
         });
         it('Should indicate when userFirstName is undefined', () => {
@@ -293,7 +315,7 @@ describe('Webchat.jsx Helpers', () => {
           const expectedError = captureExceptionStub.firstCall.args[0];
           expect(expectedError.name).to.equal('TypeError');
           expect(expectedError.message).to.equal(
-            'Missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession present","userFirstName":"userFirstName was undefined","userUuid":"userUuid present"}',
+            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession present","userFirstName":"userFirstName was undefined","userUuid":"userUuid present"}',
           );
         });
       });
@@ -323,7 +345,7 @@ describe('Webchat.jsx Helpers', () => {
         const expectedError = captureExceptionStub.firstCall.args[0];
         expect(expectedError.name).to.equal('TypeError');
         expect(expectedError.message).to.equal(
-          'Missing required variables: {"csrfToken":"csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+          'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken was undefined","apiSession":"apiSession present","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
         );
       });
       it('should not log the value of the csrfToken, userFirstName, and userUuid to Sentry', () => {
@@ -341,7 +363,7 @@ describe('Webchat.jsx Helpers', () => {
         const expectedError = captureExceptionStub.firstCall.args[0];
         expect(expectedError.name).to.equal('TypeError');
         expect(expectedError.message).to.equal(
-          'Missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession was undefined","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
+          'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":"csrfToken present","apiSession":"apiSession was undefined","userFirstName":"userFirstName present","userUuid":"userUuid present"}',
         );
       });
     });
