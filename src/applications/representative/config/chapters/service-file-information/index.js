@@ -15,10 +15,6 @@ export const schema = {
       type: 'string',
       title: 'Your Service number (if applicable)',
     },
-    insuranceNumber: {
-      type: 'string',
-      title: 'Your insurance number (including the letters in front)',
-    },
   },
   required: ['ssn'],
 };
