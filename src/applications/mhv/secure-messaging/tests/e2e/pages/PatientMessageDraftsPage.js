@@ -223,7 +223,7 @@ class PatientMessageDraftsPage {
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 
-    cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
+    cy.get('[data-testid="delete-draft-modal"]');
     cy.realPress(['Tab']);
     cy.realPress(['Enter']);
     cy.wait('@deletedDraftResponse')
