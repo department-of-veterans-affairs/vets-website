@@ -57,7 +57,7 @@ const AppointmentsPage = props => {
     );
   }
   return (
-    <Wrapper pageTitle="Your Appointments" eyebrow="Check-In" withBackButton>
+    <Wrapper pageTitle="Your Appointments" withBackButton>
       <ActionItemDisplay router={router} />
       <UpcomingAppointments router={router} />
     </Wrapper>
