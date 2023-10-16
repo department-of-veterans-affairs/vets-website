@@ -33,7 +33,7 @@ export const applicantDetailsSubHeader = (
 
 export function ApplicantDescriptionWrapper({ formContext }) {
   return (
-    <div className="preNeedApplicantDescription">
+    <div className="ApplicantDescriptionWrapper">
       <ApplicantDescription formContext={formContext} />
     </div>
   );
