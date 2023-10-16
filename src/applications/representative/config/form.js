@@ -48,35 +48,28 @@ const formConfig = {
       title: 'Veteran Personal Information',
       pages: {
         // personalInformationAuth: {
-        //   path: 'personal-information-auth',
         //   title: personalInformation.title,
+        //   path: 'personal-information-auth',
         //   ...personalInformation.authenticated,
         //   depends: () => false,
         // },
         personalInformationNoAuth: {
+          title: personalInformation.unauthenticated.title,
           path: 'personal-information',
-          title: personalInformation.title,
           ...personalInformation.unauthenticated,
         },
-      },
-    },
-    serviceFileInformation: {
-      title: 'Your service file information',
-      pages: {
         serviceFileInformation: {
+          title: serviceFileInformation.title,
           path: 'service-file-information',
           ...serviceFileInformation,
         },
-      },
-    },
-    contactInformation: {
-      title: 'Your contact information',
-      pages: {
         mailingAddress: {
+          title: contactInformation.mailingAddress.title,
           path: 'mailing-address',
           ...contactInformation.mailingAddress,
         },
         additionalInformation: {
+          title: contactInformation.additionalInformation.title,
           path: 'additional-contact-information',
           ...contactInformation.additionalInformation,
         },
