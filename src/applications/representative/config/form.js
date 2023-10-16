@@ -6,18 +6,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   addressChangeAuthorization,
-  // contactInformation,
-  // serviceFileInformation,
   treatmentDisclosureAuthorization,
-  // personalInformation,
+  personalInformation,
 } from './chapters';
-
-import {
-  unauthContactInfo,
-  unauthIdInfo,
-  unauthMailingAddress,
-  unauthNameAndDob,
-} from './chapters/veteran-personal-information';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -61,24 +52,24 @@ const formConfig = {
         //   depends: () => false,
         // },
         personalInformationNoAuth: {
-          title: unauthNameAndDob.title,
+          title: personalInformation.unauthNameAndDob.title,
           path: 'personal-information',
-          ...unauthNameAndDob,
+          ...personalInformation.unauthNameAndDob,
         },
         serviceFileInformation: {
-          title: unauthIdInfo.title,
+          title: personalInformation.unauthIdInfo.title,
           path: 'service-file-information',
-          ...unauthIdInfo,
+          ...personalInformation.unauthIdInfo,
         },
         mailingAddress: {
-          title: unauthMailingAddress.title,
+          title: personalInformation.unauthMailingAddress.title,
           path: 'mailing-address',
-          ...unauthMailingAddress,
+          ...personalInformation.unauthMailingAddress,
         },
         additionalInformation: {
-          title: unauthContactInfo.title,
+          title: personalInformation.unauthContactInfo.title,
           path: 'additional-contact-information',
-          ...unauthContactInfo,
+          ...personalInformation.unauthContactInfo,
         },
       },
     },
