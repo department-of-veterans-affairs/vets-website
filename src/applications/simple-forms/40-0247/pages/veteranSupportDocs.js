@@ -32,17 +32,8 @@ export default {
           environment.API_URL
         }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['jpg', 'jpeg', 'png'],
-        createPayload: file => {
-          const payload = new FormData();
-          payload.append('file', file);
-          payload.set('form_id', '40-0247');
-          return payload;
-        },
-        parseResponse: fileInfo => ({
-          name: fileInfo.data.attributes.name,
-          size: fileInfo.data.attributes.size,
-          confirmationCode: fileInfo.data.attributes.confirmationCode,
-        }),
+        createPayload,
+        parseResponse,
         classNames: 'schemaform-file-upload',
       },
     },
