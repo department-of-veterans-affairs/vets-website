@@ -13,7 +13,6 @@ describe('Secure Messaging Message Details Buttons Check', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const replyPage = new PatientReplyPage();
     site.login();
     const messageDetails = landingPage.setMessageDateToYesterday(
       mockMessageDetails,
@@ -36,6 +35,6 @@ describe('Secure Messaging Message Details Buttons Check', () => {
       },
     });
 
-    replyPage.getMessageBodyField().should('be.visible');
+    PatientReplyPage.getMessageBodyField().should('be.visible');
   });
 });

@@ -11,8 +11,6 @@ describe('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const replyPage = new PatientReplyPage();
-
     const site = new SecureMessagingSite();
     site.login();
     const testMessage = landingPage.getNewMessageDetails();
@@ -23,14 +21,14 @@ describe('Secure Messaging Reply Message Details Thread', () => {
       waitForAnimations: true,
     });
 
-    replyPage.verifyExpandedMessageDateDisplay(testMessage);
+    PatientReplyPage.verifyExpandedMessageDateDisplay(testMessage);
 
     cy.get(
       `[data-testid='expand-message-button-${
         testMessage.data.attributes.messageId
       }']`,
     ).click({ waitforanimations: true });
-    replyPage.verifyExpandedMessageDateDisplay(testMessage);
+    PatientReplyPage.verifyExpandedMessageDateDisplay(testMessage);
     // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);

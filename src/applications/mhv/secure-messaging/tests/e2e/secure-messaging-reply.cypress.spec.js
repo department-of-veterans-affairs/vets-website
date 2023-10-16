@@ -10,7 +10,6 @@ describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
     const testMessage = landingPage.getNewMessageDetails();
@@ -21,7 +20,9 @@ describe('Secure Messaging Reply', () => {
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    replyPage.getMessageBodyField().type('Test message body', { force: true });
+    PatientReplyPage.getMessageBodyField().type('Test message body', {
+      force: true,
+    });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -30,7 +31,7 @@ describe('Secure Messaging Reply', () => {
         },
       },
     });
-    replyPage.sendReplyMessageDetails(testMessage);
-    replyPage.verifySendMessageConfirmationMessageText();
+    PatientReplyPage.sendReplyMessageDetails(testMessage);
+    PatientReplyPage.verifySendMessageConfirmationMessageText();
   });
 });

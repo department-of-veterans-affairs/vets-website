@@ -10,7 +10,6 @@ describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = landingPage.getNewMessageDetails();
@@ -21,7 +20,9 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.loadReplyPageDetails(messageDetails);
     PatientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test message body';
-    replyPage.getMessageBodyField().type(testMessageBody, { force: true });
+    PatientReplyPage.getMessageBodyField().type(testMessageBody, {
+      force: true,
+    });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -34,7 +35,7 @@ describe('Secure Messaging Reply', () => {
       },
     });
 
-    replyPage.saveReplyDraft(messageDetails, testMessageBody);
+    PatientReplyPage.saveReplyDraft(messageDetails, testMessageBody);
     cy.log(
       `the message details after saveReplyDraft ${JSON.stringify(
         messageDetails,
@@ -60,7 +61,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
 
     // Posssibly move this to another test
-    replyPage.sendReplyDraft(
+    PatientReplyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,
       messageDetails.data.attributes.senderId,
       messageDetails.data.attributes.category,
