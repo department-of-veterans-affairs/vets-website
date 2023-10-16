@@ -53,8 +53,8 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 
 # Authenticated Experience
 
-src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Team 1
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
@@ -88,7 +88,7 @@ src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @
 # VSA Debt
 
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/manage-va-debt @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
