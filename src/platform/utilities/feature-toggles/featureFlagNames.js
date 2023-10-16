@@ -163,6 +163,7 @@ export default Object.freeze({
   showMebEnhancements06: 'show_meb_enhancements_06',
   showMebEnhancements08: 'show_meb_enhancements_08',
   showMebEnhancements09: 'show_meb_enhancements_09',
+  showMebInternationAddressPrefill: 'show_meb_international_address_prefill',
   showMeb1990EZMaintenanceAlert: 'show_meb_1990EZ_maintenance_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
