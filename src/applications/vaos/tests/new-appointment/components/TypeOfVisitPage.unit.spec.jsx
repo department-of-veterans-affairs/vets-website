@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { Route } from 'react-router-dom';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
 import TypeOfVisitPage from '../../../new-appointment/components/TypeOfVisitPage';
 
@@ -29,7 +29,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       store,
     });
 
-    await screen.findByLabelText(/office visit/i);
+    await screen.findByLabelText(/in person/i);
 
     expect(screen.getAllByRole('radio').length).to.equal(3);
   });
@@ -56,11 +56,11 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       },
     );
 
-    expect(await screen.findByLabelText(/Office visit/i)).to.exist;
+    expect(await screen.findByLabelText(/In Person/i)).to.exist;
 
-    fireEvent.click(await screen.findByLabelText(/Office visit/i));
+    fireEvent.click(await screen.findByLabelText(/In Person/i));
     await waitFor(() => {
-      expect(screen.getByLabelText(/Office visit/i).checked).to.be.true;
+      expect(screen.getByLabelText(/In Person/i).checked).to.be.true;
     });
     await cleanup();
 
@@ -68,7 +68,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       store,
     });
 
-    expect(await screen.findByLabelText(/Office visit/i)).to.have.attribute(
+    expect(await screen.findByLabelText(/In Person/i)).to.have.attribute(
       'checked',
     );
   });
@@ -82,7 +82,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       },
     );
 
-    fireEvent.click(await screen.findByLabelText(/Office visit/i));
+    fireEvent.click(await screen.findByLabelText(/In Person/i));
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>

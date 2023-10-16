@@ -33,7 +33,7 @@ describe('VAOS <ContactInfoPage>', () => {
     userEvent.type(input, 'joe.blow@gmail.com');
 
     // it should display page heading and description
-    expect(screen.getByText('Confirm your contact information')).to.be.ok;
+    expect(screen.getByText('How should we contact you?')).to.be.ok;
     expect(
       screen.getByText(
         /We’ll use this information to contact you about your appointment\. Any updates you make here will only apply to VA online appointment scheduling/i,
@@ -96,7 +96,7 @@ describe('VAOS <ContactInfoPage>', () => {
     userEvent.click(button);
 
     // it should display page heading
-    expect(screen.getByText('Confirm your contact information')).to.be.ok;
+    expect(screen.getByText('How should we contact you?')).to.be.ok;
 
     expect(await screen.getByText(/^Please choose at least one option/)).to.be
       .ok;

@@ -116,7 +116,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending primary care appointment',
+        name: 'We received your request',
       }),
     );
 
@@ -126,9 +126,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     );
 
     expect(screen.getByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(screen.baseElement).to.contain.text(
-      'Pending primary care appointment',
-    );
+    expect(screen.baseElement).to.contain.text('We received your request');
     expect(screen.baseElement).to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
@@ -138,7 +136,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred type of appointment');
-    expect(screen.baseElement).to.contain.text('Office visit');
+    expect(screen.baseElement).to.contain.text('In Person');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
 
     const start = moment(
@@ -252,7 +250,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending audiology and speech appointment',
+        name: 'We received your request',
       }),
     ).to.be.ok;
 
@@ -387,7 +385,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending audiology and speech appointment',
+        name: 'We received your request',
       }),
     ).to.be.ok;
 
@@ -499,8 +497,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       path: `/requests/${appointment.id}`,
     });
 
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
+    expect(await screen.findByText('We received your request')).to.be.ok;
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
     mockAppointmentCancelFetch({ appointment });
@@ -573,8 +570,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       path: `/requests/${appointment.id}`,
     });
 
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
+    expect(await screen.findByText('We received your request')).to.be.ok;
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
     mockAppointmentCancelFetch({ appointment, error: true });
@@ -656,7 +652,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Pending audiology and speech appointment',
+        name: 'We received your request',
       }),
     ).to.be.ok;
 
@@ -713,8 +709,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     fireEvent.click(detailLinks[0]);
 
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
+    expect(await screen.findByText('We received your request')).to.be.ok;
     expect(
       screen.getByText('VA online scheduling').getAttribute('href'),
     ).to.equal('/');
