@@ -3,21 +3,20 @@ import sinon from 'sinon';
 import {
   cleanUpAnswers,
   gatherDCsNotMetQuestions,
-  gatherFlowSpecificQuestions,
   gatherQuestionsToReset,
   gatherWrongFlowQuestions,
-  getNonNullShortNamesFromStore,
-} from '../utilities/answer-cleanup';
-import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+} from './src/applications/pact-act/utilities/answer-cleanup';
+import {
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from './src/applications/pact-act/constants/question-data-map';
 
 const {
   BURN_PIT_2_1,
   BURN_PIT_2_1_1,
   BURN_PIT_2_1_2,
   ORANGE_2_2_A,
-  ORANGE_2_2_B,
   ORANGE_2_2_1_A,
-  ORANGE_2_2_1_B,
   ORANGE_2_2_2,
   ORANGE_2_2_3,
   RADIATION_2_3_A,
@@ -40,89 +39,6 @@ const {
 } = RESPONSES;
 
 describe('answer cleanup utilities', () => {
-  describe('gatherFlowSpecificQuestions', () => {
-    it('should gather the correct list of SHORT_NAMEs for 1989 or earlier', () => {
-      expect(gatherFlowSpecificQuestions(EIGHTYNINE_OR_EARLIER)).to.deep.equal([
-        ORANGE_2_2_A,
-        ORANGE_2_2_B,
-        ORANGE_2_2_1_A,
-        ORANGE_2_2_1_B,
-        ORANGE_2_2_2,
-        ORANGE_2_2_3,
-        RADIATION_2_3_A,
-        RADIATION_2_3_B,
-        LEJEUNE_2_4,
-      ]);
-    });
-
-    it('should gather the correct list of SHORT_NAMEs for 1990 or later', () => {
-      expect(gatherFlowSpecificQuestions(NINETY_OR_LATER)).to.deep.equal([
-        BURN_PIT_2_1,
-        BURN_PIT_2_1_1,
-        BURN_PIT_2_1_2,
-      ]);
-    });
-
-    it('should gather the correct list of SHORT_NAMEs for during both of these time periods', () => {
-      expect(gatherFlowSpecificQuestions(DURING_BOTH_PERIODS)).to.deep.equal([
-        BURN_PIT_2_1,
-        BURN_PIT_2_1_1,
-        BURN_PIT_2_1_2,
-        ORANGE_2_2_A,
-        ORANGE_2_2_B,
-        ORANGE_2_2_1_A,
-        ORANGE_2_2_1_B,
-        ORANGE_2_2_2,
-        ORANGE_2_2_3,
-        RADIATION_2_3_A,
-        RADIATION_2_3_B,
-        LEJEUNE_2_4,
-      ]);
-    });
-  });
-
-  describe('getNonNullShortNamesFromStore', () => {
-    it('should correctly return all of the non-null short names from the store', () => {
-      const responsesToClean = {
-        SERVICE_PERIOD: DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: NO,
-        BURN_PIT_2_1_1: NOT_SURE,
-        BURN_PIT_2_1_2: null,
-        ORANGE_2_2_A: null,
-        ORANGE_2_2_1_A: null,
-      };
-
-      expect(getNonNullShortNamesFromStore(responsesToClean)).to.deep.equal([
-        SERVICE_PERIOD,
-        BURN_PIT_2_1,
-        BURN_PIT_2_1_1,
-      ]);
-    });
-
-    it('should correctly return all of the non-null short names from the store', () => {
-      const responsesToClean = {
-        SERVICE_PERIOD: DURING_BOTH_PERIODS,
-        BURN_PIT_2_1: NO,
-        BURN_PIT_2_1_1: NOT_SURE,
-        BURN_PIT_2_1_2: NOT_SURE,
-        ORANGE_2_2_A: NOT_SURE,
-        ORANGE_2_2_1_A: NOT_SURE,
-        RADIATION_2_3_A: null,
-        RADIATION_2_3_B: null,
-        LEJEUNE_2_4: null,
-      };
-
-      expect(getNonNullShortNamesFromStore(responsesToClean)).to.deep.equal([
-        SERVICE_PERIOD,
-        BURN_PIT_2_1,
-        BURN_PIT_2_1_1,
-        BURN_PIT_2_1_2,
-        ORANGE_2_2_A,
-        ORANGE_2_2_1_A,
-      ]);
-    });
-  });
-
   describe('gatherWrongFlowQuestions', () => {
     it('should correctly gather the questions with responses that no longer belong in the current service period flow', () => {
       const nonNullShortNames = [
@@ -199,6 +115,7 @@ describe('answer cleanup utilities', () => {
       const currentQuestionName = ORANGE_2_2_1_A;
       const questionsToBeNulled = [];
       const responsesToClean = {
+        SERVICE_PERIOD: DURING_BOTH_PERIODS,
         BURN_PIT_2_1: NO,
         BURN_PIT_2_1_1: NO,
         BURN_PIT_2_1_2: NO,
@@ -336,6 +253,121 @@ describe('answer cleanup utilities', () => {
           BURN_PIT_2_1_2: null,
           ORANGE_2_2_A: YES,
           ORANGE_2_2_B: [KOREA_DMZ, VIETNAM_WATERS],
+        }),
+      ).to.be.true;
+    });
+
+    it('should call the updateCleanedFormStore action with the correct arguments', () => {
+      const responsesInStore = {
+        SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
+        BURN_PIT_2_1: NO,
+        BURN_PIT_2_1_1: NOT_SURE,
+        BURN_PIT_2_1_2: NO,
+        ORANGE_2_2_A: NO,
+        ORANGE_2_2_B: null,
+        ORANGE_2_2_1_A: NO,
+        ORANGE_2_2_2: YES,
+        ORANGE_2_2_3: null,
+        RADIATION_2_3_A: NO,
+        RADIATION_2_3_B: null,
+        LEJEUNE_2_4: YES,
+      };
+
+      const updateCleanedFormStoreSpy = sinon.spy();
+      const currentQuestionName = SERVICE_PERIOD;
+
+      cleanUpAnswers(
+        responsesInStore,
+        updateCleanedFormStoreSpy,
+        currentQuestionName,
+      );
+
+      expect(
+        updateCleanedFormStoreSpy.calledWith({
+          SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
+          BURN_PIT_2_1: null,
+          BURN_PIT_2_1_1: null,
+          BURN_PIT_2_1_2: null,
+          ORANGE_2_2_A: NO,
+          ORANGE_2_2_B: null,
+          ORANGE_2_2_1_A: NO,
+          ORANGE_2_2_2: YES,
+          ORANGE_2_2_3: null,
+          RADIATION_2_3_A: NO,
+          RADIATION_2_3_B: null,
+          LEJEUNE_2_4: YES,
+        }),
+      ).to.be.true;
+    });
+
+    it('should call the updateCleanedFormStore action with the correct arguments', () => {
+      const responsesInStore = {
+        SERVICE_PERIOD: NINETY_OR_LATER,
+        BURN_PIT_2_1: YES,
+        BURN_PIT_2_1_1: NOT_SURE,
+        BURN_PIT_2_1_2: NO,
+      };
+
+      const updateCleanedFormStoreSpy = sinon.spy();
+      const currentQuestionName = BURN_PIT_2_1;
+
+      cleanUpAnswers(
+        responsesInStore,
+        updateCleanedFormStoreSpy,
+        currentQuestionName,
+      );
+
+      expect(
+        updateCleanedFormStoreSpy.calledWith({
+          SERVICE_PERIOD: NINETY_OR_LATER,
+          BURN_PIT_2_1: YES,
+          BURN_PIT_2_1_1: null,
+          BURN_PIT_2_1_2: null,
+        }),
+      ).to.be.true;
+    });
+
+    it('should call the updateCleanedFormStore action with the correct arguments', () => {
+      const responsesInStore = {
+        SERVICE_PERIOD: DURING_BOTH_PERIODS,
+        BURN_PIT_2_1: NOT_SURE,
+        BURN_PIT_2_1_1: NOT_SURE,
+        BURN_PIT_2_1_2: YES,
+        ORANGE_2_2_A: YES,
+        ORANGE_2_2_B: [VIETNAM_WATERS],
+        ORANGE_2_2_1_A: NO,
+        ORANGE_2_2_1_B: null,
+        ORANGE_2_2_2: YES,
+        ORANGE_2_2_3: null,
+        RADIATION_2_3_A: NO,
+        RADIATION_2_3_B: [ENEWETAK_ATOLL],
+        LEJEUNE_2_4: YES,
+      };
+
+      const updateCleanedFormStoreSpy = sinon.spy();
+      const currentQuestionName = RADIATION_2_3_A;
+
+      cleanUpAnswers(
+        responsesInStore,
+        updateCleanedFormStoreSpy,
+        currentQuestionName,
+      );
+
+      expect(
+        updateCleanedFormStoreSpy.calledWith({
+          SERVICE_PERIOD: DURING_BOTH_PERIODS,
+          BURN_PIT_2_1: NOT_SURE,
+          BURN_PIT_2_1_1: NOT_SURE,
+          BURN_PIT_2_1_2: YES,
+          ORANGE_2_2_A: YES,
+          ORANGE_2_2_B: [VIETNAM_WATERS],
+          ORANGE_2_2_1_A: NO,
+          ORANGE_2_2_1_B: null,
+          ORANGE_2_2_2: YES,
+          ORANGE_2_2_3: null,
+          RADIATION_2_3_A: NO,
+          RADIATION_2_3_B: null,
+          LEJEUNE_2_4: YES,
         }),
       ).to.be.true;
     });
