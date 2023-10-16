@@ -1,7 +1,8 @@
 import addressUiSchema from '@department-of-veterans-affairs/platform-forms-system/profileAddress';
 
 const checkboxTitle = 'I live on a U.S. military base outside of the country.';
-export const title = 'Mailing address';
+
+export const title = 'Veteran’s Mailing Address';
 
 export const schema = {
   type: 'object',
