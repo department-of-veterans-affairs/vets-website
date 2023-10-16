@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
-import { makeSelectApp } from '../../../selectors';
+import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import UpcomingAppointments from '../../UpcomingAppointments';
 import ActionItemDisplay from '../../ActionItemDisplay';
@@ -16,20 +16,25 @@ const AppointmentsPage = props => {
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = useState(true);
   const { updateError } = useUpdateError();
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
 
-  const { isComplete, checkInDataError } = useGetCheckInData({
-    refreshNeeded: true,
-    router,
-    isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
-  });
+  const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
+    {
+      refreshNeeded: false,
+      router,
+      isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
+    },
+  );
 
   useEffect(
     () => {
-      setIsLoading(!isComplete);
+      if (!appointments.length) {
+        refreshCheckInData();
+      }
     },
-    [isComplete],
+    [appointments, refreshCheckInData],
   );
 
   useEffect(
