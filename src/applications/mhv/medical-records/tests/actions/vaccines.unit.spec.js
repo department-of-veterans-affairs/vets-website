@@ -22,7 +22,7 @@ describe('Get vaccines action', () => {
     });
   });
   it('should dispatch an add alert action', () => {
-    const mockData = vaccine;
+    const mockData = vaccines;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
     return getVaccinesList()(dispatch).then(async () => {
