@@ -9,7 +9,7 @@ import { rxListSortingOptions } from '../../../util/constants';
 describe('Medicaitons List component', () => {
   const initialState = {
     rx: {
-      prescriptions: {},
+      prescriptions,
     },
   };
   const pagination = {
@@ -43,21 +43,29 @@ describe('Medicaitons List component', () => {
     expect(screen);
   });
 
-  it('displays pagination list data ie Showing 1 - 20 of 20 medications', () => {
+  it('displays pagination list data ie Showing 1 - 20 of 113 medications', () => {
     const screen = setup();
-    expect(screen.findByText('Showing 1 - 20 of 20 medications'));
+    const paginationInfo = screen.getByTestId('page-total-info');
+
+    expect(paginationInfo).to.exist;
   });
 
   it('shows sorting selection', () => {
     const screen = setup();
-    expect(screen.findByText('medications, last filled first'));
+    const paginationInfo = screen.getByTestId('page-total-info');
+
+    expect(paginationInfo).to.contain.text(
+      'Showing 1 - 20 of 113 medications, last filled first',
+    );
   });
 
   it('shows different sorting selections', () => {
     const screen1 = setup(initialState, 'alphabeticallyByStatus');
-    const screen2 = setup(initialState, 'alphabeticalOrder');
 
-    expect(screen1.findByText(rxListSortingOptions.alphabeticallyByStatus));
-    expect(screen2.findByText(rxListSortingOptions.alphabeticalOrder));
+    const alphabeticallyByStatus = screen1.getByTestId('page-total-info');
+
+    expect(alphabeticallyByStatus).to.contain.text(
+      rxListSortingOptions.alphabeticallyByStatus.LABEL.toLowerCase(),
+    );
   });
 });
