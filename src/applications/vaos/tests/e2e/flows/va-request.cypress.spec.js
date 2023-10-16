@@ -16,6 +16,7 @@ import {
   mockVamcEhr,
   mockFacilityApi,
   mockAppointmentApi,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
@@ -29,11 +30,11 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockClinicApi({ locations: ['983HK'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingAcheronService: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
     });
     mockUserTransitionAvailabilities();
+    mockAppointmentCreateApi();
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
@@ -166,7 +167,7 @@ describe('VAOS VA request flow using VAOS service', () => {
 
     mockAppointmentApi({
       id: 'mock1',
-      data: {
+      response: {
         id: 'mock1',
         type: 'appointment',
         attributes: {
@@ -268,7 +269,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     ];
 
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {

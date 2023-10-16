@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 import {
+  mockAppointmentCreateApi,
   mockAppointmentsApi,
   mockClinicApi,
   mockDirectScheduleSlotsApi,
@@ -28,9 +29,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     vaosSetup();
 
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
     });
     mockLoginApi();
     mockAppointmentsApi({ apiVersion: 0 });
@@ -40,6 +39,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     mockClinicApi({ locations: ['983'], apiVersion: 2 });
 
     mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
+    mockAppointmentCreateApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -143,9 +143,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     vaosSetup();
 
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
     });
     mockLoginApi();
     mockAppointmentsApi({ apiVersion: 0 });

@@ -13,6 +13,7 @@ import {
   mockAppointmentApi,
   mockVamcEhr,
   mockGetEligibilityCC,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 
 const rootUrl = 'my-health/appointments/';
@@ -23,11 +24,12 @@ describe('VAOS community care flow using VAOS service', () => {
     mockAppointmentsApi({ data: [], apiVersion: 2 });
     mockCCProvidersApi();
     mockFacilitiesApi({ apiVersion: 2 });
-    mockFeatureToggles({ v2Requests: true, v2Facilities: true });
+    mockFeatureToggles({ vaOnlineSchedulingBreadcrumbUrlUpdate: false });
     mockLoginApi();
     mockSchedulingConfigurationApi();
     mockUserTransitionAvailabilities();
     mockVamcEhr();
+    mockAppointmentCreateApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -54,7 +56,7 @@ describe('VAOS community care flow using VAOS service', () => {
     ];
 
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -79,7 +81,6 @@ describe('VAOS community care flow using VAOS service', () => {
           status: 'pending',
         },
       },
-      id: 'mock1',
     });
     mockAppointmentsApi({ data, apiVersion: 2 });
     mockFacilityApi({ id: '983', apiVersion: 2 });

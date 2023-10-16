@@ -14,6 +14,7 @@ import {
   mockUserTransitionAvailabilities,
   mockAppointmentApi,
   mockGetEligibilityCC,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
@@ -66,17 +67,16 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     mockFacilityApi({ id: '983', apiVersion: 2 });
     mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
-      acheron: true,
+      vaOnlineSchedulingAcheronService: true,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
     });
     mockUserTransitionAvailabilities();
+    mockAppointmentCreateApi();
   });
 
   it('should submit form', () => {
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -155,7 +155,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
 
   it('should submit form with an eye care type of care', () => {
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -248,7 +248,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
 
   it('should submit form with a sleep care type of care', () => {
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
