@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 class ClaimsBreadcrumbs extends React.Component {
   renderBreadcrumbs = childNodes => {
@@ -32,5 +33,9 @@ class ClaimsBreadcrumbs extends React.Component {
     );
   }
 }
+
+ClaimsBreadcrumbs.propTypes = {
+  children: PropTypes.node,
+};
 
 export default ClaimsBreadcrumbs;
