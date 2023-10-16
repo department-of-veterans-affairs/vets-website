@@ -48,7 +48,7 @@ const formConfig = {
       title: 'Veteran Personal Information',
       pages: {
         // personalInformationAuth: {
-        //   title: personalInformation.title,
+        //   title: personalInformation.authenticated.title,
         //   path: 'personal-information-auth',
         //   ...personalInformation.authenticated,
         //   depends: () => false,
