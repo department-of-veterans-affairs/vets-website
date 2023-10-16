@@ -13,15 +13,18 @@ const clinicsVisited = avs => {
         <h3 data-testid="appointment-time">
           {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
-        <h4 className="clinic-information" key="clinicSite">
-          <i
-            className="fas fa-building"
-            aria-hidden="true"
-            data-testid="appointment-icon"
-          />
-          {clinic.site}
-        </h4>
-        <p key="clinicName">Clinic: {clinic.clinic}</p>
+        <p>
+          <span className="clinic-information" key="clinicSite">
+            <i
+              className="fas fa-building"
+              aria-hidden="true"
+              data-testid="appointment-icon"
+            />
+            {clinic.site}
+          </span>
+          <br />
+          <span key="clinicName">Clinic: {clinic.clinic}</span>
+        </p>
       </div>
     );
   });
@@ -108,6 +111,7 @@ const procedures = avs => {
     return (
       <div>
         <h3>Procedures</h3>
+
         {/* TODO: use bulleted list. */}
       </div>
     );
