@@ -62,7 +62,6 @@ describe.skip('Secure Messaging Custom Folder Delete Error Message Validation', 
         },
       },
     });
-
     cy.get('[name="new-folder-name"]')
       .shadow()
       .find('input')

@@ -81,7 +81,19 @@ describe('PACT Act', () => {
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 2);
       h.clickContinue();
 
-      // TODO add Results screen 1 when it exists
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.verifyElement(h.RESULTS_1_P1_HEADER);
+      h.clickResultsContinue();
+
+      // RESULTS 1, P2
+      h.verifyUrl(ROUTES.RESULTS_1_P2);
+      h.verifyElement(h.RESULTS_1_P2_HEADER);
+      h.clickResultsBack();
+
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.clickResultsBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);

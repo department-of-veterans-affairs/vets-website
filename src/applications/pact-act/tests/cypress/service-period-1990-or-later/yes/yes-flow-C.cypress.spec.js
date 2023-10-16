@@ -11,7 +11,7 @@ import { ROUTES } from '../../../../constants';
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('1990 or later - "Yes" to BURN_PIT_2_1_2', () => {
+  describe('1990 or later -  "Yes" to one question category (Results Screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
 
@@ -37,10 +37,22 @@ describe('PACT Act', () => {
 
       // BURN_PIT_2_1_2
       h.verifyUrl(ROUTES.BURN_PIT_2_1_2);
-      h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 1);
+      h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 0);
       h.clickContinue();
 
-      // TODO: test navigation to Results screen 1 when that mapping logic exists
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.verifyElement(h.RESULTS_1_P1_HEADER);
+      h.clickResultsContinue();
+
+      // RESULTS 1, P2
+      h.verifyUrl(ROUTES.RESULTS_1_P2);
+      h.verifyElement(h.RESULTS_1_P2_HEADER);
+      h.clickResultsBack();
+
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.clickResultsBack();
 
       // BURN_PIT_2_1_2
       h.verifyUrl(ROUTES.BURN_PIT_2_1_2);

@@ -241,7 +241,6 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
-      <ParagraphBlock heading="Appointment notes" content={avs.comments} />
       {/* TODO: add problem list */}
       <ParagraphBlock
         heading="Smoking status"

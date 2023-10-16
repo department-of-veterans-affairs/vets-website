@@ -8,7 +8,12 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
-import { SHOW_PART3 } from '../constants';
+import {
+  SHOW_PART3,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+} from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
 import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
@@ -50,15 +55,9 @@ export const FormApp = ({
             ),
           });
         }
-        if (showPart3 && typeof formData[SHOW_PART3] === 'undefined') {
-          setFormData({
-            ...formData,
-            [SHOW_PART3]: showPart3,
-          });
-        }
       }
     },
-    [loggedIn, formData, setFormData, showPart3],
+    [loggedIn, formData, setFormData],
   );
 
   // This useEffect is responsible for 1) loading contestable issues from the API,
@@ -104,6 +103,19 @@ export const FormApp = ({
     [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
   );
 
+  useEffect(
+    () => {
+      if (showPart3 !== formData[SHOW_PART3]) {
+        setFormData({
+          ...formData,
+          [SHOW_PART3]: showPart3,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showPart3, formData[SHOW_PART3]],
+  );
+
   const content = isLoading ? (
     <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       <va-loading-indicator set-focus message="Loading application..." />
@@ -119,9 +131,9 @@ export const FormApp = ({
     loggedIn,
     formId: 'nod', // becomes "nodBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
-    applicationId: 'cabce133-7a68-46ba-ac9b-68c57e8375eb',
-    clientToken: 'pubb208973905b7f32eb100b1c27688ecc9',
-    service: 'benefits-notice-of-disagreement',
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
   });
 
   return (

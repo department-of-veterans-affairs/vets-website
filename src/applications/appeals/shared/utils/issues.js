@@ -1,5 +1,5 @@
 // import the toggleValues helper
-import { SELECTED, REGEXP } from '../constants';
+import { LEGACY_TYPE, REGEXP, SELECTED } from '../constants';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -47,11 +47,10 @@ export const getSelected = formData => {
 export const getSelectedCount = (formData, items) =>
   getSelected({ ...formData, additionalIssues: items }).length;
 
-/*
- * Look for duplicates
- */
 const processIssues = (array = []) =>
-  array.filter(Boolean).map(entry => getIssueNameAndDate(entry));
+  array
+    .filter(entry => getIssueName(entry) && getIssueDate(entry))
+    .map(entry => getIssueNameAndDate(entry));
 
 export const hasDuplicates = (data = {}) => {
   const contestedIssues = processIssues(data.contestedIssues);
@@ -157,3 +156,21 @@ export const appStateSelector = state => ({
   contestedIssues: state.form?.data?.contestedIssues || [],
   additionalIssues: state.form?.data?.additionalIssues || [],
 });
+
+/**
+ * Find legacy appeal array included with contestable issues & return length
+ * Note: we are using the length of this array instead of trying to do a 1:1
+ * coorelation of contestable issues to legacy issues since we're only getting a
+ * summary and not a matching name or date (at least in the mock data).
+ * @param {ContestableIssues} issues - Array of both eligible & ineligible
+ *  contestable issues, plus legacy issues
+ * @return {Number} - length of legacy array
+ */
+export const getLegacyAppealsLength = issues =>
+  (issues || []).reduce((count, issue) => {
+    if (issue.type === LEGACY_TYPE) {
+      // add just-in-case there is more than one legacy type entry
+      return count + (issue.attributes?.issues?.length || 0);
+    }
+    return count;
+  }, 0);

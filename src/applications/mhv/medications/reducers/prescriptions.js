@@ -2,7 +2,7 @@ import { Actions } from '../util/actionTypes';
 
 const initialState = {
   /**
-   * The list of prescriptions returned from the api
+   * The list of paginated and sorted prescriptions returned from the api
    * @type {array}
    */
   prescriptionsList: undefined,
@@ -24,7 +24,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionDetails: action.response.data.attributes,
       };
     }
-    case Actions.Prescriptions.GET_LIST: {
+    case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
         prescriptionsList: action.response.data.map(rx => {
@@ -62,6 +62,21 @@ export const prescriptionsReducer = (state = initialState, action) => {
           ...state.prescriptionDetails,
           error: action.err,
           success: undefined,
+        },
+      };
+    }
+    case Actions.Prescriptions.CLEAR_ERROR: {
+      return {
+        ...state,
+        prescriptionsList: state.prescriptionsList?.map(
+          rx =>
+            rx.prescriptionId === action.prescriptionId
+              ? { ...rx, error: undefined }
+              : rx,
+        ),
+        prescriptionDetails: {
+          ...state.prescriptionDetails,
+          error: undefined,
         },
       };
     }

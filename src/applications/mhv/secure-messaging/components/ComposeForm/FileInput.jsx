@@ -58,15 +58,6 @@ const FileInput = ({ attachments, setAttachments }) => {
       return;
     }
 
-    if (attachments.length === 4) {
-      setError('You have already attached the maximum number of files.');
-      setError({
-        message: 'You may only attach up to 4 files.',
-      });
-      fileInputRef.current.value = null;
-      return;
-    }
-
     if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,

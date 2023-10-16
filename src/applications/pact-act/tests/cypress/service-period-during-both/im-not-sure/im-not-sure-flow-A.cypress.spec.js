@@ -17,7 +17,7 @@ import { ROUTES } from '../../../../constants';
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe(`During both of these time periods - "I'm not sure" to all categories (Results Screen 3)`, () => {
+  describe(`During both of these time periods - "I'm not sure" to all questions (Results Screen 3)`, () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
 
@@ -76,7 +76,10 @@ describe('PACT Act', () => {
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 2);
       h.clickContinue();
 
-      // TODO Add Results 3 when it exists
+      // RESULTS 3
+      h.verifyUrl(ROUTES.RESULTS_3);
+      h.verifyElement(h.RESULTS_3_HEADER);
+      h.clickResultsBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
