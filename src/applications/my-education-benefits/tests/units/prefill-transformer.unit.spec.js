@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { prefillTransformerV1, prefillTransformerV2 } from '../../helpers';
 import {
   claimantInfo,
-  mockInternationalMailingAddressUserState,
-  mockDomesticMailingAddressState,
+  mockDomesticUserState,
+  mockInternationalAddressUserState,
 } from '../fixtures/data/prefill-transformer-test-data';
 
 let mockClaimantInfo;
@@ -17,7 +17,7 @@ describe('prefillTransformer', () => {
     it('the transformed claimant info includes a claimantId', () => {
       const transformedClaimantInfo = prefillTransformerV2(null, null, null, {
         ...mockClaimantInfo,
-        ...mockInternationalMailingAddressUserState,
+        ...mockDomesticUserState,
       });
       // Check the military claimant section
       expect(transformedClaimantInfo?.formData?.claimantId).to.eql(
@@ -29,7 +29,7 @@ describe('prefillTransformer', () => {
     it('the transformed claimant has the correct contact method in V2', () => {
       const transformedClaimantInfo = prefillTransformerV1(null, null, null, {
         ...mockClaimantInfo,
-        ...mockDomesticMailingAddressState,
+        ...mockInternationalAddressUserState,
       });
       // Check the military claimant section
       expect(
