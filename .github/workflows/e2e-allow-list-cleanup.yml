@@ -101,7 +101,8 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Download Allow List
         uses: actions/download-artifact@v3
