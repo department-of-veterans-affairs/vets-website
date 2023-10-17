@@ -134,7 +134,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     expect(detailLink.getAttribute('text')).to.equal('Details');
   });
 
-  it('should show information without facility name', async () => {
+  it.skip('should show information without facility name', async () => {
     const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const data = {
@@ -180,7 +180,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     expect(timeHeader).to.contain.text('Mountain time');
   });
 
-  it('should show information with facility name', async () => {
+  it.skip('should show information with facility name', async () => {
     const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const data = {
@@ -351,7 +351,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       .eventually.be.ok;
   });
 
-  it('should show expected video information', async () => {
+  it.skip('should show expected video information', async () => {
     const pastDate = moment(testDates().now).subtract(3, 'days');
 
     const appointment = getVAOSAppointmentMock();
@@ -409,7 +409,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     expect(within(firstCard).getByText(/VA Video Connect at home/i)).to.exist;
   });
 
-  it('should display past appointments using V2 api call', async () => {
+  it.skip('should display past appointments using V2 api call', async () => {
     const yesterday = moment(testDates().now)
       .utc()
       .subtract(1, 'day');

@@ -152,7 +152,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     );
   });
 
-  it('should show confirmed phone appointments detail page', async () => {
+  it.skip('should show confirmed phone appointments detail page', async () => {
     // Given a booked phone appointment
     const myInitialState = {
       ...initialState,

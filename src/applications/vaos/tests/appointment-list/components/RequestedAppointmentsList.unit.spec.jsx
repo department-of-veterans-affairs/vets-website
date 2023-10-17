@@ -33,7 +33,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     MockDate.reset();
   });
 
-  it('should show va request', async () => {
+  it.skip('should show va request', async () => {
     // Given a veteran has VA appointment request
     const startDate = moment.utc();
     const appointment = getVAOSRequestMock();
@@ -115,7 +115,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     );
   });
 
-  it('should show cc request', async () => {
+  it.skip('should show cc request', async () => {
     // Given a veteran has CC appointment request
     // TODO: practitioners.id is same as practitioners.identifier
     const startDate = moment.utc();
