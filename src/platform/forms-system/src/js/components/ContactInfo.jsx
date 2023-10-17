@@ -35,6 +35,7 @@ import {
   REVIEW_CONTACT,
   contactInfoPropTypes,
 } from '../utilities/data/profile';
+import { getValidationErrors } from '../utilities/validations';
 
 /**
  * Render contact info page
@@ -65,6 +66,7 @@ const ContactInfo = ({
   contactPath,
   keys,
   requiredKeys,
+  uiSchema,
   testContinueAlert = false,
 }) => {
   const wrapRef = useRef(null);
@@ -99,6 +101,10 @@ const ContactInfo = ({
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
 
+  const validationErrors = uiSchema?.['ui:required']?.(data)
+    ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
+    : [];
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -111,7 +117,7 @@ const ContactInfo = ({
     },
     onGoForward: () => {
       setSubmitted(true);
-      if (missingInfo.length) {
+      if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
         goForward(data);
@@ -119,7 +125,7 @@ const ContactInfo = ({
     },
     updatePage: () => {
       setSubmitted(true);
-      if (missingInfo.length) {
+      if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
         clearReturnState();
@@ -332,7 +338,8 @@ const ContactInfo = ({
         )}
         <div ref={wrapRef}>
           {hadError &&
-            missingInfo.length === 0 && (
+            missingInfo.length === 0 &&
+            validationErrors.length === 0 && (
               <div className="vads-u-margin-top--1p5">
                 <va-alert status="success" background-only>
                   <div className="vads-u-font-size--base">
@@ -368,6 +375,17 @@ const ContactInfo = ({
               </div>
             </>
           )}
+          {submitted &&
+            missingInfo.length === 0 &&
+            validationErrors.length > 0 && (
+              <div className="vads-u-margin-top--1p5" role="alert">
+                <va-alert status="error" background-only>
+                  <div className="vads-u-font-size--base">
+                    {validationErrors[0]}
+                  </div>
+                </va-alert>
+              </div>
+            )}
         </div>
         <div className="blue-bar-block vads-u-margin-top--4">
           <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
@@ -391,6 +409,11 @@ ContactInfo.propTypes = {
   keys: contactInfoPropTypes.keys,
   requiredKeys: PropTypes.shape([PropTypes.string]),
   setFormData: PropTypes.func,
+  testContinueAlert: PropTypes.bool, // for unit testing only
+  uiSchema: PropTypes.shape({
+    'ui:required': PropTypes.func,
+    'ui:validations': PropTypes.array,
+  }),
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
