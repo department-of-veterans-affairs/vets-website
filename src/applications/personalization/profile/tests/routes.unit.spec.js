@@ -22,13 +22,13 @@ describe('getRoutes', () => {
     expect(routes[0].name).to.eq(PROFILE_PATH_NAMES.PERSONAL_INFORMATION);
   });
 
-  it('adds the edit route based when feature toggle is enabled', () => {
+  it('adds the edit route when feature toggle is true', () => {
     const routes = getRoutes({ useFieldEditingPage: true });
     const result = routes.some(route => route.name === PROFILE_PATH_NAMES.EDIT);
     expect(result).to.be.true;
   });
 
-  it('removes the edit route based when feature toggle is enabled', () => {
+  it('removes the edit route when feature toggle is false', () => {
     const routes = getRoutes({ useFieldEditingPage: false });
     const result = routes.some(route => route.name === PROFILE_PATH_NAMES.EDIT);
     expect(result).to.be.false;
