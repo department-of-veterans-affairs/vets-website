@@ -1,6 +1,7 @@
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import manifest from '../../manifest.json';
-import { navigateToDebtSelection } from './fixtures/helpers';
 import mockUser from './fixtures/mocks/mockUser.json';
+import { WIZARD_STATUS } from '../../wizard/constants';
 
 describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
   before(() => {
@@ -121,6 +122,8 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
       },
     });
 
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+
     cy.visit(manifest.rootUrl);
   });
   beforeEach(() => {
@@ -135,7 +138,13 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
   });
 
   it('Successful API Response', () => {
-    navigateToDebtSelection();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click();
+
+    cy.findAllByText(/continue/i, { selector: 'button' })
+      .first()
+      .click();
 
     cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 
