@@ -1,15 +1,15 @@
 import { DEFAULT_BENEFIT_TYPE } from '../constants';
 
 import {
-  getRep,
-  getConferenceTime, // v2
-  addIncludedIssues,
   addAreaOfDisagreement,
-  getContact,
   getAddress,
-  getPhone,
+  getConferenceTime, // v2
+  getContact,
+  getRep,
   getTimeZone,
 } from '../utils/submit';
+
+import { addIncludedIssues, getPhone } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current

@@ -1,11 +1,10 @@
-// TODO: uncomment all when user research is complete
+// this file will be deleted when research is complete
+// and replaced with TempResults1Page1
 import React, { useEffect } from 'react';
-// import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ROUTES } from '../../../constants';
-// import { updateResultsPage1Viewed } from '../../../actions';
 import { customizeTitle } from '../../../utilities/customize-title';
 
 const ResultsSet1Page1 = () => {
@@ -14,17 +13,6 @@ const ResultsSet1Page1 = () => {
   useEffect(() => {
     document.title = customizeTitle(H1);
   });
-
-  // useEffect(
-  // () => {
-  // if (!viewedResultsPage1) {
-  //   router.push('/');
-  // }
-
-  // updateResults1Viewed(true);
-  // },
-  // [router, updateResults1Viewed, viewedResultsPage1],
-  // );
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -83,20 +71,6 @@ ResultsSet1Page1.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  // viewedResultsPage1: PropTypes.bool.isRequired,
-  // updateResults1Viewed: PropTypes.bool,
 };
 
-// const mapStateToProps = state => ({
-//   viewedResultsPage1: state?.pactAct?.viewedResultsPage1,
-// });
-
-// const mapDispatchToProps = {
-//   updateResults1Viewed: updateResultsPage1Viewed,
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )(ResultsSet1Page1);
 export default ResultsSet1Page1;
