@@ -108,6 +108,7 @@ export const delFolder = folderId => async dispatch => {
       ),
     );
   } else {
+    dispatch({ type: Actions.Folder.DELETE });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,

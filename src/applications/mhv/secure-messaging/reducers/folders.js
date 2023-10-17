@@ -36,7 +36,10 @@ export const foldersReducer = (state = initialState, action) => {
     case Actions.Folder.CLEAR:
       return { ...state, folder: { ...initialState } };
     case Actions.Folder.DELETE:
-      return { ...state };
+      return {
+        ...state,
+        folder: undefined,
+      };
     default:
       return state;
   }
