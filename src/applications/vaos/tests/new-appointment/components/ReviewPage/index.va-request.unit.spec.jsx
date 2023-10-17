@@ -159,7 +159,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
 
     await screen.findByText(/requesting a primary care appointment/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/requests/fake_id?confirmMsg=true',
@@ -227,7 +227,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
 
     await screen.findByText(/requesting a primary care appointment/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/requests/fake_id?confirmMsg=true',
@@ -294,7 +294,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
 
     await screen.findByText(/requesting a primary care appointment/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/requests/fake_id?confirmMsg=true',
@@ -329,7 +329,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
 
     await screen.findByText(/requesting a primary care appointment/i);
 
-    userEvent.click(screen.getByText(/Request appointment/i));
+    userEvent.click(screen.getByText(/Submit request/i));
 
     await screen.findByText('We couldn’t schedule this appointment');
 

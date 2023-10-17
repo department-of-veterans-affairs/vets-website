@@ -36,7 +36,7 @@ describe('VAOS <ContactInfoPage>', () => {
     expect(screen.getByText('How should we contact you?')).to.be.ok;
     expect(
       screen.getByText(
-        /We’ll use this information to contact you about your appointment\. Any updates you make here will only apply to VA online appointment scheduling/i,
+        /We’ll use this information to contact you about your appointment./i,
       ),
     ).to.be.ok;
 

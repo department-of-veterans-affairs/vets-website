@@ -136,7 +136,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred type of appointment');
-    expect(screen.baseElement).to.contain.text('In Person');
+    expect(screen.baseElement).to.contain.text('In person');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
 
     const start = moment(
