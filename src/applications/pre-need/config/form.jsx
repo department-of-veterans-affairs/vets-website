@@ -23,6 +23,11 @@ import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
+import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
+import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
+import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as applicantDemographics from './pages/applicantDemographics';
+import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
 import * as address from '../definitions/address';
@@ -180,117 +185,153 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
-      pages: {
-        applicantInformation: {
-          title: 'Applicant information',
-          path: 'applicant-information',
-          uiSchema: {
-            'ui:description': applicantDescription,
-            application: {
-              claimant: {
-                name: fullMaidenNameUI,
-                ssn: ssnDashesUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
-                relationshipToVet: {
-                  'ui:title': 'Relationship to service member',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      1: 'I am the service member/Veteran',
-                      2: 'Spouse or surviving spouse',
-                      3: 'Unmarried adult child',
-                      4: 'Other',
-                    },
-                    widgetProps: {
-                      1: { 'aria-describedby': 'veteran-relationship' },
-                      2: { 'aria-describedby': 'spouse-relationship' },
-                      3: { 'aria-describedby': 'child-relationship' },
-                      4: { 'aria-describedby': 'other-relationship' },
-                    },
-                    nestedContent: {
-                      1: veteranRelationshipDescription,
-                      2: spouseRelationshipDescription,
-                      3: childRelationshipDescription,
-                      4: otherRelationshipDescription,
-                    },
-                  },
-                },
-              },
+      pages: !environment.isProduction()
+        ? {
+            applicantRelationshipToVet: {
+              path: 'applicant-relationship-to-vet',
+              uiSchema: applicantRelationshipToVet.uiSchema,
+              schema: applicantRelationshipToVet.schema,
             },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
+            veteranApplicantDetails: {
+              title: 'Applicant details',
+              path: 'veteran-applicant-details',
+              depends: isVeteran,
+              uiSchema: veteranApplicantDetails.uiSchema,
+              schema: veteranApplicantDetails.schema,
+            },
+            nonVeteranApplicantDetails: {
+              title: 'Applicant details',
+              path: 'nonVeteran-applicant-details',
+              depends: formData => !isVeteran(formData),
+              uiSchema: nonVeteranApplicantDetails.uiSchema,
+              schema: nonVeteranApplicantDetails.schema,
+            },
+            applicantDemographics: {
+              title: 'Applicant demographics',
+              path: 'applicant-demographics',
+              depends: isVeteran,
+              uiSchema: applicantDemographics.uiSchema,
+              schema: applicantDemographics.schema,
+            },
+            militaryDetails: {
+              path: 'applicant-military-details',
+              title: 'Military details',
+              depends: isVeteran,
+              uiSchema: militaryDetails.uiSchema,
+              schema: militaryDetails.schema,
+            },
+          }
+        : {
+            applicantInformation: {
+              title: 'Applicant information',
+              path: 'applicant-information',
+              uiSchema: {
+                'ui:description': applicantDescription,
+                application: {
                   claimant: {
-                    type: 'object',
-                    required: [
-                      'name',
-                      'ssn',
-                      'dateOfBirth',
-                      'relationshipToVet',
-                    ],
-                    properties: pick(claimant.properties, [
-                      'name',
-                      'ssn',
-                      'dateOfBirth',
-                      'relationshipToVet',
-                    ]),
+                    name: fullMaidenNameUI,
+                    ssn: ssnDashesUI,
+                    dateOfBirth: currentOrPastDateUI('Date of birth'),
+                    relationshipToVet: {
+                      'ui:title': 'Relationship to service member',
+                      'ui:widget': 'radio',
+                      'ui:options': {
+                        labels: {
+                          1: 'I am the service member/Veteran',
+                          2: 'Spouse or surviving spouse',
+                          3: 'Unmarried adult child',
+                          4: 'Other',
+                        },
+                        widgetProps: {
+                          1: { 'aria-describedby': 'veteran-relationship' },
+                          2: { 'aria-describedby': 'spouse-relationship' },
+                          3: { 'aria-describedby': 'child-relationship' },
+                          4: { 'aria-describedby': 'other-relationship' },
+                        },
+                        nestedContent: {
+                          1: veteranRelationshipDescription,
+                          2: spouseRelationshipDescription,
+                          3: childRelationshipDescription,
+                          4: otherRelationshipDescription,
+                        },
+                      },
+                    },
                   },
                 },
               },
-            },
-          },
-        },
-        veteranInformation: {
-          path: 'veteran-applicant-information',
-          title: 'Veteran information',
-          depends: isVeteran,
-          uiSchema: {
-            application: {
-              veteran: veteranUI,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
+              schema: {
                 type: 'object',
                 properties: {
-                  veteran: {
+                  application: {
                     type: 'object',
-                    required: [
-                      'race',
-                      'gender',
-                      'maritalStatus',
-                      'militaryStatus',
-                    ],
-                    properties: set(
-                      'militaryStatus.enum',
-                      veteran.properties.militaryStatus.enum.filter(
-                        // Doesn't make sense to have options for the
-                        // Veteran to say they're deceased
-                        opt => !['I', 'D'].includes(opt),
-                      ),
-                      pick(veteran.properties, [
-                        'militaryServiceNumber',
-                        'vaClaimNumber',
-                        'placeOfBirth',
-                        'gender',
-                        'race',
-                        'maritalStatus',
-                        'militaryStatus',
-                      ]),
-                    ),
+                    properties: {
+                      claimant: {
+                        type: 'object',
+                        required: [
+                          'name',
+                          'ssn',
+                          'dateOfBirth',
+                          'relationshipToVet',
+                        ],
+                        properties: pick(claimant.properties, [
+                          'name',
+                          'ssn',
+                          'dateOfBirth',
+                          'relationshipToVet',
+                        ]),
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            veteranInformation: {
+              path: 'veteran-applicant-information',
+              title: 'Veteran information',
+              depends: isVeteran,
+              uiSchema: {
+                application: {
+                  veteran: veteranUI,
+                },
+              },
+              schema: {
+                type: 'object',
+                properties: {
+                  application: {
+                    type: 'object',
+                    properties: {
+                      veteran: {
+                        type: 'object',
+                        required: [
+                          'race',
+                          'gender',
+                          'maritalStatus',
+                          'militaryStatus',
+                        ],
+                        properties: set(
+                          'militaryStatus.enum',
+                          veteran.properties.militaryStatus.enum.filter(
+                            // Doesn't make sense to have options for the
+                            // Veteran to say they're deceased
+                            opt => !['I', 'D'].includes(opt),
+                          ),
+                          pick(veteran.properties, [
+                            'militaryServiceNumber',
+                            'vaClaimNumber',
+                            'placeOfBirth',
+                            'gender',
+                            'race',
+                            'maritalStatus',
+                            'militaryStatus',
+                          ]),
+                        ),
+                      },
+                    },
                   },
                 },
               },
             },
           },
-        },
-      },
     },
     sponsorInformation: {
       title: 'Sponsor information',
