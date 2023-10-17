@@ -6,15 +6,25 @@ import { beforeEach } from 'mocha';
 import Vaccines from '../../containers/Vaccines';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
-import vaccines from '../fixtures/vaccines.json';
-import { convertVaccine } from '../../reducers/vaccines';
 
-describe('Vaccines list container', () => {
+describe('Vaccines list container with errors', () => {
   const initialState = {
     user,
     mr: {
-      vaccines: {
-        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
+      vaccines: {},
+      alerts: {
+        alertList: [
+          {
+            datestamp: '2023-10-10T16:03:28.568Z',
+            isActive: true,
+            type: 'error',
+          },
+          {
+            datestamp: '2023-10-10T16:03:28.572Z',
+            isActive: true,
+            type: 'error',
+          },
+        ],
       },
     },
   };

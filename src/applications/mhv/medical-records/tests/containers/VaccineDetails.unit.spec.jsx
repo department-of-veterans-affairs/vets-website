@@ -6,7 +6,6 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import VaccineDetails from '../../containers/VaccineDetails';
 import reducer from '../../reducers';
 import vaccine from '../fixtures/vaccine.json';
-import vaccineWithMissingFields from '../fixtures/vaccineWithMissingFields.json';
 import user from '../fixtures/user.json';
 import { convertVaccine } from '../../reducers/vaccines';
 
@@ -100,15 +99,24 @@ describe('Vaccines details container still loading', () => {
   });
 });
 
-describe('Vaccine details container with date missing', () => {
+describe('Vaccine details container with errors', () => {
   const initialState = {
     user,
     mr: {
-      vaccines: {
-        vaccineDetails: convertVaccine(vaccineWithMissingFields),
-      },
+      vaccines: {},
       alerts: {
-        alertList: [],
+        alertList: [
+          {
+            datestamp: '2023-10-10T16:03:28.568Z',
+            isActive: true,
+            type: 'error',
+          },
+          {
+            datestamp: '2023-10-10T16:03:28.572Z',
+            isActive: true,
+            type: 'error',
+          },
+        ],
       },
     },
   };
