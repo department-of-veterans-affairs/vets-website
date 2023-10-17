@@ -65,14 +65,14 @@ describe('parseResponse', () => {
       data: {
         attributes: {
           confirmationCode: 'test-guid',
+          name: 'test-file.txt',
         },
       },
     };
-    const name = 'test-file.txt';
-    const result = parseResponse(response, { name });
+    const result = parseResponse(response);
 
     expect(result).to.deep.equal({
-      name,
+      name: 'test-file.txt',
       confirmationCode: 'test-guid',
     });
   });
