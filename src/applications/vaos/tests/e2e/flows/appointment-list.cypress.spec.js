@@ -24,7 +24,12 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentRequestsApi();
       mockFacilitiesApi({ apiVersion: 2 });
-      mockFeatureToggles({ v2DirectSchedule: true });
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentList: false,
+        vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+        vaOnlineSchedulingDescriptiveBackLink: false,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      });
       mockLoginApi();
       mockUserTransitionAvailabilities();
       mockVamcEhr();
@@ -372,7 +377,13 @@ describe('VAOS appointment list', () => {
       mockAppointmentRequestsApi();
       mockAppointmentsApi({ apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 2 });
-      mockFeatureToggles({ v2Requests: true, v2DirectSchedule: true });
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentList: false,
+        vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+        vaOnlineSchedulingStatusImprovement: false,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      });
       mockLoginApi();
       mockUserTransitionAvailabilities();
 
@@ -454,7 +465,12 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 2 });
-      mockFeatureToggles({ v2DirectSchedule: true });
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentList: false,
+        vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+        vaOnlineSchedulingStatusImprovement: false,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      });
       mockLoginApi();
       mockUserTransitionAvailabilities();
       mockVamcEhr();
@@ -529,7 +545,12 @@ describe('VAOS appointment list', () => {
       mockAppointmentRequestsApi();
       mockAppointmentsApi({ data, apiVersion: 2 });
       mockFacilitiesApi({ apiVersion: 2 });
-      mockFeatureToggles({ v2DirectSchedule: true });
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentList: false,
+        vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+        vaOnlineSchedulingStatusImprovement: false,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      });
       mockLoginApi();
       mockUserTransitionAvailabilities();
 
@@ -594,7 +615,12 @@ describe('VAOS appointment list', () => {
 
       mockAppointmentRequestsApi();
       mockFacilitiesApi({ apiVersion: 2 });
-      mockFeatureToggles({ v2DirectSchedule: true });
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentList: false,
+        vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+        vaOnlineSchedulingStatusImprovement: false,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      });
       mockLoginApi();
       mockUserTransitionAvailabilities();
     });
