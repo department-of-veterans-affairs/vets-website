@@ -165,7 +165,7 @@ describe('draftDetails actions', () => {
         payload: {
           alertType: 'success',
           header: '',
-          content: 'Draft was successfuly deleted.',
+          content: 'Draft was successfully deleted.',
           className: undefined,
           link: undefined,
           title: undefined,
