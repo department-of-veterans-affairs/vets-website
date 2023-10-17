@@ -322,7 +322,7 @@ export function getArrayFields(data) {
 
     if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
-        findArrays(obj.properties[prop], ui[prop], path.concat(prop));
+        findArrays(obj.properties?.[prop], ui?.[prop], path.concat(prop));
       });
     }
   };
