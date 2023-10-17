@@ -1,7 +1,7 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 
-for (let i = 0; i < 1; i += 1) {
+for (let i = 0; i < 200; i += 1) {
   describe('Secure Messaging Draft Folder checks', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
@@ -11,7 +11,7 @@ for (let i = 0; i < 1; i += 1) {
       landingPage.loadInboxMessages();
     });
 
-    it.skip('Verify filter works correctly', () => {
+    it('Verify filter works correctly', () => {
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
@@ -25,7 +25,7 @@ for (let i = 0; i < 1; i += 1) {
       landingPage.verifyFilterResults('test');
     });
 
-    it.skip('Verify clear filter btn works correctly', () => {
+    it('Verify clear filter btn works correctly', () => {
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {
