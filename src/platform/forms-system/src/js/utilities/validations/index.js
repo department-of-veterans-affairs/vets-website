@@ -33,6 +33,16 @@ export function isValidSSN(value) {
   return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
+// A 9 digit VA File Number must be an SSN
+// The only other valid option is an 8 digit number
+export function isValidVAFileNumber(value) {
+  if (/^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value)) {
+    return isValidSSN(value);
+  }
+
+  return /^\d{8}$/.test(value);
+}
+
 export function isValidYear(value) {
   return Number(value) >= minYear && Number(value) <= maxYear;
 }
@@ -136,3 +146,25 @@ export function isValidPartialMonthYearInPast(month, year) {
       momentDate.isSameOrBefore(moment().startOf('month')))
   );
 }
+
+/**
+ * Check validations for Custom pages
+ * @param {Function[]} validations - array of validation functions
+ * @param {*} data - field data passed to the validation function
+ * @param {*} fullData - full and appStateData passed to validation function
+ * @returns {String[]} - error messages
+ */
+export const getValidationErrors = (
+  validations = [],
+  data = {},
+  fullData = {},
+  index,
+) => {
+  const errors = { errorMessages: [] };
+  errors.addError = message => errors.errorMessages.push(message);
+  /* errors, fieldData, formData, schema, uiSchema, index, appStateData */
+  validations.map(validation =>
+    validation(errors, data, fullData, null, null, index, fullData),
+  );
+  return errors.errorMessages;
+};

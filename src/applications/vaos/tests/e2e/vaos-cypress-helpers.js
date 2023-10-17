@@ -26,6 +26,8 @@ import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
 import { getStagingId } from '../../services/var';
 
+import featureFlags from '../../utils/featureFlags';
+
 const mockUser = {
   data: {
     id: '',
@@ -79,10 +81,10 @@ const mockUser = {
             facilityId: '556',
             isCerner: false,
           },
-          {
-            facilityId: '668',
-            isCerner: false,
-          },
+          // {
+          //   facilityId: '668',
+          //   isCerner: false,
+          // },
           {
             facilityId: '983QA',
             isCerner: false,
@@ -207,12 +209,7 @@ function updateRequestDates(data) {
   return data;
 }
 
-export function mockFeatureToggles({
-  v2Requests = false,
-  v2Facilities = false,
-  v2DirectSchedule = false,
-  acheron = false,
-} = {}) {
+export function mockFeatureToggles(toggles = {}) {
   cy.intercept(
     {
       method: 'GET',
@@ -221,58 +218,12 @@ export function mockFeatureToggles({
     req => {
       req.reply({
         data: {
-          features: [
-            {
-              name: 'vaOnlineScheduling',
-              value: true,
-            },
-            {
-              name: 'vaOnlineSchedulingCancel',
-              value: true,
-            },
-            {
-              name: 'vaOnlineSchedulingRequests',
-              value: true,
-            },
-            {
-              name: 'vaOnlineSchedulingCommunityCare',
-              value: true,
-            },
-            {
-              name: 'vaOnlineSchedulingDirect',
-              value: true,
-            },
-            {
-              name: 'vaOnlineSchedulingPast',
-              value: true,
-            },
-            {
-              name: `cerner_override_668`,
-              value: false,
-            },
-            {
-              name: 'vaOnlineSchedulingVAOSServiceRequests',
-              value: v2Requests,
-            },
-            {
-              name: 'vaOnlineSchedulingVAOSServiceVAAppointments',
-              value: v2DirectSchedule,
-            },
-            {
-              name: 'vaOnlineSchedulingFacilitiesServiceV2',
-              value: v2Facilities,
-            },
-            { name: 'vaOnlineSchedulingStatusImprovement', value: false },
-            { name: 'vaOnlineSchedulingClinicFilter', value: true },
-            {
-              name: 'vaOnlineSchedulingVAOSServiceCCAppointments',
-              value: true,
-            },
-            {
-              name: 'vaOnlineSchedulingAcheronService',
-              value: acheron,
-            },
-          ],
+          features: featureFlags.map(feature => {
+            if (Object.keys(toggles).includes(feature.name)) {
+              return { ...feature, value: toggles[feature.name] };
+            }
+            return feature;
+          }),
         },
       });
     },
