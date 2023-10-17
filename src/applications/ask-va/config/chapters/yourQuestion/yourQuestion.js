@@ -1,4 +1,4 @@
-import FormElementTitle from '../../../components/FormFields/FormElementTitle';
+import FormElementTitle from '../../../components/FormElementTitle';
 
 const yourQuestionPage = {
   uiSchema: {
