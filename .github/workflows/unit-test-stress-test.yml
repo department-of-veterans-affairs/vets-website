@@ -250,7 +250,6 @@ jobs:
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           TEST_TYPE: unit_test
       # - name: Create Unit Test report and post results to BigQuery
       #   run: yarn cypress-mochawesome-to-bigquery
