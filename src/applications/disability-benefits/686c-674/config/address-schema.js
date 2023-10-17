@@ -94,7 +94,45 @@ const getOldFormDataPath = (path, index) => {
   return path.slice(indexToSlice);
 };
 
-const editMailingAddressSubheader = () => <h3>Mailing Address</h3>;
+const validateZipCode = (zipCode, stateCode, errors) => {
+  switch (stateCode) {
+    case 'AA': {
+      if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
+        errors.addError(
+          `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
+        );
+      }
+      return true;
+    }
+    case 'AE': {
+      if (!zipCode.match('^0{1}9{1}[0-9]{3}')) {
+        errors.addError(
+          `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
+        );
+      }
+      return true;
+    }
+    case 'AP': {
+      if (!zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}')) {
+        errors.addError(
+          `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
+        );
+      }
+      return true;
+    }
+    default:
+      if (
+        !zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}') &&
+        !zipCode.match('^0{1}9{1}[0-9]{3}') &&
+        !zipCode.match('^3{1}4{1}0{1}[0-9]{2}')
+      ) {
+        errors.addError(
+          `This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.`,
+        );
+      }
+      return true;
+  }
+};
 
 // Temporary storage for city & state if military base checkbox is toggled more
 // than once. Not ideal, but works since this code isn't inside a React widget
@@ -180,9 +218,6 @@ export const addressUISchema = (
 
   return (function returnAddressUI() {
     return {
-      'view:editMailingAddressSubheader': {
-        'ui:title': editMailingAddressSubheader,
-      },
       [MILITARY_BASE_PATH]: {
         'ui:title': `${checkBoxTitleState} receive mail outside of the United States on a U.S. military base.`,
         'ui:options': {
@@ -486,78 +521,68 @@ export const addressUISchema = (
         'ui:validations': [
           (errors, zipCode, formData, _schema, _uiSchema, _index) => {
             // copied scheme from city ui:validations
-            let livesOnMilitaryBase =
-              get(livesOnMilitaryBasePath, formData) ||
-              get(`address[${MILITARY_BASE_PATH}]`, formData) ||
-              get(`childAddressInfo.address[${MILITARY_BASE_PATH}]`, formData);
+            const livesOnMilitaryBaseHash = {
+              base: get(livesOnMilitaryBasePath, formData),
+              address: get(`address[${MILITARY_BASE_PATH}]`, formData),
+              childAddressInfo: get(
+                `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
+                formData,
+              ),
+            };
+            const validationKeys = [
+              'base',
+              'address',
+              'childAddressInfo',
+              'stepChildAddress',
+              'stepChildAddressInfo',
+            ];
 
             if (window.location.href.includes('review-and-submit')) {
-              livesOnMilitaryBase =
-                livesOnMilitaryBase ||
-                (formData.stepChildren || []).some(stepChild =>
-                  get(`address[${MILITARY_BASE_PATH}]`, stepChild),
-                ) ||
-                (formData.childrenToAdd || []).some(stepChild =>
-                  get(
-                    `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
-                    stepChild,
-                  ),
-                );
+              livesOnMilitaryBaseHash.stepchildAddress = (
+                formData.stepChildren || []
+              ).some(stepChild =>
+                get(`address[${MILITARY_BASE_PATH}]`, stepChild),
+              );
+              livesOnMilitaryBaseHash.stepChildAddressInfo = (
+                formData.childrenToAdd || []
+              ).some(stepChild =>
+                get(
+                  `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
+                  stepChild,
+                ),
+              );
             }
-            if (isMilitaryBaseAddress && livesOnMilitaryBase) {
-              const statePath = `${path}.stateCode`;
-              let selectedState =
-                get(statePath, formData) ||
-                get(`address[stateCode]`, formData) ||
-                get(`childAddressInfo.address['stateCode']`, formData);
-              if (window.location.href.includes('review-and-submit')) {
-                selectedState =
-                  selectedState ||
-                  (formData.stepChildren || []).some(stepChild =>
-                    get(`address['stateCode']`, stepChild),
-                  ) ||
-                  (formData.childrenToAdd || []).some(stepChild =>
-                    get(`childAddressInfo.address['stateCode']`, stepChild),
-                  );
-              }
 
-              switch (selectedState) {
-                case 'AA': {
-                  if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
-                    errors.addError(
-                      `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
-                    );
-                  }
-                  return true;
-                }
-                case 'AE': {
-                  if (!zipCode.match('^0{1}9{1}[0-9]{3}')) {
-                    errors.addError(
-                      `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
-                    );
-                  }
-                  return true;
-                }
-                case 'AP': {
-                  if (!zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}')) {
-                    errors.addError(
-                      `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
-                    );
-                  }
-                  return true;
-                }
-                default:
-                  if (
-                    !zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}') &&
-                    !zipCode.match('^0{1}9{1}[0-9]{3}') &&
-                    !zipCode.match('^3{1}4{1}0{1}[0-9]{2}')
-                  ) {
-                    errors.addError(
-                      `This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.`,
-                    );
-                  }
-                  return true;
+            if (
+              isMilitaryBaseAddress &&
+              Object.values(livesOnMilitaryBaseHash).includes(true)
+            ) {
+              const statePath = `${path}.stateCode`;
+              const selectedStateHash = {
+                base: get(statePath, formData),
+                address: get(`address[stateCode]`, formData),
+                childAddressInfo: get(
+                  `childAddressInfo.address['stateCode']`,
+                  formData,
+                ),
+              };
+
+              if (window.location.href.includes('review-and-submit')) {
+                selectedStateHash.stepChildAddress = (
+                  formData.stepChildren || []
+                ).some(stepChild => get(`address['stateCode']`, stepChild));
+                selectedStateHash.stepChildAddressInfo = (
+                  formData.childrenToAdd || []
+                ).some(stepChild =>
+                  get(`childAddressInfo.address['stateCode']`, stepChild),
+                );
               }
+              validationKeys.forEach(e => {
+                if (livesOnMilitaryBaseHash[e]) {
+                  const selectedState = selectedStateHash[e];
+                  validateZipCode(zipCode, selectedState, errors);
+                }
+              });
             }
             return true;
           },
