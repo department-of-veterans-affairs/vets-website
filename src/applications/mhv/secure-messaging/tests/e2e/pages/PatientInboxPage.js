@@ -371,8 +371,7 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   navigateToInterstitialPage = () => {
