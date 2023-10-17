@@ -5,7 +5,7 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
-import { Edit as EditComponent } from './components/edit/Edit';
+// import { Edit as EditComponent } from './components/edit/Edit';
 import { Hub } from './components/hub/Hub';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
@@ -66,7 +66,7 @@ export const navRoutes = [
 // other application routes that should not be shown in the left-nav
 export const otherRoutes = [
   {
-    component: EditComponent,
+    component: 'Edit',
     name: PROFILE_PATH_NAMES.EDIT,
     path: PROFILE_PATHS.EDIT,
     requiresLOA3: true,

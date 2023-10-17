@@ -122,7 +122,7 @@ ProfileWrapper.propTypes = {
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
-  routes: PropTypes.object,
+  routes: PropTypes.array,
   showNameTag: PropTypes.bool,
   totalDisabilityRating: PropTypes.oneOfType([
     PropTypes.string,
