@@ -27,7 +27,7 @@ class TravelPages {
     );
 
     cy.get('[data-testid="if-you-have-questions"]').contains(
-      'If you have questions about your appointsments',
+      'If you have questions about your appointments',
     );
     cy.get('[data-testid="for-questions-about-filing"]').contains(
       'For questions about filing a travel reimbursement claim or to check',
