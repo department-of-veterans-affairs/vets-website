@@ -1,5 +1,4 @@
 import React from 'react';
-import '@department-of-veterans-affairs/component-library/i18n-setup';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
