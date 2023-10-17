@@ -1,11 +1,10 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
+import basicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Basic Search Tests', () => {
-  const basicSearchPage = new PatientBasicSearchPage();
   const patientMessageDraftsPage = new PatientMessageDraftsPage();
   // const searchText = 'special %$#';  Known-Issue... special chars don't highlight
   const searchText = 'special';
