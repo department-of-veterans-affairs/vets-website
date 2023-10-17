@@ -116,7 +116,8 @@ const ContestableIssuesWidget = props => {
         ),
       });
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onReviewPage = formContext?.onReviewPage || false;
   window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
@@ -293,16 +294,22 @@ const ContestableIssuesWidget = props => {
 ContestableIssuesWidget.propTypes = {
   additionalIssues: PropTypes.array,
   apiLoadStatus: PropTypes.string,
+  contestableIssues: PropTypes.shape({
+    issues: PropTypes.array,
+  }),
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
-  formData: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    contestedIssues: PropTypes.array,
+  }),
   getContestableIssues: PropTypes.func,
   id: PropTypes.string,
   options: PropTypes.shape({}),
   setFormData: PropTypes.func,
+  showPart3: PropTypes.bool,
   value: PropTypes.array,
   onChange: PropTypes.func,
 };
