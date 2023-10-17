@@ -144,7 +144,10 @@ const AllergyDetails = props => {
       return (
         <>
           <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox className="vads-u-margin-bottom--9" />
+          <AccessTroubleAlertBox
+            alertType="Allergy"
+            className="vads-u-margin-bottom--9"
+          />
         </>
       );
     }

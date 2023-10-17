@@ -2,6 +2,8 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import notes from '../tests/fixtures/notes.json';
 import note from '../tests/fixtures/dischargeSummary.json';
+import vaccines from '../tests/fixtures/vaccines.json';
+import vaccine from '../tests/fixtures/vaccine.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
@@ -143,9 +145,19 @@ export const getAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = () => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
-    headers,
+export const getVaccineList = runningUnitTest => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccines);
+    }, 1000);
   });
 };
 
@@ -154,9 +166,19 @@ export const getVaccineList = () => {
  * @param {Long} id
  * @returns vaccine details in FHIR format
  */
-export const getVaccine = id => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-    headers,
+export const getVaccine = (id, runningUnitTest) => {
+  if (
+    (environment.BUILDTYPE === 'localhost' && IS_TESTING) ||
+    runningUnitTest
+  ) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccine);
+    }, 1000);
   });
 };
 

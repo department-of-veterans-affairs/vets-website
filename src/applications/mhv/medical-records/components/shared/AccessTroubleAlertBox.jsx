@@ -20,7 +20,7 @@ const AccessTroubleAlertBox = props => {
       class={`${props.className} vads-u-margin-top--4 vads-u-margin-bottom--9`}
     >
       <h2 slot="headline" data-testid="expired-alert-message">
-        We can’t access your allergy records right now
+        We can’t access your {props.alertType} records right now
       </h2>
       <p>We’re sorry. There’s a problem with our system. Check back later.</p>
       <p>
@@ -33,5 +33,6 @@ const AccessTroubleAlertBox = props => {
 export default AccessTroubleAlertBox;
 
 AccessTroubleAlertBox.propTypes = {
+  alertType: PropTypes.string.isRequired,
   className: PropTypes.any,
 };

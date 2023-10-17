@@ -136,8 +136,11 @@ const VaccineDetails = props => {
     if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
       return (
         <>
-          <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox className="vads-u-margin-bottom--9" />
+          <h1 className="vads-u-margin-bottom--0p5">Vaccine:</h1>
+          <AccessTroubleAlertBox
+            alertType="Vaccine"
+            className="vads-u-margin-bottom--9"
+          />
         </>
       );
     }

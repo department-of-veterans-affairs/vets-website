@@ -133,7 +133,7 @@ const Vaccines = props => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox />;
+      return <AccessTroubleAlertBox alertType="Vaccine" />;
     }
     if (vaccines?.length) {
       return <RecordList records={vaccines} type={recordType.VACCINES} />;
