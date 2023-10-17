@@ -121,7 +121,7 @@ describe('folders actions', () => {
     });
   });
 
-  it('should dispatch response on successfull newFolder action', async () => {
+  it('should dispatch response on successful newFolder action', async () => {
     const store = mockStore();
     mockApiRequest(newFolderResponse);
     const newFolderName = 'New folder name';
@@ -166,7 +166,7 @@ describe('folders actions', () => {
     });
   });
 
-  it('should dispatch error on newFolder unsuccessfull action', async () => {
+  it('should dispatch error on newFolder unsuccessful action', async () => {
     const store = mockStore();
 
     mockFetch({ ...errorResponse }, false);
@@ -187,7 +187,7 @@ describe('folders actions', () => {
     });
   });
 
-  it('should dispatch response on successfull delFolder action', async () => {
+  it('should dispatch response on successful delFolder action', async () => {
     const store = mockStore();
     mockApiRequest({ method: 'DELETE', status: 204, ok: true });
     await store.dispatch(delFolder(1234)).then(() => {
@@ -226,7 +226,7 @@ describe('folders actions', () => {
     });
   });
 
-  it('should dispatch response on successfull renameFolder action', async () => {
+  it('should dispatch response on successful renameFolder action', async () => {
     const store = mockStore();
     mockApiRequest(newFolderResponse);
     const newFolderName = 'New folder name';
@@ -267,7 +267,7 @@ describe('folders actions', () => {
     });
   });
 
-  it('should dispatch error on renameFolder unsuccessfull action', async () => {
+  it('should dispatch error on renameFolder unsuccessful action', async () => {
     const store = mockStore();
 
     mockFetch({ ...errorResponse }, false);

@@ -207,7 +207,7 @@ describe('messages actions', () => {
     });
   });
 
-  it('should dispatch error on unsuccessfull retrieveMessageThread', async () => {
+  it('should dispatch error on unsuccessful retrieveMessageThread', async () => {
     const store = mockStore();
     const resWithDraft = { ...threadResponse };
     const req1 = { shouldResolve: true, response: resWithDraft };
@@ -324,7 +324,7 @@ describe('messages actions', () => {
       });
   });
 
-  it('should dispatch error on unsuccessfull sendMessage', async () => {
+  it('should dispatch error on unsuccessful sendMessage', async () => {
     const store = mockStore();
     mockFetch({ ...errorResponse }, false);
     await store
@@ -418,7 +418,7 @@ describe('messages actions', () => {
       });
   });
 
-  it('should dispatch error on unsuccessfull sendReply', async () => {
+  it('should dispatch error on unsuccessful sendReply', async () => {
     const store = mockStore();
     mockFetch({ ...errorResponse }, false);
     await store
