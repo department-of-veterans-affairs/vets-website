@@ -86,7 +86,7 @@ const App = ({ children }) => {
   }
   // If the user is not whitelisted or feature flag is disabled, redirect them.
   if (!appEnabled) {
-    window.location.replace('/');
+    window.location.replace('/health-care/get-medical-records');
     return <></>;
   }
   return (

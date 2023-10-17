@@ -1104,6 +1104,40 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(queryByTestId('custom-page-review')).not.to.exist;
     });
 
+    it('should include schema & uiSchema to CustomPage in edit mode', () => {
+      const spy = sinon.spy();
+      const { pages, chapterKey, chapter, form } = getProps();
+
+      const foo = { foo: {} };
+      const properties = { foo: { type: 'string' } };
+      pages[0].schema.properties = properties;
+      pages[0].uiSchema = foo;
+      form.pages.test.schema.properties = properties;
+      form.pages.test.uiSchema = foo;
+
+      const CustomPage = props => {
+        spy(props);
+        return <div data-testid="custom-page" />;
+      };
+      form.pages.test.editMode = true;
+      form.pages.test.CustomPage = CustomPage;
+      pages[0].CustomPage = CustomPage;
+      render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      const CustomPageProps = spy.firstCall.args[0];
+      expect(CustomPageProps.uiSchema).to.deep.equal(foo);
+      expect(CustomPageProps.schema.properties).to.deep.equal(properties);
+    });
+
     it('should include noop navigation functions when rendering CustomPage in edit mode', () => {
       const { pages, chapterKey, chapter, form } = getProps();
       let result;
