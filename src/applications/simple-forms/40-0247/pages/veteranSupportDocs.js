@@ -31,7 +31,7 @@ export default {
         fileUploadUrl: `${
           environment.API_URL
         }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-        fileTypes: ['jpg', 'jpeg', 'png'],
+        fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,
         classNames: 'schemaform-file-upload',
