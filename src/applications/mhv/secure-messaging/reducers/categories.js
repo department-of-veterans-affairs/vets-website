@@ -9,18 +9,15 @@ const initialState = {
 };
 
 export const categoriesReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case Actions.Category.GET_LIST:
-      return {
-        ...state,
-        categories: action.response.data.attributes.messageCategoryType.map(
-          category => {
-            return category;
-          },
-        ),
-      };
-    case 'b':
-    default:
-      return state;
+  if (action.type === Actions.Category.GET_LIST) {
+    return {
+      ...state,
+      categories: action.response.data.attributes.messageCategoryType.map(
+        category => {
+          return category;
+        },
+      ),
+    };
   }
+  return state;
 };
