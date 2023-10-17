@@ -18,11 +18,47 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
+export const applicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export function ApplicantDescriptionWrapper({ formContext }) {
+  return (
+    <div className="ApplicantDescriptionWrapper">
+      <ApplicantDescription formContext={formContext} />
+    </div>
+  );
+}
+
+export const applicantDemographicsSubHeader = (
+  <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsDescription = (
+  <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
+  </div>
+);
+
+export const militaryDetailsSubHeader = (
+  <div className="militaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Military details</h3>
+  </div>
+);
 
 export const contactInfoDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
@@ -150,14 +186,6 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescriptionProd = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
-    your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
-    gravesite in a cemetery with available space at the time of need.
-  </va-alert>
-);
-
 export const desiredCemeteryNoteDescriptionVeteran = (
   <va-alert status="info" background-only id="burial-cemetary-note">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
@@ -265,11 +293,9 @@ export function transform(formConfig, form) {
             dateOfBirth: application.claimant.dateOfBirth,
             ssn: application.claimant.ssn,
             isDeceased: 'no',
-            // eslint-disable-next-line no-nested-ternary
-            serviceName: environment.isProduction()
-              ? application.veteran.serviceName || application.claimant.name
-              : // eslint-disable-next-line no-nested-ternary
-                application.veteran.serviceName === undefined
+            serviceName:
+              // eslint-disable-next-line no-nested-ternary
+              application.veteran.serviceName === undefined
                 ? application.claimant.name
                 : application.veteran.serviceName.first === undefined
                   ? application.claimant.name
@@ -294,11 +320,9 @@ export function transform(formConfig, form) {
   const populateVeteranData = application =>
     merge({}, application, {
       veteran: {
-        // eslint-disable-next-line no-nested-ternary
-        serviceName: environment.isProduction()
-          ? application.veteran.serviceName || application.veteran.currentName
-          : // eslint-disable-next-line no-nested-ternary
-            application.veteran.serviceName === undefined
+        serviceName:
+          // eslint-disable-next-line no-nested-ternary
+          application.veteran.serviceName === undefined
             ? application.veteran.currentName
             : application.veteran.serviceName.first === undefined
               ? application.veteran.currentName
@@ -501,123 +525,62 @@ export const veteranUI = {
   },
 };
 
-export const serviceRecordsUI = environment.isProduction()
-  ? {
-      'ui:title': 'Service periods',
-      'ui:description':
-        'Please provide all your service periods. If you need to add another service period, please click the Add Another Service Period button.',
+export const serviceRecordsUI = {
+  'ui:title': 'Service period(s)',
+  'ui:options': {
+    viewField: ServicePeriodView,
+    itemName: 'Service period',
+    keepInPageOnReview: true,
+  },
+  items: {
+    'ui:order': [
+      'serviceBranch',
+      'highestRank',
+      'dateRange',
+      'dischargeType',
+      'nationalGuardState',
+    ],
+    'ui:options': {
+      itemName: 'Service Period',
+    },
+    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
-        viewField: ServicePeriodView,
-        itemName: 'Service period',
-        keepInPageOnReview: true,
+        labels: serviceLabels,
       },
-      items: {
-        'ui:order': [
-          'serviceBranch',
-          'dateRange',
-          'dischargeType',
-          'highestRank',
-          'nationalGuardState',
-        ],
-        'ui:options': {
-          itemName: 'Service Period',
-        },
-        serviceBranch: autosuggest.uiSchema('Branch of service', null, {
-          'ui:options': {
-            labels: serviceLabels,
-          },
-        }),
-        dateRange: dateRangeUI(
-          'Service start date',
-          'Service end date',
-          'Service start date must be after end date',
-        ),
-        dischargeType: {
-          'ui:title': 'Discharge character of service',
-          'ui:options': {
-            labels: {
-              1: 'Honorable',
-              2: 'General',
-              3: 'Entry Level Separation/Uncharacterized',
-              4: 'Other Than Honorable',
-              5: 'Bad Conduct',
-              6: 'Dishonorable',
-              7: 'Other',
-            },
-          },
-        },
-        highestRank: {
-          'ui:title': 'Highest rank attained',
-        },
-        nationalGuardState: {
-          'ui:title': 'State (for National Guard Service only)',
-          'ui:options': {
-            hideIf: (formData, index) =>
-              !['AG', 'NG'].includes(
-                formData.application.veteran.serviceRecords[index]
-                  .serviceBranch,
-              ),
-          },
-        },
-      },
-    }
-  : {
-      'ui:title': 'Service period(s)',
+    }),
+    dateRange: dateRangeUI(
+      'Service start date',
+      'Service end date',
+      'Service start date must be after end date',
+    ),
+    dischargeType: {
+      'ui:title': 'Discharge character of service',
       'ui:options': {
-        viewField: ServicePeriodView,
-        itemName: 'Service period',
-        keepInPageOnReview: true,
-      },
-      items: {
-        'ui:order': [
-          'serviceBranch',
-          'highestRank',
-          'dateRange',
-          'dischargeType',
-          'nationalGuardState',
-        ],
-        'ui:options': {
-          itemName: 'Service Period',
-        },
-        serviceBranch: autosuggest.uiSchema('Branch of service', null, {
-          'ui:options': {
-            labels: serviceLabels,
-          },
-        }),
-        dateRange: dateRangeUI(
-          'Service start date',
-          'Service end date',
-          'Service start date must be after end date',
-        ),
-        dischargeType: {
-          'ui:title': 'Discharge character of service',
-          'ui:options': {
-            labels: {
-              1: 'Honorable',
-              2: 'General',
-              3: 'Entry Level Separation/Uncharacterized',
-              4: 'Other Than Honorable',
-              5: 'Bad Conduct',
-              6: 'Dishonorable',
-              7: 'Other',
-            },
-          },
-        },
-        highestRank: {
-          'ui:title': 'Highest rank attained',
-        },
-        nationalGuardState: {
-          'ui:title': 'State (for National Guard Service only)',
-          'ui:options': {
-            hideIf: (formData, index) =>
-              !['AG', 'NG'].includes(
-                formData.application.veteran.serviceRecords[index]
-                  .serviceBranch,
-              ),
-          },
+        labels: {
+          1: 'Honorable',
+          2: 'General',
+          3: 'Entry Level Separation/Uncharacterized',
+          4: 'Other Than Honorable',
+          5: 'Bad Conduct',
+          6: 'Dishonorable',
+          7: 'Other',
         },
       },
-    };
+    },
+    highestRank: {
+      'ui:title': 'Highest rank attained',
+    },
+    nationalGuardState: {
+      'ui:title': 'State (for National Guard Service only)',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !['AG', 'NG'].includes(
+            formData.application.veteran.serviceRecords[index].serviceBranch,
+          ),
+      },
+    },
+  },
+};
 
 export const militaryNameUI = {
   application: {
