@@ -38,9 +38,11 @@ const MedicationsList = props => {
         data-testid="page-total-info"
         id="showingRx"
       >
-        Showing {displayNums[0]} - {displayNums[1]} of {pagination.totalEntries}{' '}
-        medications,{' '}
-        {rxListSortingOptions[selectedSortOption].LABEL.toLowerCase()}
+        {`Showing ${displayNums[0]} - ${displayNums[1]} of ${
+          pagination.totalEntries
+        } medications, ${rxListSortingOptions[
+          selectedSortOption
+        ].LABEL.toLowerCase()}`}
       </h2>
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="vads-u-display--block vads-u-margin-top--3">
