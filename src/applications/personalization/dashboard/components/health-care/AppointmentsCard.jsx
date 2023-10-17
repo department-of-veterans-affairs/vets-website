@@ -8,7 +8,7 @@ import { getAppointmentTimezone } from '../../utils/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
-  const startFns = new Date(nextAppointment?.startsAt);
+  const startsAt = new Date(nextAppointment?.startsAt);
   let locationName;
 
   const timeZone = getAppointmentTimezone(nextAppointment);
@@ -41,10 +41,10 @@ export const AppointmentsCard = ({ appointments }) => {
       <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
         <h3 className="vads-u-margin-top--0">Next appointment</h3>
         <p className="vads-u-margin-bottom--1">
-          {format(startFns, 'eeee, MMMM do, yyyy')}
+          {format(startsAt, 'eeee, MMMM do, yyyy')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${format(startFns, 'h:mm aaa')} ${timeZone.abbreviation}`}
+          {`Time: ${format(startsAt, 'h:mm aaa')} ${timeZone.abbreviation}`}
         </p>
         {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink
