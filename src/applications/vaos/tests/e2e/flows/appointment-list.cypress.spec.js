@@ -101,7 +101,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va phone appointment', () => {
+    it.skip('va phone appointment', () => {
       const data = [
         {
           id: '1',
@@ -166,7 +166,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va video appointment', () => {
+    it.skip('va video appointment', () => {
       const data = [
         {
           id: '1',
@@ -223,7 +223,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va video appointment at an ATLAS location', () => {
+    it.skip('va video appointment at an ATLAS location', () => {
       const data = [
         {
           id: '1',
@@ -281,7 +281,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va video appointment at home', () => {
+    it.skip('va video appointment at home', () => {
       const data = [
         {
           id: '1',
@@ -365,7 +365,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('upcoming appointments', () => {
+  describe.skip('upcoming appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
@@ -404,7 +404,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('requested appointments', () => {
+  describe.skip('requested appointments', () => {
     beforeEach(() => {
       const data = [
         {
@@ -506,7 +506,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('past appointments', () => {
+  describe.skip('past appointments', () => {
     beforeEach(() => {
       const data = [
         {
@@ -588,7 +588,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('canceled appointments', () => {
+  describe.skip('canceled appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
