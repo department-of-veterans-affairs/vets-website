@@ -6,31 +6,33 @@ export default function App() {
       <div className="container">
         <div className="white-box">
           <br />
-          <h1>In-person Identity Verification</h1>
+          <h1>Confirm your selection</h1>
           <div className="text">
+            <p>You have chosen to verify at the following location:</p>
             <p>
-              Verifying your identity adds a layer of security to your Login.gov
-              account. VA requires you to verify your identity to access your
-              full healthcare and benefits. You may verify your identity in
-              person at a VA Medical Center to ensure that this process goes
-              smoothly. To verify your account, you will need:
+              Baltimore VA Medical Center
+              <br />
+              10 Greene Street
+              <br />
+              Baltimore, MD 21201-1524
             </p>
-            <ol>
-              <li>State-Issued ID or VHIC</li>
-              <li>
-                A confirmation case number that you will create in this
-                application
-              </li>
-            </ol>
+            <p>
+              Please confirm that this is a location you will be able to visit
+              in the next 10 days before continuing.
+            </p>
             <div className="wrapper">
               <button type="button" className="wide-button">
                 Continue
               </button>
             </div>
-            <p>
-              If you decide not to verify your identity in-person, you may close
-              this window at any time.
-            </p>
+            <div className="wrapper">
+              <button
+                type="button"
+                className="usa-button usa-button--outline wide-button"
+              >
+                Back
+              </button>
+            </div>
             <br />
           </div>
         </div>
