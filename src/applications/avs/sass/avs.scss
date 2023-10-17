@@ -1,16 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-/* List styling */
-ul {
-    list-style-position: inside;
-    list-style-type: none;
-    padding-left: 0;
-}
-
-ul.bulleted-list {
-    list-style-type: initial;
-}
-
 .clinic-information i {
     padding-right: 0.5em;
 }
