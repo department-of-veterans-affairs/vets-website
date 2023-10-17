@@ -103,7 +103,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     expect(screen.baseElement).to.contain.text(
       'Cheyenne, WyomingWY 82001-5356',
     );
-    expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
+    expect(screen.getByText(/Routine\/Follow-up/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
     expect(screen.getByText(/CHY PC CASSIDY/i)).to.be.ok;
 
