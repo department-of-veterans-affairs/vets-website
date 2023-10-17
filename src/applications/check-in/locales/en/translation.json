@@ -272,5 +272,6 @@
   "your-information-is-up-to-date": "Your information is up to date",
   "you-can-check-in-with-your-smartphone": "You can check-in with your smartphone once you arrive for your appointment on {{ date, day }}, {{ date, monthDay }} {{ date, time }}",
   "in-person-appointments": "In-person appointments",
-  "phone-appointments": "Phone appointments"
+  "phone-appointments": "Phone appointments",
+  "check-in-now-for-your-date-time-appointment": "Check in now for appointment on {{ date, day }}, {{ date, monthDay }} at {{ date, time }}"
 }
