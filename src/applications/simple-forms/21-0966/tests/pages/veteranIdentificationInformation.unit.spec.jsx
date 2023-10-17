@@ -7,7 +7,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranPersonalInformationChapter.pages.veteranIdentificationInformation;
+} = formConfig.chapters.veteranPersonalInformationChapter.pages.identificationInformation;
 
 const pageTitle = 'Veteran idenfitication information';
 
