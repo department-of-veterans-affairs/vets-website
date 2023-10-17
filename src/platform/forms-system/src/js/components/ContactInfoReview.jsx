@@ -48,28 +48,53 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
   const isUS = address.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'state' : 'province';
 
+  const showValueOrErrorMessage = (value, errorMessage) =>
+    (value || '').trim() || (
+      <span className="usa-input-error-message">{errorMessage}</span>
+    );
+
   // Label: formatted value in (design) display order
   const display = [
     [content.homePhone, () => renderTelephone(homePhone)],
     [content.mobilePhone, () => renderTelephone(mobilePhone)],
     [
       content.email,
+      () => showValueOrErrorMessage(email, content.missingEmailError),
+    ],
+    [
+      content.country,
       () =>
-        email || (
-          <span className="usa-input-error-message">
-            {content.missingEmailError}
-          </span>
+        showValueOrErrorMessage(address.countryName, content.missingCountry),
+    ],
+    [
+      content.address1,
+      () =>
+        showValueOrErrorMessage(
+          address.addressLine1,
+          content.missingStreetAddress,
         ),
     ],
-    [content.country, () => address.countryName],
-    [content.address1, () => address.addressLine1],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
-    [content.city, () => address.city],
-    [content[stateOrProvince], () => address[isUS ? 'stateCode' : 'province']],
     [
-      content.postal,
-      () => address[isUS ? 'zipCode' : 'internationalPostalCode'],
+      content.city,
+      () => showValueOrErrorMessage(address.city, content.missingCity),
+    ],
+    [
+      content[stateOrProvince],
+      () =>
+        showValueOrErrorMessage(
+          address[isUS ? 'stateCode' : 'province'],
+          content.missingStateOrProvince(isUS),
+        ),
+    ],
+    [
+      isUS ? content.zipCode : content.postal,
+      () =>
+        showValueOrErrorMessage(
+          address[isUS ? 'zipCode' : 'internationalPostalCode'],
+          content.missingZip(isUS),
+        ),
     ],
   ];
 
