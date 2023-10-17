@@ -33,6 +33,16 @@ export function isValidSSN(value) {
   return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
+// A 9 digit VA File Number must be an SSN
+// The only other valid option is an 8 digit number
+export function isValidVAFileNumber(value) {
+  if (/^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value)) {
+    return isValidSSN(value);
+  }
+
+  return /^\d{8}$/.test(value);
+}
+
 export function isValidYear(value) {
   return Number(value) >= minYear && Number(value) <= maxYear;
 }
