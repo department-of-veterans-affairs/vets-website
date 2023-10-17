@@ -4,11 +4,12 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import prescriptions from '../../fixtures/prescriptions.json';
 import MedicationsList from '../../../components/MedicationsList/MedicationsList';
 import reducer from '../../../reducers';
+import { rxListSortingOptions } from '../../../util/constants';
 
 describe('Medicaitons List component', () => {
   const initialState = {
     rx: {
-      prescriptions: {},
+      prescriptions,
     },
   };
   const pagination = {
@@ -21,13 +22,13 @@ describe('Medicaitons List component', () => {
     return 1;
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, sortOption = 'lastFilledFirst') => {
     return renderWithStoreAndRouter(
       <MedicationsList
         rxList={prescriptions}
         pagination={pagination}
         setCurrentPage={setCurrentPage}
-        selectedSortOption="lastFilledFirst"
+        selectedSortOption={sortOption}
       />,
       {
         initialState: state,
@@ -42,8 +43,29 @@ describe('Medicaitons List component', () => {
     expect(screen);
   });
 
-  it('displays pagination list data ie Showing 1 - 20 of 20 medications', () => {
+  it('displays pagination list data ie Showing 1 - 20 of 113 medications', () => {
     const screen = setup();
-    expect(screen.findByText('Showing 1 - 20 of 20 medications'));
+    const paginationInfo = screen.getByTestId('page-total-info');
+
+    expect(paginationInfo).to.exist;
+  });
+
+  it('shows sorting selection', () => {
+    const screen = setup();
+    const paginationInfo = screen.getByTestId('page-total-info');
+
+    expect(paginationInfo).to.contain.text(
+      'Showing 1 - 20 of 113 medications, last filled first',
+    );
+  });
+
+  it('shows different sorting selections', () => {
+    const screen = setup(initialState, 'alphabeticallyByStatus');
+
+    const alphabeticallyByStatus = screen.getByTestId('page-total-info');
+
+    expect(alphabeticallyByStatus).to.contain.text(
+      rxListSortingOptions.alphabeticallyByStatus.LABEL.toLowerCase(),
+    );
   });
 });

@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
-import profileContactInfo from '../../../src/js/definitions/profileContactInfo';
+import profileContactInfo, {
+  profileReviewErrorOverride,
+} from '../../../src/js/definitions/profileContactInfo';
 
 describe('profileContactInfo', () => {
   const pageKey = 'confirmContactInfo';
@@ -120,5 +122,32 @@ describe('profileContactInfo', () => {
 
     expect(uiSchema['ui:required']).to.deep.equal(['test1']);
     expect(uiSchema['ui:options'].test2).to.be.true;
+  });
+});
+
+describe('profileReviewErrorOverride', () => {
+  const defaultOverride = profileReviewErrorOverride();
+  it('should return null for non-matching errors', () => {
+    expect(defaultOverride('')).to.be.null;
+    expect(defaultOverride('blah')).to.be.null;
+  });
+  it('should return chapter & page keys for matching wrapper', () => {
+    const result = {
+      contactInfoChapterKey: 'infoPages',
+      pageKey: 'confirmContactInfo',
+    };
+    expect(defaultOverride('veteran')).to.deep.equal(result);
+  });
+  it('should return chapter & page keys for matching wrapper', () => {
+    const customOverride = profileReviewErrorOverride({
+      contactInfoChapterKey: 'foo',
+      contactInfoPageKey: 'bar',
+      wrapperKey: 'baz',
+    });
+    const result = {
+      contactInfoChapterKey: 'foo',
+      pageKey: 'bar',
+    };
+    expect(customOverride('baz')).to.deep.equal(result);
   });
 });
