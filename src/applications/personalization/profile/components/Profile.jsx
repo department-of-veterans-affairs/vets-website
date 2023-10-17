@@ -167,11 +167,7 @@ class Profile extends Component {
   // content to show after data has loaded
   mainContent = () => {
     const toggles = this.props.profileToggles;
-
-    const routes = getRoutes({
-      useFieldEditingPage: toggles.profileUseFieldEditingPage,
-      profileUseHubPage: toggles.profileUseHubPage,
-    });
+    const routes = getRoutes(toggles);
 
     return (
       <BrowserRouter>

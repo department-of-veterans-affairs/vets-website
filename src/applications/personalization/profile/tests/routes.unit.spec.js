@@ -14,4 +14,23 @@ describe('getRoutes', () => {
       expect(hasDirectDepositRoute).to.be.true;
     });
   });
+
+  it('returns an array of route objects', () => {
+    const routes = getRoutes();
+    expect(routes).to.be.an('array');
+    expect(routes.length >= 7).to.be.true;
+    expect(routes[0].name).to.eq(PROFILE_PATH_NAMES.PERSONAL_INFORMATION);
+  });
+
+  it('adds the edit route based when feature toggle is enabled', () => {
+    const routes = getRoutes({ useFieldEditingPage: true });
+    const result = routes.some(route => route.name === PROFILE_PATH_NAMES.EDIT);
+    expect(result).to.be.true;
+  });
+
+  it('removes the edit route based when feature toggle is enabled', () => {
+    const routes = getRoutes({ useFieldEditingPage: false });
+    const result = routes.some(route => route.name === PROFILE_PATH_NAMES.EDIT);
+    expect(result).to.be.false;
+  });
 });
