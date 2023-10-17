@@ -88,7 +88,7 @@ const AllergyDetails = props => {
   );
 
   const generateAllergyPdf = async () => {
-    const title = `Allergy: ${allergy.name}`;
+    const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
@@ -100,7 +100,7 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
-          title: 'Reaction',
+          title: 'Signs and symptoms',
           value: processList(allergy.reaction),
           inline: true,
         },
@@ -112,11 +112,6 @@ const AllergyDetails = props => {
         {
           title: 'Location',
           value: allergy.location,
-          inline: true,
-        },
-        {
-          title: 'Observed or reported',
-          value: allergy.observedOrReported,
           inline: true,
         },
         {
