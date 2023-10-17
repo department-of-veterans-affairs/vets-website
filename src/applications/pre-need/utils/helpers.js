@@ -73,6 +73,32 @@ export const contactInfoDescription = (
   </va-additional-info>
 );
 
+export const applicantContactInfoDescriptionVetNOTPROD = (
+  <va-additional-info trigger="Why do we need your contact details?">
+    <p>
+      We may reach out by phone if we need more information about your
+      application.
+    </p>
+    <p>
+      Your email address will be used to send a confirmation message once you’ve
+      submitted your application.
+    </p>
+  </va-additional-info>
+);
+
+export const applicantContactInfoDescriptionNonVetNOTPROD = (
+  <va-additional-info trigger="Why do we need the applicant’s contact details?">
+    <p>
+      We may reach out by phone if we need more information about the
+      application.
+    </p>
+    <p>
+      Their email address will be used to send a confirmation message once the
+      application is submitted.
+    </p>
+  </va-additional-info>
+);
+
 export const PreparerPhoneNumberDescription = (
   <va-additional-info trigger="Why do we need your phone number?">
     {environment.isProduction() ? (
