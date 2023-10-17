@@ -232,7 +232,7 @@ const YourHealthInformation = props => {
 
   return (
     <div>
-      <p>
+      <p className="vads-u-margin-top--0">
         Note: the health information in this summary is from {appointmentDate}.{' '}
         <a href="/my-health/">
           Go to the MyHealtheVet website for your current VA medical records.

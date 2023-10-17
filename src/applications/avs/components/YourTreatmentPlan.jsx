@@ -41,7 +41,7 @@ const YourTreatmentPlan = props => {
 
   return (
     <div>
-      <h3>New orders from this appointment</h3>
+      <h3 className="vads-u-margin-top--0">New orders from this appointment</h3>
       {/* TODO: is this the correct dataset? (Today vs. all) */}
       <OrdersBlock
         heading="Consultations"

@@ -7,10 +7,14 @@ import MedicationTerms from './MedicationTerms';
 
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
-  const clinics = avs.clinicsVisited.map(clinic => {
+  const clinics = avs.clinicsVisited.map((clinic, idx) => {
     return (
       <div key={clinic.clinicIen}>
-        <h3 data-testid="appointment-time">
+        <h3
+          className={idx === 0 && 'vads-u-margin-top--0'}
+          data-testid="appointment-time"
+          key={clinic.clinicIen}
+        >
           {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
         <p>
@@ -143,7 +147,7 @@ const YourAppointment = props => {
   const { avs } = props;
 
   return (
-    <div>
+    <div className="avs-accordion-item">
       {clinicsVisited(avs)}
       {providers(avs)}
       {reasonForAppointment(avs)}
