@@ -1,11 +1,7 @@
 import { Actions } from '../util/actionTypes';
-import {
-  getFolder,
-  getMessageListAll,
-  searchFolderAdvanced,
-} from '../api/SmApi';
+import { searchFolderAdvanced } from '../api/SmApi';
 
-const findByKeyword = (keyword, messages) => {
+export const findByKeyword = (keyword, messages) => {
   const parsedMessageId = parseInt(keyword, 10);
   return messages.filter(message => {
     const {
@@ -21,30 +17,6 @@ const findByKeyword = (keyword, messages) => {
       (recipientName && recipientName.toLowerCase().includes(keyword))
     );
   });
-};
-
-export const runBasicSearch = (folderId, keyword) => async dispatch => {
-  dispatch({ type: Actions.Search.START });
-  const folder = await getFolder(folderId);
-  const folderContents = await getMessageListAll(folderId);
-  const matches = findByKeyword(keyword, folderContents.data);
-
-  if (folder.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: folder.errors[0],
-    });
-  } else if (folderContents.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: folderContents.errors[0],
-    });
-  } else {
-    dispatch({
-      type: Actions.Search.RUN_BASIC,
-      response: { folder: folder.data.attributes, keyword, data: matches },
-    });
-  }
 };
 
 export const runAdvancedSearch = (folder, query, keyword) => async dispatch => {
