@@ -12,6 +12,8 @@ import {
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
 import { APP_NAME } from '../constants';
+import { nodPart3UpdateFeature } from '../utils/helpers';
+import { getEligibleContestableIssues } from '../utils/submit';
 
 import {
   LAST_ISSUE,
@@ -63,9 +65,11 @@ const ContestableIssuesWidget = props => {
     formContext = {},
     apiLoadStatus, // API loaded status
     getContestableIssues,
+    contestableIssues,
     additionalIssues,
     setFormData,
     formData,
+    showPart3,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -95,6 +99,24 @@ const ContestableIssuesWidget = props => {
     },
     [editState],
   );
+
+  useEffect(() => {
+    // contestedIssues becomes undefined after a new save-in-progress loads
+    // (prefill) and removes formData.contestedIssues added by FormApp
+    // Eventually, we'll move all the API-loading & updating code on to the
+    // contestable issues page and remove it all from FormApp
+    if (formData.contestedIssues === undefined) {
+      setFormData({
+        ...formData,
+        contestedIssues: getEligibleContestableIssues(
+          contestableIssues?.issues,
+          {
+            showPart3,
+          },
+        ),
+      });
+    }
+  });
 
   const onReviewPage = formContext?.onReviewPage || false;
   window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
@@ -289,6 +311,8 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
   apiLoadStatus: state.contestableIssues?.status || '',
   additionalIssues: state.form?.data.additionalIssues || [],
+  contestableIssues: state?.contestableIssues,
+  showPart3: nodPart3UpdateFeature(state),
 });
 const mapDispatchToProps = {
   setFormData: setData,
