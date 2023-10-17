@@ -650,7 +650,7 @@ describe('Schemaform helpers:', () => {
       });
     });
 
-    it('should return original input fields if ui:options.onlyDisplayLabel is true', () => {
+    it('should return original input fields if ui:options.displayEmptyObjectOnReview is true', () => {
       const result = getNonArraySchema(
         {
           type: 'object',
