@@ -348,9 +348,7 @@ export function validateSSN(errors, ssn) {
 
 export function validateVAFileNumber(errors, vaFileNumber) {
   if (vaFileNumber && !isValidVAFileNumber(vaFileNumber)) {
-    errors.addError(
-      'Your VA file number must be 8 or 9 digits (dashes allowed)',
-    );
+    errors.addError('VA file number must be 8 or 9 digits (dashes allowed)');
   }
 }
 
