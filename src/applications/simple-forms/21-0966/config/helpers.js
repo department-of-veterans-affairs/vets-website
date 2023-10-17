@@ -1,5 +1,5 @@
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import {
   preparerIdentifications,
   veteranBenefits,
@@ -38,6 +38,16 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
     preparerIsThirdPartyToTheVeteran({ formData }) ||
     preparerIsThirdPartyToASurvivingDependent({ formData })
   );
+};
+
+export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+  if (preparerIsThirdParty({ formData })) {
+    return 'thirdPartyPreparerFullName';
+  }
+  if (preparerIsVeteran({ formData })) {
+    return 'veteranFullName';
+  }
+  return 'survivingDependentFullName';
 };
 
 export const benefitSelectionStepperTitle = ({ formData } = {}) => {

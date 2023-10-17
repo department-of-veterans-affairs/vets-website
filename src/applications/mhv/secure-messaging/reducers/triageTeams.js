@@ -22,7 +22,11 @@ export const triageTeamsReducer = (state = initialState, action) => {
           };
         }),
       };
-    case 'b':
+    case Actions.TriageTeam.GET_LIST_ERROR:
+      return {
+        ...state,
+        triageTeams: 'error',
+      };
     default:
       return state;
   }
