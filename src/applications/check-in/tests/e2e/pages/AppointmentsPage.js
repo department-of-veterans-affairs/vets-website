@@ -25,10 +25,7 @@ class AppointmentsPage {
     preCheckIn: () => {
       cy.get('[data-testid="what-next-card-title"]')
         .should('be.visible')
-        .and(
-          'include.text',
-          'Review your contact information for your {{ date, day }}, {{ date, monthDay }} {{ date, time }} appointment.',
-        );
+        .and('include.text', 'Review your contact information for your');
     },
   };
 
@@ -59,10 +56,10 @@ class AppointmentsPage {
   };
 
   validateCardOrder = () => {
-    cy.wrap(cy.get('[data-testid="what-next-card"]'))
+    cy.wrap(cy.get('[data-testid="what-next-card"]')[0])
       .get('[data-testid="what-next-card-title"]')
       .should('contain.text', '3:00 p.m.');
-    cy.wrap(cy.get('[data-testid="what-next-card"]'))
+    cy.wrap(cy.get('[data-testid="what-next-card"]')[1])
       .get('[data-testid="what-next-card-title"]')
       .should('contain.text', '5:00 p.m.');
   };
@@ -91,8 +88,8 @@ class AppointmentsPage {
       .should('eq', 5);
   };
 
-  attemptViewDetails = () => {
-    cy.get('[data-tesid="details-link"]').click({
+  clickDetails = (appointment = 0) => {
+    cy.get(`[data-testid="details-link-${appointment}"]`).click({
       waitForAnimations: true,
     });
   };

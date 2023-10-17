@@ -3,6 +3,7 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import AppointmentsPage from '../../../../tests/e2e/pages/AppointmentsPage';
+import AppointmentDetails from '../../../../tests/e2e/pages/AppointmentDetails';
 
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
@@ -31,15 +32,14 @@ describe('Check In Experience -- ', () => {
         window.sessionStorage.clear();
       });
     });
-    xit('Upcoming appointments are displayed in a sorted manner', () => {
+    it('Upcoming appointments are displayed in a sorted manner', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validatePageLoaded();
       AppointmentsPage.validateUpcomingAppointmentsList();
       cy.injectAxeThenAxeCheck();
     });
-
-    xit('What to do next displays a check in card for valid appointments', () => {
+    it('What to do next displays a check in card for valid appointments', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validateWhatNextHeader();
@@ -64,6 +64,24 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validateMultipleCards(2);
       AppointmentsPage.validateCardOrder();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should navigate to appointment details', () => {
+      const multipleAppointments = [
+        { startTime: '2021-08-19T17:00:00' },
+        {
+          startTime: '2021-08-19T16:00:00',
+          eligibility: 'INELIGIBLE',
+        },
+        { startTime: '2021-08-19T15:00:00' },
+      ];
+      ApiInitializer.initializeCheckInDataGet.withSuccess({
+        appointments: multipleAppointments,
+      });
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.clickDetails(0);
+      AppointmentDetails.validatePageLoadedInPerson();
       cy.injectAxeThenAxeCheck();
     });
   });
