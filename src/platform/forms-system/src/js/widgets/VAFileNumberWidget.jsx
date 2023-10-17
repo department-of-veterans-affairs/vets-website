@@ -24,18 +24,22 @@ export default function SSNWidget(props) {
 
   const handleChange = value => {
     // If val is blank or undefined, pass undefined to onChange
-    let strippedSSN;
+    let strippedVal;
     if (value) {
-      strippedSSN = value.replace(/[- ]/g, '');
+      strippedVal = value.replace(/[- ]/g, '');
     }
 
     setVal(value);
     setDisplayVal(value);
-    props.onChange(strippedSSN);
+    props.onChange(strippedVal);
   };
 
   const handleBlur = () => {
-    setDisplayVal(maskSSN(val));
+    const strippedVal = val.replace(/[- ]/g, '');
+
+    if (strippedVal.length === 9) {
+      setDisplayVal(maskSSN(val));
+    }
     props.onBlur(props.id);
   };
 
