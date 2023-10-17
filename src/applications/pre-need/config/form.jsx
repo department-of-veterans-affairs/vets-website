@@ -127,7 +127,7 @@ function ApplicantContactInfoDescription() {
     ? applicantContactInfoDescriptionVetNOTPROD
     : applicantContactInfoDescriptionNonVetNOTPROD;
 }
-
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -575,7 +575,7 @@ const formConfig = {
                     'view:applicantContactInfoSubheader': {
                       'ui:description': applicantContactInfoSubheader,
                       'ui:options': {
-                        onlyDisplayLabel: true,
+                        displayEmptyObjectOnReview: true,
                       },
                     },
                     phoneNumber: phoneUI('Phone number'),
@@ -583,7 +583,7 @@ const formConfig = {
                     'view:contactInfoDescription': {
                       'ui:description': applicantContactInfoWrapper,
                       'ui:options': {
-                        onlyDisplayLabel: true,
+                        displayEmptyObjectOnReview: true,
                       },
                     },
                   },
