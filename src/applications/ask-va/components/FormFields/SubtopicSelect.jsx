@@ -1,41 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import RequireSignInModal from '../RequireSignInModal';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInCategories } from '../../constants';
-import { setCategoryID } from '../../actions';
+import { URL } from '../../constants';
 
-const CategorySelect = props => {
-  const { id, onChange, value, loggedIn } = props;
-  const dispatch = useDispatch();
+const SubtopicSelect = props => {
+  const { id, onChange, value, loggedIn, topicID } = props;
 
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [dirty, setDirty] = useState(false);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
   const errorMessages = { required: 'Please provide a response' };
 
-  const onModalNo = () => {
-    onChange('');
-    setShowModal({ show: false, selected: '' });
-  };
-
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
-    dispatch(setCategoryID(selected.id));
     onChange(selectedValue);
     setDirty(true);
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn)
-      setShowModal({ show: true, selected: `${selectedValue}` });
   };
 
   const handleBlur = () => {
@@ -61,7 +48,9 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
+      getApiData(
+        `${environment.API_URL}${URL.GET_SUBTOPICS}/${topicID}/subtopics`,
+      );
     },
     [loggedIn],
   );
@@ -74,50 +63,44 @@ const CategorySelect = props => {
   }
 
   return !error ? (
-    <>
-      <VaSelect
-        id={id}
-        name={id}
-        value={value}
-        label="Select a category"
-        error={showError() || null}
-        onVaSelect={handleChange}
-        onBlur={handleBlur}
-      >
-        <option value="">&nbsp;</option>
-        {apiData.map(category => (
-          <option
-            key={category.id}
-            value={category.attributes.name}
-            id={category.id}
-          >
-            {category.attributes.name}
-          </option>
-        ))}
-      </VaSelect>
-
-      <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
-        restrictedItem={showModal.selected}
-      />
-    </>
+    <VaSelect
+      id={id}
+      name={id}
+      value={value}
+      label="Select a topic"
+      error={showError() || null}
+      onVaSelect={handleChange}
+      onBlur={handleBlur}
+    >
+      <option value="">&nbsp;</option>
+      {apiData.map(subTopic => (
+        <option
+          key={subTopic.id}
+          value={subTopic.attributes.name}
+          id={subTopic.id}
+        >
+          {subTopic.attributes.name}
+        </option>
+      ))}
+    </VaSelect>
   ) : (
     <ServerErrorAlert />
   );
 };
 
-CategorySelect.propTypes = {
+SubtopicSelect.propTypes = {
   loggedIn: PropTypes.bool,
   id: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  topicID: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
+    topicID: state.askVA.topicID,
   };
 }
 
-export default connect(mapStateToProps)(CategorySelect);
+export default connect(mapStateToProps)(SubtopicSelect);
