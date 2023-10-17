@@ -53,6 +53,7 @@ import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { Edit } from './edit/Edit';
 
 class Profile extends Component {
   componentDidMount() {
@@ -197,9 +198,13 @@ class Profile extends Component {
                   );
                 }
 
+                // hack to avoid a circular dependency between routes and Edit.
+                const component =
+                  route.component === 'EditComponent' ? Edit : route.component;
+
                 return (
                   <Route
-                    component={route.component}
+                    component={component}
                     exact
                     key={route.path}
                     path={route.path}
