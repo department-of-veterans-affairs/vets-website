@@ -86,7 +86,7 @@ const AppointmentListItem = props => {
               t('phone')
             ) : (
               <>
-                {`${t('in-person')} at ${appointment.facility}`} <br /> Clinic:{' '}
+                {`${t('in-person')} ${appointment.facility}`} <br /> Clinic:{' '}
                 {clinic}
               </>
             )}

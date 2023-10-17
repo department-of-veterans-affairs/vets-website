@@ -10,6 +10,7 @@ import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
 import {
   SHOW_PART3,
+  SHOW_PART3_STORAGE,
   DATA_DOG_ID,
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
@@ -105,6 +106,10 @@ export const FormApp = ({
 
   useEffect(
     () => {
+      // storage flag to dynamically add part3 migation for redirect to request
+      // extension page
+      window.sessionStorage.setItem(SHOW_PART3_STORAGE, showPart3);
+
       if (showPart3 !== formData[SHOW_PART3]) {
         setFormData({
           ...formData,
