@@ -506,7 +506,21 @@ export const addressUISchema = (
             }
             if (isMilitaryBaseAddress && livesOnMilitaryBase) {
               const statePath = `${path}.stateCode`;
-              const selectedState = get(statePath, formData);
+              let selectedState =
+                get(statePath, formData) ||
+                get(`address[stateCode]`, formData) ||
+                get(`childAddressInfo.address['stateCode']`, formData);
+              if (window.location.href.includes('review-and-submit')) {
+                selectedState =
+                  selectedState ||
+                  (formData.stepChildren || []).some(stepChild =>
+                    get(`address['stateCode']`, stepChild),
+                  ) ||
+                  (formData.childrenToAdd || []).some(stepChild =>
+                    get(`childAddressInfo.address['stateCode']`, stepChild),
+                  );
+              }
+
               switch (selectedState) {
                 case 'AA': {
                   if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
