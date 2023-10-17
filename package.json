@@ -213,7 +213,7 @@
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.4.4",
+    "postcss": "^8.4.31",
     "postcss-loader": "^6.2.1",
     "prettier": "^1.14.3",
     "sass-lint": "^1.13.1",
