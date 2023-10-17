@@ -72,7 +72,7 @@ export default function TermsOfUse() {
 
   return (
     <>
-      {!isAuthenticated && <style>{touStyles}</style>}
+      <style>{touStyles}</style>
       <section className="vads-l-grid-container vads-u-padding-y--5">
         <div className="usa-content">
           <h1 className="vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
