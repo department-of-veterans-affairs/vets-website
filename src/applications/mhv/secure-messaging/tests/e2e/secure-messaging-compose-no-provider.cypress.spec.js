@@ -9,12 +9,11 @@ describe('Secure Messaging Compose with No Provider', () => {
   it('can send message', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
-    patientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
 
     composePage.selectRecipient('');
     composePage
