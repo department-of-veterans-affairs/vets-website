@@ -670,13 +670,13 @@ describe('Schemaform helpers:', () => {
           field1: {
             'ui:description': 'My field1 text',
             'ui:options': {
-              onlyDisplayLabel: true,
+              displayEmptyObjectOnReview: true,
             },
           },
           field2: {
             'ui:description': 'My field2 text',
             'ui:options': {
-              onlyDisplayLabel: true,
+              displayEmptyObjectOnReview: true,
             },
           },
         },
