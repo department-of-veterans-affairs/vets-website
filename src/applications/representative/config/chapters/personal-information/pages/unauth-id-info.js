@@ -1,3 +1,5 @@
+import { mapValues } from 'lodash';
+
 import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 
 export const title = 'Veteran’s Identification Information';
@@ -12,26 +14,17 @@ const branchOfServiceOptions = {
   other: 'Other',
 };
 
-const branchOfServiceSchema = Object.keys(branchOfServiceOptions).reduce(
-  (accumulator, key) => {
-    accumulator[key] = { type: 'boolean', default: false };
-    return accumulator;
-  },
-  {},
-);
+const createBooleanSchemaPropertiesFromOptions = obj =>
+  mapValues(obj, () => {
+    return { type: 'boolean' };
+  });
 
-const branchOfServiceUiSchema = Object.keys(branchOfServiceOptions).reduce(
-  (accumulator, key) => {
-    accumulator[key] = {
-      'ui:widget': 'checkbox',
-      'ui:options': {
-        hideLabelText: true,
-      },
-    };
+const createUiTitlePropertiesFromOptions = obj => {
+  return Object.entries(obj).reduce((accumulator, [key, value]) => {
+    accumulator[key] = { 'ui:title': value };
     return accumulator;
-  },
-  {},
-);
+  }, {});
+};
 
 export const schema = {
   type: 'object',
@@ -51,10 +44,13 @@ export const schema = {
     },
     branchOfService: {
       type: 'object',
-      properties: branchOfServiceSchema,
+      properties: {
+        ...createBooleanSchemaPropertiesFromOptions(branchOfServiceOptions),
+      },
+      required: [],
     },
   },
-  required: ['ssn', 'branchOfService'],
+  required: ['ssn'],
 };
 
 export const uiSchema = {
@@ -63,6 +59,21 @@ export const uiSchema = {
   serviceNumber: {},
   branchOfService: {
     'ui:description': 'Branch of Service',
-    ...branchOfServiceUiSchema,
+    'ui:widget': 'checkbox',
+    ...createUiTitlePropertiesFromOptions(branchOfServiceOptions),
+    'ui:validations': [
+      (errors, fieldData) => {
+        const atLeastOneChecked = Object.values(fieldData).some(value => value);
+
+        if (!atLeastOneChecked) {
+          // eslint-disable-next-line no-console
+          // console.log('Validation error triggered!');
+          errors.addError('Please select at least one branch of service.');
+        }
+      },
+    ],
+    'ui:errorMessages': {
+      pattern: 'Please select at least one branch of service.',
+    },
   },
 };
