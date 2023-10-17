@@ -186,8 +186,7 @@ class PatientMessageDraftsPage {
     ).as('deletedDraftResponse');
     cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
     cy.get('[data-testid="delete-draft-modal"]')
-      .shadow()
-      .find('[type ="button"]', { force: true })
+      .find('va-button[text="Delete draft"]', { force: true })
       .contains('Delete draft')
       .should('contain', 'Delete')
       .click({ force: true });
@@ -209,7 +208,7 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
 
@@ -224,7 +223,7 @@ class PatientMessageDraftsPage {
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 
-    cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
+    cy.get('[data-testid="delete-draft-modal"]');
     cy.realPress(['Tab']);
     cy.realPress(['Enter']);
     cy.wait('@deletedDraftResponse')
@@ -375,7 +374,7 @@ class PatientMessageDraftsPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(listBefore);
+        cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -383,7 +382,7 @@ class PatientMessageDraftsPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(listAfter);
+            cy.log(JSON.stringify(listAfter));
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });

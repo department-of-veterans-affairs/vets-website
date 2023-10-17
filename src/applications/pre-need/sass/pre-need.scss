@@ -51,9 +51,15 @@ h3.name-of-deceased-text {
   padding-left: 1rem;
 }
 
-article#pre-need[data-location="veteran-applicant-information"] {
+article#pre-need[data-location="applicant-demographics"] {
   .schemaform-widget-wrapper > fieldset {
-    margin-top: 0 !important;
+    margin-top: 0em !important;
+  }
+}
+
+article#pre-need[data-location="review-and-submit"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
   }
 }
 
@@ -64,7 +70,7 @@ dl.review + dl.review .review-row {
 
 fieldset.schemaform-field-template.schemaform-first-field {
   margin-top: -2em;
-  margin-bottom: -1em;
+  margin-bottom: 0em;
 }
 
 .schemaform-file-list > li {
@@ -100,4 +106,21 @@ fieldset.schemaform-field-template.schemaform-first-field {
   font-family: "Source Sans Pro";
   font-size: 16px;
   font-weight: normal;
+}
+
+.applicantDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.applicantDemographicsDescription {
+  padding-bottom: 1em;
+}
+
+.ApplicantDescriptionWrapper {
+  padding-bottom: 1em;
+}
+
+
+.militaryDetailsSubHeader {
+  margin-bottom: -1em;
 }
