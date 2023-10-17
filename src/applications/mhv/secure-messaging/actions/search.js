@@ -5,7 +5,7 @@ import {
   searchFolderAdvanced,
 } from '../api/SmApi';
 
-const findByKeyword = (keyword, messages) => {
+export const findByKeyword = (keyword, messages) => {
   const parsedMessageId = parseInt(keyword, 10);
   return messages.filter(message => {
     const {

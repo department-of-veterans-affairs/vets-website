@@ -5,7 +5,6 @@ import thunk from 'redux-thunk';
 import { foldersReducer } from '../../reducers/folders';
 import foldersListResponse from '../fixtures/mock-api-responses/folders-list-response.json';
 import createFolderResponse from '../fixtures/mock-api-responses/create-folder-response.json';
-
 import {
   clearFolder,
   delFolder,
