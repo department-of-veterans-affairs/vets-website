@@ -16,12 +16,17 @@ h1 {
     align-items: center;
     justify-content: center;
     padding-top: 10px;
+    width: 100%;
+    button: {
+      width: 100%;
+    }
   }
 
 .text {
     max-width: 550px;
     justify-content: center;
     padding-left: 25px;
+    padding-right: 25px;
   }
 
 /* Container to center the white box */
@@ -67,4 +72,8 @@ button {
     text-align: center;
     border-radius: 5px;
     transition: background-color 0.3s ease; /* Add a smooth hover effect */
+}
+
+.mo-full-width-btn {
+  width: 100%;
 }
