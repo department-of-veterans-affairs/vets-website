@@ -12,10 +12,10 @@ export function getInsuranceSrLabel(formData) {
   const labels = {
     policy: insurancePolicyNumber
       ? `${content['insurance-policy-number-label']} ${insurancePolicyNumber}`
-      : '',
+      : undefined,
     group: insuranceGroupCode
       ? `${content['insurance-group-code-label']} ${insuranceGroupCode}`
-      : '',
+      : undefined,
   };
   return insuranceName
     ? `${insuranceName}, ${labels.policy ?? labels.group}`
