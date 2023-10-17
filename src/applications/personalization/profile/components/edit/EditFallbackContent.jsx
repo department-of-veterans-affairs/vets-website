@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-export const EditFallbackContent = ({ routes }) => {
+const EditFallbackContent = ({ routes }) => {
   return (
     <>
       <EditBreadcrumb href="/profile">Back to profile</EditBreadcrumb>
@@ -24,3 +25,9 @@ export const EditFallbackContent = ({ routes }) => {
     </>
   );
 };
+
+EditFallbackContent.propTypes = {
+  routes: PropTypes.array,
+};
+
+export default EditFallbackContent;
