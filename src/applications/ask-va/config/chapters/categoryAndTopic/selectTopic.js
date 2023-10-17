@@ -1,5 +1,5 @@
-import TopicList from '../../../components/FormFields/TopicList';
-import FormElementTitle from '../../../components/FormFields/FormElementTitle';
+import TopicSelect from '../../../components/FormFields/TopicSelect';
+import FormElementTitle from '../../../components/FormElementTitle';
 
 const selectTopicPage = {
   uiSchema: {
@@ -7,7 +7,7 @@ const selectTopicPage = {
       'ui:title': FormElementTitle({
         title: 'Which topic best describes your question?',
       }),
-      'ui:widget': TopicList,
+      'ui:widget': TopicSelect,
     },
   },
   schema: {

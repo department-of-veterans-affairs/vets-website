@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
-import { displayConditionsMet } from '../../utilities/display-logic';
+import { displayConditionsMet } from '../../utilities/display-logic-questions';
 
 import Radiation23B from '../../containers/questions/radiation/Radiation-2-3-B';
 
@@ -13,8 +13,13 @@ const { RADIATION_2_3_B } = SHORT_NAME_MAP;
 const {
   DURING_BOTH_PERIODS,
   EIGHTYNINE_OR_EARLIER,
+  GUAM,
+  LAOS,
   NINETY_OR_LATER,
   NO,
+  NOT_SURE,
+  VIETNAM_REP,
+  VIETNAM_WATERS,
   YES,
 } = RESPONSES;
 
@@ -98,6 +103,12 @@ describe('Radiation 2.3.B Page', () => {
 describe('displayConditionsAreMet', () => {
   it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
     const formResponses = {
+      ORANGE_2_2_A: NO,
+      ORANGE_2_2_B: null,
+      ORANGE_2_2_1_A: NO,
+      ORANGE_2_2_1_B: null,
+      ORANGE_2_2_2: NOT_SURE,
+      ORANGE_2_2_3: YES,
       RADIATION_2_3_A: YES,
       SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
     };
@@ -107,6 +118,114 @@ describe('displayConditionsAreMet', () => {
 
   it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
     const formResponses = {
+      ORANGE_2_2_A: NO,
+      ORANGE_2_2_B: null,
+      ORANGE_2_2_1_A: NO,
+      ORANGE_2_2_1_B: null,
+      ORANGE_2_2_2: YES,
+      ORANGE_2_2_3: null,
+      RADIATION_2_3_A: YES,
+      SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
+    };
+
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
+  });
+
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
+    const formResponses = {
+      ORANGE_2_2_A: YES,
+      ORANGE_2_2_B: [VIETNAM_REP, VIETNAM_WATERS],
+      ORANGE_2_2_1_A: null,
+      ORANGE_2_2_1_B: null,
+      ORANGE_2_2_2: null,
+      ORANGE_2_2_3: null,
+      RADIATION_2_3_A: YES,
+      SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
+    };
+
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
+  });
+
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
+    const formResponses = {
+      ORANGE_2_2_A: NO,
+      ORANGE_2_2_B: null,
+      ORANGE_2_2_1_A: YES,
+      ORANGE_2_2_1_B: [GUAM],
+      ORANGE_2_2_2: null,
+      ORANGE_2_2_3: null,
+      RADIATION_2_3_A: YES,
+      SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
+    };
+
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
+  });
+
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: YES,
+      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_2: null,
+      ORANGE_2_2_A: NO,
+      ORANGE_2_2_B: null,
+      ORANGE_2_2_1_A: NO,
+      ORANGE_2_2_1_B: null,
+      ORANGE_2_2_2: NOT_SURE,
+      ORANGE_2_2_3: YES,
+      RADIATION_2_3_A: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
+  });
+
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: null,
+      BURN_PIT_2_1_1: YES,
+      BURN_PIT_2_1_2: null,
+      ORANGE_2_2_A: NO,
+      ORANGE_2_2_B: null,
+      ORANGE_2_2_1_A: NO,
+      ORANGE_2_2_1_B: null,
+      ORANGE_2_2_2: YES,
+      ORANGE_2_2_3: null,
+      RADIATION_2_3_A: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
+  });
+
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: null,
+      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_2: YES,
+      ORANGE_2_2_A: YES,
+      ORANGE_2_2_B: [VIETNAM_REP],
+      ORANGE_2_2_1_A: null,
+      ORANGE_2_2_1_B: null,
+      ORANGE_2_2_2: null,
+      ORANGE_2_2_3: null,
+      RADIATION_2_3_A: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(RADIATION_2_3_B, formResponses)).to.equal(true);
+  });
+
+  it('RADIATION_2_3_B: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: YES,
+      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_2: null,
+      ORANGE_2_2_A: NO,
+      ORANGE_2_2_B: null,
+      ORANGE_2_2_1_A: YES,
+      ORANGE_2_2_1_B: [GUAM, LAOS],
+      ORANGE_2_2_2: null,
+      ORANGE_2_2_3: null,
       RADIATION_2_3_A: YES,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
@@ -126,7 +245,10 @@ describe('displayConditionsAreMet', () => {
 
   it('RADIATION_2_3_B: should return false when the display conditions are not met', () => {
     const formResponses = {
-      RADIATION_2_3_A: NO,
+      ORANGE_2_2_B: NO,
+      ORANGE_2_2_1_B: NO,
+      ORANGE_2_2_2: NO,
+      ORANGE_2_2_3: NOT_SURE,
       SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
     };
 
@@ -137,6 +259,10 @@ describe('displayConditionsAreMet', () => {
 
   it('RADIATION_2_3_B: should return false when the display conditions are not met', () => {
     const formResponses = {
+      ORANGE_2_2_B: NO,
+      ORANGE_2_2_1_B: NO,
+      ORANGE_2_2_2: NO,
+      ORANGE_2_2_3: NOT_SURE,
       RADIATION_2_3_A: NO,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };

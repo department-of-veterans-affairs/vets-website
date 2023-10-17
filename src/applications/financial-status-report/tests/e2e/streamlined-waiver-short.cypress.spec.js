@@ -88,7 +88,7 @@ const testConfig = createTestConfig(
       },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(/How many dependents/).type('2');
+          cy.findByLabelText(/Number of dependents/).type('2');
           cy.get('.usa-button-primary').click();
         });
       },

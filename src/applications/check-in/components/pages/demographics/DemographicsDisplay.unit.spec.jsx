@@ -11,7 +11,7 @@ describe('pre-check-in experience', () => {
       it('renders with default values', () => {
         const { queryByText } = render(
           <CheckInProvider>
-            <DemographicsDisplay />
+            <DemographicsDisplay yesAction={() => {}} noAction={() => {}} />
           </CheckInProvider>,
         );
         expect(queryByText('Is this your current contact information?')).to
@@ -26,7 +26,12 @@ describe('pre-check-in experience', () => {
       it('renders custom header with eyebrow', () => {
         const { getByTestId } = render(
           <CheckInProvider>
-            <DemographicsDisplay header="foo" eyebrow="Check-In" />
+            <DemographicsDisplay
+              header="foo"
+              eyebrow="Check-In"
+              yesAction={() => {}}
+              noAction={() => {}}
+            />
           </CheckInProvider>,
         );
 
@@ -35,7 +40,11 @@ describe('pre-check-in experience', () => {
       it('renders custom subtitle', () => {
         const { getByText } = render(
           <CheckInProvider>
-            <DemographicsDisplay subtitle="foo" />
+            <DemographicsDisplay
+              subtitle="foo"
+              yesAction={() => {}}
+              noAction={() => {}}
+            />
           </CheckInProvider>,
         );
         expect(getByText('foo')).to.exist;
@@ -64,7 +73,11 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <CheckInProvider>
-            <DemographicsDisplay demographics={demographics} />
+            <DemographicsDisplay
+              demographics={demographics}
+              yesAction={() => {}}
+              noAction={() => {}}
+            />
           </CheckInProvider>,
         );
         expect(getByText('Mailing address')).to.exist;
@@ -98,7 +111,11 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <CheckInProvider>
-            <DemographicsDisplay demographics={demographics} />
+            <DemographicsDisplay
+              demographics={demographics}
+              yesAction={() => {}}
+              noAction={() => {}}
+            />
           </CheckInProvider>,
         );
         expect(getByText('123 Turtle Trail')).to.exist;
@@ -115,7 +132,7 @@ describe('pre-check-in experience', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <DemographicsDisplay yesAction={yesClick} />
+            <DemographicsDisplay yesAction={yesClick} noAction={() => {}} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -125,7 +142,7 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <DemographicsDisplay noAction={noClick} />
+            <DemographicsDisplay yesAction={() => {}} noAction={noClick} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
