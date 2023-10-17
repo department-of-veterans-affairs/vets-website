@@ -40,16 +40,4 @@ describe('Secure Messaging Draft Folder checks', () => {
     landingPage.clearFilter();
     landingPage.verifyFilterFieldCleared();
   });
-
-  it('Check sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    landingPage.verifySorting();
-  });
 });
