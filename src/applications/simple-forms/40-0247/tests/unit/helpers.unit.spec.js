@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { getInitialData, dateOfDeathValidation } from '../../helpers';
+import {
+  createPayload,
+  getInitialData,
+  dateOfDeathValidation,
+  parseResponse,
+} from '../../helpers';
 
 describe('getInitialData', () => {
   it('returns mockData if environment is localhost and Cypress is not running', () => {
@@ -30,6 +35,47 @@ describe('getInitialData', () => {
     const result = getInitialData({ mockData, environment });
     expect(result).to.be.undefined;
     window.Cypress = undefined;
+  });
+});
+
+describe('createPayload', () => {
+  it('should create a FormData object with the file and password (if provided)', () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const formId = 'test-form';
+    const password = 'test-password';
+    const payload = createPayload(file, formId, password);
+
+    expect(payload.get('files_attachment[file_data]')).to.equal(file);
+    expect(payload.get('files_attachment[password]')).to.equal(password);
+  });
+
+  it('should create a FormData object with only the file if no password is provided', () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const formId = 'test-form';
+    const payload = createPayload(file, formId);
+
+    expect(payload.get('files_attachment[file_data]')).to.equal(file);
+    expect(payload.get('files_attachment[password]')).to.be.null;
+  });
+});
+
+describe('parseResponse', () => {
+  it('should return an object with the name and confirmation code from the response', () => {
+    const response = {
+      data: {
+        attributes: {
+          // eslint-disable-next-line camelcase
+          confirmation_code: 'test-guid',
+        },
+      },
+    };
+    const name = 'test-file.txt';
+    const result = parseResponse(response, { name });
+
+    expect(result).to.deep.equal({
+      name,
+      confirmationCode: 'test-guid',
+    });
   });
 });
 

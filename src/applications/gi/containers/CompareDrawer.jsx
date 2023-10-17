@@ -136,6 +136,9 @@ export function CompareDrawer({
                   onClick={() => {
                     setPromptingFacilityCode(facilityCode);
                   }}
+                  aria-label={`Remove ${
+                    institutions[facilityCode].name
+                  } from comparison`}
                 >
                   Remove
                 </button>
