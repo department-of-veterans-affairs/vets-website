@@ -330,11 +330,11 @@ describe('VAOS upcomming appointment flow', () => {
       AppointmentListPage.visit().validate();
 
       // Assert
-      cy.findAllByText(/Primary care/i).should(list => {
-        expect(list).to.have.length(2);
+      cy.findAllByTestId('appointment-list-item').should($list => {
+        expect($list).to.have.length(2);
       });
 
-      // Constrain search within list since there may be other dates on the page.
+      // Constrain search within list group.
       cy.findByTestId(`appointment-list-${today.format('YYYY-MM')}`).within(
         () => {
           const tomorrow = moment(today)
@@ -375,11 +375,11 @@ describe('VAOS upcomming appointment flow', () => {
       AppointmentListPage.visit().validate();
 
       // Assert
-      cy.findAllByText(/Primary care/i).should(list => {
-        expect(list).to.have.length(4);
+      cy.findAllByTestId('appointment-list-item').should($list => {
+        expect($list).to.have.length(4);
       });
 
-      // Constrain search within list since there may be other dates on the page.
+      // Constrain search within list group.
       cy.findByTestId(`${today.format('YYYY-MM-DD')}-group`).within(() => {
         cy.findAllByText(`${today.format('ddd')}`).should($span => {
           // Expect 1st row to display date and day
@@ -413,14 +413,11 @@ describe('VAOS upcomming appointment flow', () => {
       AppointmentListPage.visit().validate();
 
       // Assert
-      cy.findAllByText(/Primary care/i).should(list => {
-        expect(list).to.have.length(2);
-      });
-
-      // Constrain search within list since there may be other dates on the page.
+      // Constrain search within list group.
       cy.findByTestId(`${today.format('YYYY-MM-DD')}-group`).within(() => {
-        cy.findAllByText(`${today.format('ddd')}`).should(list => {
-          expect(list.last()).to.be.hidden;
+        cy.findAllByText(`${today.format('ddd')}`).should($day => {
+          expect($day).to.have.length(2);
+          expect($day.last()).to.be.hidden;
         });
       });
 
@@ -457,21 +454,17 @@ describe('VAOS upcomming appointment flow', () => {
       AppointmentListPage.visit().validate();
 
       // Assert
-      cy.findAllByText(/Primary care/i).should(list => {
-        expect(list).to.have.length(3);
-      });
-
-      // Constrain search within list since there may be other dates on the page.
+      // Constrain search within list group.
       cy.findByTestId(`${today.format('YYYY-MM-DD')}-group`).within(() => {
-        cy.findAllByText(`${today.format('ddd')}`).should(list => {
-          expect(list).to.have.length(2);
+        cy.findAllByTestId('appointment-list-item').should($list => {
+          expect($list).to.have.length(2);
         });
       });
 
       cy.findByTestId(`appointment-list-${nextMonth.format('YYYY-MM')}`).within(
         () => {
-          cy.findAllByText(`${nextMonth.format('ddd')}`).should(list => {
-            expect(list).to.have.length(1);
+          cy.findAllByTestId('appointment-list-item').should($list => {
+            expect($list).to.have.length(1);
           });
         },
       );

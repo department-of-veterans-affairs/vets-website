@@ -14,141 +14,149 @@ import { MockAppointment } from '../../fixtures/MockAppointment';
 import PastAppointmentListPage from '../../page-objects/AppointmentList/PastAppointmentListPage';
 import { MockUser } from '../../fixtures/MockUser';
 
-describe('past appointments', () => {
-  beforeEach(() => {
-    vaosSetup();
+describe('VAOS past appointment flow', () => {
+  describe('When veteran has past appointments', () => {
+    beforeEach(() => {
+      vaosSetup();
 
-    mockFacilitiesApi();
-    mockFeatureToggles();
+      mockFacilitiesApi();
+      mockFeatureToggles();
 
-    cy.login(new MockUser());
-  });
+      cy.login(new MockUser());
+    });
 
-  it('should display past appointments list', () => {
-    // Arrange
-    const yesterday = moment().subtract(1, 'day');
-    const response = [];
+    it('should display past appointments list', () => {
+      // Arrange
+      const yesterday = moment().subtract(1, 'day');
+      const response = [];
 
-    for (let i = 1; i <= 2; i++) {
+      for (let i = 1; i <= 2; i++) {
+        const appt = new MockAppointment({
+          id: i,
+          cancellable: false,
+          localStartTime: yesterday,
+          status: APPOINTMENT_STATUS.booked,
+        });
+        response.push(appt);
+      }
+
+      const lastMonth = moment().subtract(1, 'month');
       const appt = new MockAppointment({
-        id: i,
+        id: '3',
+        cancellable: false,
+        localStartTime: lastMonth,
+        status: APPOINTMENT_STATUS.booked,
+      });
+      response.push(appt);
+
+      mockAppointmentsApi({ response });
+
+      // Act
+      PastAppointmentListPage.visit().validate();
+
+      // Assert
+      // Constrain search within list group.
+      cy.findByTestId(`appointment-list-${yesterday.format('YYYY-MM')}`).within(
+        () => {
+          cy.findAllByTestId('appointment-list-item').should($list => {
+            expect($list).to.have.length(2);
+          });
+        },
+      );
+      cy.findByTestId(`appointment-list-${lastMonth.format('YYYY-MM')}`).within(
+        () => {
+          cy.findAllByTestId('appointment-list-item').should($list => {
+            expect($list).to.have.length(1);
+          });
+        },
+      );
+
+      cy.axeCheckBestPractice();
+    });
+
+    it('should display past appointment details', () => {
+      // Arrange
+      const yesterday = moment().subtract(1, 'day');
+      const appt = new MockAppointment({
+        id: '3',
         cancellable: false,
         localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
       });
-      response.push(appt);
-    }
 
-    const lastMonth = moment().subtract(1, 'month');
-    const appt = new MockAppointment({
-      id: '3',
-      cancellable: false,
-      localStartTime: lastMonth,
-      status: APPOINTMENT_STATUS.booked,
-    });
-    response.push(appt);
+      mockAppointmentsApi({ response: [appt] });
 
-    mockAppointmentsApi({ response });
+      // Act
+      PastAppointmentListPage.visit()
+        .validate()
+        .selectListItem();
 
-    // Act
-    PastAppointmentListPage.visit().validate();
+      // Assert
+      const timestamp = new RegExp(
+        `${yesterday.format('dddd, MMMM D, YYYY [at] h:mm')}`,
+      );
+      cy.findByText(timestamp).should('exist');
 
-    // Assert
-    cy.findAllByText(/Primary care/i).should(list => {
-      expect(list).to.have.length(3);
-    });
-    cy.findAllByText(new RegExp(yesterday.format('ddd'), 'i')).should(list => {
-      expect(list).to.have.length(2);
-    });
-    cy.findAllByText(new RegExp(lastMonth.format('ddd'), 'i')).should(list => {
-      expect(list).to.have.length(1);
+      cy.axeCheckBestPractice();
     });
 
-    cy.axeCheckBestPractice();
-  });
-
-  it('should display past appointment details', () => {
-    // Arrange
-    const yesterday = moment().subtract(1, 'day');
-    const appt = new MockAppointment({
-      id: '3',
-      cancellable: false,
-      localStartTime: yesterday,
-      status: APPOINTMENT_STATUS.booked,
-    });
-
-    mockAppointmentsApi({ response: [appt] });
-
-    // Act
-    PastAppointmentListPage.visit()
-      .validate()
-      .selectListItem();
-
-    // Assert
-    const timestamp = new RegExp(
-      `${yesterday.format('dddd, MMMM D, YYYY [at] h:mm')}`,
-    );
-    cy.findByText(timestamp).should('exist');
-
-    cy.axeCheckBestPractice();
-  });
-
-  it('should display  past appointments for selected date range', () => {
-    // Arrange
-    const response = [3, 6, 9, 12].map(i => {
-      return new MockAppointment({
-        id: i,
-        cancellable: false,
-        localStartTime: moment().subtract(i, 'month'),
-        status: APPOINTMENT_STATUS.booked,
+    it('should display past appointments for selected date range', () => {
+      // Arrange
+      const response = [3, 6, 9, 12].map(i => {
+        return new MockAppointment({
+          id: i,
+          cancellable: false,
+          localStartTime: moment().subtract(i, 'month'),
+          status: APPOINTMENT_STATUS.booked,
+        });
       });
-    });
 
-    mockAppointmentsApi({ response });
+      mockAppointmentsApi({ response });
 
-    // Act
-    PastAppointmentListPage.visit()
-      .validate()
-      .selectDateRange(1);
+      // Act
+      PastAppointmentListPage.visit()
+        .validate()
+        .selectDateRange(1);
 
-    // Assert
-    // Constrain search within list since there may be other dates on the page.
-    cy.findByTestId(
-      `appointment-list-${moment()
-        .subtract(3, 'month')
-        .format('YYYY-MM')}`,
-    ).within(() => {
-      cy.findAllByTestId('appointment-list-item').should($list => {
-        expect($list.length).to.equal(1);
+      // Assert
+      // Constrain search within list group.
+      cy.findByTestId(
+        `appointment-list-${moment()
+          .subtract(3, 'month')
+          .format('YYYY-MM')}`,
+      ).within(() => {
+        cy.findAllByTestId('appointment-list-item').should($list => {
+          expect($list.length).to.equal(1);
+        });
       });
+
+      cy.axeCheckBestPractice();
     });
 
-    cy.axeCheckBestPractice();
-  });
+    it("should display warning when veteran doesn't have any appointments", () => {
+      // Act
+      mockAppointmentsApi({ response: [] });
 
-  it("should display warning when veteran doesn't have any appointments", () => {
-    // Act
-    mockAppointmentsApi({ response: [] });
+      // Arrange
+      PastAppointmentListPage.visit();
 
-    // Arrange
-    PastAppointmentListPage.visit();
+      // Assert
+      cy.findByText(/You don.t have any appointment requests/i).should('be.ok');
+      cy.findByText(/Pending \(0\)/i).should('be.ok');
 
-    // Assert
-    cy.findByText(/You don.t have any appointment requests/i).should('be.ok');
-    cy.findByText(/Pending \(0\)/i).should('be.ok');
+      cy.axeCheckBestPractice();
+    });
 
-    cy.axeCheckBestPractice();
-  });
+    it('should display generic error message', () => {
+      // Arrange
+      mockAppointmentsApi({ response: [], responseCode: 400 });
 
-  it('should display generic error message', () => {
-    // Arrange
-    mockAppointmentsApi({ response: [], responseCode: 400 });
+      // Act
+      PastAppointmentListPage.visit();
 
-    // Act
-    PastAppointmentListPage.visit();
-
-    // Assert
-    cy.findByText(/We.re sorry\. We.ve run into a problem/i);
-    cy.axeCheckBestPractice();
+      // Assert
+      cy.findByText(/We.re sorry\. We.ve run into a problem/i);
+      cy.axeCheckBestPractice();
+    });
   });
 });
