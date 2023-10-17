@@ -18,11 +18,47 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
+export const applicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export function ApplicantDescriptionWrapper({ formContext }) {
+  return (
+    <div className="ApplicantDescriptionWrapper">
+      <ApplicantDescription formContext={formContext} />
+    </div>
+  );
+}
+
+export const applicantDemographicsSubHeader = (
+  <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsDescription = (
+  <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
+  </div>
+);
+
+export const militaryDetailsSubHeader = (
+  <div className="militaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Military details</h3>
+  </div>
+);
 
 export const contactInfoDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
