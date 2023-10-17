@@ -7,6 +7,8 @@ import { ErrorMessages } from '../../util/constants';
 export const RouteLeavingGuard = ({
   navigate,
   when,
+  modalVisible,
+  updateModalVisible,
   shouldBlockNavigation,
   title,
   p1,
@@ -15,7 +17,6 @@ export const RouteLeavingGuard = ({
   cancelButtonText,
   saveDraftHandler,
 }) => {
-  const [modalVisible, updateModalVisible] = useState(false);
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
 
@@ -89,12 +90,14 @@ export const RouteLeavingGuard = ({
 RouteLeavingGuard.propTypes = {
   cancelButtonText: PropTypes.string,
   confirmButtonText: PropTypes.string,
+  modalVisible: PropTypes.bool,
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
   saveDraftHandler: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
+  updateModalVisible: PropTypes.func,
   when: PropTypes.bool,
 };
 

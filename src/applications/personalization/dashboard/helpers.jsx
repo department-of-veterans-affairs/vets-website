@@ -26,6 +26,8 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
   [VA_FORM_IDS.FORM_26_4555]: 'specially adapted housing grant',
+  [VA_FORM_IDS.FORM_28_1900]:
+    'Application for Veteran Readiness and Employment Benefits',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
@@ -97,6 +99,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_5495]: `${getAppUrl('5495-edu-benefits')}/`,
   [VA_FORM_IDS.FORM_22_10203]: `${getAppUrl('10203-edu-benefits')}/`,
   [VA_FORM_IDS.FORM_26_4555]: `${getAppUrl('4555-adapted-housing')}/`,
+  [VA_FORM_IDS.FORM_28_1900]: `${getAppUrl('28-1900-chapter-31')}/`,
   [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
   [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
@@ -153,6 +156,7 @@ export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_22_10203,
   VA_FORM_IDS.FORM_26_4555,
+  VA_FORM_IDS.FORM_28_1900,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_10182,

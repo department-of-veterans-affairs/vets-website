@@ -1,41 +1,73 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { fireEvent } from '@testing-library/dom';
+import { beforeEach } from 'mocha';
 import Vaccines from '../../containers/Vaccines';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
+import vaccines from '../fixtures/vaccines.json';
+import { convertVaccine } from '../../reducers/vaccines';
 
 describe('Vaccines list container', () => {
   const initialState = {
     user,
     mr: {
       vaccines: {
-        vaccinesList: null,
+        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
       },
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<Vaccines />, {
-      initialState: state,
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
       reducers: reducer,
       path: '/vaccines',
     });
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
     expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
   it('displays Date of birth for the print view', () => {
-    const screen = setup();
     expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
   });
 
   it('displays a print button', () => {
-    const screen = setup();
     const printButton = screen.getByTestId('print-records-button');
     expect(printButton).to.exist;
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('Vaccines list container still loading', () => {
+  const initialState = {
+    user,
+    mr: {
+      vaccines: {},
+      alerts: {
+        alertList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+  });
+
+  it('displays a loading indicator', () => {
+    expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 });

@@ -10,16 +10,20 @@ const DeleteDraftModal = props => {
       data-testid="delete-draft-modal"
       modalTitle={Prompts.Draft.DELETE_DRAFT_CONFIRM}
       onCloseEvent={props.onClose}
-      onPrimaryButtonClick={props.onDelete}
-      onSecondaryButtonClick={props.onClose}
-      primaryButtonText="Delete draft"
-      secondaryButtonText="Cancel"
       visible={props.visible}
       status="warning"
     >
       <p style={{ whiteSpace: 'pre-line' }}>
         {Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE}
       </p>
+      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <va-button
+          class="vads-u-padding-right--0 vads-u-padding-bottom--2 small-screen:vads-u-padding-right--2 small-screen:vads-u-padding-bottom--0"
+          text="Delete draft"
+          onClick={props.onDelete}
+        />
+        <va-button secondary text="Cancel" onClick={props.onClose} />
+      </div>
     </VaModal>
   );
 };
