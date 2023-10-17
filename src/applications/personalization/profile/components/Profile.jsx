@@ -20,6 +20,7 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+import { getAllRoutes, getNavRoutes } from '@@profile/routes';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -49,7 +50,6 @@ import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthC
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
-import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
@@ -167,7 +167,8 @@ class Profile extends Component {
   // content to show after data has loaded
   mainContent = () => {
     const toggles = this.props.profileToggles;
-    const routes = getRoutes(toggles);
+    const allRoutes = getAllRoutes(toggles);
+    const navRoutes = getNavRoutes(toggles);
 
     return (
       <BrowserRouter>
@@ -177,11 +178,11 @@ class Profile extends Component {
             isLOA3={this.props.isLOA3}
             isBlocked={this.props.isBlocked}
             profileUseHubPage={toggles.profileUseHubPage}
-            routes={routes}
+            routes={navRoutes}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
-              {routes.map(route => {
+              {allRoutes.map(route => {
                 if (
                   (route.requiresLOA3 && !this.props.isLOA3) ||
                   (route.requiresMVI && !this.props.isInMVI) ||

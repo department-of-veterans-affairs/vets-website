@@ -6,6 +6,8 @@ import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
 
+import { getAllRoutes } from '@@profile/routes';
+import { selectProfileToggles } from '@@profile/selectors';
 import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
@@ -16,7 +18,6 @@ import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-import { routesForNav } from '../../routesForNav';
 import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../util/contact-information/formValues';
 import { getRouteInfoFromPath } from '~/applications/personalization/common/helpers';
@@ -62,9 +63,12 @@ export const Edit = () => {
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
+  const toggles = useSelector(selectProfileToggles);
+  const routes = getAllRoutes(toggles);
+
   const returnRouteInfo = (() => {
     try {
-      return getRouteInfoFromPath(query.get('returnPath'), routesForNav);
+      return getRouteInfoFromPath(query.get('returnPath'), routes);
     } catch (e) {
       // default to using the root route if the returnPath is invalid
       return {
@@ -225,12 +229,12 @@ export const Edit = () => {
               </div>
             </>
           ) : (
-            <EditFallbackContent routesForNav={routesForNav} />
+            <EditFallbackContent routes={routes} />
           )}
         </Toggler.Enabled>
 
         <Toggler.Disabled>
-          <EditFallbackContent routesForNav={routesForNav} />
+          <EditFallbackContent routes={routes} />
         </Toggler.Disabled>
       </Toggler>
     </EditContext.Provider>

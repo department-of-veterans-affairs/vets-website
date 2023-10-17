@@ -1,7 +1,7 @@
 import React from 'react';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-export const EditFallbackContent = ({ routesForNav }) => {
+export const EditFallbackContent = ({ routes }) => {
   return (
     <>
       <EditBreadcrumb href="/profile">Back to profile</EditBreadcrumb>
@@ -15,7 +15,7 @@ export const EditFallbackContent = ({ routesForNav }) => {
       </p>
 
       <ul className="vads-u-margin-top--0">
-        {routesForNav.map(route => (
+        {routes.map(route => (
           <li key={route.name}>
             <va-link href={route.path} text={route.name} />
           </li>
