@@ -89,9 +89,8 @@ export default function VARequest({ changeCrumb }) {
         (*Required)
       </span>
       <p>
-        Choose your preferred date and time for this appointment. You can
-        request up to 3 dates. A scheduling coordinator will call you to
-        schedule your appointment.
+        You can select up to 3 preferred timeframes. We'll schedule your
+        appointment or call to schedule with you.
       </p>
       <CalendarWidget
         multiSelect

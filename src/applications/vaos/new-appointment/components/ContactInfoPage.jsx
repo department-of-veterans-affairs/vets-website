@@ -134,11 +134,7 @@ export default function ContactInfoPage({ changeCrumb }) {
   const uiSchema = {
     'ui:description': (
       <>
-        <p>
-          We’ll use this information to contact you about your appointment. Any
-          updates you make here will only apply to VA online appointment
-          scheduling.
-        </p>
+        <p>We’ll use this information to contact you about your appointment.</p>
         <p className="vads-u-margin-y--2">
           Want to update your contact information for more VA benefits and
           services?

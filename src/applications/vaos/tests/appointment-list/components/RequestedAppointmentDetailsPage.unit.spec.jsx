@@ -862,7 +862,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     });
     expect(screen.baseElement).to.contain('.usa-alert-success');
     expect(screen.baseElement).to.contain.text(
-      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+      "Your appointment request has been submitted. We'll try to schedule your appointment in the next 2 business days. Check back here or call your facility for updates.",
     );
 
     expect(screen.queryByTestId('view-appointments-link')).to.exist;
@@ -900,7 +900,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     });
     expect(screen.baseElement).to.contain('.usa-alert-success');
     expect(screen.baseElement).to.contain.text(
-      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+      "Your appointment request has been submitted. We'll try to schedule your appointment in the next 2 business days. Check back here or call your facility for updates.",
     );
     expect(screen.queryByTestId('view-appointments-link')).to.exist;
     expect(screen.queryByTestId('new-appointment-link')).to.exist;

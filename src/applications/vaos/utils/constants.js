@@ -330,13 +330,13 @@ export const FLOW_TYPES = {
 export const TYPE_OF_VISIT = [
   {
     id: 'clinic',
-    name: 'In Person',
+    name: 'In person',
     serviceName: 'Office Visit',
     vsGUI: 'FACE TO FACE',
   },
   {
     id: 'phone',
-    name: 'By Phone',
+    name: 'By phone',
     serviceName: 'Phone Call',
     vsGUI: 'TELEPHONE',
   },

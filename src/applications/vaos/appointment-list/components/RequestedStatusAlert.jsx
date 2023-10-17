@@ -54,8 +54,8 @@ export default function RequestedStatusAlert({ appointment, facility }) {
         {!canceled && (
           <>
             <strong>Your appointment request has been submitted. </strong>
-            We will review your request and contact you to schedule the first
-            available appointment.
+            We'll try to schedule your appointment in the next 2 business days.
+            Check back here or call your facility for updates.
             <br />
             <div className=" vads-u-margin-top--1">
               <va-link

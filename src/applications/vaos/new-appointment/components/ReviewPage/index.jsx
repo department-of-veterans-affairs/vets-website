@@ -89,7 +89,7 @@ export default function ReviewPage({ changeCrumb }) {
           onClick={() => dispatch(submitAppointmentOrRequest(history))}
           className="usa-button usa-button-primary"
         >
-          {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
+          {isDirectSchedule ? 'Confirm appointment' : 'Submit request'}
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
