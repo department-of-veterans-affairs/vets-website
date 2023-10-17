@@ -33,6 +33,7 @@ export default {
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,
+        keepInPageOnReview: true,
         classNames: 'schemaform-file-upload',
       },
     },
