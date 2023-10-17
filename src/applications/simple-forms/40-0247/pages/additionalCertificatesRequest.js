@@ -33,9 +33,8 @@ export default {
       title: 'How many certificates should we send to this address?',
       hint: 'You may request up to 99 certificates',
       errorMessages: {
-        required:
-          'Please provide the number of certificates you’d like to request',
-        pattern: 'Please enter a valid number between 1 and 99',
+        required: 'Enter the number of certificates you’d like to request',
+        pattern: 'Enter a valid number between 1 and 99',
       },
       min: 1,
       max: 99,
