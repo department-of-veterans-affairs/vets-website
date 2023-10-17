@@ -105,7 +105,7 @@ const ContestableIssuesWidget = props => {
     // (prefill) and removes formData.contestedIssues added by FormApp
     // Eventually, we'll move all the API-loading & updating code on to the
     // contestable issues page and remove it all from FormApp
-    if (formData.contestedIssues === undefined) {
+    if (formData?.contestedIssues === undefined) {
       setFormData({
         ...formData,
         contestedIssues: getEligibleContestableIssues(
