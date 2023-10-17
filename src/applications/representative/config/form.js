@@ -20,6 +20,7 @@ const formConfig = {
   urlPrefix: '/form/',
   submitUrl: '/v0/api',
   trackingPrefix: 'search-representative-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-22',
