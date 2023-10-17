@@ -29,7 +29,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {!isReviewPage && (
             <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-              New appointment
+              Request an appointment
             </span>
           )}
           <ErrorBoundary>{children}</ErrorBoundary>
