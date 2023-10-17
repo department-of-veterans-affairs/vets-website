@@ -1,8 +1,9 @@
 name: E2E Allow List Cleanup
 
 on:
-  schedule:
-    - cron: '0 12 * * 1-5'
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
+  push
 
 jobs:
   fetch-e2e-allow-list:
@@ -48,7 +49,8 @@ jobs:
         run: echo specs=$ALL_CYPRESS_SPECS >> $GITHUB_OUTPUT
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -58,6 +60,12 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
+
+      - name: Fetch Unit Test allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
       # exports allow list and assigns to environmental variable at this step
 
       - name: Archive e2e allow list
