@@ -121,7 +121,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       },
     );
 
-    preneedHelpers.clickContinue();
+    preneedHelpers.clickContinue({ waitForAnimations: true });
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names Page
@@ -209,17 +209,21 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.get(
       'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
     );
-
+    preneedHelpers.clickContinue();
     errorCheck(requiredHelpers.preparerInfoErrors1);
 
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
       testData.data.application.applicant.applicantRelationshipToClaimant,
     );
+    preneedHelpers.clickContinue();
+
     if (
       testData.data.application.applicant.applicantRelationshipToClaimant ===
       'Authorized Agent/Rep'
     ) {
+      preneedHelpers.clickContinue();
+
       errorCheck(requiredHelpers.preparerInfoErrors2);
 
       cy.fill(
@@ -230,13 +234,15 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         'input[name$="root_application_applicant_view:applicantInfo_name_last"]',
         testData.data.application.applicant.name.last,
       );
+      cy.axeCheck();
+      preneedHelpers.clickContinue();
       cy.fillAddress(
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
         testData.data.application.applicant['view:applicantInfo']
           .mailingAddress,
       );
       cy.fill(
-        'input[name$="root_application_applicant_view:applicantInfo_view:contactInfo_applicantPhoneNumber"]',
+        'input[name$="applicantPhoneNumber"]',
         testData.data.application.applicant.phoneNumber,
       );
     }

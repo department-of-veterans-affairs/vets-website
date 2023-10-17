@@ -59,7 +59,9 @@ export const convertAllergy = allergy => {
           allergy.category[0].slice(1)) ||
       EMPTY_FIELD,
     name: allergy?.code?.text || EMPTY_FIELD,
-    date: formatDateLong(allergy.recordedDate),
+    date: allergy?.recordedDate
+      ? formatDateLong(allergy.recordedDate)
+      : EMPTY_FIELD,
     reaction: getReactions(allergy),
     location: extractLocation(allergy),
     observedOrReported: extractObservedReported(allergy),

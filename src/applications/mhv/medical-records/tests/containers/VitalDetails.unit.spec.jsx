@@ -29,7 +29,7 @@ describe('Vital details container', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays the vital name inside an h1 as a span', () => {

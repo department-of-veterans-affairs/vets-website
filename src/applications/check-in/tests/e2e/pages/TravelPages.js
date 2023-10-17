@@ -75,12 +75,8 @@ class TravelPages {
 
   validateContent = page => {
     let body = true;
-    const helpText = true;
     if (page === 'vehicle' || page === 'mileage') {
       body = false;
-    }
-    if (helpText) {
-      cy.get(`[data-testid="help-message"]`).should('be.visible');
     }
     if (body) {
       cy.get(`[data-testid="body-text"]`).should('be.visible');

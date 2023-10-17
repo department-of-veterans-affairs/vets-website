@@ -1,7 +1,0 @@
-{
-  "appName": "covid-vaccine-expansion",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "covid-vaccine",
-  "rootUrl": "/health-care/covid-19-vaccine/sign-up",
-  "productId": "fedb57b6-fc46-44fb-86e5-0393cead77c0"
-}
