@@ -1,5 +1,5 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import basicSearchPage from './pages/PatientBasicSearchPage';
+import BasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT } from './utils/constants';
@@ -17,9 +17,9 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Highlight Inbox Check', () => {
-    basicSearchPage.typeSearchInputFieldText(searchText);
-    basicSearchPage.submitInboxSearch();
-    basicSearchPage.verifyHighlightedText(searchText);
+    BasicSearchPage.typeSearchInputFieldText(searchText);
+    BasicSearchPage.submitInboxSearch();
+    BasicSearchPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -33,9 +33,9 @@ describe('Secure Messaging Basic Search Tests', () => {
 
   it('Basic Search Highlight Drafts Check', () => {
     patientMessageDraftsPage.loadDraftMessages();
-    basicSearchPage.typeSearchInputFieldText(searchText);
-    basicSearchPage.submitDraftSearch();
-    basicSearchPage.verifyHighlightedText(searchText);
+    BasicSearchPage.typeSearchInputFieldText(searchText);
+    BasicSearchPage.submitDraftSearch();
+    BasicSearchPage.verifyHighlightedText(searchText);
     cy.injectAxe();
 
     cy.axeCheck(AXE_CONTEXT, {
