@@ -1,8 +1,8 @@
 export const preparerIdentifications = {
   veteran: 'VETERAN',
-  survivingDependant: 'SURVIVING_DEPENDANT',
+  survivingDependent: 'SURVIVING_DEPENDENT',
   thirdPartyVeteran: 'THIRD_PARTY_VETERAN',
-  thirdPartySurvivingDependant: 'THIRD_PARTY_SURVIVING_DEPENDANT',
+  thirdPartySurvivingDependent: 'THIRD_PARTY_SURVIVING_DEPENDENT',
 };
 
 export const veteranBenefits = {
