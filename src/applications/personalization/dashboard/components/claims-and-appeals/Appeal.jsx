@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 
 import {
   APPEAL_TYPES,
@@ -69,7 +69,7 @@ const Appeal = ({ appeal, name }) => {
   }
 
   appealTitle += ` updated on ${format(
-    addDays(new Date(updatedEventDateString), 1),
+    new Date(updatedEventDateString.replace(/-/g, '/')),
     'MMMM d, yyyy',
   )}`;
   appealTitle = capitalizeFirstLetter(appealTitle);
@@ -99,7 +99,10 @@ const Appeal = ({ appeal, name }) => {
           {requestEvent && (
             <p className="vads-u-margin-y--0">
               Submitted on:{' '}
-              {format(addDays(new Date(requestEvent.date), 1), 'MMMM d, yyyy')}
+              {format(
+                new Date(requestEvent.date.replace(/-/g, '/')),
+                'MMMM d, yyyy',
+              )}
             </p>
           )}
         </div>
