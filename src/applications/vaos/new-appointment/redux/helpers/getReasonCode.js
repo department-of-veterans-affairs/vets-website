@@ -16,9 +16,10 @@ export function getReasonCode({ data, isCC, isAcheron, isDS }) {
   const apptReasonCode = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.commentShort;
+  // code is utilized when Acheron is off; need to cleanup
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose => purpose.id === data.reasonForAppointment,
-  )?.serviceName;
+  )?.short;
   let reasonText = null;
   let appointmentInfo = null;
   const visitMode = TYPE_OF_VISIT.filter(
@@ -61,6 +62,7 @@ export function getReasonCode({ data, isCC, isAcheron, isDS }) {
         : null,
   };
   if (isAcheron) return reasonCodeBody;
+  // the below return is utilized when Acheron is off - need to cleanup
   return {
     coding: code ? [{ code }] : undefined,
     // Per Brad - All comments should be sent in the reasonCode.text field and should should be
