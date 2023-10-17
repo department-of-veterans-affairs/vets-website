@@ -52,9 +52,11 @@ import { focusIssue } from '../../shared/utils/focus';
  * @param {Object} registry - contains definitions, fields, widgets & templates
  * @param {Boolean} required - Show required flag
  * @param {Object} schema - array schema
- * @param {Object[]} value - array value
+ * @param {Object[]} value - array value (contested issues only)
  * @param {Object} contestableIssues - API status & loaded issues
  * @param {func} getContestableIssues - API action
+ * @param {Object} formData - full form data
+ * @param {Boolean} showPart3 - feature flag
  * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
