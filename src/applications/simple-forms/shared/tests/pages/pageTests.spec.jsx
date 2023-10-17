@@ -8,6 +8,8 @@ const expectedFieldTypes = 'input, select, textarea';
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
+const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
+
 export const testNumberOfFields = (
   formConfig,
   schema,
@@ -111,7 +113,9 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
 
       getByRole('button', { name: /submit/i }).click();
       const nodes = Array.from(
-        container.querySelectorAll(expectedFieldTypesWebComponents),
+        container.querySelectorAll(
+          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
+        ),
       );
       const errors = nodes.filter(node => node.error);
       expect(errors).to.have.lengthOf(expectedNumberOfErrors);

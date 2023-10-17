@@ -8,9 +8,13 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { SAVED_CLAIM_TYPE } from '../constants';
+import {
+  SAVED_CLAIM_TYPE,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+} from '../constants';
 import forcedMigrations from '../migrations/forceMigrations';
-import { getIssueNameAndDate } from '../utils/helpers';
 import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 import {
@@ -21,6 +25,7 @@ import {
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
+  getIssueNameAndDate,
   getSelected,
   issuesNeedUpdating,
   processContestableIssues,
@@ -147,9 +152,9 @@ export const Form0996App = ({
     loggedIn,
     formId: 'hlr', // becomes "nodBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
-    applicationId: '321995f8-5fed-4b4f-907b-e3f5ec34c28f',
-    clientToken: 'pub780eb728ff6dc0306d17cbb08743f86b',
-    service: 'benefits---higher-level-review',
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
   });
 
   // Add data-location attribute to allow styling specific pages

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -22,11 +20,9 @@ export default function DowntimeBanner({ appTitle, dependencies, children }) {
         if (downtime.status === externalServiceStatus.down) {
           if (children) return children;
           return (
-            <AlertBox
-              status="info"
-              isVisible
-              content={<DownMessaging appTitle={appTitle} {...downtime} />}
-            />
+            <va-alert status="info" visible>
+              <DownMessaging appTitle={appTitle} {...downtime} />
+            </va-alert>
           );
         }
         return <div />;

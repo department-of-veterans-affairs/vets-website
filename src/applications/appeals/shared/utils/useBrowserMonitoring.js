@@ -14,7 +14,7 @@ const defaultRumSettings = {
   // Default settings
   site: 'ddog-gov.com',
   env: environment.vspEnvironment(), // 'vagovprod'
-  sampleRate: 100,
+  sessionSampleRate: 100,
   sessionReplaySampleRate: 100,
   trackInteractions: true,
   trackUserInteractions: true,
