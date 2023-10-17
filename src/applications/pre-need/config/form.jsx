@@ -60,7 +60,6 @@ import {
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  PreparerPhoneNumberDescription,
   preparerAddressHasState,
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
@@ -753,150 +752,73 @@ const formConfig = {
             },
           },
         },
-        preparerContactDetails: !environment.isProduction()
-          ? {
-              title: 'Preparer contact details',
-              path: 'preparer-contact-details',
-              depends: formData => isAuthorizedAgent(formData),
-              uiSchema: {
-                application: {
-                  applicant: {
-                    'view:applicantInfo': {
-                      mailingAddress: merge(
-                        {},
-                        address.uiSchema("Preparer's mailing address"),
-                        {
-                          country: { 'ui:required': isAuthorizedAgent },
-                          street: {
-                            'ui:title': 'Street address',
-                            'ui:required': isAuthorizedAgent,
-                          },
-                          street2: {
-                            'ui:title': 'Street address line 2',
-                          },
-                          city: { 'ui:required': isAuthorizedAgent },
-                          state: {
-                            'ui:title': preparerMailingAddressStateTitleWrapper,
-                            'ui:required': isAuthorizedAgent,
-                            'ui:options': {
-                              hideIf: formData =>
-                                !preparerAddressHasState(formData) &&
-                                !environment.isProduction(),
-                            },
-                          },
-                          postalCode: { 'ui:required': isAuthorizedAgent },
-                        },
-                      ),
-                    },
-                    'view:contactInfo': {
-                      'ui:title': ContactDetailsTitle,
-                      applicantPhoneNumber: merge(
-                        {},
-                        preparerPhoneUI('Phone number'),
-                        {
-                          'ui:required': isAuthorizedAgent,
-                        },
-                      ),
-                    },
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      applicant: {
-                        type: 'object',
-                        properties: {
-                          'view:applicantInfo': {
-                            type: 'object',
-                            properties: {
-                              mailingAddress: address.schema(fullSchemaPreNeed),
-                            },
-                          },
-                          'view:contactInfo': {
-                            type: 'object',
-                            properties: {
-                              applicantPhoneNumber:
-                                applicant.properties.applicantPhoneNumber,
-                            },
-                          },
+        preparerContactDetails: {
+          title: 'Preparer contact details',
+          path: 'preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantInfo': {
+                  mailingAddress: merge(
+                    {},
+                    address.uiSchema("Preparer's mailing address"),
+                    {
+                      country: { 'ui:required': isAuthorizedAgent },
+                      street: {
+                        'ui:title': 'Street address',
+                        'ui:required': isAuthorizedAgent,
+                      },
+                      street2: {
+                        'ui:title': 'Street address line 2',
+                      },
+                      city: { 'ui:required': isAuthorizedAgent },
+                      state: {
+                        'ui:title': preparerMailingAddressStateTitleWrapper,
+                        'ui:required': isAuthorizedAgent,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !preparerAddressHasState(formData) &&
+                            !environment.isProduction(),
                         },
                       },
+                      postalCode: { 'ui:required': isAuthorizedAgent },
                     },
-                  },
+                  ),
+                },
+                'view:contactInfo': {
+                  'ui:title': ContactDetailsTitle,
+                  applicantPhoneNumber: merge(
+                    {},
+                    preparerPhoneUI('Phone number'),
+                    {
+                      'ui:required': isAuthorizedAgent,
+                    },
+                  ),
                 },
               },
-            }
-          : {
-              title: 'Preparer contact details',
-              path: 'preparer-contact-details',
-              depends: formData => isAuthorizedAgent(formData),
-              uiSchema: {
-                application: {
-                  applicant: {
-                    'view:applicantInfo': {
-                      mailingAddress: merge(
-                        {},
-                        address.uiSchema("Preparer's mailing address"),
-                        {
-                          country: { 'ui:required': isAuthorizedAgent },
-                          street: {
-                            'ui:title': 'Street address',
-                            'ui:required': isAuthorizedAgent,
-                          },
-                          street2: {
-                            'ui:title': 'Street address line 2',
-                          },
-                          city: { 'ui:required': isAuthorizedAgent },
-                          state: {
-                            'ui:title': 'State or territory',
-                            'ui:required': isAuthorizedAgent,
-                          },
-                          postalCode: { 'ui:required': isAuthorizedAgent },
-                        },
-                      ),
-                    },
-                    'view:contactInfo': {
-                      'ui:title': ContactDetailsTitle,
-                      applicantPhoneNumber: merge({}, phoneUI('Phone number'), {
-                        'ui:required': isAuthorizedAgent,
-                      }),
-                    },
-                    'view:phoneNumberDescription': {
-                      'ui:description': PreparerPhoneNumberDescription,
-                    },
-                  },
-                },
-              },
-              schema: {
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
                 type: 'object',
                 properties: {
-                  application: {
+                  applicant: {
                     type: 'object',
                     properties: {
-                      applicant: {
+                      'view:applicantInfo': {
                         type: 'object',
                         properties: {
-                          'view:applicantInfo': {
-                            type: 'object',
-                            properties: {
-                              mailingAddress: address.schema(fullSchemaPreNeed),
-                            },
-                          },
-                          'view:contactInfo': {
-                            type: 'object',
-                            properties: {
-                              applicantPhoneNumber:
-                                applicant.properties.applicantPhoneNumber,
-                            },
-                          },
-                          'view:phoneNumberDescription': {
-                            type: 'object',
-                            properties: {},
-                          },
+                          mailingAddress: address.schema(fullSchemaPreNeed),
+                        },
+                      },
+                      'view:contactInfo': {
+                        type: 'object',
+                        properties: {
+                          applicantPhoneNumber:
+                            applicant.properties.applicantPhoneNumber,
                         },
                       },
                     },
@@ -904,6 +826,8 @@ const formConfig = {
                 },
               },
             },
+          },
+        },
       },
     },
   },
