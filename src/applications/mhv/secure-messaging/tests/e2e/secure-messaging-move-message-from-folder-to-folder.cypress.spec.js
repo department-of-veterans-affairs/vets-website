@@ -11,7 +11,7 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Move Message tests', () => {
-  it('move message from custom folder', () => {
+  it('move message from custom folder to Deleted', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const folderName = mockFoldersResponse.data.at(4).attributes.name;
@@ -44,7 +44,7 @@ describe('Secure Messaging Move Message tests', () => {
     });
   });
 
-  it('move message from inbox', () => {
+  it('move message from inbox to deleted', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
