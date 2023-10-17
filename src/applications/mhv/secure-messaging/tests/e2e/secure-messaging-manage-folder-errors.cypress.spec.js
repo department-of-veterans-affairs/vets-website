@@ -3,17 +3,31 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import MockFoldersResponse from './fixtures/folder-response.json';
 import mockMessages from './fixtures/messages-response.json';
 import mockRecipients from './fixtures/recipients-response.json';
-import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import FolderManagementPage from './pages/FolderManagementPage';
+import mockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
+import mockCustomMessagesResponse from './fixtures/message-custom-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
+const folderName = MockFoldersResponse.data.at(4).attributes.name;
+const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
 describe('Secure Messaging Manage Folder Errors check', () => {
-  // const FolderManagementPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
+    landingPage.clickMyFoldersSideBar();
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/${folderID}*`,
+      mockCustomFolderResponse,
+    ).as('customFolderID');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/${folderID}/threads*`,
+      mockCustomMessagesResponse,
+    ).as('customFolderMessages');
   });
   it('Axe Check Get Folders Error', () => {
     const testMessage = landingPage.getNewMessageDetails();
@@ -34,22 +48,15 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it.skip('Axe Check Delete Folder Network Error', () => {
+  it('Axe Check Delete Folder Network Error', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
-    const folderName = MockFoldersResponse.data.at(4).attributes.name;
-    const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/folders/${folderID}*`,
-      MockCustomFolderResponse,
-    ).as('customFolderID');
-    cy.intercept(
-      'GET',
-      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
-      mockMessages,
-    ).as('customFolderThreads');
-    cy.contains(folderName).click();
-
+    landingPage.clickMyFoldersSideBar();
+    FolderManagementPage.clickAndLoadCustomFolder(
+      folderName,
+      folderID,
+      mockCustomFolderResponse,
+      mockCustomMessagesResponse,
+    );
     cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderID}`, {
       forceNetworkError: true,
     }).as('deleteCustomMessage');
@@ -67,7 +74,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it.skip('Create Folder Network Error Check', () => {
+  it('Create Folder Network Error Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     FolderManagementPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
@@ -99,7 +106,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it.skip('Create Folder Input Field Error check on blank value submit', () => {
+  it('Create Folder Input Field Error check on blank value submit', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     FolderManagementPage.createANewFolderButton().click();
     FolderManagementPage.createFolderModalButton().click();
