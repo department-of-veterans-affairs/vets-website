@@ -1,7 +1,6 @@
 import moment from 'moment';
 import {
   APPOINTMENT_TYPES,
-  PURPOSE_TEXT,
   TYPE_OF_VISIT,
   COVID_VACCINE_ID,
   PURPOSE_TEXT_V2,
@@ -321,7 +320,7 @@ export function transformVAOSAppointment(appt) {
         ? commentsReasonCode[0]
         : appt.reasonCode?.coding?.[0];
     const reason = hasReasonCode
-      ? PURPOSE_TEXT.find(
+      ? PURPOSE_TEXT_V2.find(
           purpose =>
             purpose.serviceName === reasonCode.code ||
             purpose.commentShort === reasonCode.code,
@@ -361,7 +360,7 @@ export function transformVAOSAppointment(appt) {
     purpose =>
       purpose.serviceName === (coding?.[0]?.code || coding) ||
       purpose.commentShort === (coding?.[0]?.code || coding),
-  )?.serviceName;
+  )?.short;
   const comments =
     appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
   const reasonCodeText = getReasonCodeDS(appt, 'comments')

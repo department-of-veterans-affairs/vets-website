@@ -323,7 +323,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     cy.url().should('include', '/va-facility');
     cy.axeCheckBestPractice();
 
-    cy.findByText(/Continue/).click();
+    cy.findByText(/Continue/).click({ waitForAnimations: true });
 
     // Choose date and slot (AM or PM)
     newApptTests.selectRequestSlotTest();
