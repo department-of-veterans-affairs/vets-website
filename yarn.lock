@@ -2772,12 +2772,12 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^25.0.0":
-  version "25.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-25.0.0.tgz#69a8324f0bead39d8e58e3c0d3be93294b75ebac"
-  integrity sha512-nniFrVwJUZm7TTLTNLAGhgAPCGOfst9byP45aQ0weQ4v1lRM7oJSC307d0oTRvlDlpHM93/osKoQljxytxmz5A==
+"@department-of-veterans-affairs/component-library@^26.0.0":
+  version "26.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-26.0.0.tgz#559649cb27e0552142f635ce3ba7f365509fbc27"
+  integrity sha512-0GWCDSl5lA+1c2Ih7JhEGXn3e//+ZbaqBcJ+3iwv6RVkv6vWFxDOH4vpfxuuN8pFBrk9S36wzc3gwZbZ+taBhg==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "20.0.1"
+    "@department-of-veterans-affairs/react-components" "22.0.0"
     "@department-of-veterans-affairs/web-components" "4.45.31"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
@@ -2815,10 +2815,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@20.0.1":
-  version "20.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-20.0.1.tgz#e4e7969cf61e4c9889b9daaa8fb67be0078b19ce"
-  integrity sha512-ys3cslLOpv9OTGzAWcdI9paMSk79/7CvLjr9I/X2cuqoSlBCDF8NAVaXTzlEGeGZnNkxSFHhu9/rHxwr1bXHiQ==
+"@department-of-veterans-affairs/react-components@22.0.0":
+  version "22.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-22.0.0.tgz#9685298a86d59ffeeb525cc5439113410093b54b"
+  integrity sha512-WzV4vkfZNNdQbF6SYHxHzfzjQYfK3e7VMcsCgr93shwUYUp8eN4gPoeu4VhUFFOHwymmo2rGZH7OFjodrGrXzg==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
