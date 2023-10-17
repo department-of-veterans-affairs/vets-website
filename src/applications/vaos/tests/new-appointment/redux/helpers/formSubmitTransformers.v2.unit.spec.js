@@ -191,7 +191,7 @@ describe('VAOS V2 data transformation', () => {
         locationId: '983GB',
         serviceType: 'cpap',
         reasonCode: {
-          coding: [{ code: 'Routine Follow-up' }],
+          coding: [{ code: 'Routine/Follow-up' }],
           text: 'Testing',
         },
         contact: {
