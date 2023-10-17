@@ -13,9 +13,6 @@ const countCySpecs = () => {
     });
   });
 };
-countCySpecs().then(files => {
-  fs.writeFileSync(`${process.env.TEST_TYPE}_spec_list.json`, files);
-});
 
 const countUnitSpecs = () => {
   return new Promise((resolve, reject) => {
