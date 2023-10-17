@@ -53,7 +53,7 @@ export const vaccineReducer = (state = initialState, action) => {
         ...state,
         vaccinesList:
           vaccineList
-            .map(record => {
+            ?.map(record => {
               const vaccine = record.resource;
               return convertVaccine(vaccine);
             })
