@@ -2,18 +2,18 @@ import { expect } from 'chai';
 
 import { SELECTED } from '../../constants';
 import {
-  getIssueName,
+  appStateSelector,
+  calculateIndexOffset,
   getIssueDate,
+  getIssueName,
   getIssueNameAndDate,
-  someSelected,
-  hasSomeSelected,
   getSelected,
   getSelectedCount,
   hasDuplicates,
-  processContestableIssues,
-  calculateIndexOffset,
+  hasSomeSelected,
   issuesNeedUpdating,
-  appStateSelector,
+  processContestableIssues,
+  someSelected,
 } from '../../utils/issues';
 
 describe('getIssueName', () => {
