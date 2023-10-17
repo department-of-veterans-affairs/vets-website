@@ -6,6 +6,8 @@ import { render } from '@testing-library/react';
 import UpcomingAppointments from '../UpcomingAppointments';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import * as useGetUpcomingAppointmentsDataModule from '../../hooks/useGetUpcomingAppointmentsData';
+import { multipleAppointments } from '../../tests/unit/mocks/mock-appointments';
+import { api } from '../../api';
 
 describe('unified check-in experience', () => {
   describe('UpcomingAppointments', () => {
@@ -82,6 +84,36 @@ describe('unified check-in experience', () => {
 
       // restore the hook
       useGetUpcomingAppointmentsDataStub.restore();
+    });
+    it('does fetch data if none exists', () => {
+      const sandbox = sinon.createSandbox();
+      const { v2 } = api;
+      sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
+      const screen = render(
+        <CheckInProvider store={{ upcomingAppointments: [] }}>
+          <UpcomingAppointments />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
+        'Upcoming Appointments',
+      );
+      sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
+      sandbox.restore();
+    });
+    it('does not fetch data if already exists', () => {
+      const sandbox = sinon.createSandbox();
+      const { v2 } = api;
+      sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
+      const screen = render(
+        <CheckInProvider store={{ upcomingAppointments: multipleAppointments }}>
+          <UpcomingAppointments />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
+        'Upcoming Appointments',
+      );
+      sandbox.assert.notCalled(v2.getUpcomingAppointmentsData);
+      sandbox.restore();
     });
   });
 });
