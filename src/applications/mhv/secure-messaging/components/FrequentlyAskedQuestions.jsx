@@ -30,7 +30,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             non-VA providers.
           </p>
 
-          <h5>Sending messages to your care team</h5>
+          <h4>Sending messages to your care team</h4>
           <p>
             When you start a new message, you’ll need to select a care team to
             send it to. Your list of care teams will depend on where you get
@@ -44,7 +44,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
 
           <a href="/find-locations/">Find your nearest VA health facility</a>
 
-          <h5>Getting replies from different providers</h5>
+          <h4>Getting replies from different providers</h4>
           <p>
             You may get a reply from the VA provider you sent a message to. Or
             you may get a reply from a different provider or staff member on
