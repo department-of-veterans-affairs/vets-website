@@ -1,4 +1,9 @@
+import { profileReviewErrorOverride } from 'platform/forms-system/src/js/definitions/profileContactInfo';
+
 import { PRIMARY_PHONE } from '../constants';
+
+const profileOverride = profileReviewErrorOverride();
+
 /**
  * Error messages on the review & submit page
  * See github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/docs/reviewErrors.md
@@ -12,14 +17,14 @@ const reviewErrors = {
       ) {
         return { chapterKey: 'evidence', pageKey: 'evidenceSummary' };
       }
-      if (err.startsWith('veteran') || err.includes(PRIMARY_PHONE)) {
+      if (err.includes(PRIMARY_PHONE)) {
         return {
           chapterKey: 'infoPages',
-          pageKey: 'confirmContactInformation',
+          pageKey: 'confirmContactInfo',
         };
       }
     }
-    return null;
+    return profileOverride(err);
   },
 };
 
