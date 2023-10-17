@@ -177,6 +177,7 @@ class Profile extends Component {
             isLOA3={this.props.isLOA3}
             isBlocked={this.props.isBlocked}
             profileUseHubPage={toggles.profileUseHubPage}
+            routes={routes}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}

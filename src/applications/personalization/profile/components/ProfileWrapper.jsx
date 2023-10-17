@@ -11,7 +11,6 @@ import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
-import { routesForNav } from '../routesForNav';
 import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
 
@@ -44,6 +43,7 @@ const ProfileWrapper = ({
   totalDisabilityRatingServerError,
   showNameTag,
   profileUseHubPage,
+  routes,
 }) => {
   const location = useLocation();
 
@@ -70,7 +70,7 @@ const ProfileWrapper = ({
         <>
           <div className="medium-screen:vads-u-display--none">
             <ProfileMobileSubNav
-              routes={routesForNav}
+              routes={routes}
               isLOA3={isLOA3}
               isInMVI={isInMVI}
             />
@@ -81,7 +81,7 @@ const ProfileWrapper = ({
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <ProfileSubNav
-                  routes={routesForNav}
+                  routes={routes}
                   isLOA3={isLOA3}
                   isInMVI={isInMVI}
                 />
@@ -122,6 +122,7 @@ ProfileWrapper.propTypes = {
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
+  routes: PropTypes.object,
   showNameTag: PropTypes.bool,
   totalDisabilityRating: PropTypes.oneOfType([
     PropTypes.string,
