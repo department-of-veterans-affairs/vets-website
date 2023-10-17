@@ -26,7 +26,7 @@ import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
 import { getStagingId } from '../../services/var';
 
-import { featureFlags } from '../../utils/featureFlags';
+import featureFlags from '../../utils/featureFlags';
 
 const mockUser = {
   data: {

@@ -1,4 +1,4 @@
-export const featureFlags = [
+module.exports = [
   { name: 'facilityLocatorShowCommunityCares', value: true },
   { name: 'profile_show_profile_2.0', value: false },
   { name: 'vaOnlineScheduling', value: true },
