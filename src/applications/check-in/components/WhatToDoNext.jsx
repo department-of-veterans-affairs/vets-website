@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { makeSelectApp } from '../selectors';
 import { APP_NAMES } from '../utils/appConstants';
 
+import ActionLink from './ActionLink';
 import {
   getAppointmentId,
   getCheckinableAppointments,
@@ -22,34 +23,11 @@ const WhatToDoNext = props => {
     sortedAppointments,
   );
 
-  const ActionLink = () => {
-    const linkText =
-      app === APP_NAMES.PRE_CHECK_IN
-        ? t('review-your-information-now')
-        : t('check-in-now');
-    const ariaLabel =
-      app === APP_NAMES.PRE_CHECK_IN
-        ? t('review-your-information-now')
-        : t('check-in-now-for-your-appointment');
-    return (
-      <p className="vads-u-margin-bottom--0">
-        <a
-          data-testid="action-link"
-          className="vads-c-action-link--green"
-          href="/"
-          aria-label={ariaLabel}
-          onClick={e => action(e)}
-        >
-          {linkText}
-        </a>
-      </p>
-    );
-  };
-
   return (
     <>
       <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
-      {checkInableAppointments.map(appointment => {
+      {checkInableAppointments.map((appointment, index) => {
+        const cardTitleId = `what-next-card-title-${index}`;
         let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
           time: new Date(appointment.startTime),
         });
@@ -71,12 +49,13 @@ const WhatToDoNext = props => {
               <h4
                 className="vads-u-margin-top--0"
                 data-testid="what-next-card-title"
+                id={cardTitleId}
               >
                 {cardTitle}
               </h4>
               <p>
                 <a
-                  data-testid="details-link"
+                  data-testid={`details-link-${index}`}
                   href={`${
                     router.location.basename
                   }/appointment-details/${getAppointmentId(appointment)}`}
@@ -91,7 +70,12 @@ const WhatToDoNext = props => {
                   {t('details')}
                 </a>
               </p>
-              <ActionLink />
+              <ActionLink
+                app={app}
+                action={action}
+                cardTitleId={cardTitleId}
+                startTime={appointment.startTime}
+              />
             </va-card>
           </div>
         );
