@@ -30,9 +30,9 @@ const countUnitSpecs = () => {
   });
 };
 countCySpecs().then(files => {
-  fs.writeFileSync(`e2e_spec_list.json`, files);
+  fs.writeFileSync(`e2e_spec_list.json`, JSON.stringify(files));
 });
 
 countUnitSpecs().then(files => {
-  fs.writeFileSync(`unit_test_spec_list.json`, files);
+  fs.writeFileSync(`unit_test_spec_list.json`, JSON.stringify(files));
 });
