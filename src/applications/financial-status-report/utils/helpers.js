@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { addDays, format, isValid } from 'date-fns';
-import { get } from 'lodash';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { deductionCodes } from '../constants/deduction-codes';
@@ -185,45 +184,6 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
         additionalComments !== undefined ? additionalComments : ''
       }\n${individualExpensesStr}`
     : additionalComments;
-};
-
-export const getMonthlyExpenses = ({
-  expenses,
-  otherExpenses,
-  utilityRecords,
-  installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
-}) => {
-  const utilities = enhancedFSRActive
-    ? sumValues(utilityRecords, 'amount')
-    : sumValues(utilityRecords, 'monthlyUtilityAmount');
-  const installments = sumValues(installmentContracts, 'amountDueMonthly');
-  const otherExp = sumValues(otherExpenses, 'amount');
-  const creditCardBills = sumValues(
-    expenses?.creditCardBills,
-    'amountDueMonthly',
-  );
-  // efsr note: food is included in otherExpenses
-  const food = Number(get(expenses, 'food', 0));
-  // efsr note: Rent & Mortgage is included in expenseRecords
-  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
-
-  const calculatedExpenseRecords =
-    expenses?.expenseRecords?.reduce(
-      (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-      0,
-    ) ?? 0;
-
-  return (
-    utilities +
-    installments +
-    otherExp +
-    calculatedExpenseRecords +
-    food +
-    rentOrMortgage +
-    creditCardBills
-  );
 };
 
 export const getTotalAssets = ({
