@@ -31,4 +31,11 @@ describe('Medicaitons List Sort component', () => {
       Object.keys(rxListSortingOptions).length,
     );
   });
+  it('has a sort button', () => {
+    const screen = setup();
+
+    const sortButton = screen.getByText('Sort');
+
+    expect(sortButton).to.exist;
+  });
 });
