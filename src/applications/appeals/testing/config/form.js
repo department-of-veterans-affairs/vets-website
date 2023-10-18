@@ -60,6 +60,7 @@ import manifest from '../manifest.json';
 
 const blankSchema = { type: 'object', properties: {} };
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

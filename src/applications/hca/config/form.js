@@ -99,6 +99,7 @@ const dependentSchema = createDependentSchema(fullSchemaHca);
  * NOTE: Prefill message data values can be found in
  * `vets-api/config/form_profile_mappings/1010ez.yml`
  */
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

@@ -21,6 +21,7 @@ import submitterContactPage from './chapters/submitterInformation/submitterConta
 // Contact Information
 import veteransAddressPage from './chapters/contactInformation/veteransAddress';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

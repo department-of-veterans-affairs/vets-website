@@ -9,6 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

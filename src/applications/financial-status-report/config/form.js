@@ -18,6 +18,7 @@ import householdExpensesChapter from './chapters/householdExpensesChapter';
 import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
 import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

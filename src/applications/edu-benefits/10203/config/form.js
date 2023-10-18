@@ -19,6 +19,7 @@ import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

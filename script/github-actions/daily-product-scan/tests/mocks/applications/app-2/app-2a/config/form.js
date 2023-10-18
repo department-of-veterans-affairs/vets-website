@@ -13,6 +13,7 @@ import { WIZARD_STATUS } from '../constants';
 
 import manifest from '../manifest.json';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

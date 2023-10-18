@@ -54,11 +54,13 @@ const {
   signature,
 } = fullSchema.definitions;
 
-/* Chapters
+/**
+ * Chapters
  * 1 - Vet/Service Member (required)
  * 2 - Primary Family Caregiver
  * 3 - Secondary & secondaryTwo Family Caregiver
  * (One caregiver is always required, at least one primary, or one secondary - minimal)
+ * @type {FormConfig}
  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -231,7 +233,7 @@ const formConfig = {
   },
 };
 
-/* TODO Need to change editModeOnReviewPage for document upload to true 
+/* TODO Need to change editModeOnReviewPage for document upload to true
 when platform bug is fixed and upload button appears with this feature enabled */
 
 export default formConfig;

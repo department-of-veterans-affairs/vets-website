@@ -27,6 +27,7 @@ const {
   usaPhone,
 } = fullSchema1995.definitions;
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

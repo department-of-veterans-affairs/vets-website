@@ -55,6 +55,7 @@ import reviewErrors from '../../shared/content/reviewErrors';
 
 import manifest from '../manifest.json';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

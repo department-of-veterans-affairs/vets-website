@@ -20,6 +20,7 @@ import manifest from '../manifest.json';
 const { fullName, email, usaPhone, date, usaPostalCode } = definitions;
 const { monthYear } = fullSchema.definitions;
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

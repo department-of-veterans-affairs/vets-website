@@ -103,6 +103,7 @@ function isEligibleNonService(veteranBurialDate) {
     .isBefore(veteranBurialDate);
 }
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

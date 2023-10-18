@@ -81,6 +81,7 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

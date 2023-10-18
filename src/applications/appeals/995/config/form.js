@@ -76,6 +76,7 @@ import { appStateSelector } from '../../shared/utils/issues';
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
 const blankSchema = { type: 'object', properties: {} };
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

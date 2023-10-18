@@ -35,6 +35,7 @@ import initialData from '../tests/fixtures/data/test-data.json';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

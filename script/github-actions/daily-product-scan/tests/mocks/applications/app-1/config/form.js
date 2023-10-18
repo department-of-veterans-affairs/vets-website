@@ -73,6 +73,7 @@ const {
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

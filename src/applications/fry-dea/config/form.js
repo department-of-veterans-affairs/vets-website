@@ -82,6 +82,7 @@ function isValidLastName(str) {
   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

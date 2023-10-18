@@ -38,6 +38,7 @@ import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyR
 const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
 
 // declare form config object
+/** @type {FormConfig} */
 const formConfig = {
   title: content['form-title'],
   subTitle: content['form-subtitle'],

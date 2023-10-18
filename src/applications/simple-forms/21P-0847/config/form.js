@@ -21,6 +21,7 @@ import testData from '../tests/e2e/fixtures/data/minimal-test.json';
 
 const mockData = testData;
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

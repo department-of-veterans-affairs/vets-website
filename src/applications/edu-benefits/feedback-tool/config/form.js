@@ -142,6 +142,7 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
   return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

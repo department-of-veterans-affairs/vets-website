@@ -60,6 +60,7 @@ import manifest from '../manifest.json';
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

@@ -104,6 +104,7 @@ const removeAdditionalBenefit = () => {
   };
 };
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

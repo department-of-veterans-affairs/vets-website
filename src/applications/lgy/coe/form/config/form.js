@@ -26,6 +26,7 @@ import { fileUpload } from './chapters/documents';
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

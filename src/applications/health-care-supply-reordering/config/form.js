@@ -134,6 +134,7 @@ const submit = form => {
     .catch(onFailure);
 };
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

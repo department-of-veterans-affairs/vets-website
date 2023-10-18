@@ -12,6 +12,7 @@ import {
   personalInformation,
 } from './chapters';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   customText: {
