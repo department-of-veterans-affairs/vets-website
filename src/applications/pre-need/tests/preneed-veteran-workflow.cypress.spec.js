@@ -13,7 +13,25 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.ssn,
       testData.data.application.veteran.dateOfBirth,
       testData.data.application.veteran.relationshipToVet,
+      testData.data.application.veteran.placeOfBirth,
     );
+
+    // Applicant demographics
+    cy.get(
+      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
+    ).click();
+    cy.selectRadio(
+      'root_application_veteran_gender',
+      testData.data.application.veteran.gender,
+    );
+    cy.selectRadio(
+      'root_application_veteran_maritalStatus',
+      testData.data.application.veteran.maritalStatus,
+    );
+
+    cy.axeCheck();
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/applicant-demographics');
 
     // Veteran Information Page
     cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
@@ -26,21 +44,6 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.fill(
       'input[name="root_application_veteran_vaClaimNumber"]',
       testData.data.application.veteran.vaClaimNumber,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_placeOfBirth"]',
-      testData.data.application.veteran.placeOfBirth,
-    );
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
-    cy.selectRadio(
-      'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
     );
     cy.get('#root_application_veteran_militaryStatus').select(
       testData.data.application.veteran.militaryStatus,
