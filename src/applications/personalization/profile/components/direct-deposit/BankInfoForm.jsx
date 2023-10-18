@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
+import {
+  radioSchema,
+  radioUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 
 export function makeFormProperties(prefix) {
   return {
+    accountType: `${prefix}AccountType`,
     routingNumber: `${prefix}RoutingNumber`,
     accountNumber: `${prefix}AccountNumber`,
-    accountType: `${prefix}AccountType`,
   };
 }
 
@@ -18,6 +22,9 @@ function makeSchemas(prefix) {
   const schema = {
     type: 'object',
     properties: {
+      [properties.accountType]: radioSchema(
+        Object.values(ACCOUNT_TYPES_OPTIONS),
+      ),
       [properties.routingNumber]: {
         type: 'string',
         pattern: '^\\d{9}$',
@@ -26,19 +33,22 @@ function makeSchemas(prefix) {
         type: 'string',
         pattern: '^\\d{1,17}$',
       },
-      [properties.accountType]: {
-        type: 'string',
-        enum: Object.values(ACCOUNT_TYPES_OPTIONS),
-      },
     },
     required: [
+      properties.accountType,
       properties.accountNumber,
       properties.routingNumber,
-      properties.accountType,
     ],
   };
 
   const uiSchema = {
+    [properties.accountType]: radioUI({
+      title: 'Account type',
+      labels: ACCOUNT_TYPES_OPTIONS,
+      errorMessages: {
+        required: 'Please select the type that best describes your account',
+      },
+    }),
     [properties.routingNumber]: {
       'ui:title': 'Routing number',
       'ui:errorMessages': {
@@ -51,12 +61,6 @@ function makeSchemas(prefix) {
       'ui:errorMessages': {
         pattern: 'Please enter your account number',
         required: 'Please enter your account number',
-      },
-    },
-    [properties.accountType]: {
-      'ui:title': 'Account type',
-      'ui:errorMessages': {
-        required: 'Please select the type that best describes your account',
       },
     },
   };
