@@ -5,8 +5,9 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 import DetailsVideo from '../DetailsVideo';
 
 const appointment = {
+  start: '2024-07-19T12:00:00Z',
+  comment: 'Medication Review',
   vaos: {
-    isPastAppointment: true,
     isVideo: true,
     appointmentType: 'vaAppointment',
   },
@@ -36,12 +37,15 @@ describe('DetailsVideo component with descriptive back link', () => {
       [Toggler.TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink]: true,
     },
   };
-  it('should return Back to past appointments descriptive back link', () => {
+  it('should return Back to past appointments descriptive back link and past status alart', async () => {
     appointment.videoData = {
       isVideo: true,
       isAtlas: false,
       extension: { patientHasMobileGfe: true },
       kind: 'MOBILE_ANY',
+    };
+    appointment.vaos = {
+      isPastAppointment: true,
     };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
@@ -52,6 +56,77 @@ describe('DetailsVideo component with descriptive back link', () => {
         selector: 'a',
       }),
     ).to.exist;
+
+    // Check for StatusAlert component.
+    expect(await wrapper.findByText('This appointment occurred in the past.'))
+      .to.exist;
+  });
+  it('should return appointment time, provider, insturctions, print link, calendar link, video Location and cancel message', async () => {
+    appointment.videoData = {
+      providers: [
+        {
+          name: {
+            firstName: ['TEST'],
+            lastName: 'PROV',
+          },
+          display: 'TEST PROV',
+        },
+      ],
+      isVideo: true,
+      isAtlas: true,
+      atlasConfirmationCode: '7VBBCA',
+      atlasLocation: {
+        id: '9931',
+        resourceType: 'Location',
+        address: {
+          line: ['114 Dewey Ave'],
+          city: 'Eureka',
+          state: 'MT',
+          postalCode: '59917',
+        },
+        position: {
+          longitude: -115.1,
+          latitude: 48.8,
+        },
+      },
+      extension: { patientHasMobileGfe: true },
+      kind: 'ADHOC',
+    };
+    appointment.vaos = {
+      isUpcomingAppointment: true,
+    };
+    const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
+      initialState,
+    });
+
+    // Check for AppointmentDateTime component.
+    expect(await wrapper.findByText('Friday, July 19, 2024 at 12:00 p.m.')).to
+      .exist;
+
+    // Check for VideoLocation component.
+    expect(
+      await wrapper.findByText(
+        'You must join this video meeting from the ATLAS (non-VA) location listed below.',
+      ),
+    ).to.exist;
+
+    // Check for VideoInstructionsLink component.
+    expect(await wrapper.findByText('Medication review')).to.exist;
+
+    // Check for VideoVisitProvider component.
+    expect(await wrapper.findByText('TEST PROV')).to.exist;
+
+    // Check for CalendarLink component.
+    const addToCalendarLink = wrapper.getByTestId('add-to-calendar-link');
+    expect(addToCalendarLink.getAttribute('text')).to.contain(
+      'Add to calendar',
+    );
+
+    // Check for PrintLink component.
+    expect(await wrapper.findByText('Print')).to.exist;
+
+    // Check for NoOnlineCancelAlert component.
+    expect(await wrapper.findByText('Need to make changes?')).to.exist;
   });
   it('should return header as VA Video Connect using VA device with MOBILE_ANY kind', () => {
     appointment.videoData = {
@@ -167,6 +242,23 @@ describe('DetailsVideo component with descriptive back link', () => {
     });
     expect(
       wrapper.getByText('VA Video Connect at an ATLAS location', {
+        exact: true,
+        selector: 'h2',
+      }),
+    ).to.exist;
+  });
+  it('should return header as empty string', () => {
+    appointment.videoData = {
+      isVideo: true,
+      isAtlas: false,
+      extension: { patientHasMobileGfe: false },
+      kind: null,
+    };
+    const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
+      initialState,
+    });
+    expect(
+      wrapper.getByText('', {
         exact: true,
         selector: 'h2',
       }),
