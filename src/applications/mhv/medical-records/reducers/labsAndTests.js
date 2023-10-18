@@ -81,7 +81,9 @@ const convertMicrobiologyRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime || EMPTY_FIELD,
+    date: record.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
     sampleFrom: record.type?.text || EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
     orderingLocation:
@@ -154,13 +156,10 @@ const convertRadiologyRecord = record => {
     orderedBy:
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
       EMPTY_FIELD,
-    requestedBy:
-      (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      EMPTY_FIELD,
     clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     imagingLocation: authorDisplay,
-    date: record.date || EMPTY_FIELD,
+    date: record.date ? formatDateLong(record.data) : EMPTY_FIELD,
     imagingProvider: record.physician || EMPTY_FIELD,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',

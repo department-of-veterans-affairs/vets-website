@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import { makePdf, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -94,21 +93,13 @@ const VaccineDetails = props => {
       ],
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          `VA-Vaccines-details-${user.userFullName.first}-${
-            user.userFullName.last
-          }-${moment()
-            .format('M-D-YYYY_hhmmssa')
-            .replace(/\./g, '')}`,
-          scaffold,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Vaccine details');
-    }
+    const pdfName = `VA-Vaccines-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
   };
 
   const content = () => {
@@ -178,6 +169,5 @@ const VaccineDetails = props => {
 export default VaccineDetails;
 
 VaccineDetails.propTypes = {
-  print: PropTypes.func,
   runningUnitTest: PropTypes.bool,
 };
