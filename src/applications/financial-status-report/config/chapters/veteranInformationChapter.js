@@ -8,6 +8,8 @@ import {
   dependents,
   dependentRecords,
 } from '../../pages';
+import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
+import VeteranInformationReview from '../../components/veteranInformation/VeteranInformationReview';
 import ContactInfo, {
   customContactFocus,
 } from '../../components/contactInfo/ContactInfo';
@@ -29,7 +31,8 @@ export default {
         title: 'Veteran information',
         uiSchema: veteranInfo.uiSchema,
         schema: veteranInfo.schema,
-        editModeOnReviewPage: true,
+        CustomPage: VeteranInformation,
+        CustomPageReview: VeteranInformationReview,
         initialData: {
           personalData: {
             veteranFullName: {
