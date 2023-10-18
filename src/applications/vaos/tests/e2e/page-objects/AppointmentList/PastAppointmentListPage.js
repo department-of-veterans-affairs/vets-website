@@ -9,15 +9,26 @@ export class PastAppointmentListPage extends AppointmentListPage {
   selectDateRange(index) {
     cy.findByTestId('vaosSelect')
       .shadow()
-      .find('#select')
+      .as('vaosSelect');
+    cy.get('@vaosSelect')
+      .find('select')
+      .should('exist')
+      .should('be.enabled')
       .as('select');
-    cy.get('@select').select(index, { waitForAnimations: true });
+    cy.get('@select').select(index);
+
+    // Wait for appointments to load
+    cy.wait('@v2:get:appointments');
 
     return this;
   }
 
   validate() {
-    cy.findByText(/Past appointments/i).should('be.ok');
+    // Wait for appointments to load
+    cy.wait('@v2:get:appointments');
+    cy.findByText(/Past appointments/i, { selector: 'h1' }).should('exist');
+    cy.findAllByTestId('appointment-list-item').should('exist');
+
     return this;
   }
 }

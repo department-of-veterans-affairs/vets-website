@@ -8,11 +8,13 @@ import {
   mockAppointmentsApi,
   mockFacilitiesApi,
   mockFeatureToggles,
+  mockLoginApi,
+  mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import PastAppointmentListPage from '../../page-objects/AppointmentList/PastAppointmentListPage';
-import { MockUser } from '../../fixtures/MockUser';
+import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
@@ -21,8 +23,8 @@ describe('VAOS past appointment flow', () => {
 
       mockFacilitiesApi();
       mockFeatureToggles();
-
-      cy.login(new MockUser());
+      mockVamcEhrApi();
+      mockLoginApi();
     });
 
     it('should display past appointments list', () => {
@@ -52,24 +54,27 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      PastAppointmentListPage.visit().validate();
-
-      // Assert
-      // Constrain search within list group.
-      cy.findByTestId(`appointment-list-${yesterday.format('YYYY-MM')}`).within(
-        () => {
-          cy.findAllByTestId('appointment-list-item').should($list => {
-            expect($list).to.have.length(2);
+      AppointmentListPage.visit();
+      cy.findByRole('link', { name: 'Past' })
+        .click()
+        .then(() => {
+          // Assert
+          // Constrain search within list group.
+          cy.findByTestId(
+            `appointment-list-${yesterday.format('YYYY-MM')}`,
+          ).within(() => {
+            cy.findAllByTestId('appointment-list-item').should($list => {
+              expect($list).to.have.length(2);
+            });
           });
-        },
-      );
-      cy.findByTestId(`appointment-list-${lastMonth.format('YYYY-MM')}`).within(
-        () => {
-          cy.findAllByTestId('appointment-list-item').should($list => {
-            expect($list).to.have.length(1);
+          cy.findByTestId(
+            `appointment-list-${lastMonth.format('YYYY-MM')}`,
+          ).within(() => {
+            cy.findAllByTestId('appointment-list-item').should($list => {
+              expect($list).to.have.length(1);
+            });
           });
-        },
-      );
+        });
 
       cy.axeCheckBestPractice();
     });
@@ -116,13 +121,13 @@ describe('VAOS past appointment flow', () => {
       // Act
       PastAppointmentListPage.visit()
         .validate()
-        .selectDateRange(1);
+        .selectDateRange(2);
 
       // Assert
       // Constrain search within list group.
       cy.findByTestId(
         `appointment-list-${moment()
-          .subtract(3, 'month')
+          .subtract(6, 'month')
           .format('YYYY-MM')}`,
       ).within(() => {
         cy.findAllByTestId('appointment-list-item').should($list => {

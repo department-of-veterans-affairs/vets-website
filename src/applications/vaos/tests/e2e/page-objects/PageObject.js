@@ -13,9 +13,6 @@ export default class PageObject {
     cy.visit(`${this.rootUrl}/${url.replace(/^\//, '')}`);
     cy.injectAxe();
 
-    // Wait for appointments to load
-    cy.wait(['@v2:get:appointments']);
-
     return this;
   }
 
