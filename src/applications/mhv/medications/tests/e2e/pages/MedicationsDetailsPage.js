@@ -99,5 +99,11 @@ class MedicationsDetailsPage {
       .should('contain', 'Print')
       .and('be.enabled');
   };
+
+  verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
+    cy.get('[data-testid="download-pdf-button"]')
+      .should('have.text', 'Download your medication details as a PDF')
+      .should('be.enabled');
+  };
 }
 export default MedicationsDetailsPage;
