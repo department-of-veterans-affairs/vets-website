@@ -1,6 +1,6 @@
-import PageObject from '../PageObject';
+import { AppointmentListPage } from './AppointmentListPage';
 
-export class PastAppointmentListPage extends PageObject {
+export class PastAppointmentListPage extends AppointmentListPage {
   visit() {
     super.visit('/past');
     return this;
@@ -10,7 +10,8 @@ export class PastAppointmentListPage extends PageObject {
     cy.findByTestId('vaosSelect')
       .shadow()
       .find('#select')
-      .select(index, { waitForAnimations: true });
+      .as('select');
+    cy.get('@select').select(index, { waitForAnimations: true });
 
     return this;
   }
