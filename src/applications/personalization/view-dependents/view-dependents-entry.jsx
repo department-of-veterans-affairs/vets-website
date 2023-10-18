@@ -1,9 +1,9 @@
 import './sass/view-dependents.scss';
-import 'platform/polyfills';
+import '~/platform/polyfills';
 
-import startApp from 'platform/startup';
+import startApp from '~/platform/startup';
 
-import dependencyVerificationReducer from '../../static-pages/dependency-verification/reducers';
+import dependencyVerificationReducer from './reducers/dependencyVerification';
 
 import routes from './routes';
 import reducer from './reducers';
