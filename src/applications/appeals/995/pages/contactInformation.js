@@ -7,7 +7,8 @@ const allContacts = ['mobilePhone', 'homePhone', 'address', 'email'];
 
 export default profileContactInfo({
   content: getContent('appeal'),
-  contactInfoRequiredKeys: allContacts,
+  // addressSchema, // Add to match profile address
+  contactInfoRequiredKeys: [],
   included: allContacts,
   addressKey: 'address',
   contactInfoUiSchema: {
