@@ -1,6 +1,6 @@
-import { AppointmentListPage } from './AppointmentListPage';
+import PageObject from '../PageObject';
 
-export class PastAppointmentListPage extends AppointmentListPage {
+export class PastAppointmentListPage extends PageObject {
   visit() {
     super.visit('/past');
     return this;

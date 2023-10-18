@@ -11,15 +11,6 @@ export class AppointmentListPage extends PageObject {
     return this;
   }
 
-  visit(url = '') {
-    super.visit(url);
-
-    // Wait for appointments to load
-    cy.wait(['@v2:get:appointments']);
-
-    return this;
-  }
-
   validate() {
     cy.get('h2')
       .should('be.visible')
