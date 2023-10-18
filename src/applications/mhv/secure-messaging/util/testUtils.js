@@ -13,6 +13,21 @@ export const getByBrokenText = (text, container) => {
   });
 };
 
+export const inputVaTextInput = (
+  container,
+  value,
+  selector = 'va-text-input',
+) => {
+  const vaTextInput = $(selector, container);
+  vaTextInput.value = value;
+
+  const event = new CustomEvent('input', {
+    bubbles: true,
+    detail: { value },
+  });
+  vaTextInput.dispatchEvent(event);
+};
+
 export const selectVaSelect = (container, value, selector = 'va-select') => {
   const changeEvent = new CustomEvent('selected', {
     detail: { value },
