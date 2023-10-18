@@ -28,4 +28,9 @@ describe('Record list item component', () => {
     });
     expect(emptyMessageElement).to.exist;
   });
+
+  it('should display the string passed as list arg if a string is passed instead of an array', () => {
+    const screen = render(<ItemList list="test" />);
+    expect(screen.getByText('test')).to.exist;
+  });
 });

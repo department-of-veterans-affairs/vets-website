@@ -4,12 +4,14 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { beforeEach } from 'mocha';
 import CareSummariesAndNotes from '../../containers/CareSummariesAndNotes';
 import reducer from '../../reducers';
+import { convertNote } from '../../reducers/careSummariesAndNotes';
+import notes from '../fixtures/notes.json';
 
 describe('CareSummariesAndNotes list container', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesList: null,
+        careSummariesAndNotesList: notes.entry.map(note => convertNote(note)),
       },
     },
   };
@@ -29,5 +31,28 @@ describe('CareSummariesAndNotes list container', () => {
         exact: false,
       }),
     ).to.exist;
+  });
+});
+
+describe('CareSummariesAndNotes list container still loading', () => {
+  const initialState = {
+    mr: {
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+  });
+
+  it('shows a loading indicator', () => {
+    expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 });
