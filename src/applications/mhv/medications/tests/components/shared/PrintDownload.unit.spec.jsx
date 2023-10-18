@@ -27,9 +27,13 @@ describe('Medicaitons Print/Download button component', () => {
       },
     );
   };
-  const setup = (downloadPDF = handleDownloadPDF, success = false) => {
+  const setup = (
+    downloadPDF = handleDownloadPDF,
+    success = false,
+    list = false,
+  ) => {
     return renderWithStoreAndRouter(
-      <PrintDownload download={downloadPDF} isSuccess={success} />,
+      <PrintDownload download={downloadPDF} isSuccess={success} list={list} />,
       {
         path: '/',
       },
@@ -57,10 +61,18 @@ describe('Medicaitons Print/Download button component', () => {
     expect(errorMessage).to.exist;
   });
 
-  it('displays success modal ', () => {
+  it('displays success message ', () => {
     const screen = setup(handleDownloadPDF, true);
 
     const sucessMessage = screen.getByText('Download complete');
+    expect(sucessMessage).to.exist;
+  });
+  it('button displays different text for list', () => {
+    const screen = setup(handleDownloadPDF, true, true);
+
+    const sucessMessage = screen.getByText(
+      'Download your medication list as a PDF',
+    );
     expect(sucessMessage).to.exist;
   });
 });
