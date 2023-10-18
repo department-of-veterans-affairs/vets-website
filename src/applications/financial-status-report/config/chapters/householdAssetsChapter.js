@@ -1,6 +1,5 @@
 import {
   monetary,
-  monetaryChecklist,
   monetaryValues,
   realEstate,
   realEstateRecords,
@@ -102,7 +101,7 @@ export default {
         path: 'monetary-asset-checklist',
         title: 'Monetary asset options',
         uiSchema: {},
-        schema: monetaryChecklist.schema,
+        schema: { type: 'object', properties: {} },
         CustomPage: MonetaryCheckList,
         CustomPageReview: null,
         depends: formData =>
