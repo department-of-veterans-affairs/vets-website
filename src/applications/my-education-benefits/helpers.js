@@ -193,17 +193,6 @@ function transformServiceHistory(serviceHistory) {
     separationReason: serviceHistory?.reasonForSeparation,
   };
 }
-
-function selectAddressSource(primary, secondary, tertiary) {
-  if (primary?.addressLine1) {
-    return primary;
-  }
-  if (secondary?.addressLine1) {
-    return secondary;
-  }
-  return tertiary || {};
-}
-
 function mapNotificationMethodV2({ notificationMethod }) {
   if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
@@ -242,12 +231,15 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
   const stateUser = state.user || {};
+
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+
   let firstName;
   let middleName;
   let lastName;
   let suffix;
+
   if (profile?.userFullName?.first && profile?.userFullName?.last) {
     firstName = profile.userFullName.first;
     middleName = profile.userFullName.middle;
@@ -259,11 +251,13 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
     lastName = claimant?.lastName;
     suffix = claimant.suffix;
   }
+
   const emailAddress =
     vapContactInfo.email?.emailAddress ||
     profile?.email ||
     contactInfo.emailAddress ||
     undefined;
+
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
   const vapMobilePhone = vapContactInfo.mobilePhone || {};
@@ -276,6 +270,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   } else {
     mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
   }
+
   let homePhoneNumber;
   let homePhoneIsInternational;
   const vapHomePhone = vapContactInfo.homePhone || {};
@@ -285,9 +280,11 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
+
   const address = vapContactInfo.mailingAddress?.addressLine1
     ? vapContactInfo.mailingAddress
     : contactInfo;
+
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
@@ -335,6 +332,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
     },
     [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
   };
+
   if (suffix) {
     newData[formFields.viewUserFullName].userFullName.suffix =
       state?.form?.pages?.applicantInformation?.schema?.properties[
@@ -343,6 +341,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
         equalsAlphaOnlyIgnoreCase(e, suffix),
       ) || undefined;
   }
+
   return {
     metadata,
     formData: newData,
@@ -359,15 +358,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const stateUser = state.user || {};
 
   const profile = stateUser?.profile;
-  const vapContactInfo =
-    stateUser.profile?.vapContactInfo?.mailingAddress || {};
-  const vet360ContactInformation =
-    stateUser?.vet360ContactInformation?.mailingAddress || {};
-  const address = selectAddressSource(
-    vet360ContactInformation,
-    vapContactInfo,
-    contactInfo,
-  );
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
   let firstName;
   let middleName;
@@ -415,6 +406,10 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
+
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
@@ -453,7 +448,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         postalCode:
           address?.zipCode ||
           address?.zipcode ||
-          address?.InternationalPostalCode,
+          address.InternationalPostalCode,
         country: getSchemaCountryCode(
           address?.countryCode || address?.countryCodeIso3,
         ),
