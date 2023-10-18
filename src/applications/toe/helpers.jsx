@@ -123,16 +123,6 @@ function mapNotificationMethod({ notificationMethod }) {
   return notificationMethod;
 }
 
-function selectAddressSource(primary, secondary, tertiary) {
-  if (primary?.addressLine1) {
-    return primary;
-  }
-  if (secondary?.addressLine1) {
-    return secondary;
-  }
-  return tertiary || {};
-}
-
 export const transformAlphaOnlyLowercase = str =>
   str.toLowerCase().replace(/[^a-z]/g, '');
 
@@ -271,16 +261,9 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
   const stateUser = state.user;
-  const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
-  const vet360ContactInformation =
-    stateUser?.vet360ContactInformation?.mailingAddress || {};
+  const profile = stateUser?.profile;
 
-  const address = selectAddressSource(
-    vet360ContactInformation,
-    vapContactInfo,
-    contactInfo,
-  );
   let firstName;
   let middleName;
   let lastName;
@@ -327,6 +310,10 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
+
   const newData = {
     ...formData,
     sponsors,
@@ -367,7 +354,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         postalCode:
           address?.zipCode ||
           address?.zipcode ||
-          address?.InternationalPostalCode,
+          address.InternationalPostalCode,
         country: getSchemaCountryCode(
           address?.countryCode || address?.countryCodeIso3,
         ),
