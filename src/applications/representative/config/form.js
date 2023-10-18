@@ -5,9 +5,10 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
+  personalInformation,
+  contactInformation,
   addressChangeAuthorization,
   treatmentDisclosureAuthorization,
-  personalInformation,
 } from './chapters';
 
 const formConfig = {
@@ -61,15 +62,20 @@ const formConfig = {
           path: 'service-file-information',
           ...personalInformation.unauthIdInfo,
         },
+      },
+    },
+    contactInformation: {
+      title: 'Veteran’s Personal Information',
+      pages: {
         mailingAddress: {
-          title: personalInformation.unauthMailingAddress.title,
+          title: contactInformation.unauthMailingAddress.title,
           path: 'mailing-address',
-          ...personalInformation.unauthMailingAddress,
+          ...contactInformation.unauthMailingAddress,
         },
         additionalInformation: {
-          title: personalInformation.unauthContactInfo.title,
+          title: contactInformation.unauthContactInfo.title,
           path: 'additional-contact-information',
-          ...personalInformation.unauthContactInfo,
+          ...contactInformation.unauthContactInfo,
         },
       },
     },

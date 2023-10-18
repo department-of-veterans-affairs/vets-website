@@ -75,7 +75,7 @@ export const uiSchema = {
 
         if (!atLeastOneChecked && !otherFieldFilled) {
           // eslint-disable-next-line no-console
-          // console.log('Validation error triggered!');
+          console.log('Validation error triggered!');
           errors.addError(
             'Please select at least one branch of service or specify in the "Other" field.',
           );

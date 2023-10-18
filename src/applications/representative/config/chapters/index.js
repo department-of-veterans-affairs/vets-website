@@ -1,22 +1,23 @@
 import * as addressChangeAuthorization from './address-change-authorization';
 import * as treatmentDisclosureAuthorization from './treatment-disclosure-authorization';
 
-import {
-  unauthContactInfo,
-  unauthIdInfo,
-  unauthMailingAddress,
-  unauthNameAndDob,
-} from './personal-information';
+import { unauthNameAndDob, unauthIdInfo } from './personal-information';
+
+import { unauthContactInfo, unauthMailingAddress } from './contact-information';
 
 const personalInformation = {
-  unauthContactInfo,
-  unauthIdInfo,
-  unauthMailingAddress,
   unauthNameAndDob,
+  unauthIdInfo,
+};
+
+const contactInformation = {
+  unauthMailingAddress,
+  unauthContactInfo,
 };
 
 export {
   personalInformation,
+  contactInformation,
   addressChangeAuthorization,
   treatmentDisclosureAuthorization,
 };
