@@ -30,7 +30,7 @@ export const getAllergiesList = () => async dispatch => {
   }
 };
 
-export const clearAllergisError = () => dispatch => {
+export const clearAllergiesError = () => async dispatch => {
   dispatch({ type: Actions.Allergies.GET_LIST_ERROR_RESET });
 };
 
