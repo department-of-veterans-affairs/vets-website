@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -11,8 +11,8 @@ export default function NextOfKinDisplay({
   eyebrow = '',
   subtitle = '',
   nextOfKin = {},
-  yesAction = () => {},
-  noAction = () => {},
+  yesAction,
+  noAction,
   router,
 }) {
   const selectApp = useMemo(makeSelectApp, []);
@@ -72,19 +72,6 @@ export default function NextOfKinDisplay({
       </va-additional-info>
     </div>
   );
-  const loadingMessage = useCallback(
-    () => {
-      return (
-        <div>
-          <va-loading-indicator
-            data-testid="loading-message"
-            message={t('saving-your-responses')}
-          />
-        </div>
-      );
-    },
-    [t],
-  );
   return (
     <>
       <ConfirmablePage
@@ -97,7 +84,6 @@ export default function NextOfKinDisplay({
         data={nextOfKin}
         yesAction={yesAction}
         noAction={noAction}
-        loadingMessageOverride={loadingMessage}
         withBackButton
         pageType="next-of-kin"
         router={router}
@@ -107,11 +93,11 @@ export default function NextOfKinDisplay({
 }
 
 NextOfKinDisplay.propTypes = {
+  noAction: PropTypes.func.isRequired,
+  yesAction: PropTypes.func.isRequired,
   eyebrow: PropTypes.string,
   header: PropTypes.string,
   nextOfKin: PropTypes.object,
-  noAction: PropTypes.func,
   router: PropTypes.object,
   subtitle: PropTypes.string,
-  yesAction: PropTypes.func,
 };

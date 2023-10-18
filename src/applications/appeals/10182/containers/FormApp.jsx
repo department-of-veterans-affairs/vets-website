@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { selectProfile, isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
 import {
   SHOW_PART3,
+  SHOW_PART3_STORAGE,
   DATA_DOG_ID,
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
@@ -33,7 +34,6 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
 }) => {
-  // Update profile data changes in the form data dynamically
   useEffect(
     () => {
       if (loggedIn) {
@@ -55,15 +55,9 @@ export const FormApp = ({
             ),
           });
         }
-        if (showPart3 && typeof formData[SHOW_PART3] === 'undefined') {
-          setFormData({
-            ...formData,
-            [SHOW_PART3]: showPart3,
-          });
-        }
       }
     },
-    [loggedIn, formData, setFormData, showPart3],
+    [loggedIn, formData, setFormData],
   );
 
   // This useEffect is responsible for 1) loading contestable issues from the API,
@@ -107,6 +101,23 @@ export const FormApp = ({
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
+  );
+
+  useEffect(
+    () => {
+      // storage flag to dynamically add part3 migation for redirect to request
+      // extension page
+      window.sessionStorage.setItem(SHOW_PART3_STORAGE, showPart3);
+
+      if (showPart3 !== formData[SHOW_PART3]) {
+        setFormData({
+          ...formData,
+          [SHOW_PART3]: showPart3,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showPart3, formData[SHOW_PART3]],
   );
 
   const content = isLoading ? (
@@ -153,15 +164,11 @@ FormApp.propTypes = {
     pathname: PropTypes.string,
   }),
   loggedIn: PropTypes.bool,
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({}),
-  }),
   setFormData: PropTypes.func,
   showPart3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  profile: selectProfile(state),
   formData: state.form?.data || {},
   showPart3: nodPart3UpdateFeature(state),
   contestableIssues: state.contestableIssues,

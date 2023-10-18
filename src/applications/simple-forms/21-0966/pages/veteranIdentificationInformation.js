@@ -1,5 +1,4 @@
 import {
-  titleSchema,
   titleUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
@@ -14,7 +13,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       veteranId: ssnOrVaFileNumberSchema,
     },
   },

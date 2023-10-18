@@ -167,10 +167,11 @@ export const buildVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Last filled on',
-              value: validateField(
+              value: dateFormat(
                 (prescription.rxRfRecords?.length &&
                   prescription.rxRfRecords?.[0]?.[1].dispensedDate) ||
                   prescription.dispensedDate,
+                'MMMM D, YYYY',
               ),
               inline: true,
             },
@@ -191,7 +192,7 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Request refills by this prescription expiration date',
-              value: dateFormat(prescription.expirationDate),
+              value: dateFormat(prescription.expirationDate, 'MMMM D, YYYY'),
               inline: true,
             },
             {
@@ -201,7 +202,7 @@ export const buildVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Prescribed on',
-              value: dateFormat(prescription.orderedDate),
+              value: dateFormat(prescription.orderedDate, 'MMMM D, YYYY'),
               inline: true,
             },
             {
@@ -231,7 +232,6 @@ export const buildVAPrescriptionPDFList = prescription => {
       header: 'About this medication or supply',
       sections: [
         {
-          header: 'First fill',
           items: [
             {
               title: 'Instructions',
@@ -290,7 +290,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'When you started taking this medication',
-              value: dateFormat(prescription.dispensedDate),
+              value: dateFormat(prescription.dispensedDate, 'MMMM D, YYYY'),
               inline: true,
             },
             {

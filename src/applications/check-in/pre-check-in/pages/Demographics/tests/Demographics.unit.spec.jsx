@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { multipleAppointments } from '../../../../tests/unit/mocks/mock-appointments';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
@@ -92,6 +93,33 @@ describe('pre-check-in', () => {
           'If you need to make changes, please talk to a staff member when you check in.',
         ),
       ).to.exist;
+    });
+    it('has a clickable no button', () => {
+      const push = sinon.spy();
+      const router = { push };
+      const component = render(
+        <CheckInProvider store={{ veteranData }} router={router}>
+          <Demographics />
+        </CheckInProvider>,
+      );
+      const noButton = component.getByTestId('no-button');
+      expect(noButton).to.exist;
+      noButton.click();
+      sinon.assert.calledOnce(push);
+    });
+
+    it('has a clickable yes button', () => {
+      const push = sinon.spy();
+      const router = { push };
+      const component = render(
+        <CheckInProvider store={{ veteranData }} router={router}>
+          <Demographics />
+        </CheckInProvider>,
+      );
+      const yesButton = component.getByTestId('yes-button');
+      expect(yesButton).to.exist;
+      yesButton.click();
+      sinon.assert.calledOnce(push);
     });
   });
 });

@@ -51,12 +51,31 @@ const mockStore = {
 };
 
 describe('IntroductionPage', () => {
-  it('should render', () => {
-    const { container } = render(
+  let container;
+
+  beforeEach(() => {
+    const { container: c } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
+    container = c;
+  });
+
+  it('should render', () => {
     expect(container).to.exist;
+  });
+
+  it('should render v3-web-component process-list', () => {
+    expect(container.querySelector('va-process-list[uswds]')).to.exist;
+    expect(container.querySelector('va-process-list-item[header]')).to.exist;
+  });
+
+  it('should not render regular sign-in alert', () => {
+    expect(container.querySelector('.schemaform-sip-alert')).to.not.exist;
+  });
+
+  it('should render no-auth start-link', () => {
+    expect(container.querySelector('.no-auth-start-link')).to.exist;
   });
 });
