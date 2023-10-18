@@ -448,7 +448,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         postalCode:
           address?.zipCode ||
           address?.zipcode ||
-          address.InternationalPostalCode,
+          address?.InternationalPostalCode,
         country: getSchemaCountryCode(
           address?.countryCode || address?.countryCodeIso3,
         ),
