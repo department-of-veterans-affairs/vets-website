@@ -8,6 +8,7 @@ import {
   mockAppointmentsApi,
   mockFacilitiesApi,
   mockFeatureToggles,
+  mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
@@ -21,6 +22,7 @@ describe('VAOS past appointment flow', () => {
 
       mockFacilitiesApi();
       mockFeatureToggles();
+      mockVamcEhrApi();
 
       cy.login(new MockUser());
     });

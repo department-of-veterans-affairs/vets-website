@@ -1039,7 +1039,7 @@ export function vaosSetup() {
   });
 }
 
-export function mockVamcEhr({ isCerner = false } = {}) {
+export function mockVamcEhrApi({ isCerner = false } = {}) {
   const fieldVamcEhrSystem = isCerner ? 'cerner' : 'vista';
 
   cy.intercept(
