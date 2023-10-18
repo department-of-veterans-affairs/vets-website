@@ -50,7 +50,7 @@ import EmploymentWorkDates from '../../components/employment/EmploymentWorkDates
 import SpouseEmploymentWorkDates from '../../components/employment/SpouseEmploymentWorkDates';
 import OtherIncomeSummaryReview from '../../components/householdIncome/OtherIncomeSummaryReview';
 import EmploymentHistorySummaryReview from '../../components/employment/EmploymentHistorySummaryReview';
-import EmploymentQuestionSummaryReview from '../../components/employment/EmploymentQuestionSummaryReview';
+import EmploymentQuestionReview from '../../components/employment/EmploymentQuestionReview';
 
 export default {
   householdIncomeChapter: {
@@ -78,7 +78,7 @@ export default {
         path: 'employment-question',
         title: 'Employment',
         CustomPage: EmploymentQuestion,
-        CustomPageReview: EmploymentQuestionSummaryReview,
+        CustomPageReview: EmploymentQuestionReview,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData => formData['view:enhancedFinancialStatusReport'],
@@ -294,7 +294,7 @@ export default {
         path: 'enhanced-spouse-employment-question',
         title: 'Spouse employment',
         CustomPage: SpouseEmploymentQuestion,
-        CustomPageReview: EmploymentQuestionSummaryReview,
+        CustomPageReview: EmploymentQuestionReview,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>

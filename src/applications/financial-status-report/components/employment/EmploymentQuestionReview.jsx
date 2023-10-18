@@ -25,7 +25,7 @@ const renderEmploymentSelection = (questions, isSpouse) => {
   );
 };
 
-const EmploymentQuestionSummaryReview = ({ data, name }) => {
+const EmploymentQuestionReview = ({ data, name }) => {
   const { questions = [] } = data;
 
   const isSpouse = name.toLowerCase().includes('spouse');
@@ -51,7 +51,7 @@ const EmploymentQuestionSummaryReview = ({ data, name }) => {
   );
 };
 
-EmploymentQuestionSummaryReview.propTypes = {
+EmploymentQuestionReview.propTypes = {
   data: PropTypes.shape({
     questions: PropTypes.shape({
       spouseIsEmployed: PropTypes.bool,
@@ -61,4 +61,4 @@ EmploymentQuestionSummaryReview.propTypes = {
   name: PropTypes.string,
 };
 
-export default EmploymentQuestionSummaryReview;
+export default EmploymentQuestionReview;
