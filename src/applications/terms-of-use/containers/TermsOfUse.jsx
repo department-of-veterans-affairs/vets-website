@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   apiRequest,
   environment,
+  logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -57,11 +58,15 @@ export default function TermsOfUse() {
 
         if (type === 'decline') {
           setShowDeclineModal(false);
-          IAMLogout({
-            queryParams: {
-              [`redirect`]: `${environment.BASE_URL}/terms-of-use/declined`,
-            },
-          });
+          if (termsCodeExists) {
+            window.location = logoutUrlSiS();
+          } else {
+            IAMLogout({
+              queryParams: {
+                [`redirect`]: `${environment.BASE_URL}/terms-of-use/declined`,
+              },
+            });
+          }
         }
       }
     } catch (err) {

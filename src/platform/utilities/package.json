@@ -16,6 +16,7 @@
         "./keepAliveSSO": "./sso/keepAliveSSO.js",
         "./loginAttempted": "./sso/loginAttempted.js",
         "./mockKeepAliveSSO": "./sso/mockKeepAliveSSO.js",
+        "./oauth": "./oauth/utilities.js",
         "./localStorage": "./storage/localStorage.js",
         "./asyncLoader": "./ui/asyncLoader.jsx",
         "./DelayedRender": "./ui/DelayedRender.jsx",
