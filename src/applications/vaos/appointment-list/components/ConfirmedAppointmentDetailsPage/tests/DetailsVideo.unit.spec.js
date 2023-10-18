@@ -4,11 +4,12 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import DetailsVideo from '../DetailsVideo';
 
-const appointment = {
+const appointmentData = {
   start: '2024-07-19T12:00:00Z',
   comment: 'Medication Review',
   vaos: {
     isVideo: true,
+    isPastAppointment: true,
     appointmentType: 'vaAppointment',
   },
   location: {
@@ -30,7 +31,6 @@ const facilityData = {
     },
   ],
 };
-const props = { appointment, facilityData };
 describe('DetailsVideo component with descriptive back link', () => {
   const initialState = {
     featureToggles: {
@@ -38,15 +38,19 @@ describe('DetailsVideo component with descriptive back link', () => {
     },
   };
   it('should return Back to past appointments descriptive back link and past status alart', async () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: true },
-      kind: 'MOBILE_ANY',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: true },
+        kind: 'MOBILE_ANY',
+      },
+      vaos: {
+        isPastAppointment: true,
+      },
     };
-    appointment.vaos = {
-      isPastAppointment: true,
-    };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -62,39 +66,43 @@ describe('DetailsVideo component with descriptive back link', () => {
       .to.exist;
   });
   it('should return appointment time, provider, insturctions, print link, calendar link, video Location and cancel message', async () => {
-    appointment.videoData = {
-      providers: [
-        {
-          name: {
-            firstName: ['TEST'],
-            lastName: 'PROV',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        providers: [
+          {
+            name: {
+              firstName: ['TEST'],
+              lastName: 'PROV',
+            },
+            display: 'TEST PROV',
           },
-          display: 'TEST PROV',
+        ],
+        isVideo: true,
+        isAtlas: true,
+        atlasConfirmationCode: '7VBBCA',
+        atlasLocation: {
+          id: '9931',
+          resourceType: 'Location',
+          address: {
+            line: ['114 Dewey Ave'],
+            city: 'Eureka',
+            state: 'MT',
+            postalCode: '59917',
+          },
+          position: {
+            longitude: -115.1,
+            latitude: 48.8,
+          },
         },
-      ],
-      isVideo: true,
-      isAtlas: true,
-      atlasConfirmationCode: '7VBBCA',
-      atlasLocation: {
-        id: '9931',
-        resourceType: 'Location',
-        address: {
-          line: ['114 Dewey Ave'],
-          city: 'Eureka',
-          state: 'MT',
-          postalCode: '59917',
-        },
-        position: {
-          longitude: -115.1,
-          latitude: 48.8,
-        },
+        extension: { patientHasMobileGfe: true },
+        kind: 'ADHOC',
       },
-      extension: { patientHasMobileGfe: true },
-      kind: 'ADHOC',
+      vaos: {
+        isUpcomingAppointment: true,
+      },
     };
-    appointment.vaos = {
-      isUpcomingAppointment: true,
-    };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -129,12 +137,16 @@ describe('DetailsVideo component with descriptive back link', () => {
     expect(await wrapper.findByText('Need to make changes?')).to.exist;
   });
   it('should return header as VA Video Connect using VA device with MOBILE_ANY kind', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: true },
-      kind: 'MOBILE_ANY',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: true },
+        kind: 'MOBILE_ANY',
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -146,12 +158,16 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect using VA device wiith ADHOC kind', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: true },
-      kind: 'ADHOC',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: true },
+        kind: 'ADHOC',
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -163,12 +179,16 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at home with MOBILE_ANY kind', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: false },
-      kind: 'MOBILE_ANY',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: false },
+        kind: 'MOBILE_ANY',
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -180,12 +200,16 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at home with ADHOC kind', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: false },
-      kind: 'ADHOC',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: false },
+        kind: 'ADHOC',
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -197,12 +221,15 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at VA location', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: false },
-      kind: 'CLINIC_BASED',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        extension: { patientHasMobileGfe: true },
+        kind: 'CLINIC_BASED',
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -214,29 +241,33 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at an ATLAS location', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: true,
-      url: null,
-      duration: 30,
-      atlasConfirmationCode: '7VBBCA',
-      atlasLocation: {
-        id: '9931',
-        resourceType: 'Location',
-        address: {
-          line: ['114 Dewey Ave'],
-          city: 'Eureka',
-          state: 'MT',
-          postalCode: '59917',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: true,
+        url: null,
+        duration: 30,
+        atlasConfirmationCode: '7VBBCA',
+        atlasLocation: {
+          id: '9931',
+          resourceType: 'Location',
+          address: {
+            line: ['114 Dewey Ave'],
+            city: 'Eureka',
+            state: 'MT',
+            postalCode: '59917',
+          },
+          position: {
+            longitude: -115.1,
+            latitude: 48.8,
+          },
         },
-        position: {
-          longitude: -115.1,
-          latitude: 48.8,
-        },
+        extension: { patientHasMobileGfe: true },
+        kind: 'ADHOC',
       },
-      extension: { patientHasMobileGfe: true },
-      kind: 'ADHOC',
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -248,12 +279,16 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as empty string', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: false },
-      kind: null,
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: false },
+        kind: null,
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
@@ -272,12 +307,16 @@ describe('DetailsVideo component with Breadcrumb component', () => {
     },
   };
   it('should return breadcrumb component', () => {
-    appointment.videoData = {
-      isVideo: true,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: true },
-      kind: 'MOBILE_ANY',
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: false,
+        extension: { patientHasMobileGfe: true },
+        kind: 'MOBILE_ANY',
+      },
     };
+    const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
       initialState,
     });
