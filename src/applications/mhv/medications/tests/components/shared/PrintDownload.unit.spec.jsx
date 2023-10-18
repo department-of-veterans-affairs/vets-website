@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { fireEvent } from '@testing-library/dom';
 import { generateMedicationsPDF } from '../../../util/helpers';
 import PrintDownload from '../../../components/shared/PrintDownload';
 import prescription from '../../fixtures/prescriptionDetails.json';
@@ -26,9 +27,9 @@ describe('Medicaitons Print/Download button component', () => {
       },
     );
   };
-  const setup = () => {
+  const setup = (downloadPDF = handleDownloadPDF, success = false) => {
     return renderWithStoreAndRouter(
-      <PrintDownload download={handleDownloadPDF} />,
+      <PrintDownload download={downloadPDF} isSuccess={success} />,
       {
         path: '/',
       },
@@ -38,5 +39,28 @@ describe('Medicaitons Print/Download button component', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('displays error modal if error occurs ', async () => {
+    const handleDownloadPDFError = () => {
+      throw new Error('error');
+    };
+    const screen = setup(handleDownloadPDFError);
+    const downloadButton = screen.getByText(
+      'Download your medication details as a PDF',
+    );
+    fireEvent.click(downloadButton);
+
+    const errorMessage = await screen.getByText(
+      'We can’t access your medications right now',
+    );
+    expect(errorMessage).to.exist;
+  });
+
+  it('displays success modal ', () => {
+    const screen = setup(handleDownloadPDF, true);
+
+    const sucessMessage = screen.getByText('Download complete');
+    expect(sucessMessage).to.exist;
   });
 });
