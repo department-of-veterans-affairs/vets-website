@@ -7,6 +7,7 @@ import Claim from '../../../components/claims-and-appeals/Claim';
 
 function makeClaimObject({
   claimDate,
+  dateFiled,
   updateDate,
   status = 'Claim received',
   decisionLetterSent = false,
@@ -17,12 +18,14 @@ function makeClaimObject({
     id: '600214206',
     type: 'claim',
     attributes: {
+      evssId: 600214206,
       claimDate: claimDate || '2021-01-21',
       claimPhaseDates: {
         phaseChangeDate: updateDate,
       },
       claimType: 'Compensation',
       closeDate: null,
+      dateFiled: dateFiled || '2021-01-21',
       decisionLetterSent,
       developmentLetterSent,
       documentsNeeded,

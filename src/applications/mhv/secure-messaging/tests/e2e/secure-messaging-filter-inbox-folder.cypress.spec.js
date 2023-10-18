@@ -1,55 +1,55 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 
-describe('Secure Messaging Draft Folder checks', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
+for (let i = 0; i < 200; i += 1) {
+  describe('Secure Messaging Draft Folder checks', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
 
-  beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    PatientMessagesSentPage.loadMessages();
-  });
-
-  it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
+    beforeEach(() => {
+      site.login();
+      landingPage.loadInboxMessages();
     });
-    landingPage.inputFilterData('test');
-    landingPage.filterMessages();
-    landingPage.verifyFilterResults('test');
-  });
 
-  it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
+    it('Verify filter works correctly', () => {
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
         },
-      },
+      });
+      landingPage.inputFilterData('test');
+      landingPage.filterMessages();
+      landingPage.verifyFilterResults('test');
     });
-    landingPage.inputFilterData('any');
-    landingPage.filterMessages();
-    landingPage.clearFilter();
-    landingPage.verifyFilterFieldCleared();
-  });
 
-  it('Check sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
+    it('Verify clear filter btn works correctly', () => {
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
         },
-      },
+      });
+      landingPage.inputFilterData('any');
+      landingPage.filterMessages();
+      landingPage.clearFilter();
+      landingPage.verifyFilterFieldCleared();
     });
-    landingPage.verifySorting();
+
+    it('Check sorting works properly', () => {
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
+      landingPage.verifySorting();
+    });
   });
-});
+}
