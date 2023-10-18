@@ -19,53 +19,64 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       aria-describedby="alert-description"
     >
       <h3 id="alert-heading" slot="headline">
-        Our online pension form isn’t working right now
+        You can’t apply online right now
       </h3>
       <div id="alert-description">
         {loggedIn ? (
           <>
             <p>
-              You can still apply for VA pension benefits by mail, in person at
-              a VA regional office, or with the help of a Veterans Service
-              Officer (VSO) or another accredited representative. Download the
-              PDF form we provide on this page.
+              We’re updating our online form. Our new online form will be
+              available in January 2024. If you already started applying online,
+              you can continue your application then. We’ll transfer your saved
+              information to the new form.
             </p>
-            <h4>If you started your form online already</h4>
             <p>
-              You’ll need to start over using a PDF form. But you can still
-              refer to the information you saved in your online form.
+              Or, you can apply now using a PDF form. You can sign in to VA.gov
+              to refer to your saved information to fill out the PDF form.
             </p>
+            <va-link
+              download
+              filetype="PDF"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+              pages={8}
+              text="Download VA form 21P-527EZ"
+            />
+            <p>
+              You can refer to your saved information to fill out the PDF form.
+            </p>
+            <va-link
+              href="/pension/application/527EZ/introduction"
+              text="Refer to your saved form"
+            />
             <p>
               <strong>Note: </strong>
               We’ll record the potential start date for your benefits as the
               date you first saved your online form. You have 1 year from this
-              date to submit your application. If we approve your claim, you may
-              be able to get retroactive payments.
+              date to submit your application.
             </p>
-            <a href="/pension/application/527EZ/introduction/">
-              Refer to your saved form
-            </a>
           </>
         ) : (
           <>
             <p>
-              You can still apply for VA pension benefits by mail, in person at
-              a VA regional office, or with the help of a Veterans Service
-              Officer (VSO) or another accredited representative. Download the
-              PDF form we provide on this page.
-            </p>
-            <h4>If you started your form online already</h4>
-            <p>
-              You’ll need to start over using a PDF form. But you can still sign
-              in to VA.gov to refer to the information you saved in your online
-              form.
+              We’re updating our online form. Our new online form will be
+              available in January 2024. If you already started applying online,
+              you can continue your application then. We’ll transfer your saved
+              information to the new form.
             </p>
             <p>
-              <strong>Note: </strong>
-              We’ll record the potential start date for your benefits as the
-              date you first saved your online form. You have 1 year from this
-              date to submit your application. If we approve your claim, you may
-              be able to get retroactive payments.
+              Or, you can apply now using a PDF form. You can sign in to VA.gov
+              to refer to your saved information to fill out the PDF form.
+            </p>
+            <va-link
+              download
+              filetype="PDF"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+              pages={8}
+              text="Download VA form 21P-527EZ"
+            />
+            <p>
+              You can sign in to VA.gov to refer to your saved information to
+              fill out the PDF form.
             </p>
             <va-button
               onClick={() => {
@@ -74,6 +85,12 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
               }}
               text="Sign in to VA.gov"
             />
+            <p>
+              <strong>Note: </strong>
+              We’ll record the potential start date for your benefits as the
+              date you first saved your online form. You have 1 year from this
+              date to submit your application.
+            </p>
           </>
         )}
       </div>
@@ -87,7 +104,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
