@@ -30,7 +30,7 @@ import {
   addFileAttachments,
 } from './utils/submit';
 
-import disabilityLabels from './content/disabilityLabels';
+import { getDisabilityLabels } from './content/disabilityLabels';
 
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
@@ -112,7 +112,7 @@ export function transform(formConfig, form) {
     }
 
     const flippedDisabilityLabels = {};
-    Object.entries(disabilityLabels).forEach(([code, description]) => {
+    Object.entries(getDisabilityLabels()).forEach(([code, description]) => {
       flippedDisabilityLabels[description?.toLowerCase()] = code;
     });
 
@@ -171,7 +171,7 @@ export function transform(formConfig, form) {
           default:
         }
 
-        return Object.assign({}, disability, disabilityDescription);
+        return { ...disability, ...disabilityDescription };
       },
     );
 
