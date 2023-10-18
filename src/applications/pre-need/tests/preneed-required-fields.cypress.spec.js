@@ -227,11 +227,11 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       errorCheck(requiredHelpers.preparerInfoErrors2);
 
       cy.fill(
-        'input[name$="root_application_applicant_view:applicantInfo_name_first"]',
+        'input[name$="root_application_applicant_name_first"]',
         testData.data.application.applicant.name.first,
       );
       cy.fill(
-        'input[name$="root_application_applicant_view:applicantInfo_name_last"]',
+        'input[name$="root_application_applicant_name_last"]',
         testData.data.application.applicant.name.last,
       );
       cy.axeCheck();
