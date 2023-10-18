@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import appendQuery from 'append-query';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// eslint-disable-next-line deprecate/import
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { fetchMHVAccount } from 'platform/user/profile/actions';
 import { mhvAccessError } from '../../../static-data/error-messages';
 import backendServices from '../../profile/constants/backendServices';
@@ -69,7 +67,7 @@ const INELIGIBLE_MESSAGES = {
         </p>
         <p>
           Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
-          <Telephone contact={CONTACTS.HELP_TTY} />
+          <va-telephone contact={CONTACTS.HELP_TTY} />
           ), 7:00 a.m. - 7:00 p.m. CT, and ask for help to activate your
           disabled account.
         </p>
@@ -90,7 +88,7 @@ const INELIGIBLE_MESSAGES = {
         </p>
         <p>
           Please call the My HealtheVet Help Desk at 877-327-0022 (TTY:
-          <Telephone contact={CONTACTS.HELP_TTY} />
+          <va-telephone contact={CONTACTS.HELP_TTY} />
           ), 7:00 a.m. - 7:00 p.m. CT, and ask for help to delete any extra
           accounts in the system.
         </p>
@@ -174,21 +172,28 @@ export class MHVApp extends React.Component {
       return null;
     }
 
-    const alertProps = {
-      headline: `Thank you for accepting the Terms and Conditions for using VA.gov health tools`,
-      content: <p>You can now access health tools on VA.gov.</p>,
-      onCloseAlert: this.closeTcAcceptanceMessage,
-    };
-
-    return <AlertBox isVisible status="success" {...alertProps} />;
+    return (
+      <VaAlert
+        visible
+        status="success"
+        closeable
+        onCloseEvent={this.closeTcAcceptanceMessage}
+      >
+        <h2 slot="headline">
+          Thank you for accepting the Terms and Conditions for using VA.gov
+          health tools
+        </h2>
+        <p>You can now access health tools on VA.gov.</p>
+      </VaAlert>
+    );
   };
 
   renderPlaceholderErrorMessage = () => {
-    const alertProps = {
-      headline: (
-        <span>We’re not able to process your My HealtheVet account</span>
-      ),
-      content: (
+    return (
+      <va-alert visible status="error">
+        <h3 slot="headline">
+          We’re not able to process your My HealtheVet account
+        </h3>
         <p>
           Please{' '}
           <button type="button" onClick={() => window.location.reload(true)}>
@@ -197,10 +202,8 @@ export class MHVApp extends React.Component {
           or try again later. If you keep having trouble, please{' '}
           <SubmitSignInForm />
         </p>
-      ),
-    };
-
-    return <AlertBox isVisible status="error" {...alertProps} />;
+      </va-alert>
+    );
   };
 
   renderIneligibleMessage = ineligibleState => {
@@ -208,12 +211,10 @@ export class MHVApp extends React.Component {
 
     if (alertProps) {
       return (
-        <AlertBox
-          headline={alertProps.headline}
-          content={alertProps.content}
-          isVisible
-          status="error"
-        />
+        <va-alert visible status="error">
+          <h3 slot="headline">{alertProps.headline}</h3>
+          {alertProps.content}
+        </va-alert>
       );
     }
 
@@ -222,7 +223,7 @@ export class MHVApp extends React.Component {
 
   renderAccountUnknownMessage = () => {
     const alertProps = {
-      headline: <span>We can’t confirm your My HealtheVet account level</span>,
+      headline: 'We can’t confirm your My HealtheVet account level',
       content: (
         <p>
           We’re sorry. Something went wrong on our end. We can’t confirm your My
@@ -234,7 +235,12 @@ export class MHVApp extends React.Component {
       ),
     };
 
-    return <AlertBox isVisible status="error" {...alertProps} />;
+    return (
+      <va-alert visible status="error">
+        <h3 slot="headline">{alertProps.headline}</h3>
+        {alertProps.content}
+      </va-alert>
+    );
   };
 
   renderRegisterFailedMessage = () => {
@@ -250,7 +256,12 @@ export class MHVApp extends React.Component {
       ),
     };
 
-    return <AlertBox isVisible status="error" {...alertProps} />;
+    return (
+      <va-alert visible status="error">
+        <h3 slot="headline">{alertProps.headline}</h3>
+        {alertProps.content}
+      </va-alert>
+    );
   };
 
   renderUpgradeFailedMessage = () => {
@@ -269,7 +280,12 @@ export class MHVApp extends React.Component {
       ),
     };
 
-    return <AlertBox isVisible status="error" {...alertProps} />;
+    return (
+      <va-alert visible status="error">
+        <h3 slot="headline">{alertProps.headline}</h3>
+        {alertProps.content}
+      </va-alert>
+    );
   };
 
   render() {
@@ -282,7 +298,7 @@ export class MHVApp extends React.Component {
 
     if (loading) {
       return (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <va-loading-indicator set-focus message="Loading your information..." />
       );
     }
 
@@ -308,13 +324,15 @@ export class MHVApp extends React.Component {
 
     if (!this.hasService()) {
       if (accountState === 'needs_identity_verification') {
-        return <LoadingIndicator setFocus message="Redirecting to verify..." />;
+        return (
+          <va-loading-indicator set-focus message="Redirecting to verify..." />
+        );
       }
 
       if (accountState === 'needs_terms_acceptance') {
         return (
-          <LoadingIndicator
-            setFocus
+          <va-loading-indicator
+            set-focus
             message="Redirecting to terms and conditions..."
           />
         );

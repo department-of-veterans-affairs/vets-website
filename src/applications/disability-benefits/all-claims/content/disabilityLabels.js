@@ -1,4 +1,7 @@
-export default {
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import disabilityLabelsReduced from './disabilityLabelsReduced';
+
+const disabilityLabelsFull = {
   10: 'abnormal heart',
   20: 'abnormal mitral valve',
   30: 'abnormal weight loss',
@@ -258,7 +261,6 @@ export default {
   2560: 'fibrosis',
   2570: 'fibrosis, interstitial pulmonary',
   2580: 'filariasis',
-  2590: 'finger(s)',
   2600: 'flatfoot, bilateral',
   2610: 'flatfoot, left',
   2620: 'flatfoot, right',
@@ -833,4 +835,9 @@ export default {
   249480: 'Cyst/Benign Growth - Hemic and Lymphatic',
   249481: 'Dental and Oral - Musculoskeletal',
   249482: 'Musculoskeletal - Bones',
+};
+
+export const getDisabilityLabels = () => {
+  if (environment.isStaging()) return disabilityLabelsReduced;
+  return disabilityLabelsFull;
 };

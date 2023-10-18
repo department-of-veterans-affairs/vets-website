@@ -48,16 +48,14 @@ describe('AppointmentListItem', () => {
           </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
-          '9:39 p.m.',
+          '9:39 p.m. ',
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
         ).to.have.text('Primary care with Dr. Green');
         expect(
           screen.getByTestId('appointment-kind-and-location'),
-        ).to.have.text(
-          'In person at LOMA LINDA VA CLINIC  Clinic: TEST CLINIC',
-        );
+        ).to.have.text('In person at LOMA LINDA VA CLINIC Clinic: TEST CLINIC');
       });
       it('Displays appointment instructions for pre-check-in in-person appointment on confirmation page', () => {
         const screen = render(
@@ -98,7 +96,7 @@ describe('AppointmentListItem', () => {
           </CheckInProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
-          '9:39 p.m.',
+          '9:39 p.m. ',
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),

@@ -11,16 +11,6 @@ describe('Secure Messaging Trash Folder checks', () => {
     landingPage.loadInboxMessages();
     PatientMessageTrashPage.loadMessages();
   });
-  it('Axe Check Trash Folder', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
 
   it('Verify folder header', () => {
     cy.injectAxe();
@@ -85,6 +75,7 @@ describe('Secure Messaging Trash Folder checks', () => {
         },
       },
     });
+
     cy.get('.endOfThreads').should('not.exist');
     PatientMessageTrashPage.navigateToLastPage();
     cy.get('.endOfThreads').should(

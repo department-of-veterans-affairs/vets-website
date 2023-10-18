@@ -19,7 +19,8 @@ export const uiSchema = {
       'Supporting (lay) statements or other evidence',
       'Adding additional evidence:',
       {
-        addAnotherLabel: 'Add another document',
+        addAnotherLabel: 'Add another file',
+        buttonText: 'Upload file',
       },
     ),
     'ui:description': UploadDescription,

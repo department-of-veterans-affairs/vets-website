@@ -3,16 +3,22 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { RESPONSES } from '../utilities/question-data-map';
 import { ROUTES } from '../constants';
+import { RESPONSES } from '../constants/question-data-map';
+import { displayConditionsMet } from '../utilities/display-logic-questions';
 
 import ServicePeriod from '../containers/questions/ServicePeriod';
+
+// Form data is intentionally skipped for the render tests since these are very basic "does it load?" tests
+
+// This file contains tests for the component's display as well as testing displayConditionsMet
+// for this question specifically
 
 const mockStoreStandard = {
   getState: () => ({
     pactAct: {
       form: {
-        BURN_PIT_2_1_0: null,
+        BURN_PIT_2_1: null,
         SERVICE_PERIOD: null,
       },
       viewedIntroPage: true,
@@ -26,7 +32,7 @@ const mockStoreNoIntroPage = {
   getState: () => ({
     pactAct: {
       form: {
-        BURN_PIT_2_1_0: null,
+        BURN_PIT_2_1: null,
         SERVICE_PERIOD: null,
       },
       viewedIntroPage: false,
@@ -40,7 +46,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {
-    BURN_PIT_2_1_0: null,
+    BURN_PIT_2_1: null,
     SERVICE_PERIOD: null,
   },
   setServicePeriod: () => {},
@@ -52,7 +58,7 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {
-    BURN_PIT_2_1_0: null,
+    BURN_PIT_2_1: null,
     SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
   },
   setServicePeriod: () => {},
@@ -85,5 +91,15 @@ describe('Service Period Page', () => {
     );
 
     expect(pushStub.withArgs(ROUTES.HOME).called).to.be.true;
+  });
+});
+
+describe('displayConditionsAreMet', () => {
+  it('SERVICE PERIOD: should return true when the display conditions are met', () => {
+    const formResponses = {};
+
+    expect(displayConditionsMet('SERVICE_PERIOD', formResponses)).to.equal(
+      true,
+    );
   });
 });

@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const ViewRepresentativeDetails = props => (
   <>
@@ -37,7 +34,7 @@ export const ViewRepresentativeDetails = props => (
         </a>
       </li>
       <li className="vads-u-margin-top--3">
-        <a href="">
+        <a href="/">
           <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
           Need help?
         </a>
@@ -124,9 +121,9 @@ export const ViewRepresentativeDetails = props => (
       <p className="help-talk">
         If you have questions about your selected representative, please call
         our MYVA411 main information line at
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> and select 0. We’re here
-        24/7. If you have hearing loss, call TTY:
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />.
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> and select 0. We’re here
+        24/7. If you have hearing loss, call{' '}
+        <va-telephone contact={CONTACTS['711']} tty />.
       </p>
     </div>
   </>

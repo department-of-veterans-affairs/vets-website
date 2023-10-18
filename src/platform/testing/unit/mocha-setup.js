@@ -12,11 +12,12 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
-import chaiAxe from './axe-plugin';
-
-import { sentryTransport } from './sentry';
 import { configure } from '@testing-library/dom';
+import chaiAxe from './axe-plugin';
+import { sentryTransport } from './sentry';
 
+const isStressTest = process.env.IS_STRESS_TEST;
+const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
@@ -164,9 +165,17 @@ function setupJSDom() {
     writable: true,
   });
 }
+/* eslint-disable no-console */
 
 setupJSDom();
-
+const checkAllowList = testContext => {
+  const file = testContext.currentTest.file.indexOf('src');
+  if (DISALLOWED_SPECS.indexOf(file) > -1) {
+    /* eslint-disable-next-line no-console */
+    console.log('Test skipped due to flakiness: ', file);
+    testContext.skip();
+  }
+};
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
@@ -175,6 +184,9 @@ export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
+    if (!isStressTest) {
+      checkAllowList(this);
+    }
   },
   afterEach() {
     localStorage.clear();

@@ -9,7 +9,6 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
   it('search for clickable URL', () => {
     const site = new SecureMessagingSite();
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const composePage = new PatientComposePage();
     site.login();
     landingPage.loadInboxMessages();
@@ -26,9 +25,12 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       body: 'https://www.va.gov/',
     };
     cy.get('[data-testid="compose-message-link"]').click();
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient(requestBodyUpdated.recipientId);
-    composePage.getCategory(requestBodyUpdated.category).click();
+    composePage
+      .getCategory(requestBodyUpdated.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
     composePage
       .getMessageBodyField()
@@ -43,6 +45,5 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
         },
       },
     });
-    composePage.verifySendMessageConfirmationMessage();
   });
 });

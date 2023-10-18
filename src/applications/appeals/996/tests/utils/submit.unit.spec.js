@@ -1,19 +1,22 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../../shared/constants';
-import { getDate } from '../../utils/dates';
 
+import { getDate } from '../../utils/dates';
 import {
-  createIssueName,
-  getContestedIssues,
-  addIncludedIssues,
   addAreaOfDisagreement,
-  getConferenceTime,
-  removeEmptyEntries,
-  getRep,
   getAddress,
-  getPhone,
+  getConferenceTime,
+  getRep,
   getTimeZone,
 } from '../../utils/submit';
+
+import { SELECTED } from '../../../shared/constants';
+import {
+  addIncludedIssues,
+  createIssueName,
+  getContestedIssues,
+  getPhone,
+  removeEmptyEntries,
+} from '../../../shared/utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
@@ -305,16 +308,20 @@ describe('getConferenceTime', () => {
 
 describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
-    const wrap = obj => ({
-      veteran: { address: obj },
-    });
-    expect(getAddress({})).to.deep.equal({});
-    expect(getAddress(wrap({}))).to.deep.equal({});
-    expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal({});
+    // zipCode5 returns 5 zeros if country isn't set to 'US'
+    const result = { zipCode5: '00000' };
+    const wrap = obj => ({ veteran: { address: obj } });
+    expect(getAddress({})).to.deep.equal(result);
+    expect(getAddress(wrap({}))).to.deep.equal(result);
+    expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal(result);
     expect(getAddress(wrap({ addressLine1: 'test' }))).to.deep.equal({
       addressLine1: 'test',
+      zipCode5: '00000',
     });
-    expect(getAddress(wrap({ zipCode: '10101' }))).to.deep.equal({
+    expect(
+      getAddress(wrap({ countryCodeIso2: 'US', zipCode: '10101' })),
+    ).to.deep.equal({
+      countryCodeISO2: 'US',
       zipCode5: '10101',
     });
     expect(
@@ -337,13 +344,40 @@ describe('getAddress', () => {
       addressLine3: 'suite 99',
       city: 'Big City',
       stateCode: 'NV',
-      zipCode5: '00000',
+      zipCode5: '10101',
       countryCodeISO2: 'US',
       internationalPostalCode: '12345',
     });
     expect(
-      getAddress(wrap({ internationalPostalCode: '55555' })),
+      getAddress(
+        wrap({
+          addressLine1: '123 test',
+          addressLine2: 'c/o foo',
+          addressLine3: 'suite 99',
+          city: 'Big City',
+          stateCode: 'NV',
+          zipCode: '10101',
+          countryCodeIso2: 'GB',
+          internationalPostalCode: '12345',
+          extra: 'will not be included',
+        }),
+      ),
     ).to.deep.equal({
+      addressLine1: '123 test',
+      addressLine2: 'c/o foo',
+      addressLine3: 'suite 99',
+      city: 'Big City',
+      stateCode: 'NV',
+      zipCode5: '00000',
+      countryCodeISO2: 'GB',
+      internationalPostalCode: '12345',
+    });
+    expect(
+      getAddress(
+        wrap({ countryCodeIso2: 'GB', internationalPostalCode: '55555' }),
+      ),
+    ).to.deep.equal({
+      countryCodeISO2: 'GB',
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });

@@ -9,15 +9,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { getSelected, calculateIndexOffset } from '../utils/helpers';
-import {
-  CONTESTABLE_ISSUES_PATH,
-  LAST_ISSUE,
-  MAX_LENGTH,
-  REVIEW_ISSUES,
-  SELECTED,
-} from '../../shared/constants';
-
 import { checkValidations } from '../validations';
 import {
   uniqueIssue,
@@ -26,6 +17,15 @@ import {
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
+
+import {
+  CONTESTABLE_ISSUES_PATH,
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
+import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';

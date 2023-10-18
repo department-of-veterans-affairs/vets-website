@@ -12,7 +12,10 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -35,8 +38,8 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
-import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
+import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
@@ -53,6 +56,11 @@ import SavedApplications from './apply-for-benefits/SavedApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const hideNotificationsSection = useToggleValue(
+    TOGGLE_NAMES.myVaHideNotificationsSection,
+  );
+
   return (
     <div>
       <h1
@@ -75,7 +83,7 @@ const DashboardHeader = ({ showNotifications }) => {
           });
         }}
       />
-      {showNotifications && <Notifications />}
+      {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );
 };
@@ -98,7 +106,7 @@ const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
 
           <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
           <EducationAndTraining isLOA1={isLOA1} />
-          <SavedApplications />
+          <SavedApplications isLOA1={isLOA1} />
         </>
       </Toggler.Enabled>
 
@@ -333,7 +341,10 @@ const mapStateToProps = state => {
       hasLoadedFullName &&
       hasLoadedDisabilityRating);
 
-  const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
+  const togglesAreLoaded = !toggleValues(state)?.loading;
+
+  const showLoader =
+    !hasLoadedScheduledDowntime || !hasLoadedAllData || !togglesAreLoaded;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);
@@ -377,7 +388,7 @@ const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
-    payments: state.allPayments.payments || [],
+    payments: state.allPayments?.payments || [],
   };
 };
 

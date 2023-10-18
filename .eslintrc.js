@@ -54,10 +54,6 @@ module.exports = {
         use: '<va-text-input>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/AlertBox',
-        use: '<va-alert>',
-      },
-      {
         name:
           '@department-of-veterans-affairs/component-library/ExpandingGroup',
         use: 'a custom solution',
@@ -67,21 +63,8 @@ module.exports = {
         use: '<va-breadcrumbs>',
       },
       {
-        name:
-          '@department-of-veterans-affairs/component-library/LoadingIndicator',
-        use: '<va-loading-indicator>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/OMBInfo',
-        use: '<va-omb-info>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/Telephone',
-        use: '<va-telephone>',
       },
       {
         name: '@department-of-veterans-affairs/component-library/FileInput',

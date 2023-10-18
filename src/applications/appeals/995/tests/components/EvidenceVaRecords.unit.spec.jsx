@@ -3,10 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
 import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
@@ -82,6 +86,10 @@ describe('<EvidenceVaRecords>', () => {
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
+    // check Datadog classes
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(2);
   });
 
   const clickEvent = new MouseEvent('click', {
@@ -194,12 +202,12 @@ describe('<EvidenceVaRecords>', () => {
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
 
-      expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[2].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[2].invalidMonth).to.be.true;
       expect(errorEls[2].invalidDay).to.be.true;
       expect(errorEls[2].invalidYear).to.be.true;
 
-      expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[3].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[3].invalidMonth).to.be.true;
       expect(errorEls[3].invalidDay).to.be.true;
       expect(errorEls[3].invalidYear).to.be.true;

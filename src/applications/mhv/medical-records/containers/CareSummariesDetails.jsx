@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCareSummaryAndNotesDetails } from '../actions/careSummariesAndNotes';
+import {
+  getCareSummaryAndNotesDetails,
+  clearCareSummariesDetails,
+} from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
@@ -14,16 +17,22 @@ const CareSummariesDetails = () => {
   );
   const { summaryId } = useParams();
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records/summaries-and-notes',
-          label: 'Care summaries and notes',
-        },
-      ]),
-    );
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records/summaries-and-notes',
+            label: 'Care summaries and notes',
+          },
+        ]),
+      );
+      return () => {
+        dispatch(clearCareSummariesDetails());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -31,28 +40,23 @@ const CareSummariesDetails = () => {
         dispatch(getCareSummaryAndNotesDetails(summaryId));
       }
     },
-    [summaryId],
+    [summaryId, dispatch],
   );
 
-  if (careSummary?.name) {
-    switch (careSummary.type) {
-      case loincCodes.DISCHARGE_SUMMARY:
-        return <AdmissionAndDischargeDetails record={careSummary} />;
-      case loincCodes.PHYSICIAN_PROCEDURE_NOTE:
-        return <ProgressNoteDetails record={careSummary} />;
-      default:
-        return <p>Something else</p>;
-    }
-  } else {
-    return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
-    );
+  if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
+    return <AdmissionAndDischargeDetails record={careSummary} />;
   }
+  if (careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE) {
+    return <ProgressNoteDetails record={careSummary} />;
+  }
+  return (
+    <va-loading-indicator
+      message="Loading..."
+      setFocus
+      data-testid="loading-indicator"
+      class="loading-indicator"
+    />
+  );
 };
 
 export default CareSummariesDetails;

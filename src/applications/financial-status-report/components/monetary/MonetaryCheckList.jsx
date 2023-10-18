@@ -42,12 +42,33 @@ const MonetaryCheckList = () => {
   const title = 'Your household assets';
   const prompt = 'Select any of these financial assets you have:';
 
-  // removing cash as an option if the user is eligible for streamlined
-  // but the amount of cash they have is above the threshold
+  // noCashList - remove cash in hand for original asset implementation
+  //  only used to protect save in progress for forms prior to streamlinedWaiverAssetUpdate
+  const noCashList = monetaryAssetList.filter(
+    asset => asset.toLowerCase() !== 'cash',
+  );
+
+  // noLiquidAssetsList - remove liquid assets for streamlinedWaiverAssetUpdate
+  //  this filter hides all the fields we collect in previous steps
+  const noLiquidAssetsList = noCashList.filter(
+    asset =>
+      asset.toLowerCase() !== 'checking accounts' &&
+      asset.toLowerCase() !== 'savings accounts',
+  );
+
+  const streamlinedList = formData['view:streamlinedWaiverAssetUpdate']
+    ? noLiquidAssetsList
+    : noCashList;
+
+  // only filtering out these options for streamlined candidiates
   const adjustForStreamlined =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt;
+    (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
+    (formData['view:streamlinedWaiverAssetUpdate'] &&
+      gmtData?.isEligibleForStreamlined &&
+      gmtData?.incomeBelowOneFiftyGmt);
+
   const adjustedAssetList = adjustForStreamlined
-    ? monetaryAssetList.filter(asset => asset.toLowerCase() !== 'cash')
+    ? streamlinedList
     : monetaryAssetList;
 
   return (

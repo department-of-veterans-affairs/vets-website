@@ -49,24 +49,37 @@ const PrintDownload = props => {
         data-testid="print-records-button"
         aria-expanded={menuOpen}
       >
-        <span>Print or download this {list ? 'list' : 'record'}</span>
+        <span>Print or download</span>
         <i className={menuIconClasses} aria-hidden="true" />
       </button>
       <ul className={menuOptionsClasses}>
         <li>
-          <button type="button" onClick={window.print} id="printButton-0">
-            Print {list && 'list'}
+          <button
+            type="button"
+            onClick={window.print}
+            id="printButton-0"
+            data-testid="printButton-0"
+          >
+            Print this {list ? 'list' : 'page'}
           </button>
         </li>
         <li>
-          <button type="button" onClick={download} id="printButton-1">
-            Download {list && 'list '}
-            as PDF
+          <button
+            type="button"
+            onClick={download}
+            id="printButton-1"
+            data-testid="printButton-1"
+          >
+            Download PDF of this {list ? 'list' : 'page'}
           </button>
         </li>
         {allowTxtDownloads && (
           <li>
-            <button type="button" id="printButton-2">
+            <button
+              type="button"
+              id="printButton-2"
+              data-testid="printButton-2"
+            >
               Download {list && 'list '}
               as a text file
             </button>
@@ -80,6 +93,7 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
+  allowTxtDownloads: PropTypes.bool,
   download: PropTypes.any,
   list: PropTypes.any,
 };

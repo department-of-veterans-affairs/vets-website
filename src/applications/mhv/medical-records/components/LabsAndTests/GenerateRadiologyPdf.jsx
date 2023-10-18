@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
-import * as Sentry from '@sentry/browser';
+import { makePdf } from '../../util/helpers';
 
-const GenerateRadiologyPdf = async record => {
+const GenerateRadiologyPdf = async (record, runningUnitTest) => {
   const formattedDate = formatDateLong(record?.date);
 
   const pdfData = {
@@ -68,16 +67,12 @@ const GenerateRadiologyPdf = async record => {
     },
   };
 
-  try {
-    await generatePdf('medicalRecords', 'radiology_report', pdfData);
-  } catch (error) {
-    Sentry.captureException(error);
-    Sentry.captureMessage('vets-mhv-radiology-pdf-generation-error');
-  }
+  makePdf('radiology_report', pdfData, 'Radiology', runningUnitTest);
 };
 
 export default GenerateRadiologyPdf;
 
 GenerateRadiologyPdf.protoTypes = {
   record: PropTypes.object,
+  runningUnitTest: PropTypes.bool,
 };

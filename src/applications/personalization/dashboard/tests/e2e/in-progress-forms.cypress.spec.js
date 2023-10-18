@@ -37,7 +37,7 @@ describe('The My VA Dashboard', () => {
         },
         // This form is unknown and will be filtered out of the list of applications
         {
-          form: '28-1900',
+          form: '28-1800',
           metadata: {
             version: 0,
             returnUrl: '/communication-preferences',
@@ -114,7 +114,7 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
   });
-  describe('when there are no-progress forms', () => {
+  describe('when there are no in-progress forms', () => {
     beforeEach(() => {
       // a single form that fails the `isSIPEnabledForm()` check so none will be
       // shown
@@ -122,7 +122,7 @@ describe('The My VA Dashboard', () => {
       const savedForms = [
         // This form is unknown and will be filtered out of the list of applications
         {
-          form: '28-1900',
+          form: '28-1800',
           metadata: {
             version: 0,
             returnUrl: '/communication-preferences',
@@ -150,9 +150,7 @@ describe('The My VA Dashboard', () => {
         'exist',
       );
       cy.findAllByTestId('application-in-progress').should('have.length', 0);
-      cy.findByText(/you have no benefit application drafts to show/i).should(
-        'exist',
-      );
+      cy.findByText(/you have no applications in progress/i).should('exist');
       cy.injectAxe();
       cy.axeCheck();
     });

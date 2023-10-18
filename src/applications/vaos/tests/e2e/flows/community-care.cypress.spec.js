@@ -1,6 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
 import {
   mockFeatureToggles,
   vaosSetup,
@@ -16,9 +15,7 @@ import {
   mockGetEligibilityCC,
 } from '../vaos-cypress-helpers';
 
-const rootUrl = environment.isProduction()
-  ? 'health-care/schedule-view-va-appointments/appointments/'
-  : 'my-health/appointments/';
+const rootUrl = 'my-health/appointments/';
 describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
@@ -26,7 +23,12 @@ describe('VAOS community care flow using VAOS service', () => {
     mockAppointmentsApi({ data: [], apiVersion: 2 });
     mockCCProvidersApi();
     mockFacilitiesApi({ apiVersion: 2 });
-    mockFeatureToggles({ v2Requests: true, v2Facilities: true });
+    mockFeatureToggles({
+      vaOnlineSchedulingAppointmentList: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+      vaOnlineSchedulingFacilitiesServiceV2: true,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+    });
     mockLoginApi();
     mockSchedulingConfigurationApi();
     mockUserTransitionAvailabilities();

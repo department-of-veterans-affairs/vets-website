@@ -2,7 +2,7 @@ export const uiSchema = {
   application: {
     veteran: {
       'view:hasServiceName': {
-        'ui:title': 'Did your sponsor serve under another name?',
+        'ui:title': 'Did the sponsor serve under another name?',
         'ui:widget': 'yesNo',
       },
     },

@@ -16,22 +16,28 @@ const CareSummariesAndNotes = () => {
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
 
-  useEffect(() => {
-    dispatch(getCareSummariesAndNotesList());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getCareSummariesAndNotesList());
+    },
+    [dispatch],
+  );
 
-  useEffect(() => {
-    dispatch(
-      setBreadcrumbs([
-        {
-          url: '/my-health/medical-records',
-          label: 'Medical records',
-        },
-      ]),
-    );
-    focusElement(document.querySelector('h1'));
-    updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: '/my-health/medical-records',
+            label: 'Medical records',
+          },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE);
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (careSummariesAndNotes?.length) {
@@ -54,14 +60,12 @@ const CareSummariesAndNotes = () => {
   };
 
   return (
-    <div
-      id="care-summaries-and-notes"
-      className="vads-l-col--12 medium-screen:vads-l-col--8"
-    >
+    <div id="care-summaries-and-notes">
       <h1 className="page-title">Care summaries and notes</h1>
       <p>
-        Most care summaries and notes are available <strong>36 hours</strong>{' '}
-        after providers sign them. This list doesn’t include care summaries from
+        Most care summaries and notes are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after
+        providers sign them. This list doesn’t include care summaries from
         before 2013.
       </p>
       <p>

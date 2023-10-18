@@ -1,0 +1,334 @@
+{
+  "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
+  "view:streamlinedWaiverAssetUpdate": true,
+  "questions": {
+    "hasRepayments": false,
+    "hasCreditCardBills": false,
+    "hasRecreationalVehicle": false,
+    "hasVehicle": false,
+    "hasRealEstate": false,
+    "hasDependents": "2",
+    "isMarried": false
+  },
+  "view:components": {
+    "view:realEstateAdditionalInfo": {},
+    "view:maritalStatus": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {},
+    "view:vehicleInfo": {},
+    "view:recVehicleInfo": {},
+    "view:assetInfo": {}
+  },
+  "personalData": {
+    "veteranFullName": {
+      "first": "Mark",
+      "last": "Webb",
+      "middle": "",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1950-10-04",
+    "address": {
+      "livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "123 Faker Street",
+      "city": "Bogusville",
+      "state": "GA",
+      "postalCode": "30058"
+    },
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "veteranContactInformation": {
+      "email": "test@user.com",
+      "mobilePhone": {
+        "areaCode": "510",
+        "countryCode": "1",
+        "createdAt": "2020-06-12T16:56:37.000+00:00",
+        "extension": "",
+        "effectiveEndDate": null,
+        "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
+        "id": 146766,
+        "isInternational": false,
+        "isTextable": null,
+        "isTextPermitted": null,
+        "isTty": null,
+        "isVoicemailable": null,
+        "phoneNumber": "9224444",
+        "phoneType": "HOME",
+        "sourceDate": "2020-07-14T19:07:45.000+00:00",
+        "sourceSystemUser": null,
+        "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+        "updatedAt": "2020-07-14T19:07:46.000+00:00",
+        "vet360Id": "1273780"
+      },
+      "address": {
+        "addressLine1": "1200 Park Ave",
+        "addressLine2": "c/o Pixar",
+        "addressPou": "CORRESPONDENCE",
+        "addressType": "DOMESTIC",
+        "city": "Emeryville",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "countryCodeIso3": "USA",
+        "countryCodeFips": null,
+        "countyCode": null,
+        "countyName": null,
+        "createdAt": "2020-05-30T03:57:20.000+00:00",
+        "effectiveEndDate": null,
+        "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+        "id": 173917,
+        "province": null,
+        "sourceDate": "2020-07-10T20:10:45.000+00:00",
+        "sourceSystemUser": null,
+        "stateCode": "CA",
+        "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+        "updatedAt": "2020-07-10T20:10:46.000+00:00",
+        "validationKey": null,
+        "vet360Id": "1273780",
+        "zipCode": "94608",
+        "zipCodeSuffix": null
+      }
+    },
+    "spouseFullName": {},
+    "dependents": [
+      {
+        "dependentAge": "12"
+      },
+      {
+        "dependentAge": "17"
+      }
+    ],
+    "employmentHistory": {
+      "veteran": {},
+      "spouse": {}
+    }
+  },
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437"
+  },
+  "selectedDebtsAndCopays": [
+    {
+      "id": "f4385298-08a6-42f8-a86f-50e97033fb85",
+      "pSSeqNum": 506,
+      "pSTotSeqNum": 588,
+      "pSFacilityNum": "534",
+      "pSFacPhoneNum": null,
+      "pSTotStatement": 27,
+      "pSStatementVal": "0000018255H",
+      "pSStatementDate": "11152019",
+      "pSStatementDateOutput": "11/15/2019",
+      "pSProcessDate": "11112019",
+      "pSProcessDateOutput": "11/11/2019",
+      "pHPatientLstNme": "JONES",
+      "pHPatientFstNme": "TRAVIS",
+      "pHPatientMidNme": "D",
+      "pHAddress1": "1885 SHORE DR S APT 327",
+      "pHAddress2": null,
+      "pHAddress3": null,
+      "pHCity": "SAVANNAH",
+      "pHState": "FL",
+      "pHZipCde": "314104413",
+      "pHZipCdeOutput": "31410-4413",
+      "pHCtryNme": null,
+      "pHAmtDue": 15,
+      "pHAmtDueOutput": "15.00&nbsp;&nbsp;",
+      "pHPrevBal": 135,
+      "pHPrevBalOutput": "135.00&nbsp;&nbsp;",
+      "pHTotCharges": 15,
+      "pHTotChargesOutput": "15.00&nbsp;&nbsp;",
+      "pHTotCredits": -135,
+      "pHTotCreditsOutput": "135.00-&nbsp;",
+      "pHNewBalance": 15,
+      "pHNewBalanceOutput": "15.00&nbsp;&nbsp;",
+      "pHSpecialNotes": "To pay your statement online, go to www.pay.gov or call 1-888-827-4817.",
+      "pHroParaCdes": "304050556065708085",
+      "pHNumOfLines": 10,
+      "pHDfnNumber": 346310,
+      "pHCernerStatementNumber": 1005154223,
+      "pHCernerPatientId": "1005154223",
+      "pHCernerAccountNumber": "1005154223",
+      "pHIcnNumber": "1012845638V677813",
+      "pHAccountNumber": 0,
+      "pHLargeFontIndcator": 0,
+      "details": [
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10072019",
+          "pDDatePostedOutput": "10/07/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC)",
+          "pDTransDescOutput": "OUTPATIENT CARE",
+          "pDTransAmt": -15,
+          "pDTransAmtOutput": "15.00-&nbsp;",
+          "pDRefNo": "534-K90HEWN"
+        },
+        {
+          "pDDatePosted": "10152019",
+          "pDDatePostedOutput": "10/15/2019",
+          "pDTransDesc": "OUTPATIENT CARE(NSC) VISIT DATE: 09/07/2018",
+          "pDTransDescOutput": "OUTPATIENT CARE VISIT DATE: 09/07/2018",
+          "pDTransAmt": 15,
+          "pDTransAmtOutput": "15.00&nbsp;&nbsp;",
+          "pDRefNo": "534-K009FK8"
+        }
+      ],
+      "station": {
+        "facilitYNum": "534",
+        "visNNum": "07",
+        "facilitYDesc": "RALPH H. JOHNSON VA MEDICAL CENTER (534)",
+        "cyclENum": "012",
+        "remiTToFlag": "L",
+        "maiLInsertFlag": "0",
+        "staTAddress1": "ACCOUNTS RECEIVABLE (04AR)",
+        "staTAddress2": "109 BEE ST",
+        "staTAddress3": null,
+        "city": "Charleston",
+        "state": "SC",
+        "ziPCde": "294015703",
+        "ziPCdeOutput": "29401-5703",
+        "baRCde": "*294015703090*",
+        "teLNumFlag": "P",
+        "teLNum": "1-866-258-2772",
+        "teLNum2": null,
+        "contacTInfo": null,
+        "dM2TelNum": null,
+        "contacTInfo2": null,
+        "toPTelNum": null,
+        "lbXFedexAddress1": null,
+        "lbXFedexAddress2": null,
+        "lbXFedexAddress3": null,
+        "lbXFedexCity": null,
+        "lbXFedexState": null,
+        "lbXFedexZipCde": null,
+        "lbXFedexBarCde": null,
+        "lbXFedexContact": null,
+        "lbXFedexContactTelNum": null,
+        "facilityName": "Ralph H. Johnson Department of Veterans Affairs Medical Center"
+      },
+      "debtType": "COPAY"
+    }
+  ],
+  "socialSecurity": {
+    "spouse": {}
+  },
+  "additionalIncome": {
+    "addlIncRecords": [
+      {
+        "name": "Social Security",
+        "amount": "4639.90"
+      }
+    ],
+    "spouse": {}
+  },
+  "benefits": {
+    "spouseBenefits": {}
+  },
+  "assets": {
+    "monetaryAssets": [
+      {
+        "name": "Cash on hand (not in bank)",
+        "amount": "125"
+      },
+      {
+        "name": "Cash in a bank (savings and checkings)",
+        "amount": "329.12"
+      },
+      {
+        "name": "U.S. Savings Bonds",
+        "amount": "135"
+      },
+      {
+        "name": "Retirement accounts (401k, IRAs, 403b, TSP)",
+        "amount": "3500"
+      }
+    ]
+  },
+  "expenses": {},
+  "otherExpenses": [
+    {
+      "name": "Clothing",
+      "amount": "6759"
+    }
+  ],
+  "additionalData": {
+    "bankruptcy": {}
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
+    }
+  ]
+}

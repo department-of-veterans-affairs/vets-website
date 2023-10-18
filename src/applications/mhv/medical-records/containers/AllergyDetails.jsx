@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
-import { getAllergyDetails } from '../actions/allergies';
+import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
-import { ALERT_TYPE_ERROR, EMPTY_FIELD, pageTitles } from '../util/constants';
+import { makePdf, processList } from '../util/helpers';
+import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
 
-const AllergyDetails = () => {
+const AllergyDetails = props => {
+  const { runningUnitTest } = props;
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
@@ -50,6 +51,9 @@ const AllergyDetails = () => {
           },
         ]),
       );
+      return () => {
+        dispatch(clearAllergyDetails());
+      };
     },
     [dispatch],
   );
@@ -58,10 +62,7 @@ const AllergyDetails = () => {
     () => {
       if (allergy) {
         focusElement(document.querySelector('h1'));
-        const titleDate = allergy.date ? `${allergy.date} - ` : '';
-        updatePageTitle(
-          `${titleDate}${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`,
-        );
+        updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
     [dispatch, allergy, allergyId],
@@ -86,7 +87,7 @@ const AllergyDetails = () => {
   );
 
   const generateAllergyPdf = async () => {
-    const title = `Allergy: ${allergy.name}`;
+    const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
@@ -94,27 +95,22 @@ const AllergyDetails = () => {
       items: [
         {
           title: 'Date entered',
-          value: allergy.date || EMPTY_FIELD,
+          value: allergy.date,
           inline: true,
         },
         {
-          title: 'Reaction',
+          title: 'Signs and symptoms',
           value: processList(allergy.reaction),
           inline: true,
         },
         {
           title: 'Type of allergy',
-          value: allergy.type || EMPTY_FIELD,
+          value: allergy.type,
           inline: true,
         },
         {
           title: 'Location',
-          value: allergy.location || EMPTY_FIELD,
-          inline: true,
-        },
-        {
-          title: 'Observed or reported',
-          value: allergy.observedOrReported,
+          value: allergy.location,
           inline: true,
         },
         {
@@ -125,11 +121,13 @@ const AllergyDetails = () => {
       ],
     };
 
-    try {
-      await generatePdf('medicalRecords', 'allergy_report', scaffold);
-    } catch (error) {
-      sendErrorToSentry(error, 'Allergy details');
-    }
+    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
   };
 
   const content = () => {
@@ -149,22 +147,24 @@ const AllergyDetails = () => {
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
           >
-            Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
+            Allergies and reactions:{' '}
+            <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--4">
             <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
+              <p
+                className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--bold"
                 id="allergy-date"
               >
                 Date entered:{' '}
                 <span
                   className="vads-u-font-weight--normal"
                   data-dd-privacy="mask"
+                  data-testid="header-time"
                 >
                   {allergy.date}
                 </span>
-              </h2>
+              </p>
             </div>
             <PrintDownload
               download={generateAllergyPdf}
@@ -174,21 +174,17 @@ const AllergyDetails = () => {
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Reaction
+              Signs and symptoms
             </h2>
             <ItemList list={allergy.reaction} />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask">{allergy.type || 'None noted'}</p>
+            <p data-dd-privacy="mask">{allergy.type}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">{allergy.location || 'None noted'}</p>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Observed or reported
-            </h2>
-            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
+            <p data-dd-privacy="mask">{allergy.location}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
@@ -209,15 +205,11 @@ const AllergyDetails = () => {
     );
   };
 
-  return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-bottom--5">
-      {content()}
-    </div>
-  );
+  return <div className="vads-u-margin-bottom--5">{content()}</div>;
 };
 
 export default AllergyDetails;
 
 AllergyDetails.propTypes = {
-  print: PropTypes.func,
+  runningUnitTest: PropTypes.bool,
 };

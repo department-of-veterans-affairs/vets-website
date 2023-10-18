@@ -18,10 +18,10 @@ export default {
               (*Required)
             </span>
           </h3>
-          <p>
+          <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
             Select the items we can share with your third-party source. You can
             select more than one.
-          </p>
+          </span>
         </>
       ),
       'ui:widget': GroupCheckboxWidget,
@@ -50,7 +50,7 @@ export default {
           !fields.limitedInformationOther
         ) {
           errors.limitedInformationItems.addError(
-            'Please select at least one item here, or enter unlisted item(s) in “Other” text-field below.',
+            'Please select at least one type of information here, or specify something else below',
           );
         }
       },

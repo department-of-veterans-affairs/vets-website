@@ -8,7 +8,7 @@ describe('Record list item component', () => {
 
   it('renders without errors', () => {
     const screen = render(<ItemList list={itemList} />);
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display all items in the list', () => {
@@ -27,5 +27,10 @@ describe('Record list item component', () => {
       selector: 'p',
     });
     expect(emptyMessageElement).to.exist;
+  });
+
+  it('should display the string passed as list arg if a string is passed instead of an array', () => {
+    const screen = render(<ItemList list="test" />);
+    expect(screen.getByText('test')).to.exist;
   });
 });

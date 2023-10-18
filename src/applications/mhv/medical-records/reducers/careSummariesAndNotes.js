@@ -30,10 +30,14 @@ export const convertNote = note => {
       note.type?.text ||
       (isArrayAndHasItems(note.type?.coding) && note.type.coding[0].display),
     type: isArrayAndHasItems(note.type?.coding) && note.type.coding[0].code,
-    dateSigned: formatDateLong(note.date),
-    dateUpdated: formatDateLong(note.meta.lastUpdated),
-    startDate: formatDateLong(note.date),
-    endDate: formatDateLong(note.meta.lastUpdated),
+    dateSigned: note.date ? formatDateLong(note.date) : EMPTY_FIELD,
+    dateUpdated: note.meta?.lastUpdated
+      ? formatDateLong(note.meta.lastUpdated)
+      : EMPTY_FIELD,
+    startDate: note.date ? formatDateLong(note.date) : EMPTY_FIELD,
+    endDate: note.meta?.lastUpdated
+      ? formatDateLong(note.meta.lastUpdated)
+      : EMPTY_FIELD,
     summary:
       (isArrayAndHasItems(note.content) &&
         typeof note.content[0].attachment?.data === 'string' &&
@@ -78,6 +82,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
           action.response.entry?.map(note => {
             return convertNote(note.resource);
           }) || [],
+      };
+    }
+    case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {
+      return {
+        ...state,
+        careSummariesDetails: undefined,
       };
     }
     default:

@@ -5,11 +5,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -63,9 +60,10 @@ const VerificationRequiredAlert = () => (
           </a>
         </li>
         <li>
-          Or call us at <Telephone contact="18772228387" />. If you have hearing
-          loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />. We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          Or call us at <va-telephone contact={CONTACTS['222_VETS']} />. If you
+          have hearing loss, call{' '}
+          <va-telephone contact={CONTACTS.HELP_TTY} tty />. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>
       <p>
@@ -195,7 +193,7 @@ class IntroductionPage extends React.Component {
             </strong>
           </p>
         )}
-        {showMainLoader && <LoadingIndicator />}
+        {showMainLoader && <va-loading-indicator set-focus />}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
         {showLoggedOutContent && (
           <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />

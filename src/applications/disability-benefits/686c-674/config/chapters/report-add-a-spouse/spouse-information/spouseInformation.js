@@ -1,5 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import vaFileNumberUI from 'platform/forms-system/src/js/definitions/vaFileNumber';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
 
@@ -62,13 +63,8 @@ export const uiSchema = {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
     },
     vaFileNumber: {
+      ...vaFileNumberUI,
       'ui:title': 'Spouse’s VA file number',
-      'ui:errorMessages': { pattern: 'Please enter a valid VA File number' },
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-        expandUnder: 'isVeteran',
-        hideEmptyValueInReview: true,
-      },
     },
     serviceNumber: {
       'ui:title': 'Spouse’s service number',

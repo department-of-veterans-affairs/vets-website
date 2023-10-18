@@ -112,6 +112,19 @@ class ReviewCollapsibleChapter extends React.Component {
     return chapterTitle;
   };
 
+  getPageTitle = rawPageTitle => {
+    const { form } = this.props;
+    const formData = form.data;
+
+    let pageTitle = rawPageTitle;
+
+    if (typeof rawPageTitle === 'function') {
+      pageTitle = rawPageTitle({ formData });
+    }
+
+    return pageTitle;
+  };
+
   getSchemaformPageContent = (page, props, editing) => {
     const {
       chapterFormConfig,
@@ -194,7 +207,7 @@ class ReviewCollapsibleChapter extends React.Component {
           hideTitle={this.shouldHideExpandedPageTitle(
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
-            title,
+            this.getPageTitle(title),
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
@@ -273,6 +286,23 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getCustomPageContent = (page, props, editing) => {
+    const pageState = props.form.pages[page.pageKey];
+    let pageSchema;
+    let pageUiSchema;
+
+    if (page.showPagePerItem) {
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
+      pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+    } else {
+      const pageSchemaObjects = getNonArraySchema(
+        pageState.schema,
+        pageState.uiSchema,
+      );
+      pageSchema = pageSchemaObjects.schema;
+      pageUiSchema = pageSchemaObjects.uiSchema;
+    }
+
     if (editing) {
       // noop defined as a function for unit tests
       const noop = function noop() {};
@@ -288,6 +318,8 @@ class ReviewCollapsibleChapter extends React.Component {
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}
+          schema={pageSchema}
+          uiSchema={pageUiSchema}
           // noop for navigation to prevent JS error
           goBack={noop}
           goForward={noop}

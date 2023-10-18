@@ -1,6 +1,6 @@
-import { getSelected, getIssueName } from './helpers';
-
 import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../constants';
+
+import { getIssueName, getSelected } from '../../shared/utils/issues';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];

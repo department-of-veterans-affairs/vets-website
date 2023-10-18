@@ -9,9 +9,9 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { useSelector } from 'react-redux';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
@@ -23,6 +23,11 @@ import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
+import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
+import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
+import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as applicantDemographics from './pages/applicantDemographics';
+import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
 import * as address from '../definitions/address';
@@ -34,6 +39,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
+import preparerPhoneUI from '../components/PreparerPhone';
 import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
@@ -46,8 +52,6 @@ import {
   fullMaidenNameUI,
   ssnDashesUI,
   veteranUI,
-  serviceRecordsUI,
-  militaryNameUI,
   contactInfoDescription,
   authorizedAgentDescription,
   veteranRelationshipDescription,
@@ -58,8 +62,11 @@ import {
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  PreparerPhoneNumberDescription,
   nonRequiredFullNameUI,
+  PreparerPhoneNumberDescription,
+  preparerAddressHasState,
+  applicantsMailingAddressHasState,
+  sponsorMailingAddressHasState,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -67,6 +74,7 @@ import {
   PreparerDescription,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
+import PreparerRadioWidget from '../components/PreparerRadioWidget';
 
 const {
   claimant,
@@ -89,6 +97,26 @@ const {
 } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = omit('required', fullName);
+
+function MailingAddressStateTitle(props) {
+  const { elementPath } = props;
+  const data = useSelector(state => state.form.data || {});
+  const country = get(elementPath, data);
+  if (!environment.isProduction() && country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
+}
+
+export const applicantMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.claimant.address.country" />
+);
+export const preparerMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.applicant.view:applicantInfo.mailingAddress.country" />
+);
+export const sponsorMailingAddressStateTitleWrapper = (
+  <MailingAddressStateTitle elementPath="application.veteran.address.country" />
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -142,117 +170,153 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
-      pages: {
-        applicantInformation: {
-          title: 'Applicant information',
-          path: 'applicant-information',
-          uiSchema: {
-            'ui:description': applicantDescription,
-            application: {
-              claimant: {
-                name: fullMaidenNameUI,
-                ssn: ssnDashesUI,
-                dateOfBirth: currentOrPastDateUI('Date of birth'),
-                relationshipToVet: {
-                  'ui:title': 'Relationship to service member',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      1: 'I am the service member/Veteran',
-                      2: 'Spouse or surviving spouse',
-                      3: 'Unmarried adult child',
-                      4: 'Other',
-                    },
-                    widgetProps: {
-                      1: { 'aria-describedby': 'veteran-relationship' },
-                      2: { 'aria-describedby': 'spouse-relationship' },
-                      3: { 'aria-describedby': 'child-relationship' },
-                      4: { 'aria-describedby': 'other-relationship' },
-                    },
-                    nestedContent: {
-                      1: veteranRelationshipDescription,
-                      2: spouseRelationshipDescription,
-                      3: childRelationshipDescription,
-                      4: otherRelationshipDescription,
-                    },
-                  },
-                },
-              },
+      pages: !environment.isProduction()
+        ? {
+            applicantRelationshipToVet: {
+              path: 'applicant-relationship-to-vet',
+              uiSchema: applicantRelationshipToVet.uiSchema,
+              schema: applicantRelationshipToVet.schema,
             },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
+            veteranApplicantDetails: {
+              title: 'Applicant details',
+              path: 'veteran-applicant-details',
+              depends: isVeteran,
+              uiSchema: veteranApplicantDetails.uiSchema,
+              schema: veteranApplicantDetails.schema,
+            },
+            nonVeteranApplicantDetails: {
+              title: 'Applicant details',
+              path: 'nonVeteran-applicant-details',
+              depends: formData => !isVeteran(formData),
+              uiSchema: nonVeteranApplicantDetails.uiSchema,
+              schema: nonVeteranApplicantDetails.schema,
+            },
+            applicantDemographics: {
+              title: 'Applicant demographics',
+              path: 'applicant-demographics',
+              depends: isVeteran,
+              uiSchema: applicantDemographics.uiSchema,
+              schema: applicantDemographics.schema,
+            },
+            militaryDetails: {
+              path: 'applicant-military-details',
+              title: 'Military details',
+              depends: isVeteran,
+              uiSchema: militaryDetails.uiSchema,
+              schema: militaryDetails.schema,
+            },
+          }
+        : {
+            applicantInformation: {
+              title: 'Applicant information',
+              path: 'applicant-information',
+              uiSchema: {
+                'ui:description': applicantDescription,
+                application: {
                   claimant: {
-                    type: 'object',
-                    required: [
-                      'name',
-                      'ssn',
-                      'dateOfBirth',
-                      'relationshipToVet',
-                    ],
-                    properties: pick(claimant.properties, [
-                      'name',
-                      'ssn',
-                      'dateOfBirth',
-                      'relationshipToVet',
-                    ]),
+                    name: fullMaidenNameUI,
+                    ssn: ssnDashesUI,
+                    dateOfBirth: currentOrPastDateUI('Date of birth'),
+                    relationshipToVet: {
+                      'ui:title': 'Relationship to service member',
+                      'ui:widget': 'radio',
+                      'ui:options': {
+                        labels: {
+                          1: 'I am the service member/Veteran',
+                          2: 'Spouse or surviving spouse',
+                          3: 'Unmarried adult child',
+                          4: 'Other',
+                        },
+                        widgetProps: {
+                          1: { 'aria-describedby': 'veteran-relationship' },
+                          2: { 'aria-describedby': 'spouse-relationship' },
+                          3: { 'aria-describedby': 'child-relationship' },
+                          4: { 'aria-describedby': 'other-relationship' },
+                        },
+                        nestedContent: {
+                          1: veteranRelationshipDescription,
+                          2: spouseRelationshipDescription,
+                          3: childRelationshipDescription,
+                          4: otherRelationshipDescription,
+                        },
+                      },
+                    },
                   },
                 },
               },
-            },
-          },
-        },
-        veteranInformation: {
-          path: 'veteran-applicant-information',
-          title: 'Veteran information',
-          depends: isVeteran,
-          uiSchema: {
-            application: {
-              veteran: veteranUI,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
+              schema: {
                 type: 'object',
                 properties: {
-                  veteran: {
+                  application: {
                     type: 'object',
-                    required: [
-                      'race',
-                      'gender',
-                      'maritalStatus',
-                      'militaryStatus',
-                    ],
-                    properties: set(
-                      'militaryStatus.enum',
-                      veteran.properties.militaryStatus.enum.filter(
-                        // Doesn't make sense to have options for the
-                        // Veteran to say they're deceased
-                        opt => !['I', 'D'].includes(opt),
-                      ),
-                      pick(veteran.properties, [
-                        'militaryServiceNumber',
-                        'vaClaimNumber',
-                        'placeOfBirth',
-                        'gender',
-                        'race',
-                        'maritalStatus',
-                        'militaryStatus',
-                      ]),
-                    ),
+                    properties: {
+                      claimant: {
+                        type: 'object',
+                        required: [
+                          'name',
+                          'ssn',
+                          'dateOfBirth',
+                          'relationshipToVet',
+                        ],
+                        properties: pick(claimant.properties, [
+                          'name',
+                          'ssn',
+                          'dateOfBirth',
+                          'relationshipToVet',
+                        ]),
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            veteranInformation: {
+              path: 'veteran-applicant-information',
+              title: 'Veteran information',
+              depends: isVeteran,
+              uiSchema: {
+                application: {
+                  veteran: veteranUI,
+                },
+              },
+              schema: {
+                type: 'object',
+                properties: {
+                  application: {
+                    type: 'object',
+                    properties: {
+                      veteran: {
+                        type: 'object',
+                        required: [
+                          'race',
+                          'gender',
+                          'maritalStatus',
+                          'militaryStatus',
+                        ],
+                        properties: set(
+                          'militaryStatus.enum',
+                          veteran.properties.militaryStatus.enum.filter(
+                            // Doesn't make sense to have options for the
+                            // Veteran to say they're deceased
+                            opt => !['I', 'D'].includes(opt),
+                          ),
+                          pick(veteran.properties, [
+                            'militaryServiceNumber',
+                            'vaClaimNumber',
+                            'placeOfBirth',
+                            'gender',
+                            'race',
+                            'maritalStatus',
+                            'militaryStatus',
+                          ]),
+                        ),
+                      },
+                    },
                   },
                 },
               },
             },
           },
-        },
-      },
     },
     sponsorInformation: {
       title: 'Sponsor information',
@@ -388,254 +452,54 @@ const formConfig = {
         },
       },
     },
-    militaryHistory: environment.isProduction()
-      ? {
-          title: 'Military history',
-          pages: {
-            // Two sets of military history pages dependent on
-            // whether the applicant is the veteran or not.
-            // If not, "Sponsor’s" precedes all the field labels.
-            applicantMilitaryHistory: {
-              title: 'Service period(s)',
-              path: 'applicant-military-history',
-              depends: isVeteran,
-              uiSchema: {
-                application: {
-                  veteran: {
-                    serviceRecords: serviceRecordsUI,
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        properties: {
-                          serviceRecords: veteran.properties.serviceRecords,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            applicantMilitaryName: {
-              path: 'applicant-military-name',
-              depends: isVeteran,
-              uiSchema: merge({}, militaryNameUI, {
-                application: {
-                  veteran: {
-                    serviceName: {
-                      first: {
-                        'ui:required': form =>
-                          get(
-                            'application.veteran.view:hasServiceName',
-                            form,
-                          ) === true,
-                      },
-                      last: {
-                        'ui:required': form =>
-                          get(
-                            'application.veteran.view:hasServiceName',
-                            form,
-                          ) === true,
-                      },
-                    },
-                  },
-                },
-              }),
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: ['view:hasServiceName'],
-                        properties: {
-                          'view:hasServiceName': {
-                            type: 'boolean',
-                          },
-                          serviceName: nonRequiredFullName,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            sponsorMilitaryHistory: {
-              path: 'sponsor-military-history',
-              title: 'Sponsor’s service periods',
-              depends: formData => !isVeteran(formData),
-              uiSchema: {
-                application: {
-                  veteran: {
-                    serviceRecords: merge({}, serviceRecordsUI, {
-                      'ui:title': 'Sponsor’s service period(s)',
-                      'ui:description':
-                        'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
-                      items: {
-                        'ui:order': [
-                          'serviceBranch',
-                          'dateRange',
-                          'dischargeType',
-                          'highestRank',
-                          'nationalGuardState',
-                        ],
-                        serviceBranch: {
-                          'ui:title': 'Sponsor’s branch of service',
-                        },
-                        dateRange: dateRangeUI(
-                          'Sponsor’s service start date',
-                          'Sponsor’s service end date',
-                          'Service start date must be before end date',
-                        ),
-                        dischargeType: {
-                          'ui:title':
-                            'Sponsor’s discharge character of service',
-                        },
-                        highestRank: {
-                          'ui:title': 'Sponsor’s highest rank attained',
-                        },
-                        nationalGuardState: {
-                          'ui:title':
-                            'Sponsor’s state (for National Guard Service only)',
-                        },
-                      },
-                    }),
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        properties: {
-                          serviceRecords: veteran.properties.serviceRecords,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            sponsorMilitaryName: {
-              path: 'sponsor-military-name',
-              depends: formData => !isVeteran(formData),
-              uiSchema: merge({}, militaryNameUI, {
-                application: {
-                  veteran: {
-                    'view:hasServiceName': {
-                      'ui:title': 'Did your sponsor serve under another name?',
-                    },
-                    serviceName: merge({}, fullNameUI, {
-                      first: {
-                        'ui:title': 'Sponsor’s first name',
-                        'ui:required': form =>
-                          get(
-                            'application.veteran.view:hasServiceName',
-                            form,
-                          ) === true,
-                      },
-                      last: {
-                        'ui:title': 'Sponsor’s last name',
-                        'ui:required': form =>
-                          get(
-                            'application.veteran.view:hasServiceName',
-                            form,
-                          ) === true,
-                      },
-                      middle: {
-                        'ui:title': 'Sponsor’s middle name',
-                      },
-                      suffix: {
-                        'ui:title': 'Sponsor’s suffix',
-                      },
-                    }),
-                  },
-                },
-              }),
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: ['view:hasServiceName'],
-                        properties: {
-                          'view:hasServiceName': {
-                            type: 'boolean',
-                          },
-                          serviceName: nonRequiredFullName,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        }
-      : {
-          title: 'Military history',
-          pages: {
-            // Two sets of military history pages dependent on
-            // whether the applicant is the veteran or not.
-            // If not, "Sponsor’s" precedes all the field labels.
-            applicantMilitaryHistory: {
-              title: 'Service period(s)',
-              path: 'applicant-military-history',
-              depends: isVeteran,
-              uiSchema: applicantMilitaryHistory.uiSchema,
-              schema: applicantMilitaryHistory.schema,
-            },
-            applicantMilitaryName: {
-              path: 'applicant-military-name',
-              depends: isVeteran,
-              uiSchema: applicantMilitaryName.uiSchema,
-              schema: applicantMilitaryName.schema,
-            },
-            applicantMilitaryNameInformation: {
-              title: 'Previous name',
-              path: 'applicant-military-name-information',
-              depends: formData => isVeteranAndHasServiceName(formData),
-              uiSchema: applicantMilitaryNameInformation.uiSchema,
-              schema: applicantMilitaryNameInformation.schema,
-            },
-            sponsorMilitaryHistory: {
-              path: 'sponsor-military-history',
-              title: 'Sponsor’s service periods',
-              depends: formData => !isVeteran(formData),
-              uiSchema: sponsorMilitaryHistory.uiSchema,
-              schema: sponsorMilitaryHistory.schema,
-            },
-            sponsorMilitaryName: {
-              path: 'sponsor-military-name',
-              depends: formData => !isVeteran(formData),
-              uiSchema: sponsorMilitaryName.uiSchema,
-              schema: sponsorMilitaryName.schema,
-            },
-            sponsorMilitaryNameInformation: {
-              title: 'Sponsor’s previous name',
-              path: 'sponsor-military-name-information',
-              depends: formData => isNotVeteranAndHasServiceName(formData),
-              uiSchema: sponsorMilitaryNameInformation.uiSchema,
-              schema: sponsorMilitaryNameInformation.schema,
-            },
-          },
+    militaryHistory: {
+      title: 'Military history',
+      pages: {
+        // Two sets of military history pages dependent on
+        // whether the applicant is the veteran or not.
+        // If not, "Sponsor’s" precedes all the field labels.
+        applicantMilitaryHistory: {
+          title: 'Service period(s)',
+          path: 'applicant-military-history',
+          depends: isVeteran,
+          uiSchema: applicantMilitaryHistory.uiSchema,
+          schema: applicantMilitaryHistory.schema,
         },
+        applicantMilitaryName: {
+          path: 'applicant-military-name',
+          depends: isVeteran,
+          uiSchema: applicantMilitaryName.uiSchema,
+          schema: applicantMilitaryName.schema,
+        },
+        applicantMilitaryNameInformation: {
+          title: 'Previous name',
+          path: 'applicant-military-name-information',
+          depends: formData => isVeteranAndHasServiceName(formData),
+          uiSchema: applicantMilitaryNameInformation.uiSchema,
+          schema: applicantMilitaryNameInformation.schema,
+        },
+        sponsorMilitaryHistory: {
+          path: 'sponsor-military-history',
+          title: 'Sponsor’s service period(s)',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorMilitaryHistory.uiSchema,
+          schema: sponsorMilitaryHistory.schema,
+        },
+        sponsorMilitaryName: {
+          path: 'sponsor-military-name',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorMilitaryName.uiSchema,
+          schema: sponsorMilitaryName.schema,
+        },
+        sponsorMilitaryNameInformation: {
+          title: 'Sponsor’s previous name',
+          path: 'sponsor-military-name-information',
+          depends: formData => isNotVeteranAndHasServiceName(formData),
+          uiSchema: sponsorMilitaryNameInformation.uiSchema,
+          schema: sponsorMilitaryNameInformation.schema,
+        },
+      },
+    },
     burialBenefits: {
       title: 'Burial benefits',
       pages: {
@@ -714,7 +578,20 @@ const formConfig = {
               uiSchema: {
                 application: {
                   claimant: {
-                    address: address.uiSchema('Applicant’s mailing address'),
+                    address: merge(
+                      {},
+                      address.uiSchema('Applicant’s mailing address'),
+                      {
+                        state: {
+                          'ui:title': applicantMailingAddressStateTitleWrapper,
+                          'ui:options': {
+                            hideIf: formData =>
+                              !applicantsMailingAddressHasState(formData) &&
+                              !environment.isProduction(),
+                          },
+                        },
+                      },
+                    ),
                     'view:contactInfoDescription': {
                       'ui:description': contactInfoDescription,
                     },
@@ -754,7 +631,16 @@ const formConfig = {
               uiSchema: {
                 application: {
                   veteran: {
-                    address: address.uiSchema('Sponsor’s address'),
+                    address: merge({}, address.uiSchema('Sponsor’s address'), {
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData) &&
+                            !environment.isProduction(),
+                        },
+                      },
+                    }),
                   },
                 },
               },
@@ -782,7 +668,7 @@ const formConfig = {
                   applicant: {
                     applicantRelationshipToClaimant: {
                       'ui:title': 'Who is filling out this application?',
-                      'ui:widget': 'radio',
+                      'ui:widget': PreparerRadioWidget,
                       'ui:options': {
                         updateSchema: formData => {
                           const nameData = get(
@@ -802,9 +688,6 @@ const formConfig = {
                         },
                       },
                     },
-                    'Authorized Agent/Rep': {
-                      'ui:description': authorizedAgentDescription,
-                    },
                   },
                 },
               },
@@ -821,10 +704,6 @@ const formConfig = {
                           applicantRelationshipToClaimant:
                             applicant.properties
                               .applicantRelationshipToClaimant,
-                          'Authorized Agent/Rep': {
-                            type: 'object',
-                            properties: {},
-                          },
                         },
                       },
                     },
@@ -881,80 +760,165 @@ const formConfig = {
                 },
               },
             },
-            preparerContactDetails: {
-              title: 'Preparer contact details',
-              path: 'preparer-contact-details',
-              depends: formData => isAuthorizedAgent(formData),
-              uiSchema: {
-                application: {
-                  applicant: {
-                    'view:applicantInfo': {
-                      mailingAddress: merge(
-                        {},
-                        address.uiSchema("Preparer's mailing address"),
-                        {
-                          country: { 'ui:required': isAuthorizedAgent },
-                          street: {
-                            'ui:title': 'Street address',
-                            'ui:required': isAuthorizedAgent,
-                          },
-                          street2: {
-                            'ui:title': 'Street address line 2',
-                          },
-                          city: { 'ui:required': isAuthorizedAgent },
-                          state: {
-                            'ui:title': 'State or territory',
-                            'ui:required': isAuthorizedAgent,
-                          },
-                          postalCode: { 'ui:required': isAuthorizedAgent },
+            preparerContactDetails: !environment.isProduction()
+              ? {
+                  title: 'Preparer contact details',
+                  path: 'preparer-contact-details',
+                  depends: formData => isAuthorizedAgent(formData),
+                  uiSchema: {
+                    application: {
+                      applicant: {
+                        'view:applicantInfo': {
+                          mailingAddress: merge(
+                            {},
+                            address.uiSchema("Preparer's mailing address"),
+                            {
+                              country: { 'ui:required': isAuthorizedAgent },
+                              street: {
+                                'ui:title': 'Street address',
+                                'ui:required': isAuthorizedAgent,
+                              },
+                              street2: {
+                                'ui:title': 'Street address line 2',
+                              },
+                              city: { 'ui:required': isAuthorizedAgent },
+                              state: {
+                                'ui:title': preparerMailingAddressStateTitleWrapper,
+                                'ui:required': isAuthorizedAgent,
+                                'ui:options': {
+                                  hideIf: formData =>
+                                    !preparerAddressHasState(formData) &&
+                                    !environment.isProduction(),
+                                },
+                              },
+                              postalCode: { 'ui:required': isAuthorizedAgent },
+                            },
+                          ),
                         },
-                      ),
-                    },
-                    'view:contactInfo': {
-                      'ui:title': ContactDetailsTitle,
-                      applicantPhoneNumber: merge({}, phoneUI('Phone number'), {
-                        'ui:required': isAuthorizedAgent,
-                      }),
-                    },
-                    'view:phoneNumberDescription': {
-                      'ui:description': PreparerPhoneNumberDescription,
+                        'view:contactInfo': {
+                          'ui:title': ContactDetailsTitle,
+                          applicantPhoneNumber: merge(
+                            {},
+                            preparerPhoneUI('Phone number'),
+                            {
+                              'ui:required': isAuthorizedAgent,
+                            },
+                          ),
+                        },
+                      },
                     },
                   },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
+                  schema: {
                     type: 'object',
                     properties: {
-                      applicant: {
+                      application: {
                         type: 'object',
                         properties: {
-                          'view:applicantInfo': {
+                          applicant: {
                             type: 'object',
                             properties: {
-                              mailingAddress: address.schema(fullSchemaPreNeed),
+                              'view:applicantInfo': {
+                                type: 'object',
+                                properties: {
+                                  mailingAddress: address.schema(
+                                    fullSchemaPreNeed,
+                                  ),
+                                },
+                              },
+                              'view:contactInfo': {
+                                type: 'object',
+                                properties: {
+                                  applicantPhoneNumber:
+                                    applicant.properties.applicantPhoneNumber,
+                                },
+                              },
                             },
                           },
-                          'view:contactInfo': {
+                        },
+                      },
+                    },
+                  },
+                }
+              : {
+                  title: 'Preparer contact details',
+                  path: 'preparer-contact-details',
+                  depends: formData => isAuthorizedAgent(formData),
+                  uiSchema: {
+                    application: {
+                      applicant: {
+                        'view:applicantInfo': {
+                          mailingAddress: merge(
+                            {},
+                            address.uiSchema("Preparer's mailing address"),
+                            {
+                              country: { 'ui:required': isAuthorizedAgent },
+                              street: {
+                                'ui:title': 'Street address',
+                                'ui:required': isAuthorizedAgent,
+                              },
+                              street2: {
+                                'ui:title': 'Street address line 2',
+                              },
+                              city: { 'ui:required': isAuthorizedAgent },
+                              state: {
+                                'ui:title': 'State or territory',
+                                'ui:required': isAuthorizedAgent,
+                              },
+                              postalCode: { 'ui:required': isAuthorizedAgent },
+                            },
+                          ),
+                        },
+                        'view:contactInfo': {
+                          'ui:title': ContactDetailsTitle,
+                          applicantPhoneNumber: merge(
+                            {},
+                            phoneUI('Phone number'),
+                            {
+                              'ui:required': isAuthorizedAgent,
+                            },
+                          ),
+                        },
+                        'view:phoneNumberDescription': {
+                          'ui:description': PreparerPhoneNumberDescription,
+                        },
+                      },
+                    },
+                  },
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      application: {
+                        type: 'object',
+                        properties: {
+                          applicant: {
                             type: 'object',
                             properties: {
-                              applicantPhoneNumber:
-                                applicant.properties.applicantPhoneNumber,
+                              'view:applicantInfo': {
+                                type: 'object',
+                                properties: {
+                                  mailingAddress: address.schema(
+                                    fullSchemaPreNeed,
+                                  ),
+                                },
+                              },
+                              'view:contactInfo': {
+                                type: 'object',
+                                properties: {
+                                  applicantPhoneNumber:
+                                    applicant.properties.applicantPhoneNumber,
+                                },
+                              },
+                              'view:phoneNumberDescription': {
+                                type: 'object',
+                                properties: {},
+                              },
                             },
-                          },
-                          'view:phoneNumberDescription': {
-                            type: 'object',
-                            properties: {},
                           },
                         },
                       },
                     },
                   },
                 },
-              },
-            },
           },
         }
       : {

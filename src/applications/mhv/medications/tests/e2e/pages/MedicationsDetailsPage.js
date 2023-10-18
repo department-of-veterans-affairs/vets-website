@@ -1,7 +1,7 @@
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
-      'When you print or download medication records, we’ll include a list of allergies and reactions in your VA medical records.',
+      'If you print this page, it won’t include your allergies and reactions to medications.',
     );
   };
 
@@ -83,9 +83,9 @@ class MedicationsDetailsPage {
   };
 
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.get('#va-breadcrumbs-list-2 > li:nth-child(1) > a').click({
-      force: true,
-    });
+    cy.contains('About Medications')
+      .should('be.visible')
+      .click({ force: true });
   };
 
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
