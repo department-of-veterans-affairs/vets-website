@@ -1,5 +1,5 @@
 {
-  "appName": "Order hearing aid and CPAP supplies",
+  "appName": "Order hearing aid or CPAP supplies",
   "entryFile": "./app-entry.jsx",
   "entryName": "health-care-supply-reordering",
   "rootUrl": "/health-care/order-hearing-aid-or-CPAP-supplies-form",

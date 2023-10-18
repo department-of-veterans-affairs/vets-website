@@ -1,7 +1,8 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
+
 import formConfig from '../../../config/form';
 
 const {
@@ -12,7 +13,7 @@ const {
 const pageTitle = 'Certificates';
 
 const expectedNumberOfFields = 1;
-testNumberOfFields(
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -21,7 +22,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

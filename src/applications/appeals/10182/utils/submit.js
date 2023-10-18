@@ -2,16 +2,17 @@ import moment from 'moment';
 
 import { SHOW_PART3 } from '../constants';
 
-import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import {
-  returnUniqueIssues,
-  processContestableIssues,
-} from '../../shared/utils/issues';
-import '../../shared/definitions';
 import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import '../../shared/definitions';
+import {
+  processContestableIssues,
+  returnUniqueIssues,
+} from '../../shared/utils/issues';
+import {
+  fixDateFormat,
+  replaceSubmittedData,
+} from '../../shared/utils/replace';
+import { removeEmptyEntries } from '../../shared/utils/submit';
 
 /** Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
@@ -159,17 +160,6 @@ export const addUploads = formData =>
     : [];
 
 /**
- * Remove objects with empty string values; Lighthouse doesn't like `null`
- *  values
- * @param {Object}
- * @returns {Object} minus any empty string values
- */
-export const removeEmptyEntries = object =>
-  Object.fromEntries(
-    Object.entries(object).filter(([_, value]) => value !== ''),
-  );
-
-/**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
@@ -205,22 +195,6 @@ export const getAddress = (formData = {}) => {
     countryCodeISO2,
     zipCode5,
     internationalPostalCode,
-  });
-};
-
-/**
- * Strip out extra profile phone data
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
- */
-export const getPhone = ({ veteran = {} } = {}) => {
-  const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
 };
 

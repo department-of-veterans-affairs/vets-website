@@ -18,8 +18,6 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -34,7 +32,6 @@ const Allergies = props => {
   const user = useSelector(state => state.user.profile);
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
-  const fullState = useSelector(state => state);
 
   useEffect(
     () => {
@@ -75,9 +72,9 @@ const Allergies = props => {
   );
 
   const generateAllergiesPdf = async () => {
-    const title = 'Allergies';
+    const title = 'Allergies and reactions';
     const subject = 'VA Medical Record';
-    const preface = `This list includes all allergies your VA providers have entered. If you have allergies that are missing from this list, contact your care team.\n\nShowing ${
+    const preface = `This list includes all allergies, reactions, and side-effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.\n\nShowing ${
       allergies.length
     } records from newest to oldest`;
     const pdfData = generatePdfScaffold(user, title, subject, preface);
@@ -93,7 +90,7 @@ const Allergies = props => {
             inline: true,
           },
           {
-            title: 'Reaction',
+            title: 'Signs and symptoms',
             value: processList(item.reaction),
             inline: true,
           },
@@ -105,11 +102,6 @@ const Allergies = props => {
           {
             title: 'Location',
             value: item.location,
-            inline: true,
-          },
-          {
-            title: 'Observed or reported',
-            value: item.observedOrReported,
             inline: true,
           },
           {
@@ -169,17 +161,16 @@ const Allergies = props => {
   return (
     <div id="allergies">
       <PrintHeader />
-      <h1 className="vads-u-margin--0">Allergies</h1>
+      <h1 className="vads-u-margin--0">Allergies and reactions</h1>
       <p className="page-description">
-        If you have allergies that are missing from this list, send a secure
-        message to your care team.
+        Review allergies, reactions, and side effects in your VA medical
+        records. This includes medication side effects (also called adverse drug
+        reactions).
       </p>
-      <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
-        className="page-description-link vads-u-margin-bottom--3 no-print"
-      >
-        Compose a message on the My HealtheVet website
-      </a>
+      <p className="page-description">
+        If you have allergies that are missing from this list, tell your care
+        team at your next appointment.
+      </p>
       {!accessAlert && (
         <>
           <PrintDownload
