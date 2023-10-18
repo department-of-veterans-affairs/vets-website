@@ -30,11 +30,6 @@ describe('Secure Messaging Delete Reply Draft', () => {
         messageDetails,
         `\n\n\nName\nTitleTest${testMessageBody}`,
       );
-      cy.log(
-        `the message details after saveReplyDraft ${JSON.stringify(
-          messageDetails,
-        )}`,
-      );
     });
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
