@@ -53,7 +53,6 @@ describe('draftDetailsReducer reducer', () => {
     mockApiRequest(messageResponse);
     await store.dispatch(saveDraft(draftData, 'auto'));
     expect(store.getState().draftMessage).to.deep.equal({
-      attachments: undefined,
       ...messageResponse.data.attributes,
     });
   });
@@ -83,7 +82,6 @@ describe('draftDetailsReducer reducer', () => {
       isSaving: false,
       saveError: null,
       draftMessage: {
-        attachments: undefined,
         ...initialState.draftMessage,
         ...draftData,
       },
