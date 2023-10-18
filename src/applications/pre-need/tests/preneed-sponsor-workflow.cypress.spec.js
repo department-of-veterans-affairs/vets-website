@@ -119,7 +119,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Preparer Contact Information Page
     cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
+      'label[for="root_application_applicant_applicantRelationshipToClaimant_1input"]',
     );
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
