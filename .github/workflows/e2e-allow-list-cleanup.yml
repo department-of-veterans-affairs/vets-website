@@ -43,22 +43,19 @@ jobs:
       - name: Get list of existing specs in vets-website
         run: node script/github-actions/export-test-lists.js
 
-      - name: List files
-        run: ls -a
-
       - name: Archive E2E spec list
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: e2e-spec-list
-          path: qa-standards-dashboard-data/e2e_spec_list.json
+          path: ./e2e_spec_list.json
 
       - name: Archive Unit Test spec list
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-spec-list
-          path: qa-standards-dashboard-data/unit_test_spec_list.json
+          path: ./unit_test_spec_list.json
 
       - name: Init Dashboard Data Repo
         # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
