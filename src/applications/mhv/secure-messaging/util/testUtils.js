@@ -13,9 +13,23 @@ export const getByBrokenText = (text, container) => {
   });
 };
 
-export const selectVaRadio = (container, label) => {
+export const selectVaSelect = (container, value, selector = 'va-select') => {
   const changeEvent = new CustomEvent('selected', {
-    detail: { value: label },
+    detail: { value },
   });
-  $('va-radio', container).__events.vaValueChange(changeEvent);
+  $(selector, container).__events.vaSelect(changeEvent);
+};
+
+export const selectVaDate = (container, value, selector = 'va-date') => {
+  const changeEvent = new CustomEvent('selected', {
+    detail: { detail: value },
+  });
+  $(selector, container).__events.dateChange(changeEvent);
+};
+
+export const selectVaRadio = (container, value, selector = 'va-radio') => {
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value },
+  });
+  $(selector, container).__events.vaValueChange(changeEvent);
 };

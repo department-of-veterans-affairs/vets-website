@@ -94,9 +94,16 @@ export const getContent = (appName = 'application') => ({
   state: 'State',
   province: 'Province',
   postal: 'Postal code',
+  zipCode: 'Zip code',
 
   // Error on review & submit
   missingEmailError: 'Missing email address',
+  missingCountry: 'Missing country',
+  missingStreetAddress: 'Missing street address',
+  missingCity: 'Missing city',
+  missingStateOrProvince: isUS => `Missing ${isUS ? 'state' : 'province'}`,
+  // international postal code is optional
+  missingZip: isUS => (isUS ? 'Missing zip code' : ''),
 });
 
 export const CONTACT_INFO_PATH = 'contact-information';
