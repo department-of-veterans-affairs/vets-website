@@ -65,7 +65,7 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Veteran’s Personal Information',
+      title: 'Veteran’s Contact Information',
       pages: {
         mailingAddress: {
           title: contactInformation.unauthMailingAddress.title,
