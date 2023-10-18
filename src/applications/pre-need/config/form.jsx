@@ -53,8 +53,8 @@ import {
   ssnDashesUI,
   veteranUI,
   contactInfoDescription,
-  applicantContactInfoDescriptionNonVetNOTPROD,
-  applicantContactInfoDescriptionVetNOTPROD,
+  applicantContactInfoDescriptionNonVet,
+  applicantContactInfoDescriptionVet,
   authorizedAgentDescription,
   veteranRelationshipDescription,
   spouseRelationshipDescription,
@@ -129,8 +129,8 @@ const applicantContactInfoSubheader = (
 function ApplicantContactInfoDescription() {
   const data = useSelector(state => state.form.data || {});
   return isVeteran(data)
-    ? applicantContactInfoDescriptionVetNOTPROD
-    : applicantContactInfoDescriptionNonVetNOTPROD;
+    ? applicantContactInfoDescriptionVet
+    : applicantContactInfoDescriptionNonVet;
 }
 
 const formConfig = {

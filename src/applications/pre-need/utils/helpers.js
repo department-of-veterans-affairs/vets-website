@@ -73,7 +73,8 @@ export const contactInfoDescription = (
   </va-additional-info>
 );
 
-export const applicantContactInfoDescriptionVetNOTPROD = (
+// do not render with a prod flag
+export const applicantContactInfoDescriptionVet = (
   <va-additional-info trigger="Why do we need your contact details?">
     <p>
       We may reach out by phone if we need more information about your
@@ -86,7 +87,8 @@ export const applicantContactInfoDescriptionVetNOTPROD = (
   </va-additional-info>
 );
 
-export const applicantContactInfoDescriptionNonVetNOTPROD = (
+// do not render with a prod flag
+export const applicantContactInfoDescriptionNonVet = (
   <va-additional-info trigger="Why do we need the applicant’s contact details?">
     <p>
       We may reach out by phone if we need more information about the
