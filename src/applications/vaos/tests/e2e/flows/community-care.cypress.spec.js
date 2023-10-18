@@ -11,7 +11,7 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   mockAppointmentApi,
-  mockVamcEhr,
+  mockVamcEhrApi,
   mockGetEligibilityCC,
   mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
@@ -28,7 +28,7 @@ describe('VAOS community care flow using VAOS service', () => {
     mockLoginApi();
     mockSchedulingConfigurationApi();
     mockUserTransitionAvailabilities();
-    mockVamcEhr();
+    mockVamcEhrApi();
     mockAppointmentCreateApi();
 
     cy.visit(rootUrl);

@@ -13,7 +13,7 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   mockEligibilityApi,
-  mockVamcEhr,
+  mockVamcEhrApi,
   mockFacilityApi,
   mockAppointmentApi,
   mockAppointmentCreateApi,
@@ -67,7 +67,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: true,
       isRequest: true,
     });
-    mockVamcEhr({ isCerner: true });
+    mockVamcEhrApi({ isCerner: true });
     const data = [
       {
         id: '983',
@@ -189,7 +189,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: false,
       isRequest: true,
     });
-    mockVamcEhr();
+    mockVamcEhrApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -308,7 +308,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: false,
       isRequest: true,
     });
-    mockVamcEhr();
+    mockVamcEhrApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
