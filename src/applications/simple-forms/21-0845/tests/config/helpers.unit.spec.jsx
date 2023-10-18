@@ -10,8 +10,8 @@ const {
   uiSchema,
 } = formConfig.chapters.disclosureInfoChapter.pages.organizationNamePage;
 
-describe('should render', async () => {
-  it('should render', async () => {
+describe('should perform a scroll correctly', async () => {
+  it('should perform a scroll correctly', async () => {
     const { container } = render(
       <div>
         <h2 id="nav-form-header">Header</h2>
