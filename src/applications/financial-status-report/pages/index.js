@@ -69,7 +69,6 @@ import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhanced
 import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
-import * as expensesExplainer from './expenses/expensesExplainer';
 import * as creditCardBills from './expenses/creditCardBills';
 import * as installmentContracts from './expenses/repayments/installmentContracts';
 
@@ -144,7 +143,6 @@ export {
   resolutionExplainer,
   householdExpensesChecklist,
   householdExpensesInputList,
-  expensesExplainer,
   enhancedBankruptcyHistoryRecords,
   creditCardBills,
   installmentContracts,
