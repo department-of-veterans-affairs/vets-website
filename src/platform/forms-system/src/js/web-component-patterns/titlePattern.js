@@ -34,10 +34,6 @@ export const titleUI = (title, description) => {
         )}
       </>
     ),
-    // 'ui:description': a => {
-    //   console.log('a', a);
-    //   return <div>hi</div>;
-    // },
   };
 };
 
