@@ -11,9 +11,10 @@ import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
 import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
-import { routesForNav } from '../routesForNav';
+import { getRoutesForNav } from '../routesForNav';
 import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
@@ -46,6 +47,11 @@ const ProfileWrapper = ({
   profileUseHubPage,
 }) => {
   const location = useLocation();
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
+
+  const routesForNav = getRoutesForNav(profileContactsToggle);
 
   const layout = useMemo(
     () => {

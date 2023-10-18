@@ -1,18 +1,19 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import { Edit } from './components/edit/Edit';
-import { routesForNav } from './routesForNav';
+import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 
 // conditionally add the edit route based on feature toggle
 // conditionally add the profile hub route based on feature toggle
 const getRoutes = (
-  { useFieldEditingPage, profileUseHubPage } = {
+  { profileContactsPage, useFieldEditingPage, profileUseHubPage } = {
+    profileContactsPage: false,
     useFieldEditingPage: false,
     profileUseHubPage: false,
   },
 ) => {
   return [
-    ...routesForNav,
+    ...getRoutesForNav(profileContactsPage),
     ...(useFieldEditingPage
       ? [
           {
