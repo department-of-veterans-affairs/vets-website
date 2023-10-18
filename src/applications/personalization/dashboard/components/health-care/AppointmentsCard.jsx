@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
@@ -8,7 +8,7 @@ import { getAppointmentTimezone } from '../../utils/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
-  const start = moment.parseZone(nextAppointment?.startsAt);
+  const startsAt = new Date(nextAppointment?.startsAt);
   let locationName;
 
   const timeZone = getAppointmentTimezone(nextAppointment);
@@ -41,10 +41,10 @@ export const AppointmentsCard = ({ appointments }) => {
       <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
         <h3 className="vads-u-margin-top--0">Next appointment</h3>
         <p className="vads-u-margin-bottom--1">
-          {start.format('dddd, MMMM Do, YYYY')}
+          {format(startsAt, 'eeee, MMMM do, yyyy')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`}
+          {`Time: ${format(startsAt, 'h:mm aaa')} ${timeZone.abbreviation}`}
         </p>
         {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink
