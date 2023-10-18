@@ -31,7 +31,7 @@ const CareSummariesAndNotesListItem = props => {
         {record.location !== EMPTY_FIELD && <div>{record.location}</div>}
         <div>
           <span className="field-label">
-            {record.isDischargeSummary ? 'Signed by ' : 'Admitted by '}
+            {isDischargeSummary ? 'Signed by ' : 'Admitted by '}
           </span>{' '}
           {record.physician}
         </div>

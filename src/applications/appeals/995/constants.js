@@ -101,9 +101,6 @@ export const errorMessages = {
     upload: 'You must provide a password to decrypt this file',
   },
 
-  missingEmail: 'You must provide an email address',
-  missingPhone: 'You must provide a home or mobile phone number',
-  missingAddress: 'You must provide an address',
   missingPrimaryPhone: 'You must choose a primary phone number',
   invalidZip:
     'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
