@@ -116,9 +116,8 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      PastAppointmentListPage.visit()
-        .validate()
-        .selectDateRange(1);
+      PastAppointmentListPage.visit().validate();
+      PastAppointmentListPage.selectDateRange(1);
 
       // Assert
       // Constrain search within list group.
