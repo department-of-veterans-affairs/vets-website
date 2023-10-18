@@ -25,6 +25,8 @@ describe('should render', async () => {
       </div>,
     );
 
+    // This may not be actually performing a practical test
+    // but it just helps code coverage to run it
     pageFocusScroll()();
 
     await waitFor(() => {
