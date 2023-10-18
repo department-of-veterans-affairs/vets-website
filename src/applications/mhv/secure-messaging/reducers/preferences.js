@@ -15,7 +15,11 @@ export const preferencesReducer = (state = initialState, action) => {
         ...state,
         signature: action.payload,
       };
-    case 'b':
+    case Actions.Preferences.GET_USER_SIGNATURE_ERROR:
+      return {
+        ...state,
+        signature: undefined,
+      };
     default:
       return state;
   }
