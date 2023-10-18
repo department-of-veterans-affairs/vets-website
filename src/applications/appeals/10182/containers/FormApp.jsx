@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { selectProfile, isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
@@ -34,7 +34,6 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
 }) => {
-  // Update profile data changes in the form data dynamically
   useEffect(
     () => {
       if (loggedIn) {
@@ -165,15 +164,11 @@ FormApp.propTypes = {
     pathname: PropTypes.string,
   }),
   loggedIn: PropTypes.bool,
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({}),
-  }),
   setFormData: PropTypes.func,
   showPart3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  profile: selectProfile(state),
   formData: state.form?.data || {},
   showPart3: nodPart3UpdateFeature(state),
   contestableIssues: state.contestableIssues,
