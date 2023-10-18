@@ -20,7 +20,7 @@ import {
   validateTitle10StartDate,
 } from '../validations';
 
-import disabilityLabels from '../content/disabilityLabels';
+import { getDisabilityLabels } from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
 
 const formatDate = date => format(date, 'yyyy-MM-dd');
@@ -344,12 +344,15 @@ describe('526 All Claims validations', () => {
     });
     it('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
-      validateDisabilityName(err, disabilityLabels[7100]);
+      validateDisabilityName(err, getDisabilityLabels()[7100]);
       expect(err.addError.called).to.be.false;
     });
     it('should not add error when disability is in list but capitalization is different', () => {
       const err = { addError: sinon.spy() };
-      validateDisabilityName(err, capitalizeEachWord(disabilityLabels[7100]));
+      validateDisabilityName(
+        err,
+        capitalizeEachWord(getDisabilityLabels()[7100]),
+      );
       expect(err.addError.called).to.be.false;
     });
     it('should not add error when disability not in list but length OK', () => {

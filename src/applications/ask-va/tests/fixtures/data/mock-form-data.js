@@ -58,3 +58,11 @@ export const getData = ({
     dispatch: () => {},
   },
 });
+
+export const userData = {
+  userFullName: {
+    first: 'Peter',
+    middle: 'B',
+    last: 'Parker',
+  },
+};
