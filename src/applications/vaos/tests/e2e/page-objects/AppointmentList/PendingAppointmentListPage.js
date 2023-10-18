@@ -7,6 +7,9 @@ export class PendingAppointmentListPage extends AppointmentListPage {
   }
 
   validate() {
+    // Wait for appointments to load
+    cy.wait(['@v2:get:appointments']);
+
     cy.findByText(/Pending appointments/i).should('be.ok');
     return this;
   }

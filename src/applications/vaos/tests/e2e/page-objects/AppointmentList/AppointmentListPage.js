@@ -12,6 +12,9 @@ export class AppointmentListPage extends PageObject {
   }
 
   validate() {
+    // Wait for appointments to load
+    cy.wait(['@v2:get:appointments']);
+
     cy.get('h2')
       .should('be.visible')
       .and('contain', 'Appointments');
