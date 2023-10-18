@@ -43,6 +43,9 @@ jobs:
       - name: Get list of existing specs in vets-website
         run: node script/github-actions/export-test-lists.js
 
+      - name: List files
+        run: ls -a
+
       - name: Archive E2E spec list
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
