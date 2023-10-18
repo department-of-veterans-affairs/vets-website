@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { sendErrorToSentry } from '../../util/helpers';
+import { makePdf } from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -84,13 +83,12 @@ const ProgressNoteDetails = props => {
       ],
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf('medicalRecords', 'care_notes_report', scaffold);
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Care Note details');
-    }
+    makePdf(
+      'care_notes_report',
+      scaffold,
+      'Care Note details',
+      runningUnitTest,
+    );
   };
 
   const download = () => {
