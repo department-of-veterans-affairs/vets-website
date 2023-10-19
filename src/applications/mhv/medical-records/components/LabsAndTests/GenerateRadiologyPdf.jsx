@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
-import { sendErrorToSentry } from '../../util/helpers';
+import { makePdf } from '../../util/helpers';
 
 const GenerateRadiologyPdf = async (record, runningUnitTest) => {
   const formattedDate = formatDateLong(record?.date);
@@ -68,13 +67,7 @@ const GenerateRadiologyPdf = async (record, runningUnitTest) => {
     },
   };
 
-  try {
-    if (!runningUnitTest) {
-      await generatePdf('medicalRecords', 'radiology_report', pdfData);
-    }
-  } catch (error) {
-    sendErrorToSentry(error, 'Radiology');
-  }
+  makePdf('radiology_report', pdfData, 'Radiology', runningUnitTest);
 };
 
 export default GenerateRadiologyPdf;
