@@ -69,15 +69,13 @@ const PersonalHealthCareContacts = () => {
           trigger="Learn how to update your personal health care contact information"
           uswds
         >
-          <p>
-            If this information isn’t correct, here’s how to update it:
-            <ul className="vads-u-margin-y--0">
-              <li>Ask a staff member at your next appointment, or</li>
-              <li>
-                Call us at <HelpDeskContact />. We’re here 24/7.
-              </li>
-            </ul>
-          </p>
+          If this information isn’t correct, here’s how to update it:
+          <ul className="vads-u-margin-y--0">
+            <li>Ask a staff member at your next appointment, or</li>
+            <li>
+              Call us at <HelpDeskContact />. We’re here 24/7.
+            </li>
+          </ul>
         </va-additional-info>
       </div>
 
