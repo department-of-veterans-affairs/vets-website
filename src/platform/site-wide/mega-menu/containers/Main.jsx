@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 // Relative imports.
 import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -185,12 +187,14 @@ const mapStateToProps = (state, ownProps) => {
 
   // If user is not logged in, open login modal on current page with a redirect param to my-va
   if (!loggedIn) {
-    MY_VA_LINK.href = `${
-      window.location.href.split('?')[0]
-    }?next=%2Fmy-va%2F${useOAuth}`;
+    const urlWithoutParams = window.location.href.split('?')[0];
+    MY_VA_LINK.href = `${urlWithoutParams}?next=%2Fmy-va%2F${useOAuth}`;
   }
 
-  defaultLinks.push(MY_VA_LINK);
+  const showMyVALink = toggleValues(state)[
+    FEATURE_FLAG_NAMES.myVaShowHeaderLink
+  ];
+  if (showMyVALink) defaultLinks.push(MY_VA_LINK);
 
   const authenticatedLinks = isLandingPageEnabled(state)
     ? [{ ...MY_HEALTH_LINK }]
