@@ -137,6 +137,8 @@ export const pageTitles = {
 };
 
 export const allergyTypes = {
-  OBSERVED: 'Observed (your provider observed the reaction in person)',
-  REPORTED: 'Reported (you told your provider about the reaction)',
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
