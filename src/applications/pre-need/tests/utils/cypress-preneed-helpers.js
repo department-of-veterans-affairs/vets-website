@@ -93,28 +93,6 @@ function fillApplicantInfo(
   }
 }
 
-// Fills all fields on the Applicant Information page , performs axe check, continues to next page
-function fillNonVeteranApplicantInfo(name, ssn, dob, relationship) {
-  cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
-
-  cy.injectAxeThenAxeCheck();
-  clickContinue();
-
-  cy.get('input[name="root_application_claimant_name_first"]');
-  validateProgressBar('1');
-  cy.fillName('root_application_claimant_name', name);
-  cy.fill('input[name="root_application_claimant_ssn"]', ssn);
-  cy.fillDate('root_application_claimant_dateOfBirth', dob);
-
-  cy.axeCheck();
-  clickContinue();
-
-  cy.url().should(
-    'not.contain',
-    '/form-10007-apply-for-eligibility/applicant-information',
-  );
-}
-
 // Fills in any existing military history data, performs axe check, continues to next page
 function fillMilitaryHistory(serviceRecord) {
   serviceRecord.forEach((tour, index) => {
@@ -290,7 +268,6 @@ module.exports = {
   visitIntro,
   validateProgressBar,
   fillApplicantInfo,
-  fillNonVeteranApplicantInfo,
   fillMilitaryHistory,
   fillPreviousName,
   fillBenefitSelection,
