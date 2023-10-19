@@ -15,7 +15,7 @@ describe('Income Limits', () => {
       h.clickCurrent();
 
       // Zip code
-      cy.url().should('contain', '/health-ccare/income-limits/zip');
+      cy.url().should('contain', '/health-care/income-limits/zip');
       h.verifyElement(h.ZIPINPUT);
       cy.injectAxeThenAxeCheck();
       h.typeInInput(h.ZIPINPUT, h.ZIP);
