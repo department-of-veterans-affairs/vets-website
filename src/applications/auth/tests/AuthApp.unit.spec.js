@@ -168,20 +168,20 @@ describe('AuthApp', () => {
 
   it('should fire redirect & send user to non-homepage route', () => {
     global.window = { location: { replace: sinon.spy() } };
+    const returnUrl = 'http://localhost/education/eligibility';
     const { wrapper, instance } = generateAuthApp({
       query: { type: 'idme' },
       hasSession: true,
-      returnUrl: 'http://localhost/education/eligibility',
+      returnUrl,
     });
-    const spy = sinon.spy(instance, 'redirect');
+    const redirectSpy = sinon.spy(instance, 'redirect');
+    const checkReturnUrlSpy = sinon.spy(instance, 'checkReturnUrl');
     instance.redirect();
+    instance.checkReturnUrl(returnUrl);
 
-    expect(spy.called).to.be.true;
-    expect(
-      global.window.location.replace.calledWith(
-        'http://localhost/education/eligibility',
-      ),
-    );
+    expect(redirectSpy.called).to.be.true;
+    expect(checkReturnUrlSpy.calledWith(returnUrl)).to.be.true;
+    expect(global.window.location.replace.calledWith(returnUrl));
     global.window = oldWindow;
     wrapper.unmount();
   });
@@ -200,6 +200,61 @@ describe('AuthApp', () => {
     expect(
       global.window.location.replace.calledWith('http://localhost/my-va/'),
     );
+    global.window = oldWindow;
+    wrapper.unmount();
+  });
+
+  it('should fire the redirect for eauth', () => {
+    global.window = { location: { replace: sinon.spy() } };
+    const returnUrl = 'http://int.eauth.va.gov/mhv-portal-web/eauth';
+    const { wrapper, instance } = generateAuthApp({
+      query: { type: 'idme' },
+      hasSession: true,
+      returnUrl,
+    });
+    const checkReturnUrlSpy = sinon.spy(instance, 'checkReturnUrl');
+    instance.checkReturnUrl(returnUrl);
+
+    expect(checkReturnUrlSpy.called).to.be.true;
+    expect(checkReturnUrlSpy.calledWith(true));
+    global.window = oldWindow;
+    wrapper.unmount();
+  });
+
+  it('should call `validateSession` if user has a session', () => {
+    global.window = { location: { replace: sinon.spy() } };
+    const { wrapper, instance } = generateAuthApp({
+      query: { type: 'idme' },
+      hasSession: true,
+    });
+
+    sinon.stub(instance, 'hasSession').returns(true);
+
+    const validateSessionStub = sinon.stub(instance, 'validateSession');
+    wrapper.setState({ hasError: false });
+    instance.componentDidMount();
+
+    expect(validateSessionStub.calledOnce).to.be.true;
+
+    validateSessionStub.restore();
+    global.window = oldWindow;
+    wrapper.unmount();
+  });
+
+  it('should call send a non-verified Cerner user to `/verify`', () => {
+    global.window = { location: { replace: sinon.spy() } };
+    const returnUrl = `https://staging-patientportal.myhealth.va.gov`;
+    const { wrapper, instance } = generateAuthApp({
+      query: { type: 'idme' },
+      hasSession: true,
+      returnUrl,
+    });
+
+    const cernerSpy = sinon.spy(instance, 'redirect');
+    instance.redirect({ verified: false });
+
+    expect(cernerSpy.called).to.be.true;
+    expect(global.window.location.replace.calledWith('/verify'));
     global.window = oldWindow;
     wrapper.unmount();
   });

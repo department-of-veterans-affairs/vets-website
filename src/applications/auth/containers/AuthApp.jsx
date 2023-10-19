@@ -20,10 +20,7 @@ import {
   SENTRY_TAGS,
   getAuthError,
 } from 'platform/user/authentication/errors';
-import {
-  hasSession,
-  setupProfileSession,
-} from 'platform/user/profile/utilities';
+import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import { requestToken } from 'platform/utilities/oauth/utilities';
 import { generateReturnURL } from 'platform/user/authentication/utilities';
@@ -76,7 +73,7 @@ export class AuthApp extends React.Component {
   componentDidMount() {
     if (this.state.hasError) {
       this.handleAuthError();
-    } else if (!this.state.hasError || hasSession()) {
+    } else if (!this.state.hasError) {
       this.validateSession();
     }
   }
@@ -110,12 +107,14 @@ export class AuthApp extends React.Component {
     });
   };
 
-  handleAuthSuccess = payload => {
+  handleAuthSuccess = ({ response = {}, skipToRedirect = false } = {}) => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const { loginType, requestId, code } = this.state;
-    const authMetrics = new AuthMetrics(loginType, payload, requestId, code);
+    const authMetrics = new AuthMetrics(loginType, response, requestId, code);
     authMetrics.run();
-    setupProfileSession(authMetrics.userProfile);
+    if (!skipToRedirect) {
+      setupProfileSession(authMetrics.userProfile);
+    }
     this.redirect(authMetrics.userProfile);
   };
 
@@ -193,7 +192,7 @@ export class AuthApp extends React.Component {
 
   // Fetch the user to get the login policy and validate the session.
   validateSession = async () => {
-    const { code, state, auth } = this.state;
+    const { code, state, auth, hasError, returnUrl } = this.state;
 
     if (code && state) {
       await this.handleTokenRequest({ code, state, csp: this.state.loginType });
@@ -201,15 +200,20 @@ export class AuthApp extends React.Component {
 
     if (auth === FORCE_NEEDED) {
       this.handleAuthForceNeeded();
+    } else if (!hasError && this.checkReturnUrl(returnUrl)) {
+      this.handleAuthSuccess({ skipToRedirect: true });
     } else {
       try {
         const response = await apiRequest('/user');
-        this.handleAuthSuccess(response);
+        this.handleAuthSuccess({ response });
       } catch (error) {
         this.handleAuthError(error);
       }
     }
   };
+
+  checkReturnUrl = passedUrl =>
+    Object.values(EXTERNAL_REDIRECTS).includes(passedUrl);
 
   generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
     recordEvent({ event });
