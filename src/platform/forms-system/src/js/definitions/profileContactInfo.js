@@ -40,7 +40,7 @@ import {
  * @property {String} emailKey=email - email key value set in ContactInfoKeys
  * @property {String[]} contactInfoRequiredKeys - array of key values in
  *  ContactInfoKeys that are to be required before proceeding
- * @property {String[]} contactInfoPageKey=confirmContactInfo - set page key
+ * @property {String} contactInfoPageKey=confirmContactInfo - set page key
  *  within the form config chapter
  * @property {String[]} included=['mobilePhone', 'homePhone', 'mailingAddress',
  *  'email'] - array of ContactInfoKeys to show on the contact info page
@@ -192,6 +192,32 @@ const profileContactInfo = ({
     // edit pages; only accessible via ContactInfo component links
     ...config,
   };
+};
+
+// review error settings
+/**
+ * Profile settings
+ * @typedef profileReviewErrorOverrideSettings
+ * @type {Object}
+ * @property {String} contactInfoChapterKey=infoPages - chapter in config/form
+ *  containing the contact info pages
+ * @property {String} contactInfoPageKey=confirmContactInfo - set page key
+ *  within the form config chapter
+ * @property {String} wrapperKey=veteran - wrapper key value set in
+ *  ContactInfoKeys
+ */
+export const profileReviewErrorOverride = ({
+  contactInfoChapterKey = 'infoPages',
+  contactInfoPageKey = 'confirmContactInfo',
+  wrapperKey = 'veteran',
+} = {}) => err => {
+  if (typeof err === 'string' && err.startsWith(wrapperKey)) {
+    return {
+      contactInfoChapterKey,
+      pageKey: contactInfoPageKey,
+    };
+  }
+  return null;
 };
 
 export default profileContactInfo;

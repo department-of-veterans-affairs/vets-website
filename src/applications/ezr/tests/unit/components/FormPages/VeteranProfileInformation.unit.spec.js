@@ -16,7 +16,7 @@ describe('ezr VeteranProfileInformation', () => {
       getState: () => ({
         form: {
           data: {
-            veteranSocialSecurityNumber: '211-11-1111',
+            veteranSocialSecurityNumber: '211111111',
           },
         },
         user: {

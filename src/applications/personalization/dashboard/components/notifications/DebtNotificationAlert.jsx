@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '~/platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import CTALink from '../CTALink';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { dismissNotificationById } from '../../../common/actions/notifications';
@@ -17,8 +17,9 @@ export const DebtNotificationAlert = ({
   notification,
   dismissNotification,
 }) => {
-  const createdAtFormatted = moment(notification.attributes.createdAt).format(
-    'dddd, MMM DD, YYYY',
+  const createdAtFormatted = format(
+    new Date(notification.attributes.createdAt),
+    'EEEE, MMM dd, yyyy',
   );
 
   return (

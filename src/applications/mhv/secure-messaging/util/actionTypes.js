@@ -7,7 +7,10 @@ export const Actions = {
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
   },
-  Category: { GET_LIST: 'SM_CATEGORY_GET_LIST' },
+  Category: {
+    GET_LIST: 'SM_CATEGORY_GET_LIST',
+    GET_LIST_ERROR: 'SM_CATEGORY_GET_LIST_ERROR',
+  },
   Draft: {
     GET: 'SM_DRAFT_GET',
     GET_LIST: 'SM_DRAFT_GET_LIST',
@@ -50,6 +53,7 @@ export const Actions = {
   },
   Preferences: {
     GET_USER_SIGNATURE: 'SM_GET_USER_SIGNATURE',
+    GET_USER_SIGNATURE_ERROR: 'SM_GET_USER_SIGNATURE_ERROR',
   },
   Search: {
     RUN_BASIC: 'SM_SEARCH_RUN_BASIC',
@@ -70,5 +74,6 @@ export const Actions = {
   },
   TriageTeam: {
     GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',
+    GET_LIST_ERROR: 'SM_TRIAGE_TEAM_GET_LIST_ERROR',
   },
 };

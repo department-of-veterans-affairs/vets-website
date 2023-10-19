@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { PURPOSE_TEXT } from '../../../utils/constants';
+import { PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 
 function handleClick(history, pageFlow) {
@@ -35,8 +35,9 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">
-              {PURPOSE_TEXT.find(purpose => purpose.id === reasonForAppointment)
-                ?.short || 'Additional details'}
+              {PURPOSE_TEXT_V2.find(
+                purpose => purpose.id === reasonForAppointment,
+              )?.short || 'Additional details'}
             </h3>
             <span className="vaos-u-word-break--break-word">
               {reasonAdditionalInfo}

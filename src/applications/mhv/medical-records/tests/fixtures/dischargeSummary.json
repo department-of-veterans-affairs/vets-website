@@ -16,8 +16,8 @@
         "coding": [
             {
                 "system": "http://loinc.org",
-                "code": "11505-5",
-                "display": "Physician procedure note"
+                "code": "18842-5",
+                "display": "Discharge summary"
             }
         ]
     },
@@ -56,7 +56,8 @@
     "context": {
         "related": [
             {
-                "reference": "Location/953"
+                "reference": "Location/953",
+                "text": "The library"
             }
         ]
     },
