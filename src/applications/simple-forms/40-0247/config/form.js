@@ -186,14 +186,14 @@ const formConfig = {
       pages: {
         additionalCertificatesYesNoPage: {
           path: 'additional-certificates-yes-no',
-          title: 'Yes or No',
+          title: 'Additional certificates: Yes or No',
           uiSchema: addlCertsYNPg.uiSchema,
           schema: addlCertsYNPg.schema,
           pageClass: 'additional-certificates-yes-no',
         },
         additionalCertificatesRequestPage: {
           path: 'additional-certificates-request',
-          title: 'Address and quantity',
+          title: 'Additional certificates: Address and quantity',
           depends: formData => formData.additionalCertificates === true,
           uiSchema: addlCertsReqPg.uiSchema,
           schema: addlCertsReqPg.schema,
