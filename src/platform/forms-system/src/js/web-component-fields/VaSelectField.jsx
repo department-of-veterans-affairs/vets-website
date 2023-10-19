@@ -76,7 +76,7 @@ VaSelectField.propTypes = {
   childrenProps: PropTypes.object,
   description: PropTypes.string,
   error: PropTypes.string,
-  index: PropTypes.number,
+  index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   label: PropTypes.string,
   required: PropTypes.bool,
   textDescription: PropTypes.string,
