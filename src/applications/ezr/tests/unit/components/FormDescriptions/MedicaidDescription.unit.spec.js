@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import ContactInfoDescription from '../../../../components/FormDescriptions/ContactInfoDescription';
+import MedicaidDescription from '../../../../components/FormDescriptions/MedicaidDescription';
 
-describe('ezr <ContactInfoDescription>', () => {
+describe('ezr <MedicaidDescription>', () => {
   describe('when the component renders', () => {
     it('should render with content', () => {
-      const { container } = render(ContactInfoDescription);
+      const { container } = render(MedicaidDescription);
       expect(container).to.not.be.empty;
     });
   });
