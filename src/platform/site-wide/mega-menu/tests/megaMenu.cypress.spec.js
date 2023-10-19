@@ -7,6 +7,7 @@
  */
 // Relative imports.
 import { mockUser } from 'applications/personalization/profile/tests/fixtures/users/user.js';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 Cypress.Commands.add(
   'checkMenuItem',
@@ -188,6 +189,20 @@ const testUrl = Cypress.env('app_url') || '/';
 const usingHomepageUrl = testUrl === '/';
 
 describe('Mega Menu', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.myVaShowHeaderLink,
+            value: true,
+          },
+        ],
+      },
+    });
+  });
+
   context('on desktop', () => {
     beforeEach(() => {
       cy.viewport(1280, 720);
