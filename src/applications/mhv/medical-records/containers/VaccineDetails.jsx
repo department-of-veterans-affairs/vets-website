@@ -69,7 +69,7 @@ const VaccineDetails = props => {
         );
       }
     },
-    [dispatch, record, vaccineId],
+    [dispatch, record],
   );
 
   useEffect(
