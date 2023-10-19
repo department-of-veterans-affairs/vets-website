@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { validateZipCode } from '../../config/address-schema';
-
-const DOMESTIC_BASE_ERROR =
-  'This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
-const INVALID_ZIP_ERROR =
-  'Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.';
+import {
+  validateZipCode,
+  INVALID_ZIP_ERROR,
+  DOMESTIC_BASE_ERROR,
+} from '../../config/address-schema';
 
 describe('Zip Code Validation', () => {
   it('Invalid Zip Code Tests', () => {

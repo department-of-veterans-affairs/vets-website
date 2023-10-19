@@ -94,44 +94,29 @@ const getOldFormDataPath = (path, index) => {
   return path.slice(indexToSlice);
 };
 
+const MILITARY_BASE_ZIP_REGEX = {
+  AA: '^3{1}4{1}0{1}[0-9]{2}',
+  AE: '^0{1}9{1}[0-9]{3}',
+  AP: '^9{1}6{1}[2-6]{1}[0-9]{2}',
+};
+
+export const DOMESTIC_BASE_ERROR =
+  'This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
+export const INVALID_ZIP_ERROR =
+  'Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.';
+
 export const validateZipCode = (zipCode, stateCode, errors) => {
-  switch (stateCode) {
-    case 'AA': {
-      if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
-        errors.addError(
-          `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
-        );
-      }
-      return true;
-    }
-    case 'AE': {
-      if (!zipCode.match('^0{1}9{1}[0-9]{3}')) {
-        errors.addError(
-          `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
-        );
-      }
-      return true;
-    }
-    case 'AP': {
-      if (!zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}')) {
-        errors.addError(
-          `Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.`,
-        );
-      }
-      return true;
-    }
-    default:
-      if (
-        !zipCode.match('^9{1}6{1}[2-6]{1}[0-9]{2}') &&
-        !zipCode.match('^0{1}9{1}[0-9]{3}') &&
-        !zipCode.match('^3{1}4{1}0{1}[0-9]{2}')
-      ) {
-        errors.addError(
-          `This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.`,
-        );
-      }
-      return true;
+  if (
+    stateCode in MILITARY_BASE_ZIP_REGEX &&
+    !zipCode.match(MILITARY_BASE_ZIP_REGEX[stateCode])
+  ) {
+    errors.addError(INVALID_ZIP_ERROR);
+  } else if (
+    !Object.values(MILITARY_BASE_ZIP_REGEX).some(regex => zipCode.match(regex))
+  ) {
+    errors.addError(DOMESTIC_BASE_ERROR);
   }
+  return true;
 };
 
 // Temporary storage for city & state if military base checkbox is toggled more
