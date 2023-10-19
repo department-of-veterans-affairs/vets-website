@@ -1,13 +1,13 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import vaccines from '../tests/fixtures/vaccines.json';
-import vaccine from '../tests/fixtures/vaccine.json';
 import notes from '../tests/fixtures/notes.json';
 import note from '../tests/fixtures/dischargeSummary.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
+import vaccines from '../tests/fixtures/vaccines.json';
+import vaccine from '../tests/fixtures/vaccine.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
