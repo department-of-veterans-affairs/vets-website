@@ -18,6 +18,16 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
     cy.injectAxe();
+    cy.get('input[name="root_application_claimant_relationshipToVet"]');
+    errorCheck(requiredHelpers.relationshipToVetErrors);
+
+    cy.selectRadio(
+      'root_application_claimant_relationshipToVet',
+      testData.data.application.claimant.relationshipToVet,
+    );
+
+    cy.axeCheck();
+    preneedHelpers.clickContinue();
 
     // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
@@ -40,10 +50,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.fillDate(
       'root_application_claimant_dateOfBirth',
       testData.data.application.claimant.dateOfBirth,
-    );
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
-      testData.data.application.claimant.relationshipToVet,
     );
 
     preneedHelpers.clickContinue();
