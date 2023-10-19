@@ -106,13 +106,6 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              What it looks like
-            </h3>
-            <p>
-              Your medication may look different when you get a refill. Find the
-              most recent image in your refill history.
-            </p>
           </div>
 
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
@@ -147,18 +140,18 @@ const VaPrescription = prescription => {
                   Image of the medication or supply
                 </h4>
                 <div className="no-print">
-                  <va-additional-info trigger="Review image">
-                    {entry.cmopNdcNumber ? (
+                  {entry.cmopNdcNumber ? (
+                    <va-additional-info trigger="Review image">
                       <img
                         src={getImageUri(entry.cmopNdcNumber)}
                         alt={entry.prescriptionName}
                         width="350"
                         height="350"
                       />
-                    ) : (
-                      <p>No Image Available</p>
-                    )}
-                  </va-additional-info>
+                    </va-additional-info>
+                  ) : (
+                    <p className="vads-u-margin--0">No Image Available</p>
+                  )}
                 </div>
                 <div className="print-only">
                   {entry.cmopNdcNumber ? (
