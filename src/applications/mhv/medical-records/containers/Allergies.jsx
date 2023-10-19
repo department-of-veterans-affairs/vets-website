@@ -129,7 +129,7 @@ const Allergies = props => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox />;
+      return <AccessTroubleAlertBox alertType="Allergy" />;
     }
     if (allergies?.length > 0) {
       return <RecordList records={allergies} type={recordType.ALLERGIES} />;
