@@ -1,3 +1,4 @@
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -14,6 +15,10 @@ import {
   clearBotSessionStorage,
   IS_RX_SKILL,
 } from '../chatbox/utils';
+import {
+  cardActionMiddleware,
+  ifMissingParamsCallSentry,
+} from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -25,10 +30,22 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const { virtualAgentDecisionLetterDownloadTracking } = useSelector(
+    state => {
+      return {
+        virtualAgentDecisionLetterDownloadTracking:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.virtualAgentDecisionLetterDownloadTracking
+          ],
+      };
+    },
+    state => state.featureToggles,
+  );
 
   const store = useMemo(
-    () =>
-      createStore(
+    () => {
+      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+      return createStore(
         {},
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
@@ -38,7 +55,8 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
         ),
-      ),
+      );
+    },
     [createStore],
   );
   let directLineToken = token;
@@ -81,9 +99,9 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const BUTTONS = 49.2;
   const styleOptions = {
     hideUploadButton: true,
-    botAvatarBackgroundColor: '#003e73', // color-primary-darker
+    botAvatarBackgroundColor: '#003e73',
     botAvatarInitials: 'VA',
-    userAvatarBackgroundColor: '#003e73', // color-primary-darker
+    userAvatarBackgroundColor: '#003e73',
     userAvatarInitials: 'You',
     primaryFont: 'Source Sans Pro, sans-serif',
     bubbleBorderRadius: 5,
@@ -104,7 +122,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
     microphoneButtonColorOnDictate: 'rgb(255, 255, 255)',
-  };
+  }; // color-primary-darker // color-primary-darker
 
   const handleTelemetry = event => {
     const { name } = event;
@@ -125,9 +143,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       environment.isDev() || environment.isLocalhost() ? 'eastus' : 'eastus2';
 
     async function callVirtualAgentVoiceTokenApi() {
-      return apiRequest('/virtual_agent_speech_token', {
-        method: 'POST',
-      });
+      return apiRequest('/virtual_agent_speech_token', { method: 'POST' });
     }
     const speechToken = await callVirtualAgentVoiceTokenApi();
     return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
@@ -205,6 +221,9 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
+        cardActionMiddleware={cardActionMiddleware(
+          virtualAgentDecisionLetterDownloadTracking,
+        )}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

@@ -1,4 +1,9 @@
-import AddressPage from './page-objects/AddressPage';
+import {
+  fillAddressForm,
+  loadPage,
+  saveForm,
+  validateSavedForm,
+} from './page-objects/AddressPage';
 
 describe('Personal and contact information', () => {
   describe('when entering an international address', () => {
@@ -9,11 +14,10 @@ describe('Personal and contact information', () => {
         city: 'Amsterdam',
         zipCodeInt: '1012 JS',
       };
-      const addressPage = new AddressPage();
-      addressPage.loadPage('international');
-      addressPage.fillAddressForm(formFields);
-      addressPage.saveForm();
-      addressPage.validateSavedForm(formFields, true, null, [
+      loadPage('international');
+      fillAddressForm(formFields);
+      saveForm();
+      validateSavedForm(formFields, true, null, [
         'Noord-Holland',
         'Netherlands',
       ]);
@@ -30,10 +34,10 @@ describe('Personal and contact information', () => {
         province: 'province Δ',
         zipCodeInt: '1012 JS ¡',
       };
-      const addressPage = new AddressPage();
-      addressPage.loadPage('international');
-      addressPage.fillAddressForm(formFields);
-      addressPage.saveForm();
+
+      loadPage('international');
+      fillAddressForm(formFields);
+      saveForm();
 
       cy.findAllByText(
         'Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods',

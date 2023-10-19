@@ -18,7 +18,7 @@ function ViewDependentsList(props) {
   const manageDependentsToggle = props?.manageDependentsToggle ?? null;
   if (props.loading) {
     mainContent = (
-      <va-loading-indicator message="Loading your dependents" setFocus />
+      <va-loading-indicator message="Loading your dependents" set-focus />
     );
   } else if (props.dependents && props.dependents.length > 0) {
     mainContent = props.dependents.map((dependent, index) => (

@@ -2,15 +2,17 @@
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-import {
-  cernerUser,
-  generateUserWithServiceProvider,
-} from '../../../mocks/api/user';
+import { cernerUser, generateUser } from '../../../mocks/api/user';
 
 class LandingPage {
   constructor() {
     this.pageUrl = '/my-health/';
   }
+
+  unreadMessageIndicator = () =>
+    cy.get('[aria-label="You have unread messages. Go to your inbox."]', {
+      timeout: Timeouts.slow,
+    });
 
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
@@ -26,8 +28,8 @@ class LandingPage {
     cy.url().should('not.match', /my-health/);
   };
 
-  visitPage = ({ serviceProvider = 'idme' } = {}) => {
-    cy.login(generateUserWithServiceProvider({ serviceProvider }));
+  visitPage = ({ serviceProvider = 'idme', facilities } = {}) => {
+    cy.login(generateUser({ serviceProvider, facilities }));
     cy.visit(this.pageUrl);
   };
 

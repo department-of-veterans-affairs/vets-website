@@ -106,11 +106,18 @@ export const normalizePath = path => {
 };
 
 export const getRouteInfoFromPath = (path, routes) => {
+  const normalizedPath = normalizePath(path);
   const returnRouteInfo = routes.find(({ path: routePath }) => {
-    return routePath === path;
+    return routePath === normalizedPath;
   });
   if (!returnRouteInfo) {
-    return { ...routes[0], name: 'profile' };
+    throw new Error('No route found for path');
   }
   return returnRouteInfo;
 };
+
+const CLIENT_ERROR_REGEX = /^4\d{2}$/;
+const SERVER_ERROR_REGEX = /^5\d{2}$/;
+
+export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
+export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
