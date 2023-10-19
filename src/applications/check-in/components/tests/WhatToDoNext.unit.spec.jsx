@@ -65,12 +65,35 @@ describe('unified check-in experience', () => {
       };
       const { getByTestId } = render(
         <CheckInProvider store={initStore}>
-          <WhatToDoNext router={mockRouter} appointments={singleAppointment} />
+          <WhatToDoNext router={mockRouter} appointments={initAppointments} />
         </CheckInProvider>,
       );
       expect(getByTestId('what-next-card-title')).to.exist;
       expect(getByTestId('what-next-card-title')).to.have.text(
-        'Review your contact information for your Monday, January 03 9:56 a.m. appointment.',
+        'Review your contact information for your Monday, January 3 2:00 p.m. appointment',
+      );
+    });
+    it('displays the correct card title for pre check in with multiple appointments', () => {
+      const initStore = {
+        app: 'preCheckIn',
+      };
+      const initAppointments = [...multipleAppointments];
+      initAppointments[0] = {
+        ...initAppointments[0],
+        startTime: '2022-01-03T14:00:00',
+      };
+      initAppointments[1] = {
+        ...initAppointments[1],
+        startTime: '2022-01-03T14:30:00',
+      };
+      const { getByTestId } = render(
+        <CheckInProvider store={initStore}>
+          <WhatToDoNext router={mockRouter} appointments={initAppointments} />
+        </CheckInProvider>,
+      );
+      expect(getByTestId('what-next-card-title')).to.exist;
+      expect(getByTestId('what-next-card-title')).to.have.text(
+        'Review your contact information for your Monday, January 3, 9:56 a.m., Monday, January 3, 2:00 p.m. and Monday, January 3, 2:30 p.m. appointments',
       );
     });
     it('displays a clickable details link that calls go to details', () => {
@@ -84,7 +107,7 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      const detailsLink = getByTestId('details-link');
+      const detailsLink = getByTestId('details-link-0');
       fireEvent.click(detailsLink);
       expect(goToDetailsSpy.calledOnce).to.be.true;
     });

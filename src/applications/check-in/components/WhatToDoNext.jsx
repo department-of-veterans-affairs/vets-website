@@ -22,22 +22,44 @@ const WhatToDoNext = props => {
   const checkInableAppointments = getCheckinableAppointments(
     sortedAppointments,
   );
+  const appointmentCards =
+    app === APP_NAMES.PRE_CHECK_IN
+      ? [checkInableAppointments[0]]
+      : checkInableAppointments;
+
+  const getPreCheckinCardTitle = () => {
+    let title = `${t('review-your-contact-information-for-your')} `;
+    if (checkInableAppointments.length > 1) {
+      checkInableAppointments.forEach((appointment, index) => {
+        title += t('day-of-week-month-day-time', {
+          date: new Date(appointment.startTime),
+        });
+        if (index === appointments.length - 2) {
+          title += ' and ';
+        }
+        if (index < appointments.length - 2) {
+          title += ', ';
+        }
+      });
+      title += ` ${t('appointments')}`;
+    } else {
+      title = t('review-your-contact-information-for-your-appointment', {
+        date: new Date(appointments[0].startTime),
+      });
+    }
+    return title;
+  };
 
   return (
     <>
       <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
-      {checkInableAppointments.map((appointment, index) => {
+      {appointmentCards.map((appointment, index) => {
         const cardTitleId = `what-next-card-title-${index}`;
         let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
           time: new Date(appointment.startTime),
         });
         if (app === APP_NAMES.PRE_CHECK_IN) {
-          cardTitle = t(
-            'review-your-contact-information-for-your-appointment',
-            {
-              date: new Date(appointment.startTime),
-            },
-          );
+          cardTitle = getPreCheckinCardTitle();
         }
         return (
           <div

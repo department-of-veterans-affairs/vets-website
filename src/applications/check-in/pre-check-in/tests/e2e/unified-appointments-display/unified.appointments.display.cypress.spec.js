@@ -24,7 +24,6 @@ describe('Check In Experience -- ', () => {
       initializeCheckInDataPost.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePage.preCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -32,6 +31,7 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('Upcoming appointments are displayed in a sorted manner', () => {
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validatePageLoaded();
@@ -40,6 +40,7 @@ describe('Check In Experience -- ', () => {
     });
 
     it('What to do next displays a pre check in card for valid appointments', () => {
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validateWhatNextHeader();
@@ -49,18 +50,19 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    it('should navigate to appointment details', () => {
-      const multipleAppointments = [
-        { startTime: '2021-08-19T17:00:00' },
-        {
-          startTime: '2021-08-19T16:00:00',
-          eligibility: 'INELIGIBLE',
-        },
-        { startTime: '2021-08-19T15:00:00' },
-      ];
-      ApiInitializer.initializeCheckInDataGet.withSuccess({
-        appointments: multipleAppointments,
+    // TODO: Complete this test with pre check in api call flow ticket #67417
+    it.skip('What to do next displays a success alert when demographics are up to date', () => {
+      ApiInitializer.initializePreCheckInDataGet.withSuccess({
+        uuid: '4d523464-c450-49dc-9a18-c04b3f1642ee',
       });
+      ValidateVeteran.validatePage.preCheckIn();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should navigate to appointment details', () => {
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.clickDetails();
