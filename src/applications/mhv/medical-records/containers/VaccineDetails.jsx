@@ -155,6 +155,7 @@ const VaccineDetails = props => {
               <span
                 className="vads-u-font-weight--normal"
                 data-dd-privacy="mask"
+                data-testid="header-time"
               >
                 {record.date}
               </span>

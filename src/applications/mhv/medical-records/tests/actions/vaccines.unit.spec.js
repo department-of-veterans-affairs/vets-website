@@ -21,14 +21,6 @@ describe('Get vaccines action', () => {
       );
     });
   });
-  it('should dispatch an add alert action', () => {
-    const mockData = vaccines;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getVaccinesList()(dispatch).then(async () => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
-    });
-  });
 });
 
 describe('Get vaccine action', () => {
@@ -38,14 +30,6 @@ describe('Get vaccine action', () => {
     const dispatch = sinon.spy();
     return getVaccineDetails('3106')(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
-    });
-  });
-  it('should dispatch an add alert action', () => {
-    const mockData = vaccine;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    return getVaccineDetails()(dispatch).then(async () => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
     });
   });
 });

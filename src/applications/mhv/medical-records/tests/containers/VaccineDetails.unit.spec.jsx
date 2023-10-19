@@ -6,8 +6,10 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import VaccineDetails from '../../containers/VaccineDetails';
 import reducer from '../../reducers';
 import vaccine from '../fixtures/vaccine.json';
+import vaccineWithMissingFields from '../fixtures/vaccineWithMissingFields.json';
 import user from '../fixtures/user.json';
 import { convertVaccine } from '../../reducers/vaccines';
+import { EMPTY_FIELD } from '../../util/constants';
 
 describe('Vaccines details container', () => {
   const initialState = {
@@ -61,7 +63,7 @@ describe('Vaccines details container', () => {
   });
 
   it('displays the location', () => {
-    const location = screen.getByText('None noted', {
+    const location = screen.getByText(EMPTY_FIELD, {
       exact: true,
       selector: 'p',
     });
@@ -133,7 +135,34 @@ describe('Vaccine details container with errors', () => {
   it('should not display the formatted date if startDate or endDate is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
+        EMPTY_FIELD,
+      );
+    });
+  });
+});
+
+describe('Vaccine details component with no date', () => {
+  it('should not display the formatted date if dateSigned is missing', () => {
+    const record = convertVaccine(vaccineWithMissingFields);
+    const initialState = {
+      mr: {
+        vaccines: {
+          vaccineDetails: record,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <VaccineDetails record={record} runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/vaccines/954',
+      },
+    );
+    waitFor(() => {
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
+        EMPTY_FIELD,
       );
     });
   });

@@ -6,6 +6,8 @@ import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
+import vaccines from '../tests/fixtures/vaccines.json';
+import vaccine from '../tests/fixtures/vaccine.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -128,9 +130,16 @@ export const getAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = () => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
-    headers,
+export const getVaccineList = runningUnitTest => {
+  if (hitApi(runningUnitTest)) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccines);
+    }, 1000);
   });
 };
 
@@ -139,9 +148,16 @@ export const getVaccineList = () => {
  * @param {Long} id
  * @returns vaccine details in FHIR format
  */
-export const getVaccine = id => {
-  return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-    headers,
+export const getVaccine = (id, runningUnitTest) => {
+  if (hitApi(runningUnitTest)) {
+    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+      headers,
+    });
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(vaccine);
+    }, 1000);
   });
 };
 
