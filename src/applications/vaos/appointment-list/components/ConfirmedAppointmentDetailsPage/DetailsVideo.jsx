@@ -135,4 +135,9 @@ DetailsVideo.defaultProps = {
       clinicName: '',
     },
   },
+  facilityData: {
+    id: '',
+    vistaId: '',
+    name: '',
+  },
 };
