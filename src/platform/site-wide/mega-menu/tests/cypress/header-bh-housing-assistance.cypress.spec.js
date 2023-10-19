@@ -1,10 +1,10 @@
-import features from './mocks/features';
-import * as h from './utilities/helpers';
+import features from '../../../../utilities/tests/header-footer/mocks/features';
+import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
 
 // IMPORTANT: These tests verify the accuracy of the VA.gov header against production (as of the time of writing this test)
 // and against header-footer-data.json, which is used to populate the header in local dev when content-build is not running.
 // It is important that both of these stay in parity with what is in production.
-describe('global header - benefit hubs - life insurance', () => {
+describe('global header - benefit hubs - housing assistance', () => {
   Cypress.config({
     includeShadowDom: true,
     waitForAnimations: true,
@@ -21,11 +21,11 @@ describe('global header - benefit hubs - life insurance', () => {
     );
   });
 
-  const lifeInsurance = '[data-e2e-id="vetnav-level2--life-insurance"]';
+  const housingAssistance = '[data-e2e-id="vetnav-level2--housing-assistance"]';
   const viewAll = {
-    id: 'view-all-in-life-insurance',
-    href: '/life-insurance',
-    text: 'View all in life insurance',
+    id: 'view-all-in-housing-assistance',
+    href: '/housing-assistance',
+    text: 'View all in housing assistance',
   };
 
   // Headings and links were pulled from production on October 16, 2023.
@@ -33,49 +33,49 @@ describe('global header - benefit hubs - life insurance', () => {
   const headings = [
     {
       id: '#vetnav-column-one-header',
-      text: 'Get life insurance',
+      text: 'Get home loan benefits',
     },
     {
       id: '#vetnav-column-two-header',
-      text: 'Manage your life insurance',
+      text: 'Get Veterans housing grants',
     },
   ];
 
   const links = [
     {
-      id: 'about-life-insurance-options',
-      href: '/life-insurance/options-eligibility',
-      text: 'About life insurance options',
+      id: 'about-va-home-loan-types',
+      href: '/housing-assistance/home-loans/loan-types',
+      text: 'About VA home loan types',
     },
     {
-      id: 'benefits-for-totally-disabled-or-terminally-ill-policyholders',
-      href: '/life-insurance/totally-disabled-or-terminally-ill',
-      text: 'Benefits for totally disabled or terminally ill policyholders',
+      id: 'how-to-request-a-coe',
+      href: '/housing-assistance/home-loans/how-to-request-coe',
+      text: 'How to request a COE',
     },
     {
-      id: 'beneficiary-financial-counseling-and-online-will-preparation',
-      href: 'https://www.benefits.va.gov/insurance/bfcs.asp',
-      text: 'Beneficiary financial counseling and online will preparation',
+      id: 'check-your-coe-status',
+      href: '/housing-assistance/home-loans/check-coe-status',
+      text: 'Check your COE status',
     },
     {
-      id: 'access-your-policy-online',
-      href: '/life-insurance/manage-your-policy',
-      text: 'Access your policy online',
+      id: 'request-a-coe-online',
+      href: '/housing-assistance/home-loans/request-coe-form-26-1880',
+      text: 'Request a COE online',
     },
     {
-      id: 'update-your-beneficiaries',
-      href: 'https://www.benefits.va.gov/INSURANCE/updatebene.asp',
-      text: 'Update your beneficiaries',
+      id: 'about-disability-housing-grants',
+      href: '/housing-assistance/disability-housing-grants',
+      text: 'About disability housing grants',
     },
     {
-      id: 'file-a-claim-for-insurance-benefits',
-      href: 'https://www.benefits.va.gov/INSURANCE/sglivgli.asp',
-      text: 'File a claim for insurance benefits',
-    },
-    {
-      id: 'check-your-appeal-status',
+      id: 'check-your-sah-claim-status',
       href: '/claim-or-appeal-status',
-      text: 'Check your appeal status',
+      text: 'Check your SAH claim status',
+    },
+    {
+      id: 'how-to-apply-for-an-sah-grant',
+      href: '/housing-assistance/disability-housing-grants/how-to-apply',
+      text: 'How to apply for an SAH grant',
     },
   ];
 
@@ -97,13 +97,13 @@ describe('global header - benefit hubs - life insurance', () => {
         h.verifyElement(vaBenefitsAndHealthCareButton);
         h.clickButton(vaBenefitsAndHealthCareButton);
 
-        // -> Life insurance
+        // -> Housing assistance
         h.verifyMenuItems(
-          lifeInsurance,
+          housingAssistance,
           headings,
           links,
           viewAll,
-          'Life insurance',
+          'Housing assistance',
         );
       });
   });
