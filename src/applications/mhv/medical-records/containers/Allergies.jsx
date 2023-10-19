@@ -105,14 +105,14 @@ const Allergies = props => {
             inline: true,
           },
           {
-            title: 'Provider notes',
-            value: item.notes,
-            inline: !item.notes,
-          },
-          {
             title: 'Observed or historical',
             value: item.observedOrReported,
             inline: true,
+          },
+          {
+            title: 'Provider notes',
+            value: item.notes,
+            inline: !item.notes,
           },
         ],
       });

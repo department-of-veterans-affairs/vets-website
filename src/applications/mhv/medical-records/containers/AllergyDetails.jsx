@@ -115,14 +115,14 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
-          title: 'Provider notes',
-          value: allergy.notes,
-          inline: !allergy.notes,
-        },
-        {
           title: 'Observed or historical',
           value: allergy.observedOrReported,
           inline: true,
+        },
+        {
+          title: 'Provider notes',
+          value: allergy.notes,
+          inline: !allergy.notes,
         },
       ],
     };
