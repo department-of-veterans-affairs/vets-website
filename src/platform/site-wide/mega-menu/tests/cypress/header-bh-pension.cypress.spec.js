@@ -1,5 +1,5 @@
-import features from './mocks/features';
-import * as h from './utilities/helpers';
+import features from '../../../../utilities/tests/header-footer/mocks/features';
+import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
 
 describe('global header - benefit hubs - pension', () => {
   Cypress.config({

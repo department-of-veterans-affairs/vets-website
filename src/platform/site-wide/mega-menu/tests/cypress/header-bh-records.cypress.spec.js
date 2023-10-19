@@ -1,5 +1,5 @@
-import features from './mocks/features';
-import * as h from './utilities/helpers';
+import features from '../../../../utilities/tests/header-footer/mocks/features';
+import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
 
 // IMPORTANT: These tests verify the accuracy of the VA.gov header against production (as of the time of writing this test)
 // and against header-footer-data.json, which is used to populate the header in local dev when content-build is not running.
