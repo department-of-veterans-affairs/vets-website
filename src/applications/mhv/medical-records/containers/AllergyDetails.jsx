@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
@@ -12,7 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import { makePdf, processList } from '../util/helpers';
 import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
@@ -88,7 +87,7 @@ const AllergyDetails = props => {
   );
 
   const generateAllergyPdf = async () => {
-    const title = `Allergy: ${allergy.name}`;
+    const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
@@ -100,7 +99,7 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
-          title: 'Reaction',
+          title: 'Signs and symptoms',
           value: processList(allergy.reaction),
           inline: true,
         },
@@ -115,11 +114,6 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
-          title: 'Observed or reported',
-          value: allergy.observedOrReported,
-          inline: true,
-        },
-        {
           title: 'Provider notes',
           value: allergy.notes,
           inline: !allergy.notes,
@@ -127,21 +121,13 @@ const AllergyDetails = props => {
       ],
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          `VA-Allergies-details-${user.userFullName.first}-${
-            user.userFullName.last
-          }-${moment()
-            .format('M-D-YYYY_hhmmssa')
-            .replace(/\./g, '')}`,
-          scaffold,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Allergy details');
-    }
+    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
   };
 
   const content = () => {
@@ -225,6 +211,5 @@ const AllergyDetails = props => {
 export default AllergyDetails;
 
 AllergyDetails.propTypes = {
-  print: PropTypes.func,
   runningUnitTest: PropTypes.bool,
 };
