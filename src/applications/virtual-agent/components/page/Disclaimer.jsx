@@ -158,11 +158,8 @@ export default function Disclaimer() {
           <p>
             <ol>
               <li>
-                Press <b>Tab</b> to select the chatbot window.
-              </li>
-              <li>
-                Press <b>Tab</b> to select the "Accept" button and press{' '}
-                <b>Enter</b>.
+                Press <b>Tab</b> until the "Start chat" button is in focus and
+                press <b>Enter</b>.
               </li>
               <li>Use the arrow keys to listen to the chatbot messages.</li>
               <li>
