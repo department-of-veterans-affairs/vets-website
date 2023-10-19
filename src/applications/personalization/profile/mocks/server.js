@@ -80,7 +80,7 @@ const responses = {
     // example user data cases
     // return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
-    return res.json(user.badAddress); // user with bad address
+    // return res.json(user.badAddress); // user with bad address
     // return res.json(user.loa3User); // user with loa3
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error
@@ -88,6 +88,10 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
+
+    // data claim users
+    return res.json(user.loa3UserWithNoRatingInfoClaim);
+    // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
   },
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -162,6 +166,9 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
+    // user doesnt have any service history or is not authorized
+    // return res.status(403).json(genericErrors.error403);
+
     return res.status(200).json(serviceHistory.airForce);
     // return res
     //   .status(200)
