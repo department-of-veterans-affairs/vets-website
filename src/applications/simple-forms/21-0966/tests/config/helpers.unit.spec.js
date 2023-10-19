@@ -1,21 +1,22 @@
 import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
-  contactInformationStepperTitle,
+  survivingDependentContactInformationChapterTitle,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
   preparerIsThirdParty,
   preparerIsVeteran,
-  benefitSelectionTitle,
-  personalInformationStepperTitle,
-  benefitSelectionStepperTitle,
+  survivingDependentPersonalInformationChapterTitle,
+  benefitSelectionChapterTitle,
   initializeFormDataWithPreparerIdentification,
   statementOfTruthFullNamePath,
   getClaimType,
   getAlreadySubmittedIntentText,
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
+  veteranPersonalInformationChapterTitle,
+  veteranContactInformationChapterTitle,
 } from '../../config/helpers';
 import {
   preparerIdentifications,
@@ -36,10 +37,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
   });
 
   it('provides the correct information for a surviving dependent', () => {
@@ -54,10 +64,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the veteran', () => {
@@ -72,10 +91,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Veteran/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Veteran/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Veteran/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the surviving dependent', () => {
@@ -90,10 +118,19 @@ describe('form helper functions', () => {
       true,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Claimant/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Claimant/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Claimant/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides a reasonble default', () => {
@@ -108,10 +145,16 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 });
 
