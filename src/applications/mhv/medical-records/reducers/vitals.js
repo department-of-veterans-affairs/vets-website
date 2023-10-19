@@ -1,6 +1,10 @@
 import { Actions } from '../util/actionTypes';
 import { loincCodes, EMPTY_FIELD } from '../util/constants';
-import { isArrayAndHasItems, macroCase } from '../util/helpers';
+import {
+  isArrayAndHasItems,
+  macroCase,
+  extractContainedResource,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -25,6 +29,18 @@ const getMeasurement = (record, type) => {
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
   return record.valueQuantity?.value + record.valueQuantity?.code;
+};
+
+export const extractLocation = vital => {
+  if (
+    isArrayAndHasItems(vital.performer) &&
+    isArrayAndHasItems(vital.performer[0].extension)
+  ) {
+    const refId = vital.performer[0].extension[0].valueReference?.reference;
+    const location = extractContainedResource(vital, refId);
+    return location?.name || EMPTY_FIELD;
+  }
+  return EMPTY_FIELD;
 };
 
 export const convertVital = record => {
