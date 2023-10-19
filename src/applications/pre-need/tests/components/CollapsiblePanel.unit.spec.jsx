@@ -39,4 +39,14 @@ describe('CollapsiblePanel in Pre-need Supporting files', () => {
     expect(expandedContent.at(0).text()).to.equal('test content');
     wrapper.unmount();
   });
+
+  it('should have default expanded content when clicked', () => {
+    const wrapper = mount(<CollapsiblePanel />);
+    const button = wrapper.find('#collapsibleButton3');
+    button.simulate('click');
+
+    const expandedContent = wrapper.find('#collapsible-3');
+    expect(expandedContent.at(0).text()).to.equal('');
+    wrapper.unmount();
+  });
 });
