@@ -95,9 +95,11 @@ class AppointmentsPage {
   };
 
   attemptCheckIn = () => {
-    cy.get('[data-testid="action-link"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="action-link"]')
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   attemptPreCheckIn = () => {
