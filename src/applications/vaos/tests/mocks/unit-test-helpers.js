@@ -4,7 +4,7 @@
  * @export
  * @returns {AtlasAppoinment} VAOS Atlas Appoinment object
  */
-export const AtlasAppoinment = () => {
+export function AtlasAppoinment() {
   return {
     videoData: {
       providers: [
@@ -37,14 +37,14 @@ export const AtlasAppoinment = () => {
       kind: 'ADHOC',
     },
   };
-};
+}
 /**
  * Mocks Facility object.
  *
  * @export
  * @returns {Facility} VAOS Facility object
  */
-export const Facility = facilityId => {
+export function Facility(facilityId) {
   const id = facilityId || '983';
   return {
     resourceType: 'Location',
@@ -58,4 +58,4 @@ export const Facility = facilityId => {
       },
     ],
   };
-};
+}
