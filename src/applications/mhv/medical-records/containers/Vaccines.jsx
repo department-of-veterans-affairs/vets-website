@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -9,9 +9,10 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { recordType, pageTitles } from '../util/constants';
+import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { makePdf, processList } from '../util/helpers';
 import {
   updatePageTitle,
@@ -29,12 +30,32 @@ const Vaccines = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
 
   useEffect(
     () => {
       dispatch(getVaccinesList());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
   );
 
   useEffect(
@@ -99,7 +120,12 @@ const Vaccines = props => {
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType="Vaccine" />;
+    }
     if (vaccines?.length) {
       return <RecordList records={vaccines} type={recordType.VACCINES} />;
     }
