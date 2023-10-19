@@ -15,23 +15,30 @@ const initialState = {
   allergyDetails: undefined,
 };
 
+const extractContainedResource = (resource, referenceId) => {
+  if (resource && isArrayAndHasItems(resource.contained) && referenceId) {
+    // Strip the leading "#" from the reference.
+    const strippedRefId = referenceId.substring(1);
+    const containedResource = resource.contained.filter(
+      containedItem => containedItem.id === strippedRefId,
+    );
+    if (containedResource.length > 0) {
+      return containedResource[0];
+    }
+  }
+  return null;
+};
+
 export const extractLocation = allergy => {
   if (
     allergy?.recorder?.extension &&
     isArrayAndHasItems(allergy.recorder.extension)
   ) {
-    // Strip the leading "#" from the reference.
-    const ref = allergy.recorder.extension[0].valueReference?.reference?.substring(
-      1,
-    );
+    const ref = allergy.recorder.extension[0].valueReference?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
-    if (ref && isArrayAndHasItems(allergy.contained)) {
-      const org = allergy.contained.filter(
-        containedItem => containedItem.id === ref,
-      );
-      if (org.length > 0 && org[0].name) {
-        return org[0].name;
-      }
+    const org = extractContainedResource(allergy, ref);
+    if (org?.name) {
+      return org.name;
     }
   }
   return EMPTY_FIELD;
