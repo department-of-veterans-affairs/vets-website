@@ -94,7 +94,7 @@ const getOldFormDataPath = (path, index) => {
   return path.slice(indexToSlice);
 };
 
-const validateZipCode = (zipCode, stateCode, errors) => {
+export const validateZipCode = (zipCode, stateCode, errors) => {
   switch (stateCode) {
     case 'AA': {
       if (!zipCode.match('^3{1}4{1}0{1}[0-9]{2}')) {
