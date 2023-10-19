@@ -1,8 +1,9 @@
 name: E2E Stress Test
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 env:
   BUILDTYPE: vagovprod
@@ -400,6 +401,7 @@ jobs:
         env:
           TEST_TYPE: e2e
           IS_CI: false
+          GITHUB_WORKFLOW_URL: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
