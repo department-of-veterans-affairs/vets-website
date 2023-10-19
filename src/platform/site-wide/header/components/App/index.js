@@ -45,11 +45,11 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
   );
 };
 
-export default App;
-
 App.propTypes = {
   megaMenuData: PropTypes.arrayOf(PropTypes.object).isRequired,
   show: PropTypes.bool.isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   showNavLogin: PropTypes.bool.isRequired,
 };
+
+export default App;
