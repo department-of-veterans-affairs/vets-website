@@ -3,14 +3,16 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import DetailsVideo from '../DetailsVideo';
+import {
+  AtlasAppoinment,
+  Facility,
+} from '../../../../tests/mocks/unit-test-helpers';
 
 const appointmentData = {
   start: '2024-07-19T12:00:00Z',
   comment: 'Medication Review',
   vaos: {
-    isVideo: true,
     isPastAppointment: true,
-    appointmentType: 'vaAppointment',
   },
   location: {
     vistaId: '983',
@@ -19,18 +21,8 @@ const appointmentData = {
     clinicName: 'CHY PC VAR2',
   },
 };
-const facilityData = {
-  resourceType: 'Location',
-  id: '983',
-  vistaId: '983',
-  name: 'Cheyenne VA Medical Center',
-  telecom: [
-    {
-      system: 'phone',
-      value: '509-434-7000',
-    },
-  ],
-};
+const facilityData = new Facility();
+
 describe('DetailsVideo component with descriptive back link', () => {
   const initialState = {
     featureToggles: {
@@ -66,38 +58,10 @@ describe('DetailsVideo component with descriptive back link', () => {
       .to.exist;
   });
   it('should return appointment time, provider, insturctions, print link, calendar link, video Location and cancel message', async () => {
+    const atlasAppointment = new AtlasAppoinment();
     const appointment = {
       ...appointmentData,
-      videoData: {
-        providers: [
-          {
-            name: {
-              firstName: ['TEST'],
-              lastName: 'PROV',
-            },
-            display: 'TEST PROV',
-          },
-        ],
-        isVideo: true,
-        isAtlas: true,
-        atlasConfirmationCode: '7VBBCA',
-        atlasLocation: {
-          id: '9931',
-          resourceType: 'Location',
-          address: {
-            line: ['114 Dewey Ave'],
-            city: 'Eureka',
-            state: 'MT',
-            postalCode: '59917',
-          },
-          position: {
-            longitude: -115.1,
-            latitude: 48.8,
-          },
-        },
-        extension: { patientHasMobileGfe: true },
-        kind: 'ADHOC',
-      },
+      ...atlasAppointment,
       vaos: {
         isUpcomingAppointment: true,
       },
@@ -241,31 +205,10 @@ describe('DetailsVideo component with descriptive back link', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at an ATLAS location', () => {
+    const atlasAppointment = new AtlasAppoinment();
     const appointment = {
       ...appointmentData,
-      videoData: {
-        isVideo: true,
-        isAtlas: true,
-        url: null,
-        duration: 30,
-        atlasConfirmationCode: '7VBBCA',
-        atlasLocation: {
-          id: '9931',
-          resourceType: 'Location',
-          address: {
-            line: ['114 Dewey Ave'],
-            city: 'Eureka',
-            state: 'MT',
-            postalCode: '59917',
-          },
-          position: {
-            longitude: -115.1,
-            latitude: 48.8,
-          },
-        },
-        extension: { patientHasMobileGfe: true },
-        kind: 'ADHOC',
-      },
+      ...atlasAppointment,
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
