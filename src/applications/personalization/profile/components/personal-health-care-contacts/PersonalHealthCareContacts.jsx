@@ -8,6 +8,7 @@ import {
   selectNextOfKin,
 } from '@@profile/selectors';
 import { fetchProfileContacts } from '@@profile/actions';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from '~/platform/utilities/ui';
 
 import Contact from './Contact';
@@ -16,8 +17,8 @@ import LoadFail from '../alerts/LoadFail';
 
 const HelpDeskContact = () => (
   <>
-    <va-telephone data-testid="va-800-number" contact="8006982411" /> (
-    <va-telephone data-testid="va-711-number" contact="711" tty="true" />)
+    <va-telephone data-testid="va-800-number" contact={CONTACTS.HELP_DESK} /> (
+    <va-telephone data-testid="va-711-number" contact={CONTACTS['711']} tty />)
   </>
 );
 
@@ -69,15 +70,13 @@ const PersonalHealthCareContacts = () => {
           trigger="Learn how to update your personal health care contact information"
           uswds
         >
-          <p>
-            If this information isn’t correct, here’s how to update it:
-            <ul className="vads-u-margin-y--0">
-              <li>Ask a staff member at your next appointment, or</li>
-              <li>
-                Call us at <HelpDeskContact />. We’re here 24/7.
-              </li>
-            </ul>
-          </p>
+          If this information isn’t correct, here’s how to update it:
+          <ul className="vads-u-margin-y--0">
+            <li>Ask a staff member at your next appointment, or</li>
+            <li>
+              Call us at <HelpDeskContact />. We’re here 24/7.
+            </li>
+          </ul>
         </va-additional-info>
       </div>
 
