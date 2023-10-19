@@ -523,7 +523,7 @@ export const addressUISchema = (
             ];
 
             if (window.location.href.includes('review-and-submit')) {
-              livesOnMilitaryBaseHash.stepchildAddress = (
+              livesOnMilitaryBaseHash.stepChildAddress = (
                 formData.stepChildren || []
               ).some(stepChild =>
                 get(`address[${MILITARY_BASE_PATH}]`, stepChild),
