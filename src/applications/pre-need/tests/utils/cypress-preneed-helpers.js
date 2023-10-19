@@ -80,10 +80,17 @@ function fillApplicantInfo(
   cy.axeCheck();
   clickContinue();
 
-  cy.url().should(
-    'not.contain',
-    '/form-10007-apply-for-eligibility/applicant-information',
-  );
+  if (isVeteran) {
+    cy.url().should(
+      'not.contain',
+      '/form-10007-apply-for-eligibility/veteran-applicant-details',
+    );
+  } else {
+    cy.url().should(
+      'not.contain',
+      '/form-10007-apply-for-eligibility/nonVeteran-applicant-details',
+    );
+  }
 }
 
 // Fills all fields on the Applicant Information page , performs axe check, continues to next page
