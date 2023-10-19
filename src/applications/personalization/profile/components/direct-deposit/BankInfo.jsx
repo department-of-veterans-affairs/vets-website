@@ -273,7 +273,13 @@ export const BankInfo = ({
         Please enter your bank’s routing and account numbers and your account
         type.
       </p>
-      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
+
+      <div
+        data-testid={`${formPrefix}-bank-info-form`}
+        ref={editBankInfoForm}
+        role="group"
+        aria-label={`Edit bank account for ${sectionTitle.toLowerCase()}`}
+      >
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}
