@@ -119,6 +119,11 @@ const AllergyDetails = props => {
           value: allergy.notes,
           inline: !allergy.notes,
         },
+        {
+          title: 'Observed or historical',
+          value: allergy.observedOrReported,
+          inline: true,
+        },
       ],
     };
 
@@ -194,6 +199,10 @@ const AllergyDetails = props => {
               Location
             </h2>
             <p data-dd-privacy="mask">{allergy.location}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Observed or historical
+            </h2>
+            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
