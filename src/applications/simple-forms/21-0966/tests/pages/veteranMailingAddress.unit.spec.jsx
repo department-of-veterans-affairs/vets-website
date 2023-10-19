@@ -7,7 +7,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranContactInformationChapter.pages.mailingAddress;
+} = formConfig.chapters.veteranContactInformationChapter.pages.veteranMailingAddress;
 
 const pageTitle = 'Mailing address';
 

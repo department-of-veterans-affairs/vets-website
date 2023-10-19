@@ -154,7 +154,7 @@ const formConfig = {
     survivingDependentPersonalInformationChapter: {
       title: ({ formData }) => personalInformationStepperTitle({ formData }),
       pages: {
-        personalInformation: {
+        survivingDependentPersonalInformation: {
           path: 'surviving-dependent-personal-information',
           depends: formData =>
             preparerIsSurvivingDependent({ formData }) ||
@@ -163,7 +163,7 @@ const formConfig = {
           uiSchema: survivingDependentPersonalInformation.uiSchema,
           schema: survivingDependentPersonalInformation.schema,
         },
-        identificationInformation: {
+        survivingDependentIdentificationInformation: {
           path: 'surviving-dependent-identification-information',
           depends: formData =>
             preparerIsSurvivingDependent({ formData }) ||
@@ -177,7 +177,7 @@ const formConfig = {
     survivingDependentContactInformationChapter: {
       title: ({ formData }) => contactInformationStepperTitle({ formData }),
       pages: {
-        mailingAddress: {
+        survivingDependentMailingAddress: {
           path: 'surviving-dependent-mailing-address',
           depends: formData =>
             preparerIsSurvivingDependent({ formData }) ||
@@ -186,7 +186,7 @@ const formConfig = {
           uiSchema: survivingDependentMailingAddress.uiSchema,
           schema: survivingDependentMailingAddress.schema,
         },
-        phoneAndEmailAddress: {
+        survivingDependentPhoneAndEmailAddress: {
           path: 'surviving-dependent-phone-and-email-address',
           depends: formData =>
             preparerIsSurvivingDependent({ formData }) ||
@@ -200,13 +200,13 @@ const formConfig = {
     veteranPersonalInformationChapter: {
       title: 'Veteran’s personal information',
       pages: {
-        personalInformation: {
+        veteranPersonalInformation: {
           path: 'veteran-personal-information',
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
         },
-        identificationInformation: {
+        veteranIdentificationInformation: {
           path: 'veteran-identification-information',
           title: 'Identification information',
           uiSchema: veteranIdentificationInformation.uiSchema,
@@ -226,7 +226,7 @@ const formConfig = {
     veteranContactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        mailingAddress: {
+        veteranMailingAddress: {
           path: 'veteran-mailing-address',
           depends: formData =>
             preparerIsVeteran({ formData }) ||
@@ -235,7 +235,7 @@ const formConfig = {
           uiSchema: veteranMailingAddress.uiSchema,
           schema: veteranMailingAddress.schema,
         },
-        phoneAndEmailAddress: {
+        veteranPhoneAndEmailAddress: {
           path: 'veteran-phone-and-email-address',
           depends: formData =>
             preparerIsVeteran({ formData }) ||

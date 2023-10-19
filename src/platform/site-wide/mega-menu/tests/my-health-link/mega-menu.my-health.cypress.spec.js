@@ -10,10 +10,10 @@ describe(manifest.appName, () => {
     ApiInitializer.initializeUserData.withDefaultUser();
     LandingPage.visitPage({ serviceProvider: CSP_IDS.ID_ME });
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-e2e-id="my-healthe-vet-4"]')
+    cy.get('[data-e2e-id^="my-healthe-vet-"]')
       .should('be.visible')
       .and('have.text', 'My HealtheVet');
-    cy.get('[data-e2e-id="my-healthe-vet-4"]').should(
+    cy.get('[data-e2e-id^="my-healthe-vet-"]').should(
       'have.attr',
       'href',
       '/my-health/',
@@ -25,10 +25,10 @@ describe(manifest.appName, () => {
     cy.login();
     cy.visit('/');
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-e2e-id="my-healthe-vet-4"]')
+    cy.get('[data-e2e-id^="my-healthe-vet-"]')
       .should('be.visible')
       .and('have.text', 'My HealtheVet');
-    cy.get('[data-e2e-id="my-healthe-vet-4"]')
+    cy.get('[data-e2e-id^="my-healthe-vet-"]')
       .should('have.attr', 'href')
       .and('include', 'mhv-portal-web/eauth');
   });
