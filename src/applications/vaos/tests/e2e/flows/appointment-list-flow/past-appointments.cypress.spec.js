@@ -118,13 +118,13 @@ describe('VAOS past appointment flow', () => {
       // Act
       PastAppointmentListPage.visit()
         .validate()
-        .selectDateRange(1);
+        .selectDateRange(2);
 
       // Assert
       // Constrain search within list group.
       cy.findByTestId(
         `appointment-list-${moment()
-          .subtract(3, 'month')
+          .subtract(6, 'month')
           .format('YYYY-MM')}`,
       ).within(() => {
         cy.findAllByTestId('appointment-list-item').should($list => {
