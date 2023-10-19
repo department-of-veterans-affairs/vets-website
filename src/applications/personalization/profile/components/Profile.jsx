@@ -53,6 +53,7 @@ import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { canAccess } from '../../common/selectors';
 
 class Profile extends Component {
   componentDidMount() {
@@ -313,7 +314,11 @@ const mapStateToProps = state => {
   // 47841 block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
 
-  const shouldFetchTotalDisabilityRating = isLOA3 && isInMVI;
+  const shouldFetchTotalDisabilityRating = !!(
+    isLOA3 &&
+    isInMVI &&
+    canAccess(state)?.ratingInfo
+  );
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
