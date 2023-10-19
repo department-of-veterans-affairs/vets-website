@@ -108,7 +108,7 @@ describe('Allergy details container with date missing', () => {
     });
   });
 
-  it('should not display the formatted date if startDate or endDate is missing', () => {
+  it('should not display the formatted date if date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         'None noted',

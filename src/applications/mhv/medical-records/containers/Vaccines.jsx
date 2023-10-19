@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -13,8 +12,8 @@ import PrintHeader from '../components/shared/PrintHeader';
 import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { makePdf, processList } from '../util/helpers';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -112,21 +111,13 @@ const Vaccines = props => {
       });
     });
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          `VA-Vaccines-list-${user.userFullName.first}-${
-            user.userFullName.last
-          }-${moment()
-            .format('M-D-YYYY_hhmmssa')
-            .replace(/\./g, '')}`,
-          pdfData,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Vaccines');
-    }
+    const pdfName = `VA-Vaccines-list-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
