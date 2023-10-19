@@ -101,12 +101,7 @@ export const NoFormPage = () => {
             />
             <h2>Your intent to file date</h2>
             <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3">
-              <h3
-                className="vads-u-margin-y--0 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--gray-light"
-                style={{
-                  display: 'inline',
-                }}
-              >
+              <h3 className="vads-u-margin-y--0 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-display--inline">
                 {format(
                   getUnixTime(data?.metadata?.createdAt),
                   'MMMM do, yyyy',
