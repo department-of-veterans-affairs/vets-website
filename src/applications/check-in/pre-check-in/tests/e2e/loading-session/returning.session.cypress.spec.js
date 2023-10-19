@@ -21,6 +21,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
+  // TODO This test needs to re-route to the proper place in the new flow.
   it.skip('an existing session redirects to introduction page', () => {
     cy.visitPreCheckInWithUUID();
     AppointmentsPage.validatePageLoaded();
