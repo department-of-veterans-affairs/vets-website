@@ -66,6 +66,7 @@ function fillApplicantInfo(name, ssn, dob, relationship, placeOfBirth) {
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
   cy.fill('input[name="root_application_veteran_placeOfBirth"]', placeOfBirth);
 
+  cy.axeCheck();
   clickContinue();
 
   cy.url().should(
@@ -198,6 +199,7 @@ function fillPreparerInfo(preparer) {
       'input[name="root_application_applicant_name_last"]',
       preparer['view:applicantInfo'].name.last,
     );
+    cy.axeCheck();
     clickContinue();
     cy.url().should('not.contain', '/preparer-details');
 
