@@ -86,6 +86,10 @@ describe('unified check-in experience', () => {
         ...initAppointments[1],
         startTime: '2022-01-03T14:30:00',
       };
+      initAppointments[2] = {
+        ...initAppointments[1],
+        startTime: '2022-01-03T15:00:00',
+      };
       const { getByTestId } = render(
         <CheckInProvider store={initStore}>
           <WhatToDoNext router={mockRouter} appointments={initAppointments} />
