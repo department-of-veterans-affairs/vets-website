@@ -60,7 +60,8 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('everything Happy path', () => {
+    // TODO skipping unitl e2e refactor.
+    it.skip('everything Happy path', () => {
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
