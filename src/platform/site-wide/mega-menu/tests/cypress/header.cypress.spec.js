@@ -1,6 +1,6 @@
-import features from './mocks/features';
-import { aboutVAHeaders, aboutVALinks } from './utilities/about-va-links';
-import * as h from './utilities/helpers';
+import features from '../../../../utilities/tests/header-footer/mocks/features';
+import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
+import { aboutVAHeaders, aboutVALinks } from './about-va-links';
 
 describe('global header', () => {
   const verifyElement = selector =>
