@@ -4,8 +4,9 @@ import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
-import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -354,7 +355,7 @@ class PatientMessageDraftsPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      '/my_health/v1/messaging/folders/-2/threads**',
       sortedResponse,
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });
@@ -374,7 +375,7 @@ class PatientMessageDraftsPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(JSON.stringify(listBefore));
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -382,11 +383,27 @@ class PatientMessageDraftsPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(JSON.stringify(listAfter));
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
+  };
+
+  loadMessages = (mockMessagesResponse = mockDraftMessages) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2*',
+      mockDraftFolderMetaResponse,
+    ).as('draftFolder');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2/threads**',
+      mockMessagesResponse,
+    ).as('draftFolderMessages');
+    cy.get('[data-testid="drafts-sidebar"]').click();
+    cy.wait('@draftFolder');
+    cy.wait('@draftFolderMessages');
   };
 }
 

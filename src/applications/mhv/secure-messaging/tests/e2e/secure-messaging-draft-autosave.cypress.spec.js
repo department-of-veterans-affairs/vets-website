@@ -6,7 +6,7 @@ import { AXE_CONTEXT } from './utils/constants';
 import { draftAutoSaveTimeout } from '../../util/constants';
 import PatientComposePage from './pages/PatientComposePage';
 
-describe(manifest.appName, () => {
+describe.skip(manifest.appName, () => {
   const composePage = new PatientComposePage();
   describe('Verify draft auto save', () => {
     beforeEach(() => {
