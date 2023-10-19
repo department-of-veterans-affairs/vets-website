@@ -13,8 +13,11 @@ import vaccine from '../fixtures/vaccine.json';
 describe('Get vaccines action', () => {
   it('should dispatch a get list action', () => {
     const mockData = vaccines;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
+    let dispatch;
+    beforeEach(() => {
+      mockApiRequest(mockData);
+      dispatch = sinon.spy();
+    });
     return getVaccinesList()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.GET_LIST,
@@ -26,8 +29,11 @@ describe('Get vaccines action', () => {
 describe('Get vaccine action', () => {
   it('should dispatch a get details action', () => {
     const mockData = vaccine;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
+    let dispatch;
+    beforeEach(() => {
+      mockApiRequest(mockData);
+      dispatch = sinon.spy();
+    });
     return getVaccineDetails('3106')(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
