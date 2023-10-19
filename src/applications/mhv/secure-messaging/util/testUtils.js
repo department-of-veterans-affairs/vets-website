@@ -36,10 +36,13 @@ export const selectVaSelect = (container, value, selector = 'va-select') => {
 };
 
 export const selectVaDate = (container, value, selector = 'va-date') => {
-  const changeEvent = new CustomEvent('selected', {
-    detail: { detail: value },
+  const vaDate = $(selector, container);
+  vaDate.value = value;
+  const event = new CustomEvent('dateChange', {
+    bubbles: true,
+    detail: { value },
   });
-  $(selector, container).__events.dateChange(changeEvent);
+  vaDate.dispatchEvent(event);
 };
 
 export const selectVaRadio = (container, value, selector = 'va-radio') => {
