@@ -305,7 +305,7 @@ describe('messages actions', () => {
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          false,
+          true,
         ),
       )
       .then(() => {
@@ -431,7 +431,7 @@ describe('messages actions', () => {
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          false,
+          true,
         ),
       )
       .catch(() => {

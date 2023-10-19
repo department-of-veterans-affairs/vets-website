@@ -163,7 +163,6 @@ export const getAllFolders = () => async dispatch => {
 export const getThread = () => async dispatch => {
   dispatch({ type: THREAD_RETRIEVE_STARTED });
   const response = await retrieveData('messages');
-  // const response = await getMessageHistory(messageId);
   if (response.errors) {
     const error = response.errors[0];
     dispatch({ type: THREAD_RETRIEVE_FAILED, response: error });
