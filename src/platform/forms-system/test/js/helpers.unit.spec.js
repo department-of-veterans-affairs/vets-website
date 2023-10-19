@@ -675,6 +675,70 @@ describe('Schemaform helpers:', () => {
         },
       });
     });
+
+    it('should return original input fields if ui:options.displayEmptyObjectOnReview is true', () => {
+      const result = getNonArraySchema(
+        {
+          type: 'object',
+          required: [],
+          properties: {
+            field1: {
+              type: 'object',
+              properties: {},
+            },
+            field2: {
+              type: 'object',
+              properties: {},
+            },
+          },
+        },
+        {
+          field1: {
+            'ui:description': 'My field1 text',
+            'ui:options': {
+              displayEmptyObjectOnReview: true,
+            },
+          },
+          field2: {
+            'ui:description': 'My field2 text',
+            'ui:options': {
+              displayEmptyObjectOnReview: true,
+            },
+          },
+        },
+      );
+
+      expect(result.schema).to.eql({
+        type: 'object',
+        required: [],
+        properties: {
+          field1: {
+            type: 'object',
+            properties: {},
+          },
+          field2: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+
+      expect(result.uiSchema).to.eql({
+        field1: {
+          'ui:description': 'My field1 text',
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
+        },
+        field2: {
+          'ui:description': 'My field2 text',
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
+        },
+      });
+    });
+
     it('should return fields without array', () => {
       const result = getNonArraySchema(
         {
