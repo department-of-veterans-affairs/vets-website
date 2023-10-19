@@ -108,7 +108,7 @@ const SearchForm = props => {
   const handleFilterClear = e => {
     e.preventDefault();
     dispatch(clearSearchResults());
-    focusElement(filterInputRef.current.shadowRoot.querySelector('input'));
+    focusElement(filterInputRef.current.shadowRoot?.querySelector('input'));
     setFiltersCleared(true);
     setCategory('');
     setDateRange('any');
