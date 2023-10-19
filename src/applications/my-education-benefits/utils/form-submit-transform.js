@@ -262,10 +262,10 @@ export function getLTSCountryCode(schemaCountryValue) {
   return country?.ltsValue ? country.ltsValue : 'ZZ'; // ZZ is LTS code for unknown
 }
 
-export function getSchemaCountryCode(ltsCountryValue) {
-  const country = countries.find(countryInfo => {
-    return countryInfo.ltsValue === ltsCountryValue;
-  });
+export function getSchemaCountryCode(inputSchemaValue) {
+  const country = countries.find(
+    countryInfo => countryInfo.schemaValue === inputSchemaValue,
+  );
   return country?.schemaValue
     ? country.schemaValue
     : DEFAULT_SCHEMA_COUNTRY_CODE;

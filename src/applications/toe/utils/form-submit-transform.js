@@ -252,10 +252,10 @@ const DEFAULT_SCHEMA_COUNTRY_CODE =
     return country.label === 'United States';
   })?.schemaValue || 'USA';
 
-export function getSchemaCountryCode(ltsCountryValue) {
-  const country = countries.find(countryInfo => {
-    return countryInfo.ltsValue === ltsCountryValue;
-  });
+export function getSchemaCountryCode(inputSchemaValue) {
+  const country = countries.find(
+    countryInfo => countryInfo.schemaValue === inputSchemaValue,
+  );
   return country?.schemaValue
     ? country.schemaValue
     : DEFAULT_SCHEMA_COUNTRY_CODE;

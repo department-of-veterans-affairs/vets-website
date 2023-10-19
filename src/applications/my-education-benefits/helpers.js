@@ -471,6 +471,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         equalsAlphaOnlyIgnoreCase(e, suffix),
       ) || undefined;
   }
+
   return {
     metadata,
     formData: newData,
