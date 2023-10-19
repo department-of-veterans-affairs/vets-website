@@ -13,7 +13,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import AddIssue from '../components/AddIssue';
-import reviewErrors from '../content/reviewErrors';
 
 import {
   canUploadEvidence,
@@ -50,6 +49,7 @@ import {
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import reviewErrors from '../../shared/content/reviewErrors';
 
 // import initialData from '../tests/schema/initialData';
 
@@ -58,7 +58,7 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/notice_of_disagreements',
+  submitUrl: 'notice_of_disagreements',
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {

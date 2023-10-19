@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import PropTypes from 'prop-types';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import {
-  recordType,
-  EMPTY_FIELD,
-  ALERT_TYPE_ERROR,
-  pageTitles,
-} from '../util/constants';
+import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import { makePdf, processList } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-const Allergies = () => {
+const Allergies = props => {
+  const { runningUnitTest } = props;
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const allowTxtDownloads = useSelector(
@@ -37,7 +31,6 @@ const Allergies = () => {
   const user = useSelector(state => state.user.profile);
   const alertList = useSelector(state => state.mr.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState();
-  const fullState = useSelector(state => state);
 
   useEffect(
     () => {
@@ -78,9 +71,9 @@ const Allergies = () => {
   );
 
   const generateAllergiesPdf = async () => {
-    const title = 'Allergies';
+    const title = 'Allergies and reactions';
     const subject = 'VA Medical Record';
-    const preface = `This list includes all allergies your VA providers have entered. If you have allergies that are missing from this list, contact your care team.\n\nShowing ${
+    const preface = `This list includes all allergies, reactions, and side-effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.\n\nShowing ${
       allergies.length
     } records from newest to oldest`;
     const pdfData = generatePdfScaffold(user, title, subject, preface);
@@ -92,27 +85,22 @@ const Allergies = () => {
         items: [
           {
             title: 'Date entered',
-            value: item.date || EMPTY_FIELD,
+            value: item.date,
             inline: true,
           },
           {
-            title: 'Reaction',
+            title: 'Signs and symptoms',
             value: processList(item.reaction),
             inline: true,
           },
           {
             title: 'Type of allergy',
-            value: item.type || EMPTY_FIELD,
+            value: item.type,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || EMPTY_FIELD,
-            inline: true,
-          },
-          {
-            title: 'Observed or reported',
-            value: item.observedOrReported,
+            value: item.location,
             inline: true,
           },
           {
@@ -124,19 +112,12 @@ const Allergies = () => {
       });
     });
 
-    try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Allergies-list-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        pdfData,
-      );
-    } catch (error) {
-      sendErrorToSentry(error, 'Allergies');
-    }
+    const pdfName = `VA-Allergies-list-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -170,17 +151,16 @@ const Allergies = () => {
   return (
     <div id="allergies">
       <PrintHeader />
-      <h1 className="vads-u-margin--0">Allergies</h1>
+      <h1 className="vads-u-margin--0">Allergies and reactions</h1>
       <p className="page-description">
-        If you have allergies that are missing from this list, send a secure
-        message to your care team.
+        Review allergies, reactions, and side effects in your VA medical
+        records. This includes medication side effects (also called adverse drug
+        reactions).
       </p>
-      <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
-        className="page-description-link vads-u-margin-bottom--3 no-print"
-      >
-        Compose a message on the My HealtheVet website
-      </a>
+      <p className="page-description">
+        If you have allergies that are missing from this list, tell your care
+        team at your next appointment.
+      </p>
       {!accessAlert && (
         <>
           <PrintDownload
@@ -197,3 +177,7 @@ const Allergies = () => {
 };
 
 export default Allergies;
+
+Allergies.propTypes = {
+  runningUnitTest: PropTypes.bool,
+};

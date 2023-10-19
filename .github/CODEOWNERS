@@ -53,11 +53,8 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 
 # Authenticated Experience
 
-src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-
-# Benefits Team 1
-src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -81,6 +78,7 @@ src/applications/pensions @department-of-veterans-affairs/benefits-non-disabilit
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
@@ -88,7 +86,7 @@ src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @
 # VSA Debt
 
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/manage-va-debt @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
@@ -132,13 +130,13 @@ src/applications/static-pages/tests/facilities @department-of-veterans-affairs/v
 
 # Caregiver
 
-src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Health Care Applications
 
-src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/ezr @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/hca-performance-warning @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/ezr @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/hca-performance-warning @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Healthcare Experience
 
@@ -159,6 +157,7 @@ src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-v
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/health-care-supply-reordering @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My Education Benefits Team
 

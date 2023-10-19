@@ -10,7 +10,10 @@ const MrBreadcrumbs = () => {
   return (
     <>
       {crumbs.length > 0 && crumbs[0]?.url ? (
-        <div className="vads-l-row breadcrumbs-container no-print">
+        <div
+          className="vads-l-row breadcrumbs-container no-print"
+          data-testid="breadcrumbs"
+        >
           <VaBreadcrumbs label="Breadcrumb" mobileFirstProp>
             {crumbs.map((crumb, idx) => (
               <a href={crumb.url} key={idx}>
@@ -21,7 +24,7 @@ const MrBreadcrumbs = () => {
           </VaBreadcrumbs>
         </div>
       ) : (
-        <div className="breadcrumbs-container" />
+        <div className="breadcrumbs-container" data-testid="no-breadcrumbs" />
       )}
     </>
   );

@@ -66,10 +66,13 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     mockFacilityApi({ id: '983', apiVersion: 2 });
     mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
-      acheron: true,
+      vaOnlineSchedulingAcheronService: true,
+      vaOnlineSchedulingAppointmentList: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+      vaOnlineSchedulingFacilitiesServiceV2: true,
+      vaOnlineSchedulingStatusImprovement: false,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
     });
     mockUserTransitionAvailabilities();
   });

@@ -1,0 +1,15 @@
+{
+  "id": "SCT161891005",
+  "recordedDate": "2022-04-01T17:42:46.000Z",
+  "name": "Back pain (SCT 161891005)",
+  "active": true,
+  "provider": "Becky",
+  "facility": "chiropractor's office",
+  "code": {
+    "coding": { "code": "asdf" },
+    "text": "Back pain (SCT 161891005)"
+  },
+  "clinicalStatus": { "coding": { "code": "Active" } },
+  "asserter": "Dr. John",
+  "note": "A note"
+}
