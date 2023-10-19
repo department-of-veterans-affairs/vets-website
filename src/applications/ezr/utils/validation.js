@@ -33,3 +33,21 @@ export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
   }
   validateCurrentOrPastDate(errors, fieldData);
 }
+
+/**
+ * Validate insurance information to ensure either a policy number or group
+ * code is provided
+ * @param {Object} - errors - the error handling object from the forms system
+ * @param {String} - fieldData - the value from the view field
+ */
+export function validatePolicyNumberGroupCode(errors, fieldData) {
+  const { insurancePolicyNumber, insuranceGroupCode } = fieldData;
+  if (!insurancePolicyNumber && !insuranceGroupCode) {
+    errors.insuranceGroupCode.addError(
+      content['validation-insurance-group-code'],
+    );
+    errors.insurancePolicyNumber.addError(
+      content['validation-insurance-policy-number'],
+    );
+  }
+}

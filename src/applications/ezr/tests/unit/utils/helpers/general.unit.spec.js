@@ -1,9 +1,13 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { maskSSN, normalizeFullName } from '../../../../utils/helpers/general';
+import {
+  maskSSN,
+  normalizeFullName,
+  replaceStrValues,
+} from '../../../../utils/helpers/general';
 
 describe('ezr general helpers', () => {
-  describe('when `maskSSN` executes', () => {
+  context('when `maskSSN` executes', () => {
     context('when a value is omitted from the function', () => {
       it('should gracefully return an element with screenreader text that declares a blank value was provided', () => {
         const { container } = render(maskSSN());
@@ -41,7 +45,7 @@ describe('ezr general helpers', () => {
     });
   });
 
-  describe('when `normalizeFullName` executes', () => {
+  context('when `normalizeFullName` executes', () => {
     context('when a value is omitted from the function', () => {
       it('should gracefully return an empty string', () => {
         expect(normalizeFullName()).to.be.empty;
@@ -99,6 +103,34 @@ describe('ezr general helpers', () => {
             );
           });
         });
+      });
+    });
+  });
+
+  context('when `replaceStrValues` executes', () => {
+    context(
+      'when both the source string and replacement value are omitted from the function',
+      () => {
+        it('should gracefully return an empty string', () => {
+          expect(replaceStrValues()).to.be.empty;
+        });
+      },
+    );
+
+    context('when the replacement value is omitted from the function', () => {
+      it('should gracefully return an empty string', () => {
+        const str = 'Insurance information for %s';
+        expect(replaceStrValues(str)).to.be.empty;
+      });
+    });
+
+    context('when all required values are provided to the function', () => {
+      it('should the correct string', () => {
+        const str = 'Insurance information for %s';
+        const val = 'Mary Smith';
+        expect(replaceStrValues(str, val)).to.equal(
+          'Insurance information for Mary Smith',
+        );
       });
     });
   });

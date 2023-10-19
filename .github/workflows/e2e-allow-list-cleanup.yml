@@ -1,9 +1,8 @@
 name: Allow List Cleanup
 
 on:
-  # schedule:
-  #   - cron: '0 12 * * 1-5'
-  push
+  schedule:
+    - cron: '0 12 * * 1-5'
 
 jobs:
   fetch-allow-lists:

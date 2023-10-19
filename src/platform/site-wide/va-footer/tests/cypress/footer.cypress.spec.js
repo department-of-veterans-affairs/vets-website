@@ -1,5 +1,5 @@
-import features from './mocks/features';
-import * as footerLinks from './utilities/footer-links';
+import features from '../../../../utilities/tests/header-footer/mocks/features';
+import * as footerLinks from './footer-links';
 import * as staticFooterData from '~/platform/landing-pages/header-footer-data.json';
 
 // IMPORTANT: These tests verify the accuracy of the VA.gov footer against production (as of the time of writing this test)
