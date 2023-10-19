@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
 import { intersection, matches, merge, uniq } from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
@@ -688,6 +688,78 @@ export function transformForSubmit(
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   return JSON.stringify(withoutViewFields, replacer) || '{}';
+}
+
+/**
+ * Lowers any header tags found in TitleField by one level,
+ * when TitleField is on the Review page.
+ * This avoids the duplidate-H3s a11y bug.
+ *
+ * @param {React-fragment} title - React fragment to be processed
+ */
+export function getReviewTitle(element) {
+  // returns a conditionally-modify clone of title React-element,
+  // with any header tags lowered by one level for Review page.
+  // eslint-disable-next-line no-else-return
+  if (Array.isArray(element)) {
+    // return element.map((child, index) => (
+    // <React.Fragment key={index}>{getReviewTitle(child)}</React.Fragment>
+    // ));
+    return element.map((child, index) => {
+      if (child?.type) {
+        switch (child.type) {
+          // we're handling header-tags here from a form-PAGE's TitleField,
+          // which shouldn't have rec'd any H1s or H2s.
+          // a form-page already has an H1 & H2 above TitleField.
+          case 'h3':
+            return React.createElement('h4', {
+              key: child.key || index.toString(),
+              ...child.props,
+            });
+          case 'h4':
+            return React.createElement('h5', {
+              key: child.key || index.toString(),
+              ...child.props,
+            });
+          case 'h5':
+            return React.createElement('h6', {
+              key: child.key || index.toString(),
+              ...child.props,
+            });
+          case 'h6':
+            return React.createElement('p', {
+              key: child.key || index.toString(),
+              ...child.props,
+            });
+          default:
+            return child;
+        }
+      }
+
+      return child;
+    });
+    // eslint-disable-next-line no-else-return
+  } else if (typeof element === 'object' && element !== null) {
+    const { type, props } = element;
+    const newProps = { ...props };
+    let newType;
+
+    if (type && typeof type === 'string') {
+      if (type.match(/^h[1-5]$/)) {
+        newType = `h${parseInt(type.charAt(1), 10) + 1}`;
+      } else if (type === 'h6') {
+        newType = 'p';
+      } else {
+        newType = type;
+      }
+    } else {
+      newType = type;
+    }
+    const newChildren = getReviewTitle(props.children);
+    newProps.children = newChildren;
+    return React.createElement(newType, newProps);
+  }
+  return element;
 }
 
 /**

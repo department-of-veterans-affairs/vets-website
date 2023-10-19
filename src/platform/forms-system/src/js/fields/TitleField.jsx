@@ -1,7 +1,10 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
+
+import { getReviewTitle } from '../helpers';
 
 export default function TitleField({ id, title, formContext }) {
   const isRoot = id === 'root__title';
@@ -13,47 +16,15 @@ export default function TitleField({ id, title, formContext }) {
 
   const isStringTitle = typeof title === 'string';
   const isEmptyStringTitle = isStringTitle && title.trim() === '';
-  const getReviewTitle = element => {
-    // returns a conditionally-modify clone of title React-element,
-    // with any header tags lowered by one level for Review page.
-    if (Array.isArray(element)) {
-      return element.map((child, index) => (
-        <React.Fragment key={index}>{getReviewTitle(child)}</React.Fragment>
-      ));
-      // eslint-disable-next-line no-else-return
-    } else if (typeof element === 'object' && element !== null) {
-      const { type, props } = element;
-      const newProps = { ...props };
-      let newType;
-
-      if (typeof type === 'string') {
-        if (type.match(/^h[1-5]$/)) {
-          newType = `h${parseInt(type.charAt(1), 10) + 1}`;
-        } else if (type === 'h6') {
-          newType = 'p';
-        } else {
-          newType = type;
-        }
-      } else {
-        newType = type;
-      }
-      const newChildren = getReviewTitle(props.children);
-      newProps.children = newChildren;
-      return React.createElement(newType, newProps);
-    }
-    return element;
-  };
 
   // Handle title scenarios:
-  // If title is a React element with an <h3>,
-  // it should be made <h4> for the Review page.
   if (isStringTitle) {
     reviewTitle = !isEmptyStringTitle ? title : null;
   } else if (!onReviewPage) {
-    reviewTitle = title;
+    reviewTitle = isEmpty(title) ? null : title;
   } else {
-    // title is a React fragment and on Review page, so
-    // any header tags should be lowered by one level.
+    // title here is a React fragment and on Review page, so
+    // any header tags in children should be lowered by one level.
     reviewTitle = getReviewTitle(title);
   }
 
