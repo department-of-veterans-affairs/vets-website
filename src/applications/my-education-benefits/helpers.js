@@ -448,7 +448,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         postalCode:
           address?.zipCode ||
           address?.zipcode ||
-          address?.InternationalPostalCode,
+          address?.internationalPostalCode,
         country: getSchemaCountryCode(
           address?.countryCode || address?.countryCodeIso3,
         ),
@@ -471,7 +471,6 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         equalsAlphaOnlyIgnoreCase(e, suffix),
       ) || undefined;
   }
-
   return {
     metadata,
     formData: newData,
