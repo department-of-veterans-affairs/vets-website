@@ -1,10 +1,10 @@
-import features from './mocks/features';
-import * as h from './utilities/helpers';
+import features from '../../../../utilities/tests/header-footer/mocks/features';
+import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
 
 // IMPORTANT: These tests verify the accuracy of the VA.gov header against production (as of the time of writing this test)
 // and against header-footer-data.json, which is used to populate the header in local dev when content-build is not running.
 // It is important that both of these stay in parity with what is in production.
-describe('global header - benefit hubs - education and training', () => {
+describe('global header - benefit hubs - disability', () => {
   Cypress.config({
     includeShadowDom: true,
     waitForAnimations: true,
@@ -21,13 +21,11 @@ describe('global header - benefit hubs - education and training', () => {
     );
   });
 
-  const educationTraining =
-    '[data-e2e-id="vetnav-level2--education-and-training"]';
-
+  const disability = '[data-e2e-id="vetnav-level2--disability"]';
   const viewAll = {
-    id: 'view-all-in-education',
-    href: '/education',
-    text: 'View all in education',
+    id: 'view-all-in-disability',
+    href: '/disability',
+    text: 'View all in disability',
   };
 
   // Headings and links were pulled from production on October 16, 2023.
@@ -35,7 +33,7 @@ describe('global header - benefit hubs - education and training', () => {
   const headings = [
     {
       id: '#vetnav-column-one-header',
-      text: 'Get education benefits',
+      text: 'Get disability benefits',
     },
     {
       id: '#vetnav-column-two-header',
@@ -45,29 +43,29 @@ describe('global header - benefit hubs - education and training', () => {
 
   const links = [
     {
-      id: 'about-gi-bill-benefits',
-      href: '/education/about-gi-bill-benefits',
-      text: 'About GI Bill benefits',
-    },
-    {
       id: 'eligibility',
-      href: '/education/eligibility',
+      href: '/disability/eligibility',
       text: 'Eligibility',
     },
     {
-      id: 'how-to-apply',
-      href: '/education/how-to-apply',
-      text: 'How to apply',
+      id: 'how-to-file-a-claim',
+      href: '/disability/how-to-file-claim',
+      text: 'How to file a claim',
     },
     {
-      id: 'veteran-readiness-and-employment',
-      href: '/careers-employment/vocational-rehabilitation',
-      text: 'Veteran Readiness and Employment',
+      id: 'survivor-and-dependent-compensation-dic',
+      href: '/disability/dependency-indemnity-compensation',
+      text: 'Survivor and dependent compensation (DIC)',
     },
     {
-      id: 'survivor-and-dependent-education-benefits',
-      href: '/education/survivor-dependent-benefits',
-      text: 'Survivor and dependent education benefits',
+      id: 'file-a-claim-online',
+      href: '/disability/file-disability-claim-form-21-526ez/',
+      text: 'File a claim online',
+    },
+    {
+      id: 'check-your-claim-decision-review-or-appeal-status',
+      href: '/claim-or-appeal-status',
+      text: 'Check your claim, decision review, or appeal status',
     },
     {
       id: 'view-your-va-payment-history',
@@ -75,24 +73,19 @@ describe('global header - benefit hubs - education and training', () => {
       text: 'View your VA payment history',
     },
     {
-      id: 'check-your-post-9-11-gi-bill-benefits',
-      href: '/education/gi-bill/post-9-11/ch-33-benefit/',
-      text: 'Check your Post-9/11 GI Bill benefits',
+      id: 'upload-evidence-to-support-your-claim',
+      href: '/disability/upload-supporting-evidence',
+      text: 'Upload evidence to support your claim',
     },
     {
-      id: 'transfer-your-post-9-11-gi-bill-benefits',
-      href: '/education/transfer-post-9-11-gi-bill-benefits',
-      text: 'Transfer your Post-9/11 GI Bill benefits',
+      id: 'file-for-a-va-disability-increase',
+      href: '/disability/file-disability-claim-form-21-526ez/',
+      text: 'File for a VA disability increase',
     },
     {
-      id: 'change-your-gi-bill-school-or-program',
-      href: '/education/change-gi-bill-benefits',
-      text: 'Change your GI Bill school or program',
-    },
-    {
-      id: 'change-your-direct-deposit-information',
-      href: '/change-direct-deposit',
-      text: 'Change your direct deposit information',
+      id: 'request-a-decision-review-or-appeal',
+      href: '/decision-reviews',
+      text: 'Request a decision review or appeal',
     },
   ];
 
@@ -114,14 +107,8 @@ describe('global header - benefit hubs - education and training', () => {
         h.verifyElement(vaBenefitsAndHealthCareButton);
         h.clickButton(vaBenefitsAndHealthCareButton);
 
-        // -> Education and training
-        h.verifyMenuItems(
-          educationTraining,
-          headings,
-          links,
-          viewAll,
-          'Education and training',
-        );
+        // -> Disability
+        h.verifyMenuItems(disability, headings, links, viewAll, 'Disability');
       });
   });
 });
