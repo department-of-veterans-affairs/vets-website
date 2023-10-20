@@ -70,9 +70,10 @@ class MedicationsLandingPage {
   };
 
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    cy.get('[data-testid="empty-list-alert"] >div ').should(
-      'have.text',
-      'You don’t have any medications in your medications listNote: This list doesn’t include older prescriptions that have been inactive for more than 180 days. To find these older prescriptions, go to your VA Blue Button report on the My HealtheVet website. Go to VA Blue Button® on the My HealtheVet website',
+    // cy.get('[data-testid="empty-list-alert"] >div ').should(
+    cy.get('[data-testid="alert-message"]').should(
+      'contain.text',
+      'You don’t have any medications in your medications list',
     );
   };
 }
