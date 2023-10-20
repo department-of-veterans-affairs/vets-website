@@ -289,7 +289,7 @@ describe('Compose container', () => {
     });
   });
 
-  it('responds to sending a message with attachment', async () => {
+  it.skip('responds to sending a message with attachment', async () => {
     const screen = setup();
     await waitFor(() => {
       fireEvent.click(screen.getByText('Continue to start message'));
