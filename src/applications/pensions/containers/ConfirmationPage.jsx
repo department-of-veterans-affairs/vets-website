@@ -1,19 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
-
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { scrollToTop } from '../helpers';
 
 class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -32,7 +23,7 @@ class ConfirmationPage extends React.Component {
   };
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const response = this.props.form.submission.response
       ? this.props.form.submission.response
       : {};
@@ -85,8 +76,8 @@ class ConfirmationPage extends React.Component {
               <span>{pmcName}</span>
               <br />
               <span>
-                Phone: <a href="tel:1-800-827-1000">800-827-1000</a>, Monday
-                &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
+                Phone: <va-telephone international contact="8008271000" />,
+                Monday &#8211; &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
               </span>
               <br />
               <span>Fax: 844-655-1604</span>
