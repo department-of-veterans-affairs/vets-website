@@ -32,9 +32,13 @@ import spousePersonalInformation from './chapters/householdInformation/spousePer
 import spouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
 import spouseContactInformation from './chapters/householdInformation/spouseContactInformation';
+import dependentSummary from './chapters/householdInformation/dependentSummary';
 import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
+import DependentSummaryPage from '../components/FormPages/DependentSummary';
+import DependentInformationPage from '../components/FormPages/DependentInformation';
+import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
 
 // chapter 3 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
@@ -46,7 +50,10 @@ import InsurancePolicyInformationPage from '../components/FormPages/InsurancePol
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
 
 // declare shared paths for custom form page navigation
-const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
+const {
+  insurance: INSURANCE_PATHS,
+  dependents: DEPENDENT_PATHS,
+} = SHARED_PATHS;
 
 // declare form config object
 const formConfig = {
@@ -199,7 +206,6 @@ const formConfig = {
           uiSchema: spouseContactInformation.uiSchema,
           schema: spouseContactInformation.schema,
         },
-        /*
         dependentSummary: {
           path: DEPENDENT_PATHS.summary,
           title: 'Dependents',
@@ -217,7 +223,6 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        */
         veteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
