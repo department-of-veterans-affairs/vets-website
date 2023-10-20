@@ -212,8 +212,17 @@ export class AuthApp extends React.Component {
     }
   };
 
-  checkReturnUrl = passedUrl =>
-    Object.values(EXTERNAL_REDIRECTS).includes(passedUrl);
+  checkReturnUrl = passedUrl => {
+    return (
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]) ||
+      passedUrl.includes(
+        EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_FLAGSHIP_MOBILE],
+      ) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE])
+    );
+  };
 
   generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
     recordEvent({ event });

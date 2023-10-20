@@ -206,7 +206,8 @@ describe('AuthApp', () => {
 
   it('should fire the redirect for eauth', () => {
     global.window = { location: { replace: sinon.spy() } };
-    const returnUrl = 'http://int.eauth.va.gov/mhv-portal-web/eauth';
+    const returnUrl =
+      'https://pint.eauth.va.gov/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=%2Fmyvaimages-beta%2F';
     const { wrapper, instance } = generateAuthApp({
       query: { type: 'idme' },
       hasSession: true,
