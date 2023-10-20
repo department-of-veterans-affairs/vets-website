@@ -92,6 +92,52 @@ export default function DetailsVideo({ appointment, facilityData }) {
 }
 
 DetailsVideo.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facilityData: PropTypes.object,
+  appointment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    start: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+      isUpcomingAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
+    }),
+    location: PropTypes.shape({
+      vistaId: PropTypes.string.isRequired,
+      clinicId: PropTypes.string.isRequired,
+      stationId: PropTypes.string.isRequired,
+      clinicName: PropTypes.string.isRequired,
+    }),
+  }),
+  facilityData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    vistaId: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
+};
+DetailsVideo.defaultProps = {
+  appointment: {
+    id: '',
+    start: '',
+    comment: '',
+    vaos: {
+      isPastAppointment: false,
+      isUpcomingAppointment: false,
+      isPendingAppointment: false,
+      isVideo: false,
+      isAtlas: false,
+      extension: { patientHasMobileGfe: false },
+      kind: '',
+    },
+    location: {
+      vistaId: '',
+      clinicId: '',
+      stationId: '',
+      clinicName: '',
+    },
+  },
+  facilityData: {
+    id: '',
+    vistaId: '',
+    name: '',
+  },
 };
