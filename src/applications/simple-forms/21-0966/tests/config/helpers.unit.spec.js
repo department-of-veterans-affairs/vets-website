@@ -469,7 +469,7 @@ describe('confirmation page helper functions', () => {
         alreadySubmittedExpirationDate,
       ).toLocaleDateString('en-us', dateOptions);
 
-      [(veteranBenefits.compensation, veteranBenefits.pension)].forEach(
+      [veteranBenefits.compensation, veteranBenefits.pension].forEach(
         alreadySubmittedIntentType => {
           const alreadySubmittedIntents = {
             [alreadySubmittedIntentType]: {
