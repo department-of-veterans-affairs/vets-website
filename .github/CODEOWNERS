@@ -183,12 +183,12 @@ src/applications/personalization/profile @department-of-veterans-affairs/vsa-aut
 
 # va.gov/profile/contacts - Personal health care contacts
 
-src/applications/personalization/profile/actions/contacts.js @department-of-veterans-affairs/vfs-my-health-cartographers @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/personalization/profile/reducers/contacts.js @department-of-veterans-affairs/vfs-my-health-cartographers @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/personalization/profile/reducers/contacts.unit.spec.js @department-of-veterans-affairs/vfs-my-health-cartographers @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/personalization/profile/components/personal-health-care-contacts @department-of-veterans-affairs/vfs-my-health-cartographers @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/personalization/profile/tests/e2e/personal-health-care-contacts @department-of-veterans-affairs/vfs-my-health-cartographers @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/personalization/profile/tests/fixtures/contacts.json @department-of-veterans-affairs/vfs-my-health-cartographers @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/actions/contacts.js @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/reducers/contacts.js @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/reducers/contacts.unit.spec.js @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/components/personal-health-care-contacts @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/tests/e2e/personal-health-care-contacts @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/tests/fixtures/contacts.json @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
 
 # Dependents Benefits
 src/applications/static-pages/dependency-verification @department-of-veterans-affairs/benefits-dependents-management @department-of-veterans-affairs/va-platform-cop-frontend
