@@ -6,69 +6,74 @@ import mockFolders from './fixtures/generalResponses/folders.json';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('create custom folder', () => {
-  const folderPage = new FolderManagementPage();
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
-  const folderName = createdFolderResponse.data.attributes.name;
-  const newFolder = `folder${Date.now()}`;
-  mockFolders.data.push(createdFolderResponse.data);
+for (let i = 0; i < 200; i += 1) {
+  describe('manage folders', () => {
+    describe.skip('create custom folder', () => {
+      const folderPage = new FolderManagementPage();
+      const landingPage = new PatientInboxPage();
+      const site = new SecureMessagingSite();
+      const folderName = createdFolderResponse.data.attributes.name;
+      const newFolder = `folder${Date.now()}`;
+      mockFolders.data.push(createdFolderResponse.data);
 
-  before(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
-  });
+      before(() => {
+        site.login();
+        landingPage.loadInboxMessages();
+        PatientMessageCustomFolderPage.loadFoldersList();
+      });
 
-  it('verify folder created', () => {
-    PatientMessageCustomFolderPage.createCustomFolder(newFolder);
+      it('verify folder created', () => {
+        PatientMessageCustomFolderPage.createCustomFolder(newFolder);
 
-    folderPage.verifyCreateFolderSuccessMessage();
+        folderPage.verifyCreateFolderSuccessMessage();
 
-    cy.get('.folders-list').should('contain.text', folderName);
+        cy.get('.folders-list').should('contain.text', folderName);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
+        cy.injectAxe();
+        cy.axeCheck(AXE_CONTEXT, {
+          rules: {
+            'aria-required-children': {
+              enabled: false,
+            },
+          },
+        });
+      });
+    });
+
+    describe('delete custom folder', () => {
+      const folderPage = new FolderManagementPage();
+      const landingPage = new PatientInboxPage();
+      const site = new SecureMessagingSite();
+      const folderName = createdFolderResponse.data.attributes.name;
+      const { folderId } = createdFolderResponse.data.attributes;
+
+      before(() => {
+        site.login();
+        landingPage.loadInboxMessages();
+        PatientMessageCustomFolderPage.loadFoldersList();
+      });
+
+      it('verify folder deleted', () => {
+        PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
+          folderId,
+          folderName,
+        );
+        mockFolders.data.pop(createdFolderResponse.data);
+
+        folderPage.deleteFolder(folderId);
+
+        folderPage.verifyDeleteSuccessMessage();
+        // cy.get('.folders-list').should('not.contain.text', folderName); // --This is a defect
+
+        cy.injectAxe();
+        cy.axeCheck(AXE_CONTEXT, {
+          rules: {
+            'aria-required-children': {
+              enabled: false,
+            },
+          },
+        });
+      });
     });
   });
-});
-describe('delete custom folder', () => {
-  const folderPage = new FolderManagementPage();
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
-  const folderName = createdFolderResponse.data.attributes.name;
-  const { folderId } = createdFolderResponse.data.attributes;
-
-  before(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
-  });
-
-  it.skip('verify folder deleted', () => {
-    PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
-      folderId,
-      folderName,
-    );
-    mockFolders.data.pop(createdFolderResponse.data);
-
-    folderPage.deleteFolder(folderId);
-
-    folderPage.verifyDeleteSuccessMessage();
-    // cy.get('.folders-list').should('not.contain.text', folderName); --This is a defect
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
-});
+}
