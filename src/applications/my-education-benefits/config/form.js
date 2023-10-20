@@ -48,7 +48,7 @@ import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
-
+// import IncorrectServiceHistoryComponent from '../components/IncorrectServiceHistoryComponent';
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
 
@@ -1339,8 +1339,6 @@ const formConfig = {
               },
             },
             [formFields.incorrectServiceHistoryExplanation]: {
-              'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
@@ -1348,7 +1346,37 @@ const formConfig = {
                     formFields.serviceHistoryIncorrect
                   ],
               },
-              'ui:widget': 'textarea',
+              incorrectServiceHistoryInputs: {
+                'ui:required': formData =>
+                  formData['view:serviceHistory']?.serviceHistoryIncorrect ===
+                  true,
+                'ui:description': (
+                  <>
+                    <p>
+                      Choose all that apply{' '}
+                      <span className="text-restriction">
+                        (*You must choose at least one)
+                      </span>
+                    </p>
+                  </>
+                ),
+                servicePeriodMissing: {
+                  'ui:title': 'One or more of my service periods are missing',
+                  // 'ui:required': formData => formData['view:serviceHistory']?.serviceHistoryIncorrect === true && !formData.incorrectServiceHistoryExplanation.incorrectServiceHistoryInputs.servicePeriodIncorrect,
+                },
+                servicePeriodIncorrect: {
+                  'ui:title':
+                    'One or more of my service periods have incorrect information',
+                  // 'ui:required': formData => formData['view:serviceHistory']?.serviceHistoryIncorrect === true && !formData.incorrectServiceHistoryExplanation.incorrectServiceHistoryInputs.servicePeriodMissing,
+                },
+              },
+              incorrectServiceHistoryText: {
+                'ui:title':
+                  'Please explain why this information is incorrect or incomplete',
+                'ui:required': formData =>
+                  formData['view:serviceHistory']?.serviceHistoryIncorrect ===
+                  true,
+              },
             },
           },
           schema: {
@@ -1380,8 +1408,19 @@ const formConfig = {
                 },
               },
               [formFields.incorrectServiceHistoryExplanation]: {
-                type: 'string',
-                maxLength: 250,
+                type: 'object',
+                properties: {
+                  incorrectServiceHistoryInputs: {
+                    type: 'object',
+                    properties: {
+                      servicePeriodMissing: { type: 'boolean' },
+                      servicePeriodIncorrect: { type: 'boolean' },
+                    },
+                  },
+                  incorrectServiceHistoryText: {
+                    type: 'string',
+                  },
+                },
               },
             },
           },
