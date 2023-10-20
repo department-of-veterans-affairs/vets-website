@@ -29,7 +29,7 @@ export const inputVaTextInput = (
 };
 
 export const selectVaSelect = (container, value, selector = 'va-select') => {
-  const changeEvent = new CustomEvent('selected', {
+  const changeEvent = new CustomEvent('vaSelect', {
     detail: { value },
   });
   $(selector, container).__events.vaSelect(changeEvent);
