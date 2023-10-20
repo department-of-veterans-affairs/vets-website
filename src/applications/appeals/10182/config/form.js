@@ -3,6 +3,10 @@ import { externalServices as services } from 'platform/monitoring/DowntimeNotifi
 
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import {
+  getNextPagePath,
+  checkValidPagePath,
+} from 'platform/forms-system/src/js/routing';
 
 import migrations from '../migrations';
 import prefillTransformer from './prefill-transformer';
@@ -13,6 +17,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import AddIssue from '../components/AddIssue';
+import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../constants';
 
 import {
   canUploadEvidence,
@@ -85,14 +90,40 @@ const formConfig = {
   submit: submitForm,
   // showReviewErrors: true,
   reviewErrors,
+  onFormLoaded: props => {
+    const { formData } = props;
+    let { returnUrl } = props;
 
+    if (
+      formData[SHOW_PART3] &&
+      formData[SHOW_PART3_REDIRECT] === 'redirected'
+    ) {
+      returnUrl = '/extension-request';
+    }
+
+    const isValidReturnUrl = checkValidPagePath(
+      props.routes[props.routes.length - 1].pageList,
+      formData,
+      returnUrl,
+    );
+
+    if (isValidReturnUrl) {
+      props.router.push(returnUrl);
+    } else {
+      const nextPagePath = getNextPagePath(
+        props.routes[props.routes.length - 1].pageList,
+        formData,
+        '/introduction',
+      );
+      props.router.push(nextPagePath);
+    }
+  },
   // SaveInProgress messages
   customText,
   savedFormMessages,
   saveInProgress,
   // errorText: '',
   // submissionError: '',
-
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 
