@@ -53,40 +53,20 @@ function visitIntro() {
 }
 
 // Fills all fields on the Applicant Information page , performs axe check, continues to next page
-function fillApplicantInfo(name, ssn, dob, relationship, placeOfBirth) {
-  const isVeteran = relationship === '1';
-
-  cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
-  cy.injectAxeThenAxeCheck();
-  clickContinue();
-
+function fillApplicantInfo(name, ssn, dob, relationship) {
   cy.get('input[name="root_application_claimant_name_first"]');
   validateProgressBar('1');
   cy.fillName('root_application_claimant_name', name);
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
+  cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
 
-  if (isVeteran) {
-    cy.fill(
-      'input[name="root_application_veteran_placeOfBirth"]',
-      placeOfBirth,
-    );
-  }
-
-  cy.axeCheck();
+  cy.injectAxeThenAxeCheck();
   clickContinue();
-
-  if (isVeteran) {
-    cy.url().should(
-      'not.contain',
-      '/form-10007-apply-for-eligibility/veteran-applicant-details',
-    );
-  } else {
-    cy.url().should(
-      'not.contain',
-      '/form-10007-apply-for-eligibility/nonVeteran-applicant-details',
-    );
-  }
+  cy.url().should(
+    'not.contain',
+    '/form-10007-apply-for-eligibility/applicant-information',
+  );
 }
 
 // Fills in any existing military history data, performs axe check, continues to next page

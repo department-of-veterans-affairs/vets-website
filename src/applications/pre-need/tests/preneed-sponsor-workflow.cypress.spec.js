@@ -12,7 +12,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       testData.data.application.claimant.ssn,
       testData.data.application.claimant.dateOfBirth,
       testData.data.application.claimant.relationshipToVet,
-      testData.data.application.veteran.placeOfBirth,
     );
 
     // Veteran Information Page

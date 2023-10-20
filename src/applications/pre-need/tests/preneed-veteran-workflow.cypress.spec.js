@@ -12,7 +12,6 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.ssn,
       testData.data.application.veteran.dateOfBirth,
       testData.data.application.veteran.relationshipToVet,
-      testData.data.application.veteran.placeOfBirth,
     );
 
     // Applicant demographics
