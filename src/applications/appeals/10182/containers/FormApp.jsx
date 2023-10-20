@@ -18,7 +18,7 @@ import {
 import { nodPart3UpdateFeature } from '../utils/helpers';
 import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
-import doesVeteranNeedToBeRedirectedToNewQuestions from '../utils/redirect';
+import { checkRedirect } from '../utils/redirect';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -111,22 +111,20 @@ export const FormApp = ({
       // progress response has loaded; and saving this check to form data to
       // ensure that this check & redirect only occurs once & the state is saved
       // in the form data so it doesn't occur again if the Veteran returns later
-      const featureFlagOn = showPart3;
       const formDataIsLoadedInReduxStore = !!returnUrlFromSIPForm;
       const weHaveNeverCheckedWhetherVeteranNeedsToBeRedirected = !formData[
         SHOW_PART3_REDIRECT
       ];
 
       if (
-        featureFlagOn &&
+        showPart3 &&
         formDataIsLoadedInReduxStore &&
         weHaveNeverCheckedWhetherVeteranNeedsToBeRedirected
       ) {
         // Redirect back to part 3 question if Veteran is on or past the
         // contestable issues page
-        const needsRedirect = doesVeteranNeedToBeRedirectedToNewQuestions(
-          returnUrlFromSIPForm,
-        );
+        const needsRedirect = checkRedirect(returnUrlFromSIPForm);
+
         // Using "redirected" for the resulting page to show an info alert so
         // the Veteran knows why they were redirected.
         // **This is just the updating the redux store. It takes further Veteran action (e.g. focus, blur, but not clicking back or continue).
