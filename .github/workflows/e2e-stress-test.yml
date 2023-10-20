@@ -165,7 +165,6 @@ jobs:
       tests: ${{ steps.tests.outputs.selected }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
 
     steps:
       - name: Checkout
@@ -201,10 +200,6 @@ jobs:
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests
         run: echo selected=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
-
-      - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
-        id: test_selection_disallowed_tests
-        run: echo test_selection_disallowed_tests=$TEST_SELECTION_DISALLOWED_TESTS >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
@@ -403,8 +398,8 @@ jobs:
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           TEST_TYPE: e2e
+          IS_CI: false
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -434,10 +429,3 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-      # - name: Create GitHub Issues for new flaky tests
-      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-      #   run: yarn create-github-issues-for-flaky-tests
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}

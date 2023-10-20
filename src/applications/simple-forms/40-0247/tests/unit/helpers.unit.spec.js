@@ -45,8 +45,8 @@ describe('createPayload', () => {
     const password = 'test-password';
     const payload = createPayload(file, formId, password);
 
-    expect(payload.get('files_attachment[file_data]')).to.equal(file);
-    expect(payload.get('files_attachment[password]')).to.equal(password);
+    expect(payload.get('file')).to.equal(file);
+    expect(payload.get('password')).to.equal(password);
   });
 
   it('should create a FormData object with only the file if no password is provided', () => {
@@ -54,8 +54,8 @@ describe('createPayload', () => {
     const formId = 'test-form';
     const payload = createPayload(file, formId);
 
-    expect(payload.get('files_attachment[file_data]')).to.equal(file);
-    expect(payload.get('files_attachment[password]')).to.be.null;
+    expect(payload.get('file')).to.equal(file);
+    expect(payload.get('password')).to.be.null;
   });
 });
 
@@ -64,16 +64,15 @@ describe('parseResponse', () => {
     const response = {
       data: {
         attributes: {
-          // eslint-disable-next-line camelcase
-          confirmation_code: 'test-guid',
+          confirmationCode: 'test-guid',
+          name: 'test-file.txt',
         },
       },
     };
-    const name = 'test-file.txt';
-    const result = parseResponse(response, { name });
+    const result = parseResponse(response);
 
     expect(result).to.deep.equal({
-      name,
+      name: 'test-file.txt',
       confirmationCode: 'test-guid',
     });
   });

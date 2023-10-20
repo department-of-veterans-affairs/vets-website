@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -12,7 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { macroCase, sendErrorToSentry } from '../util/helpers';
+import { macroCase, makePdf } from '../util/helpers';
 import { vitalTypeDisplayNames, pageTitles } from '../util/constants';
 import {
   updatePageTitle,
@@ -20,7 +19,8 @@ import {
 } from '../../shared/util/helpers';
 
 const MAX_PAGE_LIST_LENGTH = 5;
-const VitalDetails = () => {
+const VitalDetails = props => {
+  const { runningUnitTest } = props;
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
@@ -130,19 +130,13 @@ const VitalDetails = () => {
       ],
     };
 
-    try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Vital-details-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        scaffold,
-      );
-    } catch (error) {
-      sendErrorToSentry(error, 'Vital details');
-    }
+    const pdfName = `VA-Vital-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
 
   const content = () => {
@@ -250,5 +244,5 @@ const VitalDetails = () => {
 export default VitalDetails;
 
 VitalDetails.propTypes = {
-  print: PropTypes.func,
+  runningUnitTest: PropTypes.bool,
 };

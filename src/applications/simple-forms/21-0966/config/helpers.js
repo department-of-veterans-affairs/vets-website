@@ -1,5 +1,5 @@
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import {
   preparerIdentifications,
   veteranBenefits,

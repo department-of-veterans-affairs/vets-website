@@ -9,6 +9,7 @@ import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
   isValidYear,
+  isValidVAFileNumber,
   isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
@@ -342,6 +343,12 @@ export function isValidForm(form, pageList, isTesting = false) {
 export function validateSSN(errors, ssn) {
   if (ssn && !isValidSSN(ssn)) {
     errors.addError('Please enter a valid 9 digit SSN (dashes allowed)');
+  }
+}
+
+export function validateVAFileNumber(errors, vaFileNumber) {
+  if (vaFileNumber && !isValidVAFileNumber(vaFileNumber)) {
+    errors.addError('VA file number must be 8 or 9 digits (dashes allowed)');
   }
 }
 

@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { sendErrorToSentry } from '../../util/helpers';
+import { makePdf } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 
@@ -69,17 +68,17 @@ const EkgDetails = props => {
             items: [
               {
                 title: 'Date',
-                value: moment(record.date).format('LL') || ' ',
+                value: record.date,
                 inline: true,
               },
               {
                 title: 'Location',
-                value: record.facility || ' ',
+                value: record.facility,
                 inline: true,
               },
               {
                 title: 'Provider',
-                value: record.orderedBy || ' ',
+                value: record.orderedBy,
                 inline: true,
               },
             ],
@@ -88,17 +87,7 @@ const EkgDetails = props => {
       },
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          'electrocardiogram_report',
-          pdfData,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'EKG');
-    }
+    makePdf('electrocardiogram_report', pdfData, 'EKG', runningUnitTest);
   };
 
   const content = () => {

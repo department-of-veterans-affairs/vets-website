@@ -177,7 +177,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       }`,
     );
 
-    expect(screen.baseElement).to.contain.text('New Problem');
+    expect(screen.baseElement).to.contain.text('New medical issue');
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('veteranemailtest@va.gov');
