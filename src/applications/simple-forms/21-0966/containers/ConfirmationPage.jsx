@@ -31,7 +31,7 @@ export class ConfirmationPage extends React.Component {
     const { form } = this.props;
     const { submission, data } = form;
 
-    const { fullName } = data;
+    const { veteranFullName } = data;
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -109,12 +109,13 @@ export class ConfirmationPage extends React.Component {
         )}
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
-          {fullName ? (
+          {veteranFullName ? (
             <>
               <h4>Applicant</h4>
               <p>
-                {fullName.first} {fullName.middle} {fullName.last}
-                {fullName.suffix ? `, ${fullName.suffix}` : null}
+                {veteranFullName.first} {veteranFullName.middle}{' '}
+                {veteranFullName.last}
+                {veteranFullName.suffix ? `, ${veteranFullName.suffix}` : null}
               </p>
             </>
           ) : null}
@@ -183,7 +184,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      veteranFullName: {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
@@ -192,6 +193,13 @@ ConfirmationPage.propTypes = {
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
+      response: PropTypes.shape({
+        confirmationNumber: PropTypes.string,
+        expirationDate: PropTypes.string,
+        compensationIntent: PropTypes.shape(),
+        pensionIntent: PropTypes.shape(),
+        survivorsIntent: PropTypes.shape(),
+      }),
       timestamp: PropTypes.string,
     }),
   }),
