@@ -669,6 +669,9 @@ const formConfig = {
                       {},
                       address.uiSchema('Sponsor’s mailing address'),
                       {
+                        street: {
+                          'ui:title': 'Street address',
+                        },
                         state: {
                           'ui:title': sponsorMailingAddressStateTitleWrapper,
                           'ui:options': {
