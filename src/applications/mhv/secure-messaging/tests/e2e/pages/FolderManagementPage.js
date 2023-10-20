@@ -194,9 +194,7 @@ class FolderManagementPage {
       mockCustomResponse,
     ).as('moveMockCustomResponse');
     cy.get('[data-testid="move-to-modal"]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
+      .find('va-button[text="Confirm"]')
       .click();
     // cy.wait('@mockCustomResponse');
   };
@@ -222,7 +220,7 @@ class FolderManagementPage {
     cy.get(`[data-testid="radiobutton-${folderName}"]`)
       .should('exist')
       .click();
-    cy.get('#modal-primary-button').click();
+    cy.get('va-button[text="Confirm"]').click();
   };
 
   verifyMoveMessageSuccessConfirmationFocus = () => {
