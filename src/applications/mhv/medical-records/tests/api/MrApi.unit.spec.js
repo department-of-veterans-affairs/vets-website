@@ -76,7 +76,7 @@ describe('Get vitals api call', () => {
     mockApiRequest(mockData);
 
     return getVitalsList(true).then(res => {
-      expect(res.entry.length).to.equal(2);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });

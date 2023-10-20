@@ -1,5 +1,6 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { loincCodes, EMPTY_FIELD } from '../util/constants';
+import { loincCodes, vitalTypes, EMPTY_FIELD } from '../util/constants';
 import {
   isArrayAndHasItems,
   macroCase,
@@ -19,7 +20,7 @@ const initialState = {
 };
 
 const getMeasurement = (record, type) => {
-  if (type === 'BLOOD_PRESSURE') {
+  if (type === vitalTypes.BLOOD_PRESSURE) {
     const systolic = record.component.find(
       item => item.code.coding[0].code === loincCodes.SYSTOLIC,
     );
@@ -28,7 +29,7 @@ const getMeasurement = (record, type) => {
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  return record.valueQuantity?.value + record.valueQuantity?.code;
+  return `${record.valueQuantity?.value} ${record.valueQuantity?.code}`;
 };
 
 export const extractLocation = vital => {
@@ -53,8 +54,10 @@ export const convertVital = record => {
     type,
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
-    date: record.effectiveDateTime || EMPTY_FIELD,
-    location: record.encounter || EMPTY_FIELD,
+    date: record?.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
+    location: extractLocation(record),
     notes:
       (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
   };
