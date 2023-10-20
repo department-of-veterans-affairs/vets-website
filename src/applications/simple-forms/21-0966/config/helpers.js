@@ -123,30 +123,31 @@ const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
     key => alreadySubmittedIntents[key],
   );
 
+const benefitHasAlreadyBeenSubmitted = (
+  benefitSelection,
+  alreadySubmittedIntents,
+) => {
+  const intents = alreadySubmittedBenefitIntents(alreadySubmittedIntents);
+  if (intents.length === 0) return false;
+
+  return !intents.includes(benefitSelection);
+};
+
 const isAlreadySubmitted = (data, alreadySubmittedIntents) => {
-  const newlySelectedBenefit = benefitSelections(data).filter(
-    benefitSelection => {
-      if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 0) {
-        return !alreadySubmittedBenefitIntents(
-          alreadySubmittedIntents,
-        ).includes(benefitSelection);
-      }
-
-      return false;
-    },
-  )[0];
-
-  return !!newlySelectedBenefit;
+  return benefitSelections(data).some(benefitSelection =>
+    benefitHasAlreadyBeenSubmitted(benefitSelection, alreadySubmittedIntents),
+  );
 };
 
 export const getAlertType = (data, alreadySubmittedIntents) => {
-  const newlySelectedBenefit = benefitSelections(data).filter(
-    benefitSelection =>
-      !alreadySubmittedBenefitIntents(alreadySubmittedIntents).includes(
-        benefitSelection.toLowerCase(),
-      ),
-  )[0];
-  if (newlySelectedBenefit) {
+  if (
+    benefitSelections(data).some(
+      benefitSelection =>
+        !alreadySubmittedBenefitIntents(alreadySubmittedIntents).includes(
+          benefitSelection.toLowerCase(),
+        ),
+    )
+  ) {
     return 'success';
   }
 
@@ -154,17 +155,9 @@ export const getAlertType = (data, alreadySubmittedIntents) => {
 };
 
 export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
-  const newlySelectedBenefit = benefitSelections(data).filter(
-    benefitSelection => {
-      if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 0) {
-        return !alreadySubmittedBenefitIntents(
-          alreadySubmittedIntents,
-        ).includes(benefitSelection);
-      }
-
-      return false;
-    },
-  )[0];
+  const newlySelectedBenefit = benefitSelections(data).find(benefitSelection =>
+    benefitHasAlreadyBeenSubmitted(benefitSelection, alreadySubmittedIntents),
+  );
 
   if (newlySelectedBenefit) {
     return `You’ve submitted your intent to file request for ${
