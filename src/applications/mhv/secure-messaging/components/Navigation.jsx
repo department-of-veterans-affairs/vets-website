@@ -121,7 +121,8 @@ const Navigation = () => {
       medium-screen:vads-l-col--3
       vads-u-padding-bottom--2
       medium-screen:vads-u-padding-bottom--0
-      medium-screen:vads-u-padding-right--3"
+      medium-screen:vads-u-padding-right--3
+      do-not-print"
     >
       {isMobile && (
         <SectionGuideButton

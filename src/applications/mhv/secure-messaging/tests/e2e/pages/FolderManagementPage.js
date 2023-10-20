@@ -175,6 +175,7 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
+    cy.get('[data-testid="move-button-text"]');
     cy.get('[data-testid="move-button-text"]').click();
     cy.get('[data-testid = "move-to-modal"')
 

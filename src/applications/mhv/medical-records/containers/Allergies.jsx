@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
@@ -12,7 +11,7 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import { makePdf, processList } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
@@ -72,9 +71,9 @@ const Allergies = props => {
   );
 
   const generateAllergiesPdf = async () => {
-    const title = 'Allergies';
+    const title = 'Allergies and reactions';
     const subject = 'VA Medical Record';
-    const preface = `This list includes all allergies your VA providers have entered. If you have allergies that are missing from this list, contact your care team.\n\nShowing ${
+    const preface = `This list includes all allergies, reactions, and side-effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.\n\nShowing ${
       allergies.length
     } records from newest to oldest`;
     const pdfData = generatePdfScaffold(user, title, subject, preface);
@@ -90,7 +89,7 @@ const Allergies = props => {
             inline: true,
           },
           {
-            title: 'Reaction',
+            title: 'Signs and symptoms',
             value: processList(item.reaction),
             inline: true,
           },
@@ -105,7 +104,7 @@ const Allergies = props => {
             inline: true,
           },
           {
-            title: 'Observed or reported',
+            title: 'Observed or historical',
             value: item.observedOrReported,
             inline: true,
           },
@@ -118,28 +117,19 @@ const Allergies = props => {
       });
     });
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          `VA-Allergies-list-${user.userFullName.first}-${
-            user.userFullName.last
-          }-${moment()
-            .format('M-D-YYYY_hhmmssa')
-            .replace(/\./g, '')}`,
-          pdfData,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Allergies');
-    }
+    const pdfName = `VA-Allergies-list-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox />;
+      return <AccessTroubleAlertBox alertType="Allergy" />;
     }
     if (allergies?.length > 0) {
       return <RecordList records={allergies} type={recordType.ALLERGIES} />;

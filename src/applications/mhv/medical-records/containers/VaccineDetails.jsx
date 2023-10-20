@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import { makePdf, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { pageTitles } from '../util/constants';
+import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -31,6 +31,8 @@ const VaccineDetails = props => {
   );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
 
   useEffect(
     () => {
@@ -66,7 +68,25 @@ const VaccineDetails = props => {
         );
       }
     },
-    [record],
+    [dispatch, record],
+  );
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
   );
 
   const generateVaccinePdf = async () => {
@@ -94,24 +114,27 @@ const VaccineDetails = props => {
       ],
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          `VA-Vaccines-details-${user.userFullName.first}-${
-            user.userFullName.last
-          }-${moment()
-            .format('M-D-YYYY_hhmmssa')
-            .replace(/\./g, '')}`,
-          scaffold,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Vaccine details');
-    }
+    const pdfName = `VA-Vaccines-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
   };
 
   const content = () => {
+    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+      return (
+        <>
+          <h1 className="vads-u-margin-bottom--0p5">Vaccine:</h1>
+          <AccessTroubleAlertBox
+            alertType="Vaccine"
+            className="vads-u-margin-bottom--9"
+          />
+        </>
+      );
+    }
     if (record) {
       return (
         <>
@@ -132,6 +155,7 @@ const VaccineDetails = props => {
               <span
                 className="vads-u-font-weight--normal"
                 data-dd-privacy="mask"
+                data-testid="header-time"
               >
                 {record.date}
               </span>
@@ -178,6 +202,5 @@ const VaccineDetails = props => {
 export default VaccineDetails;
 
 VaccineDetails.propTypes = {
-  print: PropTypes.func,
   runningUnitTest: PropTypes.bool,
 };

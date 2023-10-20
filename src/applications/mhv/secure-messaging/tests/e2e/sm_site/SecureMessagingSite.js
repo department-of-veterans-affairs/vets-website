@@ -67,10 +67,17 @@ class SecureMessagingSite {
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
     ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
-      .shadow()
-      .find(`[aria-label="Page ${interceptedPage}"]`)
-      .click();
+    if (interceptedPage === 1) {
+      cy.get('[aria-label="Pagination"]')
+        .shadow()
+        .find('[aria-label="Page 1, first page"')
+        .click();
+    } else {
+      cy.get('[aria-label="Pagination"]')
+        .shadow()
+        .find(`[aria-label="Page ${interceptedPage}"]`)
+        .click();
+    }
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };
 

@@ -76,6 +76,25 @@ export const ENROLLMENT_STATUS_INIT_STATE = {
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
 
+// declare view fields for use in insurance info section
+export const INSURANCE_VIEW_FIELDS = {
+  add: 'view:addInsuancePolicy',
+  skip: 'view:skipInsuranceInfo',
+};
+
+// declare names to use for window session storage items
+export const SESSION_ITEMS = {
+  insurance: 'ezrPolicyIndex',
+};
+
+// declare routes that are shared between custom form pages
+export const SHARED_PATHS = {
+  insurance: {
+    summary: 'insurance-information/policies',
+    info: 'insurance-information/policy-information',
+  },
+};
+
 // declare default SIGI values
 export const SIGI_GENDERS = {
   NB: 'Non-binary',
@@ -85,4 +104,10 @@ export const SIGI_GENDERS = {
   TF: 'Transgender woman',
   O: 'A gender not listed here',
   NA: 'Prefer not to answer',
+};
+
+// declare default schema for view fields
+export const VIEW_FIELD_SCHEMA = {
+  type: 'object',
+  properties: {},
 };
