@@ -87,7 +87,7 @@ describe('unified check-in experience', () => {
         startTime: '2022-01-03T14:30:00',
       };
       initAppointments[2] = {
-        ...initAppointments[1],
+        ...initAppointments[2],
         startTime: '2022-01-03T15:00:00',
       };
       const { getByTestId } = render(
@@ -97,7 +97,7 @@ describe('unified check-in experience', () => {
       );
       expect(getByTestId('what-next-card-title')).to.exist;
       expect(getByTestId('what-next-card-title')).to.have.text(
-        'Review your contact information for your Monday, January 3, 9:56 a.m., Monday, January 3, 2:00 p.m. and Monday, January 3, 2:30 p.m. appointments',
+        'Review your contact information for your Monday, January 3, 2:00 p.m., Monday, January 3, 2:30 p.m. and Monday, January 3, 3:00 p.m. appointments',
       );
     });
     it('displays a clickable details link that calls go to details', () => {
