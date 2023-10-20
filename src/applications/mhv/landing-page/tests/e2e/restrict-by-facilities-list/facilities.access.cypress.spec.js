@@ -3,30 +3,25 @@ import vamcEhr from '../../fixtures/vamc-ehr.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
-describe.skip(appName, () => {
+describe(appName, () => {
   describe('restrict access based on patient facilities', () => {
     beforeEach(() => {
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-      const mhvRedirectUrl =
-        'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home';
+      const mhvRedirectUrl = 'https://**.myhealth.va.gov/**';
       cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('landing page is disabled for patients with no facilities', () => {
-      ApiInitializer.initializeUserData.withFacilities({ facilities: [] });
-      LandingPage.visitPage();
-      LandingPage.validateRedirectHappened();
+      LandingPage.visitPage({ facilities: [] });
       cy.wait('@mhvRedirect');
     });
 
-    it('landing page is disabled for patients with facilities', () => {
-      ApiInitializer.initializeUserData.withFacilities({
+    it('landing page is enabled for patients with facilities', () => {
+      LandingPage.visitPage({
         facilities: [{ facilityId: '123', isCerner: false }],
       });
-
-      LandingPage.visitPage();
       LandingPage.validatePageLoaded();
       LandingPage.validateURL();
       cy.injectAxeThenAxeCheck();

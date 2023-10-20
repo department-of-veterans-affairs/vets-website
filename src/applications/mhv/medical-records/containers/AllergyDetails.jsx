@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
@@ -12,7 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import { makePdf, processList } from '../util/helpers';
 import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
@@ -88,7 +87,7 @@ const AllergyDetails = props => {
   );
 
   const generateAllergyPdf = async () => {
-    const title = `Allergy: ${allergy.name}`;
+    const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
@@ -100,7 +99,7 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
-          title: 'Reaction',
+          title: 'Signs and symptoms',
           value: processList(allergy.reaction),
           inline: true,
         },
@@ -115,7 +114,7 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
-          title: 'Observed or reported',
+          title: 'Observed or historical',
           value: allergy.observedOrReported,
           inline: true,
         },
@@ -127,21 +126,13 @@ const AllergyDetails = props => {
       ],
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf(
-          'medicalRecords',
-          `VA-Allergies-details-${user.userFullName.first}-${
-            user.userFullName.last
-          }-${moment()
-            .format('M-D-YYYY_hhmmssa')
-            .replace(/\./g, '')}`,
-          scaffold,
-        );
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Allergy details');
-    }
+    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+
+    makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
   };
 
   const content = () => {
@@ -149,7 +140,10 @@ const AllergyDetails = props => {
       return (
         <>
           <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox className="vads-u-margin-bottom--9" />
+          <AccessTroubleAlertBox
+            alertType="Allergy"
+            className="vads-u-margin-bottom--9"
+          />
         </>
       );
     }
@@ -161,7 +155,8 @@ const AllergyDetails = props => {
             className="vads-u-margin-bottom--0p5"
             aria-describedby="allergy-date"
           >
-            Allergy: <span data-dd-privacy="mask">{allergy.name}</span>
+            Allergies and reactions:{' '}
+            <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--4">
             <div className="time-header">
@@ -187,7 +182,7 @@ const AllergyDetails = props => {
           </div>
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Reaction
+              Signs and symptoms
             </h2>
             <ItemList list={allergy.reaction} />
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -199,7 +194,7 @@ const AllergyDetails = props => {
             </h2>
             <p data-dd-privacy="mask">{allergy.location}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-              Observed or reported
+              Observed or historical
             </h2>
             <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -228,6 +223,5 @@ const AllergyDetails = props => {
 export default AllergyDetails;
 
 AllergyDetails.propTypes = {
-  print: PropTypes.func,
   runningUnitTest: PropTypes.bool,
 };

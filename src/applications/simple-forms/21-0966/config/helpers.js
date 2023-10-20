@@ -1,5 +1,5 @@
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
-import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import {
   preparerIdentifications,
   veteranBenefits,
@@ -10,10 +10,10 @@ export const preparerIsVeteran = ({ formData } = {}) => {
   return formData?.preparerIdentification === preparerIdentifications.veteran;
 };
 
-export const preparerIsSurvivingDependant = ({ formData } = {}) => {
+export const preparerIsSurvivingDependent = ({ formData } = {}) => {
   return (
     formData?.preparerIdentification ===
-    preparerIdentifications.survivingDependant
+    preparerIdentifications.survivingDependent
   );
 };
 
@@ -24,30 +24,40 @@ export const preparerIsThirdPartyToTheVeteran = ({ formData } = {}) => {
   );
 };
 
-export const preparerIsThirdPartyToASurvivingDependant = ({
+export const preparerIsThirdPartyToASurvivingDependent = ({
   formData,
 } = {}) => {
   return (
     formData?.preparerIdentification ===
-    preparerIdentifications.thirdPartySurvivingDependant
+    preparerIdentifications.thirdPartySurvivingDependent
   );
 };
 
 export const preparerIsThirdParty = ({ formData } = {}) => {
   return (
     preparerIsThirdPartyToTheVeteran({ formData }) ||
-    preparerIsThirdPartyToASurvivingDependant({ formData })
+    preparerIsThirdPartyToASurvivingDependent({ formData })
   );
+};
+
+export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+  if (preparerIsThirdParty({ formData })) {
+    return 'thirdPartyPreparerFullName';
+  }
+  if (preparerIsVeteran({ formData })) {
+    return 'veteranFullName';
+  }
+  return 'survivingDependentFullName';
 };
 
 export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependant:
+    case preparerIdentifications.survivingDependent:
       return 'Your benefit selection';
     case preparerIdentifications.thirdPartyVeteran:
       return 'Veteran’s benefit selection';
-    case preparerIdentifications.thirdPartySurvivingDependant:
+    case preparerIdentifications.thirdPartySurvivingDependent:
       return 'Claimant’s benefit selection';
     default:
       return 'Your benefit selection';
@@ -57,11 +67,11 @@ export const benefitSelectionStepperTitle = ({ formData } = {}) => {
 export const benefitSelectionTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependant:
+    case preparerIdentifications.survivingDependent:
       return 'Select the benefits you intend to file a claim for. Select all that apply';
     case preparerIdentifications.thirdPartyVeteran:
       return 'Select the benefits the Veteran intends to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartySurvivingDependant:
+    case preparerIdentifications.thirdPartySurvivingDependent:
       return 'Select the benefits the Claimant intends to file a claim for. Select all that apply';
     default:
       return 'Select the benefits you intend to file a claim for. Select all that apply';
@@ -71,11 +81,11 @@ export const benefitSelectionTitle = ({ formData } = {}) => {
 export const personalInformationStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependant:
+    case preparerIdentifications.survivingDependent:
       return 'Your personal information';
     case preparerIdentifications.thirdPartyVeteran:
       return 'Veteran’s personal information';
-    case preparerIdentifications.thirdPartySurvivingDependant:
+    case preparerIdentifications.thirdPartySurvivingDependent:
       return 'Claimant’s personal information';
     default:
       return 'Your personal information';
@@ -85,11 +95,11 @@ export const personalInformationStepperTitle = ({ formData } = {}) => {
 export const contactInformationStepperTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependant:
+    case preparerIdentifications.survivingDependent:
       return 'Your contact information';
     case preparerIdentifications.thirdPartyVeteran:
       return 'Veteran’s contact information';
-    case preparerIdentifications.thirdPartySurvivingDependant:
+    case preparerIdentifications.thirdPartySurvivingDependent:
       return 'Claimant’s contact information';
     default:
       return 'Your contact information';
@@ -111,8 +121,8 @@ export const getClaimType = data => {
   );
 
   if (
-    preparerIsSurvivingDependant({ formData: data }) ||
-    preparerIsThirdPartyToASurvivingDependant({ formData: data })
+    preparerIsSurvivingDependent({ formData: data }) ||
+    preparerIsThirdPartyToASurvivingDependent({ formData: data })
   ) {
     return 'pension claim for survivors';
   }
@@ -140,8 +150,8 @@ export const getAlreadySubmittedIntentText = (
   );
 
   if (
-    preparerIsSurvivingDependant({ formData: data }) ||
-    (preparerIsThirdPartyToASurvivingDependant({ formData: data }) &&
+    preparerIsSurvivingDependent({ formData: data }) ||
+    (preparerIsThirdPartyToASurvivingDependent({ formData: data }) &&
       alreadySubmittedIntents.survivors)
   ) {
     return `Our records show that you already have an intent to file for a pension claim for survivors and it will expire on ${expirationDate}.`;

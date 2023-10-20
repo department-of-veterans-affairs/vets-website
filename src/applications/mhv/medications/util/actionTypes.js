@@ -13,5 +13,7 @@ export const Actions = {
   // TODO: consider re-using this from medical-records
   Allergies: {
     GET_LIST: 'RX_ALLERGIES_GET_LIST',
+    GET_LIST_ERROR: 'RX_ALLERGIES_GET_LIST_ERROR',
+    GET_LIST_ERROR_RESET: 'GET_LIST_ERROR_RESET',
   },
 };

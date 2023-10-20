@@ -40,8 +40,10 @@ describe('Print button', () => {
     expect(modal).to.have.attribute('modaltitle', 'What do you want to print?');
     expect(modal).to.have.attribute('visible', 'true');
     expect(modal).to.have.attribute('large', 'true');
-    expect(modal).to.have.attribute('primary-button-text', 'Print');
-    expect(modal).to.have.attribute('secondary-button-text', 'Cancel');
+    expect(document.querySelector('va-button[text="Print"]')).to.exist;
+    expect(
+      document.querySelector('va-button[text="Cancel"]'),
+    ).to.have.attribute('secondary');
 
     const printOneMessage = screen.getByTestId('radio-print-one-message');
     expect(printOneMessage).to.have.attribute(

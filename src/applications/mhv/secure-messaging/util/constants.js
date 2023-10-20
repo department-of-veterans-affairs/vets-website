@@ -8,7 +8,6 @@ export const Paths = {
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
-  MESSAGE: '/message/',
   MESSAGE_THREAD: '/thread/',
   FOLDERS: '/folders/',
   SEARCH: '/search/',

@@ -18,7 +18,9 @@ const {
 } = formConfig.chapters.categoryAndTopic.pages.selectTopic;
 
 describe('selectTopic config', () => {
-  const apiRequestWithUrl = `${environment.API_URL}/ask_va_api/v0/static_data`;
+  const apiRequestWithUrl = `${
+    environment.API_URL
+  }/ask_va_api/v0/categories/2/topics`;
 
   let server = null;
 
@@ -51,7 +53,9 @@ describe('selectTopic config', () => {
     const mockStore = {
       getState: () => ({
         form: {
-          data: {},
+          data: {
+            selectCategory: 'Benefits Issues Outside the US',
+          },
         },
         user: {
           login: {
@@ -64,6 +68,9 @@ describe('selectTopic config', () => {
               last: 'Parker',
             },
           },
+        },
+        askVA: {
+          categoryID: '2',
         },
       }),
       subscribe: () => {},
@@ -83,7 +90,7 @@ describe('selectTopic config', () => {
     );
 
     await waitFor(() => {
-      expect($('h2', container).textContent).to.eq(
+      expect($('h3', container).textContent).to.eq(
         'Which topic best describes your question?',
       );
     });

@@ -442,18 +442,20 @@ const ComposeForm = props => {
         {saveError && (
           <VaModal
             modalTitle={saveError.title}
-            onPrimaryButtonClick={() => setSaveError(null)}
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
             }}
-            primaryButtonText="Continue editing"
             status="warning"
             data-testid="quit-compose-double-dare"
             visible
           >
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
+            <va-button
+              text="Continue editing"
+              onClick={() => setSaveError(null)}
+            />
           </VaModal>
         )}
         <RouteLeavingGuard

@@ -24,7 +24,7 @@ describe('submitterContactPage', () => {
       />,
     );
 
-    expect($('h2', container).textContent).to.eq(
+    expect($('h3', container).textContent).to.eq(
       "Submitter's Contact Information",
     );
   });

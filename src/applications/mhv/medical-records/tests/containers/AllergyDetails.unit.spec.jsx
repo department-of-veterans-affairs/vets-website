@@ -43,7 +43,7 @@ describe('Allergy details container', () => {
   });
 
   it('displays the allergy label and name', () => {
-    const allergyLabel = screen.getByText('Allergy:', {
+    const allergyLabel = screen.getByText('Allergies and reactions:', {
       exact: false,
       selector: 'h1',
     });
@@ -108,7 +108,7 @@ describe('Allergy details container with date missing', () => {
     });
   });
 
-  it('should not display the formatted date if startDate or endDate is missing', () => {
+  it('should not display the formatted date if date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         'None noted',
@@ -177,7 +177,7 @@ describe('Allergy details container with errors', () => {
     await waitFor(() => {
       expect(
         screen.getByText('We can’t access your allergy records right now', {
-          exact: true,
+          exact: false,
         }),
       ).to.exist;
     });

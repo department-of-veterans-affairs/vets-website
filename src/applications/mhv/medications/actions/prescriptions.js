@@ -25,8 +25,13 @@ export const getAllergiesList = () => async dispatch => {
     dispatch({ type: Actions.Allergies.GET_LIST, response });
     return null;
   } catch (error) {
+    dispatch({ type: Actions.Allergies.GET_LIST_ERROR });
     return error;
   }
+};
+
+export const clearAllergisError = () => dispatch => {
+  dispatch({ type: Actions.Allergies.GET_LIST_ERROR_RESET });
 };
 
 export const getPrescriptionDetails = prescriptionId => async dispatch => {

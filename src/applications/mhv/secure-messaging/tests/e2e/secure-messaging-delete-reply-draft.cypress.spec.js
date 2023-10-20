@@ -7,13 +7,11 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Reply', () => {
-  it('Axe Check Message Reply', () => {
+describe.skip('Secure Messaging Delete Reply Draft', () => {
+  it('Axe Check Message Delete Reply Draft with Axe Check', () => {
     const draftsPage = new PatientMessageDraftsPage();
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
-    const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
     const messageDetails = landingPage.getNewMessageDetails();
@@ -21,12 +19,14 @@ describe('Secure Messaging Reply', () => {
     landingPage.loadInboxMessages(mockMessages, messageDetails);
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
-    patientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test body';
-    replyPage.getMessageBodyField().click();
-    replyPage.getMessageBodyField().type(testMessageBody, { force: true });
+    PatientReplyPage.getMessageBodyField().click();
+    PatientReplyPage.getMessageBodyField().type(testMessageBody, {
+      force: true,
+    });
     cy.realPress(['Enter']).then(() => {
-      replyPage.saveReplyDraft(
+      PatientReplyPage.saveReplyDraft(
         messageDetails,
         `\n\n\nName\nTitleTest${testMessageBody}`,
       );

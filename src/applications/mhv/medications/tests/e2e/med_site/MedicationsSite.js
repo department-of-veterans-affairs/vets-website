@@ -31,28 +31,29 @@ class MedicationsSite {
     }
   };
 
-  loadVAPaginationPrescriptions = (
-    interceptedPage = 1,
-    mockRx,
-    PerPage = 20,
-  ) => {
+  loadVAPaginationPrescriptions = (interceptedPage = 1, mockRx) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
+      `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
     cy.get('[id="pagination"]')
       .shadow()
-      .find(`[aria-label="Page ${interceptedPage}"]`)
-      .click();
+      .find('[class="usa-pagination__button usa-current"]')
+      .click({ waitForAnimations: true });
     // cy.wait(`@Prescriptions${interceptedPage}`);
   };
 
-  loadVAPaginationNextPrescriptions = () => {
-    cy.get('[aria-label="Pagination"]')
+  loadVAPaginationNextPrescriptions = (interceptedPage = 2, mockRx) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
+      mockRx,
+    ).as(`Prescriptions${interceptedPage}`);
+    cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
-      .click();
+      .click({ waitForAnimations: true });
   };
 
   loadVAPaginationPreviousPrescriptions = (
@@ -65,21 +66,21 @@ class MedicationsSite {
       `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
+    cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Previous page"]')
-      .click();
+      .click({ waitForAnimations: true });
     // cy.wait(`@Prescriptions${interceptedPage}`);
   };
 
-  verifyPaginationPrescirptionsDisplayed = (
+  verifyPaginationPrescriptionsDisplayed = (
     displayedStartNumber,
     displayedEndNumber,
     threadLength,
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
       'have.text',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, available to fill or refill first`,
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, last filled first`,
     );
   };
 }
