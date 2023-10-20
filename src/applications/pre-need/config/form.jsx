@@ -657,16 +657,20 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                address: merge({}, address.uiSchema('Sponsor’s address'), {
-                  state: {
-                    'ui:title': sponsorMailingAddressStateTitleWrapper,
-                    'ui:options': {
-                      hideIf: formData =>
-                        !sponsorMailingAddressHasState(formData) &&
-                        !environment.isProduction(),
+                address: merge(
+                  {},
+                  address.uiSchema('Sponsor’s mailing address'),
+                  {
+                    state: {
+                      'ui:title': sponsorMailingAddressStateTitleWrapper,
+                      'ui:options': {
+                        hideIf: formData =>
+                          !sponsorMailingAddressHasState(formData) &&
+                          !environment.isProduction(),
+                      },
                     },
                   },
-                }),
+                ),
               },
             },
           },
