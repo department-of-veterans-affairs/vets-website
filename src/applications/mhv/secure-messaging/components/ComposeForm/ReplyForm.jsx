@@ -132,41 +132,30 @@ const ReplyForm = props => {
         }
         messageData[`${'recipient_id'}`] = selectedRecipient;
         setIsAutosave(false);
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-
-          dispatch(sendReply(replyToMessageId, sendData, true))
-            .then(() => {
-              navigateToFolderByFolderId(
-                draftToEdit?.threadFolderId
-                  ? draftToEdit?.threadFolderId
-                  : folderId,
-                history,
-              );
-            })
-            .catch(() => {
-              setSendMessageFlag(false);
-              setIsAutosave(true);
-            });
         } else {
-          dispatch(
-            sendReply(replyToMessageId, JSON.stringify(messageData), false),
-          )
-            .then(() => {
-              navigateToFolderByFolderId(
-                draftToEdit?.threadFolderId
-                  ? draftToEdit?.threadFolderId
-                  : folderId,
-                history,
-              );
-            })
-            .catch(() => {
-              setSendMessageFlag(false);
-              setIsAutosave(true);
-            });
+          sendData = JSON.stringify(messageData);
         }
+
+        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+          .then(() => {
+            navigateToFolderByFolderId(
+              draftToEdit?.threadFolderId
+                ? draftToEdit?.threadFolderId
+                : folderId,
+              history,
+            );
+          })
+          .catch(() => {
+            setSendMessageFlag(false);
+            setIsAutosave(true);
+          });
       }
     },
     [sendMessageFlag, isSaving],
@@ -191,9 +180,9 @@ const ReplyForm = props => {
     setCategory(draft.category);
     setSubject(draft.subject);
     setMessageBody(draft.body);
-    if (draft.attachments) {
-      setAttachments(draft.attachments);
-    }
+    // if (draft.attachments) {
+    //   setAttachments(draft.attachments);
+    // }
     setFormPopulated(true);
     setFieldsString(
       JSON.stringify({
@@ -218,12 +207,6 @@ const ReplyForm = props => {
     () => {
       const casedCategory =
         category === 'COVID' ? category : capitalize(category);
-      if (category && !subject) {
-        return `${casedCategory}:`;
-      }
-      if (!category && subject) {
-        return subject;
-      }
       return `${casedCategory}: ${subject}`;
     },
     [category, subject],
@@ -294,20 +277,21 @@ const ReplyForm = props => {
         body: messageBody,
       };
 
-      if (!draftId) {
-        if (checkMessageValidity()) {
+      if (checkMessageValidity()) {
+        if (!draftId) {
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
             newDraft => {
               setDraft(newDraft);
               setNewDraftId(newDraft.messageId);
             },
           );
+        } else {
+          dispatch(
+            saveReplyDraft(replyMessage.messageId, formData, type, draftId),
+          );
         }
-      } else if (checkMessageValidity()) {
-        dispatch(
-          saveReplyDraft(replyMessage.messageId, formData, type, draftId),
-        );
       }
+
       if (!attachments.length) setNavigationError(null);
     },
     [
@@ -392,8 +376,8 @@ const ReplyForm = props => {
     [beforeUnloadHandler],
   );
 
-  if (replyMessage) {
-    return (
+  return (
+    replyMessage && (
       <>
         <h1 ref={header} className="page-title">
           {messageTitle}
@@ -545,22 +529,10 @@ const ReplyForm = props => {
             <h3 className="sr-only">Message body.</h3>
             <MessageThreadBody text={replyMessage.body} />
           </section>
-
-          {!!replyMessage.attachments &&
-            replyMessage.attachments.length > 0 && (
-              <>
-                <h3 className="sr-only">Message attachments.</h3>
-                <AttachmentsList
-                  attachments={replyMessage.attachments}
-                  className="attachments-section"
-                />
-              </>
-            )}
         </section>
       </>
-    );
-  }
-  return null;
+    )
+  );
 };
 
 ReplyForm.propTypes = {
