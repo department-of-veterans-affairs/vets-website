@@ -4,7 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
-  clearAllergisError,
+  clearAllergiesError,
 } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -259,13 +259,13 @@ const Prescriptions = () => {
   };
 
   const handleModalClose = () => {
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
   };
 
   const handleModalDownloadButton = () => {
     generatePDF(buildPrescriptionsPDFList(fullPrescriptionsList));
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
   };
 
   const content = () => {
