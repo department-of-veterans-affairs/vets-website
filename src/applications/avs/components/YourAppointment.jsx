@@ -90,6 +90,7 @@ const renderVitalSign = vitalSignItem => {
       {vitalSignItem.type}
       <br />
       Result: {vitalSignItem.value}
+      {vitalSignItem.qualifiers && ` (${vitalSignItem.qualifiers})`}
     </p>
   );
 };

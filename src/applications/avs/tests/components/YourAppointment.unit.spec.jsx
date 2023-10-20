@@ -26,7 +26,10 @@ describe('Avs: Your Appointment', () => {
       'Dyslipidemia',
     );
     expect(screen.getByTestId('vitals').children[1].children[6]).to.have.text(
-      'Pulse OximetryResult: 100',
+      'Pulse OximetryResult: 100 (Room Air)',
+    );
+    expect(screen.getByTestId('vitals').children[1].children[8]).to.have.text(
+      'HeightResult: 66 in',
     );
     expect(screen.getByTestId('clinic-medications').children[2].nodeName).to.eq(
       'VA-ADDITIONAL-INFO',
