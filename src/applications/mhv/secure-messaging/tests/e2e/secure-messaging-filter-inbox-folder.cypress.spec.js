@@ -1,6 +1,5 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 
 describe('Secure Messaging Draft Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -9,7 +8,6 @@ describe('Secure Messaging Draft Folder checks', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    PatientMessagesSentPage.loadMessages();
   });
 
   it('Verify filter works correctly', () => {

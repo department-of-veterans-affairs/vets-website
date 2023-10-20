@@ -98,12 +98,14 @@ const App = ({ children }) => {
         <MrBreadcrumbs />
         {/* <Navigation /> */}
         <div className="vads-l-grid-container vads-u-padding-left--0">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 no-print">
-            <ScrollToTop />
-            {children}
-            <va-back-to-top hidden={isHidden} />
+          <div className="vads-l-row">
+            <div className="vads-l-col">
+              <ScrollToTop />
+              {children}
+              <va-back-to-top hidden={isHidden} />
+            </div>
+            <div className=" medium-screen:vads-l-col--4 no-print" />
           </div>
-          <div className="vads-l-col--12 print-only">{children}</div>
         </div>
       </div>
     </RequiredLoginView>
