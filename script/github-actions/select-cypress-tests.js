@@ -306,10 +306,7 @@ function main() {
   exportVariables(testsToRunNormally);
 
   if (RUN_FULL_SUITE) {
-    // core.exportVariable('TESTS_TO_STRESS_TEST', allAllowListSpecs);
-    core.exportVariable('TESTS_TO_STRESS_TEST', [
-      'src/applications/income-limits/tests/cypress/current-flow.cypress.spec.js',
-    ]);
+    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowListSpecs);
   } else {
     core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
   }
