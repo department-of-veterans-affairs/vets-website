@@ -402,7 +402,7 @@ jobs:
         env:
           TEST_TYPE: e2e
           IS_CI: false
-          GITHUB_WORKFLOW_URL: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+          GITHUB_WORKFLOW_URL: ${{ $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
