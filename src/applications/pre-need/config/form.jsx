@@ -664,6 +664,9 @@ const formConfig = {
                     street: {
                       'ui:title': 'Street address',
                     },
+                    street2: {
+                      'ui:title': 'Street address line 2',
+                    },
                     state: {
                       'ui:title': sponsorMailingAddressStateTitleWrapper,
                       'ui:options': {
