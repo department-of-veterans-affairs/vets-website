@@ -10,7 +10,7 @@ import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import formConfig from '../config/form';
 import {
   SHOW_PART3,
-  SHOW_PART3_STORAGE,
+  SHOW_PART3_REDIRECT,
   DATA_DOG_ID,
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
@@ -18,6 +18,7 @@ import {
 import { nodPart3UpdateFeature } from '../utils/helpers';
 import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
+import checkRedirect from '../utils/redirect';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -33,6 +34,8 @@ export const FormApp = ({
   setFormData,
   getContestableIssues,
   contestableIssues = {},
+  returnUrl,
+  router,
 }) => {
   useEffect(
     () => {
@@ -105,10 +108,29 @@ export const FormApp = ({
 
   useEffect(
     () => {
-      // storage flag to dynamically add part3 migation for redirect to request
-      // extension page
-      window.sessionStorage.setItem(SHOW_PART3_STORAGE, showPart3);
-
+      // Checking returnUrl to ensure the redirect occurs _after_ the save-in-
+      // progress response has loaded; and saving this check to form data to
+      // ensure that this check & redirect only occurs once & the state is saved
+      // in the form data so it doesn't occur again if the Veteran returns later
+      if (showPart3 && returnUrl && !formData[SHOW_PART3_REDIRECT]) {
+        const needsRedirect = checkRedirect(returnUrl);
+        // Using "redirected" for the resulting page to show an info alert so
+        // the Veteran knows why they were redirected.
+        setFormData({
+          ...formData,
+          [SHOW_PART3_REDIRECT]: needsRedirect ? 'redirected' : 'not-needed',
+        });
+        // Redirect back to part 3 question if Veteran is on or past the
+        // contestable issues page
+        if (needsRedirect) {
+          // Using a setTimeout because the save-in-progress redirect pushes
+          // the returnUrl page to the router _after_ this event.
+          setTimeout(() => {
+            router.push('/extension-request');
+          }, 100);
+        }
+      }
+      // Add feature flag to form data to be used within the form
       if (showPart3 !== formData[SHOW_PART3]) {
         setFormData({
           ...formData,
@@ -116,8 +138,10 @@ export const FormApp = ({
         });
       }
     },
+    // Include formData[SHOW_PART3] in dependencies because the save-in-progress
+    // will over-write the value when starting a new form
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showPart3, formData[SHOW_PART3]],
+    [showPart3, returnUrl, formData[SHOW_PART3]],
   );
 
   const content = isLoading ? (
@@ -164,6 +188,10 @@ FormApp.propTypes = {
     pathname: PropTypes.string,
   }),
   loggedIn: PropTypes.bool,
+  returnUrl: PropTypes.string,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setFormData: PropTypes.func,
   showPart3: PropTypes.bool,
 };
@@ -174,6 +202,7 @@ const mapStateToProps = state => ({
   contestableIssues: state.contestableIssues,
   isLoading: state.featureToggles?.loading,
   loggedIn: isLoggedIn(state),
+  returnUrl: state.form?.loadedData?.metadata?.returnUrl,
 });
 
 const mapDispatchToProps = {
