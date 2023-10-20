@@ -24,7 +24,7 @@ const appointmentData = {
 
 const facilityData = new Facility();
 
-describe('DetailsVA component with isCompAndPenAppointment', () => {
+describe('DetailsVA component', () => {
   const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink]: true,
@@ -74,5 +74,27 @@ describe('DetailsVA component with isCompAndPenAppointment', () => {
         selector: 'h2',
       }),
     ).to.exist;
+  });
+
+  it('should render StatusAlert, VAFacilityLocation and VAInstructions, CalendarLink and NoOnlineCancelAlert', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: false,
+        isPastAppointment: true,
+        isCompAndPenAppointment: false,
+        apiData: { serviceType: 'audiology' },
+      },
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    // StatusAlert with past appointment
+    expect(await wrapper.findByText('This appointment occurred in the past.'))
+      .to.exist;
   });
 });
