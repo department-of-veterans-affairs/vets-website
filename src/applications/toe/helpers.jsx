@@ -356,7 +356,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
           address?.zipcode ||
           address?.internationalPostalCode,
         country: getSchemaCountryCode(
-          address?.countryCode || address?.countryCodeIso3,
+          address?.countryCodeIso3 || address?.countryCode,
         ),
       },
       livesOnMilitaryBase:
