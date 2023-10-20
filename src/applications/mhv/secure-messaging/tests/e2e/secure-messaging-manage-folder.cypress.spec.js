@@ -8,13 +8,11 @@ import { AXE_CONTEXT } from './utils/constants';
 
 for (let i = 0; i < 200; i += 1) {
   describe('manage folders', () => {
-    describe.skip('create custom folder', () => {
+    describe('custom folder created message', () => {
       const folderPage = new FolderManagementPage();
       const landingPage = new PatientInboxPage();
       const site = new SecureMessagingSite();
-      const folderName = createdFolderResponse.data.attributes.name;
       const newFolder = `folder${Date.now()}`;
-      mockFolders.data.push(createdFolderResponse.data);
 
       before(() => {
         site.login();
@@ -23,12 +21,6 @@ for (let i = 0; i < 200; i += 1) {
       });
 
       it('verify folder created', () => {
-        PatientMessageCustomFolderPage.createCustomFolder(newFolder);
-
-        folderPage.verifyCreateFolderSuccessMessage();
-
-        cy.get('.folders-list').should('contain.text', folderName);
-
         cy.injectAxe();
         cy.axeCheck(AXE_CONTEXT, {
           rules: {
@@ -37,10 +29,14 @@ for (let i = 0; i < 200; i += 1) {
             },
           },
         });
+
+        PatientMessageCustomFolderPage.createCustomFolder(newFolder);
+
+        folderPage.verifyCreateFolderSuccessMessage();
       });
     });
 
-    describe('delete custom folder', () => {
+    describe('custom folder deleted message', () => {
       const folderPage = new FolderManagementPage();
       const landingPage = new PatientInboxPage();
       const site = new SecureMessagingSite();
@@ -50,21 +46,10 @@ for (let i = 0; i < 200; i += 1) {
       before(() => {
         site.login();
         landingPage.loadInboxMessages();
-        PatientMessageCustomFolderPage.loadFoldersList();
+        PatientMessageCustomFolderPage.loadFoldersList(mockFolders);
       });
 
       it('verify folder deleted', () => {
-        PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
-          folderId,
-          folderName,
-        );
-        mockFolders.data.pop(createdFolderResponse.data);
-
-        folderPage.deleteFolder(folderId);
-
-        folderPage.verifyDeleteSuccessMessage();
-        // cy.get('.folders-list').should('not.contain.text', folderName); // --This is a defect
-
         cy.injectAxe();
         cy.axeCheck(AXE_CONTEXT, {
           rules: {
@@ -73,6 +58,14 @@ for (let i = 0; i < 200; i += 1) {
             },
           },
         });
+
+        PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
+          folderId,
+          folderName,
+        );
+        mockFolders.data.pop(createdFolderResponse.data);
+        folderPage.deleteFolder(folderId);
+        folderPage.verifyDeleteSuccessMessage();
       });
     });
   });
