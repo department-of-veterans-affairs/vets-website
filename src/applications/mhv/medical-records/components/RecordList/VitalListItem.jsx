@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import moment from 'moment';
 import { vitalTypeDisplayNames } from '../../util/constants';
 
 const VitalListItem = props => {
