@@ -7,7 +7,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.benefitSelectionChapter.pages.thirdParySurvivingDependentBenefitSelection;
+} = formConfig.chapters.benefitSelectionChapter.pages.thirdPartySurvivingDependentBenefitSelection;
 
 const pageTitle = 'Surviving dependent benefit selection';
 
