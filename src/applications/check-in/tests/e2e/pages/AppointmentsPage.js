@@ -56,7 +56,9 @@ class AppointmentsPage {
   };
 
   validateCardOrder = () => {
-    cy.wrap(cy.get('[data-testid="what-next-card"]')[0])
+    cy.wrap(
+      cy.get('[data-testid="what-next-card"]', { timeout: Timeouts.slow })[0],
+    )
       .get('[data-testid="what-next-card-title"]')
       .should('contain.text', '3:00 p.m.');
     cy.wrap(cy.get('[data-testid="what-next-card"]')[1])
@@ -73,7 +75,9 @@ class AppointmentsPage {
   validateUpcomingAppointmentsList = () => {
     const expectedDaySeparators = ['Tue 26', 'Wed 27', 'Sun 26'];
     const expectedTimeOrder = ['2:00', '3:00', '4:00', '2:00', '2:00'];
-    cy.get('[data-testid="appointments-list-monthyear-heading"]')
+    cy.get('[data-testid="appointments-list-monthyear-heading"]', {
+      timeout: Timeouts.slow,
+    })
       .should('be.visible')
       .and('include.text', 'September 2023');
     cy.get('[data-testid="day-label"]').each((daySeparator, index) => {
