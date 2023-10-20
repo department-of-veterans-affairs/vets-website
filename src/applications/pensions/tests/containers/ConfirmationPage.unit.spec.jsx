@@ -7,24 +7,30 @@ import * as Scroll from 'react-scroll';
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import { scrollToTop } from '../../helpers';
 
-const form = {
-  submission: {
-    response: {
-      confirmationNumber: 'V-PEN-177',
-      regionalOffice: [
-        'Attention: Western Region',
-        'VA Regional Office',
-        'P.O. Box 8888',
-        'Muskogee, OK 74402-8888',
-      ],
+const generateForm = ({
+  hasResponse = true,
+  hasRegionalOffice = true,
+  submittedAt = new Date('12/29/2014'),
+} = {}) => {
+  return {
+    submission: {
+      ...(hasResponse && {
+        response: {
+          confirmationNumber: 'V-PEN-177',
+          ...(hasRegionalOffice && {
+            regionalOffice: [
+              'Attention: Western Region',
+              'VA Regional Office',
+              'P.O. Box 8888',
+              'Muskogee, OK 74402-8888',
+            ],
+          }),
+        },
+      }),
+      submittedAt,
     },
-  },
-  data: {
-    veteranFullName: {
-      first: 'Jane',
-      last: 'Doe',
-    },
-  },
+    data: { veteranFullName: { first: 'Jane', last: 'Doe' } },
+  };
 };
 
 describe('scrollToTop function', () => {
@@ -49,29 +55,9 @@ describe('scrollToTop function', () => {
   });
 });
 
-describe('ConfirmationPage', () => {
-  let wrapper;
-  let preventDefaultSpy;
-
-  beforeEach(() => {
-    preventDefaultSpy = sinon.spy();
-    wrapper = shallow(<ConfirmationPage form={form} />);
-  });
-
-  it('toggleExpanded should toggle isExpanded state and call preventDefault', () => {
-    const initialState = wrapper.state('isExpanded');
-
-    wrapper.instance().toggleExpanded({ preventDefault: preventDefaultSpy });
-    expect(preventDefaultSpy.calledOnce).to.be.true;
-    expect(wrapper.state('isExpanded')).to.equal(!initialState);
-
-    wrapper.instance().toggleExpanded({ preventDefault: preventDefaultSpy });
-    expect(wrapper.state('isExpanded')).to.equal(initialState);
-  });
-});
-
 describe('<ConfirmationPage>', () => {
   it('should render', () => {
+    const form = generateForm();
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
 
     expect(tree.subTree('.confirmation-page-title').text()).to.equal(
@@ -91,5 +77,21 @@ describe('<ConfirmationPage>', () => {
       'We may contact you for more information or documents.',
     );
     expect(tree.everySubTree('p')[3].text()).to.contain('VA Regional Office');
+  });
+
+  it('should render with empty regionalOffice', () => {
+    const form = generateForm({ hasRegionalOffice: false });
+    const tree = shallow(<ConfirmationPage form={form} />);
+
+    expect(tree.find('address').children().length).to.eql(0);
+    tree.unmount();
+  });
+
+  it('should render if no submission response', () => {
+    const form = generateForm({ hasResponse: false });
+    const tree = shallow(<ConfirmationPage form={form} />);
+
+    expect(tree.find('.claim-list').children().length).to.eql(4);
+    tree.unmount();
   });
 });

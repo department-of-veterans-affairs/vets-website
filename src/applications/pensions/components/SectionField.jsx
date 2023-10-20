@@ -2,12 +2,18 @@ import React from 'react';
 import { formatSSN } from 'platform/utilities/ui';
 
 export const convertDateFormat = date => {
-  const [year, month, day] = date.split('-');
-  return `${month}/${day}/${year}`;
+  if (date) {
+    const [year, month, day] = date.split('-');
+    return `${month}/${day}/${year}`;
+  }
+  return date;
 };
 
-const formatPhoneNumber = num =>
-  `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
+export const formatPhoneNumber = num => {
+  return num
+    ? `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`
+    : num;
+};
 
 export const formatCurrency = num => {
   if (num == null) {
@@ -19,7 +25,7 @@ export const formatCurrency = num => {
     maximumFractionDigits: 2,
   })}`;
 };
-const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
+export const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
 export function ApplicantInformation({ title, id, formData }) {
   return (
