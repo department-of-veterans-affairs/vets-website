@@ -1,7 +1,6 @@
 import React from 'react';
 import { merge, pick } from 'lodash';
 import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
 import set from 'platform/utilities/data/set';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
@@ -52,10 +51,8 @@ import {
   fullMaidenNameUI,
   ssnDashesUI,
   veteranUI,
-  contactInfoDescription,
   applicantContactInfoDescriptionNonVet,
   applicantContactInfoDescriptionVet,
-  authorizedAgentDescription,
   veteranRelationshipDescription,
   spouseRelationshipDescription,
   childRelationshipDescription,
@@ -64,8 +61,6 @@ import {
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  nonRequiredFullNameUI,
-  PreparerPhoneNumberDescription,
   preparerAddressHasState,
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
@@ -97,8 +92,6 @@ const {
   centralMailVaFile,
   race,
 } = fullSchemaPreNeed.definitions;
-
-const nonRequiredFullName = omit('required', fullName);
 
 function MailingAddressStateTitle(props) {
   const { elementPath } = props;
@@ -583,541 +576,282 @@ const formConfig = {
         },
       },
     },
-    contactInformation: !environment.isProduction()
-      ? {
-          title: 'Contact information',
-          pages: {
-            applicantContactInformation: {
-              title: 'Applicant’s contact information',
-              path: 'applicant-contact-information',
-              uiSchema: {
-                application: {
-                  claimant: {
-                    address: merge(
-                      {},
-                      address.uiSchema('Applicant’s mailing address'),
-                      {
-                        street: {
-                          'ui:title': 'Street address',
-                        },
-                        street2: {
-                          'ui:title': 'Street address line 2',
-                        },
-                        state: {
-                          'ui:title': applicantMailingAddressStateTitleWrapper,
-                          'ui:options': {
-                            hideIf: formData =>
-                              !applicantsMailingAddressHasState(formData) &&
-                              !environment.isProduction(),
-                          },
-                        },
-                      },
-                    ),
-                    'view:applicantContactInfoSubheader': {
-                      'ui:description': applicantContactInfoSubheader,
-                      'ui:options': {
-                        displayEmptyObjectOnReview: true,
-                      },
+    contactInformation: {
+      title: 'Contact information',
+      pages: {
+        applicantContactInformation: {
+          title: 'Applicant’s contact information',
+          path: 'applicant-contact-information',
+          uiSchema: {
+            application: {
+              claimant: {
+                address: merge(
+                  {},
+                  address.uiSchema('Applicant’s mailing address'),
+                  {
+                    street: {
+                      'ui:title': 'Street address',
                     },
-                    phoneNumber: phoneUI('Phone number'),
-                    email: emailUI(),
-                    'view:contactInfoDescription': {
-                      'ui:description': applicantContactInfoWrapper,
+                    street2: {
+                      'ui:title': 'Street address line 2',
+                    },
+                    state: {
+                      'ui:title': applicantMailingAddressStateTitleWrapper,
                       'ui:options': {
-                        displayEmptyObjectOnReview: true,
+                        hideIf: formData =>
+                          !applicantsMailingAddressHasState(formData) &&
+                          !environment.isProduction(),
                       },
                     },
                   },
+                ),
+                'view:applicantContactInfoSubheader': {
+                  'ui:description': applicantContactInfoSubheader,
+                  'ui:options': {
+                    displayEmptyObjectOnReview: true,
+                  },
+                },
+                phoneNumber: phoneUI('Phone number'),
+                email: emailUI(),
+                'view:contactInfoDescription': {
+                  'ui:description': applicantContactInfoWrapper,
+                  'ui:options': {
+                    displayEmptyObjectOnReview: true,
+                  },
                 },
               },
-              schema: {
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
                 type: 'object',
                 properties: {
-                  application: {
+                  claimant: {
                     type: 'object',
+                    required: ['email', 'phoneNumber'],
                     properties: {
-                      claimant: {
+                      address: address.schema(fullSchemaPreNeed, true),
+                      'view:applicantContactInfoSubheader': {
                         type: 'object',
-                        required: ['email', 'phoneNumber'],
-                        properties: {
-                          address: address.schema(fullSchemaPreNeed, true),
-                          'view:applicantContactInfoSubheader': {
-                            type: 'object',
-                            properties: {},
-                          },
-                          phoneNumber: claimant.properties.phoneNumber,
-                          email: claimant.properties.email,
-                          'view:contactInfoDescription': {
-                            type: 'object',
-                            properties: {},
-                          },
-                        },
+                        properties: {},
+                      },
+                      phoneNumber: claimant.properties.phoneNumber,
+                      email: claimant.properties.email,
+                      'view:contactInfoDescription': {
+                        type: 'object',
+                        properties: {},
                       },
                     },
                   },
                 },
               },
             },
-            sponsorMailingAddress: {
-              title: 'Sponsor’s mailing address',
-              path: 'sponsor-mailing-address',
-              depends: formData => !isVeteran(formData),
-              uiSchema: {
-                application: {
+          },
+        },
+        sponsorMailingAddress: {
+          title: 'Sponsor’s mailing address',
+          path: 'sponsor-mailing-address',
+          depends: formData => !isVeteran(formData),
+          uiSchema: {
+            application: {
+              veteran: {
+                address: merge({}, address.uiSchema('Sponsor’s address'), {
+                  state: {
+                    'ui:title': sponsorMailingAddressStateTitleWrapper,
+                    'ui:options': {
+                      hideIf: formData =>
+                        !sponsorMailingAddressHasState(formData) &&
+                        !environment.isProduction(),
+                    },
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
                   veteran: {
-                    address: merge({}, address.uiSchema('Sponsor’s address'), {
+                    type: 'object',
+                    properties: {
+                      address: address.schema(fullSchemaPreNeed),
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        preparer: {
+          path: 'preparer',
+          uiSchema: {
+            application: {
+              applicant: {
+                applicantRelationshipToClaimant: {
+                  'ui:title': 'Who is filling out this application?',
+                  'ui:widget': PreparerRadioWidget,
+                  'ui:options': {
+                    updateSchema: formData => {
+                      const nameData = get(
+                        'application.claimant.name',
+                        formData,
+                      );
+                      const applicantName = nameData
+                        ? formatName(nameData)
+                        : null;
+
+                      return {
+                        enumNames: [
+                          applicantName || 'Myself',
+                          'Someone else, such as a preparer',
+                        ],
+                      };
+                    },
+                  },
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    required: ['applicantRelationshipToClaimant'],
+                    properties: {
+                      applicantRelationshipToClaimant:
+                        applicant.properties.applicantRelationshipToClaimant,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        preparerDetails: {
+          title: 'Preparer details',
+          path: 'preparer-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            'ui:title': PreparerDetailsTitle,
+            'ui:description': PreparerDescription,
+            application: {
+              applicant: {
+                name: {
+                  first: {
+                    'ui:title': "Preparer's first name",
+                    'ui:required': isAuthorizedAgent,
+                  },
+                  middle: {
+                    'ui:options': {
+                      hideIf: () => true,
+                    },
+                  },
+                  last: {
+                    'ui:title': "Preparer's last name",
+                    'ui:required': isAuthorizedAgent,
+                  },
+                  suffix: {
+                    'ui:options': {
+                      hideIf: () => true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      name: applicant.properties.name,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        preparerContactDetails: {
+          title: 'Preparer contact details',
+          path: 'preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:applicantInfo': {
+                  mailingAddress: merge(
+                    {},
+                    address.uiSchema("Preparer's mailing address"),
+                    {
+                      country: { 'ui:required': isAuthorizedAgent },
+                      street: {
+                        'ui:title': 'Street address',
+                        'ui:required': isAuthorizedAgent,
+                      },
+                      street2: {
+                        'ui:title': 'Street address line 2',
+                      },
+                      city: { 'ui:required': isAuthorizedAgent },
                       state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:title': preparerMailingAddressStateTitleWrapper,
+                        'ui:required': isAuthorizedAgent,
                         'ui:options': {
                           hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData) &&
+                            !preparerAddressHasState(formData) &&
                             !environment.isProduction(),
                         },
                       },
-                    }),
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        properties: {
-                          address: address.schema(fullSchemaPreNeed),
-                        },
-                      },
+                      postalCode: { 'ui:required': isAuthorizedAgent },
                     },
-                  },
+                  ),
+                },
+                'view:contactInfo': {
+                  'ui:title': ContactDetailsTitle,
+                  applicantPhoneNumber: merge(
+                    {},
+                    preparerPhoneUI('Phone number'),
+                    {
+                      'ui:required': isAuthorizedAgent,
+                    },
+                  ),
                 },
               },
             },
-            preparer: {
-              path: 'preparer',
-              uiSchema: {
-                application: {
-                  applicant: {
-                    applicantRelationshipToClaimant: {
-                      'ui:title': 'Who is filling out this application?',
-                      'ui:widget': PreparerRadioWidget,
-                      'ui:options': {
-                        updateSchema: formData => {
-                          const nameData = get(
-                            'application.claimant.name',
-                            formData,
-                          );
-                          const applicantName = nameData
-                            ? formatName(nameData)
-                            : null;
-
-                          return {
-                            enumNames: [
-                              applicantName || 'Myself',
-                              'Someone else, such as a preparer',
-                            ],
-                          };
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      applicant: {
-                        type: 'object',
-                        required: ['applicantRelationshipToClaimant'],
-                        properties: {
-                          applicantRelationshipToClaimant:
-                            applicant.properties
-                              .applicantRelationshipToClaimant,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            preparerDetails: {
-              title: 'Preparer details',
-              path: 'preparer-details',
-              depends: formData => isAuthorizedAgent(formData),
-              uiSchema: {
-                'ui:title': PreparerDetailsTitle,
-                'ui:description': PreparerDescription,
-                application: {
-                  applicant: {
-                    name: {
-                      first: {
-                        'ui:title': "Preparer's first name",
-                        'ui:required': isAuthorizedAgent,
-                      },
-                      middle: {
-                        'ui:options': {
-                          hideIf: () => true,
-                        },
-                      },
-                      last: {
-                        'ui:title': "Preparer's last name",
-                        'ui:required': isAuthorizedAgent,
-                      },
-                      suffix: {
-                        'ui:options': {
-                          hideIf: () => true,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      applicant: {
-                        type: 'object',
-                        properties: {
-                          name: applicant.properties.name,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            preparerContactDetails: !environment.isProduction()
-              ? {
-                  title: 'Preparer contact details',
-                  path: 'preparer-contact-details',
-                  depends: formData => isAuthorizedAgent(formData),
-                  uiSchema: {
-                    application: {
-                      applicant: {
-                        'view:applicantInfo': {
-                          mailingAddress: merge(
-                            {},
-                            address.uiSchema("Preparer's mailing address"),
-                            {
-                              country: { 'ui:required': isAuthorizedAgent },
-                              street: {
-                                'ui:title': 'Street address',
-                                'ui:required': isAuthorizedAgent,
-                              },
-                              street2: {
-                                'ui:title': 'Street address line 2',
-                              },
-                              city: { 'ui:required': isAuthorizedAgent },
-                              state: {
-                                'ui:title': preparerMailingAddressStateTitleWrapper,
-                                'ui:required': isAuthorizedAgent,
-                                'ui:options': {
-                                  hideIf: formData =>
-                                    !preparerAddressHasState(formData) &&
-                                    !environment.isProduction(),
-                                },
-                              },
-                              postalCode: { 'ui:required': isAuthorizedAgent },
-                            },
-                          ),
-                        },
-                        'view:contactInfo': {
-                          'ui:title': ContactDetailsTitle,
-                          applicantPhoneNumber: merge(
-                            {},
-                            preparerPhoneUI('Phone number'),
-                            {
-                              'ui:required': isAuthorizedAgent,
-                            },
-                          ),
-                        },
-                      },
-                    },
-                  },
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      application: {
-                        type: 'object',
-                        properties: {
-                          applicant: {
-                            type: 'object',
-                            properties: {
-                              'view:applicantInfo': {
-                                type: 'object',
-                                properties: {
-                                  mailingAddress: address.schema(
-                                    fullSchemaPreNeed,
-                                  ),
-                                },
-                              },
-                              'view:contactInfo': {
-                                type: 'object',
-                                properties: {
-                                  applicantPhoneNumber:
-                                    applicant.properties.applicantPhoneNumber,
-                                },
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                }
-              : {
-                  title: 'Preparer contact details',
-                  path: 'preparer-contact-details',
-                  depends: formData => isAuthorizedAgent(formData),
-                  uiSchema: {
-                    application: {
-                      applicant: {
-                        'view:applicantInfo': {
-                          mailingAddress: merge(
-                            {},
-                            address.uiSchema("Preparer's mailing address"),
-                            {
-                              country: { 'ui:required': isAuthorizedAgent },
-                              street: {
-                                'ui:title': 'Street address',
-                                'ui:required': isAuthorizedAgent,
-                              },
-                              street2: {
-                                'ui:title': 'Street address line 2',
-                              },
-                              city: { 'ui:required': isAuthorizedAgent },
-                              state: {
-                                'ui:title': 'State or territory',
-                                'ui:required': isAuthorizedAgent,
-                              },
-                              postalCode: { 'ui:required': isAuthorizedAgent },
-                            },
-                          ),
-                        },
-                        'view:contactInfo': {
-                          'ui:title': ContactDetailsTitle,
-                          applicantPhoneNumber: merge(
-                            {},
-                            phoneUI('Phone number'),
-                            {
-                              'ui:required': isAuthorizedAgent,
-                            },
-                          ),
-                        },
-                        'view:phoneNumberDescription': {
-                          'ui:description': PreparerPhoneNumberDescription,
-                        },
-                      },
-                    },
-                  },
-                  schema: {
-                    type: 'object',
-                    properties: {
-                      application: {
-                        type: 'object',
-                        properties: {
-                          applicant: {
-                            type: 'object',
-                            properties: {
-                              'view:applicantInfo': {
-                                type: 'object',
-                                properties: {
-                                  mailingAddress: address.schema(
-                                    fullSchemaPreNeed,
-                                  ),
-                                },
-                              },
-                              'view:contactInfo': {
-                                type: 'object',
-                                properties: {
-                                  applicantPhoneNumber:
-                                    applicant.properties.applicantPhoneNumber,
-                                },
-                              },
-                              'view:phoneNumberDescription': {
-                                type: 'object',
-                                properties: {},
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
           },
-        }
-      : {
-          title: 'Contact information',
-          pages: {
-            applicantContactInformation: {
-              title: 'Applicant’s contact information',
-              path: 'applicant-contact-information',
-              uiSchema: {
-                application: {
-                  claimant: {
-                    address: address.uiSchema('Applicant’s mailing address'),
-                    'view:contactInfoDescription': {
-                      'ui:description': contactInfoDescription,
-                    },
-                    phoneNumber: phoneUI('Primary telephone number'),
-                    email: emailUI(),
-                  },
-                },
-              },
-              schema: {
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
                 type: 'object',
                 properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      claimant: {
-                        type: 'object',
-                        required: ['email', 'phoneNumber'],
-                        properties: {
-                          address: address.schema(fullSchemaPreNeed, true),
-                          'view:contactInfoDescription': {
-                            type: 'object',
-                            properties: {},
-                          },
-                          phoneNumber: claimant.properties.phoneNumber,
-                          email: claimant.properties.email,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            sponsorMailingAddress: {
-              title: 'Sponsor’s mailing address',
-              path: 'sponsor-mailing-address',
-              depends: formData => !isVeteran(formData),
-              uiSchema: {
-                application: {
-                  veteran: {
-                    address: address.uiSchema('Sponsor’s address'),
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        properties: {
-                          address: address.schema(fullSchemaPreNeed),
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            preparer: {
-              title: 'Preparer',
-              path: 'preparer',
-              uiSchema: {
-                application: {
                   applicant: {
-                    applicantRelationshipToClaimant: {
-                      'ui:title': 'Who is filling out this application?',
-                      'ui:widget': 'radio',
-                      'ui:options': {
-                        updateSchema: formData => {
-                          const nameData = get(
-                            'application.claimant.name',
-                            formData,
-                          );
-                          const applicantName = nameData
-                            ? formatName(nameData)
-                            : null;
-
-                          return {
-                            enumNames: [
-                              applicantName || 'Myself',
-                              'Someone else',
-                            ],
-                          };
-                        },
-                        nestedContent: {
-                          'Authorized Agent/Rep': authorizedAgentDescription,
-                        },
-                      },
-                    },
-                    'view:applicantInfo': {
-                      'ui:options': {
-                        expandUnder: 'applicantRelationshipToClaimant',
-                        expandUnderCondition: 'Authorized Agent/Rep',
-                      },
-                      name: merge({}, nonRequiredFullNameUI, {
-                        'ui:title': 'Preparer information',
-                        first: { 'ui:required': isAuthorizedAgent },
-                        last: { 'ui:required': isAuthorizedAgent },
-                      }),
-                      mailingAddress: merge(
-                        {},
-                        address.uiSchema('Mailing address'),
-                        {
-                          country: { 'ui:required': isAuthorizedAgent },
-                          street: { 'ui:required': isAuthorizedAgent },
-                          city: { 'ui:required': isAuthorizedAgent },
-                          state: { 'ui:required': isAuthorizedAgent },
-                          postalCode: { 'ui:required': isAuthorizedAgent },
-                        },
-                      ),
-                      'view:contactInfo': {
-                        'ui:title': 'Contact information',
-                        applicantPhoneNumber: merge(
-                          {},
-                          phoneUI('Primary telephone number'),
-                          {
-                            'ui:required': isAuthorizedAgent,
-                          },
-                        ),
-                      },
-                    },
-                  },
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
                     type: 'object',
                     properties: {
-                      applicant: {
+                      'view:applicantInfo': {
                         type: 'object',
-                        required: ['applicantRelationshipToClaimant'],
                         properties: {
-                          applicantRelationshipToClaimant:
-                            applicant.properties
-                              .applicantRelationshipToClaimant,
-                          'view:applicantInfo': {
-                            type: 'object',
-                            properties: {
-                              name: nonRequiredFullName,
-                              mailingAddress: address.schema(fullSchemaPreNeed),
-                              'view:contactInfo': {
-                                type: 'object',
-                                properties: {
-                                  applicantPhoneNumber:
-                                    applicant.properties.applicantPhoneNumber,
-                                },
-                              },
-                            },
-                          },
+                          mailingAddress: address.schema(fullSchemaPreNeed),
+                        },
+                      },
+                      'view:contactInfo': {
+                        type: 'object',
+                        properties: {
+                          applicantPhoneNumber:
+                            applicant.properties.applicantPhoneNumber,
                         },
                       },
                     },
@@ -1127,6 +861,8 @@ const formConfig = {
             },
           },
         },
+      },
+    },
   },
 };
 
