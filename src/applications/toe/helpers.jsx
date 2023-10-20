@@ -387,7 +387,6 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
 
 export function prefillTransformer(pages, formData, metadata, state) {
   const featureTogglesLoaded = state.featureToggles?.loading === false;
-  // eslint-disable-next-line camelcase
   const showInternationalAddressPrefill =
     state.featureToggles?.showMebInternationalAddressPrefill;
 
