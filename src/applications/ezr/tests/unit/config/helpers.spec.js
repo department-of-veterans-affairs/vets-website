@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 const expectedFieldTypes = 'input, select, textarea';
-
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
