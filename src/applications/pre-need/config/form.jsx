@@ -62,7 +62,6 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   preparerAddressHasState,
-  applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -586,26 +585,22 @@ const formConfig = {
             application: {
               claimant: {
                 address: !environment.isProduction()
-                  ? merge(
-                      {},
-                      address.uiSchema('Sponsor’s mailing address'),
-                      {
-                        street: {
-                          'ui:title': 'Street address',
-                        },
-                        street2: {
-                          'ui:title': 'Street address line 2',
-                        },
-                        state: {
-                          'ui:title': sponsorMailingAddressStateTitleWrapper,
-                          'ui:options': {
-                            hideIf: formData =>
-                              !sponsorMailingAddressHasState(formData) &&
-                              !environment.isProduction(),
-                          },
+                  ? merge({}, address.uiSchema('Sponsor’s mailing address'), {
+                      street: {
+                        'ui:title': 'Street address',
+                      },
+                      street2: {
+                        'ui:title': 'Street address line 2',
+                      },
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData) &&
+                            !environment.isProduction(),
                         },
                       },
-                    )
+                    })
                   : merge({}, address.uiSchema('Sponsor’s address'), {
                       state: {
                         'ui:title': sponsorMailingAddressStateTitleWrapper,
