@@ -215,8 +215,12 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
             )}
           {!isReviewMode ? (
             <>
-              <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+              <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
                 Enter each dependent’s age separately.
+              </p>
+              <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--gray-medium">
+                Dependents include your spouse, unmarried children under 18
+                years old, and other dependents.
               </p>
             </>
           ) : null}

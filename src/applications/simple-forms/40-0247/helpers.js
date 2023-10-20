@@ -36,16 +36,18 @@ export const supportingDocsDescription = (
   </>
 );
 
-export const createPayload = (file, _formId, password) => {
+export const createPayload = (file, formId, password) => {
   const payload = new FormData();
-  payload.append('files_attachment[file_data]', file);
+  payload.set('form_id', formId);
+  payload.append('file', file);
   if (password) {
-    payload.append('files_attachment[password]', password);
+    payload.append('password', password);
   }
   return payload;
 };
 
-export function parseResponse({ data }, { name }) {
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
   const focusFileCard = () => {
     const target = $$('.schemaform-file-list li').find(entry =>
       entry.textContent?.trim().includes(name),
@@ -62,7 +64,7 @@ export function parseResponse({ data }, { name }) {
 
   return {
     name,
-    confirmationCode: data.attributes.confirmation_code,
+    confirmationCode: data.attributes.confirmationCode,
   };
 }
 

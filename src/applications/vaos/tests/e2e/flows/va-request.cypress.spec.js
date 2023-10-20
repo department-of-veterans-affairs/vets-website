@@ -29,9 +29,13 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockClinicApi({ locations: ['983HK'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingAcheronService: false,
+      vaOnlineSchedulingAppointmentList: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+      vaOnlineSchedulingFacilitiesServiceV2: true,
+      vaOnlineSchedulingStatusImprovement: false,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
     });
     mockUserTransitionAvailabilities();
   });
@@ -322,7 +326,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     cy.url().should('include', '/va-facility');
     cy.axeCheckBestPractice();
 
-    cy.findByText(/Continue/).click();
+    cy.findByText(/Continue/).click({ waitForAnimations: true });
 
     // Choose date and slot (AM or PM)
     newApptTests.selectRequestSlotTest();

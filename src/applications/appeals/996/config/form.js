@@ -13,7 +13,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import AddIssue from '../components/AddIssue';
-import reviewErrors from '../content/reviewErrors';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -35,6 +34,7 @@ import { getIssueTitle } from '../content/areaOfDisagreement';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
+import reviewErrors from '../../shared/content/reviewErrors';
 
 // import initialData from '../tests/schema/initialData';
 
