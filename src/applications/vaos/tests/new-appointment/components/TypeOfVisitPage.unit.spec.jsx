@@ -29,7 +29,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       store,
     });
 
-    await screen.findByLabelText(/in person/i);
+    await screen.findByLabelText(/In person/i);
 
     expect(screen.getAllByRole('radio').length).to.equal(3);
   });
@@ -56,11 +56,11 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       },
     );
 
-    expect(await screen.findByLabelText(/In Person/i)).to.exist;
+    expect(await screen.findByLabelText(/In person/i)).to.exist;
 
-    fireEvent.click(await screen.findByLabelText(/In Person/i));
+    fireEvent.click(await screen.findByLabelText(/In person/i));
     await waitFor(() => {
-      expect(screen.getByLabelText(/In Person/i).checked).to.be.true;
+      expect(screen.getByLabelText(/In person/i).checked).to.be.true;
     });
     await cleanup();
 
@@ -68,7 +68,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       store,
     });
 
-    expect(await screen.findByLabelText(/In Person/i)).to.have.attribute(
+    expect(await screen.findByLabelText(/In person/i)).to.have.attribute(
       'checked',
     );
   });
@@ -82,7 +82,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
       },
     );
 
-    fireEvent.click(await screen.findByLabelText(/In Person/i));
+    fireEvent.click(await screen.findByLabelText(/In person/i));
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
