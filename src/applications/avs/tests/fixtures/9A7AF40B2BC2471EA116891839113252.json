@@ -72,7 +72,7 @@
           "type": "Pulse",
           "value": "67",
           "date": "Jan 01, 23",
-          "qualifiers": ""
+          "qualifiers": "Lying,At Rest"
         },
         {
           "T": "VitalSign",
@@ -86,7 +86,7 @@
           "type": "Temperature",
           "value": "97.3 F",
           "date": "Jan 01, 23",
-          "qualifiers": ""
+          "qualifiers": "Temporal"
         },
         {
           "T": "VitalSign",
