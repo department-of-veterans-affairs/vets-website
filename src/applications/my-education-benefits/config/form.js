@@ -1360,6 +1360,18 @@ const formConfig = {
                     </p>
                   </>
                 ),
+                'ui:validations': [
+                  (errors, field) => {
+                    if (
+                      field?.servicePeriodMissing === undefined &&
+                      field?.servicePeriodIncorrect === undefined
+                    ) {
+                      errors.servicePeriodIncorrect.addError(
+                        'You must select one choice',
+                      );
+                    }
+                  },
+                ],
                 servicePeriodMissing: {
                   'ui:title': 'One or more of my service periods are missing',
                   // 'ui:required': formData => formData['view:serviceHistory']?.serviceHistoryIncorrect === true && !formData.incorrectServiceHistoryExplanation.incorrectServiceHistoryInputs.servicePeriodIncorrect,
