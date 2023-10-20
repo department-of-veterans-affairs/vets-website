@@ -8,12 +8,12 @@ const SeparatedItemsBlock = props => {
     return null;
   }
 
-  const listItems = items.map(item => {
+  const listItems = items.map((item, idx) => {
     return (
-      <>
+      <div key={idx}>
         {renderItem(item)}
         {items.length > 1 && <hr />}
-      </>
+      </div>
     );
   });
 
