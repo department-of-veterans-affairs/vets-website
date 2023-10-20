@@ -585,33 +585,26 @@ const formConfig = {
           uiSchema: {
             application: {
               claimant: {
-                address: !environment.isProduction()
-                  ? merge({}, address.uiSchema('Sponsor’s mailing address'), {
-                      street: {
-                        'ui:title': 'Street address',
+                address: merge(
+                  {},
+                  address.uiSchema('Applicant’s mailing address'),
+                  {
+                    street: {
+                      'ui:title': 'Street address',
+                    },
+                    street2: {
+                      'ui:title': 'Street address line 2',
+                    },
+                    state: {
+                      'ui:title': applicantMailingAddressStateTitleWrapper,
+                      'ui:options': {
+                        hideIf: formData =>
+                          !applicantsMailingAddressHasState(formData) &&
+                          !environment.isProduction(),
                       },
-                      street2: {
-                        'ui:title': 'Street address line 2',
-                      },
-                      state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !applicantsMailingAddressHasState(formData) &&
-                            !environment.isProduction(),
-                        },
-                      },
-                    })
-                  : merge({}, address.uiSchema('Sponsor’s address'), {
-                      state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !applicantsMailingAddressHasState(formData) &&
-                            !environment.isProduction(),
-                        },
-                      },
-                    }),
+                    },
+                  },
+                ),
                 'view:applicantContactInfoSubheader': {
                   'ui:description': applicantContactInfoSubheader,
                   'ui:options': {
@@ -664,16 +657,26 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                address: merge({}, address.uiSchema('Sponsor’s address'), {
-                  state: {
-                    'ui:title': sponsorMailingAddressStateTitleWrapper,
-                    'ui:options': {
-                      hideIf: formData =>
-                        !sponsorMailingAddressHasState(formData) &&
-                        !environment.isProduction(),
+                address: merge(
+                  {},
+                  address.uiSchema('Sponsor’s mailing address'),
+                  {
+                    street: {
+                      'ui:title': 'Street address',
+                    },
+                    street2: {
+                      'ui:title': 'Street address line 2',
+                    },
+                    state: {
+                      'ui:title': sponsorMailingAddressStateTitleWrapper,
+                      'ui:options': {
+                        hideIf: formData =>
+                          !sponsorMailingAddressHasState(formData) &&
+                          !environment.isProduction(),
+                      },
                     },
                   },
-                }),
+                ),
               },
             },
           },
