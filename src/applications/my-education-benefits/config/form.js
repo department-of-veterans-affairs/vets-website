@@ -1374,12 +1374,10 @@ const formConfig = {
                 ],
                 servicePeriodMissing: {
                   'ui:title': 'One or more of my service periods are missing',
-                  // 'ui:required': formData => formData['view:serviceHistory']?.serviceHistoryIncorrect === true && !formData.incorrectServiceHistoryExplanation.incorrectServiceHistoryInputs.servicePeriodIncorrect,
                 },
                 servicePeriodIncorrect: {
                   'ui:title':
                     'One or more of my service periods have incorrect information',
-                  // 'ui:required': formData => formData['view:serviceHistory']?.serviceHistoryIncorrect === true && !formData.incorrectServiceHistoryExplanation.incorrectServiceHistoryInputs.servicePeriodMissing,
                 },
               },
               incorrectServiceHistoryText: {
@@ -1388,6 +1386,7 @@ const formConfig = {
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
                   true,
+                'ui:widget': 'textarea',
               },
             },
           },
