@@ -7,19 +7,9 @@ import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
-  comment: null,
   vaos: {
-    isPendingAppointment: false,
-    isUpcomingAppointment: true,
-    isVideo: false,
-    isPastAppointment: false,
-    isCompAndPenAppointment: false,
-    isCancellable: false,
+    isCanceled: false,
     appointmentType: 'vaAppointment',
-    isCommunityCare: false,
-    isExpressCare: false,
-    isPhoneAppointment: false,
-    isCOVIDVaccine: false,
   },
   videoData: {
     isVideo: false,
@@ -41,9 +31,35 @@ describe('DetailsVA component with isCompAndPenAppointment', () => {
     },
   };
 
-  it('should display type header', async () => {
+  it('should not display type of care header for upcoming C&P appointments', async () => {
     const appointment = {
       ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: true,
+        isPastAppointment: false,
+        isCompAndPenAppointment: true,
+        apiData: { serviceType: 'audiology' },
+      },
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    expect(wrapper.queryByText(/Type of care:/i)).not.to.exist;
+  });
+
+  it('should display type of care for past C&P appointments', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: true,
+        isPastAppointment: false,
+        isCompAndPenAppointment: true,
+        apiData: { serviceType: 'audiology' },
+      },
     };
 
     const props = { appointment, facilityData };
@@ -53,9 +69,9 @@ describe('DetailsVA component with isCompAndPenAppointment', () => {
     });
 
     expect(
-      wrapper.getByText('Back to appointments', {
+      wrapper.getByText('Audiology and speech', {
         exact: true,
-        selector: 'a',
+        selector: 'h2',
       }),
     ).to.exist;
   });
