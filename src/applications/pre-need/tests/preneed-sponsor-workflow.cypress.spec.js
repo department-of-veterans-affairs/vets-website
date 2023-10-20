@@ -6,14 +6,12 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
-    const isVeteran = false;
     // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.claimant.name,
       testData.data.application.claimant.ssn,
       testData.data.application.claimant.dateOfBirth,
       testData.data.application.claimant.relationshipToVet,
-      isVeteran,
       testData.data.application.veteran.placeOfBirth,
     );
 

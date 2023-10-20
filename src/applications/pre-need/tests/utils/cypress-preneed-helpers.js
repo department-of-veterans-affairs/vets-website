@@ -53,14 +53,9 @@ function visitIntro() {
 }
 
 // Fills all fields on the Applicant Information page , performs axe check, continues to next page
-function fillApplicantInfo(
-  name,
-  ssn,
-  dob,
-  relationship,
-  isVeteran,
-  placeOfBirth,
-) {
+function fillApplicantInfo(name, ssn, dob, relationship, placeOfBirth) {
+  const isVeteran = relationship === '1';
+
   cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
   cy.injectAxeThenAxeCheck();
   clickContinue();
@@ -70,6 +65,7 @@ function fillApplicantInfo(
   cy.fillName('root_application_claimant_name', name);
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
+
   if (isVeteran) {
     cy.fill(
       'input[name="root_application_veteran_placeOfBirth"]',
