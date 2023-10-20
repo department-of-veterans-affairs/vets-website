@@ -23,7 +23,7 @@ const VitalListItem = props => {
             Result: <span data-dd-privacy="mask">{record.measurement}</span>
           </div>
           <div className="vads-u-line-height--3" data-dd-privacy="mask">
-            {moment(record.date).format('LLL')}
+            {record.date}
           </div>
           <div className="location-collapsed vads-u-line-height--3">
             Location: <span data-dd-privacy="mask">{record.location}</span>
