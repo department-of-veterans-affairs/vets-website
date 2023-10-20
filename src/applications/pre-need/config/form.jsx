@@ -62,6 +62,7 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   preparerAddressHasState,
+  applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -596,7 +597,7 @@ const formConfig = {
                         'ui:title': sponsorMailingAddressStateTitleWrapper,
                         'ui:options': {
                           hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData) &&
+                            !applicantsMailingAddressHasState(formData) &&
                             !environment.isProduction(),
                         },
                       },
@@ -606,7 +607,7 @@ const formConfig = {
                         'ui:title': sponsorMailingAddressStateTitleWrapper,
                         'ui:options': {
                           hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData) &&
+                            !applicantsMailingAddressHasState(formData) &&
                             !environment.isProduction(),
                         },
                       },
