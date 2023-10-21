@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 
@@ -16,6 +16,9 @@ import {
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';
+import { streamlinedWaiverStatus } from '../actions/streamlinedWaiverStatus';
+import useDetectFieldChanges from '../hooks/useDetectFieldChanges'; // Adjust the path accordingly
+
 import { ErrorAlert } from '../components/alerts/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { WIZARD_STATUS } from '../wizard/constants';
@@ -30,8 +33,8 @@ import user from '../mocks/user.json';
 
 const App = ({
   children,
-  formData,
   getFormStatus,
+  formData,
   isError,
   isLoggedIn,
   isStartingOver,
@@ -46,6 +49,15 @@ const App = ({
   showStreamlinedWaiverAssetUpdate,
   showWizard,
 }) => {
+  const dispatch = useDispatch();
+
+  useDetectFieldChanges(formData, () => {
+    if (formData?.reviewNavigation) {
+      // Run your logic to update the review button state
+      dispatch(streamlinedWaiverStatus());
+    }
+  });
+
   // vapContactInfo is an empty object locally, so mock it
   const contactData = environment.isLocalhost()
     ? user.data.attributes.vet360ContactInformation
