@@ -1,6 +1,5 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import vapService from '@@vap-svc/reducers';
-
 import formConfig from '../config/form';
 import {
   FSR_API_CALL_INITIATED,
@@ -8,6 +7,7 @@ import {
   FSR_RESET_ERRORS,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
+  UPDATE_STREAMLINED_ELIGIBILITY_STATUS,
 } from '../constants/actionTypes';
 import {
   MCP_STATEMENTS_FETCH_INIT,
@@ -22,6 +22,7 @@ const initialState = {
   pendingCopays: true,
   debts: [],
   statements: [],
+  isStreamlinedEligible: false,
 };
 
 const fsrApi = (state = initialState, action) => {
@@ -72,6 +73,11 @@ const fsrApi = (state = initialState, action) => {
         statements: action.statements,
         pendingCopays: false,
         copayError: action.copayError,
+      };
+    case UPDATE_STREAMLINED_ELIGIBILITY_STATUS:
+      return {
+        ...state,
+        isStreamlinedEligible: action.payload,
       };
     default:
       return state;

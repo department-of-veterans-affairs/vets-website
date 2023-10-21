@@ -34,8 +34,9 @@ export const isEligibleForStreamlined = formData => {
  * - Assets (cash on hand and cash in bank specific pages) below 6.5% of GMT
  */
 export const isStreamlinedShortForm = formData => {
-  const { gmtData } = formData;
-  // let's keep the cashBelowGmt for now so we don't affect in progress forms that have it,
+  if (!formData) return false;
+
+  const { gmtData } = formData || {}; // let's keep the cashBelowGmt for now so we don't affect in progress forms that have it,
   //  but we'll use assetsBelowGmt for new forms since it's a more apt description.
   return (
     (gmtData?.isEligibleForStreamlined &&
@@ -58,7 +59,9 @@ export const isStreamlinedShortForm = formData => {
  * - Discretionary income below 1.25% of GMT
  */
 export const isStreamlinedLongForm = formData => {
-  const { gmtData } = formData;
+  if (!formData) return false;
+
+  const { gmtData } = formData || {};
 
   // Hopefully this is more readable, but using liquidAsetsBelowGmt as flag for
   //  asset calculation post streamlinedWaiverAssetUpdate feature flag. Want to keep assetsBelowGmt
@@ -93,6 +96,8 @@ export const isStreamlinedLongForm = formData => {
  * @returns {number} Total yearly income
  */
 export const calculateTotalAnnualIncome = formData => {
+  if (!formData) return false;
+
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   return totalMonthlyNetIncome * 12;
 };
@@ -103,6 +108,8 @@ export const calculateTotalAnnualIncome = formData => {
  * @returns {number} Sum of liquid assets
  */
 export const calculateLiquidAssets = formData => {
+  if (!formData) return false;
+
   const { monetaryAssets = [] } = formData?.assets;
   // Assets considered for streamlined waiver include cash in bank and on hand
   const liquidAssets = monetaryAssets.reduce((acc, asset) => {
@@ -127,6 +134,8 @@ export const calculateLiquidAssets = formData => {
  * @returns {number} Discretionary income
  */
 export const calculateDiscretionaryIncome = formData => {
+  if (!formData) return false;
+
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   const expenses = getMonthlyExpenses(formData);
   return totalMonthlyNetIncome - expenses;
