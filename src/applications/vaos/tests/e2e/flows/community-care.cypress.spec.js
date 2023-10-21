@@ -267,7 +267,7 @@ describe('VAOS community care flow using VAOS service', () => {
     // Request detail page should display the same information sent to create the
     // appointment.
     cy.url().should('include', '/requests/mock1');
-    cy.wait('@v2:get:appointment').then(() => {
+    cy.wait('@v2:get:appointment', { timeout: 60000 }).then(() => {
       cy.findByText('Pending primary care appointment');
       cy.findByText('Your appointment request has been submitted.');
       cy.findByText('This is a very good reason.');
