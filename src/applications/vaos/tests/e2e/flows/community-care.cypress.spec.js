@@ -221,7 +221,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText('Request appointment').click({ waitForAnimations: true });
 
     // Check form requestBody is as expected
-    cy.wait('@v2:create:appointment').should(xhr => {
+    cy.wait('@v2:create:appointment').then(xhr => {
       const { body } = xhr.request;
 
       expect(xhr.response.statusCode).to.eq(200);
