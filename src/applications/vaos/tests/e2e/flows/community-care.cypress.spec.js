@@ -154,13 +154,14 @@ describe('VAOS community care flow using VAOS service', () => {
     );
     cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
-
-    cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/Choose provider/i).click();
-    cy.findByText(/remove/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click();
+    cy.wait('@v1:get:provider').then(() => {
+      cy.findByLabelText(/doe, jane/i).click();
+      cy.axeCheckBestPractice();
+      cy.findByText(/Choose provider/i).click();
+      cy.findByText(/remove/i).click();
+      cy.axeCheckBestPractice();
+      cy.findByText(/cancel/i).click();
+    });
     // Click continue button
     cy.get('.usa-button')
       .contains('Continue')
@@ -217,7 +218,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.url().should('contain', `${rootUrl}new-appointment/review`);
     cy.axeCheckBestPractice();
     // Click request appointment button
-    cy.findByText('Request appointment').click();
+    cy.findByText('Request appointment').click({ waitForAnimations: true });
 
     // Check form requestBody is as expected
     cy.wait('@v2:create:appointment').should(xhr => {
@@ -261,19 +262,19 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(body.reasonCode.text).to.equal('This is a very good reason.');
       expect(body.requestedPeriods).not.to.be.empty;
       expect(body.status).to.equal('proposed');
-    });
 
-    // Request detail page should display the same information sent to create the
-    // appointment.
-    cy.url().should('include', '/requests/mock1');
-    cy.wait('@v2:get:appointment');
-    cy.findByText('Pending primary care appointment');
-    cy.findByText('Your appointment request has been submitted.');
-    cy.findByText('This is a very good reason.');
-    cy.findByText('veteran@gmail.com');
-    // cy.findByText('503-555-1234');
-    cy.findByText('Call morning or evening');
-    cy.axeCheckBestPractice();
+      // Request detail page should display the same information sent to create the
+      // appointment.
+      cy.url().should('include', '/requests/mock1');
+      cy.wait('@v2:get:appointment');
+      cy.findByText('Pending primary care appointment');
+      cy.findByText('Your appointment request has been submitted.');
+      cy.findByText('This is a very good reason.');
+      cy.findByText('veteran@gmail.com');
+      // cy.findByText('503-555-1234');
+      cy.findByText('Call morning or evening');
+      cy.axeCheckBestPractice();
+    });
   });
 
   it.skip('should submit form with provider chosen from list and submit request', () => {
