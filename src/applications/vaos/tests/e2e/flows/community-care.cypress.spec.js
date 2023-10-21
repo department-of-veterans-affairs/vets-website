@@ -262,7 +262,9 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(body.reasonCode.text).to.equal('This is a very good reason.');
       expect(body.requestedPeriods).not.to.be.empty;
       expect(body.status).to.equal('proposed');
+    });
 
+    cy.wait('@v2:get:appointment').then(() => {
       // Request detail page should display the same information sent to create the
       // appointment.
       cy.url().should('include', '/requests/mock1');
