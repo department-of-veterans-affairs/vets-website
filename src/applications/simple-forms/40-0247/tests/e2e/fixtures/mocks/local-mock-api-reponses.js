@@ -6,7 +6,7 @@ const mockSubmission = require('./submission.json');
 
 const responses = {
   ...commonResponses,
-  'POST /v0/simple-forms/40-0247/files': mockUpload,
+  'POST /simple_forms_api/v1/simple_forms/submit_supporting_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms': mockSubmission,
 };
 
