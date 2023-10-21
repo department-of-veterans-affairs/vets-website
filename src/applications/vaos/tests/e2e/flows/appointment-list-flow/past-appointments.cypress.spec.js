@@ -8,12 +8,12 @@ import {
   mockAppointmentsApi,
   mockFacilitiesApi,
   mockFeatureToggles,
+  mockLoginApi,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import PastAppointmentListPage from '../../page-objects/AppointmentList/PastAppointmentListPage';
-import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
 
 describe('VAOS past appointment flow', () => {
@@ -24,8 +24,7 @@ describe('VAOS past appointment flow', () => {
       mockFacilitiesApi();
       mockFeatureToggles();
       mockVamcEhrApi();
-
-      cy.login(new MockUser());
+      mockLoginApi();
     });
 
     it('should display past appointments list', () => {
@@ -80,7 +79,7 @@ describe('VAOS past appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('should display past appointment details', () => {
+    it('should display past appointment details', () => {
       // Arrange
       const yesterday = moment().subtract(1, 'day');
       const appt = new MockAppointment({
@@ -106,7 +105,7 @@ describe('VAOS past appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('should display past appointments for selected date range', () => {
+    it('should display past appointments for selected date range', () => {
       // Arrange
       const response = [3, 6, 9, 12].map(i => {
         return new MockAppointment({
@@ -139,7 +138,7 @@ describe('VAOS past appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip("should display warning when veteran doesn't have any appointments", () => {
+    it("should display warning when veteran doesn't have any appointments", () => {
       // Act
       mockAppointmentsApi({ response: [] });
 
@@ -153,7 +152,7 @@ describe('VAOS past appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('should display generic error message', () => {
+    it('should display generic error message', () => {
       // Arrange
       mockAppointmentsApi({ response: [], responseCode: 400 });
 
