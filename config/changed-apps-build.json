@@ -76,6 +76,10 @@
     {
       "rootFolder": "claims-status",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "rated-disabilities",
+      "slackGroup": "@benefits-app-builds"
     }
   ]
 }
