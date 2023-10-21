@@ -1,0 +1,46 @@
+.devtools-active {
+  outline: 2px solid rgba(255, 0, 0, 0.50);
+}
+
+.devtools-panel {
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  pointer-events: none;
+  right: 1vw;
+  top: 1vw;
+}
+
+.devtools-panel--hidden {
+  opacity: 0;
+}
+
+.devtools-panel--hovered {
+  padding: 1rem 2rem;
+  display: block;
+  z-index: 999999999999;
+
+  color: rgb(186, 190, 216);
+  background: rgb(41, 45, 62);
+  pointer-events: all;
+  opacity: 1;
+  border-radius: 1rem;
+  pointer-events: all;
+}
+
+.devtools-container {
+  position: relative;
+  right: 0;
+  bottom: 0;
+}
+
+.devtools-active .devtools-container .fa-code {
+  position: absolute;
+  right: -1rem;
+  bottom: -1rem;
+  font-size: 1rem;
+  color: rgb(186, 190, 216) !important;
+  cursor: pointer;
+  background: rgb(41, 45, 62);
+  border-radius: 50%;
+  padding: .8rem .7rem;
+}
