@@ -264,11 +264,10 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(body.status).to.equal('proposed');
     });
 
+    // Request detail page should display the same information sent to create the
+    // appointment.
+    cy.url().should('include', '/requests/mock1');
     cy.wait('@v2:get:appointment').then(() => {
-      // Request detail page should display the same information sent to create the
-      // appointment.
-      cy.url().should('include', '/requests/mock1');
-      cy.wait('@v2:get:appointment');
       cy.findByText('Pending primary care appointment');
       cy.findByText('Your appointment request has been submitted.');
       cy.findByText('This is a very good reason.');
