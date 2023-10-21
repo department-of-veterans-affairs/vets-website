@@ -28,11 +28,7 @@
   "location": {
       "reference": "Location/953"
   },
-  "note": [
-      {
-          "text": "test comment"
-      }
-  ],
+  "note": [],
   "reaction": [
       {
           "detail": {
