@@ -364,8 +364,9 @@ describe('VAOS community care flow using VAOS service', () => {
       `${rootUrl}new-appointment/community-care-preferences`,
     );
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a provider/).click();
 
+    cy.findByText(/Choose a provider/).click();
+    cy.wait('@v1:get:provider', { timeout: 6000 });
     cy.findByLabelText(/doe, jane/i).click();
     cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
@@ -394,9 +395,9 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.url().should('contain', `${rootUrl}new-appointment/reason-appointment`);
     cy.axeCheckBestPractice();
     // Fill out reason input
-    cy.get('#root_reasonAdditionalInfo')
-      .type('This is a very good reason.')
-      .tab();
+    cy.get('#root_reasonAdditionalInfo').as('additionalInfo');
+    cy.get('@additionalInfo').type('This is a very good reason.');
+    cy.get('@additionalInfo').tab();
     cy.get('#root_reasonAdditionalInfo').should(
       'have.value',
       'This is a very good reason.',
