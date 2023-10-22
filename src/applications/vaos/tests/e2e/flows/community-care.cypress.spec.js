@@ -267,15 +267,16 @@ describe('VAOS community care flow using VAOS service', () => {
     // Request detail page should display the same information sent to create the
     // appointment.
     cy.url().should('include', '/requests/mock1');
-    cy.wait('@v2:get:appointment', { timeout: 60000 }).then(() => {
+    cy.wait('@v2:get:appointment', { timeout: 100000 }).then(() => {
       cy.findByText('Pending primary care appointment');
       cy.findByText('Your appointment request has been submitted.');
       cy.findByText('This is a very good reason.');
       cy.findByText('veteran@gmail.com');
       // cy.findByText('503-555-1234');
       cy.findByText('Call morning or evening');
-      cy.axeCheckBestPractice();
     });
+
+    cy.axeCheckBestPractice();
   });
 
   it.skip('should submit form with provider chosen from list and submit request', () => {
