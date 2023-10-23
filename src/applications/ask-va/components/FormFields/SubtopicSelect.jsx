@@ -49,7 +49,9 @@ const SubtopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${environment.API_URL}${URL.GET_SUBTOPICS}/${topicID}/subtopics`,
+        `${environment.API_URL}${
+          URL.GET_SUBTOPICS
+        }/${topicID}/subtopics?mock=true`,
       );
     },
     [loggedIn],

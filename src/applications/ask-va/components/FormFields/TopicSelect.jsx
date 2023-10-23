@@ -66,7 +66,7 @@ const TopicSelect = props => {
       getApiData(
         `${environment.API_URL}${URL.GET_CATEGORIES}/${categoryID}${
           URL.GET_TOPICS
-        }`,
+        }?mock=true`,
       );
     },
     [loggedIn],
