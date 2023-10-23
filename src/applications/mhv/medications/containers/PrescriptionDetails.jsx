@@ -50,7 +50,7 @@ const PrescriptionDetails = () => {
               label: 'About Medications',
             },
             {
-              url: '/my-health/medications',
+              url: '/my-health/medications/',
               label: 'Medications',
             },
           ],
