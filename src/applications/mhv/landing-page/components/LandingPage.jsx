@@ -5,11 +5,11 @@ import NoHealthAlert from './NoHealthAlert';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import { hasHealthRecord } from '../selectors';
+import { hasHealthData } from '../selectors';
 
 const LandingPage = ({ data = null }) => {
   const { cards = null, hubs } = data;
-  const hasRecord = useSelector(hasHealthRecord);
+  const hasRecord = useSelector(hasHealthData);
 
   return (
     <div
