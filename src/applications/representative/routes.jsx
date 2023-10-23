@@ -1,8 +1,8 @@
 import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/platform-forms/save-in-progress/helpers';
 
 import Form from './containers/Form';
-import Search from './containers/Search';
-import Welcome from './containers/Welcome';
+import SearchPage from './containers/SearchPage';
+import HomePage from './containers/HomePage';
 import RepresentativeApp from './containers/RepresentativeApp';
 import formConfig from './config/form';
 
@@ -13,8 +13,8 @@ const routes = {
     onEnter: (nextState, replace) => replace('/welcome'),
   },
   childRoutes: [
-    { path: 'welcome', component: Welcome },
-    { path: 'search', component: Search },
+    { path: 'welcome', component: HomePage },
+    { path: 'search', component: SearchPage },
     {
       path: 'form',
       component: Form,
