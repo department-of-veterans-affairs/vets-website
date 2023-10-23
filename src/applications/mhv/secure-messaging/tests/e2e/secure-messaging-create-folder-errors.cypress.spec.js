@@ -4,7 +4,7 @@ import FolderManagementPage from './pages/FolderManagementPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
-describe('Secure Messaging Manage Folder Errors check', () => {
+describe('create folder errors check', () => {
   const folderPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
 
@@ -43,30 +43,6 @@ describe('Secure Messaging Manage Folder Errors check', () => {
     }).as('folder');
     folderPage.createFolderModalButton().click();
     folderPage.verifyCreateFolderNetworkFailureMessage();
-  });
-
-  it('edit blank folder name error check', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
-    PatientMessageCustomFolderPage.loadFoldersList();
-    PatientMessageCustomFolderPage.loadMessages();
-    folderPage
-      .editFolderNameButton()
-      .click({ waitForAnimations: true, force: true });
-    cy.contains('Save').click({ waitForAnimations: true, force: true });
-    cy.get('[name="new-folder-name"]')
-      .shadow()
-      .find('#input-error-message')
-      .should('contain', 'Folder name cannot be blank');
   });
 
   it('create blank name folder error check', () => {
