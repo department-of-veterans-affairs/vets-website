@@ -33,9 +33,9 @@ const IntroductionPage = props => {
       >
         Please complete the 28-1900 form to apply for Vocational Rehabilitation.
       </SaveInProgressIntro>
-      <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
-        Follow the steps below to apply for Veteran Readiness and Employment
-        benefits.
+      <h2>
+        Follow these steps to apply for Veteran Readiness and Employment
+        Benefits.
       </h2>
       <p id="vre-orientation-return">
         If you’re not sure this is the right form, you can{' '}
