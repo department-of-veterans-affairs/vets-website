@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
-import {
-  radioSchema,
-  radioUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 
 export function makeFormProperties(prefix) {
   return {
@@ -22,9 +17,10 @@ function makeSchemas(prefix) {
   const schema = {
     type: 'object',
     properties: {
-      [properties.accountType]: radioSchema(
-        Object.values(ACCOUNT_TYPES_OPTIONS),
-      ),
+      [properties.accountType]: {
+        type: 'string',
+        enum: Object.values(ACCOUNT_TYPES_OPTIONS),
+      },
       [properties.routingNumber]: {
         type: 'string',
         pattern: '^\\d{9}$',
@@ -42,15 +38,14 @@ function makeSchemas(prefix) {
   };
 
   const uiSchema = {
-    [properties.accountType]: radioUI({
-      title: 'Account type',
-      labels: ACCOUNT_TYPES_OPTIONS,
-      errorMessages: {
+    [properties.accountType]: {
+      'ui:widget': 'radio',
+      'ui:title': 'Account type',
+      'ui:errorMessages': {
         required: 'Please select the type that best describes your account',
       },
-    }),
+    },
     [properties.routingNumber]: {
-      'ui:webComponentField': VaTextInputField,
       'ui:title': 'Routing number',
       'ui:errorMessages': {
         pattern: 'Please enter your bank’s 9-digit routing number',
@@ -58,7 +53,6 @@ function makeSchemas(prefix) {
       },
     },
     [properties.accountNumber]: {
-      'ui:webComponentField': VaTextInputField,
       'ui:title': 'Account number (This should be no more than 17 digits)',
       'ui:errorMessages': {
         pattern: 'Please enter your account number',
