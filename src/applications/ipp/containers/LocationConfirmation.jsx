@@ -24,7 +24,7 @@ export default function LocationConfirmation({ onPageChange }) {
               <button
                 type="button"
                 className="usa-button mo-full-width-btn"
-                onClick={() => onPageChange(3)}
+                onClick={() => onPageChange(4)}
               >
                 Continue
               </button>
@@ -33,7 +33,7 @@ export default function LocationConfirmation({ onPageChange }) {
               <button
                 type="button"
                 className="usa-button usa-button--outline mo-full-width-btn"
-                onClick={() => onPageChange(1)}
+                onClick={() => onPageChange(2)}
               >
                 Back
               </button>

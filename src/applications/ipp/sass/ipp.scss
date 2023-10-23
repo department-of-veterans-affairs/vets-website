@@ -5,7 +5,10 @@
 // }
 @font-face {
   font-family: "Public Sans";
-  src: url("/Users/anudas/Downloads/public-sans-v2.001/fonts/webfonts/PublicSans-Light.woff2") format("woff2");
+  font-style: normal ;
+  src: url("/fonts/PublicSans-Regular.woff2") format("woff2"),
+  url("/fonts/PublicSans-Regular.woff") format("woff"),
+  url("/fonts/PublicSans-Regular.ttf") format("ttf");
   font-weight: 400; /* Specify the weight you want to use */
   /* Add additional font weights if needed */
 }
@@ -37,8 +40,8 @@ h1 {
   }
 
 .text {
-    max-width: 550px;
-    font-family: $font-sans;
+    max-width: 100%;
+    font-family: "Public Sans";
     justify-content: center;
     padding-left: 25px;
     padding-right: 25px;
