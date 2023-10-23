@@ -68,5 +68,13 @@ class MedicationsLandingPage {
       .should('be.visible')
       .and('contain', 'About medications');
   };
+
+  verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
+    // cy.get('[data-testid="empty-list-alert"] >div ').should(
+    cy.get('[data-testid="alert-message"]').should(
+      'contain.text',
+      'You don’t have any medications in your medications list',
+    );
+  };
 }
 export default MedicationsLandingPage;

@@ -1,11 +1,11 @@
 {
   "data": {
     "attributes": {
-      "confirmation_code": "f3111a5f-e86f-4c8d-96c7-9bba6eee13e5",
-      "name": "image.png",
+      "confirmation_code": "[mock_confirmation_code]",
+      "name": "[mock_filename]",
       "size": 65645
     },
-    "id": "00",
-    "type": "pmc_request_supporting_document"
+    "id": "[mock_id]",
+    "type": "[mock_type]"
   }
 }
