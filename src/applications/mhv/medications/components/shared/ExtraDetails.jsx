@@ -8,7 +8,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const ExtraDetails = rx => {
-  const fullState = useSelector(state => state);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
@@ -70,10 +70,7 @@ const ExtraDetails = rx => {
             to your care team.
           </p>
           <va-link
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'secure-messaging',
-            )}
+            href={mhvUrl(ssoe, 'secure-messaging')}
             text="Compose a message"
             data-testid="compose-message-link"
           />
