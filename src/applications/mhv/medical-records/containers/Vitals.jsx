@@ -42,6 +42,7 @@ const Vitals = () => {
           vitals.find(vital => vital.type === vitalTypes.HEIGHT),
           vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
           vitals.find(vital => vital.type === vitalTypes.WEIGHT),
+          vitals.find(vital => vital.type === vitalTypes.PAIN),
         ]);
       }
     },

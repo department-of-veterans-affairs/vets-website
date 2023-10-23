@@ -2,6 +2,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
+import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = () => {
@@ -11,6 +12,16 @@ class MedicationsListPage {
       'GET',
       'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
+    );
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+  };
+
+  clickGotoMedicationsLinkforEmptyMedicationsList = () => {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      emptyPrescriptionsList,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
