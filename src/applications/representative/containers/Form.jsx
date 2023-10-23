@@ -1,27 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import React, { useEffect } from 'react';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
-
 import formConfig from '../config/form';
-import FormBreadcrumbs from '../components/breadcrumbs/form';
 
-function Form({ children, location }) {
+export default function Form({ children, location, router }) {
+  useEffect(
+    () => {
+      window.scrollTo(0, 0);
+    },
+    [router],
+  );
+  const renderBreadcrumbs = () => {
+    return [
+      <a href="/" key="disability">
+        Disability
+      </a>,
+      <a href="/" key="find-an-accredited-representative">
+        Find an Accredited Representative
+      </a>,
+      <a href="/" key="appoint-a-representative">
+        Appoint a Representative
+      </a>,
+    ];
+  };
   return (
     <>
-      <FormBreadcrumbs />
+      <div>
+        <va-breadcrumbs>{renderBreadcrumbs()}</va-breadcrumbs>
+      </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
-      <FormFooter formConfig={formConfig} />
     </>
   );
 }
-
-Form.propTypes = {
-  location: PropTypes.object.isRequired,
-  children: PropTypes.node,
-};
-
-export default Form;
