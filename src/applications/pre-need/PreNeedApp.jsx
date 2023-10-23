@@ -61,7 +61,9 @@ export default function PreNeedApp({ location, children }) {
   useEffect(
     () => {
       const hasVeteran = isVeteran(selectorData.data);
-      const radios = document.querySelectorAll('input[type="radio"]');
+      const radios = document.querySelectorAll(
+        'input[type="radio"]:not(input[id="root_application_applicant_applicantRelationshipToClaimant_0input"], input[id="root_application_applicant_applicantRelationshipToClaimant_1input"])',
+      );
       for (const radio of radios) {
         radio.onclick = e => {
           let title = e.target.attributes.name.value;
