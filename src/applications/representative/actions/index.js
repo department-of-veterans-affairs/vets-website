@@ -1,9 +1,19 @@
+import { clearGeocodeError } from './mapbox/clearGeocodeError';
 import { clearSearchResults } from './search/clearSearchResults';
 import { clearSearchText } from './search/clearSearchText';
+import { fetchRepresentatives } from './locations/fetchRepresentatives';
+import { genSearchAreaFromCenter } from './mapbox/genSearchAreaFromCenter';
+import { geolocateUser } from './mapbox/geoLocateUser';
+import { searchWithBounds } from './search/searchWithBounds';
 import { updateSearchQuery } from './search/updateSearchQuery';
 
+export { clearGeocodeError };
 export { clearSearchResults };
 export { clearSearchText };
+export { fetchRepresentatives };
+export { genSearchAreaFromCenter };
+export { geolocateUser };
+export { searchWithBounds };
 export { updateSearchQuery };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
