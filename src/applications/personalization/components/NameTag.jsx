@@ -52,11 +52,9 @@ const DisabilityRatingContent = ({ rating }) => {
           style={{ whiteSpace: 'nowrap' }}
         >
           <strong>
-            {rating ? (
-              <>{rating}% service connected </>
-            ) : (
-              <>View disability rating </>
-            )}
+            {rating
+              ? `${rating}% service connected`
+              : 'View disability rating '}
           </strong>
           <i
             aria-hidden="true"
