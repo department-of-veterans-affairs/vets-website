@@ -87,7 +87,7 @@ describe('Compose form component', () => {
 
     fireEvent.click(editListLink);
     const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_LIST_CONTENT,
+      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
     );
 
     expect(

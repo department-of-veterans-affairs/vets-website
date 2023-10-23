@@ -2,33 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { Prompts } from '../../util/constants';
 
 const EditContentListOrSignatureModal = props => {
-  const { editListModal, setEditListModal } = props;
+  const { editListModal, setEditListModal, onClose } = props;
   const fullState = useSelector(state => state);
 
   return (
     <VaModal
       id="edit-list"
       data-testid="edit-list"
-      modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
+      modalTitle={Prompts.Compose.EDIT_PREFERENCES_TITLE}
       name="edit-list"
       visible={editListModal}
       onCloseEvent={() => {
         setEditListModal(false);
-        focusElement(
-          document
-            .querySelector('#edit-contact-list-or-signature-button')
-            .shadowRoot.querySelector('button'),
-        );
+        onClose();
       }}
       status="warning"
     >
-      <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
+      <p>{Prompts.Compose.EDIT_PREFERENCES_CONTENT}</p>
       <a
         className="vads-c-action-link--green"
         data-testid="edit-preferences-link"
@@ -39,7 +34,7 @@ const EditContentListOrSignatureModal = props => {
           setEditListModal(false);
         }}
       >
-        {Prompts.Compose.EDIT_LIST_LINK}
+        {Prompts.Compose.EDIT_PREFERENCES_LINK}
       </a>
     </VaModal>
   );
@@ -48,6 +43,7 @@ const EditContentListOrSignatureModal = props => {
 EditContentListOrSignatureModal.propTypes = {
   editListModal: PropTypes.bool,
   setEditListModal: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default EditContentListOrSignatureModal;

@@ -27,10 +27,10 @@ describe('Edit Content List or Signature Modal component', () => {
 
     expect(modal).to.have.attribute(
       'modal-title',
-      Prompts.Compose.EDIT_LIST_TITLE,
+      Prompts.Compose.EDIT_PREFERENCES_TITLE,
     );
     expect(modal).to.have.attribute('status', 'warning');
-    expect(screen.getByText(Prompts.Compose.EDIT_LIST_CONTENT));
+    expect(screen.getByText(Prompts.Compose.EDIT_PREFERENCES_CONTENT));
 
     const editPreferencesDeepLink = screen.getByTestId('edit-preferences-link');
     expect(editPreferencesDeepLink).to.have.attribute(
@@ -39,6 +39,6 @@ describe('Edit Content List or Signature Modal component', () => {
     );
 
     const linkText = editPreferencesDeepLink.textContent;
-    expect(linkText).to.equal(Prompts.Compose.EDIT_LIST_LINK);
+    expect(linkText).to.equal(Prompts.Compose.EDIT_PREFERENCES_LINK);
   });
 });
