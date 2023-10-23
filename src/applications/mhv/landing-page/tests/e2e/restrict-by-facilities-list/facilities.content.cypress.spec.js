@@ -7,8 +7,6 @@ describe(appName, () => {
   describe('Display content based on patient facilities', () => {
     beforeEach(() => {
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-      const mhvRedirectUrl = 'https://**.myhealth.va.gov/**';
-      cy.intercept('GET', mhvRedirectUrl, '').as('mhvRedirect');
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
     });
 
