@@ -225,7 +225,6 @@ export default Object.freeze({
   vaOnlineSchedulingAfterVisitSummary: 'va_online_scheduling_after_visit_summary',
   vaOnlineSchedulingStartSchedulingLink: 'va_online_scheduling_start_scheduling_link',
   vaViewDependentsAccess: 'va_view_dependents_access',
-  virtualAgentDecisionLetterDownloadTracking: 'virtual_agent_decision_letter_download_tracking',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
   virtualAgentVoice: 'virtual_agent_voice',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

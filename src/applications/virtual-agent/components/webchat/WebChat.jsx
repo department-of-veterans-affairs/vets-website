@@ -1,4 +1,3 @@
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -30,17 +29,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const { virtualAgentDecisionLetterDownloadTracking } = useSelector(
-    state => {
-      return {
-        virtualAgentDecisionLetterDownloadTracking:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.virtualAgentDecisionLetterDownloadTracking
-          ],
-      };
-    },
-    state => state.featureToggles,
-  );
 
   const store = useMemo(
     () => {
@@ -221,9 +209,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
-        cardActionMiddleware={cardActionMiddleware(
-          virtualAgentDecisionLetterDownloadTracking,
-        )}
+        cardActionMiddleware={cardActionMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
