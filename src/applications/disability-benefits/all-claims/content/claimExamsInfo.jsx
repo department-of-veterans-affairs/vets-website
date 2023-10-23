@@ -33,18 +33,6 @@ export const claimExamsDescription = (
       <li>Veterans Evaluation Services (VES)</li>
       <li>Logistics Health Inc. (LHI)</li>
     </ul>
-    <p>
-      If you’re a Veteran who lives overseas, you may{' '}
-      <a
-        href="https://www.benefits.va.gov/persona/veteran-abroad.asp"
-        target="_blank"
-        rel="noreferrer"
-      >
-        {' '}
-        contact an Overseas Military Services Coordinator
-      </a>
-      for help scheduling a claim exam.
-    </p>
   </div>
 );
 
@@ -65,6 +53,18 @@ export const claimExamsFAQ = (
         <p>
           If you can’t make your appointment, let us know right away. You can
           most likely reschedule, but this may delay your claim.
+        </p>
+        <p>
+          If you’re a Veteran who lives overseas, you may{' '}
+          <a
+            href="https://www.benefits.va.gov/persona/veteran-abroad.asp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {' '}
+            contact an Overseas Military Services Coordinator
+          </a>
+          for help scheduling a claim exam.
         </p>
       </va-accordion-item>
       <va-accordion-item>
