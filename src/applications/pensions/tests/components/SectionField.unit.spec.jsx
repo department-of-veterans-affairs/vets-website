@@ -14,8 +14,8 @@ describe('convertDateFormat', () => {
   });
 
   it('returns undefined for null or undefined input', () => {
-    expect(convertDateFormat(null)).to.be.null;
-    expect(convertDateFormat()).to.be.undefined;
+    expect(convertDateFormat(null)).to.eql('');
+    expect(convertDateFormat()).to.eql('');
   });
 });
 
@@ -28,8 +28,8 @@ describe('formatPhoneNumber', () => {
   });
 
   it('returns undefined for null or undefined input', () => {
-    expect(formatPhoneNumber(null)).to.be.null;
-    expect(formatPhoneNumber()).to.be.undefined;
+    expect(formatPhoneNumber(null)).to.eql('');
+    expect(formatPhoneNumber()).to.eql('');
   });
 });
 
