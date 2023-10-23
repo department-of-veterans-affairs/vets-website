@@ -51,7 +51,7 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(screen.getByTestId('day-label')).to.have.text('Tue 16');
+      expect(screen.getByTestId('day-label')).to.have.text('16 Tue');
 
       expect(screen.getByTestId('appointment-time')).to.have.text('9:39 p.m.');
 
