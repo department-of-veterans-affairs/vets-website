@@ -8,7 +8,7 @@ import {
   VA_FORM_IDS_IN_PROGRESS_FORMS_API,
 } from '@department-of-veterans-affairs/platform-forms/constants';
 
-import disabilityLabels from './content/disabilityLabels';
+import { getDisabilityLabels } from './content/disabilityLabels';
 
 export const PAGE_TITLES = {
   ALL: 'File for disability compensation',
@@ -225,7 +225,7 @@ export const ATTACHMENT_KEYS = [
 ];
 
 export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
-  disabilityLabels,
+  getDisabilityLabels(),
 ).map(v => v.toLowerCase());
 
 export const PTSD_TYPES_TO_FORMS = {
