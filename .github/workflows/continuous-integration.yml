@@ -511,6 +511,7 @@ jobs:
         env:
           TEST_TYPE: unit_test
           IS_CI: true
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   security-audit:
     name: Security Audit
@@ -995,6 +996,7 @@ jobs:
         env:
           TEST_TYPE: e2e
           IS_CI: true
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Create Cypress E2E report
         run: yarn cypress-mochawesome-to-bigquery
