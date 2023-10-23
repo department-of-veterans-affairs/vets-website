@@ -30,9 +30,9 @@ const RepTypeSelector = () => {
               </p>
               <p>
                 <strong>Attorneys</strong> can provide similar services as VSOs,
-                but usually specialie appeals and can provide more dedication to
-                the Veteran throughout the claims process. Attorneys will charge
-                a fee for their services.
+                but usually specialize in appeals. They can provide more
+                dedicated help throughout the claims process. Attorneys charge a
+                fee for their services.
               </p>
               <p>
                 <strong>Claims agents</strong> can provide similar services as
