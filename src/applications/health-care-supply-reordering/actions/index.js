@@ -50,8 +50,7 @@ export const fetchFormStatus = () => async dispatch => {
 
       if (
         !eligibility ||
-        (eligibility &&
-          !eligibility.accessories &&
+        (!eligibility.accessories &&
           !eligibility.batteries &&
           !eligibility.apneas)
       ) {
