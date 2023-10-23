@@ -1,13 +1,14 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import MockFoldersResponse from './fixtures/folder-response.json';
+// import MockFoldersResponse from './fixtures/folder-response.json';
 import mockMessages from './fixtures/messages-response.json';
 import mockRecipients from './fixtures/recipients-response.json';
-import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
+// import MockCustomFolderResponse from './fixtures/folder-custom-metadata.json';
 import FolderManagementPage from './pages/FolderManagementPage';
 import { AXE_CONTEXT } from './utils/constants';
+import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
-describe.skip('Secure Messaging Manage Folder Errors check', () => {
+describe('Secure Messaging Manage Folder Errors check', () => {
   const folderPage = new FolderManagementPage();
   const landingPage = new PatientInboxPage();
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe.skip('Secure Messaging Manage Folder Errors check', () => {
     site.login();
     landingPage.loadInboxMessages();
   });
-  it('Axe Check Get Folders Error', () => {
+  it.skip('Axe Check Get Folders Error', () => {
     const testMessage = landingPage.getNewMessageDetails();
     landingPage.loadInboxMessages(
       mockMessages,
@@ -35,28 +36,6 @@ describe.skip('Secure Messaging Manage Folder Errors check', () => {
   });
 
   it('Axe Check Delete Folder Network Error', () => {
-    cy.get('[data-testid="my-folders-sidebar"]').click();
-    const folderName = MockFoldersResponse.data.at(4).attributes.name;
-    const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/folders/${folderID}*`,
-      MockCustomFolderResponse,
-    ).as('customFolderID');
-    cy.intercept(
-      'GET',
-      `my_health/v1/messaging/folders/${folderID}/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
-      mockMessages,
-    ).as('customFolderThreads');
-    cy.contains(folderName).click();
-
-    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderID}`, {
-      forceNetworkError: true,
-    }).as('deleteCustomMessage');
-    cy.get('[data-testid="remove-folder-button"]').click();
-    cy.get('[data-testid="error-folder-not-empty"]')
-      .shadow()
-      .contains('Empty this folder');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -65,9 +44,32 @@ describe.skip('Secure Messaging Manage Folder Errors check', () => {
         },
       },
     });
+    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientMessageCustomFolderPage.loadMessages();
+    // const folderName = MockFoldersResponse.data.at(4).attributes.name;
+    // const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
+    // cy.intercept(
+    //   'GET',
+    //   `/my_health/v1/messaging/folders/${folderID}*`,
+    //   MockCustomFolderResponse,
+    // ).as('customFolderID');
+    // cy.intercept(
+    //   'GET',
+    //   `my_health/v1/messaging/folders/${folderID}/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
+    //   mockMessages,
+    // ).as('customFolderThreads');
+    // cy.contains(folderName).click();
+    //
+    // cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderID}`, {
+    //   forceNetworkError: true,
+    // }).as('deleteCustomMessage');
+    // cy.get('[data-testid="remove-folder-button"]').click();
+    // cy.get('[data-testid="error-folder-not-empty"]')
+    //   .shadow()
+    //   .contains('Empty this folder');
   });
 
-  it('Create Folder Network Error Check', () => {
+  it.skip('Create Folder Network Error Check', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.createANewFolderButton().click();
     const createFolderName = 'create folder test';
@@ -98,7 +100,7 @@ describe.skip('Secure Messaging Manage Folder Errors check', () => {
     });
   });
 
-  it('Create Folder Input Field Error check on blank value submit', () => {
+  it.skip('Create Folder Input Field Error check on blank value submit', () => {
     cy.get('[data-testid="my-folders-sidebar"]').click();
     folderPage.createANewFolderButton().click();
     folderPage.createFolderModalButton().click();

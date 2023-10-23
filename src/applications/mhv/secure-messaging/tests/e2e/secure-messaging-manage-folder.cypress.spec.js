@@ -62,7 +62,8 @@ describe('manage folders', () => {
         folderId,
         folderName,
       );
-      folderPage.deleteFolder(folderId);
+      folderPage.deleteFolder();
+      folderPage.confirmDeleteFolder(folderId);
       folderPage.verifyDeleteSuccessMessage();
     });
   });
