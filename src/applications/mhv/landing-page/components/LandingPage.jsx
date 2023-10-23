@@ -10,7 +10,6 @@ import { hasHealthRecord } from '../selectors';
 const LandingPage = ({ data = null }) => {
   const { cards = null, hubs } = data;
   const hasRecord = useSelector(hasHealthRecord);
-  // const hasRecord = true;
 
   return (
     <div

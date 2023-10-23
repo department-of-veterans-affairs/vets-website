@@ -20,6 +20,7 @@ describe(appName, () => {
       LandingPage.validatePageLoaded();
       LandingPage.validateURL();
       cy.injectAxeThenAxeCheck();
+      cy.findByRole('heading', { name: 'Appointments' }).should.exist;
     });
   });
 });
