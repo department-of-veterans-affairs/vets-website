@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -54,21 +54,8 @@ const nonVeteranLabels = [
 const veteranLabelMap = new Map(veteranLabels);
 const nonVeteranMap = new Map(nonVeteranLabels);
 
-const getCircularReplacer = () => {
-  const seen = new WeakSet();
-  return (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return;
-      }
-      seen.add(value);
-    }
-    // eslint-disable-next-line consistent-return
-    return value;
-  };
-};
-
 export default function PreNeedApp({ location, children }) {
+  const [priorEvent, setPriorEvent] = useState();
   const selectorData = useSelector(state => state.form || {});
   // find all yes/no check boxes and attach analytics events
   useEffect(
@@ -97,18 +84,18 @@ export default function PreNeedApp({ location, children }) {
             'radio-button-optionLabel': optionLabel,
             'radio-button-required': true,
           };
-          const priorEvent = window.dataLayer[window.dataLayer.length - 1];
           // if prior event is identical to current event it must be a duplicate.
           if (
             !priorEvent ||
-            JSON.stringify(currentEvent) !==
-              JSON.stringify(priorEvent, getCircularReplacer())
-          )
+            JSON.stringify(currentEvent) !== JSON.stringify(priorEvent)
+          ) {
             recordEvent(currentEvent);
+            setPriorEvent(currentEvent);
+          }
         };
       }
     },
-    [location, selectorData],
+    [location, selectorData, priorEvent],
   );
   return (
     <article id="pre-need" data-location={`${location?.pathname?.slice(1)}`}>
