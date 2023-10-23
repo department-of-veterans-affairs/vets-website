@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import OnThisPage from './OnThisPage';

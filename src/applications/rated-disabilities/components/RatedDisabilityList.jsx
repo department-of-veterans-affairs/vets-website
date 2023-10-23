@@ -136,7 +136,7 @@ const RatedDisabilityList = ({
 
   return (
     <div>
-      <h3 className="vads-u-margin-top--2">Service-connected ratings</h3>
+      <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
       {sortToggle && (
         <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
           <SortSelect onSelect={setSortBy} sortBy={sortBy} />
@@ -147,7 +147,7 @@ const RatedDisabilityList = ({
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>
-      <h3 className="vads-u-margin-top--1">
+      <h3 className="vads-u-margin-top--1p5">
         Conditions VA determined aren’t service-connected
       </h3>
       {sortToggle && (
