@@ -119,7 +119,7 @@ export default {
         CustomPageReview: MonetaryAssetsSummaryReview,
         depends: formData => {
           const { assets } = formData;
-          const { monetaryAssets = [] } = assets;
+          const { monetaryAssets = [] } = assets ?? {};
           const filteredLiquidAssets = monetaryAssets.filter(
             asset =>
               asset?.name?.toLowerCase() !== 'cash on hand (not in bank)' &&
@@ -149,7 +149,7 @@ export default {
         uiSchema: realEstateRecords.uiSchema,
         schema: realEstateRecords.schema,
         depends: formData =>
-          formData.questions.hasRealEstate &&
+          formData.questions?.hasRealEstate &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -171,7 +171,7 @@ export default {
         uiSchema: enhancedRealEstateRecords.uiSchema,
         schema: enhancedRealEstateRecords.schema,
         depends: formData =>
-          formData.questions.hasRealEstate &&
+          formData.questions?.hasRealEstate &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -190,7 +190,7 @@ export default {
         uiSchema: vehicleRecords.uiSchema,
         schema: vehicleRecords.schema,
         depends: formData =>
-          formData.questions.hasVehicle &&
+          formData.questions?.hasVehicle &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -201,7 +201,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasVehicle &&
+          formData.questions?.hasVehicle &&
           !formData.assets?.automobiles?.length &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
@@ -216,7 +216,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasVehicle &&
+          formData.questions?.hasVehicle &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -236,7 +236,7 @@ export default {
         uiSchema: recreationalVehicleRecords.recreationalVehicleUISchema,
         schema: recreationalVehicleRecords.recreationalVehicleSchema,
         depends: formData =>
-          formData.questions.hasRecreationalVehicle &&
+          formData.questions?.hasRecreationalVehicle &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPageReview: RecreationalVehiclesReview,
@@ -256,7 +256,7 @@ export default {
         uiSchema: otherAssetRecords.uiSchema,
         schema: otherAssetRecords.schema,
         depends: formData =>
-          formData.questions.hasOtherAssets &&
+          formData.questions?.hasOtherAssets &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,

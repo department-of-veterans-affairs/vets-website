@@ -16,7 +16,6 @@ import {
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';
-import { streamlinedWaiverStatus } from '../actions/streamlinedWaiverStatus';
 import useDetectFieldChanges from '../hooks/useDetectFieldChanges'; // Adjust the path accordingly
 
 import { ErrorAlert } from '../components/alerts/Alerts';
@@ -50,13 +49,16 @@ const App = ({
   showWizard,
 }) => {
   const dispatch = useDispatch();
+  const { shouldShowReviewButton } = useDetectFieldChanges(formData);
 
-  useDetectFieldChanges(formData, () => {
-    if (formData?.reviewNavigation) {
-      // Run your logic to update the review button state
-      dispatch(streamlinedWaiverStatus());
-    }
-  });
+  useEffect(
+    () => {
+      if (formData?.reviewNavigation) {
+        dispatch(setData({ reviewNavigation: shouldShowReviewButton }));
+      }
+    },
+    [shouldShowReviewButton, formData?.reviewNavigation, dispatch],
+  );
 
   // vapContactInfo is an empty object locally, so mock it
   const contactData = environment.isLocalhost()

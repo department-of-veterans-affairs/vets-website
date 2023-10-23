@@ -127,7 +127,7 @@ export default {
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
         depends: formData =>
-          formData.questions.isMarried && formData['view:streamlinedWaiver'],
+          formData.questions?.isMarried && formData['view:streamlinedWaiver'],
       },
       dependentCount: {
         path: 'dependents-count',

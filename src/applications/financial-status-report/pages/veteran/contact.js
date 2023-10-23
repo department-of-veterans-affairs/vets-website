@@ -92,9 +92,9 @@ export const uiSchema = {
           updateSchema: (formData, schema, uiSchemaCountry) => {
             const uiSchemaDisabled = uiSchemaCountry;
             uiSchemaDisabled['ui:disabled'] = false;
-            const { address } = formData.personalData;
+            const { address } = formData.personalData ?? {};
 
-            if (address.livesOutsideUS) {
+            if (address?.livesOutsideUS) {
               address.country = 'USA';
               uiSchemaDisabled['ui:disabled'] = true;
               return {
@@ -135,7 +135,7 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-7',
           replaceSchema: formData => {
-            if (formData.personalData.address.livesOutsideUS) {
+            if (formData.personalData?.address?.livesOutsideUS) {
               return {
                 type: 'string',
                 title: 'APO/FPO/DPO',
@@ -163,8 +163,8 @@ export const uiSchema = {
           widgetClassNames: 'input-size-7',
           updateSchema: formData => {
             if (
-              formData.personalData.address.livesOutsideUS ||
-              MILITARY_CITY_CODES.includes(formData.personalData.address.city)
+              formData.personalData?.address?.livesOutsideUS ||
+              MILITARY_CITY_CODES.includes(formData.personalData?.address?.city)
             ) {
               return {
                 enum: MILITARY_STATE_CODES,
