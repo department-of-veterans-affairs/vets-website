@@ -233,7 +233,9 @@ class FolderManagementPage {
   };
 
   deleteFolder = () => {
-    cy.get('[data-testid="remove-folder-button"]').click();
+    cy.get('[data-testid="remove-folder-button"]').click({
+      waitForAnimations: true,
+    });
   };
 
   confirmDeleteFolder = folderId => {
