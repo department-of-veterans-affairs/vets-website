@@ -72,7 +72,7 @@ const ExtraDetails = rx => {
           <va-link
             href={mhvUrl(ssoe, 'secure-messaging')}
             text="Compose a message"
-            data-testid="compose-message-link"
+            data-testid="discontinued-compose-message-link"
           />
         </div>
       )}

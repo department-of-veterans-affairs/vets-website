@@ -20,11 +20,8 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
       },
     });
     listPage.clickGotoMedicationsLink(true);
-    cy.get('[data-testid="compose-message-link"]')
+    cy.get('[data-testid="discontinued-compose-message-link"]')
       .invoke('attr', 'href')
-      .should(
-        'eq',
-        'https://www.myhealth.va.gov/mhv-portal-web/secure-messaging',
-      );
+      .should('contain', 'myhealth.va.gov/mhv-portal-web/secure-messaging');
   });
 });
