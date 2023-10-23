@@ -9,6 +9,8 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
+import { onFormLoaded } from '../utils/redirect';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
@@ -85,14 +87,13 @@ const formConfig = {
   submit: submitForm,
   // showReviewErrors: true,
   reviewErrors,
-
+  onFormLoaded,
   // SaveInProgress messages
   customText,
   savedFormMessages,
   saveInProgress,
   // errorText: '',
   // submissionError: '',
-
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 
