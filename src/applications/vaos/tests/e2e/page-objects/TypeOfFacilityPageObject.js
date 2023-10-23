@@ -1,14 +1,14 @@
 import PageObject from './PageObject';
 
-class TypeOfCarePage extends PageObject {
+class TypeOfFacilityPageObject extends PageObject {
   assertUrl() {
-    cy.url().should('include', '/type-of-care', { timeout: 5000 });
+    cy.url().should('include', '/facility-type', { timeout: 5000 });
     cy.axeCheckBestPractice();
 
     return this;
   }
 
-  selectTypeOfCare(label) {
+  selectTypeOfFacility(label) {
     cy.findByLabelText(label)
       .as('radio')
       .focus();
@@ -18,4 +18,4 @@ class TypeOfCarePage extends PageObject {
   }
 }
 
-export default new TypeOfCarePage();
+export default new TypeOfFacilityPageObject();

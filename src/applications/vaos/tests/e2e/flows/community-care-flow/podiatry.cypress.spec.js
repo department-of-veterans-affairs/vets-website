@@ -3,7 +3,6 @@
 import moment from 'moment';
 import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
-import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
@@ -19,7 +18,7 @@ import {
   mockCCProvidersApi,
   mockFacilitiesApi,
   mockFeatureToggles,
-  mockGetEligibilityCC,
+  mockEligibilityCCApi,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
@@ -51,7 +50,7 @@ describe('VAOS community care flow using VAOS services', () => {
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
       mockCCProvidersApi();
-      mockGetEligibilityCC({ typeOfCare: 'Podiatry', isEligible: true });
+      mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: '411',
@@ -108,7 +107,7 @@ describe('VAOS community care flow using VAOS services', () => {
   describe('When more than one facility supports CC online scheduling', () => {
     beforeEach(() => {
       mockCCProvidersApi();
-      mockGetEligibilityCC({ typeOfCare: 'Podiatry', isEligible: true });
+      mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: '411',
@@ -120,7 +119,7 @@ describe('VAOS community care flow using VAOS services', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser().setAddress();
+        const mockUser = new MockUser().setAddress('123 Main St.');
 
         // Act
         cy.login(mockUser);
@@ -132,10 +131,6 @@ describe('VAOS community care flow using VAOS services', () => {
 
         RequestDatePageObject.assertUrl()
           .selectFirstAvailableDate()
-          .clickNextButton();
-
-        ClosestCityPageObject.assertUrl()
-          .selectFacility()
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -184,10 +179,6 @@ describe('VAOS community care flow using VAOS services', () => {
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
-          .selectFacility()
-          .clickNextButton();
-
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
           .validateHomeAddress(false)
@@ -220,7 +211,7 @@ describe('VAOS community care flow using VAOS services', () => {
   describe('When veteran is not communtity care eligible', () => {
     it('should not submit form', () => {
       // Arrange
-      mockGetEligibilityCC({ typeOfCare: 'Podiatry', isEligible: false });
+      mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: false });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: '411',

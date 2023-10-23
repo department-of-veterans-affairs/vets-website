@@ -800,13 +800,16 @@ export function mockCCEligibilityApi({
   ).as('v0:get:cc-eligibility');
 }
 // TODO: Refactor into 'mockCCEligibilityApi'!
-export function mockGetEligibilityCC(typeOfCare = 'PrimaryCare') {
+export function mockEligibilityCCApi({
+  typeOfCare = 'PrimaryCare',
+  isEligible: eligible = true,
+} = {}) {
   cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
     req.reply({
       data: {
         id: typeOfCare,
         type: 'cc_eligibility',
-        attributes: { eligible: true },
+        attributes: { eligible },
       },
     });
   }).as('eligibility-cc');

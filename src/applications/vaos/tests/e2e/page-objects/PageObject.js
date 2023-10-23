@@ -2,9 +2,11 @@ export default class PageObject {
   rootUrl = '/my-health/appointments';
 
   clickNextButton(label = 'Continue') {
-    cy.contains('button', label).should('not.be.disabled');
-    cy.focus();
-    cy.click({ waitForAnimations: true });
+    cy.contains('button', label)
+      .as('button')
+      .should('not.be.disabled');
+    cy.get('@button').focus();
+    cy.get('@button').click({ waitForAnimations: true });
 
     return this;
   }
