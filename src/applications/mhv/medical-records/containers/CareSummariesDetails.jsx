@@ -43,25 +43,20 @@ const CareSummariesDetails = () => {
     [summaryId, dispatch],
   );
 
-  if (careSummary?.name) {
-    switch (careSummary.type) {
-      case loincCodes.DISCHARGE_SUMMARY:
-        return <AdmissionAndDischargeDetails record={careSummary} />;
-      case loincCodes.PHYSICIAN_PROCEDURE_NOTE:
-        return <ProgressNoteDetails record={careSummary} />;
-      default:
-        return <p>Something else</p>;
-    }
-  } else {
-    return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
-    );
+  if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
+    return <AdmissionAndDischargeDetails record={careSummary} />;
   }
+  if (careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE) {
+    return <ProgressNoteDetails record={careSummary} />;
+  }
+  return (
+    <va-loading-indicator
+      message="Loading..."
+      setFocus
+      data-testid="loading-indicator"
+      class="loading-indicator"
+    />
+  );
 };
 
 export default CareSummariesDetails;
