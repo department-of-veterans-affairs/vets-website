@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const ExtraDetails = rx => {
+  const fullState = useSelector(state => state);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
@@ -65,7 +69,13 @@ const ExtraDetails = rx => {
             You can’t refill this prescription. If you need more, send a message
             to your care team.
           </p>
-          <va-link href="/" text="Compose a message" />
+          <va-link
+            href={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'secure-messaging',
+            )}
+            text="Compose a message"
+          />
         </div>
       )}
       {dispStatus === dispStatusObj.transferred && (
