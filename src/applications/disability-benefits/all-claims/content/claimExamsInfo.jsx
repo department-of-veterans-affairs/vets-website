@@ -3,9 +3,8 @@ import React from 'react';
 export const claimExamsDescription = (
   <div>
     <p>
-      After we review your disability claim and supporting evidence, we may ask
-      you to have a claim exam (also known as a C&amp;P exam) if we need more
-      information to decide your claim.
+      After you file your disability claim, we may ask you to have a claim exam
+      (also known as a C&P exam).
     </p>
 
     <va-alert status="warning">
@@ -73,7 +72,7 @@ export const claimExamsFAQ = (
         <p>
           Not everyone who files a disability claim will need an exam. We’ll ask
           you to have an exam only if we need more information to decide your
-          claim and to help us rate your disability.
+          claim.
         </p>
       </va-accordion-item>
     </va-accordion>

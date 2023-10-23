@@ -14,7 +14,7 @@ export const supportingEvidenceOrientation = ({ formData }) => {
           <li>Your rated service-connected disabilities</li>
         )}
         {isClaimingNew(formData) && (
-          <li>Your new service-connected disabilities or conditions</li>
+          <li>Your new service-connected conditions</li>
         )}
       </ul>
       <p>
