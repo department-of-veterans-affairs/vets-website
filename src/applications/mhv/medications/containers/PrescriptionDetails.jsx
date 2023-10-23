@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   getPrescriptionDetails,
   getAllergiesList,
-  clearAllergisError,
+  clearAllergiesError,
 } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -75,6 +75,7 @@ const PrescriptionDetails = () => {
   const pdfData = useCallback(
     allergiesPdfList => {
       return {
+        subject: `Single Medication Record - ${prescription?.prescriptionName}`,
         headerBanner: [
           {
             text:
@@ -196,13 +197,13 @@ const PrescriptionDetails = () => {
   };
 
   const handleModalClose = () => {
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
   };
 
   const handleModalDownloadButton = () => {
     generatePDF();
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
   };
 
   const content = () => {

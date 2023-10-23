@@ -53,12 +53,13 @@ export const vaccineReducer = (state = initialState, action) => {
       const vaccineList = action.response.entry;
       return {
         ...state,
-        vaccinesList: vaccineList
-          .map(record => {
-            const vaccine = record.resource;
-            return convertVaccine(vaccine);
-          })
-          .sort((a, b) => new Date(b.date) - new Date(a.date)),
+        vaccinesList:
+          vaccineList
+            ?.map(record => {
+              const vaccine = record.resource;
+              return convertVaccine(vaccine);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
       };
     }
     case Actions.Vaccines.CLEAR_DETAIL: {
