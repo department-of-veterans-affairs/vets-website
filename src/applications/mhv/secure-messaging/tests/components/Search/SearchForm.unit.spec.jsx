@@ -256,19 +256,4 @@ describe('Search form', () => {
     fireEvent.click(document.querySelector('va-button[text="Filter"]'));
     expect(screen.getByText('January 1st 2022 to December 31st 2022'));
   });
-
-  it.skip('responds to Clear Filter button', async () => {
-    // const query = {
-    //   category: 'other',
-    //   fromDate: '2022-01-01T00:00:00-07:00',
-    //   toDate: '2022-12-31T23:59:00.000Z',
-    // };
-    // const customProps = {
-    //   ...defaultProps,
-    //   threadCount: threadList.length,
-    //   query,
-    // };
-    // const screen = setup(customProps);
-    // fireEvent.click(document.querySelector('va-button[text="Clear filters"]'));
-  });
 });

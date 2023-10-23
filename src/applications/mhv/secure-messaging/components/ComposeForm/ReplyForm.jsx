@@ -180,9 +180,6 @@ const ReplyForm = props => {
     setCategory(draft.category);
     setSubject(draft.subject);
     setMessageBody(draft.body);
-    // if (draft.attachments) {
-    //   setAttachments(draft.attachments);
-    // }
     setFormPopulated(true);
     setFieldsString(
       JSON.stringify({

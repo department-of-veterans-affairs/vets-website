@@ -362,8 +362,6 @@ describe('Thread Details container', () => {
     const fileName = 'test.png';
     const file = new File(['(⌐□_□)'], fileName, { type: 'image/png' });
 
-    // const uploader =
-
     waitFor(() =>
       fireEvent.change(screen.getByTestId('attach-file-input'), {
         target: { files: [file] },
@@ -378,7 +376,6 @@ describe('Thread Details container', () => {
       response: { method: 'POST', data: {}, status: 200 },
     };
     mockMultipleApiRequests([req1, req2]);
-    // mockApiRequest({ method: 'POST', data: {}, status: 500 }, false);
     waitFor(() => {
       fireEvent.click(screen.getByTestId('Send-Button'));
       expect(screen.getByText('We’re sorry. Something went wrong on our end.'));
@@ -388,7 +385,6 @@ describe('Thread Details container', () => {
         .to.equal('error');
     });
 
-    // mockApiRequest({ method: 'POST', data: {}, status: 200 });
     waitFor(() => {
       fireEvent.click(screen.getByTestId('Send-Button'));
       expect(screen.getByText('Secure message was successfully sent.'));
@@ -427,9 +423,6 @@ describe('Thread Details container', () => {
     const folderId = '112233';
     const state = {
       sm: {
-        // folders: {
-        //   folder: inbox,
-        // },
         ...replyDraftThread,
         draftDetails: {
           ...replyDraftThread.draftDetails,
