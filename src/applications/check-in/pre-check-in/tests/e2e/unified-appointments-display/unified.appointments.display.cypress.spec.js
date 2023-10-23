@@ -13,6 +13,7 @@ describe('Check In Experience -- ', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializePreCheckInDataGet,
+        initializeUpcomingAppointmentsDataGet,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
       } = ApiInitializer;
@@ -21,6 +22,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializePreCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
 
       cy.visitPreCheckInWithUUID();
