@@ -122,6 +122,7 @@ export const uiSchema = {
     'ui:field': ReviewCardField,
     'ui:options': {
       viewComponent: phoneEmailViewField,
+      startInEdit: true,
     },
     primaryPhone: phoneUI('Phone number'),
     emailAddress: emailUI(),
