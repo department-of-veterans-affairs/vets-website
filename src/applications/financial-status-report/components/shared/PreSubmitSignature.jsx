@@ -51,7 +51,7 @@ const PreSubmitSignature = ({
 }) => {
   const isSubmitPending = formSubmission.status === 'submitPending';
   const hasSubmit = !!formSubmission.status;
-  const { first, middle, last } = formData.personalData.veteranFullName;
+  const { first, middle, last } = formData.personalData?.veteranFullName;
   const [certifyChecked, setCertifyChecked] = useState(false);
   const [certifyCheckboxError, setCertifyCheckboxError] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
