@@ -97,7 +97,7 @@ export default {
         uiSchema: utilityRecords.uiSchema,
         schema: utilityRecords.schema,
         depends: formData =>
-          formData.questions.hasUtilities &&
+          formData.questions?.hasUtilities &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -159,7 +159,7 @@ export default {
         uiSchema: repaymentRecords.uiSchema,
         schema: repaymentRecords.schema,
         depends: formData =>
-          formData.questions.hasRepayments &&
+          formData.questions?.hasRepayments &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -179,7 +179,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasCreditCardBills &&
+          formData.questions?.hasCreditCardBills &&
           !formData.expenses?.creditCardBills?.length &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
@@ -193,7 +193,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasCreditCardBills &&
+          formData.questions?.hasCreditCardBills &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -215,7 +215,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasRepayments &&
+          formData.questions?.hasRepayments &&
           !formData?.installmentContracts?.length &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
@@ -229,7 +229,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasRepayments &&
+          formData.questions?.hasRepayments &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
@@ -251,7 +251,7 @@ export default {
         uiSchema: otherExpenseRecords.uiSchema,
         schema: otherExpenseRecords.schema,
         depends: formData =>
-          formData.questions.hasOtherExpenses &&
+          formData.questions?.hasOtherExpenses &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,

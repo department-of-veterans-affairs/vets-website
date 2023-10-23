@@ -31,7 +31,7 @@ export default {
         uiSchema: bankruptcyHistoryRecords.uiSchema,
         schema: bankruptcyHistoryRecords.schema,
         depends: formData =>
-          formData.questions.hasBeenAdjudicatedBankrupt &&
+          formData.questions?.hasBeenAdjudicatedBankrupt &&
           !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData) &&
           !isStreamlinedLongForm(formData),
@@ -44,7 +44,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasBeenAdjudicatedBankrupt &&
+          formData.questions?.hasBeenAdjudicatedBankrupt &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData) &&
           !isStreamlinedLongForm(formData),

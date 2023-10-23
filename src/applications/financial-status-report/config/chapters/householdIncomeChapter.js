@@ -70,7 +70,7 @@ export default {
         uiSchema: employmentRecords.uiSchema,
         schema: employmentRecords.schema,
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
@@ -89,7 +89,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: EnhancedEmploymentRecord,
@@ -101,7 +101,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: EmploymentWorkDates,
@@ -113,7 +113,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: GrossMonthlyIncomeInput,
@@ -125,7 +125,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: PayrollDeductionChecklist,
@@ -139,7 +139,7 @@ export default {
         schema: { type: 'object', properties: {} },
         // needed to bypass bug on review & submit page
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         CustomPage: PayrollDeductionInputList,
         CustomPageReview: null,
@@ -151,7 +151,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: EmploymentHistoryWidget,
@@ -166,7 +166,7 @@ export default {
         schema: income.schema,
         editModeOnReviewPage: true,
         depends: formData =>
-          formData.questions.vetIsEmployed &&
+          formData.questions?.vetIsEmployed &&
           !formData['view:enhancedFinancialStatusReport'],
       },
       benefits: {
@@ -206,7 +206,7 @@ export default {
         uiSchema: socialSecurityRecords.uiSchema,
         schema: socialSecurityRecords.schema,
         depends: formData =>
-          formData.questions.hasSocialSecurity &&
+          formData.questions?.hasSocialSecurity &&
           !formData['view:enhancedFinancialStatusReport'],
       },
       additionalIncome: {
@@ -222,7 +222,7 @@ export default {
         uiSchema: additionalIncomeRecords.uiSchema,
         schema: additionalIncomeRecords.schema,
         depends: formData =>
-          formData.questions.hasAdditionalIncome &&
+          formData.questions?.hasAdditionalIncome &&
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
@@ -286,7 +286,7 @@ export default {
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           formData['view:enhancedFinancialStatusReport'] &&
           !formData['view:streamlinedWaiver'],
       },
@@ -298,7 +298,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: false,
       },
@@ -308,8 +308,8 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: EnhancedSpouseEmploymentRecord,
@@ -321,7 +321,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: SpouseEmploymentWorkDates,
@@ -333,8 +333,8 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: SpouseGrossMonthlyIncomeInput,
@@ -346,8 +346,8 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: SpousePayrollDeductionChecklist,
@@ -361,8 +361,8 @@ export default {
         schema: { type: 'object', properties: {} },
         // needed to bypass bug on review & submit page
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         CustomPage: SpousePayrollDeductionInputList,
         CustomPageReview: null,
@@ -373,7 +373,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.spouseIsEmployed &&
           formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
         CustomPage: SpouseEmploymentHistoryWidget,
@@ -385,7 +385,7 @@ export default {
         uiSchema: spouseEmployment.uiSchema,
         schema: spouseEmployment.schema,
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           !formData['view:enhancedFinancialStatusReport'],
       },
       spouseEmploymentRecords: {
@@ -394,8 +394,8 @@ export default {
         uiSchema: spouseEmploymentRecords.uiSchema,
         schema: spouseEmploymentRecords.schema,
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseIsEmployed &&
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
@@ -407,8 +407,8 @@ export default {
         uiSchema: spouseIncome.uiSchema,
         schema: spouseIncome.schema,
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseIsEmployed &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseIsEmployed &&
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
@@ -417,7 +417,7 @@ export default {
         title: 'Spouse benefits',
         uiSchema: spouseBenefits.uiSchema,
         schema: spouseBenefits.schema,
-        depends: formData => formData.questions.isMarried,
+        depends: formData => formData.questions?.isMarried,
       },
       spouseBenefitRecords: {
         path: 'spouse-benefit-records',
@@ -425,7 +425,8 @@ export default {
         uiSchema: spouseBenefitRecords.uiSchema,
         schema: spouseBenefitRecords.schema,
         depends: formData =>
-          formData.questions.isMarried && formData.questions.spouseHasBenefits,
+          formData.questions?.isMarried &&
+          formData.questions?.spouseHasBenefits,
         editModeOnReviewPage: true,
         CustomPageReview: SpouseBenefitRecordsReview,
       },
@@ -435,7 +436,7 @@ export default {
         uiSchema: spouseSocialSecurity.uiSchema,
         schema: spouseSocialSecurity.schema,
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           !formData['view:enhancedFinancialStatusReport'],
       },
       spouseSocialSecurityRecords: {
@@ -444,8 +445,8 @@ export default {
         uiSchema: spouseSocialSecurityRecords.uiSchema,
         schema: spouseSocialSecurityRecords.schema,
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseHasSocialSecurity &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseHasSocialSecurity &&
           !formData['view:enhancedFinancialStatusReport'],
       },
       spouseAdditionalIncome: {
@@ -454,7 +455,7 @@ export default {
         uiSchema: spouseAdditionalIncome.uiSchema,
         schema: spouseAdditionalIncome.schema,
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           !formData['view:enhancedFinancialStatusReport'],
       },
       spouseAdditionalIncomeRecords: {
@@ -463,8 +464,8 @@ export default {
         uiSchema: spouseAdditionalIncomeRecords.uiSchema,
         schema: spouseAdditionalIncomeRecords.schema,
         depends: formData =>
-          formData.questions.isMarried &&
-          formData.questions.spouseHasAdditionalIncome &&
+          formData.questions?.isMarried &&
+          formData.questions?.spouseHasAdditionalIncome &&
           !formData['view:enhancedFinancialStatusReport'],
         editModeOnReviewPage: true,
       },
@@ -480,7 +481,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           formData['view:enhancedFinancialStatusReport'],
       },
       spouseAdditionalIncomeValues: {
@@ -489,7 +490,7 @@ export default {
         uiSchema: spouseAdditionalIncomeValues.uiSchema,
         schema: spouseAdditionalIncomeValues.schema,
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
           formData['view:enhancedFinancialStatusReport'],
       },
@@ -505,7 +506,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.isMarried &&
+          formData.questions?.isMarried &&
           formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
           formData['view:enhancedFinancialStatusReport'],
       },
@@ -555,7 +556,7 @@ export default {
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0' &&
+          formData.questions?.hasDependents !== '0' &&
           !formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,
