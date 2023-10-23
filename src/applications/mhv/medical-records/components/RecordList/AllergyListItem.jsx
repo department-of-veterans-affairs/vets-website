@@ -51,7 +51,7 @@ const AllergyListItem = props => {
           </span>
         </div>
         <div className="print-only">
-          <span className="field-label">Observed or reported:</span>{' '}
+          <span className="field-label">Observed or historical:</span>{' '}
           <span className="vads-u-display--inline-block" data-dd-privacy="mask">
             {record.observedOrReported}
           </span>
