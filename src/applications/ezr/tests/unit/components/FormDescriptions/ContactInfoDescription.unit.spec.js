@@ -5,7 +5,7 @@ import ContactInfoDescription from '../../../../components/FormDescriptions/Cont
 
 describe('ezr <ContactInfoDescription>', () => {
   describe('when the component renders', () => {
-    it('should render `va-alert` with status of `warning`', () => {
+    it('should render with content', () => {
       const { container } = render(ContactInfoDescription);
       expect(container).to.not.be.empty;
     });

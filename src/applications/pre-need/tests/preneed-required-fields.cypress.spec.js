@@ -18,6 +18,16 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
     cy.injectAxe();
+    cy.get('input[name="root_application_claimant_relationshipToVet"]');
+    errorCheck(requiredHelpers.relationshipToVetErrors);
+
+    cy.selectRadio(
+      'root_application_claimant_relationshipToVet',
+      testData.data.application.claimant.relationshipToVet,
+    );
+
+    cy.axeCheck();
+    preneedHelpers.clickContinue();
 
     // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
@@ -40,10 +50,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     cy.fillDate(
       'root_application_claimant_dateOfBirth',
       testData.data.application.claimant.dateOfBirth,
-    );
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
-      testData.data.application.claimant.relationshipToVet,
     );
 
     preneedHelpers.clickContinue();
@@ -207,7 +213,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     // Preparer information Page
     preneedHelpers.validateProgressBar('6');
     cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
+      'label[for="root_application_applicant_applicantRelationshipToClaimant_1input"]',
     );
     preneedHelpers.clickContinue();
     errorCheck(requiredHelpers.preparerInfoErrors1);
@@ -227,11 +233,11 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       errorCheck(requiredHelpers.preparerInfoErrors2);
 
       cy.fill(
-        'input[name$="root_application_applicant_view:applicantInfo_name_first"]',
+        'input[name$="root_application_applicant_name_first"]',
         testData.data.application.applicant.name.first,
       );
       cy.fill(
-        'input[name$="root_application_applicant_view:applicantInfo_name_last"]',
+        'input[name$="root_application_applicant_name_last"]',
         testData.data.application.applicant.name.last,
       );
       cy.axeCheck();

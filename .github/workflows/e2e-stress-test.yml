@@ -399,6 +399,7 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
+          IS_CI: false
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
