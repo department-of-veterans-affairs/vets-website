@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LocationConfirmation() {
+export default function LocationConfirmation({ onPageChange }) {
   return (
     <body className="page">
       <div className="container">
@@ -21,14 +21,19 @@ export default function LocationConfirmation() {
               in the next 10 days before continuing.
             </p>
             <div className="wrapper">
-              <button type="button" className="wide-button">
+              <button
+                type="button"
+                className="usa-button mo-full-width-btn"
+                onClick={() => onPageChange(3)}
+              >
                 Continue
               </button>
             </div>
             <div className="wrapper">
               <button
                 type="button"
-                className="usa-button usa-button--outline wide-button"
+                className="usa-button usa-button--outline mo-full-width-btn"
+                onClick={() => onPageChange(1)}
               >
                 Back
               </button>

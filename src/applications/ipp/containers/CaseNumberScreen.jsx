@@ -8,7 +8,9 @@ export default function CaseNumberScreen() {
           <br />
           <h1>Verify in Person</h1>
           <div className="text">
-            <p>Your case number is: C8302023</p>
+            <p>
+              <b>Your case number is: C8302023</b>
+            </p>
             <p>
               Please bring your case number, your state-issued ID or VHIC, and
               proof of your current address to your appointment.

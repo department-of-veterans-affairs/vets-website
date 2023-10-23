@@ -1,5 +1,19 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+// *{
+//   font-family: "Public Sans", sans-serif;
+// }
+@font-face {
+  font-family: "Public Sans";
+  src: url("/Users/anudas/Downloads/public-sans-v2.001/fonts/webfonts/PublicSans-Light.woff2") format("woff2");
+  font-weight: 400; /* Specify the weight you want to use */
+  /* Add additional font weights if needed */
+}
+
+body {
+  font-family: "Public Sans", sans-serif;
+}
+
 .page {
     background-color: D9E8F6;
   }
@@ -24,6 +38,7 @@ h1 {
 
 .text {
     max-width: 550px;
+    font-family: $font-sans;
     justify-content: center;
     padding-left: 25px;
     padding-right: 25px;
@@ -76,4 +91,5 @@ button {
 
 .mo-full-width-btn {
   width: 100%;
+  height: 40;
 }
