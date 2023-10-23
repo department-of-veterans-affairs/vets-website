@@ -116,7 +116,59 @@ export default function DetailsVA({ appointment, facilityData }) {
 }
 
 DetailsVA.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facilityData: PropTypes.object.isRequired,
+  appointment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    start: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+      isUpcomingAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
+      isCompAndPenAppointment: PropTypes.bool.isRequired,
+      isCOVIDVaccine: PropTypes.bool.isRequired,
+      isPhoneAppointment: PropTypes.bool.isRequired,
+      isCancellable: PropTypes.bool.isRequired,
+    }),
+    location: PropTypes.shape({
+      vistaId: PropTypes.string.isRequired,
+      clinicId: PropTypes.string.isRequired,
+      stationId: PropTypes.string.isRequired,
+      clinicName: PropTypes.string.isRequired,
+    }),
+  }),
+  facilityData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    vistaId: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
   useV2: PropTypes.bool,
+};
+
+DetailsVA.defaultProps = {
+  appointment: {
+    id: '',
+    start: '',
+    comment: '',
+    vaos: {
+      isPastAppointment: false,
+      isUpcomingAppointment: false,
+      isPendingAppointment: false,
+      isVideo: false,
+      isAtlas: false,
+      extension: { patientHasMobileGfe: false },
+      kind: '',
+    },
+    location: {
+      vistaId: '',
+      clinicId: '',
+      stationId: '',
+      clinicName: '',
+    },
+  },
+  facilityData: {
+    id: '',
+    vistaId: '',
+    name: '',
+  },
 };
