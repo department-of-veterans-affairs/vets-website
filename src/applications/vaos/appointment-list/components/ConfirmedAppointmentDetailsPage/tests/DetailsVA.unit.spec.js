@@ -169,4 +169,19 @@ describe('DetailsVA component', () => {
       ),
     ).to.exist;
   });
+
+  it('should render PrintLink', async () => {
+    const appointment = {
+      ...appointmentData,
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    // PrintLink with upcoming appointment
+    expect(await wrapper.findByText('Print')).to.exist;
+  });
 });
