@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+// import { focusElement } from 'platform/utilities/ui';
+// import recordEvent from '@department-of-veterans-affairs/platform-monitoring';
 import PropTypes from 'prop-types';
 
 const LocationInput = props => {
@@ -8,14 +10,15 @@ const LocationInput = props => {
   const {
     currentQuery,
     onChange,
+    geolocateUser,
     // onSubmit,
     // clearSearchText
   } = props;
   const {
-    locationChanged,
+    // locationChanged,
     locationInputString,
     repOrganizationInputString,
-    geolocationInProgress,
+    // geolocationInProgress,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -56,43 +59,27 @@ const LocationInput = props => {
     // recordEvent({
     //   event: 'fl-get-geolocation',
     // });
-    // geolocateUser();
+    geolocateUser();
   };
 
-  const showError =
-    locationChanged &&
-    !geolocationInProgress &&
-    (!locationInputString || locationInputString.length === 0);
+  // const showError =
+  //   locationChanged &&
+  //   !geolocationInProgress &&
+  //   (!locationInputString || locationInputString.length === 0);
   return (
-    <div className="vads-u-margin--0">
+    <div>
       <h3>Search for your representative:</h3>
-      <div id="location-input-field">
-        <label htmlFor="street-city-state-zip" id="street-city-state-zip-label">
-          City, state or postal code{' '}
-          <span className="form-required-span">(*Required)</span>
-        </label>
-        <button
-          onClick={handleGeolocationButtonClick}
-          type="button"
-          className="use-my-location-link"
-          aria-label="Use my location"
-        >
-          <i
-            className="use-my-location-button"
-            aria-hidden="true"
-            role="presentation"
-          />
-          Use my location
-        </button>
-        {/* )} */}
-      </div>
-      {showError && (
-        <span className="usa-input-error-message" role="alert">
-          <span className="sr-only">Error</span>
-          Please fill in a city, state, or postal code.
-        </span>
-      )}
-      <div className="input-container">
+      <div className="location-input-container">
+        <div className="location-input-header">
+          <label
+            htmlFor="street-city-state-zip"
+            id="street-city-state-zip-label"
+          >
+            City, state or postal code{' '}
+            <span className="form-required-span">(*Required)</span>
+          </label>
+        </div>
+
         <input
           id="street-city-state-zip"
           ref={locationInputFieldRef}
@@ -103,7 +90,31 @@ const LocationInput = props => {
           value={locationInputString}
           title="Your location: Street, City, State or Postal code"
         />
-        {/* {locationInput?.length > 0 && (
+        <div className="use-my-location-button-container">
+          <button
+            onClick={handleGeolocationButtonClick}
+            type="button"
+            className="use-my-location-button"
+            aria-label="Use my location"
+          >
+            <i
+              className="use-my-location-icon"
+              aria-hidden="true"
+              role="presentation"
+            />
+            <div className="button-text">Use my location</div>
+          </button>
+        </div>
+
+        {/* <div>
+          {showError && (
+            <span className="usa-input-error-message" role="alert">
+              <span className="sr-only">Error</span>
+              Please fill in a city, state, or postal code.
+            </span>
+          )}
+
+          {locationInput?.length > 0 && (
           <button
             aria-label="Clear your city, state or postal code"
             type="button"
@@ -111,8 +122,10 @@ const LocationInput = props => {
             className="fas fa-times-circle clear-button"
             // onClick={handleClearInput}
           />
-        )} */}
+        )}
+        </div> */}
       </div>
+
       <div>
         <div>
           <label
@@ -146,6 +159,7 @@ export default LocationInput;
 
 LocationInput.propTypes = {
   currentQuery: PropTypes.object.isRequired,
+  geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,
   repOrganizationInputString: PropTypes.string.isRequired,

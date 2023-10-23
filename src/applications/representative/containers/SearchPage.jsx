@@ -8,6 +8,7 @@ import {
   clearSearchText,
   clearSearchResults,
   updateSearchQuery,
+  geolocateUser,
 } from '../actions';
 
 const SearchPage = props => {
@@ -46,36 +47,33 @@ const SearchPage = props => {
     <>
       <va-breadcrumbs>{renderBreadcrumbs()}</va-breadcrumbs>
 
-      <div className="row">
-        <div className="columns search-page-container">
-          <div className="title-section">
-            <h1>Find an Accredited Representative</h1>
-          </div>
-
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="info"
-            visible
-          >
-            <h2 slot="headline">Sign in to see your current representative.</h2>
-            <div>
-              <button className="usa-button-primary" type="button">
-                Sign in
-              </button>
-            </div>
-          </va-alert>
-
-          <SearchControls
-            currentQuery={props.currentQuery}
-            onChange={props.updateSearchQuery}
-            onSubmit={handleSearch}
-            clearSearchText={props.clearSearchText}
-          />
-
-          {showResults && (
-            <ResultsList handleRedirect={e => handleRedirect(e)} />
-          )}
+      <div className="usa-grid usa-width-three-fourths search-page-container">
+        <div className="title-section">
+          <h1>Find a Representative</h1>
         </div>
+
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          visible
+        >
+          <h2 slot="headline">Sign in to see your current representative.</h2>
+          <div>
+            <button className="usa-button-primary" type="button">
+              Sign in
+            </button>
+          </div>
+        </va-alert>
+
+        <SearchControls
+          geolocateUser={props.geolocateUser}
+          currentQuery={props.currentQuery}
+          onChange={props.updateSearchQuery}
+          onSubmit={handleSearch}
+          clearSearchText={props.clearSearchText}
+        />
+
+        {showResults && <ResultsList handleRedirect={e => handleRedirect(e)} />}
       </div>
     </>
   );
@@ -84,6 +82,7 @@ const SearchPage = props => {
 SearchPage.propTypes = {
   clearSearchText: PropTypes.func.isRequired,
   currentQuery: PropTypes.object.isRequired,
+  geolocateUser: PropTypes.func.isRequired,
   router: PropTypes.object.isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -96,6 +95,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  geolocateUser,
   updateSearchQuery,
   clearSearchResults,
   clearSearchText,

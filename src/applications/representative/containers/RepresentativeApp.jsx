@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import formConfig from '../config/form';
+import GetFormHelp from '../components/GetFormHelp';
 
 // import { connect } from 'react-redux';
 // import DowntimeNotification, {
@@ -11,9 +10,13 @@ import formConfig from '../config/form';
 export default function RepresentativeApp({ children }) {
   return (
     <>
-      <div>
-        <div className="find-a-representative">{children}</div>
-        <FormFooter formConfig={formConfig} />
+      <div className="find-a-representative">
+        <div className="row">{children}</div>
+        <div className="row">
+          <div className="usa-grid usa-width-three-fourths">
+            <GetFormHelp />
+          </div>
+        </div>
       </div>
     </>
   );
