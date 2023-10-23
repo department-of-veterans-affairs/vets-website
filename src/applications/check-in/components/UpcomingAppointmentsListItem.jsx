@@ -18,9 +18,6 @@ const UpcomingAppointmentsListItem = props => {
     <li
       className="check-in--appointment-item"
       data-testid="appointment-list-item"
-      aria-label={t('appointment-on-date-at-time', {
-        dateTime: appointmentDateTime,
-      })}
     >
       <div className="vads-l-grid-container vads-u-padding-x--0">
         <div className="vads-l-row">
@@ -30,18 +27,16 @@ const UpcomingAppointmentsListItem = props => {
             }`}
           >
             {dayKey && (
-              <div
-                className="vads-u-text-align--center"
+              <h4
+                className="vads-u-text-align--center vads-u-line-height--2 vads-u-font-family--sans vads-u-font-weight--normal vads-u-"
                 data-testid="day-label"
               >
-                <p className="vads-u-line-height--2">
-                  {`${t('date-day-of-week', { date: appointmentDateTime })} `}
-                  <br />
-                  <span className="vads-u-font-size--md vads-u-font-weight--bold">
-                    {t('date-day-of-month', { date: appointmentDateTime })}
-                  </span>
-                </p>
-              </div>
+                <span className="vads-u-font-size--md vads-u-font-weight--bold">
+                  {`${t('date-day-of-month', { date: appointmentDateTime })} `}
+                </span>
+                <br />
+                {t('date-day-of-week', { date: appointmentDateTime })}
+              </h4>
             )}
           </div>
           <div className="vads-l-col--10 vads-u-border-top--1px">
