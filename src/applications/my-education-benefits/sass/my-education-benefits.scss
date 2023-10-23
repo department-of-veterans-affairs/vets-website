@@ -280,6 +280,10 @@ va-accordion-item .service-history-details {
 	color: $color-red-dark;
 }
 
+#root_incorrectServiceHistoryExplanation_incorrectServiceHistoryInputs-label > span {
+	display: none; //Hides span in disagree with service checlbox group
+}
+
 .meb-labels_label--main {
   flex: 0 1 auto;
   margin-right: 0.35em;

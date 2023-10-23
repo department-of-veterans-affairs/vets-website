@@ -349,6 +349,19 @@ const isValidAccountNumber = accountNumber => {
   return false;
 };
 
+const checkBoxValidation = {
+  pattern: (errors, values) => {
+    if (!Object.keys(values).some(key => values[key])) {
+      errors.addError('Check at least one!');
+    }
+  },
+  widget: (errors, value) => {
+    if ((value || '').trim() === '') {
+      errors.addError('Check at least one!');
+    }
+  },
+};
+
 const validateAccountNumber = (
   errors,
   accountNumber,
@@ -1350,9 +1363,12 @@ const formConfig = {
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
                   true,
-                'ui:description': (
+                'ui:errorMessages': {
+                  required: 'Check at least one',
+                },
+                'ui:title': (
                   <>
-                    <p>
+                    <p className="check-box-label">
                       Choose all that apply{' '}
                       <span className="text-restriction">
                         (*You must choose at least one)
@@ -1360,18 +1376,11 @@ const formConfig = {
                     </p>
                   </>
                 ),
-                'ui:validations': [
-                  (errors, field) => {
-                    if (
-                      field?.servicePeriodMissing === undefined &&
-                      field?.servicePeriodIncorrect === undefined
-                    ) {
-                      errors.servicePeriodIncorrect.addError(
-                        'You must select one choice',
-                      );
-                    }
-                  },
-                ],
+                'ui:validations': [checkBoxValidation.pattern],
+                'ui:options': {
+                  showFieldLabel: true,
+                  forceDivWrapper: true,
+                },
                 servicePeriodMissing: {
                   'ui:title': 'One or more of my service periods are missing',
                 },
