@@ -286,7 +286,7 @@ export const BankInfo = ({
           formPrefix={formPrefix}
           formSubmit={saveBankInfo}
         >
-          <div className="vads-u-margin-bottom--2">
+          <div className="vads-u-margin-bottom--2 vads-u-margin-top--2p5">
             <va-additional-info trigger="Where can I find these numbers?">
               <img
                 src="/img/direct-deposit-check-guide.svg"
