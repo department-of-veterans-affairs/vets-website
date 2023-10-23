@@ -45,7 +45,7 @@ export const uiSchema = {
     powDisabilities: {
       'ui:title': ' ',
       'ui:description':
-        'Which of your new conditions was caused or affected by your POW experience?',
+        'Which of your conditions is connected to your POW experience?',
       'ui:options': {
         hideIf: formData => !claimingNew(formData),
         updateSchema: makeSchemaForNewDisabilities,

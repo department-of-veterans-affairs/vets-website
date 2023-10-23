@@ -17,8 +17,7 @@ export default {
     `New conditions (in the ${numberToWords(
       index + 1,
     )} section, enter a condition or select one from the list)`,
-  cause:
-    'What caused this service-connected disability? (select from the list of causes)',
+  cause: 'What caused this condition? (select from the list of causes)',
   'view:hasMilitaryRetiredPay':
     'Have you ever received military retirement pay? (select yes or no)',
   hasTrainingPay:

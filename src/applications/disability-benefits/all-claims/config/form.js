@@ -299,7 +299,7 @@ const formConfig = {
       pages: {
         ...toxicExposurePages,
         claimType: {
-          title: 'Claim type',
+          title: 'Reason for claim',
           path: 'claim-type',
           depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
@@ -551,7 +551,7 @@ const formConfig = {
             'ui:description': ancillaryFormsWizardDescription,
             'view:ancillaryFormsWizard': {
               'ui:title':
-                'Would you like to learn more about additional benefits?',
+                'Do you want to answer questions to determine if you may be eligible for additional benefits?',
               'ui:widget': 'yesNo',
             },
           },
