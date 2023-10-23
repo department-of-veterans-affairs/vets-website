@@ -159,12 +159,36 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
   };
 };
 
+const generateUser = ({ serviceProvider = 'idme', facilities }) => {
+  return {
+    ...defaultUser,
+    data: {
+      ...defaultUser.data,
+      attributes: {
+        ...defaultUser.data.attributes,
+        va_profile: {
+          ...defaultUser.data.attributes.va_profile,
+          facilities:
+            facilities || defaultUser.data.attributes.va_profile.facilities,
+        },
+        profile: {
+          ...defaultUser.data.attributes.profile,
+          sign_in: {
+            service_name: serviceProvider,
+          },
+        },
+      },
+    },
+  };
+};
+
 const noFacilityUser = generateUserWithFacilities({ facilities: [] });
 
 module.exports = {
   defaultUser,
   cernerUser,
   noFacilityUser,
+  generateUser,
   generateUserWithServiceProvider,
   generateUserWithFacilities,
 };

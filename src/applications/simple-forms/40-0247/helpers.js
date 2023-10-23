@@ -18,34 +18,38 @@ export const supportingDocsDescription = (
       the process, we encourage you to submit military records or discharge
       documents if they’re available.
     </p>
-    <p>
+    <p className="hideOnReviewPage">
       To be eligible for a Presidential Memorial Certificate, the deceased
       Veteran or Reservist must meet eligibility requirements for burial in a VA
       national cemetery.
     </p>
-    <p>Not sure if the Veteran or Reservist is eligible?</p>
-    <p>
+    <p className="hideOnReviewPage">
+      Not sure if the Veteran or Reservist is eligible?
+    </p>
+    <p className="hideOnReviewPage">
       <a href="/burials-memorials/eligibility/">
         Check eligibility requirements for burial in a VA national cemetary
         (opens in new tab)
       </a>
     </p>
-    <p className="vads-u-margin-bottom--4">
+    <p className="vads-u-margin-bottom--4 hideOnReviewPage">
       We prefer that you upload the Veteran’s or Reservist’s DD214.
     </p>
   </>
 );
 
-export const createPayload = (file, _formId, password) => {
+export const createPayload = (file, formId, password) => {
   const payload = new FormData();
-  payload.append('files_attachment[file_data]', file);
+  payload.set('form_id', formId);
+  payload.append('file', file);
   if (password) {
-    payload.append('files_attachment[password]', password);
+    payload.append('password', password);
   }
   return payload;
 };
 
-export function parseResponse({ data }, { name }) {
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
   const focusFileCard = () => {
     const target = $$('.schemaform-file-list li').find(entry =>
       entry.textContent?.trim().includes(name),
@@ -62,7 +66,7 @@ export function parseResponse({ data }, { name }) {
 
   return {
     name,
-    confirmationCode: data.attributes.confirmation_code,
+    confirmationCode: data.attributes.confirmationCode,
   };
 }
 

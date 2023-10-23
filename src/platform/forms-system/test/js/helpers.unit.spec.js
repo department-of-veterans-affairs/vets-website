@@ -213,6 +213,32 @@ describe('Schemaform helpers:', () => {
 
       expect(fields).to.be.empty;
     });
+    it('should not throw an error', () => {
+      const data = {
+        schema: {
+          type: 'object',
+          properties: {
+            veteran: {
+              type: 'object',
+              required: ['address'],
+              properties: {
+                address: {
+                  type: 'object',
+                  required: [],
+                  properties: {},
+                },
+              },
+            },
+          },
+        },
+        uiSchema: {},
+      };
+      // TypeError: Cannot read property 'address' of undefined is thrown
+      // without optional chaining
+      const fields = getArrayFields(data);
+
+      expect(fields).to.be.empty;
+    });
   });
   describe('transformForSubmit', () => {
     it('should flatten page data within chapter', () => {
@@ -649,6 +675,70 @@ describe('Schemaform helpers:', () => {
         },
       });
     });
+
+    it('should return original input fields if ui:options.displayEmptyObjectOnReview is true', () => {
+      const result = getNonArraySchema(
+        {
+          type: 'object',
+          required: [],
+          properties: {
+            field1: {
+              type: 'object',
+              properties: {},
+            },
+            field2: {
+              type: 'object',
+              properties: {},
+            },
+          },
+        },
+        {
+          field1: {
+            'ui:description': 'My field1 text',
+            'ui:options': {
+              displayEmptyObjectOnReview: true,
+            },
+          },
+          field2: {
+            'ui:description': 'My field2 text',
+            'ui:options': {
+              displayEmptyObjectOnReview: true,
+            },
+          },
+        },
+      );
+
+      expect(result.schema).to.eql({
+        type: 'object',
+        required: [],
+        properties: {
+          field1: {
+            type: 'object',
+            properties: {},
+          },
+          field2: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+
+      expect(result.uiSchema).to.eql({
+        field1: {
+          'ui:description': 'My field1 text',
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
+        },
+        field2: {
+          'ui:description': 'My field2 text',
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
+        },
+      });
+    });
+
     it('should return fields without array', () => {
       const result = getNonArraySchema(
         {

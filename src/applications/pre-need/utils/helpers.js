@@ -18,11 +18,47 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
+export const applicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export function ApplicantDescriptionWrapper({ formContext }) {
+  return (
+    <div className="ApplicantDescriptionWrapper">
+      <ApplicantDescription formContext={formContext} />
+    </div>
+  );
+}
+
+export const applicantDemographicsSubHeader = (
+  <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsDescription = (
+  <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
+  </div>
+);
+
+export const militaryDetailsSubHeader = (
+  <div className="militaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Military details</h3>
+  </div>
+);
 
 export const contactInfoDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
@@ -37,19 +73,40 @@ export const contactInfoDescription = (
   </va-additional-info>
 );
 
+// do not render with a prod flag
+export const applicantContactInfoDescriptionVet = (
+  <va-additional-info trigger="Why do we need your contact details?">
+    <p>
+      We may reach out by phone if we need more information about your
+      application.
+    </p>
+    <p>
+      Your email address will be used to send a confirmation message once you’ve
+      submitted your application.
+    </p>
+  </va-additional-info>
+);
+
+// do not render with a prod flag
+export const applicantContactInfoDescriptionNonVet = (
+  <va-additional-info trigger="Why do we need the applicant’s contact details?">
+    <p>
+      We may reach out by phone if we need more information about the
+      application.
+    </p>
+    <p>
+      Their email address will be used to send a confirmation message once the
+      application is submitted.
+    </p>
+  </va-additional-info>
+);
+
 export const PreparerPhoneNumberDescription = (
   <va-additional-info trigger="Why do we need your phone number?">
-    {environment.isProduction() ? (
-      <p>
-        If you’re the preparer of this application, you’ll need to provide your
-        contact information.
-      </p>
-    ) : (
-      <p>
-        We may contact you by phone if we need more information about the
-        application.
-      </p>
-    )}
+    <p>
+      We may contact you by phone if we need more information about the
+      application.
+    </p>
   </va-additional-info>
 );
 
@@ -69,42 +126,17 @@ export const veteranRelationshipDescription = (
 export const authorizedAgentDescription = (
   // TODO va-additional-info component to be replaced with a more optimal solution
   <va-additional-info
-    trigger={
-      environment.isProduction()
-        ? 'Who can a preparer sign for?'
-        : "If you're applying for someone else, who can you sign for?"
-    }
+    trigger={"If you're applying for someone else, who can you sign for?"}
   >
-    <p>
-      A preparer can sign for an{' '}
-      {environment.isProduction() ? 'individual' : 'applicant'} who’s:
-    </p>
+    <p>A preparer can sign for an applicant who’s:</p>
     <ul>
-      {environment.isProduction() ? (
-        <>
-          <li>
-            Under 18 years of age, <strong>or</strong>
-          </li>
-          <li>
-            Is mentally incompetent, <strong>or</strong>
-          </li>
-          <li>Is physically unable to sign the application</li>
-        </>
-      ) : (
-        <>
-          <li>
-            Mentally incompetent <strong>or</strong>
-          </li>
-          <li>Physically unable to sign the application</li>
-        </>
-      )}
+      <>
+        <li>
+          Mentally incompetent <strong>or</strong>
+        </li>
+        <li>Physically unable to sign the application</li>
+      </>
     </ul>
-    {environment.isProduction() && (
-      <p>
-        If you’re the preparer of this application, you’ll need to provide your
-        contact information.
-      </p>
-    )}
   </va-additional-info>
 );
 

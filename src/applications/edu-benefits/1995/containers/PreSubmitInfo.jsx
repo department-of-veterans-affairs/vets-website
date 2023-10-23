@@ -29,13 +29,14 @@ function PreSubmitNotice({
             All statements in this application are true and correct to the best
             of your knowledge and belief
           </li>
-          {/* if applicant is on active duty, show below <li> */
-          isActiveDuty(/* formData */) && (
-            <li>
+          {
+            // isActiveDuty(/* formData */) && (
+            /*  <li>
               As an active-duty service member, you have consulted with an
               Education Service Officer (ESO) regarding your education program
             </li>
-          )}
+          ) */
+          }
         </ul>
       </div>
     );

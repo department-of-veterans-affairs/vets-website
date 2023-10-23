@@ -28,11 +28,13 @@ export default {
         attachmentDescription: {
           'ui:title': 'Document description',
         },
-        // TODO: Sync with b/e to determine proper URL
-        fileUploadUrl: `${environment.API_URL}/v0/simple-forms/40-0247/files`,
+        fileUploadUrl: `${
+          environment.API_URL
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,
+        keepInPageOnReview: true,
         classNames: 'schemaform-file-upload',
       },
     },
