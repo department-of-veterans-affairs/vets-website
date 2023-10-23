@@ -3,17 +3,21 @@ import PropTypes from 'prop-types';
 import RepTypeSelector from './RepTypeSelector';
 import LocationInput from './LocationInput';
 
-const SearchControls = ({ handleSearch }) => {
+const SearchControls = props => {
+  const { onSubmit } = props;
+
   return (
     <>
-      <div className="search-controls-container">
-        <form id="facility-search-controls" onSubmit={e => handleSearch(e)}>
+      <div className="search-controls-container clearfix">
+        <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
           <div className="columns">
-            <LocationInput />
             <div id="search-controls-bottom-row">
               <RepTypeSelector />
-              <input id="facility-search" type="submit" value="Search" />
             </div>
+            <LocationInput {...props} />
+            <button id="representative-search" type="submit" value="Search">
+              <i className="fas fa-search" /> Search
+            </button>
           </div>
         </form>
       </div>
@@ -21,8 +25,8 @@ const SearchControls = ({ handleSearch }) => {
   );
 };
 
-SearchControls.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
+LocationInput.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchControls;
