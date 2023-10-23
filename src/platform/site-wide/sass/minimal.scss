@@ -25,6 +25,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/base/b-font-faces";
 @import "~@department-of-veterans-affairs/formation/sass/base/va";
 
+
+// Add the USWDS html & body font-sizes's to the css-library elements.scss stylesheet with !important
+// and import in here after the `/base/va"` stylesheet.
+
 // html { font-size: 100%!important; }
 // body { font-size: 16px!important; }
 
