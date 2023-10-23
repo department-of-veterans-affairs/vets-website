@@ -7,11 +7,13 @@ import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
-  comment: 'Follow-up/Routine: I have a headache',
   version: 2,
   vaos: {
     isCanceled: false,
     appointmentType: 'vaAppointment',
+    isUpcomingAppointment: true,
+    isPastAppointment: false,
+    isCompAndPenAppointment: false,
   },
   videoData: {
     isVideo: false,
@@ -37,8 +39,7 @@ describe('DetailsVA component', () => {
     const appointment = {
       ...appointmentData,
       vaos: {
-        isUpcomingAppointment: true,
-        isPastAppointment: false,
+        ...appointmentData.vaos,
         isCompAndPenAppointment: true,
         apiData: { serviceType: 'audiology' },
       },
@@ -84,8 +85,6 @@ describe('DetailsVA component', () => {
       vaos: {
         isUpcomingAppointment: false,
         isPastAppointment: true,
-        isCompAndPenAppointment: false,
-        apiData: { serviceType: 'audiology' },
       },
     };
 
@@ -103,12 +102,6 @@ describe('DetailsVA component', () => {
   it('should render VAFacilityLocation', async () => {
     const appointment = {
       ...appointmentData,
-      vaos: {
-        isUpcomingAppointment: true,
-        isPastAppointment: false,
-        isCompAndPenAppointment: false,
-        apiData: { serviceType: 'audiology' },
-      },
     };
 
     const props = { appointment, facilityData };
@@ -124,12 +117,7 @@ describe('DetailsVA component', () => {
   it('should render VAInstructions', async () => {
     const appointment = {
       ...appointmentData,
-      vaos: {
-        isUpcomingAppointment: true,
-        isPastAppointment: false,
-        isCompAndPenAppointment: false,
-        apiData: { serviceType: 'audiology' },
-      },
+      comment: 'Follow-up/Routine: I have a headache',
     };
 
     const props = { appointment, facilityData };
@@ -146,12 +134,6 @@ describe('DetailsVA component', () => {
   it('should render CalendarLink', async () => {
     const appointment = {
       ...appointmentData,
-      vaos: {
-        isUpcomingAppointment: true,
-        isPastAppointment: false,
-        isCompAndPenAppointment: false,
-        apiData: { serviceType: 'audiology' },
-      },
     };
 
     const props = { appointment, facilityData };
@@ -169,11 +151,8 @@ describe('DetailsVA component', () => {
     const appointment = {
       ...appointmentData,
       vaos: {
-        isUpcomingAppointment: true,
-        isPastAppointment: false,
-        isCompAndPenAppointment: false,
+        ...appointmentData.vaos,
         isCancellable: false,
-        apiData: { serviceType: 'audiology' },
       },
     };
 
