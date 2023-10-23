@@ -19,6 +19,12 @@ const formalizeData = data => {
   });
 };
 
+const isServiceConnected = item => item.decisionText === 'Service Connected';
+
+const getServiceConnectedDisabilities = list => list.filter(isServiceConnected);
+const getNonServiceConnectedDisabilities = list =>
+  list.filter(item => !isServiceConnected(item));
+
 const noDisabilityRatingContent = errorCode => {
   let content;
   let status;
@@ -112,22 +118,45 @@ const RatedDisabilityList = ({
     );
   }
 
-  const formattedDisabilities = formalizeData(
+  const serviceConnected = getServiceConnectedDisabilities(
     ratedDisabilities?.ratedDisabilities,
-  ).sort(sortFunc);
+  );
+
+  const nonServiceConnected = getNonServiceConnectedDisabilities(
+    ratedDisabilities?.ratedDisabilities,
+  );
+
+  const formattedServiceConnected = formalizeData(serviceConnected).sort(
+    sortFunc,
+  );
+
+  const formattedNonServiceConnected = formalizeData(nonServiceConnected).sort(
+    sortFunc,
+  );
 
   return (
     <div>
-      <h2 id="individual-ratings" className="vads-u-margin-y--1p5">
-        Your individual ratings
-      </h2>
+      <h3 className="vads-u-margin-top--2">Service-connected ratings</h3>
       {sortToggle && (
         <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
           <SortSelect onSelect={setSortBy} sortBy={sortBy} />
         </div>
       )}
-      <div className="vads-l-row">
-        {formattedDisabilities.map((disability, index) => (
+      <div className="vads-l-row vads-u-flex-direction--column">
+        {formattedServiceConnected.map((disability, index) => (
+          <RatedDisabilityListItem ratedDisability={disability} key={index} />
+        ))}
+      </div>
+      <h3 className="vads-u-margin-top--1">
+        Conditions VA determined aren’t service-connected
+      </h3>
+      {sortToggle && (
+        <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
+          <SortSelect onSelect={setSortBy} sortBy={sortBy} />
+        </div>
+      )}
+      <div className="vads-l-row vads-u-flex-direction--column">
+        {formattedNonServiceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>

@@ -2,40 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const RatedDisabilityListItem = ({ ratedDisability }) => {
-  const {
-    decisionText,
-    effectiveDate,
-    name,
-    ratingPercentage,
-  } = ratedDisability;
+  const { effectiveDate, name, ratingPercentage } = ratedDisability;
+
+  const ratingPercentageText =
+    typeof ratingPercentage === 'number' && ratingPercentage;
+  const headingText = [`${ratingPercentageText}%`, name].join(' ');
 
   return (
-    <dl className="vads-u-display--block vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
-      <dt className="vads-u-display--block vads-u-font-size--h3 vads-u-font-weight--bold vads-u-margin--0">
-        {typeof ratingPercentage === 'number' ? (
-          <dfn className="vads-u-display--block vads-u-border-color--gray-light vads-u-border-bottom--1px">
-            {ratingPercentage}%
-          </dfn>
-        ) : null}
-        {name}
-      </dt>
-      <dd className="vads-u-display--block vads-u-margin--0">
-        <dfn className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-y--0 vads-u-margin-right--1">
-          Service-connected disability?
-        </dfn>{' '}
-        {decisionText === 'Service Connected' ? 'Yes' : 'No'}
-      </dd>
+    <va-card class="vads-u-margin-bottom--2">
+      <h3 className="vads-u-margin-y--0">{headingText}</h3>
       {effectiveDate !== null ? (
-        <>
+        <div className="vads-u-margin-top--1">
           <dd className="vads-u-display--block vads-u-margin--0">
             <dfn className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-right--0p5">
               Effective date:
             </dfn>
             {effectiveDate.format('MM/DD/YYYY')}
           </dd>
-        </>
+        </div>
       ) : null}
-    </dl>
+    </va-card>
   );
 };
 
