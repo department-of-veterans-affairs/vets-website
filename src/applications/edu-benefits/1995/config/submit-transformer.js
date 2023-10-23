@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import environment from 'platform/utilities/environment';
-import { isActiveDuty } from './containers/PreSubmitInfo';
+import { isActiveDuty } from '../containers/PreSubmitInfo';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
