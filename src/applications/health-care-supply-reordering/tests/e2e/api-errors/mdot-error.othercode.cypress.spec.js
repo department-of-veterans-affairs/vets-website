@@ -1,8 +1,7 @@
 import featureToggles from '../../../mocks/feature-toggles';
 import user from '../../../mocks/user';
-import mdot from '../../../mocks/mdot';
 
-describe('health-care-supplies-reordering - api failures - 500', () => {
+describe('health-care-supplies-reordering - api failures - other', () => {
   beforeEach(() => {
     cy.intercept(
       'GET',
@@ -12,10 +11,7 @@ describe('health-care-supplies-reordering - api failures - 500', () => {
     cy.intercept('GET', '/v0/user', user.defaultUser);
 
     cy.intercept('GET', '/v0/in_progress_forms/mdot', req => {
-      return req.reply(
-        mdot.internalServerError.status,
-        mdot.internalServerError.data,
-      );
+      return req.reply(402, {});
     });
     cy.window().then(win => {
       win.localStorage.setItem('sessionExpiration', new Date().toString());
@@ -26,7 +22,7 @@ describe('health-care-supplies-reordering - api failures - 500', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Form handles 500 error from in_progress_forms', () => {
+  it('Form handles other error from in_progress_forms', () => {
     cy.login(user.defaultUser);
     cy.visit('/health-care/order-hearing-aid-or-CPAP-supplies-form');
     cy.injectAxeThenAxeCheck();

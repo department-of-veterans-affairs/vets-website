@@ -8,7 +8,7 @@ const user = require('./user/index');
 const mdot = require('./mdot/index');
 
 const toggleVeteranNotFoundError = false;
-const toggleInternalServerError = true;
+const toggleInternalServerError = false;
 
 const responses = {
   ...commonResponses,

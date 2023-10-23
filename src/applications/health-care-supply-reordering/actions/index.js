@@ -72,7 +72,7 @@ export const fetchFormStatus = () => async dispatch => {
     })
     .catch(error => {
       if (
-        error.errors.length === 1 &&
+        error.errors?.length === 1 &&
         head(error.errors).title === 'Veteran Not Found'
       ) {
         return dispatch(handleError('MDOT_INVALID'));

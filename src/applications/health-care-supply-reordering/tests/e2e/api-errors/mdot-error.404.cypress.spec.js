@@ -2,7 +2,7 @@ import featureToggles from '../../../mocks/feature-toggles';
 import user from '../../../mocks/user';
 import mdot from '../../../mocks/mdot';
 
-describe('health-care-supplies-reordering - api failures - 500', () => {
+describe('health-care-supplies-reordering - api failures - 404', () => {
   beforeEach(() => {
     cy.intercept(
       'GET',
@@ -13,8 +13,8 @@ describe('health-care-supplies-reordering - api failures - 500', () => {
 
     cy.intercept('GET', '/v0/in_progress_forms/mdot', req => {
       return req.reply(
-        mdot.internalServerError.status,
-        mdot.internalServerError.data,
+        mdot.veteranNotFoundResponse.status,
+        mdot.veteranNotFoundResponse.data,
       );
     });
     cy.window().then(win => {
@@ -26,12 +26,12 @@ describe('health-care-supplies-reordering - api failures - 500', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Form handles 500 error from in_progress_forms', () => {
+  it('Form handles 404 error from in_progress_forms', () => {
     cy.login(user.defaultUser);
     cy.visit('/health-care/order-hearing-aid-or-CPAP-supplies-form');
     cy.injectAxeThenAxeCheck();
     cy.get('[slot=headline]').contains(
-      'We’re sorry. Something went wrong on our end.',
+      'We can’t find your records in our system',
     );
   });
 });
