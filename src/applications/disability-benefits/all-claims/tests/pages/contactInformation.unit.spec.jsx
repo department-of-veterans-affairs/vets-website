@@ -507,6 +507,9 @@ describe('Disability benefits 526EZ contact information', () => {
           definitions={formConfig.defaultDefinitions}
           schema={schema}
           data={{
+            phoneAndEmail: {
+              emailAddress: 'a@b.co',
+            },
             mailingAddress: {
               country: 'USA',
               addressLine1: '123 Any Street',
