@@ -1,5 +1,5 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import { buildSubmitEventData } from './helpers';
+import { buildSubmitEventData } from '../helpers';
 
 const submitForm = (form, formConfig) => {
   const body = formConfig.transformForSubmit(formConfig, form);
