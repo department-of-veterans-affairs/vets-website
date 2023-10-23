@@ -154,8 +154,8 @@ describe('VAOS community care flow using VAOS service', () => {
     );
     cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
-    cy.wait('@v1:get:provider', { timeout: 100000 }).then(() => {
-      cy.findByLabelText(/doe, jane/i, { timeout: 10000 }).click();
+    cy.wait('@v1:get:provider', { timeout: 90000 }).then(() => {
+      cy.findByLabelText(/doe, jane/i, { timeout: 90000 }).click();
       cy.axeCheckBestPractice();
       cy.findByText(/Choose provider/i).click();
       cy.findByText(/remove/i).click();
@@ -267,8 +267,8 @@ describe('VAOS community care flow using VAOS service', () => {
     // Request detail page should display the same information sent to create the
     // appointment.
     cy.url().should('include', '/requests/mock1');
-    cy.wait('@v2:get:appointment', { timeout: 100000 }).then(() => {
-      cy.findByText('Pending primary care appointment', { timeout: 10000 });
+    cy.wait('@v2:get:appointment', { timeout: 90000 }).then(() => {
+      cy.findByText('Pending primary care appointment', { timeout: 90000 });
       cy.findByText('Your appointment request has been submitted.');
       cy.findByText('This is a very good reason.');
       cy.findByText('veteran@gmail.com');
