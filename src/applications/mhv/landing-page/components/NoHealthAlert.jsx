@@ -17,10 +17,10 @@ const NoHealthAlert = () => {
           their records.
         </p>
         <p className="vads-u-margin-bottom--0">
-          <a href="https://google.com">Find a facility phone number</a>
+          <a href="/find-locations">Find a facility phone number</a>
         </p>
         <p className="vads-u-margin-bottom--0">
-          <a href="https://google.com">Apply here for healthcare</a>
+          <a href="/health-care">Apply here for healthcare</a>
         </p>
       </div>
     </va-alert>
