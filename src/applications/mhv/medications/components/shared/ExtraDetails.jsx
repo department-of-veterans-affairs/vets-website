@@ -75,6 +75,7 @@ const ExtraDetails = rx => {
               'secure-messaging',
             )}
             text="Compose a message"
+            data-testid="compose-message-link"
           />
         </div>
       )}
