@@ -7,6 +7,8 @@ import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
+  comment: 'Follow-up/Routine: I have a headache',
+  version: 2,
   vaos: {
     isCanceled: false,
     appointmentType: 'vaAppointment',
@@ -117,5 +119,75 @@ describe('DetailsVA component', () => {
 
     // VAFacilityLocation with upcoming appointment
     expect(await wrapper.findByText('View facility information')).to.exist;
+  });
+
+  it('should render VAInstructions', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: true,
+        isPastAppointment: false,
+        isCompAndPenAppointment: false,
+        apiData: { serviceType: 'audiology' },
+      },
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    // VAInstructions with upcoming appointment
+    expect(await wrapper.findByText('Follow-up/Routine: I have a headache')).to
+      .exist;
+  });
+
+  it('should render CalendarLink', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: true,
+        isPastAppointment: false,
+        isCompAndPenAppointment: false,
+        apiData: { serviceType: 'audiology' },
+      },
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    // CalendarLink with upcoming appointment, it's a va-link web component
+    // so use data - testid to locate
+    expect(await wrapper.findByTestId('add-to-calendar-link')).to.exist;
+  });
+
+  it('should render NoOnlineCancelAlert', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: true,
+        isPastAppointment: false,
+        isCompAndPenAppointment: false,
+        isCancellable: false,
+        apiData: { serviceType: 'audiology' },
+      },
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    // NoOnlineCancelAlert with upcoming appointment
+    expect(
+      await wrapper.findByText(
+        'To reschedule or cancel this appointment, contact the VA facility where you scheduled it.',
+      ),
+    ).to.exist;
   });
 });
