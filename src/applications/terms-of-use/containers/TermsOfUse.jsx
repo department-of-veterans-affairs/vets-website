@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   apiRequest,
   environment,
@@ -6,7 +7,10 @@ import {
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { logout as IAMLogout } from '@department-of-veterans-affairs/platform-user/exports';
+import {
+  logout as IAMLogout,
+  isAuthenticatedWithOAuth,
+} from '@department-of-veterans-affairs/platform-user/exports';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import { parseRedirectUrl, errorMessages, touStyles } from '../helpers';
 import touData from '../touData';
@@ -14,6 +18,7 @@ import touData from '../touData';
 const touUpdatedDate = `September 2023`;
 
 export default function TermsOfUse() {
+  const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
@@ -58,7 +63,7 @@ export default function TermsOfUse() {
 
         if (type === 'decline') {
           setShowDeclineModal(false);
-          if (termsCodeExists) {
+          if (termsCodeExists || isAuthenticatedWithSiS) {
             window.location = logoutUrlSiS();
           } else {
             IAMLogout({
