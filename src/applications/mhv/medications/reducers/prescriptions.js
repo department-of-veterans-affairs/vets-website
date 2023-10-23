@@ -14,6 +14,10 @@ const initialState = {
    * Pagination received form meta object in prescriptionsList payload
    */
   prescriptionsPagination: undefined,
+  /**
+   * Selected PrescriptionId that is used for scroll to exact location when clicked browser back button in details page
+   */
+  prescriptionId: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -78,6 +82,12 @@ export const prescriptionsReducer = (state = initialState, action) => {
           ...state.prescriptionDetails,
           error: undefined,
         },
+      };
+    }
+    case Actions.Prescriptions.SET_PRESCRIPTION_ID: {
+      return {
+        ...state,
+        prescriptionId: action.prescriptionId,
       };
     }
     default:

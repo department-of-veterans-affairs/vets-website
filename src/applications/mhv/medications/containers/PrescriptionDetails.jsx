@@ -6,6 +6,7 @@ import {
   getPrescriptionDetails,
   getAllergiesList,
   clearAllergiesError,
+  setPrescriptionId,
 } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -49,16 +50,19 @@ const PrescriptionDetails = () => {
               label: 'About Medications',
             },
             {
-              url: '/my-health/medications/',
+              url: '/my-health/medications/1',
               label: 'Medications',
             },
           ],
           {
-            url: `/my-health/medications/${prescription.prescriptionId}`,
+            url: `/my-health/medications/prescription/${
+              prescription.prescriptionId
+            }`,
             label: prescription.prescriptionName,
           },
         ),
       );
+      dispatch(setPrescriptionId(prescription.prescriptionId));
     }
   });
 

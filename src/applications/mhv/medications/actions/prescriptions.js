@@ -56,3 +56,7 @@ export const fillPrescription = prescriptionId => async dispatch => {
     return error;
   }
 };
+
+export const setPrescriptionId = prescriptionId => async dispatch => {
+  dispatch({ type: Actions.Prescriptions.SET_PRESCRIPTION_ID, prescriptionId });
+};
