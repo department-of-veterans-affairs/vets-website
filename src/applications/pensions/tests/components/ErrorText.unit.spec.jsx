@@ -7,7 +7,6 @@ import ErrorText from '../../components/ErrorText';
 describe('<ErrorText />', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(<ErrorText />);
-    wrapper;
     wrapper.unmount(<ErrorText />);
   });
 
