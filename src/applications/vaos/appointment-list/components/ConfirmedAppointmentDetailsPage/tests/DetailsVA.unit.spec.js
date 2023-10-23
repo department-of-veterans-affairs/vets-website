@@ -76,7 +76,7 @@ describe('DetailsVA component', () => {
     ).to.exist;
   });
 
-  it('should render StatusAlert, VAFacilityLocation and VAInstructions, CalendarLink and NoOnlineCancelAlert', async () => {
+  it('should render StatusAlert', async () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -96,5 +96,26 @@ describe('DetailsVA component', () => {
     // StatusAlert with past appointment
     expect(await wrapper.findByText('This appointment occurred in the past.'))
       .to.exist;
+  });
+
+  it('should render VAFacilityLocation', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isUpcomingAppointment: true,
+        isPastAppointment: false,
+        isCompAndPenAppointment: false,
+        apiData: { serviceType: 'audiology' },
+      },
+    };
+
+    const props = { appointment, facilityData };
+
+    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+      initialState,
+    });
+
+    // VAFacilityLocation with upcoming appointment
+    expect(await wrapper.findByText('View facility information')).to.exist;
   });
 });
