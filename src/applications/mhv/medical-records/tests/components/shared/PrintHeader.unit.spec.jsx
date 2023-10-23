@@ -15,7 +15,6 @@ describe('PrintHeader', () => {
       initialState,
       reducers: reducer,
     });
-    screen.debug();
     expect(screen.getByTestId('print-header-name')).to.exist;
   });
 

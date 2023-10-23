@@ -6,7 +6,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
  * @returns {String} formatted timestamp
  */
 export const formatName = ({ first, middle, last, suffix }) => {
-  if (!first && !middle && !last && !suffix) return '';
   let name = `${last}, ${first}`;
   if (!first) {
     name = `${last}`;
