@@ -1,7 +1,7 @@
-import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
+import { selectJsonStaticData } from 'platform/site-wide/json-static-data/selectors';
 
 export const selectVamcEhrData = state =>
-  selectDrupalStaticData(state)?.vamcEhrData?.data || {};
+  selectJsonStaticData(state)?.vamcEhrData?.data || {};
 
 export const selectEhrDataByVhaId = state =>
   selectVamcEhrData(state)?.ehrDataByVhaId || {};

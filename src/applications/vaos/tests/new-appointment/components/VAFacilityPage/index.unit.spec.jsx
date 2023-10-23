@@ -848,7 +848,7 @@ describe('VAOS <VAFacilityPage>', () => {
 
       expect(miles.length).to.equal(5);
       expect(() => {
-        for (let i = 0; i < miles.length - 1; i++) {
+        for (let i = 0; i < miles.length - 1; i += 1) {
           if (
             Number.parseFloat(miles[i].textContent) >
             Number.parseFloat(miles[i + 1].textContent)
@@ -921,7 +921,7 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(miles.length).to.equal(5);
 
       expect(() => {
-        for (let i = 0; i < miles.length - 1; i++) {
+        for (let i = 0; i < miles.length - 1; i += 1) {
           if (
             Number.parseFloat(miles[i].textContent) >
             Number.parseFloat(miles[i + 1].textContent)
@@ -1251,7 +1251,7 @@ describe('VAOS <VAFacilityPage>', () => {
 
     it('should display Cerner sites in the facility list ', async () => {
       const initialState = {
-        drupalStaticData: {
+        jsonStaticData: {
           vamcEhrData: {
             loading: false,
             data: {

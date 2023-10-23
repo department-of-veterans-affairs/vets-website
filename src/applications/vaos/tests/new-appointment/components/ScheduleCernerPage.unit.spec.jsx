@@ -79,7 +79,7 @@ describe('VAOS <ScheduleCernerPage>', () => {
           vaOnlineSchedulingVAOSServiceVAAppointments: true,
           vaOnlineSchedulingFacilitiesServiceV2: true,
         },
-        drupalStaticData: {
+        jsonStaticData: {
           vamcEhrData: {
             loading: false,
             data: {

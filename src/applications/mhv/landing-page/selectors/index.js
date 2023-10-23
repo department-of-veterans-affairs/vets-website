@@ -3,20 +3,20 @@ import {
   signInServiceEnabled,
 } from '~/platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
-import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
+import { selectJsonStaticData } from '~/platform/site-wide/json-static-data/selectors';
 
 import { isLandingPageEnabled } from './isLandingPageEnabled';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 
 const selectVamcEhrData = state =>
-  selectDrupalStaticData(state)?.vamcEhrData || {};
+  selectJsonStaticData(state)?.vamcEhrData || {};
 
 export {
   isAuthenticatedWithSSOe,
   isLandingPageEnabled,
   isLandingPageEnabledForUser,
   isLoggedIn,
-  selectDrupalStaticData,
+  selectJsonStaticData,
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,

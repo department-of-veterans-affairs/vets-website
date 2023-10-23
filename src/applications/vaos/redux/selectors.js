@@ -5,7 +5,7 @@ import { selectPatientFacilities } from '@department-of-veterans-affairs/platfor
 import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
-} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+} from 'platform/site-wide/json-static-data/source-files/vamc-ehr/selectors';
 
 export const selectRegisteredCernerFacilityIds = state => {
   const patientFacilities = selectPatientFacilities(state);

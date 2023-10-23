@@ -1,10 +1,10 @@
 import {
   FETCH_STATIC_DATA_STARTED,
   FETCH_STATIC_DATA_SUCCEEDED,
-} from 'platform/site-wide/drupal-static-data/actions';
-import { fetchDrupalStaticDataFile } from './fetch';
+} from 'platform/site-wide/json-static-data/actions';
+import { fetchJsonStaticDataFile } from './fetch';
 
-export const connectDrupalStaticDataFile = async (dispatch, dataFile) => {
+export const connectJsonStaticDataFile = async (dispatch, dataFile) => {
   if (!dataFile) {
     return;
   }
@@ -19,7 +19,7 @@ export const connectDrupalStaticDataFile = async (dispatch, dataFile) => {
     },
   });
 
-  const json = await fetchDrupalStaticDataFile(fileName);
+  const json = await fetchJsonStaticDataFile(fileName);
 
   if (json) {
     let data = json;

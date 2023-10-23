@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as selectors from '../../cerner-dsot/selectors';
 
-const drupalStaticData = {
+const jsonStaticData = {
   vamcEhrData: {
     data: {
       cernerFacilities: [
@@ -77,7 +77,7 @@ describe('cerner-dsot user selectors', () => {
             ],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       const expected = [
         { facilityId: '984', isCerner: false },
@@ -130,7 +130,7 @@ describe('cerner-dsot user selectors', () => {
             ],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       const expected = [
         {
@@ -166,7 +166,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }, { facilityId: '687' }],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       expect(selectors.selectIsCernerOnlyPatient(state)).to.be.true;
     });
@@ -177,7 +177,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }, { facilityId: '123' }],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
     });
@@ -191,7 +191,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.true;
     });
@@ -202,7 +202,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '757' }, { facilityId: '123' }],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.true;
     });
@@ -213,7 +213,7 @@ describe('cerner-dsot user selectors', () => {
             facilities: [{ facilityId: '123' }, { facilityId: '124' }],
           },
         },
-        drupalStaticData,
+        jsonStaticData,
       };
       expect(selectors.selectIsCernerPatient(state)).to.be.false;
     });

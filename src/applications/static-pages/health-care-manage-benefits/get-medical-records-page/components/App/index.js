@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 import { isAuthenticatedWithSSOe } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 // Relative imports.
-import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { selectEhrDataByVhaId } from 'platform/site-wide/json-static-data/source-files/vamc-ehr/selectors';
 import PropTypes from 'prop-types';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';

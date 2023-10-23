@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import * as selectors from '../../selectors';
 
 describe('selectDrupalStaticData', () => {
-  it('pulls out state.drupalStaticData', () => {
+  it('pulls out state.jsonStaticData', () => {
     const state = {
-      drupalStaticData: {
+      jsonStaticData: {
         cernerFacilities: [
           {
             vhaId: '757',
@@ -23,7 +23,7 @@ describe('selectDrupalStaticData', () => {
       },
     };
     expect(selectors.selectDrupalStaticData(state)).to.deep.equal(
-      state.drupalStaticData,
+      state.jsonStaticData,
     );
   });
   it('returns empty object when not set on state', () => {

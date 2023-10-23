@@ -24,7 +24,7 @@ const stateFn = ({
     mhv_landing_page_enabled,
     sign_in_service_enabled: true,
   },
-  drupalStaticData: {
+  jsonStaticData: {
     vamcEhrData: {
       loading: vamcEhrDataLoading,
       data: {
@@ -72,7 +72,7 @@ describe(`${appName} -- <App /> container`, () => {
   // });
 
   describe('renders a loading indicator when', () => {
-    it('drupalStaticData.vamcEhrData is loading', () => {
+    it('jsonStaticData.vamcEhrData is loading', () => {
       const initialState = stateFn({ vamcEhrDataLoading: true });
       const { getByTestId } = setup({ initialState });
       getByTestId('mhv-landing-page-loading');

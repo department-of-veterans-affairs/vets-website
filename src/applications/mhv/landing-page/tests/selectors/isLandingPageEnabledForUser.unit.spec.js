@@ -13,7 +13,7 @@ const stateFn = ({
   featureToggles: {
     mhv_landing_page_enabled,
   },
-  drupalStaticData: {
+  jsonStaticData: {
     vamcEhrData: {
       data: {
         cernerFacilities: [
@@ -77,7 +77,7 @@ describe(`${appName} -- isLandingPageEnabledForUser selector`, () => {
 
     it('user is a Cerner patient', () => {
       // NOTE: selectPatientFacilities will change isCerner property since facilityId
-      // 668 is listed as a Cerner facility in state.drupalStaticData.vamcEhrData.
+      // 668 is listed as a Cerner facility in state.jsonStaticData.vamcEhrData.
       const facilities = [
         { facilityId: '655', isCerner: false },
         { facilityId: '650', isCerner: false },

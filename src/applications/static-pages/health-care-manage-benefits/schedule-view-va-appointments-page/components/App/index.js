@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 // Relative imports.
-import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { selectEhrDataByVhaId } from 'platform/site-wide/json-static-data/source-files/vamc-ehr/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
 import {

@@ -1,4 +1,4 @@
-import { selectCernerFacilities } from '~/platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { selectCernerFacilities } from '~/platform/site-wide/json-static-data/source-files/vamc-ehr/selectors';
 import { selectPatientCernerFacilities } from '~/platform/user/cerner-dsot/selectors';
 
 const selectFolders = state => state.health?.msg?.folders;

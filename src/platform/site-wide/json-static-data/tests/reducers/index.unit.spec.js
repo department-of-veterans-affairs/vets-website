@@ -4,9 +4,9 @@ import {
   FETCH_STATIC_DATA_STARTED,
   FETCH_STATIC_DATA_SUCCEEDED,
 } from '../../actions';
-import drupalStaticDataReducer from '../../reducers';
+import jsonStaticDataReducer from '../../reducers';
 
-describe('drupalStaticDataReducer', () => {
+describe('jsonStaticDataReducer', () => {
   let state;
   let action;
 
@@ -22,7 +22,7 @@ describe('drupalStaticDataReducer', () => {
         statePropName: 'dummy',
       },
     };
-    const newState = drupalStaticDataReducer(state, action);
+    const newState = jsonStaticDataReducer(state, action);
     expect(newState.dummy.loading).to.be.true;
   });
 
@@ -37,7 +37,7 @@ describe('drupalStaticDataReducer', () => {
         },
       },
     };
-    const newState = drupalStaticDataReducer(state, action);
+    const newState = jsonStaticDataReducer(state, action);
     expect(newState.dummy.loading).to.be.false;
   });
 
@@ -52,7 +52,7 @@ describe('drupalStaticDataReducer', () => {
         },
       },
     };
-    const newState = drupalStaticDataReducer(state, action);
+    const newState = jsonStaticDataReducer(state, action);
     expect(newState.dummy.data).to.be.deep.equal(action.payload.data);
   });
 });

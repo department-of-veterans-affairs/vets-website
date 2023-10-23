@@ -3,7 +3,7 @@ import * as selectors from '../../source-files/vamc-ehr/selectors';
 
 const emptyState = {};
 const state = {
-  drupalStaticData: {
+  jsonStaticData: {
     vamcEhrData: {
       data: {
         cernerFacilities: [
@@ -27,9 +27,9 @@ const state = {
 };
 
 describe('selectCernerFacilities', () => {
-  it('pulls out state.drupalStaticData.vamcEhrData.cernerFacilities.data when set on state', () => {
+  it('pulls out state.jsonStaticData.vamcEhrData.cernerFacilities.data when set on state', () => {
     expect(selectors.selectCernerFacilities(state)).to.deep.equal(
-      state.drupalStaticData.vamcEhrData.data.cernerFacilities,
+      state.jsonStaticData.vamcEhrData.data.cernerFacilities,
     );
   });
   it('returns empty array when Cerner facilities not set on state', () => {

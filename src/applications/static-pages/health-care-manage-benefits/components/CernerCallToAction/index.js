@@ -8,7 +8,7 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
-import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/json-static-data/source-files/vamc-ehr/utils';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {

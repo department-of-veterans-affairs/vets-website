@@ -5,7 +5,7 @@ import {
 
 const initialState = {};
 
-export default function drupalStaticData(state = initialState, action) {
+export default function staticJsonData(state = initialState, action) {
   switch (action.type) {
     case FETCH_STATIC_DATA_STARTED:
       return {
