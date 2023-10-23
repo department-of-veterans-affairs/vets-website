@@ -75,6 +75,7 @@ const PrescriptionDetails = () => {
   const pdfData = useCallback(
     allergiesPdfList => {
       return {
+        subject: `Single Medication Record - ${prescription?.prescriptionName}`,
         headerBanner: [
           {
             text:
