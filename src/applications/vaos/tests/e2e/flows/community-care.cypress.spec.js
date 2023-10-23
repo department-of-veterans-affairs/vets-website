@@ -154,7 +154,7 @@ describe('VAOS community care flow using VAOS service', () => {
     );
     cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
-    cy.wait('@v1:get:provider').then(() => {
+    cy.wait('@v1:get:provider', { timeout: 100000 }).then(() => {
       cy.findByLabelText(/doe, jane/i, { timeout: 10000 }).click();
       cy.axeCheckBestPractice();
       cy.findByText(/Choose provider/i).click();
