@@ -24,7 +24,7 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
       .invoke('attr', 'href')
       .should(
         'eq',
-        'https://mhv-syst.myhealth.va.gov/mhv-portal-web/secure-messaging',
+        'https://www.myhealth.va.gov/mhv-portal-web/secure-messaging',
       );
   });
 });
