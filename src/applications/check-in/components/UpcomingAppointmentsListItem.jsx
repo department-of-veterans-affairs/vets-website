@@ -28,7 +28,7 @@ const UpcomingAppointmentsListItem = props => {
           >
             {dayKey && (
               <h4
-                className="vads-u-text-align--center vads-u-line-height--2 vads-u-font-family--sans vads-u-font-weight--normal vads-u-"
+                className="vads-u-text-align--center vads-u-line-height--2 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2"
                 data-testid="day-label"
               >
                 <span className="vads-u-font-size--md vads-u-font-weight--bold">
