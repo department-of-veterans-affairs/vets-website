@@ -213,6 +213,7 @@
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
  * @property {string} [customTitle] For the review page, for arrays and some widgets. This doesn't appear to change any text, but is just used for a hack to prevent an outer DL wrapper. Often set to `' '`, and used with `useDlWrap: true` to get a11y issues to pass. Will format field title and body vertically instead of horizontally. `useDlWrap` will format text horizontally.
  * @property {number} [debounceRate] Used for AutoSuggest widget
+ * @property {boolean} [displayEmptyObjectOnReview] For objects with empty properties object. This will display ui:title and ui:description on the review page.
  * @property {number} [doNotScroll] For arrays. By default when adding a new item it will scroll to the next item. Set this to true to disable that behavior.
  * @property {string} [duplicateKey] For arrays.
  * @property {boolean} [enableAnalytics] Enable google analytic events. Sent on blur. Use a browser extension such as Adswerve to view the events in the console.
@@ -281,7 +282,7 @@
  * @property {boolean} required
  * @property {string} error
  * @property {UIOptions} uiOptions
- * @property {number} index
+ * @property {number | string} index
  * @property {{
  *  schema: SchemaOptions,
  *  uiSchema: UISchemaOptions,

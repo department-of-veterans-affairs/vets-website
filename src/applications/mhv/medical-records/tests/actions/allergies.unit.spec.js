@@ -25,7 +25,7 @@ describe('Get allergies action', () => {
     const mockData = allergies;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getAllergiesList()(dispatch).then(async () => {
+    return getAllergiesList()(dispatch).then(() => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('function');
     });
   });
@@ -44,7 +44,7 @@ describe('Get allergy action', () => {
     const mockData = allergy;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getAllergyDetails()(dispatch).then(async () => {
+    return getAllergyDetails()(dispatch).then(() => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('function');
     });
   });

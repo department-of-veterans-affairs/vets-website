@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -12,12 +11,12 @@ import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../../util/helpers';
+import { makePdf, processList } from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -32,7 +31,7 @@ const ChemHemDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date ? `${record.date} - ` : '';
+      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
         `${titleDate}${record.name} - ${
           pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
@@ -122,13 +121,13 @@ const ChemHemDetails = props => {
         ],
       })),
     };
-    try {
-      if (!runningUnitTest) {
-        await generatePdf('medicalRecords', 'microbiology_report', scaffold);
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Microbiology details');
-    }
+
+    makePdf(
+      'microbiology_report',
+      scaffold,
+      'Microbiology details',
+      runningUnitTest,
+    );
   };
 
   const content = () => {

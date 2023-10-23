@@ -23,6 +23,7 @@ import {
   getVaccine,
   getVaccineList,
   getVitalsList,
+  postSharingUpdateStatus,
 } from '../../api/MrApi';
 
 describe('Get labs and tests api call', () => {
@@ -53,7 +54,7 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(2);
+      expect(res.entry.length).to.equal(3);
     });
   });
 });
@@ -75,7 +76,7 @@ describe('Get vitals api call', () => {
     mockApiRequest(mockData);
 
     return getVitalsList(true).then(res => {
-      expect(res.entry.length).to.equal(2);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });
@@ -142,6 +143,17 @@ describe('Get vaccine details api call', () => {
 
     return getVaccine('123', true).then(res => {
       expect(res.resourceType).to.equal('Immunization');
+    });
+  });
+});
+
+describe('Update sharing status api call', () => {
+  it('should make an api call to update user sharing status', () => {
+    const mockData = { status: 200 };
+    mockApiRequest(mockData);
+
+    return postSharingUpdateStatus().then(res => {
+      expect(res.status).to.equal(200);
     });
   });
 });
