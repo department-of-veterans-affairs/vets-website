@@ -83,10 +83,8 @@ const Wrapper = props => {
             <option value="uswds">USWDS v3</option>
           </VaSelect>
           <p>
-            <strong>
-              Font Size:
-              <br /> {selectedFontSizes}
-            </strong>
+            Font size for {styleLibrary}:<br />{' '}
+            <strong>{selectedFontSizes}</strong>
           </p>
         </div>
 
