@@ -54,10 +54,17 @@ const App = ({
   useEffect(
     () => {
       if (formData?.reviewNavigation) {
-        dispatch(setData({ reviewNavigation: shouldShowReviewButton }));
+        dispatch(
+          setFormData({
+            ...formData,
+            reviewNavigation: shouldShowReviewButton,
+          }),
+        );
       }
     },
-    [shouldShowReviewButton, formData?.reviewNavigation, dispatch],
+    // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [shouldShowReviewButton, setFormData, formData?.reviewNavigation, dispatch],
   );
 
   // vapContactInfo is an empty object locally, so mock it

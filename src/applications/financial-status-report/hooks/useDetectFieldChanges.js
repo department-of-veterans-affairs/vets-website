@@ -11,15 +11,23 @@ import {
   isStreamlinedLongForm,
 } from '../utils/streamlinedDepends';
 
+// helper function to get fields that have changed
+const didFieldsChange = (prevData, formData, fieldsToWatch) => {
+  return fieldsToWatch.some(
+    field => !isEqual(prevData[field], formData[field]),
+  );
+};
+
+// helper function to get the streamlined value
+const getStreamlinedValue = (isStreamlinedShort, isStreamlinedLong) => {
+  if (isStreamlinedShort) return 'streamlined-short';
+  if (isStreamlinedLong) return 'streamlined-long';
+  return 'streamlined-false';
+};
+
 const useDetectFieldChanges = formData => {
   const prevDataRef = useRef();
   const [shouldShowReviewButton, setShouldShowReviewButton] = useState(true);
-
-  const getStreamlinedValue = (isStreamlinedShort, isStreamlinedLong) => {
-    if (isStreamlinedShort) return 'streamlined-short';
-    if (isStreamlinedLong) return 'streamlined-long';
-    return 'streamlined-false';
-  };
 
   useEffect(
     () => {
@@ -34,10 +42,11 @@ const useDetectFieldChanges = formData => {
       }
 
       // Fields to monitor for changes
-      const fieldsToWatch = ['income', 'assets', 'expenses'];
-      const didFieldChange = fieldsToWatch.some(
-        field => !isEqual(prevData[field], formData[field]),
-      );
+      const didFieldChange = didFieldsChange(prevData, formData, [
+        'income',
+        'assets',
+        'expenses',
+      ]);
 
       const prevStreamlinedValue = getStreamlinedValue(
         isStreamlinedShortForm(prevData),
@@ -56,18 +65,19 @@ const useDetectFieldChanges = formData => {
       // Check if any spouse details changed
       const didSpouseDetailsChange = !isEqual(
         {
-          isMarried: prevQuestions.isMarried,
-          spouseHasAdditionalIncome: prevQuestions.spouseHasAdditionalIncome,
-          spouseHasSocialSecurity: prevQuestions.spouseHasSocialSecurity,
-          spouseHasBenefits: prevQuestions.spouseHasBenefits,
-          spouseIsEmployed: prevQuestions.spouseIsEmployed,
+          isMarried: prevQuestions?.isMarried,
+          spouseHasAdditionalIncome: prevQuestions?.spouseHasAdditionalIncome,
+          spouseHasSocialSecurity: prevQuestions?.spouseHasSocialSecurity,
+          spouseHasBenefits: prevQuestions?.spouseHasBenefits,
+          spouseIsEmployed: prevQuestions?.spouseIsEmployed,
         },
         {
           isMarried: currentQuestions.isMarried,
-          spouseHasAdditionalIncome: currentQuestions.spouseHasAdditionalIncome,
-          spouseHasSocialSecurity: currentQuestions.spouseHasSocialSecurity,
-          spouseHasBenefits: currentQuestions.spouseHasBenefits,
-          spouseIsEmployed: currentQuestions.spouseIsEmployed,
+          spouseHasAdditionalIncome:
+            currentQuestions?.spouseHasAdditionalIncome,
+          spouseHasSocialSecurity: currentQuestions?.spouseHasSocialSecurity,
+          spouseHasBenefits: currentQuestions?.spouseHasBenefits,
+          spouseIsEmployed: currentQuestions?.spouseIsEmployed,
         },
       );
 
