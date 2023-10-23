@@ -44,4 +44,24 @@ describe('the Edu-Benefit 1995 Introduction Page', () => {
     expect(wrapper.exists('.subway-map')).to.equal(true);
     wrapper.unmount();
   });
+
+  it('should Receive Null if showWizard is undefined', () => {
+    const fakeStore = {
+      getState: () => ({
+        showWizard: undefined,
+        route: { formConfig: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
+    const instance = wrapper.instance();
+    instance.setWizardStatus(WIZARD_STATUS_COMPLETE);
+    const status = getWizardStatus().then(() => {
+      expect(status).to.equal(WIZARD_STATUS_COMPLETE);
+    });
+    expect(wrapper.exists('WizardContainer')).to.equal(false);
+    wrapper.unmount();
+  });
 });
