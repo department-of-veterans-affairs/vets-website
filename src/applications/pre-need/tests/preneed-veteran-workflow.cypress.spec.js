@@ -6,7 +6,6 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly as a veteran', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
-
     // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.veteran.currentName,
@@ -14,6 +13,23 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.dateOfBirth,
       testData.data.application.veteran.relationshipToVet,
     );
+
+    // Applicant demographics
+    cy.get(
+      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
+    ).click();
+    cy.selectRadio(
+      'root_application_veteran_gender',
+      testData.data.application.veteran.gender,
+    );
+    cy.selectRadio(
+      'root_application_veteran_maritalStatus',
+      testData.data.application.veteran.maritalStatus,
+    );
+
+    cy.axeCheck();
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/applicant-demographics');
 
     // Veteran Information Page
     cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
@@ -26,21 +42,6 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.fill(
       'input[name="root_application_veteran_vaClaimNumber"]',
       testData.data.application.veteran.vaClaimNumber,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_placeOfBirth"]',
-      testData.data.application.veteran.placeOfBirth,
-    );
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
-    cy.selectRadio(
-      'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
     );
     cy.get('#root_application_veteran_militaryStatus').select(
       testData.data.application.veteran.militaryStatus,
@@ -91,7 +92,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
 
     // Preparer Contact Information Page
     cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
+      'label[for="root_application_applicant_applicantRelationshipToClaimant_1input"]',
     );
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicantForeign);

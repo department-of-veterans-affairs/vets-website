@@ -7,21 +7,28 @@ import MedicationTerms from './MedicationTerms';
 
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
-  const clinics = avs.clinicsVisited.map(clinic => {
+  const clinics = avs.clinicsVisited.map((clinic, idx) => {
     return (
       <div key={clinic.clinicIen}>
-        <h3 data-testid="appointment-time">
+        <h3
+          className={idx === 0 && 'vads-u-margin-top--0'}
+          data-testid="appointment-time"
+          key={clinic.clinicIen}
+        >
           {getFormattedAppointmentTime(clinic.time)} {shortTimezone}
         </h3>
-        <h4 className="clinic-information" key="clinicSite">
-          <i
-            className="fas fa-building"
-            aria-hidden="true"
-            data-testid="appointment-icon"
-          />
-          {clinic.site}
-        </h4>
-        <p key="clinicName">Clinic: {clinic.clinic}</p>
+        <p>
+          <span className="clinic-information" key="clinicSite">
+            <i
+              className="fas fa-building"
+              aria-hidden="true"
+              data-testid="appointment-icon"
+            />
+            {clinic.site}
+          </span>
+          <br />
+          <span key="clinicName">Clinic: {clinic.clinic}</span>
+        </p>
       </div>
     );
   });
@@ -108,6 +115,7 @@ const procedures = avs => {
     return (
       <div>
         <h3>Procedures</h3>
+
         {/* TODO: use bulleted list. */}
       </div>
     );
@@ -139,7 +147,7 @@ const YourAppointment = props => {
   const { avs } = props;
 
   return (
-    <div>
+    <div className="avs-accordion-item">
       {clinicsVisited(avs)}
       {providers(avs)}
       {reasonForAppointment(avs)}

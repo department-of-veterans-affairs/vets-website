@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
@@ -11,7 +10,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { updatePageTitle } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -21,19 +20,18 @@ const RadiologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const formattedDate = record?.date ? formatDateLong(record?.date) : '';
 
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = formattedDate ? `${formattedDate} - ` : '';
+      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
         `${titleDate}${record.name} - ${
           pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
         }`,
       );
     },
-    [formattedDate, record.name],
+    [record],
   );
 
   const download = () => {
@@ -60,7 +58,7 @@ const RadiologyDetails = props => {
               className="vads-u-font-weight--normal"
               data-testid="header-time"
             >
-              {formattedDate}
+              {record.date}
             </span>
           </h2>
         </div>
