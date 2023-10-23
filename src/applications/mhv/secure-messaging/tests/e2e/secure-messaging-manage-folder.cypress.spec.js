@@ -7,7 +7,7 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('manage folders', () => {
-  describe('custom folder created message', () => {
+  describe('folder created message', () => {
     const folderPage = new FolderManagementPage();
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
@@ -35,7 +35,7 @@ describe('manage folders', () => {
     });
   });
 
-  describe('custom folder deleted message', () => {
+  describe('folder deleted message', () => {
     const folderPage = new FolderManagementPage();
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
@@ -62,7 +62,7 @@ describe('manage folders', () => {
         folderId,
         folderName,
       );
-      folderPage.deleteFolder();
+      folderPage.deleteFolderButton().click();
       folderPage.confirmDeleteFolder(folderId);
       folderPage.verifyDeleteSuccessMessage();
     });

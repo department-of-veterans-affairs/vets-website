@@ -13,6 +13,10 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
+  deleteFolderButton = () => {
+    return cy.get('[data-testid="remove-folder-button"]');
+  };
+
   editFolderNameButton = () => {
     return cy.get('[data-testid="edit-folder-button"]');
   };
@@ -230,12 +234,6 @@ class FolderManagementPage {
     cy.get('[close-btn-aria-label="Close notification"]')
       .should('exist')
       .and('have.text', 'Message conversation was successfully moved.');
-  };
-
-  deleteFolder = () => {
-    cy.get('[data-testid="remove-folder-button"]').click({
-      waitForAnimations: true,
-    });
   };
 
   confirmDeleteFolder = folderId => {
