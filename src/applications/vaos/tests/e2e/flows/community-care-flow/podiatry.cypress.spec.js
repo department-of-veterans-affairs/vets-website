@@ -24,6 +24,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
+import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
 
 describe('VAOS community care flow using VAOS services', () => {
   beforeEach(() => {
@@ -42,7 +43,7 @@ describe('VAOS community care flow using VAOS services', () => {
     });
     mockAppointmentsApi({ response: [] });
     mockAppointmentCreateApi();
-    mockFacilitiesApi();
+    mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -133,6 +134,10 @@ describe('VAOS community care flow using VAOS services', () => {
           .selectFirstAvailableDate()
           .clickNextButton();
 
+        ClosestCityPageObject.assertUrl()
+          .selectFacility()
+          .clickNextButton();
+
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
           .validateHomeAddress(true)
@@ -177,6 +182,10 @@ describe('VAOS community care flow using VAOS services', () => {
 
         RequestDatePageObject.assertUrl()
           .selectFirstAvailableDate()
+          .clickNextButton();
+
+        ClosestCityPageObject.assertUrl()
+          .selectFacility()
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
