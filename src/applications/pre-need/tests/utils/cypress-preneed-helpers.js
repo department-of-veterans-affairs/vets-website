@@ -185,10 +185,18 @@ function fillPreparerInfo(preparer) {
   cy.axeCheck();
   clickContinue();
   if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
-    cy.fillName(
-      'root_application_applicant_view:applicantInfo_name',
-      preparer['view:applicantInfo'].name,
+    cy.fill(
+      'input[name="root_application_applicant_name_first"]',
+      preparer['view:applicantInfo'].name.first,
     );
+    cy.fill(
+      'input[name="root_application_applicant_name_last"]',
+      preparer['view:applicantInfo'].name.last,
+    );
+    cy.axeCheck();
+    clickContinue();
+    cy.url().should('not.contain', '/preparer-details');
+
     cy.fillAddress(
       'root_application_applicant_view\\:applicantInfo_mailingAddress',
       preparer['view:applicantInfo'].mailingAddress,
