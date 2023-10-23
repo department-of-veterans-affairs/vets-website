@@ -42,7 +42,7 @@ describe('Medications Prescriptions container', () => {
   it('displays intro text ', async () => {
     const screen = setup();
     expect(
-      await screen.getByText(
+      await screen.findByText(
         'Refill and track your VA prescriptions. And review all medications in your VA medical records.',
       ),
     );
@@ -50,6 +50,6 @@ describe('Medications Prescriptions container', () => {
 
   it('shows title ', async () => {
     const screen = setup();
-    expect(await screen.queryByTestId('list-page-title')).to.exist;
+    expect(await screen.findByTestId('list-page-title')).to.exist;
   });
 });
