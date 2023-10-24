@@ -227,7 +227,7 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="delete-draft-modal"]');
     cy.realPress(['Tab']);
     cy.realPress(['Enter']);
-    cy.wait('@deletedDraftResponse')
+    cy.wait('@deletedDraftResponse', { requestTimeout: 1000 })
       .its('request.url')
       .should('include', `${draftMessage.data.attributes.messageId}`);
   };
