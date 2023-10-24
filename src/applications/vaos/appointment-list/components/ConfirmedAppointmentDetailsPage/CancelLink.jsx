@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import moment from '../../../lib/moment-tz';
 import { startAppointmentCancel } from '../../redux/actions';
 import { selectFeatureCancel } from '../../../redux/selectors';
@@ -12,7 +12,7 @@ function formatAppointmentDate(date) {
     return null;
   }
 
-  return date.format('MMMM D, YYYY');
+  return moment.parseZone(date.format('MMMM D, YYYY'));
 }
 
 export default function CancelLink({ appointment }) {
@@ -41,9 +41,9 @@ export default function CancelLink({ appointment }) {
           dispatch(startAppointmentCancel(appointment));
         }}
         aria-label={
-          formatAppointmentDate(moment.parseZone(appointment.start))
+          formatAppointmentDate(appointment.start)
             ? `Cancel appointment on ${formatAppointmentDate(
-                moment.parseZone(appointment.start),
+                appointment.start,
               )}`
             : 'Cancel appointment'
         }
@@ -52,10 +52,10 @@ export default function CancelLink({ appointment }) {
         type="button"
       >
         Cancel appointment
-        {formatAppointmentDate(moment.parseZone(appointment.start)) && (
+        {formatAppointmentDate(appointment.start) && (
           <span className="sr-only">
             {' '}
-            on {formatAppointmentDate(moment.parseZone(appointment.start))}
+            on {formatAppointmentDate(appointment.start)}
           </span>
         )}
       </button>
@@ -64,5 +64,21 @@ export default function CancelLink({ appointment }) {
 }
 
 CancelLink.propTypes = {
-  appointment: PropTypes.object.isRequired,
+  appointment: PropTypes.shape({
+    start: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+    }),
+  }),
+};
+
+CancelLink.defaultProps = {
+  appointment: {
+    start: '',
+    status: '',
+    vaos: {
+      isPastAppointment: false,
+    },
+  },
 };

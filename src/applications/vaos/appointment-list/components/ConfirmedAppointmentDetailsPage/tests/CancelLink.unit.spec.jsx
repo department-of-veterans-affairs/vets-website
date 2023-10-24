@@ -7,16 +7,6 @@ import CancelLink from '../CancelLink';
 const appointmentData = {
   start: '2024-07-19T12:00:00Z',
   status: 'Booked',
-  comment: 'Medication Review',
-  vaos: {
-    isPastAppointment: true,
-  },
-  location: {
-    vistaId: '983',
-    clinicId: '848',
-    stationId: '983',
-    clinicName: 'CHY PC VAR2',
-  },
 };
 
 describe('CancelLink', () => {
