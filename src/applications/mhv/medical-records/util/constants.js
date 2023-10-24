@@ -7,6 +7,12 @@ export const recordType = {
   ALLERGIES: 'allergies',
 };
 
+export const accessAlertTypes = {
+  ALLERGY: 'allergy',
+  VACCINE: 'vaccine',
+  VITALS: 'vitals',
+};
+
 export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
@@ -106,6 +112,7 @@ export const vitalTypes = {
   HEIGHT: 'HEIGHT',
   TEMPERATURE: 'TEMPERATURE',
   WEIGHT: 'WEIGHT',
+  PAIN: 'PAIN',
 };
 
 export const vitalTypeDisplayNames = {
@@ -115,6 +122,7 @@ export const vitalTypeDisplayNames = {
   HEIGHT: 'Height',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
+  PAIN: 'Pain',
 };
 
 export const ALERT_TYPE_ERROR = 'error';
