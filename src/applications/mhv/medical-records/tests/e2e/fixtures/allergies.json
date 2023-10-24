@@ -40,7 +40,7 @@
                   "food"
               ],
               "code": {
-                  "text": "FISH"
+                  "text": "NUTS"
               },
               "patient": {
                   "reference": "Patient/7005"
