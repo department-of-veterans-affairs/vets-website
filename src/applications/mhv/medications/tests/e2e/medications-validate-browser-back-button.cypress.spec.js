@@ -4,8 +4,8 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescriptions-details-page-2.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 
-describe('Medications List Page Pagination', () => {
-  it('visits Medications list Page Pagination', () => {
+describe('Medications details Page Back Browser', () => {
+  it('visits Medications Details Page Browser Back to List View', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();

@@ -94,9 +94,12 @@ class MedicationsDetailsPage {
       `#card-header-${
         prescriptionDetails.data.attributes.prescriptionId
       } > [data-testid="medications-history-details-link"]`,
-    )
-      .should('be.visible')
-      .click({ waitForAnimations: true });
+    ).should('be.visible');
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    ).click({ waitForAnimations: true });
   };
 
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
