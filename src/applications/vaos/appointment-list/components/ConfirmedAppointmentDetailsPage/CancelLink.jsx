@@ -40,17 +40,24 @@ export default function CancelLink({ appointment }) {
           });
           dispatch(startAppointmentCancel(appointment));
         }}
-        aria-label={`Cancel appointment on ${formatAppointmentDate(
-          moment.parseZone(appointment.start),
-        )}`}
+        aria-label={
+          formatAppointmentDate(moment.parseZone(appointment.start))
+            ? `Cancel appointment on ${formatAppointmentDate(
+                moment.parseZone(appointment.start),
+              )}`
+            : 'Cancel appointment'
+        }
         className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+        data-testid="cancelButton"
         type="button"
       >
         Cancel appointment
-        <span className="sr-only">
-          {' '}
-          on {formatAppointmentDate(moment.parseZone(appointment.start))}
-        </span>
+        {formatAppointmentDate(moment.parseZone(appointment.start)) && (
+          <span className="sr-only">
+            {' '}
+            on {formatAppointmentDate(moment.parseZone(appointment.start))}
+          </span>
+        )}
       </button>
     </div>
   );
