@@ -1,0 +1,46 @@
+@import "functions";
+
+// Content size helpers
+@mixin allow-layout-classes {
+  @include margin(null auto);
+  &.align-left {
+    @include media($medium-screen) {
+      margin-right: rem-override(2em) !important;
+      margin-top: rem-override(0.5em) !important;
+    }
+  }
+
+  &.align-right {
+    @include media($medium-screen) {
+      margin-left: rem-override(2em) !important;
+      margin-top: rem-override(0.5em) !important;
+    }
+  }
+}
+
+@mixin usa-sidenav-list {
+  a {
+    padding: rem-override(0.85rem) rem-override(1rem) rem-override(0.85rem) $site-margins-mobile !important;
+  }
+}
+
+@mixin usa-sidenav-sublist {
+  a {
+    padding-left: rem-override(2.8rem) !important;
+
+    &:hover,
+    &.usa-current { /* stylelint-disable-line selector-no-qualifying-type */
+      padding-left: rem-override(2.8rem) !important;
+    }
+  }
+
+  .usa-sidenav-sub_list {
+    a {
+      padding-left: rem-override(3.8rem) !important;
+
+      &:hover {
+        padding-left: rem-override(3.8rem) !important;
+      }
+    }
+  }
+}
