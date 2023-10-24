@@ -9,7 +9,7 @@
   @if is-rem($original) {
     $rem-to-px: $original * 10; // Formation base
     $px-to-rem: $rem-to-px / 16; // USWDS base
-    @return $px-to-rem; // return the value back to rem
+    @return ($px-to-rem); // return the value back to rem
   }
   @return $original;
 }

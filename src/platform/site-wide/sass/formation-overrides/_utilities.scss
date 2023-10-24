@@ -5,15 +5,15 @@
   @include margin(null auto);
   &.align-left {
     @include media($medium-screen) {
-      margin-right: rem-override(2em) !important;
-      margin-top: rem-override(0.5em) !important;
+      margin-right: rem-override(2rem) !important;
+      margin-top: rem-override(0.5rem) !important;
     }
   }
 
   &.align-right {
     @include media($medium-screen) {
-      margin-left: rem-override(2em) !important;
-      margin-top: rem-override(0.5em) !important;
+      margin-left: rem-override(2rem) !important;
+      margin-top: rem-override(0.5rem) !important;
     }
   }
 }

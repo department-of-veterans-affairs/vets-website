@@ -1,0 +1,19 @@
+@import "functions";
+
+.usa-button,
+.usa-button-primary,
+.usa-button:visited,
+.usa-button-primary:visited,
+button,
+[type=button],
+[type=submit],
+[type=reset],
+[type=image] {
+  @include margin(uswds-override(0.5rem) uswds-override(0.5rem) uswds-override(0.5rem) null);
+  padding: uswds-override(1rem) uswds-override(2rem);
+
+  &.usa-button-big {
+    font-size: uswds-override(2.4rem);
+    padding: uswds-override(1.5rem) uswds-override(3rem);
+  }
+}
