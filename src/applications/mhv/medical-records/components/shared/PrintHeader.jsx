@@ -12,7 +12,7 @@ const PrintHeader = () => {
   return (
     <div className="print-only print-header vads-u-margin-bottom--4">
       <div className="name-dob vads-u-margin-bottom--3">
-        <span>{name}</span>
+        {name && <span data-testid="print-header-name">{name}</span>}
         {user?.profile?.dob && (
           <span>Date of birth: {formatDateLong(user.profile.dob)}</span>
         )}
