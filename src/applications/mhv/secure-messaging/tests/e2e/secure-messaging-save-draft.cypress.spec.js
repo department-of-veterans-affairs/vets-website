@@ -12,13 +12,12 @@ describe('Secure Messaging Save Draft', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const draftsPage = new PatientMessageDraftsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);
-    patientInterstitialPage.getContinueButton().should('not.exist');
+    PatientInterstitialPage.getContinueButton().should('not.exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

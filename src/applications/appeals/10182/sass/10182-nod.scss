@@ -111,6 +111,13 @@ ul.issues,
   margin-top: 0;
 }
 
+/* request extension NOD v2 */
+article[data-location="extension-request"] {
+  fieldset fieldset {
+    margin: 0 !important;
+  }
+}
+
 /* contact info page */
 article[data-location="contact-information"] {
   div[data-field-name="mobilePhone"] h3 {

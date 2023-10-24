@@ -1,7 +1,11 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, allergyTypes } from '../util/constants';
-import { getReactions, isArrayAndHasItems } from '../util/helpers';
+import {
+  getReactions,
+  isArrayAndHasItems,
+  extractContainedResource,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -16,22 +20,12 @@ const initialState = {
 };
 
 export const extractLocation = allergy => {
-  if (
-    allergy?.recorder?.extension &&
-    isArrayAndHasItems(allergy.recorder.extension)
-  ) {
-    // Strip the leading "#" from the reference.
-    const ref = allergy.recorder.extension[0].valueReference?.reference?.substring(
-      1,
-    );
+  if (isArrayAndHasItems(allergy?.recorder?.extension)) {
+    const ref = allergy.recorder.extension[0].valueReference?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
-    if (ref && isArrayAndHasItems(allergy.contained)) {
-      const org = allergy.contained.filter(
-        containedItem => containedItem.id === ref,
-      );
-      if (org.length > 0 && org[0].name) {
-        return org[0].name;
-      }
+    const org = extractContainedResource(allergy, ref);
+    if (org?.name) {
+      return org.name;
     }
   }
   return EMPTY_FIELD;

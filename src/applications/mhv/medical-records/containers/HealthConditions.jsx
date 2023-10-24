@@ -40,7 +40,7 @@ const HealthConditions = () => {
       return (
         <div className="vads-u-margin-bottom--3">
           <va-alert background-only status="info">
-            You don’t have any records in Vitals
+            You don’t have any records in Health conditions
           </va-alert>
         </div>
       );

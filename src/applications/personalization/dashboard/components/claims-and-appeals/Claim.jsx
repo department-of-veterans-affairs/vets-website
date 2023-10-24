@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
-import recordEvent from '~/platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   getLighthouseClaimStatusDescription,
   getPhaseDescription,
@@ -55,7 +55,7 @@ const Claim = ({ claim, useLighthouseClaims = false }) => {
     claim,
     useLighthouseClaims,
   );
-  const dateRecd = moment(claimDate).format('MMMM D, YYYY');
+  const dateRecd = format(new Date(claimDate), 'MMMM d, yyyy');
   return (
     <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
       <h3 className="vads-u-margin-top--0">

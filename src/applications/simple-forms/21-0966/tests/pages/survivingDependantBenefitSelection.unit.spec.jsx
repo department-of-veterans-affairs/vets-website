@@ -7,9 +7,9 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.benefitSelectionChapter.pages.survivingDependantBenefitSelection;
+} = formConfig.chapters.benefitSelectionChapter.pages.survivingDependentBenefitSelection;
 
-const pageTitle = 'Surviving dependant benefit selection';
+const pageTitle = 'Surviving dependent benefit selection';
 
 const expectedNumberOfFields = 1;
 testNumberOfWebComponentFields(

@@ -156,9 +156,9 @@ const AttachmentsList = props => {
           setIsAttachmentRemoved(false);
         }}
         onDelete={() => {
+          setNavigationError();
           setIsModalVisible(false);
           removeAttachment(fileToRemove);
-          setNavigationError(null);
         }}
       />
       {isAttachmentRemoved ? (
@@ -184,7 +184,7 @@ AttachmentsList.propTypes = {
   editingEnabled: PropTypes.bool,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
-  setNavigationError: PropTypes.bool,
+  setNavigationError: PropTypes.func,
 };
 
 export default AttachmentsList;

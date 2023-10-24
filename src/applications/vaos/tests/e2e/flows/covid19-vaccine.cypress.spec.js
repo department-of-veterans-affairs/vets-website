@@ -28,9 +28,13 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     vaosSetup();
 
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingAppointmentList: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+      vaOnlineSchedulingFacilitiesServiceV2: true,
+      vaOnlineSchedulingStartSchedulingLink: false,
+      vaOnlineSchedulingStatusImprovement: false,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
     });
     mockLoginApi();
     mockAppointmentsApi({ apiVersion: 0 });
@@ -143,9 +147,12 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     vaosSetup();
 
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingAppointmentList: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
+      vaOnlineSchedulingFacilitiesServiceV2: true,
+      vaOnlineSchedulingStatusImprovement: false,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
     });
     mockLoginApi();
     mockAppointmentsApi({ apiVersion: 0 });
