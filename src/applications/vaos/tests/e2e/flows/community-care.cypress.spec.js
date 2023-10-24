@@ -158,6 +158,8 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
 
+    cy.wait('@v1:get:provider');
+
     cy.findByLabelText(/doe, jane/i).click();
     cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
@@ -269,6 +271,19 @@ describe('VAOS community care flow using VAOS service', () => {
     // Request detail page should display the same information sent to create the
     // appointment.
     cy.url().should('include', '/requests/mock1');
+    // should show a loading indicator
+    cy.get('va-loading-indicator')
+      .should('exist')
+      .then($container => {
+        cy.wrap($container)
+          .shadow()
+          .findByRole('progressbar')
+          .should('contain', /Loading your appointment request.../i);
+      });
+
+    // and then the loading indicator should be removed
+    cy.get('va-loading-indicator').should('not.exist');
+
     cy.wait('@v2:get:appointment');
     cy.findByText('Pending primary care appointment', {
       timeout: 10000,
