@@ -25,6 +25,7 @@ describe('Pre-need applicant relationship to vet', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    expect(form.find('additional-info-title').length).to.equal(1);
     form.unmount();
   });
 
@@ -61,25 +62,6 @@ describe('Pre-need applicant relationship to vet', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should reveal info message', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect(form.find('va-alert').exists()).to.be.false;
-
-    selectRadio(form, 'root_application_claimant_relationshipToVet', '1');
-
-    expect(form.find('va-alert').exists()).to.be.true;
     form.unmount();
   });
 });
