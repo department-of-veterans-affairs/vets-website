@@ -4,7 +4,12 @@ import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const IdentityVerificationAlert = () => (
-  <va-alert status="continue" data-testid="ezr-identity-alert" uswds>
+  <va-alert
+    status="continue"
+    class="vads-u-margin-y--4"
+    data-testid="ezr-identity-alert"
+    uswds
+  >
     <h3 slot="headline">
       Please verify your identity before updating your health benefits
       information
