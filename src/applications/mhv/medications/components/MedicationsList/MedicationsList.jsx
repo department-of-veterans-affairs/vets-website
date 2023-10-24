@@ -18,11 +18,14 @@ const MedicationsList = props => {
     scrollLocation.current.scrollIntoView();
   };
 
-  useEffect(() => {
-    if (prescriptionId) {
-      goToPrevious();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (prescriptionId) {
+        goToPrevious();
+      }
+    },
+    [prescriptionId],
+  );
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
@@ -64,8 +67,8 @@ const MedicationsList = props => {
           rxList.map(
             (rx, idx) =>
               rx.prescriptionId === prescriptionId ? (
-                <div ref={scrollLocation}>
-                  <MedicationsListCard key={idx} rx={rx} />
+                <div ref={scrollLocation} key={idx}>
+                  <MedicationsListCard rx={rx} />
                 </div>
               ) : (
                 <MedicationsListCard key={idx} rx={rx} />
