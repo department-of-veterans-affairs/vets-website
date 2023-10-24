@@ -168,6 +168,7 @@ const Prescriptions = () => {
   const pdfData = useCallback(
     (rxList, allergiesList) => {
       return {
+        subject: 'Full Medications List',
         headerBanner: [
           {
             text:
