@@ -82,6 +82,23 @@ class MedicationsDetailsPage {
       .click({ force: true });
   };
 
+  clickMedicationDetailsLink = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
+      prescriptionDetails,
+    ).as('prescriptionDetails');
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    )
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+  };
+
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
     cy.contains('About Medications')
       .should('be.visible')
