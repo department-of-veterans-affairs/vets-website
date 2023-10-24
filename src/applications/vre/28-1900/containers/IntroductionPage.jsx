@@ -92,11 +92,11 @@ const IntroductionPage = props => {
           <li className="process-step list-four">
             <h3>Decision</h3>
             <p>
-              If you’re eligible for Veteran Readiness and Employment benefits,
-              we’ll schedule a meeting for you with a Vocational Rehabilitation
-              Counselor (VRC). The counselor will work with you to create a
-              personalized rehabilitation plan that outlines what VR&E services
-              you can get.
+              If you’re eligible for Veteran Readiness and Employment (VR&E)
+              benefits, we’ll schedule a meeting for you with a Vocational
+              Rehabilitation Counselor (VRC). The counselor will work with you
+              to create a personalized rehabilitation plan that outlines what
+              VR&E services you can get.
             </p>
           </li>
         </ol>
