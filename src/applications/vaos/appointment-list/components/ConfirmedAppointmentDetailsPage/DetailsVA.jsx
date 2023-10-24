@@ -142,7 +142,6 @@ DetailsVA.propTypes = {
     vistaId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }),
-  useV2: PropTypes.bool,
 };
 
 DetailsVA.defaultProps = {
