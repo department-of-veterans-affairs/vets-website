@@ -5,8 +5,6 @@
   }
 }
 
-// TODO: Instead of converting to px, we should calculate the existing rem
-// based on the USWDS 16px base and return it again as rem.
 @function uswds-override($original) {
   @if is-rem($original) {
     $rem-to-px: $original * 10; // Formation base
