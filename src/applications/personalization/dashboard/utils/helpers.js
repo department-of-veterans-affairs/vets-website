@@ -1,3 +1,6 @@
+import environment from '~/platform/utilities/environment';
+import { apiRequest } from '~/platform/utilities/api';
+
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 
@@ -26,4 +29,30 @@ export const currency = amount => {
     minimumFractionDigits: 2,
   });
   return formatter.format(parseFloat(amount));
+};
+
+const v1BaseUrl = `${environment.API_URL}/my_health/v1`;
+
+export const getFolderList = () => {
+  return apiRequest(
+    `${v1BaseUrl}/messaging/folders?page=1&per_page=999&useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+export const countUnreadMessages = folders => {
+  let unreadMessageCount = 0;
+  if (Array.isArray(folders?.data)) {
+    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
+      return accumulator + currentFolder.attributes?.unreadCount;
+    }, 0);
+  } else if (folders?.data?.attributes?.unreadCount > 0) {
+    unreadMessageCount = folders.data.attributes.unreadCount;
+  }
+
+  return unreadMessageCount;
 };
