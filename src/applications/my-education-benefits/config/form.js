@@ -48,7 +48,7 @@ import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
-// import IncorrectServiceHistoryComponent from '../components/IncorrectServiceHistoryComponent';
+
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
 
