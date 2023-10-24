@@ -22,7 +22,7 @@ const getAppointmentContent = (type, appointments) => {
     return items.map((item, idx) => (
       <div key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
-        <p>
+        <p className="vads-u-margin-top--0">
           {item.location}
           {item.physicalLocation && ` (${item.physicalLocation})`}
           <br />
@@ -92,7 +92,10 @@ const appointments = avs => {
           <div>
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
-            <ul data-testid="scheduled-appointments">
+            <ul
+              className="vads-u-padding-left--0"
+              data-testid="scheduled-appointments"
+            >
               {scheduledAppointments}
             </ul>
           </div>
@@ -107,7 +110,12 @@ const appointments = avs => {
               you call, you will be assigned a confirmed appointment date and
               time.
             </p>
-            <ul data-testid="recall-appointments">{recallAppointments}</ul>
+            <ul
+              className="vads-u-padding-left--0"
+              data-testid="recall-appointments"
+            >
+              {recallAppointments}
+            </ul>
           </div>
         )}
       </div>
@@ -232,7 +240,7 @@ const YourHealthInformation = props => {
 
   return (
     <div>
-      <p>
+      <p className="vads-u-margin-top--0">
         Note: the health information in this summary is from {appointmentDate}.{' '}
         <a href="/my-health/">
           Go to the MyHealtheVet website for your current VA medical records.
