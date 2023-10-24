@@ -1,5 +1,4 @@
 import disabilityComps from '@@profile/mocks/endpoints/disability-compensations';
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -7,8 +6,6 @@ import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 
 const checkForAccountSecurityAsRedirect = () => {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-  checkForWebComponentLoadingIndicator();
 
   cy.findByText('We can’t show your information').should('exist');
 
