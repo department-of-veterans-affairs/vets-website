@@ -139,14 +139,10 @@ describe('Compose form component', () => {
         path: `/draft/${draftMessage.id}`,
       },
     );
-    const draftMessageHeadingText = await screen.getAllByRole('heading', {
-      name: 'COVID: Covid-Inquiry',
-      level: 2,
-    });
 
     const deleteButton = await screen.getByTestId('delete-draft-button');
 
-    expect(draftMessageHeadingText).to.exist;
+    expect(document.querySelector('form.compose-form')).to.exist;
     expect(deleteButton).to.exist;
   });
 

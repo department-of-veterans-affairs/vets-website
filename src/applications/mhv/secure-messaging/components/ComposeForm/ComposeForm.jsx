@@ -24,7 +24,6 @@ import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
-  Categories,
   DefaultFolders,
   ErrorMessages,
 } from '../../util/constants';
@@ -72,15 +71,6 @@ const ComposeForm = props => {
     selectedRecipient,
     draftAutoSaveTimeout,
   );
-
-  const {
-    OTHER,
-    COVID,
-    APPOINTMENTS,
-    MEDICATIONS,
-    TEST_RESULTS,
-    EDUCATION,
-  } = Categories;
 
   const formattededSignature = useMemo(
     () => {
@@ -236,30 +226,6 @@ const ComposeForm = props => {
   };
 
   if (draft && recipients && !formPopulated) populateForm();
-
-  const setMessageTitle = () => {
-    const casedCategory =
-      category ===
-      (COVID ||
-        OTHER ||
-        APPOINTMENTS ||
-        MEDICATIONS ||
-        TEST_RESULTS ||
-        EDUCATION)
-        ? Categories[category]
-        : 'New message';
-
-    if (category && subject) {
-      return `${Categories[category]}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${Categories[category]}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return `${casedCategory}`;
-  };
 
   const checkMessageValidity = useCallback(
     () => {
@@ -474,16 +440,7 @@ const ComposeForm = props => {
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
         />
-        <div
-          className="compose-form-header"
-          data-testid="compose-form-header"
-          data-dd-privacy="mask"
-        >
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {setMessageTitle()}
-          </h2>
-        </div>
-        <div className="compose-inputs-container">
+        <div>
           <EditPreferences />
           {recipientsList && (
             <>
