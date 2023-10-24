@@ -98,7 +98,7 @@ export function MilitaryHistory({ title, id, formData }) {
           {formData?.previousNames
             ? formData?.previousNames.map((name, index) => {
                 return (
-                  <div key={index} className="vads-u-margin-top--4">
+                  <div key={index} className="vads-u-margin-top--2">
                     <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
                       <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                         <strong>First: </strong>
@@ -534,7 +534,7 @@ export function AdditionalInformation({ title, id, formData }) {
           If you're claiming for Aid and Attendance or Housebound benefits, this
           includes:
         </p>
-        <ul>
+        <ul className="vads-u-margin-bottom--5">
           <li>
             A completed Examination for Housebound Status or Permanent Need for
             Regular Aid and Attendance (
@@ -563,7 +563,7 @@ export function AdditionalInformation({ title, id, formData }) {
         {formData?.files
           ? formData?.files?.map((item, index) => {
               return (
-                <div key={index} className="vads-u-margin-top--4">
+                <div key={index} className="vads-u-margin-top--2">
                   <div className="vads-u-background-color--gray-lightest vads-u-padding--1p5">
                     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                       <strong>{item?.name}</strong>

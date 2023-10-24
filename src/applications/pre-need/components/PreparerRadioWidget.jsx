@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { authorizedAgentDescription } from '../utils/helpers';
 
 export default function RadioWidget(props) {
   const { options, formContext = {}, value, disabled, onChange, id } = props;
@@ -64,44 +64,7 @@ export default function RadioWidget(props) {
             </VaRadio>
           </div>
           <div className="preparer-additonal-info">
-            <va-additional-info
-              trigger={
-                environment.isProduction()
-                  ? 'Who can a preparer sign for?'
-                  : "If you're applying for someone else, who can you sign for?"
-              }
-            >
-              <p>
-                A preparer can sign for an{' '}
-                {environment.isProduction() ? 'individual' : 'applicant'} who’s:
-              </p>
-              <ul>
-                {environment.isProduction() ? (
-                  <>
-                    <li>
-                      Under 18 years of age, <strong>or</strong>
-                    </li>
-                    <li>
-                      Is mentally incompetent, <strong>or</strong>
-                    </li>
-                    <li>Is physically unable to sign the application</li>
-                  </>
-                ) : (
-                  <>
-                    <li>
-                      Mentally incompetent <strong>or</strong>
-                    </li>
-                    <li>Physically unable to sign the application</li>
-                  </>
-                )}
-              </ul>
-              {environment.isProduction() && (
-                <p>
-                  If you're the preparer of this application, you'll need to
-                  provide your contact information.
-                </p>
-              )}
-            </va-additional-info>
+            {authorizedAgentDescription}
           </div>
         </>
       ) : (

@@ -104,6 +104,11 @@ const Allergies = props => {
             inline: true,
           },
           {
+            title: 'Observed or historical',
+            value: item.observedOrReported,
+            inline: true,
+          },
+          {
             title: 'Provider notes',
             value: item.notes,
             inline: !item.notes,
@@ -124,7 +129,7 @@ const Allergies = props => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox />;
+      return <AccessTroubleAlertBox alertType="Allergy" />;
     }
     if (allergies?.length > 0) {
       return <RecordList records={allergies} type={recordType.ALLERGIES} />;
