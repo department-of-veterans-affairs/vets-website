@@ -2,9 +2,7 @@
 // This hook is designed to monitor changes with formData.reviewNavigation.
 // whether the user is in a streamlined state ('short', 'long', or 'none').
 // The hook returns a boolean indicating whether the "Review" button should be displayed.
-
 import { useEffect, useRef, useState } from 'react';
-import { isEqual } from 'lodash';
 import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
@@ -17,35 +15,29 @@ const getStreamlinedValue = (isStreamlinedShort, isStreamlinedLong) => {
   return 'streamlined-false';
 };
 
+const spouseQuestions = [
+  'isMarried',
+  'spouseHasAdditionalIncome',
+  'spouseHasSocialSecurity',
+  'spouseHasBenefits',
+  'spouseIsEmployed',
+];
+
 // Helper function to check if spouse details changed
 const didSpouseDetailsChange = (prevQuestions, currentQuestions) => {
-  return !isEqual(
-    {
-      isMarried: prevQuestions?.isMarried,
-      spouseHasAdditionalIncome: prevQuestions?.spouseHasAdditionalIncome,
-      spouseHasSocialSecurity: prevQuestions?.spouseHasSocialSecurity,
-      spouseHasBenefits: prevQuestions?.spouseHasBenefits,
-      spouseIsEmployed: prevQuestions?.spouseIsEmployed,
-    },
-    {
-      isMarried: currentQuestions?.isMarried,
-      spouseHasAdditionalIncome: currentQuestions?.spouseHasAdditionalIncome,
-      spouseHasSocialSecurity: currentQuestions?.spouseHasSocialSecurity,
-      spouseHasBenefits: currentQuestions?.spouseHasBenefits,
-      spouseIsEmployed: currentQuestions?.spouseIsEmployed,
-    },
+  // Compare each spouse question to see if it changed
+  return spouseQuestions.some(
+    key => prevQuestions?.[key] !== currentQuestions?.[key],
   );
 };
 
 // Helper function to check if spouse details are incomplete
 const isSpouseDetailsIncomplete = currentQuestions => {
-  return (
-    currentQuestions?.isMarried &&
-    (!currentQuestions?.spouseHasAdditionalIncome ||
-      !currentQuestions?.spouseHasSocialSecurity ||
-      !currentQuestions?.spouseHasBenefits ||
-      !currentQuestions?.spouseIsEmployed)
-  );
+  if (currentQuestions.isMarried) {
+    // slice(1) to skip isMarried
+    return spouseQuestions.slice(1).some(key => !currentQuestions?.[key]);
+  }
+  return false;
 };
 
 const useDetectFieldChanges = formData => {
