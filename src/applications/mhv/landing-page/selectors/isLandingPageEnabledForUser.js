@@ -8,7 +8,6 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
  * **NOTE**: This selector is dependent upon the following slices of state.
  *   - toggleValues(state)
  *   - selectProfile(state)
- *   - selectDrupalStaticData(state).vamcEhrData
  *
  * Check that the loading property of these objects are false before calling
  * this selector function.
