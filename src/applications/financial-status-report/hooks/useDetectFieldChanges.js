@@ -1,6 +1,5 @@
 // useDetectFieldChanges Hook
-// This hook is designed to monitor changes in formData, specifically in
-// the 'income', 'assets', and 'expenses' fields. It also keeps track of
+// This hook is designed to monitor changes with formData.reviewNavigation.
 // whether the user is in a streamlined state ('short', 'long', or 'none').
 // The hook returns a boolean indicating whether the "Review" button should be displayed.
 
@@ -11,18 +10,42 @@ import {
   isStreamlinedLongForm,
 } from '../utils/streamlinedDepends';
 
-// helper function to get fields that have changed
-const didFieldsChange = (prevData, formData, fieldsToWatch) => {
-  return fieldsToWatch.some(
-    field => !isEqual(prevData[field], formData[field]),
-  );
-};
-
 // helper function to get the streamlined value
 const getStreamlinedValue = (isStreamlinedShort, isStreamlinedLong) => {
   if (isStreamlinedShort) return 'streamlined-short';
   if (isStreamlinedLong) return 'streamlined-long';
   return 'streamlined-false';
+};
+
+// Helper function to check if spouse details changed
+const didSpouseDetailsChange = (prevQuestions, currentQuestions) => {
+  return !isEqual(
+    {
+      isMarried: prevQuestions?.isMarried,
+      spouseHasAdditionalIncome: prevQuestions?.spouseHasAdditionalIncome,
+      spouseHasSocialSecurity: prevQuestions?.spouseHasSocialSecurity,
+      spouseHasBenefits: prevQuestions?.spouseHasBenefits,
+      spouseIsEmployed: prevQuestions?.spouseIsEmployed,
+    },
+    {
+      isMarried: currentQuestions?.isMarried,
+      spouseHasAdditionalIncome: currentQuestions?.spouseHasAdditionalIncome,
+      spouseHasSocialSecurity: currentQuestions?.spouseHasSocialSecurity,
+      spouseHasBenefits: currentQuestions?.spouseHasBenefits,
+      spouseIsEmployed: currentQuestions?.spouseIsEmployed,
+    },
+  );
+};
+
+// Helper function to check if spouse details are incomplete
+const isSpouseDetailsIncomplete = currentQuestions => {
+  return (
+    currentQuestions?.isMarried &&
+    (!currentQuestions?.spouseHasAdditionalIncome ||
+      !currentQuestions?.spouseHasSocialSecurity ||
+      !currentQuestions?.spouseHasBenefits ||
+      !currentQuestions?.spouseIsEmployed)
+  );
 };
 
 const useDetectFieldChanges = formData => {
@@ -41,13 +64,6 @@ const useDetectFieldChanges = formData => {
         return;
       }
 
-      // Fields to monitor for changes
-      const didFieldChange = didFieldsChange(prevData, formData, [
-        'income',
-        'assets',
-        'expenses',
-      ]);
-
       const prevStreamlinedValue = getStreamlinedValue(
         isStreamlinedShortForm(prevData),
         isStreamlinedLongForm(prevData),
@@ -58,53 +74,21 @@ const useDetectFieldChanges = formData => {
         isStreamlinedLongForm(formData),
       );
 
-      // Spouse-related logic starts here
       const prevQuestions = prevData?.questions || {};
       const currentQuestions = formData?.questions || {};
 
-      // Check if any spouse details changed
-      const didSpouseDetailsChange = !isEqual(
-        {
-          isMarried: prevQuestions?.isMarried,
-          spouseHasAdditionalIncome: prevQuestions?.spouseHasAdditionalIncome,
-          spouseHasSocialSecurity: prevQuestions?.spouseHasSocialSecurity,
-          spouseHasBenefits: prevQuestions?.spouseHasBenefits,
-          spouseIsEmployed: prevQuestions?.spouseIsEmployed,
-        },
-        {
-          isMarried: currentQuestions.isMarried,
-          spouseHasAdditionalIncome:
-            currentQuestions?.spouseHasAdditionalIncome,
-          spouseHasSocialSecurity: currentQuestions?.spouseHasSocialSecurity,
-          spouseHasBenefits: currentQuestions?.spouseHasBenefits,
-          spouseIsEmployed: currentQuestions?.spouseIsEmployed,
-        },
+      const didSpouseChange = didSpouseDetailsChange(
+        prevQuestions,
+        currentQuestions,
       );
+      const spouseIncomplete = isSpouseDetailsIncomplete(currentQuestions);
 
-      // Check if spouse details are incomplete
-      const isSpouseDetailsIncomplete =
-        currentQuestions.isMarried &&
-        (!currentQuestions.spouseHasAdditionalIncome ||
-          !currentQuestions.spouseHasSocialSecurity ||
-          !currentQuestions.spouseHasBenefits ||
-          !currentQuestions.spouseIsEmployed);
-
-      if (didFieldChange || prevStreamlinedValue !== currentStreamlinedValue) {
-        // if the previous state is streamlined short and the current state isMarried = true hide the review button so the user can finish the form
-        // if previous state is streamlined short and current state is streamlined long or false hide the review button so the user can finish the form
-        // if previous state is streamlined long and current state false hide the review button so the user can finish the form
-      }
-
-      // Update the "Review" button state based on the logic above
-      if (didSpouseDetailsChange && isSpouseDetailsIncomplete) {
+      if (didSpouseChange && spouseIncomplete) {
         setShouldShowReviewButton(false);
-      } else if (
-        currentStreamlinedValue === 'streamlined-short' ||
-        currentStreamlinedValue === 'streamlined-long'
-      ) {
+      } else if (prevStreamlinedValue !== currentStreamlinedValue) {
+        setShouldShowReviewButton(false);
+      } else {
         setShouldShowReviewButton(true);
-      } else if (currentStreamlinedValue === 'streamlined-false') {
-        setShouldShowReviewButton(false);
       }
 
       prevDataRef.current = formData;
