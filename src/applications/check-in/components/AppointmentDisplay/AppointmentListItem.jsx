@@ -37,7 +37,8 @@ const AppointmentListItem = props => {
     }
     if (
       is45MinuteReminderEnabled &&
-      isInPilot(appointment, 'fortyFiveMinuteText')
+      appointment &&
+      isInPilot({ appointment, pilotFeature: 'fortyFiveMinuteText' })
     ) {
       return (
         <span data-testid="in-person-msg-confirmation">

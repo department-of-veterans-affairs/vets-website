@@ -80,8 +80,7 @@ const AppointmentDetails = props => {
   );
   if (
     is45MinuteReminderEnabled &&
-    appointment &&
-    isInPilot(appointment, 'fortyFiveMinuteText')
+    isInPilot({ appointment, pilotFeature: 'fortyFiveMinuteText' })
   ) {
     preCheckInSubTitle = (
       <p
