@@ -4,20 +4,22 @@ const RepTypeSelector = () => {
   return (
     <>
       <div className="rep-type-selector">
-        <div>
-          <h3>Select your Representative type:</h3>
-        </div>
-
-        <va-checkbox-group error={null} hint={null} label-header-level="" uswds>
-          <va-checkbox
+        <va-radio
+          error={null}
+          header-aria-describedby="Select your Representative type:"
+          hint=""
+          label="Select your Representative type:"
+          label-header-level="3"
+        >
+          <va-radio-option
             label="Veteran Service Organization (VSO)"
-            name="example"
-            uswds
+            name="VSO"
             value="1"
           />
-          <va-checkbox label="Attorney" name="example" uswds value="2" />
-          <va-checkbox label="Claims Agent" name="example" uswds value="3" />
-        </va-checkbox-group>
+          <va-radio-option label="Attorney" name="Attorney" value="2" />
+          <va-radio-option label="Claims Agent" name="Claims Agent" value="2" />
+        </va-radio>
+
         <div className="rep-type-info">
           <va-additional-info trigger="What is my representative type?" uswds>
             <div>
