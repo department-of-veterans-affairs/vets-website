@@ -44,7 +44,10 @@ const RenderClaimsWidgetDowntimeNotification = ({
 };
 
 RenderClaimsWidgetDowntimeNotification.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   endTime: PropTypes.instanceOf(Date),
   status: PropTypes.string,
 };
