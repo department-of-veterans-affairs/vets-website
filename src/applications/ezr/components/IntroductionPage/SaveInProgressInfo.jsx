@@ -45,7 +45,12 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 
   return isLoggedOut ? (
     <>
-      <va-alert status="info" data-testid="ezr-login-alert" uswds>
+      <va-alert
+        status="info"
+        class="vads-u-margin-y--4"
+        data-testid="ezr-login-alert"
+        uswds
+      >
         <h3 slot="headline">{content['sip-alert-title']}</h3>
         <div>
           <ul className="vads-u-margin-top--0">
@@ -63,7 +68,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
       </va-alert>
     </>
   ) : (
-    <>{LoggedInAlertToRender}</>
+    <div className="vads-u-margin-y--4">{LoggedInAlertToRender}</div>
   );
 };
 
