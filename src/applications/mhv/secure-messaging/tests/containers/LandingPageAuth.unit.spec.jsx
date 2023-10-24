@@ -101,14 +101,13 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a FAQ component with phase 1 copy if phase 1 is enabled', () => {
+    const customState = {
+      featureToggles: {},
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = true;
     const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: true,
-        },
-        ...initialState,
-      },
+      initialState: customState,
       reducers: reducer,
     });
     expect(screen.queryByText(/Who can I send messages to?/)).to.exist;
@@ -116,15 +115,14 @@ describe('Landing dashboard', () => {
       .exist;
   });
 
-  it('displays a FAQ component with original copy if phase 1 is disabled', () => {
+  it('displays a FAQ component with phase 1 copy if phase 1 is disabled', () => {
+    const customState = {
+      featureToggles: {},
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = false;
     const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: false,
-        },
-        ...initialState,
-      },
+      initialState: customState,
       reducers: reducer,
     });
     expect(screen.queryByText(/Who can I send messages to?/)).to.not.exist;
