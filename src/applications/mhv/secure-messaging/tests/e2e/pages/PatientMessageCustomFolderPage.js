@@ -43,6 +43,8 @@ class PatientMessageCustomFolderPage {
     ).as('inboxFolderWithNoMessage');
 
     cy.contains(folderName).click({ waitForAnimations: true });
+    cy.wait('@singleFolder');
+    cy.wait('@singleFolderThread');
     cy.wait('@inboxFolderWithNoMessage');
   };
 
