@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getInsuranceSrLabel } from '../../../../utils/helpers/insurance-information';
+import { getInsuranceSrLabel } from '../../../../utils/helpers/insurance';
 import content from '../../../../locales/en/content.json';
 
 describe('ezr insurance information helpers', () => {
