@@ -7,7 +7,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import { Prompts } from '../../util/constants';
 
 const EditContentListOrSignatureModal = props => {
-  const { editListModal, setEditListModal, onClose } = props;
+  const { editListModal, onClose } = props;
   const fullState = useSelector(state => state);
 
   return (
@@ -18,7 +18,6 @@ const EditContentListOrSignatureModal = props => {
       name="edit-list"
       visible={editListModal}
       onCloseEvent={() => {
-        setEditListModal(false);
         onClose();
       }}
       status="warning"
@@ -31,7 +30,7 @@ const EditContentListOrSignatureModal = props => {
         target="_blank"
         rel="noreferrer"
         onClick={() => {
-          setEditListModal(false);
+          onClose();
         }}
       >
         {Prompts.Compose.EDIT_PREFERENCES_LINK}
@@ -42,7 +41,6 @@ const EditContentListOrSignatureModal = props => {
 
 EditContentListOrSignatureModal.propTypes = {
   editListModal: PropTypes.bool,
-  setEditListModal: PropTypes.func,
   onClose: PropTypes.func,
 };
 

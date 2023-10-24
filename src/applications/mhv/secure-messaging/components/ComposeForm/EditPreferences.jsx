@@ -13,25 +13,23 @@ const EditPreferences = () => {
     <>
       <EditContentListOrSignatureModal
         editListModal={editListModal}
-        setEditListModal={setEditListModal}
         onClose={() => {
           handleModalClose();
         }}
       />
-      <div className="edit-contact-list-or-signature">
-        <button
-          ref={editPreferencesButtonRef}
-          id="edit-contact-list-or-signature-button"
-          label="Edit preferences"
-          className="edit-contact-list-or-signature-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full small-screen:vads-u-width--auto"
-          data-testid="edit-list-button"
-          onClick={() => setEditListModal(true)}
-          type="button"
-        >
-          <i className="fas fa-cog vads-u-padding-right--0p5" />
-          Edit preferences
-        </button>
-      </div>
+
+      <button
+        ref={editPreferencesButtonRef}
+        id="edit-preferences-button"
+        data-testid="edit-preferences-button"
+        label="Edit preferences"
+        className="edit-preferences-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full small-screen:vads-u-width--auto"
+        onClick={() => setEditListModal(true)}
+        type="button"
+      >
+        <i className="fas fa-cog vads-u-padding-right--0p5" />
+        Edit preferences
+      </button>
     </>
   );
 };
