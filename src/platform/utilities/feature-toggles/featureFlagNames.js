@@ -100,6 +100,7 @@ export default Object.freeze({
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
   mhvLandingPageEnabled: 'mhv_landing_page_enabled',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
+  mhvSecureMessagingToPhase1: 'mhv_secure_messaging_to_phase_1',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
