@@ -2,26 +2,26 @@
 
 $em-base:             100%; // USWDS v3 html value
 $base-font-size:      16px; // USWDS v3 body value
-$small-font-size:     uswds-override(1.4rem) !important;
-$lead-font-size:      uswds-override(2rem) !important;
-$title-font-size:     uswds-override(5.2rem) !important;
+$small-font-size:     uswds-override(1.4rem) !default;
+$lead-font-size:      uswds-override(2rem) !default;
+$title-font-size:     uswds-override(5.2rem) !default;
 $h1-font-size:        uswds-override(4rem) !important;
-$h2-font-size:        uswds-override(3rem) !important;
-$h3-font-size:        uswds-override(2rem) !important;
-$h4-font-size:        uswds-override(1.7rem) !important;
-$h5-font-size:        uswds-override(1.5rem) !important;
-$h6-font-size:        uswds-override(1.3rem) !important;
+$h2-font-size:        uswds-override(3rem) !default;
+$h3-font-size:        uswds-override(2rem) !default;
+$h4-font-size:        uswds-override(1.7rem) !default;
+$h5-font-size:        uswds-override(1.5rem) !default;
+$h6-font-size:        uswds-override(1.3rem) !default;
 
 // Magic Numbers
-$lead-max-width:                uswds-override(77rem) !important;
-$site-margins:                  uswds-override(3rem) !important;
-$site-margins-mobile:           uswds-override(1.5rem) !important;
-$input-max-width:               uswds-override(46rem) !important;
-$sidenav-current-border-width:  0.4rem !important; // must be in rem for math
+$lead-max-width:                uswds-override(77rem) !default;
+$site-margins:                  uswds-override(3rem) !default;
+$site-margins-mobile:           uswds-override(1.5rem) !default;
+$input-max-width:               uswds-override(46rem) !default;
+$sidenav-current-border-width:  0.4rem !default; // must be in rem for math
 
 // 44 x 44 pixels hit target following Apple iOS Human Interface
 // Guidelines
-$hit-area: uswds-override(4.4rem) !important;
+$hit-area: uswds-override(4.4rem) !default;
 
 $spacing-x-small: uswds-override(0.5rem);
 $spacing-small: uswds-override(1rem);

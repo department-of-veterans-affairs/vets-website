@@ -9,8 +9,9 @@
 // based on the USWDS 16px base and return it again as rem.
 @function uswds-override($original) {
   @if is-rem($original) {
-    $rem-to-px: ($original / 1rem) * 16;
-    @return ($rem-to-px) + "px";
+    $rem-to-px: $original * 10; // Formation base
+    $px-to-rem: $rem-to-px / 16; // USWDS base
+    @return $px-to-rem; // return the value back to rem
   }
   @return $original;
 }
