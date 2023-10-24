@@ -1,10 +1,10 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 // Axe check is performed on every page with the errorCheck function
-import Timeouts from 'platform/testing/e2e/timeouts';
 import requiredHelpers from './utils/cypress-required-field-helpers';
 import testData from './schema/required-fields-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
+// Clicks continue, checks for any expected error messages, performs an axe check
 function errorCheck(errorList) {
   cy.get('.form-panel .usa-button-primary').click({ waitForAnimations: true });
   errorList.map(id =>
@@ -18,7 +18,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
     cy.injectAxe();
-    cy.get('input[name="root_application_claimant_relationshipToVet"]');
+
     errorCheck(requiredHelpers.relationshipToVetErrors);
 
     cy.selectRadio(
@@ -31,7 +31,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
-    cy.get('input[name="root_application_claimant_name_first"]');
 
     errorCheck(requiredHelpers.applicantInfoErrors);
 
@@ -57,7 +56,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Veteran Information Page
     preneedHelpers.validateProgressBar('2');
-    cy.get('input[name="root_application_veteran_currentName_first"]');
 
     errorCheck(requiredHelpers.veteranInfoErrors);
 
@@ -99,10 +97,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.validateProgressBar('3');
     errorCheck(requiredHelpers.militaryHistoryErrors);
 
-    cy.get(
-      'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
-      { timeout: Timeouts.verySlow },
-    );
     testData.data.application.veteran.serviceRecords.forEach(
       (branch, index) => {
         cy.get(
@@ -127,13 +121,12 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       },
     );
 
-    preneedHelpers.clickContinue({ waitForAnimations: true });
+    preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
     // Previous Names Page
     errorCheck(requiredHelpers.previousNameErrors1);
 
-    cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
     preneedHelpers.clickContinue();
 
@@ -189,7 +182,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant/Claimant Contact Information Page
     preneedHelpers.validateProgressBar('6');
-    cy.get('select[name="root_application_claimant_address_country"]');
 
     errorCheck(requiredHelpers.applicantContactInfoErrors);
 
@@ -212,10 +204,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Preparer information Page
     preneedHelpers.validateProgressBar('6');
-    cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1input"]',
-    );
-    preneedHelpers.clickContinue();
     errorCheck(requiredHelpers.preparerInfoErrors1);
 
     cy.selectRadio(

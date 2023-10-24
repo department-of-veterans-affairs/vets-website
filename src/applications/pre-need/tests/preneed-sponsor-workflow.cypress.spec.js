@@ -1,4 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
@@ -6,6 +5,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
+
     // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.claimant.name,
@@ -15,7 +15,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
 
     // Veteran Information Page
-    cy.get('input[name="root_application_veteran_currentName_first"]');
     preneedHelpers.validateProgressBar('2');
 
     cy.fillName(
@@ -66,10 +65,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History Page
-    cy.get(
-      'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
-      { timeout: Timeouts.verySlow },
-    );
     preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillMilitaryHistory(
       testData.data.application.veteran.serviceRecords,
@@ -83,9 +78,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.url().should('not.contain', '/sponsor-military-name');
 
     // Benefit Selection Page
-    cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
-      'be.visible',
-    );
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.fillBenefitSelection(
       testData.data.application.claimant.desiredCemetery.label,
@@ -94,18 +86,18 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     );
 
     // Supporting Documents Page
-    cy.get('label[for="root_application_preneedAttachments"]');
+    cy.get('label[for="root_application_preneedAttachments"]').should(
+      'be.visible',
+    );
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information Page
-    cy.get('select[name="root_application_claimant_address_country"]');
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillApplicantContactInfo(testData.data.application.claimant);
 
     // Veteran Contact Information Page
-    cy.get('select[name="root_application_veteran_address_country"]');
     preneedHelpers.validateProgressBar('6');
     cy.fillAddress(
       'root_application_veteran_address',
@@ -117,9 +109,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
     // Preparer Contact Information Page
-    cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant"]',
-    );
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
 

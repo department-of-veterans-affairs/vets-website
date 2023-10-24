@@ -54,7 +54,6 @@ function visitIntro() {
 
 // Fills all fields on the Applicant Information page , performs axe check, continues to next page
 function fillApplicantInfo(name, ssn, dob, relationship) {
-  cy.get('input[name="root_application_claimant_name_first"]');
   validateProgressBar('1');
   cy.fillName('root_application_claimant_name', name);
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
@@ -119,7 +118,6 @@ function fillMilitaryHistory(serviceRecord) {
 
 // Fills in previous name information, performs axe check, continues to next page
 function fillPreviousName(serviceName) {
-  cy.get('label[for$="hasServiceNameYes"]').should('be.visible');
   cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
   cy.axeCheck();
   clickContinue();
@@ -176,7 +174,8 @@ function fillApplicantContactInfo(contact) {
   cy.url().should('not.contain', '/applicant-contact-information');
 }
 
-// Fills Preparer Contact Information page, performs axe check, continues to next page
+// Fills Preparer Contact Information page performs axe check, continues to next page.
+// Fills Preparer Deatils and Preparer Mailing address conditional pages if the preparer is not the applicant.
 function fillPreparerInfo(preparer) {
   cy.selectRadio(
     'root_application_applicant_applicantRelationshipToClaimant',
@@ -185,6 +184,7 @@ function fillPreparerInfo(preparer) {
   cy.axeCheck();
   clickContinue();
   if (preparer.applicantRelationshipToClaimant === 'Authorized Agent/Rep') {
+    // Preparer Details
     cy.fill(
       'input[name="root_application_applicant_name_first"]',
       preparer['view:applicantInfo'].name.first,
@@ -195,6 +195,7 @@ function fillPreparerInfo(preparer) {
     );
     cy.axeCheck();
     clickContinue();
+    // Preparer Mailing address
     cy.url().should('not.contain', '/preparer-details');
 
     cy.fillAddress(
@@ -216,10 +217,6 @@ function fillPreparerInfo(preparer) {
 
 // Submit Form
 function submitForm() {
-  cy.get('[name="privacyAgreementAccepted"]')
-    .find('label[for="checkbox-element"]')
-    .should('be.visible');
-
   cy.get('[name="privacyAgreementAccepted"]')
     .find('[type="checkbox"]')
     .check({
