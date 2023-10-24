@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 
-export const RenderClaimsWidgetDowntimeNotification = (downtime, children) => {
-  if (downtime.status === externalServiceStatus.down) {
+const RenderClaimsWidgetDowntimeNotification = ({
+  status,
+  endTime,
+  children,
+}) => {
+  if (status === externalServiceStatus.down) {
     return (
       <div
         className="vads-u-margin-y--6"
@@ -24,7 +30,7 @@ export const RenderClaimsWidgetDowntimeNotification = (downtime, children) => {
                     We’re sorry. We’re working to fix some problems with the
                     claims or appeals tool right now and cannot display your
                     information on this page. Please check back after{' '}
-                    {downtime.endTime.format('MMMM D [at] LT')}
+                    {format(endTime, 'PPPp')}
                   </p>
                 </div>
               </va-alert>
@@ -36,3 +42,11 @@ export const RenderClaimsWidgetDowntimeNotification = (downtime, children) => {
   }
   return children;
 };
+
+RenderClaimsWidgetDowntimeNotification.propTypes = {
+  children: PropTypes.node,
+  endTime: PropTypes.instanceOf(Date),
+  status: PropTypes.string,
+};
+
+export default RenderClaimsWidgetDowntimeNotification;

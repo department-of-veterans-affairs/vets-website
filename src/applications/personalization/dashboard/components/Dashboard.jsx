@@ -51,7 +51,7 @@ import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
-import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
+import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import SavedApplications from './apply-for-benefits/SavedApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
