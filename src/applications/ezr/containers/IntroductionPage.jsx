@@ -9,13 +9,16 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
-import content from '../locales/en/content.json';
+import { selectAuthStatus } from '../utils/selectors/auth-status';
+import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import ProcessDescription from '../components/IntroductionPage/ProcessDescription';
 import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInfo';
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
+import content from '../locales/en/content.json';
 
 const IntroductionPage = ({ route }) => {
   const { isLoading } = useSelector(selectEnrollmentStatus);
+  const { isUserLOA1 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
 
@@ -35,7 +38,11 @@ const IntroductionPage = ({ route }) => {
           ) : (
             <>
               <ProcessDescription />
-              <SaveInProgressInfo {...sipProps} />
+              {isUserLOA1 ? (
+                <IdentityVerificationAlert />
+              ) : (
+                <SaveInProgressInfo {...sipProps} />
+              )}
               <OMBInfo />
             </>
           )}
