@@ -41,9 +41,9 @@ describe('Vitals list container', () => {
     ).to.exist;
   });
 
-  it('displays two types of records', async () => {
+  it('displays four types of records', async () => {
     await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(2);
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(4);
     });
   });
 });

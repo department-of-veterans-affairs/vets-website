@@ -1,3 +1,11 @@
+import { clearSearchResults } from './search/clearSearchResults';
+import { clearSearchText } from './search/clearSearchText';
+import { updateSearchQuery } from './search/updateSearchQuery';
+
+export { clearSearchResults };
+export { clearSearchText };
+export { updateSearchQuery };
+
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_SUCCESS =
