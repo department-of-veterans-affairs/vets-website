@@ -1,16 +1,23 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
+import {
+  addressNoMilitarySchema,
+  addressNoMilitaryUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    veteranMailingAddress: uiSchema(''),
+    veteranMailingAddress: addressNoMilitaryUI({
+      omit: ['isMilitary', 'street3'],
+      required: true,
+    }),
   },
   schema: {
     type: 'object',
-    required: ['veteranMailingAddress'],
     properties: {
-      veteranMailingAddress: schema({ definitions }, true),
+      veteranMailingAddress: addressNoMilitarySchema({
+        omit: ['isMilitary', 'street3'],
+      }),
     },
+    required: ['veteranMailingAddress'],
   },
 };
