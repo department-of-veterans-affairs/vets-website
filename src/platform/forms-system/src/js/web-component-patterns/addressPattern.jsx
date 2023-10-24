@@ -195,6 +195,8 @@ export const updateFormDataAddress = (
  */
 export function addressUI(options) {
   let cachedPath;
+  let cityMaxLength = 100;
+
   const omit = key => options?.omit?.includes(key);
   const customRequired = key => options?.required?.[key];
 
@@ -325,6 +327,9 @@ export function addressUI(options) {
          * just return the regular string schema.
          */
         replaceSchema: (formData, schema, _uiSchema, index, path) => {
+          if (schema.maxLength) {
+            cityMaxLength = schema.maxLength;
+          }
           const addressPath = path.shift(); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const ui = _uiSchema;
@@ -343,7 +348,7 @@ export function addressUI(options) {
           return {
             type: 'string',
             title: 'City',
-            maxLength: 100,
+            maxLength: cityMaxLength,
             pattern: STREET_PATTERN,
           };
         },
