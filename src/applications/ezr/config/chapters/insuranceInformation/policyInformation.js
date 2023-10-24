@@ -5,9 +5,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
-import PolicyOrGroupDescription from '../../../components/FormDescriptions/InsurancePolicyOrGroupDescription';
-import TricarePolicyDescription from '../../../components/FormDescriptions/TricarePolicyDescription';
-import PolicyOrDescription from '../../../components/FormDescriptions/InsurancePolicyOrDescription';
+import {
+  PolicyOrGroupDescription,
+  InsurancePolicyOrDescription,
+  TricarePolicyDescription,
+} from '../../../components/FormDescriptions/InsurancePolicyDescriptions';
 import { validatePolicyNumberGroupCode } from '../../../utils/validation';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
@@ -40,7 +42,7 @@ export default {
         'ui:hint': content['insurance-policy-number-hint-text'],
       },
       'view:or': {
-        ...descriptionUI(PolicyOrDescription),
+        ...descriptionUI(InsurancePolicyOrDescription),
       },
       insuranceGroupCode: {
         'ui:title': content['insurance-group-code-label'],
