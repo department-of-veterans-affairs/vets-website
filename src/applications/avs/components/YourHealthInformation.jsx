@@ -256,7 +256,7 @@ const YourHealthInformation = props => {
       <ItemsBlock
         heading="Allergies and adverse drug reactions (signs / symptoms)"
         itemType="allergies-reactions"
-        items={avs.allergiesReactions.allergies}
+        items={avs.allergiesReactions?.allergies}
         renderItem={renderAllergy}
         showSeparators
       />
