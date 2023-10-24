@@ -6,7 +6,6 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
   it('fills the form and navigates accordingly as a non-veteran with a sponsor', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
-
     // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.claimant.name,
@@ -119,7 +118,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
 
     // Preparer Contact Information Page
     cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
+      'label[for="root_application_applicant_applicantRelationshipToClaimant"]',
     );
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicant);

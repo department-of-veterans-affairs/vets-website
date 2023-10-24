@@ -367,7 +367,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     };
   }
 
-  if (schema.type === 'object') {
+  if (
+    schema.type === 'object' &&
+    !get('ui:options.displayEmptyObjectOnReview', uiSchema)
+  ) {
     const newProperties = Object.keys(schema.properties).reduce(
       (current, next) => {
         const newSchema = getNonArraySchema(

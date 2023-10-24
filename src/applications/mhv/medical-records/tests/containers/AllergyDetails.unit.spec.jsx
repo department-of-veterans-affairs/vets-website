@@ -169,7 +169,7 @@ describe('Allergy details container with errors', () => {
     screen = renderWithStoreAndRouter(<AllergyDetails runningUnitTest />, {
       initialState,
       reducers: reducer,
-      path: '/allergies',
+      path: '/allergies/123',
     });
   });
 
@@ -177,7 +177,7 @@ describe('Allergy details container with errors', () => {
     await waitFor(() => {
       expect(
         screen.getByText('We can’t access your allergy records right now', {
-          exact: true,
+          exact: false,
         }),
       ).to.exist;
     });

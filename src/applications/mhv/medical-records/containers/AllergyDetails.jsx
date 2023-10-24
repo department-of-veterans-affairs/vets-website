@@ -12,7 +12,11 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { makePdf, processList } from '../util/helpers';
-import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
@@ -65,7 +69,7 @@ const AllergyDetails = props => {
         updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
-    [dispatch, allergy, allergyId],
+    [dispatch, allergy],
   );
 
   useEffect(
@@ -114,6 +118,11 @@ const AllergyDetails = props => {
           inline: true,
         },
         {
+          title: 'Observed or historical',
+          value: allergy.observedOrReported,
+          inline: true,
+        },
+        {
           title: 'Provider notes',
           value: allergy.notes,
           inline: !allergy.notes,
@@ -135,7 +144,10 @@ const AllergyDetails = props => {
       return (
         <>
           <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox className="vads-u-margin-bottom--9" />
+          <AccessTroubleAlertBox
+            alertType={accessAlertTypes.ALLERGY}
+            className="vads-u-margin-bottom--9"
+          />
         </>
       );
     }
@@ -185,6 +197,10 @@ const AllergyDetails = props => {
               Location
             </h2>
             <p data-dd-privacy="mask">{allergy.location}</p>
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+              Observed or historical
+            </h2>
+            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
