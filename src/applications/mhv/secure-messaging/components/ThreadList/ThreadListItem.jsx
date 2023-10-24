@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux';
 import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
-const unreadMessageClassList =
-  'vads-u-margin-top--0p5 vads-u-font-weight--bold';
-const readMessageClassList = 'vads-u-margin-top--0p5';
+const unreadMessageClassList = 'vads-u-font-weight--bold';
+const readMessageClassList = '';
 const attachmentClasses =
   'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
 
@@ -94,36 +93,19 @@ const ThreadListItem = props => {
             <span>
               <i
                 role="img"
-                aria-label="Unread message"
-                className="unread-icon vads-u-margin-right--1 vads-u-margin-top--1px vads-u-color--primary-darker fas fa-solid fa-circle"
+                aria-hidden="true"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
                 data-testid="thread-list-unread-icon"
                 alt="Unread message icon"
               />
-              <span className="sr-only">Unread message</span>
             </span>
           ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
-        <div className={getClassNames()} data-dd-privacy="mask">
-          {location.pathname !== Paths.SENT ? (
-            <>
-              {unreadMessages ? (
-                <span>
-                  {getHighlightedText(senderName)}
-                  <span className="sr-only">Unread message</span>
-                </span>
-              ) : (
-                <>{getHighlightedText(senderName)}</>
-              )}
-            </>
-          ) : (
-            <span>To: {recipientName}</span>
-          )}
-        </div>
         <Link
           aria-label={`${
-            unreadMessages ? 'Unread message.' : ''
-          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
+            unreadMessages ? 'Unread message. Subject:' : 'Message subject:'
+          } ${categoryLabel}: ${subject}, ${formattedDate()}. ${
             hasAttachment ? ' Has attachment.' : ''
           }`}
           className="message-subject-link vads-u-margin-y--0p5"
@@ -151,22 +133,13 @@ const ThreadListItem = props => {
             </span>
           )}
         </Link>
-        {/* <div className={getClassNames()} data-dd-privacy="mask">
+        <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
-            <>
-              {unreadMessages ? (
-                <span>
-                  {getHighlightedText(senderName)}
-                  <span className="sr-only">Unread message</span>
-                </span>
-              ) : (
-                <>{getHighlightedText(senderName)}</>
-              )}
-            </>
+            <span>{getHighlightedText(senderName)}</span>
           ) : (
             <span>To: {recipientName}</span>
           )}
-        </div> */}
+        </div>
         <div className="vads-u-font-weight--normal vads-u-color--gray-medium">
           {formattedDate()}
         </div>
