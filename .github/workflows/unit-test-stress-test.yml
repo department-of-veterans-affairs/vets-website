@@ -253,6 +253,7 @@ jobs:
         env:
           TEST_TYPE: unit_test
           IS_CI: false
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       # - name: Create Unit Test report and post results to BigQuery
       #   run: yarn cypress-mochawesome-to-bigquery
       #   working-directory: qa-standards-dashboard-data

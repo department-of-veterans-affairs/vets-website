@@ -219,10 +219,12 @@ export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
   )[0];
   if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
     alreadySubmittedIntent = 'compensationAndPension';
+  } else {
+    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
   }
 
   return `You’ve already submitted an intent to file for ${
-    benefitPhrases[alreadySubmittedIntent.toLowerCase()]
+    benefitPhrases[alreadySubmittedIntent]
   }`;
 };
 
@@ -231,26 +233,32 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
     return null;
   }
 
-  let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
-    alreadySubmittedIntents,
-  )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    alreadySubmittedIntent = 'compensationAndPension';
-  }
-
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   };
-  const expirationDate = new Date(
-    alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,
-  ).toLocaleDateString('en-US', dateOptions);
+  let expirationDate;
+  let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
+    alreadySubmittedIntents,
+  )[0];
+  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
+    expirationDate = new Date(
+      alreadySubmittedIntents.pension?.expirationDate,
+    ).toLocaleDateString('en-US', dateOptions);
+    alreadySubmittedIntent = 'compensationAndPension';
+  } else {
+    expirationDate = new Date(
+      alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,
+    ).toLocaleDateString('en-US', dateOptions);
+    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
+  }
+
   return `Our records show that you already have an Intent to File (ITF) for ${
-    benefitPhrases[alreadySubmittedIntent.toLowerCase()]
+    benefitPhrases[alreadySubmittedIntent]
   }. Your intent to file for ${
-    benefitPhrases[alreadySubmittedIntent.toLowerCase()]
+    benefitPhrases[alreadySubmittedIntent]
   } expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
 };
 
