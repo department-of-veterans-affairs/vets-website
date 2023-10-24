@@ -2,6 +2,7 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 // internal app imports
 import manifest from '../manifest.json';
@@ -36,6 +37,9 @@ import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyR
 
 // declare shared paths for custom form page navigation
 const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
+
+// declare schema definitions
+const { provider } = ezrSchema.definitions;
 
 // declare form config object
 const formConfig = {
@@ -84,7 +88,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   getHelp: GetFormHelp,
-  defaultDefinitions: {},
+  defaultDefinitions: { provider },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
