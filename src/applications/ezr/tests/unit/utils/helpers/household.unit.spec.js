@@ -5,53 +5,26 @@ import {
   getDependentPageList,
 } from '../../../../utils/helpers/household';
 
-describe('ezr household financial helpers', () => {
+describe('ezr household information helpers', () => {
   describe('when `includeSpousalInformation` executes', () => {
-    const formData = {
-      discloseFinancialInformation: false,
-      maritalStatus: 'never married',
-    };
-
-    context('when financial disclose is `false`', () => {
+    context('when marital status is `never married`', () => {
+      const formData = { maritalStatus: 'never married' };
       it('should return `false`', () => {
         expect(includeSpousalInformation(formData)).to.be.false;
       });
     });
 
-    context('when financial disclosure is `true`', () => {
-      context('when marital status is `never married`', () => {
-        it('should return `false`', () => {
-          expect(
-            includeSpousalInformation({
-              ...formData,
-              discloseFinancialInformation: true,
-            }),
-          ).to.be.false;
-        });
+    context('when marital status is `married`', () => {
+      const formData = { maritalStatus: 'married' };
+      it('should return `true`', () => {
+        expect(includeSpousalInformation(formData)).to.be.true;
       });
+    });
 
-      context('when marital status is `married`', () => {
-        it('should return `true`', () => {
-          expect(
-            includeSpousalInformation({
-              ...formData,
-              discloseFinancialInformation: true,
-              maritalStatus: 'married',
-            }),
-          ).to.be.true;
-        });
-      });
-
-      context('when marital status is `separated`', () => {
-        it('should return `true`', () => {
-          expect(
-            includeSpousalInformation({
-              ...formData,
-              discloseFinancialInformation: true,
-              maritalStatus: 'separated',
-            }),
-          ).to.be.true;
-        });
+    context('when marital status is `separated`', () => {
+      const formData = { maritalStatus: 'separated' };
+      it('should return `true`', () => {
+        expect(includeSpousalInformation(formData)).to.be.true;
       });
     });
   });
