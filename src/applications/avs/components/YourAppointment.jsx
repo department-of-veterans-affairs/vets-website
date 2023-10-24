@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 
 import MedicationTerms from './MedicationTerms';
-import SeparatedItemsBlock from './SeparatedItemsBlock';
+import ItemsBlock from './ItemsBlock';
 
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
@@ -139,11 +139,12 @@ const YourAppointment = props => {
       {providers(avs)}
       {reasonForAppointment(avs)}
       {youWereDiagnosedWith(avs)}
-      <SeparatedItemsBlock
+      <ItemsBlock
         heading="Vitals as of this appointment"
         items={avs.vitals}
         itemType="vitals"
         renderItem={renderVitalSign}
+        showSeparators
       />
       {procedures(avs)}
       {clinicMedications(avs)}

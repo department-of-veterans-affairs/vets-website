@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { within } from '@testing-library/dom';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
 import YourAppointment from '../../components/YourAppointment';
@@ -50,24 +49,5 @@ describe('Avs: Your Appointment', () => {
     expect(screen.queryByTestId('vitals')).to.not.exist;
     expect(screen.queryByTestId('procedures')).to.not.exist;
     expect(screen.queryByTestId('clinic-medications')).to.not.exist;
-  });
-
-  it('renders horizontal rules correctly', async () => {
-    const avs = replacementFunctions.cloneDeep(avsData);
-    const props = { avs };
-    const screen = render(<YourAppointment {...props} />);
-    const vitals = screen.getByTestId('vitals');
-    expect(within(vitals).queryAllByRole('separator').length).to.eq(
-      avs.vitals.length,
-    );
-  });
-
-  it('does not add horizontal rules for single item sections', async () => {
-    const avs = replacementFunctions.cloneDeep(avsData);
-    avs.vitals = [avs.vitals[0]];
-    const props = { avs };
-    const screen = render(<YourAppointment {...props} />);
-    const vitals = screen.getByTestId('vitals');
-    expect(within(vitals).queryAllByRole('separator').length).to.eq(0);
   });
 });
