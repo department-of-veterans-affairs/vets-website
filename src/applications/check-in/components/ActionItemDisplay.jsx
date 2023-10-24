@@ -69,7 +69,7 @@ const ActionItemDisplay = props => {
             goToDetails={goToDetails}
             action={action}
           />
-          <button onClick={action} data-testid="action-link">
+          <button onClick={action} data-testid="action-link" type="button">
             Pass the tests
           </button>
         </section>
