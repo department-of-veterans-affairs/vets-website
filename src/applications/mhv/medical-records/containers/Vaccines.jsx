@@ -9,7 +9,12 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  recordType,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  accessAlertTypes,
+} from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -124,7 +129,7 @@ const Vaccines = props => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox alertType="Vaccine" />;
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
     if (vaccines?.length) {
       return <RecordList records={vaccines} type={recordType.VACCINES} />;

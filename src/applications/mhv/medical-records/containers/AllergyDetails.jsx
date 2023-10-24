@@ -12,7 +12,11 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { makePdf, processList } from '../util/helpers';
-import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
@@ -65,7 +69,7 @@ const AllergyDetails = props => {
         updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
-    [dispatch, allergy, allergyId],
+    [dispatch, allergy],
   );
 
   useEffect(
@@ -141,7 +145,7 @@ const AllergyDetails = props => {
         <>
           <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
           <AccessTroubleAlertBox
-            alertType="Allergy"
+            alertType={accessAlertTypes.ALLERGY}
             className="vads-u-margin-bottom--9"
           />
         </>

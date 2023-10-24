@@ -97,12 +97,14 @@ const generateResultsMedicationListContent = async (
 
   // medication section header
   for (const section of medication.sections) {
-    results.add(
-      await createHeading(doc, 'H4', config, section.header, {
-        paragraphGap: 10,
-        x: 16,
-      }),
-    );
+    if (section.header) {
+      results.add(
+        await createHeading(doc, 'H4', config, section.header, {
+          paragraphGap: 10,
+          x: 16,
+        }),
+      );
+    }
 
     // medication section items
     for (const resultItem of section.items) {
