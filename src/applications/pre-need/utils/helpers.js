@@ -429,13 +429,18 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: { 'ui:title': 'First name' },
-  middle: { 'ui:title': 'Middle name' },
-  last: { 'ui:title': 'Last name' },
-  maiden: { 'ui:title': 'Maiden name' },
-  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-});
+export const fullMaidenNameUI = !environment.isProduction()
+  ? merge({}, fullNameUI, {
+      first: { 'ui:title': 'First name' },
+      middle: { 'ui:title': 'Middle name' },
+      last: { 'ui:title': 'Last name' },
+      maiden: { 'ui:title': 'Maiden name' },
+      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+    })
+  : merge({}, fullNameUI, {
+      maiden: { 'ui:title': 'Maiden name' },
+      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+    });
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -473,8 +478,9 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title':
-      'Military Service number (if it’s different than your Social Security number)',
+    'ui:title': !environment.isProduction()
+      ? 'Military Service number (if it’s different than your Social Security number)'
+      : 'Military Service number (if you have one that’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -489,11 +495,15 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'What’s your sex?',
+    'ui:title': !environment.isProduction()
+      ? 'What’s your sex?'
+      : 'Sex (information will be used for statistical purposes only)',
     'ui:widget': 'radio',
   },
   maritalStatus: {
-    'ui:title': 'What’s your marital status?',
+    'ui:title': !environment.isProduction()
+      ? 'What’s your marital status?'
+      : 'Marital status',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
