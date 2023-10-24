@@ -9,7 +9,6 @@ export const Actions = {
     CLEAR_ERROR: 'RX_PRESCRIPTIONS_CLEAR_ERROR',
     FILL: 'RX_PRESCRIPTIONS_FILL',
     FILL_ERROR: 'RX_PRESCRIPTIONS_FILL_ERROR',
-    SET_PRESCRIPTION_ID: 'RX_SET_PRESCRIPTION_ID',
   },
   // TODO: consider re-using this from medical-records
   Allergies: {

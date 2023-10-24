@@ -11,7 +11,7 @@ const perPage = 20;
 const MedicationsList = props => {
   const { rxList, pagination, setCurrentPage, selectedSortOption } = props;
   const prescriptionId = useSelector(
-    state => state.rx.prescriptions?.prescriptionId,
+    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const scrollLocation = useRef();
   const goToPrevious = () => {

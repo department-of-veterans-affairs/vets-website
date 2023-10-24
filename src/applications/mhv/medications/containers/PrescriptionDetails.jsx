@@ -6,7 +6,6 @@ import {
   getPrescriptionDetails,
   getAllergiesList,
   clearAllergiesError,
-  setPrescriptionId,
 } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -62,7 +61,6 @@ const PrescriptionDetails = () => {
           },
         ),
       );
-      dispatch(setPrescriptionId(prescription.prescriptionId));
     }
   });
 
