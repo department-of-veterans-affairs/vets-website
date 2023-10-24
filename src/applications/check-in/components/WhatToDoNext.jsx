@@ -35,7 +35,7 @@ const WhatToDoNext = props => {
           date: new Date(appointment.startTime),
         });
         if (index === appointments.length - 2) {
-          title += ' and ';
+          title += ` ${t('and')} `;
         }
         if (index < appointments.length - 2) {
           title += ', ';
