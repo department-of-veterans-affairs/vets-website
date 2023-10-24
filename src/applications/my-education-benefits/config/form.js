@@ -350,13 +350,11 @@ const isValidAccountNumber = accountNumber => {
 };
 
 const checkBoxValidation = {
-  pattern: (errors, values) => {
-    if (!Object.keys(values).some(key => values[key])) {
-      errors.addError('Check at least one!');
-    }
-  },
-  widget: (errors, value) => {
-    if ((value || '').trim() === '') {
+  pattern: (errors, values, formData) => {
+    if (
+      !Object.keys(values).some(key => values[key]) &&
+      formData?.showMebServiceHistoryCategorizeDisagreement
+    ) {
       errors.addError('Check at least one!');
     }
   },
@@ -1362,7 +1360,8 @@ const formConfig = {
               incorrectServiceHistoryInputs: {
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
-                  true,
+                    true &&
+                  formData?.showMebServiceHistoryCategorizeDisagreement,
                 'ui:errorMessages': {
                   required: 'Check at least one',
                 },
@@ -1380,6 +1379,8 @@ const formConfig = {
                 'ui:options': {
                   showFieldLabel: true,
                   forceDivWrapper: true,
+                  hideIf: formData =>
+                    !formData?.showMebServiceHistoryCategorizeDisagreement,
                 },
                 servicePeriodMissing: {
                   'ui:title': 'One or more of my service periods are missing',
@@ -1387,6 +1388,10 @@ const formConfig = {
                 servicePeriodIncorrect: {
                   'ui:title':
                     'One or more of my service periods have incorrect information',
+                },
+                servicePeriodMissingForActiveDuty: {
+                  'ui:title':
+                    'I am currently on Active Duty orders and that service period is missing',
                 },
               },
               incorrectServiceHistoryText: {
@@ -1435,6 +1440,7 @@ const formConfig = {
                     properties: {
                       servicePeriodMissing: { type: 'boolean' },
                       servicePeriodIncorrect: { type: 'boolean' },
+                      servicePeriodMissingForActiveDuty: { type: 'boolean' },
                     },
                   },
                   incorrectServiceHistoryText: {
