@@ -77,8 +77,8 @@ describe('Compose form component', () => {
   it('displays Edit List modal if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const editListLink = await screen.getByTestId('edit-list-button', {
-      selector: 'va-button',
+    const editListLink = await screen.getByTestId('edit-preferences-button', {
+      selector: 'button',
       exact: true,
     });
     expect(
