@@ -24,7 +24,7 @@ describe('unified check-in experience', () => {
       );
       expect(getByTestId('what-to-do-next')).to.exist;
     });
-    it('displays the what to do next component if the app is day of and pre check in is complete', () => {
+    it('displays the WhatToDoNext component if the app is day-of and pre check in is complete', () => {
       const mockstore = {
         upcomingAppointments: singleAppointment,
         app: 'dayOf',
@@ -42,7 +42,7 @@ describe('unified check-in experience', () => {
 
       preCheckinAlreadyCompletedStub.restore();
     });
-    it('displays the pre-check-in-success-alert if there demographics are up to date', () => {
+    it('displays the pre-check-in-success-alert if the app is pre-check-in and pre check in is complete', () => {
       const mockstore = {
         upcomingAppointments: singleAppointment,
         app: 'preCheckIn',
