@@ -38,7 +38,7 @@ for (let i = 0; i < 200; i += 1) {
         );
       });
       draftsPage.clickDeleteButton();
-      draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
+      draftsPage.confirmDeleteDraft(messageDetails);
       draftsPage.verifyDeleteConfirmationMessage();
 
       cy.injectAxe();

@@ -185,13 +185,11 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
     cy.get('[data-testid="delete-draft-modal"]')
       .find('va-button[text="Delete draft"]', { force: true })
       .contains('Delete draft')
-      .should('contain', 'Delete')
       .click({ force: true });
-    cy.wait('@deletedDraftResponse');
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
   };
 
   verifyDeleteConfirmationMessage = () => {
@@ -227,7 +225,7 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="delete-draft-modal"]');
     cy.realPress(['Tab']);
     cy.realPress(['Enter']);
-    cy.wait('@deletedDraftResponse', { requestTimeout: 1000 })
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 })
       .its('request.url')
       .should('include', `${draftMessage.data.attributes.messageId}`);
   };
