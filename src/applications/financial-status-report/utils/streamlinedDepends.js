@@ -34,8 +34,6 @@ export const isEligibleForStreamlined = formData => {
  * - Assets (cash on hand and cash in bank specific pages) below 6.5% of GMT
  */
 export const isStreamlinedShortForm = formData => {
-  if (!formData) return false;
-
   const { gmtData } = formData || {}; // let's keep the cashBelowGmt for now so we don't affect in progress forms that have it,
   //  but we'll use assetsBelowGmt for new forms since it's a more apt description.
   return (
@@ -59,8 +57,6 @@ export const isStreamlinedShortForm = formData => {
  * - Discretionary income below 1.25% of GMT
  */
 export const isStreamlinedLongForm = formData => {
-  if (!formData) return false;
-
   const { gmtData } = formData || {};
 
   // Hopefully this is more readable, but using liquidAsetsBelowGmt as flag for
