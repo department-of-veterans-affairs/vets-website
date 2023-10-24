@@ -3,7 +3,6 @@ import {
   addressNoMilitaryUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-// TODO: Check why addressPattern won't let city maxLength get overridden.
 const pdfSchema = addressNoMilitarySchema({
   omit: ['isMilitary', 'street3'],
 });
