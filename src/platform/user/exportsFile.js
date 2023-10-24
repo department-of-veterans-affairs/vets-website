@@ -128,6 +128,7 @@ export {
   hasCheckedKeepAlive,
   signInServiceName,
   isAuthenticatedWithSSOe,
+  isAuthenticatedWithOAuth,
   ssoeTransactionId,
   transitionMHVAccount,
   termsOfUseEnabled,
