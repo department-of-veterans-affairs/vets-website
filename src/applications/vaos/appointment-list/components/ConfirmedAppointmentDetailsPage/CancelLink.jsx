@@ -8,11 +8,12 @@ import { selectFeatureCancel } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
 
 function formatAppointmentDate(date) {
-  if (!date.isValid()) {
+  const parsedDate = moment.parseZone(date);
+  if (!parsedDate.isValid()) {
     return null;
   }
 
-  return moment.parseZone(date.format('MMMM D, YYYY'));
+  return parsedDate.format('MMMM D, YYYY');
 }
 
 export default function CancelLink({ appointment }) {
