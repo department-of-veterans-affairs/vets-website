@@ -37,7 +37,7 @@ const Alert = props => {
       {paginatedPrescriptionsList?.length <= 0 && (
         <va-alert status="info" uswds>
           <div>
-            <h4 className="vads-u-margin-top--0">
+            <h4 className="vads-u-margin-top--0" data-testid="alert-message">
               You don’t have any medications in your medications list
             </h4>
             <strong>Note</strong>: This list doesn’t include older prescriptions
