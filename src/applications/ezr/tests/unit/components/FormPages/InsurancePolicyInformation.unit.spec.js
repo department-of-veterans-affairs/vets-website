@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
 import InsurancePolicyInformation from '../../../../components/FormPages/InsurancePolicyInformation';
 import content from '../../../../locales/en/content.json';
@@ -9,8 +8,8 @@ import content from '../../../../locales/en/content.json';
 describe('ezr InsurancePolicyInformation', () => {
   const defaultProps = {
     data: { providers: [] },
-    goToPath: sinon.spy(),
-    setFormData: sinon.spy(),
+    goToPath: () => {},
+    setFormData: () => {},
   };
 
   context('when the component renders', () => {
