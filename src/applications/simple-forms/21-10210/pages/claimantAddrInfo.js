@@ -3,6 +3,14 @@ import {
   addressNoMilitaryUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+// TODO: Check why addressPattern won't let city maxLength get overridden.
+const pdfSchema = addressNoMilitarySchema({
+  omit: ['isMilitary', 'street3'],
+});
+pdfSchema.properties.street.maxLength = 30;
+pdfSchema.properties.street2.maxLength = 30;
+pdfSchema.properties.city.maxLength = 18;
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -14,9 +22,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      claimantMailingAddress: addressNoMilitarySchema({
-        omit: ['isMilitary', 'street3'],
-      }),
+      claimantMailingAddress: pdfSchema,
     },
     required: ['claimantMailingAddress'],
   },
