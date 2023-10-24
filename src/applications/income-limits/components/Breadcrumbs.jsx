@@ -9,7 +9,7 @@ const Breadcrumbs = () => {
       <a href="/health-care" key="health-care">
         Health Care
       </a>
-      <a href="/health-care/income-limits" key="income-limits">
+      <a href="/health-care/income-limitss" key="income-limits">
         Check income limits
       </a>
     </va-breadcrumbs>
