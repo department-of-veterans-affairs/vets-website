@@ -1,5 +1,4 @@
 import disabilityComps from '@@profile/mocks/endpoints/disability-compensations';
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -17,8 +16,6 @@ describe('Profile - Hub page', () => {
 
   it('should render the correct content with toggle ON', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    checkForWebComponentLoadingIndicator();
 
     cy.findByText('Profile', { selector: 'h1' }).should('exist');
     cy.findByText('Personal information', { selector: 'h2' }).should('exist');
@@ -40,8 +37,6 @@ describe('Profile - Hub page', () => {
     cy.intercept('v0/user', user.badAddress);
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    checkForWebComponentLoadingIndicator();
 
     cy.findByText('Profile', { selector: 'h1' }).should('exist');
 
@@ -74,8 +69,6 @@ describe('Profile - Hub page', () => {
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-    checkForWebComponentLoadingIndicator();
-
     cy.findByText('We can’t show your information').should('exist');
 
     cy.url().should('include', 'profile/account-security');
@@ -91,8 +84,6 @@ describe('Profile - Hub page', () => {
       }),
     );
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    checkForWebComponentLoadingIndicator();
 
     // renders personal information page
     cy.findByText('Legal name').should('exist');
