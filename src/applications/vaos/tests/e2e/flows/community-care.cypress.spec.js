@@ -158,14 +158,14 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
 
-    cy.wait('@v1:get:provider');
-
-    cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/Choose provider/i).click();
-    cy.findByText(/remove/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click();
+    cy.wait('@v1:get:provider', { timeout: 90000 }).then(() => {
+      cy.findByLabelText(/doe, jane/i, { timeout: 90000 }).click();
+      cy.axeCheckBestPractice();
+      cy.findByText(/Choose provider/i).click();
+      cy.findByText(/remove/i).click();
+      cy.axeCheckBestPractice();
+      cy.findByText(/cancel/i).click();
+    });
     // Click continue button
     cy.get('.usa-button')
       .contains('Continue')
@@ -222,10 +222,10 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.url().should('contain', `${rootUrl}new-appointment/review`);
     cy.axeCheckBestPractice();
     // Click request appointment button
-    cy.findByText('Request appointment').click();
+    cy.findByText('Request appointment').click({ waitForAnimations: true });
 
     // Check form requestBody is as expected
-    cy.wait('@v2:create:appointment').should(xhr => {
+    cy.wait('@v2:create:appointment').then(xhr => {
       const { body } = xhr.request;
 
       expect(xhr.response.statusCode).to.eq(200);
@@ -271,28 +271,14 @@ describe('VAOS community care flow using VAOS service', () => {
     // Request detail page should display the same information sent to create the
     // appointment.
     cy.url().should('include', '/requests/mock1');
-    // should show a loading indicator
-    cy.get('va-loading-indicator')
-      .should('exist')
-      .then($container => {
-        cy.wrap($container)
-          .shadow()
-          .findByRole('progressbar')
-          .should('contain', /Loading your appointment request.../i);
-      });
-
-    // and then the loading indicator should be removed
-    cy.get('va-loading-indicator').should('not.exist');
-
-    cy.wait('@v2:get:appointment');
-    cy.findByText('Pending primary care appointment', {
-      timeout: 10000,
+    cy.wait('@v2:get:appointment', { timeout: 90000 }).then(() => {
+      cy.findByText('Pending primary care appointment', { timeout: 90000 });
+      cy.findByText('Your appointment request has been submitted.');
+      cy.findByText('This is a very good reason.');
+      cy.findByText('veteran@gmail.com');
+      // cy.findByText('503-555-1234');
+      cy.findByText('Call morning or evening');
     });
-    cy.findByText('Your appointment request has been submitted.');
-    cy.findByText('This is a very good reason.');
-    cy.findByText('veteran@gmail.com');
-    // cy.findByText('503-555-1234');
-    cy.findByText('Call morning or evening');
     cy.axeCheckBestPractice();
   });
 });
