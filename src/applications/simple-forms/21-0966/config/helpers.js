@@ -267,27 +267,29 @@ export const getNextStepsTextSecondParagraph = (
   alreadySubmittedIntents,
   newExpirationDate,
 ) => {
-  const benefitSelection = benefitSelections(data)[0].toLowerCase();
-  if (benefitSelections(data).length > 1) {
-    if (
-      alreadySubmittedIntents?.compensation &&
-      alreadySubmittedIntents?.pension
-    ) {
-      return `Your intent to file for disability compensation expires on ${
-        alreadySubmittedIntents.compensation.expirationDate
-      } and your intent to file for pension claims expires on ${
-        alreadySubmittedIntents.pension.expirationDate
-      }. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
-    }
-    return 'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).';
-  }
-
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   };
+  const benefitSelection = benefitSelections(data)[0].toLowerCase();
+  if (benefitSelections(data).length > 1) {
+    if (
+      alreadySubmittedIntents?.compensation &&
+      alreadySubmittedIntents?.pension
+    ) {
+      const compensationExpirationDate = new Date(
+        alreadySubmittedIntents.compensation.expirationDate,
+      ).toLocaleDateString('en-US', dateOptions);
+      const pensionExpirationDate = new Date(
+        alreadySubmittedIntents.pension.expirationDate,
+      ).toLocaleDateString('en-US', dateOptions);
+      return `Your intent to file for disability compensation expires on ${compensationExpirationDate} and your intent to file for pension claims expires on ${pensionExpirationDate}. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+    }
+    return 'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).';
+  }
+
   let expirationDate = newExpirationDate;
   const oldExpirationDate =
     alreadySubmittedIntents[benefitSelection]?.expirationDate;
