@@ -1382,16 +1382,20 @@ const formConfig = {
                   hideIf: formData =>
                     !formData?.showMebServiceHistoryCategorizeDisagreement,
                 },
+                servicePeriodMissingForActiveDuty: {
+                  'ui:title':
+                    'I am currently on Active Duty orders and that service period is missing',
+                },
                 servicePeriodMissing: {
                   'ui:title': 'One or more of my service periods are missing',
+                },
+                servicePeriodNotMine: {
+                  'ui:title':
+                    'One or more service periods displayed are not mine',
                 },
                 servicePeriodIncorrect: {
                   'ui:title':
                     'One or more of my service periods have incorrect information',
-                },
-                servicePeriodMissingForActiveDuty: {
-                  'ui:title':
-                    'I am currently on Active Duty orders and that service period is missing',
                 },
               },
               incorrectServiceHistoryText: {
