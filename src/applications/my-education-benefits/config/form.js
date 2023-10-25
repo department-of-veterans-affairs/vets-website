@@ -353,7 +353,8 @@ const checkBoxValidation = {
   pattern: (errors, values, formData) => {
     if (
       !Object.keys(values).some(key => values[key]) &&
-      formData?.showMebServiceHistoryCategorizeDisagreement
+      formData?.showMebServiceHistoryCategorizeDisagreement &&
+      formData['view:serviceHistory']?.serviceHistoryIncorrect
     ) {
       errors.addError('Check at least one!');
     }
