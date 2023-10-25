@@ -199,7 +199,7 @@ class FolderManagementPage {
       .find('button')
       .contains('Confirm')
       .click();
-    // cy.wait('@mockCustomResponse');
+    cy.wait('@moveMockCustomResponse');
   };
 
   foldersSelectors = {
