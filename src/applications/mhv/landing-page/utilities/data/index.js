@@ -157,15 +157,15 @@ const resolveLandingPageLinks = (
   const medicalSuppliesLinks = [
     {
       href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      text: 'Hearing aid batteries and accessories',
+      text: 'Order hearing aid batteries and accessories',
     },
     {
       href: '/health-care/order-cpap-supplies/',
-      text: 'CPAP Supplies',
+      text: 'Order CPAP supplies',
     },
     {
       href: '/health-care/order-prosthetic-socks/',
-      text: 'Prosthetic socks',
+      text: 'Order prosthetic socks',
     },
   ];
 
@@ -297,7 +297,7 @@ const resolveLandingPageLinks = (
       links: paymentsLinks,
     },
     {
-      title: 'Order supplies',
+      title: 'Medical supplies',
       icon: 'deaf',
       links: medicalSuppliesLinks,
     },
