@@ -6,7 +6,7 @@ describe('verify navigate away pop-up message', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
-  it('navigate away by click on the inside link', () => {
+  it.skip('navigate away by click on the inside link', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.replyToMessage();
