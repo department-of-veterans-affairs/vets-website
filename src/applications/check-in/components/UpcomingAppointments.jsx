@@ -16,33 +16,25 @@ const UpcomingAppointments = props => {
   const { t } = useTranslation();
   const { updateError } = useUpdateError();
   const {
-    isComplete: isUpcomingComplete,
+    isComplete,
     isLoading: isUpcomingLoading,
     upcomingAppointmentsDataError,
     refreshUpcomingData,
   } = useGetUpcomingAppointmentsData({ refreshNeeded: false });
-  const [isComplete, setIsComplete] = useState(isUpcomingComplete);
-  const [isLoading, setIsLoading] = useState(isUpcomingLoading);
+  const [isLoading, setIsLoading] = useState(true);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { upcomingAppointments } = useSelector(selectVeteranData);
 
   useEffect(
     () => {
-      if (!upcomingAppointments.length && !isComplete) {
+      setIsLoading(!isComplete);
+      if (!upcomingAppointments.length && !isComplete && !isUpcomingLoading) {
         refreshUpcomingData();
+      } else if (upcomingAppointments.length) {
+        setIsLoading(false);
       }
-      return () => {
-        setIsComplete(isUpcomingComplete);
-        setIsLoading(isUpcomingLoading);
-      };
     },
-    [
-      upcomingAppointments,
-      isComplete,
-      refreshUpcomingData,
-      isUpcomingComplete,
-      isUpcomingLoading,
-    ],
+    [upcomingAppointments, isComplete, refreshUpcomingData, isUpcomingLoading],
   );
 
   useEffect(

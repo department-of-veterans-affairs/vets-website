@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -19,22 +19,29 @@ const AppointmentsPage = props => {
   const { updateError } = useUpdateError();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
-    {
-      refreshNeeded: false,
-      router,
-      isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
-    },
-  );
+  const {
+    isComplete,
+    isLoading: isDataLoading,
+    checkInDataError,
+    refreshCheckInData,
+  } = useGetCheckInData({
+    refreshNeeded: false,
+    router,
+    isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
+  });
 
   useEffect(
     () => {
-      if (!appointments.length) {
+      setIsLoading(!isComplete);
+      if (!appointments.length && !isComplete && !isDataLoading) {
         refreshCheckInData();
+      } else if (appointments.length) {
+        setIsLoading(false);
       }
     },
-    [appointments, refreshCheckInData],
+    [isComplete, isDataLoading, refreshCheckInData, appointments],
   );
 
   useEffect(
