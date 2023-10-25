@@ -85,6 +85,8 @@ const UpcomingAppointments = props => {
         upcomingAppointments={upcomingAppointments}
       />
     );
+  } else {
+    body = <UpcomingAppointmentsList router={router} app={app} />;
   }
 
   return (
