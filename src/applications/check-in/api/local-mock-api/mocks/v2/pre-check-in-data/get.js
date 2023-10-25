@@ -78,7 +78,6 @@ const createMockSuccessResponse = (
     demographicsNeedsUpdateValue = false;
     demographicsConfirmedAtValue = yesterday;
   }
-
   if (token === alreadyPreCheckedInUUID) {
     // 35 minutes ago.
     const preCheckinStarted = dateFns.format(
@@ -145,7 +144,16 @@ const createMockSuccessResponse = (
           clinicLocation: location ?? 'SECOND FLOOR ROOM 2',
           kind: apptKind,
           status,
-          startTime: mockTime,
+          startTime: dateFns.sub(new Date(), { hours: 1 }),
+          checkInSteps,
+          preCheckInValid: true,
+          facilityAddress,
+        }),
+        createAppointment({
+          clinicLocation: location ?? 'SECOND FLOOR ROOM 3',
+          kind: apptKind,
+          status,
+          startTime: dateFns.sub(new Date(), { hours: 2 }),
           checkInSteps,
           preCheckInValid: true,
           facilityAddress,

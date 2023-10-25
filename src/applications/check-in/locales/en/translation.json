@@ -363,5 +363,18 @@
   "upcoming-appointments": "Upcoming Appointments",
   "loading-your-appointment-information": "Loading your appointment information…",
   "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
-  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments"
+  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments",
+  "what-to-do-next": "What to do next",
+  "its-time-to-check-in-for-your-time-appointment": "It's time to check in for your {{time, time}} appointment",
+  "review-your-contact-information-for-your-appointment": "Review your contact information for your {{ date, day }}, {{ date, monthDay }} {{ date, time }} appointment",
+  "review-your-contact-information-for-your": "Review your contact information for your",
+  "appointments": "appointments",
+  "and": "and",
+  "review-your-information-now": "Review your information now",
+  "your-information-is-up-to-date": "Your information is up to date",
+  "you-can-check-in-with-your-smartphone": "You can check-in with your smartphone once you arrive for your appointment on {{ date, day }}, {{ date, monthDay }} {{ date, time }}",
+  "day-of-week-month-day-time": "{{ date, day }}, {{ date, monthDay }}, {{ date, time }}",
+  "in-person-appointments": "In-person appointments",
+  "phone-appointments": "Phone appointments",
+  "check-in-now-for-your-date-time-appointment": "Check in now for appointment on {{ date, day }}, {{ date, monthDay }} at {{ date, time }}"
 }
