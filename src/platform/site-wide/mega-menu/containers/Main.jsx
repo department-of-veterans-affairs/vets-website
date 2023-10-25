@@ -194,7 +194,9 @@ const mapStateToProps = (state, ownProps) => {
   const showMyVALink = toggleValues(state)[
     FEATURE_FLAG_NAMES.myVaShowHeaderLink
   ];
-  if (showMyVALink) defaultLinks.push(MY_VA_LINK);
+  if (loggedIn || (!loggedIn && showMyVALink)) {
+    defaultLinks.push(MY_VA_LINK);
+  }
 
   const authenticatedLinks = isLandingPageEnabled(state)
     ? [{ ...MY_HEALTH_LINK }]

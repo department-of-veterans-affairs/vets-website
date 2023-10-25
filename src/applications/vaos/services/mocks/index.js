@@ -650,7 +650,6 @@ const responses = {
         { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
         { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
         { name: 'vaOnlineSchedulingPrintList', value: true },
-        { name: 'va_online_scheduling_descriptive_back_link', value: true },
         { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
         { name: 'vaOnlineSchedulingGA4Migration', value: true },
         { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },

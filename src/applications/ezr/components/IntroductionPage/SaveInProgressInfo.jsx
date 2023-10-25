@@ -53,7 +53,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
       >
         <h3 slot="headline">{content['sip-alert-title']}</h3>
         <div>
-          <ul className="vads-u-margin-top--0">
+          <ul>
             <li>
               We can fill in some of your information for you to save you time.
             </li>
@@ -74,7 +74,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 
 SaveInProgressInfo.propTypes = {
   formConfig: PropTypes.object,
-  pageList: PropTypes.object,
+  pageList: PropTypes.array,
 };
 
 export default SaveInProgressInfo;
