@@ -321,6 +321,16 @@ const findAppointment = (appointmentId, appointments) => {
   );
 };
 
+/**
+ * Determine if there are multiple checkinable appointments.
+ *
+ * @param {appointments} appointments
+ * @returns {boolean}
+ */
+const getCheckinableAppointments = appointments => {
+  return appointments.filter(a => a.eligibility === ELIGIBILITY.ELIGIBLE);
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -339,4 +349,5 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
+  getCheckinableAppointments,
 };
