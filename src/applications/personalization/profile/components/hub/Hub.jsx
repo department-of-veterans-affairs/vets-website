@@ -62,10 +62,11 @@ export const Hub = () => {
         {profileContactsEnabled && (
           <HubCard
             heading={PROFILE_PATH_NAMES.CONTACTS}
-            content="Review your next of kin and emergency contact details for accuracy and correctness."
+            content="Review your medical emergency contact and next of kin contact information."
           >
             <ProfileLink
-              text={PROFILE_PATH_NAMES.CONTACTS}
+              className="personal-health-care-contacts-hub-card-link"
+              text="Review your personal health care contacts"
               href={PROFILE_PATHS.CONTACTS}
             />
           </HubCard>
@@ -73,7 +74,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Military information"
-          content="Review your military branches and dates of service."
+          content="Review your military branches and daetes of service."
         >
           <>
             <ProfileLink
