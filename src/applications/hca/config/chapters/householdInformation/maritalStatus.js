@@ -4,7 +4,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { MaritalStatusDescription } from '../../../components/FormDescriptions';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 
-const { maritalStatus } = fullSchemaHca.definitions;
+const { maritalStatus } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
