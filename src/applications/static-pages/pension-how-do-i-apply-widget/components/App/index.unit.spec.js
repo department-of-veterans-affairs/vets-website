@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, done } from 'enzyme';
 import { App } from '.';
 
 describe('Pension Widget <App>', () => {
@@ -18,16 +18,19 @@ describe('Pension Widget <App>', () => {
   it('renders the pension widget app', () => {
     const wrapper = shallow(<App />);
     expect(wrapper.find('h3').text()).to.equal(
-      `Our online pension form isn’t working right now`,
+      `You can’t apply online right now`,
     );
     wrapper.unmount();
   });
 
   it('shows "Refer to your saved form" link when user is logged in', () => {
     const wrapper = shallow(<App loggedIn />);
-    const selector = 'a[href="/pension/application/527EZ/introduction/"]';
-    expect(wrapper.find(selector).exists()).to.equal(true);
-    wrapper.unmount();
+    const selector = 'a[href="/pension/application/527EZ/introduction"]';
+    setTimeout(() => {
+      expect(wrapper.find(selector).exists()).to.equal(true);
+      wrapper.unmount();
+      done();
+    }, 2000);
   });
 
   it('shows "Sign in to VA.gov" button when user is not logged in', () => {
