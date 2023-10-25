@@ -15,12 +15,12 @@ export default {
       labelHeaderLevel: '3',
       tile: true,
       labels: {
-        [veteranBenefits.compensation]: {
+        [veteranBenefits.COMPENSATION]: {
           title: 'Compensation',
           description:
             'Select this option if you intend to file for disability compensation (VA Form 21-526EZ).',
         },
-        [veteranBenefits.pension]: {
+        [veteranBenefits.PENSION]: {
           title: 'Pension',
           description:
             'Select this option if you intend to file a pension claim (VA Form 21P-527EZ).',
