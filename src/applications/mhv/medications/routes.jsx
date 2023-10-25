@@ -10,10 +10,14 @@ const routes = (
       <RxBreadcrumbs />
       <div>
         <Switch>
-          <Route exact path="/" key="App">
+          <Route exact path={['/', '/:page']} key="App">
             <App />
           </Route>
-          <Route exact path="/:prescriptionId" key="prescriptionDetails">
+          <Route
+            exact
+            path="/prescription/:prescriptionId"
+            key="prescriptionDetails"
+          >
             <PrescriptionDetails />
           </Route>
         </Switch>
