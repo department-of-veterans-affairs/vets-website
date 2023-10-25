@@ -162,6 +162,7 @@ describe('Allergies list container with no allergies', () => {
         },
       ),
     ).to.exist;
+    expect(screen.queryByTestId('print-records-button')).to.not.exist;
   });
 });
 
