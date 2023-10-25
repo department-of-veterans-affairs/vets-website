@@ -19,6 +19,18 @@ describe('unified check-in experience', () => {
       expect(getByTestId('appointment-list')).to.exist;
       expect(getAllByTestId('appointment-list-item').length).to.equal(3);
     });
+    it('displays the upcoming appointments list items components with day of the week headings properly', () => {
+      const mockstore = {
+        upcomingAppointments: multipleAppointments,
+      };
+      const { getByTestId, getAllByTestId } = render(
+        <CheckInProvider store={mockstore}>
+          <UpcomingAppointmentsList />
+        </CheckInProvider>,
+      );
+      expect(getAllByTestId('day-label')).to.have.length(1);
+      expect(getByTestId('day-label')).to.have.text('3 Mon');
+    });
     it('displays the no upcoming appointments info message when there are no appointments', () => {
       const { getByTestId } = render(
         <CheckInProvider upcomingAppointments={[]}>
