@@ -3,7 +3,6 @@ import {
   ADD_COMPARE_INSTITUTION,
   FETCH_COMPARE_FAILED,
   REMOVE_COMPARE_INSTITUTION,
-  UPDATE_COMPARE_DETAILS,
   UPDATE_QUERY_PARAMS,
   COMPARE_DRAWER_OPENED,
 } from '../actions';
@@ -64,7 +63,6 @@ export default function(state = INITIAL_STATE, action) {
         ),
       };
 
-    case UPDATE_COMPARE_DETAILS:
       return {
         ...state,
         error: null,
