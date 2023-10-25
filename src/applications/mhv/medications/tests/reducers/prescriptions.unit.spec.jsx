@@ -1,64 +1,117 @@
 import { expect } from 'chai';
+import {
+  initialState,
+  prescriptionsReducer,
+} from '../../reducers/prescriptions';
 import { Actions } from '../../util/actionTypes';
-import { prescriptionsReducer } from '../../reducers/prescriptions';
-import prescriptions from '../fixtures/prescriptions.json';
+import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
+import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 
 describe('Prescriptions reducer', () => {
-  const initialState = {
-    prescriptionsList: prescriptions,
-    prescriptionDetails: undefined,
-    prescriptionsPagination: undefined,
-  };
-  it('should update the prescription details', () => {
-    const action = {
-      type: Actions.Prescriptions.GET,
-      response: { data: { attributes: 'fake test data' } },
-    };
-    const nextState = prescriptionsReducer(initialState, action);
-    expect(nextState.prescriptionDetails).to.exist;
+  function reduce(action, state = initialState) {
+    return prescriptionsReducer(state, action);
+  }
+  it('should not modify state if an unrecognized action is passed', () => {
+    const state = reduce({
+      type: 'INVALID_ACTION',
+      response: paginatedSortedListApiResponse,
+    });
+
+    expect(state).to.deep.equal(initialState);
   });
 
-  it('should update the prescription list', () => {
-    const action = {
+  it('should change prescriptionsList and prescriptionsPagination when GET_PAGINATED_SORTED_LIST action is passed', () => {
+    const rxState = {
+      ...initialState,
+      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
+        return { ...rx.attributes };
+      }),
+      prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
+    };
+    const state = reduce({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
-      response: {
-        data: [{ attributes: 'fake test data' }],
-        meta: { pagination: 'fake meta data' },
-      },
+      response: paginatedSortedListApiResponse,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+  it('should change prescriptionDetails when GET_DETIALS action is passed', () => {
+    const rxState = {
+      ...initialState,
+      prescriptionDetails: prescriptionDetails.data.attributes,
     };
-    const nextState = prescriptionsReducer(initialState, action);
-    expect(nextState.prescriptionsList).to.exist;
-    expect(nextState.prescriptionsPagination).to.exist;
+    const state = reduce({
+      type: Actions.Prescriptions.GET_DETAILS,
+      response: prescriptionDetails,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+  it('should add error:undefined and sucess:true properties when FILL action is passed', () => {
+    const initialStateWithRxList = {
+      ...initialState,
+      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
+        return { ...rx.attributes };
+      }),
+    };
+    const state = reduce(
+      {
+        type: Actions.Prescriptions.FILL,
+        response: { id: 22565805 },
+      },
+      initialStateWithRxList,
+    );
+    const indexOfRxFilled = state.prescriptionsList.findIndex(
+      rx => rx.prescriptionId === 22565805,
+    );
+    expect(state.prescriptionDetails.error).to.equal(undefined);
+    expect(state.prescriptionDetails.success).to.equal(true);
+    expect(state.prescriptionsList[indexOfRxFilled].success).to.equal(true);
+    expect(state.prescriptionsList[indexOfRxFilled].error).to.equal(undefined);
+  });
+  it('should add error:error and sucess:undefined properties when FILL_ERROR action is passed', () => {
+    const initialStateWithRxList = {
+      ...initialState,
+      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
+        return { ...rx.attributes };
+      }),
+    };
+    const state = reduce(
+      {
+        type: Actions.Prescriptions.FILL_ERROR,
+        err: { id: 22565805 },
+      },
+      initialStateWithRxList,
+    );
+    const indexOfRxFilled = state.prescriptionsList.findIndex(
+      rx => rx.prescriptionId === 22565805,
+    );
+    expect(state.prescriptionDetails.error.id).to.equal(22565805);
+    expect(state.prescriptionDetails.success).to.equal(undefined);
+    expect(state.prescriptionsList[indexOfRxFilled].success).to.equal(
+      undefined,
+    );
+    expect(state.prescriptionsList[indexOfRxFilled].error.id).to.equal(
+      22565805,
+    );
   });
 
-  it('should set the success flag to true', () => {
-    const action = {
-      type: Actions.Prescriptions.FILL,
-      response: {
-        id: prescriptions[0].prescriptionId,
+  it('should clear error property by setting it to undefined when CLEAR_ERROR action is passed', () => {
+    const initialStateWithRxList = {
+      ...initialState,
+      prescriptionsList: paginatedSortedListApiResponse.data.map(rx => {
+        return { ...rx.attributes, error: 'error' };
+      }),
+    };
+    const state = reduce(
+      {
+        type: Actions.Prescriptions.CLEAR_ERROR,
+        prescriptionId: 22565805,
       },
-    };
-    const nextState = prescriptionsReducer(initialState, action);
-    expect(nextState.prescriptionDetails.success).to.equal(true);
-  });
-
-  it('should handle a fill error', () => {
-    const action = {
-      type: Actions.Prescriptions.FILL_ERROR,
-      err: {
-        id: prescriptions[0].prescriptionId,
-      },
-    };
-    const nextState = prescriptionsReducer(initialState, action);
-    expect(nextState.prescriptionDetails.error).to.exist;
-  });
-
-  it('should clear the error', () => {
-    const action = {
-      type: Actions.Prescriptions.CLEAR_ERROR,
-      prescriptionId: prescriptions[0].prescriptionId,
-    };
-    const nextState = prescriptionsReducer(initialState, action);
-    expect(nextState.prescriptionDetails.error).to.equal(undefined);
+      initialStateWithRxList,
+    );
+    const indexOfRxFilled = state.prescriptionsList.findIndex(
+      rx => rx.prescriptionId === 22565805,
+    );
+    expect(state.prescriptionDetails.error).to.equal(undefined);
+    expect(state.prescriptionsList[indexOfRxFilled].error).to.equal(undefined);
   });
 });
