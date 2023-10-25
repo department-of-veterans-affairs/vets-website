@@ -37,120 +37,26 @@ export const Hub = () => {
       )}
 
       {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4">
+      <div className="hub-cards">
         <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
           heading="Personal information"
           content="Review your legal name, date of birth, and disability rating. And
               manage your preferred name and gender identity."
         >
-          <div className="vads-u-margin-bottom--0p5">
-            <ProfileLink
-              text="Manage your personal information"
-              href={PROFILE_PATHS.PERSONAL_INFORMATION}
-            />
-          </div>
+          <ProfileLink
+            text="Manage your personal information"
+            href={PROFILE_PATHS.PERSONAL_INFORMATION}
+          />
         </HubCard>
 
         <HubCard
           heading="Contact information"
           content="Manage your addresses, phone numbers, and the email address we'll use to contact you."
         >
-          <div className="vads-u-margin-bottom--0p5">
-            <ProfileLink
-              text="Manage your contact information"
-              href={PROFILE_PATHS.CONTACT_INFORMATION}
-            />
-          </div>
-        </HubCard>
-      </div>
-
-      {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4">
-        <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
-          heading="Military information"
-          content="Review your military branches and dates of service."
-        >
-          <>
-            <div className="vads-u-display--block">
-              <ProfileLink
-                text="Review your military information"
-                href={PROFILE_PATHS.MILITARY_INFORMATION}
-              />
-            </div>
-            <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5 vads-u-padding-right--2 medium-screen:vads-u-padding-right">
-              <ProfileLink
-                text="Learn how to request your DD214 and other military records"
-                href="/records/get-military-service-records/"
-              />
-            </div>
-          </>
-        </HubCard>
-
-        <HubCard
-          heading="Direct deposit information"
-          content="Manage direct deposit information for disability compensation, pension, and education benefits."
-        >
-          <div className="vads-u-display--block vads-u-margin-bottom--5">
-            <ProfileLink
-              text="Manage your direct deposit information"
-              href={PROFILE_PATHS.DIRECT_DEPOSIT}
-            />
-          </div>
-        </HubCard>
-      </div>
-
-      {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4">
-        <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
-          heading="Notification settings"
-          content="Manage the text and email notifications you get from VA."
-        >
-          <div className="vads-u-margin-bottom--5">
-            <ProfileLink
-              text="Manage notification settings"
-              href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
-            />
-          </div>
-        </HubCard>
-
-        <HubCard
-          heading="Account security"
-          content="Review your sign-in and account information."
-        >
-          <>
-            <div className="vads-u-display--block">
-              <ProfileLink
-                text="Review account security"
-                href={PROFILE_PATHS.ACCOUNT_SECURITY}
-              />
-            </div>
-
-            <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
-              <ProfileLink
-                text={`Update your sign-in info on the ${label} website`}
-                href={link}
-              />
-            </div>
-          </>
-        </HubCard>
-      </div>
-
-      {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4 ">
-        <HubCard
-          className="medium-screen:vads-u-padding-right--4"
-          heading="Connected apps"
-          content="Manage the 3rd-party apps that have access to your VA.gov profile."
-        >
-          <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
-            <ProfileLink
-              href={PROFILE_PATHS.CONNECTED_APPLICATIONS}
-              text="Manage connected apps"
-            />
-          </div>
+          <ProfileLink
+            text="Manage your contact information"
+            href={PROFILE_PATHS.CONTACT_INFORMATION}
+          />
         </HubCard>
 
         {profileContactsEnabled && (
@@ -158,16 +64,79 @@ export const Hub = () => {
             heading={PROFILE_PATH_NAMES.CONTACTS}
             content="Review your next of kin and emergency contact details for accuracy and correctness."
           >
-            <>
-              <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
-                <ProfileLink
-                  text={PROFILE_PATH_NAMES.CONTACTS}
-                  href={PROFILE_PATHS.CONTACTS}
-                />
-              </div>
-            </>
+            <ProfileLink
+              text={PROFILE_PATH_NAMES.CONTACTS}
+              href={PROFILE_PATHS.CONTACTS}
+            />
           </HubCard>
         )}
+
+        <HubCard
+          heading="Military information"
+          content="Review your military branches and dates of service."
+        >
+          <>
+            <ProfileLink
+              className="vads-u-display--block"
+              text="Review your military information"
+              href={PROFILE_PATHS.MILITARY_INFORMATION}
+            />
+            <ProfileLink
+              className="vads-u-display--block"
+              text="Learn how to request your DD214 and other military records"
+              href="/records/get-military-service-records/"
+            />
+          </>
+        </HubCard>
+
+        <HubCard
+          heading="Direct deposit information"
+          content="Manage direct deposit information for disability compensation, pension, and education benefits."
+        >
+          <ProfileLink
+            text="Manage your direct deposit information"
+            href={PROFILE_PATHS.DIRECT_DEPOSIT}
+          />
+        </HubCard>
+
+        <HubCard
+          heading="Notification settings"
+          content="Manage the text and email notifications you get from VA."
+        >
+          <ProfileLink
+            text="Manage notification settings"
+            href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+          />
+        </HubCard>
+
+        <HubCard
+          heading="Account security"
+          content="Review your sign-in and account information."
+        >
+          <>
+            <ProfileLink
+              className="vads-u-display--block"
+              text="Review account security"
+              href={PROFILE_PATHS.ACCOUNT_SECURITY}
+            />
+
+            <ProfileLink
+              className="vads-u-display--block"
+              text={`Update your sign-in info on the ${label} website`}
+              href={link}
+            />
+          </>
+        </HubCard>
+
+        <HubCard
+          heading="Connected apps"
+          content="Manage the 3rd-party apps that have access to your VA.gov profile."
+        >
+          <ProfileLink
+            href={PROFILE_PATHS.CONNECTED_APPLICATIONS}
+            text="Manage connected apps"
+          />
+        </HubCard>
       </div>
     </>
   );

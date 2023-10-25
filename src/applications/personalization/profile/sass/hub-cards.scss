@@ -1,0 +1,15 @@
+.hub-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: units(4);
+
+  > * {
+    flex-basis: 100%;
+  }
+
+  @include media($medium-screen) {
+    > * {
+      flex-basis: calc(50% - 36px);
+    }
+  }
+}
