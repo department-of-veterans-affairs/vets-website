@@ -1,7 +1,7 @@
 import { connectDrupalStaticDataFile } from '../../../connect';
 import { preProcessPoliceData } from './preProcess';
 
-export const connectDrupalStaticDataFileVamcEhr = dispatch => {
+export const connectDrupalStaticDataFileVamcPolice = dispatch => {
   connectDrupalStaticDataFile(dispatch, {
     fileName: 'vamc-police.json',
     preProcess: preProcessPoliceData,

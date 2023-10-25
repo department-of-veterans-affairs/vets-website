@@ -1,7 +1,9 @@
 export const preProcessPoliceData = vamcPoliceData => {
   const { data } = vamcPoliceData;
+  const { contact, statistics } = data;
 
   return {
-    policeDataByVhaId: data,
+    policeStatisticDataByVhaId: statistics,
+    policeContactDataByVhaId: contact,
   };
 };
