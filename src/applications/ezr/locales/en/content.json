@@ -23,6 +23,7 @@
   "confirm-app-list-print": "You can print this confirmation page for your records",
   "form-title": "Update your VA health benefits information",
   "form-subtitle": "Health Benefits Update Form (VA Form 10-10EZR)",
+  "form-footer-title": "Need help?",
   "household-dependent-attended-school-label": "If your dependent is between 18 and 23 years old, were they enrolled as a full-time or part-time student in %s?",
   "household-dependent-became-label": "When did they become your dependent?",
   "household-dependent-cancel-button-text": "Cancel %s this dependent",
