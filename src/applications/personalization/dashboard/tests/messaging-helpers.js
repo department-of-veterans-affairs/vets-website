@@ -12,7 +12,7 @@ export const folders = {
       },
       id: '0',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/0',
+        self: 'http://www.example.com/my_health/v1/messaging/folders/0',
       },
       type: 'folders',
     },
@@ -27,7 +27,7 @@ export const folders = {
       },
       id: '-2',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/-2',
+        self: 'http://www.example.com/my_health/v1/messaging/folders/-2',
       },
       type: 'folders',
     },
@@ -42,7 +42,7 @@ export const folders = {
       },
       id: '-1',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/-1',
+        self: 'http://www.example.com/my_health/v1/messaging/folders/-1',
       },
       type: 'folders',
     },
@@ -57,7 +57,7 @@ export const folders = {
       },
       id: '-3',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/-3',
+        self: 'http://www.example.com/my_health/v1/messaging/folders/-3',
       },
       type: 'folders',
     },
@@ -72,7 +72,7 @@ export const folders = {
       },
       id: '123',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/123',
+        self: 'http://www.example.com/my_health/v1/messaging/folders/123',
       },
       type: 'folders',
     },
@@ -87,7 +87,7 @@ export const folders = {
       },
       id: '456',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/folders/456',
+        self: 'http://www.example.com/my_health/v1/messaging/folders/456',
       },
       type: 'folders',
     },
@@ -95,12 +95,12 @@ export const folders = {
 
   links: {
     first:
-      'http://www.example.com/v0/messaging/health/folders?page=1&per_page=100',
+      'http://www.example.com/my_health/v1/messaging/folders?page=1&per_page=100',
     last:
-      'http://www.example.com/v0/messaging/health/folders?page=1&per_page=100',
+      'http://www.example.com/my_health/v1/messaging/folders?page=1&per_page=100',
     next: null,
     prev: null,
-    self: 'http://www.example.com/v0/messaging/health/folders?per_page=100',
+    self: 'http://www.example.com/my_health/v1/messaging/folders?per_page=100',
   },
 
   meta: {
@@ -132,7 +132,7 @@ export const messages = {
       },
       id: '123',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/123',
+        self: 'http://www.example.com/my_health/v1/messaging/messages/123',
       },
       type: 'messages',
     },
@@ -153,7 +153,7 @@ export const messages = {
       },
       id: '456',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/456',
+        self: 'http://www.example.com/my_health/v1/messaging/messages/456',
       },
       type: 'messages',
     },
@@ -174,7 +174,7 @@ export const messages = {
       },
       id: '789',
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/789',
+        self: 'http://www.example.com/my_health/v1/messaging/messages/789',
       },
       type: 'messages',
     },
@@ -182,12 +182,12 @@ export const messages = {
 
   links: {
     first:
-      'http://www.example.com/v0/messaging/health/folders/0/messages?page=1&per_page=10',
+      'http://www.example.com/my_health/v1/messaging/folders/0/messages?page=1&per_page=10',
     last:
-      'http://www.example.com/v0/messaging/health/folders/0/messages?page=1&per_page=10',
+      'http://www.example.com/my_health/v1/messaging/folders/0/messages?page=1&per_page=10',
     next: null,
     prev: null,
-    self: 'http://www.example.com/v0/messaging/health/folders/0/messages?',
+    self: 'http://www.example.com/my_health/v1/messaging/folders/0/messages?',
   },
 
   meta: {
@@ -221,7 +221,7 @@ export const message = {
     },
     id: '123',
     links: {
-      self: 'http://www.example.com/v0/messaging/health/messages/123',
+      self: 'http://www.example.com/my_health/v1/messaging/messages/123',
     },
     relationships: {
       attachments: {
@@ -244,7 +244,7 @@ export const message = {
       id: '12',
       links: {
         download:
-          'https://dev-api.vets.gov/v0/messaging/health/messages/123/attachments/12',
+          'https://dev-api.vets.gov/my_health/v1/messaging/messages/123/attachments/12',
       },
       type: 'attachments',
     },
@@ -269,7 +269,7 @@ export const draft = {
     },
     id: '1024',
     links: {
-      self: 'http://www.example.com/v0/messaging/health/messages/1024',
+      self: 'http://www.example.com/my_health/v1/messaging/messages/1024',
     },
     relationships: {},
     type: 'messages',
@@ -297,7 +297,7 @@ export const thread = {
         subject: 'Prescription Request',
       },
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/3',
+        self: 'http://www.example.com/my_health/v1/messaging/messages/3',
       },
     },
     {
@@ -317,7 +317,7 @@ export const thread = {
         subject: 'Prescription Request',
       },
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/2',
+        self: 'http://www.example.com/my_health/v1/messaging/messages/2',
       },
     },
     {
@@ -337,7 +337,7 @@ export const thread = {
         subject: 'Prescription Request',
       },
       links: {
-        self: 'http://www.example.com/v0/messaging/health/messages/1',
+        self: 'http://www.example.com/my_health/v1/messaging/messages/1',
       },
     },
   ],
@@ -375,12 +375,12 @@ export const recipients = {
   ],
   links: {
     first:
-      'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+      'https://dev-api.vets.gov/my_health/v1/messaging/recipients?page=1&per_page=10',
     last:
-      'https://dev-api.vets.gov/v0/messaging/health/recipients?page=1&per_page=10',
+      'https://dev-api.vets.gov/my_health/v1/messaging/recipients?page=1&per_page=10',
     next: null,
     prev: null,
-    self: 'https://dev-api.vets.gov/v0/messaging/health/recipients?',
+    self: 'https://dev-api.vets.gov/my_health/v1/messaging/recipients?',
   },
   meta: {
     pagination: {
@@ -409,13 +409,13 @@ const preferences = {
 // Create API routes
 export function initApplicationSubmitMock(token) {
   mock(token, {
-    path: '/v0/messaging/health/folders',
+    path: '/my_health/v1/messaging/folders',
     verb: 'get',
     value: folders,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/folders/0',
+    path: '/my_health/v1/messaging/folders/0',
     verb: 'get',
     value: {
       data: {
@@ -425,25 +425,25 @@ export function initApplicationSubmitMock(token) {
   });
 
   mock(token, {
-    path: '/v0/messaging/health/folders/0/messages',
+    path: '/my_health/v1/messaging/folders/0/messages',
     verb: 'get',
     value: messages,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/messages',
+    path: '/my_health/v1/messaging/messages',
     verb: 'post',
     value: message,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/messages/123',
+    path: '/my_health/v1/messaging/messages/123',
     verb: 'get',
     value: message,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/messages/1',
+    path: '/my_health/v1/messaging/messages/1',
     verb: 'get',
     value: {
       data: {
@@ -453,25 +453,25 @@ export function initApplicationSubmitMock(token) {
   });
 
   mock(token, {
-    path: '/v0/messaging/health/messages/123/thread',
+    path: '/my_health/v1/messaging/messages/123/thread',
     verb: 'get',
     value: thread,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/recipients',
+    path: '/my_health/v1/messaging/recipients',
     verb: 'get',
     value: recipients,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/preferences',
+    path: '/my_health/v1/messaging/preferences',
     verb: 'get',
     value: preferences,
   });
 
   mock(token, {
-    path: '/v0/messaging/health/preferences',
+    path: '/my_health/v1/messaging/preferences',
     verb: 'put',
     value: preferences,
   });
