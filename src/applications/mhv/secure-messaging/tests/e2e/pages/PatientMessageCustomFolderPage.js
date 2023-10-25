@@ -21,6 +21,7 @@ class PatientMessageCustomFolderPage {
       foldersList,
     ).as('customFoldersList');
     cy.get(Locators.FOLDERS_LIST).click();
+    cy.wait('@customFoldersList');
   };
 
   loadSingleFolderWithNoMessages = (folderId, folderName) => {
@@ -42,6 +43,9 @@ class PatientMessageCustomFolderPage {
     ).as('inboxFolderWithNoMessage');
 
     cy.contains(folderName).click({ waitForAnimations: true });
+    cy.wait('@singleFolder');
+    cy.wait('@singleFolderThread');
+    cy.wait('@inboxFolderWithNoMessage');
   };
 
   loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
@@ -149,6 +153,7 @@ class PatientMessageCustomFolderPage {
   };
 
   createCustomFolder = folderName => {
+    mockFolders.data.push(createdFolderResponse.data);
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
     cy.get('[name="folder-name"]')
       .shadow()

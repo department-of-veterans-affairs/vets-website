@@ -7,6 +7,12 @@ export const recordType = {
   ALLERGIES: 'allergies',
 };
 
+export const accessAlertTypes = {
+  ALLERGY: 'allergy',
+  VACCINE: 'vaccine',
+  VITALS: 'vitals',
+};
+
 export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
