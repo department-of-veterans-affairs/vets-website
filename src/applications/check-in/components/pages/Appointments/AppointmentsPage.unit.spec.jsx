@@ -39,7 +39,7 @@ describe('unified check-in experience', () => {
           isLoading: true,
         });
       const screen = render(
-        <CheckInProvider>
+        <CheckInProvider store={{ appointments: [] }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );

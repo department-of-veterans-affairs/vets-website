@@ -48,7 +48,7 @@ describe('unified check-in experience', () => {
           upcomingAppointmentsDataError: false,
         });
       const screen = render(
-        <CheckInProvider>
+        <CheckInProvider store={{ upcomingAppointments: [] }}>
           <UpcomingAppointments />
         </CheckInProvider>,
       );
