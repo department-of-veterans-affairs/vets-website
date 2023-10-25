@@ -6,7 +6,6 @@ import mockVamc from './fixtures/mocks/vamc-ehr.json';
 // Profile specific responses
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUserUpdate from './fixtures/mocks/user-update.json';
-// import mockStatusUpdate from './fixtures/mocks/user-update.json';
 import mockProfilePhone from './fixtures/mocks/profile-phone.json';
 import mockProfileEmail from './fixtures/mocks/profile-email.json';
 import mockProfileAddress from './fixtures/mocks/profile-address.json';
@@ -23,7 +22,6 @@ export default function cypressSetup() {
 
   // contact page updates
   cy.intercept('GET', '/v0/profile/status*', mockStatus);
-  // cy.intercept('GET', '/v0/profile/status/*', mockStatus);
   cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
   cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
   cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone);

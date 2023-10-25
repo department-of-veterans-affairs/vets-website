@@ -120,17 +120,6 @@ export const mockContestableIssuesWithLegacyAppeals = {
   ],
 };
 
-// export const mockCustomContestableIssues = ({ contestedIssues }) =>
-//   contestedIssues.map(issue => ({
-//     id: null,
-//     type: 'contestableIssue',
-//     attributes: {
-//       ...issue.attributes,
-//       approxDecisionDate: date,
-//     },
-//     [SELECTED]: false,
-//   }));
-
 /**
  * Area of disagreement page Cypress e2e test
  */

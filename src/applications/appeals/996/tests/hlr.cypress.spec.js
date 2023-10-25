@@ -94,7 +94,6 @@ const testConfig = createTestConfig(
       },
 
       'area-of-disagreement/:index': areaOfDisagreementPageHook,
-      // 'area-of-disagreement/0': areaOfDisagreementPageHook,
     },
 
     setupPerTest: () => {
