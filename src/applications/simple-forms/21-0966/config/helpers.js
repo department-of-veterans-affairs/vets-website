@@ -190,7 +190,7 @@ export const getInfoAlertTitle = () =>
   'You’ve already submitted an intent to file';
 
 export const getInfoAlertText = (data, alreadySubmittedIntents) => {
-  let benefitSelection = benefitSelections(data)[0];
+  const benefitSelection = benefitSelections(data)[0];
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
@@ -201,7 +201,6 @@ export const getInfoAlertText = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntents[benefitSelection].expirationDate,
   ).toLocaleDateString('en-US', dateOptions);
   if (benefitSelections(data).length > 1) {
-    benefitSelection = 'COMPENSATION_AND_PENSION';
     return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
   }
 
