@@ -93,8 +93,24 @@ export default {
           },
         },
         [providerFacilityFields.treatmentDateRange]: {
-          from: dateUI('First treatment date (you can estimate)'),
-          to: dateUI('Last treatment date (you can estimate)'),
+          from: {
+            ...dateUI('First treatment date (you can estimate)'),
+            'ui:errorMessages': {
+              required:
+                'Select a month and day. And enter a valid 4-digit year.',
+              pattern:
+                'Select a month and day. And enter a valid 4-digit year.',
+            },
+          },
+          to: {
+            ...dateUI('Last treatment date (you can estimate)'),
+            'ui:errorMessages': {
+              required:
+                'Select a month and day. And enter a valid 4-digit year.',
+              pattern:
+                'Select a month and day. And enter a valid 4-digit year.',
+            },
+          },
         },
         'ui:validations': [
           (errors, field) => {
