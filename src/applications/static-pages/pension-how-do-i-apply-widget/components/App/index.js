@@ -103,11 +103,11 @@ App.propTypes = {
   loggedIn: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
