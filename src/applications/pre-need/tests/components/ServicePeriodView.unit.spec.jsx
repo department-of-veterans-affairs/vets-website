@@ -1,0 +1,38 @@
+import React from 'react';
+import { expect } from 'chai';
+
+import createCommonStore from 'platform/startup/store';
+import SkinDeep from 'skin-deep';
+import reducer from '../../../post-911-gib-status/reducers/index';
+import ServicePeriodView from '../../components/ServicePeriodView';
+
+const store = createCommonStore(reducer);
+const defaultProps = store.getState();
+defaultProps.dateRange = {
+  from: '1900-01-01',
+  to: '1905-01-01',
+};
+
+const props = {
+  formData: {
+    dateRange: {
+      from: '1900-01-01',
+      to: '1905-01-01',
+    },
+  },
+};
+
+describe('<StatusPage>', () => {
+  it('should render', () => {
+    const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
+    const input = tree.subTree('div');
+    expect(input.type).to.equal('div');
+    expect(input.text()).to.equal('01/01/1900 — 01/01/1905');
+  });
+
+  it('should populate date field', () => {
+    const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
+    const input = tree.subTree('div');
+    expect(input.text()).to.equal('01/01/1900 — 01/01/1905');
+  });
+});
