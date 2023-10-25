@@ -73,6 +73,7 @@ describe('Landing dashboard', () => {
   it('displays a View Inbox button', () => {
     const screen = setup();
     expect(screen.getByText(`Go to your inbox`)).to.exist;
+    expect(screen.getByText(`Start a new message`)).to.exist;
   });
 
   it('displays a Welcome message', () => {
