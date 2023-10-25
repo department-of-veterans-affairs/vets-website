@@ -125,5 +125,9 @@ class MedicationsDetailsPage {
       .should('have.text', 'Download your medication details as a PDF')
       .should('be.enabled');
   };
+
+  verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
+    cy.get('[data-testid="refill-request-button"]').should('be.enabled');
+  };
 }
 export default MedicationsDetailsPage;
