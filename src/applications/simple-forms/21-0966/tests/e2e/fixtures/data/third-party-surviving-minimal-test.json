@@ -1,5 +1,10 @@
 {
   "preparerIdentification": "THIRD_PARTY_SURVIVING_DEPENDENT",
+  "thirdPartyPreparerFullName": {
+    "first": "Third",
+    "middle": "Party",
+    "last": "Veteran"
+  },
   "benefitSelection": {
     "SURVIVORS": true
   },
@@ -9,7 +14,7 @@
   },
   "survivingDependentDateOfBirth": "1980-07-12",
   "survivingDependentID": {
-    "ssn": "123456789"
+    "ssn": "223456789"
   },
   "survivingDependentMailingAddress": {
     "country": "CAN",

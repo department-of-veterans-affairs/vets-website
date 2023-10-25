@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { hasBadAddress as hasBadAddressSelector } from '@@profile/selectors';
+import {
+  hasBadAddress as hasBadAddressSelector,
+  selectProfileContactsToggle,
+} from '@@profile/selectors';
 import { useSelector } from 'react-redux';
 
-import { PROFILE_PATHS } from '@@profile/constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';
 
 import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
@@ -14,6 +17,7 @@ import { HubCard } from './HubCard';
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
+  const profileContactsEnabled = useSelector(selectProfileContactsToggle);
 
   useEffect(() => {
     document.title = `Profile | Veterans Affairs`;
@@ -148,6 +152,22 @@ export const Hub = () => {
             />
           </div>
         </HubCard>
+
+        {profileContactsEnabled && (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.CONTACTS}
+            content="Review your next of kin and emergency contact details for accuracy and correctness."
+          >
+            <>
+              <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
+                <ProfileLink
+                  text={PROFILE_PATH_NAMES.CONTACTS}
+                  href={PROFILE_PATHS.CONTACTS}
+                />
+              </div>
+            </>
+          </HubCard>
+        )}
       </div>
     </>
   );
