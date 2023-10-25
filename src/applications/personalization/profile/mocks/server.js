@@ -38,6 +38,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
+const contacts = require('../tests/fixtures/contacts.json');
+
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
 
@@ -59,6 +61,7 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
+            profileContacts: true,
             profileLighthouseDirectDeposit: true,
             profileUseFieldEditingPage: true,
             profileUseHubPage: true,
@@ -277,6 +280,8 @@ const responses = {
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
+  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  'GET /v0/profile/contacts': contacts,
 };
 
 function terminationHandler(signal) {
