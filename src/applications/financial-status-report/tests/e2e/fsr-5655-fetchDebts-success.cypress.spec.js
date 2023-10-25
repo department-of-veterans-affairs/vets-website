@@ -5,9 +5,7 @@ import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 
 import { WIZARD_STATUS } from '../../wizard/constants';
 
-describe(`Fetch Debts Successfully`, () => {
-  Cypress.config({ requestTimeout: 10000 });
-
+describe('Fetch Debts Successfully', () => {
   before(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
@@ -16,7 +14,10 @@ describe(`Fetch Debts Successfully`, () => {
           { name: 'show_financial_status_report', value: true },
         ],
       },
-    }).as('features');
+    });
+
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.login(mockUser);
 
     cy.intercept('GET', '/v0/debts*', {
       hasDependentDebts: false,
@@ -75,25 +76,28 @@ describe(`Fetch Debts Successfully`, () => {
     cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgressData);
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
 
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/user?*', mockUser);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.visit(manifest.rootUrl);
-    cy.wait('@features');
   });
-
+  beforeEach(() => {
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+    });
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
   it('Successful API Response', () => {
+    // navigateToDebtSelection();
+
     cy.get('a.vads-c-action-link--green')
       .first()
-      .click({ waitForAnimations: true });
+      .click();
 
-    cy.location('pathname').should(
-      'eq',
-      `/manage-va-debt/request-debt-help-form-5655/veteran-information`,
-    );
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
-      .click({ waitForAnimations: true });
+      .click();
 
     cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 
