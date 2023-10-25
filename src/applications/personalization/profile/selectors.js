@@ -160,3 +160,26 @@ export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
 
 export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
+
+export const selectProfileContactsToggle = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts];
+
+export const selectProfileContacts = state => state?.profileContacts || false;
+
+export const selectEmergencyContact = state => {
+  const contacts = selectProfileContacts(state).data || [];
+  const emergencyContacts =
+    contacts.filter(contact =>
+      contact?.attributes?.contactType?.match(/emergency contact/i),
+    ) || [];
+  return emergencyContacts[0];
+};
+
+export const selectNextOfKin = state => {
+  const contacts = selectProfileContacts(state).data || [];
+  const nextOfKin =
+    contacts.filter(contact =>
+      contact?.attributes?.contactType?.match(/next of kin/i),
+    ) || [];
+  return nextOfKin[0];
+};
