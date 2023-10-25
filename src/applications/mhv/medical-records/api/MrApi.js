@@ -21,6 +21,40 @@ const hitApi = runningUnitTest => {
   );
 };
 
+/**
+ * Helper function to create a delay
+ */
+const delay = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+/**
+ * Recursive function that will continue polling the provided API endpoint if it sends a 404 response.
+ * At this time, we will only get a 404 if the patient record has not yet been created.
+ * @param {String} path the API endpoint
+ * @param {Object} options headers, method, etc.
+ * @param {number} endTime the cutoff time to stop polling the path and simply return the error
+ * @returns
+ */
+const apiRequestWithRetry = async (path, options, endTime) => {
+  const retryInterval = 2000; // 2 seconds
+
+  try {
+    return await apiRequest(path, options);
+  } catch (e) {
+    const errorCode = e.errors && e.errors[0] && e.errors[0].code;
+
+    // Check if the error code is 404 and if the retry time limit has not been reached
+    if (errorCode === '404' && Date.now() < endTime) {
+      await delay(retryInterval);
+      return apiRequestWithRetry(path, options, endTime);
+    }
+
+    // If error is not 404 or time limit exceeded, throw the error
+    throw e;
+  }
+};
+
 export const getLabsAndTests = runningUnitTest => {
   if (hitApi(runningUnitTest)) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
@@ -114,16 +148,20 @@ export const getCondition = (id, runningUnitTest) => {
   });
 };
 
-export const getAllergies = () => {
-  return apiRequest(`${apiBasePath}/medical_records/allergies`, {
-    headers,
-  });
+export const getAllergies = async () => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/allergies`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 export const getAllergy = id => {
-  return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
-    headers,
-  });
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/allergies/${id}`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 /**

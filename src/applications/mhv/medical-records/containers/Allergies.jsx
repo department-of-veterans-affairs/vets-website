@@ -137,7 +137,17 @@ const Allergies = props => {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
     }
     if (allergies?.length > 0) {
-      return <RecordList records={allergies} type={recordType.ALLERGIES} />;
+      return (
+        <>
+          <PrintDownload
+            list
+            download={generateAllergiesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <RecordList records={allergies} type={recordType.ALLERGIES} />
+        </>
+      );
     }
     if (allergies?.length === 0) {
       return (
@@ -149,12 +159,14 @@ const Allergies = props => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+        <va-loading-indicator
+          message="We’re loading your records. This could take up to a minute."
+          setFocus
+          data-testid="loading-indicator"
+          // class="loading-indicator"
+        />
+      </div>
     );
   };
 
@@ -171,16 +183,6 @@ const Allergies = props => {
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
-      {!accessAlert && (
-        <>
-          <PrintDownload
-            list
-            download={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </>
-      )}
       {content()}
     </div>
   );
