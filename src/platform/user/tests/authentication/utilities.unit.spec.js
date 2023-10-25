@@ -375,7 +375,7 @@ describe('Authentication Utilities', () => {
       );
     });
 
-    it('should return with an `authenticated=true` query parameter for Cerner', () => {
+    it('should strip out the 2 `to` query parameters, uses the correct one, and append the `authenticated=true` query parameter', () => {
       setup({
         path: `${usipPath}${cernerUsipParams}${cernerComplicatedParams}`,
       });
