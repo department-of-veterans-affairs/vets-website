@@ -48,7 +48,6 @@ const checkOpt = {
 };
 
 describe('HLR wizard', () => {
-  Cypress.config({ scrollBehavior: false });
   beforeEach(() => {
     cypressSetup();
 

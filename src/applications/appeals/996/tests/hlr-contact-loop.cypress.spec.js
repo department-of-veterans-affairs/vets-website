@@ -26,7 +26,7 @@ const checkOpt = {
 };
 
 describe('HLR contact info loop', () => {
-  Cypress.config({ requestTimeout: 10000, scrollBehavior: false });
+  Cypress.config({ requestTimeout: 10000 });
   const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
