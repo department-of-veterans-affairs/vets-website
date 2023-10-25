@@ -69,7 +69,7 @@ export default function CrisisPanel() {
                 aria-hidden="true"
               />
               <p>
-                <a href="tel:+711" aria-label="7 1 1">
+                <a href="tel:711" aria-label="7 1 1">
                   For TTY, call <strong>711 then 988</strong>
                 </a>
               </p>
