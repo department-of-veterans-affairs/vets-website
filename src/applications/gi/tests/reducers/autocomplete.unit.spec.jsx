@@ -88,5 +88,4 @@ describe('autocomplete reducer', () => {
     const newState = autocompleteReducer(initialState, action);
     expect(newState.name).to.equal('SF State');
   });
-
 });

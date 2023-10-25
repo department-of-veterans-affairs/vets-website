@@ -26,7 +26,7 @@ describe('eligibility reducer', () => {
         type: 'ELIGIBILITY_CHANGED',
         payload: {
           militaryStatus: 'veteran',
-        }       
+        },
       },
     );
 
@@ -44,15 +44,13 @@ describe('eligibility reducer', () => {
       {
         type: 'ELIGIBILITY_CHANGED',
         payload: {
-          giBillChapter: '33'
-
-        }
+          giBillChapter: '33',
+        },
       },
     );
 
     delete state.timestamp;
     expect(state.giBillChapter).to.eql('33');
     expect(state.eligForPostGiBill).to.eql('no');
-
   });
 });
