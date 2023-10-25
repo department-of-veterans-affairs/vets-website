@@ -77,7 +77,7 @@ export const Hub = () => {
         >
           <>
             <ProfileLink
-              className="vads-u-display--block"
+              className="vads-u-display--block vads-u-margin-bottom--2"
               text="Review your military information"
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
@@ -115,7 +115,7 @@ export const Hub = () => {
         >
           <>
             <ProfileLink
-              className="vads-u-display--block"
+              className="vads-u-display--block vads-u-margin-bottom--2"
               text="Review account security"
               href={PROFILE_PATHS.ACCOUNT_SECURITY}
             />
