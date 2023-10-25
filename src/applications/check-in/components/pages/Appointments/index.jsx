@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp } from '../../../selectors';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import UpcomingAppointments from '../../UpcomingAppointments';
+import ActionItemDisplay from '../../ActionItemDisplay';
 
 const AppointmentsPage = props => {
   const { router } = props;
@@ -17,7 +17,6 @@ const AppointmentsPage = props => {
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
-  const { goToNextPage } = useFormRouting(router);
   const { updateError } = useUpdateError();
 
   const { isComplete, checkInDataError } = useGetCheckInData({
@@ -25,10 +24,6 @@ const AppointmentsPage = props => {
     router,
     isPreCheckIn: app === APP_NAMES.PRE_CHECK_IN,
   });
-
-  const handleClick = () => {
-    goToNextPage();
-  };
 
   useEffect(
     () => {
@@ -62,19 +57,9 @@ const AppointmentsPage = props => {
     );
   }
   return (
-    <Wrapper pageTitle="Your Appointments" eyebrow="Check-In" withBackButton>
-      <div data-testid="upcoming-appointments">
-        <UpcomingAppointments router={router} />
-      </div>
-      <button
-        type="button"
-        className="usa-button usa-button-big vads-u-font-size--md"
-        data-testid="check-in-button"
-        onClick={handleClick}
-        value="Attempt Check In"
-      >
-        Attempt Check In
-      </button>
+    <Wrapper pageTitle="Your Appointments" withBackButton>
+      <ActionItemDisplay router={router} />
+      <UpcomingAppointments router={router} />
     </Wrapper>
   );
 };
