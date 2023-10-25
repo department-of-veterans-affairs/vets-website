@@ -134,6 +134,33 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             Email us at <FeedbackEmail />
           </p>
         </va-accordion-item>
+
+        <va-accordion-item>
+          <h3 slot="headline">
+            Will I need to pay a copay for using this messaging tool?
+          </h3>
+          <p>
+            No. You won’t pay a copay for using this messaging tool to
+            communicate with your care team.
+          </p>
+          <p>
+            If you have other health insurance, we may bill your other insurance
+            provider for your care—including for the use of this messaging tool.
+            But we won’t bill you for any charges not covered by your other
+            insurance provider.
+          </p>
+          <p>
+            If you have copay charges that you believe are incorrect, you can
+            dispute the charges. You’ll need to dispute charges within{' '}
+            <strong>30 days</strong> of receiving your copay bill.
+          </p>
+          <a
+            href="/health-care/pay-copay-bill/dispute-charges/"
+            target="_blank"
+          >
+            Learn how to dispute your VA copay charges
+          </a>
+        </va-accordion-item>
       </va-accordion>
     </div>
   ) : (
