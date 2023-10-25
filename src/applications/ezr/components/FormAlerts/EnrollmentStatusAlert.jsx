@@ -7,13 +7,15 @@ const EnrollmentStatusAlert = ({ showError }) => {
   return !showError ? (
     <va-alert status="warning" data-testid="ezr-enrollment-status-alert" uswds>
       <h3 slot="headline">{content['alert-enrollment-title']}</h3>
-      <p>{content['alert-enrollment-message']}</p>
-      <a
-        className="vads-c-action-link--green"
-        href="/health-care/apply/application"
-      >
-        {content['alert-enrollment-action']}
-      </a>
+      <div>
+        <p>{content['alert-enrollment-message']}</p>
+        <a
+          className="vads-c-action-link--green"
+          href="/health-care/apply/application"
+        >
+          {content['alert-enrollment-action']}
+        </a>
+      </div>
     </va-alert>
   ) : (
     <ServerErrorAlert />
