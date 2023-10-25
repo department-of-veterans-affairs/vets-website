@@ -48,7 +48,6 @@ function visitIntro() {
   cy.get('.schemaform-start-button')
     .first()
     .click();
-
   cy.url().should('not.contain', '/introduction');
 }
 
@@ -56,10 +55,10 @@ function visitIntro() {
 function fillApplicantInfo(name, ssn, dob, relationship) {
   validateProgressBar('1');
   cy.fillName('root_application_claimant_name', name);
+  cy.fill('#root_application_claimant_name_maiden', name.maiden);
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
   cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
-
   cy.injectAxeThenAxeCheck();
   clickContinue();
   cy.url().should(
@@ -117,11 +116,15 @@ function fillMilitaryHistory(serviceRecord) {
 }
 
 // Fills in previous name information, performs axe check, continues to next page
-function fillPreviousName(serviceName) {
-  cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
-  cy.axeCheck();
-  clickContinue();
-  cy.fillName('root_application_veteran_serviceName', serviceName);
+function fillPreviousName(veteran) {
+  if (veteran['view:hasServiceName']) {
+    cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
+    cy.axeCheck();
+    clickContinue();
+    cy.fillName('root_application_veteran_serviceName', veteran.serviceName);
+  } else {
+    cy.selectRadio('root_application_veteran_view:hasServiceName', 'N');
+  }
   cy.axeCheck();
   clickContinue();
 }
@@ -140,28 +143,29 @@ function fillBenefitSelection(
   cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
   cy.get('body').click();
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
-  cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();
 
   // Page 2
-  if (currentlyBuriedPersons.length) {
-    currentlyBuriedPersons.forEach((person, index) => {
-      cy.get(
-        `input#root_application_currentlyBuriedPersons_${index}_name_first`,
-      ).type(person.name.first);
-      cy.get(
-        `input#root_application_currentlyBuriedPersons_${index}_name_last`,
-      ).type(person.name.last);
+  if (hasCurrentlyBuried === '1') {
+    if (currentlyBuriedPersons.length) {
+      currentlyBuriedPersons.forEach((person, index) => {
+        cy.get(
+          `input#root_application_currentlyBuriedPersons_${index}_name_first`,
+        ).type(person.name.first);
+        cy.get(
+          `input#root_application_currentlyBuriedPersons_${index}_name_last`,
+        ).type(person.name.last);
 
-      if (index < currentlyBuriedPersons.length - 1) {
-        cy.get('.usa-button-secondary.va-growable-add-btn').click();
-      }
-    });
+        if (index < currentlyBuriedPersons.length - 1) {
+          cy.get('.usa-button-secondary.va-growable-add-btn').click();
+        }
+      });
+    }
+    cy.axeCheck();
+    clickContinue();
+    cy.url().should('not.contain', '/burial-benefits');
   }
-  cy.axeCheck();
-  clickContinue();
-  cy.url().should('not.contain', '/burial-benefits');
 }
 
 // Fills Applicant Contact Information page, performs axe check, continues to next page
@@ -231,7 +235,7 @@ function submitForm() {
     .invoke('attr', 'data-location')
     .should('not.contain', '/review-and-submit');
 
-  cy.get('.confirmation-page-title');
+  cy.get('.confirmation-page-title').should('be.visible');
   cy.axeCheck();
 }
 

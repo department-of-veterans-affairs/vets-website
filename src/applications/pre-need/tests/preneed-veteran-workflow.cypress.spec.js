@@ -14,26 +14,8 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.relationshipToVet,
     );
 
-    // Applicant demographics
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
-    cy.selectRadio(
-      'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
-    );
-
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-demographics');
-
     // Veteran Information Page
     preneedHelpers.validateProgressBar('1');
-
     cy.fill(
       'input[name="root_application_veteran_militaryServiceNumber"]',
       testData.data.application.veteran.militaryServiceNumber,
@@ -45,7 +27,17 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.get('#root_application_veteran_militaryStatus').select(
       testData.data.application.veteran.militaryStatus,
     );
-
+    cy.get(
+      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
+    ).click();
+    cy.selectRadio(
+      'root_application_veteran_gender',
+      testData.data.application.veteran.gender,
+    );
+    cy.selectRadio(
+      'root_application_veteran_maritalStatus',
+      testData.data.application.veteran.maritalStatus,
+    );
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
@@ -58,9 +50,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names Page
-    preneedHelpers.fillPreviousName(
-      testData.data.application.veteran.serviceName,
-    );
+    preneedHelpers.fillPreviousName(testData.data.application.veteran);
     cy.url().should('not.contain', '/applicant-military-name');
 
     // Benefit Selection Page

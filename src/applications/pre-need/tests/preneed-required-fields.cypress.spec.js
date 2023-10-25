@@ -19,21 +19,9 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.visitIntro();
     cy.injectAxe();
 
-    errorCheck(requiredHelpers.relationshipToVetErrors);
-
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
-      testData.data.application.claimant.relationshipToVet,
-    );
-
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-
     // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
-
     errorCheck(requiredHelpers.applicantInfoErrors);
-
     cy.fill(
       'input[name=root_application_claimant_name_first]',
       testData.data.application.claimant.name.first,
@@ -50,15 +38,16 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'root_application_claimant_dateOfBirth',
       testData.data.application.claimant.dateOfBirth,
     );
-
+    cy.selectRadio(
+      'root_application_claimant_relationshipToVet',
+      testData.data.application.claimant.relationshipToVet,
+    );
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-information');
 
-    // Veteran Information Page
+    // Veteran/Sponsor Information Page
     preneedHelpers.validateProgressBar('2');
-
     errorCheck(requiredHelpers.veteranInfoErrors);
-
     cy.fill(
       'input[name=root_application_veteran_currentName_first]',
       testData.data.application.veteran.currentName.first,
@@ -89,14 +78,12 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'root_application_veteran_isDeceased',
       testData.data.application.veteran.isDeceased,
     );
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History Page
     preneedHelpers.validateProgressBar('3');
     errorCheck(requiredHelpers.militaryHistoryErrors);
-
     testData.data.application.veteran.serviceRecords.forEach(
       (branch, index) => {
         cy.get(
@@ -120,18 +107,16 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         ).trigger('keyup', { keyCode: 13 });
       },
     );
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
-    // Previous Names Page
+    // Previous Names Page 1
     errorCheck(requiredHelpers.previousNameErrors1);
-
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');
     preneedHelpers.clickContinue();
 
+    // Previous Names Page 2
     errorCheck(requiredHelpers.previousNameErrors2);
-
     cy.fill(
       'input[name=root_application_veteran_serviceName_first]',
       testData.data.application.veteran.serviceName.first,
@@ -140,14 +125,12 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name=root_application_veteran_serviceName_last]',
       testData.data.application.veteran.serviceName.last,
     );
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-name');
 
     // Benefit Selection Page 1
     preneedHelpers.validateProgressBar('4');
     errorCheck(requiredHelpers.burialBenefitsErrors1);
-
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
@@ -156,7 +139,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Benefit Selection Page 2
     errorCheck(requiredHelpers.burialBenefitsErrors2);
-
     if (testData.data.application.currentlyBuriedPersons.length) {
       testData.data.application.currentlyBuriedPersons.forEach(
         (person, index) => {
@@ -171,7 +153,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         },
       );
     }
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
 
@@ -182,9 +163,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant/Claimant Contact Information Page
     preneedHelpers.validateProgressBar('6');
-
     errorCheck(requiredHelpers.applicantContactInfoErrors);
-
     cy.fillAddress(
       'root_application_claimant_address',
       testData.data.application.claimant.address,
@@ -194,32 +173,28 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name$="phoneNumber"]',
       testData.data.application.claimant.phoneNumber,
     );
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/applicant-contact-information');
 
-    // Veteran Contact Information Page
+    // Sponsor Contact Information Page
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
-    // Preparer information Page
+    // Preparer Information Page 1
     preneedHelpers.validateProgressBar('6');
     errorCheck(requiredHelpers.preparerInfoErrors1);
-
     cy.selectRadio(
       'root_application_applicant_applicantRelationshipToClaimant',
       testData.data.application.applicant.applicantRelationshipToClaimant,
     );
     preneedHelpers.clickContinue();
 
+    // Preparer Information Page 2
     if (
       testData.data.application.applicant.applicantRelationshipToClaimant ===
       'Authorized Agent/Rep'
     ) {
-      preneedHelpers.clickContinue();
-
       errorCheck(requiredHelpers.preparerInfoErrors2);
-
       cy.fill(
         'input[name$="root_application_applicant_name_first"]',
         testData.data.application.applicant.name.first,
@@ -228,8 +203,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         'input[name$="root_application_applicant_name_last"]',
         testData.data.application.applicant.name.last,
       );
-      cy.axeCheck();
       preneedHelpers.clickContinue();
+
+      // Preparer Information page 3
+      errorCheck(requiredHelpers.preparerInfoErrors3);
       cy.fillAddress(
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
         testData.data.application.applicant['view:applicantInfo']
@@ -240,7 +217,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
         testData.data.application.applicant.phoneNumber,
       );
     }
-
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/preparer');
 
