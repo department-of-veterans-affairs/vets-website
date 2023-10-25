@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -19,7 +19,13 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  EMPTY_FIELD,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -33,6 +39,27 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
+
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
+  );
 
   useEffect(
     () => {
@@ -126,7 +153,14 @@ const ConditionDetails = props => {
     generateConditionDetails();
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+      );
+    }
     if (record) {
       return (
         <>

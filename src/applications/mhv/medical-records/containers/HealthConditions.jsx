@@ -1,20 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
-import { recordType, pageTitles } from '../util/constants';
+import {
+  recordType,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
+
   useEffect(
     () => {
       dispatch(getConditionsList());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
   );
 
   useEffect(
@@ -30,7 +57,14 @@ const HealthConditions = () => {
     [dispatch],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+      );
+    }
     if (conditions?.length > 0) {
       return (
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
