@@ -160,12 +160,12 @@ export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
   );
 
   if (newlySelectedBenefit) {
-    return `You’ve submitted your intent to file request for ${
+    return `You’ve submitted your intent to file for ${
       benefitPhrases[newlySelectedBenefit.toLowerCase()]
     }`;
   }
 
-  return 'You’ve submitted your intent to file request';
+  return 'You’ve submitted your intent to file';
 };
 
 export const getSuccessAlertText = (
@@ -255,7 +255,7 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
   }
 
-  return `Our records show that you already have an Intent to File (ITF) for ${
+  return `Our records show that you already have an intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
   }. Your intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
