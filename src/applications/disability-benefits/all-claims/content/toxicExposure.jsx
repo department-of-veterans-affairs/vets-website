@@ -27,6 +27,6 @@ export const moreInfoDescription = (
     target="_blank"
     rel="noreferrer"
   >
-    Learn more about toxic exposure
+    Learn more about toxic exposure (opens in new tab)
   </a>
 );
