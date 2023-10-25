@@ -184,7 +184,10 @@ const AllergyDetails = props => {
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
-          <div className="condition-details max-80">
+          <div
+            className="condition-details max-80"
+            data-testid="allergy-reaction"
+          >
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Signs and symptoms
             </h2>
@@ -192,19 +195,27 @@ const AllergyDetails = props => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask">{allergy.type}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-type">
+              {allergy.type}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">{allergy.location}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-location">
+              {allergy.location}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or historical
             </h2>
-            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-observed">
+              {allergy.observedOrReported}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
-            <p data-dd-privacy="mask">{allergy.notes}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-notes">
+              {allergy.notes}
+            </p>
           </div>
         </>
       );
