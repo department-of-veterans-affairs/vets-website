@@ -37,8 +37,8 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Wizard
       cy.url().should('include', '/start');
-      cy.tabToElementAndPressSpace('va-radio-option');
-      // cy.get('va-radio-option[value="compensation"]').click();
+      cy.tabToElement('input[value="compensation"]');
+      cy.realPress('Space');
 
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
@@ -54,8 +54,6 @@ describe('Higher-Level Review keyboard only navigation', () => {
         chapters.infoPages.pages.veteranInformation.path,
       );
       cy.tabToContinueForm();
-      // cy.tabToElement('main button[type="submit"]');
-      // cy.realPress('Space');
 
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
@@ -68,7 +66,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.infoPages.pages.confirmContactInfo.path,
       );
-      cy.tabToContinueForm();
+      cy.tabToElementAndPressSpace('.usa-button-primary');
 
       // Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
@@ -77,7 +75,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
-      cy.tabToInputWithLabel('Tinnitus');
+      cy.tabToElement('#root_contestedIssues_0'); // Tinnitus
       cy.realPress('Space');
       cy.tabToContinueForm();
 
@@ -125,7 +123,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // Informal conference time
       cy.url().should(
         'include',
-        chapters.informalConference.pages.conferenceTime.path,
+        chapters.informalConference.pages.conferenceTimeRep.path,
       );
       cy.tabToElement('[name="root_informalConferenceTime"]');
       cy.chooseRadio(data.informalConferenceTime);
@@ -133,7 +131,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('input[type="checkbox"]');
+      cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 

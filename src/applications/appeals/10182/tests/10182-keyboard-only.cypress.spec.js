@@ -144,7 +144,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('input[type="checkbox"]');
+      cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 
