@@ -85,14 +85,7 @@ import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
-const {
-  date,
-  fullName,
-  monetaryValue,
-  phone,
-  provider,
-  ssn,
-} = fullSchemaHca.definitions;
+const { date } = fullSchemaHca.definitions;
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
 /**
@@ -149,12 +142,7 @@ const formConfig = {
   getHelp: GetHelp,
   defaultDefinitions: {
     date,
-    provider,
-    fullName,
-    ssn,
-    phone,
     dependent: dependentSchema,
-    monetaryValue,
   },
   chapters: {
     veteranInformation: {
