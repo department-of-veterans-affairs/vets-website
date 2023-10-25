@@ -63,7 +63,7 @@ i18n
             return formatDate(value, 'iiii', { locale });
           }
           if (format === 'monthDay') {
-            return formatDate(value, "MMMM' 'dd", { locale });
+            return formatDate(value, "MMMM' 'd", { locale });
           }
           if (format === 'monthAndYear') {
             return formatDate(value, 'MMMM Y', { locale });
