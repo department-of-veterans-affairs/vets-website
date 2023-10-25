@@ -126,7 +126,11 @@ function ApplicantContactInfoDescription() {
     : applicantContactInfoDescriptionNonVet;
 }
 
+/** @type {FormConfig} */
 const formConfig = {
+  dev: {
+    showNavLinks: true,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
