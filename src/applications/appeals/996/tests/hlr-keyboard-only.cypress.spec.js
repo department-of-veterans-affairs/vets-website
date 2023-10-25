@@ -47,8 +47,9 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Wizard
       cy.url().should('include', '/start');
-      cy.tabToElement('va-radio-option');
+      cy.tabToElement('input[value="compensation"]');
       cy.realPress('Space');
+
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
 
@@ -73,9 +74,9 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // Contact info
       cy.url().should(
         'include',
-        chapters.infoPages.pages.confirmContactInformation.path,
+        chapters.infoPages.pages.confirmContactInfo.path,
       );
-      cy.tabToContinueForm();
+      cy.tabToElementAndPressSpace('.usa-button-primary');
 
       // Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
@@ -84,7 +85,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
-      cy.tabToInputWithLabel('Tinnitus');
+      cy.tabToElement('#root_contestedIssues_0'); // Tinnitus
       cy.realPress('Space');
       cy.tabToContinueForm();
 
@@ -132,7 +133,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // Informal conference time
       cy.url().should(
         'include',
-        chapters.informalConference.pages.conferenceTime.path,
+        chapters.informalConference.pages.conferenceTimeRep.path,
       );
       cy.tabToElement('[name="root_informalConferenceTime"]');
       cy.chooseRadio(data.informalConferenceTime);
@@ -140,7 +141,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('input[type="checkbox"]');
+      cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 
