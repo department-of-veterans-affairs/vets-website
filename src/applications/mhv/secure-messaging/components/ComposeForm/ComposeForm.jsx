@@ -75,15 +75,6 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
 
-  const {
-    OTHER,
-    COVID,
-    APPOINTMENTS,
-    MEDICATIONS,
-    TEST_RESULTS,
-    EDUCATION,
-  } = Categories;
-
   const formattededSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
@@ -197,26 +188,23 @@ const ComposeForm = props => {
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              ),
-            )
-            .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
             navigateToFolderByFolderId(
               currentFolder?.folderId || DefaultFolders.INBOX.id,
               history,
             ),
-          );
-        }
+          )
+          .catch(setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],
@@ -276,29 +264,22 @@ const ComposeForm = props => {
 
   if (draft && recipients && !formPopulated) populateForm();
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category ===
-      (COVID ||
-        OTHER ||
-        APPOINTMENTS ||
-        MEDICATIONS ||
-        TEST_RESULTS ||
-        EDUCATION)
-        ? Categories[category]
-        : 'New message';
+  const messageTitle = useMemo(
+    () => {
+      if (category && subject) {
+        return `${Categories[category]}: ${subject}`;
+      }
+      if (category && !subject) {
+        return `${Categories[category]}:`;
+      }
+      if (!category && subject) {
+        return subject;
+      }
 
-    if (category && subject) {
-      return `${Categories[category]}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${Categories[category]}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return `${casedCategory}`;
-  };
+      return Categories[category] || 'New message';
+    },
+    [category, subject],
+  );
 
   const checkMessageValidity = useCallback(
     () => {
@@ -528,7 +509,7 @@ const ComposeForm = props => {
           data-dd-privacy="mask"
         >
           <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {setMessageTitle()}
+            {messageTitle}
           </h2>
         </div>
         <div className="compose-inputs-container">

@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import TotalRatedDisabilities from './TotalRatedDisabilities';
-import { OnThisPageLink } from './OnThisPageLink';
+import OnThisPage from './OnThisPage';
 import RatedDisabilityList from './RatedDisabilityList';
 
 const facilityLocatorUrl = getAppUrl('facilities');
@@ -55,32 +54,8 @@ const RatedDisabilityView = ({
   }, []);
 
   let content;
-  let onThisPageHeader = '';
-  let combinedRatingLink = '';
-  let ratedDisabilitiesLink = '';
-  let learnMoreLink = '';
 
-  // If there are rated disabilites then the page gets long enough to fill these links
-  if (ratedDisabilities?.ratedDisabilities?.length > 0) {
-    onThisPageHeader = <h2 className="vads-u-font-size--h3">On this page</h2>;
-    combinedRatingLink = (
-      <OnThisPageLink
-        text="Your combined disability rating"
-        link="#combined-rating"
-      />
-    );
-
-    ratedDisabilitiesLink = (
-      <OnThisPageLink
-        text="Your individual ratings"
-        link="#individual-ratings"
-      />
-    );
-
-    learnMoreLink = (
-      <OnThisPageLink text="Learn about VA disabilities" link="#learn" />
-    );
-  }
+  const hasRatedDisabilities = ratedDisabilities?.ratedDisabilities?.length > 0;
 
   // Total Disability Calculation and Pending Disabilities should go here.
   if (user.profile.verified) {
@@ -91,12 +66,7 @@ const RatedDisabilityView = ({
             <div className="vads-l-col--12">
               <h1>View your VA disability ratings</h1>
             </div>
-            <div className="usa-width-one-third">
-              {onThisPageHeader}
-              {combinedRatingLink}
-              {ratedDisabilitiesLink}
-              {learnMoreLink}
-            </div>
+            {hasRatedDisabilities && <OnThisPage />}
           </div>
           <TotalRatedDisabilities
             totalDisabilityRating={totalDisabilityRating}

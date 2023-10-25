@@ -43,7 +43,7 @@ const AttachmentsList = props => {
   );
 
   const removeAttachment = file => {
-    const newAttArr = attachments.filter(item => {
+    const newAttArr = attachments?.filter(item => {
       if (item.name !== file.name) {
         return true;
       }

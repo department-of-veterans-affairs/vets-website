@@ -121,7 +121,7 @@ class MedicationsListPage {
       ':nth-child(5) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
     )
       .should('be.visible')
-      .and('have.text', 'You haven’t filled this prescription yet');
+      .and('have.text', 'Not filled yet');
   };
 
   verifyInformationBasedOnStatusActiveOnHold = () => {
@@ -180,7 +180,7 @@ class MedicationsListPage {
     //  cy.get(':nth-child(2) > .rx-card-detials > :nth-child(5) > [data-testid="refill-request-button"]')
     cy.get(
       ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    ).should('have.text', 'You haven’t filled this prescription yet');
+    ).should('have.text', 'Not filled yet');
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {
