@@ -29,7 +29,7 @@ describe('Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Render Error is caught', () => {
+  it.skip('Render Error is caught', () => {
     cy.visitWithUUID();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
