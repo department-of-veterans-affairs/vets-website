@@ -24,6 +24,7 @@ import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
+import ReplyDrafts from './ReplyDrafts';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage, cannotReply, header } = props;
@@ -437,6 +438,7 @@ const ReplyForm = props => {
               cancelButtonText={navigationError?.cancelButtonText}
             />
             {!cannotReply && <EmergencyNote dropDownFlag />}
+            <ReplyDrafts cannotReply={cannotReply} />
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
