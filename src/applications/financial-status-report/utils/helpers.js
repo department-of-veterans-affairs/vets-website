@@ -34,6 +34,12 @@ export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
   ];
 };
 
+export const reviewPageNavigationFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportReviewNavigation
+  ];
+};
+
 export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 
