@@ -24,7 +24,7 @@ import {
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
 export const createDependentSchema = hcaSchema => {
-  const schema = merge({}, hcaSchema.definitions.dependent, {
+  const schema = merge({}, hcaSchema.properties.dependents.items, {
     required: [
       'dependentRelation',
       'socialSecurityNumber',
@@ -41,7 +41,7 @@ export const createDependentSchema = hcaSchema => {
 };
 
 export const createDependentIncomeSchema = hcaSchema => {
-  const { dependent } = hcaSchema.definitions;
+  const { items: dependent } = hcaSchema.properties.dependents;
   return {
     ...dependent,
     properties: pick(dependent.properties, incomeFields),
