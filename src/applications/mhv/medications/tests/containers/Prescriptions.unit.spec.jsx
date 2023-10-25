@@ -10,7 +10,19 @@ describe('Medications Prescriptions container', () => {
     rx: {
       prescriptions: {
         prescriptionsList: prescriptions,
+        prescriptionsPagination: {
+          currentPage: 1,
+          totalPages: 7,
+          totalEntries: 122,
+        },
       },
+      breadcrumbs: {
+        list: [
+          { url: '/my-health/about-medications' },
+          { label: 'About Medications' },
+        ],
+      },
+      allergies: { error: true },
     },
   };
 
@@ -27,12 +39,17 @@ describe('Medications Prescriptions container', () => {
     expect(screen);
   });
 
-  it('displays intro text ', () => {
+  it('displays intro text ', async () => {
     const screen = setup();
     expect(
-      screen.findByText(
+      await screen.findByText(
         'Refill and track your VA prescriptions. And review all medications in your VA medical records.',
       ),
     );
+  });
+
+  it('shows title ', async () => {
+    const screen = setup();
+    expect(await screen.findByTestId('list-page-title')).to.exist;
   });
 });
