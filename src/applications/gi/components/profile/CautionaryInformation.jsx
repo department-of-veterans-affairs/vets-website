@@ -25,17 +25,15 @@ export function CautionaryInformation({ institution, showModal }) {
     if (!displayEmpty && !thisCampus && !allCampuses) return null;
     const bold = description === 'Total Complaints';
     return (
-      <>
-        <va-table-row key={key}>
-          <span>
-            <strong>{description}</strong>
-            <br />
-            {definition}
-          </span>
-          <span>{bold ? <strong>{thisCampus}</strong> : thisCampus}</span>
-          <span>{bold ? <strong>{allCampuses}</strong> : allCampuses}</span>
-        </va-table-row>
-      </>
+      <va-table-row key={key}>
+        <span>
+          <strong>{description}</strong>
+          <br />
+          {definition}
+        </span>
+        <span>{bold ? <strong>{thisCampus}</strong> : thisCampus}</span>
+        <span>{bold ? <strong>{allCampuses}</strong> : allCampuses}</span>
+      </va-table-row>
     );
   };
 
@@ -172,21 +170,17 @@ export function CautionaryInformation({ institution, showModal }) {
       <div>
         <div className="table">
           <va-table className="all-complaints">
-            <thead>
-              <tr>
-                <td />
-                <th>This campus</th>
-                <th>{allCampusesLink}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {renderTableRow({
-                description: 'All student complaints',
-                displayEmpty: true,
-                thisCampus: allComplaints.thisCampus || 0,
-                allCampuses: allComplaints.allCampuses || 0,
-              })}
-            </tbody>
+            <va-table-row slot="headers">
+              <span />
+              <span>This campus</span>
+              <span>{allCampusesLink}</span>
+            </va-table-row>
+            {renderTableRow({
+              description: 'All student complaints',
+              displayEmpty: true,
+              thisCampus: allComplaints.thisCampus || 0,
+              allCampuses: allComplaints.allCampuses || 0,
+            })}
           </va-table>
 
           {!!complaints.mainCampusRollUp && (
