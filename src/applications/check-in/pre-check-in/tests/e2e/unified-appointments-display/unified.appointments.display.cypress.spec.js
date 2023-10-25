@@ -8,12 +8,11 @@ import AppointmentDetails from '../../../../tests/e2e/pages/AppointmentDetails';
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
     beforeEach(() => {
-      const singleAppointment = [{ startTime: '2021-08-19T15:00:00' }];
       const {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeSessionPost,
-        initializeCheckInDataGet,
+        initializePreCheckInDataGet,
         initializeUpcomingAppointmentsDataGet,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
@@ -22,12 +21,11 @@ describe('Check In Experience -- ', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
-      initializeCheckInDataGet.withSuccess({ appointments: singleAppointment });
+      initializePreCheckInDataGet.withSuccess();
       initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
 
-      cy.visitWithUUID();
-      ValidateVeteran.validatePage.dayOf();
+      cy.visitPreCheckInWithUUID();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -35,54 +33,41 @@ describe('Check In Experience -- ', () => {
       });
     });
     it('Upcoming appointments are displayed in a sorted manner', () => {
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validatePageLoaded();
       AppointmentsPage.validateUpcomingAppointmentsList();
       cy.injectAxeThenAxeCheck();
     });
-    it('What to do next displays a check in card for valid appointments', () => {
+
+    it('What to do next displays a pre check in card for valid appointments', () => {
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validateWhatNextHeader();
-      AppointmentsPage.validateWhatNextCardTitle.dayOf();
+      AppointmentsPage.validateWhatNextCardTitle.preCheckIn();
       AppointmentsPage.validateWhatNextCardDetailsLink();
-      AppointmentsPage.validateWhatNextCardActionLink.dayOf();
+      AppointmentsPage.validateWhatNextCardActionLink.preCheckIn();
       cy.injectAxeThenAxeCheck();
     });
-    it('What to do next displays multiple check in cards ordered by ascending dateTime for valid appointments', () => {
-      const multipleAppointments = [
-        { startTime: '2021-08-19T17:00:00' },
-        {
-          startTime: '2021-08-19T16:00:00',
-          eligibility: 'INELIGIBLE',
-        },
-        { startTime: '2021-08-19T15:00:00' },
-      ];
-      ApiInitializer.initializeCheckInDataGet.withSuccess({
-        appointments: multipleAppointments,
+
+    // TODO: Complete this test with pre check in api call flow ticket #67417
+    it.skip('What to do next displays a success alert when demographics are up to date', () => {
+      ApiInitializer.initializePreCheckInDataGet.withSuccess({
+        uuid: '4d523464-c450-49dc-9a18-c04b3f1642ee',
       });
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      AppointmentsPage.validateMultipleCards(2);
-      AppointmentsPage.validateCardOrder();
       cy.injectAxeThenAxeCheck();
     });
+
     it('should navigate to appointment details', () => {
-      const multipleAppointments = [
-        { startTime: '2021-08-19T17:00:00' },
-        {
-          startTime: '2021-08-19T16:00:00',
-          eligibility: 'INELIGIBLE',
-        },
-        { startTime: '2021-08-19T15:00:00' },
-      ];
-      ApiInitializer.initializeCheckInDataGet.withSuccess({
-        appointments: multipleAppointments,
-      });
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      AppointmentsPage.clickDetails(0);
+      AppointmentsPage.clickDetails();
       AppointmentDetails.validatePageLoadedInPerson();
       cy.injectAxeThenAxeCheck();
     });
