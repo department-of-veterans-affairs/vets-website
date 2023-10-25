@@ -12,7 +12,11 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { makePdf, processList } from '../util/helpers';
-import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
@@ -65,7 +69,7 @@ const AllergyDetails = props => {
         updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
-    [dispatch, allergy, allergyId],
+    [dispatch, allergy],
   );
 
   useEffect(
@@ -141,7 +145,7 @@ const AllergyDetails = props => {
         <>
           <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
           <AccessTroubleAlertBox
-            alertType="Allergy"
+            alertType={accessAlertTypes.ALLERGY}
             className="vads-u-margin-bottom--9"
           />
         </>
@@ -180,7 +184,10 @@ const AllergyDetails = props => {
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
-          <div className="condition-details max-80">
+          <div
+            className="condition-details max-80"
+            data-testid="allergy-reaction"
+          >
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Signs and symptoms
             </h2>
@@ -188,19 +195,27 @@ const AllergyDetails = props => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask">{allergy.type}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-type">
+              {allergy.type}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">{allergy.location}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-location">
+              {allergy.location}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or historical
             </h2>
-            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-observed">
+              {allergy.observedOrReported}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
-            <p data-dd-privacy="mask">{allergy.notes}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-notes">
+              {allergy.notes}
+            </p>
           </div>
         </>
       );

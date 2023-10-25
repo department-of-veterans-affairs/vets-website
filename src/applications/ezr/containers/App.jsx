@@ -44,7 +44,11 @@ const App = props => {
   );
 
   return loading ? (
-    <va-loading-indicator message={content['load-app']} set-focus />
+    <va-loading-indicator
+      message={content['load-app']}
+      class="vads-u-margin-y--4"
+      set-focus
+    />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
