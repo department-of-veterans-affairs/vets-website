@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import EligibleBuriedView from '../../components/EligibleBuriedView';
 
-describe('EligibleBuriedView component', () => {
+describe('Pre-need EligibleBuriedView component', () => {
   const formData = {
     name: {
       first: 'test',

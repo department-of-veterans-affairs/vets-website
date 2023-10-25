@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import ErrorText from '../../components/ErrorText';
 
-describe('ErrorText component', () => {
+describe('Pre-need ErrorText component', () => {
   it('renders and unmounts without crashing', () => {
     const wrapper = mount(<ErrorText />);
     expect(wrapper.exists()).to.be.true;

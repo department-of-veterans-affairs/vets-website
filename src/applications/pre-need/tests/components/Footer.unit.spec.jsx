@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import Footer from '../../components/Footer';
 import GetFormHelp from '../../components/GetFormHelp';
 
-describe('Footer component', () => {
+describe('Pre-need Footer component', () => {
   const formConfig = {
     formConfig: {
       getHelp: GetFormHelp(),
