@@ -74,7 +74,7 @@ const UpcomingAppointmentsListItem = props => {
                   t('phone')
                 ) : (
                   <>
-                    {t('in-person')} at {appointment.facility}
+                    {t('in-person')} {appointment.facility}
                   </>
                 )}
               </div>
