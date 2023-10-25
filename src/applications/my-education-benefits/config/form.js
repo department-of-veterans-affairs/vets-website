@@ -1445,6 +1445,7 @@ const formConfig = {
                   },
                   incorrectServiceHistoryText: {
                     type: 'string',
+                    maxLength: 250,
                   },
                 },
               },
