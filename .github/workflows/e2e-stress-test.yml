@@ -348,7 +348,8 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -400,6 +401,7 @@ jobs:
         env:
           TEST_TYPE: e2e
           IS_CI: false
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery

@@ -84,7 +84,7 @@
   &:focus,
   &:focus-within,
   &:active {
-    outline: 2px solid $color-warning-message;
+    outline: 2px solid $color-feedback-warning-background;
     outline-offset: 2px;
     border: 2px solid $color-primary;
   }
@@ -106,7 +106,7 @@
 
   &:focus,
   &:focus-within {
-    outline: 2px solid $color-warning-message;
+    outline: 2px solid $color-feedback-warning-background;
     outline-offset: -1px;
   }
 

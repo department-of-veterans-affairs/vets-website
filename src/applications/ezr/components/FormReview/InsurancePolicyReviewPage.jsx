@@ -8,7 +8,7 @@ const InsurancePolicyReviewPage = ({ data, editPage }) => {
     const { insuranceName, insurancePolicyHolderName } = item;
     return (
       <div key={index} className="review-row">
-        <dt>
+        <dt className="dd-privacy-mask" data-dd-action-name="Insurance policy">
           <strong>{insuranceName}</strong>, {insurancePolicyHolderName}
         </dt>
         <dd>&nbsp;</dd>
@@ -46,7 +46,7 @@ const InsurancePolicyReviewPage = ({ data, editPage }) => {
             <dl className="review">
               <div className="review-row">
                 <dt>{content['insurance-coverage-question']}</dt>
-                <dd>{content['insurance-review-coverage-answer']}</dd>
+                <dd>{content['review-answer-no']}</dd>
               </div>
             </dl>
           </>

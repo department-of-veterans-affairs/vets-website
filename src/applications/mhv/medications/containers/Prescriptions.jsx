@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -30,6 +31,7 @@ import {
 import { getPrescriptionSortedList } from '../api/rxApi';
 
 const Prescriptions = () => {
+  const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
@@ -49,7 +51,7 @@ const Prescriptions = () => {
   );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(page ?? 1);
   const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
     PDF_GENERATE_STATUS.NotStarted,
   );
@@ -113,6 +115,14 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
+      const newUrl = `/my-health/medications/${currentPage}`;
+      window.history.pushState(null, '', newUrl);
+    },
+    [currentPage],
+  );
+
+  useEffect(
+    () => {
       dispatch(
         setBreadcrumbs(
           [
@@ -158,6 +168,7 @@ const Prescriptions = () => {
   const pdfData = useCallback(
     (rxList, allergiesList) => {
       return {
+        subject: 'Full Medications List',
         headerBanner: [
           {
             text:
