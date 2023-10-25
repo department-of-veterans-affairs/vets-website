@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import DetailsVideo from '../DetailsVideo';
 import {
   AtlasAppoinment,
@@ -25,9 +24,7 @@ const facilityData = new Facility();
 
 describe('DetailsVideo component with descriptive back link', () => {
   const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink]: true,
-    },
+    featureToggles: {},
   };
   it('should return Back to past appointments descriptive back link and past status alart', async () => {
     const appointment = {
@@ -241,28 +238,5 @@ describe('DetailsVideo component with descriptive back link', () => {
         selector: 'h2',
       }),
     ).to.exist;
-  });
-});
-describe('DetailsVideo component with Breadcrumb component', () => {
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink]: false,
-    },
-  };
-  it('should return breadcrumb component', () => {
-    const appointment = {
-      ...appointmentData,
-      videoData: {
-        isVideo: true,
-        isAtlas: false,
-        extension: { patientHasMobileGfe: true },
-        kind: 'MOBILE_ANY',
-      },
-    };
-    const props = { appointment, facilityData };
-    const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
-    });
-    expect(wrapper.queryByLabelText('Breadcrumbs')).to.exist;
   });
 });
