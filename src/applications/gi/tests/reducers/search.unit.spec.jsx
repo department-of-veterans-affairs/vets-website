@@ -1,386 +1,381 @@
 import searchReducer, {
-    uppercaseKeys,
-    normalizedInstitutionFacets,
-    derivePaging,
-  } from '../../reducers/search';
-  
-  const { expect } = require('chai');
+  uppercaseKeys,
+  normalizedInstitutionFacets,
+  derivePaging,
+} from '../../reducers/search';
+
+const { expect } = require('chai');
+
+describe('SearchReducer', () => {
+  describe('uppercasekeys function', () => {
+    it('should return an object with keys in uppercase', () => {
+      const obj = {
+        name: 'John Doe',
+        age: 25,
+        country: 'USA',
+      };
+
+      const expected = {
+        NAME: 'John Doe',
+        AGE: 25,
+        COUNTRY: 'USA',
+      };
+
+      const result = uppercaseKeys(obj);
+      expect(result).to.deep.equal(expected);
+    });
+
+    it('should return an empty object if the input object is empty', () => {
+      const obj = {};
+      const expected = {};
+      const result = uppercaseKeys(obj);
+      expect(result).to.deep.equal(expected);
+    });
+
+    it('should not modify the original object', () => {
+      const obj = {
+        name: 'John Doe',
+      };
+
+      uppercaseKeys(obj);
+      expect(obj).to.deep.equal({ name: 'John Doe' });
+    });
+  });
+
+  describe('normalizedInstitutionFacets function', () => {
+    it('should return facets with state keys in uppercase', () => {
+      const facets = {
+        state: {
+          ny: 10,
+          ca: 15,
+        },
+        provider: [],
+      };
+
+      const expected = {
+        state: uppercaseKeys(facets.state),
+        provider: [],
+      };
+      expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
+    });
+
+    it('then should return facets with provider names in uppercase', () => {
+      const nameOne = 'nameOne';
+      const nameTwo = 'nameTwo';
+      const facets = {
+        state: {},
+        provider: [{ name: nameOne, count: 10 }, { name: nameTwo, count: 15 }],
+      };
+
+      const expected = {
+        state: {},
+        provider: [
+          { name: nameOne.toUpperCase(), count: 10 },
+          { name: nameTwo.toUpperCase(), count: 15 },
+        ],
+      };
+
+      expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
+    });
+
+    it('then should handle empty or missing provider array', () => {
+      const facets = {
+        state: {
+          tx: 20,
+        },
+      };
+
+      const expected = {
+        state: uppercaseKeys(facets.state),
+        provider: [],
+      };
+
+      expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
+    });
+
+    it('then should handle other facets without modification', () => {
+      const facets = {
+        state: {
+          fl: 30,
+        },
+        provider: [],
+        category: ['A', 'B'],
+      };
+
+      const expected = {
+        state: uppercaseKeys(facets.state),
+        provider: [],
+        category: ['A', 'B'],
+      };
+
+      expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
+    });
+  });
+
+  describe('derivePaging function', () => {
+    it('it should get the currentPage number, totalPages number, perPage number from link', () => {
+      const links = {
+        self: 'https://some-url.com/data?page=1',
+        last: 'https://some-url.com/data?page=50&per_page=10',
+      };
+
+      const selfPage = derivePaging(links);
+
+      expect(selfPage.currentPage).to.equal(1);
+      expect(selfPage.totalPages).to.equal(50);
+      expect(selfPage.perPage).to.equal(10);
+    });
+  });
 
   describe('SearchReducer', () => {
-    describe('uppercasekeys function', ()=>{
-        
-    it('should return an object with keys in uppercase', () => {
-        const obj = {
-          name: 'John Doe',
-          age: 25,
-          country: 'USA',
-        };
-    
-        const expected = {
-          NAME: 'John Doe',
-          AGE: 25,
-          COUNTRY: 'USA',
-        };
-    
-        const result = uppercaseKeys(obj);
-        expect(result).to.deep.equal(expected);
+    it('Should update current earch tab', () => {
+      const initialState = {
+        tab: 'name',
+        error: 'error',
+      };
+      const action = {
+        type: 'UPDATE_CURRENT_TAB',
+        tab: 'new name',
+        error: null,
+      };
+
+      const state = searchReducer(initialState, action);
+
+      expect(state.tab).to.equal('new name');
+      expect(state.error).to.be.null;
+    });
+
+    it('Should have SEARCH_STARTED', () => {
+      const initialState = {
+        query: {
+          name: '',
+          location: '',
+          distance: '',
+          latitude: null,
+          longitude: null,
+        },
+        inProgress: false,
+      };
+      const myPayLoad = {
+        query: {
+          ...initialState.query,
+          name: 'Jhon',
+          location: 'New York',
+          distance: '3,000 mile',
+          latitude: '40.712776',
+          longitude: '-74.005974',
+        },
+      };
+      const action = {
+        type: 'SEARCH_STARTED',
+        payload: myPayLoad,
+        inProgress: true,
+      };
+
+      const state = searchReducer(initialState, action);
+      expect(state.inProgress).to.equal(true);
+      expect(state.query.name).to.equal('');
+      expect(state.query.location).to.equal('');
+    });
+
+    it('should through an Error when Search failed', () => {
+      const initialState = {
+        inProgress: true,
+        error: null,
+      };
+      const action = {
+        type: 'SEARCH_FAILED',
+        inProgress: false,
+        error: 'some error',
+      };
+
+      const state = searchReducer(initialState, action);
+
+      expect(state.inProgress).to.equal(false);
+      expect(state.error).not.to.be.null;
+    });
+
+    it('GEOCODE_STARTED', () => {
+      const initialState = {
+        query: { name: 'Mike' },
+        geocodeInProgress: false,
+      };
+      const action = {
+        type: 'GEOCODE_STARTED',
+        payload: {
+          location: 'California',
+        },
+
+        geocodeInProgress: true,
+      };
+
+      const state = searchReducer(initialState, action);
+
+      expect(state.geocodeInProgress).to.equal(true);
+      expect(state.query.location).to.equal('California');
+      expect(state.query).to.deep.equal({
+        name: 'Mike',
+        location: 'California',
       });
+    });
 
-      it('should return an empty object if the input object is empty', () => {
-        const obj = {};   
-        const expected = {};   
-        const result = uppercaseKeys(obj);    
-        expect(result).to.deep.equal(expected);
-      });
+    it('GEOCODE_FAILED', () => {
+      const initialState = {
+        error: null,
+        geocodeError: '',
+        geolocationInProgress: null,
+      };
+      const action = {
+        type: 'GEOCODE_FAILED',
+        error: true,
+        geocodeError: 'some error',
+        geolocationInProgress: false,
+      };
 
-      it('should not modify the original object', () => {
-        const obj = {
-          name: 'John Doe',
-        };
-    
-        uppercaseKeys(obj);   
-        expect(obj).to.deep.equal({ name: 'John Doe' });
-      });
-    })
+      const state = searchReducer(initialState, action);
 
-      describe('normalizedInstitutionFacets function', () => {
-        it('should return facets with state keys in uppercase', () => {
-            const facets = {
-              state: {
-                ny: 10,
-                ca: 15,
-              },
-              provider: [],
-            };
-      
-            const expected = {
-              state: uppercaseKeys(facets.state),
-              provider: [],
-            };      
-            expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
-          });
+      expect(state.geolocationInProgress).to.be.false;
+    });
 
-          it('then should return facets with provider names in uppercase', () => {
-            const nameOne = 'nameOne';
-            const nameTwo = 'nameTwo';
-            const facets = {
-              state: {},
-              provider: [{ name: nameOne, count: 10 }, { name: nameTwo, count: 15 }],
-            };
-      
-            const expected = {
-              state: {},
-              provider: [
-                { name: nameOne.toUpperCase(), count: 10 },
-                { name: nameTwo.toUpperCase(), count: 15 },
-              ],
-            };
-      
-            expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
-          });
+    it('GEOCODE_CLEAR_ERROR', () => {
+      const initialState = {
+        error: null,
+        geocodeError: 1,
+        geolocationInProgress: null,
+      };
+      const action = {
+        type: 'GEOCODE_CLEAR_ERROR',
+        error: false,
+        geocodeError: 0,
+        geolocationInProgress: false,
+      };
 
-          it('then should handle empty or missing provider array', () => {
-            const facets = {
-              state: {
-                tx: 20,
-              },
-            };
-      
-            const expected = {
-              state: uppercaseKeys(facets.state),
-              provider: [],
-            };
-      
-            expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
-          });
+      const state = searchReducer(initialState, action);
 
-          it('then should handle other facets without modification', () => {
-            const facets = {
-              state: {
-                fl: 30,
-              },
-              provider: [],
-              category: ['A', 'B'],
-            };
-      
-            const expected = {
-              state: uppercaseKeys(facets.state),
-              provider: [],
-              category: ['A', 'B'],
-            };
-      
-            expect(normalizedInstitutionFacets(facets)).to.deep.equal(expected);
-          });
+      expect(state.geolocationInProgress).to.be.false;
+      expect(state.error).to.be.false;
+    });
 
-      })
+    it('GEOCODE_COMPLETE', () => {
+      const initialState = {
+        geolocationInProgress: true,
+        query: {
+          streetAddress: {
+            searchString: '',
+            position: {},
+          },
+        },
+        error: null,
+      };
+      const action = {
+        type: 'GEOCODE_COMPLETE',
+        geolocationInProgress: false,
+        payload: {
+          searchString: '458 market st',
+          position: {
+            lat: 40.7128,
+            lng: -74.006,
+          },
 
-      describe('derivePaging function', () => {
-        it('it should get the currentPage number, totalPages number, perPage number from link', () => {
-          const links = {
-            self: 'https://some-url.com/data?page=1',
-            last: 'https://some-url.com/data?page=50&per_page=10',
-          };
-    
-          const selfPage = derivePaging(links);
-    
-          expect(selfPage.currentPage).to.equal(1);
-          expect(selfPage.totalPages).to.equal(50);
-          expect(selfPage.perPage).to.equal(10);
-        });
-      });
+          error: false,
+        },
+      };
 
-      describe("SearchReducer", ()=>{
-        it('Should update current earch tab', () => {
-            const initialState = {
-              tab: 'name',
-              error: 'error',
-            };
-            const action = {
-              type: 'UPDATE_CURRENT_TAB',
-              tab: 'new name',
-              error: null,
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.tab).to.equal('new name');
-            expect(state.error).to.be.null;
-          });
+      const state = searchReducer(initialState, action);
+      expect(state.query.streetAddress.searchString).to.deep.equal(
+        '458 market st',
+      );
+      expect(state.geolocationInProgress).to.equal(false);
+    });
 
-          it('Should have SEARCH_STARTED', () => {
-            const initialState = {
-              query: {
-                name: '',
-                location: '',
-                distance: '',
-                latitude: null,
-                longitude: null,
-              },
-              inProgress: false,
-            };
-            const myPayLoad = {
-              query: {
-                ...initialState.query,
-                name: 'Jhon',
-                location: 'New York',
-                distance: '3,000 mile',
-                latitude: '40.712776',
-                longitude: '-74.005974',
-              },
-            };
-            const action = {
-              type: 'SEARCH_STARTED',
-              payload: myPayLoad,
-              inProgress: true,
-            };
-        
-            const state = searchReducer(initialState, action);
-            expect(state.inProgress).to.equal(true);
-            expect(state.query.name).to.equal('');
-            expect(state.query.location).to.equal('');
-          });
+    it('GEOCODE_SUCCEEDED', () => {
+      const initialState = {
+        geocode: null,
+        geocodeInProgress: true,
+      };
+      const action = {
+        type: 'GEOCODE_SUCCEEDED',
+        payload: {
+          geocode: '000',
+        },
+        geocodeInProgress: false,
+      };
 
-          it('should through an Error when Search failed', () => {
-            const initialState = {
-              inProgress: true,
-              error: null,
-            };
-            const action = {
-              type: 'SEARCH_FAILED',
-              inProgress: false,
-              error: 'some error',
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.inProgress).to.equal(false);
-            expect(state.error).not.to.be.null;
-          });
+      const state = searchReducer(initialState, action);
 
-          it('GEOCODE_STARTED', () => {
-            const initialState = {
-              query: { name: 'Mike' },
-              geocodeInProgress: false,
-            };
-            const action = {
-              type: 'GEOCODE_STARTED',
-              payload: {
-                location: 'California',
-              },
-        
-              geocodeInProgress: true,
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.geocodeInProgress).to.equal(true);
-            expect(state.query.location).to.equal('California');
-            expect(state.query).to.deep.equal({
-              name: 'Mike',
-              location: 'California',
-            });
-          });
+      expect(state.geocodeInProgress).to.equal(false);
+      expect(state.geocode).to.deep.equal({ geocode: '000' });
+    });
 
-          it('GEOCODE_FAILED', () => {
-            const initialState = {
-              error: null,
-              geocodeError: '',
-              geolocationInProgress: null,
-            };
-            const action = {
-              type: 'GEOCODE_FAILED',
-              error: true,
-              geocodeError: 'some error',
-              geolocationInProgress: false,
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.geolocationInProgress).to.be.false;
-          });
+    it('GEOCODE_LOCATION_FAILED', () => {
+      const initialState = {
+        error: null,
+        geocodeError: '',
+        geolocationInProgress: true,
+      };
+      const action = {
+        type: 'GEOCODE_LOCATION_FAILED',
+        payload: {
+          error: 'some error',
+        },
+        geocodeError: 'code error',
+        geolocationInProgress: false,
+      };
 
-          it('GEOCODE_CLEAR_ERROR', () => {
-            const initialState = {
-              error: null,
-              geocodeError: 1,
-              geolocationInProgress: null,
-            };
-            const action = {
-              type: 'GEOCODE_CLEAR_ERROR',
-              error: false,
-              geocodeError: 0,
-              geolocationInProgress: false,
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.geolocationInProgress).to.be.false;
-            expect(state.error).to.be.false;
-          });
+      const state = searchReducer(initialState, action);
 
-          it('GEOCODE_COMPLETE', () => {
-            const initialState = {
-              geolocationInProgress: true,
-              query: {
-                streetAddress: {
-                  searchString: '',
-                  position: {},
-                },
-              },
-              error: null,
-            };
-            const action = {
-              type: 'GEOCODE_COMPLETE',
-              geolocationInProgress: false,
-              payload: {
-                searchString: '458 market st',
-                position: {
-                  lat: 40.7128,
-                  lng: -74.006,
-                },
-        
-                error: false,
-              },
-            };
-        
-            const state = searchReducer(initialState, action);
-            expect(state.query.streetAddress.searchString).to.deep.equal(
-              '458 market st',
-            );
-            expect(state.geolocationInProgress).to.equal(false);
-          });
+      expect(state.geolocationInProgress).to.equal(false);
+      expect(state.error).not.to.be.null;
+    });
 
-          it('GEOCODE_SUCCEEDED', () => {
-            const initialState = {
-              geocode: null,
-              geocodeInProgress: true,
-            };
-            const action = {
-              type: 'GEOCODE_SUCCEEDED',
-              payload: {
-                geocode: '000',
-              },
-              geocodeInProgress: false,
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.geocodeInProgress).to.equal(false);
-            expect(state.geocode).to.deep.equal({ geocode: '000' });
-          });
+    it('GEOLOCATE_USER', () => {
+      const initialState = {
+        geolocationInProgress: false,
+        query: {
+          streetAddress: {
+            searchString: '123 market st',
+            position: {},
+          },
+        },
+      };
+      const action = {
+        type: 'GEOLOCATE_USER',
+        geolocationInProgress: true,
+        query: {
+          streetAddress: {
+            searchString: '',
+            position: {},
+          },
+        },
+      };
 
-          it('GEOCODE_LOCATION_FAILED', () => {
-            const initialState = {
-              error: null,
-              geocodeError: '',
-              geolocationInProgress: true,
-            };
-            const action = {
-              type: 'GEOCODE_LOCATION_FAILED',
-              payload: {
-                error: 'some error',
-              },
-              geocodeError: 'code error',
-              geolocationInProgress: false,
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.geolocationInProgress).to.equal(false);
-            expect(state.error).not.to.be.null;
-          });
+      const state = searchReducer(initialState, action);
 
-          it('GEOLOCATE_USER', () => {
-            const initialState = {
-              geolocationInProgress: false,
-              query: {
-                streetAddress: {
-                  searchString: '123 market st',
-                  position: {},
-                },
-              },
-            };
-            const action = {
-              type: 'GEOLOCATE_USER',
-              geolocationInProgress: true,
-              query: {
-                streetAddress: {
-                  searchString: '',
-                  position: {},
-                },
-              },
-            };
-        
-            const state = searchReducer(initialState, action);
-        
-            expect(state.geolocationInProgress).to.equal(true);
-            expect(state.query.streetAddress.searchString).to.equal('');
-          });
+      expect(state.geolocationInProgress).to.equal(true);
+      expect(state.query.streetAddress.searchString).to.equal('');
+    });
 
-          it('MAP_CHANGED', () => {
-            const initialState = {
-              query: {
-                term: 'term one ',
-                mapState: {
-                  zoom: 5,
-                  center: [10, 10],
-                },
-              },
-            };
-            const action = {
-              type: 'MAP_CHANGED',
-              payload: {
-                zoom: 15,
-                position: 'north',
-              },
-            };
-        
-            const state = searchReducer(initialState, action);
-            expect(state.query.mapState.zoom).to.equal(15);
-            expect(state.query.mapState.position).to.equal('north');
-          });     
-      })
+    it('MAP_CHANGED', () => {
+      const initialState = {
+        query: {
+          term: 'term one ',
+          mapState: {
+            zoom: 5,
+            center: [10, 10],
+          },
+        },
+      };
+      const action = {
+        type: 'MAP_CHANGED',
+        payload: {
+          zoom: 15,
+          position: 'north',
+        },
+      };
 
-
-
-  })
+      const state = searchReducer(initialState, action);
+      expect(state.query.mapState.zoom).to.equal(15);
+      expect(state.query.mapState.position).to.equal('north');
+    });
+  });
+});
