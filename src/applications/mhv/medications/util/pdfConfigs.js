@@ -209,7 +209,7 @@ export const buildAllergiesPDFList = allergies => {
               inline: true,
             },
             {
-              title: 'Observed or reported',
+              title: 'Observed or historical',
               value: validateField(item.observedOrReported),
               inline: true,
             },
