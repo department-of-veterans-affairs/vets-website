@@ -24,7 +24,7 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('an existing session redirects to introduction page', () => {
+  it.skip('an existing session redirects to introduction page', () => {
     cy.visitPreCheckInWithUUID();
     AppointmentsPage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

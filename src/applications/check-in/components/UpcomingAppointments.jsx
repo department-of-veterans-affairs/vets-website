@@ -41,9 +41,11 @@ const UpcomingAppointments = props => {
     [upcomingAppointmentsDataError, updateError, app],
   );
 
+  let body = '';
+
   if (isLoading) {
     window.scrollTo(0, 0);
-    return (
+    body = (
       <div>
         <va-loading-indicator
           data-testid="loading-indicator"
@@ -51,29 +53,24 @@ const UpcomingAppointments = props => {
         />
       </div>
     );
-  }
-
-  if (upcomingAppointmentsDataError) {
+  } else if (upcomingAppointmentsDataError) {
     window.scrollTo(0, 0);
-    return (
-      <div>
-        <h2 data-testid="upcoming-appointments-header">
-          {t('upcoming-appointments')}
-        </h2>
-        <p data-testid="upcoming-appointments-error-message">
-          {t('error-retrieving-upcoming-appointments')}
-        </p>
-      </div>
+    body = (
+      <p data-testid="upcoming-appointments-error-message">
+        {t('error-retrieving-upcoming-appointments')}
+      </p>
     );
+  } else {
+    body = <UpcomingAppointmentsList router={router} app={app} />;
   }
 
   return (
-    <div>
+    <section data-testid="upcoming-appointments">
       <h2 data-testid="upcoming-appointments-header">
         {t('upcoming-appointments')}
       </h2>
-      <UpcomingAppointmentsList router={router} app={app} />
-    </div>
+      {body}
+    </section>
   );
 };
 
