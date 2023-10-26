@@ -5,6 +5,8 @@ import { addHours, format } from 'date-fns';
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import RenderClaimsWidgetDowntimeNotification from '../../components/RenderClaimsWidgetDowntimeNotification';
 
+const children = <div data-testid="test-children" />;
+
 describe('<RenderClaimsWidgetDowntimeNotification />', () => {
   const expectChildrenToBeRendered = view => {
     expect(view.queryByTestId('dashboard-section-claims-and-appeals-loader')).to
@@ -17,13 +19,12 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
       status: externalServiceStatus.down,
       endTime: addHours(new Date(), 30),
     };
+
     const view = render(
-      <RenderClaimsWidgetDowntimeNotification
-        status={downtime.status}
-        endTime={downtime.endTime}
-      >
-        <div data-testid="test-children" />
-      </RenderClaimsWidgetDowntimeNotification>,
+      RenderClaimsWidgetDowntimeNotification(
+        { status: downtime.status, endTime: downtime.endTime },
+        children,
+      ),
     );
 
     expect(view.getByTestId('dashboard-section-claims-and-appeals-loader')).to
@@ -35,9 +36,10 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
 
   it('should not render the downtime message when when external service status is ok', () => {
     const view = render(
-      <RenderClaimsWidgetDowntimeNotification status={externalServiceStatus.ok}>
-        <div data-testid="test-children" />
-      </RenderClaimsWidgetDowntimeNotification>,
+      RenderClaimsWidgetDowntimeNotification(
+        { status: externalServiceStatus.ok },
+        children,
+      ),
     );
 
     expectChildrenToBeRendered(view);
@@ -45,11 +47,10 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
 
   it('should not render the downtime message when when external service status is downtime approaching', () => {
     const view = render(
-      <RenderClaimsWidgetDowntimeNotification
-        status={externalServiceStatus.downtimeApproaching}
-      >
-        <div data-testid="test-children" />
-      </RenderClaimsWidgetDowntimeNotification>,
+      RenderClaimsWidgetDowntimeNotification(
+        { status: externalServiceStatus.downtimeApproaching },
+        children,
+      ),
     );
 
     expectChildrenToBeRendered(view);
