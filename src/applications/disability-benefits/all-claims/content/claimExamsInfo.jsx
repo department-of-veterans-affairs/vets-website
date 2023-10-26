@@ -64,7 +64,7 @@ export const claimExamsFAQ = (
             {' '}
             contact an Overseas Military Services Coordinator{' '}
           </a>
-          for help scheduling a claim exam.
+          for help scheduling a claim exam (opens in a new tab).
         </p>
       </va-accordion-item>
       <va-accordion-item>
