@@ -8,12 +8,11 @@ import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 describe('unified check-in experience', () => {
   describe('UpcomingAppointmentsList', () => {
     it('displays the upcoming appointments list item components separated by month year dividers', () => {
-      const mockstore = {
-        upcomingAppointments: multipleAppointments,
-      };
       const { getByTestId, getAllByTestId } = render(
-        <CheckInProvider store={mockstore}>
-          <UpcomingAppointmentsList />
+        <CheckInProvider>
+          <UpcomingAppointmentsList
+            upcomingAppointments={multipleAppointments}
+          />
         </CheckInProvider>,
       );
       expect(getByTestId('appointments-list-monthyear-heading')).to.exist;
@@ -21,11 +20,8 @@ describe('unified check-in experience', () => {
       expect(getAllByTestId('appointment-list-item').length).to.equal(3);
     });
     it('displays the no upcoming appointments info message when there are no appointments', () => {
-      const mockstore = {
-        upcomingAppointments: [],
-      };
       const { getByTestId } = render(
-        <CheckInProvider store={mockstore}>
+        <CheckInProvider upcomingAppointments={[]}>
           <UpcomingAppointmentsList />
         </CheckInProvider>,
       );
