@@ -4,12 +4,12 @@ import {
   addressNoMilitaryUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const pdfSchema = addressNoMilitarySchema({
+const addressSchema = addressNoMilitarySchema({
   omit: ['isMilitary', 'street3'],
 });
-pdfSchema.properties.street.maxLength = 30;
-pdfSchema.properties.street2.maxLength = 5;
-pdfSchema.properties.city.maxLength = 18;
+addressSchema.properties.street.maxLength = 30;
+addressSchema.properties.street2.maxLength = 5;
+addressSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
 export default {
@@ -24,7 +24,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      personAddress: pdfSchema,
+      personAddress: addressSchema,
     },
     required: ['personAddress'],
   },
