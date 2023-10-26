@@ -45,6 +45,7 @@ function visitIntro() {
     'Apply online for pre-need determination of eligibility in a VA National Cemetery | Veterans Affairs',
   );
   cy.get('.schemaform-title', { timeout: Timeouts.slow }).should('be.visible');
+  cy.injectAxeThenAxeCheck();
   cy.get('.schemaform-start-button')
     .first()
     .click();
@@ -59,7 +60,6 @@ function fillApplicantInfo(name, ssn, dob, relationship) {
   cy.fill('input[name="root_application_claimant_ssn"]', ssn);
   cy.fillDate('root_application_claimant_dateOfBirth', dob);
   cy.selectRadio('root_application_claimant_relationshipToVet', relationship);
-  cy.injectAxeThenAxeCheck();
   clickContinue();
   cy.url().should(
     'not.contain',
@@ -115,7 +115,7 @@ function fillMilitaryHistory(serviceRecord) {
   clickContinue();
 }
 
-// Fills in previous name information, performs axe check, continues to next page
+// Fills in previous name information if the veteran has it, performs axe check, continues to next page
 function fillPreviousName(veteran) {
   if (veteran['view:hasServiceName']) {
     cy.selectRadio('root_application_veteran_view:hasServiceName', 'Y');

@@ -17,7 +17,6 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
-    cy.injectAxe();
 
     // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
@@ -205,7 +204,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       );
       preneedHelpers.clickContinue();
 
-      // Preparer Information page 3
+      // Preparer Information Page 3
       errorCheck(requiredHelpers.preparerInfoErrors3);
       cy.fillAddress(
         'root_application_applicant_view\\:applicantInfo_mailingAddress',
