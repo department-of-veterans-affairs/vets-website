@@ -1,4 +1,7 @@
+  /* stylelint-disable */
 .pact-act-app {
+  $error-color: #cd2026;
+  
   h1:focus {
     outline: none;
   }
@@ -17,5 +20,28 @@
     @media screen and (min-width: 768px) {
       margin-left: 8px;
     }
+  }
+
+  .form-question-header {
+    font-family:  "Bitter","Georgia", "Cambria", "Times New Roman", "Times", serif;
+    font-size: 2em;
+    margin-bottom: 0px;
+    max-width: 46rem;
+  }
+
+  .form-question-error {
+    border-left: 0.4rem solid #cd2026;
+    padding-left: 2rem;
+    position: relative;
+  }
+
+  .form-text-error {
+    color: #cd2026;
+    font-weight: bold;
+  }
+
+  .form-label {
+    margin-top: 1rem;
+    padding-left: 6px
   }
 }
