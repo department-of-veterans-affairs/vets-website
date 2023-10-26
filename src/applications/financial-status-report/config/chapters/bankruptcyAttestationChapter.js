@@ -4,6 +4,11 @@ import {
   enhancedBankruptcyHistoryRecords,
 } from '../../pages';
 
+import BankruptcyDetails from '../../components/bankruptcy/BankruptcyDetails';
+import BankruptcyDetailsReview from '../../components/bankruptcy/BankruptcyDetailsReview';
+import BankruptcyQuestion from '../../components/bankruptcy/BankruptcyQuestion';
+import BankruptcyQuestionReview from '../../components/bankruptcy/BankruptcyQuestionReview';
+
 import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
@@ -20,6 +25,8 @@ export default {
         title: 'Bankruptcy history',
         uiSchema: bankruptcyHistory.uiSchema,
         schema: bankruptcyHistory.schema,
+        CustomPage: BankruptcyQuestion,
+        CustomPageReview: BankruptcyQuestionReview,
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
@@ -39,6 +46,8 @@ export default {
         title: 'Bankruptcy history',
         uiSchema: enhancedBankruptcyHistoryRecords.uiSchema,
         schema: enhancedBankruptcyHistoryRecords.schema,
+        CustomPage: BankruptcyDetails,
+        CustomPageReview: BankruptcyDetailsReview,
         depends: formData =>
           formData.questions.hasBeenAdjudicatedBankrupt &&
           formData['view:enhancedFinancialStatusReport'] &&

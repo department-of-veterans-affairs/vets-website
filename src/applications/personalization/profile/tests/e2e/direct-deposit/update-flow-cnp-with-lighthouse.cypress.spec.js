@@ -22,8 +22,8 @@ function fillInBankInfoForm(id) {
     .findByLabelText(/account number/i)
     .type(TEST_ACCOUNT.NUMBER);
   cy.findByTestId(`${id}-bank-info-form`)
-    .findByLabelText(/type/i)
-    .select(TEST_ACCOUNT.TYPE);
+    .findByLabelText(TEST_ACCOUNT.TYPE)
+    .click({ force: true });
 }
 
 function dismissUnsavedChangesModal() {

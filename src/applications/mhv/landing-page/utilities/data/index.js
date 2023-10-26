@@ -35,10 +35,19 @@ const countUnreadMessages = folders => {
 const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
+const resolveUnreadMessageAriaLabel = unreadMessageCount => {
+  let unreadMessageAriaLabel = null;
+  if (unreadMessageCount > 0) {
+    unreadMessageAriaLabel = 'You have unread messages. Go to your inbox.';
+  }
+  return unreadMessageAriaLabel;
+};
+
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
   unreadMessageCount = 0,
+  unreadMessageAriaLabel,
 ) => {
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
@@ -73,7 +82,7 @@ const resolveLandingPageLinks = (
           </span>
         ),
         toggle: null,
-        ariaLabel: 'You have unread messages. Go to your inbox.',
+        ariaLabel: unreadMessageAriaLabel,
       },
       {
         href: null,
@@ -320,4 +329,9 @@ const resolveLandingPageLinks = (
   return { cards, hubs };
 };
 
-export { countUnreadMessages, resolveLandingPageLinks, resolveToggleLink };
+export {
+  countUnreadMessages,
+  resolveLandingPageLinks,
+  resolveToggleLink,
+  resolveUnreadMessageAriaLabel,
+};

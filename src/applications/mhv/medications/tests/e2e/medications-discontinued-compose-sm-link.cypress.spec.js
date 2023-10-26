@@ -5,8 +5,8 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
   it('verifies content of compose message link on discontinued meds', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
     cy.axeCheck('main', {
