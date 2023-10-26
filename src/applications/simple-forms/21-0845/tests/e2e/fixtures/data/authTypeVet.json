@@ -8,7 +8,7 @@
     },
     "veteranDateOfBirth": "2000-01-01",
     "veteranSSN": "111223333",
-    "thirdPartyType": "organization",
+    "thirdPartyType": "person",
     "personFullName": {
       "first": "Joe",
       "middle": "",
@@ -20,15 +20,6 @@
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12346"
-    },
-    "organizationName": "ACME Org",
-    "organizationRepresentative": "Joe Rep",
-    "organizationAddress": {
-      "country": "USA",
-      "street": "125 Any St",
-      "city": "Anycity",
-      "state": "CA",
-      "postalCode": "12347"
     },
     "informationScope": "limited",
     "limitedInformationItems": "Status of pending claim or appeal",
