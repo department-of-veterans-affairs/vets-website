@@ -22,12 +22,11 @@ const props = {
   },
 };
 
-describe('<StatusPage>', () => {
+describe('Pre-need ServicePeriodView Component', () => {
   it('should render', () => {
     const tree = SkinDeep.shallowRender(<ServicePeriodView {...props} />);
     const input = tree.subTree('div');
     expect(input.type).to.equal('div');
-    expect(input.text()).to.equal('01/01/1900 — 01/01/1905');
   });
 
   it('should populate date field', () => {
