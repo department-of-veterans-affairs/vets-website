@@ -30,7 +30,8 @@ import {
 describe('apiRequestWithRetry', () => {
   let callCount = 0;
 
-  const mockApiRequest = async () => {
+  const mockedApiRequest = async () => {
+    // Throw a 404 error twice, then return success on the third try.
     callCount += 1;
     if (callCount < 3) {
       // We are throwing a very specific object here that has an "errors" property,
@@ -47,11 +48,11 @@ describe('apiRequestWithRetry', () => {
 
   it('times out if success is not returned quickly enough', async () => {
     try {
-      const shortEndTime = Date.now() + 1000; // 1 second from now
-      await testableApiRequestWithRetry(mockApiRequest)(
+      const endTime = Date.now() + 100;
+      await testableApiRequestWithRetry(200, mockedApiRequest)(
         'http://example.com/api',
         {},
-        shortEndTime,
+        endTime,
       );
       expect.fail('Function should have thrown an error due to timeout');
     } catch (error) {
@@ -62,8 +63,8 @@ describe('apiRequestWithRetry', () => {
 
   it('retries several times before returning successfully', async () => {
     try {
-      const endTime = Date.now() + 5000; // 5 seconds from now
-      const result = await testableApiRequestWithRetry(mockApiRequest)(
+      const endTime = Date.now() + 500;
+      const result = await testableApiRequestWithRetry(200, mockedApiRequest)(
         'http://example.com/api',
         {},
         endTime,

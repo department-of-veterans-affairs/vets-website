@@ -29,20 +29,16 @@ const delay = ms => {
 };
 
 /**
- * Recursive function that will continue polling the provided API endpoint if it sends a 404 response.
- * At this time, we will only get a 404 if the patient record has not yet been created.
- * @param {String} path the API endpoint
- * @param {Object} options headers, method, etc.
- * @param {number} endTime the cutoff time to stop polling the path and simply return the error
+ * Testable implementation.
+ * @see {@link apiRequestWithRetry} for more information
+ * @param {*} retryInterval how long to wait between requests
+ * @param {*} apiRequestFunc the API function to call; can be mocked for tests
  * @returns
  */
-export const testableApiRequestWithRetry = apiRequestFunc => async (
-  path,
-  options,
-  endTime,
-) => {
-  const retryInterval = 2000; // 2 seconds
-
+export const testableApiRequestWithRetry = (
+  retryInterval,
+  apiRequestFunc,
+) => async (path, options, endTime) => {
   try {
     return await apiRequestFunc(path, options);
   } catch (e) {
@@ -51,7 +47,7 @@ export const testableApiRequestWithRetry = apiRequestFunc => async (
     // Check if the error code is 404 and if the retry time limit has not been reached
     if (errorCode === '404' && Date.now() < endTime) {
       await delay(retryInterval);
-      return testableApiRequestWithRetry(apiRequestFunc)(
+      return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
         path,
         options,
         endTime,
@@ -63,8 +59,16 @@ export const testableApiRequestWithRetry = apiRequestFunc => async (
   }
 };
 
-export const apiRequestWithRetry = async (path, options, endTime) => {
-  return testableApiRequestWithRetry(apiRequest)(path, options, endTime);
+/**
+ * Recursive function that will continue polling the provided API endpoint if it sends a 404 response.
+ * At this time, we will only get a 404 if the patient record has not yet been created.
+ * @param {String} path the API endpoint
+ * @param {Object} options headers, method, etc.
+ * @param {number} endTime the cutoff time to stop polling the path and simply return the error
+ * @returns
+ */
+const apiRequestWithRetry = async (path, options, endTime) => {
+  return testableApiRequestWithRetry(2000, apiRequest)(path, options, endTime);
 };
 
 export const getLabsAndTests = runningUnitTest => {
