@@ -148,6 +148,19 @@ export const Hub = () => {
             />
           </div>
         </HubCard>
+
+        <HubCard
+          className="medium-screen:vads-u-padding-right--4"
+          heading="Proof of veteran status"
+          content="You can use this Veteran status to prove you served in the United States Uniformed Services. This status doesn't entitle you to any VA benefits."
+        >
+          <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
+            <ProfileLink
+              href={PROFILE_PATHS.VETERAN_STATUS}
+              text="View proof of veteran status"
+            />
+          </div>
+        </HubCard>
       </div>
     </>
   );
