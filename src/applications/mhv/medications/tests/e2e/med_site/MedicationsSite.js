@@ -15,7 +15,7 @@ class MedicationsSite {
           features: [
             {
               name: 'mhv_medications_to_va_gov_release',
-              value: true,
+              value: false,
             },
           ],
         },
