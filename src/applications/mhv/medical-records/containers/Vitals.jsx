@@ -4,19 +4,46 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, vitalTypes, pageTitles } from '../util/constants';
+import {
+  recordType,
+  vitalTypes,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
+  const alertList = useSelector(state => state.mr.alerts?.alertList);
+  const [activeAlert, setActiveAlert] = useState();
 
   useEffect(
     () => {
       dispatch(getVitals());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (alertList?.length) {
+        const filteredSortedAlerts = alertList
+          .filter(alert => alert.isActive)
+          .sort((a, b) => {
+            // Sort chronologically descending.
+            return b.datestamp - a.datestamp;
+          });
+        if (filteredSortedAlerts.length > 0) {
+          // The activeAlert is the most recent alert marked as active.
+          setActiveAlert(filteredSortedAlerts[0]);
+        }
+      }
+    },
+    [alertList],
   );
 
   useEffect(
@@ -42,13 +69,19 @@ const Vitals = () => {
           vitals.find(vital => vital.type === vitalTypes.HEIGHT),
           vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
           vitals.find(vital => vital.type === vitalTypes.WEIGHT),
+          vitals.find(vital => vital.type === vitalTypes.PAIN),
         ]);
       }
     },
     [vitals],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
     if (cards?.length) {
       return (
         <RecordList

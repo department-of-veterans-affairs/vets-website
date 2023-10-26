@@ -6,7 +6,7 @@ export const DATA_DOG_SERVICE = 'benefits-notice-of-disagreement';
 
 // feature flag for form update
 export const SHOW_PART3 = 'view:showPart3';
-export const SHOW_PART3_STORAGE = 'showPart3';
+export const SHOW_PART3_REDIRECT = 'view:showPart3Redirect';
 export const REDIRECTED_PART3 = 'view:redirectedPart3';
 
 export const CONTESTABLE_ISSUES_API =

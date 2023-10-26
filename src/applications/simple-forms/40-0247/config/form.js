@@ -29,13 +29,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({
-      confirmationNumber: '[mock-confirmation-number]',
-    }),
-  // Coordinate with backend to determine final submitUrl
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '0247-pmc',
   dev: {
     showNavLinks: !window.Cypress,

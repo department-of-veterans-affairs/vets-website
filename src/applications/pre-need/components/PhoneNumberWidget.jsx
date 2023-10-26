@@ -1,6 +1,6 @@
 import React from 'react';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-import environment from 'platform/utilities/environment';
+import { PreparerPhoneNumberDescription } from '../utils/helpers';
 /*
  * Handles removing dashes, parentheses, and the letter `x` from phone numbers
  * by keeping the user input in local state and saving the transformed version
@@ -37,19 +37,7 @@ export default class PhoneNumberWidget extends React.Component {
           onChange={this.handleChange}
         />
         <div className="preparer-contact-details-additional-info">
-          <va-additional-info trigger="Why do we need your phone number?">
-            {environment.isProduction() ? (
-              <p>
-                If you’re the preparer of this application, you’ll need to
-                provide your contact information.
-              </p>
-            ) : (
-              <p>
-                We may contact you by phone if we need more information about
-                the application
-              </p>
-            )}
-          </va-additional-info>
+          {PreparerPhoneNumberDescription}
         </div>
       </>
     );
