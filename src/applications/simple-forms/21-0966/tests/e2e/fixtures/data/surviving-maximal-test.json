@@ -1,7 +1,7 @@
 {
   "preparerIdentification": "SURVIVING_DEPENDENT",
   "benefitSelection": {
-    "SURVIVORS": true
+    "survivors": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",
