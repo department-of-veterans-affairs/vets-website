@@ -65,7 +65,7 @@ export const Hub = () => {
             content="Review your medical emergency contact and next of kin contact information."
           >
             <ProfileLink
-              className="personal-health-care-contacts-hub-card-link"
+              className="small-screen--line-break-at-32-characters"
               text="Review your personal health care contacts"
               href={PROFILE_PATHS.CONTACTS}
             />
@@ -83,7 +83,7 @@ export const Hub = () => {
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
-              className="vads-u-display--block"
+              className="medium-screen--line-break-at-50-characters"
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
             />

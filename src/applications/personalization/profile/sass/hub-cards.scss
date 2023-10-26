@@ -1,31 +1,39 @@
+/* use flexbox to arrange contents of the Hub Component */
 .hub-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: units(4);
+  justify-content: space-between;
+  gap: units(4) units(2);
 
-  /* small screens: cards take up full width of the row (1 per row) */
-  > * { /* direct descendents of .hub-cards, presumably "cards" */
+  /* direct descendents of .hub-cards, presumably "cards" */
+  > * {
+    /* small screens: display 1 card per row -- 100% width */
     flex-basis: 100%;
-  }
 
-  /* medium+ screens: cards take up 1/2 width of the row (2 per row) */
-  @include media($medium-screen) {
-    > * {
-      flex-basis: calc(50% - 36px);
+    @include media($medium-screen) {
+      /* medium+ screens: display 2 cards per row -- 1/2 width minus column gap */
+      flex-basis: calc(50% - 16px);
     }
   }
+}
 
-  /* prevent the <va-link active /> fa-chevron-right icon from becoming a runt(!) */
-  /* on small screens. https://www.google.com/search?q=runt+typography */
-  .personal-health-care-contacts-hub-card-link {
+/* runt prevention -- https://www.google.com/search?q=runt+typography */
+.small-screen--line-break-at-32-characters {
+  display: inline-block;
+  max-width: 32ch;
+
+  @include media($medium-screen) {
+    display: block;
+    max-width: inherit;
+  }
+}
+
+.medium-screen--line-break-at-50-characters {
+  display: block;
+  max-width: inherit;
+
+  @include media($medium-screen) {
     display: inline-block;
-    max-width: 32ch;
-  }
-
-  @include media($medium-screen) {
-    .personal-health-care-contacts-hub-card-link {
-      display: inline;
-      max-width: 100%;
-    }
+    max-width: 50ch;
   }
 }
