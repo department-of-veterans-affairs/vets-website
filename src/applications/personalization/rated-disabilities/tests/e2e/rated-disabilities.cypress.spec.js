@@ -2,7 +2,7 @@ import mockDisabilities from '../mockdata/200-response.json';
 import mockTotalRating from '../mockdata/total-rating-response.json';
 import mockErrorResponse from '../mockdata/error-response.json';
 
-const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
+const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/my-rating';
 const DISABILITIES_ENDPOINT =
   'v0/disability_compensation_form/rated_disabilities';
 const TOTAL_RATING_ENDPOINT = 'v0/disability_compensation_form/rating_info';
