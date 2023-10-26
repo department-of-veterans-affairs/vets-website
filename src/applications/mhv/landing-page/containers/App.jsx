@@ -17,6 +17,7 @@ import {
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
+  hasHealthData,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -29,12 +30,18 @@ const App = () => {
   const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
+  const userHasHealthData = useSelector(hasHealthData);
 
   const data = useMemo(
     () => {
-      return resolveLandingPageLinks(ssoe, featureToggles, unreadMessageCount);
+      return resolveLandingPageLinks(
+        ssoe,
+        featureToggles,
+        unreadMessageCount,
+        userHasHealthData,
+      );
     },
-    [featureToggles, ssoe, unreadMessageCount],
+    [featureToggles, ssoe, unreadMessageCount, userHasHealthData],
   );
 
   const datadogRumConfig = {

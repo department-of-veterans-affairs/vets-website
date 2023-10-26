@@ -39,6 +39,7 @@ const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
   unreadMessageCount = 0,
+  userHasHealthData = false,
 ) => {
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
@@ -304,7 +305,7 @@ const resolveLandingPageLinks = (
   ];
   const hubs = [
     {
-      title: 'My VA health benefits',
+      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {
