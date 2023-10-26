@@ -74,7 +74,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Military information"
-          content="Review your military branches and daetes of service."
+          content="Review your military branches and dates of service."
         >
           <>
             <ProfileLink
