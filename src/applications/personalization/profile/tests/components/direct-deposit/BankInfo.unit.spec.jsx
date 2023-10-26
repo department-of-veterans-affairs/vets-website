@@ -68,14 +68,12 @@ function fillOutAndSubmitBankInfoForm(view) {
   const routingNumberField = view.container.querySelector(
     '#root_CNPRoutingNumber',
   );
-  const accountTypeSelect = view.container.querySelector(
-    '#root_CNPAccountType',
-  );
+  const savingsAccountRadio = view.getByLabelText('Savings');
   const submitButton = view.getByText('Save', { selector: 'button' });
 
   userEvent.type(routingNumberField, '456456456');
   userEvent.type(accountNumberField, '123123123');
-  userEvent.selectOptions(accountTypeSelect, ['Savings']);
+  userEvent.click(savingsAccountRadio);
   userEvent.click(submitButton);
 }
 
@@ -138,9 +136,6 @@ describe('DirectDepositCNP', () => {
     beforeEach(() => {
       initialState = createBasicInitialState();
       initialState.vaProfile.cnpPaymentInformation.paymentAccount = emptyPaymentAccount;
-      // Using queries on RTL `screen` does not work for some reason. So I'm just
-      // storing the entire response from `render` as `view` so I can treat `view`
-      // like I would `screen`
       view = renderWithProfileReducers(ui, {
         initialState,
       });

@@ -17,10 +17,10 @@ import {
   SHOW_PART3_REDIRECT,
 } from '../../constants';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
-import { contestableIssuesResponse } from '../fixtures/mocks/contestable-issues.json';
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 import { SELECTED } from '../../../shared/constants';
-import { getRandomDate } from '../nod.cypress.helpers';
+import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 const getData = ({
   showNod = true,

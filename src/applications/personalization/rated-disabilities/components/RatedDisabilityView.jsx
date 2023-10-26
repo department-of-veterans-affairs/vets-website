@@ -5,6 +5,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
+import { checkForDiscrepancies } from '../actions';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import { OnThisPageLink } from './OnThisPageLink';
 import RatedDisabilityList from './RatedDisabilityList';
@@ -41,6 +42,7 @@ const renderMVIError = () => {
 };
 
 const RatedDisabilityView = ({
+  detectDiscrepancies,
   error,
   fetchRatedDisabilities,
   fetchTotalDisabilityRating,
@@ -52,6 +54,10 @@ const RatedDisabilityView = ({
 }) => {
   useEffect(() => {
     fetchTotalDisabilityRating();
+
+    if (detectDiscrepancies) {
+      checkForDiscrepancies();
+    }
   }, []);
 
   let content;
@@ -144,6 +150,7 @@ const RatedDisabilityView = ({
 
 RatedDisabilityView.propTypes = {
   fetchRatedDisabilities: PropTypes.func.isRequired,
+  detectDiscrepancies: PropTypes.bool,
   error: PropTypes.object,
   fetchTotalDisabilityRating: PropTypes.func,
   loading: PropTypes.bool,
