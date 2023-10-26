@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -12,12 +12,17 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -31,8 +36,7 @@ const VaccineDetails = props => {
   );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -69,24 +73,6 @@ const VaccineDetails = props => {
       }
     },
     [dispatch, record],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
   );
 
   const generateVaccinePdf = async () => {
@@ -129,7 +115,7 @@ const VaccineDetails = props => {
         <>
           <h1 className="vads-u-margin-bottom--0p5">Vaccine:</h1>
           <AccessTroubleAlertBox
-            alertType="Vaccine"
+            alertType={accessAlertTypes.VACCINE}
             className="vads-u-margin-bottom--9"
           />
         </>

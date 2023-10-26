@@ -45,10 +45,15 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 
   return isLoggedOut ? (
     <>
-      <va-alert status="info" data-testid="ezr-login-alert" uswds>
+      <va-alert
+        status="info"
+        class="vads-u-margin-y--4"
+        data-testid="ezr-login-alert"
+        uswds
+      >
         <h3 slot="headline">{content['sip-alert-title']}</h3>
         <div>
-          <ul className="vads-u-margin-top--0">
+          <ul>
             <li>
               We can fill in some of your information for you to save you time.
             </li>
@@ -63,13 +68,13 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
       </va-alert>
     </>
   ) : (
-    <>{LoggedInAlertToRender}</>
+    <div className="vads-u-margin-y--4">{LoggedInAlertToRender}</div>
   );
 };
 
 SaveInProgressInfo.propTypes = {
   formConfig: PropTypes.object,
-  pageList: PropTypes.object,
+  pageList: PropTypes.array,
 };
 
 export default SaveInProgressInfo;

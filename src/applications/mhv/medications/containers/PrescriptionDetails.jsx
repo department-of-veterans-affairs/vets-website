@@ -54,7 +54,9 @@ const PrescriptionDetails = () => {
             },
           ],
           {
-            url: `/my-health/medications/${prescription.prescriptionId}`,
+            url: `/my-health/medications/prescription/${
+              prescription.prescriptionId
+            }`,
             label: prescription.prescriptionName,
           },
         ),
@@ -75,6 +77,7 @@ const PrescriptionDetails = () => {
   const pdfData = useCallback(
     allergiesPdfList => {
       return {
+        subject: `Single Medication Record - ${prescription?.prescriptionName}`,
         headerBanner: [
           {
             text:

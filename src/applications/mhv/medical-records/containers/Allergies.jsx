@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -6,7 +6,12 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PropTypes from 'prop-types';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  recordType,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  accessAlertTypes,
+} from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -17,6 +22,7 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -29,32 +35,13 @@ const Allergies = props => {
       ],
   );
   const user = useSelector(state => state.user.profile);
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
       dispatch(getAllergiesList());
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
   );
 
   useEffect(
@@ -129,7 +116,7 @@ const Allergies = props => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox alertType="Allergy" />;
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
     }
     if (allergies?.length > 0) {
       return <RecordList records={allergies} type={recordType.ALLERGIES} />;

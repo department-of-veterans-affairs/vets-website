@@ -1,19 +1,11 @@
 import { CONTESTABLE_ISSUES_API } from '../constants';
 
-import mockUser from './fixtures/mocks/user.json';
-import mockUserUpdate from './fixtures/mocks/user-update.json';
-import mockIssues from './fixtures/mocks/contestable-issues.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockData from './fixtures/data/maximal-test.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import { mockContestableIssues } from './nod.cypress.helpers';
+
 import { NOD_BASE_URL } from '../../shared/constants';
 
-// Profile specific responses
-import mockProfilePhone from './fixtures/mocks/profile-phone.json';
-import mockProfileEmail from './fixtures/mocks/profile-email.json';
-import mockProfileAddress from './fixtures/mocks/profile-address.json';
-import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
+import { mockContestableIssues } from '../../shared/tests/cypress.helpers';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
 const checkOpt = {
   waitForAnimations: true,
@@ -21,8 +13,8 @@ const checkOpt = {
 
 describe('NOD contact info loop', () => {
   beforeEach(() => {
+    cypressSetup();
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 
     cy.intercept(
       'GET',
@@ -34,28 +26,9 @@ describe('NOD contact info loop', () => {
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
     );
-    cy.intercept(
-      'GET',
-      '/v0/notice_of_disagreements/contestable_issues',
-      mockIssues,
-    );
+
     cy.intercept('GET', '/v0/in_progress_forms/10182', mockData);
     cy.intercept('PUT', '/v0/in_progress_forms/10182', mockData);
-
-    // contact page updates
-    cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone);
-    cy.intercept('PUT', '/v0/profile/email_addresses', mockProfileEmail);
-    cy.intercept('PUT', '/v0/profile/addresses', mockProfileAddress);
-    cy.intercept(
-      'POST',
-      '/v0/profile/address_validation',
-      mockProfileAddressValidation,
-    ).as('getAddressValidation');
-    // profile changes
-    cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
 
     cy.visit(NOD_BASE_URL);
     cy.injectAxe();

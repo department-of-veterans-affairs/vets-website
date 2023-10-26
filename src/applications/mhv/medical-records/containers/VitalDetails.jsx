@@ -12,11 +12,18 @@ import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import { macroCase, makePdf } from '../util/helpers';
-import { vitalTypeDisplayNames, pageTitles } from '../util/constants';
+import {
+  vitalTypeDisplayNames,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = props => {
@@ -29,7 +36,6 @@ const VitalDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
@@ -37,6 +43,7 @@ const VitalDetails = props => {
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -139,7 +146,12 @@ const VitalDetails = props => {
     makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
     if (records?.length) {
       return (
         <>

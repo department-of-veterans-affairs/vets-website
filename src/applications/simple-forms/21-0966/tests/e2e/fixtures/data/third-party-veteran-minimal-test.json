@@ -5,7 +5,7 @@
     "last": "Veteran"
   },
   "benefitSelection": {
-    "COMPENSATION": true
+    "compensation": true
   },
   "veteranFullName": {
     "first": "Veteran",
