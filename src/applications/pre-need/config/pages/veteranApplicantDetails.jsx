@@ -21,7 +21,6 @@ const {
 
 export const uiSchema = !environment.isProduction()
   ? {
-      'ui:description': applicantDescription,
       application: {
         'ui:title': applicantDetailsSubHeader,
         claimant: {

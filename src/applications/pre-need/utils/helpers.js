@@ -84,7 +84,7 @@ export const applicantInformationDescription = (
           the time of their death and includes a surviving spouse who remarried.
         </li>
         <li>
-          An <strong>unmarried adult child</strong> is an individual wo became
+          An <strong>unmarried adult child</strong> is an individual who became
           physically or mentally disabled permanently and incapable of
           self-support before the age of 21, or before 23 years of age if
           pursuing a full-time course of instruction at an approved educational

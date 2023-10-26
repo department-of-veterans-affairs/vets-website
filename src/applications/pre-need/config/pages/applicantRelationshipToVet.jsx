@@ -19,6 +19,7 @@ export const uiSchema = !environment.isProduction()
   ? {
       application: {
         claimant: {
+          'ui:title': ' ',
           relationshipToVet: {
             'ui:title':
               'What is the applicant’s relationship to the service member or Veteran?',
