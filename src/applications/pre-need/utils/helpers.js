@@ -103,17 +103,10 @@ export const applicantContactInfoDescriptionNonVet = (
 
 export const PreparerPhoneNumberDescription = (
   <va-additional-info trigger="Why do we need your phone number?">
-    {environment.isProduction() ? (
-      <p>
-        If you’re the preparer of this application, you’ll need to provide your
-        contact information.
-      </p>
-    ) : (
-      <p>
-        We may contact you by phone if we need more information about the
-        application.
-      </p>
-    )}
+    <p>
+      We may contact you by phone if we need more information about the
+      application.
+    </p>
   </va-additional-info>
 );
 
@@ -133,42 +126,17 @@ export const veteranRelationshipDescription = (
 export const authorizedAgentDescription = (
   // TODO va-additional-info component to be replaced with a more optimal solution
   <va-additional-info
-    trigger={
-      environment.isProduction()
-        ? 'Who can a preparer sign for?'
-        : "If you're applying for someone else, who can you sign for?"
-    }
+    trigger={"If you're applying for someone else, who can you sign for?"}
   >
-    <p>
-      A preparer can sign for an{' '}
-      {environment.isProduction() ? 'individual' : 'applicant'} who’s:
-    </p>
+    <p>A preparer can sign for an applicant who’s:</p>
     <ul>
-      {environment.isProduction() ? (
-        <>
-          <li>
-            Under 18 years of age, <strong>or</strong>
-          </li>
-          <li>
-            Is mentally incompetent, <strong>or</strong>
-          </li>
-          <li>Is physically unable to sign the application</li>
-        </>
-      ) : (
-        <>
-          <li>
-            Mentally incompetent <strong>or</strong>
-          </li>
-          <li>Physically unable to sign the application</li>
-        </>
-      )}
+      <>
+        <li>
+          Mentally incompetent <strong>or</strong>
+        </li>
+        <li>Physically unable to sign the application</li>
+      </>
     </ul>
-    {environment.isProduction() && (
-      <p>
-        If you’re the preparer of this application, you’ll need to provide your
-        contact information.
-      </p>
-    )}
   </va-additional-info>
 );
 
