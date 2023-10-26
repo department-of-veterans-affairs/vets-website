@@ -49,9 +49,11 @@ const ProfileWrapper = ({
   const location = useLocation();
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
+  const profileContactsPageToggle = useToggleValue(
+    TOGGLE_NAMES.profileContactsPage,
+  );
 
-  const routesForNav = getRoutesForNav(profileContactsToggle);
+  const routesForNav = getRoutesForNav(profileContactsPageToggle);
 
   const layout = useMemo(
     () => {
