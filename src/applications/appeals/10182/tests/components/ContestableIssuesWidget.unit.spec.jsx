@@ -12,6 +12,7 @@ import {
 } from '../../actions';
 
 import { SELECTED } from '../../../shared/constants';
+import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 describe('<ContestableIssuesWidget>', () => {
   const getProps = ({
@@ -21,23 +22,39 @@ describe('<ContestableIssuesWidget>', () => {
     setFormData = () => {},
     getContestableIssues = () => {},
     apiLoadStatus = '',
-  } = {}) => ({
-    id: 'id',
-    value: [
-      { attributes: { ratingIssueSubjectText: 'issue-1' } },
-      { attributes: { ratingIssueSubjectText: 'issue-2' } },
-    ],
-    additionalIssues: [{ issue: 'issue-3' }],
-    onChange,
-    formContext: {
-      onReviewPage: review,
-      reviewMode: review,
-      submitted,
-    },
-    setFormData,
-    getContestableIssues,
-    apiLoadStatus,
-  });
+  } = {}) => {
+    const issues = [
+      {
+        attributes: {
+          ratingIssueSubjectText: 'issue-1',
+          approxDecisionDate: getRandomDate(),
+        },
+      },
+      {
+        attributes: {
+          ratingIssueSubjectText: 'issue-2',
+          approxDecisionDate: getRandomDate(),
+        },
+      },
+    ];
+    return {
+      id: 'id',
+      value: issues,
+      additionalIssues: [{ issue: 'issue-3', decisionDate: getRandomDate() }],
+      onChange,
+      formContext: {
+        onReviewPage: review,
+        reviewMode: review,
+        submitted,
+      },
+      formData: { contestedIssues: issues },
+      setFormData,
+      getContestableIssues,
+      contestableIssues: { issues },
+      showPart3: true,
+      apiLoadStatus,
+    };
+  };
 
   it('should render a list of check boxes (IssueCard component)', () => {
     const props = getProps();
@@ -144,7 +161,7 @@ describe('<ContestableIssuesWidget>', () => {
     fireEvent.click(removeButton[0]);
 
     const modal = $('va-modal', container);
-    modal.__events.secondaryButtonClick(); // Remove entry
+    await modal.__events.secondaryButtonClick(); // Remove entry
 
     await waitFor(() => {
       expect(setFormDataSpy.called).to.be.false;

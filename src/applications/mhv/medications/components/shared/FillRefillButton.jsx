@@ -24,18 +24,20 @@ const FillRefillButton = rx => {
     return (
       <div>
         {success && (
-          <va-alert status="success" setFocus>
-            <p className="vads-u-margin-y--0">
-              We got your {dispensedDate ? 'refill' : 'fill'} request.
-            </p>
+          <va-alert status="success" setFocus aria-live="polite">
+            <p className="vads-u-margin-y--0">We got your request.</p>
           </va-alert>
         )}
         {error && (
           <>
-            <va-alert status="error" setFocus id="fill-error-alert">
+            <va-alert
+              status="error"
+              setFocus
+              id="fill-error-alert"
+              aria-live="polite"
+            >
               <p className="vads-u-margin-y--0">
-                We didn’t get your {dispensedDate ? 'refill' : 'fill'} request.
-                Try again.
+                We didn’t get your request. Try again.
               </p>
             </va-alert>
             <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">

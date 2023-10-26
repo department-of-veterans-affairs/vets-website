@@ -2,15 +2,29 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
+import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 
 class MedicationsListPage {
-  clickGotoMedicationsLink = () => {
+  clickGotoMedicationsLink = (waitForMeds = false) => {
     // cy.intercept('GET', '/my-health/medications', prescriptions);
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
+    ).as('medicationsList');
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  clickGotoMedicationsLinkforEmptyMedicationsList = () => {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      emptyPrescriptionsList,
     );
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
@@ -25,6 +39,20 @@ class MedicationsListPage {
     cy.contains('What to know before you download').click({
       force: true,
     });
+  };
+
+  verifyLearnHowToRenewPrescriptionsLinkExists = () => {
+    cy.get('[data-testid="active-no-refill-left"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
+  };
+
+  clickLearnHowToRenewPrescriptionsLink = () => {
+    cy.get('[data-testid="active-no-refill-left"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+
+      .shadow()
+      .find('[href="/my-health/about-medications/accordion-renew-rx"]')
+      .click({ waitForAnimations: true });
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
@@ -93,7 +121,7 @@ class MedicationsListPage {
       ':nth-child(5) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
     )
       .should('be.visible')
-      .and('have.text', 'You haven’t filled this prescription yet');
+      .and('have.text', 'Not filled yet');
   };
 
   verifyInformationBasedOnStatusActiveOnHold = () => {
@@ -152,7 +180,7 @@ class MedicationsListPage {
     //  cy.get(':nth-child(2) > .rx-card-detials > :nth-child(5) > [data-testid="refill-request-button"]')
     cy.get(
       ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    ).should('have.text', 'You haven’t filled this prescription yet');
+    ).should('have.text', 'Not filled yet');
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {

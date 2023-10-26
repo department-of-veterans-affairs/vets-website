@@ -246,12 +246,14 @@ jobs:
 
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
-      - name: Update E2E Allow List
+
+      - name: Update Unit Test Allow List
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           TEST_TYPE: unit_test
+          IS_CI: false
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       # - name: Create Unit Test report and post results to BigQuery
       #   run: yarn cypress-mochawesome-to-bigquery
       #   working-directory: qa-standards-dashboard-data

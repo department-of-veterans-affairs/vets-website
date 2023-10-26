@@ -84,3 +84,9 @@ export const dispStatusObj = {
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+
+export const PDF_GENERATE_STATUS = {
+  NotStarted: 'PDF_GENERATE_NOT_STARTED',
+  InProgress: 'PDF_GENERATE_IN_PROGRESS',
+  Success: 'PDF_GENERATE_SUCESS',
+};

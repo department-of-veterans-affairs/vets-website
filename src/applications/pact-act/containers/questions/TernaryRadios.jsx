@@ -9,7 +9,7 @@ import {
 import {
   navigateBackward,
   navigateForward,
-} from '../../utilities/display-logic';
+} from '../../utilities/page-navigation';
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 

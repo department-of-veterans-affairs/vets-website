@@ -24,6 +24,7 @@ import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import { isInPilot } from '../../../utils/pilotFeatures';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -77,7 +78,10 @@ const AppointmentDetails = props => {
       {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
     </p>
   );
-  if (is45MinuteReminderEnabled) {
+  if (
+    is45MinuteReminderEnabled &&
+    isInPilot({ appointment, pilotFeature: 'fortyFiveMinuteText' })
+  ) {
     preCheckInSubTitle = (
       <p
         data-testid="in-person-45-minute-subtitle"

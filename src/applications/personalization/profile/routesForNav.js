@@ -7,6 +7,7 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import VeteranStatus from './components/veteran-status/Status';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
+import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -23,6 +24,13 @@ export const routesForNav = [
     component: ContactInformation,
     name: PROFILE_PATH_NAMES.CONTACT_INFORMATION,
     path: PROFILE_PATHS.CONTACT_INFORMATION,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
+    component: PersonalHealthCareContacts,
+    name: PROFILE_PATH_NAMES.CONTACTS,
+    path: PROFILE_PATHS.CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
   },
@@ -69,3 +77,11 @@ export const routesForNav = [
     requiresMVI: true,
   },
 ];
+
+export const getRoutesForNav = profileContactsToggle =>
+  routesForNav.filter(route => {
+    if (route.name === PROFILE_PATH_NAMES.CONTACTS) {
+      return profileContactsToggle;
+    }
+    return true;
+  });

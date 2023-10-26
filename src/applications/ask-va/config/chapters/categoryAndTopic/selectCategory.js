@@ -1,5 +1,5 @@
 import CategorySelect from '../../../components/FormFields/CategorySelect';
-import FormElementTitle from '../../../components/FormFields/FormElementTitle';
+import FormElementTitle from '../../../components/FormElementTitle';
 
 const selectCategoryPage = {
   uiSchema: {

@@ -8,7 +8,7 @@ const content = {
   headlineText:
     'You’ve submitted your Presidential Memorial Certificate request',
   nextStepsText:
-    'After we review your request, we’ll contact you to tell you what happens next in the process.',
+    'After we receive your request, we’ll verify if the Veteran or Reservist is eligible. Then we’ll mail you the certificates you requested.',
 };
 
 export const ConfirmationPage = () => {

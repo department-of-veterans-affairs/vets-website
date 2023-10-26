@@ -1,6 +1,5 @@
 import {
   titleUI,
-  titleSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -22,7 +21,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       thirdPartyPreparerFullName: fullNameNoSuffixSchema,
     },
   },

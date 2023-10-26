@@ -232,7 +232,6 @@ export const buildVAPrescriptionPDFList = prescription => {
       header: 'About this medication or supply',
       sections: [
         {
-          header: 'First fill',
           items: [
             {
               title: 'Instructions',

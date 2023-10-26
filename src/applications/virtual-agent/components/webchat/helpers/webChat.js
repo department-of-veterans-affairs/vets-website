@@ -3,18 +3,21 @@ import * as Sentry from '@sentry/browser';
 
 export const cardActionMiddleware = decisionLetterEnabled => () => next => card => {
   const { cardAction } = card;
-  const isDecisionLetter = cardAction.value.includes('/v0/claim_letters/');
+  if (!cardAction || !decisionLetterEnabled) return next(card);
+  const isDecisionLetter =
+    typeof cardAction.value === 'string' &&
+    cardAction.value.includes('/v0/claim_letters/');
   const actionIsOpenUrl = cardAction.type === 'openUrl';
-  if (decisionLetterEnabled && actionIsOpenUrl && isDecisionLetter) {
-    const recordDecisionLetterDownload = () =>
+  if (actionIsOpenUrl && isDecisionLetter) {
+    const recordDecisionLetterDownloadInGoogleAnalytics = () =>
       recordEvent({
         event: 'file_download',
         'button-click-label': 'Decision Letter',
         time: new Date(Date.now()),
       });
-    recordDecisionLetterDownload();
+    recordDecisionLetterDownloadInGoogleAnalytics();
   }
-  next(card);
+  return next(card);
 };
 
 export const ifMissingParamsCallSentry = (

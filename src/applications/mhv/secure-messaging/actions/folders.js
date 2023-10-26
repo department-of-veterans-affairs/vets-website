@@ -10,14 +10,7 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
 export const getFolders = () => async dispatch => {
-  try {
-    const response = await getFolderList();
-    dispatch({
-      type: Actions.Folder.GET_LIST,
-      response,
-    });
-  } catch (error) {
-    const err = error.errors[0];
+  const handleErrors = err => {
     dispatch({
       type: Actions.Alerts.ADD_ALERT,
       payload: {
@@ -27,31 +20,52 @@ export const getFolders = () => async dispatch => {
         response: err,
       },
     });
+  };
+  try {
+    const response = await getFolderList();
+    if (response.data) {
+      dispatch({
+        type: Actions.Folder.GET_LIST,
+        response,
+      });
+    }
+    if (response.errors) {
+      const err = response.errors[0];
+      handleErrors(err);
+    }
+  } catch (error) {
+    const err = error.errors[0];
+    handleErrors(err);
   }
 };
 
 export const retrieveFolder = folderId => async dispatch => {
+  const handleErrors = error => {
+    dispatch({
+      type: Actions.Folder.GET,
+      response: null,
+    });
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', error?.detail));
+  };
   await getFolder(folderId)
     .then(response => {
-      if (
-        response.data.attributes.folderId ===
-        Constants.DefaultFolders.DELETED.id
-      ) {
-        response.data.attributes.name = Constants.DefaultFolders.DELETED.header;
+      if (response.data) {
+        if (
+          response.data.attributes.folderId ===
+          Constants.DefaultFolders.DELETED.id
+        ) {
+          response.data.attributes.name =
+            Constants.DefaultFolders.DELETED.header;
+        }
+        dispatch({
+          type: Actions.Folder.GET,
+          response,
+        });
       }
-      dispatch({
-        type: Actions.Folder.GET,
-        response,
-      });
+      if (response.errors) handleErrors(response.errors[0]);
     })
     .catch(error => {
-      dispatch({
-        type: Actions.Folder.GET,
-        response: null,
-      });
-      dispatch(
-        addAlert(Constants.ALERT_TYPE_ERROR, '', error.errors[0].detail),
-      );
+      handleErrors(error);
     });
 };
 
@@ -98,21 +112,22 @@ export const newFolder = folderName => async dispatch => {
 };
 
 export const delFolder = folderId => async dispatch => {
-  const response = await deleteFolder(folderId);
-  if (response.errors) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Folder.DELETE_FOLDER_ERROR,
-      ),
-    );
-  } else {
+  try {
+    await deleteFolder(folderId);
+    dispatch({ type: Actions.Folder.DELETE });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
         '',
         Constants.Alerts.Folder.DELETE_FOLDER_SUCCESS,
+      ),
+    );
+  } catch (error) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Folder.DELETE_FOLDER_ERROR,
       ),
     );
   }

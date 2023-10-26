@@ -16,14 +16,12 @@ import {
   PAW_UPDATE_RADIATION_2_3_B,
   PAW_UPDATE_LEJEUNE_2_4,
   PAW_UPDATE_FORM_STORE,
-  PAW_VIEWED_RESULTS_PAGE_1,
 } from '../../constants';
 
 import { RESPONSES } from '../../constants/question-data-map';
 
 import {
   updateIntroPageViewed,
-  updateResultsPage1Viewed,
   updateServicePeriod,
   updateBurnPit21,
   updateBurnPit211,
@@ -56,15 +54,6 @@ describe('pact act actions', () => {
       expect(updateIntroPageViewed(true)).to.deep.equal({
         type: PAW_VIEWED_INTRO_PAGE,
         payload: true,
-      });
-    });
-  });
-
-  describe('updateResultsPage1Viewed', () => {
-    it('should return the correct action type and value', () => {
-      expect(updateResultsPage1Viewed(false)).to.deep.equal({
-        type: PAW_VIEWED_RESULTS_PAGE_1,
-        payload: false,
       });
     });
   });

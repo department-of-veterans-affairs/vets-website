@@ -84,6 +84,28 @@ describe('Webchat.jsx Helpers', () => {
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
       });
+      describe('When there are unexpected values', () => {
+        it('should not throw an error when cardAction.value is not a string', () => {
+          const missingCardActionValue = generateFakeCard({}, 'notOpenUrl');
+          const { nextSpy, recordEventStub } = generateSinonFunctions();
+          cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+            missingCardActionValue,
+          );
+          expect(recordEventStub.notCalled).to.be.true;
+          expect(nextSpy.calledOnce).to.be.true;
+          expect(nextSpy.firstCall.args[0]).to.eql(missingCardActionValue);
+        });
+        it('should not throw an error when cardAction is not present', () => {
+          const missingCardActionObj = {};
+          const { nextSpy, recordEventStub } = generateSinonFunctions();
+          cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
+            missingCardActionObj,
+          );
+          expect(recordEventStub.notCalled).to.be.true;
+          expect(nextSpy.calledOnce).to.be.true;
+          expect(nextSpy.firstCall.args[0]).to.eql(missingCardActionObj);
+        });
+      });
     });
 
     describe('when decision letter tracking is disabled', () => {

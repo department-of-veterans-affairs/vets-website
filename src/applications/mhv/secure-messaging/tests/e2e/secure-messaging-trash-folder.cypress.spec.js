@@ -75,6 +75,7 @@ describe('Secure Messaging Trash Folder checks', () => {
         },
       },
     });
+
     cy.get('.endOfThreads').should('not.exist');
     PatientMessageTrashPage.navigateToLastPage();
     cy.get('.endOfThreads').should(

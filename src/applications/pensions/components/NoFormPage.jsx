@@ -53,37 +53,37 @@ export const NoFormPage = () => {
             visible
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
-              This online form isn’t working right now
+              You can’t apply online right now
             </h2>
             <div>
               <p className="vads-u-margin-y--0">
-                You can apply by mail instead. Download a PDF Application for
-                Pension Benefits (VA Form 21P-527EZ). You can refer to your
-                saved information on this page to fill out the form.
+                We’re updating our online form. Our new online form will be
+                available in January 2024. If you want to continue applying
+                online then, we’ll transfer your saved information to the new
+                form.
+              </p>
+              <p>
+                Or, you can apply now using a PDF form.
+                <br />
+                <va-link
+                  download
+                  filetype="PDF"
+                  href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+                  pages={8}
+                  text="Download VA form 21P-527EZ"
+                />
+              </p>
+              <p>
+                <strong>Note:</strong> You can refer to your saved information
+                on this page to fill out the PDF form.
               </p>
             </div>
-            <br />
-            <va-link
-              download
-              filetype="PDF"
-              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
-              pages={8}
-              text="Download VA form 21P-527EZ"
-            />
           </va-alert>
           <div>
-            <div className="vads-u-padding-y--3">
-              <h2>How to apply by mail</h2>
-              <p>
-                We’ve recorded the potential start date of your benefits as
-                <strong>
-                  {' '}
-                  {format(getUnixTime(data?.metadata.createdAt), 'MM/dd/yyyy')}
-                </strong>
-                . You have 12 months from this date to submit a claim.
-              </p>
+            <div>
+              <h2>Apply by mail</h2>
               <p className="vads-u-margin-bottom--4">
-                Mail your completed form to the pension management center:
+                Mail your completed PDF form to the pension management center:
               </p>
               <p className="va-address-block">
                 Department of Veterans Affairs <br />
@@ -93,6 +93,25 @@ export const NoFormPage = () => {
                 <br />
                 Janesville, WI 53547-5365
                 <br />
+              </p>
+            </div>
+            <va-link
+              href="/pension/survivors-pension/"
+              text="Learn about how to apply in person, or with the help of a VSO"
+            />
+            <h2>Your intent to file date</h2>
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3">
+              <h3 className="vads-u-margin-y--0 vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-display--inline">
+                {format(
+                  getUnixTime(data?.metadata?.createdAt),
+                  'MMMM do, yyyy',
+                )}
+              </h3>
+              <p>
+                We’ve recorded the potential start date of your benefits (also
+                known as your intent to file date) as the date you first saved
+                your online application. You have 12 months from this date to
+                submit a claim.
               </p>
             </div>
             <article>
@@ -157,7 +176,7 @@ export const NoFormPage = () => {
             visible
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
-              You don’t have any saved online pension forms.
+              You don’t have any saved online pension form.
             </h2>
             <p>
               You can apply for VA pension benefits by mail, in person at a VA
@@ -186,7 +205,7 @@ export const NoFormPage = () => {
       <p>VA Form 21P-527EZ</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
-          You don’t have any saved online pension forms.
+          You don’t have any saved online pension form.
         </h2>
         <p>
           You can apply for VA pension benefits by mail, in person at a VA

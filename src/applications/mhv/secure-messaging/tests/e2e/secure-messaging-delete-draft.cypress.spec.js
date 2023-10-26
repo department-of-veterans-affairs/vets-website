@@ -11,13 +11,12 @@ describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
   const inboxPage = new PatientInboxPage();
   const draftsPage = new PatientMessageDraftsPage();
-  const patientInterstitialPage = new PatientInterstitialPage();
   it(' Delete Drafts', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().should('not.exist');
+    PatientInterstitialPage.getContinueButton().should('not.exist');
     draftsPage.clickDeleteButton();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

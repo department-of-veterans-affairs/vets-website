@@ -8,27 +8,30 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import preparerIdentification from '../pages/preparerIdentification';
 import veteranBenefitSelection from '../pages/veteranBenefitSelection';
-import preparerPersonalInformation from '../pages/preparerPersonalInformation';
-import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import survivingDependentPersonalInformation from '../pages/survivingDependentPersonalInformation';
+import survivingDependentIdentificationInformation from '../pages/survivingDependentIdentificationInformation';
+import survivingDependentMailingAddress from '../pages/survivingDependentMailingAddress';
+import survivingDependentPhoneAndEmailAddress from '../pages/survivingDependentPhoneAndEmailAddress';
 import {
   preparerIsVeteran,
-  preparerIsSurvivingDependant,
-  preparerIsThirdParty,
+  preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
-  preparerIsThirdPartyToASurvivingDependant,
+  preparerIsThirdPartyToASurvivingDependent,
   benefitSelectionStepperTitle,
   personalInformationStepperTitle,
   contactInformationStepperTitle,
+  initializeFormDataWithPreparerIdentification,
+  statementOfTruthFullNamePath,
 } from './helpers';
-import survivingDependantBenefitSelection from '../pages/survivingDependantBenefitSelection';
+import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
+import veteranMailingAddress from '../pages/veteranMailingAddress';
+import veteranPhoneAndEmailAddress from '../pages/veteranPhoneAndEmailAddress';
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/minimal-test.json';
+import testData from '../tests/e2e/fixtures/data/veteran-minimal-test.json';
 import relationshipToVeteran from '../pages/relationshipToVeteran';
 
 const mockData = testData;
@@ -72,10 +75,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        preparerIsThirdParty({ formData })
-          ? 'thirdPartyPreparerFullName'
-          : 'preparerFullName',
+      fullNamePath: formData => statementOfTruthFullNamePath({ formData }),
     },
   },
   formId: '21-0966',
@@ -114,11 +114,16 @@ const formConfig = {
               : undefined,
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
+          updateFormData: (oldFormData, newFormData) =>
+            initializeFormDataWithPreparerIdentification(
+              newFormData.preparerIdentification,
+            ),
         },
         thirdPartyPreparerFullName: {
-          path: 'preparer-name',
-          // display only if preparer is a third-party
-          depends: formData => preparerIsThirdParty({ formData }),
+          path: 'third-party-preparer-name',
+          depends: formData =>
+            preparerIsThirdPartyToTheVeteran({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Your name',
           uiSchema: thirdPartyPreparerFullName.uiSchema,
           schema: thirdPartyPreparerFullName.schema,
@@ -129,8 +134,7 @@ const formConfig = {
       title: ({ formData }) => benefitSelectionStepperTitle({ formData }),
       pages: {
         veteranBenefitSelection: {
-          path: 'benefit-selection-1',
-          // display only if preparer is the veteran or a third-party to the veteran
+          path: 'veteran-benefit-selection',
           depends: formData =>
             preparerIsVeteran({ formData }) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
@@ -138,49 +142,60 @@ const formConfig = {
           uiSchema: veteranBenefitSelection.uiSchema,
           schema: veteranBenefitSelection.schema,
         },
-        survivingDependantBenefitSelection: {
-          path: 'benefit-selection-2',
-          // display only if preparer is a surviving dependant of the veteran or a third-party to a surviving dependant
+        survivingDependentBenefitSelection: {
+          path: 'surviving-dependent-benefit-selection',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: formData => benefitSelectionStepperTitle({ formData }),
-          uiSchema: survivingDependantBenefitSelection.uiSchema,
-          schema: survivingDependantBenefitSelection.schema,
+          uiSchema: survivingDependentBenefitSelection.uiSchema,
+          schema: survivingDependentBenefitSelection.schema,
         },
       },
     },
-    personalInformationChapter: {
+    survivingDependentPersonalInformationChapter: {
       title: ({ formData }) => personalInformationStepperTitle({ formData }),
       pages: {
-        personalInformation: {
-          path: 'personal-information',
+        survivingDependentPersonalInformation: {
+          path: 'surviving-dependent-personal-information',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: formData => personalInformationStepperTitle({ formData }),
-          uiSchema: preparerPersonalInformation.uiSchema,
-          schema: preparerPersonalInformation.schema,
+          uiSchema: survivingDependentPersonalInformation.uiSchema,
+          schema: survivingDependentPersonalInformation.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
+        survivingDependentIdentificationInformation: {
+          path: 'surviving-dependent-identification-information',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Identification information',
-          uiSchema: preparerIdentificationInformation.uiSchema,
-          schema: preparerIdentificationInformation.schema,
+          uiSchema: survivingDependentIdentificationInformation.uiSchema,
+          schema: survivingDependentIdentificationInformation.schema,
         },
       },
     },
-    contactInformationChapter: {
+    survivingDependentContactInformationChapter: {
       title: ({ formData }) => contactInformationStepperTitle({ formData }),
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
+        survivingDependentMailingAddress: {
+          path: 'surviving-dependent-mailing-address',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+          uiSchema: survivingDependentMailingAddress.uiSchema,
+          schema: survivingDependentMailingAddress.schema,
         },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
+        survivingDependentPhoneAndEmailAddress: {
+          path: 'surviving-dependent-phone-and-email-address',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+          uiSchema: survivingDependentPhoneAndEmailAddress.uiSchema,
+          schema: survivingDependentPhoneAndEmailAddress.schema,
         },
       },
     },
@@ -189,28 +204,47 @@ const formConfig = {
       pages: {
         veteranPersonalInformation: {
           path: 'veteran-personal-information',
-          // display only if preparer is not the veteran
-          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
         },
         veteranIdentificationInformation: {
           path: 'veteran-identification-information',
-          // display only if preparer is not the veteran
-          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Identification information',
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
         },
         relationshipToVeteran: {
           path: 'relationship-to-veteran',
-          // display only if preparer is third-party to a surviving dependant
           depends: formData =>
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: '',
           uiSchema: relationshipToVeteran.uiSchema,
           schema: relationshipToVeteran.schema,
+        },
+      },
+    },
+    veteranContactInformationChapter: {
+      title: 'Your contact information',
+      pages: {
+        veteranMailingAddress: {
+          path: 'veteran-mailing-address',
+          depends: formData =>
+            preparerIsVeteran({ formData }) ||
+            preparerIsThirdPartyToTheVeteran({ formData }),
+          title: 'Mailing address',
+          uiSchema: veteranMailingAddress.uiSchema,
+          schema: veteranMailingAddress.schema,
+        },
+        veteranPhoneAndEmailAddress: {
+          path: 'veteran-phone-and-email-address',
+          depends: formData =>
+            preparerIsVeteran({ formData }) ||
+            preparerIsThirdPartyToTheVeteran({ formData }),
+          title: 'Phone and email address',
+          uiSchema: veteranPhoneAndEmailAddress.uiSchema,
+          schema: veteranPhoneAndEmailAddress.schema,
         },
       },
     },

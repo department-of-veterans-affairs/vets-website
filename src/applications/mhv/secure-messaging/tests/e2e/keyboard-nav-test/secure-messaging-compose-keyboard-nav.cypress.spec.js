@@ -13,6 +13,7 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
   });
   it('Tab to Message Body', () => {
     landingPage.navigateToComposePage();
+    composePage.keyboardNavToMessageBodyField().should('exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -21,7 +22,6 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
         },
       },
     });
-    composePage.keyboardNavToMessageBodyField().should('exist');
   });
   it('Tab to Message Subject Field', () => {
     landingPage.navigateToComposePage();

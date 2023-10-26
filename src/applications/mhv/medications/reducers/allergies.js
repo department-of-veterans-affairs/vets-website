@@ -9,6 +9,11 @@ const initialState = {
    * @type {array}
    */
   allergiesList: undefined,
+  /**
+   * Error flag
+   * @type {boolean}
+   */
+  error: undefined,
 };
 
 export const allergiesReducer = (state = initialState, action) => {
@@ -16,10 +21,23 @@ export const allergiesReducer = (state = initialState, action) => {
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,
+        error: false,
         allergiesList:
           action.response.entry?.map(allergy => {
             return convertAllergy(allergy.resource);
           }) || [],
+      };
+    }
+    case Actions.Allergies.GET_LIST_ERROR: {
+      return {
+        ...state,
+        error: true,
+      };
+    }
+    case Actions.Allergies.GET_LIST_ERROR_RESET: {
+      return {
+        ...state,
+        error: initialState.error,
       };
     }
     default:

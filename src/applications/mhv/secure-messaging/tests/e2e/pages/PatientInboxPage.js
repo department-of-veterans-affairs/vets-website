@@ -10,8 +10,8 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
-import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messages-response.json';
+import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -371,8 +371,8 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.CheckFocusOnVcl();
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   navigateToInterstitialPage = () => {
@@ -484,7 +484,7 @@ class PatientInboxPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(listBefore);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -492,7 +492,7 @@ class PatientInboxPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(listAfter);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
@@ -515,13 +515,13 @@ class PatientInboxPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/search`,
-      sentSearchResponse,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      inboxSearchResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData = inboxSearchResponse) => {
     cy.get('[data-testid="message-list-item"]').should(
       'have.length',
       `${responseData.data.length}`,
@@ -557,7 +557,7 @@ class PatientInboxPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      '/my_health/v1/messaging/folders/0/threads**',
       sortedResponse,
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });

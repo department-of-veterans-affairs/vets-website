@@ -39,7 +39,7 @@ describe('Secure Messaging - Print Functionality', () => {
     cy.window().then(win => {
       win.print();
       expect(win.print).to.be.calledOnce;
-      cy.get('[class ="button-secondary"]').click({ force: true });
+      cy.get('va-button[secondary]').click({ force: true });
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -66,7 +66,7 @@ describe('Secure Messaging - Print Functionality', () => {
 
       expect(win.print).to.be.calledOnce;
     });
-    cy.get('[class ="button-secondary"]').click({ force: true });
+    cy.get('va-button[secondary]').click({ force: true });
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

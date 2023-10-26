@@ -5,7 +5,6 @@ import Compose from './Compose';
 import Folders from './Folders';
 import FolderThreadListView from './FolderThreadListView';
 import LandingPageAuth from './LandingPageAuth';
-import MessageDetails from './MessageDetails';
 import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
@@ -29,9 +28,6 @@ const AuthorizedRoutes = () => {
         <Route exact path={Paths.COMPOSE} key="Compose">
           <Compose />
         </Route>
-        <Route exact path={`${Paths.MESSAGE}:messageId/`} key="MessageDetails">
-          <MessageDetails />
-        </Route>
         <Route
           exact
           path={`${Paths.MESSAGE_THREAD}:threadId/`}
@@ -47,12 +43,6 @@ const AuthorizedRoutes = () => {
         </Route>
         <Route path={`${Paths.DRAFT}:draftId/`} key="Compose">
           <Compose />
-        </Route>
-        <Route path={`${Paths.SENT}:messageId/`} key="MessageDetails">
-          <MessageDetails />
-        </Route>
-        <Route path={`${Paths.DELETED}:messageId/`} key="MessageDetails">
-          <MessageDetails />
         </Route>
         <Route
           path={[

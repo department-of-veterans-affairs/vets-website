@@ -121,6 +121,7 @@ export default function ValidateDisplay({
             value={dob}
             required
             onKeyDown={handleEnter}
+            monthSelect={false}
             uswds
           />
         </div>
