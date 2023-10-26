@@ -4,11 +4,10 @@ import { format } from 'date-fns';
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 
-const RenderClaimsWidgetDowntimeNotification = ({
-  status,
-  endTime,
+const RenderClaimsWidgetDowntimeNotification = (
+  { status, endTime },
   children,
-}) => {
+) => {
   if (status === externalServiceStatus.down) {
     return (
       <div
@@ -44,10 +43,6 @@ const RenderClaimsWidgetDowntimeNotification = ({
 };
 
 RenderClaimsWidgetDowntimeNotification.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
   endTime: PropTypes.instanceOf(Date),
   status: PropTypes.string,
 };
