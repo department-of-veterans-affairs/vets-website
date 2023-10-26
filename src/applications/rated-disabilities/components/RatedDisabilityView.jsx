@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+import { checkForDiscrepancies } from '../actions';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import OnThisPage from './OnThisPage';
 import RatedDisabilityList from './RatedDisabilityList';
@@ -40,6 +41,7 @@ const renderMVIError = () => {
 };
 
 const RatedDisabilityView = ({
+  detectDiscrepancies,
   error,
   fetchRatedDisabilities,
   fetchTotalDisabilityRating,
@@ -51,6 +53,10 @@ const RatedDisabilityView = ({
 }) => {
   useEffect(() => {
     fetchTotalDisabilityRating();
+
+    if (detectDiscrepancies) {
+      checkForDiscrepancies();
+    }
   }, []);
 
   let content;
@@ -114,6 +120,7 @@ const RatedDisabilityView = ({
 
 RatedDisabilityView.propTypes = {
   fetchRatedDisabilities: PropTypes.func.isRequired,
+  detectDiscrepancies: PropTypes.bool,
   error: PropTypes.object,
   fetchTotalDisabilityRating: PropTypes.func,
   loading: PropTypes.bool,
