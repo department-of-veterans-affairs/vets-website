@@ -27,7 +27,7 @@ const PrintDownload = props => {
       e.preventDefault();
       document.getElementById(`printButton-${printIndex - 1}`).focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < 1 && e.keyCode === 40) {
+    } else if (printIndex < 2 && e.keyCode === 40) {
       e.preventDefault();
       document.getElementById(`printButton-${printIndex + 1}`).focus();
       setPrintIndex(printIndex + 1);
