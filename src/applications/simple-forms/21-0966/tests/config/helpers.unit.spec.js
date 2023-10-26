@@ -195,7 +195,7 @@ describe('confirmation page helper functions', () => {
 
         it('successfully gets the success alert title', () => {
           expect(getSuccessAlertTitle(data, {})).to.equal(
-            'You’ve submitted your intent to file request',
+            'You’ve submitted your intent to file',
           );
         });
 
@@ -224,7 +224,7 @@ describe('confirmation page helper functions', () => {
 
       it('successfully gets the success alert title', () => {
         expect(getSuccessAlertTitle(data, {})).to.equal(
-          'You’ve submitted your intent to file request',
+          'You’ve submitted your intent to file',
         );
       });
 
@@ -269,7 +269,7 @@ describe('confirmation page helper functions', () => {
             expect(
               getSuccessAlertTitle(data, alreadySubmittedIntents),
             ).to.equal(
-              `You’ve submitted your intent to file request for ${
+              `You’ve submitted your intent to file for ${
                 benefitPhrases[newlySelectedIntent]
               }`,
             );
@@ -494,7 +494,7 @@ describe('confirmation page helper functions', () => {
             expect(
               getAlreadySubmittedText(data, alreadySubmittedIntents),
             ).to.equal(
-              `Our records show that you already have an Intent to File (ITF) for ${
+              `Our records show that you already have an intent to file for ${
                 benefitPhrases[alreadySubmittedIntentType]
               }. Your intent to file for ${
                 benefitPhrases[alreadySubmittedIntentType]
