@@ -77,6 +77,7 @@ export default Object.freeze({
   financialStatusReportDebtsApiModule: 'financial_status_report_debts_api_module',
   financialStatusReportStreamlinedWaiver: 'financial_status_report_streamlined_waiver',
   financialStatusReportStreamlinedWaiverAssets: 'financial_status_report_streamlined_waiver_assets',
+  financialStatusReportReviewPageNavigation: 'financial_status_report_review_page_navigation',
   form10182Nod: 'form10182_nod',
   form2110210: 'form2110210',
   form210845: 'form210845',
