@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import { multipleAppointments } from '../../tests/unit/mocks/mock-appointments';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -39,6 +40,21 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('no-upcoming-appointments')).to.exist;
+    });
+    it('should call handleDetailClick when details link is clicked', () => {
+      const mockstore = {
+        upcomingAppointments: multipleAppointments,
+      };
+      const push = sinon.spy();
+      const router = { push };
+      const { getAllByTestId } = render(
+        <CheckInProvider store={mockstore} router={router}>
+          <UpcomingAppointmentsList />
+        </CheckInProvider>,
+      );
+      const detailsLink = getAllByTestId('details-link')[0];
+      fireEvent.click(detailsLink);
+      sinon.assert.calledOnce(push);
     });
   });
 });
