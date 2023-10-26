@@ -22,10 +22,10 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsName = prescriptionDetails => {
+  verifyPrescriptionsName = prescriptionName => {
     cy.get('[data-testid="prescription-name"]').should(
       'contain',
-      prescriptionDetails,
+      prescriptionName,
     );
   };
 
