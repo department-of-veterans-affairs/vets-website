@@ -23,13 +23,11 @@ const DraftSavedInfo = props => {
 
   const content = () => {
     if (isSaving) return 'Saving...';
-    if (lastSaveTime) {
-      return `Your message was saved on ${dateFormat(
-        lastSaveTime,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}.`;
-    }
-    return '';
+
+    return `Your message was saved on ${dateFormat(
+      lastSaveTime,
+      'MMMM D, YYYY [at] h:mm a z',
+    )}.`;
   };
 
   if (saveError) {
@@ -52,7 +50,7 @@ const DraftSavedInfo = props => {
     return (
       <>
         <va-alert
-          aria-live="polite"
+          aria-live={!userSaved ? ariaLive : 'polite'}
           background-only
           class="last-save-time"
           full-width="false"
@@ -63,19 +61,6 @@ const DraftSavedInfo = props => {
         >
           <p className="vads-u-margin-y--0">{content()}</p>
         </va-alert>
-        {userSaved === false && (
-          <va-alert
-            aria-live={ariaLive}
-            background-only
-            class="last-save-time"
-            full-width="false"
-            show-icon
-            status="success"
-            visible
-          >
-            <p className="vads-u-margin-y--0">{content()}</p>
-          </va-alert>
-        )}
       </>
     );
   }
