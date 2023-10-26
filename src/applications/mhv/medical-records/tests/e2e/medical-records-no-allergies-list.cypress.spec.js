@@ -11,9 +11,13 @@ describe('Medical Records View Allergies', () => {
   
       AllergiesListPage.clickGotoAllergiesLink(allergies);
   
+      cy.get('[data-testid="no-allergy-records"]')
+      .should('be.visible');
+
       cy.get('[data-testid="print-records-button"]')
-        .should('not.be.visible')
+        .should('not.be.visible');
         // .click({ force: true });
+
       cy.injectAxe();
       cy.axeCheck('main', {
         rules: {

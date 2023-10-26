@@ -142,7 +142,11 @@ const Allergies = props => {
     if (allergies?.length === 0) {
       return (
         <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
+          <va-alert
+            background-only
+            status="info"
+            data-testid="no-allergy-records"
+          >
             You don’t have any records in Allergies
           </va-alert>
         </div>
