@@ -17,6 +17,7 @@ import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import GetFormHelp from '../components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
 
 // chapter 1 - Veteran Information
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
@@ -57,7 +58,7 @@ const {
 } = SHARED_PATHS;
 
 // declare schema definitions
-const { provider } = ezrSchema.definitions;
+const { date, dependent, monetaryValue, provider, ssn } = ezrSchema.definitions;
 
 // declare form config object
 const formConfig = {
@@ -105,8 +106,9 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
-  defaultDefinitions: { provider },
+  defaultDefinitions: { date, dependent, monetaryValue, provider, ssn },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
