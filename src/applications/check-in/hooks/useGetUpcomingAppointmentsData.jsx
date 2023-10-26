@@ -1,12 +1,14 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector, batch } from 'react-redux';
+import { useLayoutEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
 
 import { recievedUpcomingAppointments } from '../actions/universal';
 
-const useGetUpcomingAppointmentsData = () => {
+const useGetUpcomingAppointmentsData = ({ refreshNeeded }) => {
   const [isComplete, setIsComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isStale, setIsStale] = useState(refreshNeeded);
   const [
     upcomingAppointmentsDataError,
     setUpcomingAppointmentsDataError,
@@ -15,38 +17,40 @@ const useGetUpcomingAppointmentsData = () => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const dispatch = useDispatch();
+  const refreshUpcomingData = () => {
+    setIsStale(true);
+  };
 
-  const setUpcomingAppointmentsData = useCallback(
-    payload => {
-      batch(() => {
-        const { appointments } = payload;
-        dispatch(recievedUpcomingAppointments(appointments, token));
-      });
-    },
-    [dispatch, token],
-  );
+  const dispatch = useDispatch();
 
   useLayoutEffect(
     () => {
-      if (token && !isComplete) {
+      if (token && !isComplete && isStale) {
+        setIsLoading(true);
         api.v2
           .getUpcomingAppointmentsData(token)
           .then(json => {
-            setUpcomingAppointmentsData(json.payload);
+            const { appointments } = json.payload;
+            dispatch(recievedUpcomingAppointments(appointments));
           })
           .catch(() => {
             setUpcomingAppointmentsDataError(true);
           })
           .finally(() => {
             setIsComplete(true);
+            setIsLoading(false);
           });
       }
     },
-    [token, isComplete, setUpcomingAppointmentsData],
+    [token, isComplete, isStale, dispatch],
   );
 
-  return { upcomingAppointmentsDataError, isComplete };
+  return {
+    upcomingAppointmentsDataError,
+    isComplete,
+    isLoading,
+    refreshUpcomingData,
+  };
 };
 
 export { useGetUpcomingAppointmentsData };
