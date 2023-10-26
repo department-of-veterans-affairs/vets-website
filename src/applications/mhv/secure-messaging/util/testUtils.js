@@ -13,18 +13,36 @@ export const getByBrokenText = (text, container) => {
   });
 };
 
+export const inputVaTextInput = (
+  container,
+  value,
+  selector = 'va-text-input',
+) => {
+  const vaTextInput = $(selector, container);
+  vaTextInput.value = value;
+
+  const event = new CustomEvent('input', {
+    bubbles: true,
+    detail: { value },
+  });
+  vaTextInput.dispatchEvent(event);
+};
+
 export const selectVaSelect = (container, value, selector = 'va-select') => {
-  const changeEvent = new CustomEvent('selected', {
+  const changeEvent = new CustomEvent('vaSelect', {
     detail: { value },
   });
   $(selector, container).__events.vaSelect(changeEvent);
 };
 
 export const selectVaDate = (container, value, selector = 'va-date') => {
-  const changeEvent = new CustomEvent('selected', {
-    detail: { detail: value },
+  const vaDate = $(selector, container);
+  vaDate.value = value;
+  const event = new CustomEvent('dateChange', {
+    bubbles: true,
+    detail: { value },
   });
-  $(selector, container).__events.dateChange(changeEvent);
+  vaDate.dispatchEvent(event);
 };
 
 export const selectVaRadio = (container, value, selector = 'va-radio') => {

@@ -97,7 +97,7 @@ function MailingAddressStateTitle(props) {
   const { elementPath } = props;
   const data = useSelector(state => state.form.data || {});
   const country = get(elementPath, data);
-  if (!environment.isProduction() && country === 'CAN') {
+  if (country === 'CAN') {
     return 'Province';
   }
   return 'State or territory';
@@ -126,7 +126,11 @@ function ApplicantContactInfoDescription() {
     : applicantContactInfoDescriptionNonVet;
 }
 
+/** @type {FormConfig} */
 const formConfig = {
+  dev: {
+    showNavLinks: true,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
@@ -599,8 +603,7 @@ const formConfig = {
                       'ui:title': applicantMailingAddressStateTitleWrapper,
                       'ui:options': {
                         hideIf: formData =>
-                          !applicantsMailingAddressHasState(formData) &&
-                          !environment.isProduction(),
+                          !applicantsMailingAddressHasState(formData),
                       },
                     },
                   },
@@ -657,16 +660,31 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                address: merge({}, address.uiSchema('Sponsor’s address'), {
-                  state: {
-                    'ui:title': sponsorMailingAddressStateTitleWrapper,
-                    'ui:options': {
-                      hideIf: formData =>
-                        !sponsorMailingAddressHasState(formData) &&
-                        !environment.isProduction(),
-                    },
-                  },
-                }),
+                address: !environment.isProduction()
+                  ? merge({}, address.uiSchema('Sponsor’s mailing address'), {
+                      street: {
+                        'ui:title': 'Street address',
+                      },
+                      street2: {
+                        'ui:title': 'Street address line 2',
+                      },
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData),
+                        },
+                      },
+                    })
+                  : merge({}, address.uiSchema('Sponsor’s address'), {
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData),
+                        },
+                      },
+                    }),
               },
             },
           },
@@ -811,8 +829,7 @@ const formConfig = {
                         'ui:required': isAuthorizedAgent,
                         'ui:options': {
                           hideIf: formData =>
-                            !preparerAddressHasState(formData) &&
-                            !environment.isProduction(),
+                            !preparerAddressHasState(formData),
                         },
                       },
                       postalCode: { 'ui:required': isAuthorizedAgent },

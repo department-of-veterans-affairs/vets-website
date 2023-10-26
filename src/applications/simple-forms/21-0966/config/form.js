@@ -128,7 +128,9 @@ const formConfig = {
         },
         thirdPartyPreparerFullName: {
           path: 'third-party-preparer-name',
-          depends: formData => preparerIsThirdPartyToTheVeteran({ formData }),
+          depends: formData =>
+            preparerIsThirdPartyToTheVeteran({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Your name',
           uiSchema: thirdPartyPreparerFullName.uiSchema,
           schema: thirdPartyPreparerFullName.schema,

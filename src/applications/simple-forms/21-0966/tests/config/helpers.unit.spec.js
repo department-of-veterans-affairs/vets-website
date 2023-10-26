@@ -238,7 +238,7 @@ describe('confirmation page helper functions', () => {
 
         it('successfully gets the success alert title', () => {
           expect(getSuccessAlertTitle(data, {})).to.equal(
-            'You’ve submitted your intent to file request',
+            'You’ve submitted your intent to file',
           );
         });
 
@@ -267,7 +267,7 @@ describe('confirmation page helper functions', () => {
 
       it('successfully gets the success alert title', () => {
         expect(getSuccessAlertTitle(data, {})).to.equal(
-          'You’ve submitted your intent to file request',
+          'You’ve submitted your intent to file',
         );
       });
 
@@ -312,7 +312,7 @@ describe('confirmation page helper functions', () => {
             expect(
               getSuccessAlertTitle(data, alreadySubmittedIntents),
             ).to.equal(
-              `You’ve submitted your intent to file request for ${
+              `You’ve submitted your intent to file for ${
                 benefitPhrases[newlySelectedIntent.toLowerCase()]
               }`,
             );
@@ -537,7 +537,7 @@ describe('confirmation page helper functions', () => {
             expect(
               getAlreadySubmittedText(data, alreadySubmittedIntents),
             ).to.equal(
-              `Our records show that you already have an Intent to File (ITF) for ${
+              `Our records show that you already have an intent to file for ${
                 benefitPhrases[alreadySubmittedIntentType.toLowerCase()]
               }. Your intent to file for ${
                 benefitPhrases[alreadySubmittedIntentType.toLowerCase()]
@@ -626,7 +626,16 @@ describe('confirmation page helper functions', () => {
           [veteranBenefits.pension]: true,
         },
       };
-      const expirationDate = 'expiration-date';
+      const dateOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
+      const expirationDate = '2022-03-16T19:15:21.000-05:00';
+      const formattedExpirationDate = new Date(
+        expirationDate,
+      ).toLocaleDateString('en-us', dateOptions);
       const alreadySubmittedIntents = {
         compensation: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
@@ -654,11 +663,7 @@ describe('confirmation page helper functions', () => {
         expect(
           getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
         ).to.equal(
-          `Your intent to file for disability compensation expires on ${
-            alreadySubmittedIntents.compensation.expirationDate
-          } and your intent to file for pension claims expires on ${
-            alreadySubmittedIntents.pension.expirationDate
-          }. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+          `Your intent to file for disability compensation expires on ${formattedExpirationDate} and your intent to file for pension claims expires on ${formattedExpirationDate}. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
         );
       });
 
