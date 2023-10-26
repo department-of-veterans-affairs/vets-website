@@ -32,6 +32,7 @@ const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
 const mhvUsipParams = '?application=mhv&to=home';
 const cernerUsipParams = '?application=myvahealth';
+const cernerComplicatedParams = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fstaging-patientportal.myhealth.va.gov%252F&oauth=false`;
 const occUsipParams = '?application=vaoccmobile';
 const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
@@ -334,6 +335,8 @@ describe('Authentication Utilities', () => {
             case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;
+            case EXTERNAL_APPS.MY_VA_HEALTH:
+              return `/?authenticated=true`;
             default:
               return '';
           }
@@ -361,6 +364,24 @@ describe('Authentication Utilities', () => {
 
           setup({});
         },
+      );
+    });
+
+    it('should return with an `authenticated=true` query parameter for Cerner when no `to` query param present', () => {
+      setup({ path: `${usipPath}${cernerUsipParams}` });
+
+      expect(authUtilities.createExternalApplicationUrl()).to.eql(
+        `https://staging-patientportal.myhealth.va.gov/?authenticated=true`,
+      );
+    });
+
+    it('should strip out the 2 `to` query parameters, uses the correct one, and append the `authenticated=true` query parameter', () => {
+      setup({
+        path: `${usipPath}${cernerUsipParams}${cernerComplicatedParams}`,
+      });
+
+      expect(authUtilities.createExternalApplicationUrl()).to.eql(
+        `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d&authenticated=true`,
       );
     });
   });
