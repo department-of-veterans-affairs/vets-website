@@ -45,14 +45,15 @@ export const getFolderList = () => {
 };
 
 export const countUnreadMessages = folders => {
-  let unreadMessageCount = 0;
   if (Array.isArray(folders?.data)) {
-    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
+    return folders.data.reduce((accumulator, currentFolder) => {
       return accumulator + currentFolder.attributes?.unreadCount;
     }, 0);
-  } else if (folders?.data?.attributes?.unreadCount > 0) {
-    unreadMessageCount = folders.data.attributes.unreadCount;
   }
 
-  return unreadMessageCount;
+  if (folders?.data?.attributes?.unreadCount > 0) {
+    return folders.data.attributes.unreadCount;
+  }
+
+  return 0;
 };
