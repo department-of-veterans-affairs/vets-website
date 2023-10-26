@@ -309,7 +309,10 @@ export function mockVisitsApi({ facilityId = '983' } = {}) {
   ).as('v0:get:visits:request');
 }
 
-export function mockCCProvidersApi() {
+export function mockCCProvidersApi({
+  response: data,
+  responseCode = 200,
+} = {}) {
   cy.intercept(
     {
       method: 'GET',
@@ -317,42 +320,15 @@ export function mockCCProvidersApi() {
       pathname: '/facilities_api/v1/ccp/provider',
     },
     req => {
-      req.reply({
-        data: [
-          {
-            id: '1497723753',
-            type: 'provider',
-            attributes: {
-              accNewPatients: 'true',
-              address: {
-                street: '1012 14TH ST NW STE 700',
-                city: 'WASHINGTON',
-                state: 'DC',
-                zip: '20005-3477',
-              },
-              caresitePhone: '202-638-0750',
-              email: null,
-              fax: null,
-              gender: 'Male',
-              lat: 38.903195,
-              long: -77.032382,
-              name: 'Doe, Jane',
-              phone: null,
-              posCodes: null,
-              prefContact: null,
-              uniqueId: '1497723753',
-            },
-            relationships: {
-              specialties: {
-                data: [
-                  { id: '363L00000X', type: 'specialty' },
-                  { id: '363LP2300X', type: 'specialty' },
-                ],
-              },
-            },
-          },
-        ],
-      });
+      if (responseCode !== 200) {
+        req.reply({
+          forceNetworkError: true,
+        });
+
+        return;
+      }
+
+      req.reply({ data });
     },
   ).as('v1:get:provider');
 }

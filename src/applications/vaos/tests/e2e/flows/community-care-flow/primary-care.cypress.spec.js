@@ -5,8 +5,6 @@ import {
   mockAppointmentCreateApi,
   mockAppointmentsApi,
   mockCCProvidersApi,
-  mockClinicApi,
-  mockEligibilityApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockEligibilityCCApi,
@@ -26,6 +24,8 @@ import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Primary care', () => {
   beforeEach(() => {
@@ -51,9 +51,9 @@ describe('VAOS community care flow - Primary care', () => {
 
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      mockCCProvidersApi();
-      mockClinicApi({ locations: ['983'] });
-      mockEligibilityApi({ isEligible: true });
+      const mockProvider = new MockProvider();
+
+      mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
@@ -63,16 +63,18 @@ describe('VAOS community care flow - Primary care', () => {
       });
     });
 
-    describe('And veteran does not have a home address', () => {
+    describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser();
+        mockUser.setAddress('123 Main St');
 
         // Act
         cy.login(mockUser);
         AppointmentListPage.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert(false)
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -86,7 +88,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .validateHomeAddress(false)
+          .assertHomeAddress(true)
           .selectProvider()
           .clickNextButton();
 
@@ -110,6 +112,277 @@ describe('VAOS community care flow - Primary care', () => {
         // Assert
         cy.axeCheckBestPractice();
       });
+    });
+
+    describe('And veteran does not have a home address', () => {
+      it('should submit form', () => {
+        // Arrange
+        const mockUser = new MockUser();
+
+        // Act
+        cy.login(mockUser);
+        AppointmentListPage.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert(true)
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        TypeOfFacilityPageObject.assertUrl()
+          .selectTypeOfFacility(/Community care facility/i)
+          .clickNextButton();
+
+        RequestDatePageObject.assertUrl()
+          .selectFirstAvailableDate()
+          .clickNextButton();
+
+        CommunityCarePreferencesPageObject.assertUrl()
+          .expandAccordian()
+          .assertHomeAddress(false)
+          .selectProvider()
+          .clickNextButton();
+
+        PreferredLanguagePageObject.assertUrl()
+          .selectLanguage('english')
+          .clickNextButton();
+
+        ReasonForAppointmentPageObject.assertUrl().clickNextButton();
+
+        ContactInfoPageObject.assertUrl()
+          .typePhoneNumber('5555555555')
+          .selectPreferredTime()
+          .typeEmailAddress('user@va.gov')
+          .clickNextButton();
+
+        ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+        cy.wait('@v2:get:appointment');
+
+        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+  });
+
+  describe('When more than one facility supports CC online scheduling', () => {
+    beforeEach(() => {
+      const mockProvider = new MockProvider();
+
+      mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockSchedulingConfigurationApi({
+        facilityIds: ['983', '984'],
+        typeOfCareId: '411',
+        isDirect: true,
+        isRequest: true,
+      });
+    });
+
+    describe('And veteran does have a home address', () => {
+      it('should submit form', () => {
+        // Arrange
+        const mockUser = new MockUser();
+        mockUser.setAddress('123 Main St');
+
+        // Act
+        cy.login(mockUser);
+        AppointmentListPage.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert(false)
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        TypeOfFacilityPageObject.assertUrl()
+          .selectTypeOfFacility(/Community care facility/i)
+          .clickNextButton();
+
+        RequestDatePageObject.assertUrl()
+          .selectFirstAvailableDate()
+          .clickNextButton();
+
+        ClosestCityPageObject.assertUrl()
+          .selectFacility()
+          .clickNextButton();
+
+        CommunityCarePreferencesPageObject.assertUrl()
+          .expandAccordian()
+          .assertHomeAddress(true)
+          .selectProvider()
+          .clickNextButton();
+
+        PreferredLanguagePageObject.assertUrl()
+          .selectLanguage('english')
+          .clickNextButton();
+
+        ReasonForAppointmentPageObject.assertUrl().clickNextButton();
+
+        ContactInfoPageObject.assertUrl()
+          .typePhoneNumber('5555555555')
+          .selectPreferredTime()
+          .typeEmailAddress('user@va.gov')
+          .clickNextButton();
+
+        ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+        cy.wait('@v2:get:appointment');
+
+        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+
+    describe('And veteran does not have a home address', () => {
+      it('should submit form', () => {
+        // Arrange
+        const mockUser = new MockUser();
+
+        // Act
+        cy.login(mockUser);
+        AppointmentListPage.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert(true)
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        TypeOfFacilityPageObject.assertUrl()
+          .selectTypeOfFacility(/Community care facility/i)
+          .clickNextButton();
+
+        RequestDatePageObject.assertUrl()
+          .selectFirstAvailableDate()
+          .clickNextButton();
+
+        ClosestCityPageObject.assertUrl()
+          .selectFacility()
+          .clickNextButton();
+
+        CommunityCarePreferencesPageObject.assertUrl()
+          .expandAccordian()
+          .assertHomeAddress(false)
+          .selectProvider()
+          .clickNextButton();
+
+        PreferredLanguagePageObject.assertUrl()
+          .selectLanguage('english')
+          .clickNextButton();
+
+        ReasonForAppointmentPageObject.assertUrl().clickNextButton();
+
+        ContactInfoPageObject.assertUrl()
+          .typePhoneNumber('5555555555')
+          .selectPreferredTime()
+          .typeEmailAddress('user@va.gov')
+          .clickNextButton();
+
+        ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+        cy.wait('@v2:get:appointment');
+
+        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+  });
+
+  describe('When no providers within 60 miles', () => {
+    beforeEach(() => {
+      mockSchedulingConfigurationApi({
+        facilityIds: ['983', '984'],
+        typeOfCareId: '411',
+        isDirect: true,
+        isRequest: true,
+      });
+    });
+
+    it('should display alert', () => {
+      // Arrange
+      const mockUser = new MockUser();
+      mockUser.setAddress('123 Main St');
+
+      mockCCProvidersApi({ response: [] });
+
+      // Act
+      cy.login(mockUser);
+      AppointmentListPage.visit().scheduleAppointment();
+
+      TypeOfCarePageObject.assertUrl()
+        .assertAddressAlert(false)
+        .selectTypeOfCare(/Primary care/i)
+        .clickNextButton();
+
+      TypeOfFacilityPageObject.assertUrl()
+        .selectTypeOfFacility(/Community care facility/i)
+        .clickNextButton();
+
+      RequestDatePageObject.assertUrl()
+        .selectFirstAvailableDate()
+        .clickNextButton();
+
+      ClosestCityPageObject.assertUrl()
+        .selectFacility()
+        .clickNextButton();
+
+      CommunityCarePreferencesPageObject.assertUrl()
+        .expandAccordian()
+        .assertInfoAlert();
+
+      // Assert
+      cy.axeCheckBestPractice();
+    });
+  });
+
+  describe('When browser blocked from finding location', () => {
+    it('should display alert', () => {
+      // Arrange
+      const mockUser = new MockUser();
+      mockUser.setAddress('123 Main St');
+
+      mockCCProvidersApi({ response: [] });
+
+      // Act
+      cy.login(mockUser);
+      AppointmentListPage.visit('/', {
+        onBeforeLoad: ({ navigator }) => {
+          navigator.permissions.query({ name: 'geolocation' }).then(result => {
+            // eslint-disable-next-line no-console
+            console.log(result);
+          });
+          cy.stub(navigator.geolocation, 'getCurrentPosition', () => {
+            throw new Error(
+              'Mock Error! Your browser is blocked from finding your current location.',
+            );
+          });
+        },
+      }).scheduleAppointment();
+
+      TypeOfCarePageObject.assertUrl()
+        .assertAddressAlert(false)
+        .selectTypeOfCare(/Primary care/i)
+        .clickNextButton();
+
+      TypeOfFacilityPageObject.assertUrl()
+        .selectTypeOfFacility(/Community care facility/i)
+        .clickNextButton();
+
+      RequestDatePageObject.assertUrl()
+        .selectFirstAvailableDate()
+        .clickNextButton();
+
+      ClosestCityPageObject.assertUrl()
+        .selectFacility()
+        .clickNextButton();
+
+      CommunityCarePreferencesPageObject.assertUrl()
+        .expandAccordian()
+        .selectCurrentLocation()
+        .assertWarningAlert(true);
+
+      // Assert
+      cy.axeCheckBestPractice();
     });
   });
 });

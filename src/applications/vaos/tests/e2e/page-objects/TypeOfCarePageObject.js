@@ -1,6 +1,21 @@
 import PageObject from './PageObject';
 
 class TypeOfCarePage extends PageObject {
+  assertAddressAlert(exist) {
+    if (exist) {
+      cy.get('va-alert[status=warning]')
+        .as('alert')
+        .shadow();
+      cy.get('@alert').contains(
+        /To use some of the tool.s features, you need a home address on file/i,
+      );
+    } else {
+      cy.get('va-alert[status=warning]').should('not.exist');
+    }
+
+    return this;
+  }
+
   assertUrl() {
     cy.url().should('include', '/type-of-care', { timeout: 5000 });
     cy.axeCheckBestPractice();

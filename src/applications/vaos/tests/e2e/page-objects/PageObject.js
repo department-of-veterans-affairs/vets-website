@@ -11,8 +11,12 @@ export default class PageObject {
     return this;
   }
 
-  visit(url = '') {
-    cy.visit(`${this.rootUrl}/${url.replace(/^\//, '')}`);
+  visit(url = '', options = {}) {
+    const normalizedUrl = `${this.rootUrl}/${url.replace(/^\//, '')}`;
+
+    if (Object.keys(options).length) cy.visit(normalizedUrl, options);
+    else cy.visit(normalizedUrl);
+
     cy.injectAxe();
 
     return this;

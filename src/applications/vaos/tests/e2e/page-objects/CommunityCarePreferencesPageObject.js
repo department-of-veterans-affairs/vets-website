@@ -1,6 +1,44 @@
 import PageObject from './PageObject';
 
 class CommunityCarePreferencesPage extends PageObject {
+  assertHomeAddress(trueOrFalse) {
+    cy.findByTestId('providersSelect')
+      .as('providersSelect')
+      .shadow();
+    cy.get('@providersSelect')
+      .find('select')
+      .as('select');
+
+    cy.get('@select')
+      .find('option')
+      .contains('Your home address')
+      .should(`${trueOrFalse ? 'exist' : 'not.exist'}`);
+
+    return this;
+  }
+
+  assertInfoAlert() {
+    cy.findByText(/We can.t find any Primary care providers close to you/i, {
+      selector: 'h2',
+    });
+    return this;
+  }
+
+  assertWarningAlert(exist) {
+    if (exist) {
+      cy.get('va-alert[status=warning]')
+        .as('alert')
+        .shadow();
+      cy.get('@alert').contains(
+        /Your browser is blocked from finding your current location/i,
+      );
+    } else {
+      cy.get('va-alert[status=warning]').should('not.exist');
+    }
+
+    return this;
+  }
+
   assertUrl() {
     cy.url().should('include', 'preferred-provider');
     cy.axeCheckBestPractice();
@@ -25,15 +63,21 @@ class CommunityCarePreferencesPage extends PageObject {
   }
 
   selectProvider(_label) {
-    cy.findByLabelText(/doe, jane/i).click();
-    cy.findByText(/Choose provider/i).click();
+    cy.findByText(/Choose a provider/i, { selector: 'h2' }).click({
+      waitForAnimations: true,
+    });
+    cy.wait('@v1:get:provider');
+    cy.findByLabelText(/doe, jane/i).check({ waitForAnimations: true });
+    cy.findByText(/Choose provider/i, { selector: 'button' }).click({
+      waitForAnimations: true,
+    });
+    cy.findByText(/Selected provider/i);
     cy.axeCheckBestPractice();
-    cy.contains('Selected provider');
 
     return this;
   }
 
-  validateHomeAddress(trueOrFalse) {
+  selectOption(value) {
     cy.findByTestId('providersSelect')
       .as('providersSelect')
       .shadow();
@@ -43,10 +87,25 @@ class CommunityCarePreferencesPage extends PageObject {
 
     cy.get('@select')
       .find('option')
-      .contains('Your home address')
-      .should(`${trueOrFalse ? 'exist' : 'not.exist'}`);
+      .contains(value)
+      // Invoke jQuery attr function to get the value of the option we want to
+      // select.
+      .invoke('attr', 'value')
+      .then(v => {
+        // Select the option. NOTE: Using force since the default select option
+        // is disabled due custom CSS select styling.
+        cy.get('@select').select(v, { force: true });
+      });
 
     return this;
+  }
+
+  selectCurrentLocation() {
+    return this.selectOption('Your current location');
+  }
+
+  selectHomeAddress() {
+    return this.selectOption('Your home address');
   }
 }
 
