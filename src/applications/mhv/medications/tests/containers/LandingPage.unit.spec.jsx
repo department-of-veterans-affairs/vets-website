@@ -12,6 +12,11 @@ describe('Medicaitons Landing page container', () => {
         prescriptionDetails: prescriptions,
       },
     },
+    featureToggles: {
+      loading: false,
+      // eslint-disable-next-line camelcase
+      mhv_medications_to_va_gov_release: true,
+    },
   };
 
   const setup = (state = initialState) => {
@@ -48,5 +53,61 @@ describe('Medicaitons Landing page container', () => {
         exact: true,
       }),
     ).to.exist;
+  });
+});
+
+describe('App-level feature flag functionality', () => {
+  const initialStateFeatureFlag = (loading = true, flag = true) => {
+    return {
+      initialState: {
+        featureToggles: {
+          loading,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: flag,
+        },
+      },
+      path: `/`,
+      reducers: reducer,
+    };
+  };
+  it('feature flags are still loading', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <LandingPage />,
+      initialStateFeatureFlag(),
+    );
+    expect(
+      screenFeatureToggle.getByTestId('rx-feature-flag-loading-indicator'),
+    );
+  });
+
+  it('feature flag set to false', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <LandingPage />,
+      initialStateFeatureFlag(false, false),
+    );
+    expect(screenFeatureToggle.queryByText('About medications')).to.be.null;
+    expect(
+      screenFeatureToggle.queryByText(
+        'Learn how to manage your VA prescriptions and review your medications list.',
+      ),
+    ).to.be.null;
+  });
+
+  it('feature flag set to true', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <LandingPage />,
+      initialStateFeatureFlag(false, true),
+    );
+    expect(
+      screenFeatureToggle.getAllByText('About medications', {
+        selector: 'h1',
+        exact: true,
+      }),
+    );
+    expect(
+      screenFeatureToggle.getAllByText(
+        'Learn how to manage your VA prescriptions and review your medications list.',
+      ),
+    );
   });
 });
