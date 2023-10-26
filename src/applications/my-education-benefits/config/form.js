@@ -356,9 +356,7 @@ const checkBoxValidation = {
       formData?.showMebServiceHistoryCategorizeDisagreement &&
       formData['view:serviceHistory']?.serviceHistoryIncorrect
     ) {
-      errors.addError(
-        'You must select a disagreement category prior to continuing',
-      );
+      errors.addError('Please check at least one of the options below');
     }
   },
 };
@@ -1366,8 +1364,7 @@ const formConfig = {
                     true &&
                   formData?.showMebServiceHistoryCategorizeDisagreement,
                 'ui:errorMessages': {
-                  required:
-                    'You must select a disagreement category prior to continuing',
+                  required: 'Please check at least one of the options below',
                 },
                 'ui:title': (
                   <>
@@ -1388,27 +1385,31 @@ const formConfig = {
                 },
                 servicePeriodMissingForActiveDuty: {
                   'ui:title':
-                    'I am currently on Active Duty orders and that service period is missing',
+                    'I am currently on Active Duty orders and that service period is missing.',
                 },
                 servicePeriodMissing: {
-                  'ui:title': 'One or more of my service periods are missing',
+                  'ui:title':
+                    'I am not currently on Active Duty orders and one or more of my service periods is missing.',
                 },
                 servicePeriodNotMine: {
                   'ui:title':
-                    'One or more service periods displayed are not mine',
+                    'One or more service periods displayed are not mine.',
                 },
                 servicePeriodIncorrect: {
                   'ui:title':
-                    'One or more of my service periods have incorrect information',
+                    'The service dates of one or more of my service periods are incorrect.',
                 },
               },
               incorrectServiceHistoryText: {
                 'ui:title':
-                  'Please explain why this information is incorrect or incomplete',
+                  'Please explain what is missing and/or incorrect about your service history.',
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
                   true,
                 'ui:widget': 'textarea',
+                'ui:errorMessages': {
+                  required: 'Please include your desciption of the issue below',
+                },
               },
             },
           },
