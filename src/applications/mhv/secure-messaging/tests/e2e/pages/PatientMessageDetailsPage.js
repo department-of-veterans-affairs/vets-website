@@ -294,14 +294,10 @@ class PatientMessageDetailsPage {
     cy.get('[data-testid=radiobutton-TESTAGAIN]').should('be.visible');
     cy.get('[data-testid=folder-list-radio-button]').should('be.visible');
     cy.get('[data-testid=move-to-modal]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
+      .find('va-button[text="Confirm"]')
       .should('be.visible');
     cy.get('[data-testid=move-to-modal]')
-      .shadow()
-      .find('button')
-      .contains('Cancel')
+      .find('va-button[text="Cancel"]')
       .should('be.visible')
       .click();
   };

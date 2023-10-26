@@ -1,6 +1,5 @@
 import {
   monetary,
-  monetaryChecklist,
   monetaryValues,
   realEstate,
   realEstateRecords,
@@ -35,6 +34,7 @@ import {
   CashInBank,
   CashInBankReview,
 } from '../../components/monetary/CashInBank';
+import MonetaryCheckList from '../../components/monetary/MonetaryCheckList';
 
 export default {
   householdAssetsChapter: {
@@ -100,8 +100,10 @@ export default {
       monetaryChecklist: {
         path: 'monetary-asset-checklist',
         title: 'Monetary asset options',
-        uiSchema: monetaryChecklist.uiSchema,
-        schema: monetaryChecklist.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: MonetaryCheckList,
+        CustomPageReview: null,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
