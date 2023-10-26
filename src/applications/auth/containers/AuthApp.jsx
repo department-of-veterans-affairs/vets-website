@@ -115,10 +115,10 @@ export class AuthApp extends React.Component {
     if (!skipToRedirect) {
       setupProfileSession(authMetrics.userProfile);
     }
-    this.redirect(authMetrics.userProfile);
+    this.redirect();
   };
 
-  redirect = (userProfile = {}) => {
+  redirect = () => {
     const { returnUrl } = this.state;
 
     const handleRedirect = () => {
@@ -136,14 +136,10 @@ export class AuthApp extends React.Component {
       window.location.replace(redirectUrl);
     };
 
-    // Enforce LOA3 for external redirects to My VA Health
-    if (
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
-      !userProfile.verified
-    ) {
-      window.location.replace('/verify');
-      return;
-    }
+    /*
+      LOA3 enforcement for My VA Health (Cerner) will be moved to
+      usip-config.js to create the initial auth request for a verified account.
+    */
 
     if (
       returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
