@@ -21,6 +21,13 @@ const hitApi = runningUnitTest => {
   );
 };
 
+export const createSession = () => {
+  return apiRequest(`${apiBasePath}/medical_records/session`, {
+    method: 'POST',
+    headers,
+  });
+};
+
 export const getLabsAndTests = runningUnitTest => {
   if (hitApi(runningUnitTest)) {
     return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
