@@ -16,6 +16,13 @@ const apiSettings = {
   },
 };
 
+export const sortOptions = {
+  DISTANCE_CLOSEST_TO_FARTHEST: 'Distance (closest to farthest)',
+  DISTANCE_FARTHEST_TO_CLOSEST: 'Distance (farthest to closest)',
+  ALPHABETICAL_A_TO_Z: 'Alphabetical (A - Z)',
+  ALPHABETICAL_Z_TO_A: 'Alphabetical (Z - A)',
+};
+
 const railsEngineApi = {
   baseUrl: `${environment.API_URL}/facilities_api/v1`,
   url: `${environment.API_URL}/facilities_api/v1/va`,
@@ -26,7 +33,7 @@ const railsEngineApi = {
 export const getAPI = () => railsEngineApi;
 
 /**
- * Build parameters and URL for facilities API calls
+ * Build parameters and URL for representative API calls
  *
  */
 export const resolveParamsWithUrl = ({
@@ -54,7 +61,7 @@ export const resolveParamsWithUrl = ({
   ];
 
   const representativeParams = representativeType
-    ? representativeType.map(type => `type[]=${type}`).join('&')
+    ? `type=${representativeType}`
     : null;
 
   return {
