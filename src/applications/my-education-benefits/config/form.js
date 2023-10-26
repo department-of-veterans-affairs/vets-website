@@ -1443,9 +1443,10 @@ const formConfig = {
                   incorrectServiceHistoryInputs: {
                     type: 'object',
                     properties: {
-                      servicePeriodMissing: { type: 'boolean' },
-                      servicePeriodIncorrect: { type: 'boolean' },
                       servicePeriodMissingForActiveDuty: { type: 'boolean' },
+                      servicePeriodMissing: { type: 'boolean' },
+                      servicePeriodNotMine: { type: 'boolean' },
+                      servicePeriodIncorrect: { type: 'boolean' },
                     },
                   },
                   incorrectServiceHistoryText: {
