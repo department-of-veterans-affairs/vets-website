@@ -8,6 +8,7 @@ describe('Medications Landing Page', () => {
 
     /*
 
+
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

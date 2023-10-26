@@ -28,6 +28,7 @@ class MedicationsSite {
         prescriptions,
       ).as('prescriptions');
       cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.intercept('GET', '/health-care/refill-track-prescriptions');
     }
   };
 
