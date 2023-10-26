@@ -169,7 +169,7 @@ export function CautionaryInformation({ institution, showModal }) {
 
       <div>
         <div className="table">
-          <va-table className="all-complaints">
+          <va-table class="vads-u-margin-bottom--2">
             <va-table-row slot="headers">
               <span />
               <span>This campus</span>
@@ -184,7 +184,7 @@ export function CautionaryInformation({ institution, showModal }) {
           </va-table>
 
           {!!complaints.mainCampusRollUp && (
-            <va-table className="complaints-by-type">
+            <va-table class="vads-u-margin-bottom--2">
               <va-table-row slot="headers">
                 <span>
                   Complaints by type{' '}
