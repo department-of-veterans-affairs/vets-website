@@ -135,6 +135,26 @@ const AllergyDetails = props => {
     makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
   };
 
+  const generateAllergyTxt = async () => {
+    const product = `
+    ${allergy.name} \n
+    Date entered: ${allergy.date} \n
+    _____________________________________________________ \n
+    \t Signs and symptoms: ${allergy.reaction} \n
+    \t Type of Allergy: ${allergy.type} \n
+    \t Location: ${allergy.location} \n
+    \t Observed or historical: ${allergy.observedOrReported} \n
+    \t Provider notes: ${allergy.notes} \n`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'AllergyList';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   const content = () => {
     if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
       return (
@@ -173,6 +193,7 @@ const AllergyDetails = props => {
             </div>
             <PrintDownload
               download={generateAllergyPdf}
+              downloadTxt={generateAllergyTxt}
               allowTxtDownloads={allowTxtDownloads}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />

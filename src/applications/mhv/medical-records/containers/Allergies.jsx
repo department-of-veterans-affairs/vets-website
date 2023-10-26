@@ -125,6 +125,40 @@ const Allergies = props => {
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
+  const generateAllergiesTxt = async () => {
+    const product = `
+    Allergies and reactions \n 
+
+    Review allergies, reactions, and side effects in your VA medical
+    records. This includes medication side effects (also called adverse drug
+    reactions). \n
+
+    If you have allergies that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${allergies.length} from newest to oldest. \n
+
+    ${allergies.map(
+      entry =>
+        `_____________________________________________________ \n
+      ${entry.name} \n
+      \t Date entered: ${entry.date} \n
+      \t Signs and symptoms: ${entry.reaction} \n
+      \t Type of Allergy: ${entry.type} \n
+      \t Location: ${entry.location} \n
+      \t Observed or historical: ${entry.observedOrReported} \n
+      \t Provider notes: ${entry.notes} \n`,
+    )}`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'AllergyList';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
@@ -171,6 +205,7 @@ const Allergies = props => {
           <PrintDownload
             list
             download={generateAllergiesPdf}
+            downloadTxt={generateAllergiesTxt}
             allowTxtDownloads={allowTxtDownloads}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
