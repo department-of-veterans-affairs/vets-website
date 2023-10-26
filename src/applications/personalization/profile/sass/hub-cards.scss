@@ -5,7 +5,7 @@
   justify-content: space-between;
   gap: units(4) units(2);
 
-  /* direct descendents of .hub-cards, presumably "cards" */
+  /* direct descendants of .hub-cards, presumably "cards" */
   > * {
     /* small screens: display 1 card per row -- 100% width */
     flex-basis: 100%;
