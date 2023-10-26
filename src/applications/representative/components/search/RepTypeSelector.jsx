@@ -8,7 +8,7 @@ const RepTypeSelector = () => {
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
-          label="Select your Representative type:"
+          label=""
           label-header-level="3"
         >
           <va-radio-option
@@ -20,9 +20,21 @@ const RepTypeSelector = () => {
           <va-radio-option label="Claims Agent" name="Claims Agent" value="2" />
         </va-radio>
 
-        <div className="rep-type-info">
-          <va-additional-info trigger="What is my representative type?" uswds>
-            <div>
+        <div style={{ marginTop: '2em' }}>
+          <va-accordion
+            disable-analytics={{
+              value: 'false',
+            }}
+            section-heading={{
+              value: 'null',
+            }}
+            uswds={{
+              value: 'false',
+            }}
+            open-single
+          >
+            <va-accordion-item id="first">
+              <h6 slot="headline">What does each type of representative do?</h6>
               <p>
                 <strong>Veteran Services Organizations (VSOs) </strong>
                 are recognized and accredited by the VA and offer services free
@@ -41,8 +53,8 @@ const RepTypeSelector = () => {
                 VSOs, but they function independently. Claims agents will charge
                 a fee for their services.
               </p>
-            </div>
-          </va-additional-info>
+            </va-accordion-item>
+          </va-accordion>
         </div>
       </div>
     </>
