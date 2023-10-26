@@ -3,22 +3,29 @@ import React from 'react';
 const NoHealthAlert = () => {
   return (
     <va-alert status="warning" visible data-testid="no-health-message">
-      <h2 slot="headline">We unable to display your health information.</h2>
+      <h2 slot="headline">You do not have access to My HealtheVet tools</h2>
       <div>
         <p className="vads-u-margin-y--0">
-          Only patients who have registered at a VA facility can use VA.gov
-          health tools.
+          To access tools and your health data on My HealtheVet, <b>one</b> of
+          the following must be true:
+          <ul>
+            <li>
+              You have received care at a VA facility, <b>or</b>
+            </li>
+            <li>You have applied for VA health care</li>
+          </ul>
         </p>
         <p className="vads-u-margin-y--0">
-          If you believe you have registered or received care at a VA medical
-          center, clinic, or Vet center, please call that facility to find out
-          find out if you’re in their records.
+          If you believe you have received care at a VA facility, please call
+          that facility to find out if you are registered as a patient there.
         </p>
         <p className="vads-u-margin-bottom--0">
           <a href="/find-locations">Lookup a facility’s phone number</a>
         </p>
         <p className="vads-u-margin-bottom--0">
-          <a href="/health-care">Learn more about VA health care</a>
+          <a href="/health-care/apply/application/introduction">
+            Apply for health care
+          </a>
         </p>
       </div>
     </va-alert>

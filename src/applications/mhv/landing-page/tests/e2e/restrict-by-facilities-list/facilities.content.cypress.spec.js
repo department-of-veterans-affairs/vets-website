@@ -4,6 +4,8 @@ import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 import { resolveLandingPageLinks } from '../../../utilities/data';
 
+const noHealthDataHeading = /You do not have access to My HealtheVet tools/i;
+
 // Validate a card has a heading and the correct number of links in it.
 function validateLinkGroups(cardHeadline, numLinks) {
   // Find the spotlight section and look for the links
@@ -24,7 +26,6 @@ function validateLinkGroups(cardHeadline, numLinks) {
     });
 }
 
-const noHealthDataHeading = /We unable to display your health information/i;
 describe(appName, () => {
   describe('Display content based on patient facilities', () => {
     beforeEach(() => {
