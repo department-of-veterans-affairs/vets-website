@@ -1,5 +1,5 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   mockFeatureToggles,
   vaosSetup,
@@ -38,7 +38,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
   });
 
-  it('should submit request successfully', () => {
+  it('should submit provider chosen from list successfully', () => {
     const data = [
       {
         id: '1',
