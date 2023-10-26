@@ -43,17 +43,19 @@ const FilterBox = forwardRef((props, ref) => {
         setFromDateError(ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE);
         setToDateError(ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE);
       }
+      if (fromDate && toDate && moment(fromDate).isBefore(toDate)) {
+        formInvalid = false;
+        setFromDateError('');
+        setToDateError('');
+      }
       if (parseInt(toDate.substring(0, 4), 10) > today.getFullYear()) {
         formInvalid = true;
         setToDateError(
           ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,
         );
       }
-      if (fromDate && toDate && moment(fromDate).isBefore(toDate)) {
-        formInvalid = false;
-        setFromDateError('');
-        setToDateError('');
-      }
+    } else {
+      formInvalid = false;
     }
     return formInvalid;
   };
