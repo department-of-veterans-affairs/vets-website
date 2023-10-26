@@ -4,6 +4,7 @@ import PersonalInformation from './components/personal-information/PersonalInfor
 import MilitaryInformation from './components/military-information/MilitaryInformation';
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
+import VeteranStatus from './components/veteran-status/Status';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
@@ -57,6 +58,13 @@ export const routesForNav = [
     component: ConnectedApplications,
     name: PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
+    component: VeteranStatus,
+    name: PROFILE_PATH_NAMES.VETERAN_STATUS,
+    path: PROFILE_PATHS.VETERAN_STATUS,
     requiresLOA3: true,
     requiresMVI: true,
   },
