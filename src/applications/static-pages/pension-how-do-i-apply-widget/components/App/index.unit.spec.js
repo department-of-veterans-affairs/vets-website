@@ -2,8 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { App, mapDispatchToProps, mapStateToProps } from '.';
+import { App } from '.';
 
 describe('Pension Widget <App>', () => {
   let replaceStateSpy;
@@ -19,14 +18,14 @@ describe('Pension Widget <App>', () => {
   it('renders the pension widget app', () => {
     const wrapper = shallow(<App />);
     expect(wrapper.find('h3').text()).to.equal(
-      `You can’t apply online right now`,
+      `Our online pension form isn’t working right now`,
     );
     wrapper.unmount();
   });
 
   it('shows "Refer to your saved form" link when user is logged in', () => {
     const wrapper = shallow(<App loggedIn />);
-    const selector = 'va-link[href="/pension/application/527EZ/introduction"]';
+    const selector = 'a[href="/pension/application/527EZ/introduction/"]';
     expect(wrapper.find(selector).exists()).to.equal(true);
     wrapper.unmount();
   });
@@ -40,10 +39,18 @@ describe('Pension Widget <App>', () => {
   });
 
   it('calls toggleLoginModal when "Sign in to VA.gov" button is clicked', () => {
-    const toggleLoginMock = sinon.spy();
+    const toggleLoginMock = {
+      called: false,
+      call() {
+        this.called = true;
+      },
+    };
 
     const wrapper = shallow(
-      <App loggedIn={false} toggleLoginModal={toggleLoginMock} />,
+      <App
+        loggedIn={false}
+        toggleLoginModal={toggleLoginMock.call.bind(toggleLoginMock)}
+      />,
     );
     wrapper.find('va-button').simulate('click');
     expect(toggleLoginMock.called).to.equal(true);
@@ -71,25 +78,5 @@ describe('Pension Widget <App>', () => {
     ).to.equal(true);
 
     wrapper.unmount();
-  });
-
-  describe('mapStateToProps', () => {
-    it('should render appropriately', () => {
-      const goodObj = { user: { login: { currentlyLoggedIn: false } } };
-      expect(mapStateToProps(goodObj)).to.eql({ loggedIn: false });
-    });
-  });
-
-  describe('mapDispatchToProps', () => {
-    it('does it', () => {
-      const dispatchSpy = sinon.spy();
-      const props = mapDispatchToProps(dispatchSpy);
-
-      props.toggleLoginModal(true);
-
-      expect(dispatchSpy.calledOnce).to.be.true;
-      expect(dispatchSpy.calledWithExactly(toggleLoginModalAction(true))).to.be
-        .true;
-    });
   });
 });
