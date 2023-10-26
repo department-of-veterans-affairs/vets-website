@@ -96,6 +96,12 @@ export function nameTagRendersWithoutDisabilityRating() {
   cy.findByText(/service connected/i).should('not.exist');
 }
 
+export function nameTagRendersWithoutVeteranStatusLink() {
+  nameTagRenders();
+  cy.findByText('View proof of veteran status').should('not.exist');
+  cy.findByText(/View proof of veteran status/i).should('not.exist');
+}
+
 // Mock Profile-related APIs so the Notification Settings section will load.
 // This does _not_ mock the APIs used by the Notification Setting section. It
 // only mocks the other APIs that are required by the Profile

@@ -1,4 +1,5 @@
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
+import serviceHistoryDishonorable from '@@profile/tests/fixtures/service-history-dishonorable.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import error401 from '@@profile/tests/fixtures/401.json';
@@ -11,6 +12,7 @@ import {
   nameTagRendersWithDisabilityRating,
   nameTagRendersWithFallbackLink,
   nameTagRendersWithoutDisabilityRating,
+  nameTagRendersWithoutVeteranStatusLink,
 } from './helpers';
 import { PROFILE_PATHS } from '../../constants';
 
@@ -74,6 +76,16 @@ describe('Profile NameTag', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
       nameTagRendersWithFallbackLink();
+    });
+  });
+  context('when the user has been dishonorably discharged', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/profile/service_history', serviceHistoryDishonorable);
+    });
+    it('should render the name, service branch, and not show the proof of veteran status', () => {
+      mockFeatureToggles();
+      cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+      nameTagRendersWithoutVeteranStatusLink();
     });
   });
 });
