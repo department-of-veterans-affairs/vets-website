@@ -1,9 +1,9 @@
 name: Unit Tests Stress Test
 
 on:
-  schedule:
-    # - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-    push
+  # schedule:
+  # - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 jobs:
   fetch-unit-tests-allow-list:
