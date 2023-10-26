@@ -18,7 +18,12 @@ export const uiSchema = !environment.isProduction()
   ? {
       application: {
         'ui:title': applicantDemographicsSubHeader,
-        'ui:description': applicantDemographicsDescription,
+        'view:applicantDemographicsDescription': {
+          'ui:description': applicantDemographicsDescription,
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
+        },
         veteran: veteranUI,
       },
     }
@@ -30,22 +35,46 @@ export const uiSchema = !environment.isProduction()
         veteran: veteranUI,
       },
     };
-export const schema = {
-  type: 'object',
-  properties: {
-    application: {
+export const schema = !environment.isProduction()
+  ? {
       type: 'object',
       properties: {
-        veteran: {
+        application: {
           type: 'object',
-          required: ['gender', 'race', 'maritalStatus'],
-          properties: pick(veteran.properties, [
-            'gender',
-            'race',
-            'maritalStatus',
-          ]),
+          properties: {
+            'view:applicantDemographicsDescription': {
+              type: 'object',
+              properties: {},
+            },
+            veteran: {
+              type: 'object',
+              required: ['gender', 'race', 'maritalStatus'],
+              properties: pick(veteran.properties, [
+                'gender',
+                'race',
+                'maritalStatus',
+              ]),
+            },
+          },
         },
       },
-    },
-  },
-};
+    }
+  : {
+      type: 'object',
+      properties: {
+        application: {
+          type: 'object',
+          properties: {
+            veteran: {
+              type: 'object',
+              required: ['gender', 'race', 'maritalStatus'],
+              properties: pick(veteran.properties, [
+                'gender',
+                'race',
+                'maritalStatus',
+              ]),
+            },
+          },
+        },
+      },
+    };
