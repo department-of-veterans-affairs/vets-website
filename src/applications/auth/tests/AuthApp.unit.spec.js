@@ -252,10 +252,10 @@ describe('AuthApp', () => {
     });
 
     const cernerSpy = sinon.spy(instance, 'redirect');
-    instance.redirect({ verified: false });
+    instance.redirect();
 
     expect(cernerSpy.called).to.be.true;
-    expect(global.window.location.replace.calledWith('/verify'));
+    expect(global.window.location.replace.calledWith('/verify')).to.be.false;
     global.window = oldWindow;
     wrapper.unmount();
   });

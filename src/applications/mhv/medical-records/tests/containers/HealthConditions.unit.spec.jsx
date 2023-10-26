@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
+import { waitFor } from '@testing-library/dom';
 import HealthConditions from '../../containers/HealthConditions';
 import conditions from '../fixtures/conditions.json';
 import reducer from '../../reducers';
@@ -94,6 +95,76 @@ describe('Health conditions list container with no health conditions', () => {
   });
 
   it('displays a no health conditions message', () => {
+    expect(
+      screen.getByText('You don’t have any records in Health conditions', {
+        exact: true,
+      }),
+    ).to.exist;
+  });
+});
+
+describe('Health conditions container with errors', () => {
+  it('displays an error', async () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {},
+        alerts: {
+          alertList: [
+            {
+              datestamp: '2023-10-10T16:03:28.568Z',
+              isActive: true,
+              type: 'error',
+            },
+            {
+              datestamp: '2023-10-10T16:03:28.572Z',
+              isActive: true,
+              type: 'error',
+            },
+          ],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'We can’t access your health conditions records right now',
+          {
+            exact: false,
+          },
+        ),
+      ).to.exist;
+    });
+  });
+});
+
+describe('Health conditions list container with no health conditions', () => {
+  it('displays a no health conditions message', () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {
+          conditionsList: [],
+        },
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+
     expect(
       screen.getByText('You don’t have any records in Health conditions', {
         exact: true,

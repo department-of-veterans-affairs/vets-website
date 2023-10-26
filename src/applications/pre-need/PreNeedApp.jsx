@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -55,12 +55,15 @@ const veteranLabelMap = new Map(veteranLabels);
 const nonVeteranMap = new Map(nonVeteranLabels);
 
 export default function PreNeedApp({ location, children }) {
+  const [priorEvent, setPriorEvent] = useState();
   const selectorData = useSelector(state => state.form || {});
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
       const hasVeteran = isVeteran(selectorData.data);
-      const radios = document.querySelectorAll('input[type="radio"]');
+      const radios = document.querySelectorAll(
+        'input[type="radio"]:not(input[id="root_application_applicant_applicantRelationshipToClaimant_0input"], input[id="root_application_applicant_applicantRelationshipToClaimant_1input"])',
+      );
       for (const radio of radios) {
         radio.onclick = e => {
           let title = e.target.attributes.name.value;
@@ -83,17 +86,18 @@ export default function PreNeedApp({ location, children }) {
             'radio-button-optionLabel': optionLabel,
             'radio-button-required': true,
           };
-          const priorEvent = window.dataLayer[window.dataLayer.length - 1];
           // if prior event is identical to current event it must be a duplicate.
           if (
             !priorEvent ||
             JSON.stringify(currentEvent) !== JSON.stringify(priorEvent)
-          )
+          ) {
             recordEvent(currentEvent);
+            setPriorEvent(currentEvent);
+          }
         };
       }
     },
-    [location, selectorData],
+    [location, selectorData, priorEvent],
   );
   return (
     <article id="pre-need" data-location={`${location?.pathname?.slice(1)}`}>

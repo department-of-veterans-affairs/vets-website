@@ -2,6 +2,7 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 // internal app imports
 import manifest from '../manifest.json';
@@ -16,6 +17,7 @@ import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import GetFormHelp from '../components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
 
 // chapter 1 - Veteran Information
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
@@ -54,6 +56,9 @@ const {
   insurance: INSURANCE_PATHS,
   dependents: DEPENDENT_PATHS,
 } = SHARED_PATHS;
+
+// declare schema definitions
+const { date, dependent, monetaryValue, provider, ssn } = ezrSchema.definitions;
 
 // declare form config object
 const formConfig = {
@@ -101,8 +106,9 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
-  defaultDefinitions: {},
+  defaultDefinitions: { date, dependent, monetaryValue, provider, ssn },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
