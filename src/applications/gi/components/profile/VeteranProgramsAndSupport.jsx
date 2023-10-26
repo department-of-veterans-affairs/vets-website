@@ -111,7 +111,7 @@ export default function VeteranProgramsAndSupport({
       <div className="historical-information table">
         <h3>Historical Information</h3>
         <va-table class="vads-u-margin-top--0">
-          <va-table-row>
+          <va-table-row slot="headers">
             <span>Benefit</span>
             <span>Recipients</span>
             <span>Total paid (FY {constants.FISCALYEAR})</span>
