@@ -24,7 +24,7 @@ const HubLinks = ({ hubs }) => {
     <div
       key={h.title}
       className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap"
-      data-testid="link-group"
+      data-testid="mhv-link-group"
     >
       <HubSection title={h.title} links={h.links} />
     </div>

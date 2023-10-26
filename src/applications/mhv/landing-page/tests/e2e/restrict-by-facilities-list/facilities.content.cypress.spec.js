@@ -11,7 +11,7 @@ function validateLinkGroup(cardHeadline, numLinks) {
   // Find the spotlight section and look for the links
   cy.findByRole('heading', { name: cardHeadline }).should.exist;
   cy.findByRole('heading', { name: cardHeadline })
-    .parents('[data-testid="link-group"]')
+    .parents('[data-testid="mhv-link-group"]')
     .should('have.length', 1)
     .find('a')
     .should('have.length', numLinks)
