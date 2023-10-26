@@ -144,7 +144,7 @@ export const getAlertType = (data, alreadySubmittedIntents) => {
     benefitSelections(data).some(
       benefitSelection =>
         !alreadySubmittedBenefitIntents(alreadySubmittedIntents).includes(
-          benefitSelection.toLowerCase(),
+          benefitSelection,
         ),
     )
   ) {
@@ -160,12 +160,12 @@ export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
   );
 
   if (newlySelectedBenefit) {
-    return `You’ve submitted your intent to file request for ${
-      benefitPhrases[newlySelectedBenefit.toLowerCase()]
+    return `You’ve submitted your intent to file for ${
+      benefitPhrases[newlySelectedBenefit]
     }`;
   }
 
-  return 'You’ve submitted your intent to file request';
+  return 'You’ve submitted your intent to file';
 };
 
 export const getSuccessAlertText = (
@@ -173,9 +173,9 @@ export const getSuccessAlertText = (
   alreadySubmittedIntents,
   expirationDate,
 ) => {
-  let benefitSelection = benefitSelections(data)[0].toLowerCase();
+  let benefitSelection = benefitSelections(data)[0];
   if (benefitSelections(data).length > 1) {
-    benefitSelection = 'compensationAndPension';
+    benefitSelection = 'COMPENSATION_AND_PENSION';
   }
 
   const benefitPhrase = benefitPhrases[benefitSelection];
@@ -190,7 +190,7 @@ export const getInfoAlertTitle = () =>
   'You’ve already submitted an intent to file';
 
 export const getInfoAlertText = (data, alreadySubmittedIntents) => {
-  let benefitSelection = benefitSelections(data)[0].toLowerCase();
+  const benefitSelection = benefitSelections(data)[0];
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
@@ -201,7 +201,6 @@ export const getInfoAlertText = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntents[benefitSelection].expirationDate,
   ).toLocaleDateString('en-US', dateOptions);
   if (benefitSelections(data).length > 1) {
-    benefitSelection = 'compensationAndPension';
     return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
   }
 
@@ -218,9 +217,7 @@ export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntents,
   )[0];
   if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    alreadySubmittedIntent = 'compensationAndPension';
-  } else {
-    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
+    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
   }
 
   return `You’ve already submitted an intent to file for ${
@@ -247,15 +244,14 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
     expirationDate = new Date(
       alreadySubmittedIntents.pension?.expirationDate,
     ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = 'compensationAndPension';
+    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
   } else {
     expirationDate = new Date(
       alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,
     ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
   }
 
-  return `Our records show that you already have an Intent to File (ITF) for ${
+  return `Our records show that you already have an intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
   }. Your intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
@@ -273,7 +269,7 @@ export const getNextStepsTextSecondParagraph = (
     month: 'long',
     day: 'numeric',
   };
-  const benefitSelection = benefitSelections(data)[0].toLowerCase();
+  const benefitSelection = benefitSelections(data)[0];
   if (benefitSelections(data).length > 1) {
     if (
       alreadySubmittedIntents?.compensation &&

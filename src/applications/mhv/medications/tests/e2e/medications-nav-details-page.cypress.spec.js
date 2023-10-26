@@ -8,8 +8,9 @@ describe('verify navigation to medication details Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
+
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
 
