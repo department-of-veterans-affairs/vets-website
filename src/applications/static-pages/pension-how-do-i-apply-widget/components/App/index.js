@@ -2,15 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import ApplicationStatus from 'platform/forms/save-in-progress/ApplicationStatus';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
-  const setReturnUrl = () => {
-    sessionStorage.setItem(
-      'authReturnUrl',
-      `${window.location.origin}/pension/application/527EZ/introduction/`,
-    );
-  };
-  return (
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
+  return pensionFormEnabled ? (
+    <ApplicationStatus
+      formId={VA_FORM_IDS.FORM_21P_527EZ}
+      showApplyButton
+      showLearnMoreLink
+      additionalText="You can apply online right now."
+      applyHeading="How do I apply?"
+      applyLink="/pension/how-to-apply/"
+      applyText="Apply for Veterans Pension benefits"
+    />
+  ) : (
     <va-alert
       close-btn-aria-label="Close notification"
       status="info"
@@ -80,7 +89,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
             </p>
             <va-button
               onClick={() => {
-                setReturnUrl();
                 toggleLoginModal(true);
               }}
               text="Sign in to VA.gov"
