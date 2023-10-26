@@ -1408,7 +1408,8 @@ const formConfig = {
                   true,
                 'ui:widget': 'textarea',
                 'ui:errorMessages': {
-                  required: 'Please include your desciption of the issue below',
+                  required:
+                    'Please include your description of the issue below',
                 },
               },
             },
