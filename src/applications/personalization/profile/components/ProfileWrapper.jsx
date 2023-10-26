@@ -50,7 +50,7 @@ const ProfileWrapper = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const profileContactsPageToggle = useToggleValue(
-    TOGGLE_NAMES.profileContactsPage,
+    TOGGLE_NAMES.profileContacts,
   );
 
   const routesForNav = getRoutesForNav(profileContactsPageToggle);

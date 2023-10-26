@@ -1,6 +1,6 @@
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
-  profileContactsPage: false,
+  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
