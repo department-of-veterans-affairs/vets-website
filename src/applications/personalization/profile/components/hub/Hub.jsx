@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import {
   hasBadAddress as hasBadAddressSelector,
-  selectProfileContactsPageToggle,
+  selectProfileContactsToggle,
 } from '@@profile/selectors';
 import { useSelector } from 'react-redux';
 
@@ -17,9 +17,7 @@ import { HubCard } from './HubCard';
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
-  const profileContactsPageEnabled = useSelector(
-    selectProfileContactsPageToggle,
-  );
+  const profileContactsEnabled = useSelector(selectProfileContactsToggle);
 
   useEffect(() => {
     document.title = `Profile | Veterans Affairs`;
@@ -61,7 +59,7 @@ export const Hub = () => {
           />
         </HubCard>
 
-        {profileContactsPageEnabled && (
+        {profileContactsEnabled && (
           <HubCard
             heading={PROFILE_PATH_NAMES.CONTACTS}
             content="Review your medical emergency contact and next of kin contact information."

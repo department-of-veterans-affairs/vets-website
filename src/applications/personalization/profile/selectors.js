@@ -161,7 +161,7 @@ export const selectHideDirectDepositCompAndPen = state =>
 
 export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
 
-export const selectProfileContactsPageToggle = state =>
+export const selectProfileContactsToggle = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;
 
 export const selectProfileContacts = state => state?.profileContacts || {};
