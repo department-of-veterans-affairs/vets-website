@@ -26,4 +26,16 @@ describe('Pre-need SupportingFilesCollapsibleList component', () => {
     expect(collapsiblePanels).to.have.length(3);
     wrapper.unmount();
   });
+
+  it('each collapsible panel should expand when clicked', () => {
+    const panels = wrapper.find('CollapsiblePanel');
+    expect(wrapper.find('#collapsible-3').exists()).to.be.false;
+    panels.forEach(panel => {
+      const button = panel.find('#collapsibleButton3');
+      button.simulate('click');
+    });
+    expect(wrapper.find('#collapsible-3').exists()).to.be.true;
+    expect(wrapper.find('#collapsible-3')).to.have.length(3);
+    wrapper.unmount();
+  });
 });
