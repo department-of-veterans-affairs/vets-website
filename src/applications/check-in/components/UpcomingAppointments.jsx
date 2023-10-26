@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import { makeSelectApp } from '../selectors';
+import { makeSelectApp, makeSelectVeteranData } from '../selectors';
 import { useGetUpcomingAppointmentsData } from '../hooks/useGetUpcomingAppointmentsData';
 import { useUpdateError } from '../hooks/useUpdateError';
 import { APP_NAMES } from '../utils/appConstants';
@@ -11,21 +11,30 @@ import UpcomingAppointmentsList from './UpcomingAppointmentsList';
 
 const UpcomingAppointments = props => {
   const { router } = props;
-  const [isLoading, setIsLoading] = useState(true);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const { updateError } = useUpdateError();
   const {
     isComplete,
+    isLoading: isUpcomingLoading,
     upcomingAppointmentsDataError,
-  } = useGetUpcomingAppointmentsData(true);
+    refreshUpcomingData,
+  } = useGetUpcomingAppointmentsData({ refreshNeeded: false });
+  const [isLoading, setIsLoading] = useState(true);
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { upcomingAppointments } = useSelector(selectVeteranData);
 
   useEffect(
     () => {
       setIsLoading(!isComplete);
+      if (!upcomingAppointments.length && !isComplete && !isUpcomingLoading) {
+        refreshUpcomingData();
+      } else if (upcomingAppointments.length) {
+        setIsLoading(false);
+      }
     },
-    [isComplete],
+    [upcomingAppointments, isComplete, refreshUpcomingData, isUpcomingLoading],
   );
 
   useEffect(
@@ -61,7 +70,13 @@ const UpcomingAppointments = props => {
       </p>
     );
   } else {
-    body = <UpcomingAppointmentsList router={router} app={app} />;
+    body = (
+      <UpcomingAppointmentsList
+        router={router}
+        app={app}
+        upcomingAppointments={upcomingAppointments}
+      />
+    );
   }
 
   return (
