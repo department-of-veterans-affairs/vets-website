@@ -18,7 +18,7 @@ import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 
 // Alert to show when a user does not appear to be a Veteran
-const NotAVeteranAlert = () => {
+export const NotAVeteranAlert = () => {
   return (
     <>
       <va-alert status="info" data-testid="not-a-veteran-alert">
@@ -36,7 +36,7 @@ const NotAVeteranAlert = () => {
 };
 
 // Alert to show if `GET service_history` returned a 403
-const NotInDEERSAlert = () => {
+export const NotInDEERSAlert = () => {
   return (
     <>
       <va-alert status="warning" data-testid="not-in-deers-alert">
@@ -75,7 +75,7 @@ const NotInDEERSAlert = () => {
   );
 };
 // Alert to show if `GET service_history` returned an empty service history array
-const NoServiceHistoryAlert = () => {
+export const NoServiceHistoryAlert = () => {
   return (
     <>
       <va-alert status="warning">
