@@ -33,6 +33,7 @@ const RatedDisabilitiesApp = props => {
         ]}
       >
         <RatedDisabilityView
+          detectDiscrepancies={props.detectDiscrepancies}
           error={props.error}
           fetchRatedDisabilities={props.fetchRatedDisabilities}
           fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
