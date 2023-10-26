@@ -3,24 +3,28 @@
   flex-wrap: wrap;
   gap: units(4);
 
-  > * {
+  /* small screens: cards take up full width of the row (1 per row) */
+  > * { /* direct descendents of .hub-cards, presumably "cards" */
     flex-basis: 100%;
   }
 
+  /* medium+ screens: cards take up 1/2 width of the row (2 per row) */
   @include media($medium-screen) {
     > * {
       flex-basis: calc(50% - 36px);
     }
   }
 
+  /* prevent the <va-link active /> fa-chevron-right icon from becoming a runt(!) */
+  /* on small screens. https://www.google.com/search?q=runt+typography */
   .personal-health-care-contacts-hub-card-link {
     display: inline-block;
-    max-width: 30ch;
+    max-width: 32ch;
   }
 
   @include media($medium-screen) {
     .personal-health-care-contacts-hub-card-link {
-      display: block;
+      display: inline;
       max-width: 100%;
     }
   }
