@@ -15,6 +15,7 @@
       "last": "Person"
     },
     "personAddress": {
+      "country": "USA",
       "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
@@ -23,6 +24,7 @@
     "organizationName": "ACME Org",
     "organizationRepresentative": "Joe Rep",
     "organizationAddress": {
+      "country": "USA",
       "street": "125 Any St",
       "city": "Anycity",
       "state": "CA",
