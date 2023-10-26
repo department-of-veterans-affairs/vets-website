@@ -6,7 +6,7 @@
     "last": "Veteran"
   },
   "benefitSelection": {
-    "SURVIVORS": true
+    "survivors": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",
