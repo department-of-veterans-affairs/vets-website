@@ -1424,6 +1424,7 @@ jobs:
         env:
           TEST_TYPE: e2e
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+          CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
 
       - name: Check if code can be merged (Unit Test Verification)
         run: node script/github-actions/annotate-disallowed-tests.js
