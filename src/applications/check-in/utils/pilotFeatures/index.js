@@ -38,6 +38,7 @@ const pilotFeatures = {
   fortyFiveMinuteText: {
     pilotStations: {
       ...devStations,
+      '657GB': {},
     },
   },
 };
