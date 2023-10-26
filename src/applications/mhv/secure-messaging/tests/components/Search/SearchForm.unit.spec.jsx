@@ -1,12 +1,16 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
 import folderList from '../../fixtures/folder-inbox-response.json';
 import threadList from '../../fixtures/thread-list-response.json';
 import reducer from '../../../reducers';
 import SearchForm from '../../../components/Search/SearchForm';
+import { selectVaDate, selectVaSelect } from '../../../util/testUtils';
+import { ErrorMessages } from '../../../util/constants';
+import { DateRangeValues } from '../../../util/inputContants';
 
 describe('Search form', () => {
   const initialState = {
@@ -37,7 +41,7 @@ describe('Search form', () => {
     expect(screen);
   });
 
-  it('displays the name of folder to be searched', () => {
+  it('displays the name of folder to be searched', async () => {
     const screen = setup();
     const folderStatementStart = screen.getByText('Filter messages in Inbox');
 
@@ -113,5 +117,143 @@ describe('Search form', () => {
     expect(queryItems.length).to.equal(2);
     expect(category).to.exist;
     expect(dateRange).to.exist;
+  });
+
+  it('returns error message on invalid custom start date', async () => {
+    const query = {
+      category: 'other',
+    };
+    const customProps = {
+      ...defaultProps,
+      threadCount: threadList.length,
+      query,
+    };
+    const screen = setup(customProps);
+    selectVaSelect(screen.container, 'custom', 'va-select[name="dateRange"]');
+    const dateValue = '2022-09-19';
+    selectVaDate(
+      screen.container,
+      dateValue,
+      'va-date[data-testid="date-end"]',
+    );
+    fireEvent.click(document.querySelector('va-button[text="Filter"]'));
+    expect(screen.getByTestId('date-start')).to.have.attribute(
+      'error',
+      ErrorMessages.SearchForm.START_DATE_REQUIRED,
+    );
+  });
+
+  it('returns error message on invalid custom end date', async () => {
+    const query = {
+      category: 'other',
+    };
+    const customProps = {
+      ...defaultProps,
+      threadCount: threadList.length,
+      query,
+    };
+    const screen = setup(customProps);
+    selectVaSelect(screen.container, 'custom', 'va-select[name="dateRange"]');
+    const dateValue = '2022-09-19';
+    selectVaDate(
+      screen.container,
+      dateValue,
+      'va-date[data-testid="date-start"]',
+    );
+    fireEvent.click(document.querySelector('va-button[text="Filter"]'));
+    expect(screen.getByTestId('date-end')).to.have.attribute(
+      'error',
+      ErrorMessages.SearchForm.END_DATE_REQUIRED,
+    );
+  });
+
+  it('returns error message on start date beyond end date', async () => {
+    const query = {
+      category: 'other',
+    };
+    const customProps = {
+      ...defaultProps,
+      threadCount: threadList.length,
+      query,
+    };
+    const screen = setup(customProps);
+    selectVaSelect(screen.container, 'custom', 'va-select[name="dateRange"]');
+    const startDateValue = '2022-09-21';
+    const endDateValue = '2022-09-19';
+    selectVaDate(
+      screen.container,
+      startDateValue,
+      'va-date[data-testid="date-start"]',
+    );
+    selectVaDate(
+      screen.container,
+      endDateValue,
+      'va-date[data-testid="date-end"]',
+    );
+    fireEvent.click(document.querySelector('va-button[text="Filter"]'));
+    expect(screen.getByTestId('date-start')).to.have.attribute(
+      'error',
+      ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE,
+    );
+    expect(screen.getByTestId('date-end')).to.have.attribute(
+      'error',
+      ErrorMessages.SearchForm.END_DATE_BEFORE_START_DATE,
+    );
+  });
+
+  it('returns error message when end date year is greater then current year', async () => {
+    const query = {
+      category: 'other',
+    };
+    const customProps = {
+      ...defaultProps,
+      threadCount: threadList.length,
+      query,
+    };
+    const screen = setup(customProps);
+    selectVaSelect(screen.container, 'custom', 'va-select[name="dateRange"]');
+    const startDateValue = '2022-09-21';
+    const today = new Date();
+    const nextYear = today.getFullYear() + 1;
+    const endDateValue = `${nextYear}-09-19`;
+
+    selectVaDate(
+      screen.container,
+      startDateValue,
+      'va-date[data-testid="date-start"]',
+    );
+    selectVaDate(
+      screen.container,
+      endDateValue,
+      'va-date[data-testid="date-end"]',
+    );
+    fireEvent.click(document.querySelector('va-button[text="Filter"]'));
+
+    expect(screen.getByTestId('date-end')).to.have.attribute(
+      'error',
+      ErrorMessages.SearchForm.END_YEAR_GREATER_THAN_CURRENT_YEAR,
+    );
+  });
+
+  it('responds to filtering by preselected date range', async () => {
+    const query = {
+      category: 'other',
+      fromDate: '2022-01-01T00:00:00-07:00',
+      toDate: '2022-12-31T23:59:00.000Z',
+    };
+    const customProps = {
+      ...defaultProps,
+      threadCount: threadList.length,
+      query,
+    };
+    const screen = setup(customProps);
+
+    selectVaSelect(
+      screen.container,
+      DateRangeValues.LAST12,
+      'va-select[name="dateRange"]',
+    );
+    fireEvent.click(document.querySelector('va-button[text="Filter"]'));
+    expect(screen.getByText('January 1st 2022 to December 31st 2022'));
   });
 });
