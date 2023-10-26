@@ -356,7 +356,9 @@ const checkBoxValidation = {
       formData?.showMebServiceHistoryCategorizeDisagreement &&
       formData['view:serviceHistory']?.serviceHistoryIncorrect
     ) {
-      errors.addError('Check at least one!');
+      errors.addError(
+        'You must select a disagreement category prior to continuing',
+      );
     }
   },
 };
@@ -1364,7 +1366,8 @@ const formConfig = {
                     true &&
                   formData?.showMebServiceHistoryCategorizeDisagreement,
                 'ui:errorMessages': {
-                  required: 'Check at least one',
+                  required:
+                    'You must select a disagreement category prior to continuing',
                 },
                 'ui:title': (
                   <>
