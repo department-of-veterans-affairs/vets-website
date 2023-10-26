@@ -120,7 +120,8 @@ jobs:
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          IS_STRESS_TEST: true
+          IS_STRESS_TEST: false
+          IS_CI: false
           STEP: ${{ matrix.runs }}
 
       - name: Archive unit test results
