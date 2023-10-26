@@ -36,23 +36,35 @@ const delay = ms => {
  * @param {number} endTime the cutoff time to stop polling the path and simply return the error
  * @returns
  */
-const apiRequestWithRetry = async (path, options, endTime) => {
+export const testableApiRequestWithRetry = apiRequestFunc => async (
+  path,
+  options,
+  endTime,
+) => {
   const retryInterval = 2000; // 2 seconds
 
   try {
-    return await apiRequest(path, options);
+    return await apiRequestFunc(path, options);
   } catch (e) {
     const errorCode = e.errors && e.errors[0] && e.errors[0].code;
 
     // Check if the error code is 404 and if the retry time limit has not been reached
     if (errorCode === '404' && Date.now() < endTime) {
       await delay(retryInterval);
-      return apiRequestWithRetry(path, options, endTime);
+      return testableApiRequestWithRetry(apiRequestFunc)(
+        path,
+        options,
+        endTime,
+      );
     }
 
     // If error is not 404 or time limit exceeded, throw the error
     throw e;
   }
+};
+
+export const apiRequestWithRetry = async (path, options, endTime) => {
+  return testableApiRequestWithRetry(apiRequest)(path, options, endTime);
 };
 
 export const getLabsAndTests = runningUnitTest => {
