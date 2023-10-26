@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../Appoint-a-rep work/components/GetFormHelp';
 
 // import { connect } from 'react-redux';
 // import DowntimeNotification, {
 //   externalServices,
 // } from 'platform/monitoring/DowntimeNotification';
 
-export default function RepresentativeApp({ children }) {
+export default function App({ children }) {
   return (
     <>
       <div className="find-a-representative">
@@ -22,7 +22,7 @@ export default function RepresentativeApp({ children }) {
   );
 }
 
-RepresentativeApp.propTypes = {
+App.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
@@ -37,4 +37,4 @@ RepresentativeApp.propTypes = {
 // export default connect(
 //   mapStateToProps,
 //   null,
-// )(RepresentativeApp);
+// )(App);
