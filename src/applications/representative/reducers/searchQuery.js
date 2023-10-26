@@ -3,7 +3,7 @@ import {
   SEARCH_FAILED,
   SEARCH_COMPLETE,
   SEARCH_QUERY_UPDATED,
-  //   FETCH_REPRESENTATIVES,
+  FETCH_REPRESENTATIVES,
   FETCH_SPECIALTIES,
   FETCH_SPECIALTIES_DONE,
   FETCH_SPECIALTIES_FAILED,
@@ -25,7 +25,6 @@ export const INITIAL_STATE = {
   },
   bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   currentPage: 1,
-  zoomLevel: 4,
   inProgress: false,
   searchBoundsInProgress: false,
   fetchSvcsInProgress: false,
@@ -63,32 +62,22 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...action.payload,
         error: false,
         inProgress: true,
-        mapMoved: false,
       };
-    // case FETCH_REPRESENTATIVES:
-    //   return {
-    //     ...state,
-    //     ...action.payload,
-    //     error: false,
-    //     inProgress: false,
-    //     searchBoundsInProgress: false,
-    //     mapMoved: false,
-    //     ...validateForm(state, action.payload),
-    //   };
-    // case MAP_MOVED:
-    //   return {
-    //     ...state,
-    //     mapMoved: true,
-    //     currentRadius: action.currentRadius,
-    //   };
-    // case FETCH_LOCATION_DETAIL:
+    case FETCH_REPRESENTATIVES:
+      return {
+        ...state,
+        ...action.payload,
+        error: false,
+        inProgress: false,
+        searchBoundsInProgress: false,
+        ...validateForm(state, action.payload),
+      };
     case SEARCH_COMPLETE:
       return {
         ...state,
         error: false,
         ...validateForm(state, action.payload),
         inProgress: false,
-        mapMoved: false,
       };
     case FETCH_SPECIALTIES:
       return {
