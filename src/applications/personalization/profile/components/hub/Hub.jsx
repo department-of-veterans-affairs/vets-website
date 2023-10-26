@@ -37,7 +37,7 @@ export const Hub = () => {
       )}
 
       {/* ROW */}
-      <div className="hub-cards">
+      <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
           heading="Personal information"
           content="Review your legal name, date of birth, and disability rating. And
