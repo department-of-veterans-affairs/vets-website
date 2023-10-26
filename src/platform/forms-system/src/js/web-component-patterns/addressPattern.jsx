@@ -234,7 +234,7 @@ export function addressUI(options) {
         }
         return true;
       },
-      'ui:title': 'Country',
+      'ui:title': options?.labels?.country || 'Country',
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
