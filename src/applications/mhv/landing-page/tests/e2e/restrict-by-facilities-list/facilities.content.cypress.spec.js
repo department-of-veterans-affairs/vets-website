@@ -7,7 +7,7 @@ import { resolveLandingPageLinks } from '../../../utilities/data';
 const noHealthDataHeading = /You do not have access to My HealtheVet tools/i;
 
 // Validate a card has a heading and the correct number of links in it.
-function validateLinkGroups(cardHeadline, numLinks) {
+function validateLinkGroup(cardHeadline, numLinks) {
   // Find the spotlight section and look for the links
   cy.findByRole('heading', { name: cardHeadline }).should.exist;
   cy.findByRole('heading', { name: cardHeadline })
@@ -52,7 +52,7 @@ describe(appName, () => {
       });
       // Test the hubs are visible
       pageLinks.hubs.forEach(hub => {
-        validateLinkGroups(hub.title, hub.links.length);
+        validateLinkGroup(hub.title, hub.links.length);
       });
 
       // Test for the conditional heading for VA health benefits
@@ -71,10 +71,10 @@ describe(appName, () => {
 
       // Validate the cards and hubs
       pageLinks.cards.forEach(card => {
-        validateLinkGroups(card.title, card.links.length);
+        validateLinkGroup(card.title, card.links.length);
       });
       pageLinks.hubs.forEach(hub => {
-        validateLinkGroups(hub.title, hub.links.length);
+        validateLinkGroup(hub.title, hub.links.length);
       });
 
       // Test for the conditional heading for VA health benefits
