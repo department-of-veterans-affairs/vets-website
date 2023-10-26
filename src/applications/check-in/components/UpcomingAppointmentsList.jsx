@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { createAnalyticsSlug } from '../utils/analytics';
@@ -14,13 +13,9 @@ import {
 
 import UpcomingAppointmentsListItem from './UpcomingAppointmentsListItem';
 
-import { makeSelectVeteranData } from '../selectors';
-
 const UpcomingAppointmentsList = props => {
-  const { router, app } = props;
+  const { router, app, upcomingAppointments } = props;
   const { jumpToPage } = useFormRouting(router);
-  const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const { upcomingAppointments } = useSelector(selectVeteranData);
   const { t } = useTranslation();
 
   const groupedAppointments = organizeAppointmentsByYearMonthDay(
@@ -88,6 +83,7 @@ const UpcomingAppointmentsList = props => {
 UpcomingAppointmentsList.propTypes = {
   app: PropTypes.string,
   router: PropTypes.object,
+  upcomingAppointments: PropTypes.array,
 };
 
 export default UpcomingAppointmentsList;
