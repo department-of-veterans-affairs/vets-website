@@ -9,12 +9,11 @@ import { PreparerPhoneNumberDescription } from '../utils/helpers';
 export default class PhoneNumberWidget extends React.Component {
   state = { val: this.props.value, firstUpdate: true };
 
-  // componentDidUpdate(prevProps) {
-  //   console.log('hi');
-  //   if (this.state.firstUpdate && this.props.value !== prevProps.value) {
-  //     this.handleChange(this.props.value);
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (this.state.firstUpdate && this.props.value !== prevProps.value) {
+      this.handleChange(this.props.value);
+    }
+  }
 
   handleChange = val => {
     let stripped;
