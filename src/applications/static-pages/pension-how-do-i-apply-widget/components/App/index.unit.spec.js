@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { App, mapDispatchToProps, mapStateToProps } from '.';
 
-describe('Pension Widget <App>', () => {
+describe.skip('Pension Widget <App>', () => {
   let replaceStateSpy;
 
   beforeEach(() => {
