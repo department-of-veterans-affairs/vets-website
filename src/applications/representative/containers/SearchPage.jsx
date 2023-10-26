@@ -1,29 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import appendQuery from 'append-query';
+// import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
+import SearchResultsHeader from '../components/search/SearchResultsHeader';
 import ResultsList from '../components/search/ResultsList';
+import PaginationWrapper from '../components/search/PaginationWrapper';
+// import { fetchRepresentativeSearchResults } from '../actions/index';
+
+// import { setFocus } from '../utils/helpers';
 
 import {
   clearSearchText,
   clearSearchResults,
+  fetchRepresentatives,
   updateSearchQuery,
+  updateSortType,
   geolocateUser,
+  clearGeocodeError,
+  mockSearch,
 } from '../actions';
 
 const SearchPage = props => {
-  const [showResults, setShowResults] = useState(false);
+  const searchResultTitleRef = useRef(null);
+  const [isSearching, setIsSearching] = useState(false);
 
-  const { router } = props;
+  // const updateUrlParams = params => {
+  //   const { location, currentQuery } = props;
+  //   const queryParams = {
+  //     ...location.query,
+  //     page: currentQuery.currentPage,
+  //     address: currentQuery.searchString,
+  //     representativeType: currentQuery.representativeType,
+  //     latitude: props.currentQuery.position?.latitude,
+  //     longitude: props.currentQuery.position?.longitude,
+  //     radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
+  //     bounds: props.currentQuery.bounds,
+  //     ...params,
+  //   };
+  //   const queryStringObj = appendQuery(
+  //     `/find-representatives${location.pathname}`,
+  //     queryParams,
+  //   );
+  //   browserHistory.push(queryStringObj);
+  // };
 
-  const handleSearch = e => {
-    e.preventDefault();
-    setShowResults(!showResults);
+  const handleSearch = async () => {
+    // const { currentQuery } = props;
+    // const { searchString } = currentQuery;
+
+    // updateUrlParams({
+    //   address: searchString,
+    // });
+    setIsSearching(true);
+    props.mockSearch();
   };
 
-  const handleRedirect = e => {
-    e.preventDefault();
-    router.replace('form');
+  const handlePageSelect = e => {
+    const { page } = e.detail;
+
+    const { currentQuery } = props;
+    const coords = currentQuery.position;
+    const { radius } = currentQuery;
+    const center = [coords.latitude, coords.longitude];
+    props.searchWithBounds({
+      bounds: currentQuery.bounds,
+      representativeType: currentQuery.representativeType,
+      page,
+      center,
+      radius,
+    });
   };
 
   const renderBreadcrumbs = () => {
@@ -43,6 +90,137 @@ const SearchPage = props => {
     ];
   };
 
+  const renderView = () => {
+    const {
+      currentQuery,
+      searchResults,
+      // sortType,
+      pagination,
+      searchError,
+    } = props;
+
+    const currentPage = pagination ? pagination.currentPage : 1;
+    const totalPages = pagination ? pagination.totalPages : 1;
+    const { representativeType } = currentQuery;
+    const queryContext = currentQuery.context;
+
+    const paginationWrapper = () => {
+      return (
+        <PaginationWrapper
+          handlePageSelect={handlePageSelect}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          searchResults={searchResults}
+          inProgress={currentQuery.inProgress}
+        />
+      );
+    };
+
+    const resultsList = () => {
+      return (
+        <ResultsList
+          // updateUrlParams={updateUrlParams}
+          query={currentQuery}
+          searchResults={searchResults}
+          sortType={props.sortType}
+          onUpdateSortType={props.updateSortType}
+        />
+      );
+    };
+
+    return (
+      <div>
+        <div id="search-results-title" ref={searchResultTitleRef}>
+          {/* {!searchError && ( */}
+          <SearchResultsHeader
+            searchResults={searchResults}
+            representativeType={representativeType}
+            context={queryContext}
+            inProgress={currentQuery.inProgress}
+            pagination={pagination}
+          />
+          {/* )} */}
+          {searchError && <p />}
+        </div>
+        <div>{resultsList()}</div>
+        {paginationWrapper()}
+      </div>
+    );
+  };
+
+  // const searchCurrentArea = () => {
+  //   const { currentQuery } = props;
+  //   const {
+  //     searchArea,
+  //     // context,
+  //     // searchString
+  //   } = currentQuery;
+  //   const coords = currentQuery.position;
+  //   const { radius } = currentQuery;
+  //   const center = [coords.latitude, coords.longitude];
+  //   if (searchArea) {
+  //     // updateUrlParams({
+  //     //   context,
+  //     //   searchString,
+  //     // });
+  //     props.searchWithBounds({
+  //       bounds: props.currentQuery.bounds,
+  //       representativeType: props.currentQuery.representativeType,
+  //       page: props.currentQuery.currentPage,
+  //       center,
+  //       radius,
+  //     });
+  //   }
+  // };
+
+  const handleSearchOnQueryChange = () => {
+    if (isSearching) {
+      // updateUrlParams({
+      //   context: props.currentQuery.context,
+      //   address: props.currentQuery.searchString,
+      // });
+      const { currentQuery } = props;
+      const coords = currentQuery.position;
+      const { radius } = currentQuery;
+      const center = [coords.latitude, coords.longitude];
+      const resultsPage = currentQuery.currentPage;
+
+      if (!props.searchBoundsInProgress) {
+        props.searchWithBounds({
+          bounds: props.currentQuery.bounds,
+          representativeType: props.currentQuery.representativeType,
+          page: resultsPage,
+          center,
+          radius,
+        });
+        setIsSearching(false);
+      }
+    }
+  };
+
+  // useEffect(
+  //   () => {
+  //     searchCurrentArea();
+  //   },
+  //   [props.currentQuery.searchArea],
+  // );
+
+  useEffect(
+    () => {
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.id],
+  );
+
+  // useEffect(
+  //   () => {
+  //     if (searchResultTitleRef.current && props.resultTime) {
+  //       setFocus(searchResultTitleRef.current);
+  //     }
+  //   },
+  //   [props.resultTime],
+  // );
+
   return (
     <>
       <va-breadcrumbs>{renderBreadcrumbs()}</va-breadcrumbs>
@@ -50,20 +228,13 @@ const SearchPage = props => {
       <div className="usa-grid usa-width-three-fourths search-page-container">
         <div className="title-section">
           <h1>Find a Representative</h1>
+          <p>
+            Find a VA accredited representative or Veteran Service Organizaiton.
+            After you find a representative, you’ll need to contact them to ask
+            if they’re available to help you. If you don’t, they may not be able
+            to help you or they may reject your request.
+          </p>
         </div>
-
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          <h2 slot="headline">Sign in to see your current representative.</h2>
-          <div>
-            <button className="usa-button-primary" type="button">
-              Sign in
-            </button>
-          </div>
-        </va-alert>
 
         <SearchControls
           geolocateUser={props.geolocateUser}
@@ -72,8 +243,7 @@ const SearchPage = props => {
           onSubmit={handleSearch}
           clearSearchText={props.clearSearchText}
         />
-
-        {showResults && <ResultsList handleRedirect={e => handleRedirect(e)} />}
+        <div>{renderView()}</div>
       </div>
     </>
   );
@@ -83,23 +253,43 @@ SearchPage.propTypes = {
   clearSearchText: PropTypes.func.isRequired,
   currentQuery: PropTypes.object.isRequired,
   geolocateUser: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired,
+  searchWithBounds: PropTypes.func.isRequired,
+  mockSearch: PropTypes.func.isRequired,
+  searchResults: PropTypes.array.isRequired,
+  sortType: PropTypes.string.isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
+  updateSortType: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  pagination: PropTypes.shape({
+    currentPage: PropTypes.number,
+    totalPages: PropTypes.number,
+  }),
+  searchBoundsInProgress: PropTypes.bool,
+  searchError: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
-  results: state.searchResult.results,
+  searchResults: state.searchResult.searchResults,
+  searchError: state.searchResult.error,
+  resultTime: state.searchResult.resultTime,
+  pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  sortType: state.searchResult.sortType,
+  specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {
   geolocateUser,
+  clearGeocodeError,
+  fetchRepresentatives,
   updateSearchQuery,
+  updateSortType,
   clearSearchResults,
   clearSearchText,
+  mockSearch,
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
