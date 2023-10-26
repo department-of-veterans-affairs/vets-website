@@ -3,21 +3,25 @@ import {
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
+import { objHasEmptyValues } from '../utils';
 
 /** @type {PageSchema} */
 
 export default {
   uiSchema: {
     limitedInformationItems: checkboxGroupUI({
-      // TODO: check why Chrome devtools shows an uncaught TypeError:
-      // Cannot read property of undefined (reading 'ui:title')
+      /* TODO: see how checkboxGroupUI can be updated to properly support
+      * required function & custom-validations involving other fields.
+      * See bug #718
+      */
       title: 'Which specific information do you authorize us to release?',
       description:
         'Select the items we can share with your third-party source. You can select more than one',
-      labels: Object.values(LIMITED_INFORMATION_ITEMS),
+      labels: LIMITED_INFORMATION_ITEMS,
       required: formData => !formData.limitedInformationOther,
       labelHeaderLevel: '3',
       tile: false,
+      errorMessages: {},
     }),
     limitedInformationOther: {
       'ui:title': 'Other (specify here)',
@@ -27,10 +31,13 @@ export default {
         const errMsg =
           'Please select at least one type of information here, or specify something else below';
         if (
-          fields.limitedInformationItems === '' &&
+          objHasEmptyValues(fields.limitedInformationItems) &&
           typeof fields.limitedInformationOther === 'undefined'
         ) {
           errors.limitedInformationItems.addError(errMsg);
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          errors.limitedInformationItems = [];
         }
       },
     ],
@@ -39,7 +46,7 @@ export default {
     type: 'object',
     properties: {
       limitedInformationItems: checkboxGroupSchema(
-        Object.values(LIMITED_INFORMATION_ITEMS),
+        Object.keys(LIMITED_INFORMATION_ITEMS),
       ),
       limitedInformationOther: {
         type: 'string',
