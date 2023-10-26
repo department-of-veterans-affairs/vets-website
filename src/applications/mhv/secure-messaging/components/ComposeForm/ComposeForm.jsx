@@ -148,26 +148,23 @@ const ComposeForm = props => {
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              ),
-            )
-            .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
             navigateToFolderByFolderId(
               currentFolder?.folderId || DefaultFolders.INBOX.id,
               history,
             ),
-          );
-        }
+          )
+          .catch(setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],

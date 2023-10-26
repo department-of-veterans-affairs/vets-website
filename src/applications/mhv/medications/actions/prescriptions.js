@@ -36,7 +36,7 @@ export const clearAllergiesError = () => async dispatch => {
 
 export const getPrescriptionDetails = prescriptionId => async dispatch => {
   const response = await getPrescription(prescriptionId);
-  dispatch({ type: Actions.Prescriptions.GET, response });
+  dispatch({ type: Actions.Prescriptions.GET_DETAILS, response });
 };
 
 export const fillPrescription = prescriptionId => async dispatch => {

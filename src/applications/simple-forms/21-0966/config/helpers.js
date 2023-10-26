@@ -160,12 +160,12 @@ export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
   );
 
   if (newlySelectedBenefit) {
-    return `You’ve submitted your intent to file request for ${
+    return `You’ve submitted your intent to file for ${
       benefitPhrases[newlySelectedBenefit.toLowerCase()]
     }`;
   }
 
-  return 'You’ve submitted your intent to file request';
+  return 'You’ve submitted your intent to file';
 };
 
 export const getSuccessAlertText = (
@@ -255,7 +255,7 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
   }
 
-  return `Our records show that you already have an Intent to File (ITF) for ${
+  return `Our records show that you already have an intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
   }. Your intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
@@ -267,27 +267,29 @@ export const getNextStepsTextSecondParagraph = (
   alreadySubmittedIntents,
   newExpirationDate,
 ) => {
-  const benefitSelection = benefitSelections(data)[0].toLowerCase();
-  if (benefitSelections(data).length > 1) {
-    if (
-      alreadySubmittedIntents?.compensation &&
-      alreadySubmittedIntents?.pension
-    ) {
-      return `Your intent to file for disability compensation expires on ${
-        alreadySubmittedIntents.compensation.expirationDate
-      } and your intent to file for pension claims expires on ${
-        alreadySubmittedIntents.pension.expirationDate
-      }. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
-    }
-    return 'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).';
-  }
-
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   };
+  const benefitSelection = benefitSelections(data)[0].toLowerCase();
+  if (benefitSelections(data).length > 1) {
+    if (
+      alreadySubmittedIntents?.compensation &&
+      alreadySubmittedIntents?.pension
+    ) {
+      const compensationExpirationDate = new Date(
+        alreadySubmittedIntents.compensation.expirationDate,
+      ).toLocaleDateString('en-US', dateOptions);
+      const pensionExpirationDate = new Date(
+        alreadySubmittedIntents.pension.expirationDate,
+      ).toLocaleDateString('en-US', dateOptions);
+      return `Your intent to file for disability compensation expires on ${compensationExpirationDate} and your intent to file for pension claims expires on ${pensionExpirationDate}. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+    }
+    return 'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).';
+  }
+
   let expirationDate = newExpirationDate;
   const oldExpirationDate =
     alreadySubmittedIntents[benefitSelection]?.expirationDate;
