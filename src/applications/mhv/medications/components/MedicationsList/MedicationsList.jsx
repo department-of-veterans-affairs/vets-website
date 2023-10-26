@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -9,6 +10,22 @@ const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
   const { rxList, pagination, setCurrentPage, selectedSortOption } = props;
+  const prescriptionId = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
+  );
+  const scrollLocation = useRef();
+  const goToPrevious = () => {
+    scrollLocation.current.scrollIntoView();
+  };
+
+  useEffect(
+    () => {
+      if (prescriptionId) {
+        goToPrevious();
+      }
+    },
+    [prescriptionId],
+  );
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
@@ -47,7 +64,16 @@ const MedicationsList = props => {
       <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="vads-u-display--block vads-u-margin-top--3">
         {rxList?.length > 0 &&
-          rxList.map((rx, idx) => <MedicationsListCard key={idx} rx={rx} />)}
+          rxList.map(
+            (rx, idx) =>
+              rx.prescriptionId === prescriptionId ? (
+                <div ref={scrollLocation} key={idx}>
+                  <MedicationsListCard rx={rx} />
+                </div>
+              ) : (
+                <MedicationsListCard key={idx} rx={rx} />
+              ),
+          )}
       </div>
       <VaPagination
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
