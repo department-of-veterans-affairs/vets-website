@@ -12,6 +12,9 @@ import {
   CONTACT_EDIT,
   renderTelephone,
   contactInfoPropTypes,
+  validateEmail,
+  validatePhone,
+  validateZipcode,
 } from '../utilities/data/profile';
 
 /**
@@ -49,52 +52,107 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
   const stateOrProvince = isUS ? 'state' : 'province';
 
   const showValueOrErrorMessage = (value, errorMessage) =>
-    (value || '').trim() || (
+    (value || '').trim() ||
+    (errorMessage && (
       <span className="usa-input-error-message">{errorMessage}</span>
-    );
+    )) ||
+    '';
 
   // Label: formatted value in (design) display order
   const display = [
-    [content.homePhone, () => renderTelephone(homePhone)],
-    [content.mobilePhone, () => renderTelephone(mobilePhone)],
+    [
+      content.homePhone,
+      () => {
+        if (!keys.homePhone) {
+          return '';
+        }
+        const errorMsg = validatePhone(content, homePhone, 'homePhone');
+        return errorMsg
+          ? showValueOrErrorMessage('', errorMsg)
+          : renderTelephone(homePhone);
+      },
+    ],
+    [
+      content.mobilePhone,
+      () => {
+        if (!keys.mobilePhone) {
+          return '';
+        }
+        const errorMsg = validatePhone(content, mobilePhone, 'mobilePhone');
+        return errorMsg
+          ? showValueOrErrorMessage('', errorMsg)
+          : renderTelephone(mobilePhone);
+      },
+    ],
     [
       content.email,
-      () => showValueOrErrorMessage(email, content.missingEmailError),
+      () => {
+        if (!keys.email) {
+          return '';
+        }
+        const errorMsg = validateEmail(content, email);
+        return showValueOrErrorMessage(errorMsg ? '' : email, errorMsg);
+      },
     ],
     [
       content.country,
-      () =>
-        showValueOrErrorMessage(address.countryName, content.missingCountry),
+      () => {
+        if (!keys.address) {
+          return '';
+        }
+        return showValueOrErrorMessage(
+          address.countryName,
+          content.missingCountryError,
+        );
+      },
     ],
     [
       content.address1,
-      () =>
-        showValueOrErrorMessage(
+      () => {
+        if (!keys.address) {
+          return '';
+        }
+        return showValueOrErrorMessage(
           address.addressLine1,
-          content.missingStreetAddress,
-        ),
+          content.missingStreetAddressError,
+        );
+      },
     ],
     [content.address2, () => address.addressLine2],
     [content.address3, () => address.addressLine3],
     [
       content.city,
-      () => showValueOrErrorMessage(address.city, content.missingCity),
+      () => {
+        if (!keys.address) {
+          return '';
+        }
+        return showValueOrErrorMessage(address.city, content.missingCityError);
+      },
     ],
     [
       content[stateOrProvince],
-      () =>
-        showValueOrErrorMessage(
-          address[isUS ? 'stateCode' : 'province'],
-          content.missingStateOrProvince(isUS),
-        ),
+      () => {
+        if (!keys.address) {
+          return '';
+        }
+        return isUS
+          ? showValueOrErrorMessage(
+              address.stateCode,
+              content.missingStateOrProvinceError(isUS),
+            )
+          : '';
+      },
     ],
     [
       isUS ? content.zipCode : content.postal,
-      () =>
-        showValueOrErrorMessage(
-          address[isUS ? 'zipCode' : 'internationalPostalCode'],
-          content.missingZip(isUS),
-        ),
+      () => {
+        if (!keys.address) {
+          return '';
+        }
+        const code = address[isUS ? 'zipCode' : 'internationalPostalCode'];
+        const errorMsg = isUS ? validateZipcode(content, code) : '';
+        return showValueOrErrorMessage(errorMsg ? '' : code, errorMsg);
+      },
     ],
   ];
 

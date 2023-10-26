@@ -2,10 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  isValidEmail,
+  isValidPhone,
+  isValidZipcode,
+} from 'platform/forms/validations';
+
+import {
   schemaCrossXRef,
   COUNTRY_NAMES,
   COUNTRY_VALUES,
   STREET_PATTERN,
+  US_POSTAL_CODE_PATTERN,
 } from '../../definitions/profileAddress';
 
 /**
@@ -98,12 +105,17 @@ export const getContent = (appName = 'application') => ({
 
   // Error on review & submit
   missingEmailError: 'Missing email address',
-  missingCountry: 'Missing country',
-  missingStreetAddress: 'Missing street address',
-  missingCity: 'Missing city',
-  missingStateOrProvince: isUS => `Missing ${isUS ? 'state' : 'province'}`,
+  missingPhoneError: 'Missing phone number',
+  missingCountryError: 'Missing country',
+  missingStreetAddressError: 'Missing street address',
+  missingCityError: 'Missing city',
+  missingStateOrProvinceError: isUS => `Missing ${isUS ? 'state' : 'province'}`,
   // international postal code is optional
-  missingZip: isUS => (isUS ? 'Missing zip code' : ''),
+  missingZipError: isUS => (isUS ? 'Missing zip code' : ''),
+
+  invalidEmail: 'Invalid email address',
+  invalidPhone: 'Invalid phone number',
+  invalidZip: isUS => (isUS ? 'Invalid zip code' : ''),
 });
 
 export const CONTACT_INFO_PATH = 'contact-information';
@@ -212,6 +224,85 @@ export const standardAddressSchema = isRequired => ({
 });
 
 /**
+ * Address schema matching the user profile mailing address; we're not including
+ *  the required field here because it should be handled by the ui:validation
+ *  dynamic checks for U.S. vs international addresses
+ */
+export const standardProfileAddressSchema = {
+  type: 'object',
+  required: ['countryName', 'addressLine1', 'city', 'stateCode', 'zipCode'],
+  properties: {
+    countryCodeIso2: {
+      type: 'string', // US
+    },
+    countryName: {
+      type: 'string', // United States
+      pattern: STREET_PATTERN,
+    },
+    addressLine1: {
+      type: 'string',
+      pattern: STREET_PATTERN,
+    },
+    addressLine2: {
+      type: 'string',
+    },
+    addressLine3: {
+      type: 'string',
+    },
+    city: {
+      type: 'string',
+      pattern: STREET_PATTERN,
+    },
+    stateCode: {
+      type: 'string',
+    },
+    zipCode: {
+      type: 'string',
+      pattern: US_POSTAL_CODE_PATTERN,
+    },
+  },
+};
+
+/**
+ * Address schema matching the user profile mailing address; we're not including
+ *  the required field here because it should be handled by the ui:validation
+ *  dynamic checks for U.S. vs international addresses
+ */
+export const internationalProfileAddressSchema = {
+  type: 'object',
+  required: ['countryName', 'addressLine1', 'city'],
+  properties: {
+    countryCodeIso2: {
+      type: 'string',
+    },
+    countryName: {
+      type: 'string',
+      pattern: STREET_PATTERN,
+    },
+    addressLine1: {
+      type: 'string',
+      pattern: STREET_PATTERN,
+    },
+    addressLine2: {
+      type: 'string',
+    },
+    addressLine3: {
+      type: 'string',
+    },
+    city: {
+      type: 'string',
+      pattern: STREET_PATTERN,
+    },
+    province: {
+      type: 'string',
+    },
+    internationalPostalCode: {
+      type: 'string',
+    },
+  },
+};
+
+/**
  * @typedef phoneObject
  * @type {Object}
  * @property {String} countryCode - country code (1 digit, usually)
@@ -289,6 +380,42 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
     );
   }
   return missingInfo.filter(Boolean);
+};
+
+/**
+ * Default review & submit page validations
+ */
+export const validateEmail = (content, data) => {
+  const value = (data || '').trim();
+  if (!value) {
+    return content.missingEmailError;
+  }
+  if (!isValidEmail(value)) {
+    return content.invalidEmail;
+  }
+  return '';
+};
+
+export const validatePhone = (content, data) => {
+  const value = `${data.areaCode || ''}${data.phoneNumber || ''}`.trim();
+  if (!value) {
+    return content.missingPhoneError;
+  }
+  if (!isValidPhone(value)) {
+    return content.invalidPhone;
+  }
+  return '';
+};
+
+export const validateZipcode = (content, data) => {
+  const value = (data || '').trim();
+  if (!value) {
+    return content.missingZipError(true);
+  }
+  if (!isValidZipcode(value)) {
+    return content.invalidZip(true);
+  }
+  return '';
 };
 
 /**

@@ -1,3 +1,6 @@
+import set from 'platform/utilities/data/set';
+import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
+
 import {
   EditAddress,
   EditEmail,
@@ -12,7 +15,8 @@ import {
   CONTACT_INFO_PATH,
   standardPhoneSchema,
   standardEmailSchema,
-  standardAddressSchema,
+  standardProfileAddressSchema,
+  internationalProfileAddressSchema,
   blankSchema,
 } from '../utilities/data/profile';
 
@@ -23,8 +27,8 @@ import {
  * @property {import('../utilities/data/profile').ContactInfoContent} content
  * @property {String} contactPath=contact-information - Contact info path of
  *  formConfig page
- * @property {String} addressSchema=standardAddressSchema - Address schema
- *  object that includes military base checkbox
+ * @property {String} addressSchema=standardProfileAddressSchema - Profile
+ *  address schema object
  * @property {Object} emailSchema=standardEmailSchema - Email schema object for
  *  email string
  * @property {Object} phoneSchema=standardPhoneSchema - Phone schema object with
@@ -91,12 +95,12 @@ const profileContactInfo = ({
   const config = {};
   const wrapperProperties = {};
   const keys = { wrapper: wrapperKey };
+  const requiredList = contactInfoRequiredKeys.join();
 
   if (included.includes(addressKey)) {
     keys.address = addressKey;
     wrapperProperties[addressKey] =
-      addressSchema ||
-      standardAddressSchema(contactInfoRequiredKeys.includes(keys.address));
+      addressSchema || standardProfileAddressSchema;
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
       path: `edit-${contactPath}-mailing-address`,
@@ -111,10 +115,7 @@ const profileContactInfo = ({
   if (included.includes(homePhoneKey)) {
     keys.homePhone = homePhoneKey;
     wrapperProperties[homePhoneKey] =
-      phoneSchema ||
-      standardPhoneSchema(
-        contactInfoRequiredKeys.join().includes(keys.homePhone),
-      );
+      phoneSchema || standardPhoneSchema(requiredList.includes(keys.homePhone));
     config[`${contactInfoPageKey}EditHomePhone`] = {
       title: content.editHomePhone,
       path: `edit-${contactPath}-home-phone`,
@@ -129,9 +130,7 @@ const profileContactInfo = ({
     keys.mobilePhone = mobilePhoneKey;
     wrapperProperties[mobilePhoneKey] =
       phoneSchema ||
-      standardPhoneSchema(
-        contactInfoRequiredKeys.join().includes(keys.mobilePhone),
-      );
+      standardPhoneSchema(requiredList.includes(keys.mobilePhone));
     config[`${contactInfoPageKey}EditMobilePhone`] = {
       title: content.editMobilePhone,
       path: `edit-${contactPath}-mobile-phone`,
@@ -174,7 +173,41 @@ const profileContactInfo = ({
           content,
           keys,
         }),
-      uiSchema: contactInfoUiSchema,
+      uiSchema: {
+        ...contactInfoUiSchema,
+        'ui:options': {
+          ...(contactInfoUiSchema['ui:options'] || {}),
+          updateSchema: (formData, schema, ...rest) => {
+            // formData, _schema, _uiSchema, index, path
+            let result = schema;
+            // custom updateSchema; see appeals/996/pages/contactInformation
+            const customUpdateSchema =
+              contactInfoUiSchema?.['ui:options']?.updateSchema;
+
+            // Manually update schema for U.S. or international addresses
+            const newSchema =
+              formData[wrapperKey]?.[addressKey].addressType ===
+              ADDRESS_TYPES.international
+                ? internationalProfileAddressSchema
+                : standardProfileAddressSchema;
+            if (
+              schema.properties?.[wrapperKey]?.properties?.[
+                addressKey
+              ]?.required?.join() !== newSchema.required.join()
+            ) {
+              result = set(
+                `properties.${wrapperKey}.properties.${addressKey}`,
+                newSchema,
+                schema,
+              );
+            }
+            // call custom updateSchema with new schema
+            return typeof customUpdateSchema === 'function'
+              ? customUpdateSchema(formData, result, ...rest)
+              : result;
+          },
+        },
+      },
       schema: {
         type: 'object',
         properties: {
