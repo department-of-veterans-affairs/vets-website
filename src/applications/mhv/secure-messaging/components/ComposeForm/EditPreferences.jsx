@@ -27,7 +27,7 @@ const EditPreferences = () => {
         onClick={() => setEditListModal(true)}
         type="button"
       >
-        <i className="fas fa-cog vads-u-padding-right--0p5" />
+        <i className="fas fa-cog vads-u-padding-right--0p5" aria-hidden />
         Edit preferences
       </button>
     </>
