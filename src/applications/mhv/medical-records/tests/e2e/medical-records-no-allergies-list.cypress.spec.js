@@ -8,6 +8,12 @@ describe('Medical Records View Allergies', () => {
       const site = new MedicalRecordsSite();
       site.login();
       cy.visit('my-health/medical-records');
+
+      cy.intercept(
+        'GET',
+        "https://staging-api.va.gov/my_health/v1/medical_records/allergies",
+        allergies
+      )
   
       AllergiesListPage.clickGotoAllergiesLink(allergies);
   
