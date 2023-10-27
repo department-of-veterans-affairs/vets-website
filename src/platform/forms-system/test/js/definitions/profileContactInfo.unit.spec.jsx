@@ -1,8 +1,14 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import profileContactInfo, {
   profileReviewErrorOverride,
 } from '../../../src/js/definitions/profileContactInfo';
+import {
+  standardProfileAddressSchema,
+  internationalProfileAddressSchema,
+} from '../../../src/js/utilities/data/profile';
+import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
 
 describe('profileContactInfo', () => {
   const pageKey = 'confirmContactInfo';
@@ -112,16 +118,85 @@ describe('profileContactInfo', () => {
   });
 
   it('should add custom uiSchema', () => {
+    const updateSpy = sinon.spy();
     const result = profileContactInfo({
       contactInfoUiSchema: {
         'ui:required': ['test1'],
-        'ui:options': { test2: true },
+        'ui:options': {
+          test2: true,
+          updateSchema: (formData, schema) => {
+            updateSpy();
+            return schema;
+          },
+        },
       },
     });
     const { uiSchema } = result[pageKey];
-
     expect(uiSchema['ui:required']).to.deep.equal(['test1']);
     expect(uiSchema['ui:options'].test2).to.be.true;
+    // adds updateSchema
+    const { updateSchema } = uiSchema['ui:options'];
+    expect(updateSchema).to.exist;
+    updateSchema({}, {});
+    expect(updateSpy.called).to.be.true;
+  });
+
+  it('should return custom uiSchema & U.S. mailing address schema', () => {
+    const updateSpy = sinon.spy();
+    const result = profileContactInfo({
+      contactInfoUiSchema: {
+        'ui:required': ['test1'],
+        'ui:options': {
+          test2: true,
+          updateSchema: (formData, schema) => {
+            updateSpy();
+            return schema;
+          },
+        },
+      },
+    });
+    const { uiSchema } = result[pageKey];
+    expect(uiSchema['ui:required']).to.deep.equal(['test1']);
+    expect(uiSchema['ui:options'].test2).to.be.true;
+    // adds updateSchema
+    const { updateSchema } = uiSchema['ui:options'];
+    expect(updateSchema).to.exist;
+    const addressSchema = updateSchema({}, {});
+    expect(updateSpy.called).to.be.true;
+    expect(
+      addressSchema.properties.veteran.properties.mailingAddress,
+    ).to.deep.equal(standardProfileAddressSchema);
+  });
+
+  it('should return international mailing address schema', () => {
+    const updateSpy = sinon.spy();
+    const result = profileContactInfo({
+      contactInfoUiSchema: {
+        'ui:required': ['test1'],
+        'ui:options': {
+          test2: true,
+          updateSchema: (formData, schema) => {
+            updateSpy();
+            return schema;
+          },
+        },
+      },
+    });
+    const { uiSchema } = result[pageKey];
+    const { updateSchema } = uiSchema['ui:options'];
+    expect(updateSchema).to.exist;
+    const addressSchema = updateSchema(
+      {
+        veteran: {
+          mailingAddress: { addressType: ADDRESS_TYPES.international },
+        },
+      },
+      {},
+    );
+    expect(updateSpy.called).to.be.true;
+    expect(
+      addressSchema.properties.veteran.properties.mailingAddress,
+    ).to.deep.equal(internationalProfileAddressSchema);
   });
 });
 
