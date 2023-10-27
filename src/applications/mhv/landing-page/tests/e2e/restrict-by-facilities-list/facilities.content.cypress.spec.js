@@ -38,7 +38,13 @@ describe(appName, () => {
 
       it(`No health info for patients with no facilities on ${size} screen`, () => {
         cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(false, [], 0, false);
+        const pageLinks = resolveLandingPageLinks(
+          false,
+          [],
+          0,
+          'arialLabel',
+          false,
+        );
 
         LandingPage.visitPage({ facilities: [] });
         LandingPage.validatePageLoaded();
@@ -65,7 +71,13 @@ describe(appName, () => {
 
       it(`landing page is enabled for patients with facilities on ${size} screen`, () => {
         cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(false, [], 0, true);
+        const pageLinks = resolveLandingPageLinks(
+          false,
+          [],
+          0,
+          'arialLabel',
+          true,
+        );
 
         LandingPage.visitPage({
           facilities: [{ facilityId: '123', isCerner: false }],
