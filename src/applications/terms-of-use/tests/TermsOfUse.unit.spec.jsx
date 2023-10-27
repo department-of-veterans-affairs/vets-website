@@ -9,11 +9,21 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
 import { errorMessages } from '../helpers';
 
-const store = ({ termsOfUseEnabled = true } = {}) => ({
+const store = ({
+  termsOfUseEnabled = true,
+  authenticatedWithSiS = false,
+} = {}) => ({
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       terms_of_use: termsOfUseEnabled,
+    },
+    user: {
+      profile: {
+        session: {
+          authBroker: authenticatedWithSiS ? 'sis' : 'ssoe',
+        },
+      },
     },
   }),
   subscribe: () => {},
@@ -307,6 +317,49 @@ describe('TermsOfUse', () => {
       // click `Go back` button
       openedModal.__events.secondaryButtonClick();
       expect($('va-modal[visible="false"]', container)).to.be.exist;
+    });
+  });
+  ['sis', 'ssoe'].forEach(authBroker => {
+    it(`should use the proper logout for Auth Broker: ${authBroker}`, async () => {
+      const touPage = `https://dev.va.gov/terms-of-use`;
+      global.window.location = touPage;
+      const authenticatedWithSiS = authBroker === 'sis';
+      const mockStore = store({ authenticatedWithSiS });
+      server.use(
+        rest.get(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+          (_, res, ctx) => res(ctx.status(200)),
+        ),
+        rest.post(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+          (_, res, ctx) =>
+            res(
+              ctx.status(200),
+              ctx.json({
+                termsOfUseAgreement: { 'some-key': 'some-value' },
+              }),
+            ),
+        ),
+      );
+      const { container, queryAllByTestId } = render(
+        <Provider store={mockStore}>
+          <TermsOfUse />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const declineButton = queryAllByTestId('decline')[0];
+        expect(declineButton).to.exist;
+
+        fireEvent.click(declineButton);
+
+        // click close button on modal
+        const openedModal = $('va-modal[visible="true"]', container);
+        openedModal.__events.primaryButtonClick();
+
+        // should send them to logout
+        expect(global.window.location.href).to.not.eql(touPage);
+      });
     });
   });
 });

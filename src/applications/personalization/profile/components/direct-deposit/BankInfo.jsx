@@ -273,39 +273,45 @@ export const BankInfo = ({
         Please enter your bank’s routing and account numbers and your account
         type.
       </p>
-      <div className="vads-u-margin-bottom--2">
-        <va-additional-info trigger="Where can I find these numbers?">
-          <img
-            src="/img/direct-deposit-check-guide.svg"
-            alt="A personal check"
-          />
 
-          <p className="vads-u-padding-top--2">
-            The bank routing number is the first 9 digits on the bottom left
-            corner of a printed check. Your account number is the second set of
-            numbers on the bottom of a check, just to the right of the bank
-            routing number.
-          </p>
-          <p className="vads-u-padding-y--2">
-            If you don’t have a printed check, you can:
-          </p>
-          <ul>
-            <li>
-              Sign in to your online bank account and check your account
-              details, or
-            </li>
-            <li>Check your bank statement, or</li>
-            <li>Call your bank</li>
-          </ul>
-        </va-additional-info>
-      </div>
-      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
+      <div
+        data-testid={`${formPrefix}-bank-info-form`}
+        ref={editBankInfoForm}
+        role="group"
+        aria-label={`Edit bank account for ${sectionTitle.toLowerCase()}`}
+      >
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}
           formPrefix={formPrefix}
           formSubmit={saveBankInfo}
         >
+          <div className="vads-u-margin-bottom--2 vads-u-margin-top--2p5">
+            <va-additional-info trigger="Where can I find these numbers?">
+              <img
+                src="/img/direct-deposit-check-guide.svg"
+                alt="A personal check"
+              />
+
+              <p className="vads-u-padding-top--2">
+                The bank routing number is the first 9 digits on the bottom left
+                corner of a printed check. Your account number is the second set
+                of numbers on the bottom of a check, just to the right of the
+                bank routing number.
+              </p>
+              <p className="vads-u-padding-y--2">
+                If you don’t have a printed check, you can:
+              </p>
+              <ul>
+                <li>
+                  Sign in to your online bank account and check your account
+                  details, or
+                </li>
+                <li>Check your bank statement, or</li>
+                <li>Call your bank</li>
+              </ul>
+            </va-additional-info>
+          </div>
           <LoadingButton
             aria-label={`save your bank information for ${benefitTypeLong} benefits`}
             type="submit"

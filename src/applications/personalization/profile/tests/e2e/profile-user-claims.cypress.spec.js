@@ -1,6 +1,5 @@
 import { success } from '@@profile/mocks/endpoints/rating-info';
 
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -22,8 +21,6 @@ describe('Profile - Data Claims', () => {
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-    checkForWebComponentLoadingIndicator();
-
     cy.wait('@getRatingInfo');
 
     cy.findByText('40% service connected');
@@ -39,8 +36,6 @@ describe('Profile - Data Claims', () => {
     );
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    checkForWebComponentLoadingIndicator();
 
     cy.findByText('40% service connected').should('not.exist');
 

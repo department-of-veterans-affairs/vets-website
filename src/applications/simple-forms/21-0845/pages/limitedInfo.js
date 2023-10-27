@@ -3,7 +3,7 @@ import React from 'react';
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
-const labelString =
+const limitedInfoItemsLabel =
   'Which specific information do you authorize us to release?';
 
 /** @type {PageSchema} */
@@ -13,7 +13,7 @@ export default {
       'ui:title': (
         <>
           <h3>
-            {labelString}{' '}
+            {limitedInfoItemsLabel}{' '}
             <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
               (*Required)
             </span>
@@ -29,7 +29,7 @@ export default {
         // prevent ui:title's <h3> from getting pulled into
         // review-field's <dt> & causing a11y headers-hierarchy errors.
         <div className="review-row">
-          <dt>{labelString}</dt>
+          <dt>{limitedInfoItemsLabel}</dt>
           <dd>{children}</dd>
         </div>
       ),
@@ -45,13 +45,13 @@ export default {
     },
     'ui:validations': [
       (errors, fields) => {
+        const errMsg =
+          'Please select at least one type of information here, or specify something else below';
         if (
-          !fields.limitedInformationItems &&
-          !fields.limitedInformationOther
+          fields.limitedInformationItems === '' &&
+          typeof fields.limitedInformationOther === 'undefined'
         ) {
-          errors.limitedInformationItems.addError(
-            'Please select at least one type of information here, or specify something else below',
-          );
+          errors.limitedInformationItems.addError(errMsg);
         }
       },
     ],
