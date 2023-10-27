@@ -8,8 +8,7 @@ import { ContactInfoDescription } from '../../../components/FormDescriptions';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
-const { email } = fullSchemaHca.properties;
-const { phone } = fullSchemaHca.definitions;
+const { email, homePhone, mobilePhone } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
@@ -39,8 +38,8 @@ export default {
       'view:prefillMessage': emptyObjectSchema,
       'view:contactInfoDescription': emptyObjectSchema,
       email,
-      homePhone: phone,
-      mobilePhone: phone,
+      homePhone,
+      mobilePhone,
     },
   },
 };
