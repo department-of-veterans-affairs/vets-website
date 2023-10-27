@@ -1,6 +1,4 @@
 import { issueErrorMessages } from '../content/addIssue';
-import { missingAreaOfDisagreementErrorMessage } from '../content/areaOfDisagreement';
-import { areaOfDisagreementWorkAround } from '../utils/ui';
 
 import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH } from '../../shared/constants';
@@ -41,24 +39,4 @@ export const maxNameLength = (error, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {
     error.addError(issueErrorMessages.maxLength);
   }
-};
-
-export const areaOfDisagreementRequired = (
-  errors,
-  // added index to get around arrayIndex being null
-  { disagreementOptions, otherEntry, index } = {},
-  formData,
-  _schema,
-  _uiSchema,
-  arrayIndex, // always null?!
-) => {
-  const keys = Object.keys(disagreementOptions || {});
-  const hasChoice = keys.some(key => disagreementOptions[key]) || otherEntry;
-
-  if (!hasChoice) {
-    errors.addError(missingAreaOfDisagreementErrorMessage);
-  }
-
-  // work-around for error message not showing :(
-  areaOfDisagreementWorkAround(hasChoice, arrayIndex || index);
 };
