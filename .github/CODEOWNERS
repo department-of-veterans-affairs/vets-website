@@ -61,6 +61,7 @@ src/applications/claims-status @department-of-veterans-affairs/benefits-manageme
 src/applications/disability-benefits/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/letters @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/personalization/rated-disabilities @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/rated-disabilities @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/veteran-id-card @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 
@@ -169,7 +170,7 @@ src/applications/enrollment-verification @department-of-veterans-affairs/my-educ
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/toe @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/view-enrollment-verification-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend 
+src/applications/static-pages/view-enrollment-verification-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-education-letters-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My HealtheVet on VA.gov
@@ -180,6 +181,19 @@ src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medicat
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/landing-page @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/avs @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Profile
+
+src/applications/personalization/profile @department-of-veterans-affairs/vsa-authd-exp-frontend
+
+# va.gov/profile/contacts - Personal health care contacts
+
+src/applications/personalization/profile/actions/contacts.js @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/reducers/contacts.js @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/reducers/contacts.unit.spec.js @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/components/personal-health-care-contacts @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/tests/e2e/personal-health-care-contacts @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/personalization/profile/tests/fixtures/contacts.json @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/vsa-authd-exp-frontend
 
 # Dependents Benefits
 src/applications/static-pages/dependency-verification @department-of-veterans-affairs/benefits-dependents-management @department-of-veterans-affairs/va-platform-cop-frontend

@@ -1,15 +1,15 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
-  currentOrPastDateUI,
   descriptionUI,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import MedicareClaimNumberDescription from '../../../components/FormDescriptions/MedicareClaimNumberDescription';
 import content from '../../../locales/en/content.json';
 
-const { date } = ezrSchema.definitions;
 const { medicareClaimNumber } = ezrSchema.properties;
 
 export default {
@@ -32,7 +32,7 @@ export default {
     type: 'object',
     required: ['medicarePartAEffectiveDate', 'medicareClaimNumber'],
     properties: {
-      medicarePartAEffectiveDate: date,
+      medicarePartAEffectiveDate: currentOrPastDateSchema,
       medicareClaimNumber,
     },
   },

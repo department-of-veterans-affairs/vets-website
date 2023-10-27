@@ -17,10 +17,13 @@ describe('Filter box', () => {
       search: {},
     },
   };
+  const initialProps = {
+    folders: folderList,
+  };
 
-  const setup = () => {
-    return renderWithStoreAndRouter(<FilterBox folders={folderList} />, {
-      initialState,
+  const setup = (state = initialState, props = initialProps) => {
+    return renderWithStoreAndRouter(<FilterBox {...props} />, {
+      initialState: state,
       reducers: reducer,
       path: `/search/`,
     });

@@ -371,6 +371,7 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
+    PatientInterstitialPage.CheckFocusOnVcl();
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
