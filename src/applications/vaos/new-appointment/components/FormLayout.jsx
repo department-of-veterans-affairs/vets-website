@@ -11,6 +11,11 @@ import WarningNotification from '../../components/WarningNotification';
 
 export default function FormLayout({ children, isReviewPage, pageTitle }) {
   const location = useLocation();
+  const isVARequest = location.pathname.includes('va-request');
+  let headerText = 'New appointment';
+  if (isVARequest) {
+    headerText = 'Request an appointment';
+  }
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
@@ -29,7 +34,7 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {!isReviewPage && (
             <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
-              Request an appointment
+              {headerText}
             </span>
           )}
           <ErrorBoundary>{children}</ErrorBoundary>
