@@ -17,7 +17,7 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
   it('should render the downtime message when external service status is down', () => {
     const downtime = {
       status: externalServiceStatus.down,
-      endTime: addHours(new Date(), 30),
+      endTime: { toDate: () => addHours(new Date(), 30) },
     };
 
     const view = render(
@@ -30,8 +30,11 @@ describe('<RenderClaimsWidgetDowntimeNotification />', () => {
     expect(view.getByTestId('dashboard-section-claims-and-appeals-loader')).to
       .exist;
     expect(view.queryByTestId('test-children')).to.not.exist;
-    expect(view.getByText(format(downtime.endTime, 'PPPp'), { exact: false }))
-      .to.exist;
+    expect(
+      view.getByText(format(downtime.endTime.toDate(), 'PPPp'), {
+        exact: false,
+      }),
+    ).to.exist;
   });
 
   it('should not render the downtime message when when external service status is ok', () => {
