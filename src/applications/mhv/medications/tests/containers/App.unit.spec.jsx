@@ -38,7 +38,7 @@ describe('Medications <App>', () => {
       initialStateFeatureFlag(false, false),
     );
     expect(screenFeatureToggle.getByTestId('rx-feature-flag-loading-indicator'))
-      .to.be.null;
+      .to.not.exist;
     expect(screenFeatureToggle.queryByText('unit test paragraph')).to.be.null;
   });
 
@@ -50,7 +50,7 @@ describe('Medications <App>', () => {
       initialStateFeatureFlag(false, true),
     );
     expect(screenFeatureToggle.getByTestId('rx-feature-flag-loading-indicator'))
-      .to.be.null;
+      .to.not.exist;
     expect(screenFeatureToggle.queryByText('unit test paragraph')).to.exist;
   });
 });
