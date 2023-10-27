@@ -17,12 +17,8 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
  * current user. Returns false, otherwise.
  */
 export const isLandingPageEnabledForUser = state => {
-  let isEnabled = false;
   const loggedIn = isLoggedIn(state);
-  if (loggedIn) {
-    const mhvlpFeatureToggle = FEATURE_FLAG_NAMES.mhvLandingPageEnabled;
-    const featureToggleEnabled = toggleValues(state)[mhvlpFeatureToggle];
-    isEnabled = featureToggleEnabled;
-  }
-  return isEnabled;
+  const mhvlpFeatureToggle = FEATURE_FLAG_NAMES.mhvLandingPageEnabled;
+  const featureToggleEnabled = toggleValues(state)[mhvlpFeatureToggle];
+  return loggedIn && featureToggleEnabled;
 };
