@@ -22,10 +22,10 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsName = prescriptionDetails => {
+  verifyPrescriptionsName = prescriptionName => {
     cy.get('[data-testid="prescription-name"]').should(
       'contain',
-      prescriptionDetails,
+      prescriptionName,
     );
   };
 
@@ -124,6 +124,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download your medication details as a PDF')
       .should('be.enabled');
+  };
+
+  verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
+    cy.get('[data-testid="refill-request-button"]').should('be.enabled');
   };
 }
 export default MedicationsDetailsPage;
