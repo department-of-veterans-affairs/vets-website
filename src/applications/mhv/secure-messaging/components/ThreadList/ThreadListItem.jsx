@@ -206,14 +206,14 @@ const ThreadListItem = props => {
                 )}
               </span>{' '}
               {unreadMessages ? (
-                <span>
+                <span data-testid="triageGroupName">
                   {getHighlightedText(senderName)} (Team: {triageGroupName})
                   <span className="sr-only">Unread message</span>
                 </span>
               ) : (
-                <>
+                <span data-testid="triageGroupName">
                   {getHighlightedText(senderName)} (Team: {triageGroupName})
-                </>
+                </span>
               )}
               <span />{' '}
               {messageCount > 1 && (

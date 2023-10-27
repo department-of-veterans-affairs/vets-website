@@ -12,6 +12,10 @@ describe('Thread List component', () => {
       folders: {},
       threads: [],
     },
+    // featureToggles: {
+    //   // eslint-disable-next-line camelcase
+    //   mhv_secure_messaging_to_phase_1: false,
+    // },
   };
 
   const keyword = '';
@@ -32,6 +36,7 @@ describe('Thread List component', () => {
     senderName: 'SENDERNAMETEST',
     sentDate: '2023-02-14T16:03:32.000Z',
     path: '/inbox',
+    featureToggles: {},
   };
 
   const setup = props => {
@@ -42,6 +47,7 @@ describe('Thread List component', () => {
       sentDate,
       senderName,
       path,
+      featureToggles,
     } = props;
 
     const thread = {
@@ -73,7 +79,7 @@ describe('Thread List component', () => {
       />,
       {
         path,
-        state: initialState,
+        initialState: { ...initialState, featureToggles },
         reducers,
       },
     );
@@ -142,5 +148,35 @@ describe('Thread List component', () => {
 
     expect(senderName).to.not.exist;
     expect(recipientName).to.exist;
+  });
+
+  it('formats thread list item including triage group name if phase1 is disabled', async () => {
+    screen = setup({
+      ...options,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_secure_messaging_to_phase_1: false,
+      },
+    });
+    const triageGroup = screen.getByTestId('triageGroupName');
+    expect(triageGroup.textContent).to.equal(
+      'SENDERNAMETEST (Team: EXTRA_LONG_CHARACTER_TRIAGE_GROUP_369258@#%_DAYT29)Unread message',
+    );
+  });
+
+  it('formats thread list item without triage group name if phase1 is enabled', async () => {
+    screen = setup({
+      ...options,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_secure_messaging_to_phase_1: true,
+      },
+    });
+    const triageGroup = screen.queryByText(
+      'SENDERNAMETEST (Team: EXTRA_LONG_CHARACTER_TRIAGE_GROUP_369258@#%_DAYT29)Unread message',
+    );
+    expect(triageGroup).to.not.exist;
+    const msgQty = screen.getByTestId('message-count');
+    expect(msgQty.parentNode.textContent).to.equal('3 messages, draft');
   });
 });
