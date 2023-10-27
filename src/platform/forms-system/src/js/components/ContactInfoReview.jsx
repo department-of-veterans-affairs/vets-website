@@ -66,7 +66,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
         if (!keys.homePhone) {
           return '';
         }
-        const errorMsg = validatePhone(content, homePhone, 'homePhone');
+        const errorMsg = validatePhone(content, homePhone);
         return errorMsg
           ? showValueOrErrorMessage('', errorMsg)
           : renderTelephone(homePhone);
@@ -78,7 +78,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
         if (!keys.mobilePhone) {
           return '';
         }
-        const errorMsg = validatePhone(content, mobilePhone, 'mobilePhone');
+        const errorMsg = validatePhone(content, mobilePhone);
         return errorMsg
           ? showValueOrErrorMessage('', errorMsg)
           : renderTelephone(mobilePhone);
