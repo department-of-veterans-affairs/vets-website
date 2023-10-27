@@ -437,7 +437,10 @@ export function createComments(submissionForm) {
       return {
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: submissionForm.incorrectServiceHistoryExplanation,
+          comments: submissionForm?.showMebServiceHistoryCategorizeDisagreement
+            ? submissionForm.incorrectServiceHistoryExplanation
+            : submissionForm.incorrectServiceHistoryExplanation
+                .incorrectServiceHistoryText,
         },
         disagreeWithServicePeriod: true,
       };
