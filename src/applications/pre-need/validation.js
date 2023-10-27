@@ -14,11 +14,9 @@ export function validateSponsorDeathDate(
   }
 }
 export function validateTopLevelDomain(errors, email) {
-  if (email.length === '0') return;
-
+  if (email.length === 0) return;
   const index = email.lastIndexOf('.');
   const topLevelDomain = email.substring(index + 1, email.length);
-  if (topLevelDomain.length === 0) return;
 
   const hasNumbers = input => {
     return /\d/.test(input);
