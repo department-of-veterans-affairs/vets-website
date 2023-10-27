@@ -46,7 +46,13 @@ const App = () => {
         userHasHealthData,
       );
     },
-    [featureToggles, ssoe, unreadMessageCount, unreadMessageAriaLabel, userHasHealthData],
+    [
+      featureToggles,
+      ssoe,
+      unreadMessageCount,
+      unreadMessageAriaLabel,
+      userHasHealthData,
+    ],
   );
 
   const datadogRumConfig = {
