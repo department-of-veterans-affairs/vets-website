@@ -78,58 +78,62 @@ const TernaryRadios = ({
             : 'vads-u-margin-bottom--3'
         }
       >
-        <h1 className="form-question-header">{h1}</h1>
-        {formError && (
-          <span className="usa-error-message" role="alert">
-            <div className="form-text-error">
-              <span className="usa-sr-only">{i18next.t('error')}</span> Select a
-              response.
-            </div>
-          </span>
-        )}
-        <div>{locationList}</div>
-        <>
-          <input
-            type="radio"
-            aria-describedby={formValue === responses[0] || null}
-            checked={formValue === responses[0]}
-            id={`${responses[0]}input`}
-            name={shortName}
-            onChange={() => onValueChange(responses[0])}
-            value={responses[0]}
-          />
-          <label className="form-label" htmlFor={`${responses[0]}input`}>
-            <span>{responses[0]}</span>
-          </label>
-        </>
-        <>
-          <input
-            type="radio"
-            aria-describedby={formValue === responses[1] || null}
-            checked={formValue === responses[1]}
-            id={`${responses[1]}input`}
-            name={shortName}
-            onChange={() => onValueChange(responses[1])}
-            value={responses[1]}
-          />
-          <label className="form-label" htmlFor={`${responses[1]}input`}>
-            <span>{responses[1]}</span>
-          </label>
-        </>
-        <>
-          <input
-            type="radio"
-            aria-describedby={formValue === responses[2] || null}
-            checked={formValue === responses[2]}
-            id={`${responses[2]}input`}
-            name={shortName}
-            onChange={() => onValueChange(responses[2])}
-            value={responses[2]}
-          />
-          <label className="form-label" htmlFor={`${responses[2]}input`}>
-            <span>{responses[2]}</span>
-          </label>
-        </>
+        <h1 className="form-question-header" id="form-question">
+          {h1}
+        </h1>
+        {locationList ? <div id="form-instructions">{locationList}</div> : null}
+        <fieldset aria-labelledby="form-question form-instructions">
+          {formError && (
+            <span className="usa-error-message" role="alert">
+              <div className="form-text-error">
+                <span className="usa-sr-only">{i18next.t('error')}</span> Select
+                a response.
+              </div>
+            </span>
+          )}
+          <>
+            <input
+              type="radio"
+              aria-describedby={formValue === responses[0] || null}
+              checked={formValue === responses[0]}
+              id={`${responses[0]}input`}
+              name={shortName}
+              onChange={() => onValueChange(responses[0])}
+              value={responses[0]}
+            />
+            <label className="form-label" htmlFor={`${responses[0]}input`}>
+              <span>{responses[0]}</span>
+            </label>
+          </>
+          <>
+            <input
+              type="radio"
+              aria-describedby={formValue === responses[1] || null}
+              checked={formValue === responses[1]}
+              id={`${responses[1]}input`}
+              name={shortName}
+              onChange={() => onValueChange(responses[1])}
+              value={responses[1]}
+            />
+            <label className="form-label" htmlFor={`${responses[1]}input`}>
+              <span>{responses[1]}</span>
+            </label>
+          </>
+          <>
+            <input
+              type="radio"
+              aria-describedby={formValue === responses[2] || null}
+              checked={formValue === responses[2]}
+              id={`${responses[2]}input`}
+              name={shortName}
+              onChange={() => onValueChange(responses[2])}
+              value={responses[2]}
+            />
+            <label className="form-label" htmlFor={`${responses[2]}input`}>
+              <span>{responses[2]}</span>
+            </label>
+          </>
+        </fieldset>
       </div>
       <VaButtonPair
         data-testid="paw-buttonPair"
