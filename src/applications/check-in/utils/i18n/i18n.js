@@ -67,6 +67,9 @@ export const dateFormatInterpolators = {
       timeZone: value.timezone,
     });
   },
+  date: (value, _format, _lng, locale) => {
+    formatDate(value, 'E, MMMM do', { locale });
+  },
   default: (value, format, _lng, locale) => {
     return formatDate(value, format, { locale });
   },

@@ -376,5 +376,7 @@
   "day-of-week-month-day-time": "{{ date, day }}, {{ date, monthDay }}, {{ date, time }}",
   "in-person-appointments": "In-person appointments",
   "phone-appointments": "Phone appointments",
-  "check-in-now-for-your-date-time-appointment": "Check in now for appointment on {{ date, day }}, {{ date, monthDay }} at {{ date, time }}"
+  "check-in-now-for-your-date-time-appointment": "Check in now for appointment on {{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
+  "details-for-appointment-on-date-at-time": "Details for {{ type }} appointment on {{ dateTime, date }} at {{ dateTime, time }}",
+  "appointment-on-date-at-time": "Appointment on {{dateTime, date}} at {{ dateTime, time}}"
 }
