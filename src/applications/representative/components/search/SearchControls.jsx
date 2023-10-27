@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import RepTypeSelector from './RepTypeSelector';
-// import LocationInput from './LocationInput';
 
 const SearchControls = props => {
   const locationInputFieldRef = useRef(null);
@@ -19,6 +18,7 @@ const SearchControls = props => {
     // locationChanged,
     locationInputString,
     repOrganizationInputString,
+    representativeType,
     // geolocationInProgress,
   } = currentQuery;
 
@@ -128,7 +128,10 @@ const SearchControls = props => {
             </div>
           </div>
 
-          <RepTypeSelector />
+          <RepTypeSelector
+            representativeType={representativeType}
+            onChange={onChange}
+          />
 
           <div>
             <div>
