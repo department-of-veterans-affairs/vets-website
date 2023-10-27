@@ -40,6 +40,7 @@ export const App = ({
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
+  showMebServiceHistoryCategorizeDisagreement,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -243,6 +244,16 @@ export const App = ({
         });
       }
 
+      if (
+        showMebServiceHistoryCategorizeDisagreement !==
+        formData.showMebServiceHistoryCategorizeDisagreement
+      ) {
+        setFormData({
+          ...formData,
+          showMebServiceHistoryCategorizeDisagreement,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -261,6 +272,7 @@ export const App = ({
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
+      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
@@ -335,6 +347,7 @@ App.propTypes = {
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
+  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
