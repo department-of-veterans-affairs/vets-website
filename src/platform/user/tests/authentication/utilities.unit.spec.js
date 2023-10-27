@@ -381,7 +381,7 @@ describe('Authentication Utilities', () => {
       });
 
       expect(authUtilities.createExternalApplicationUrl()).to.eql(
-        `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d&authenticated=true`,
+        `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
       );
     });
   });
