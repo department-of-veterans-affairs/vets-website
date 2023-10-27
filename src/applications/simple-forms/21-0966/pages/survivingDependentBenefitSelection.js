@@ -14,7 +14,7 @@ export default {
       labelHeaderLevel: '3',
       tile: true,
       labels: {
-        [survivingDependentBenefits.SURVIVORS]: {
+        [survivingDependentBenefits.SURVIVOR]: {
           title:
             'Survivors pension and/or dependency and indemnity compensation (DIC)',
           description:
