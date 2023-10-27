@@ -6,7 +6,7 @@ import {
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
-const { spousePhone } = fullSchemaHca.properties;
+const { spouseAddress: address, spousePhone } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
@@ -36,27 +36,18 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      spouseAddress: merge({}, addressSchema(fullSchemaHca, true), {
-        properties: {
-          street: {
-            minLength: 1,
-            maxLength: 30,
-          },
-          street2: {
-            minLength: 1,
-            maxLength: 30,
-          },
-          street3: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 30,
-          },
-          city: {
-            minLength: 1,
-            maxLength: 30,
+      spouseAddress: merge(
+        {},
+        addressSchema({ definitions: { address } }, true),
+        {
+          properties: {
+            city: {
+              minLength: 1,
+              maxLength: 30,
+            },
           },
         },
-      }),
+      ),
       spousePhone,
     },
   },

@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   emailUI,
@@ -10,8 +10,7 @@ import {
 import ContactInfoDescription from '../../../components/FormDescriptions/ContactInfoDescription';
 import content from '../../../locales/en/content.json';
 
-const { email } = ezrSchema.properties;
-const { phone } = ezrSchema.definitions;
+const { email, homePhone, mobilePhone } = ezrSchema.properties;
 
 export default {
   uiSchema: {
@@ -28,8 +27,8 @@ export default {
     type: 'object',
     properties: {
       'view:pageTitle': inlineTitleSchema,
-      homePhone: phone,
-      mobilePhone: phone,
+      homePhone,
+      mobilePhone,
       email,
     },
   },

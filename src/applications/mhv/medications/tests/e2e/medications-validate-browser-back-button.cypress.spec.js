@@ -9,8 +9,9 @@ describe('Medications details Page Back Browser', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/about-medications');
     site.login();
+    cy.visit('my-health/about-medications');
+
     const threadLength = 29;
     mockRxPageTwo.data.forEach(item => {
       const currentItem = item;
