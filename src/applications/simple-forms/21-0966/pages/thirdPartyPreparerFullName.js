@@ -10,16 +10,13 @@ export default {
   uiSchema: {
     ...titleUI(
       'Your name',
-      <>
-        <p>
-          If you’re representing a Veteran, or their spouse or child, add your
-          name here.
-        </p>
-        <p>
-          <b>Note:</b> You must be recognized by VA to make decisions or sign
-          for them.
-        </p>
-      </>,
+      <span>
+        If you’re representing a Veteran, or their spouse or child, add your
+        name here. <br />
+        <br />
+        <b>Note:</b> You must be recognized by VA to make decisions or sign for
+        them.
+      </span>,
     ),
     thirdPartyPreparerFullName: fullNameNoSuffixUI(),
   },

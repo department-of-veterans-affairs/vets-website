@@ -12,8 +12,6 @@ import {
   createDependentIncomeSchema,
 } from '../../../definitions/dependent';
 
-const dependentIncomeSchema = createDependentIncomeSchema(fullSchemaHca);
-
 const isVeteranMarried = formData =>
   formData.maritalStatus?.toLowerCase() === 'married';
 
@@ -32,6 +30,9 @@ const {
   veteranNetIncome,
   veteranOtherIncome,
 } = fullSchemaHca.properties;
+
+const { items: dependent } = dependents;
+const dependentIncomeSchema = createDependentIncomeSchema(dependent);
 
 export default {
   uiSchema: {
@@ -99,10 +100,6 @@ export default {
   schema: {
     type: 'object',
     required: ['veteranGrossIncome', 'veteranNetIncome', 'veteranOtherIncome'],
-    definitions: {
-      // Override the default schema and use only the income fields
-      dependent: dependentIncomeSchema,
-    },
     properties: {
       veteranGrossIncome,
       veteranNetIncome,
@@ -115,9 +112,11 @@ export default {
           spouseOtherIncome,
         },
       },
-      dependents: merge({}, dependents, {
+      dependents: {
+        ...dependents,
+        items: dependentIncomeSchema,
         minItems: 1,
-      }),
+      },
     },
   },
 };
