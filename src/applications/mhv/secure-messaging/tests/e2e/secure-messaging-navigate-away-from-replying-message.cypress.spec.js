@@ -2,19 +2,23 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
-describe('verify navigate away pop-up message', () => {
+describe.skip('verify navigate away pop-up message', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
-  it.skip('navigate away by click on the inside link', () => {
+  it('navigate away by click on the inside link', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.replyToMessage();
-
-    cy.get('#textarea').type('testMessageBody', {
-      waitForAnimations: true,
-      force: true,
-    });
+    cy.get('#textarea').click({ waitForAnimations: true });
+    cy.get('#textarea')
+      .should('be.enabled')
+      .then(() => {
+        cy.get('#textarea').type('testMessageBody', {
+          waitForAnimations: true,
+          force: false,
+        });
+      });
 
     cy.get(Locators.FOLDERS.INBOX).click();
 
