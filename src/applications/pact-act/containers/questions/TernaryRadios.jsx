@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import i18next from 'i18next';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -50,12 +51,6 @@ const TernaryRadios = ({
     navigateBackward(shortName, formResponses, router);
   };
 
-  // const onBlurInput = () => {
-  //   if (formValue) {
-  //     setFormError(false);
-  //   }
-  // };
-
   const onValueChange = value => {
     valueSetter(value);
 
@@ -71,7 +66,6 @@ const TernaryRadios = ({
   return (
     <>
       <div
-        data-testid={testId}
         className={
           formError
             ? 'vads-u-margin-bottom--3 form-question-error'
@@ -82,7 +76,10 @@ const TernaryRadios = ({
           {h1}
         </h1>
         {locationList ? <div id="form-instructions">{locationList}</div> : null}
-        <fieldset aria-labelledby="form-question form-instructions">
+        <fieldset
+          aria-labelledby="form-question form-instructions"
+          data-testid={testId}
+        >
           {formError && (
             <span className="usa-error-message" role="alert">
               <div className="form-text-error">
@@ -94,42 +91,51 @@ const TernaryRadios = ({
           <>
             <input
               type="radio"
-              aria-describedby={formValue === responses[0] || null}
               checked={formValue === responses[0]}
-              id={`${responses[0]}input`}
+              data-testId="va-radio-option"
+              id={_.snakeCase(`${responses[0]}_input`)}
               name={shortName}
               onChange={() => onValueChange(responses[0])}
               value={responses[0]}
             />
-            <label className="form-label" htmlFor={`${responses[0]}input`}>
+            <label
+              className="form-label"
+              htmlFor={_.snakeCase(`${responses[0]}_input`)}
+            >
               <span>{responses[0]}</span>
             </label>
           </>
           <>
             <input
               type="radio"
-              aria-describedby={formValue === responses[1] || null}
               checked={formValue === responses[1]}
-              id={`${responses[1]}input`}
+              data-testId="va-radio-option"
+              id={_.snakeCase(`${responses[1]}_input`)}
               name={shortName}
               onChange={() => onValueChange(responses[1])}
               value={responses[1]}
             />
-            <label className="form-label" htmlFor={`${responses[1]}input`}>
+            <label
+              className="form-label"
+              htmlFor={_.snakeCase(`${responses[1]}_input`)}
+            >
               <span>{responses[1]}</span>
             </label>
           </>
           <>
             <input
               type="radio"
-              aria-describedby={formValue === responses[2] || null}
               checked={formValue === responses[2]}
-              id={`${responses[2]}input`}
+              data-testId="va-radio-option"
+              id={_.snakeCase(`${responses[2]}_input`)}
               name={shortName}
               onChange={() => onValueChange(responses[2])}
               value={responses[2]}
             />
-            <label className="form-label" htmlFor={`${responses[2]}input`}>
+            <label
+              className="form-label"
+              htmlFor={_.snakeCase(`${responses[2]}_input`)}
+            >
               <span>{responses[2]}</span>
             </label>
           </>

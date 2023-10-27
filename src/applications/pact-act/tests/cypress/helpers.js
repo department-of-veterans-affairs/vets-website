@@ -39,7 +39,7 @@ export const selectRadio = (selector, index) =>
   cy
     .findByTestId(selector)
     .should('exist')
-    .get('va-radio-option')
+    .get('[data-testId=va-radio-option]')
     .eq(index)
     .click();
 
