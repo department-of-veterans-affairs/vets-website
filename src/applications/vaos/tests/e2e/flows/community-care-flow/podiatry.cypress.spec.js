@@ -25,6 +25,7 @@ import {
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Podiatry', () => {
   beforeEach(() => {
@@ -50,7 +51,9 @@ describe('VAOS community care flow - Podiatry', () => {
 
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      mockCCProvidersApi();
+      const mockProvider = new MockProvider();
+
+      mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
@@ -107,7 +110,9 @@ describe('VAOS community care flow - Podiatry', () => {
 
   describe('When more than one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      mockCCProvidersApi();
+      const mockProvider = new MockProvider();
+
+      mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],

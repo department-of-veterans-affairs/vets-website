@@ -9,14 +9,21 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { recordType, pageTitles } from '../util/constants';
+import {
+  recordType,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  accessAlertTypes,
+} from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { makePdf, processList } from '../util/helpers';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -29,6 +36,7 @@ const Vaccines = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -99,7 +107,12 @@ const Vaccines = props => {
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
+    }
     if (vaccines?.length) {
       return <RecordList records={vaccines} type={recordType.VACCINES} />;
     }

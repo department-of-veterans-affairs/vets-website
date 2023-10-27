@@ -3,7 +3,7 @@
 /// <reference types="cypress" />
 
 import moment from 'moment';
-import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import {
   mockAppointmentsApi,
   mockFacilitiesApi,
@@ -11,6 +11,7 @@ import {
   mockLoginApi,
   mockAppointmentUpdateApi,
   vaosSetup,
+  mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import {
@@ -27,6 +28,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockFacilitiesApi();
       mockFeatureToggles();
       mockLoginApi();
+      mockVamcEhrApi();
     });
 
     it('should display upcoming appointments list', () => {
@@ -109,7 +111,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPage.visit().validate();
+      AppointmentListPageObject.visit().validate();
 
       // Assert
       cy.axeCheckBestPractice();
@@ -126,7 +128,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      AppointmentListPage.visit()
+      AppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -150,12 +152,11 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      AppointmentListPage.visit()
+      AppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
       // Assert
-      cy.findByText(/Appointment detail/i).should('exist');
       cy.findByText(/VA Video Connect at VA location/i).should('exist');
       cy.axeCheckBestPractice();
     });
@@ -181,7 +182,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      AppointmentListPage.visit()
+      AppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -203,7 +204,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      AppointmentListPage.visit()
+      AppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -224,7 +225,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      AppointmentListPage.visit()
+      AppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -238,7 +239,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [] });
 
       // Act
-      AppointmentListPage.visit();
+      AppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/You don.t have any upcoming appointments/i).should(
@@ -253,7 +254,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response: [], responseCode: 400 });
 
       // Act
-      AppointmentListPage.visit();
+      AppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/We.re sorry\. We.ve run into a problem/i);
@@ -286,7 +287,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentUpdateApi({ response: canceledAppt });
 
       // Act
-      AppointmentListPage.visit()
+      AppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -327,7 +328,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPage.visit().validate();
+      AppointmentListPageObject.visit().validate();
 
       // Assert
       cy.findAllByTestId('appointment-list-item').should($list => {
@@ -372,7 +373,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPage.visit().validate();
+      AppointmentListPageObject.visit().validate();
 
       // Assert
       cy.findAllByTestId('appointment-list-item').should($list => {
@@ -410,7 +411,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPage.visit().validate();
+      AppointmentListPageObject.visit().validate();
 
       // Assert
       // Constrain search within list group.
@@ -451,7 +452,7 @@ describe('VAOS upcomming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPage.visit().validate();
+      AppointmentListPageObject.visit().validate();
 
       // Assert
       // Constrain search within list group.

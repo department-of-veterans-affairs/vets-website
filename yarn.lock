@@ -2772,13 +2772,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^27.0.0":
-  version "27.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-27.0.0.tgz#1831e53ffefee31db79abff27d63bf4ceda9937d"
-  integrity sha512-HbEMKPuSVFzav+yRf3tzzVvDsxz+BwsdbsWziokKKCpFrgz24Ae8xPhFvKZLC5eyoCg9554ZTGjK4ptapAX5KA==
+"@department-of-veterans-affairs/component-library@^30.0.0":
+  version "30.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-30.0.0.tgz#5d7d2e1069858c41468b4130a097d0f605ce01be"
+  integrity sha512-kieeyvQC0ZvHOyxxZnD9oTJPNSDOnnWgZTl+vQQqFatBbkXAJCAsIwMuOuQaDgNQT5f3fSXzDVNVeIXOVqaTbA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "23.0.0"
-    "@department-of-veterans-affairs/web-components" "4.45.32"
+    "@department-of-veterans-affairs/react-components" "25.0.0"
+    "@department-of-veterans-affairs/web-components" "4.45.34"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2796,10 +2796,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.8":
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.8.tgz#685612acc82b80ba6fe283d283fd9e0c848cf60a"
-  integrity sha512-PzDg0S/X0fhFw+gPnPv/bytZ2n02o6q2nXeLI45uq75ob2UGbFpkYRlqJQXpUgmObpyjXpv2HoIO7nj/8NLiQw==
+"@department-of-veterans-affairs/formation@^7.0.9":
+  version "7.0.9"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.9.tgz#2a18c435f8527081d5354629a1a2f203c1f3d910"
+  integrity sha512-U72RcNsRYGC5IAo59m7QxItLXf0IPm2TdH7Oe6Z8SuSjd1RtlbLIPuEGEkMuEj6SjCROsVAyX2P24YshUJ6Sgg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2815,10 +2815,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@23.0.0":
-  version "23.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-23.0.0.tgz#e53f653afb1ee9b92b4d4a65a9d8ede4199483ac"
-  integrity sha512-3BGZOb4QFyXZGVIGY99xcXeiu60Xte8i40IE9kBwiqhqs8xyZFkKPwlr72QpIQzC+bK1UxakfSIxSYGCfWDeaA==
+"@department-of-veterans-affairs/react-components@25.0.0":
+  version "25.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-25.0.0.tgz#9c5330869c7abdebe99cac5476a7f469bd920fd8"
+  integrity sha512-xArlOaMd5fPuEpc4b/g7gJfJoObG2JkOscH2Adi6m6gauXbtGXbQGEu3amKVsZEvpM5biy3Ga/aL3SA3DMO9iw==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2856,10 +2856,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.45.32":
-  version "4.45.32"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.32.tgz#070cd47ff357d73ea25ff7c44b45d77d81f6e975"
-  integrity sha512-YDzBdMIlHJWfaGr696hCG9FOPigDIXPHEVkKTZsiWavNzzfawicWwRRSu/Zv3yjM45xmtlHwpgAxo/xrR7CgqQ==
+"@department-of-veterans-affairs/web-components@4.45.34":
+  version "4.45.34"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.34.tgz#170d92262f9ad9cf8581a41eff47f18bcf75b59d"
+  integrity sha512-FAvx5u5aLrWds2g9a6xvI4WZ2YX8mOjGleejproEJS0TXpP7AbkG6o8PkBTNxfdQDuxRjCeJhF/qzYjq+jxVpQ==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -7513,10 +7513,10 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress-real-events@^1.7.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.8.1.tgz#d00c7fe93124bbe7c0f27296684838614d24a840"
-  integrity sha512-8fFnA8EzS3EVbAmpSEUf3A8yZCmfU3IPOSGUDVFCdE1ke1gYL1A+gvXXV6HKUbTPRuvKKt2vpaMbUwYLpDRswQ==
+cypress-real-events@^1.10.3:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.10.3.tgz#e2e949ea509cc4306df6c238de1a9982d67360e5"
+  integrity sha512-YN3fn+CJIAM638sE6uMvv2/n3PsWowdd0rOiN6ZoyezNAMyENfuQHvccLKZpN+apGfQZYetCml6QXLYgDid2fg==
 
 cypress-wait-until@^1.7.2:
   version "1.7.2"

@@ -170,9 +170,10 @@ describe('VAOS community care flow - Primary care', () => {
       const mockProvider = new MockProvider();
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: '411',
+        typeOfCareId: 'primaryCare',
         isDirect: true,
         isRequest: true,
       });
@@ -290,9 +291,10 @@ describe('VAOS community care flow - Primary care', () => {
 
   describe('When no providers within 60 miles', () => {
     beforeEach(() => {
+      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: '411',
+        typeOfCareId: 'primaryCare',
         isDirect: true,
         isRequest: true,
       });
@@ -342,6 +344,13 @@ describe('VAOS community care flow - Primary care', () => {
       mockUser.setAddress('123 Main St');
 
       mockCCProvidersApi({ response: [] });
+      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockSchedulingConfigurationApi({
+        facilityIds: ['983', '984'],
+        typeOfCareId: 'primaryCare',
+        isDirect: true,
+        isRequest: true,
+      });
 
       // Act
       cy.login(mockUser);

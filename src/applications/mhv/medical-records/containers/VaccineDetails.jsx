@@ -12,11 +12,17 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -30,6 +36,7 @@ const VaccineDetails = props => {
   );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -65,7 +72,7 @@ const VaccineDetails = props => {
         );
       }
     },
-    [record],
+    [dispatch, record],
   );
 
   const generateVaccinePdf = async () => {
@@ -103,6 +110,17 @@ const VaccineDetails = props => {
   };
 
   const content = () => {
+    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+      return (
+        <>
+          <h1 className="vads-u-margin-bottom--0p5">Vaccine:</h1>
+          <AccessTroubleAlertBox
+            alertType={accessAlertTypes.VACCINE}
+            className="vads-u-margin-bottom--9"
+          />
+        </>
+      );
+    }
     if (record) {
       return (
         <>
@@ -123,6 +141,7 @@ const VaccineDetails = props => {
               <span
                 className="vads-u-font-weight--normal"
                 data-dd-privacy="mask"
+                data-testid="header-time"
               >
                 {record.date}
               </span>

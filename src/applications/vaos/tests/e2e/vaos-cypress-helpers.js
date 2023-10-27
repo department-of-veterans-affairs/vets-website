@@ -141,6 +141,14 @@ function updateRequestDates(data) {
   return data;
 }
 
+/**
+ * Function to mock feature toggle endpoint.
+ *
+ * @example GET '/v0/features_toggles'
+ *
+ * @export
+ * @param {Object} [toggles={}] Feature flags to set/unset
+ */
 export function mockFeatureToggles(toggles = {}) {
   cy.intercept(
     {
@@ -333,20 +341,6 @@ export function mockCCProvidersApi({
   ).as('v1:get:provider');
 }
 
-export function mockAppointmentApiDelete({ data, id, apiVersion = 2 } = {}) {
-  if (apiVersion === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v2/appointments/${id}`,
-      },
-      req => {
-        req.reply({ data });
-      },
-    ).as('v2:get:appointment');
-  }
-}
-
 export function mockAppointmentApi({
   response: data,
   responseCode = 200,
@@ -373,9 +367,9 @@ export function mockAppointmentApi({
 }
 
 /**
- * Function to mock the update appointments endpoint.
+ * Function to mock the 'update' appointments endpoint.
  *
- * Ex. PUT '/vaos/v2/appointments/:id'
+ * @example PUT '/vaos/v2/appointments/:id'
  *
  * @export
  * @param {Object} arguments - Function arguments.
@@ -412,9 +406,9 @@ export function mockAppointmentUpdateApi({
 }
 
 /**
- * Function to mock the create appointments endpoint.
+ * Function to mock the 'create' appointment endpoint.
  *
- * Ex. POST '/vaos/v2/appointments'
+ * @example POST '/vaos/v2/appointments'
  *
  * @export
  * @param {Object} arguments - Function arguments.
@@ -469,9 +463,9 @@ export function mockAppointmentCreateApi({
 }
 
 /**
- * Function to mock the get appointments endpoint.
+ * Function to mock the 'GET' appointments endpoint.
  *
- * Ex. GET '/vaos/v2/appointments'
+ * @example GET '/vaos/v2/appointments'
  *
  * @export
  * @param {Object} arguments - Function arguments.

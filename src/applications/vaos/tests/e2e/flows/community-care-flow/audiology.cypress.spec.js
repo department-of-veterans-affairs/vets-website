@@ -25,6 +25,7 @@ import { MockUser } from '../../fixtures/MockUser';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
 import AudiologyPageObject from '../../page-objects/AudiologyPageObject';
 import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Audiology', () => {
   beforeEach(() => {
@@ -50,7 +51,9 @@ describe('VAOS community care flow - Audiology', () => {
 
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      mockCCProvidersApi();
+      const mockProvider = new MockProvider();
+
+      mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Audiology', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
@@ -172,7 +175,9 @@ describe('VAOS community care flow - Audiology', () => {
 
   describe('When more than one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      mockCCProvidersApi();
+      const mockProvider = new MockProvider();
+
+      mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Audiology', isEligible: true });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
