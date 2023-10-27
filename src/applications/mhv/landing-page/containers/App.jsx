@@ -8,6 +8,7 @@ import LandingPage from '../components/LandingPage';
 import {
   resolveLandingPageLinks,
   countUnreadMessages,
+  resolveUnreadMessageAriaLabel,
 } from '../utilities/data';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
@@ -31,6 +32,9 @@ const App = () => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
   const userHasHealthData = useSelector(hasHealthData);
+  const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
+    unreadMessageCount,
+  );
 
   const data = useMemo(
     () => {
@@ -38,10 +42,11 @@ const App = () => {
         ssoe,
         featureToggles,
         unreadMessageCount,
+        unreadMessageAriaLabel,
         userHasHealthData,
       );
     },
-    [featureToggles, ssoe, unreadMessageCount, userHasHealthData],
+    [featureToggles, ssoe, unreadMessageCount, unreadMessageAriaLabel, userHasHealthData],
   );
 
   const datadogRumConfig = {

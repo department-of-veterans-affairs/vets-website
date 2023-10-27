@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../../utils/actions/enrollment-status';
 import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status';
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
 import content from '../../locales/en/content.json';
 
-const SaveInProgressInfo = ({ formConfig, pageList }) => {
-  const { isLoggedOut } = useSelector(selectAuthStatus);
+const SaveInProgressInfo = props => {
+  const { fetchEnrollmentStatus, formConfig, pageList } = props;
+  const { isLoggedOut, isUserLOA3 } = useSelector(selectAuthStatus);
   const { isEnrolledinESR, hasServerError } = useSelector(
     selectEnrollmentStatus,
   );
@@ -20,6 +22,16 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     savedFormMessages,
     customText,
   } = formConfig;
+
+  useEffect(
+    () => {
+      if (isUserLOA3) {
+        fetchEnrollmentStatus();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isUserLOA3],
+  );
 
   // set the props to use for the SaveInProgressIntro components
   const sipProps = {
@@ -53,7 +65,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
       >
         <h3 slot="headline">{content['sip-alert-title']}</h3>
         <div>
-          <ul className="vads-u-margin-top--0">
+          <ul>
             <li>
               We can fill in some of your information for you to save you time.
             </li>
@@ -73,8 +85,16 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 };
 
 SaveInProgressInfo.propTypes = {
+  fetchEnrollmentStatus: PropTypes.func,
   formConfig: PropTypes.object,
-  pageList: PropTypes.object,
+  pageList: PropTypes.array,
 };
 
-export default SaveInProgressInfo;
+const mapDispatchToProps = {
+  fetchEnrollmentStatus: fetchEnrollmentStatusAction,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SaveInProgressInfo);

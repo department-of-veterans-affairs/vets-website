@@ -20,6 +20,9 @@ describe('Profile - Hub page', () => {
     cy.findByText('Profile', { selector: 'h1' }).should('exist');
     cy.findByText('Personal information', { selector: 'h2' }).should('exist');
     cy.findByText('Contact information', { selector: 'h2' }).should('exist');
+    cy.findByText('Personal health care contacts', { selector: 'h2' }).should(
+      'exist',
+    );
     cy.findByText('Military information', { selector: 'h2' }).should('exist');
     cy.findByText('Direct deposit information', { selector: 'h2' }).should(
       'exist',
