@@ -21,12 +21,11 @@ describe('unified check-in experience', () => {
       expect(getAllByTestId('appointment-list-item').length).to.equal(3);
     });
     it('displays the upcoming appointments list items components with day of the week headings properly', () => {
-      const mockstore = {
-        upcomingAppointments: multipleAppointments,
-      };
       const { getByTestId, getAllByTestId } = render(
-        <CheckInProvider store={mockstore}>
-          <UpcomingAppointmentsList />
+        <CheckInProvider>
+          <UpcomingAppointmentsList
+            upcomingAppointments={multipleAppointments}
+          />
         </CheckInProvider>,
       );
       expect(getAllByTestId('day-label')).to.have.length(1);
@@ -34,22 +33,21 @@ describe('unified check-in experience', () => {
     });
     it('displays the no upcoming appointments info message when there are no appointments', () => {
       const { getByTestId } = render(
-        <CheckInProvider upcomingAppointments={[]}>
-          <UpcomingAppointmentsList />
+        <CheckInProvider>
+          <UpcomingAppointmentsList upcomingAppointments={[]} />
         </CheckInProvider>,
       );
 
       expect(getByTestId('no-upcoming-appointments')).to.exist;
     });
     it('should call handleDetailClick when details link is clicked', () => {
-      const mockstore = {
-        upcomingAppointments: multipleAppointments,
-      };
       const push = sinon.spy();
       const router = { push };
       const { getAllByTestId } = render(
-        <CheckInProvider store={mockstore} router={router}>
-          <UpcomingAppointmentsList />
+        <CheckInProvider router={router}>
+          <UpcomingAppointmentsList
+            upcomingAppointments={multipleAppointments}
+          />
         </CheckInProvider>,
       );
       const detailsLink = getAllByTestId('details-link')[0];
