@@ -7,7 +7,7 @@ import {
   FETCH_RECIPIENTS_SUCCESS,
 } from '../../utils/constants';
 
-import { recipients } from '../messaging-helpers';
+import { recipients } from '../../mocks/messaging';
 
 describe('recipients reducer', () => {
   it('should have no data when it fails to load recipients', () => {
