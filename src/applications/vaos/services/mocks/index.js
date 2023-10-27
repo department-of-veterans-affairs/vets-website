@@ -41,6 +41,8 @@ const confirmedV2 = require('./v2/confirmed.json');
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
 
+const features = require('../../utils/featureFlags');
+
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
@@ -623,43 +625,7 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [
-        { name: 'facilityLocatorShowCommunityCares', value: true },
-        { name: 'profile_show_profile_2.0', value: false },
-        { name: 'vaOnlineScheduling', value: true },
-        { name: 'vaOnlineSchedulingCancel', value: true },
-        { name: 'vaOnlineSchedulingRequests', value: true },
-        { name: 'vaOnlineSchedulingCommunityCare', value: true },
-        { name: 'vaOnlineSchedulingDirect', value: true },
-        { name: 'vaOnlineSchedulingPast', value: true },
-        { name: 'vaOnlineSchedulingExpressCare', value: true },
-        { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-        { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
-        { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
-        { name: 'vaOnlineSchedulingStatusImprovement', value: true },
-        { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
-        { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
-        { name: 'vaOnlineSchedulingAppointmentList', value: true },
-        { name: 'vaOnlineSchedulingClinicFilter', value: true },
-        { name: 'vaOnlineSchedulingAcheronService', value: true },
-        { name: 'vaOnlineSchedulingUseDsot', value: true },
-        { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
-        { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
-        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
-        { name: 'vaOnlineSchedulingPrintList', value: true },
-        { name: 'va_online_scheduling_descriptive_back_link', value: true },
-        { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
-        { name: 'vaOnlineSchedulingGA4Migration', value: true },
-        { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
-        { name: 'vaOnlineSchedulingStartSchedulingLink', value: false },
-        { name: 'selectFeaturePocTypeOfCare', value: true },
-        { name: 'edu_section_103', value: true },
-        { name: 'vaViewDependentsAccess', value: false },
-        { name: 'gibctEybBottomSheet', value: true },
-      ],
+      features,
     },
   },
 };

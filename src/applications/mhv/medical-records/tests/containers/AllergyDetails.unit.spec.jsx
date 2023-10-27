@@ -169,7 +169,7 @@ describe('Allergy details container with errors', () => {
     screen = renderWithStoreAndRouter(<AllergyDetails runningUnitTest />, {
       initialState,
       reducers: reducer,
-      path: '/allergies',
+      path: '/allergies/123',
     });
   });
 

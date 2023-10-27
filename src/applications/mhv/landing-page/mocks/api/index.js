@@ -12,6 +12,7 @@ const responses = {
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({}),
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
+  'GET /data/cms/vamc-ehr.json': {},
 };
 
 module.exports = delay(responses, 2000);
