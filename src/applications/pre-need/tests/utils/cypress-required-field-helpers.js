@@ -1,10 +1,9 @@
-const relationshipToVetErrors = ['claimant_relationshipToVet'];
-
 const applicantInfoErrors = [
   'claimant_name_first',
   'claimant_name_last',
   'claimant_ssn',
   'claimant_dateOfBirth',
+  'claimant_relationshipToVet',
 ];
 const veteranInfoErrors = [
   'veteran_currentName_first',
@@ -37,9 +36,15 @@ const applicantContactInfoErrors = [
 ];
 const preparerInfoErrors1 = ['applicant_applicantRelationshipToClaimant'];
 const preparerInfoErrors2 = ['applicant_name_first', 'applicant_name_last'];
+const preparerInfoErrors3 = [
+  'applicant_view\\:applicantInfo_mailingAddress_street',
+  'applicant_view\\:applicantInfo_mailingAddress_city',
+  'applicant_view\\:applicantInfo_mailingAddress_state',
+  'applicant_view\\:applicantInfo_mailingAddress_postalCode',
+  'applicant_view\\:contactInfo_applicantPhoneNumber',
+];
 
 module.exports = {
-  relationshipToVetErrors,
   applicantInfoErrors,
   veteranInfoErrors,
   militaryHistoryErrors,
@@ -50,4 +55,5 @@ module.exports = {
   applicantContactInfoErrors,
   preparerInfoErrors1,
   preparerInfoErrors2,
+  preparerInfoErrors3,
 };

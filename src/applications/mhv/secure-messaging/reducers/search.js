@@ -17,17 +17,6 @@ const initialState = {
 
 export const searchReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.Search.RUN_BASIC:
-      return {
-        ...state,
-        searchResults: action.response.data.map(message => {
-          const msgAttr = message.attributes;
-          return { ...msgAttr };
-        }),
-        searchFolder: action.response.folder,
-        keyword: action.response.keyword,
-        awaitingResults: false,
-      };
     case Actions.Search.RUN_ADVANCED:
       return {
         ...state,

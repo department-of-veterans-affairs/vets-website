@@ -73,7 +73,7 @@ describe('Vitals list container with errors', () => {
 
   let screen;
   beforeEach(() => {
-    screen = renderWithStoreAndRouter(<Vitals runningUnitTest />, {
+    screen = renderWithStoreAndRouter(<Vitals />, {
       initialState,
       reducers: reducer,
       path: '/vitals',
@@ -106,7 +106,7 @@ describe('Vitals list container with no vitals', () => {
 
   let screen;
   beforeEach(() => {
-    screen = renderWithStoreAndRouter(<Vitals runningUnitTest />, {
+    screen = renderWithStoreAndRouter(<Vitals />, {
       initialState,
       reducers: reducer,
       path: '/vitals',
