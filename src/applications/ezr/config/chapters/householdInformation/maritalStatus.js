@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   descriptionUI,
@@ -9,7 +9,7 @@ import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaS
 import { MaritalStatusDescription } from '../../../components/FormDescriptions/MaritalStatusDescription';
 import content from '../../../locales/en/content.json';
 
-const { maritalStatus } = ezrSchema.definitions;
+const { maritalStatus } = ezrSchema.properties;
 
 export default {
   uiSchema: {
