@@ -1,4 +1,5 @@
 import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
+import fortyFiveMinuteTextStLouis from './fortyFiveMinuteText/stLouis.json';
 // import salem from './travelClaim/salem.json';
 
 const devStations = {
@@ -38,7 +39,7 @@ const pilotFeatures = {
   fortyFiveMinuteText: {
     pilotStations: {
       ...devStations,
-      '657GB': {},
+      ...fortyFiveMinuteTextStLouis,
     },
   },
 };
