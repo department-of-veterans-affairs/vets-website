@@ -316,6 +316,10 @@ export const TYPE_OF_VISIT = [
     vsGUI: 'VIDEO',
   },
 ];
+export const TYPE_OF_VISIT_ID = TYPE_OF_VISIT.reduce((acc, visit) => {
+  acc[visit.id] = visit.id;
+  return acc;
+}, {});
 
 // todo: not used, delete?
 export const DISTANCES = [

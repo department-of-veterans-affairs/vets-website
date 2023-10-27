@@ -12,6 +12,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
 import RatedDisabilityView from '../components/RatedDisabilityView';
+import { rdDetectDiscrepancies } from '../selectors';
 
 const RatedDisabilitiesApp = props => {
   const { ratedDisabilities } = props.ratedDisabilities;
@@ -59,6 +60,7 @@ const RatedDisabilitiesApp = props => {
           ]}
         >
           <RatedDisabilityView
+            detectDiscrepancies={props.detectDiscrepancies}
             error={props.error}
             fetchRatedDisabilities={props.fetchRatedDisabilities}
             fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
@@ -75,6 +77,7 @@ const RatedDisabilitiesApp = props => {
 };
 
 RatedDisabilitiesApp.propTypes = {
+  detectDiscrepancies: PropTypes.bool,
   error: PropTypes.string,
   fetchRatedDisabilities: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
@@ -86,6 +89,7 @@ RatedDisabilitiesApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  detectDiscrepancies: rdDetectDiscrepancies(state),
   error: state.totalRating.error,
   loading: state.totalRating.loading,
   ratedDisabilities: state.ratedDisabilities,

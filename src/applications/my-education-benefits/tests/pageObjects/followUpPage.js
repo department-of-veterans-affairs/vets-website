@@ -27,7 +27,7 @@ class followUpPage {
 
   getYesSendMeTextMessageButton() {
     return cy.get(
-      'input[id*="root_view:receiveTextMessages_receiveTextMessages"][ value="Yes, send me text message notifications"]',
+      'input[id*="root_view:receiveTextMessages_receiveTextMessages_0"][ value="Yes, send me text message notifications"]',
     );
   }
 
