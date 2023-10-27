@@ -8,13 +8,13 @@ import {
   getFsrReason,
   filterReduceByName,
   otherDeductionsAmt,
-  getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
 import { getMonthlyIncome } from '../../utils/calculateIncome';
+import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 
 describe('fsr transform helper functions', () => {
   describe('dateFormatter helper', () => {
