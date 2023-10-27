@@ -21,11 +21,12 @@ const ResultsList = props => {
   const {
     inProgress,
     // searchString,
+    // locationInputString,
     searchResults,
     // searchError,
     // pagination,
     // currentQuery,
-    // query,
+    query,
     // sortedSearchResults,
     // sortSearchResults,
     onUpdateSortType,
@@ -44,7 +45,20 @@ const ResultsList = props => {
     onUpdateSortType({ sortType: e.target.value });
   };
 
-  const renderResultItems = () => {
+  // const currentPage = pagination ? pagination.currentPage : 1;
+
+  // const enrichedResultsData = searchResults.map(result => ({
+  //   ...result,
+  //   resultItem: true,
+  //   locationInputString,
+  //   currentPage,
+  // }));
+
+  const renderResultItems = (
+    searchQuery,
+    // apiResults
+  ) => {
+    const sQuery = searchQuery;
     return (
       <>
         <div
@@ -53,15 +67,21 @@ const ResultsList = props => {
         >
           {searchResults?.map((result, index) => {
             return (
-              <SearchResult
-                organization={result.organization}
-                key={index}
-                type={result.type}
-                addressLine1={result.addressLine1}
-                addressLine2={result.addressLine2}
-                phone={result.phone}
-                distance={result.distance}
-              />
+              <>
+                <hr />
+                <SearchResult
+                  organization={result.organization}
+                  key={result.id}
+                  type={result.type}
+                  addressLine1={result.addressLine1}
+                  addressLine2={result.addressLine2}
+                  phone={result.phone}
+                  distance={result.distance}
+                  representative={result}
+                  query={sQuery}
+                  index={index}
+                />
+              </>
             );
           })}
         </div>
@@ -129,11 +149,13 @@ const ResultsList = props => {
   return (
     <>
       {' '}
+      <label htmlFor="sort-by-dropdown">Sort by</label>
       <select
         id="representative-sorting-dropdown"
         aria-label="Sort"
         ref={sortTypeRef}
         value={sortType}
+        title="Sort by:"
         // className="bor-rad"
         onChange={handleSortTypeChange}
         style={{ fontWeight: 'bold' }}
@@ -141,7 +163,7 @@ const ResultsList = props => {
         {' '}
         {options}{' '}
       </select>
-      <div>{renderResultItems()}</div>
+      <div>{renderResultItems(query)}</div>
     </>
   );
 };
@@ -155,7 +177,7 @@ ResultsList.propTypes = {
   query: PropTypes.object,
   results: PropTypes.array,
   searchError: PropTypes.object,
-  searchString: PropTypes.string,
+  locationInputString: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -173,7 +195,7 @@ function mapStateToProps(state) {
     representativeType,
     inProgress,
     position,
-    searchString,
+    locationInputString,
   } = state.searchQuery;
 
   const representativeTypeName = representativeTypes[representativeType];
@@ -187,7 +209,7 @@ function mapStateToProps(state) {
     searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
-    searchString,
+    locationInputString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
   };

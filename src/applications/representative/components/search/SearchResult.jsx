@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
 
 const SearchResult = ({
   organization,
@@ -8,6 +9,10 @@ const SearchResult = ({
   addressLine2,
   phone,
   distance,
+  // result,
+  representative,
+  // query,
+  // index,
 }) => {
   return (
     <>
@@ -22,9 +27,12 @@ const SearchResult = ({
           {addressLine1}, {addressLine2}
         </div>
         <div className="primary">{phone}</div>
-        <div className="primary">Get directions on Google Maps</div>
+        <RepresentativeDirectionsLink
+          representative={representative}
+          from="SearchResult"
+          // query={query}
+        />
         {/* <div className="va-h-ruled" /> */}
-        <hr styling={{ borderTop: '3px solid black' }} />
       </div>
     </>
   );
