@@ -48,31 +48,50 @@ const UpcomingAppointmentsList = props => {
             <h3 data-testid="appointments-list-monthyear-heading">
               {t('date-month-and-year', { date: monthDate })}
             </h3>
-            <ul
-              className="vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
-              data-testid="appointment-list"
-            >
-              {days.map((day, dayIndex) => {
-                const { appointments } = day;
-                return (
-                  <React.Fragment key={dayIndex}>
-                    {appointments.map((appointment, index) => {
-                      return (
-                        <UpcomingAppointmentsListItem
-                          dayKey={index === 0}
-                          key={`${appointment.appointmentIen}-${
-                            appointment.stationNo
-                          }`}
-                          appointment={appointment}
-                          goToDetails={handleDetailClick}
-                          router={router}
-                        />
-                      );
-                    })}
-                  </React.Fragment>
-                );
-              })}
-            </ul>
+            {days.map((day, index) => {
+              const { appointments } = day;
+              const dayStartTime = new Date(appointments[0].startTime);
+              return (
+                <div
+                  className="vads-l-grid-container vads-u-padding-x--0"
+                  key={index}
+                >
+                  <div className="vads-l-row">
+                    <div className="vads-l-col--2 vads-u-border-top--1px">
+                      <h4
+                        className="vads-u-text-align--center vads-u-line-height--2 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2"
+                        data-testid="day-label"
+                      >
+                        <span className="vads-u-font-size--md vads-u-font-weight--bold">
+                          {`${t('date-day-of-month', { date: dayStartTime })} `}
+                        </span>
+                        <br />
+                        {t('date-day-of-week', { date: dayStartTime })}
+                      </h4>
+                    </div>
+                    <div className="vads-l-col--10 vads-u-border-top--1px">
+                      <ul
+                        className="vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
+                        data-testid="appointment-list"
+                      >
+                        {appointments.map(appointment => {
+                          return (
+                            <UpcomingAppointmentsListItem
+                              key={`${appointment.appointmentIen}-${
+                                appointment.stationNo
+                              }`}
+                              appointment={appointment}
+                              goToDetails={handleDetailClick}
+                              router={router}
+                            />
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         );
       })}
