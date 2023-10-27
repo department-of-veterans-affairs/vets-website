@@ -4,8 +4,13 @@ import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DeleteDraftModal from '../Modals/DeleteDraftModal';
-import { DefaultFolders } from '../../util/constants';
+import {
+  ALERT_TYPE_SUCCESS,
+  Alerts,
+  DefaultFolders,
+} from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
+import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
 import { clearMessageHistory } from '../../actions/messages';
 
@@ -36,6 +41,10 @@ const DeleteDraft = props => {
   const blankNewMessage =
     (unsavedNewDraft || unsavedReplyDraft) && navigationError === null;
   const blankReplyDraft = savedDraft === null && formPopulated === undefined;
+  const unsavedDeleteSuccessful = () =>
+    dispatch(
+      addAlert(ALERT_TYPE_SUCCESS, '', Alerts.Message.DELETE_DRAFT_SUCCESS),
+    );
 
   const handleDeleteDraftConfirm = () => {
     if (savedDraft) {
@@ -52,6 +61,7 @@ const DeleteDraft = props => {
 
     if (unsavedNewDraft || unsavedReplyDraft) {
       setIsModalVisible(false);
+      unsavedDeleteSuccessful();
       navigateToFolderByFolderId(
         activeFolder ? activeFolder.folderId : DefaultFolders.INBOX.id,
         history,
@@ -87,12 +97,14 @@ const DeleteDraft = props => {
             setNavigationError(null);
           }
           if (blankReplyDraft) {
+            unsavedDeleteSuccessful();
             navigateToFolderByFolderId(
               activeFolder ? activeFolder.folderId : DefaultFolders.SENT.id,
               history,
             );
           }
           if (blankNewMessage) {
+            unsavedDeleteSuccessful();
             navigateToFolderByFolderId(
               activeFolder ? activeFolder.folderId : DefaultFolders.INBOX.id,
               history,
