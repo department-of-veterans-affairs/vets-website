@@ -1,9 +1,8 @@
 name: Unit Tests Stress Test
 
 on:
-  # schedule:
-  # - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  push
+  schedule:
+    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
 
 jobs:
   fetch-unit-tests-allow-list:
@@ -130,10 +129,6 @@ jobs:
           name: unit-test-report
           path: mocha/results
 
-      - name: List Results
-        run: |
-          cd test-results
-          ls -a
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
       # - name: Upload Coverage Report Artifact
@@ -255,28 +250,27 @@ jobs:
           TEST_TYPE: unit_test
           IS_CI: false
           GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      # - name: Create Unit Test report and post results to BigQuery
+      #   run: yarn cypress-mochawesome-to-bigquery
+      #   working-directory: qa-standards-dashboard-data
+      #   env:
+      #     IS_MASTER_BUILD: false
+      #     TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+      #     TEST_RESULTS_TABLE_NAME: cypress_test_results
+      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+      #     TEST_RETRIES_TABLE_NAME: cypress_retry_records
+      #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+      #     IS_STRESS_TEST: true
 
-      - name: Create Unit Test report and post results to BigQuery
-        run: yarn cypress-mochawesome-to-bigquery
-        working-directory: qa-standards-dashboard-data
-        env:
-          IS_MASTER_BUILD: false
-          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: cypress_test_results
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          TEST_RETRIES_TABLE_NAME: cypress_retry_records
-          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-          IS_STRESS_TEST: true
+      # - name: Upload Unit Test report to s3
+      #   run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
 
-      - name: Upload Unit Test report to s3
-        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
-
-      - name: Publish Unit Test Results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Unit Test Stress Test Summary
-          conclusion: ${{ needs.stress-test-cypress-tests.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+      # - name: Publish Unit Test Results
+      #   if: ${{ always() }}
+      #   uses: LouisBrunner/checks-action@v1.2.0
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     name: Unit Test Stress Test Summary
+      #     conclusion: ${{ needs.stress-test-cypress-tests.result }}
+      #     output: |
+      #       {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
