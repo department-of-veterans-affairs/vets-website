@@ -317,8 +317,7 @@ describe('<EvidenceVaRecords>', () => {
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total, event) => {
-      expect(getErrorElements(container).length).to.eq(total);
+    const testAndCloseModal = async (container, event) => {
       // modal visible
       await waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
@@ -376,7 +375,12 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
-      await testAndCloseModal(container, 3, 'secondaryButtonClick');
+
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
+      await testAndCloseModal(container, 'secondaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.true;
@@ -405,9 +409,10 @@ describe('<EvidenceVaRecords>', () => {
       // back
       clickBack(container);
       // keep partial entry
-      await testAndCloseModal(container, 3, 'primaryButtonClick');
+      await testAndCloseModal(container, 'primaryButtonClick');
 
       await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
         expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
