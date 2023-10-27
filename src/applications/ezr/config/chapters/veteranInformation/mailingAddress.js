@@ -1,19 +1,20 @@
 import merge from 'lodash/merge';
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
+  addressUI,
+  addressSchema,
   descriptionUI,
   inlineTitleUI,
   inlineTitleSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  schema as addressSchema,
-  uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-import { DEFAULT_ADDRESS_OVERRIDES } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
+
+const {
+  veteranAddress: { properties: schemaOverride },
+} = ezrSchema.properties;
 
 export default {
   uiSchema: {
@@ -22,11 +23,7 @@ export default {
       content['vet-mailing-address-title'],
       content['vet-mailing-address-description'],
     ),
-    veteranAddress: merge(
-      {},
-      addressUI(null, true),
-      DEFAULT_ADDRESS_OVERRIDES.uiSchema,
-    ),
+    veteranAddress: addressUI({ omit: ['isMilitary'] }),
     'view:doesMailingMatchHomeAddress': yesNoUI(
       content['vet-address-match-title'],
     ),
@@ -38,8 +35,8 @@ export default {
       'view:pageTitle': inlineTitleSchema,
       veteranAddress: merge(
         {},
-        addressSchema(ezrSchema, true),
-        DEFAULT_ADDRESS_OVERRIDES.schema,
+        addressSchema({ omit: ['isMilitary'] }),
+        schemaOverride,
       ),
       'view:doesMailingMatchHomeAddress': yesNoSchema,
     },

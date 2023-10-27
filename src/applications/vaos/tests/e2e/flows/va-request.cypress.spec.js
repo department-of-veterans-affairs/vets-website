@@ -13,9 +13,10 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   mockEligibilityApi,
-  mockVamcEhr,
+  mockVamcEhrApi,
   mockFacilityApi,
   mockAppointmentApi,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
@@ -30,14 +31,10 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockFeatureToggles({
       vaOnlineSchedulingAcheronService: false,
-      vaOnlineSchedulingAppointmentList: false,
       vaOnlineSchedulingBreadcrumbUrlUpdate: false,
-      vaOnlineSchedulingFacilitiesServiceV2: true,
-      vaOnlineSchedulingStatusImprovement: false,
-      vaOnlineSchedulingVAOSServiceRequests: true,
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
     });
     mockUserTransitionAvailabilities();
+    mockAppointmentCreateApi();
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
@@ -70,7 +67,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: true,
       isRequest: true,
     });
-    mockVamcEhr({ isCerner: true });
+    mockVamcEhrApi({ isCerner: true });
     const data = [
       {
         id: '983',
@@ -170,7 +167,7 @@ describe('VAOS VA request flow using VAOS service', () => {
 
     mockAppointmentApi({
       id: 'mock1',
-      data: {
+      response: {
         id: 'mock1',
         type: 'appointment',
         attributes: {
@@ -192,7 +189,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: false,
       isRequest: true,
     });
-    mockVamcEhr();
+    mockVamcEhrApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -272,7 +269,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     ];
 
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -311,7 +308,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: false,
       isRequest: true,
     });
-    mockVamcEhr();
+    mockVamcEhrApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();

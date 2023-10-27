@@ -276,7 +276,7 @@ const LandingPage = () => {
               review allergies and reactions in your VA medical records.
             </p>
             <section>
-              <va-accordion bordered>
+              <va-accordion bordered data-testid="more-ways-to-manage">
                 <va-accordion-item open={isRxRenewAccordionOpen}>
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to renew prescriptions
@@ -393,7 +393,7 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to manage notifications for prescription shipments
                   </h3>
-                  <p>
+                  <p data-testid="notifications">
                     You can sign up to get email notifications when we ship your
                     prescriptions. You can also opt out of notifications at any
                     time.
