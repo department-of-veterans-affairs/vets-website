@@ -1359,14 +1359,13 @@ jobs:
           cp ./qa-standards-dashboard-data/unit_test_allow_list.json ./
           cp ./qa-standards-dashboard-data/e2e_allow_list.json ./
 
-      - name: Check if code can be merged (E2E Test Verification)
+      - name: Check for disallowed E2E Tests
         run: node script/github-actions/annotate-disallowed-tests.js
         env:
           TEST_TYPE: e2e
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
-          CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
 
-      - name: Check if code can be merged (Unit Test Verification)
+      - name: Check for disallowed Unit Tests
         run: node script/github-actions/annotate-disallowed-tests.js
         env:
           TEST_TYPE: unit_test
@@ -1402,6 +1401,8 @@ jobs:
 
       - name: Verify Merge Eligibility
         run: node script/github-actions/verify-merge-eligibility.js
+        env:
+          CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
 
   archive:
     name: Archive
