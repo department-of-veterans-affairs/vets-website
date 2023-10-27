@@ -23,15 +23,12 @@ const SaveInProgressInfo = props => {
     customText,
   } = formConfig;
 
-  useEffect(
-    () => {
-      if (isUserLOA3) {
-        fetchEnrollmentStatus();
-      }
-    },
+  useEffect(() => {
+    if (isUserLOA3) {
+      fetchEnrollmentStatus();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isUserLOA3],
-  );
+  }, []);
 
   // set the props to use for the SaveInProgressIntro components
   const sipProps = {
