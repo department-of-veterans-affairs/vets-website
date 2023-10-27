@@ -376,6 +376,7 @@ describe('<EvidenceVaRecords>', () => {
       // back
       clickBack(container);
 
+      // This check is super-flaky in CI
       await waitFor(() => {
         expect(getErrorElements(container).length).to.eq(3);
       });
@@ -408,11 +409,16 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
       // keep partial entry
       await testAndCloseModal(container, 'primaryButtonClick');
 
       await waitFor(() => {
-        expect(getErrorElements(container).length).to.eq(3);
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
         expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
