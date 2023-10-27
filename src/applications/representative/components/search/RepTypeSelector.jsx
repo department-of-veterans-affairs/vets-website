@@ -1,24 +1,37 @@
 import React from 'react';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const RepTypeSelector = () => {
+const RepTypeSelector = ({ onChange }) => {
+  const handleRadioButtonSelect = event => {
+    onChange({ representativeType: event.detail.value });
+  };
+
   return (
     <>
       <div className="rep-type-selector">
-        <va-radio
+        <VaRadio
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
           label=""
           label-header-level="3"
+          onVaValueChange={handleRadioButtonSelect}
         >
-          <va-radio-option
+          <VaRadioOption
             label="Veteran Service Organization (VSO)"
             name="VSO"
-            value="1"
+            value="Veteran Service Organization (VSO)"
           />
-          <va-radio-option label="Attorney" name="Attorney" value="2" />
-          <va-radio-option label="Claims Agent" name="Claims Agent" value="2" />
-        </va-radio>
+          <VaRadioOption label="Attorney" name="Attorney" value="Attorney" />
+          <VaRadioOption
+            label="Claims Agent"
+            name="Claims Agent"
+            value="Claims Agent"
+          />
+        </VaRadio>
 
         <div style={{ marginTop: '2em' }}>
           <va-accordion
@@ -34,7 +47,9 @@ const RepTypeSelector = () => {
             open-single
           >
             <va-accordion-item id="first">
-              <h6 slot="headline">What does each type of representative do?</h6>
+              <h6 slot="headline">
+                How can each type of representative help me?
+              </h6>
               <p>
                 <strong>Veteran Services Organizations (VSOs) </strong>
                 are recognized and accredited by the VA and offer services free
