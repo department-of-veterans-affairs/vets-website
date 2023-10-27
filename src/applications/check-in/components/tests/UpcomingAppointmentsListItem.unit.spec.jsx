@@ -46,12 +46,10 @@ describe('unified check-in experience', () => {
           <UpcomingAppointmentsListItem
             appointment={appointments[0]}
             goToDetails={goToDetails}
-            dayKey
             router={mockRouter}
           />
         </CheckInProvider>,
       );
-      expect(screen.getByTestId('day-label')).to.have.text('Tue 16');
 
       expect(screen.getByTestId('appointment-time')).to.have.text('9:39 p.m.');
 
@@ -65,19 +63,6 @@ describe('unified check-in experience', () => {
 
       fireEvent.click(screen.getByTestId('details-link'));
       expect(goToDetails.calledOnce).to.be.true;
-    });
-    it('should not render a day label if none is provided', () => {
-      const screen = render(
-        <CheckInProvider>
-          <UpcomingAppointmentsListItem
-            appointment={appointments[0]}
-            goToDetails={goToDetails}
-            dayKey=""
-            router={mockRouter}
-          />
-        </CheckInProvider>,
-      );
-      expect(screen.queryByTestId('day-label')).to.not.exist;
     });
     it('should indicate that it is a phone appointment', () => {
       const screen = render(
@@ -100,7 +85,6 @@ describe('unified check-in experience', () => {
           <UpcomingAppointmentsListItem
             appointment={appointments[1]}
             goToDetails={goToDetails}
-            dayKey=""
             router={mockRouter}
           />
         </CheckInProvider>,
