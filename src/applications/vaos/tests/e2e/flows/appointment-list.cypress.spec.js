@@ -358,9 +358,10 @@ describe('VAOS appointment list', () => {
         .contains(/VA Appointment/i)
         .first()
         .click();
-      cy.findByText(/Appointment detail/i).should('exist');
+      cy.findByText(/Back to appointments/i).should('exist');
       cy.findByText(/Cancel appointment/i).click();
       cy.findByText(/Yes, cancel this appointment/i).click();
+      cy.wait('@v2:cancel:appointment');
       cy.findByTestId('cancel-appointment-SuccessModal').should('exist');
       cy.contains('button', /Continue/i).click();
       cy.get('#cancelAppt').should('not.exist');
@@ -410,7 +411,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .click();
-      cy.findByText(/Appointment detail/i).should('exist');
+      cy.findByText(/Back to appointments/i).should('exist');
       cy.axeCheckBestPractice();
     });
   });
@@ -586,7 +587,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .click({ waitForAnimations: true });
-      cy.findByText(/Appointment detail/i).should('exist');
+      cy.findByText(/Back to past appointments/i).should('exist');
 
       cy.axeCheckBestPractice();
     });
@@ -703,7 +704,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .click({ waitForAnimations: true });
-      cy.findByText(/Appointment detail/i).should('exist');
+      cy.findByText(/Back to past appointments/i).should('exist');
 
       cy.axeCheckBestPractice();
     });
