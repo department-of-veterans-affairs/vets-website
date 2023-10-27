@@ -19,8 +19,10 @@ const apiSettings = {
 export const sortOptions = {
   DISTANCE_CLOSEST_TO_FARTHEST: 'Distance (closest to farthest)',
   DISTANCE_FARTHEST_TO_CLOSEST: 'Distance (farthest to closest)',
-  ALPHABETICAL_A_TO_Z: 'Alphabetical (A - Z)',
-  ALPHABETICAL_Z_TO_A: 'Alphabetical (Z - A)',
+  FIRST_NAME_ALPHABETICAL_A_TO_Z: 'First Name (A - Z)',
+  FIRST_NAME_ALPHABETICAL_Z_TO_A: 'First Name (Z - A)',
+  LAST_NAME_ALPHABETICAL_A_TO_Z: 'Last Name (A - Z)',
+  LAST_NAME_ALPHABETICAL_Z_TO_A: 'Last Name (Z - A)',
 };
 
 const railsEngineApi = {
