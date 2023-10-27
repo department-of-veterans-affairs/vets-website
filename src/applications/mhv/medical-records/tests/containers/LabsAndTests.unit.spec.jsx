@@ -7,6 +7,7 @@ import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
+import user from '../fixtures/user.json';
 
 describe('LabsAndTests list container', () => {
   const initialState = {
@@ -49,5 +50,61 @@ describe('LabsAndTests list container', () => {
     await waitFor(() => {
       expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
     });
+  });
+});
+
+describe('Labs and tests list container still loading', () => {
+  const initialState = {
+    user,
+    mr: {
+      labsAndTests: {},
+      alerts: {
+        alertList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<LabsAndTests runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+  });
+
+  it('displays a loading indicator', () => {
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('Labs and tests list container with no data', () => {
+  const initialState = {
+    user,
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: [],
+      },
+      alerts: {
+        alertList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<LabsAndTests runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+  });
+
+  it('displays a no labs and tests message', () => {
+    expect(
+      screen.getByText('You don’t have any records in Labs and tests', {
+        exact: true,
+      }),
+    ).to.exist;
   });
 });

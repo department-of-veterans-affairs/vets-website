@@ -1,5 +1,5 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   mockFeatureToggles,
   vaosSetup,
@@ -11,8 +11,9 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   mockAppointmentApi,
-  mockVamcEhr,
+  mockVamcEhrApi,
   mockGetEligibilityCC,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 
 const rootUrl = 'my-health/appointments/';
@@ -23,16 +24,12 @@ describe('VAOS community care flow using VAOS service', () => {
     mockAppointmentsApi({ data: [], apiVersion: 2 });
     mockCCProvidersApi();
     mockFacilitiesApi({ apiVersion: 2 });
-    mockFeatureToggles({
-      vaOnlineSchedulingAppointmentList: false,
-      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
-      vaOnlineSchedulingFacilitiesServiceV2: true,
-      vaOnlineSchedulingVAOSServiceRequests: true,
-    });
+    mockFeatureToggles({ vaOnlineSchedulingBreadcrumbUrlUpdate: false });
     mockLoginApi();
     mockSchedulingConfigurationApi();
     mockUserTransitionAvailabilities();
-    mockVamcEhr();
+    mockVamcEhrApi();
+    mockAppointmentCreateApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -41,7 +38,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
   });
 
-  it('should submit request successfully', () => {
+  it('should submit provider chosen from list successfully', () => {
     const data = [
       {
         id: '1',
@@ -59,7 +56,7 @@ describe('VAOS community care flow using VAOS service', () => {
     ];
 
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -84,7 +81,6 @@ describe('VAOS community care flow using VAOS service', () => {
           status: 'pending',
         },
       },
-      id: 'mock1',
     });
     mockAppointmentsApi({ data, apiVersion: 2 });
     mockFacilityApi({ id: '983', apiVersion: 2 });
@@ -158,13 +154,14 @@ describe('VAOS community care flow using VAOS service', () => {
     );
     cy.axeCheckBestPractice();
     cy.findByText(/Choose a provider/).click();
-
-    cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/Choose provider/i).click();
-    cy.findByText(/remove/i).click();
-    cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click();
+    cy.wait('@v1:get:provider', { timeout: 90000 }).then(() => {
+      cy.findByLabelText(/doe, jane/i, { timeout: 90000 }).click();
+      cy.axeCheckBestPractice();
+      cy.findByText(/Choose provider/i).click();
+      cy.findByText(/remove/i).click();
+      cy.axeCheckBestPractice();
+      cy.findByText(/cancel/i).click();
+    });
     // Click continue button
     cy.get('.usa-button')
       .contains('Continue')
@@ -221,10 +218,10 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.url().should('contain', `${rootUrl}new-appointment/review`);
     cy.axeCheckBestPractice();
     // Click request appointment button
-    cy.findByText('Request appointment').click();
+    cy.findByText('Request appointment').click({ waitForAnimations: true });
 
     // Check form requestBody is as expected
-    cy.wait('@v2:create:appointment').should(xhr => {
+    cy.wait('@v2:create:appointment').then(xhr => {
       const { body } = xhr.request;
 
       expect(xhr.response.statusCode).to.eq(200);
@@ -270,13 +267,15 @@ describe('VAOS community care flow using VAOS service', () => {
     // Request detail page should display the same information sent to create the
     // appointment.
     cy.url().should('include', '/requests/mock1');
-    cy.wait('@v2:get:appointment');
-    cy.findByText('Pending primary care appointment');
-    cy.findByText('Your appointment request has been submitted.');
-    cy.findByText('This is a very good reason.');
-    cy.findByText('veteran@gmail.com');
-    // cy.findByText('503-555-1234');
-    cy.findByText('Call morning or evening');
+    cy.wait('@v2:get:appointment', { timeout: 90000 }).then(() => {
+      cy.findByText('Pending primary care appointment', { timeout: 90000 });
+      cy.findByText('Your appointment request has been submitted.');
+      cy.findByText('This is a very good reason.');
+      cy.findByText('veteran@gmail.com');
+      // cy.findByText('503-555-1234');
+      cy.findByText('Call morning or evening');
+    });
+
     cy.axeCheckBestPractice();
   });
 
@@ -368,8 +367,9 @@ describe('VAOS community care flow using VAOS service', () => {
       `${rootUrl}new-appointment/community-care-preferences`,
     );
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a provider/).click();
 
+    cy.findByText(/Choose a provider/).click();
+    cy.wait('@v1:get:provider', { timeout: 6000 });
     cy.findByLabelText(/doe, jane/i).click();
     cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
@@ -398,9 +398,9 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.url().should('contain', `${rootUrl}new-appointment/reason-appointment`);
     cy.axeCheckBestPractice();
     // Fill out reason input
-    cy.get('#root_reasonAdditionalInfo')
-      .type('This is a very good reason.')
-      .tab();
+    cy.get('#root_reasonAdditionalInfo').as('additionalInfo');
+    cy.get('@additionalInfo').type('This is a very good reason.');
+    cy.get('@additionalInfo').tab();
     cy.get('#root_reasonAdditionalInfo').should(
       'have.value',
       'This is a very good reason.',

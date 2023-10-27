@@ -6,6 +6,16 @@ import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
+import Scroll from 'react-scroll';
+
+const { scroller } = Scroll;
+export const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object

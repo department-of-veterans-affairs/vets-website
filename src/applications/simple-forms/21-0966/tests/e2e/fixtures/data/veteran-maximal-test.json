@@ -1,8 +1,8 @@
 {
   "preparerIdentification": "VETERAN",
   "benefitSelection": {
-    "COMPENSATION": true,
-    "PENSION": true
+    "compensation": true,
+    "pension": true
   },
   "veteranFullName": {
     "first": "Veteran",

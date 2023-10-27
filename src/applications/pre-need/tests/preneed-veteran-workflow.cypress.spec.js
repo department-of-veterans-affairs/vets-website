@@ -1,4 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
@@ -16,9 +15,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     );
 
     // Veteran Information Page
-    cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
     preneedHelpers.validateProgressBar('1');
-
     cy.fill(
       'input[name="root_application_veteran_militaryServiceNumber"]',
       testData.data.application.veteran.militaryServiceNumber,
@@ -27,9 +24,8 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       'input[name="root_application_veteran_vaClaimNumber"]',
       testData.data.application.veteran.vaClaimNumber,
     );
-    cy.fill(
-      'input[name="root_application_veteran_placeOfBirth"]',
-      testData.data.application.veteran.placeOfBirth,
+    cy.get('#root_application_veteran_militaryStatus').select(
+      testData.data.application.veteran.militaryStatus,
     );
     cy.get(
       'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
@@ -42,19 +38,11 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       'root_application_veteran_maritalStatus',
       testData.data.application.veteran.maritalStatus,
     );
-    cy.get('#root_application_veteran_militaryStatus').select(
-      testData.data.application.veteran.militaryStatus,
-    );
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History Page
-    cy.get(
-      'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
-      { timeout: Timeouts.verySlow },
-    );
     preneedHelpers.validateProgressBar('2');
     preneedHelpers.fillMilitaryHistory(
       testData.data.application.veteran.serviceRecords,
@@ -62,15 +50,10 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names Page
-    preneedHelpers.fillPreviousName(
-      testData.data.application.veteran.serviceName,
-    );
+    preneedHelpers.fillPreviousName(testData.data.application.veteran);
     cy.url().should('not.contain', '/applicant-military-name');
 
     // Benefit Selection Page
-    cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
-      'be.visible',
-    );
     preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillBenefitSelection(
       testData.data.application.veteran.desiredCemetery.label,
@@ -79,20 +62,18 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     );
 
     // Supporting Documents Page
-    cy.get('label[for="root_application_preneedAttachments"]');
+    cy.get('label[for="root_application_preneedAttachments"]').should(
+      'be.visible',
+    );
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Veteran Contact Information Page
-    cy.get('select[name="root_application_claimant_address_country"]');
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillApplicantContactInfo(testData.data.application.veteran);
 
     // Preparer Contact Information Page
-    cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
-    );
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicantForeign);
 
