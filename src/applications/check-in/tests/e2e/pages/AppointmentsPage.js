@@ -73,7 +73,7 @@ class AppointmentsPage {
   };
 
   validateUpcomingAppointmentsList = () => {
-    const expectedDaySeparators = ['Tue 26', 'Wed 27', 'Sun 26'];
+    const expectedDaySeparators = ['26 Tue', '27 Wed', '26 Sun'];
     const expectedTimeOrder = ['2:00', '3:00', '4:00', '2:00', '2:00'];
     cy.get('[data-testid="appointments-list-monthyear-heading"]', {
       timeout: Timeouts.slow,

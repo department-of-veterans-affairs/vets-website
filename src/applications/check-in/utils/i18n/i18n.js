@@ -74,6 +74,9 @@ i18n
           if (format === 'dayOfMonth') {
             return formatDate(value, 'd', { locale });
           }
+          if (format === 'date') {
+            return formatDate(value, 'E, MMMM do', { locale });
+          }
           return formatDate(value, format, { locale });
         }
         return value;
