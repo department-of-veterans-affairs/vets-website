@@ -7,11 +7,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.veteranPersonalInformationChapter.pages.relationshipToVeteran;
+} = formConfig.chapters.veteranPersonalInformationChapter.pages.survivingDependentVeteranPersonalInformation;
 
-const pageTitle = 'Relationship to veteran';
+const pageTitle = 'Veteran personal information';
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -20,7 +20,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
