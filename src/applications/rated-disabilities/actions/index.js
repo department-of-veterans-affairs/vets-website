@@ -110,3 +110,7 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
     }
   };
 }
+
+export function checkForDiscrepancies() {
+  getData('/rated_disabilities_discrepancies');
+}
