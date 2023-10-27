@@ -1,6 +1,11 @@
 import PageObject from '../PageObject';
 
-export class AppointmentListPage extends PageObject {
+export class AppointmentListPageObject extends PageObject {
+  scheduleAppointment() {
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
+    return this;
+  }
+
   selectListItem() {
     cy.findByTestId('appointment-list-item')
       .first()
@@ -27,11 +32,6 @@ export class AppointmentListPage extends PageObject {
 
     return this;
   }
-
-  scheduleAppointment() {
-    cy.findByText('Start scheduling').click({ waitForAnimations: true });
-    return this;
-  }
 }
 
-export default new AppointmentListPage();
+export default new AppointmentListPageObject();

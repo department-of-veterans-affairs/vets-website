@@ -1,11 +1,6 @@
-import { AppointmentListPage } from './AppointmentListPage';
+import { AppointmentListPageObject } from './AppointmentListPageObject';
 
-export class PastAppointmentListPage extends AppointmentListPage {
-  visit() {
-    super.visit('/past');
-    return this;
-  }
-
+export class PastAppointmentListPageObject extends AppointmentListPageObject {
   selectDateRange(index) {
     cy.findByTestId('vaosSelect')
       .shadow()
@@ -31,6 +26,11 @@ export class PastAppointmentListPage extends AppointmentListPage {
 
     return this;
   }
+
+  visit() {
+    super.visit('/past');
+    return this;
+  }
 }
 
-export default new PastAppointmentListPage();
+export default new PastAppointmentListPageObject();

@@ -13,8 +13,8 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
-import PastAppointmentListPage from '../../page-objects/AppointmentList/PastAppointmentListPage';
-import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
+import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
@@ -23,8 +23,8 @@ describe('VAOS past appointment flow', () => {
 
       mockFacilitiesApi();
       mockFeatureToggles();
-      mockVamcEhrApi();
       mockLoginApi();
+      mockVamcEhrApi();
     });
 
     it('should display past appointments list', () => {
@@ -54,7 +54,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPage.visit();
+      AppointmentListPageObject.visit();
       cy.findByRole('link', { name: 'Past' })
         .click()
         .then(() => {
@@ -92,7 +92,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      PastAppointmentListPage.visit()
+      PastAppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -119,7 +119,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      PastAppointmentListPage.visit()
+      PastAppointmentListPageObject.visit()
         .validate()
         .selectDateRange(2);
 
@@ -143,7 +143,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [] });
 
       // Arrange
-      PastAppointmentListPage.visit();
+      PastAppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/You don.t have any appointment requests/i).should('be.ok');
@@ -157,7 +157,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [], responseCode: 400 });
 
       // Act
-      PastAppointmentListPage.visit();
+      PastAppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/We.re sorry\. We.ve run into a problem/i);

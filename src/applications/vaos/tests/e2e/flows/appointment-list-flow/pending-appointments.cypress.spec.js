@@ -4,13 +4,14 @@
 
 import moment from 'moment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import PendingAppointmentListPage from '../../page-objects/AppointmentList/PendingAppointmentListPage';
+import PendingAppointmentListPageObject from '../../page-objects/AppointmentList/PendingAppointmentListPageObject';
 import {
   vaosSetup,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockLoginApi,
   mockAppointmentsApi,
+  mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 
@@ -22,6 +23,7 @@ describe('VAOS pending appointment flow', () => {
       mockFacilitiesApi();
       mockFeatureToggles();
       mockLoginApi();
+      mockVamcEhrApi();
     });
 
     it('should display pending appointments list', () => {
@@ -39,7 +41,7 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      PendingAppointmentListPage.visit().validate();
+      PendingAppointmentListPageObject.visit().validate();
 
       // Assert
       cy.findByText(/Pending \(5\)/i).should('be.ok');
@@ -58,7 +60,7 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      PendingAppointmentListPage.visit().validate();
+      PendingAppointmentListPageObject.visit().validate();
       cy.findByText(/Primary care/i).click({ waitForAnimations: true });
 
       // Assert
@@ -73,7 +75,7 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsApi({ response: [] });
 
       // Arrange
-      PendingAppointmentListPage.visit();
+      PendingAppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/You don.t have any appointment requests/i).should('be.ok');
@@ -87,7 +89,7 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsApi({ response: [], responseCode: 400 });
 
       // Act
-      PendingAppointmentListPage.visit();
+      PendingAppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/We.re sorry\. We.ve run into a problem/i);
