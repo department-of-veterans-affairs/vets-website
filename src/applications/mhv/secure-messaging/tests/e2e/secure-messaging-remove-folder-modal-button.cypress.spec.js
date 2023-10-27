@@ -63,7 +63,16 @@ describe('manage folders', () => {
         folderName,
       );
       folderPage.deleteFolderButton().click();
-      cy.get('[data-testid="error-folder-not-empty"]').click();
+
+      cy.get('[data-testid="error-folder-not-empty"]').click({
+        waitForAnimations: true,
+        force: true,
+      });
+
+      cy.get('[text="Ok"]')
+        .shadow()
+        .find('[type="button"]')
+        .click();
     });
   });
 });
