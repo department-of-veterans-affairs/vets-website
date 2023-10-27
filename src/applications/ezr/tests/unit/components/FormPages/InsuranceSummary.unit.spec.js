@@ -20,14 +20,14 @@ describe('ezr InsuranceSummary', () => {
   };
 
   context('when no policies have been added', () => {
-    const props = { ...defaultProps, data: { providers: [] } };
-
     it('should not render a title', () => {
+      const props = { ...defaultProps, data: {} };
       const { container } = render(<InsuranceSummary {...props} />);
       expect(container.querySelector('#root__title').textContent).to.be.empty;
     });
 
     it('should not render the policy list field', () => {
+      const props = { ...defaultProps, data: { providers: [] } };
       const { container } = render(<InsuranceSummary {...props} />);
       expect(container.querySelector('[data-testid="ezr-policy-list-field"]'))
         .to.not.exist;

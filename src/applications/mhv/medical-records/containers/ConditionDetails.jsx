@@ -19,7 +19,14 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  EMPTY_FIELD,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -33,6 +40,7 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -126,7 +134,14 @@ const ConditionDetails = props => {
     generateConditionDetails();
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+      );
+    }
     if (record) {
       return (
         <>
