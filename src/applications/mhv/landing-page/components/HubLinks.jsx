@@ -20,11 +20,11 @@ const HubSection = ({ title, links }) => {
 };
 
 const HubLinks = ({ hubs }) => {
-  const hubLayout = hubs.map(h => (
+  const hubLayout = hubs.map((h, index) => (
     <div
       key={h.title}
       className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap"
-      data-testid="mhv-link-group"
+      data-testid={`mhv-link-group-hub-${index}`}
     >
       <HubSection title={h.title} links={h.links} />
     </div>

@@ -1,6 +1,5 @@
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isLoggedIn } from '~/platform/user/selectors';
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { isLandingPageEnabled } from './isLandingPageEnabled';
 
 /**
  * Determines if the MHV-on-VA.gov Landing Page should be shown.
@@ -18,7 +17,6 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
  */
 export const isLandingPageEnabledForUser = state => {
   const loggedIn = isLoggedIn(state);
-  const mhvlpFeatureToggle = FEATURE_FLAG_NAMES.mhvLandingPageEnabled;
-  const featureToggleEnabled = toggleValues(state)[mhvlpFeatureToggle];
+  const featureToggleEnabled = isLandingPageEnabled(state);
   return loggedIn && featureToggleEnabled;
 };
