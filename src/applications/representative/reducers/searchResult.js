@@ -2,8 +2,9 @@ import {
   FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
-  // SORT_TYPE_UPDATED,
+  SORT_TYPE_UPDATED,
   MOCK_SEARCH,
+  MOCK_SEARCH_PAGE_2,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -12,7 +13,7 @@ const INITIAL_STATE = {
   results: [],
   sortedSearchResults: [],
   selectedResult: null,
-  sortType: 'DISTANCE_FARTHEST_TO_CLOSEST',
+  sortType: 'DISTANCE_CLOSEST_TO_FARTHEST',
   pagination: {},
 };
 
@@ -31,7 +32,9 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         pagination: action.payload.meta.pagination,
         resultTime: action.payload.meta.resultTime,
       };
+    case SORT_TYPE_UPDATED:
     case MOCK_SEARCH:
+    case MOCK_SEARCH_PAGE_2:
       return {
         ...state,
         ...action.payload,

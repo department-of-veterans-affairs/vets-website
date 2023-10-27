@@ -18,7 +18,7 @@ import {
 export const INITIAL_STATE = {
   locationInputString: '',
   repOrganizationInputString: '',
-  representativeType: null,
+  representativeType: 'Veteran Service Organization (VSO)',
   position: {
     latitude: 40.17887331434698,
     longitude: -99.27246093750001,

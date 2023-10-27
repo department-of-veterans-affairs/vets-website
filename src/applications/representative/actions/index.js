@@ -8,6 +8,7 @@ import { searchWithBounds } from './search/searchWithBounds';
 import { updateSearchQuery } from './search/updateSearchQuery';
 import { updateSortType } from './search/updateSortType';
 import { mockSearch } from './search/mockSearch';
+import { mockSearchPage2 } from './search/mockSearchPage2';
 
 export { clearGeocodeError };
 export { clearSearchResults };
@@ -19,6 +20,7 @@ export { searchWithBounds };
 export { updateSearchQuery };
 export { updateSortType };
 export { mockSearch };
+export { mockSearchPage2 };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';
