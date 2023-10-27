@@ -143,7 +143,7 @@ const ThreadListItem = props => {
         <div className="vads-u-font-weight--normal vads-u-color--gray-medium">
           {formattedDate()}
         </div>
-        <div>
+        <div data-testid="message-info-row">
           {hasAttachment && (
             <i
               role="img"
