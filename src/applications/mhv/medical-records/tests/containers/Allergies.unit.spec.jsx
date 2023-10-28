@@ -128,9 +128,12 @@ describe('Allergies list container with no allergies', () => {
 
   it('displays a no allergies message', () => {
     expect(
-      screen.getByText('You don’t have any records in Allergies', {
-        exact: true,
-      }),
+      screen.getByText(
+        'There are no allergies or reactions in your VA medical records.',
+        {
+          exact: true,
+        },
+      ),
     ).to.exist;
   });
 });
