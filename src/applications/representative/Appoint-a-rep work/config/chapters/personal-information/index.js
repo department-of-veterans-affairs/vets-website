@@ -1,6 +1,6 @@
-import * as authenticated from './authenticated';
-import * as unauthenticated from './unauthenticated';
+// import * as authenticated from './authenticated';
+// import * as unauthenticated from './unauthenticated';
 
-export const title = 'Service member or Veteran’s Information';
+// export const title = 'Service member or Veteran’s Information';
 
-export { authenticated, unauthenticated };
+// export { authenticated, unauthenticated };
