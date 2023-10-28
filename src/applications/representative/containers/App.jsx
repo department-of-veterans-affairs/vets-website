@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GetFormHelp from '../components/GetFormHelp'
+import GetFormHelp from '../components/GetFormHelp';
 
 // import { connect } from 'react-redux';
 // import DowntimeNotification, {
