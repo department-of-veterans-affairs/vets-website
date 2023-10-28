@@ -2,7 +2,7 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 
 // internal app imports
 import manifest from '../manifest.json';
@@ -58,7 +58,7 @@ const {
 } = SHARED_PATHS;
 
 // declare schema definitions
-const { date, dependent, monetaryValue, provider, ssn } = ezrSchema.definitions;
+const { date } = ezrSchema.definitions;
 
 // declare form config object
 const formConfig = {
@@ -108,7 +108,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
-  defaultDefinitions: { date, dependent, monetaryValue, provider, ssn },
+  defaultDefinitions: { date },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
