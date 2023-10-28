@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 
 import { render, waitFor } from '@testing-library/react';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
-import { SHOW_PART3 } from '../../../appeals/10182/constants';
 
 const PROFILE = {
   attributes: {
@@ -1503,7 +1502,6 @@ const getData = ({
       },
       data: {
         ...formData,
-        [SHOW_PART3]: part3,
       },
     },
     contestableIssues,
