@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import i18next from 'i18next';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
@@ -83,8 +82,7 @@ const TernaryRadios = ({
           {formError && (
             <span className="usa-error-message" role="alert">
               <div className="form-text-error">
-                <span className="usa-sr-only">{i18next.t('error')}</span> Select
-                a response.
+                <span className="usa-sr-only">Error</span> Select a response.
               </div>
             </span>
           )}
