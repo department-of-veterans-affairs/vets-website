@@ -1,7 +1,7 @@
-import { FETCH_LOCATIONS, SEARCH_FAILED } from '../../utils/actionTypes';
+import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
 import { distBetween } from '../../utils/representativeDistance';
 
-import LocatorApi from '../../api/LocatorApi';
+import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
  * Handles the API call to get the type of locations closest to `address`
  * and/or within the given `bounds`.
@@ -25,7 +25,7 @@ export const fetchRepresentatives = async (
   let data = {};
 
   try {
-    const dataList = await LocatorApi.searchWithBounds(
+    const dataList = await RepresentativeFinderApi.searchWithBounds(
       address,
       bounds,
       representativeType,
@@ -56,7 +56,7 @@ export const fetchRepresentatives = async (
     if (data.errors) {
       dispatch({ type: SEARCH_FAILED, error: data.errors });
     } else {
-      dispatch({ type: FETCH_LOCATIONS, payload: data });
+      dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
     }
   } catch (error) {
     dispatch({ type: SEARCH_FAILED, error: error.message });
