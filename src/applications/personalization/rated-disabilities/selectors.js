@@ -27,3 +27,6 @@ export const hasTotalDisabilityServerError = state => {
 // 'rated_disabilities_use_lighthouse`
 export const rdUseLighthouse = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.ratedDisabilitiesUseLighthouse];
+
+export const rdDetectDiscrepancies = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.ratedDisabilitiesDetectDiscrepancies];

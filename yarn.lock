@@ -2796,10 +2796,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.8":
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.8.tgz#685612acc82b80ba6fe283d283fd9e0c848cf60a"
-  integrity sha512-PzDg0S/X0fhFw+gPnPv/bytZ2n02o6q2nXeLI45uq75ob2UGbFpkYRlqJQXpUgmObpyjXpv2HoIO7nj/8NLiQw==
+"@department-of-veterans-affairs/formation@^7.0.9":
+  version "7.0.9"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.9.tgz#2a18c435f8527081d5354629a1a2f203c1f3d910"
+  integrity sha512-U72RcNsRYGC5IAo59m7QxItLXf0IPm2TdH7Oe6Z8SuSjd1RtlbLIPuEGEkMuEj6SjCROsVAyX2P24YshUJ6Sgg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -7513,10 +7513,10 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress-real-events@^1.7.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.8.1.tgz#d00c7fe93124bbe7c0f27296684838614d24a840"
-  integrity sha512-8fFnA8EzS3EVbAmpSEUf3A8yZCmfU3IPOSGUDVFCdE1ke1gYL1A+gvXXV6HKUbTPRuvKKt2vpaMbUwYLpDRswQ==
+cypress-real-events@^1.10.3:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.10.3.tgz#e2e949ea509cc4306df6c238de1a9982d67360e5"
+  integrity sha512-YN3fn+CJIAM638sE6uMvv2/n3PsWowdd0rOiN6ZoyezNAMyENfuQHvccLKZpN+apGfQZYetCml6QXLYgDid2fg==
 
 cypress-wait-until@^1.7.2:
   version "1.7.2"
@@ -19994,9 +19994,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120":
-  version "20.27.22"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#08af8902f6e439abe1c5474cf4adf961f8dbeedf":
+  version "20.29.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#08af8902f6e439abe1c5474cf4adf961f8dbeedf"
   dependencies:
     minimist "^1.2.3"
 

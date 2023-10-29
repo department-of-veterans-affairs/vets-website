@@ -30,10 +30,12 @@ const MedicationsListCard = props => {
         >
           <Link
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
-            to={`/${rx.prescriptionId}`}
+            to={`/prescription/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
-            {rx.prescriptionName}
+            {rx.dispStatus === 'Active: Non-VA'
+              ? rx.orderableItem
+              : rx.prescriptionName}
           </Link>
         </h3>
         {rx && <LastFilledInfo {...rx} />}

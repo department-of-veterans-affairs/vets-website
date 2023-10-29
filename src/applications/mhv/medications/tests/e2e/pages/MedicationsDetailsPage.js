@@ -22,10 +22,10 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsName = prescriptionDetails => {
+  verifyPrescriptionsName = prescriptionName => {
     cy.get('[data-testid="prescription-name"]').should(
       'contain',
-      prescriptionDetails,
+      prescriptionName,
     );
   };
 
@@ -82,6 +82,26 @@ class MedicationsDetailsPage {
       .click({ force: true });
   };
 
+  clickMedicationDetailsLink = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
+      prescriptionDetails,
+    ).as('prescriptionDetails');
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('be.visible');
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    ).click({ waitForAnimations: true });
+  };
+
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
     cy.contains('About Medications')
       .should('be.visible')
@@ -104,6 +124,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download your medication details as a PDF')
       .should('be.enabled');
+  };
+
+  verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
+    cy.get('[data-testid="refill-request-button"]').should('be.enabled');
   };
 }
 export default MedicationsDetailsPage;

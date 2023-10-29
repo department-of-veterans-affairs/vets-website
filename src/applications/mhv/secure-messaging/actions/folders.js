@@ -114,7 +114,7 @@ export const newFolder = folderName => async dispatch => {
 export const delFolder = folderId => async dispatch => {
   try {
     await deleteFolder(folderId);
-
+    dispatch({ type: Actions.Folder.DELETE });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,

@@ -1,8 +1,7 @@
-// import { expect } from 'chai';
-// import prefillTransformer from '../../config/prefill-transformer';
-
-// This is the nesting of the prefill data; transformation flattens it
+import { expect } from 'chai';
+import { prefillTransformer } from '../../config/prefill-transformer';
 /*
+// This is the nesting of the prefill data; transformation flattens it
 const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
   prefill: {
     veteranSsnLastFour: ssnLastFour,
@@ -19,7 +18,6 @@ const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
  */
 
 describe('SC prefill transformer', () => {
-  /*
   const noTransformData = {
     metadata: { test: 'Test Metadata' },
     formData: {
@@ -32,15 +30,10 @@ describe('SC prefill transformer', () => {
   it('should return built out template from prefill data', () => {
     const { pages, formData, metadata } = noTransformData;
     const noTransformActual = prefillTransformer(pages, formData, metadata);
-    // ensure transformed data is not the same object as input data
     expect(noTransformActual).to.not.equal(noTransformData);
-    expect(noTransformActual).to.deep.equal({
-      metadata: noTransformData.metadata,
-      formData: buildData({}).result,
-      pages: noTransformData.pages,
-    });
   });
 
+  /*
   it('should transform ssn & vafn when present', () => {
     const { pages, metadata } = noTransformData;
     const data = buildData({
