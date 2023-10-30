@@ -25,6 +25,7 @@ describe('Pre-need applicant relationship to vet', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-additional-info').length).to.equal(1);
     form.unmount();
   });
 
