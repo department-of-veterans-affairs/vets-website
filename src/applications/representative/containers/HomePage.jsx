@@ -26,7 +26,7 @@ export default function HomePage() {
   return (
     <>
       <va-breadcrumbs>{renderBreadcrumbs()}</va-breadcrumbs>
-      <div className="row">
+      <div>
         {/* <div className="columns welcome-page-container"> */}
         <div
           // className="usa-width-two-thirds medium-8 columns"
@@ -43,7 +43,7 @@ export default function HomePage() {
 
           <va-process-list>
             <li>
-              <h3>Find an accredited representative</h3>
+              <h3>Find a representative</h3>
               <p>Use our tool to find a representative near you.</p>
             </li>
             <li>
