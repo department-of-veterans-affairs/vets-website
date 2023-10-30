@@ -68,6 +68,11 @@ describe('manage folders', () => {
         waitForAnimations: true,
         force: true,
       });
+      cy.get('.modal')
+        .contains(
+          "You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.",
+        )
+        .click();
 
       cy.get('[text="Ok"]')
         .shadow()
