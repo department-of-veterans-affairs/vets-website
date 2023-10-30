@@ -13,7 +13,8 @@ describe('ezr DependentInformation', () => {
 
   context('when the component renders', () => {
     it('should render form object with the correct title', () => {
-      const { container } = render(<DependentInformation {...defaultProps} />);
+      const props = { ...defaultProps, data: {} };
+      const { container } = render(<DependentInformation {...props} />);
       const selector = container.querySelector('.rjsf');
       expect(selector).to.exist;
     });
