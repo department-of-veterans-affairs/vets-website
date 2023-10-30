@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import userEvent from '@testing-library/user-event';
 import formConfig from '../../../config/form';
-import { introQuestion } from '../../../content/toxicExposure';
 
 describe('Toxic Exposure Intro', () => {
   const {
@@ -17,12 +16,13 @@ describe('Toxic Exposure Intro', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} />,
     );
 
-    // verify all 3 options are present
+    // verify options are present
     screen.getByRole('radio', { name: 'Yes' });
     screen.getByRole('radio', { name: 'No' });
-    screen.getByRole('radio', { name: 'I’m not sure' });
 
-    screen.getByText(introQuestion);
+    screen.getByText(
+      'Would you like to answer questions related to toxic exposure?',
+    );
   });
 
   it('should display error when none of the options are selected', () => {
