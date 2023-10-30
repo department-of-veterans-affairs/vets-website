@@ -355,7 +355,6 @@ describe('actionCreators', () => {
       expect(
         sinon.assert.calledWithExactly(dispatch, { type: 'GEOLOCATE_USER' }),
       );
-      // expect(sinon.assert.calledWithExactly(dispatch, { type: 'GEOCODE_COMPLETE', payload: mockQuery }));
     });
 
     it('should dispatch GEOCODE_LOCATION_FAILED on geolocation failure', async () => {
