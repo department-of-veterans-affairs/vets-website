@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import PropTypes from 'prop-types';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
@@ -29,13 +30,14 @@ import {
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
 
-const Prescriptions = () => {
+const Prescriptions = props => {
+  const { fullList } = props;
   const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
-  const [fullPrescriptionsList, setFullPrescriptionsList] = useState([]);
+  const [fullPrescriptionsList, setFullPrescriptionsList] = useState(fullList);
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -304,3 +306,7 @@ const Prescriptions = () => {
 };
 
 export default Prescriptions;
+
+Prescriptions.propTypes = {
+  fullList: PropTypes.any,
+};
