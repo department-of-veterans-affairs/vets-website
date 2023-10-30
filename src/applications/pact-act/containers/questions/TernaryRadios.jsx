@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { snakeCase } from 'lodash';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
@@ -62,21 +62,52 @@ const TernaryRadios = ({
     }
   };
 
+  const renderRadioOptions = response => {
+    return (
+      <>
+        <input
+          type="radio"
+          checked={formValue === response}
+          data-testid="va-radio-option"
+          id={snakeCase(`${response}_input`)}
+          name={shortName}
+          onChange={() => onValueChange(response)}
+          value={response}
+        />
+        <label
+          className="pact-act-form-label"
+          htmlFor={snakeCase(`${response}_input`)}
+        >
+          <span>{response}</span>
+        </label>
+      </>
+    );
+  };
+
   return (
     <>
       <div
         className={
           formError
-            ? 'vads-u-margin-bottom--3 form-question-error'
+            ? 'vads-u-margin-bottom--3 pact-act-form-question-error'
             : 'vads-u-margin-bottom--3'
         }
       >
-        <h1 className="form-question-header" id="form-question">
+        <h1
+          className="pact-act-form-question-header"
+          id="pact-act-form-question"
+        >
           {h1}
         </h1>
-        {locationList ? <div id="form-instructions">{locationList}</div> : null}
+        {locationList ? (
+          <div id="pact-act-form-instructions">{locationList}</div>
+        ) : null}
         <fieldset
-          aria-labelledby="form-question form-instructions"
+          aria-labelledby={
+            locationList
+              ? 'pact-act-form-question pact-act-form-instructions'
+              : 'pact-act-form-question'
+          }
           data-testid={testId}
         >
           {formError && (
@@ -86,57 +117,9 @@ const TernaryRadios = ({
               </div>
             </span>
           )}
-          <>
-            <input
-              type="radio"
-              checked={formValue === responses[0]}
-              data-testId="va-radio-option"
-              id={_.snakeCase(`${responses[0]}_input`)}
-              name={shortName}
-              onChange={() => onValueChange(responses[0])}
-              value={responses[0]}
-            />
-            <label
-              className="form-label"
-              htmlFor={_.snakeCase(`${responses[0]}_input`)}
-            >
-              <span>{responses[0]}</span>
-            </label>
-          </>
-          <>
-            <input
-              type="radio"
-              checked={formValue === responses[1]}
-              data-testId="va-radio-option"
-              id={_.snakeCase(`${responses[1]}_input`)}
-              name={shortName}
-              onChange={() => onValueChange(responses[1])}
-              value={responses[1]}
-            />
-            <label
-              className="form-label"
-              htmlFor={_.snakeCase(`${responses[1]}_input`)}
-            >
-              <span>{responses[1]}</span>
-            </label>
-          </>
-          <>
-            <input
-              type="radio"
-              checked={formValue === responses[2]}
-              data-testId="va-radio-option"
-              id={_.snakeCase(`${responses[2]}_input`)}
-              name={shortName}
-              onChange={() => onValueChange(responses[2])}
-              value={responses[2]}
-            />
-            <label
-              className="form-label"
-              htmlFor={_.snakeCase(`${responses[2]}_input`)}
-            >
-              <span>{responses[2]}</span>
-            </label>
-          </>
+          {responses.map(response => {
+            return renderRadioOptions(response);
+          })}
         </fieldset>
       </div>
       <VaButtonPair

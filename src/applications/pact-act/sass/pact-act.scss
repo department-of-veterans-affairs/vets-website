@@ -1,7 +1,6 @@
   /* stylelint-disable */
 .pact-act-app {
-  $error-color: #cd2026;
-  
+
   h1:focus {
     outline: none;
   }
@@ -22,26 +21,27 @@
     }
   }
 
-  .form-question-header {
-    font-family:  "Bitter","Georgia", "Cambria", "Times New Roman", "Times", serif;
+  .pact-act-form-question-header {
+    font-family:  "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
     font-size: 2em;
+    line-height: 1.5;
     margin-bottom: 0px;
     max-width: 46rem;
   }
 
-  .form-question-error {
+  .pact-act-form-question-error {
     border-left: 0.4rem solid #cd2026;
     padding-left: 2rem;
     position: relative;
   }
 
-  .form-text-error {
+  .pact-act-form-text-error {
     color: #cd2026;
     font-weight: bold;
   }
 
-  .form-label {
+  .pact-act-form-label {
     margin-top: 1rem;
-    padding-left: 6px
+    padding-left: 6px;
   }
 }
