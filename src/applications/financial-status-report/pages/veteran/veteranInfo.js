@@ -1,12 +1,4 @@
-import VeteranInfoBox from '../../components/shared/VeteranInfoBox';
-
-export const uiSchema = {
-  'view:components': {
-    'view:veteranInfo': {
-      'ui:field': VeteranInfoBox,
-    },
-  },
-};
+export const uiSchema = {};
 
 export const schema = {
   type: 'object',
