@@ -29,7 +29,7 @@ describe('<AppointmentsCard />', () => {
     ];
 
     const startFns = parseISO(appointments[0].startsAt);
-    const startFormatted = format(startFns, 'eeee, MMMM do, yyyy');
+    const startFormatted = format(startFns, 'eeee, MMMM d, yyyy');
     const timeZone = getAppointmentTimezone(appointments[0]);
     const tree = renderWithStoreAndRouter(
       <AppointmentsCard appointments={appointments} />,
@@ -50,7 +50,7 @@ describe('<AppointmentsCard />', () => {
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
     tree.getByText(
-      `Time: ${format(startFns, 'h:mm aaa')} ${timeZone.abbreviation}`,
+      `Time: ${format(startFns, 'h:mm aaaa')} ${timeZone.abbreviation}`,
     );
   });
 
