@@ -5,6 +5,7 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
+  click,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -25,7 +26,6 @@ describe('Pre-need applicant relationship to vet', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
-    expect(form.find('va-additional-info').length).to.equal(1);
     form.unmount();
   });
 
@@ -62,6 +62,27 @@ describe('Pre-need applicant relationship to vet', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should expand info message', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect(form.find('va-additional-info').length).to.equal(1);
+    expect(form.find('div#info').props().className).to.equal('closed');
+
+    click(form, 'va-additional-info');
+
+    expect(form.find('va-additional-info').length).to.equal(1);
+    expect(form.find('div#info').props().className).to.equal('open');
     form.unmount();
   });
 });
