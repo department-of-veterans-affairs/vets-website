@@ -1,0 +1,4 @@
+@import "functions";
+
+$text-max-width:      uswds-override(70rem); // Note: USWDS value is 53rem;
+$site-max-width:      uswds-override(100rem); // Worksout to about 1000px. USWDS value is 1040px
