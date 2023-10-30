@@ -67,6 +67,7 @@ const AttachmentsList = props => {
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1">
         Attachments
+        {attachments.length > 0 ? <span> ({attachments.length})</span> : ''}
       </div>
       {editingEnabled && <HowToAttachFiles />}
       <ul className="attachments-list">

@@ -136,7 +136,9 @@ const FileInput = ({ attachments, setAttachments }) => {
           <va-button
             onClick={useFileInput}
             secondary
-            text="Attach file"
+            text={
+              attachments.length > 0 ? 'Attach additional file' : 'Attach file'
+            }
             class="attach-file-button"
             data-testid="attach-file-button"
           />
