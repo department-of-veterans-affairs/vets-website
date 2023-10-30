@@ -77,12 +77,12 @@ describe('Pre-need applicant relationship to vet', () => {
     );
 
     expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('#info').props().classID).to.equal('closed');
+    expect(form.find('#info').props().className).to.equal('closed');
 
     click(form, 'va-additional-info');
 
     expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('#info').props().classID).to.equal('open');
+    expect(form.find('#info').props().className).to.equal('open');
     form.unmount();
   });
 });
