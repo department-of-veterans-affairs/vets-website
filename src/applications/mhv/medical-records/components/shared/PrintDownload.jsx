@@ -81,7 +81,7 @@ const PrintDownload = props => {
               data-testid="printButton-2"
               onClick={downloadTxt}
             >
-              Download {list ? 'list' : 'page'} as a text file as a text file
+              Download {list ? 'list' : 'page'} as a text file
             </button>
           </li>
         )}
