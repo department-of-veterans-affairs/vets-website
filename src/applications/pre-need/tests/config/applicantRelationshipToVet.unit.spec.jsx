@@ -77,12 +77,16 @@ describe('Pre-need applicant relationship to vet', () => {
     );
 
     expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('div#info').props().className).to.equal('closed');
+    expect(form.find('va-additional-info').html()).to.not.include(
+      'is a person who is or was legally married to a service member or Veteran',
+    );
 
     click(form, 'va-additional-info');
 
     expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('div#info').props().className).to.equal('open');
+    expect(form.find('va-additional-info').html()).to.include(
+      'is a person who is or was legally married to a service member or Veteran',
+    );
     form.unmount();
   });
 });
