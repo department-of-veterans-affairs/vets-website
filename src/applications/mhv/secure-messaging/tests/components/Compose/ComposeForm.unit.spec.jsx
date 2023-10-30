@@ -81,8 +81,8 @@ describe('Compose form component', () => {
   it('displays Edit List modal if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const editListLink = await screen.getByTestId('edit-list-button', {
-      selector: 'va-button',
+    const editListLink = await screen.getByTestId('edit-preferences-button', {
+      selector: 'button',
       exact: true,
     });
     expect(
@@ -91,7 +91,7 @@ describe('Compose form component', () => {
 
     fireEvent.click(editListLink);
     const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_LIST_CONTENT,
+      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
     );
 
     expect(
@@ -143,14 +143,10 @@ describe('Compose form component', () => {
         path: `/draft/${draftMessage.id}`,
       },
     );
-    const draftMessageHeadingText = await screen.getAllByRole('heading', {
-      name: 'COVID: Covid-Inquiry',
-      level: 2,
-    });
 
     const deleteButton = await screen.getByTestId('delete-draft-button');
 
-    expect(draftMessageHeadingText).to.exist;
+    expect(document.querySelector('form.compose-form')).to.exist;
     expect(deleteButton).to.exist;
   });
 

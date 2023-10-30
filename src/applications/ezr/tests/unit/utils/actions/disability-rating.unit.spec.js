@@ -51,12 +51,42 @@ describe('ezr disability rating actions', () => {
     });
 
     context('when fetch operation fails', () => {
-      it('should dispatch a fetch failed action', done => {
+      it('should dispatch a fetch failed action when the response code is in the 500s', done => {
         mockApiRequest(mockData, false);
         setFetchJSONResponse(
           global.fetch.onCall(0),
           // eslint-disable-next-line prefer-promise-reject-errors
           Promise.reject({ status: 503, error: 'error' }),
+        );
+        thunk(dispatch)
+          .then(() => {
+            const action = dispatch.secondCall.args[0];
+            expect(action.type).to.equal(FETCH_DISABILITY_RATING_FAILED);
+          })
+          .then(done, done);
+      });
+
+      it('should dispatch a fetch failed action when the response code is in the 400s', done => {
+        mockApiRequest(mockData, false);
+        setFetchJSONResponse(
+          global.fetch.onCall(0),
+          // eslint-disable-next-line prefer-promise-reject-errors
+          Promise.reject({ status: 403, error: 'error' }),
+        );
+        thunk(dispatch)
+          .then(() => {
+            const action = dispatch.secondCall.args[0];
+            expect(action.type).to.equal(FETCH_DISABILITY_RATING_FAILED);
+          })
+          .then(done, done);
+      });
+
+      it('should dispatch a fetch failed action when the response code is in the 300s', done => {
+        mockApiRequest(mockData, false);
+        setFetchJSONResponse(
+          global.fetch.onCall(0),
+          // eslint-disable-next-line prefer-promise-reject-errors
+          Promise.reject({ status: 301, error: 'error' }),
         );
         thunk(dispatch)
           .then(() => {

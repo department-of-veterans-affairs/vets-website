@@ -1,5 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
-import { ENROLLMENT_STATUS_ACTIONS } from '../constants';
+import {
+  ENROLLMENT_STATUS_ACTIONS,
+  MOCK_ENROLLMENT_REPSONSE,
+} from '../constants';
 
 /**
  * Provide a mocked 200 response when calling the API endpoint
@@ -16,13 +19,7 @@ export function callFakeSuccess(dispatch) {
   }).then(() => {
     dispatch({
       type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-      response: {
-        applicationDate: '2019-04-24T00:00:00.000-06:00',
-        enrollmentDate: '2019-04-30T00:00:00.000-06:00',
-        preferredFacility: '463 - CHEY6',
-        parsedStatus: 'enrolled',
-        effectiveDate: '2019-04-25T00:00:00.000-06:00',
-      },
+      response: MOCK_ENROLLMENT_REPSONSE,
     });
   });
 }
