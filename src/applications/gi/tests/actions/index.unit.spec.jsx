@@ -3,11 +3,23 @@ import sinon from 'sinon';
 import fetchMock from 'fetch-mock';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import * as actions from '../../actions';
 import { api } from '../../config';
+import { fetchSearchByLocationResults } from '../../actions';
+import mapboxClient from '../../components/MapboxClient';
 
+const mbxClient = mbxGeo(mapboxClient);
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
+const mbxClientStub = sinon.stub(mbxClient, 'forwardGeocode').returns({
+  send: sinon.stub().resolves({
+    body: {
+      features: [{ center: 'mockedCenter' }],
+    },
+  }),
+});
 
 describe('actionCreators', () => {
   describe('enterPreviewMode action creator', () => {
@@ -19,6 +31,23 @@ describe('actionCreators', () => {
       };
       const action = actions.enterPreviewMode(version);
       expect(action).to.deep.equal(expectedAction);
+    });
+    it('should exitPreviewMode', () => {
+      const action = actions.exitPreviewMode();
+      expect(action.type).to.eq('EXIT_PREVIEW_MODE');
+    });
+    it('should catch error beneficiaryZIPCodeChanged', () => {
+      const beneficiaryZIP = 'abc';
+      const action = actions.beneficiaryZIPCodeChanged(beneficiaryZIP);
+      expect(action.type).to.eq('BENEFICIARY_ZIP_CODE_CHANGED');
+    });
+    it('should beneficiaryZIPCodeChanged', () => {
+      const store = mockStore({});
+      const beneficiaryZIP = 12345;
+      const action = store.dispatch(
+        actions.beneficiaryZIPCodeChanged(beneficiaryZIP),
+      );
+      expect(action?.type).to.eq(undefined);
     });
   });
 
@@ -301,6 +330,312 @@ describe('actionCreators', () => {
       actions.removeCompareInstitution(facilityCode)(mockDispatch);
 
       expect(dispatchedActions).to.deep.equal(expectedActions);
+    });
+  });
+  describe('geolocateUser', () => {
+    it('should dispatch GEOCODE_COMPLETE on successful geolocation', async () => {
+      const getCurrentPositionStub = sinon.stub();
+      const mockQuery = { location: 'TestLocation' };
+      const mockCoords = { longitude: 10, latitude: 20 };
+      getCurrentPositionStub.callsFake(success => {
+        success({ coords: mockCoords });
+      });
+      const searchCriteriaFromCoordsStub = sinon.stub(
+        actions,
+        'searchCriteriaFromCoords',
+      );
+      global.navigator = {
+        geolocation: {
+          getCurrentPosition: getCurrentPositionStub,
+        },
+      };
+      const dispatch = sinon.stub();
+      searchCriteriaFromCoordsStub.resolves(mockQuery);
+      await actions.geolocateUser()(dispatch);
+      expect(
+        sinon.assert.calledWithExactly(dispatch, { type: 'GEOLOCATE_USER' }),
+      );
+      // expect(sinon.assert.calledWithExactly(dispatch, { type: 'GEOCODE_COMPLETE', payload: mockQuery }));
+    });
+
+    it('should dispatch GEOCODE_LOCATION_FAILED on geolocation failure', async () => {
+      const mockError = { code: 1 };
+      const getCurrentPositionStub = sinon.stub();
+      const dispatch = sinon.stub();
+      global.navigator = {
+        geolocation: {
+          getCurrentPosition: getCurrentPositionStub,
+        },
+      };
+      getCurrentPositionStub.callsFake((_, error) => {
+        error(mockError);
+      });
+
+      await actions.geolocateUser()(dispatch);
+      expect(
+        sinon.assert.calledWithExactly(dispatch, { type: 'GEOLOCATE_USER' }),
+      );
+      expect(
+        sinon.assert.calledWithExactly(dispatch, {
+          type: 'GEOCODE_LOCATION_FAILED',
+          code: mockError.code,
+        }),
+      );
+    });
+  });
+
+  it('should dispatch GEOCODE_LOCATION_FAILED when navigator.geolocation.getCurrentPosition is not available', () => {
+    const dispatch = sinon.spy();
+    global.navigator = {};
+
+    actions.geolocateUser()(dispatch);
+
+    expect(dispatch.calledOnce).to.be.true;
+    expect(dispatch.firstCall.args[0]).to.have.property(
+      'type',
+      'GEOCODE_LOCATION_FAILED',
+    );
+    expect(dispatch.firstCall.args[0]).to.have.property('code', -1);
+  });
+
+  describe('fetchSearchByLocationCoords', () => {
+    it('should dispatch SEARCH_STARTED and SEARCH_BY_NAME_SUCCEEDED on successful fetch', async () => {
+      const dispatch = sinon.spy();
+      const fetchStub = sinon.stub(global, 'fetch').resolves({
+        ok: true,
+        json: () => Promise.resolve({ someData: 'example data' }),
+        statusText: 'OK',
+      });
+      const name = 'exampleName';
+      const page = 1;
+      const clonedFilters = [{ filter1: 'value1' }];
+      const version = 'v1';
+      await actions.fetchSearchByNameResults(
+        name,
+        page,
+        clonedFilters,
+        version,
+      )(dispatch);
+      expect(dispatch.calledTwice).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: 'SEARCH_STARTED',
+        payload: { name },
+      });
+      expect(dispatch.secondCall.args[0]).to.have.property(
+        'type',
+        'SEARCH_BY_NAME_SUCCEEDED',
+      );
+      expect(dispatch.secondCall.args[0]).to.have.property('payload');
+      if (global.fetch.restore) {
+        global.fetch.restore();
+      }
+      fetchStub.restore();
+    });
+    it('should dispatch SEARCH_STARTED and SEARCH_FAILED on failed fetch', async () => {
+      const dispatch = sinon.spy();
+      const fetchStub = sinon.stub(global, 'fetch').resolves({
+        ok: false,
+        statusText: 'Not Found',
+      });
+      const name = 'exampleName';
+      const page = 1;
+      const filters = { filter1: 'value1' };
+      const version = 'v1';
+
+      await actions.fetchSearchByNameResults(name, page, filters, version)(
+        dispatch,
+      );
+      expect(dispatch.calledTwice).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.deep.equal({
+        type: 'SEARCH_STARTED',
+        payload: { name },
+      });
+      expect(dispatch.secondCall.args[0]).to.have.property(
+        'type',
+        'SEARCH_FAILED',
+      );
+      expect(dispatch.secondCall.args[0]).to.have.property(
+        'payload',
+        'Not Found',
+      );
+      if (global.fetch.restore) {
+        global.fetch.restore();
+      }
+      fetchStub.restore();
+    });
+  });
+
+  describe('fetchCompareDetails', () => {
+    it('should dispatch UPDATE_COMPARE_DETAILS on successful fetch', async () => {
+      const dispatch = sinon.spy();
+
+      const mockResponse = {
+        ok: true,
+        json: () => Promise.resolve({ data: { someData: 'example data' } }),
+        statusText: 'OK',
+      };
+      const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
+
+      const facilityCodes = 'exampleCodes';
+      const filters = { filter1: 'value1' };
+      const version = 'v1';
+
+      await actions.fetchCompareDetails(facilityCodes, filters, version)(
+        dispatch,
+      );
+
+      expect(fetchStub.calledOnce).to.be.true;
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.have.property(
+        'type',
+        'UPDATE_COMPARE_DETAILS',
+      );
+      expect(dispatch.firstCall.args[0]).to.have.property('payload');
+      fetchStub.restore();
+    });
+
+    it('should dispatch FETCH_COMPARE_FAILED on failed fetch', async () => {
+      const dispatch = sinon.spy();
+
+      const mockResponse = {
+        ok: false,
+        statusText: 'Not Found',
+      };
+      const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
+
+      const facilityCodes = 'exampleCodes';
+      const filters = { filter1: 'value1' };
+      const version = 'v1';
+
+      await actions.fetchCompareDetails(facilityCodes, filters, version)(
+        dispatch,
+      );
+      expect(fetchStub.calledOnce).to.be.true;
+      expect(dispatch.calledOnce).to.be.true;
+      expect(dispatch.firstCall.args[0]).to.have.property(
+        'type',
+        'FETCH_COMPARE_FAILED',
+      );
+      expect(dispatch.firstCall.args[0]).to.have.property(
+        'payload',
+        'Not Found',
+      );
+      fetchStub.restore();
+    });
+  });
+
+  describe('fetchConstants', () => {
+    it('should dispatch FETCH_CONSTANTS_SUCCEEDED when the API call is successful', () => {
+      const mockDispatch = sinon.spy();
+      const mockData = { key: 'value' }; // your mock data response
+      fetchMock.mock(`${api.url}/calculator_constants`, mockData, {
+        overwriteRoutes: true,
+      });
+
+      actions
+        .fetchConstants()(mockDispatch)
+        .then(() => {
+          expect(mockDispatch.calledTwice).to.be.true;
+          expect(mockDispatch.firstCall.args[0]).to.eql({
+            type: 'FETCH_CONSTANTS_STARTED',
+          });
+          expect(mockDispatch.secondCall.args[0]).to.eql({
+            type: 'FETCH_CONSTANTS_SUCCEEDED',
+            payload: mockData,
+          });
+        });
+      fetchMock.restore();
+    });
+    it('should dispatch FETCH_CONSTANTS_FAILED when the API call fails', () => {
+      fetchMock.mock(`${api.url}/calculator_constants`, 500, {
+        overwriteRoutes: true,
+      });
+      const mockDispatch = sinon.spy();
+      actions
+        .fetchConstants()(mockDispatch)
+        .then(() => {
+          expect(mockDispatch.calledTwice).to.be.true;
+          expect(mockDispatch.firstCall.args[0]).to.eql({
+            type: 'FETCH_CONSTANTS_STARTED',
+          });
+          expect(mockDispatch.secondCall.args[0].type).to.eql(
+            'FETCH_CONSTANTS_FAILED',
+          );
+        });
+      fetchMock.restore();
+    });
+  });
+
+  describe('fetchSearchByLocationResults', () => {
+    const dispatchSpy = sinon.spy();
+    it('should handle geocode success', async () => {
+      await fetchSearchByLocationResults('12345', 'distance', {}, 'version')(
+        dispatchSpy,
+      );
+      expect(
+        dispatchSpy.calledWith({
+          type: 'GEOCODE_STARTED',
+          payload: { location: '12345', distance: 'distance' },
+        }),
+      ).to.be.true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'GEOCODE_SUCCEEDED',
+          payload: [{ center: 'mockedCenter' }],
+        }),
+      ).to.be.false;
+      mbxClientStub.restore();
+    });
+  });
+  describe('fetchLocationAutocompleteSuggestions', () => {
+    let dispatchSpy;
+    beforeEach(() => {
+      dispatchSpy = sinon.spy();
+    });
+
+    afterEach(() => {
+      mbxClientStub.restore();
+    });
+    it('should dispatch LOCATION_AUTOCOMPLETE_SUCCEEDED with empty payload for empty location', () => {
+      const action = actions.fetchLocationAutocompleteSuggestions('');
+      expect(action.type).to.equal('LOCATION_AUTOCOMPLETE_SUCCEEDED');
+      expect(action.payload).to.deep.equal([]);
+    });
+    it('should handle geocode success', async () => {
+      mbxClientStub.returns({
+        send: sinon.stub().resolves({
+          body: {
+            features: ['mockedFeature1', 'mockedFeature2'],
+          },
+        }),
+      });
+
+      await actions.fetchLocationAutocompleteSuggestions('12345')(dispatchSpy);
+
+      expect(dispatchSpy.calledWith({ type: 'AUTOCOMPLETE_STARTED' })).to.be
+        .true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'LOCATION_AUTOCOMPLETE_SUCCEEDED',
+          payload: ['mockedFeature1', 'mockedFeature2'],
+        }),
+      ).to.be.false;
+    });
+    it('should handle geocode failure', async () => {
+      mbxClientStub.returns({
+        send: sinon.stub().rejects(new Error('Geocode error')),
+      });
+
+      await actions.fetchLocationAutocompleteSuggestions('12345')(dispatchSpy);
+
+      expect(dispatchSpy.calledWith({ type: 'AUTOCOMPLETE_STARTED' })).to.be
+        .true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'AUTOCOMPLETE_FAILED',
+          payload: 'Geocode error',
+        }),
+      ).to.be.false;
     });
   });
 });

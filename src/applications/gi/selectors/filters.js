@@ -45,7 +45,7 @@ export const buildSearchFilters = filters => {
   );
 
   clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
-    exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
+    exclusion => !clonedFilters.excludedSchoolTypes?.includes(exclusion),
   );
 
   if (clonedFilters.excludedSchoolTypes.length > 0) {
