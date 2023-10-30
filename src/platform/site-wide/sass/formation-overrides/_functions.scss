@@ -17,8 +17,8 @@
 $_USWDS: 16px;                    // USWDS base
 $_FORMATION: 10px;                // Formation base
 
-$_F2U_COEFF: $_FORMATION/$_USWDS; // Formation  to USDWS conversion coeffient
-$_U2F_COEFF: $_USWDS/$_FORMATION; // USDWS to Formation conversion coeffient
+$_F2U_COEFF: $_FORMATION / $_USWDS; // Formation  to USDWS conversion coeffient
+$_U2F_COEFF: $_USWDS / $_FORMATION; // USDWS to Formation conversion coeffient
 
 
 $_units: (
@@ -92,7 +92,7 @@ $_units: (
     @if($char == '-') {
       $sign :  -1;
     }
-    @else if($char == ".") {
+    @else if($char == "." and $past == false) {
       $decimal : 10;
       $magnitude : 1;
     }
