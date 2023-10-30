@@ -5,41 +5,40 @@
   @include margin(null auto);
   &.align-left {
     @include media($medium-screen) {
-      margin-right: rem-override(2rem) !important;
-      margin-top: rem-override(0.5rem) !important;
+      margin-right: scale-rule(2rem !important);
+      margin-top: scale-rule(0.5rem !important);
     }
   }
 
   &.align-right {
     @include media($medium-screen) {
-      margin-left: rem-override(2rem) !important;
-      margin-top: rem-override(0.5rem) !important;
+      margin-left: scale-rule(2rem !important);
+      margin-top: scale-rule(0.5rem !important);
     }
   }
 }
 
 @mixin usa-sidenav-list {
   a {
-    padding: rem-override(0.85rem) rem-override(1rem) rem-override(0.85rem) $site-margins-mobile !important;
+    padding: scale-rule(0.85rem 1rem 0.85rem $site-margins-mobile !important);
   }
 }
 
 @mixin usa-sidenav-sublist {
   a {
-    padding-left: rem-override(2.8rem) !important;
+    padding-left: scale-rule(2.8rem !important);
 
     &:hover,
     &.usa-current { /* stylelint-disable-line selector-no-qualifying-type */
-      padding-left: rem-override(2.8rem) !important;
+      padding-left: scale-rule(2.8rem !important);
     }
   }
 
   .usa-sidenav-sub_list {
     a {
-      padding-left: rem-override(3.8rem) !important;
-
+      padding-left: scale-rule(3.8rem !important);
       &:hover {
-        padding-left: rem-override(3.8rem) !important;
+        padding-left: scale-rule(3.8rem !important);
       }
     }
   }

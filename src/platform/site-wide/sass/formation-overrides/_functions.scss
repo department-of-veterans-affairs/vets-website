@@ -1,22 +1,19 @@
+// @function is-rem($value) {
+//   @if unit($value) == "rem" {
+//     @return true;
+//   }
+// }
 
-@function is-rem($value) {
-  @if unit($value) == "rem" {
-    @return true;
-  }
-}
+// @function uswds-override($original) {
+//   @if is-rem($original) {
+//     $rem-to-px: $original * 10; // Formation base
+//     $px-to-rem: $rem-to-px / 16; // USWDS base
+//     @return ($px-to-rem); // return the value back to rem
+//   }
+//   @return $original;
+// }
 
-@function uswds-override($original) {
-  @if is-rem($original) {
-    $rem-to-px: $original * 10; // Formation base
-    $px-to-rem: $rem-to-px / 16; // USWDS base
-    @return ($px-to-rem); // return the value back to rem
-  }
-  @return $original;
-}
-
-
-// Appended conversion functions
-
+////NEW  FUNCTIONS
 $_USWDS: 16px;                    // USWDS base
 $_FORMATION: 10px;                // Formation base
 

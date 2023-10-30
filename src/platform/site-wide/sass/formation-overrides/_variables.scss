@@ -1,30 +1,30 @@
 @import "functions";
 
-$em-base:             100%; // USWDS v3 html value
-$base-font-size:      16px; // USWDS v3 body value
-$small-font-size:     uswds-override(1.4rem) !default;
-$lead-font-size:      uswds-override(2rem) !default;
-$title-font-size:     uswds-override(5.2rem) !default;
-$h1-font-size:        uswds-override(4rem) !important;
-$h2-font-size:        uswds-override(3rem) !default;
-$h3-font-size:        uswds-override(2rem) !default;
-$h4-font-size:        uswds-override(1.7rem) !default;
-$h5-font-size:        uswds-override(1.5rem) !default;
-$h6-font-size:        uswds-override(1.3rem) !default;
+$em-base:             100%;     // USWDS v3 html value
+$base-font-size:      $_USWDS; // USWDS v3 body value
+$small-font-size:     scale-rem(1.4rem) !default;
+$lead-font-size:      scale-rem(2rem) !default;
+$title-font-size:     scale-rem(5.2rem) !default;
+$h1-font-size:        scale-rem(4rem) !important;
+$h2-font-size:        scale-rem(3rem) !default;
+$h3-font-size:        scale-rem(2rem) !default;
+$h4-font-size:        scale-rem(1.7rem) !default;
+$h5-font-size:        scale-rem(1.5rem) !default;
+$h6-font-size:        scale-rem(1.3rem) !default;
 
 // Magic Numbers
-$lead-max-width:                uswds-override(77rem) !default;
-$site-margins:                  uswds-override(3rem) !default;
-$site-margins-mobile:           uswds-override(1.5rem) !default;
-$input-max-width:               uswds-override(46rem) !default;
+$lead-max-width:                scale-rem(77rem) !default;
+$site-margins:                  scale-rem(3rem) !default;
+$site-margins-mobile:           scale-rem(1.5rem) !default;
+$input-max-width:               scale-rem(46rem) !default;
 $sidenav-current-border-width:  0.4rem !default; // must be in rem for math
 
 // 44 x 44 pixels hit target following Apple iOS Human Interface
 // Guidelines
-$hit-area: uswds-override(4.4rem) !default;
+$hit-area: scale-rem(4.4rem) !default;
 
-$spacing-x-small: uswds-override(0.5rem);
-$spacing-small: uswds-override(1rem);
-$spacing-md-small: uswds-override(1.5rem);
-$spacing-medium: uswds-override(2rem);
-$spacing-large: uswds-override(3rem);
+$spacing-x-small: scale-rem(0.5rem);
+$spacing-small: scale-rem(1rem);
+$spacing-md-small: scale-rem(1.5rem);
+$spacing-medium: scale-rem(2rem);
+$spacing-large: scale-rem(3rem);
