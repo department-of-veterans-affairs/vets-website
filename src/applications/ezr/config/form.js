@@ -7,7 +7,11 @@ import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 // internal app imports
 import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
-import { SHARED_PATHS } from '../utils/constants';
+import {
+  SHARED_PATHS,
+  INSURANCE_VIEW_FIELDS,
+  DEPENDENT_VIEW_FIELDS,
+} from '../utils/constants';
 import { includeSpousalInformation } from '../utils/helpers/household';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -69,7 +73,7 @@ const formConfig = {
   trackingPrefix: 'ezr-',
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/health_care_applications`,
+  submitUrl: `${environment.API_URL}/v0/form1010_ezrs`,
   transformForSubmit: submitTransformer,
   prefillEnabled: true,
   prefillTransformer,
@@ -223,7 +227,7 @@ const formConfig = {
         dependentInformation: {
           path: DEPENDENT_PATHS.info,
           title: 'Dependent information',
-          depends: formData => !formData['view:skipDependentInfo'],
+          depends: formData => !formData[DEPENDENT_VIEW_FIELDS.skip],
           CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},
@@ -289,7 +293,7 @@ const formConfig = {
         insurancePolicyInformation: {
           path: INSURANCE_PATHS.info,
           title: 'Insurance policy information',
-          depends: formData => !formData['view:skipDependentInfo'],
+          depends: formData => !formData[INSURANCE_VIEW_FIELDS.skip],
           CustomPage: InsurancePolicyInformationPage,
           CustomPageReview: null,
           uiSchema: {},
