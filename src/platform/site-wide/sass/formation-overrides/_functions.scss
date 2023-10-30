@@ -13,3 +13,107 @@
   }
   @return $original;
 }
+
+
+// Appended conversion functions
+
+$_USWDS: 16px;                    // USWDS base
+$_FORMATION: 10px;                // Formation base
+
+$_F2U_COEFF: $_FORMATION/$_USWDS; // Formation  to USDWS conversion coeffient
+$_U2F_COEFF: $_USWDS/$_FORMATION; // USDWS to Formation conversion coeffient
+
+
+@function split-value-unit($string) { 
+  // takes a string,  returns a map of
+  // number: number || null
+  // unit: a unit || or null
+  // joint: the number+ its unit  
+  $length: str-length($string);
+  $numeric-value: "";
+  $unit: "";
+  $digits: ( "0":0, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9);
+  $sign : 1;
+  $decimal: 1;
+  $magnitude: 10;
+  $past: false;
+  @for $i from 1 through $length {
+    $char: str-slice($string, $i, $i);
+    @if($char == '-') {
+      $sign :  -1;
+    }
+    @else if($char == ".") {
+      $decimal : 10;
+      $magnitude : 1;
+    }
+    @else if( map-get($digits,$char) and $past == false){
+      @if ($numeric-value == ""){
+            $numeric-value : 0;
+      }
+      $numeric-value: ($numeric-value * $magnitude) +(map-get($digits,$char)/$decimal);
+        @if ($decimal > 1){
+            $decimal : $decimal * 10;
+        }
+    } 
+    @else {
+        $unit: $unit + $char;
+        $past: true;
+    }
+  }
+  $numeric-result: if( $numeric-value =="" , null, $sign * $numeric-value);
+  @return (
+    number: $numeric-result,
+    unit: unquote($unit),
+    joint: $numeric-result+unquote($unit)
+  );
+}
+
+@function str-split($string, $separator: " ") {
+  $split-list: ();
+  $index: str-index($string, $separator);
+
+  @while $index != null {
+    $item: str-slice($string, 1, $index - 1);
+    $split-list: append($split-list, $item);
+    $string: str-slice($string, $index + 1);
+    $index: str-index($string, $separator);
+  }
+
+  @return append($split-list, $string);
+}
+
+@function scale-rem($value, $coeff: $_F2U_COEFF,  $separator: space) {
+  @if (type-of($value) == number and unit($value) == rem) {
+    @return ($value * $coeff) ;
+  }
+  @if (type-of($value) == string ) {
+    $inner-sep: if($separator == comma , ",", " ");
+    $value-set: str-split($value, $inner-sep);
+    $scaled-values: ();
+
+    @each $val in $value-set{
+        $val-parts : split-value-unit($val);
+        @if (map-get($val-parts, unit) == rem) {
+            $rem-number: str-slice($val, 0, -4);
+            $scaled-rem: map-get($val-parts, number) * $coeff ;
+            $scaled-values: append($scaled-values, $scaled-rem + rem);
+        } @else {
+            $scaled-values: append($scaled-values, 
+            map-get($val-parts, joint), $separator);
+        }
+    }
+    @return  $scaled-values;
+  }
+  @else {
+    @return $value;
+  }
+}
+
+@function scale-rule($rule, $separator: space,  $coeff: $_F2U_COEFF   ) {
+  $scaled: ();
+  @each $value in $rule {
+    $scaled-value: scale-rem($value, $coeff, $separator);
+    $scaled: append($scaled, $scaled-value, $separator);
+  }
+  @return $scaled;  
+}
