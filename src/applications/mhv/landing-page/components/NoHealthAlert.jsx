@@ -3,28 +3,33 @@ import React from 'react';
 const NoHealthAlert = () => {
   return (
     <va-alert status="warning" visible data-testid="no-health-message">
-      <h2 slot="headline">You do not have access to My HealtheVet tools</h2>
+      <h2 slot="headline">You don’t have access to My HealtheVet</h2>
       <div>
         <p className="vads-u-margin-y--0">
-          To access tools and your health data on My HealtheVet, <b>one</b> of
-          the following must be true:
+          To use our health management tools and access your health information
+          online, both of these must be true:
           <ul>
             <li>
-              You have received care at a VA facility, <b>or</b>
+              You’re enrolled in VA health care, <b>and</b>
             </li>
-            <li>You have applied for VA health care</li>
+            <li>You’re registered as a patient at a VA health facility</li>
           </ul>
         </p>
         <p className="vads-u-margin-y--0">
-          If you believe you have received care at a VA facility, please call
-          that facility to find out if you are registered as a patient there.
+          If you’ve received care at a VA health facility, call the facility and
+          ask if you’re registered.
         </p>
         <p className="vads-u-margin-bottom--0">
-          <a href="/find-locations">Lookup a facility’s phone number</a>
+          <a href="/find-locations/?&facilityType=health">
+            Find your nearest VA health facility
+          </a>
+        </p>
+        <p className="vads-u-margin-y--0">
+          If you’re not enrolled in VA health care, you can apply now.
         </p>
         <p className="vads-u-margin-bottom--0">
-          <a href="/health-care/apply/application/introduction">
-            Apply for health care
+          <a href="/health-care/how-to-apply/">
+            Find out how to apply for VA health care
           </a>
         </p>
       </div>
