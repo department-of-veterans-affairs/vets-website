@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const RatedDisabilityListItem = ({ ratedDisability }) => {
-  const { effectiveDate, name, ratingPercentage } = ratedDisability;
+const getHeadingText = ratedDisability => {
+  const { name, ratingPercentage } = ratedDisability;
 
-  const ratingPercentageText =
-    typeof ratingPercentage === 'number' && ratingPercentage;
-  const headingText = [`${ratingPercentageText}%`, name].join(' ');
+  const headingParts = [name];
+  if (typeof ratingPercentage === 'number') {
+    headingParts.unshift(`${ratingPercentage}%`);
+  }
+
+  return headingParts.join(' ');
+};
+
+const RatedDisabilityListItem = ({ ratedDisability }) => {
+  const { effectiveDate } = ratedDisability;
+  const headingText = getHeadingText(ratedDisability);
 
   return (
     <va-card class="vads-u-margin-bottom--2">
