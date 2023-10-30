@@ -23,6 +23,7 @@ import {
   generatePdfScaffold,
 } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = props => {
@@ -42,26 +43,7 @@ const VitalDetails = props => {
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
-  );
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {

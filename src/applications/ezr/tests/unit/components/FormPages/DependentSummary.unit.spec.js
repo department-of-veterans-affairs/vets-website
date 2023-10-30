@@ -19,14 +19,14 @@ describe('ezr DependentSummary', () => {
   };
 
   context('when no dependents have been reported', () => {
-    const props = { ...defaultProps, data: { dependents: [] } };
-
     it('should not render a title', () => {
+      const props = { ...defaultProps, data: {} };
       const { container } = render(<DependentSummary {...props} />);
       expect(container.querySelector('#root__title').textContent).to.be.empty;
     });
 
     it('should not render the dependents list field', () => {
+      const props = { ...defaultProps, data: { dependents: [] } };
       const { container } = render(<DependentSummary {...props} />);
       expect(
         container.querySelector('[data-testid="ezr-dependent-list-field"]'),
