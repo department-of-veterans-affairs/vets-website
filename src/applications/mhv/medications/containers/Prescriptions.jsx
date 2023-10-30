@@ -31,7 +31,7 @@ import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
 
 const Prescriptions = props => {
-  const { fullList } = props;
+  const { fullList = [] } = props;
   const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
