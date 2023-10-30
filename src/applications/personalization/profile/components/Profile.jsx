@@ -170,6 +170,7 @@ class Profile extends Component {
     const toggles = this.props.profileToggles;
 
     const routes = getRoutes({
+      profileContactsPage: toggles.profileContacts,
       useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
     });

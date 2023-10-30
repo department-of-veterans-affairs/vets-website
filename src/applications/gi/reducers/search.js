@@ -81,7 +81,7 @@ export const INITIAL_STATE = {
   loadFromUrl: false,
 };
 
-function uppercaseKeys(obj) {
+export function uppercaseKeys(obj) {
   return Object.keys(obj).reduce(
     (result, key) => ({
       ...result,
@@ -91,7 +91,7 @@ function uppercaseKeys(obj) {
   );
 }
 
-function normalizedInstitutionFacets(facets) {
+export function normalizedInstitutionFacets(facets) {
   const state = uppercaseKeys(facets.state);
   const provider = Array.isArray(facets.provider)
     ? facets.provider.map(providerCount => ({
@@ -103,7 +103,7 @@ function normalizedInstitutionFacets(facets) {
   return { ...facets, state, provider };
 }
 
-function derivePaging(links) {
+export function derivePaging(links) {
   const selfPage = links.self.match(/page=(\d+)/i);
   const currentPage = Number(selfPage === null ? 1 : selfPage[1]);
   const totalPages = Number(links.last.match(/page=(\d+)/i)[1]);
@@ -111,7 +111,7 @@ function derivePaging(links) {
   return { currentPage, totalPages, perPage };
 }
 
-function buildSearchResults(payload, paging = true) {
+export function buildSearchResults(payload, paging = true) {
   const camelPayload = camelCaseKeysRecursive(payload);
   return {
     results: camelPayload.data.reduce((acc, result) => {

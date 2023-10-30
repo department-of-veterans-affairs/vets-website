@@ -9,7 +9,13 @@ import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
-const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
+const DependentAges = ({
+  contentBeforeButtons,
+  contentAfterButtons,
+  goForward,
+  goToPath,
+  isReviewMode = false,
+}) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
@@ -227,6 +233,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
         </legend>
         {dependentAgeInputs}
         {!isReviewMode ? <DependentExplainer /> : null}
+        {contentBeforeButtons}
         {isReviewMode && isEditing ? (
           <div className="vads-u-margin-top--2">
             <ReviewControl
@@ -257,12 +264,15 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
             />
           )
         )}
+        {contentAfterButtons}
       </fieldset>
     </form>
   );
 };
 
 DependentAges.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   isReviewMode: PropTypes.bool,

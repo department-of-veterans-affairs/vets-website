@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { INSURANCE_VIEW_FIELDS } from '../../../utils/constants';
 
 const { providers } = ezrSchema.properties;

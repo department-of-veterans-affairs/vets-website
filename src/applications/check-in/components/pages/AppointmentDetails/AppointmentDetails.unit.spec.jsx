@@ -18,7 +18,8 @@ describe('check-in experience', () => {
       ...initAppointments[0],
       kind: 'phone',
       appointmentIen: 1111,
-      stationNo: '230',
+      stationNo: '0001',
+      clinicIen: '0001',
     };
     initAppointments[1] = {
       ...initAppointments[1],
@@ -26,7 +27,8 @@ describe('check-in experience', () => {
       appointmentIen: 2222,
       clinicStopCodeName: 'stop code test',
       doctorName: 'test doc',
-      stationNo: '230',
+      stationNo: '0001',
+      clinicIen: '0001',
     };
     initAppointments[2] = {
       ...initAppointments[2],
@@ -37,7 +39,8 @@ describe('check-in experience', () => {
         add(new Date(), { minutes: 30 }),
         "yyyy-LL-dd'T'HH:mm:ss",
       ),
-      stationNo: '230',
+      stationNo: '0001',
+      clinicIen: '0001',
       clinicStopCodeName: '',
     };
     initAppointments[3] = {
@@ -45,7 +48,8 @@ describe('check-in experience', () => {
       kind: 'clinic',
       appointmentIen: 4444,
       eligibility: 'INELIGIBLE_BAD_STATUS',
-      stationNo: '230',
+      stationNo: '0001',
+      clinicIen: '0001',
     };
     delete initAppointments[0].clinicPhoneNumber;
     delete initAppointments[0].doctorName;
@@ -68,25 +72,25 @@ describe('check-in experience', () => {
     const appointmentOneRoute = {
       currentPage: '/appointment',
       params: {
-        appointmentId: '1111-230',
+        appointmentId: '1111-0001',
       },
     };
     const appointmentTwoRoute = {
       currentPage: '/appointment',
       params: {
-        appointmentId: '2222-230',
+        appointmentId: '2222-0001',
       },
     };
     const appointmentThreeRoute = {
       currentPage: '/appointment',
       params: {
-        appointmentId: '3333-230',
+        appointmentId: '3333-0001',
       },
     };
     const appointmentFourRoute = {
       currentPage: '/appointment',
       params: {
-        appointmentId: '4444-230',
+        appointmentId: '4444-0001',
       },
     };
     describe('AppointmentDetails', () => {

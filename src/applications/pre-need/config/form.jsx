@@ -13,8 +13,8 @@ import { useSelector } from 'react-redux';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
@@ -126,7 +126,11 @@ function ApplicantContactInfoDescription() {
     : applicantContactInfoDescriptionNonVet;
 }
 
+/** @type {FormConfig} */
 const formConfig = {
+  dev: {
+    showNavLinks: true,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
@@ -656,15 +660,31 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                address: merge({}, address.uiSchema('Sponsor’s address'), {
-                  state: {
-                    'ui:title': sponsorMailingAddressStateTitleWrapper,
-                    'ui:options': {
-                      hideIf: formData =>
-                        !sponsorMailingAddressHasState(formData),
-                    },
-                  },
-                }),
+                address: !environment.isProduction()
+                  ? merge({}, address.uiSchema('Sponsor’s mailing address'), {
+                      street: {
+                        'ui:title': 'Street address',
+                      },
+                      street2: {
+                        'ui:title': 'Street address line 2',
+                      },
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData),
+                        },
+                      },
+                    })
+                  : merge({}, address.uiSchema('Sponsor’s address'), {
+                      state: {
+                        'ui:title': sponsorMailingAddressStateTitleWrapper,
+                        'ui:options': {
+                          hideIf: formData =>
+                            !sponsorMailingAddressHasState(formData),
+                        },
+                      },
+                    }),
               },
             },
           },
