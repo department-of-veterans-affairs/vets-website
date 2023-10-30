@@ -1,7 +1,7 @@
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
 
-class LocatorApi {
+class RepresentativeFinderApi {
   /**
    * Sends the request to vets-api to query which locations exist within the
    * given bounding box's area and optionally cenetered on the given address.
@@ -57,4 +57,4 @@ class LocatorApi {
   }
 }
 
-export default LocatorApi;
+export default RepresentativeFinderApi;
