@@ -1,24 +1,30 @@
-import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
-import formConfig from '../config/form';
-
 import {
-  FETCH_LOCATION_DETAIL,
-  FETCH_LOCATIONS,
+  FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
+  SORT_TYPE_UPDATED,
+  MOCK_SEARCH,
+  MOCK_SEARCH_PAGE_2,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
   // loading: true, // app starts in loading state
   // error: null,
   results: [],
+  sortedSearchResults: [],
   selectedResult: null,
+  sortType: 'DISTANCE_CLOSEST_TO_FARTHEST',
   pagination: {},
 };
 
 export const SearchResultReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_LOCATIONS:
+    // case SORT_TYPE_UPDATED:
+    //   return {
+    //     ...state,
+    //     ...action.payload,
+    //   };
+    case FETCH_REPRESENTATIVES:
       return {
         ...state,
         error: null,
@@ -26,10 +32,12 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         pagination: action.payload.meta.pagination,
         resultTime: action.payload.meta.resultTime,
       };
-    case FETCH_LOCATION_DETAIL:
+    case SORT_TYPE_UPDATED:
+    case MOCK_SEARCH:
+    case MOCK_SEARCH_PAGE_2:
       return {
         ...state,
-        selectedResult: action.payload,
+        ...action.payload,
       };
     case SEARCH_FAILED:
       if (action.error) {
@@ -46,7 +54,7 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default {
-  form: createSaveInProgressFormReducer(formConfig),
-  // allSearchResults,
-};
+// export default {
+//   form: createSaveInProgressFormReducer(formConfig),
+//   // allSearchResults,
+// };

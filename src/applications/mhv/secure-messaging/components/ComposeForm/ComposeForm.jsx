@@ -24,14 +24,13 @@ import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
-  Categories,
   DefaultFolders,
   ErrorMessages,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
-import EditContentListOrSignatureModal from '../Modals/EditContentListOrSignatureModal';
+import EditPreferences from './EditPreferences';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -58,7 +57,6 @@ const ComposeForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
@@ -263,23 +261,6 @@ const ComposeForm = props => {
   };
 
   if (draft && recipients && !formPopulated) populateForm();
-
-  const messageTitle = useMemo(
-    () => {
-      if (category && subject) {
-        return `${Categories[category]}: ${subject}`;
-      }
-      if (category && !subject) {
-        return `${Categories[category]}:`;
-      }
-      if (!category && subject) {
-        return subject;
-      }
-
-      return Categories[category] || 'New message';
-    },
-    [category, subject],
-  );
 
   const checkMessageValidity = useCallback(
     () => {
@@ -503,16 +484,8 @@ const ComposeForm = props => {
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
         />
-        <div
-          className="compose-form-header"
-          data-testid="compose-form-header"
-          data-dd-privacy="mask"
-        >
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {messageTitle}
-          </h2>
-        </div>
-        <div className="compose-inputs-container">
+        <div>
+          <EditPreferences />
           {recipientsList && (
             <>
               <VaSelect
@@ -533,11 +506,6 @@ const ComposeForm = props => {
                   </option>
                 ))}
               </VaSelect>
-
-              <EditContentListOrSignatureModal
-                editListModal={editListModal}
-                setEditListModal={setEditListModal}
-              />
             </>
           )}
           <div className="compose-form-div">
@@ -580,17 +548,6 @@ const ComposeForm = props => {
               }}
               data-dd-privacy="mask"
             />
-            <div className="edit-contact-list-or-signature">
-              <va-button
-                id="edit-contact-list-or-signature-button"
-                text="Edit contact list or signature"
-                label="Edit contact list or signature"
-                secondary
-                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
-                data-testid="edit-list-button"
-                onClick={() => setEditListModal(true)}
-              />
-            </div>
           </div>
           <section className="attachments-section">
             <AttachmentsList

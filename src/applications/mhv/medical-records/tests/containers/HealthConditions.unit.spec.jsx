@@ -48,53 +48,53 @@ describe('Health conditions list container', () => {
 });
 
 describe('Health conditions list container still loading', () => {
-  const initialState = {
-    user,
-    mr: {
-      conditions: {},
-      alerts: {
-        alertList: [],
-      },
-    },
-  };
-
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<HealthConditions runningUnitTest />, {
-      initialState,
-      reducers: reducer,
-      path: '/conditions',
-    });
-  });
-
   it('displays a loading indicator', () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {},
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <HealthConditions runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/conditions',
+      },
+    );
+
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 });
 
 describe('Health conditions list container with no health conditions', () => {
-  const initialState = {
-    user,
-    mr: {
-      conditions: {
-        conditionsList: [],
-      },
-      alerts: {
-        alertList: [],
-      },
-    },
-  };
-
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<HealthConditions runningUnitTest />, {
-      initialState,
-      reducers: reducer,
-      path: '/conditions',
-    });
-  });
-
   it('displays a no health conditions message', () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {
+          conditionsList: [],
+        },
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <HealthConditions runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/conditions',
+      },
+    );
+
     expect(
       screen.getByText('You don’t have any records in Health conditions', {
         exact: true,
