@@ -39,7 +39,11 @@ const getLoadingStatus = (
   return preliminaryCombinedLoadingStatus;
 };
 
-function useWebChat(props, paramLoadingStatus, virtualAgentUpgradeWebchat14158) {
+function useWebChat(
+  props,
+  paramLoadingStatus,
+  virtualAgentUpgradeWebchat14158,
+) {
   const webchatFramework = useWebChatFramework(
     props,
     virtualAgentUpgradeWebchat14158,
@@ -177,6 +181,7 @@ function App(props) {
     },
     state => state.featureToggles,
   );
+  // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
   const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
