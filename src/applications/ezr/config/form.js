@@ -141,7 +141,7 @@ const formConfig = {
           path: 'veteran-information/gender-identity',
           title: 'Veteran\u2019s gender identity',
           initialData: {},
-          depends: formData => !formData['view:isSigiEnabled'],
+          depends: formData => formData['view:isSigiEnabled'],
           uiSchema: veteranGenderIdentity.uiSchema,
           schema: veteranGenderIdentity.schema,
         },
