@@ -9,13 +9,17 @@ button,
 [type=submit],
 [type=reset],
 [type=image] {
-  // TO DO #1: I am not sure if i can use the 
+  // TO DO #1: I am not sure if i can use the
   // TO DO #2: Part of above, but conversion function will return a blank for null values
-  @include margin(scale-rem(0.5rem) scale-rem(0.5rem) scale-rem(0.5rem) null);
-  padding: scale-rule(1rem 2rem);
+  // @include margin(scale-rem(0.5rem) scale-rem(0.5rem) scale-rem(0.5rem) null);
+  // padding: scale-rule(1rem 2rem);
+  @include margin( 0.3125rem 0.3125rem 0.3125rem null);
+  padding: 0.625rem 1.25rem;
 
   &.usa-button-big {
-    font-size: scale-rem(2.4rem);
-    padding: scale-rule(1.5rem 3rem);
+    // font-size: scale-rem(2.4rem);
+    // padding: scale-rule(1.5rem 3rem);
+    font-size: 1.5rem;
+    padding: .9375rem 1.875rem;
   }
 }

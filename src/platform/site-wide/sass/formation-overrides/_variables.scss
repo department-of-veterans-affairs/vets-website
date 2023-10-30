@@ -1,7 +1,7 @@
 @import "functions";
 
 $em-base:             100%;     // USWDS v3 html value
-$base-font-size:      $_USWDS; // USWDS v3 body value
+$base-font-size:      $uswds-base; // USWDS v3 body value
 $small-font-size:     scale-rem(1.4rem) !default;
 $lead-font-size:      scale-rem(2rem) !default;
 $title-font-size:     scale-rem(5.2rem) !default;
