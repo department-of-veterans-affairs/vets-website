@@ -1,4 +1,8 @@
-import { createUrlWithQuery } from '../utils/helpers';
+import {
+  createUrlWithQuery,
+  getFolderList,
+  countUnreadMessages,
+} from '../utils/helpers';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 import { mockFolderResponse } from '~/applications/personalization/dashboard/utils/mocks/messaging/folder';
@@ -16,21 +20,20 @@ import {
   FETCH_UNREAD_MESSAGES_COUNT_ERROR,
 } from '../utils/constants';
 
-const baseUrl = `${environment.API_URL}/v0/messaging/health`;
+const baseUrl = `${environment.API_URL}/my_health/v1/messaging`;
 
 export const fetchUnreadMessagesCount = () => async dispatch => {
   dispatch({
     type: LOADING_UNREAD_MESSAGES_COUNT,
   });
 
-  const folderUrl = `/folders/0`;
-
   try {
-    const response = await apiRequest(`${baseUrl}${folderUrl}`);
+    const folders = await getFolderList();
 
+    const response = countUnreadMessages(folders);
     dispatch({
       type: FETCH_UNREAD_MESSAGES_COUNT_SUCCESS,
-      unreadMessagesCount: response.data.attributes.unreadCount,
+      unreadMessagesCount: response,
     });
   } catch (error) {
     const errors = error.errors ?? [error];

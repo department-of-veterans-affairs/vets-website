@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
 import content from '../../../locales/en/content.json';

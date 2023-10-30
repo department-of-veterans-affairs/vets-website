@@ -7,22 +7,23 @@ import DependentListLoopForm from '../../../../components/FormFields/DependentLi
 describe('ezr <DependentListLoopForm>', () => {
   const defaultProps = {
     data: {},
-    page: { id: 'basic', title: '%s\u2019s basic information' },
+    page: { id: 'basic', title: '%s\u2019s information' },
     onChange: () => {},
     onSubmit: () => {},
   };
 
-  describe('when on the personal information form page', () => {
+  context('when on the personal information form page', () => {
     it('should render with a generic title', () => {
-      const { container } = render(<DependentListLoopForm {...defaultProps} />);
+      const props = { ...defaultProps, data: null };
+      const { container } = render(<DependentListLoopForm {...props} />);
       const form = container.querySelector('.rjsf');
       const title = container.querySelector('#root__title');
       expect(form).to.exist;
-      expect(title).to.contain.text('Dependent\u2019s basic information');
+      expect(title).to.contain.text('Dependent\u2019s information');
     });
   });
 
-  describe('when on a form page after the personal information page', () => {
+  context('when on a form page after the personal information page', () => {
     it('should render with a title specific to the dependent name', () => {
       const props = {
         ...defaultProps,
