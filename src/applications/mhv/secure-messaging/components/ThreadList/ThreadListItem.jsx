@@ -84,7 +84,7 @@ const ThreadListItem = props => {
 
   return mhvSecureMessagingToPhase1 ? (
     <div
-      className="thread-list-item vads-l-row vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      className="thread-list-item vads-l-row vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="thread-list-item"
     >
       <div className="unread-column vads-l-col">
@@ -108,7 +108,7 @@ const ThreadListItem = props => {
           } ${categoryLabel}: ${subject}, ${formattedDate()}. ${
             hasAttachment ? ' Has attachment.' : ''
           }`}
-          className="message-subject-link vads-u-margin-y--0p5"
+          className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
         >
@@ -140,7 +140,7 @@ const ThreadListItem = props => {
             <span>To: {recipientName}</span>
           )}
         </div>
-        <div className="vads-u-font-weight--normal vads-u-color--gray-medium">
+        <div className="vads-u-font-weight--normal vads-u-color--gray-medium vads-u-margin-top--0p5">
           {formattedDate()}
         </div>
         <div data-testid="message-info-row">
