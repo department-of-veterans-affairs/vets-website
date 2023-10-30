@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../../0993/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 describe('Opt Out <ConfirmationPage>', () => {
   it('should render', () => {
@@ -73,7 +73,7 @@ describe('Opt Out <ConfirmationPage>', () => {
 
     expect(
       tree
-        .find('.confirmation-page-title')
+        .find('.confirmation-page-titllle')
         .at(0)
         .text(),
     ).to.contain('Your opt-out form has been submitted');
