@@ -2,6 +2,6 @@
   "appName": "Rated Disabilities New",
   "entryFile": "./rated-disabilities-entry.jsx",
   "entryName": "rated-disabilities",
-  "rootUrl": "/disability/view-disability-rating/my-rating",
+  "rootUrl": "/disability/view-disability-rating/rating",
   "productId": "def3bac9-c967-4fdb-a877-1b6e58945ea9"
 }

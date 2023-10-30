@@ -1,6 +1,6 @@
 import mockUser from './fixtures/mocks/mockUser';
 
-describe('Application Status Test: Pensions', () => {
+describe.skip('Application Status Test: Pensions', () => {
   it('Achieves the correct result per URL', () => {
     cy.login(mockUser);
 

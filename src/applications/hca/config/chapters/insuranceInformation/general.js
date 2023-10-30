@@ -20,8 +20,8 @@ import {
 } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
-const { provider } = fullSchemaHca.definitions;
-const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
+const { providers, isCoveredByHealthInsurance } = fullSchemaHca.properties;
+const { items: provider } = providers;
 
 export default {
   uiSchema: {
