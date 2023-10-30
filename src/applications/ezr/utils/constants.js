@@ -5,50 +5,6 @@ import content from '../locales/en/content.json';
 const date = new Date();
 const lastYear = date.getFullYear() - 1;
 
-// declare address overrides for uiSchema and schema declarations
-export const DEFAULT_ADDRESS_OVERRIDES = {
-  uiSchema: {
-    street: {
-      'ui:title': 'Street address',
-      'ui:errorMessages': {
-        pattern: 'Please provide a valid street address.',
-      },
-    },
-    city: {
-      'ui:errorMessages': {
-        pattern: 'Please provide a valid city.',
-      },
-    },
-    state: {
-      'ui:title': 'State/Province/Region',
-      'ui:errorMessages': {
-        required: 'Please enter a state/province/region',
-      },
-    },
-  },
-  schema: {
-    properties: {
-      street: {
-        minLength: 1,
-        maxLength: 30,
-      },
-      street2: {
-        minLength: 1,
-        maxLength: 30,
-      },
-      street3: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 30,
-      },
-      city: {
-        minLength: 1,
-        maxLength: 30,
-      },
-    },
-  },
-};
-
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
   add: 'view:reportDependents',
@@ -124,6 +80,14 @@ export const HIGH_DISABILITY_MINIMUM = 50;
 export const INSURANCE_VIEW_FIELDS = {
   add: 'view:addInsurancePolicy',
   skip: 'view:skipInsuranceInfo',
+};
+
+export const MOCK_ENROLLMENT_REPSONSE = {
+  applicationDate: '2019-04-24T00:00:00.000-06:00',
+  enrollmentDate: '2019-04-30T00:00:00.000-06:00',
+  preferredFacility: '463 - CHEY6',
+  parsedStatus: 'enrolled',
+  effectiveDate: '2019-04-25T00:00:00.000-06:00',
 };
 
 // declare names to use for window session storage items

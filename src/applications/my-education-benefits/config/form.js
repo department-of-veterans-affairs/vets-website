@@ -27,10 +27,11 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
-import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ContactInformationReviewPanel from '../components/ContactInformationReviewPanel';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
@@ -638,6 +639,7 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
+          CustomPageReview: ContactInformationReviewPanel,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
