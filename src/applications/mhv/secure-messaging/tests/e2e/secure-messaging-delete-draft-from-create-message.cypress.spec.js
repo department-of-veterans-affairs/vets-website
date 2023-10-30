@@ -37,6 +37,7 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
       },
     });
     draftsPage.confirmDeleteDraft(mockDraftResponse, true);
+    draftsPage.verifyDeleteConfirmationMessage();
     cy.get('[data-testid="inbox-sidebar"]')
       .find('a')
       .should('have.class', 'is-active');
