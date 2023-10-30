@@ -17,30 +17,30 @@ describe('<RatedDisabilityListItem />', () => {
       ratingPercentage: 100,
     };
   });
+
   it('should render a service connected disability', () => {
+    const formattedEffectiveDate = ratedDisability.effectiveDate.format(
+      'MM/DD/YYYY',
+    );
     const wrapper = shallow(
       <RatedDisabilityListItem ratedDisability={ratedDisability} />,
     );
+
     expect(
       wrapper
-        .find('dt')
+        .find('dd')
         .first()
         .text(),
-    ).to.contain(ratedDisability.name);
+    ).to.contain(formattedEffectiveDate);
     wrapper.unmount();
   });
 
   it('should render a non-service connected disability', () => {
-    ratedDisability.decisionText = 'Not Service Connected';
+    ratedDisability.effectiveDate = null;
     const wrapper = shallow(
       <RatedDisabilityListItem ratedDisability={ratedDisability} />,
     );
-    expect(
-      wrapper
-        .find('dt')
-        .first()
-        .text(),
-    ).to.contain(ratedDisability.name);
+    expect(wrapper.find('dd').exists()).to.be.false;
     wrapper.unmount();
   });
 });
