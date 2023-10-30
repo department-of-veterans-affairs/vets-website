@@ -276,6 +276,9 @@ const responses = {
       },
     });
 
+    // uncomment to test 500 error
+    // return res.status(500).json(error500);
+
     delaySingleResponse(() => res.json(mockedRes), 1);
   },
 
