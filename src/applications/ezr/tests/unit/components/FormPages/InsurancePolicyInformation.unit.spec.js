@@ -14,9 +14,8 @@ describe('ezr InsurancePolicyInformation', () => {
 
   context('when the component renders', () => {
     it('should render form object with the correct title', () => {
-      const { container } = render(
-        <InsurancePolicyInformation {...defaultProps} />,
-      );
+      const props = { ...defaultProps, data: {} };
+      const { container } = render(<InsurancePolicyInformation {...props} />);
       const selectors = {
         form: container.querySelector('.rjsf'),
         title: container.querySelector('.schemaform-block-title'),
