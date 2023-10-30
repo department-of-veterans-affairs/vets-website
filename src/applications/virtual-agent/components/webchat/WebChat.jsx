@@ -4,8 +4,9 @@ import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-// import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { COMPLETE, ERROR } from '../chatbox/loadingStatus';
+// import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
 import {
@@ -18,11 +19,17 @@ import {
 import {
   cardActionMiddleware,
   ifMissingParamsCallSentry,
+  hasAllParams,
 } from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, WebChatFramework, apiSession }) => {
+const WebChat = ({
+  token,
+  WebChatFramework,
+  apiSession,
+  setParamLoadingStatus,
+}) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
   const userFirstName = useSelector(state =>
@@ -42,9 +49,15 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     state => state.featureToggles,
   );
 
+  ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+  if (!hasAllParams(csrfToken, apiSession, userFirstName, userUuid)) {
+    setParamLoadingStatus(ERROR);
+  } else {
+    setParamLoadingStatus(COMPLETE);
+  }
+
   const store = useMemo(
     () => {
-      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
       return createStore(
         {},
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(

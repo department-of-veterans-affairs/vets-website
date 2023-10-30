@@ -16,13 +16,14 @@ import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
 // const ONE_MINUTE_IN_MS = 60_000;
 
-function useWebChat(props) {
+function useWebChat(props, paramLoadingStatus) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
 
   const loadingStatus = combineLoadingStatus(
     webchatFramework.loadingStatus,
     token.loadingStatus,
+    paramLoadingStatus,
   );
 
   return {
@@ -130,8 +131,11 @@ export default function Chatbox(props) {
 }
 
 function App(props) {
+  // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
+  const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
+    paramLoadingStatus,
   );
 
   switch (loadingStatus) {
@@ -145,6 +149,7 @@ function App(props) {
           token={token}
           WebChatFramework={WebChatFramework}
           apiSession={apiSession}
+          setParamLoadingStatus={setParamLoadingStatus}
         />
       );
     default:
