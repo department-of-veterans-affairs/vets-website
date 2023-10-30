@@ -112,7 +112,7 @@ const TernaryRadios = ({
         >
           {formError && (
             <span className="usa-error-message" role="alert">
-              <div className="form-text-error">
+              <div className="pact-act-form-text-error">
                 <span className="usa-sr-only">Error</span> Select a response.
               </div>
             </span>
