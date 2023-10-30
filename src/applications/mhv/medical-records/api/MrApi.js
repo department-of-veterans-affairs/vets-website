@@ -21,6 +21,13 @@ const hitApi = runningUnitTest => {
   );
 };
 
+export const createSession = () => {
+  return apiRequest(`${apiBasePath}/medical_records/session`, {
+    method: 'POST',
+    headers,
+  });
+};
+
 /**
  * Helper function to create a delay
  */
