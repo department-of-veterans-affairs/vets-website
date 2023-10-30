@@ -84,12 +84,12 @@ describe('Pre-need applicant veteran applicant details', () => {
     );
 
     expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('#info').props().className).to.equal('closed');
+    expect(form.find('div#info').props().className).to.equal('closed');
 
     click(form, 'va-additional-info');
 
     expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('#info').props().className).to.equal('open');
+    expect(form.find('div#info').props().className).to.equal('open');
     form.unmount();
   });
 });
