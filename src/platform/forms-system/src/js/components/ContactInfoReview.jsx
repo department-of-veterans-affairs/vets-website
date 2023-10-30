@@ -138,7 +138,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
           {content.edit}
         </button>
       </div>
-      {list.length ? <dl className="review">{list}</dl> : null}
+      {list.length ? <div className="review">{list}</div> : null}
     </div>
   );
 };
