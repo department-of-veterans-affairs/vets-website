@@ -6,89 +6,48 @@ import sinon from 'sinon';
 import { FieldHasBeenUpdated } from '../../../components/alerts/FieldHasBeenUpdated';
 
 describe('<FieldHasBeenUpdated />', () => {
-  it('renders the alert with the correct message when fieldInfo is present in location state', () => {
-    const testState = {
-      fieldInfo: {
-        title: 'Test Field',
-      },
-    };
+  let historyMock;
 
-    const { getByText } = render(
-      <MemoryRouter initialEntries={[{ pathname: '/', state: testState }]}>
+  beforeEach(() => {
+    historyMock = {
+      replaceState: sinon.spy(),
+    };
+  });
+
+  function renderWithRouter(state) {
+    return render(
+      <MemoryRouter initialEntries={[{ pathname: '/', state }]}>
         <Route>
-          <FieldHasBeenUpdated
-            history={{
-              replaceState: sinon.spy(),
-            }}
-          />
+          <FieldHasBeenUpdated history={historyMock} />
         </Route>
       </MemoryRouter>,
     );
+  }
+
+  it('renders the alert with the correct message when fieldInfo is present in location state', () => {
+    const { getByText } = renderWithRouter({
+      fieldInfo: { title: 'Test Field' },
+    });
 
     expect(getByText('We saved your test field to your profile.')).to.exist;
   });
 
   it('renders the alert with the fallback text message when fieldInfo title is not present in location state', () => {
-    const testState = {
-      fieldInfo: {
-        title: null,
-      },
-    };
-
-    const { getByText } = render(
-      <MemoryRouter initialEntries={[{ pathname: '/', state: testState }]}>
-        <Route>
-          <FieldHasBeenUpdated
-            history={{
-              replaceState: sinon.spy(),
-            }}
-          />
-        </Route>
-      </MemoryRouter>,
-    );
+    const { getByText } = renderWithRouter({ fieldInfo: { title: null } });
 
     expect(getByText('We saved your information to your profile.')).to.exist;
   });
 
   it('does not render the alert when fieldInfo is not present in location state', () => {
-    const { queryByText } = render(
-      <MemoryRouter>
-        <Route>
-          <FieldHasBeenUpdated
-            history={{
-              replaceState: sinon.spy(),
-            }}
-          />
-        </Route>
-      </MemoryRouter>,
-    );
+    const { queryByText } = renderWithRouter();
 
     expect(queryByText('We saved your')).to.be.null;
   });
 
   it('clears the location state after the alert is shown', () => {
-    // mock the window
-    const history = {
-      replaceState: sinon.spy(),
-    };
+    renderWithRouter({ fieldInfo: { title: 'Test Field' } });
 
-    const testState = {
-      fieldInfo: {
-        title: 'Test Field',
-      },
-    };
-
-    const { getByText } = render(
-      <MemoryRouter initialEntries={[{ pathname: '/', state: testState }]}>
-        <Route>
-          <FieldHasBeenUpdated history={history} />
-        </Route>
-      </MemoryRouter>,
-    );
-
-    expect(getByText('We saved your test field to your profile.')).to.exist;
-
-    expect(history.replaceState.called).to.be.true;
-    expect(history.replaceState.args[0][0]).to.be.null;
+    expect(historyMock.replaceState.called).to.be.true;
+    expect(historyMock.replaceState.args[0][0]).to.be.null;
   });
 });
