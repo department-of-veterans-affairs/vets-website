@@ -3,7 +3,7 @@ import { ROUTES } from '../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('During both of these time periods - form validation', () => {
     it('displays the correct error text when no response is selected', () => {
       cy.visit('/pact-act-wizard-test');
@@ -76,13 +76,13 @@ xdescribe('PACT Act', () => {
       // ORANGE_2_2_B --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_B);
       cy.injectAxeThenAxeCheck();
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
+      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.ORANGE_2_2_B_INPUT, 'Error Select a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
+      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
       h.clickBack();
 
       // ORANGE_2_2_A --------------------------------
@@ -106,13 +106,13 @@ xdescribe('PACT Act', () => {
       // ORANGE_2_2_1_B -----------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_B);
       cy.injectAxeThenAxeCheck();
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
+      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.ORANGE_2_2_1_B_INPUT, 'Error Select a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_1_B_INPUT, 0);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
+      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
       h.clickBack();
 
       // ORANGE_2_2_1_A ------------------------------
@@ -158,13 +158,13 @@ xdescribe('PACT Act', () => {
       // RADIATION_2_3_B -----------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_B);
       cy.injectAxeThenAxeCheck();
-      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
+      h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.RADIATION_2_3_B_INPUT, 'Error Select a location.');
 
       h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 0);
-      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
+      h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
       h.clickBack();
 
       // RADIATION_2_3_A ------------------------------

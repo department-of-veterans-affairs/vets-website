@@ -63,9 +63,9 @@ const TernaryRadios = ({
   };
 
   const renderRadioOptions = () => {
-    return responses.map(response => {
+    return responses.map((response, index) => {
       return (
-        <>
+        <div key={index}>
           <input
             type="radio"
             checked={formValue === response}
@@ -81,7 +81,7 @@ const TernaryRadios = ({
           >
             <span>{response}</span>
           </label>
-        </>
+        </div>
       );
     });
   };
