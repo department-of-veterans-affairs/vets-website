@@ -119,10 +119,9 @@ const Vaccines = props => {
     ${vaccines.map(
       entry => `_____________________________________________________ \n
       ${entry.name} \n 
-      \t Type of Vaccines: ${entry.type} \n
       \t Date received: ${entry.date} \n
       \t Location: ${entry.location} \n
-      \t Reaction: ${entry.observedOrReported} \n
+      \t Reaction: ${entry.reactions} \n
       \t Provider notes: ${entry.notes} \n`,
     )}`;
 
