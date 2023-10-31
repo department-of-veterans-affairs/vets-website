@@ -62,26 +62,28 @@ const TernaryRadios = ({
     }
   };
 
-  const renderRadioOptions = response => {
-    return (
-      <>
-        <input
-          type="radio"
-          checked={formValue === response}
-          data-testid="va-radio-option"
-          id={snakeCase(`${response}_input`)}
-          name={shortName}
-          onChange={() => onValueChange(response)}
-          value={response}
-        />
-        <label
-          className="pact-act-form-label"
-          htmlFor={snakeCase(`${response}_input`)}
-        >
-          <span>{response}</span>
-        </label>
-      </>
-    );
+  const renderRadioOptions = () => {
+    return responses.map(response => {
+      return (
+        <>
+          <input
+            type="radio"
+            checked={formValue === response}
+            data-testid="va-radio-option"
+            id={snakeCase(`${response}_input`)}
+            name={shortName}
+            onChange={() => onValueChange(response)}
+            value={response}
+          />
+          <label
+            className="pact-act-form-label"
+            htmlFor={snakeCase(`${response}_input`)}
+          >
+            <span>{response}</span>
+          </label>
+        </>
+      );
+    });
   };
 
   return (
@@ -117,9 +119,7 @@ const TernaryRadios = ({
               </div>
             </span>
           )}
-          {responses.map(response => {
-            return renderRadioOptions(response);
-          })}
+          {renderRadioOptions()}
         </fieldset>
       </div>
       <VaButtonPair
