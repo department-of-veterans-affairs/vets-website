@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 import {
   hasBadAddress as hasBadAddressSelector,
   selectProfileContactsToggle,
 } from '@@profile/selectors';
-import { useSelector } from 'react-redux';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';
@@ -59,18 +60,19 @@ export const Hub = () => {
           />
         </HubCard>
 
-        {profileContactsEnabled && (
-          <HubCard
-            heading={PROFILE_PATH_NAMES.CONTACTS}
-            content="Review your medical emergency contact and next of kin contact information."
-          >
-            <ProfileLink
-              className="small-screen--line-break-at-32-characters"
-              text="Review your personal health care contacts"
-              href={PROFILE_PATHS.CONTACTS}
-            />
-          </HubCard>
-        )}
+        <HubCard
+          className={classNames({
+            'vads-u-display--none': !profileContactsEnabled,
+          })}
+          heading={PROFILE_PATH_NAMES.CONTACTS}
+          content="Review your medical emergency contact and next of kin contact information."
+        >
+          <ProfileLink
+            className="small-screen--line-break-at-32-characters"
+            text="Review your personal health care contacts"
+            href={PROFILE_PATHS.CONTACTS}
+          />
+        </HubCard>
 
         <HubCard
           heading="Military information"
