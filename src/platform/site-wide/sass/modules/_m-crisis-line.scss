@@ -29,7 +29,8 @@ button.va-crisis-line {
     outline-offset: -2px;
   }
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: $red-70v;
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
@@ -116,6 +117,14 @@ button.va-crisis-line {
         border-bottom: 1px solid $color-gray-light;
       }
       > a {
+        color: $color-link-default;
+        text-decoration: underline;
+        padding: 0.5em 0;
+        align-self: center;
+      }
+      > p > strong > a {
+        color: $color-link-default;
+        text-decoration: underline;
         padding: 0.5em 0;
         align-self: center;
       }
