@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import VeteranInfoBox from './VeteranInfoBox';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const VeteranInformation = ({
   data,
@@ -27,6 +28,7 @@ const VeteranInformation = ({
     personalData,
     personalIdentification,
     reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const {
     veteranFullName: { first, last, middle },
@@ -49,6 +51,9 @@ const VeteranInformation = ({
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="veteran information" />
+        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Veteran information
@@ -91,6 +96,7 @@ VeteranInformation.propTypes = {
       fileNumber: PropTypes.string,
     }),
     reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

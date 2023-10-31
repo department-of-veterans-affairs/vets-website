@@ -11,6 +11,7 @@ const DependentCount = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -19,6 +20,8 @@ const DependentCount = ({
 
   const {
     questions: { hasDependents },
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
 
   const [error, setError] = useState(null);
@@ -53,6 +56,7 @@ const DependentCount = ({
             ...data?.personalData,
             dependents: [],
           },
+          reviewNavigation: false,
         });
       } else {
         setFormData({
@@ -61,6 +65,7 @@ const DependentCount = ({
             ...data?.questions,
             hasDependents: dependents,
           },
+          reviewNavigation: false,
         });
       }
     }
@@ -71,7 +76,12 @@ const DependentCount = ({
       onSubmit={event => {
         event.preventDefault();
         if (error) return;
-        goForward(data);
+        // head to review page if nav is true, and there are no dependents to get ages for
+        if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+          goToPath('/review-and-submit');
+        } else {
+          goForward(data);
+        }
       }}
     >
       <fieldset className="vads-u-margin-y--2">
@@ -132,6 +142,8 @@ DependentCount.propTypes = {
     personalData: PropTypes.shape({
       dependents: PropTypes.array,
     }),
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }).isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
