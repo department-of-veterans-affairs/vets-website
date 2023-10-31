@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { apiRequest } from 'platform/utilities/api';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import RequireSignInModal from '../RequireSignInModal';
 import { ServerErrorAlert } from '../../config/helpers';
@@ -66,7 +66,7 @@ const TopicSelect = props => {
       getApiData(
         `${environment.API_URL}${URL.GET_CATEGORIES}/${categoryID}${
           URL.GET_TOPICS
-        }`,
+        }?mock=true`,
       );
     },
     [loggedIn],
