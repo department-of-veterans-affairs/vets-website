@@ -5,7 +5,7 @@ const getHeadingText = ratedDisability => {
   const { name, ratingPercentage } = ratedDisability;
 
   const headingParts = [name];
-  if (typeof ratingPercentage === 'number') {
+  if (ratingPercentage !== null) {
     headingParts.unshift(`${ratingPercentage}%`);
   }
 
