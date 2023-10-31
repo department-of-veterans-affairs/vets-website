@@ -1,8 +1,8 @@
 import React from 'react';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import {
+//   VaRadio,
+//   VaRadioOption,
+// } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const RepTypeSelector = ({ onChange }) => {
   const handleRadioButtonSelect = event => {
@@ -12,7 +12,7 @@ const RepTypeSelector = ({ onChange }) => {
   return (
     <>
       <div className="rep-type-selector">
-        <VaRadio
+        <va-radio
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
@@ -20,18 +20,18 @@ const RepTypeSelector = ({ onChange }) => {
           label-header-level="3"
           onVaValueChange={handleRadioButtonSelect}
         >
-          <VaRadioOption
+          <va-radio-option
             label="Veteran Service Organization (VSO)"
             name="VSO"
             value="Veteran Service Organization (VSO)"
           />
-          <VaRadioOption label="Attorney" name="Attorney" value="Attorney" />
-          <VaRadioOption
+          <va-radio-option label="Attorney" name="Attorney" value="Attorney" />
+          <va-radio-option
             label="Claims Agent"
             name="Claims Agent"
             value="Claims Agent"
           />
-        </VaRadio>
+        </va-radio>
 
         <div style={{ marginTop: '2em' }}>
           <va-accordion
