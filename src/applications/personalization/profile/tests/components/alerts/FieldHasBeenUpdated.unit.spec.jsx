@@ -14,6 +14,10 @@ describe('<FieldHasBeenUpdated />', () => {
     };
   });
 
+  afterEach(() => {
+    historyMock = null;
+  });
+
   function renderWithRouter(state) {
     return render(
       <MemoryRouter initialEntries={[{ pathname: '/', state }]}>
