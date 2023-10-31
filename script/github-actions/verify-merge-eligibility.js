@@ -1,8 +1,14 @@
 const core = require('@actions/core');
 
-const testsBlockingMerge = process.env.TESTS_BLOCKING_MERGE
-  ? JSON.parse(process.env.TESTS_BLOCKING_MERGE)
+const unitTestsBlockingMerge = process.env.UNIT_TESTS_BLOCKING_MERGE
+  ? JSON.parse(process.env.UNIT_TESTS_BLOCKING_MERGE)
   : [];
+
+const e2eTestsBlockingMerge = process.env.E2E_TESTS_BLOCKING_MERGE
+  ? JSON.parse(process.env.E2E_TESTS_BLOCKING_MERGE)
+  : [];
+
+const testsBlockingMerge = e2eTestsBlockingMerge.concat(unitTestsBlockingMerge);
 
 const errorMessages = [];
 
