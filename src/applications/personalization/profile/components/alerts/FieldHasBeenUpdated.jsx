@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
-export const FieldHasBeenUpdated = () => {
+export const FieldHasBeenUpdated = ({ history = window.history }) => {
   const location = useLocation();
   const locationState = useLocation().state;
   const { fieldInfo = null } = locationState || {};
@@ -11,7 +11,7 @@ export const FieldHasBeenUpdated = () => {
   // alert after refresh. this useEffect clears the state after alert is shown
   useEffect(() => {
     if (location.state?.fieldInfo) {
-      window.history.replaceState(null, '');
+      history.replaceState(null, '');
     }
   }, []);
 
@@ -29,4 +29,8 @@ export const FieldHasBeenUpdated = () => {
       <p className="vads-u-margin-y--0">{text}</p>
     </va-alert>
   ) : null;
+};
+
+FieldHasBeenUpdated.propTypes = {
+  history: PropTypes.object,
 };

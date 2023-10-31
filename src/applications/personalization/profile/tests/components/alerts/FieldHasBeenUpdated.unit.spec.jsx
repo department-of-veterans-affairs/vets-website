@@ -2,6 +2,7 @@ import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { FieldHasBeenUpdated } from '../../../components/alerts/FieldHasBeenUpdated';
 
 describe('<FieldHasBeenUpdated />', () => {
@@ -14,7 +15,13 @@ describe('<FieldHasBeenUpdated />', () => {
 
     const { getByText } = render(
       <MemoryRouter initialEntries={[{ pathname: '/', state: testState }]}>
-        <Route component={FieldHasBeenUpdated} />
+        <Route>
+          <FieldHasBeenUpdated
+            history={{
+              replaceState: sinon.spy(),
+            }}
+          />
+        </Route>
       </MemoryRouter>,
     );
 
@@ -30,7 +37,13 @@ describe('<FieldHasBeenUpdated />', () => {
 
     const { getByText } = render(
       <MemoryRouter initialEntries={[{ pathname: '/', state: testState }]}>
-        <Route component={FieldHasBeenUpdated} />
+        <Route>
+          <FieldHasBeenUpdated
+            history={{
+              replaceState: sinon.spy(),
+            }}
+          />
+        </Route>
       </MemoryRouter>,
     );
 
@@ -40,10 +53,42 @@ describe('<FieldHasBeenUpdated />', () => {
   it('does not render the alert when fieldInfo is not present in location state', () => {
     const { queryByText } = render(
       <MemoryRouter>
-        <FieldHasBeenUpdated />
+        <Route>
+          <FieldHasBeenUpdated
+            history={{
+              replaceState: sinon.spy(),
+            }}
+          />
+        </Route>
       </MemoryRouter>,
     );
 
     expect(queryByText('We saved your')).to.be.null;
+  });
+
+  it('clears the location state after the alert is shown', () => {
+    // mock the window
+    const history = {
+      replaceState: sinon.spy(),
+    };
+
+    const testState = {
+      fieldInfo: {
+        title: 'Test Field',
+      },
+    };
+
+    const { getByText } = render(
+      <MemoryRouter initialEntries={[{ pathname: '/', state: testState }]}>
+        <Route>
+          <FieldHasBeenUpdated history={history} />
+        </Route>
+      </MemoryRouter>,
+    );
+
+    expect(getByText('We saved your test field to your profile.')).to.exist;
+
+    expect(history.replaceState.called).to.be.true;
+    expect(history.replaceState.args[0][0]).to.be.null;
   });
 });
