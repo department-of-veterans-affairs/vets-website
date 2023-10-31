@@ -24,6 +24,7 @@ const RepTypeSelector = ({ onChange }) => {
             label="Veteran Service Organization (VSO)"
             name="VSO"
             value="Veteran Service Organization (VSO)"
+            checked
           />
           <va-radio-option label="Attorney" name="Attorney" value="Attorney" />
           <va-radio-option
