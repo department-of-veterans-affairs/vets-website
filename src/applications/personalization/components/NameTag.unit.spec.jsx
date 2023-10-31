@@ -1,6 +1,6 @@
 import React from 'react';
-import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 import { expect } from 'chai';
+import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 
 import NameTag from './NameTag';
 
@@ -20,16 +20,19 @@ const getInitialState = () => ({
             branchOfService: 'Army',
             beginDate: '2004-02-01',
             endDate: '2007-02-01',
+            characterOfDischargeCode: 'A',
           },
           {
             branchOfService: 'Coast Guard',
             beginDate: '2009-02-01',
             endDate: '2019-02-01',
+            characterOfDischargeCode: 'DVN',
           },
           {
             branchOfService: 'Navy',
             beginDate: '2007-02-01',
             endDate: '2009-02-01',
+            characterOfDischargeCode: 'DVN',
           },
         ],
       },
@@ -39,7 +42,7 @@ const getInitialState = () => ({
 
 describe('<NameTag>', () => {
   context(
-    'when name is set and there are multiple service history entries',
+    'when name is set and there are multiple service history entries with at least one honorable discharge',
     () => {
       let view;
       beforeEach(() => {
@@ -53,6 +56,14 @@ describe('<NameTag>', () => {
       it('should render the most recent branch of service', () => {
         view.getByText('United States Coast Guard');
         view.getByRole('img', { alt: /coast guard seal/ });
+      });
+      it('should render the link to the proof of veteran status', () => {
+        view.getByText('View proof of veteran status');
+        view.getByRole('link', {
+          name: /view proof of veteran status/i,
+          text: /View proof of veteran status/i,
+          href: /profile\/veteran-status/i,
+        });
       });
     },
   );
@@ -109,4 +120,33 @@ describe('<NameTag>', () => {
       });
     },
   );
+  context('when there is no honorable discharge in the service history', () => {
+    it('should not render the view proof of veteran status link', () => {
+      const initialState = getInitialState();
+      const view = render(<NameTag totalDisabilityRating={70} />, {
+        ...initialState,
+        vaProfile: {
+          ...initialState.vaProfile,
+          militaryInformation: {
+            ...initialState.vaProfile.militaryInformation,
+            serviceHistory: initialState.vaProfile.militaryInformation.serviceHistory.serviceHistory.map(
+              history => {
+                return {
+                  ...history,
+                  characterOfDischargeCode: 'DVN',
+                };
+              },
+            ),
+          },
+        },
+      });
+      expect(view.queryByText(/View proof of veteran status/i)).to.not.exist;
+      expect(
+        view.queryByRole('link', {
+          name: /view proof of veteran status/i,
+          href: /profile\/veteran-status/i,
+        }),
+      ).to.not.exist;
+    });
+  });
 });
