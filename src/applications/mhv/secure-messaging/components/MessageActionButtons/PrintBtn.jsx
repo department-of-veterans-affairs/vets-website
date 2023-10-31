@@ -102,7 +102,8 @@ const PrintBtn = props => {
       {/* TODO add GA event tracking Print button */}
       <button
         type="button"
-        className="usa-button-secondary"
+        className="usa-button-secondary vads-u-flex--1"
+        style={{ minWidth: '100px' }}
         onClick={openModal}
       >
         <i

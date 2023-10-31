@@ -58,7 +58,8 @@ const TrashButton = props => {
       <>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary vads-u-flex--1"
+          style={{ minWidth: '100px' }}
           onClick={() => {
             setIsDeleteVisible(true);
           }}

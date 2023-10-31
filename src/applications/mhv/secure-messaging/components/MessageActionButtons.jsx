@@ -33,7 +33,7 @@ const MessageActionButtons = props => {
           onReply={handleReplyButton}
         />
       </div>
-      <div className="vads-u-display--flex vads-u-flex--auto vads-u-flex-direction--row medium-">
+      <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--row medium-">
         <PrintBtn key="print" handlePrint={handlePrint} />
         {folders && (
           <MoveMessageToFolderBtn
