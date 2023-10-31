@@ -114,10 +114,9 @@ const VaccineDetails = props => {
     ${record.name} \n
     Date entered: ${record.date} \n
     _____________________________________________________ \n
-    \t Signs and symptoms: ${record.reaction} \n
     \t Type of Vaccine: ${record.type} \n
     \t Location: ${record.location} \n
-    \t Observed or historical: ${record.observedOrReported} \n
+    \t Reaction: ${record.reaction} \n
     \t Provider notes: ${record.notes} \n`;
 
     const blob = new Blob([product], { type: 'text/plain' });

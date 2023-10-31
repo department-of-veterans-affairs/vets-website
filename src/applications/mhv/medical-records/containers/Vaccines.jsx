@@ -118,12 +118,11 @@ const Vaccines = props => {
     Showing ${vaccines.length} from newest to oldest. \n
     ${vaccines.map(
       entry => `_____________________________________________________ \n
-      ${entry.name} \n
-      \t Date entered: ${entry.date} \n
-      \t Signs and symptoms: ${entry.reaction} \n
+      ${entry.name} \n 
       \t Type of Vaccines: ${entry.type} \n
+      \t Date entered: ${entry.date} \n
       \t Location: ${entry.location} \n
-      \t Observed or historical: ${entry.observedOrReported} \n
+      \t Reaction: ${entry.observedOrReported} \n
       \t Provider notes: ${entry.notes} \n`,
     )}`;
 
