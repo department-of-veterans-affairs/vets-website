@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+// import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -29,7 +29,7 @@ import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
-import * as address from '../definitions/address';
+// import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -37,7 +37,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import phoneUI from '../components/Phone';
+// import phoneUI from '../components/Phone';
 // import preparerPhoneUI from '../components/PreparerPhone';
 import { validateSponsorDeathDate } from '../validation';
 
@@ -62,8 +62,8 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   // preparerAddressHasState,
-  applicantsMailingAddressHasState,
-  sponsorMailingAddressHasState,
+  // applicantsMailingAddressHasState,
+  // sponsorMailingAddressHasState,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 // import {
@@ -115,9 +115,9 @@ export const sponsorMailingAddressStateTitleWrapper = (
 
 export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 
-const applicantContactInfoSubheader = (
-  <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
-);
+// const applicantContactInfoSubheader = (
+//   <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+// );
 
 function ApplicantContactInfoDescription() {
   const data = useSelector(state => state.form.data || {});
@@ -617,117 +617,118 @@ const formConfig = {
         },
       },
     },
-    contactInformation: {
-      title: 'Contact information',
-      pages: {
-        applicantContactInformation: {
-          title: 'Applicant’s contact information',
-          path: 'applicant-contact-information',
-          uiSchema: {
-            application: {
-              claimant: {
-                address: merge(
-                  {},
-                  address.uiSchema('Applicant’s mailing address'),
-                  {
-                    street: {
-                      'ui:title': 'Street address',
-                    },
-                    street2: {
-                      'ui:title': 'Street address line 2',
-                    },
-                    state: {
-                      'ui:title': applicantMailingAddressStateTitleWrapper,
-                      'ui:options': {
-                        hideIf: formData =>
-                          !applicantsMailingAddressHasState(formData),
-                      },
-                    },
-                  },
-                ),
-                'view:applicantContactInfoSubheader': {
-                  'ui:description': applicantContactInfoSubheader,
-                  'ui:options': {
-                    displayEmptyObjectOnReview: true,
-                  },
-                },
-                phoneNumber: phoneUI('Phone number'),
-                email: emailUI(),
-                'view:contactInfoDescription': {
-                  'ui:description': applicantContactInfoWrapper,
-                  'ui:options': {
-                    displayEmptyObjectOnReview: true,
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  claimant: {
-                    type: 'object',
-                    required: ['email', 'phoneNumber'],
-                    properties: {
-                      address: address.schema(fullSchemaPreNeed, true),
-                      'view:applicantContactInfoSubheader': {
-                        type: 'object',
-                        properties: {},
-                      },
-                      phoneNumber: claimant.properties.phoneNumber,
-                      email: claimant.properties.email,
-                      'view:contactInfoDescription': {
-                        type: 'object',
-                        properties: {},
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-        sponsorMailingAddress: {
-          title: 'Sponsor’s mailing address',
-          path: 'sponsor-mailing-address',
-          depends: formData => !isVeteran(formData),
-          uiSchema: {
-            application: {
-              veteran: {
-                address: merge({}, address.uiSchema('Sponsor’s address'), {
-                  state: {
-                    'ui:title': sponsorMailingAddressStateTitleWrapper,
-                    'ui:options': {
-                      hideIf: formData =>
-                        !sponsorMailingAddressHasState(formData),
-                    },
-                  },
-                }),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  veteran: {
-                    type: 'object',
-                    properties: {
-                      address: address.schema(fullSchemaPreNeed),
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+    // WILL BREAK UP AT A LATER DATE
+    // contactInformation: {
+    //   title: 'Contact information',
+    //   pages: {
+    //     applicantContactInformation: {
+    //       title: 'Applicant’s contact information',
+    //       path: 'applicant-contact-information',
+    //       uiSchema: {
+    //         application: {
+    //           claimant: {
+    //             address: merge(
+    //               {},
+    //               address.uiSchema('Applicant’s mailing address'),
+    //               {
+    //                 street: {
+    //                   'ui:title': 'Street address',
+    //                 },
+    //                 street2: {
+    //                   'ui:title': 'Street address line 2',
+    //                 },
+    //                 state: {
+    //                   'ui:title': applicantMailingAddressStateTitleWrapper,
+    //                   'ui:options': {
+    //                     hideIf: formData =>
+    //                       !applicantsMailingAddressHasState(formData),
+    //                   },
+    //                 },
+    //               },
+    //             ),
+    //             'view:applicantContactInfoSubheader': {
+    //               'ui:description': applicantContactInfoSubheader,
+    //               'ui:options': {
+    //                 displayEmptyObjectOnReview: true,
+    //               },
+    //             },
+    //             phoneNumber: phoneUI('Phone number'),
+    //             email: emailUI(),
+    //             'view:contactInfoDescription': {
+    //               'ui:description': applicantContactInfoWrapper,
+    //               'ui:options': {
+    //                 displayEmptyObjectOnReview: true,
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           application: {
+    //             type: 'object',
+    //             properties: {
+    //               claimant: {
+    //                 type: 'object',
+    //                 required: ['email', 'phoneNumber'],
+    //                 properties: {
+    //                   address: address.schema(fullSchemaPreNeed, true),
+    //                   'view:applicantContactInfoSubheader': {
+    //                     type: 'object',
+    //                     properties: {},
+    //                   },
+    //                   phoneNumber: claimant.properties.phoneNumber,
+    //                   email: claimant.properties.email,
+    //                   'view:contactInfoDescription': {
+    //                     type: 'object',
+    //                     properties: {},
+    //                   },
+    //                 },
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     sponsorMailingAddress: {
+    //       title: 'Sponsor’s mailing address',
+    //       path: 'sponsor-mailing-address',
+    //       depends: formData => !isVeteran(formData),
+    //       uiSchema: {
+    //         application: {
+    //           veteran: {
+    //             address: merge({}, address.uiSchema('Sponsor’s address'), {
+    //               state: {
+    //                 'ui:title': sponsorMailingAddressStateTitleWrapper,
+    //                 'ui:options': {
+    //                   hideIf: formData =>
+    //                     !sponsorMailingAddressHasState(formData),
+    //                 },
+    //               },
+    //             }),
+    //           },
+    //         },
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           application: {
+    //             type: 'object',
+    //             properties: {
+    //               veteran: {
+    //                 type: 'object',
+    //                 properties: {
+    //                   address: address.schema(fullSchemaPreNeed),
+    //                 },
+    //               },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
   },
 };
 
