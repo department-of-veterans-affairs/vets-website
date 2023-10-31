@@ -4,13 +4,22 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, vitalTypes, pageTitles } from '../util/constants';
+import {
+  recordType,
+  vitalTypes,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -49,7 +58,12 @@ const Vitals = () => {
     [vitals],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
     if (cards?.length) {
       return (
         <RecordList
