@@ -1,15 +1,14 @@
 import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
-  contactInformationStepperTitle,
+  survivingDependentContactInformationChapterTitle,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
   preparerIsThirdParty,
   preparerIsVeteran,
-  benefitSelectionTitle,
-  personalInformationStepperTitle,
-  benefitSelectionStepperTitle,
+  survivingDependentPersonalInformationChapterTitle,
+  benefitSelectionChapterTitle,
   initializeFormDataWithPreparerIdentification,
   statementOfTruthFullNamePath,
   getAlertType,
@@ -19,6 +18,8 @@ import {
   getInfoAlertText,
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
+  veteranPersonalInformationChapterTitle,
+  veteranContactInformationChapterTitle,
   getNextStepsTextSecondParagraph,
   getNextStepsLinks,
 } from '../../config/helpers';
@@ -43,10 +44,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
   });
 
   it('provides the correct information for a surviving dependent', () => {
@@ -61,10 +71,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the veteran', () => {
@@ -79,10 +98,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Veteran/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Veteran/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Veteran/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the surviving dependent', () => {
@@ -97,10 +125,19 @@ describe('form helper functions', () => {
       true,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Claimant/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Claimant/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Claimant/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides a reasonble default', () => {
@@ -115,10 +152,16 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 });
 
@@ -178,9 +221,9 @@ describe('confirmation page helper functions', () => {
   describe('success alert', () => {
     describe('One intent selected and filed', () => {
       [
-        veteranBenefits.compensation,
-        veteranBenefits.pension,
-        survivingDependentBenefits.survivors,
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -202,7 +245,7 @@ describe('confirmation page helper functions', () => {
         it('successfully gets the success alert text', () => {
           expect(getSuccessAlertText(data, {}, expirationDate)).to.equal(
             `Your intent to file for ${
-              benefitPhrases[selectedIntent.toLowerCase()]
+              benefitPhrases[selectedIntent]
             } will expire on ${expirationDate}.`,
           );
         });
@@ -212,8 +255,8 @@ describe('confirmation page helper functions', () => {
     describe('Two intents selected and filed', () => {
       const data = {
         benefitSelection: {
-          [veteranBenefits.compensation]: true,
-          [veteranBenefits.pension]: true,
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
         },
       };
       const expirationDate = 'expiration-date';
@@ -238,13 +281,13 @@ describe('confirmation page helper functions', () => {
     describe('Two intents selected, one filed and one already on file', () => {
       const data = {
         benefitSelection: {
-          [veteranBenefits.compensation]: true,
-          [veteranBenefits.pension]: true,
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
         },
       };
       const expirationDate = 'expiration-date';
 
-      [veteranBenefits.compensation, veteranBenefits.pension].forEach(
+      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
         alreadySubmittedIntentType => {
           const alreadySubmittedIntents = {
             [alreadySubmittedIntentType]: {
@@ -255,8 +298,8 @@ describe('confirmation page helper functions', () => {
             },
           };
           const newlySelectedIntent = [
-            veteranBenefits.compensation,
-            veteranBenefits.pension,
+            veteranBenefits.COMPENSATION,
+            veteranBenefits.PENSION,
           ].filter(intent => intent !== alreadySubmittedIntentType)[0];
 
           it('shows a success alert', () => {
@@ -270,7 +313,7 @@ describe('confirmation page helper functions', () => {
               getSuccessAlertTitle(data, alreadySubmittedIntents),
             ).to.equal(
               `You’ve submitted your intent to file for ${
-                benefitPhrases[newlySelectedIntent.toLowerCase()]
+                benefitPhrases[newlySelectedIntent]
               }`,
             );
           });
@@ -290,9 +333,9 @@ describe('confirmation page helper functions', () => {
 
     describe('One intent selected, already on file, so nothing new is filed', () => {
       [
-        veteranBenefits.compensation,
-        veteranBenefits.pension,
-        survivingDependentBenefits.survivors,
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -301,7 +344,7 @@ describe('confirmation page helper functions', () => {
         };
         const expirationDate = '2024-09-22T19:15:20.000-05:00';
         const alreadySubmittedIntents = {
-          [selectedIntent.toLowerCase()]: {
+          [selectedIntent]: {
             creationDate: '2021-03-16T19:15:21.000-05:00',
             expirationDate,
             type: selectedIntent,
@@ -328,7 +371,7 @@ describe('confirmation page helper functions', () => {
           };
           expect(getInfoAlertText(data, alreadySubmittedIntents)).to.equal(
             `Our records show that you already have an intent to file for ${
-              benefitPhrases[selectedIntent.toLowerCase()]
+              benefitPhrases[selectedIntent]
             } and it will expire on ${new Date(
               expirationDate,
             ).toLocaleDateString('en-US', dateOptions)}.`,
@@ -340,8 +383,8 @@ describe('confirmation page helper functions', () => {
     describe('Two intents selected, both already on file, so nothing new is filed', () => {
       const data = {
         benefitSelection: {
-          [veteranBenefits.compensation]: true,
-          [veteranBenefits.pension]: true,
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
         },
       };
       const expirationDate = 'expiration-date';
@@ -349,13 +392,13 @@ describe('confirmation page helper functions', () => {
         compensation: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
-          type: veteranBenefits.compensation,
+          type: veteranBenefits.COMPENSATION,
           status: 'active',
         },
         pension: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
-          type: veteranBenefits.pension,
+          type: veteranBenefits.PENSION,
           status: 'active',
         },
       };
@@ -381,9 +424,9 @@ describe('confirmation page helper functions', () => {
   describe('next steps', () => {
     describe('One intent selected and filed', () => {
       [
-        veteranBenefits.compensation,
-        veteranBenefits.pension,
-        survivingDependentBenefits.survivors,
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -405,7 +448,7 @@ describe('confirmation page helper functions', () => {
             getNextStepsTextSecondParagraph(data, {}, expirationDate),
           ).to.equal(
             `Your intent to file for ${
-              benefitPhrases[selectedIntent.toLowerCase()]
+              benefitPhrases[selectedIntent]
             } expires on ${expirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
           );
         });
@@ -421,8 +464,8 @@ describe('confirmation page helper functions', () => {
     describe('Two intents selected and filed', () => {
       const data = {
         benefitSelection: {
-          [veteranBenefits.compensation]: true,
-          [veteranBenefits.pension]: true,
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
         },
       };
       const expirationDate = 'expiration-date';
@@ -446,16 +489,16 @@ describe('confirmation page helper functions', () => {
       it('successfully gets the next steps links', () => {
         const result = getNextStepsLinks(data);
         expect(result.length).to.equal(2);
-        expect(result).to.contain(veteranBenefits.compensation);
-        expect(result).to.contain(veteranBenefits.pension);
+        expect(result).to.contain(veteranBenefits.COMPENSATION);
+        expect(result).to.contain(veteranBenefits.PENSION);
       });
     });
 
     describe('Two intents selected, one filed and one already on file', () => {
       const data = {
         benefitSelection: {
-          [veteranBenefits.compensation]: true,
-          [veteranBenefits.pension]: true,
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
         },
       };
       const dateOptions = {
@@ -469,7 +512,7 @@ describe('confirmation page helper functions', () => {
         alreadySubmittedExpirationDate,
       ).toLocaleDateString('en-us', dateOptions);
 
-      [veteranBenefits.compensation, veteranBenefits.pension].forEach(
+      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
         alreadySubmittedIntentType => {
           const alreadySubmittedIntents = {
             [alreadySubmittedIntentType]: {
@@ -485,7 +528,7 @@ describe('confirmation page helper functions', () => {
               getAlreadySubmittedTitle(data, alreadySubmittedIntents),
             ).to.equal(
               `You’ve already submitted an intent to file for ${
-                benefitPhrases[alreadySubmittedIntentType.toLowerCase()]
+                benefitPhrases[alreadySubmittedIntentType]
               }`,
             );
           });
@@ -495,9 +538,9 @@ describe('confirmation page helper functions', () => {
               getAlreadySubmittedText(data, alreadySubmittedIntents),
             ).to.equal(
               `Our records show that you already have an intent to file for ${
-                benefitPhrases[alreadySubmittedIntentType.toLowerCase()]
+                benefitPhrases[alreadySubmittedIntentType]
               }. Your intent to file for ${
-                benefitPhrases[alreadySubmittedIntentType.toLowerCase()]
+                benefitPhrases[alreadySubmittedIntentType]
               } expires on ${formattedAlreadySubmittedExpirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`,
             );
           });
@@ -513,8 +556,8 @@ describe('confirmation page helper functions', () => {
           it('successfully gets the next steps links', () => {
             const result = getNextStepsLinks(data);
             expect(result.length).to.equal(2);
-            expect(result).to.contain(veteranBenefits.compensation);
-            expect(result).to.contain(veteranBenefits.pension);
+            expect(result).to.contain(veteranBenefits.COMPENSATION);
+            expect(result).to.contain(veteranBenefits.PENSION);
           });
         },
       );
@@ -522,9 +565,9 @@ describe('confirmation page helper functions', () => {
 
     describe('One intent selected, already on file, so nothing new is filed', () => {
       [
-        veteranBenefits.compensation,
-        veteranBenefits.pension,
-        survivingDependentBenefits.survivors,
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -542,7 +585,7 @@ describe('confirmation page helper functions', () => {
           expirationDate,
         ).toLocaleDateString('en-us', dateOptions);
         const alreadySubmittedIntents = {
-          [selectedIntent.toLowerCase()]: {
+          [selectedIntent]: {
             creationDate: '2021-03-16T19:15:21.000-05:00',
             expirationDate,
             type: selectedIntent,
@@ -563,7 +606,7 @@ describe('confirmation page helper functions', () => {
             getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
           ).to.equal(
             `Your intent to file for ${
-              benefitPhrases[selectedIntent.toLowerCase()]
+              benefitPhrases[selectedIntent]
             } expires on ${formattedExpirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
           );
         });
@@ -579,8 +622,8 @@ describe('confirmation page helper functions', () => {
     describe('Two intents selected, both already on file, so nothing new is filed', () => {
       const data = {
         benefitSelection: {
-          [veteranBenefits.compensation]: true,
-          [veteranBenefits.pension]: true,
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
         },
       };
       const dateOptions = {
@@ -597,13 +640,13 @@ describe('confirmation page helper functions', () => {
         compensation: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
-          type: veteranBenefits.compensation,
+          type: veteranBenefits.COMPENSATION,
           status: 'active',
         },
         pension: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
-          type: veteranBenefits.pension,
+          type: veteranBenefits.PENSION,
           status: 'active',
         },
       };
@@ -627,8 +670,8 @@ describe('confirmation page helper functions', () => {
       it('successfully gets the next steps links', () => {
         const result = getNextStepsLinks(data);
         expect(result.length).to.equal(2);
-        expect(result).to.contain(veteranBenefits.compensation);
-        expect(result).to.contain(veteranBenefits.pension);
+        expect(result).to.contain(veteranBenefits.COMPENSATION);
+        expect(result).to.contain(veteranBenefits.PENSION);
       });
     });
   });

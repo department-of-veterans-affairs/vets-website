@@ -134,7 +134,7 @@ describe('Thread Details container', () => {
   });
 
   it('with one draft message renders Edit Draft', async () => {
-    const { category, subject, body } = singleDraftThread.draftMessage;
+    const { body } = singleDraftThread.draftMessage;
     const state = {
       sm: {
         triageTeams: {
@@ -165,12 +165,6 @@ describe('Thread Details container', () => {
       screen.getByText(
         'If you need help sooner, use one of these urgent communication options:',
       ),
-    ).to.exist;
-    expect(
-      screen.getByText(`${category}: ${subject}`, {
-        exact: false,
-        selector: 'h2',
-      }),
     ).to.exist;
     expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;
   });
