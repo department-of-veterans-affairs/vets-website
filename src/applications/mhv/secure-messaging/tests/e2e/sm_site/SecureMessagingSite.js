@@ -70,7 +70,7 @@ class SecureMessagingSite {
     if (interceptedPage === 1) {
       cy.get('[aria-label="Pagination"]')
         .shadow()
-        .find('[aria-label="Page 1"]')
+        .find('[aria-label="Page 1, first page"]')
         .click();
     } else {
       cy.get('[aria-label="Pagination"]')
