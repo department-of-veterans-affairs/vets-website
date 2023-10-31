@@ -28,7 +28,7 @@ describe('<RatedDisabilityListItem />', () => {
 
     expect(
       wrapper
-        .find('dd')
+        .find('div')
         .first()
         .text(),
     ).to.contain(formattedEffectiveDate);
@@ -40,7 +40,7 @@ describe('<RatedDisabilityListItem />', () => {
     const wrapper = shallow(
       <RatedDisabilityListItem ratedDisability={ratedDisability} />,
     );
-    expect(wrapper.find('dd').exists()).to.be.false;
+    expect(wrapper.find('div').exists()).to.be.false;
     wrapper.unmount();
   });
 });
