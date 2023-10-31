@@ -43,7 +43,6 @@ const useSendPreCheckInData = () => {
           preCheckInData.emergencyContactUpToDate =
             emergencyContactUpToDate === 'yes';
         }
-
         try {
           const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
           if (resp.data.error || resp.data.errors) {
@@ -58,7 +57,6 @@ const useSendPreCheckInData = () => {
           updateError('error-completing-pre-check-in');
         }
       }
-
       if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
         sendPreCheckInData();
       } else {
@@ -82,4 +80,4 @@ const useSendPreCheckInData = () => {
   return { isLoading };
 };
 
-export default useSendPreCheckInData;
+export { useSendPreCheckInData };

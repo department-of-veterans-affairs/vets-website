@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import PreCheckinConfirmation from '../../../components/PreCheckinConfirmation';
 
-import useSendPreCheckInData from '../../../hooks/useSendPreCheckInData';
+import { useSendPreCheckInData } from '../../../hooks/useSendPreCheckInData';
 
 import { makeSelectForm, makeSelectVeteranData } from '../../../selectors';
 

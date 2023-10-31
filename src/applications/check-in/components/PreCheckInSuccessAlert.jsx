@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import useSendPreCheckInData from '../hooks/useSendPreCheckInData';
+import { useSendPreCheckInData } from '../hooks/useSendPreCheckInData';
 
 import { makeSelectVeteranData } from '../selectors';
 import { hasPhoneAppointments } from '../utils/appointment';
@@ -21,12 +21,10 @@ const PreCheckInSuccessAlert = () => {
 
   if (isLoading) {
     return (
-      <div>
-        <va-loading-indicator
-          data-testid="loading-indicator"
-          message={t('setting-pre-check-in-completed')}
-        />
-      </div>
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('setting-pre-check-in-completed')}
+      />
     );
   }
 
