@@ -50,27 +50,32 @@ class PatientMessageCustomFolderPage {
   };
 
   loadSingleFolderWithMessages = (folderId, folderName) => {
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`,
-      createdFolderResponse,
-    ).as('singleFolder');
+    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`, {
+      data: {
+        id: `${folderId}`,
+        type: 'folders',
+        attributes: {
+          folderId,
+          name: folderName,
+          count: 0,
+          unreadCount: 0,
+          systemFolder: false,
+        },
+        links: {
+          self:
+            'https://staging-api.va.gov/my_health/v1/messaging/folders/3041238',
+        },
+      },
+    }).as('singleFolder');
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
       mockFolderWithMessages,
     ).as('singleFolderThread');
 
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
-      mockFolderWithMessages,
-    ).as('inboxFolderWithNoMessage');
-
     cy.contains(folderName).click({ waitForAnimations: true });
     cy.wait('@singleFolder');
     cy.wait('@singleFolderThread');
-    cy.wait('@inboxFolderWithNoMessage');
   };
 
   loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
