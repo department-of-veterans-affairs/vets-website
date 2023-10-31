@@ -33,6 +33,16 @@ const MessageThread = props => {
   const messageHistoryRef = useRef([]);
   const viewCountRef = useRef();
 
+  const messageCount = useMemo(
+    () => {
+      if (messageHistory?.length) {
+        return messageHistory.filter(m => m.sentDate !== null).length || 0;
+      }
+      return 0;
+    },
+    [messageHistory],
+  );
+
   // value for screen readers to indicate how many messages are being loaded
   const messagesLoaded = useMemo(
     () => {
@@ -144,14 +154,14 @@ const MessageThread = props => {
         }`}
       >
         <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-          {messageHistory?.length > 0
-            ? `${messageHistory?.length} Message${
-                messageHistory.length > 1 ? 's' : ''
+          {messageCount > 0
+            ? `${messageCount} Message${
+                messageCount > 1 ? 's' : ''
               } in this conversation`
             : ((!!isDraftThread === true || !!isDraftThread === false) &&
-              messageHistory?.length > 0
-                ? `${messageHistory?.length + 1} Message${
-                    messageHistory.length > 1 ? 's' : ''
+              messageCount > 0
+                ? `${messageCount + 1} Message${
+                    messageCount > 1 ? 's' : ''
                   } in this conversation`
                 : '1 Message in this conversation') ||
               (!!isDraftThread === false && '1 Message in this conversation')}
