@@ -18,6 +18,10 @@ describe('Allergy details container', () => {
         allergyDetails: convertAllergy(allergy),
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
@@ -86,7 +90,7 @@ describe('Allergy details container', () => {
   });
 
   it('should download a text file', () => {
-    fireEvent.click(screen.getByTestId('printButton-2'));
+    fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen).to.exist;
   });
 });
