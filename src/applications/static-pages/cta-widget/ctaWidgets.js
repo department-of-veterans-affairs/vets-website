@@ -21,6 +21,8 @@ export const CTA_WIDGET_TYPES = {
   DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_BENEFITS: 'disability-benefits',
   DISABILITY_RATINGS: 'disability-ratings',
+  EDUCATION_LETTERS: 'education-letters',
+  ENROLLMENT_VERIFICATION: 'enrollment-verification',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
@@ -32,14 +34,13 @@ export const CTA_WIDGET_TYPES = {
   MESSAGING: 'messaging',
   RX: 'rx',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
+  UPDATE_HEALTH_BENEFITS_INFO: 'update-health-benefits-info',
   VETERAN_ID_CARD: 'vic',
   VET_TEC: 'vet-tec',
   VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VRRAP: 'vrrap',
-  EDUCATION_LETTERS: 'education-letters',
-  ENROLLMENT_VERIFICATION: 'enrollment-verification',
 };
 
 export const ctaWidgetsLookup = {
@@ -263,6 +264,18 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'VA Appointments',
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
+  },
+  [CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO]: {
+    id: CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO,
+    deriveToolUrlDetails: () => ({
+      url: '/my-health/update-benefits-information-form-10-10ezr',
+      redirect: true,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'update your health benefits information',
   },
   [CTA_WIDGET_TYPES.VETERAN_ID_CARD]: {
     id: CTA_WIDGET_TYPES.VETERAN_ID_CARD,
