@@ -65,14 +65,16 @@ export const AppointmentsCard = ({ appointments }) => {
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
       <Toggler.Enabled>
-        <va-card>
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-padding--1"
-            data-testid="health-care-appointments-card"
-          >
-            {content}
-          </div>
-        </va-card>
+        <div className="vads-u-margin-bottom--2p5">
+          <va-card>
+            <div
+              className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-padding--1"
+              data-testid="health-care-appointments-card"
+            >
+              {content}
+            </div>
+          </va-card>
+        </div>
       </Toggler.Enabled>
 
       <Toggler.Disabled>
