@@ -136,12 +136,12 @@ const RatedDisabilityList = ({
 
   return (
     <div>
-      <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
       {sortToggle && (
         <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
           <SortSelect onSelect={setSortBy} sortBy={sortBy} />
         </div>
       )}
+      <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
       <div className="vads-l-row vads-u-flex-direction--column">
         {formattedServiceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
@@ -150,11 +150,6 @@ const RatedDisabilityList = ({
       <h3 className="vads-u-margin-top--1p5">
         Conditions VA determined aren’t service-connected
       </h3>
-      {sortToggle && (
-        <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
-          <SortSelect onSelect={setSortBy} sortBy={sortBy} />
-        </div>
-      )}
       <div className="vads-l-row vads-u-flex-direction--column">
         {formattedNonServiceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
