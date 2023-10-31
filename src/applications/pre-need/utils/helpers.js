@@ -577,6 +577,7 @@ export const serviceRecordsUI = {
     viewField: ServicePeriodView,
     itemName: 'Service period',
     keepInPageOnReview: true,
+    useDlWrap: true,
   },
   items: {
     'ui:order': [
