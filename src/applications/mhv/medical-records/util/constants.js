@@ -12,6 +12,7 @@ export const accessAlertTypes = {
   VACCINE: 'vaccine',
   VITALS: 'vitals',
   HEALTH_CONDITIONS: 'health conditions',
+  LABS_AND_TESTS: 'labs and tests',
 };
 
 export const labTypes = {
