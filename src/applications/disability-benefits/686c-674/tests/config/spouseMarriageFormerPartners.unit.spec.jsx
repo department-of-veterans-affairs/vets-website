@@ -91,7 +91,7 @@ describe('686 spouse former partner names', () => {
     form.unmount();
   });
 
-  it('should submit with all required fields when a spouse has been married before', () => {
+  it('should display an error if the middle name is longer than 30 characters', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
