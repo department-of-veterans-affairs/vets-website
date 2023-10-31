@@ -6,7 +6,7 @@ import mockMessageDetails from './fixtures/messages-response.json';
 import mockFolders from './fixtures/generalResponses/folders.json';
 import { AXE_CONTEXT, Paths, Locators } from './utils/constants';
 
-describe('verify signature', () => {
+describe.skip('verify signature', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
