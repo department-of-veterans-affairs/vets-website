@@ -23,7 +23,7 @@ export const claimExamsDescription = (
         <a href="/profile" target="_blank" rel="noreferrer">
           VA.gov profile
         </a>{' '}
-        to confirm your phone number.
+        to confirm your phone number (opens in a new tab).
       </p>
     </va-alert>
 
