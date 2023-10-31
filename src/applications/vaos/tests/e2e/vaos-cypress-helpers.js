@@ -14,12 +14,12 @@ import clinicList983 from '../../services/mocks/var/clinicList983.json';
 import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
 import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
 
-import { APPOINTMENT_STATUS } from '../../utils/constants';
+// import { APPOINTMENT_STATUS } from '../../utils/constants';
 import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
-import confirmedV2 from '../../services/mocks/v2/confirmed.json';
-import requestsV2 from '../../services/mocks/v2/requests.json';
+// import confirmedV2 from '../../services/mocks/v2/confirmed.json';
+// import requestsV2 from '../../services/mocks/v2/requests.json';
 import { getStagingId } from '../../services/var';
 
 import featureFlags from '../../utils/featureFlags';
@@ -341,6 +341,18 @@ export function mockCCProvidersApi({
   ).as('v1:get:provider');
 }
 
+/**
+ * Function to mock the 'GET' appointment endpoint.
+ *
+ * @example GET '/vaos/v2/appointments/${data.id}'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} arguments.response - The response object to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
+ * @returns {void}
+ */
 export function mockAppointmentApi({
   response: data,
   responseCode = 200,
@@ -470,14 +482,13 @@ export function mockAppointmentCreateApi({
  * @export
  * @param {Object} arguments - Function arguments.
  * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentsApi({
   response: data,
   responseCode = 200,
-  status = APPOINTMENT_STATUS.booked,
+  // status = APPOINTMENT_STATUS.booked,
   apiVersion = 2,
 } = {}) {
   if (apiVersion === 2) {
@@ -501,13 +512,14 @@ export function mockAppointmentsApi({
 
         if (data) {
           req.reply({ data });
-        } else if (status === APPOINTMENT_STATUS.booked) {
-          req.reply({
-            data: confirmedV2.data,
-          });
-        } else if (status === APPOINTMENT_STATUS.pending) {
-          req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
-        } else req.reply({});
+        }
+        //  else if (status === APPOINTMENT_STATUS.booked) {
+        //   req.reply({
+        //     data: confirmedV2.data,
+        //   });
+        // } else if (status === APPOINTMENT_STATUS.pending) {
+        //   req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
+        // } else req.reply({});
       },
     ).as('v2:get:appointments');
   }

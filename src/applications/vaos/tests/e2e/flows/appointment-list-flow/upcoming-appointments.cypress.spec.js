@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-// Inteligent code
+// Enable intelliSense for Cypress
 /// <reference types="cypress" />
 
 import moment from 'moment';
