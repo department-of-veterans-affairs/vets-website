@@ -55,7 +55,7 @@ describe('<RatedDisabilityList/>', () => {
 
     expect(
       wrapper.getByRole('heading', {
-        level: 3,
+        level: 4,
         name: headingText,
       }),
     ).to.exist;
