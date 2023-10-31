@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { FieldHasBeenUpdated } from '../../../components/alerts/FieldHasBeenUpdated';
@@ -45,10 +45,12 @@ describe('<FieldHasBeenUpdated />', () => {
     expect(queryByText('We saved your')).to.be.null;
   });
 
-  it('clears the location state after the alert is shown', () => {
+  it('clears the location state after the alert is shown', async () => {
     renderWithRouter({ fieldInfo: { title: 'Test Field' } });
 
-    expect(historyMock.replaceState.called).to.be.true;
+    await waitFor(() => {
+      expect(historyMock.replaceState.called).to.be.true;
+    });
     expect(historyMock.replaceState.args[0][0]).to.be.null;
   });
 });
