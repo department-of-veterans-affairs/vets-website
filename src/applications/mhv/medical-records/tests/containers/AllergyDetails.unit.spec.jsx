@@ -90,7 +90,7 @@ describe('Allergy details container', () => {
   });
 
   it('should download a text file', () => {
-    fireEvent.click(screen.getByTestId('printButton-1'));
+    fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen).to.exist;
   });
 });
