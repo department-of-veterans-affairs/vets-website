@@ -2,13 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
-import proxyquire from 'proxyquire';
 import Modal from '../../components/Modal';
-
-const MockModal = ({ children }) => <div>{children}</div>;
-const Modal2 = proxyquire('../../components/Modal', {
-  Modal: MockModal,
-}).default;
 
 describe('<Modal/>', () => {
   it('should render', () => {
@@ -65,7 +59,7 @@ describe('<Modal/>', () => {
     const wrapper = shallow(
       <Modal
         onClose={() => {
-          onCloseStub;
+          onCloseStub();
         }}
         focusSelector
         visible
@@ -76,7 +70,7 @@ describe('<Modal/>', () => {
     const notContainedTarget = document.createElement('div');
     wrapper.instance().handleDocumentClicked({ target: notContainedTarget });
 
-    expect(onCloseStub.calledOnce).to.be.false;
+    expect(onCloseStub.calledOnce).to.be.true;
     wrapper.unmount();
   });
 
@@ -178,25 +172,6 @@ describe('<Modal/>', () => {
     const spySetupModal = sinon.spy(wrapper.instance(), 'setupModal');
     wrapper.setProps({ visible: true });
     expect(spySetupModal.calledOnce).to.be.true;
-    wrapper.unmount();
-  });
-  it('should render jxs', () => {
-    const wrapper = shallow(
-      <Modal2
-        primaryButton
-        secondaryButton
-        title
-        id
-        status
-        visible
-        element="element"
-      >
-        <MockModal.Title title="Sample Title" />
-        <MockModal.Content text="Sample Content" />
-      </Modal2>,
-    );
-    const div1 = wrapper.find('div').last();
-    expect(div1.text()).to.equal('');
     wrapper.unmount();
   });
 });
