@@ -115,8 +115,8 @@ const VaccineDetails = props => {
     Date entered: ${record.date} \n
     _____________________________________________________ \n
     \t Location: ${record.location} \n
-    \t Reaction: ${record.reaction} \n
-    \t Provider notes: ${record.notes} \n`;
+    \t Reaction: ${processList(record.reactions)} \n
+    \t Provider notes: ${processList(record.notes)} \n`;
 
     const blob = new Blob([product], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);

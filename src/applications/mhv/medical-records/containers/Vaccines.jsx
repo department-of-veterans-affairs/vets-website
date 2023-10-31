@@ -121,8 +121,8 @@ const Vaccines = props => {
       ${entry.name} \n 
       \t Date received: ${entry.date} \n
       \t Location: ${entry.location} \n
-      \t Reaction: ${entry.reactions} \n
-      \t Provider notes: ${entry.notes} \n`,
+      \t Reaction: ${processList(entry.reactions)} \n
+      \t Provider notes: ${processList(entry.notes)} \n`,
     )}`;
 
     const blob = new Blob([product], { type: 'text/plain' });
