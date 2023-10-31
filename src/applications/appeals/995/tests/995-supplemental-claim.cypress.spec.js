@@ -218,7 +218,7 @@ const testConfig = createTestConfig(
                 cy.get('#add-facility-name')
                   .shadow()
                   .find('input')
-                  .should('not.be.disabled'); // Give field time to render completely
+                  .focus(); // Try focusing first
 
                 cy.get('#add-facility-name')
                   .shadow()
