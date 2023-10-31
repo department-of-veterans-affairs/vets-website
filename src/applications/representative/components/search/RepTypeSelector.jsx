@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const RepTypeSelector = ({ onChange }) => {
   const handleRadioButtonSelect = event => {
@@ -71,6 +72,10 @@ const RepTypeSelector = ({ onChange }) => {
       </div>
     </>
   );
+};
+
+RepTypeSelector.propTypes = {
+  onChange: PropTypes.func.isRequired,
 };
 
 export default RepTypeSelector;
