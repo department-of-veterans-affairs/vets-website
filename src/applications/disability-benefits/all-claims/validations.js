@@ -446,6 +446,10 @@ export const validateSeparationDate = (
   const in90Days = moment().add(90, 'days');
   if (!isBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
     errors.addError('Your separation date must be in the past');
+  } else if (!moment(dateString).isValid()) {
+    errors.addError(
+      `The separation date provided (${dateString}) is not a real date.`,
+    );
   } else if (moment(dateString).isAfter(moment().add(180, 'days'))) {
     errors.addError(
       +isBDD
