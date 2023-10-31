@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -22,6 +22,7 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -35,8 +36,7 @@ const VaccineDetails = props => {
   );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -75,24 +75,6 @@ const VaccineDetails = props => {
     [dispatch, record],
   );
 
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
-  );
-
   const generateVaccinePdf = async () => {
     const title = `Vaccines: ${record.name} on ${record.date}`;
     const subject = 'VA Medical Record';
@@ -125,6 +107,29 @@ const VaccineDetails = props => {
       .replace(/\./g, '')}`;
 
     makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
+  };
+
+  const generateVaccineTxt = async () => {
+    const product = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Location: ${record.location} \n
+    \t Reaction: ${processList(record.reactions)} \n
+    \t Provider notes: ${processList(record.notes)} \n`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VA-Vaccines-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   };
 
   const content = () => {
@@ -168,6 +173,7 @@ const VaccineDetails = props => {
           <PrintDownload
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="detail-block max-80">

@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/exports';
 
-import { getAppUrl } from 'platform/utilities/registry-helpers';
-
+import { checkForDiscrepancies } from '../actions';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
-import { OnThisPageLink } from './OnThisPageLink';
+import OnThisPage from './OnThisPage';
 import RatedDisabilityList from './RatedDisabilityList';
 
 const facilityLocatorUrl = getAppUrl('facilities');
@@ -41,6 +40,7 @@ const renderMVIError = () => {
 };
 
 const RatedDisabilityView = ({
+  detectDiscrepancies,
   error,
   fetchRatedDisabilities,
   fetchTotalDisabilityRating,
@@ -52,35 +52,15 @@ const RatedDisabilityView = ({
 }) => {
   useEffect(() => {
     fetchTotalDisabilityRating();
+
+    if (detectDiscrepancies) {
+      checkForDiscrepancies();
+    }
   }, []);
 
   let content;
-  let onThisPageHeader = '';
-  let combinedRatingLink = '';
-  let ratedDisabilitiesLink = '';
-  let learnMoreLink = '';
 
-  // If there are rated disabilites then the page gets long enough to fill these links
-  if (ratedDisabilities?.ratedDisabilities?.length > 0) {
-    onThisPageHeader = <h2 className="vads-u-font-size--h3">On this page</h2>;
-    combinedRatingLink = (
-      <OnThisPageLink
-        text="Your combined disability rating"
-        link="#combined-rating"
-      />
-    );
-
-    ratedDisabilitiesLink = (
-      <OnThisPageLink
-        text="Your individual ratings"
-        link="#individual-ratings"
-      />
-    );
-
-    learnMoreLink = (
-      <OnThisPageLink text="Learn about VA disabilities" link="#learn" />
-    );
-  }
+  const hasRatedDisabilities = ratedDisabilities?.ratedDisabilities?.length > 0;
 
   // Total Disability Calculation and Pending Disabilities should go here.
   if (user.profile.verified) {
@@ -91,29 +71,30 @@ const RatedDisabilityView = ({
             <div className="vads-l-col--12">
               <h1>View your VA disability ratings</h1>
             </div>
-            <div className="usa-width-one-third">
-              {onThisPageHeader}
-              {combinedRatingLink}
-              {ratedDisabilitiesLink}
-              {learnMoreLink}
-            </div>
+            {hasRatedDisabilities && <OnThisPage />}
           </div>
+          <h2 id="combined-rating" className="vads-u-margin-y--1p5">
+            Your combined disability rating
+          </h2>
           <TotalRatedDisabilities
             totalDisabilityRating={totalDisabilityRating}
             loading={loading}
             error={error}
           />
+          <h2 id="individual-ratings" className="vads-u-margin-y--2">
+            Your individual ratings
+          </h2>
           <RatedDisabilityList
             fetchRatedDisabilities={fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
             sortToggle={sortToggle}
           />
-          <h3
+          <h2
             id="learn"
-            className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h2"
+            className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h3 vads-u-margin-top--2"
           >
             Learn about VA disability ratings
-          </h3>
+          </h2>
           <p>
             To learn how we determined your VA combined disability rating, use
             our disability rating calculator and ratings table.
@@ -144,6 +125,7 @@ const RatedDisabilityView = ({
 
 RatedDisabilityView.propTypes = {
   fetchRatedDisabilities: PropTypes.func.isRequired,
+  detectDiscrepancies: PropTypes.bool,
   error: PropTypes.object,
   fetchTotalDisabilityRating: PropTypes.func,
   loading: PropTypes.bool,
