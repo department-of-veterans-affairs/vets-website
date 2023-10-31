@@ -20,6 +20,8 @@ import {
 import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
 import DependentAgesReview from '../../components/household/DependentAgesReview';
+import SpouseExplainer from '../../components/shared/SpouseExplainer';
+import { shouldShowSpouseExplainer } from '../../hooks/useDetectFieldChanges';
 
 export default {
   veteranInformationChapter: {
@@ -151,6 +153,33 @@ export default {
         CustomPage: DependentAges,
         CustomPageReview: DependentAgesReview,
         editModeOnReviewPage: false,
+      },
+      spouseExplainer: {
+        path: 'spouse-explainer',
+        title: 'Spouse Information',
+        CustomPage: SpouseExplainer,
+        CustomPageReview: null,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        depends: formData => {
+          // Check if reviewNavigation is false
+          if (!formData?.reviewNavigation) {
+            return false;
+          }
+
+          const hasDependents =
+            formData.questions?.hasDependents &&
+            formData.questions.hasDependents !== '0';
+
+          const shouldShowBasedOnDependents =
+            hasDependents && shouldShowSpouseExplainer(formData);
+
+          const shouldShowBasedOnMarriage =
+            formData.questions?.isMarried &&
+            shouldShowSpouseExplainer(formData);
+
+          return shouldShowBasedOnDependents || shouldShowBasedOnMarriage;
+        },
       },
     },
   },

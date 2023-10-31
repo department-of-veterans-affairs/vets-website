@@ -40,6 +40,13 @@ const isSpouseDetailsIncomplete = currentQuestions => {
   return false;
 };
 
+// in a utility file, let's call it formUtils.js
+export const shouldShowSpouseExplainer = formData => {
+  const currentQuestions = formData?.questions || {};
+  const spouseIncomplete = isSpouseDetailsIncomplete(currentQuestions);
+  return formData?.reviewNavigation && spouseIncomplete;
+};
+
 const useDetectFieldChanges = formData => {
   const prevDataRef = useRef();
   const [shouldShowReviewButton, setShouldShowReviewButton] = useState(true);
