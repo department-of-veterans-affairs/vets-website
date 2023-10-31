@@ -1,9 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import recordEvent from 'platform/monitoring/record-event';
 
-export const IdentityVerificationAlert = () => (
+export const IdentityVerificationAlert = ({ onVerify }) => (
   <va-alert
     status="continue"
     class="vads-u-margin-y--4"
@@ -39,11 +38,9 @@ export const IdentityVerificationAlert = () => (
       </ul>
       <p>
         <a
+          className="vads-c-action-link--green"
+          onClick={onVerify}
           href="/verify"
-          className="usa-button"
-          onClick={() => {
-            recordEvent({ event: AUTH_EVENTS.VERIFY });
-          }}
         >
           Verify your identity
         </a>
@@ -51,5 +48,9 @@ export const IdentityVerificationAlert = () => (
     </div>
   </va-alert>
 );
+
+IdentityVerificationAlert.propTypes = {
+  onVerify: PropTypes.func,
+};
 
 export default IdentityVerificationAlert;

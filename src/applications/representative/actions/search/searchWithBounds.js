@@ -2,7 +2,7 @@ import { SEARCH_STARTED } from '../../utils/actionTypes';
 // import {  SEARCH_FAILED } from '../../utils/actionTypes';
 // import { reverseGeocodeBox } from '../../utils/mapHelpers';
 // import { LocationType } from '../../constants';
-import { fetchRepresentatives } from '../locations/fetchRepresentatives';
+import { fetchRepresentatives } from '../representatives/fetchRepresentatives';
 
 /**
  * Find which locations exist within the given bounding box's area.
