@@ -10,7 +10,7 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 
 import GetFormHelp from '../content/GetFormHelp';
 
-import { FORMAT_READABLE } from '../../shared/constants';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 
 export const ConfirmationPage = () => {
@@ -75,11 +75,7 @@ export const ConfirmationPage = () => {
         ) : null}
 
         {submitDate.isValid() ? (
-          <>
-            <p />
-            <h4 className="vads-u-margin-top--0">Date you filed your claim</h4>
-            <span>{submitDate.format(FORMAT_READABLE)}</span>
-          </>
+          <DateSubmitted submitDate={submitDate} />
         ) : null}
         <h4>You’ve selected these issues for review</h4>
         <ul className="vads-u-margin-top--0">{issues}</ul>
