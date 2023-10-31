@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/exports';
 
@@ -74,22 +73,28 @@ const RatedDisabilityView = ({
             </div>
             {hasRatedDisabilities && <OnThisPage />}
           </div>
+          <h2 id="combined-rating" className="vads-u-margin-y--1p5">
+            Your combined disability rating
+          </h2>
           <TotalRatedDisabilities
             totalDisabilityRating={totalDisabilityRating}
             loading={loading}
             error={error}
           />
+          <h2 id="individual-ratings" className="vads-u-margin-y--2">
+            Your individual ratings
+          </h2>
           <RatedDisabilityList
             fetchRatedDisabilities={fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
             sortToggle={sortToggle}
           />
-          <h3
+          <h2
             id="learn"
-            className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h2"
+            className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h3 vads-u-margin-top--2"
           >
             Learn about VA disability ratings
-          </h3>
+          </h2>
           <p>
             To learn how we determined your VA combined disability rating, use
             our disability rating calculator and ratings table.
