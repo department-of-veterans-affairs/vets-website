@@ -13,103 +13,25 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
-import {
-  VaAccordion,
-  VaAccordionItem,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
-import MessageThreadMeta from './MessageThreadMeta';
-import MessageThreadBody from './MessageThreadBody';
-import MessageThreadAttachments from './MessageThreadAttachments';
 import {
   clearMessageHistory,
   markMessageAsReadInThread,
 } from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
-import { dateFormat } from '../../util/helpers';
-import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 import useInterval from '../../hooks/use-interval';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const accordionItemRef = useRef();
-  const {
-    replyMessage,
-    messageHistory,
-    isDraftThread,
-    isForPrint,
-    viewCount,
-  } = props;
-  const {
-    attachment,
-    folderId,
-    hasAttachments,
-    recipientName,
-    preloaded,
-    readReceipt,
-    sentDate,
-    senderName,
-    triageGroupName,
-  } = messageHistory;
-  const activeReplyDraftMessage = useSelector(
-    state => state.sm.messageDetails?.message,
-  );
-  const draftMessageHistoryItem = useSelector(
-    state => state.sm.draftDetails?.draftMessageHistory,
-  );
+  const { messageHistory, isDraftThread, isForPrint, viewCount } = props;
   const accordionRef = useRef();
   const [hasListener, setHasListener] = useState(false);
   const messageHistoryRef = useRef([]);
   const viewCountRef = useRef();
-
-  const isSentOrRead =
-    folderId === DefaultFolders.SENT.id ||
-    readReceipt === MessageReadStatus.READ;
-  const fromMe =
-    recipientName === triageGroupName ||
-    activeReplyDraftMessage?.recipientName ===
-      activeReplyDraftMessage?.triageGroupName ||
-    draftMessageHistoryItem[0]?.recipientName ===
-      draftMessageHistoryItem[0]?.triageGroupName;
-  const from = fromMe
-    ? 'Me'
-    : `${senderName}` ||
-      `${activeReplyDraftMessage?.senderName}` ||
-      `${draftMessageHistoryItem[0]?.senderName}`;
-
-  const handleExpand = isPreloaded => {
-    if (!isPreloaded) {
-      dispatch(
-        markMessageAsReadInThread(replyMessage?.messageId, isDraftThread),
-      );
-    }
-  };
-
-  const accordionAriaLabel = useMemo(
-    () => {
-      return `${!isSentOrRead ? 'New ' : ''}message ${
-        fromMe || replyMessage?.replyToName || messageHistory[0]?.senderName
-          ? 'sent'
-          : 'received'
-      } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
-        hasAttachments || attachment ? 'with attachment' : ''
-      }from ${replyMessage?.senderName || messageHistory[0]?.senderName}.`;
-    },
-    [
-      attachment,
-      fromMe,
-      hasAttachments,
-      isSentOrRead,
-      messageHistory,
-      replyMessage?.replyToName,
-      replyMessage?.senderName,
-      sentDate,
-    ],
-  );
 
   // value for screen readers to indicate how many messages are being loaded
   const messagesLoaded = useMemo(
@@ -206,10 +128,14 @@ const MessageThread = props => {
 
       <section
         aria-label={
-          replyMessage && messageHistory?.length > 0
-            ? `${messageHistory?.length + 1} Messages in this conversation`
+          messageHistory?.length > 0
+            ? `${messageHistory.length} Message${
+                messageHistory.length > 1 ? 's' : ''
+              } in this conversation`
             : (isDraftThread && messageHistory?.length > 0
-                ? `${messageHistory?.length} Messages in this conversation`
+                ? `${messageHistory?.length} Message${
+                    messageHistory.length > 1 ? 's' : ''
+                  } in this conversation`
                 : '1 Message in this conversation') ||
               (isDraftThread === false && '1 Message in this conversation')
         }
@@ -218,106 +144,29 @@ const MessageThread = props => {
         }`}
       >
         <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-          {replyMessage && messageHistory?.length > 0
-            ? `${messageHistory?.length + 1} Messages in this conversation`
+          {messageHistory?.length > 0
+            ? `${messageHistory?.length} Message${
+                messageHistory.length > 1 ? 's' : ''
+              } in this conversation`
             : ((!!isDraftThread === true || !!isDraftThread === false) &&
               messageHistory?.length > 0
-                ? `${messageHistory?.length + 1} Messages in this conversation`
+                ? `${messageHistory?.length + 1} Message${
+                    messageHistory.length > 1 ? 's' : ''
+                  } in this conversation`
                 : '1 Message in this conversation') ||
               (!!isDraftThread === false && '1 Message in this conversation')}
         </h2>
         <VaAccordion ref={accordionRef} bordered>
-          <VaAccordionItem
-            data-dd-privacy="mask" // need to mask entire accordion as the subheader with the sender name cannot masked
-            aria-label={accordionAriaLabel}
-            className={`most-recent-message ${
-              isSentOrRead ? 'accordion-unread' : 'accordion-read'
-            }`}
-            open="true"
-            ref={accordionItemRef}
-            subheader={from}
-            onAccordionItemToggled={() => {
-              handleExpand(preloaded);
-            }}
-            data-testid={
-              (replyMessage &&
-                `expand-message-button-${replyMessage?.messageId}`) ||
-              (activeReplyDraftMessage &&
-                `expand-message-button-${
-                  activeReplyDraftMessage?.messageId
-                }`) ||
-              (!!draftMessageHistoryItem[0] &&
-                `expand-message-button-${
-                  draftMessageHistoryItem[0]?.messageId
-                }`)
-            }
-          >
-            <h3 slot="headline">
-              {!!draftMessageHistoryItem === false &&
-                dateFormat(
-                  activeReplyDraftMessage?.sentDate,
-                  'MMMM D [at] h:mm a z',
-                )}
-              {draftMessageHistoryItem &&
-                dateFormat(
-                  draftMessageHistoryItem[0]?.sentDate,
-                  'MMMM D [at] h:mm a z',
-                )}
-            </h3>
-            {isSentOrRead && (
-              <i
-                role="img"
-                aria-hidden
-                data-testid="unread-icon"
-                className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
-                slot="icon"
-                alt="Unread message icon"
-              />
-            )}
-            {(!!replyMessage?.attachments ||
-              activeReplyDraftMessage?.attachments) && (
-              <i
-                role="img"
-                data-testid="attachment-icon"
-                className="vads-u-margin-right--1p5 fas fa-paperclip vads-u-color--base"
-                slot="subheader-icon"
-                aria-hidden
-                alt="Attachment icon"
-              />
-            )}
-            <div>
-              <MessageThreadMeta
-                replyMessage={replyMessage}
-                activeReplyDraftMessage={activeReplyDraftMessage}
-                draftMessageHistoryItem={draftMessageHistoryItem}
-                fromMe={fromMe}
-              />
-              <HorizontalRule />
-              <MessageThreadBody
-                text={
-                  replyMessage?.messageBody ||
-                  activeReplyDraftMessage?.messageBody ||
-                  draftMessageHistoryItem[0]?.messageBody
-                }
-              />
-              {replyMessage?.attachments?.length > 0 && (
-                <MessageThreadAttachments
-                  attachments={replyMessage?.attachments}
-                />
-              )}
-            </div>
-          </VaAccordionItem>
           {messageHistory.map((m, i) => {
             return (
               i < viewCount && (
                 <MessageThreadItem
+                  open={i === 0}
                   key={m.messageId}
                   message={m}
                   isDraftThread={isDraftThread}
                   preloaded={m.preloaded}
                   expanded
-                  isSentOrRead={isSentOrRead}
-                  accordionAriaLabel={accordionAriaLabel}
                 />
               )
             );
