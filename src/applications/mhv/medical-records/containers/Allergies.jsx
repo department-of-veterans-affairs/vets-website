@@ -137,7 +137,10 @@ const Allergies = props => {
           className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h2 className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0">
+          <h2
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
+            data-testid="no-allergy-records"
+          >
             There are no allergies or reactions in your VA medical records.
           </h2>
         </div>

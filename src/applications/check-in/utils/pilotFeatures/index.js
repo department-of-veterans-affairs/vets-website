@@ -18,6 +18,10 @@ const pilotFeatures = {
     pilotStations: {
       ...devStations,
       ...fileTravelClaimWilkesBarre,
+      // Merge 10/30/23 after 5pm EST
+      '657GB': {},
+      // Uncomment and merge 10/31/23 after 5pm EST
+      // '657GA': {},
       // Week 1 658
       // ...fileTravelClaimSalem,
       // Week 2 565
