@@ -19,7 +19,7 @@ import {
   getNextStepsTextSecondParagraph,
   getNextStepsLinks,
 } from '../config/helpers';
-import { benefitPhrases } from '../definitions/constants';
+import { benefitPhrases, veteranBenefits } from '../definitions/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -46,15 +46,16 @@ export class ConfirmationPage extends React.Component {
     ).toLocaleDateString('en-US', dateOptions);
     const alreadySubmittedIntents = {};
     if (submission.response?.compensationIntent) {
-      alreadySubmittedIntents.compensation =
+      alreadySubmittedIntents.COMPENSATION =
         submission.response.compensationIntent;
     }
     if (submission.response?.pensionIntent) {
-      alreadySubmittedIntents.pension = submission.response.pensionIntent;
+      alreadySubmittedIntents.PENSION = submission.response.pensionIntent;
     }
-    if (submission.response?.survivorsIntent) {
-      alreadySubmittedIntents.survivors = submission.response.survivorsIntent;
+    if (submission.response?.survivorIntent) {
+      alreadySubmittedIntents.SURVIVOR = submission.response.survivorIntent;
     }
+
     const alreadySubmittedTitle = getAlreadySubmittedTitle(
       data,
       alreadySubmittedIntents,
@@ -155,16 +156,27 @@ export class ConfirmationPage extends React.Component {
           <p>You should complete and file your claim as soon as possible.</p>
           <p>{nextStepsTextSecondParagraph}</p>
           <ul style={{ listStyleType: 'none' }}>
-            {nextStepsLinks.map(nextStep => (
-              <li key={nextStep}>
-                <a
-                  className="vads-c-action-link--green vads-u-margin-bottom--4"
-                  href="/"
-                >
-                  Complete your {benefitPhrases[nextStep.toLowerCase()]}
-                </a>
-              </li>
-            ))}
+            {nextStepsLinks.map(nextStep => {
+              let href = '/';
+              if (nextStep === veteranBenefits.COMPENSATION) {
+                href =
+                  'https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction';
+              } else if (nextStep === veteranBenefits.PENSION) {
+                href =
+                  'https://www.va.gov/pension/application/527EZ/introduction';
+              }
+
+              return (
+                <li key={nextStep}>
+                  <a
+                    className="vads-c-action-link--green vads-u-margin-bottom--4"
+                    href={href}
+                  >
+                    Complete your {benefitPhrases[nextStep.toUpperCase()]}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <a
@@ -198,7 +210,7 @@ ConfirmationPage.propTypes = {
         expirationDate: PropTypes.string,
         compensationIntent: PropTypes.shape(),
         pensionIntent: PropTypes.shape(),
-        survivorsIntent: PropTypes.shape(),
+        survivorIntent: PropTypes.shape(),
       }),
       timestamp: PropTypes.string,
     }),

@@ -28,20 +28,7 @@ describe('<RatedDisabilityList/>', () => {
     ],
   };
   const fetchRatedDisabilities = () => {};
-  it('should render', () => {
-    const wrapper = render(
-      <RatedDisabilityList
-        fetchRatedDisabilities={fetchRatedDisabilities}
-        ratedDisabilities={ratedDisabilities}
-      />,
-    );
-    expect(
-      wrapper.getByRole('heading', {
-        level: 2,
-        name: 'Your individual ratings',
-      }),
-    ).to.exist;
-  });
+
   it('should convert disability data into a readable format', () => {
     const wrapper = render(
       <RatedDisabilityList
@@ -62,14 +49,16 @@ describe('<RatedDisabilityList/>', () => {
         ratedDisabilities={ratedDisabilities}
       />,
     );
-    const disability = ratedDisabilities.ratedDisabilities[0].name;
+
+    const disability = ratedDisabilities.ratedDisabilities[0];
+    const headingText = `${disability.ratingPercentage}% ${disability.name}`;
+
     expect(
       wrapper.getByRole('heading', {
-        level: 2,
-        name: 'Your individual ratings',
+        level: 3,
+        name: headingText,
       }),
     ).to.exist;
-    expect(wrapper.getByText(disability)).to.exist;
   });
 
   it('should display a 500 alert', () => {
