@@ -41,6 +41,9 @@ export const uiSchema = {
         },
       }),
     },
+    'ui:options': {
+      customTitle: ' ',
+    },
   },
 };
 export const schema = {
