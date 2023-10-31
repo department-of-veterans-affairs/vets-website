@@ -144,6 +144,62 @@ describe('686 add child - child additional information', () => {
     form.unmount();
   });
 
+  it('should display an error if the middle name is longer than 30 characters', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        pagePerItemIndex={0}
+        arrayPath={arrayPath}
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+        updateFormData={updateFormData}
+      />,
+    );
+    fillData(
+      form,
+      'input#root_childAddressInfo_personChildLivesWith_first',
+      'Bill',
+    );
+    fillData(
+      form,
+      'input#root_childAddressInfo_personChildLivesWith_middle',
+      'Supercalifragilisticexpialidocious',
+    );
+    fillData(
+      form,
+      'input#root_childAddressInfo_personChildLivesWith_last',
+      'Bob',
+    );
+    changeDropdown(
+      form,
+      'select#root_childAddressInfo_address_countryName',
+      'USA',
+    );
+    fillData(
+      form,
+      'input#root_childAddressInfo_address_addressLine1',
+      'Sunny Road',
+    );
+    fillData(form, 'input#root_childAddressInfo_address_city', 'Someplace');
+    changeDropdown(
+      form,
+      'select#root_childAddressInfo_address_stateCode',
+      'DC',
+    );
+
+    fillData(form, 'input#root_childAddressInfo_address_zipCode', '12345');
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Middle name must be 30 characters or less.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
   it('should display an error if the veteran lists APO, FPO, or DPO as their city, but does not check the military base checkbox', () => {
     const onSubmit = sinon.spy();
     const form = mount(

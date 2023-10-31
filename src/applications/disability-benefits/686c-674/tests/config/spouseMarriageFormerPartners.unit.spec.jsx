@@ -90,4 +90,31 @@ describe('686 spouse former partner names', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  it('should submit with all required fields when a spouse has been married before', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectRadio(form, 'root_spouseWasMarriedBefore', 'Y');
+    fillData(form, 'input#root_spouseMarriageHistory_0_fullName_first', 'jane');
+    fillData(
+      form,
+      'input#root_spouseMarriageHistory_0_fullName_middle',
+      'Supercalifragilisticexpialidocious',
+    );
+    fillData(form, 'input#root_spouseMarriageHistory_0_fullName_last', 'doe');
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Middle name must be 30 characters or less.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });

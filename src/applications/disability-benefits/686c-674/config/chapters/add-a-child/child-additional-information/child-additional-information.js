@@ -6,7 +6,7 @@ import {
 } from '../../../address-schema';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
-import { addChild } from '../../../utilities';
+import { addChild, validateName } from '../../../utilities';
 import { ChildNameHeader } from '../helpers';
 import { childInfo } from '../child-information/helpers';
 
@@ -40,6 +40,7 @@ export const uiSchema = {
           keepInPageOnReview: true,
         },
         personChildLivesWith: {
+          'ui:validations': [validateName],
           'ui:title': 'Person child lives with',
           first: {
             'ui:title': 'First name',

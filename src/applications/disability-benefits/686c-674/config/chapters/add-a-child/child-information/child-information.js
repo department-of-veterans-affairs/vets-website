@@ -3,7 +3,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { isChapterFieldRequired } from '../../../helpers';
 import { TASK_KEYS } from '../../../constants';
-import { addChild } from '../../../utilities';
+import { addChild, validateName } from '../../../utilities';
 import { childInfo } from './helpers';
 
 export const schema = addChild.properties.addChildInformation;
@@ -19,6 +19,7 @@ export const uiSchema = {
     },
     items: {
       fullName: {
+        'ui:validations': [validateName],
         'ui:options': {
           useDlWrap: true,
         },
