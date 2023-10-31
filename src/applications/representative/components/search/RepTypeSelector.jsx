@@ -1,8 +1,4 @@
 import React from 'react';
-// import {
-//   VaRadio,
-//   VaRadioOption,
-// } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const RepTypeSelector = ({ onChange }) => {
   const handleRadioButtonSelect = event => {
