@@ -1,4 +1,4 @@
-  /* stylelint-disable */
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 .pact-act-app {
 
   h1:focus {
@@ -22,7 +22,7 @@
   }
 
   .pact-act-form-question-header {
-    font-family:  "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
     font-size: 2em;
     line-height: 1.5;
     margin-bottom: 0px;
@@ -30,13 +30,13 @@
   }
 
   .pact-act-form-question-error {
-    border-left: 0.4rem solid #cd2026;
+    border-left: 0.4rem solid $color-secondary-dark;
     padding-left: 2rem;
     position: relative;
   }
 
   .pact-act-form-text-error {
-    color: #cd2026;
+    color: $color-secondary-dark;
     font-weight: bold;
   }
 
