@@ -8,17 +8,14 @@ import { FieldHasBeenUpdated } from '../../../components/alerts/FieldHasBeenUpda
 describe('<FieldHasBeenUpdated />', () => {
   let historyMock;
 
-  beforeEach(() => {
-    historyMock = {
-      replaceState: sinon.spy(),
-    };
-  });
-
   afterEach(() => {
     historyMock = null;
   });
 
   function renderWithRouter(state) {
+    historyMock = {
+      replaceState: sinon.spy(),
+    };
     return render(
       <MemoryRouter initialEntries={[{ pathname: '/', state }]}>
         <Route>
