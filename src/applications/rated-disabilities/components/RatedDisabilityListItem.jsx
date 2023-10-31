@@ -18,7 +18,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
 
   return (
     <va-card class="vads-u-margin-bottom--2">
-      <h3 className="vads-u-margin-y--0">{headingText}</h3>
+      <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{headingText}</h4>
       {effectiveDate !== null && (
         <div className="vads-u-margin-top--2">
           <strong>Effective date:</strong> {effectiveDate.format('MM/DD/YYYY')}
