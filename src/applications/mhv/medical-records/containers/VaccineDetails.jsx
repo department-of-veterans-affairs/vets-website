@@ -109,6 +109,31 @@ const VaccineDetails = props => {
     makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
   };
 
+  const generateVaccineTxt = async () => {
+    const product = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Signs and symptoms: ${record.reaction} \n
+    \t Type of Vaccine: ${record.type} \n
+    \t Location: ${record.location} \n
+    \t Observed or historical: ${record.observedOrReported} \n
+    \t Provider notes: ${record.notes} \n`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VA-Vaccines-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const content = () => {
     if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
       return (
@@ -150,6 +175,7 @@ const VaccineDetails = props => {
           <PrintDownload
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="detail-block max-80">

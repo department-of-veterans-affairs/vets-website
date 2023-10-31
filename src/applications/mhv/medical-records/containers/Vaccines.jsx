@@ -107,6 +107,40 @@ const Vaccines = props => {
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
+  const generateVaccinesTxt = async () => {
+    const product = `
+    Vaccines\n 
+    For a list of your allergies and reactions (including any reactions to
+    vaccines), go to your allergy records. \n
+    If you have Vaccines that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${vaccines.length} from newest to oldest. \n
+    ${vaccines.map(
+      entry => `_____________________________________________________ \n
+      ${entry.name} \n
+      \t Date entered: ${entry.date} \n
+      \t Signs and symptoms: ${entry.reaction} \n
+      \t Type of Vaccines: ${entry.type} \n
+      \t Location: ${entry.location} \n
+      \t Observed or historical: ${entry.observedOrReported} \n
+      \t Provider notes: ${entry.notes} \n`,
+    )}`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VA-Vaccines-list-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
@@ -144,6 +178,7 @@ const Vaccines = props => {
         list
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateVaccinesTxt}
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
