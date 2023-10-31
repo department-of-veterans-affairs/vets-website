@@ -85,7 +85,7 @@ describe('Allergy details container', () => {
     expect(screen).to.exist;
   });
 
-  it('should download a pdf', () => {
+  it('should download a text file', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen).to.exist;
   });
