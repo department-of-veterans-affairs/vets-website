@@ -154,17 +154,10 @@ const MessageThread = props => {
         }`}
       >
         <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-          {messageCount > 0
-            ? `${messageCount} Message${
-                messageCount > 1 ? 's' : ''
-              } in this conversation`
-            : ((!!isDraftThread === true || !!isDraftThread === false) &&
-              messageCount > 0
-                ? `${messageCount + 1} Message${
-                    messageCount > 1 ? 's' : ''
-                  } in this conversation`
-                : '1 Message in this conversation') ||
-              (!!isDraftThread === false && '1 Message in this conversation')}
+          {messageCount > 0 &&
+            `${messageCount} Message${
+              messageCount > 1 ? 's' : ''
+            } in this conversation`}
         </h2>
         <VaAccordion ref={accordionRef} bordered>
           {messageHistory.map((m, i) => {

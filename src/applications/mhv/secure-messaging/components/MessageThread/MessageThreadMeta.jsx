@@ -10,14 +10,7 @@ const MessageThreadMeta = props => {
     activeReplyDraftMessage,
     draftMessageHistoryItem,
   } = props;
-  const {
-    recipientName,
-    senderName,
-    triageGroupName,
-    messageId,
-    sentDate,
-    replyToName,
-  } =
+  const { recipientName, senderName, triageGroupName, messageId, sentDate } =
     message ||
     replyMessage ||
     activeReplyDraftMessage ||
@@ -44,9 +37,7 @@ const MessageThreadMeta = props => {
               ? `${draftMessageHistoryItem[0]?.senderName} ${
                   !fromMe ? draftMessageHistoryItem[0]?.triageGroupName : ''
                 }`
-              : `${senderName} ${
-                  !fromMe && replyToName ? `(${triageGroupName})` : ''
-                }`}
+              : `${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </span>
         </p>
         <p
