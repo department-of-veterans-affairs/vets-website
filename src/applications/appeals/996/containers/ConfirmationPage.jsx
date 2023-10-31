@@ -10,7 +10,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 
-import { FORMAT_READABLE } from '../../shared/constants';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
@@ -72,11 +72,7 @@ export class ConfirmationPage extends React.Component {
           {response && (
             <>
               {submitDate.isValid() && (
-                <p>
-                  <strong>Date submitted</strong>
-                  <br role="presentation" />
-                  <span>{submitDate.format(FORMAT_READABLE)}</span>
-                </p>
+                <DateSubmitted submitDate={submitDate} />
               )}
               <strong>
                 Issue

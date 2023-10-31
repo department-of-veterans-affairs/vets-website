@@ -7,7 +7,7 @@ import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { FORMAT_READABLE } from '../../shared/constants';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { getSelected, getIssueName } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
@@ -61,13 +61,7 @@ export class ConfirmationPage extends React.Component {
               {`, ${name.suffix}`}
             </span>
           )}
-          {submitDate.isValid() && (
-            <p>
-              <strong>Date submitted</strong>
-              <br role="presentation" />
-              <span>{submitDate.format(FORMAT_READABLE)}</span>
-            </p>
-          )}
+          {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
           <strong>
             Issue
             {issues?.length > 1 ? 's' : ''} submitted
