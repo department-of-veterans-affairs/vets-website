@@ -172,7 +172,7 @@ const MoveMessageToFolderBtn = props => {
       <>
         <button
           type="button"
-          className="usa-button-secondary vads-u-width--auto"
+          className="usa-button-secondary"
           onClick={openModal}
         >
           <i

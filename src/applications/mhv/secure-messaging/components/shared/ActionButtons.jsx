@@ -6,9 +6,7 @@ function ActionButtons(props) {
 
   return (
     <div className="message-action-buttons vads-l-grid-container vads-u-padding-x--0">
-      <div className="vads-l-row">
-        <div className="vads-l-col"> {buttonsArray.map(button => button)}</div>
-      </div>
+      <div> {buttonsArray.map(button => button)}</div>
     </div>
   );
 }

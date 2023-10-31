@@ -3,6 +3,12 @@
 .message-detail-container {
   overflow-wrap: break-word;
 
+  .reply-button-container {
+    @media (min-width: $small-screen) {
+      max-width: 225px;
+    }
+  }
+
   .message-detail-block {
     background-color: $color-white;
 
