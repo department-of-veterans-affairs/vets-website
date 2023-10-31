@@ -77,6 +77,11 @@ describe('Allergies list container', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen).to.exist;
   });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
 });
 
 describe('Allergies list container still loading', () => {
