@@ -73,7 +73,7 @@ describe('Opt Out <ConfirmationPage>', () => {
 
     expect(
       tree
-        .find('.confirmation-page-titllle')
+        .find('.confirmation-page-title')
         .at(0)
         .text(),
     ).to.contain('Your opt-out form has been submitted');

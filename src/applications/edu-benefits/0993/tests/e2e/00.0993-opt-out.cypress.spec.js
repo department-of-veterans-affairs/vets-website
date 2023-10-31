@@ -19,7 +19,7 @@ describe('Opt Out Test', () => {
 
     cy.fillName('root_claimantFullName', testData.claimantFullName);
     cy.get('input[name="root_view:noSSN"]').click();
-    cy.get('input[name="root_vaFileNumberrr"]', {
+    cy.get('input[name="root_vaFileNumber"]', {
       timeout: Timeouts.slow,
     }).click();
     cy.fill('input[name="root_vaFileNumber"]', testData.vaFileNumber);
