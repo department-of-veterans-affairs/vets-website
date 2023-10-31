@@ -127,9 +127,9 @@ const benefitSelections = data =>
     .map(benefit => benefit.toUpperCase());
 
 const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
-  Object.keys(alreadySubmittedIntents)
-    .filter(key => alreadySubmittedIntents[key])
-    .map(benefit => benefit.toUpperCase());
+  Object.keys(alreadySubmittedIntents).filter(
+    key => alreadySubmittedIntents[key],
+  );
 
 const benefitHasAlreadyBeenSubmitted = (
   benefitSelection,

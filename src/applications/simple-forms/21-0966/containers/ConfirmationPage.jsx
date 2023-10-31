@@ -46,15 +46,16 @@ export class ConfirmationPage extends React.Component {
     ).toLocaleDateString('en-US', dateOptions);
     const alreadySubmittedIntents = {};
     if (submission.response?.compensationIntent) {
-      alreadySubmittedIntents.compensation =
+      alreadySubmittedIntents.COMPENSATION =
         submission.response.compensationIntent;
     }
     if (submission.response?.pensionIntent) {
-      alreadySubmittedIntents.pension = submission.response.pensionIntent;
+      alreadySubmittedIntents.PENSION = submission.response.pensionIntent;
     }
-    if (submission.response?.survivorsIntent) {
-      alreadySubmittedIntents.survivors = submission.response.survivorsIntent;
+    if (submission.response?.survivorIntent) {
+      alreadySubmittedIntents.SURVIVOR = submission.response.survivorIntent;
     }
+
     const alreadySubmittedTitle = getAlreadySubmittedTitle(
       data,
       alreadySubmittedIntents,
@@ -198,7 +199,7 @@ ConfirmationPage.propTypes = {
         expirationDate: PropTypes.string,
         compensationIntent: PropTypes.shape(),
         pensionIntent: PropTypes.shape(),
-        survivorsIntent: PropTypes.shape(),
+        survivorIntent: PropTypes.shape(),
       }),
       timestamp: PropTypes.string,
     }),
