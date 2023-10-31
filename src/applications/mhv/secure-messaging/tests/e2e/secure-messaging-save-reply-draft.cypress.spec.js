@@ -7,7 +7,7 @@ import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
-  it.skip('Axe Check Message Reply', () => {
+  it('Axe Check Message Reply', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();

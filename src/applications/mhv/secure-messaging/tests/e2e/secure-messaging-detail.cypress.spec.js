@@ -7,7 +7,7 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details AXE Check', () => {
-  it.skip('Axe Check Message Details Page', () => {
+  it('Axe Check Message Details Page', () => {
     const landingPage = new PatientInboxPage();
     const detailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();

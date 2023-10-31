@@ -14,7 +14,7 @@ describe('create folder errors check', () => {
     landingPage.loadInboxMessages();
   });
 
-  it.skip('create folder network error check', () => {
+  it('create folder network error check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
