@@ -129,10 +129,6 @@ jobs:
           name: unit-test-report
           path: mocha/results
 
-      - name: List Results
-        run: |
-          cd test-results
-          ls -a
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
       # - name: Upload Coverage Report Artifact
@@ -265,8 +261,10 @@ jobs:
       #     TEST_RETRIES_TABLE_NAME: cypress_retry_records
       #     NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
       #     IS_STRESS_TEST: true
+
       # - name: Upload Unit Test report to s3
       #   run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
       # - name: Publish Unit Test Results
       #   if: ${{ always() }}
       #   uses: LouisBrunner/checks-action@v1.2.0
@@ -276,10 +274,3 @@ jobs:
       #     conclusion: ${{ needs.stress-test-cypress-tests.result }}
       #     output: |
       #       {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-      # - name: Create GitHub Issues for new flaky tests
-      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-      #   run: yarn create-github-issues-for-flaky-tests
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
