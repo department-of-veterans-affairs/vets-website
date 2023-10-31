@@ -169,10 +169,10 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     isVisible && (
-      <li>
+      <>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary vads-u-width--auto"
           onClick={openModal}
         >
           <i
@@ -195,7 +195,7 @@ const MoveMessageToFolderBtn = props => {
             folders={updatedFoldersList}
           />
         )}
-      </li>
+      </>
     )
   );
 };

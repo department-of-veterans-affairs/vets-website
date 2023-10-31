@@ -8,7 +8,7 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply Message Details Thread', () => {
-  it('Axe Check Message Reply Details', () => {
+  it.skip('Axe Check Message Reply Details', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();

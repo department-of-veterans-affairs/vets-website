@@ -3,6 +3,7 @@ import { waitFor } from '@testing-library/react';
 import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import reducer from '../../../reducers';
 import messageResponse from '../../fixtures/message-response.json';
 import MessageThreadItem from '../../../components/MessageThread/MessageThreadItem';
@@ -37,7 +38,10 @@ describe('Message thread item', () => {
       ),
     );
     expect(screen.getByTestId('message-date').textContent).to.equal(
-      dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+      `Date: ${dateFormat(
+        messageResponse.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}`,
     );
     const attachmentIcon = screen.getByTestId('attachment-icon');
     expect(attachmentIcon).to.exist;
@@ -82,7 +86,10 @@ describe('Message thread item', () => {
       document.querySelector('va-accordion-item').getAttribute('subheader'),
     ).to.equal('Me');
     expect(screen.getByTestId('message-date').textContent).to.equal(
-      dateFormat(messageResponse.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+      `Date: ${dateFormat(
+        messageResponse.sentDate,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}`,
     );
     // message from patient, no triage group name in 'from' field
     expect(screen.getByTestId('from').textContent).to.equal(
@@ -161,5 +168,30 @@ describe('Message thread item', () => {
     const screen = setup(messageReadByUser);
 
     expect(screen.queryByTestId('unread-icon')).to.not.exist;
+  });
+
+  it('should call handleExpand with correct args', () => {
+    const isPreloaded = false;
+    const mockDispatch = sinon.spy();
+    const dispatch = mockDispatch;
+
+    const markMessageAsRead = sinon.spy();
+
+    const screen = renderWithStoreAndRouter(
+      <MessageThreadItem
+        message={{ ...messageResponse }}
+        isPreloaded={isPreloaded}
+        dispatch={dispatch}
+        markMessageAsRead={markMessageAsRead}
+      />,
+      {
+        reducers: reducer,
+      },
+    );
+    const accordionButton = screen.getByTestId(
+      `expand-message-button-${messageResponse.messageId}`,
+    );
+    waitFor(fireEvent.click(accordionButton));
+    expect(mockDispatch.called).to.be.false;
   });
 });

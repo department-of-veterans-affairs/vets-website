@@ -32,6 +32,7 @@ const MessageThreadItem = props => {
   const isSentOrRead =
     folderId === DefaultFolders.SENT.id ||
     readReceipt === MessageReadStatus.READ;
+
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
@@ -102,6 +103,7 @@ const MessageThreadItem = props => {
 };
 
 MessageThreadItem.propTypes = {
+  accordionAriaLabel: PropTypes.string.isRequired,
   isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   printView: PropTypes.bool,

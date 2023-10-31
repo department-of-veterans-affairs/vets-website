@@ -62,11 +62,13 @@ const MessageReply = () => {
     return (
       <>
         {messageHistory?.length > 0 && (
-          <MessageThread
-            messageHistory={messageHistory}
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
-            viewCount={threadViewCount}
-          />
+          <>
+            <MessageThread
+              messageHistory={messageHistory}
+              isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+              viewCount={threadViewCount}
+            />
+          </>
         )}
       </>
     );

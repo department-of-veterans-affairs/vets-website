@@ -6,7 +6,7 @@ const ReplyButton = props => {
     props.visible && (
       <button
         type="button"
-        className="usa-button reply-button-in-body"
+        className="usa-button reply-button-in-body vads-u-width--full small-screen:vads-l-col--4 small-desktop-screen:vads-l-col--4 medium-screen:vads-l-col--4 large-screen:vads-l-col--4"
         data-testid="reply-button-body"
         onClick={props.onReply}
       >
