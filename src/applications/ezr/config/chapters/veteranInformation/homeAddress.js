@@ -24,11 +24,9 @@ export default {
     type: 'object',
     properties: {
       'view:pageTitle': inlineTitleSchema,
-      veteranHomeAddress: merge(
-        {},
-        addressSchema({ omit: ['isMilitary'] }),
-        schemaOverride,
-      ),
+      veteranHomeAddress: merge({}, addressSchema({ omit: ['isMilitary'] }), {
+        properties: schemaOverride,
+      }),
     },
   },
 };
