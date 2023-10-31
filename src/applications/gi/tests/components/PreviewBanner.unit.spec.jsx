@@ -1,15 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '../helpers';
-
 import { fireEvent, waitFor } from '@testing-library/react';
-
+import { renderWithStoreAndRouter } from '../helpers';
 import PreviewBanner from '../../components/PreviewBanner';
 
 describe('<PreviewBanner>', () => {
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(
-      <PreviewBanner version={'TEST_ID'} />,
+      <PreviewBanner version="TEST_ID" />,
       {},
     );
 
@@ -20,7 +18,7 @@ describe('<PreviewBanner>', () => {
 
   it('should redirect to live version', async () => {
     const screen = renderWithStoreAndRouter(
-      <PreviewBanner version={'TEST_ID'} />,
+      <PreviewBanner version="TEST_ID" />,
       {
         path: '/?version=TEST_ID&other=test',
       },

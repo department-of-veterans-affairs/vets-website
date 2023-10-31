@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
 import CompareHeader from '../../components/CompareHeader';
 
 describe('<CompareHeader>', () => {
