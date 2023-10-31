@@ -218,6 +218,7 @@ const testConfig = createTestConfig(
                 cy.get('#add-facility-name')
                   .shadow()
                   .find('input')
+                  .should('not.be.disabled') // Give field time to render completely
                   .type(facility.providerFacilityName);
 
                 cy.get('#country')
