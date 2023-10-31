@@ -10,7 +10,7 @@ class MedicationsSite {
       window.localStorage.setItem('isLoggedIn', true);
 
       cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*', times: 1 },
+        { method: 'GET', url: '/v0/feature_toggles?*' },
         {
           data: {
             type: 'feature_toggles',
