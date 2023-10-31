@@ -8,51 +8,6 @@ export const setFocus = (selector, tabIndexInclude = true) => {
   }
 };
 
-export const clearLocationMarkers = () => {
-  const locationMarkers = window.document.getElementsByClassName(
-    'mapboxgl-marker',
-  );
-  Array.from(locationMarkers).forEach(marker =>
-    marker.parentNode.removeChild(marker),
-  );
-};
-
-export const buildMarker = (type, values) => {
-  if (type === 'location') {
-    const { loc, attrs } = values;
-    const markerElement = document.createElement('span');
-    markerElement.className = 'i-pin-card-map';
-    markerElement.style.cursor = 'pointer';
-    markerElement.textContent = attrs.letter;
-    markerElement.addEventListener('click', function handleClick() {
-      const locationElement = document.getElementById(loc.id);
-      if (locationElement) {
-        Array.from(document.getElementsByClassName('facility-result')).forEach(
-          e => {
-            e.classList.remove('active');
-          },
-        );
-        locationElement.classList.add('active');
-        // recordMarkerEvents(loc);
-        document.getElementById('searchResultsContainer').scrollTop =
-          locationElement.offsetTop;
-      }
-    });
-    return markerElement;
-  }
-
-  if (type === 'currentPos') {
-    const markerElement = document.createElement('div');
-    markerElement.className = 'current-pos-pin';
-    return markerElement;
-  }
-  return null;
-};
-
-export const resetMapElements = () => {
-  clearLocationMarkers();
-};
-
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *

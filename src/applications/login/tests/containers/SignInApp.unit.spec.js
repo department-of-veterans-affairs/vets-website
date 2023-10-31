@@ -43,7 +43,7 @@ const defaultMockStore = ({
 
 const oldLocation = global.window.location;
 
-describe.skip('SignInApp', () => {
+describe('SignInApp', () => {
   afterEach(() => {
     cleanup();
   });

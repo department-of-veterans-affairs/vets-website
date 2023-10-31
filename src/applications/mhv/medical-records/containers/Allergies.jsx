@@ -119,24 +119,42 @@ const Allergies = props => {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
     }
     if (allergies?.length > 0) {
-      return <RecordList records={allergies} type={recordType.ALLERGIES} />;
+      return (
+        <>
+          <PrintDownload
+            list
+            download={generateAllergiesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <RecordList records={allergies} type={recordType.ALLERGIES} />
+        </>
+      );
     }
     if (allergies?.length === 0) {
       return (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
-            You don’t have any records in Allergies
-          </va-alert>
+        <div
+          className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+          data-testid="record-list-item"
+        >
+          <h2
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
+            data-testid="no-allergy-records"
+          >
+            There are no allergies or reactions in your VA medical records.
+          </h2>
         </div>
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+        <va-loading-indicator
+          message="We’re loading your records. This could take up to a minute."
+          setFocus
+          data-testid="loading-indicator"
+          // class="loading-indicator"
+        />
+      </div>
     );
   };
 
@@ -153,16 +171,6 @@ const Allergies = props => {
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
-      {!accessAlert && (
-        <>
-          <PrintDownload
-            list
-            download={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </>
-      )}
       {content()}
     </div>
   );
