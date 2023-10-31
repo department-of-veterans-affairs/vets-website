@@ -161,7 +161,7 @@ export class ConfirmationPage extends React.Component {
                   className="vads-c-action-link--green vads-u-margin-bottom--4"
                   href="/"
                 >
-                  Complete your {benefitPhrases[nextStep.toLowerCase()]}
+                  Complete your {benefitPhrases[nextStep.toUpperCase()]}
                 </a>
               </li>
             ))}
