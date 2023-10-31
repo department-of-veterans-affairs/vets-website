@@ -218,6 +218,11 @@ const testConfig = createTestConfig(
                 cy.get('#add-facility-name')
                   .shadow()
                   .find('input')
+                  .focus(); // Try focusing first
+
+                cy.get('#add-facility-name')
+                  .shadow()
+                  .find('input')
                   .type(facility.providerFacilityName);
 
                 cy.get('#country')
