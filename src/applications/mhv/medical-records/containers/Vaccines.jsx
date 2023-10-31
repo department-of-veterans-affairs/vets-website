@@ -120,7 +120,7 @@ const Vaccines = props => {
       entry => `_____________________________________________________ \n
       ${entry.name} \n 
       \t Type of Vaccines: ${entry.type} \n
-      \t Date entered: ${entry.date} \n
+      \t Date received: ${entry.date} \n
       \t Location: ${entry.location} \n
       \t Reaction: ${entry.observedOrReported} \n
       \t Provider notes: ${entry.notes} \n`,
