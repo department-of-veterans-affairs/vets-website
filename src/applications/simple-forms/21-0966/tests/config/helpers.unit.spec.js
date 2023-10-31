@@ -223,7 +223,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -335,7 +335,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -426,7 +426,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -567,7 +567,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
