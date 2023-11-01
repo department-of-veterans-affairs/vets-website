@@ -1,4 +1,4 @@
-/* eslint-disable no-new */
+// @ts-check
 import moment from 'moment';
 import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
