@@ -171,6 +171,7 @@ const InsurancePolicyInformation = props => {
         visible={modal}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
           {replaceStrValues(
