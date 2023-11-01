@@ -11,12 +11,12 @@ export const veteranBenefits = {
 };
 
 export const survivingDependentBenefits = {
-  SURVIVORS: 'survivors',
+  SURVIVOR: 'survivor',
 };
 
 export const benefitPhrases = {
   COMPENSATION: 'disability compensation claim',
   PENSION: 'pension claim',
-  SURVIVORS: 'pension claim for survivors',
+  SURVIVOR: 'pension claim for survivors',
   COMPENSATION_AND_PENSION: 'disability compensation and pension claims',
 };

@@ -5,18 +5,19 @@ import { callAPI, callFakeSuccess } from '../helpers/enrollment-status';
 
 /**
  * Action to fetch the current enrollment status based on the provided user data
+ *
+ * NOTE: flip `simulate` variable to `true` to fake the endpoint when testing locally
+ *
  * @param {Object} formData - data object from the ID form fields
  * @returns {Promise} - resolves to calling the reducer to set the correct state variables
  * for enrollment status
  */
-export function fetchEnrollmentStatus() {
+export function fetchEnrollmentStatus(env = environment, simulate = false) {
   return (dispatch, getState) => {
     const { isLoading } = selectEnrollmentStatus(getState());
     if (isLoading) return null;
 
-    // NOTE: flip the `false` to `true` to fake the endpoint when testing locally
-    // eslint-disable-next-line sonarjs/no-redundant-boolean
-    const simulateServerLocally = environment.isLocalhost() && false;
+    const simulateServerLocally = env.isLocalhost() && simulate;
     const { FETCH_ENROLLMENT_STATUS_STARTED } = ENROLLMENT_STATUS_ACTIONS;
 
     dispatch({ type: FETCH_ENROLLMENT_STATUS_STARTED });
