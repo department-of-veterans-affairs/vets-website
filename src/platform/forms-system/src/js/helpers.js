@@ -320,6 +320,18 @@ export function getArrayFields(data) {
       });
     }
 
+    if (
+      obj.type === 'array' &&
+      !isHiddenField(obj) &&
+      get('ui:options.seperate', ui)
+    ) {
+      fields.push({
+        path,
+        schema: set('definitions', data.schema.definitions, obj),
+        uiSchema: get(path, data.uiSchema) || data.uiSchema,
+      });
+    }
+
     if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
         findArrays(obj.properties?.[prop], ui?.[prop], path.concat(prop));

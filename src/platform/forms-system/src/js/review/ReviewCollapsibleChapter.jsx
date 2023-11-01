@@ -191,71 +191,78 @@ class ReviewCollapsibleChapter extends React.Component {
     if (!visibleFields) {
       return null;
     }
-
+    const bool = fullPageKey === 'currentlyBuriedPersons';
     return (
       <div key={`${fullPageKey}`} className={classes}>
-        <Element name={`${fullPageKey}ScrollElement`} />
-        <SchemaForm
-          name={page.pageKey}
-          title={title}
-          data={pageData}
-          appStateData={page.appStateData}
-          schema={pageSchema}
-          uiSchema={pageUiSchema}
-          trackingPrefix={this.props.form.trackingPrefix}
-          hideHeaderRow={page.hideHeaderRow}
-          hideTitle={this.shouldHideExpandedPageTitle(
-            expandedPages,
-            this.getChapterTitle(chapterFormConfig),
-            this.getPageTitle(title),
-          )}
-          pagePerItemIndex={page.index}
-          onBlur={this.props.onBlur}
-          onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
-          onSubmit={({ formData }) =>
-            this.handleSubmit(
-              formData,
-              page.pageKey,
-              page.arrayPath,
-              page.index,
-            )
-          }
-          onChange={formData =>
-            this.onChange(
-              typeof page.updateFormData === 'function'
-                ? page.updateFormData(form.data, formData, page.index)
-                : formData,
-              page.arrayPath,
-              page.index,
-            )
-          }
-          uploadFile={this.props.uploadFile}
-          reviewMode={!editing}
-          formContext={formContext}
-          editModeOnReviewPage={page.editModeOnReviewPage}
-        >
-          {!editing ? (
-            <div />
-          ) : (
-            <ProgressButton
-              submitButton
-              onButtonClick={() => {
-                // recheck _all_ validations after the user clicks the
-                // update page button - needed to dynamically update
-                // accordion headers
-                this.checkValidation();
-                focusOnChange(
-                  `${page.pageKey}${
-                    typeof page.index === 'number' ? page.index : ''
-                  }`,
-                );
-              }}
-              buttonText="Update page"
-              buttonClass="usa-button-primary"
-              ariaLabel={ariaLabel}
-            />
-          )}
-        </SchemaForm>
+        {bool ? (
+          <div />
+        ) : (
+          <>
+            <Element name={`${fullPageKey}ScrollElement`} />
+            <SchemaForm
+              name={page.pageKey}
+              title={title}
+              data={pageData}
+              appStateData={page.appStateData}
+              schema={pageSchema}
+              uiSchema={pageUiSchema}
+              trackingPrefix={this.props.form.trackingPrefix}
+              hideHeaderRow={page.hideHeaderRow}
+              hideTitle={this.shouldHideExpandedPageTitle(
+                expandedPages,
+                this.getChapterTitle(chapterFormConfig),
+                this.getPageTitle(title),
+              )}
+              pagePerItemIndex={page.index}
+              onBlur={this.props.onBlur}
+              onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+              onSubmit={({ formData }) =>
+                this.handleSubmit(
+                  formData,
+                  page.pageKey,
+                  page.arrayPath,
+                  page.index,
+                )
+              }
+              onChange={formData =>
+                this.onChange(
+                  typeof page.updateFormData === 'function'
+                    ? page.updateFormData(form.data, formData, page.index)
+                    : formData,
+                  page.arrayPath,
+                  page.index,
+                )
+              }
+              uploadFile={this.props.uploadFile}
+              reviewMode={!editing}
+              formContext={formContext}
+              editModeOnReviewPage={page.editModeOnReviewPage}
+            >
+              {!editing ? (
+                <div />
+              ) : (
+                <ProgressButton
+                  submitButton
+                  onButtonClick={() => {
+                    // recheck _all_ validations after the user clicks the
+                    // update page button - needed to dynamically update
+                    // accordion headers
+                    this.checkValidation();
+                    focusOnChange(
+                      `${page.pageKey}${
+                        typeof page.index === 'number' ? page.index : ''
+                      }`,
+                    );
+                  }}
+                  buttonText="Update page"
+                  buttonClass="usa-button-primary"
+                  ariaLabel={ariaLabel}
+                />
+              )}
+            </SchemaForm>
+          </>
+        )}
+
         {arrayFields.map(arrayField => (
           <div key={arrayField.path} className="form-review-array">
             <ArrayField

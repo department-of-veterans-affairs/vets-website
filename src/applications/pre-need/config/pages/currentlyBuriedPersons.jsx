@@ -49,6 +49,7 @@ export const uiSchema = {
         viewField: EligibleBuriedView,
         keepInPageOnReview: true,
         itemName: 'Name of deceased',
+        seperate: true,
       },
       items: {
         name: merge({}, fullNameUI),
