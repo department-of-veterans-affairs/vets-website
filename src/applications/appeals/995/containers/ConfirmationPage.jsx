@@ -11,7 +11,7 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 import GetFormHelp from '../content/GetFormHelp';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
-import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { getIssuesListItems } from '../../shared/utils/issues';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -31,13 +31,7 @@ export const ConfirmationPage = () => {
   );
 
   const { submission, data } = form;
-  const issues = getSelected(data || []).map((issue, index) => (
-    <li key={index} className="vads-u-margin-bottom--0">
-      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
-        {getIssueName(issue)}
-      </span>
-    </li>
-  ));
+  const issues = data ? getIssuesListItems(data) : [];
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
   const submitDate = moment(submission?.timestamp);
   resetStoredSubTask();
