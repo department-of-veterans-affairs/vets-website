@@ -104,6 +104,7 @@ button.va-crisis-line {
     background: url(/img/vcl-logo.png) no-repeat left;
     background-position: left 5px;
     background-size: 32px auto;
+    margin-top: 0;
   }
   &-list {
     list-style: none;
@@ -119,14 +120,16 @@ button.va-crisis-line {
       > a {
         color: $color-link-default;
         text-decoration: underline;
-        padding: 0.5em 0;
         align-self: center;
       }
-      > p > strong > a {
+      > p {
         color: $color-link-default;
         text-decoration: underline;
-        padding: 0.5em 0;
-        align-self: center;
+        margin-bottom: 0;
+      }
+      > p > a {
+        color: $color-link-default;
+        padding: 0;
       }
     }
   }
