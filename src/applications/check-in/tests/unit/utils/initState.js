@@ -46,6 +46,7 @@ const createStore = ({
   eligibleToFile = null,
   alreadyFiled = null,
   appointmentToFile = null,
+  token = 'some-token',
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -53,9 +54,9 @@ const createStore = ({
     checkInData: {
       app,
       context: {
-        token: 'some-token',
         eligibleToFile,
         alreadyFiled,
+        token,
       },
       form: {
         pages: formPages,

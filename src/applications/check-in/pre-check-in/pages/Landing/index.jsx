@@ -85,7 +85,7 @@ const Index = props => {
                 setSession(token, session.permissions);
                 if (session.permissions === SCOPES.READ_FULL) {
                   // redirect if already full access
-                  jumpToPage(URLS.INTRODUCTION);
+                  jumpToPage(URLS.APPOINTMENTS);
                 } else {
                   // TODO: dispatch to redux
                   jumpToPage(URLS.VERIFY);
