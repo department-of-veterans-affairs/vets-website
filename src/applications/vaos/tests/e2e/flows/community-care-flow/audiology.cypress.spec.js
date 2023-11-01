@@ -12,7 +12,7 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import RequestDatePageObject from '../../page-objects/RequestDatePageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
@@ -71,7 +71,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert(false)
@@ -125,7 +125,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert(true)
@@ -195,7 +195,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert(false)
@@ -253,7 +253,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert(true)

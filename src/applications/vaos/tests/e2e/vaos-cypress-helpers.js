@@ -614,7 +614,22 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
   }
 }
 
-export function mockFacilitiesApi({ data, apiVersion = 0 } = {}) {
+/**
+ * Function to mock the 'GET' facilities endpoint.
+ *
+ * @example GET '/vaos/v2/facilities'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object=} arguments.data - The response object to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.apiVersion=2] - Api version number.
+ */
+export function mockFacilitiesApi({
+  data,
+  responseCode = 200,
+  apiVersion = 0,
+} = {}) {
   if (apiVersion === 2) {
     cy.intercept(
       {
@@ -626,6 +641,14 @@ export function mockFacilitiesApi({ data, apiVersion = 0 } = {}) {
         },
       },
       req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
         if (data) {
           req.reply({ data });
         } else {

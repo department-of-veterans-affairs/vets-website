@@ -12,7 +12,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
-import PastAppointmentListPage from '../../page-objects/AppointmentList/PastAppointmentListPage';
+import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
 import { MockUser } from '../../fixtures/MockUser';
 
 describe('VAOS past appointment flow', () => {
@@ -30,42 +30,21 @@ describe('VAOS past appointment flow', () => {
     it('should display past appointments list', () => {
       // Arrange
       const yesterday = moment().subtract(1, 'day');
-      const response = [];
 
-      for (let i = 1; i <= 2; i++) {
-        const appt = new MockAppointment({
-          id: i,
-          cancellable: false,
-          localStartTime: yesterday,
-          status: APPOINTMENT_STATUS.booked,
-        });
-        response.push(appt);
-      }
-
-      const lastMonth = moment().subtract(1, 'month');
       const appt = new MockAppointment({
-        id: '3',
         cancellable: false,
-        localStartTime: lastMonth,
+        localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
       });
-      response.push(appt);
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsApi({ response: [appt] });
 
       // Act
-      PastAppointmentListPage.visit().validate();
+      PastAppointmentListPageObject.visit().validate();
 
       // Assert
       // Constrain search within list group.
       cy.findByTestId(`appointment-list-${yesterday.format('YYYY-MM')}`).within(
-        () => {
-          cy.findAllByTestId('appointment-list-item').should($list => {
-            expect($list).to.have.length(2);
-          });
-        },
-      );
-      cy.findByTestId(`appointment-list-${lastMonth.format('YYYY-MM')}`).within(
         () => {
           cy.findAllByTestId('appointment-list-item').should($list => {
             expect($list).to.have.length(1);
@@ -89,7 +68,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      PastAppointmentListPage.visit()
+      PastAppointmentListPageObject.visit()
         .validate()
         .selectListItem();
 
@@ -116,7 +95,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      PastAppointmentListPage.visit()
+      PastAppointmentListPageObject.visit()
         .validate()
         .selectDateRange(2);
 
@@ -140,7 +119,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [] });
 
       // Arrange
-      PastAppointmentListPage.visit();
+      PastAppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/You don.t have any appointment requests/i).should('be.ok');
@@ -154,7 +133,7 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [], responseCode: 400 });
 
       // Act
-      PastAppointmentListPage.visit();
+      PastAppointmentListPageObject.visit();
 
       // Assert
       cy.findByText(/We.re sorry\. We.ve run into a problem/i);

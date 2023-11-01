@@ -1,8 +1,7 @@
 /* eslint-disable no-new */
-// @ts-check
 import moment from 'moment';
 import { MockUser } from '../../fixtures/MockUser';
-import AppointmentListPage from '../../page-objects/AppointmentList/AppointmentListPage';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
@@ -69,7 +68,7 @@ describe('VAOS community care flow - Podiatry', () => {
         const mockUser = new MockUser();
         // Act
         cy.login(mockUser);
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .selectTypeOfCare(/Podiatry/)
@@ -129,7 +128,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         // Act
         cy.login(mockUser);
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .selectTypeOfCare(/Podiatry/)
@@ -179,7 +178,7 @@ describe('VAOS community care flow - Podiatry', () => {
         // Act
         cy.login(mockUser);
 
-        AppointmentListPage.visit().scheduleAppointment();
+        AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
           .selectTypeOfCare(/Podiatry/)
@@ -235,7 +234,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
       // Act
       cy.login(new MockUser());
-      AppointmentListPage.visit().scheduleAppointment();
+      AppointmentListPageObject.visit().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
         .selectTypeOfCare(/Podiatry/)
