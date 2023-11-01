@@ -95,7 +95,7 @@ export const uiSchema = {
               true,
           },
           middle: {
-            'ui:title': 'Child’s middle name',
+            'ui:title': "Parent's middle name",
             'ui:options': {
               hideEmptyValueInReview: true,
               hideIf: () => true,

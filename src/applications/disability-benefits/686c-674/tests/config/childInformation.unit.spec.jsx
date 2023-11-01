@@ -77,7 +77,7 @@ describe('686 add child - child information', () => {
     form.unmount();
   });
 
-  it('should display an error if the middle name is longer than 30 characters', () => {
+  it('should display an error if the first name is longer than 30 characters', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -88,12 +88,12 @@ describe('686 add child - child information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childrenToAdd_0_fullName_first', 'Bill');
     fillData(
       form,
-      'input#root_childrenToAdd_0_fullName_middle',
+      'input#root_childrenToAdd_0_fullName_first',
       'Supercalifragilisticexpialidocious',
     );
+    fillData(form, 'input#root_childrenToAdd_0_fullName_middle', 'Bill');
     fillData(form, 'input#root_childrenToAdd_0_fullName_last', 'Bob');
     fillData(form, 'input#root_childrenToAdd_0_ssn', '555555551');
     changeDropdown(form, 'select#root_childrenToAdd_0_birthDateMonth', 1);
@@ -102,7 +102,7 @@ describe('686 add child - child information', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'Middle name must be 30 characters or less.',
+      'This field should be less than 30 characters',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();

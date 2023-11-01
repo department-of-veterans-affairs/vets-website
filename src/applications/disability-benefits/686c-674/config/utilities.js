@@ -29,12 +29,9 @@ const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
 const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
 
 const validateName = (errors, pageData) => {
-  const { first, middle, last } = pageData;
+  const { first, last } = pageData;
   validateWhiteSpace(errors.first, first);
   validateWhiteSpace(errors.last, last);
-  if (middle?.length > 30) {
-    errors.middle.addError('Middle name must be 30 characters or less.');
-  }
 };
 
 /**

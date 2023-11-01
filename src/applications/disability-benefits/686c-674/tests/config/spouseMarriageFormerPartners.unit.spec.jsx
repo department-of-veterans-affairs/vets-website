@@ -91,7 +91,7 @@ describe('686 spouse former partner names', () => {
     form.unmount();
   });
 
-  it('should display an error if the middle name is longer than 30 characters', () => {
+  it('should display an error if the last name is longer than 30 characters', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -104,15 +104,15 @@ describe('686 spouse former partner names', () => {
     );
     selectRadio(form, 'root_spouseWasMarriedBefore', 'Y');
     fillData(form, 'input#root_spouseMarriageHistory_0_fullName_first', 'jane');
+    fillData(form, 'input#root_spouseMarriageHistory_0_fullName_middle', 'doe');
     fillData(
       form,
-      'input#root_spouseMarriageHistory_0_fullName_middle',
+      'input#root_spouseMarriageHistory_0_fullName_last',
       'Supercalifragilisticexpialidocious',
     );
-    fillData(form, 'input#root_spouseMarriageHistory_0_fullName_last', 'doe');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'Middle name must be 30 characters or less.',
+      'This field should be less than 30 characters',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();

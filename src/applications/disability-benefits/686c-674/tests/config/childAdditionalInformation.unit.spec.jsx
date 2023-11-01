@@ -194,7 +194,7 @@ describe('686 add child - child additional information', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'Middle name must be 30 characters or less.',
+      'This field should be less than 30 characters',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();
