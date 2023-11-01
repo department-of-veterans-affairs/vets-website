@@ -1,6 +1,7 @@
 import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
+import moment from 'moment';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
@@ -22,6 +23,8 @@ import {
   hasTrainingPay,
   isValidZIP,
   validateZIP,
+  limitNewDisabilities,
+  requireSeparationLocation,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -279,6 +282,7 @@ describe('526 All Claims validations', () => {
       };
 
       startedAfterServicePeriod(err, '1999-12-XX', formData);
+      expect(err.addError.called).to.be.false;
     });
   });
 
@@ -304,6 +308,14 @@ describe('526 All Claims validations', () => {
         addError: sinon.spy(),
       };
       hasMonthYear(err, '1980-12-XX');
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('should not add an error if no field', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+      hasMonthYear(err, '');
       expect(err.addError.called).to.be.false;
     });
   });
@@ -492,6 +504,13 @@ describe('526 All Claims validations', () => {
       );
 
       expect(errors.addError.firstCall.args[0]).to.equal('testing');
+    });
+
+    it('should add error if user group and props missing', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { tests: false }, null, {});
+
+      expect(errors.addError.called).to.be.true;
     });
   });
 
@@ -690,6 +709,15 @@ describe('526 All Claims validations', () => {
       isLessThan180DaysInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
     });
+
+    it('adds error when separation date is in the past', () => {
+      const errors = { addError: sinon.spy() };
+      const fieldData = daysFromToday(-10);
+
+      isLessThan180DaysInFuture(errors, fieldData);
+
+      expect(errors.addError.called).to.be.true;
+    });
   });
 
   describe('title10BeforeRad', () => {
@@ -817,6 +845,41 @@ describe('526 All Claims validations', () => {
       };
 
       requireRatedDisability(err, {}, formData);
+      expect(err.addError.called).to.be.true;
+    });
+  });
+
+  describe('limitNewDisabilities', () => {
+    it('should add error when more than 100 disabilities', () => {
+      const err = { addError: sinon.spy() };
+      const newDisabilities = Array(101);
+      const formData = { newDisabilities };
+
+      limitNewDisabilities(err, null, formData);
+      expect(err.addError.called).to.be.true;
+    });
+  });
+
+  describe('requireSeparationLocation', () => {
+    const getDays = days =>
+      moment()
+        .add(days, 'days')
+        .format('YYYY-MM-DD');
+    const getFormData = (activeDate, reserveDate) => ({
+      serviceInformation: {
+        servicePeriods: [{ dateRange: { to: activeDate } }],
+        reservesNationalGuardService: {
+          title10Activation: {
+            anticipatedSeparationDate: reserveDate,
+          },
+        },
+      },
+    });
+
+    it('should add error when missing separation location selection', () => {
+      const err = { addError: sinon.spy() };
+
+      requireSeparationLocation(err, {}, getFormData('', getDays(1)));
       expect(err.addError.called).to.be.true;
     });
   });

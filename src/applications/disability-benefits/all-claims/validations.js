@@ -8,7 +8,6 @@ import {
   pathWithIndex,
   hasClaimedConditions,
   isClaimingIncrease,
-  hasRatedDisabilities,
   claimingRated,
   showSeparationLocation,
   sippableId,
@@ -359,21 +358,6 @@ export const requireRatedDisability = (err, fieldData, formData) => {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError('Please select a rated disability');
-  }
-};
-
-/**
- * Require "yes" for "do you want to add new conditions" if no rated conditions
- *  have been selected.
- */
-export const requireNewDisability = (err, fieldData, formData) => {
-  if (!claimingRated(formData) && !fieldData) {
-    const message = hasRatedDisabilities(formData)
-      ? 'No rated disability selected. Please add a new one'
-      : 'We didn’t find any existing rated disabilities. Please choose to add a new one';
-    // The actual validation error is displayed as an alert field. The message
-    // here will be shown on the review page
-    err.addError(message);
   }
 };
 
