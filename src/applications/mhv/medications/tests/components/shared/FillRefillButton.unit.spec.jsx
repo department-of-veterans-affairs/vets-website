@@ -14,6 +14,7 @@ describe('Fill Refill Button component', () => {
     refillRemaining: 1,
     dispStatus: 'Active',
     success: true,
+    isRefillable: true,
   };
   const setup = () => {
     return renderWithStoreAndRouter(<FillRefillButton {...rx} />, {
