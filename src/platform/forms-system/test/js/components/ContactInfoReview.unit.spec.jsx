@@ -9,6 +9,7 @@ import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
 import { $, $$ } from '../../../src/js/utilities/ui';
 import ContactInfoReview from '../../../src/js/components/ContactInfoReview';
 import { getContent } from '../../../src/js/utilities/data/profile';
+import clone from '../../../src/js/utilities/data/clone';
 
 const getData = ({
   home = true,
@@ -20,10 +21,12 @@ const getData = ({
 } = {}) => ({
   data: {
     veteran: {
+      // cloning vapProfile data because within the unit tests we target and
+      // change some data values
       email: email ? vapProfile.email.emailAddress : null,
-      mobilePhone: mobile ? { ...vapProfile.mobilePhone } : null,
-      homePhone: home ? { ...vapProfile.homePhone } : null,
-      mailingAddress: address ? { ...vapProfile.mailingAddress } : null,
+      mobilePhone: mobile ? clone(vapProfile.mobilePhone) : null,
+      homePhone: home ? clone(vapProfile.homePhone) : null,
+      mailingAddress: address ? clone(vapProfile.mailingAddress) : null,
     },
   },
   editPage,
@@ -73,13 +76,13 @@ describe('<ContactInfoReview>', () => {
     // homePhone, mobilePhone, email, country, street address, address line 2,
     // city, state, zip
     expect($$('dt', container).length).to.eq(9);
-    expect(container.innerHTML).to.contain('Missing phone number');
+    expect(container.innerHTML).to.contain(content.missingPhoneError);
   });
   it('should render international address', () => {
     const data = getData({ address: false });
     data.data.veteran.mailingAddress = {
       addressLine1: 'Great Russell Street',
-      addressType: 'INTERNATIONAL',
+      addressType: ADDRESS_TYPES.international,
       city: 'London',
       countryName: 'United Kingdom',
       countryCodeIso3: 'GBR',

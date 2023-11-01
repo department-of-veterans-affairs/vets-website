@@ -7,7 +7,7 @@ import { $ } from '../../../src/js/utilities/ui';
 import {
   getContent,
   standardPhoneSchema,
-  standardAddressSchema,
+  profileAddressSchema,
   getPhoneString,
   renderTelephone,
   getMissingInfo,
@@ -39,12 +39,12 @@ describe('profile utilities', () => {
     });
   });
 
-  describe('standardAddressSchema', () => {
-    it('should return required array', () => {
-      expect(standardAddressSchema(true).required.length).to.eq(4);
+  describe('profiledAddressSchema', () => {
+    it('should return international address required array', () => {
+      expect(profileAddressSchema.oneOf[0].required.length).to.eq(3);
     });
-    it('should return empty required array', () => {
-      expect(standardAddressSchema().required.length).to.eq(0);
+    it('should return U.S. address required array', () => {
+      expect(profileAddressSchema.oneOf[1].required.length).to.eq(4);
     });
   });
 
@@ -91,10 +91,15 @@ describe('profile utilities', () => {
       missingEmail: 'email',
     };
     const getData = ({ a = true, e = true, h = true, m = true } = {}) => ({
-      a: { addressLine1: a ? '123 Main' : '' },
+      a: {
+        countryName: a ? 'United States' : '',
+        addressLine1: a ? '123 Main' : '',
+        city: a ? 'City' : '',
+        zipCode: a ? '12345' : '',
+      },
       e: e ? 'x@x.com' : '',
-      h: { phoneNumber: h ? '5551212' : '' },
-      m: { phoneNumber: m ? '5551313' : '' },
+      h: { areaCode: h ? '123' : '', phoneNumber: h ? '5551212' : '' },
+      m: { areaCode: m ? '234' : '', phoneNumber: m ? '5551313' : '' },
     });
 
     const noData = getData({ a: false, e: false, h: false, m: false });
