@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
+// Location to custom commands type definitions.
+/// <reference path="./index.d.ts" />
 import unset from 'platform/utilities/data/unset';
 import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 
@@ -986,6 +988,11 @@ export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
   }
 }
 
+/**
+ * Function to add custom Cypress commands.
+ *
+ * @export
+ */
 export function vaosSetup() {
   Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {
