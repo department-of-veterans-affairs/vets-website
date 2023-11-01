@@ -91,7 +91,7 @@ export const verifyFormErrorNotShownCheckBox = selector =>
   cy
     .findByTestId(selector)
     .get('span[role="alert"]')
-    .should('not.be.visible');
+    .should('not.exist');
 
 export const checkFormAlertText = (selector, expectedValue) =>
   cy
