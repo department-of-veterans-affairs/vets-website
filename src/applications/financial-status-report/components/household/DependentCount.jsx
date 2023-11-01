@@ -65,7 +65,6 @@ const DependentCount = ({
             ...data?.questions,
             hasDependents: dependents,
           },
-          reviewNavigation: false,
         });
       }
     }
