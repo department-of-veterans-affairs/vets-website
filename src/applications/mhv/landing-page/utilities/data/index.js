@@ -156,7 +156,7 @@ const resolveLandingPageLinks = (
       toggle: null,
     },
     {
-      href: 'https://pay.gov/public/form/start/25987221',
+      href: '/manage-va-debt/summary/copay-balances',
       oldHref: null,
       text: 'Pay copay bills',
       toggle: null,
