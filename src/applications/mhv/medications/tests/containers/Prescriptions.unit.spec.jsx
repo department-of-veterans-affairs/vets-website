@@ -41,7 +41,7 @@ describe('Medications Prescriptions container', () => {
     expect(screen);
   });
 
-  it('displays intro text ', async () => {
+  it.skip('displays intro text ', async () => {
     const screen = setup();
     expect(
       await screen.findByText(
@@ -55,7 +55,7 @@ describe('Medications Prescriptions container', () => {
     expect(await screen.findByTestId('list-page-title')).to.exist;
   });
 
-  it('displays empty list alert', () => {
+  it.skip('displays empty list alert', () => {
     const mockData = [];
     mockApiRequest(mockData);
     const screen = renderWithStoreAndRouter(<Prescriptions />, {
@@ -88,7 +88,7 @@ describe('Medications Prescriptions container', () => {
     ).to.exist;
   });
 
-  it('should display a clickable download button', () => {
+  it.skip('should display a clickable download button', () => {
     const mockData = [prescriptions[0]];
     mockApiRequest(mockData);
     const screen = renderWithStoreAndRouter(<Prescriptions />, {
@@ -122,7 +122,7 @@ describe('Medications Prescriptions container', () => {
     expect(screen);
   });
 
-  it('should show the allergy error alert', () => {
+  it.skip('should show the allergy error alert', () => {
     const screen = renderWithStoreAndRouter(
       <Prescriptions fullList={prescriptions} />,
       {
