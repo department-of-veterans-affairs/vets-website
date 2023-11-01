@@ -253,27 +253,21 @@ const resolveLandingPageLinks = (
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Emergency Medical Care Coverage',
+        text: 'Pain? Try yoga',
         href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20221207-emergency-medical-care-coverage',
-        ),
+        oldHref: mhvUrl(false, 'ss20211012-pain-yoga-may-help'),
         toggle: null,
       },
       {
-        text: 'Exercise to Build Healthy Lungs',
+        text: 'Where are my labs and test results?',
         href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20181019-build-healthy-lungs'),
+        oldHref: mhvUrl(false, 'ss20180716-where-are-va-lab-test-results'),
         toggle: null,
       },
       {
-        text: 'PACT Act Special Enrollment Period',
+        text: 'Heart health with diabetes',
         href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20230428-pact-act-special-enrollment',
-        ),
+        oldHref: mhvUrl(false, 'ss20220415-diabetes-and-a-healthy-heart'),
         toggle: null,
       },
     ],
