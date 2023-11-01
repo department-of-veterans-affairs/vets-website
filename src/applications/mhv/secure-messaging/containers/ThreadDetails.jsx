@@ -123,7 +123,7 @@ const ThreadDetails = props => {
             header={header}
           />
           <MessageThread
-            messageHistory={draftMessageHistory.slice(1)}
+            messageHistory={draftMessageHistory}
             isDraftThread
             isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
@@ -145,14 +145,12 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageDetailBlock message={message} cannotReply={cannotReply} />
-          {messageHistory?.length > 0 && (
-            <MessageThread
-              messageHistory={messageHistory}
-              threadId={threadId}
-              isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
-              viewCount={threadViewCount}
-            />
-          )}
+          <MessageThread
+            messageHistory={[message, ...messageHistory]}
+            threadId={threadId}
+            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            viewCount={threadViewCount}
+          />
         </>
       );
     }
