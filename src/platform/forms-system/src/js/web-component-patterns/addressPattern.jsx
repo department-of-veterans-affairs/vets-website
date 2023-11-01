@@ -475,6 +475,9 @@ export function addressUI(options) {
             addressSchema.pattern = POSTAL_CODE_PATTERNS.USA;
           } else if (['CAN', 'MEX', 'USA'].includes(country)) {
             addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
+          } else {
+            // no pattern validation for other countries
+            addressSchema.pattern = undefined;
           }
 
           return {
