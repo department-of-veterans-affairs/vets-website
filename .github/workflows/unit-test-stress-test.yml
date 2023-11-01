@@ -6,6 +6,52 @@ on:
   push
 
 jobs:
+  testing-reports-prep:
+    name: Testing Reports Prep
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    outputs:
+      app_list: ${{ env.APPLICATION_LIST }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Generate new application list
+        run: yarn generate-app-list
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Upload app list to BigQuery
+        run: yarn generate-app-list
+        working-directory: qa-standards-dashboard-data
   fetch-unit-tests-allow-list:
     name: Fetch Unit Tests Allow List
     runs-on: ubuntu-latest
