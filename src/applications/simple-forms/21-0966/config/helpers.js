@@ -122,7 +122,9 @@ export const initializeFormDataWithPreparerIdentification = preparerIdentificati
 
 // Confirmation Page
 const benefitSelections = data =>
-  Object.keys(data.benefitSelection).filter(key => data.benefitSelection[key]);
+  Object.keys(data.benefitSelection)
+    .filter(key => data.benefitSelection[key])
+    .map(benefit => benefit.toUpperCase());
 
 const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
   Object.keys(alreadySubmittedIntents).filter(
