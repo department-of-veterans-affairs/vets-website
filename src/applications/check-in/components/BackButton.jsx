@@ -40,7 +40,7 @@ const BackButton = props => {
     <>
       <nav
         aria-label={t('breadcrumb')}
-        className="row check-inn-back-button columns"
+        className="row check-in-back-button columns"
       >
         <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
           <i
