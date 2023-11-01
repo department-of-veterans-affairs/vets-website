@@ -129,5 +129,24 @@ class MedicationsDetailsPage {
   verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
     cy.get('[data-testid="refill-request-button"]').should('be.enabled');
   };
+
+  clickWhatDoesThisStatusMeanDropDown = () => {
+    cy.get('[data-testid="status-dropdown"]').should('exist');
+    cy.get('[data-testid="status-dropdown"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyActiveStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="active-status-definition"]',
+    ).should('contain', 'This is a current prescription.');
+  };
+
+  verifyOnHoldStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="onHold-status-definition"]',
+    ).should('contain', 'We put a hold on this prescription.');
+  };
 }
 export default MedicationsDetailsPage;

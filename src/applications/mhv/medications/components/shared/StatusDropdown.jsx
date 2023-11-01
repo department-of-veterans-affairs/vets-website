@@ -11,7 +11,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="active-status-definition"
+              >
                 This is a current prescription. If you have refills left, you
                 can request a refill now.
               </p>
@@ -26,7 +29,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -131,7 +137,7 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p>
+              <p data-testid="onHold-status-definition">
                 We put a hold on this prescription. You can’t request a refill
                 until we remove the hold.
                 <br />
@@ -152,7 +158,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: On hold</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>

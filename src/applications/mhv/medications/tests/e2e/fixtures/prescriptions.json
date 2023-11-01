@@ -1430,30 +1430,6 @@
             }
         },
         {
-            "id": "21142490",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 21142490,
-                "prescriptionNumber": "3636859",
-                "prescriptionName": "FAMOTIDINE 40MG TAB",
-                "refillStatus": "expired",
-                "refillSubmitDate": "2022-08-25T19:55:30.000Z",
-                "refillDate": "2022-09-06T04:00:00.000Z",
-                "refillRemaining": 1,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2022-06-06T04:00:00.000Z",
-                "quantity": 30,
-                "expirationDate": "2023-06-07T04:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142490"
-            }
-        },
-        {
             "id": "22116215",
             "type": "prescriptions",
             "attributes": {
