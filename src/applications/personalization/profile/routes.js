@@ -6,14 +6,20 @@ import { Hub } from './components/hub/Hub';
 // conditionally add the edit route based on feature toggle
 // conditionally add the profile hub route based on feature toggle
 const getRoutes = (
-  { profileContactsPage, useFieldEditingPage, profileUseHubPage } = {
+  {
+    profileContactsPage,
+    useFieldEditingPage,
+    profileUseHubPage,
+    profileVeteranStatusPage,
+  } = {
     profileContactsPage: false,
     useFieldEditingPage: false,
     profileUseHubPage: false,
+    profileVeteranStatusPage: false,
   },
 ) => {
   return [
-    ...getRoutesForNav(profileContactsPage),
+    ...getRoutesForNav(profileContactsPage, profileVeteranStatusPage),
     ...(useFieldEditingPage
       ? [
           {
