@@ -8,7 +8,7 @@ import { selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
-import { getSelected, getIssueName } from '../../shared/utils/issues';
+import { getIssuesListItems } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -19,13 +19,7 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { name = {}, form } = this.props;
     const { submission, formId, data } = form;
-    const issues = getSelected(data || []).map((issue, index) => (
-      <li key={index} className="vads-u-margin-bottom--0">
-        <span className="dd-privacy-hidden" data-dd-action-name="issue name">
-          {getIssueName(issue)}
-        </span>
-      </li>
-    ));
+    const issues = data ? getIssuesListItems(data) : [];
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
     const handlers = {
