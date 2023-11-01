@@ -336,18 +336,13 @@ describe('VAOS upcomming appointment flow', () => {
       });
 
       // Constrain search within list group.
-      cy.findByTestId(`appointment-list-${today.format('YYYY-MM')}`).within(
+      const tomorrow = moment(today).add(1, 'day');
+      const dayAfterTomorrow = moment(today).add(2, 'days');
+      cy.findByTestId(`appointment-list-${tomorrow.format('YYYY-MM')}`).within(
         () => {
-          const tomorrow = moment(today)
-            .add(1, 'day')
-            .format('ddd');
-          const dayAfterTomorrow = moment(today)
-            .add(2, 'days')
-            .format('ddd');
-
           // Expect date and day to be dislayed
-          cy.findByText(tomorrow).should('be.ok');
-          cy.findByText(dayAfterTomorrow).should('be.ok');
+          cy.findByText(tomorrow.format('ddd')).should('be.ok');
+          cy.findByText(dayAfterTomorrow.format('ddd')).should('be.ok');
         },
       );
 

@@ -1,9 +1,13 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import DependentViewField from '../../../components/FormFields/DependentViewField';
-import { uiSchema as dependentUI } from '../../../definitions/dependent';
+import {
+  uiSchema as dependentUI,
+  createDependentSchema,
+} from '../../../definitions/dependent';
 
 const { dependents } = fullSchemaHca.properties;
+const { items: dependent } = dependents;
+const dependentSchema = createDependentSchema(dependent);
 
 const ariaLabelfunc = data =>
   data.fullName && data.fullName.first && data.fullName.last
@@ -42,6 +46,7 @@ export default {
       'view:reportDependents': { type: 'boolean' },
       dependents: {
         ...dependents,
+        items: dependentSchema,
         minItems: 1,
       },
     },

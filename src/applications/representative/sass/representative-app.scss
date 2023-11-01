@@ -7,13 +7,13 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 .find-a-representative {
-  @media (max-width: $large-screen) {
-    margin: 0 12px;
-  }
+  // @media (max-width: $large-screen) {
+  //   margin: 0 12px;
+  // }
 
-  @media (max-width: $small-screen) {
-    margin: 0;
-  }
+  // @media (max-width: $small-screen) {
+  //   margin: 0;
+  // }
 
   margin: 0 1.5rem;
 
@@ -22,7 +22,6 @@
   }
   h1:first-child {
     margin-top: 0;
-    // padding: 0 0 0 1.5rem;
   }
 
   .clearfix {
@@ -31,19 +30,16 @@
     clear: both;
   }
 
+  .va-accordion__button {
+    visibility: hidden !important;
+  }
+
   .search-page-container {
     .rep-type-selector {
-      va-checkbox-group {
-        margin-top: -30px;
-      }
+      margin-top: 1em;
     }
 
     .search-controls-container {
-      margin-top: 24px;
-      // padding: 24px 16px 0 12px;
-      // border: solid thin $color-gray-lightest;
-      // background: $color-gray-lightest;
-
       select:disabled {
         background: $color-gray-lightest;
       }
@@ -51,113 +47,50 @@
       #representative-search-controls {
         display: flex;
         flex-direction: column;
+        position: relative;
 
-        input,
-        textarea,
-        select,
-        .input-container {
-          max-width: none;
-          margin-bottom: 24px;
-          padding: 0 0.7em;
-
-          @media (min-width: $small-desktop-screen) {
-            max-width: 418px;
-            width: 418px;
-            margin-right: 18px;
-          }
+        label#street-city-state-zip-label {
+          margin-top: 1rem !important;
         }
 
-        .input-container {
-          padding: 0;
+        .location-input-container {
+          position: relative;
         }
-
-        input[type="submit"] {
-          width: 100%;
-          padding: 0 1rem;
-          margin-top: 0;
-
-          @media (min-width: $small-desktop-screen) {
-            margin-top: 27px;
-            min-width: 67px;
-            width: auto;
-          }
-        }
-
-        #location-input-field {
-          display: flex;
-          flex-direction: column;
-
-          @media (min-width: $small-desktop-screen) {
-            flex-direction: row;
-          }
-        }
-
-        .use-my-location-link {
-          text-decoration: none;
-          background-color: transparent;
-          color: $color-link-default;
-          font-weight: normal;
-          padding: 0;
-          margin: 0 0 0 20px;
-
-          @media (max-width: $small-desktop-screen) {
-            margin: 1em 0;
-            text-align: left;
+        .use-my-location-button-container {
+          @media (min-width: $large-screen) {
+            position: absolute;
+            left: 30em;
+            top: 2em;
+            min-width: 10em;
           }
         }
 
         .use-my-location-button {
-          width: 18px;
-          height: 18px;
+          text-decoration: none;
+          background-color: transparent;
+          color: $color-link-default;
+          font-weight: normal;
+          padding: 0 0 0 1.5em;
+          margin: 0.4em 0 0 0;
           background-image: url("/img/location-arrow-solid.svg");
           background-repeat: no-repeat;
           background-color: transparent;
-          padding: 0 1.5em 0 0;
-        }
-
-        #search-controls-bottom-row {
-          @media (min-width: $small-desktop-screen) {
-            display: flex;
-            flex-direction: row;
-          }
         }
 
         #representative-search {
           max-width: 8em;
         }
       }
+    }
 
-      // button.use-my-location-link {
-      //   text-decoration: none;
-      //   background-color: transparent;
-      //   color: $color-link-default;
-      //   font-weight: normal;
-      //   padding: 0;
-      //   margin: 0 0 0 200px;
+    .representative-result {
+      div {
+        line-height: 2em;
+      }
 
-      //   @media (max-width: $small-desktop-screen) {
-      //     margin: 1em 0;
-      //     text-align: left;
-      //   }
-      // }
-
-      // #location-input-field {
-      //   display: flex;
-      //   flex-direction: column;
-
-      //   @media (min-width: $small-desktop-screen) {
-      //     flex-direction: row;
-      //   }
-      // }
-
-      // .use-my-location-button {
-      //   width: 18px;
-      //   height: 18px;
-      //   background-image: url("/img/location-arrow-solid.svg");
-      //   background-repeat: no-repeat;
-      //   background-color: transparent;
-      //   padding: 0 1.5em 0 0;
-      // }
+      hr {
+        margin: 2em 0 2em;
+      }
     }
 
     .rep-type-info {

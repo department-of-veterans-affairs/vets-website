@@ -50,7 +50,7 @@ export const statementOfTruthFullNamePath = ({ formData } = {}) => {
   return 'survivingDependentFullName';
 };
 
-export const benefitSelectionStepperTitle = ({ formData } = {}) => {
+export const benefitSelectionChapterTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -64,21 +64,9 @@ export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const benefitSelectionTitle = ({ formData } = {}) => {
-  switch (formData?.preparerIdentification) {
-    case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependent:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartyVeteran:
-      return 'Select the benefits the Veteran intends to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartySurvivingDependent:
-      return 'Select the benefits the Claimant intends to file a claim for. Select all that apply';
-    default:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-  }
-};
-
-export const personalInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentPersonalInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -92,7 +80,9 @@ export const personalInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const contactInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentContactInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -106,6 +96,22 @@ export const contactInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
+export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your personal information';
+  }
+
+  return 'Veteran’s personal information';
+};
+
+export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your contact information';
+  }
+
+  return 'Veteran’s contact information';
+};
+
 export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
   return set(
     'preparerIdentification',
@@ -116,7 +122,9 @@ export const initializeFormDataWithPreparerIdentification = preparerIdentificati
 
 // Confirmation Page
 const benefitSelections = data =>
-  Object.keys(data.benefitSelection).filter(key => data.benefitSelection[key]);
+  Object.keys(data.benefitSelection)
+    .filter(key => data.benefitSelection[key])
+    .map(benefit => benefit.toUpperCase());
 
 const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
   Object.keys(alreadySubmittedIntents).filter(
