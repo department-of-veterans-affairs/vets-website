@@ -65,7 +65,7 @@ const AttachmentsList = props => {
   };
   return (
     <div>
-      <div className="sr-only message-body-attachments-label vads-u-margin-bottom--1">
+      <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-font-weight--bold">
         Attachments
       </div>
       {editingEnabled && <HowToAttachFiles />}
