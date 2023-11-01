@@ -138,16 +138,10 @@ const MessageThread = props => {
 
       <section
         aria-label={
-          messageHistory?.length > 0
-            ? `${messageHistory.length} Message${
-                messageHistory.length > 1 ? 's' : ''
-              } in this conversation`
-            : (isDraftThread && messageHistory?.length > 0
-                ? `${messageHistory?.length} Message${
-                    messageHistory.length > 1 ? 's' : ''
-                  } in this conversation`
-                : '1 Message in this conversation') ||
-              (isDraftThread === false && '1 Message in this conversation')
+          messageCount > 0 &&
+          `${messageCount} Message${
+            messageCount > 1 ? 's' : ''
+          } in this conversation`
         }
         className={`older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 ${
           isForPrint ? 'print' : 'do-not-print'
