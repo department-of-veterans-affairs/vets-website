@@ -81,8 +81,9 @@ const DependentCount = ({
           </h3>
         </legend>
         <VaNumberInput
-          label="How many dependents do you have who rely on you for financial support?"
+          label="Number of dependents"
           error={error}
+          hint="Dependents include your spouse, unmarried children under 18 years old, and other dependents."
           id="dependent-count"
           name="dependent-count"
           onBlur={() => {
