@@ -48,30 +48,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  // submit: () =>
-  //   Promise.resolve({
-  //     // confirmationNumber: '123123123',
-  //     // veteranStatus: 'confirmed',
-  //     // expirationDate: '2024-09-22T19:15:20.000-05:00',
-  //     // compensationIntent: {
-  //     //   creationDate: '2023-09-22T19:15:21.000-05:00',
-  //     //   expirationDate: '2024-09-22T19:15:20.000-05:00',
-  //     //   type: 'compensation',
-  //     //   status: 'active',
-  //     // },
-  //     // pensionIntent: {
-  //     //   creationDate: '2021-03-16T19:15:21.000-05:00',
-  //     //   expirationDate: '2022-03-16T19:15:20.000-05:00',
-  //     //   type: 'pension',
-  //     //   status: 'active',
-  //     // },
-  //     // survivorIntent: {
-  //     //   creationDate: '2021-03-16T19:15:21.000-05:00',
-  //     //   expirationDate: '2022-03-16T19:15:20.000-05:00',
-  //     //   type: 'survivor',
-  //     //   status: 'active',
-  //     // },
-  //   }),
   transformForSubmit,
   trackingPrefix: '21-0966-intent-to-file-a-claim-',
   introduction: IntroductionPage,
