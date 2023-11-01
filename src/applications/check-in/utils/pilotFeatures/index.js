@@ -1,5 +1,6 @@
 import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
 import fortyFiveMinuteTextStLouis from './fortyFiveMinuteText/stLouis.json';
+import fileTravelClaimStLouis from './fileTravelClaim/stLouis.json';
 // import salem from './travelClaim/salem.json';
 
 const devStations = {
@@ -18,10 +19,7 @@ const pilotFeatures = {
     pilotStations: {
       ...devStations,
       ...fileTravelClaimWilkesBarre,
-      // Merge 10/30/23 after 5pm EST
-      '657GB': {},
-      // Uncomment and merge 10/31/23 after 5pm EST
-      // '657GA': {},
+      ...fileTravelClaimStLouis,
       // Week 1 658
       // ...fileTravelClaimSalem,
       // Week 2 565
