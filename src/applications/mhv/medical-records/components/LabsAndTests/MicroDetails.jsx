@@ -122,97 +122,86 @@ const MicroDetails = props => {
     );
   };
 
-  const content = () => {
-    return (
-      <>
-        <PrintHeader />
-        <h1
-          className="vads-u-margin-bottom--0"
-          aria-describedby="microbio-date"
-        >
-          {record.name}
-        </h1>
-        <div className="time-header">
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans"
-            id="microbio-date"
-          >
-            Date:{' '}
-            <span className="vads-u-font-weight--normal">{record.date}</span>
-          </h2>
-        </div>
-        <div className="no-print">
-          <PrintDownload
-            download={generateMicrobiologyPdf}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </div>
-        <div className="test-details-container max-80">
-          <h2>Details about this test</h2>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Sample tested
-          </h3>
-          <p>{record.sampleTested}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Sample from
-          </h3>
-          <p>{record.sampleFrom}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Ordered by
-          </h3>
-          <p>{record.orderedBy}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Ordering location
-          </h3>
-          <p>{record.orderingLocation}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Collecting location
-          </h3>
-          <p>{record.collectingLocation}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Lab location
-          </h3>
-          <p>{record.labLocation}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Date completed
-          </h3>
-          <p>{record.date}</p>
-        </div>
-
-        <div className="test-results-container">
-          <h2>Results</h2>
-          <va-additional-info
-            trigger="Need help understanding your results?"
-            class="no-print"
-          >
-            <p>
-              Your provider will review your results and explain what they mean
-              for your health. To ask a question now, send a secure message to
-              your care team.
-            </p>
-            <p>
-              <a
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
-              >
-                Start a new message
-              </a>
-            </p>
-          </va-additional-info>
-          <p className="vads-u-font-size--base make-monospace">
-            {record.results}
-          </p>{' '}
-        </div>
-      </>
-    );
-  };
-
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {record && content()}
+      <PrintHeader />
+      <h1 className="vads-u-margin-bottom--0" aria-describedby="microbio-date">
+        {record.name}
+      </h1>
+      <div className="time-header">
+        <h2
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          id="microbio-date"
+        >
+          Date:{' '}
+          <span className="vads-u-font-weight--normal">{record.date}</span>
+        </h2>
+      </div>
+      <div className="no-print">
+        <PrintDownload
+          download={generateMicrobiologyPdf}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      </div>
+      <div className="test-details-container max-80">
+        <h2>Details about this test</h2>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Sample tested
+        </h3>
+        <p>{record.sampleTested}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Sample from
+        </h3>
+        <p>{record.sampleFrom}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Ordered by
+        </h3>
+        <p>{record.orderedBy}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Ordering location
+        </h3>
+        <p>{record.orderingLocation}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Collecting location
+        </h3>
+        <p>{record.collectingLocation}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Lab location
+        </h3>
+        <p>{record.labLocation}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Date completed
+        </h3>
+        <p>{record.date}</p>
+      </div>
+
+      <div className="test-results-container">
+        <h2>Results</h2>
+        <va-additional-info
+          trigger="Need help understanding your results?"
+          class="no-print"
+        >
+          <p>
+            Your provider will review your results and explain what they mean
+            for your health. To ask a question now, send a secure message to
+            your care team.
+          </p>
+          <p>
+            <a
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'secure-messaging',
+              )}
+            >
+              Start a new message
+            </a>
+          </p>
+        </va-additional-info>
+        <p className="vads-u-font-size--base make-monospace">
+          {record.results}
+        </p>{' '}
+      </div>
     </div>
   );
 };

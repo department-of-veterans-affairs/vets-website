@@ -60,7 +60,9 @@ export const submissionForm = {
   'view:serviceHistory': {
     serviceHistoryIncorrect: true,
   },
-  incorrectServiceHistoryExplanation: 'Service periods are missing.',
+  incorrectServiceHistoryExplanation: {
+    incorrectServiceHistoryText: 'Service periods are missing.',
+  },
   'view:contactMethodIntro': {},
   contactMethod: 'Email',
   'view:receiveTextMessages': {

@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import {
   fullNameUI,
@@ -11,11 +11,9 @@ import { validateDependentDate } from '../../../utils/validation';
 import content from '../../../locales/en/content.json';
 
 const {
-  fullName,
-  dependent: {
-    properties: { dependentRelation },
-  },
-} = ezrSchema.definitions;
+  dependents: { items: dependent },
+} = ezrSchema.properties;
+const { fullName, dependentRelation } = dependent.properties;
 
 export default {
   uiSchema: {
