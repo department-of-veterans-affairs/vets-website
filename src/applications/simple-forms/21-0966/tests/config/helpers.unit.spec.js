@@ -26,7 +26,6 @@ import {
 import {
   preparerIdentifications,
   veteranBenefits,
-  survivingDependentBenefits,
   benefitPhrases,
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
@@ -220,11 +219,7 @@ describe('statementOfTruthFullNamePath', () => {
 describe('confirmation page helper functions', () => {
   describe('success alert', () => {
     describe('One intent selected and filed', () => {
-      [
-        veteranBenefits.COMPENSATION,
-        veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
-      ].forEach(selectedIntent => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
@@ -287,56 +282,43 @@ describe('confirmation page helper functions', () => {
       };
       const expirationDate = 'expiration-date';
 
-      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
-        alreadySubmittedIntentType => {
-          const alreadySubmittedIntents = {
-            [alreadySubmittedIntentType]: {
-              creationDate: '2021-03-16T19:15:21.000-05:00',
-              expirationDate: '2022-03-16T19:15:20.000-05:00',
-              type: alreadySubmittedIntentType,
-              status: 'active',
-            },
-          };
-          const newlySelectedIntent = [
-            veteranBenefits.COMPENSATION,
-            veteranBenefits.PENSION,
-          ].filter(intent => intent !== alreadySubmittedIntentType)[0];
+      ['COMPENSATION', 'PENSION'].forEach(alreadySubmittedIntentType => {
+        const alreadySubmittedIntents = {
+          [alreadySubmittedIntentType]: {
+            creationDate: '2021-03-16T19:15:21.000-05:00',
+            expirationDate: '2022-03-16T19:15:20.000-05:00',
+            type: alreadySubmittedIntentType,
+            status: 'active',
+          },
+        };
+        const newlySelectedIntent = ['COMPENSATION', 'PENSION'].filter(
+          intent => intent !== alreadySubmittedIntentType,
+        )[0];
 
-          it('shows a success alert', () => {
-            expect(getAlertType(data, alreadySubmittedIntents)).to.equal(
-              'success',
-            );
-          });
+        it('shows a success alert', () => {
+          expect(getAlertType(data, alreadySubmittedIntents)).to.equal(
+            'success',
+          );
+        });
 
-          it('successfully gets the success alert title', () => {
-            expect(
-              getSuccessAlertTitle(data, alreadySubmittedIntents),
-            ).to.equal(
-              `You’ve submitted your intent to file for ${
-                benefitPhrases[newlySelectedIntent]
-              }`,
-            );
-          });
+        it('successfully gets the success alert title', () => {
+          expect(getSuccessAlertTitle(data, alreadySubmittedIntents)).to.equal(
+            `You’ve submitted your intent to file for ${
+              benefitPhrases[newlySelectedIntent]
+            }`,
+          );
+        });
 
-          it('successfully gets the success alert text', () => {
-            expect(
-              getSuccessAlertText(
-                data,
-                alreadySubmittedIntents,
-                expirationDate,
-              ),
-            ).to.equal(`Your intent to file will expire on ${expirationDate}.`);
-          });
-        },
-      );
+        it('successfully gets the success alert text', () => {
+          expect(
+            getSuccessAlertText(data, alreadySubmittedIntents, expirationDate),
+          ).to.equal(`Your intent to file will expire on ${expirationDate}.`);
+        });
+      });
     });
 
     describe('One intent selected, already on file, so nothing new is filed', () => {
-      [
-        veteranBenefits.COMPENSATION,
-        veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
-      ].forEach(selectedIntent => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
@@ -389,13 +371,13 @@ describe('confirmation page helper functions', () => {
       };
       const expirationDate = 'expiration-date';
       const alreadySubmittedIntents = {
-        compensation: {
+        COMPENSATION: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.COMPENSATION,
           status: 'active',
         },
-        pension: {
+        PENSION: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.PENSION,
@@ -423,11 +405,7 @@ describe('confirmation page helper functions', () => {
 
   describe('next steps', () => {
     describe('One intent selected and filed', () => {
-      [
-        veteranBenefits.COMPENSATION,
-        veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
-      ].forEach(selectedIntent => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
@@ -512,63 +490,57 @@ describe('confirmation page helper functions', () => {
         alreadySubmittedExpirationDate,
       ).toLocaleDateString('en-us', dateOptions);
 
-      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
-        alreadySubmittedIntentType => {
-          const alreadySubmittedIntents = {
-            [alreadySubmittedIntentType]: {
-              creationDate: '2021-03-16T19:15:21.000-05:00',
-              expirationDate: alreadySubmittedExpirationDate,
-              type: alreadySubmittedIntentType,
-              status: 'active',
-            },
-          };
+      ['COMPENSATION', 'PENSION'].forEach(alreadySubmittedIntentType => {
+        const alreadySubmittedIntents = {
+          [alreadySubmittedIntentType]: {
+            creationDate: '2021-03-16T19:15:21.000-05:00',
+            expirationDate: alreadySubmittedExpirationDate,
+            type: alreadySubmittedIntentType,
+            status: 'active',
+          },
+        };
 
-          it('successfully gets the already submitted title', () => {
-            expect(
-              getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-            ).to.equal(
-              `You’ve already submitted an intent to file for ${
-                benefitPhrases[alreadySubmittedIntentType]
-              }`,
-            );
-          });
+        it('successfully gets the already submitted title', () => {
+          expect(
+            getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+          ).to.equal(
+            `You’ve already submitted an intent to file for ${
+              benefitPhrases[alreadySubmittedIntentType]
+            }`,
+          );
+        });
 
-          it('successfully gets the already submitted text', () => {
-            expect(
-              getAlreadySubmittedText(data, alreadySubmittedIntents),
-            ).to.equal(
-              `Our records show that you already have an intent to file for ${
-                benefitPhrases[alreadySubmittedIntentType]
-              }. Your intent to file for ${
-                benefitPhrases[alreadySubmittedIntentType]
-              } expires on ${formattedAlreadySubmittedExpirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`,
-            );
-          });
+        it('successfully gets the already submitted text', () => {
+          expect(
+            getAlreadySubmittedText(data, alreadySubmittedIntents),
+          ).to.equal(
+            `Our records show that you already have an intent to file for ${
+              benefitPhrases[alreadySubmittedIntentType]
+            }. Your intent to file for ${
+              benefitPhrases[alreadySubmittedIntentType]
+            } expires on ${formattedAlreadySubmittedExpirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`,
+          );
+        });
 
-          it('successfully gets the second paragraph of the next steps text', () => {
-            expect(
-              getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
-            ).to.equal(
-              'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).',
-            );
-          });
+        it('successfully gets the second paragraph of the next steps text', () => {
+          expect(
+            getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
+          ).to.equal(
+            'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).',
+          );
+        });
 
-          it('successfully gets the next steps links', () => {
-            const result = getNextStepsLinks(data);
-            expect(result.length).to.equal(2);
-            expect(result).to.contain(veteranBenefits.COMPENSATION);
-            expect(result).to.contain(veteranBenefits.PENSION);
-          });
-        },
-      );
+        it('successfully gets the next steps links', () => {
+          const result = getNextStepsLinks(data);
+          expect(result.length).to.equal(2);
+          expect(result).to.contain(veteranBenefits.COMPENSATION);
+          expect(result).to.contain(veteranBenefits.PENSION);
+        });
+      });
     });
 
     describe('One intent selected, already on file, so nothing new is filed', () => {
-      [
-        veteranBenefits.COMPENSATION,
-        veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
-      ].forEach(selectedIntent => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
