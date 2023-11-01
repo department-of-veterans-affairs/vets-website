@@ -16,6 +16,16 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import fullNameUI from 'platform/forms/definitions/fullName';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
+import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   employmentDescription,
   getSpouseMarriageTitle,
@@ -46,7 +56,6 @@ import DisabilityField from '../components/DisabilityField';
 import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -57,16 +66,7 @@ import netWorthUI from '../definitions/netWorth';
 import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import otherExpensesUI from '../definitions/otherExpenses';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import {
   validateServiceBirthDates,
@@ -202,6 +202,7 @@ const formConfig = {
   trackingPrefix: 'pensions-527EZ-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   formId: VA_FORM_IDS.FORM_21P_527EZ,
   saveInProgress: {
     messages: {
