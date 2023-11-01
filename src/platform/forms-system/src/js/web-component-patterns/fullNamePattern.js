@@ -73,7 +73,7 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
   return {
     ...fullNameNoSuffixUI(formatTitle, uiOptions),
     suffix: {
-      'ui:title': formatTitle ? formatTitle('middle name') : 'Suffix',
+      'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
       'ui:autocomplete': 'honorific-suffix',
       'ui:webComponentField': VaSelectField,
       'ui:options': {
