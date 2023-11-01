@@ -1,6 +1,6 @@
 // Adapted from https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
 import React from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function asyncLoader(getComponent, message) {
   return class AsyncComponent extends React.Component {
@@ -38,7 +38,7 @@ export default function asyncLoader(getComponent, message) {
       }
       return (
         <div className="async-loader">
-          <LoadingIndicator message={message || 'Loading page...'} />
+          <va-loading-indicator message={message || 'Loading page...'} />
         </div>
       );
     }

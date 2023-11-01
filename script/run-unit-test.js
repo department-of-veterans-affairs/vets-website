@@ -3,13 +3,10 @@ const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const printUnitTestHelp = require('./run-unit-test-help');
 const { runCommand } = require('./utils');
-
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
-
-const isStressTest = Boolean(process.env.IS_STRESS_TEST);
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
@@ -60,19 +57,18 @@ if (options.help) {
 const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 const coverageReporter = options['coverage-html']
   ? '--reporter=html mocha --retries 5'
-  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.json --no-color --retries 5';
+  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
+let testsToVerify = null;
+if (process.env.TESTS_TO_VERIFY) {
+  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
+}
 
 const command = `LOG_LEVEL=${options[
   'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
-  .map(p => `'${p}'`)
-  .join(' ')}`;
+].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
+  `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`}`;
 
-const runTestsInLoopUpTo = isStressTest ? 20 : 1;
-
-for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
-  runCommand(command);
-}
+runCommand(command);

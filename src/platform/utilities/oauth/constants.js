@@ -49,10 +49,15 @@ export const OAUTH_KEYS = {
   ACR: 'acr',
 };
 
+export const OPERATIONS = {
+  SIGNUP: 'sign_up',
+};
+
 export const OAUTH_ALLOWED_PARAMS = {
   CODE: 'code',
   S256: 'S256',
   AUTH_CODE: 'authorization_code',
+  OPERATION: 'operation',
 };
 
 const generateOAuthKeysWithout = array =>

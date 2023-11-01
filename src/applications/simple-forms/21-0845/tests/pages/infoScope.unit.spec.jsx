@@ -15,6 +15,8 @@ import { THIRD_PARTY_TYPES } from '../../definitions/constants';
 import { getFullNameString } from '../e2e/helpers';
 
 const mockDataPerson3rdParty = cloneDeep(authTypeVet.data);
+const mockDataPerson3rdPartyB = cloneDeep(authTypeVet.data);
+mockDataPerson3rdPartyB.personFullName.middle = 'M';
 const mockDataOrganization3rdParty = cloneDeep(authTypeVet.data);
 const {
   defaultDefinitions,
@@ -56,10 +58,31 @@ describe(`${pageTitle} - custom-field-label`, () => {
       />,
     );
 
-    expect(screen.container.querySelector('.custom-header')).to.include.text(
-      getFullNameString(mockDataPerson3rdParty.personFullName),
+    expect(
+      screen.container.querySelector('#root_informationScope-label > h3'),
+    ).to.include.text(getFullNameString(mockDataPerson3rdParty.personFullName));
+  });
+
+  it('renders custom-field-label - person 3rd-party with middle initial', () => {
+    mockDataPerson3rdPartyB.thirdPartyType = THIRD_PARTY_TYPES.PERSON;
+
+    const screen = render(
+      <DefinitionTester
+        definitions={defaultDefinitions}
+        schema={schema}
+        data={mockDataPerson3rdPartyB}
+        formData={mockDataPerson3rdPartyB}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect(
+      screen.container.querySelector('#root_informationScope-label > h3'),
+    ).to.include.text(
+      getFullNameString(mockDataPerson3rdPartyB.personFullName),
     );
   });
+
   it('renders custom-field-label - organization 3rd-party', () => {
     mockDataOrganization3rdParty.thirdPartyType =
       THIRD_PARTY_TYPES.ORGANIZATION;
@@ -74,8 +97,8 @@ describe(`${pageTitle} - custom-field-label`, () => {
       />,
     );
 
-    expect(screen.container.querySelector('.custom-header')).to.include.text(
-      mockDataOrganization3rdParty.organizationName,
-    );
+    expect(
+      screen.container.querySelector('#root_informationScope-label > h3'),
+    ).to.include.text(mockDataOrganization3rdParty.organizationName);
   });
 });

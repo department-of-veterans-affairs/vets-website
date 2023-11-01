@@ -23,6 +23,9 @@ import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
 
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import { isInPilot } from '../../../utils/pilotFeatures';
+
 const AppointmentDetails = props => {
   const { router } = props;
   const { t } = useTranslation();
@@ -37,6 +40,9 @@ const AppointmentDetails = props => {
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
   const isPreCheckIn = app === 'preCheckIn';
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
   useLayoutEffect(
     () => {
@@ -64,11 +70,7 @@ const AppointmentDetails = props => {
 
   const clinic = appointment && clinicName(appointment);
 
-  const preCheckInSubTitle = isPhoneAppointment ? (
-    <p data-testid="phone-appointment-subtitle" className="vads-u-margin--0">
-      {t('your-provider-will-call-you-at-your-appointment-time')}
-    </p>
-  ) : (
+  let preCheckInSubTitle = (
     <p
       data-testid="in-person-appointment-subtitle"
       className="vads-u-margin--0"
@@ -76,6 +78,26 @@ const AppointmentDetails = props => {
       {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
     </p>
   );
+  if (
+    is45MinuteReminderEnabled &&
+    isInPilot({ appointment, pilotFeature: 'fortyFiveMinuteText' })
+  ) {
+    preCheckInSubTitle = (
+      <p
+        data-testid="in-person-45-minute-subtitle"
+        className="vads-u-margin--0"
+      >
+        {t('remember-to-bring-your-insurance-cards-with-you')}
+      </p>
+    );
+  }
+  if (isPhoneAppointment) {
+    preCheckInSubTitle = (
+      <p data-testid="phone-appointment-subtitle" className="vads-u-margin--0">
+        {t('your-provider-will-call-you-at-your-appointment-time')}
+      </p>
+    );
+  }
 
   return (
     <>

@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { validateIsNumber } from '../../utils/validations';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const ERROR_MESSAGES = {
   EMPTY_VALUE: 'Please enter amount received last month',
-  INVALID_VALUE: 'Please enter only numerical values',
+  INVALID_VALUE: 'Please enter a valid dollar amount',
 };
 export const RETURN_PATH = '/your-benefits';
 
@@ -30,13 +29,18 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
   );
   const [inputValue, setInputValue] = useState(initialValue);
 
+  const validateNumber = value => {
+    const pattern = /^\d+[.]?\d{0,2}$/;
+    return pattern.test(value);
+  };
+
   const handleChange = event => {
     const { value } = event.target;
     setInputValue(value);
 
     if (!value) {
       setError(ERROR_MESSAGES.EMPTY_VALUE);
-    } else if (!validateIsNumber(value)) {
+    } else if (!validateNumber(value)) {
       setError(ERROR_MESSAGES.INVALID_VALUE);
     } else {
       setError(null);
@@ -107,12 +111,10 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
             label: 'Cancel',
             onClick: onCancel,
             secondary: true,
-            iconLeft: '«',
           },
           {
             label: 'Update',
             onClick: onUpdate,
-            iconRight: '»',
           },
         ]}
       />

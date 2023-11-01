@@ -250,11 +250,13 @@ export class ProfileInformationEditView extends Component {
       // Showing the edit view on its own page, so let the app handle focus
       return;
     }
+
     const focusableElement = this.editForm?.querySelector(
       'button, input, select, a, textarea',
     );
+
     if (focusableElement) {
-      focusableElement.focus();
+      setTimeout(() => focusElement(focusableElement), 100);
     }
   }
 
@@ -332,7 +334,7 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0"
+                    className="vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
@@ -342,7 +344,7 @@ export class ProfileInformationEditView extends Component {
                     <button
                       data-testid="cancel-edit-button"
                       type="button"
-                      className="usa-button-secondary small-screen:vads-u-margin-top--0"
+                      className="usa-button-secondary small-screen:vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 "
                       onClick={onCancel}
                     >
                       {cancelButtonText || 'Cancel'}

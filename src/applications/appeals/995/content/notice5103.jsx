@@ -43,6 +43,22 @@ export const Notice5103Description = ({ onReviewPage }) => {
         </p>
       </VaAlert>
       <Header>Review and acknowledge the notice of evidence needed.</Header>
+    </>
+  );
+};
+
+Notice5103Description.propTypes = {
+  onReviewPage: PropTypes.bool,
+};
+
+export const content = {
+  error:
+    'You need to certify that you have reviewed the notice of evidence needed.',
+  label: 'I certify that I have reviewed the notice of evidence needed.',
+  update: 'Update page',
+  updateLabel: 'Update notice of evidence needed page',
+  descriptionInCheckbox: (
+    <>
       <p>
         If you’re filing a Supplemental Claim more than 1 year after you got
         your decision notice, you’ll need to review and acknowledge our notice
@@ -58,19 +74,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
         </a>
       </p>
     </>
-  );
-};
-
-Notice5103Description.propTypes = {
-  onReviewPage: PropTypes.bool,
-};
-
-export const content = {
-  error:
-    'You need to certify that you have reviewed the notice of evidence needed.',
-  label: 'I certify that I have reviewed the notice of evidence needed.',
-  update: 'Update page',
-  updateLabel: 'Update notice of evidence needed page',
+  ),
 };
 
 export const reviewField = ({ children }) => (

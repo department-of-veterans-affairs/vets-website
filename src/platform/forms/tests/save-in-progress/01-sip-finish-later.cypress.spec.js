@@ -29,7 +29,7 @@ describe('SIP Finish Later', () => {
     cy.injectAxeThenAxeCheck();
 
     // load an in progress form
-    cy.get('va-button')
+    cy.get('va-button[data-testid="continue-your-application"]')
       .first()
       .shadow()
       .find('button')

@@ -1,5 +1,8 @@
 import React from 'react';
 
+const hintText =
+  'You can only add an issue that you’ve received a VA decision notice for.';
+
 export const content = {
   title: {
     add: 'Add an issue',
@@ -24,10 +27,9 @@ export const content = {
   },
   name: {
     label: 'Name of issue',
+    hintText,
     hint: (
-      <p className="vads-u-font-weight--normal label-description">
-        You can only add an issue that you’ve received a VA decision notice for.
-      </p>
+      <p className="vads-u-font-weight--normal label-description">{hintText}</p>
     ),
   },
   date: {

@@ -147,7 +147,7 @@ const ssnOrVaFileNumberUI = () => {
       ...vaFileNumberUI(),
       'ui:options': {
         hint:
-          'You must enter either a VA file number or Social Security number',
+          'You must enter either a VA file number or Social Security number.',
       },
     },
     'ui:options': {

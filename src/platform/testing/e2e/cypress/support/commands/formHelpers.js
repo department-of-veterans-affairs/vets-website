@@ -37,67 +37,47 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
     });
   }
 });
+
 /**
- * Works with Date widget. And va-date and va-memorable-date web components
+ * Original React date widget
  */
-Cypress.Commands.add('fillDate', (fieldName, dateString) => {
-  // Split the date & remove leading zeros
+const reactDate = (fieldName, dateString) => {
   const date = dateString
     .split('-')
     .map(number => parseInt(number, 10).toString());
+
+  cy.get(`#${fieldName}Month`).select(date[1]);
+  cy.get(`#${fieldName}Day`).select(date[2]);
+  cy.fill(`input[name="${fieldName}Year"]`, date[0]);
+};
+
+/**
+ * Works with Date widget. And va-date and va-memorable-date web components;
+ * expects dateString in YYYY-MM-DD format
+ */
+Cypress.Commands.add('fillDate', (fieldName, dateString) => {
   cy.document().then(doc => {
-    const vaMemorableDate = doc.querySelector(
+    const vaDateElement = doc.querySelector(`va-date[name="${fieldName}"]`);
+    const vaMemorableDateElement = doc.querySelector(
       `va-memorable-date[name="${fieldName}"]`,
     );
-    const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
-    const monthYearOnly = doc.querySelector(
-      `va-date[name="${fieldName}"][monthyearonly]`,
-    );
-    if (vaDate) {
-      cy.wrap(vaDate)
-        .shadow()
-        .then(el => {
-          cy.wrap(el)
-            .find('va-select.select-month')
-            .shadow()
-            .find('select')
-            .select(date[1]);
-          if (!monthYearOnly)
-            cy.wrap(el)
-              .find('va-select.select-day')
-              .shadow()
-              .find('select')
-              .select(date[2]);
-          cy.wrap(el)
-            .find('va-text-input.input-year')
-            .shadow()
-            .find('input')
-            .type(date[0]);
-        });
-    } else if (vaMemorableDate) {
-      cy.wrap(vaMemorableDate)
-        .shadow()
-        .then(el => {
-          cy.wrap(el)
-            .find('va-text-input.input-month')
-            .shadow()
-            .find('input')
-            .type(date[1]);
-          cy.wrap(el)
-            .find('va-text-input.input-day')
-            .shadow()
-            .find('input')
-            .type(date[2]);
-          cy.wrap(el)
-            .find('va-text-input.input-year')
-            .shadow()
-            .find('input')
-            .type(date[0]);
-        });
+    if (vaDateElement) {
+      const monthYearOnly = !!doc.querySelector(
+        `va-date[name="${fieldName}"][monthyearonly]`,
+      );
+      cy.fillVaDate(vaDateElement, dateString, !!monthYearOnly);
+    } else if (vaMemorableDateElement) {
+      // USWDS v3 only
+      const vaMemorableDateMonthSelect = !!doc.querySelector(
+        `va-memorable-date[name="${fieldName}"][monthselect]`,
+      );
+      cy.fillVaMemorableDate(
+        vaMemorableDateElement,
+        dateString,
+        vaMemorableDateMonthSelect,
+      );
     } else {
-      cy.get(`#${fieldName}Month`).select(date[1]);
-      cy.get(`#${fieldName}Day`).select(date[2]);
-      cy.fill(`input[name="${fieldName}Year"]`, date[0]);
+      reactDate(fieldName, dateString);
     }
   });
 });

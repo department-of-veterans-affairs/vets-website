@@ -1,5 +1,4 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "./vaccines";
 @import "./record-list";
 @import "./vaccine-details";
 @import "./breadcrumbs";
@@ -39,7 +38,7 @@
   .no-print,
   .no-print * {
     visibility: hidden;
-    display: none;
+    display: none !important;
     margin: 0px !important;
     padding: 0px !important;
   }
@@ -52,12 +51,10 @@
     text-align: center;
   }
   .print-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0px;
-    * {
-      margin: 0px;
+    .name-dob {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   .card {
@@ -103,6 +100,13 @@
   }
 }
 
+.page-description {
+  margin: 8px 0px 16px;
+}
+.page-description-link {
+  display: block;
+}
+
 @media (max-width: $small-screen) {
   .medical-records-container {
     flex-direction: column;
@@ -110,5 +114,14 @@
       margin-top: 24px;
       margin-right: 0px;
     }
+  }
+}
+
+@media print {
+  .time-header {
+    margin: 0px;
+  }
+  .page-description {
+    margin: 16px 0px;
   }
 }

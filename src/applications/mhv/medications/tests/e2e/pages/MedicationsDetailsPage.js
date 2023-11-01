@@ -1,12 +1,12 @@
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
-      'print your records instead of downloading. Downloading will save a copy of your records to the public computer.',
+      'If you print this page, it won’t include your allergies and reactions to medications.',
     );
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know about downloading records').click({
+    cy.contains('What to know before you download').click({
       force: true,
     });
   };
@@ -22,15 +22,19 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsName = prescriptionDetails => {
+  verifyPrescriptionsName = prescriptionName => {
     cy.get('[data-testid="prescription-name"]').should(
       'contain',
-      prescriptionDetails,
+      prescriptionName,
     );
   };
 
   verifyPrescriptionsStatus = PrescriptionsStatus => {
-    cy.get('[data-testid="status"]').should('have.text', PrescriptionsStatus);
+    cy.get('[data-testid="status"]').should(
+      'have.text',
+      PrescriptionsStatus.charAt(0).toUpperCase() +
+        PrescriptionsStatus.slice(1),
+    );
   };
 
   verifyPrescriptionsRefillsRemaining = PrescriptionsRefillsRemaining => {
@@ -78,10 +82,52 @@ class MedicationsDetailsPage {
       .click({ force: true });
   };
 
+  clickMedicationDetailsLink = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
+      prescriptionDetails,
+    ).as('prescriptionDetails');
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('be.visible');
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    ).click({ waitForAnimations: true });
+  };
+
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.get('#va-breadcrumbs-list-2 > li:nth-child(1) > a').click({
+    cy.contains('About Medications')
+      .should('be.visible')
+      .click({ force: true });
+  };
+
+  clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
+    cy.get('[data-testid="print-records-button"] > span').click({
       force: true,
     });
+  };
+
+  verifyPrintButtonEnabledOnDetailsPage = () => {
+    cy.get('[data-testid="print-button"]')
+      .should('contain', 'Print')
+      .and('be.enabled');
+  };
+
+  verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
+    cy.get('[data-testid="download-pdf-button"]')
+      .should('have.text', 'Download your medication details as a PDF')
+      .should('be.enabled');
+  };
+
+  verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
+    cy.get('[data-testid="refill-request-button"]').should('be.enabled');
   };
 }
 export default MedicationsDetailsPage;

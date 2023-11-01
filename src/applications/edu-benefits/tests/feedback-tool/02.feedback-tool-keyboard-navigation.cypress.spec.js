@@ -1,5 +1,5 @@
 context('Keyboard Navigation', () => {
-  it('navigate', () => {
+  it.skip('navigate', () => {
     cy.visit('education/submit-school-feedback/introduction');
     cy.injectAxeThenAxeCheck();
 

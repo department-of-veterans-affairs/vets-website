@@ -1,11 +1,25 @@
+// TODO: Add Ask-VA form schema when we know the full scope of the form
 // import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
 
 import manifest from '../manifest.json';
+import { requiredForSubtopicPage } from '../constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import TopicList from '../components/FormFields/TopicList';
+// Category and Topic pages
+import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
+import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
+import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
+
+// Your Question
+import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+
+// Submitter Contact Information
+import submitterContactPage from './chapters/submitterInformation/submitterContact';
+
+// Contact Information
+import veteransAddressPage from './chapters/contactInformation/veteransAddress';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -33,189 +47,67 @@ const formConfig = {
       'Please sign in again to continue your application for ask the va test.',
   },
   title: 'Ask VA',
+  subTitle:
+    'Get answers to your questions about VA benefits and services and send documents online',
   defaultDefinitions: {},
   chapters: {
-    veteranDetails: {
-      title: 'Your Info',
+    categoryAndTopic: {
+      title: 'Category and Topic',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          subTitle: 'First Test page',
-          uiSchema: {
-            fieldOnAnotherPage: {
-              'ui:title': 'Field on Another Page',
-            },
-            myField: {
-              'ui:title': 'My field label test',
-              'ui:widget': 'radio',
-              'ui:options': {
-                widgetProps: {
-                  'First option': { 'data-info': 'first_1' },
-                  'Second option': { 'data-info': 'second_2' },
-                },
-                // Only added to the radio when it is selected
-                // a11y requirement: aria-describedby ID's *must* exist on the page;
-                // and we conditionally add content based on the selection
-                selectedProps: {
-                  'First option': { 'aria-describedby': 'some_id_1' },
-                  'Second option': { 'aria-describedby': 'some_id_2' },
-                },
-              },
-            },
-            devField: {
-              'ui:widget': TopicList,
-            },
-            testField: {
-              'ui:title': 'My TEST label',
-              'ui:validations': [
-                (errors, field) => {
-                  if (field && field.startsWith('bad')) {
-                    errors.addError(
-                      "Sorry, you can't start this field with 'bad'",
-                    );
-                  }
-                },
-              ],
-            },
-            thirdField: {
-              'ui:title': 'My Third label',
-              'ui:errorMessages': {
-                pattern: 'Sorry, word MUST start with "good"',
-              },
-            },
-            // To force this field to be required the 'thirdField' must equal 'good'
-            myOtherField: {
-              'ui:title': 'My Other field',
-              'ui:required': formData => formData.thirdField === 'good',
-            },
-            myConditionalField: {
-              'ui:title': 'My conditional field',
-              'ui:options': {
-                expandUnder: 'myField',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['myField'],
-            properties: {
-              fieldOnAnotherPage: {
-                type: 'string',
-              },
-              myField: {
-                type: 'string',
-                enum: ['First Option', 'Second Option'],
-              },
-              devField: {
-                type: 'string',
-              },
-              myConditionalField: {
-                type: 'string',
-              },
-              testField: {
-                type: 'string',
-              },
-              thirdField: {
-                type: 'string',
-                pattern: '^good',
-              },
-              myOtherField: {
-                type: 'string',
-              },
-            },
-          },
+        selectCategory: {
+          path: 'category-topic-1',
+          title: 'Category Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectCategoryPage.uiSchema,
+          schema: selectCategoryPage.schema,
         },
-        page2: {
-          path: 'second-page',
-          title: 'Second Page',
-          depends: form => form.fieldOnAnotherPage !== 'test',
-          uiSchema: {
-            myFieldPage2: {
-              'ui:title': 'My field',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                labels: {
-                  Y: 'Yes, this is what I want',
-                  N: 'No, I do not want this',
-                },
-                widgetProps: {
-                  Y: { 'data-info': 'yes' },
-                  N: { 'data-info': 'no' },
-                },
-                // Only added to the radio when it is selected
-                // a11y requirement: aria-describedby ID's *must* exist on the page;
-                // and we conditionally add content based on the selection
-                selectedProps: {
-                  Y: { 'aria-describedby': 'some_id' },
-                  N: { 'aria-describedby': 'different_id' },
-                },
-              },
-            },
-            email: {
-              'ui:title': 'Email',
-            },
-            'view:confirmEmail': {
-              'ui:title': 'Confirm email',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              myFieldPage2: {
-                type: 'boolean',
-              },
-              email: {
-                type: 'string',
-              },
-              'view:confirmEmail': {
-                type: 'string',
-              },
-            },
-          },
+        selectTopic: {
+          path: 'category-topic-2',
+          title: 'Topic Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectTopicPage.uiSchema,
+          schema: selectTopicPage.schema,
+        },
+        selectSubtopic: {
+          path: 'category-topic-3',
+          title: 'SubTopic Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectSubtopicPage.uiSchema,
+          schema: selectSubtopicPage.schema,
+          depends: form => requiredForSubtopicPage.includes(form.selectTopic),
         },
       },
     },
-    veteranQuestions: {
+    yourQuestion: {
       title: 'Your Question',
       pages: {
-        page3: {
-          path: 'your-question-page',
-          title: 'The Questions Page',
-          subTitle: 'test question',
-          uiSchema: {
-            question: {
-              'ui:title': 'Type your question below:',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['question'],
-            properties: {
-              question: {
-                type: 'string',
-              },
-            },
-          },
+        tellUsYourQuestion: {
+          path: 'question-1',
+          title: 'Tell us your question',
+          uiSchema: yourQuestionPage.uiSchema,
+          schema: yourQuestionPage.schema,
         },
-        page4: {
-          path: 'your-question-page-2',
-          title: 'The 2nd Questions Page',
-          uiSchema: {
-            question2: {
-              'ui:title': 'Type your 2nd question below:',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              question2: {
-                type: 'string',
-              },
-            },
-          },
+      },
+    },
+    submitterInfo: {
+      title: "Submitter's Information",
+      pages: {
+        submitterContactInfo: {
+          path: 'submitter-info-1',
+          title: "Submitter's Contact Information",
+          uiSchema: submitterContactPage.uiSchema,
+          schema: submitterContactPage.schema,
+        },
+      },
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
+        veteransAddress: {
+          path: 'contact-info-1',
+          title: 'Veteran Address',
+          uiSchema: veteransAddressPage.uiSchema,
+          schema: veteransAddressPage.schema,
         },
       },
     },

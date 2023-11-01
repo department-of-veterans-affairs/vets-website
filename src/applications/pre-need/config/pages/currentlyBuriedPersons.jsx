@@ -22,19 +22,28 @@ function currentlyBuriedPersonsMinItem() {
 
 function CurrentlyBuriedPersonsDescription() {
   const data = useSelector(state => state.form.data || {});
-  return isVeteran(data)
-    ? 'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.'
-    : 'Please provide the details of the person(s) currently buried in a VA national cemetery under your sponsor’s eligibility.';
+  if (isVeteran(data)) {
+    return 'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.';
+  }
+  return 'Please provide the details of the person(s) currently buried in a VA national cemetery under the sponsor’s eligibility.';
+}
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
+
+export const currentlyBuriedPersonsTitleWrapper = (
+  <CurrentlyBuriedPersonsTitle />
+);
+
+function CurrentlyBuriedPersonsTitle() {
+  return currentlyBuriedPersonsTitle;
 }
 
 export const uiSchema = {
   application: {
     currentlyBuriedPersons: {
-      'ui:title': (
-        <span>
-          <h3 className="name-of-deceased-text">Name of deceased person</h3>
-        </span>
-      ),
+      'ui:title': currentlyBuriedPersonsTitleWrapper,
       'ui:description': CurrentlyBuriedPersonsDescription,
       'ui:options': {
         viewField: EligibleBuriedView,
@@ -46,6 +55,11 @@ export const uiSchema = {
         cemeteryNumber: autosuggest.uiSchema(
           'VA national cemetery where they’re buried',
           getCemeteries,
+          {
+            'ui:options': {
+              hideIf: () => true,
+            },
+          },
         ),
       },
     },

@@ -12,13 +12,12 @@ describe('Secure Messaging Save Draft', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const draftsPage = new PatientMessageDraftsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);
-    patientInterstitialPage.getContinueButton().should('not.exist');
+    PatientInterstitialPage.getContinueButton().should('not.exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -31,7 +30,9 @@ describe('Secure Messaging Save Draft', () => {
       },
     });
     // composePage.getMessageSubjectField().type('message Test');
-    composePage.getMessageBodyField().type('Test message body');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true });
     cy.realPress(['Enter']);
 
     const mockDraftResponseUpdated = {
@@ -40,7 +41,7 @@ describe('Secure Messaging Save Draft', () => {
         ...mockDraftResponse.data,
         attributes: {
           ...mockDraftResponse.data.attributes,
-          body: 'ststASertTest message body\n',
+          body: 'ststASertTest message body',
         },
       },
     };

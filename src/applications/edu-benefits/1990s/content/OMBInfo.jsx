@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 class OMBInfo extends React.Component {
   constructor(props) {
@@ -62,8 +62,9 @@ class OMBInfo extends React.Component {
         <a href="www.reginfo.gov/public/do/PRAMain">
           www.reginfo.gov/public/do/PRAMain
         </a>
-        . If desired, you can call <Telephone contact="8008271000" /> to get
-        information on where to send comments or suggestions about this form.
+        . If desired, you can call{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> to get information on
+        where to send comments or suggestions about this form.
       </p>
     </div>
   );

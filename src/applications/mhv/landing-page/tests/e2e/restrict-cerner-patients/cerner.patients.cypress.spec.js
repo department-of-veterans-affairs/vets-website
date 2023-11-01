@@ -15,21 +15,8 @@ describe(appName, () => {
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('landing page is disabled for Cerner patients', () => {
+    it('landing page is enabled for Cerner patients', () => {
       LandingPage.visitPageAsCernerPatient();
-      LandingPage.validateRedirectHappened();
-      cy.wait('@mhvRedirect');
-    });
-  });
-
-  describe('when user is not Cerner patient', () => {
-    beforeEach(() => {
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
-      ApiInitializer.initializeUserData.withDefaultUser();
-    });
-    it('landing page is enabled for non-Cerner patients', () => {
-      LandingPage.visitPage();
       LandingPage.validatePageLoaded();
       LandingPage.validateURL();
       cy.injectAxeThenAxeCheck();

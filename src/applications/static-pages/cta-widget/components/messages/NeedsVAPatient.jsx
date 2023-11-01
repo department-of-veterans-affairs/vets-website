@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CallToActionAlert from '../CallToActionAlert';
 
 const NeedsVAPatient = () => {
@@ -22,10 +19,9 @@ const NeedsVAPatient = () => {
         </p>
         <p>
           Call our MyVA411 main information line at (
-          <Telephone contact={CONTACTS.VA_311} />
+          <va-telephone contact={CONTACTS.VA_311} />
           ), and select 3 to reach your nearest VA medical center. If you have
-          hearing loss, call TTY:{' '}
-          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+          hearing loss, call <va-telephone contact={CONTACTS['711']} tty />.
         </p>
         <p>
           Tell the representative that you tried to sign in to use the health
@@ -39,9 +35,9 @@ const NeedsVAPatient = () => {
           </strong>
         </p>
         <p>
-          Call <Telephone contact={CONTACTS.VA_311} />, and select 3 to reach
-          your nearest VA medical center. If you have hearing loss, call TTY:{' '}
-          <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />.
+          Call <va-telephone contact={CONTACTS.VA_311} />, and select 3 to reach
+          your nearest VA medical center. If you have hearing loss, call{' '}
+          <va-telephone contact={CONTACTS['711']} tty />.
         </p>
         <p>
           Tell the representative that you’re enrolled in VA health care and

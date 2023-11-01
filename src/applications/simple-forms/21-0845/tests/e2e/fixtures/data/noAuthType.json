@@ -12,8 +12,6 @@
       "postalCode": "12345"
     },
     "authorizerPhone": "5555555555",
-    "authorizerEmail": "jack.authorizer@example.com",
-    "authorizerEmailConsent": true,
     "veteranFullName": {
       "first": "John",
       "middle": "",
@@ -34,7 +32,7 @@
       "postalCode": "12346"
     },
     "organizationName": "ACME Org",
-    "organizationRepresentatives": [{ "representativeName": "Joe Rep" }],
+    "organizationRepresentative": "Joe Rep",
     "organizationAddress": {
       "street": "125 Any St",
       "city": "Anycity",

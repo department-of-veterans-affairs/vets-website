@@ -32,7 +32,7 @@ describe('Medicaitons Medications List Card Extra Details', () => {
       `Refill in process. We expect to fill it on ${dateFormat(
         rx.refillDate,
         'MMMM D, YYYY',
-      )}`,
+      )}.`,
     );
     expect(rxName).to.exist;
   });

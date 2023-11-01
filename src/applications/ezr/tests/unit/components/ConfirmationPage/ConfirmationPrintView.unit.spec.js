@@ -9,14 +9,14 @@ import content from '../../../../locales/en/content.json';
 describe('ezr <ConfirmationPrintView>', () => {
   const defaultProps = {
     name: normalizeFullName(
-      { first: 'John', middle: 'Marjorie', last: 'Smith', suffix: 'Sr.' },
+      { first: 'John', middle: 'David', last: 'Smith' },
       true,
     ),
     timestamp: undefined,
   };
 
   describe('when the component renders', () => {
-    describe('default behavior', () => {
+    context('default behavior', () => {
       it('should render logo, title and applicant name', () => {
         const { container } = render(
           <ConfirmationPrintView {...defaultProps} />,
@@ -30,13 +30,11 @@ describe('ezr <ConfirmationPrintView>', () => {
         expect(selectors.image).to.exist;
         expect(selectors.title).to.contain.text(content['form-title']);
         expect(selectors.subtitles).to.have.lengthOf(2);
-        expect(selectors.veteranName).to.contain.text(
-          'John Marjorie Smith Sr.',
-        );
+        expect(selectors.veteranName).to.contain.text('John David Smith');
       });
     });
 
-    describe('when timestamp is not provided', () => {
+    context('when timestamp is not provided', () => {
       it('should not render timestamp in `application information` section', () => {
         const { container } = render(
           <ConfirmationPrintView {...defaultProps} />,
@@ -46,7 +44,7 @@ describe('ezr <ConfirmationPrintView>', () => {
       });
     });
 
-    describe('when timestamp is provided', () => {
+    context('when timestamp is provided', () => {
       it('should render timestamp with the correct date format', () => {
         const props = { ...defaultProps, timestamp: 1666887649663 };
         const { container } = render(<ConfirmationPrintView {...props} />);

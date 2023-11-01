@@ -36,7 +36,7 @@ export default OrdersBlock;
 
 OrdersBlock.propTypes = {
   heading: PropTypes.string,
-  intro: PropTypes.string,
+  intro: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   orders: PropTypes.array,
   type: PropTypes.object,
 };

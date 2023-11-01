@@ -64,7 +64,7 @@ const ThreadsList = props => {
         <div
           role="status"
           data-testid="displaying-number-of-threads"
-          className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+          className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-background-color--gray-light-alt vads-u-padding-left--1"
         >
           {displayNums.label}
           <span className="sr-only">

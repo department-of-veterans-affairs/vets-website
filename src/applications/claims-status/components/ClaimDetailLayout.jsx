@@ -13,6 +13,17 @@ import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
 const MAX_CONTENTIONS = 3;
 
+const getBreadcrumbText = (currentTab, claimType) => {
+  let joiner;
+  if (currentTab === 'Status' || currentTab === 'Details') {
+    joiner = 'of';
+  } else {
+    joiner = 'for';
+  }
+
+  return `${currentTab} ${joiner} your ${claimType} claim`;
+};
+
 export default function ClaimDetailLayout(props) {
   const {
     claim,
@@ -119,7 +130,9 @@ export default function ClaimDetailLayout(props) {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>Status details</Link>
+              <Link to={claimsPath}>
+                {getBreadcrumbText(currentTab, claimType)}
+              </Link>
             </ClaimsBreadcrumbs>
           </div>
         </div>

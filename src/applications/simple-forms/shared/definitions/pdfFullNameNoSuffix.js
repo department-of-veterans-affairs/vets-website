@@ -1,7 +1,7 @@
 // pdfFullNameNoSuffix.js
-// a custom full-name definition with
+// a custom full-name, no-suffix definition with
 // support for PDF-specific maxLengths
-export const schema = (
+export const pdfFullNameNoSuffixSchema = (
   props = {
     pdfMaxLengths: {
       first: 12,
@@ -12,6 +12,29 @@ export const schema = (
 ) => {
   const { pdfMaxLengths } = props;
 
+  if (!pdfMaxLengths.middle) {
+    return {
+      type: 'object',
+      additionalProperties: false,
+      required: ['first', 'last'],
+      properties: {
+        first: {
+          type: 'string',
+          minLength: 1,
+          maxLength: pdfMaxLengths?.first || 30,
+        },
+        middle: {
+          type: 'string',
+        },
+        last: {
+          type: 'string',
+          minLength: 1,
+          maxLength: pdfMaxLengths?.last || 30,
+        },
+      },
+    };
+  }
+
   return {
     type: 'object',
     additionalProperties: false,
@@ -19,7 +42,8 @@ export const schema = (
     properties: {
       first: {
         type: 'string',
-        maxLength: pdfMaxLengths.first,
+        minLength: 1,
+        maxLength: pdfMaxLengths?.first || 30,
       },
       middle: {
         type: 'string',
@@ -27,7 +51,8 @@ export const schema = (
       },
       last: {
         type: 'string',
-        maxLength: pdfMaxLengths.last,
+        minLength: 1,
+        maxLength: pdfMaxLengths?.last || 30,
       },
     },
   };

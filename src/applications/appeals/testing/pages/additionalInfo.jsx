@@ -1,24 +1,18 @@
 import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 
 import { content } from '../content/additionalInfo';
-import { extensionReason } from '../../10182/validations/issues';
 
-import { MAX_LENGTH } from '../../10182/constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
 const additionalInfo = {
   uiSchema: {
-    'ui:title': content.title,
+    'ui:title': content.titleH1,
     additionalInfo: {
       'ui:title': content.label,
       'ui:webComponentField': VaTextareaField,
-      'ui:required': formData => formData['view:additionalInfo'],
       'ui:options': {
         enableAnalytics: false,
         hint: content.hint,
-      },
-      'ui:validations': [extensionReason],
-      'ui:errorMessages': {
-        required: content.errorMessage,
       },
     },
   },
@@ -28,17 +22,15 @@ const additionalInfo = {
     properties: {
       additionalInfo: {
         type: 'string',
-        maxLength: MAX_LENGTH.EXTENSION_REASON,
+        maxLength: MAX_LENGTH.NOD_EXTENSION_REASON,
       },
     },
   },
 
   review: data => ({
-    'Do you want to write or upload additional information about your disagreements?': data[
-      'view:additionalInfo'
-    ]
-      ? 'Yes'
-      : 'No',
+    [content.title]: `${
+      data.additionalInfo ? 'A' : 'No a'
+    }dditional info added`,
   }),
 };
 

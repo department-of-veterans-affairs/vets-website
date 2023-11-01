@@ -24,6 +24,7 @@ import {
   fsrFeatureToggle,
   enhancedFSRFeatureToggle,
   streamlinedWaiverFeatureToggle,
+  streamlinedWaiverAssetUpdateFeatureToggle,
 } from '../utils/helpers';
 import user from '../mocks/user.json';
 
@@ -42,6 +43,7 @@ const App = ({
   showFSR,
   showEnhancedFSR,
   showStreamlinedWaiver,
+  showStreamlinedWaiverAssetUpdate,
   showWizard,
 }) => {
   // vapContactInfo is an empty object locally, so mock it
@@ -132,11 +134,18 @@ const App = ({
         ...formData,
         'view:enhancedFinancialStatusReport': showEnhancedFSR,
         'view:streamlinedWaiver': showStreamlinedWaiver,
+        'view:streamlinedWaiverAssetUpdate': showStreamlinedWaiverAssetUpdate,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showEnhancedFSR, setFormData, isStartingOver],
+    [
+      showEnhancedFSR,
+      showStreamlinedWaiver,
+      showStreamlinedWaiverAssetUpdate,
+      setFormData,
+      isStartingOver,
+    ],
   );
 
   if (pending) {
@@ -190,8 +199,9 @@ App.propTypes = {
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showEnhancedFSR: PropTypes.bool,
-  showStreamlinedWaiver: PropTypes.bool,
   showFSR: PropTypes.bool,
+  showStreamlinedWaiver: PropTypes.bool,
+  showStreamlinedWaiverAssetUpdate: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
 
@@ -205,6 +215,9 @@ const mapStateToProps = state => ({
   showFSR: fsrFeatureToggle(state),
   showEnhancedFSR: enhancedFSRFeatureToggle(state),
   showStreamlinedWaiver: streamlinedWaiverFeatureToggle(state),
+  showStreamlinedWaiverAssetUpdate: streamlinedWaiverAssetUpdateFeatureToggle(
+    state,
+  ),
   isStartingOver: state.form.isStartingOver,
 });
 

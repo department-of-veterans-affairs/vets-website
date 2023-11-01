@@ -16,9 +16,9 @@ const checkPreferredName = () => {
 
     cy.findByText(nameEditInputLabel).should('exist');
 
-    cy.get(nameEditInputField)
-      .should('exist')
-      .blur();
+    cy.get(nameEditInputField).should('exist');
+
+    cy.focused().blur();
 
     cy.axeCheck();
 
@@ -151,7 +151,7 @@ const checkAllFields = () => {
 };
 
 describe('Content in EDIT state on the personal information page', () => {
-  describe('should render each edit field with update/cancel buttons and remove field on cancel, when enhanced api data is present.', () => {
+  describe('should render each edit field with update/cancel buttons and remove field on cancel, when api data is present.', () => {
     beforeEach(() => {
       setup({ isEnhanced: true });
     });

@@ -12,7 +12,7 @@ function displayType(errorCodes, location) {
   if (
     errorCodes.some(
       code =>
-        code === 10000 ||
+        code === 10001 ||
         code === 10006 ||
         code === 6000 ||
         code === 9002 ||
@@ -21,7 +21,7 @@ function displayType(errorCodes, location) {
     ) &&
     isPending
   ) {
-    return 'requests';
+    return ['requests', 'appointment request', 'requested'];
   }
   if (
     errorCodes.some(
@@ -35,7 +35,7 @@ function displayType(errorCodes, location) {
     ) &&
     (isPast || isUpcoming)
   ) {
-    return 'appointments';
+    return ['appointments', 'appointment', 'scheduled'];
   }
   return null;
 }
@@ -73,13 +73,14 @@ export default function BackendAppointmentServiceAlert() {
           <div className="vads-u-margin-bottom--4">
             <va-alert-expandable
               status="warning"
-              trigger={`We can't display all your ${display}.`}
+              trigger={`We can't display all your ${display[0]}.`}
               data-testid="backend-appointment-service-alert"
             >
               <p>
-                We're working to resolve this issue. To manage an appointment
+                {`We're working to resolve this issue.
+                 To manage an ${display[1]}
                 that is not shown in this list, contact the facility at which it
-                was scheduled.
+                was ${display[2]}. `}
               </p>
               <p>
                 <a href="/find-locations">Facility locator</a>

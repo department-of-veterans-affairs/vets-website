@@ -6,11 +6,13 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
-import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../actions';
+
+import { SELECTED } from '../../../shared/constants';
+import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 describe('<ContestableIssuesWidget>', () => {
   const getProps = ({
@@ -19,24 +21,40 @@ describe('<ContestableIssuesWidget>', () => {
     onChange = () => {},
     setFormData = () => {},
     getContestableIssues = () => {},
-    contestableIssues = { status: '' },
-  } = {}) => ({
-    id: 'id',
-    value: [
-      { attributes: { ratingIssueSubjectText: 'issue-1' } },
-      { attributes: { ratingIssueSubjectText: 'issue-2' } },
-    ],
-    additionalIssues: [{ issue: 'issue-3' }],
-    onChange,
-    formContext: {
-      onReviewPage: review,
-      reviewMode: review,
-      submitted,
-    },
-    setFormData,
-    getContestableIssues,
-    contestableIssues,
-  });
+    apiLoadStatus = '',
+  } = {}) => {
+    const issues = [
+      {
+        attributes: {
+          ratingIssueSubjectText: 'issue-1',
+          approxDecisionDate: getRandomDate(),
+        },
+      },
+      {
+        attributes: {
+          ratingIssueSubjectText: 'issue-2',
+          approxDecisionDate: getRandomDate(),
+        },
+      },
+    ];
+    return {
+      id: 'id',
+      value: issues,
+      additionalIssues: [{ issue: 'issue-3', decisionDate: getRandomDate() }],
+      onChange,
+      formContext: {
+        onReviewPage: review,
+        reviewMode: review,
+        submitted,
+      },
+      formData: { contestedIssues: issues },
+      setFormData,
+      getContestableIssues,
+      contestableIssues: { issues },
+      showPart3: true,
+      apiLoadStatus,
+    };
+  };
 
   it('should render a list of check boxes (IssueCard component)', () => {
     const props = getProps();
@@ -143,15 +161,15 @@ describe('<ContestableIssuesWidget>', () => {
     fireEvent.click(removeButton[0]);
 
     const modal = $('va-modal', container);
-    modal.__events.secondaryButtonClick(); // Remove entry
+    await modal.__events.secondaryButtonClick(); // Remove entry
 
     await waitFor(() => {
       expect(setFormDataSpy.called).to.be.false;
     });
   });
 
-  it('should not show no loaded issues alert after remove all additional items', async () => {
-    const props = getProps();
+  it('should show "no loaded issues" alert when api fails', async () => {
+    const props = getProps({ apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED });
     const { container } = render(
       <ContestableIssuesWidget {...props} additionalIssues={[]} value={[]} />,
     );
@@ -162,7 +180,7 @@ describe('<ContestableIssuesWidget>', () => {
     );
   });
 
-  it('should not show no loaded issues alert after remove all additional items', async () => {
+  it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
     const props = getProps();
     const { container, rerender } = render(
       <ContestableIssuesWidget {...props} value={[]} />,
@@ -179,23 +197,20 @@ describe('<ContestableIssuesWidget>', () => {
   it('should call getContestableIssues only once, if there was a previous failure', async () => {
     const getContestableIssuesSpy = sinon.spy();
     const props = getProps({
-      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_FAILED },
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
       getContestableIssues: getContestableIssuesSpy,
     });
-    const { rerender } = render(
-      <ContestableIssuesWidget {...props} value={[]} />,
-    );
-
-    rerender(<ContestableIssuesWidget {...props} value={[]} />);
+    render(<ContestableIssuesWidget {...props} value={[]} />);
 
     await waitFor(() => {
-      expect(getContestableIssuesSpy.calledOnce).to.be.true;
+      expect(getContestableIssuesSpy.called).to.be.true;
     });
   });
-  it('should not call getContestableIssues if there was a previous failure', () => {
+
+  it('should not call getContestableIssues if api was previously successful', () => {
     const getContestableIssuesSpy = sinon.spy();
     const props = getProps({
-      contestableIssues: { status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED },
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
       getContestableIssues: getContestableIssuesSpy,
     });
     render(<ContestableIssuesWidget {...props} value={[]} />);

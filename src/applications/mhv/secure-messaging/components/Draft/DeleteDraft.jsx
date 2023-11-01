@@ -16,13 +16,13 @@ const DeleteDraft = props => {
   const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
-  const { cannotReply } = props;
+  const { cannotReply, draftId, setNavigationError } = props;
 
   const handleDeleteDraftConfirm = () => {
-    if (props.draftId) {
-      props.setNavigationError(null);
+    if (draftId) {
+      setNavigationError(null);
       setIsModalVisible(false);
-      dispatch(deleteDraft(props.draftId)).then(() => {
+      dispatch(deleteDraft(draftId)).then(() => {
         dispatch(clearMessageHistory());
         navigateToFolderByFolderId(
           activeFolder
@@ -53,7 +53,7 @@ const DeleteDraft = props => {
         } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5`}
         data-testid="delete-draft-button"
         onClick={() => {
-          if (props.draftId) {
+          if (draftId) {
             setIsModalVisible(true);
           }
         }}

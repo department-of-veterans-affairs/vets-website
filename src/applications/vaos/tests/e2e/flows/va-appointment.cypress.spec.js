@@ -1,4 +1,3 @@
-import environment from 'platform/utilities/environment';
 import moment from '../../../utils/business-days';
 import {
   mockCCEligibilityApi,
@@ -15,12 +14,11 @@ import {
   mockUserTransitionAvailabilities,
   mockAppointmentApi,
   mockGetEligibilityCC,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
-const rootUrl = environment.isProduction()
-  ? 'health-care/schedule-view-va-appointments/appointments/'
-  : 'my-health/appointments/';
+const rootUrl = 'my-health/appointments/';
 describe('VAOS direct schedule flow using VAOS service', () => {
   const start = moment()
     .addBusinessDay(5, 'days')
@@ -69,17 +67,16 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     mockFacilityApi({ id: '983', apiVersion: 2 });
     mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
-      acheron: true,
+      vaOnlineSchedulingAcheronService: true,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
     });
     mockUserTransitionAvailabilities();
+    mockAppointmentCreateApi();
   });
 
   it('should submit form', () => {
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -158,7 +155,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
 
   it('should submit form with an eye care type of care', () => {
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -251,7 +248,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
 
   it('should submit form with a sleep care type of care', () => {
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {

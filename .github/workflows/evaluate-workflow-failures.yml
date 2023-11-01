@@ -20,16 +20,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery

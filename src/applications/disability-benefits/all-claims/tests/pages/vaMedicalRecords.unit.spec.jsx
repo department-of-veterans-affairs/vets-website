@@ -10,7 +10,12 @@ describe('VA Medical Records', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.supportingEvidence.pages.vaMedicalRecords;
-
+  const claimType = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+  };
   const ratedDisabilities = [
     {
       name: 'Post traumatic stress disorder',
@@ -26,13 +31,22 @@ describe('VA Medical Records', () => {
     },
   ];
 
-  it('should render', () => {
+  const newDisabilities = [
+    {
+      cause: 'NEW',
+      condition: 'asthma',
+      'view:descriptionInfo': {},
+    },
+  ];
+
+  it('should render with rated disabilities', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           'view:hasEvidenceFollowUp': {
             'view:selectableEvidenceTypes': {
@@ -48,6 +62,33 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
+  it('should render with rated disabilities and new conditions', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': true,
+          },
+          newDisabilities,
+          ratedDisabilities,
+          'view:hasEvidenceFollowUp': {
+            'view:selectableEvidenceTypes': {
+              'view:hasVaMedicalRecords': true,
+            },
+          },
+        }}
+      />,
+    );
+
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(3);
+    form.unmount();
+  });
+
   // Ignore empty vaTreatmentFacilities when not selected, see
   // va.gov-team/issues/34289
   it('should allow submit if VA medical records not selected', () => {
@@ -58,6 +99,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           'view:hasEvidenceFollowUp': {
             'view:selectableEvidenceTypes': {
@@ -85,6 +127,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           'view:hasEvidenceFollowUp': {
             'view:selectableEvidenceTypes': {
@@ -112,6 +155,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           vaTreatmentFacilities: [
             {
@@ -154,6 +198,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           vaTreatmentFacilities: [
             {
@@ -196,6 +241,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           vaTreatmentFacilities: [
             {
@@ -232,6 +278,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           vaTreatmentFacilities: [
             {
@@ -268,6 +315,7 @@ describe('VA Medical Records', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          ...claimType,
           ratedDisabilities,
           vaTreatmentFacilities: [
             {

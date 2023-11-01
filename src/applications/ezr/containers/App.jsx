@@ -5,46 +5,39 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const {
-    children,
-    features,
-    formData,
-    getTotalDisabilityRating,
-    location,
-    setFormData,
-    totalDisabilityRating,
-    user,
-  } = props;
+  const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
-  const { loading, isSigiEnabled } = features;
-  const { dob: veteranDateOfBirth } = user;
+  const { loading: isLoadingFeatures, isSigiEnabled } = features;
+  const {
+    dob: veteranDateOfBirth,
+    gender: veteranGender,
+    loading: isLoadingProfile,
+  } = user;
+  const isAppLoading = isLoadingFeatures || isLoadingProfile;
 
   /**
-   * Fetch total disability rating & set default view fields in the form data
+   * Set default view fields in the form data
    *
    * NOTE: veteranFullName is included in the dependency list to reset view fields when
    * starting a new application from save-in-progress.
    *
-   * NOTE (2): the Date of Birth value from the user's profile is included to fix a bug
-   * where some profiles do not contain a DOB value. In this case, we need to ask the
-   * user for that data for proper submission.
+   * NOTE (2): the Date of Birth & Gender values from the user's profile are included to
+   * fix a bug where some profiles do not contain a DOB value. In this case, we need to
+   * ask the user for that data for proper submission.
    */
   useEffect(
     () => {
-      if (!loading) {
+      if (!isAppLoading) {
         const defaultViewFields = {
+          'view:userGender': veteranGender,
           'view:userDob': veteranDateOfBirth,
           'view:isSigiEnabled': isSigiEnabled,
-          'view:totalDisabilityRating':
-            parseInt(totalDisabilityRating, 10) || 0,
         };
 
-        getTotalDisabilityRating();
         setFormData({
           ...formData,
           ...defaultViewFields,
@@ -52,17 +45,15 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      isSigiEnabled,
-      loading,
-      totalDisabilityRating,
-      veteranFullName,
-      veteranDateOfBirth,
-    ],
+    [isSigiEnabled, isAppLoading, veteranFullName, veteranDateOfBirth],
   );
 
-  return loading ? (
-    <va-loading-indicator message={content['load-app']} set-focus />
+  return isAppLoading ? (
+    <va-loading-indicator
+      message={content['load-app']}
+      class="vads-u-margin-y--4"
+      set-focus
+    />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
@@ -77,10 +68,8 @@ App.propTypes = {
   ]),
   features: PropTypes.object,
   formData: PropTypes.object,
-  getTotalDisabilityRating: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
 };
 
@@ -90,13 +79,11 @@ const mapStateToProps = state => ({
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,
-  totalDisabilityRating: state.disabilityRating.totalDisabilityRating,
   user: state.user.profile,
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getTotalDisabilityRating: fetchTotalDisabilityRating,
 };
 
 export default connect(

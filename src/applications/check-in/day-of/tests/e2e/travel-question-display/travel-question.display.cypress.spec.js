@@ -48,6 +48,7 @@ describe('Check In Experience', () => {
     it('renders the travel question page with content', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
+      TravelPages.validateHelpSection();
       TravelPages.validateBackButton('travel-pay');
       cy.injectAxeThenAxeCheck();
     });

@@ -21,7 +21,7 @@ const CareSummariesAndNotesListItem = props => {
     >
       <h3
         className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-        aria-label={`${record.name} with a date of ${dateOrDates()}`}
+        aria-label={`${record.name} ${dateOrDates()}`}
       >
         {record.name}
       </h3>
@@ -31,13 +31,13 @@ const CareSummariesAndNotesListItem = props => {
         {record.location !== EMPTY_FIELD && <div>{record.location}</div>}
         <div>
           <span className="field-label">
-            {record.isDischargeSummary ? 'Signed by ' : 'Admitted by '}
+            {isDischargeSummary ? 'Signed by ' : 'Admitted by '}
           </span>{' '}
           {record.physician}
         </div>
       </div>
       <Link
-        to={`/care-summaries-and-notes/${record.id}`}
+        to={`/summaries-and-notes/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
         aria-describedby={`details-button-description-${record.id}`}
       >
@@ -50,7 +50,7 @@ const CareSummariesAndNotesListItem = props => {
           id={`details-button-description-${record.id}`}
           className="sr-only"
         >
-          '{record.name}' with a date of '{dateOrDates()}'
+          {record.name} {dateOrDates()}
         </span>
       </Link>
     </div>

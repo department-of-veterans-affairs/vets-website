@@ -60,7 +60,10 @@ const IconCTALink = ({
             toggleName={Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator}
           >
             <Toggler.Enabled>
-              <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-left--1">
+              <span
+                data-testid="icon-cta-link-dot-indicator"
+                className="fa-stack fa-sm vads-u-height--full vads-u-margin-left--1"
+              >
                 <i
                   aria-label={`${ariaLabel} ${text}.`}
                   className="fas fa-xs fa-stack-1x vads-u-height--full fa-circle vads-u-color--secondary-dark"
@@ -75,7 +78,7 @@ const IconCTALink = ({
 };
 
 IconCTALink.propTypes = {
-  ariaLabel: PropTypes.string,
+  ariaLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   boldText: PropTypes.bool,
   dotIndicator: PropTypes.bool,
   href: PropTypes.string,

@@ -3,37 +3,38 @@ import React from 'react';
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
 import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
+const limitedInfoItemsLabel =
+  'Which specific information do you authorize us to release?';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     limitedInformationItems: {
+      'ui:title': (
+        <>
+          <h3>
+            {limitedInfoItemsLabel}{' '}
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
+              (*Required)
+            </span>
+          </h3>
+          <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+            Select the items we can share with your third-party source. You can
+            select more than one.
+          </span>
+        </>
+      ),
       'ui:widget': GroupCheckboxWidget,
+      'ui:reviewField': ({ children }) => (
+        // prevent ui:title's <h3> from getting pulled into
+        // review-field's <dt> & causing a11y headers-hierarchy errors.
+        <div className="review-row">
+          <dt>{limitedInfoItemsLabel}</dt>
+          <dd>{children}</dd>
+        </div>
+      ),
       'ui:required': formData => !formData.limitedInformationOther,
       'ui:options': {
-        updateSchema: formData => {
-          const { authorizerType } = formData;
-          const titleString =
-            authorizerType === 'veteran'
-              ? 'Which specific information do you authorize us to release?'
-              : 'Which information should be limited from this disclosure?';
-
-          return {
-            title: (
-              <>
-                <h3 className="custom-header">
-                  {titleString}{' '}
-                  <span className="custom-required-span hide-on-review-page">
-                    (*Required)
-                  </span>
-                </h3>
-                <p className="custom-description hide-on-review-page">
-                  Select the items we can share with your third-party source.
-                  You can select more than one.
-                </p>
-              </>
-            ),
-          };
-        },
         forceDivWrapper: true,
         labels: Object.values(LIMITED_INFORMATION_ITEMS),
         showFieldLabel: true,
@@ -44,13 +45,13 @@ export default {
     },
     'ui:validations': [
       (errors, fields) => {
+        const errMsg =
+          'Please select at least one type of information here, or specify something else below';
         if (
-          !fields.limitedInformationItems &&
-          !fields.limitedInformationOther
+          fields.limitedInformationItems === '' &&
+          typeof fields.limitedInformationOther === 'undefined'
         ) {
-          errors.limitedInformationItems.addError(
-            'Please select at least one item here, or enter unlisted item(s) in “Other” text-field below.',
-          );
+          errors.limitedInformationItems.addError(errMsg);
         }
       },
     ],

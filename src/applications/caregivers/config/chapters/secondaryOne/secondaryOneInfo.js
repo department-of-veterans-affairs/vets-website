@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { secondaryOneFields } from '../../../definitions/constants';
 import { secondaryOnePageIntro } from '../../../definitions/content';
 import {
-  dateOfBirthUI,
+  dobUI,
   fullNameUI,
   customFieldSchemaUI,
   genderUI,
@@ -33,7 +33,7 @@ const secondaryCaregiverInfoPage = {
     // secondaryOne UI
     [secondaryOneFields.fullName]: extendedNameUI,
     [secondaryOneFields.ssn]: ssnUI(secondaryOneInputLabel),
-    [secondaryOneFields.dateOfBirth]: dateOfBirthUI(secondaryOneInputLabel),
+    [secondaryOneFields.dateOfBirth]: dobUI(secondaryOneInputLabel),
     [secondaryOneFields.gender]: genderUI(secondaryOneInputLabel),
   },
   schema: {

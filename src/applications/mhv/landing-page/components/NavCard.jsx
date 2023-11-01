@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(l => (
     <li className="mhv-c-navlistitem" key={l.key || l.href}>
-      <a className="mhv-c-navlink" href={l.href}>
+      <a className="mhv-c-navlink" href={l.href} aria-label={l.ariaLabel}>
         {l.text}
         <i aria-hidden="true" />
       </a>
@@ -45,9 +45,11 @@ NavCard.propTypes = {
     'prescription-bottle',
   ]),
   links: PropTypes.arrayOf(
-    PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
+    PropTypes.shape({
+      text: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
+      href: PropTypes.string,
+    }),
   ),
   title: PropTypes.string,
 };
-
 export default NavCard;

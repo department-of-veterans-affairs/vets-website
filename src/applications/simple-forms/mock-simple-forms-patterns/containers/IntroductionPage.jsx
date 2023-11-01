@@ -41,6 +41,9 @@ class IntroductionPage extends React.Component {
               <Link to="/text-input-address">Text input address</Link>
             </li>
             <li>
+              <Link to="/number-input">Number input</Link>
+            </li>
+            <li>
               <Link to="/ssn-pattern">Ssn pattern</Link>
             </li>
             <li>

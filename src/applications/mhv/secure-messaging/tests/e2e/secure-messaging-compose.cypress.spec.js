@@ -13,9 +13,14 @@ describe('Secure Messaging Compose', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.getCategory(requestBody.category).click();
+    composePage
+      .getCategory(requestBody.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
-    composePage.getMessageBodyField().type(`${requestBody.body}`);
+    composePage
+      .getMessageBodyField()
+      .type(`${requestBody.body}`, { force: true });
     composePage.sendMessage(requestBody);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -11,7 +11,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 const getData = () => ({
   user: {
@@ -59,6 +59,7 @@ describe('Confirmation page', () => {
       </Provider>,
     );
     expect($('va-alert[status="success"]', container)).to.exist;
+    expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.eq(2);
   });
   it('should render the user name', () => {
     const { container } = render(

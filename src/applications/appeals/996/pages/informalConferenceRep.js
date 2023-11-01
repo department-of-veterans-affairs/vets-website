@@ -2,9 +2,6 @@ import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberW
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import { errorMessages } from '../constants';
-import { MAX_LENGTH } from '../../shared/constants';
-
 import {
   ContactRepresentativeTitle,
   RepresentativeFirstNameTitle,
@@ -12,9 +9,12 @@ import {
   RepresentativePhoneTitle,
   RepresentativePhoneExtensionTitle,
   RepresentativeEmailTitle,
+  RepresentativeReviewWidget,
 } from '../content/InformalConference';
-
 import { validatePhone } from '../validations';
+import { errorMessages } from '../constants';
+
+import { MAX_LENGTH } from '../../shared/constants';
 
 export default {
   uiSchema: {
@@ -30,6 +30,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactFirstName,
         },
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
       lastName: {
         'ui:title': RepresentativeLastNameTitle,
@@ -37,6 +38,7 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactLastName,
         },
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
       phone: {
         'ui:title': RepresentativePhoneTitle,
@@ -51,8 +53,12 @@ export default {
       },
       extension: {
         'ui:title': RepresentativePhoneExtensionTitle,
+        'ui:reviewWidget': RepresentativeReviewWidget,
       },
-      email: emailUI(RepresentativeEmailTitle),
+      email: {
+        ...emailUI(RepresentativeEmailTitle),
+        'ui:reviewWidget': RepresentativeReviewWidget,
+      },
     },
   },
 
@@ -70,18 +76,18 @@ export default {
           },
           firstName: {
             type: 'string',
-            maxLength: MAX_LENGTH.REP_FIRST_NAME,
+            maxLength: MAX_LENGTH.HLR_REP_FIRST_NAME,
           },
           lastName: {
             type: 'string',
-            maxLength: MAX_LENGTH.REP_LAST_NAME,
+            maxLength: MAX_LENGTH.HLR_REP_LAST_NAME,
           },
           phone: {
             type: 'string',
             pattern: '^[0-9]{3,21}$',
             maxLength:
-              MAX_LENGTH.COUNTRY_CODE +
-              MAX_LENGTH.AREA_CODE +
+              MAX_LENGTH.PHONE_COUNTRY_CODE +
+              MAX_LENGTH.PHONE_AREA_CODE +
               MAX_LENGTH.PHONE_NUMBER,
           },
           extension: {

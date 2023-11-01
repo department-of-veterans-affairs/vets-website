@@ -10,7 +10,7 @@ const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createLighthouseClaimsSuccess } = require('./lighthouse-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
-const { createUnreadMessagesSuccess } = require('./messaging');
+const { allFoldersWithUnreadMessages } = require('./messaging');
 const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
 const mockLocalDSOT = require('../../common/mocks/script/drupal-vamc-data/mockLocalDSOT');
@@ -24,9 +24,10 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaEnableNotificationComponent: true,
     myVaUseExperimental: true,
-    myVaUseExperimentalFrontend: true,
+    myVaUseExperimentalFrontend: false,
     myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
+    myVaHideNotificationsSection: true,
     myVaNotificationDotIndicator: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,
@@ -41,7 +42,7 @@ const responses = {
   'GET /v0/evss_claims_async': createClaimsSuccess(),
   'GET /v0/benefits_claims': createLighthouseClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
-  'GET /v0/messaging/health/folders/0': createUnreadMessagesSuccess(),
+  'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',

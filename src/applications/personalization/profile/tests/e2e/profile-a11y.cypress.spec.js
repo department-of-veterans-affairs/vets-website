@@ -32,12 +32,17 @@ function checkAllPages(mobile = false) {
   }
 
   // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
+  cy.get('va-loading-indicator')
+    .should('exist')
+    .then($container => {
+      cy.wrap($container)
+        .shadow()
+        .findByRole('progressbar')
+        .should('contain', /loading your information/i);
+    });
 
   // and then the loading indicator should be removed
-  cy.findByRole('progressbar').should('not.exist');
-  cy.findByText(/loading your information/i).should('not.exist');
+  cy.get('va-loading-indicator').should('not.exist');
 
   // since we did not mock the `GET profile/full_name` endpoint, the
   // NameTag should not be rendered on the page

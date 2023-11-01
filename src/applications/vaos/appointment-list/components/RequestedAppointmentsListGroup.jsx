@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import {
   fetchPendingAppointments,
@@ -112,7 +112,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   let paragraphText =
     'Below is your list of appointment requests that haven’t been scheduled yet.';
   if (featureAppointmentList) {
-    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+    paragraphText =
+      'Appointments that you request will show here until staff review and schedule them.';
   } else if (featureStatusImprovement) {
     paragraphText =
       'Your appointment requests that haven’t been scheduled yet.';
@@ -129,6 +130,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
             <NoAppointments
+              showAdditionalRequestDescription
               description="appointment requests"
               showScheduleButton={showScheduleButton}
               startNewAppointmentFlow={() => {
@@ -137,6 +139,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 });
                 startNewAppointmentFlow();
               }}
+              level={2}
             />
           </div>
         )}

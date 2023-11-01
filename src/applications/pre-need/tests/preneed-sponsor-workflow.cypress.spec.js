@@ -1,4 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
@@ -7,7 +6,7 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
-    // Applicant Information
+    // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.claimant.name,
       testData.data.application.claimant.ssn,
@@ -15,13 +14,15 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       testData.data.application.claimant.relationshipToVet,
     );
 
-    // Veteran Information
-    cy.get('input[name="root_application_veteran_currentName_first"]');
+    // Veteran/Sponsor Information Page
     preneedHelpers.validateProgressBar('2');
-
     cy.fillName(
       'root_application_veteran_currentName',
       testData.data.application.veteran.currentName,
+    );
+    cy.fill(
+      '#root_application_veteran_currentName_maiden',
+      testData.data.application.veteran.currentName.maiden,
     );
     cy.fill(
       'input[name="root_application_veteran_ssn"]',
@@ -61,32 +62,22 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       'root_application_veteran_dateOfDeath',
       testData.data.application.veteran.dateOfDeath,
     );
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
-    // Military History
-    cy.get(
-      'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
-      { timeout: Timeouts.verySlow },
-    );
+    // Military History Page
     preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillMilitaryHistory(
       testData.data.application.veteran.serviceRecords,
     );
     cy.url().should('not.contain', '/sponsor-military-history');
 
-    // Previous Names page
-    preneedHelpers.fillPreviousName(
-      testData.data.application.veteran.serviceName,
-    );
+    // Previous Names Page
+    preneedHelpers.fillPreviousName(testData.data.application.veteran);
     cy.url().should('not.contain', '/sponsor-military-name');
 
-    // Benefit Selection page
-    cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
-      'be.visible',
-    );
+    // Benefit Selection Page
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.fillBenefitSelection(
       testData.data.application.claimant.desiredCemetery.label,
@@ -94,33 +85,29 @@ describe('Pre-need form VA 40-10007 Sponsor Workflow', () => {
       testData.data.application.currentlyBuriedPersons,
     );
 
-    // Supporting Documents page
-    cy.get('label[for="root_application_preneedAttachments"]');
+    // Supporting Documents Page
+    cy.get('label[for="root_application_preneedAttachments"]').should(
+      'be.visible',
+    );
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
-    // Applicant/Claimant Contact Information page
-    cy.get('select[name="root_application_claimant_address_country"]');
+    // Applicant/Claimant Contact Information Page
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillApplicantContactInfo(testData.data.application.claimant);
 
-    // Veteran Contact Information page
-    cy.get('select[name="root_application_veteran_address_country"]');
+    // Veteran Contact Information Page
     preneedHelpers.validateProgressBar('6');
     cy.fillAddress(
       'root_application_veteran_address',
       testData.data.application.veteran.address,
     );
-
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-mailing-address');
 
-    // Preparer Contact Information page
-    cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
-    );
+    // Preparer Contact Information Page
     preneedHelpers.validateProgressBar('6');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicant);
 

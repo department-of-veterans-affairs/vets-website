@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
@@ -11,12 +11,17 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
+import { APP_NAME } from '../constants';
+import { nodPart3UpdateFeature } from '../utils/helpers';
+import { getEligibleContestableIssues } from '../utils/submit';
 
-import { IssueCard } from './IssueCard';
-import { REVIEW_ISSUES, APP_NAME } from '../constants';
-
-import { SELECTED, MAX_LENGTH, LAST_ISSUE } from '../../shared/constants';
-
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+} from '../../shared/constants';
+import { IssueCard } from '../../shared/components/IssueCard';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -26,13 +31,11 @@ import {
 } from '../../shared/content/contestableIssues';
 import { isEmptyObject } from '../../shared/utils/helpers';
 import {
+  calculateIndexOffset,
   getSelected,
   someSelected,
-  calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { focusIssue } from '../../shared/utils/focus';
-
-let attempts = 0;
 
 /**
  * ContestableIssuesWidget - Form system parameters passed into this widget
@@ -49,9 +52,11 @@ let attempts = 0;
  * @param {Object} registry - contains definitions, fields, widgets & templates
  * @param {Boolean} required - Show required flag
  * @param {Object} schema - array schema
- * @param {Object[]} value - array value
+ * @param {Object[]} value - array value (contested issues only)
  * @param {Object} contestableIssues - API status & loaded issues
  * @param {func} getContestableIssues - API action
+ * @param {Object} formData - full form data
+ * @param {Boolean} showPart3 - feature flag
  * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
@@ -60,29 +65,32 @@ const ContestableIssuesWidget = props => {
     id,
     options,
     formContext = {},
-    contestableIssues, // API loaded issues
+    apiLoadStatus, // API loaded status
     getContestableIssues,
+    contestableIssues,
     additionalIssues,
     setFormData,
     formData,
+    showPart3,
   } = props;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [removeIndex, setRemoveIndex] = useState(null);
   const [editState] = useState(window.sessionStorage.getItem(LAST_ISSUE));
+  const hasAttempted = useRef(false);
 
   useEffect(
     () => {
       if (
-        attempts < 1 &&
-        contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_FAILED
+        !hasAttempted.current &&
+        apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED
       ) {
-        attempts += 1; // only attempt reload once
+        hasAttempted.current = true; // only call API once if previously failed
         getContestableIssues();
       }
     },
-    [contestableIssues, getContestableIssues],
+    [apiLoadStatus, getContestableIssues],
   );
 
   useEffect(
@@ -93,6 +101,25 @@ const ContestableIssuesWidget = props => {
     },
     [editState],
   );
+
+  useEffect(() => {
+    // contestedIssues becomes undefined after a new save-in-progress loads
+    // (prefill) and removes formData.contestedIssues added by FormApp
+    // Eventually, we'll move all the API-loading & updating code on to the
+    // contestable issues page and remove it all from FormApp
+    if (formData?.contestedIssues === undefined) {
+      setFormData({
+        ...formData,
+        contestedIssues: getEligibleContestableIssues(
+          contestableIssues?.issues,
+          {
+            showPart3,
+          },
+        ),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onReviewPage = formContext?.onReviewPage || false;
   window.sessionStorage.setItem(REVIEW_ISSUES, onReviewPage);
@@ -112,8 +139,6 @@ const ContestableIssuesWidget = props => {
     .concat((additionalIssues || []).filter(Boolean));
 
   const hasSelected = someSelected(items);
-  // Only show alert initially when no issues loaded
-  const [showNoLoadedIssues] = useState(items.length === 0);
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return (
@@ -172,8 +197,6 @@ const ContestableIssuesWidget = props => {
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
-        // focusIssue is called by form config scrollAndFocusTarget, but only on
-        // page change
         focusIssue(null, null, -1);
       });
 
@@ -204,7 +227,8 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues = showNoLoadedIssues && !onReviewPage;
+  const showNoIssues =
+    !onReviewPage && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
 
   return (
     <>
@@ -271,29 +295,33 @@ const ContestableIssuesWidget = props => {
 
 ContestableIssuesWidget.propTypes = {
   additionalIssues: PropTypes.array,
+  apiLoadStatus: PropTypes.string,
   contestableIssues: PropTypes.shape({
-    status: PropTypes.string,
     issues: PropTypes.array,
-    error: PropTypes.string,
   }),
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
-  formData: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    contestedIssues: PropTypes.array,
+  }),
   getContestableIssues: PropTypes.func,
   id: PropTypes.string,
   options: PropTypes.shape({}),
   setFormData: PropTypes.func,
+  showPart3: PropTypes.bool,
   value: PropTypes.array,
   onChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
-  contestableIssues: state.contestableIssues,
+  apiLoadStatus: state.contestableIssues?.status || '',
   additionalIssues: state.form?.data.additionalIssues || [],
+  contestableIssues: state?.contestableIssues,
+  showPart3: nodPart3UpdateFeature(state),
 });
 const mapDispatchToProps = {
   setFormData: setData,

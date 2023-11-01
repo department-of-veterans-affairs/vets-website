@@ -1,5 +1,5 @@
 import * as address from 'platform/forms-system/src/js/definitions/address';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { dateOfBirthUI } from 'platform/forms-system/src/js/web-component-patterns';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import platformSsnUI from 'platform/forms-system/src/js/definitions/ssn';
 import email from 'platform/forms-system/src/js/definitions/email';
@@ -11,20 +11,19 @@ import AddressWithAutofill from '../../components/FormFields/AddressWithAutofill
 
 const stateLabels = createUSAStateLabels(states);
 
-export const emailUI = label => email(`${label}  email address`);
-export const dateOfBirthUI = label =>
-  currentOrPastDateUI(`${label}  date of birth`);
+export const emailUI = label => email(`${label} email address`);
+export const dobUI = label => dateOfBirthUI(`${label} date of birth`);
 
 export const addressUI = address.uiSchema(' ', false);
 
 export const primaryPhoneNumberUI = label =>
-  phoneUI(`${label}  primary telephone number (including area code)`);
+  phoneUI(`${label} primary telephone number (including area code)`);
 
 export const alternativePhoneNumberUI = label =>
-  phoneUI(`${label}  alternate telephone number (including area code)`);
+  phoneUI(`${label} alternate telephone number (including area code)`);
 
 export const vetRelationshipUI = label => ({
-  'ui:title': `What is the ${label}  relationship to the Veteran?`,
+  'ui:title': `What is the ${label} relationship to the Veteran?`,
 });
 
 export const genderUI = label => ({

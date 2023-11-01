@@ -19,7 +19,7 @@ const Navigation = () => {
           datatestid: 'labs-and-tests-sidebar',
         },
         {
-          path: '/care-summaries-and-notes',
+          path: '/summaries-and-notes',
           label: 'Care summaries and notes',
           datatestid: 'care-summaries-and-notes-sidebar',
         },
@@ -34,7 +34,7 @@ const Navigation = () => {
           datatestid: 'allergies-sidebar',
         },
         {
-          path: '/health-conditions',
+          path: '/conditions',
           label: 'Health conditions',
           datatestid: 'health-conditions-sidebar',
         },
@@ -44,7 +44,7 @@ const Navigation = () => {
           datatestid: 'vitals-sidebar',
         },
         {
-          path: '/download-your-medical-records',
+          path: '/download-all',
           label: 'Download all medical records',
           datatestid: 'download-your-medical-records-sidebar',
         },

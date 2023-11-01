@@ -48,7 +48,7 @@ const TrackingInfo = ({
         Tracking number
       </h3>
       <p data-testid="tracking-number">{trackingNumber}</p>
-      <a target="_blank" href={url} rel="noreferrer">
+      <a href={url} rel="noreferrer">
         Track your package with {label}
       </a>
       <h3 className="vads-u-font-size--lg vads-u-margin-top--3 vads-u-margin-bottom--1">

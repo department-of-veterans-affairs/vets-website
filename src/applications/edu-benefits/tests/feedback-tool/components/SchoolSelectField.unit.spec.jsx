@@ -1,8 +1,8 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import { SchoolSelectField } from '../../../feedback-tool/components/SchoolSelectField';
 
 describe('<SchoolSelectField>', () => {
@@ -18,7 +18,7 @@ describe('<SchoolSelectField>', () => {
       />,
     );
 
-    expect(tree.find('.form-checkbox').exists()).to.be.true;
+    expect(tree.find('va-checkbox').exists()).to.be.true;
     expect(tree.find('.search-controls').exists()).to.be.true;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
@@ -262,7 +262,7 @@ describe('<SchoolSelectField>', () => {
   // handleManualSchoolEntryToggled
   it('should call onChange props on when manual entry is toggled', () => {
     const onChange = sinon.spy();
-    const tree = mount(
+    const { container } = render(
       <SchoolSelectField
         formData={{}}
         formContext={{}}
@@ -280,14 +280,16 @@ describe('<SchoolSelectField>', () => {
       />,
     );
 
-    tree
-      .find('.form-checkbox input')
-      .first()
-      .simulate('change');
+    const clickEvent = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    });
+
+    const checkbox = container.getElementsByTagName('va-checkbox')[0];
+    checkbox.__events.vaChange(clickEvent);
     expect(onChange.firstCall.args[0]).to.eql({
       'view:manualSchoolEntryChecked': true,
     });
-    tree.unmount();
   });
 
   // handleSearchInputChange

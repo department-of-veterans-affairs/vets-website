@@ -32,6 +32,7 @@ const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
 const mhvUsipParams = '?application=mhv&to=home';
 const cernerUsipParams = '?application=myvahealth';
+const cernerComplicatedParams = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fstaging-patientportal.myhealth.va.gov%252F&oauth=false`;
 const occUsipParams = '?application=vaoccmobile';
 const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
@@ -334,6 +335,8 @@ describe('Authentication Utilities', () => {
             case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;
+            case EXTERNAL_APPS.MY_VA_HEALTH:
+              return `/?authenticated=true`;
             default:
               return '';
           }
@@ -361,6 +364,24 @@ describe('Authentication Utilities', () => {
 
           setup({});
         },
+      );
+    });
+
+    it('should return with an `authenticated=true` query parameter for Cerner when no `to` query param present', () => {
+      setup({ path: `${usipPath}${cernerUsipParams}` });
+
+      expect(authUtilities.createExternalApplicationUrl()).to.eql(
+        `https://staging-patientportal.myhealth.va.gov/?authenticated=true`,
+      );
+    });
+
+    it('should strip out the 2 `to` query parameters, uses the correct one, and append the `authenticated=true` query parameter', () => {
+      setup({
+        path: `${usipPath}${cernerUsipParams}${cernerComplicatedParams}`,
+      });
+
+      expect(authUtilities.createExternalApplicationUrl()).to.eql(
+        `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
       );
     });
   });
@@ -528,78 +549,83 @@ describe('Authentication Utilities', () => {
           type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
         }),
       );
-      describe('signupOrVerify (SAML)', () => {
-        ['idme', 'logingov'].forEach(policy => {
-          it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
-            const signupUrl = await authUtilities.signupOrVerify({
-              policy,
-              isLink: true,
-            });
-            expect(signupUrl).contain(
-              API_SESSION_URL({
-                type: SIGNUP_TYPES[policy],
-              }),
-            );
-          });
+    });
+  });
 
-          it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
-            await authUtilities.signupOrVerify({ policy });
-            expect(global.window.location).contain(
-              API_SESSION_URL({
-                type: SIGNUP_TYPES[policy],
-              }),
-            );
-          });
-
-          it(`should generate a verified URL for signup '${policy}_signup_verified'`, async () => {
-            const url = await authUtilities.signupOrVerify({
-              policy,
-              isLink: true,
-              isSignup: false,
-            });
-            expect(url).to.include(`${policy}_signup_verified`);
-          });
+  describe('signupOrVerify (SAML)', () => {
+    ['idme', 'logingov'].forEach(policy => {
+      it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
+        const signupUrl = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
         });
+        expect(signupUrl).contain(
+          API_SESSION_URL({
+            type: SIGNUP_TYPES[policy],
+          }),
+        );
       });
 
-      describe('logout', () => {
-        it('should redirect to the logout session url', () => {
-          setup({ path: nonUsipPath });
-          authUtilities.logout();
-          expect(global.window.location).to.equal(
-            API_SESSION_URL({ type: POLICY_TYPES.SLO }),
-          );
-        });
-
-        it('should redirect to the logout session url with appended params if provided', () => {
-          setup({ path: nonUsipPath });
-          const params = { foo: 'bar' };
-          authUtilities.logout(API_VERSION, AUTH_EVENTS.LOGOUT, params);
-          expect(global.window.location).to.equal(
-            appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
-          );
-        });
+      it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
+        await authUtilities.signupOrVerify({ policy });
+        expect(global.window.location).contain(
+          API_SESSION_URL({
+            type: SIGNUP_TYPES[policy],
+          }),
+        );
       });
 
-      describe('generateReturnURL', () => {
-        const homepageModalRoute = `${base}/?next=loginModal`;
-        const usipRoute = `${base}`;
-        const nonHomepageRoute = `${base}/education/eligibility/`;
-        const myVARoute = `${base}/my-va/`;
-        it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
-          expect(authUtilities.generateReturnURL(usipRoute)).to.eql(myVARoute);
+      it(`should generate a verified URL for signup '${policy}_signup_verified'`, async () => {
+        const url = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
+          isSignup: false,
         });
-        it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
-          expect(authUtilities.generateReturnURL(homepageModalRoute)).to.eql(
-            myVARoute,
-          );
-        });
-        it('should return users signing in on non-default routes to original location', () => {
-          expect(authUtilities.generateReturnURL(nonHomepageRoute)).to.eql(
-            nonHomepageRoute,
-          );
-        });
+        expect(url).to.include(`${policy}_signup_verified`);
       });
+    });
+  });
+
+  describe('logout', () => {
+    it('should redirect to the logout session url', () => {
+      setup({ path: nonUsipPath });
+      authUtilities.logout();
+      expect(global.window.location).to.equal(
+        API_SESSION_URL({ type: POLICY_TYPES.SLO }),
+      );
+    });
+
+    it('should redirect to the logout session url with appended params if provided', () => {
+      setup({ path: nonUsipPath });
+      const params = { foo: 'bar' };
+      authUtilities.logout({
+        version: API_VERSION,
+        clickedEvent: AUTH_EVENTS.LOGOUT,
+        queryParams: params,
+      });
+      expect(global.window.location).to.equal(
+        appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
+      );
+    });
+  });
+
+  describe('generateReturnURL', () => {
+    const homepageModalRoute = `${base}/?next=loginModal`;
+    const usipRoute = `${base}`;
+    const nonHomepageRoute = `${base}/education/eligibility/`;
+    const myVARoute = `${base}/my-va/`;
+    it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(usipRoute)).to.eql(myVARoute);
+    });
+    it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(homepageModalRoute)).to.eql(
+        myVARoute,
+      );
+    });
+    it('should return users signing in on non-default routes to original location', () => {
+      expect(authUtilities.generateReturnURL(nonHomepageRoute)).to.eql(
+        nonHomepageRoute,
+      );
     });
   });
 });

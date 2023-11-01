@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { currency } from '../../utils/helpers';
 
 const BenefitCard = ({ received, title }) => {

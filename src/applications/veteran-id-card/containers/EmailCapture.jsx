@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// eslint-disable-next-line deprecate/import
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { submitEmail, setEmail, setDirty } from '../actions';
 
 class EmailCapture extends React.Component {
@@ -27,12 +25,12 @@ class EmailCapture extends React.Component {
       view = (
         <div>
           <h1>Veteran ID Card</h1>
-          <AlertBox
-            headline="Thank you for your email address. We will follow up with instructions on how to proceed with the application."
-            content=""
-            isVisible
-            status="success"
-          />
+          <va-alert visible status="success">
+            <h3 slot="headline">
+              Thank you for your email address. We will follow up with
+              instructions on how to proceed with the application.
+            </h3>
+          </va-alert>
         </div>
       );
     } else {

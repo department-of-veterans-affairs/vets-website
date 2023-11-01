@@ -71,16 +71,19 @@ describe('All Field prefilled tests for TOE app', () => {
     }`;
 
     // verifying sponsor names exist on the page
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('label')
       .should('contain.text', sponsorName1);
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(1)
+      .shadow()
       .find('label')
       .should('contain.text', sponsorName2);
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(2)
+      .shadow()
       .find('label')
       .should('contain.text', sponsorName3);
 
@@ -90,8 +93,9 @@ describe('All Field prefilled tests for TOE app', () => {
     cy.contains('Please select at least one sponsor').should('exist');
 
     // verifying error message is not presented
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('input')
       .click();
     cy.findByText('Continue').click();
@@ -386,8 +390,9 @@ describe('All Field prefilled tests for TOE app', () => {
 
   it('Toe direct deposit page fields are prefilled, text and page elements verified', () => {
     cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('input')
       .click();
     cy.findByText('Continue').click();
@@ -451,8 +456,9 @@ describe('All Field prefilled tests for TOE app', () => {
 
   it('Toe application review page fields are prefilled, text and page elements verified', () => {
     cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('input')
       .click();
     cy.findByText('Continue').click();

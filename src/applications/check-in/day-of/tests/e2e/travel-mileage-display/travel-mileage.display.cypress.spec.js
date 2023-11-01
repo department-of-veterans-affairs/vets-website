@@ -55,6 +55,7 @@ describe('Check In Experience', () => {
     it('renders the travel mileage page with content', () => {
       TravelPages.validatePageLoaded('mileage');
       TravelPages.validateContent('mileage');
+      TravelPages.validateHelpSection();
       TravelPages.validateBackButton('mileage');
       cy.injectAxeThenAxeCheck();
     });

@@ -13,7 +13,9 @@ const SectionGuideButton = props => {
           }}
           type="button"
         >
-          <strong>In the Medical Records section</strong>
+          <span className="vads-u-font-weight--bold">
+            In the Medical Records section
+          </span>
           <i className="fas fa-bars" aria-hidden="true" />
         </button>
       </div>

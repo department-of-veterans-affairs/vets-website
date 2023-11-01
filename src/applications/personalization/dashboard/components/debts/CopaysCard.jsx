@@ -19,6 +19,10 @@ export const CopaysCard = ({ copays }) => {
     );
   }
 
+  const copayDueHeaderContent = `${copaysCount} copay bill${
+    copaysCount > 1 ? 's' : ''
+  }`;
+
   return (
     <div className="vads-u-display--flex vads-u-margin-bottom--3">
       <div
@@ -26,8 +30,7 @@ export const CopaysCard = ({ copays }) => {
         data-testid="copay-card"
       >
         <h3 className="vads-u-margin-top--0" data-testid="copay-due-header">
-          {copaysCount} copay bill
-          {copaysCount > 1 ? 's' : ''}
+          {copayDueHeaderContent}
         </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
           Updated on{' '}

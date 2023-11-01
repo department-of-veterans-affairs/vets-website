@@ -1,6 +1,10 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  fireEvent,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
@@ -27,8 +31,8 @@ const numbers = [
   FIELD_NAMES.WORK_PHONE,
 ];
 
-const newAreaCode = '415';
-const newPhoneNumber = '555-0055';
+const defaultAreaCode = '415';
+const defaultPhoneNumber = '555-0055';
 const ui = (
   <MemoryRouter>
     <ContactInformation />
@@ -53,7 +57,10 @@ function getEditButton(numberName) {
 
 // helper function that enters the `Edit phone number` view, enters a number,
 // and clicks the `Update` button.
-function editPhoneNumber(numberName) {
+function editPhoneNumber(
+  numberName,
+  options = { areaCode: defaultAreaCode, phoneNumber: defaultPhoneNumber },
+) {
   const editButton = getEditButton(numberName);
   editButton.click();
 
@@ -66,7 +73,7 @@ function editPhoneNumber(numberName) {
 
   // enter a new phone number in the form
   user.clear(phoneNumberInput);
-  user.type(phoneNumberInput, `${newAreaCode} ${newPhoneNumber}`);
+  user.type(phoneNumberInput, `${options.areaCode} ${options.phoneNumber}`);
   user.clear(extensionInput);
 
   // save
@@ -90,12 +97,7 @@ async function testQuickSuccess(numberName) {
   ).to.exist;
   // and the new number should exist in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(
-    numbers.length,
-  );
-  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(
-    numbers.length,
-  );
+  expect(view.getAllByTestId('phoneNumber').length).to.eql(numbers.length);
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -132,12 +134,7 @@ async function testSlowSuccess(numberName) {
   ).to.exist;
   // and the updated phone numbers should be in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByText(newAreaCode, { exact: false }).length).to.eql(
-    numbers.length,
-  );
-  expect(view.getAllByText(newPhoneNumber, { exact: false }).length).to.eql(
-    numbers.length,
-  );
+  expect(view.getAllByTestId('phoneNumber').length).to.eql(numbers.length);
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -249,6 +246,42 @@ describe('Editing', () => {
       it('should show an error if the transaction fails after the edit view exits', async () => {
         await testSlowFailure(numberName);
       });
+    });
+  });
+
+  it('validates a phone number that is too short', async () => {
+    server.use(...mocks.transactionSucceeded);
+
+    editPhoneNumber(FIELD_TITLES[FIELD_NAMES.HOME_PHONE], {
+      areaCode: '231',
+      phoneNumber: '45678',
+    });
+
+    fireEvent.click(await view.findByText(/Save/i));
+
+    const alert = await view.findByRole('alert');
+    expect(alert).to.exist;
+
+    within(alert).getByText('This field should be at least 10', {
+      exact: false,
+    });
+  });
+
+  it('validates a phone number that has letters in the field', async () => {
+    server.use(...mocks.transactionSucceeded);
+
+    editPhoneNumber(FIELD_TITLES[FIELD_NAMES.HOME_PHONE], {
+      areaCode: '231',
+      phoneNumber: '45678a',
+    });
+
+    fireEvent.click(await view.findByText(/Save/i));
+
+    const alert = await view.findByRole('alert');
+    expect(alert).to.exist;
+
+    within(alert).getByText('Enter a 10 digit phone number', {
+      exact: false,
     });
   });
 });

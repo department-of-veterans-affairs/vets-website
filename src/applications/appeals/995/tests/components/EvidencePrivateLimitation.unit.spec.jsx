@@ -3,9 +3,13 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import EvidencePrivateLimitation from '../../components/EvidencePrivateLimitation';
 import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../../constants';
-import { $, $$ } from '../../utils/ui';
 
 describe('<EvidencePrivateLimitation>', () => {
   it('should render', () => {

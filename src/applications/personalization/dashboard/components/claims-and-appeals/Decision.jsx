@@ -27,7 +27,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
   let remandBlock = null;
   if (allowedIssues.length) {
     allowedBlock = (
-      <div>
+      <div data-testid="allowed-items">
         <h5 className="allowed-items">Granted</h5>
         <p>
           The {boardDecision ? 'judge' : 'reviewer'} granted the following{' '}
@@ -39,7 +39,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
   }
   if (deniedIssues.length) {
     deniedBlock = (
-      <div>
+      <div data-testid="denied-items">
         <h5 className="denied-items">Denied</h5>
         <p>
           The {boardDecision ? 'judge' : 'reviewer'} denied the following{' '}
@@ -51,7 +51,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
   }
   if (remandIssues.length) {
     remandBlock = (
-      <div>
+      <div data-testid="remand-items">
         <h5 className="remand-items">Remand</h5>
         <p>
           The judge is sending {pluralize.remand} back to the {aojDescription}{' '}

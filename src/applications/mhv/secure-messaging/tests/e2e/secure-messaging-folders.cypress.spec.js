@@ -51,7 +51,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.verifyBackToMessagesButton();
   });
 
-  it.skip('Check the header', () => {
+  it('Check the Trash folder', () => {
     FolderLoadPage.loadDeletedMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -7,6 +7,7 @@ import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
+import user from '../fixtures/user.json';
 
 describe('LabsAndTests list container', () => {
   const initialState = {
@@ -41,13 +42,105 @@ describe('LabsAndTests list container', () => {
   });
 
   it('displays a count of the records', () => {
-    expect(screen.getByText('Showing 1–10 of 13 records', { exact: false })).to
-      .exist;
+    expect(screen.getByText('Showing 1 to 10 of 13 records', { exact: false }))
+      .to.exist;
   });
 
   it('displays a list of records', async () => {
     await waitFor(() => {
       expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+    });
+  });
+});
+
+describe('Labs and tests list container still loading', () => {
+  it('displays a loading indicator', () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {},
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('Labs and tests list container with no data', () => {
+  it('displays a no labs and tests message', () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: [],
+        },
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(
+      screen.getByText('You don’t have any records in Labs and tests', {
+        exact: true,
+      }),
+    ).to.exist;
+  });
+});
+
+describe('Labs and tests list container with errors', () => {
+  it('displays an error', async () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {},
+        alerts: {
+          alertList: [
+            {
+              datestamp: '2023-10-10T16:03:28.568Z',
+              isActive: true,
+              type: 'error',
+            },
+            {
+              datestamp: '2023-10-10T16:03:28.572Z',
+              isActive: true,
+              type: 'error',
+            },
+          ],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'We can’t access your labs and tests records right now',
+          {
+            exact: false,
+          },
+        ),
+      ).to.exist;
     });
   });
 });

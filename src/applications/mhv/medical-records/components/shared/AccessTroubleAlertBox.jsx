@@ -10,23 +10,22 @@ import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { ALERT_TYPE_ERROR } from '../../util/constants';
+import FeedbackEmail from './FeedbackEmail';
 
 const AccessTroubleAlertBox = props => {
+  const { className, alertType } = props;
   return (
     <VaAlert
       status={ALERT_TYPE_ERROR}
       visible
-      class={`${props.className} vads-u-margin-top--4 set-width-486`}
+      class={`vads-u-margin-top--4 vads-u-margin-bottom--9 ${className}`}
     >
       <h2 slot="headline" data-testid="expired-alert-message">
-        We are having trouble accessing your records
+        We can’t access your {alertType} records right now
       </h2>
+      <p>We’re sorry. There’s a problem with our system. Check back later.</p>
       <p>
-        We’re sorry. Something went wrong when we tried to access your records.
-        Please try again. If you still can’t access your records, call us at{' '}
-        <va-telephone contact="8006982411" /> (
-        <va-telephone contact="711" tty />
-        ). We’re here 24/7.
+        If it still doesn’t work, email us at <FeedbackEmail />.
       </p>
     </VaAlert>
   );
@@ -35,5 +34,6 @@ const AccessTroubleAlertBox = props => {
 export default AccessTroubleAlertBox;
 
 AccessTroubleAlertBox.propTypes = {
+  alertType: PropTypes.string.isRequired,
   className: PropTypes.any,
 };

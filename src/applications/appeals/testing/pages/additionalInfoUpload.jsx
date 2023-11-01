@@ -1,3 +1,7 @@
+import React from 'react';
+
+import { displayFileSize } from 'platform/utilities/ui';
+
 import { additionalInfoUploadUI } from '../utils/additionalInfoUpload';
 
 export const additionalInfoUpload = {
@@ -11,7 +15,6 @@ export const additionalInfoUpload = {
       additionalInfoUpload: {
         title: 'additional info to be reviewed by the Board',
         type: 'array',
-        minItems: 1,
         items: {
           type: 'object',
           properties: {
@@ -26,6 +29,20 @@ export const additionalInfoUpload = {
       },
     },
   },
+
+  review: data => ({
+    'Additional info to be reviewed:': data.additionalInfoUpload?.length ? (
+      <ul>
+        {data.additionalInfoUpload.map(file => (
+          <li key={file.name}>
+            {file.name} ({displayFileSize(file.size)})
+          </li>
+        ))}
+      </ul>
+    ) : (
+      'No uploads added'
+    ),
+  }),
 };
 
 export default additionalInfoUpload;

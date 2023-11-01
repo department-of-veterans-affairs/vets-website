@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import {
+  FIELD_NAMES,
+  FIELD_TITLES,
+  TRANSACTION_CATEGORY_TYPES,
+} from '@@vap-svc/constants';
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
+import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
+import AddressField from '@@vap-svc/components/AddressField/AddressField';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVAPContactInfo } from '~/platform/user/selectors';
 
 import { isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
-
-import { TRANSACTION_CATEGORY_TYPES } from '@@vap-svc/constants';
-
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
-import MailingAddress from '@@vap-svc/components/MailingAddress';
 
 export class AddressSection extends React.Component {
   componentDidMount() {
@@ -30,12 +32,16 @@ export class AddressSection extends React.Component {
     const addressContent = (
       <div className="step-content">
         <p>Downloaded documents will list your address as:</p>
+
         <div className="va-profile-wrapper">
           <InitializeVAPServiceID>
             <VAPServicePendingTransactionCategory
-              categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
+              categoryType={TRANSACTION_CATEGORY_TYPES.VAP_ADDRESS}
             >
-              <MailingAddress />
+              <AddressField
+                fieldName={FIELD_NAMES.MAILING_ADDRESS}
+                title={FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS]}
+              />
             </VAPServicePendingTransactionCategory>
           </InitializeVAPServiceID>
         </div>

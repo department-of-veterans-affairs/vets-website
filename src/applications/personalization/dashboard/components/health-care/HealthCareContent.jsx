@@ -37,6 +37,7 @@ const HealthCareContent = ({
   hasInboxError,
   hasAppointmentsError,
   isVAPatient,
+  isLOA1,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -64,7 +65,8 @@ const HealthCareContent = ({
     ],
   );
 
-  const shouldShowOnOneColumn = !isVAPatient || !hasUpcomingAppointment;
+  const shouldShowOnOneColumn =
+    !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -151,25 +153,26 @@ const HealthCareContent = ({
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
-        {hasUpcomingAppointment && (
-          <AppointmentsCard appointments={appointments} />
-        )}
-        {!isVAPatient && <NoHealthcareText />}
+        {hasUpcomingAppointment &&
+          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
-          !hasAppointmentsError && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn ? (
+          !hasAppointmentsError &&
+          !isLOA1 && <NoUpcomingAppointmentsText />}
+        {shouldShowOnOneColumn && (
           <HealthCareCTA
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
             unreadMessagesCount={unreadMessagesCount}
             isVAPatient={isVAPatient}
+            isLOA1={isLOA1}
             hasAppointmentsError={hasAppointmentsError}
           />
-        ) : null}
+        )}
       </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn ? (
+      {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
             hasInboxError={hasInboxError}
@@ -180,7 +183,7 @@ const HealthCareContent = ({
             hasAppointmentsError={hasAppointmentsError}
           />
         </DashboardWidgetWrapper>
-      ) : null}
+      )}
     </div>
   );
 };
@@ -246,6 +249,7 @@ HealthCareContent.propTypes = {
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   isCernerPatient: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests

@@ -259,7 +259,7 @@ describe('Global check in', () => {
           isTravelReimbursementEnabled,
           appointments,
           true,
-          { testId: new Date().toISOString() },
+          { '0001': new Date().toISOString() },
         );
         expect(form.find(page => page === URLS.TRAVEL_PAY)).to.be.undefined;
         expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.be.undefined;
@@ -287,7 +287,7 @@ describe('Global check in', () => {
           isTravelReimbursementEnabled,
           appointments,
           true,
-          { testId: new Date('2023-01-01T03:24:00').toISOString() },
+          { '0001': new Date('2023-01-01T03:24:00').toISOString() },
         );
         expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
         expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;
@@ -344,7 +344,7 @@ describe('Global check in', () => {
           isTravelReimbursementEnabled,
           appointments,
           true,
-          { testId2: new Date().toISOString() },
+          { '0002': new Date().toISOString() },
         );
         expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
         expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;

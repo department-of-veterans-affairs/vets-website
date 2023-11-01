@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import moment from 'moment';
 import { getReviewPage, selectPageChangeInProgress } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../redux/actions';
+} from '../flow';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'When to plan for a second dose';
 
-export default function SecondDosePage() {
+export default function SecondDosePage({ changeCrumb }) {
   const { data } = useSelector(
     state => getReviewPage(state, pageKey),
     shallowEqual,
@@ -22,10 +24,16 @@ export default function SecondDosePage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { date1 } = data;
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -78,3 +86,7 @@ export default function SecondDosePage() {
     </div>
   );
 }
+
+SecondDosePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

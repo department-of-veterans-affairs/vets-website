@@ -3,10 +3,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable deprecate/import */
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function HCASubwayMap() {
   return (
@@ -30,7 +27,7 @@ export default function HCASubwayMap() {
                 Find out how to get mental health care
               </a>
             </p>
-            <AdditionalInfo triggerText="What are the eligibility requirements to enroll in VA health care?">
+            <va-additional-info trigger="What are the eligibility requirements to enroll in VA health care?">
               <p>
                 You may be eligible to enroll in VA health care if all of these
                 statements are true:
@@ -80,7 +77,7 @@ export default function HCASubwayMap() {
                   correction
                 </a>
               </p>
-            </AdditionalInfo>
+            </va-additional-info>
           </li>
 
           <li className="process-step list-two">
@@ -121,7 +118,7 @@ export default function HCASubwayMap() {
               </li>
             </ul>
 
-            <AdditionalInfo triggerText="Why does VA need this information?">
+            <va-additional-info trigger="Why does VA need this information?">
               <p>When you apply, we review this information:</p>
               <ul>
                 <li>Your service history</li>
@@ -159,7 +156,7 @@ export default function HCASubwayMap() {
                 billing only. Having other health insurance doesn’t affect your
                 eligibility for VA health care.
               </p>
-            </AdditionalInfo>
+            </va-additional-info>
           </li>
 
           <li className="process-step list-three">
@@ -170,7 +167,7 @@ export default function HCASubwayMap() {
               We’ll take you through each step of the process. It should take
               about 30 minutes.
             </p>
-            <AdditionalInfo triggerText="What happens after I apply?">
+            <va-additional-info trigger="What happens after I apply?">
               <p>
                 We process health care applications within about a week. We’ll
                 send you a letter in the mail with our decision.
@@ -178,11 +175,11 @@ export default function HCASubwayMap() {
               <p>
                 If you don’t receive your decision letter within a week after
                 you apply, please don’t apply again. Call us at{' '}
-                <a href="tel:+18772228387">877-222-8387</a> (TTY:{' '}
-                <va-telephone contact={CONTACTS['711']} ariaLabel={'7 1 1.'} />
+                <va-telephone contact="8772228387"/> (
+                <va-telephone contact={CONTACTS['711']} tty />
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
-            </AdditionalInfo>
+            </va-additional-info>
           </li>
         </ol>
       </div>

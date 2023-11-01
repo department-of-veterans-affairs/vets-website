@@ -1,39 +1,10 @@
 .landing-page {
-    section {
-        h1 {
-            margin: 0px 0px 16px 0px;
-        }
-        h2 {
-            margin: 32px 0px 8px 0px;
-        }
-        p {
-            margin: 8px 0px 8px 0px;
-        }
-        va-accordion {
-            va-accordion-item {
-                p {
-                    margin: 16px 0px 16px 0px;
-                }
-            }
-        }
+  .section-link {
+    a {
+      color: $color-link-default;
     }
-
-    .unstyled-list {
-        list-style: none;
-        margin: 0px;
-        padding: 0px;
-        li {
-          margin: 0px;
-          padding: 0px;
-        }
+    a:visited {
+      color: $color-link-default;
     }
-
-    .section-link {
-        a {
-          color: $color-link-default;
-        }
-        a:visited {
-          color: $color-link-default;
-        }
-    }
+  }
 }

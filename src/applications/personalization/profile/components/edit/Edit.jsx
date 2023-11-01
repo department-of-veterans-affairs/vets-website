@@ -11,27 +11,21 @@ import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/c
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
-import { routesForNav } from '../../routesForNav';
 import { EditFallbackContent } from './EditFallbackContent';
 import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
+
+import { routesForNav } from '../../routesForNav';
 import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
 import { getInitialFormValues } from '../../util/contact-information/formValues';
+import { getRouteInfoFromPath } from '~/applications/personalization/common/helpers';
+import { isFieldEmpty } from '../../util';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 const useQuery = () => {
   const { search } = useLocation();
   return useMemo(() => new URLSearchParams(search), [search]);
-};
-
-const getReturnRouteInfo = (path, routes) => {
-  const returnRouteInfo = routes.find(({ path: routePath }) => {
-    return routePath === path;
-  });
-  if (!returnRouteInfo) {
-    return { ...routes[0], name: 'profile' };
-  }
-  return returnRouteInfo;
 };
 
 const getFieldInfo = fieldName => {
@@ -68,10 +62,17 @@ export const Edit = () => {
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
-  const returnRouteInfo = getReturnRouteInfo(
-    query.get('returnPath'),
-    routesForNav,
-  );
+  const returnRouteInfo = (() => {
+    try {
+      return getRouteInfoFromPath(query.get('returnPath'), routesForNav);
+    } catch (e) {
+      // default to using the root route if the returnPath is invalid
+      return {
+        path: PROFILE_PATHS.PROFILE_ROOT,
+        name: PROFILE_PATH_NAMES.PROFILE_ROOT,
+      };
+    }
+  })();
 
   const returnPath = returnRouteInfo?.path;
   const returnPathName = returnRouteInfo?.name;
@@ -86,6 +87,16 @@ export const Edit = () => {
 
   const fieldData = useSelector(state =>
     selectVAPContactInfoField(state, fieldInfo?.fieldName),
+  );
+
+  const editPageHeadingString = useMemo(
+    () => {
+      const useAdd = isFieldEmpty(fieldData, fieldInfo?.fieldName);
+      return `${
+        useAdd ? 'Add' : 'Update'
+      } your ${fieldInfo?.title.toLowerCase()}`;
+    },
+    [fieldData, fieldInfo],
   );
 
   useEffect(() => {
@@ -195,7 +206,7 @@ export const Edit = () => {
                 </p>
 
                 <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
-                  {`Add or update your ${fieldInfo.title.toLowerCase()}`}
+                  {editPageHeadingString}
                 </h1>
 
                 <InitializeVAPServiceIDContainer>
@@ -214,12 +225,12 @@ export const Edit = () => {
               </div>
             </>
           ) : (
-            <EditFallbackContent />
+            <EditFallbackContent routesForNav={routesForNav} />
           )}
         </Toggler.Enabled>
 
         <Toggler.Disabled>
-          <EditFallbackContent />
+          <EditFallbackContent routesForNav={routesForNav} />
         </Toggler.Disabled>
       </Toggler>
     </EditContext.Provider>

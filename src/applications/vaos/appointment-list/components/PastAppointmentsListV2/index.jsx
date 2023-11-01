@@ -30,6 +30,7 @@ import {
 import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
@@ -142,6 +143,9 @@ export default function PastAppointmentsListNew() {
   );
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
+  );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
   );
 
   useEffect(() => {
@@ -262,14 +266,14 @@ export default function PastAppointmentsListNew() {
 
         return (
           <React.Fragment key={key}>
-            <h3
+            <h2
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
               data-cy="past-appointment-list-header"
-              className="vads-u-margin-top--0"
+              className="vads-u-margin-top--0 vads-u-font-size--h3"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
-            </h3>
+            </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
               aria-labelledby={`appointment_list_${monthDate.format(
@@ -284,12 +288,13 @@ export default function PastAppointmentsListNew() {
                   'vads-u-border-color--gray-medium': featureAppointmentList,
                 },
               )}
-              data-cy="past-appointment-list"
+              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
               {featureAppointmentList &&
                 UpcomingAppointmentLayout({
                   featureStatusImprovement,
+                  featureBreadcrumbUrlUpdate,
                   hashTable,
                   history,
                 })}
@@ -299,6 +304,7 @@ export default function PastAppointmentsListNew() {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
+                    featureBreadcrumbUrlUpdate,
                     featureStatusImprovement,
                     appointment: appt,
                   });
@@ -347,6 +353,7 @@ export default function PastAppointmentsListNew() {
               });
               dispatch(startNewAppointmentFlow());
             }}
+            level={2}
           />
         </div>
       )}

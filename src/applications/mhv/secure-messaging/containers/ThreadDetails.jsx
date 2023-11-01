@@ -169,7 +169,7 @@ const ThreadDetails = props => {
   };
 
   return (
-    <div className="vads-l-grid-container message-detail-container">
+    <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
       <AlertBackgroundBox closeable />
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -8,6 +8,7 @@ import FormButtons from '../../components/FormButtons';
 import { LANGUAGES } from '../../utils/constants';
 import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -39,13 +40,21 @@ function CommunityCareLanguagePage({
   routeToPreviousAppointmentPage,
   updateFormData,
   openFormPage,
+  changeCrumb,
 }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const history = useHistory();
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
       openFormPage(pageKey, uiSchema, initialSchema);
+      if (featureBreadcrumbUrlUpdate) {
+        changeCrumb(pageTitle);
+      }
     },
     [openFormPage],
   );
@@ -99,5 +108,6 @@ CommunityCareLanguagePage.propTypes = {
   routeToNextAppointmentPage: PropTypes.func.isRequired,
   routeToPreviousAppointmentPage: PropTypes.func.isRequired,
   updateFormData: PropTypes.func.isRequired,
+  changeCrumb: PropTypes.func,
   schema: PropTypes.object,
 };

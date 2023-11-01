@@ -1,16 +1,19 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../../10182/constants';
+import { MAX_LENGTH } from '../../shared/constants';
+
+const hintText =
+  'You can only add an issue that you’ve received a VA decision notice for.';
 
 export const issueErrorMessages = {
   missingIssue: 'Add the name of an issue',
   uniqueIssue: 'Enter a unique condition name',
   maxLength: `Enter less than ${
-    MAX_LENGTH.ISSUE_NAME
+    MAX_LENGTH.NOD_ISSUE_NAME
   } characters for this issue name`,
 
   invalidDate: 'Provide a valid date',
-  missingDecisionDate: 'Enter a decision date',
+  blankDecisionDate: 'Enter a decision date',
   invalidDateRange: (min, max) => `Enter a year between ${min} and ${max}`,
   pastDate: 'Add a past decision date',
   // date must be < 1 year old
@@ -32,11 +35,9 @@ export const content = {
   },
   name: {
     label: 'Name of issue',
+    hintText,
     hint: (
-      <p className="vads-u-font-weight--normal label-description">
-        You can only add an issue that you’ve already received a VA decision
-        notice for.
-      </p>
+      <p className="vads-u-font-weight--normal label-description">{hintText}</p>
     ),
   },
   date: {

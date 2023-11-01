@@ -3,8 +3,6 @@ import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
-
 import {
   mockNotificationSettingsAPIs,
   registerCypressHelpers,
@@ -36,11 +34,18 @@ describe('Notification Settings For Mobile Phone', () => {
         user.data.attributes.vet360ContactInformation.mobilePhone = null;
         cy.login(user);
         cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-        cy.findByRole('progressbar', { name: /loading/i }).should('exist');
+        cy.get('va-loading-indicator')
+          .should('exist')
+          .then($container => {
+            cy.wrap($container)
+              .shadow()
+              .findByRole('progressbar', { name: /loading/i })
+              .should('exist');
+          });
         cy.injectAxeThenAxeCheck();
 
         // and then the loading indicator should be removed
-        cy.findByRole('progressbar', { name: /loading/i }).should('not.exist');
+        cy.get('va-loading-indicator').should('not.exist');
         cy.findByRole('heading', {
           name: 'Notification settings',
           level: 1,
@@ -80,8 +85,6 @@ describe('Notification Settings For Mobile Phone', () => {
         cy.login(user);
         cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
         cy.injectAxeThenAxeCheck();
-
-        checkForLegacyLoadingIndicator();
 
         cy.findByRole('heading', {
           name: 'Notification settings',

@@ -15,10 +15,6 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
   margin-top: 1.5rem;
 }
 
-div:has(.schemaform-sip-alert) {
-  margin-top: 4rem;
-}
-
 [href="#start"].vads-c-action-link--green {
   margin-bottom: 2rem;
 }
@@ -44,6 +40,7 @@ div:has(.schemaform-sip-alert) {
 
 .authorizer-type .schemaform-required-span,
 .veteran-personal-information .schemaform-required-span,
+.disclosure-information-organization-representatives .schemaform-required-span,
 .disclosure-information-limited-information .schemaform-required-span,
 .disclosure-information-release-duration .schemaform-required-span,
 .security-information-question .schemaform-required-span,
@@ -67,24 +64,6 @@ div:has(.schemaform-sip-alert) {
 .row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
 .row div[id^="organizationRepresentatives_"] > .row.small-collapse {
   margin: 0 0 !important;
-}
-
-.form-review-panel .hide-on-review-page {
-  display: none !important;
-}
-
-.review-row {
-  .custom-header {
-    font-family: $font-family-sans-serif !important;
-    font-size: 1.6rem !important;
-    font-weight: normal !important;
-    margin-top: 0 !important;
-  }
-}
-
-.form-review-panel[data-chapter="veteranPersonalInfoChapter"]
-  .form-review-panel-page-header {
-  display: none;
 }
 
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,

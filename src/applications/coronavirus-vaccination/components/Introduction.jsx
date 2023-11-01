@@ -11,12 +11,9 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
+import FormFooter from 'platform/forms/components/FormFooter';
 import {
   ContactRules,
   ProvideSSNAndDOB,
@@ -24,7 +21,6 @@ import {
   WhyContact,
 } from './VerbiageHelper';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import GetHelp from './GetHelp';
 
 function Introduction({
@@ -117,64 +113,55 @@ function Introduction({
             )}
           </>
         )}
-        <AlertBox
-          status={ALERT_TYPE.INFO}
-          content={
-            <>
-              <span className="vads-u-font-size--h3">
-                <strong>What you should know about signing up</strong>
-              </span>
-              <p>
-                By sharing your plans for getting a vaccine, you help us better
-                plan our efforts.
-              </p>
+        <va-alert visible status="info">
+          <span className="vads-u-font-size--h3">
+            <strong>What you should know about signing up</strong>
+          </span>
+          <p>
+            By sharing your plans for getting a vaccine, you help us better plan
+            our efforts.
+          </p>
 
-              <span className="vads-u-font-size--h4">
-                <strong>
-                  If you're enrolled in VA health care or currently receiving
-                  care through VA
-                </strong>
-              </span>
-              <p>
-                Sign up to tell us if you plan to get a COVID-19 vaccine. Many
-                VA health facilities are now offering vaccines to all enrolled
-                Veterans. We may first contact Veterans who sign up here and
-                tell us they plan to get a vaccine. But we’ll still contact
-                every Veteran who's receiving care through VA to ask if they
-                want one.
-              </p>
+          <span className="vads-u-font-size--h4">
+            <strong>
+              If you're enrolled in VA health care or currently receiving care
+              through VA
+            </strong>
+          </span>
+          <p>
+            Sign up to tell us if you plan to get a COVID-19 vaccine. Many VA
+            health facilities are now offering vaccines to all enrolled
+            Veterans. We may first contact Veterans who sign up here and tell us
+            they plan to get a vaccine. But we’ll still contact every Veteran
+            who's receiving care through VA to ask if they want one.
+          </p>
 
-              <span className="vads-u-font-size--h4">
-                <strong>
-                  If you're not enrolled, but need a COVID-19 vaccine
-                </strong>
-              </span>
-              <p>
-                Sign up to tell us if you want to get a vaccine at VA. If you’re
-                a Veteran, spouse, caregiver, or CHAMPVA recipient, we'll
-                contact you when we have a vaccine for you. At this time, we
-                don't know when that will be.
-              </p>
-              <p>
-                <strong>Note:</strong> Your employer, pharmacy, health care
-                provider’s office, or local public health officials may offer
-                you a COVID-19 vaccine. We encourage you to take the first
-                opportunity you have to get a vaccine at the most convenient
-                location for you. The Centers for Disease Control and
-                Prevention’s (CDC) online vaccine finder tool can help you find
-                COVID-19 vaccines near you.
-              </p>
-              <span>
-                <a
-                  href="https://www.cdc.gov/vaccines/covid-19/reporting/vaccinefinder/about.html"
-                  aria-label="Find COVID-19 vaccines near you with the CDC’s vaccine finder"
-                >
-                  Find COVID-19 vaccines near you with the CDC’s vaccine finder
-                </a>
-              </span>
-            </>
-          }
-        />
+          <span className="vads-u-font-size--h4">
+            <strong>If you're not enrolled, but need a COVID-19 vaccine</strong>
+          </span>
+          <p>
+            Sign up to tell us if you want to get a vaccine at VA. If you’re a
+            Veteran, spouse, caregiver, or CHAMPVA recipient, we'll contact you
+            when we have a vaccine for you. At this time, we don't know when
+            that will be.
+          </p>
+          <p>
+            <strong>Note:</strong> Your employer, pharmacy, health care
+            provider’s office, or local public health officials may offer you a
+            COVID-19 vaccine. We encourage you to take the first opportunity you
+            have to get a vaccine at the most convenient location for you. The
+            Centers for Disease Control and Prevention’s (CDC) online vaccine
+            finder tool can help you find COVID-19 vaccines near you.
+          </p>
+          <span>
+            <a
+              href="https://www.cdc.gov/vaccines/covid-19/reporting/vaccinefinder/about.html"
+              aria-label="Find COVID-19 vaccines near you with the CDC’s vaccine finder"
+            >
+              Find COVID-19 vaccines near you with the CDC’s vaccine finder
+            </a>
+          </span>
+        </va-alert>
       </DowntimeNotification>
 
       <h2>More about getting a COVID-19 vaccine at VA</h2>

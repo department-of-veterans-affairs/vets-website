@@ -1,15 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-import { FIELD_NAMES } from '@@vap-svc/constants';
-
 import { focusElement } from 'platform/utilities/ui';
-import { CONTACT_INFO_PATH, REVIEW_CONTACT } from '../../995/constants';
-import { setReturnState } from '../../995/utils/contactInfo';
 
-const BuildPage = ({ title, field, id, goToPath }) => {
+const BuildPage = ({ title, goToPath }) => {
   const headerRef = useRef(null);
 
   useEffect(
@@ -21,40 +15,23 @@ const BuildPage = ({ title, field, id, goToPath }) => {
     [headerRef],
   );
 
-  const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  const returnPath = onReviewPage
-    ? '/review-and-submit'
-    : `/${CONTACT_INFO_PATH}`;
-
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
       // outer form and causing a page advance
       event.stopPropagation();
     },
-    cancel: () => {
-      setReturnState(id, 'canceled');
-      goToPath(returnPath);
-    },
-    success: () => {
-      setReturnState(id, 'updated');
-      goToPath(returnPath);
+    returnToContactInfo: () => {
+      goToPath('/contact-information');
     },
   };
 
   return (
-    <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
-      <InitializeVAPServiceID>
-        <h1 ref={headerRef}>{title}</h1>
-        <ProfileInformationFieldController
-          forceEditView
-          fieldName={FIELD_NAMES[field]}
-          isDeleteDisabled
-          cancelCallback={handlers.cancel}
-          successCallback={handlers.success}
-        />
-      </InitializeVAPServiceID>
-    </div>
+    <form className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+      <h1 ref={headerRef}>{title}</h1>
+      <p>This page has not been implemented</p>
+      <va-button onClick={handlers.returnToContactInfo} text="Return" />
+    </form>
   );
 };
 

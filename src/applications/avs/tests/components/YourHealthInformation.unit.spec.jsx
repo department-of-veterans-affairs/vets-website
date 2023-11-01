@@ -28,9 +28,6 @@ describe('Avs: Your Health Information', () => {
     expect(screen.getByTestId('recall-appointments').firstChild).to.have.text(
       'March 15, 2024TEST CLINIC (VETERANS LOCATION VIDEO )Clinic location: LOMA LINDA VA CLINIC',
     );
-    expect(screen.getByTestId('appointment-notes')).to.have.text(
-      'Test appointment notes.',
-    );
     expect(screen.getByTestId('smoking-status')).to.have.text('Current smoker');
     expect(screen.getByTestId('immunizations').children[2]).to.contain.text(
       'COVID-19 (PFIZER)',
@@ -59,7 +56,6 @@ describe('Avs: Your Health Information', () => {
     expect(screen.queryByTestId('primary-care-team')).to.not.exist;
     expect(screen.queryByTestId('scheduled-appointments')).to.not.exist;
     expect(screen.queryByTestId('recall-appointments')).to.not.exist;
-    expect(screen.queryByTestId('appointment-notes')).to.not.exist;
     expect(screen.queryByTestId('smoking-status')).to.not.exist;
     expect(screen.queryByTestId('immunizations')).to.not.exist;
     expect(screen.queryByTestId('allergies-reactions')).to.not.exist;

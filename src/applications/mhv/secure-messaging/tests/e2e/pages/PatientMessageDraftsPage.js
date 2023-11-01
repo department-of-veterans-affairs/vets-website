@@ -2,9 +2,11 @@ import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
 import defaultMockThread from '../fixtures/single-draft-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
-import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
+import { Alerts } from '../../../util/constants';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -160,7 +162,19 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
+    cy.get('[data-testid="delete-draft-button"]').should('be.visible');
+    cy.get('[data-testid="delete-draft-button"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
+  };
+
+  sendDraftMessage = draftMessage => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
+      'sentDraftResponse',
+    );
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.wait('@sentDraftResponse');
   };
 
   confirmDeleteDraft = draftMessage => {
@@ -171,14 +185,18 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
     cy.get('[data-testid="delete-draft-modal"]')
-      .shadow()
-      .find('[type ="button"]', { force: true })
+      .find('va-button[text="Delete draft"]', { force: true })
       .contains('Delete draft')
-      .should('contain', 'Delete')
       .click({ force: true });
-    cy.wait('@deletedDraftResponse');
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
+  };
+
+  verifyDeleteConfirmationMessage = () => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
+      'have.text',
+      `${Alerts.Message.DELETE_DRAFT_SUCCESS}`,
+    );
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -189,8 +207,7 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
-    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
+    cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
     cy.wait('@deletedDraftResponse');
   };
 
@@ -205,9 +222,10 @@ class PatientMessageDraftsPage {
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 
-    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
-    cy.tabToElement('[data-testid="delete-draft-modal"]').realPress(['Enter']);
-    cy.wait('@deletedDraftResponse')
+    cy.get('[data-testid="delete-draft-modal"]');
+    cy.realPress(['Tab']);
+    cy.realPress(['Enter']);
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 })
       .its('request.url')
       .should('include', `${draftMessage.data.attributes.messageId}`);
   };
@@ -226,10 +244,10 @@ class PatientMessageDraftsPage {
       .find('[name="compose-message-body"]');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+  verifySendConfirmationMessage = () => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
       'have.text',
-      'Secure message was successfully sent.',
+      Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
   };
 
@@ -254,9 +272,8 @@ class PatientMessageDraftsPage {
       .select(recipientName);
   };
 
-  selectCategory = category => {
+  selectCategory = (category = 'COVID') => {
     cy.get('[data-testid="compose-category-radio-button"]')
-      .shadow()
       .contains(category)
       .click();
   };
@@ -302,7 +319,7 @@ class PatientMessageDraftsPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/folders/-1/search',
+      '/my_health/v1/messaging/folders/-2/search',
       sentSearchResponse,
     );
     cy.get('[data-testid="filter-messages-button"]').click({ force: true });
@@ -336,7 +353,7 @@ class PatientMessageDraftsPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      '/my_health/v1/messaging/folders/-2/threads**',
       sortedResponse,
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });
@@ -356,7 +373,7 @@ class PatientMessageDraftsPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(listBefore);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -364,11 +381,27 @@ class PatientMessageDraftsPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(listAfter);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
+  };
+
+  loadMessages = (mockMessagesResponse = mockDraftMessages) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2*',
+      mockDraftFolderMetaResponse,
+    ).as('draftFolder');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2/threads**',
+      mockMessagesResponse,
+    ).as('draftFolderMessages');
+    cy.get('[data-testid="drafts-sidebar"]').click();
+    cy.wait('@draftFolder');
+    cy.wait('@draftFolderMessages');
   };
 }
 

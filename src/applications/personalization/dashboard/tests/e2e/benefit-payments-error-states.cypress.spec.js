@@ -51,7 +51,7 @@ describe('My VA - Benefit payments - error-states', () => {
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('dashboard-section-payment').should('exist');
-      cy.findByTestId('payments-v2-error').should('exist');
+      cy.findByTestId('payments-error').should('exist');
       cy.findByTestId('payment-card-view-history-link').should('not.exist');
       cy.findByTestId('view-payment-history-link').should('exist');
       cy.findByTestId('manage-direct-deposit-link').should('exist');

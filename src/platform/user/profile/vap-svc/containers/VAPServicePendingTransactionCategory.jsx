@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { refreshTransaction } from '../actions';
 
@@ -42,13 +41,13 @@ function VAPServicePendingTransactionCategory({
 
   return (
     <VAPServiceTransactionPending refreshTransaction={refreshAllTransactions}>
-      <AlertBox isVisible status="warning">
-        <h4>We’re updating your {plural}</h4>
+      <va-alert visible status="warning">
+        <h4 slot="headline">We’re updating your {plural}</h4>
         <p>
           We’re in the process of saving your changes. We'll show your updated
           information below as soon as it’s finished saving.
         </p>
-      </AlertBox>
+      </va-alert>
     </VAPServiceTransactionPending>
   );
 }

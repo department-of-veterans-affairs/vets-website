@@ -12,6 +12,7 @@ import {
 import {
   cnpDirectDepositInformation,
   profileUseLighthouseDirectDepositEndpoint,
+  selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
 } from '@@profile/selectors';
@@ -46,13 +47,13 @@ import {
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { canAccess } from '../../common/selectors';
 
 class Profile extends Component {
   componentDidMount() {
@@ -166,69 +167,71 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
+    const toggles = this.props.profileToggles;
+
+    const routes = getRoutes({
+      profileContactsPage: toggles.profileContacts,
+      useFieldEditingPage: toggles.profileUseFieldEditingPage,
+      profileUseHubPage: toggles.profileUseHubPage,
+    });
+
     return (
-      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
-        {useFieldEditingPage => {
-          const routes = getRoutes({ useFieldEditingPage });
-          return (
-            <BrowserRouter>
-              <LastLocationProvider>
-                <ProfileWrapper
-                  isInMVI={this.props.isInMVI}
-                  isLOA3={this.props.isLOA3}
-                  isBlocked={this.props.isBlocked}
-                >
-                  <Switch>
-                    {/* Redirect users to Account Security to upgrade their account if they need to */}
-                    {routes.map(route => {
-                      if (
-                        (route.requiresLOA3 && !this.props.isLOA3) ||
-                        (route.requiresMVI && !this.props.isInMVI) ||
-                        (route.requiresLOA3 && this.props.isBlocked)
-                      ) {
-                        return (
-                          <Redirect
-                            from={route.path}
-                            to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                            key={route.path}
-                          />
-                        );
-                      }
-
-                      return (
-                        <Route
-                          component={route.component}
-                          exact
-                          key={route.path}
-                          path={route.path}
-                        />
-                      );
-                    })}
-
+      <BrowserRouter>
+        <LastLocationProvider>
+          <ProfileWrapper
+            isInMVI={this.props.isInMVI}
+            isLOA3={this.props.isLOA3}
+            isBlocked={this.props.isBlocked}
+            profileUseHubPage={toggles.profileUseHubPage}
+          >
+            <Switch>
+              {/* Redirect users to Account Security to upgrade their account if they need to */}
+              {routes.map(route => {
+                if (
+                  (route.requiresLOA3 && !this.props.isLOA3) ||
+                  (route.requiresMVI && !this.props.isInMVI) ||
+                  (route.requiresLOA3 && this.props.isBlocked)
+                ) {
+                  return (
                     <Redirect
-                      exact
-                      from="/profile#contact-information"
-                      to={PROFILE_PATHS.CONTACT_INFORMATION}
+                      from={route.path}
+                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                      key={route.path}
                     />
+                  );
+                }
 
-                    <Redirect
-                      exact
-                      from={PROFILE_PATHS.PROFILE_ROOT}
-                      to={PROFILE_PATHS.PERSONAL_INFORMATION}
-                    />
+                return (
+                  <Route
+                    component={route.component}
+                    exact
+                    key={route.path}
+                    path={route.path}
+                  />
+                );
+              })}
 
-                    {/* fallback handling: redirect to root route */}
-                    {/* Should we consider making a 404 page for this instead? */}
-                    <Route path="*">
-                      <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-                    </Route>
-                  </Switch>
-                </ProfileWrapper>
-              </LastLocationProvider>
-            </BrowserRouter>
-          );
-        }}
-      </Toggler.Hoc>
+              <Redirect
+                exact
+                from="/profile#contact-information"
+                to={PROFILE_PATHS.CONTACT_INFORMATION}
+              />
+
+              <Redirect
+                exact
+                from={PROFILE_PATHS.PROFILE_ROOT}
+                to={PROFILE_PATHS.PERSONAL_INFORMATION}
+              />
+
+              {/* fallback handling: redirect to root route */}
+              {/* Should we consider making a 404 page for this instead? */}
+              <Route path="*">
+                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+              </Route>
+            </Switch>
+          </ProfileWrapper>
+        </LastLocationProvider>
+      </BrowserRouter>
     );
   };
 
@@ -277,6 +280,7 @@ Profile.propTypes = {
   isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  profileToggles: PropTypes.object.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
@@ -311,7 +315,11 @@ const mapStateToProps = state => {
   // 47841 block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
 
-  const shouldFetchTotalDisabilityRating = isLOA3 && isInMVI;
+  const shouldFetchTotalDisabilityRating = !!(
+    isLOA3 &&
+    isInMVI &&
+    canAccess(state)?.ratingInfo
+  );
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -364,6 +372,7 @@ const mapStateToProps = state => {
       state,
     ),
     togglesLoaded,
+    profileToggles: selectProfileToggles(state),
   };
 };
 

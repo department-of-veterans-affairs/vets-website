@@ -79,6 +79,7 @@ export default function TypeOfAudiologyCarePage({ changeCrumb }) {
   const history = useHistory();
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+    document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);

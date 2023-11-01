@@ -25,9 +25,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
@@ -55,6 +54,34 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        runs:
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+          ]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -81,30 +108,35 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
+      - name: Download Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
+          STEP: ${{ matrix.runs }}
 
       - name: Archive unit test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
-          path: mochawesome-report
+          path: mocha/results
 
       # - name: Generate coverage report by app
       #   run: node script/app-coverage-report.js > test-results/coverage_report.txt
-
       # - name: Upload Coverage Report Artifact
       #   uses: actions/upload-artifact@v3
       #   if: ${{ always() }}
       #   with:
       #     name: unit-test-coverage-report
       #     path: coverage/test-coverage-report.json
-
       # - name: Configure AWS credentials (1)
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: aws-actions/configure-aws-credentials@v1
@@ -112,14 +144,12 @@ jobs:
       #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: us-gov-west-1
-
       # - name: Get AWS IAM role
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
       #   with:
       #     ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
       #     env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       # - name: Configure AWS Credentials (2)
       #   if: ${{ github.ref == 'refs/heads/main' }}
       #   uses: aws-actions/configure-aws-credentials@v1
@@ -130,16 +160,13 @@ jobs:
       #     role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
       #     role-duration-seconds: 900
       #     role-session-name: vsp-frontendteam-githubaction
-
       # - name: Upload coverage report to S3
       #   if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
       #   run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
-
       # - name: Get code coverage
       #   if: ${{ always() }}
       #   id: code-coverage
       #   run: echo MARKDOWN=$(node ./script/github-actions/code-coverage-format-report.js) >> $GITHUB_OUTPUT
-
       # - name: Publish test results
       #   if: ${{ always() }}
       #   continue-on-error: true
@@ -176,9 +203,8 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # - name: Init Dashboard Data Repo
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
       - name: Init Dashboard Data Repo
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
@@ -217,13 +243,13 @@ jobs:
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Update E2E Allow List
+      - name: Update Unit Test Allow List
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-unit-tests-allow-list.outputs.allow_list }}
-          # TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           TEST_TYPE: unit_test
+          IS_CI: false
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       # - name: Create Unit Test report and post results to BigQuery
       #   run: yarn cypress-mochawesome-to-bigquery
       #   working-directory: qa-standards-dashboard-data
@@ -238,6 +264,7 @@ jobs:
 
       # - name: Upload Unit Test report to s3
       #   run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
       # - name: Publish Unit Test Results
       #   if: ${{ always() }}
       #   uses: LouisBrunner/checks-action@v1.2.0
@@ -247,10 +274,3 @@ jobs:
       #     conclusion: ${{ needs.stress-test-cypress-tests.result }}
       #     output: |
       #       {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-      # - name: Create GitHub Issues for new flaky tests
-      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-      #   run: yarn create-github-issues-for-flaky-tests
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-      #     GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}

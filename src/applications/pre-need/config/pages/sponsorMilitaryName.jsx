@@ -1,16 +1,13 @@
-import { merge } from 'lodash';
-
-import { militaryNameUI } from '../../utils/helpers';
-
-export const uiSchema = merge({}, militaryNameUI, {
+export const uiSchema = {
   application: {
     veteran: {
       'view:hasServiceName': {
-        'ui:title': 'Did your sponsor serve under another name?',
+        'ui:title': 'Did the sponsor serve under another name?',
+        'ui:widget': 'yesNo',
       },
     },
   },
-});
+};
 export const schema = {
   type: 'object',
   properties: {

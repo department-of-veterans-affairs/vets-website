@@ -53,7 +53,7 @@ export const ServerErrorAlert = (
     <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
       <va-telephone contact={CONTACTS.VA_311} /> (
-      <va-telephone contact={CONTACTS[711]} tty />
+      <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </>
@@ -156,6 +156,36 @@ export const isOutsideListLoopReturn = (
       'ui:title': cityUiLabel,
     },
   };
+};
+
+export const hoursPerWeekUiSchema = {
+  'ui:title': 'Hours a week',
+  'ui:options': {
+    widgetClassNames: 'form-select-medium',
+  },
+  'ui:errorMessages': { required: 'Please enter a number' },
+  'ui:validations': [
+    (errors, fieldData) => {
+      if (fieldData > 168) {
+        errors.addError('Enter a number less than 169');
+      }
+    },
+  ],
+};
+
+export const classesPerWeekUiSchema = {
+  'ui:title': 'Number of sessions a week',
+  'ui:options': {
+    widgetClassNames: 'form-select-medium',
+  },
+  'ui:errorMessages': { required: 'Please enter a number' },
+  'ui:validations': [
+    (errors, fieldData) => {
+      if (fieldData > 999) {
+        errors.addError('Enter a number less than 1000');
+      }
+    },
+  ],
 };
 
 export const PensionIncomeRemovalQuestionTitle = (

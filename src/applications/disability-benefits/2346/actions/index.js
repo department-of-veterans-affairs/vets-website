@@ -49,7 +49,10 @@ export const fetchFormStatus = () => async dispatch => {
 
     if (
       !eligibility ||
-      (eligibility && !eligibility.accessories && !eligibility.batteries)
+      (eligibility &&
+        !eligibility.accessories &&
+        !eligibility.batteries &&
+        !eligibility.apneas)
     ) {
       const sortedSuppliesByAvailability = sortBy(
         body.formData.supplies,

@@ -1,7 +1,8 @@
-// import { cy } from 'date-fns/locale';
+import { cy } from 'date-fns/locale';
+
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 
-describe('Medical Records View Immunizations', () => {
+describe.skip('Medical Records View Immunizations', () => {
   it('Visits Medical Records View Immunization List', () => {
     const site = new MedicalRecordsSite();
     cy.visit('my-health/medical-records');

@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -19,6 +20,7 @@ const {
   spouseFullName,
   spousePhone,
   spouseSocialSecurityNumber,
+  spouseAddress: address,
 } = fullSchemaHca.properties;
 
 export default {
@@ -107,7 +109,18 @@ export default {
       'view:spouseContactInformation': {
         type: 'object',
         properties: {
-          spouseAddress: addressSchema(fullSchemaHca),
+          spouseAddress: merge(
+            {},
+            addressSchema({ definitions: { address } }, true),
+            {
+              properties: {
+                city: {
+                  minLength: 1,
+                  maxLength: 30,
+                },
+              },
+            },
+          ),
           spousePhone,
         },
       },

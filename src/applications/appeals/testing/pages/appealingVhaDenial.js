@@ -1,14 +1,15 @@
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { content } from '../content/appealingVhaDenial';
 
 const appealingVhaDenial = {
   uiSchema: {
-    appealingVHADenial: {
-      'ui:title': content.title,
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        enableAnalytics: true,
-      },
-    },
+    appealingVHADenial: yesNoUI({
+      title: content.title,
+      enableAnalytics: true,
+      labelHeaderLevel: '1',
+      uswds: true,
+    }),
   },
 
   schema: {

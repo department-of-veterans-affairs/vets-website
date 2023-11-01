@@ -53,8 +53,8 @@ describe('<AutoSSO>', () => {
     wrapper.unmount();
   });
 
-  it('should not call checkAutoSession on an invalid path', () => {
-    global.window.location.pathname = '/auth/login/callback';
+  it(`should not call checkAutoSession on an invalid path ['/auth/login/callback']`, () => {
+    global.window.location.pathname = `/auth/login/callback`;
     const stub = sinon.stub(ssoUtils, 'checkAutoSession').resolves(null);
     props = generateProps({ hasCalledKeepAlive: false });
 

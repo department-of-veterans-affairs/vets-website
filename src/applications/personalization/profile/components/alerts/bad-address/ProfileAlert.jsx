@@ -1,19 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { recordCustomProfileEvent } from '../../../util/analytics';
+import { useProfileRouteMetaData } from '../../../hooks';
+import { PROFILE_PATH_NAMES } from '../../../constants';
 
 const handlers = {
-  recordView() {
-    recordCustomProfileEvent({
-      title: 'Personal Info',
-      status: 'BAI Views',
-    });
+  recordView(pageName) {
+    return () =>
+      recordCustomProfileEvent({
+        title: pageName,
+        status: 'BAI Views',
+      });
   },
-  recordLinkClick(linkText) {
+  recordLinkClick(linkText, pageName) {
     return () => {
       recordCustomProfileEvent({
-        title: 'Personal Info',
+        title: pageName,
         status: 'BAI Link Click',
         primaryButtonText: linkText,
       });
@@ -21,16 +26,28 @@ const handlers = {
   },
 };
 
-export default function ProfileAlert() {
+export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
   const heading = 'Review your mailing address';
   const linkText = 'Go to your contact information to review your address';
+  const pageName = useProfileRouteMetaData().name;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const profileUseHubPage = useToggleValue(TOGGLE_NAMES.profileUseHubPage);
+
+  // dont show the alert if the hub page is being used and we are on the personal information page
+  if (
+    profileUseHubPage &&
+    pageName === PROFILE_PATH_NAMES.PERSONAL_INFORMATION
+  ) {
+    return null;
+  }
 
   return (
     <VaAlert
       status="warning"
       data-testid="bad-address-profile-alert"
-      onVa-component-did-load={handlers.recordView}
-      className="vads-u-margin-top--4"
+      onVa-component-did-load={handlers.recordView(pageName)}
+      className={className}
       role="alert"
       aria-live="polite"
     >
@@ -48,7 +65,7 @@ export default function ProfileAlert() {
       <p>
         <Link
           to="contact-information/#mailing-address"
-          onClick={handlers.recordLinkClick(linkText)}
+          onClick={handlers.recordLinkClick(linkText, pageName)}
         >
           {linkText}
         </Link>
@@ -56,3 +73,7 @@ export default function ProfileAlert() {
     </VaAlert>
   );
 }
+
+ProfileAlert.propTypes = {
+  className: PropTypes.string,
+};

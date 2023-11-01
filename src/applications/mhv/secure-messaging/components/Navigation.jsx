@@ -101,7 +101,7 @@ const Navigation = () => {
     } else if (location.pathname === Paths.FOLDERS) {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
-    } else if (location.pathname.split('/')[1] === 'folder') {
+    } else if (location.pathname.split('/')[1] === 'folders') {
       // Highlight "My Folders" when landed on "/folders/:id"
       isActive = path.path === Paths.FOLDERS;
     } else if (location.pathname === path.path) {
@@ -115,7 +115,15 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--2 medium-screen:vads-u-padding-bottom--0">
+    <div
+      className="navigation-container
+      vads-l-col--12
+      medium-screen:vads-l-col--3
+      vads-u-padding-bottom--2
+      medium-screen:vads-u-padding-bottom--0
+      medium-screen:vads-u-padding-right--3
+      do-not-print"
+    >
       {isMobile && (
         <SectionGuideButton
           setNavMenuButtonRef={setNavMenuButtonRef}
@@ -129,14 +137,19 @@ const Navigation = () => {
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div
           ref={sideBarNavRef}
-          className="sidebar-navigation"
+          className="sidebar-navigation vads-u-display--flex vads-u-flex-direction--column"
           id="sidebar-navigation"
         >
           <div className="sr-only" aria-live="polite">
             Navigation menu is open
           </div>
           {isMobile && (
-            <div className="sidebar-navigation-header vads-u-justify-content--flex-end">
+            <div
+              className="sidebar-navigation-header
+                vads-u-display--flex
+                vads-u-flex-direction--row
+                vads-u-justify-content--flex-end"
+            >
               <button
                 ref={closeMenuButtonRef}
                 className="va-btn-close-icon vads-u-margin--0p5 vads-u-padding--2p5 vads-u-margin-right--2"

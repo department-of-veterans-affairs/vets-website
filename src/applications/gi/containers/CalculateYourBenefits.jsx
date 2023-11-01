@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
@@ -90,7 +89,9 @@ export function CalculateYourBenefits({
   };
 
   if (isEmpty(estimatedBenefits)) {
-    return <LoadingIndicator message="Loading your estimated benefits..." />;
+    return (
+      <va-loading-indicator message="Loading your estimated benefits..." />
+    );
   }
 
   const inputs = calculator;
@@ -145,18 +146,16 @@ export function CalculateYourBenefits({
             {expandEybSheet && (
               <div className="va-modal overlay" role="alertdialog" />
             )}
-            {
-              <div id="eyb-summary-sheet" className={summarySheetClassNames}>
-                <EstimateYourBenefitsSummarySheet
-                  outputs={calculated.outputs}
-                  expandEybSheet={expandEybSheet}
-                  showEybSheet={showEybSheet}
-                  toggleEybExpansion={toggleEybExpansion}
-                  type={calculator.type}
-                  yellowRibbon={calculator.yellowRibbonRecipient === 'yes'}
-                />
-              </div>
-            }
+            <div id="eyb-summary-sheet" className={summarySheetClassNames}>
+              <EstimateYourBenefitsSummarySheet
+                outputs={calculated.outputs}
+                expandEybSheet={expandEybSheet}
+                showEybSheet={showEybSheet}
+                toggleEybExpansion={toggleEybExpansion}
+                type={calculator.type}
+                yellowRibbon={calculator.yellowRibbonRecipient === 'yes'}
+              />
+            </div>
           </div>
         )}
       </div>

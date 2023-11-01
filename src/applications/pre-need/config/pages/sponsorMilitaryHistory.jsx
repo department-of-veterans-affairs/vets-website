@@ -13,14 +13,12 @@ export const uiSchema = {
     veteran: {
       serviceRecords: merge({}, serviceRecordsUI, {
         'ui:title': 'Sponsor’s service period(s)',
-        'ui:description':
-          'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
         items: {
           'ui:order': [
             'serviceBranch',
+            'highestRank',
             'dateRange',
             'dischargeType',
-            'highestRank',
             'nationalGuardState',
           ],
           serviceBranch: {
@@ -42,6 +40,9 @@ export const uiSchema = {
           },
         },
       }),
+    },
+    'ui:options': {
+      customTitle: ' ',
     },
   },
 };

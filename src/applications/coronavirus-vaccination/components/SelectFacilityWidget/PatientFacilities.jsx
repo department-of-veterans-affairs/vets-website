@@ -1,9 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { requestStates } from 'platform/utilities/constants';
 
@@ -15,7 +11,7 @@ export default function PatientFacilities({ facilityIds, value, onChange }) {
 
   switch (requestState) {
     case requestStates.pending: {
-      return <LoadingIndicator message="Loading your facilities..." />;
+      return <va-loading-indicator message="Loading your facilities..." />;
     }
     case requestStates.succeeded: {
       return (
@@ -35,11 +31,11 @@ export default function PatientFacilities({ facilityIds, value, onChange }) {
     }
     case requestStates.failed: {
       return (
-        <AlertBox
-          status={ALERT_TYPE.ERROR}
-          headline="We had trouble loading your VA locations"
-          content="An error occurred while trying to loading your locations. Please try again later."
-        />
+        <va-alert visible status="error">
+          <h3 slot="headline">We had trouble loading your VA locations</h3>
+          An error occurred while trying to loading your locations. Please try
+          again later.
+        </va-alert>
       );
     }
     case requestStates.notCalled:

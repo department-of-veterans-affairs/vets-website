@@ -5,7 +5,6 @@ import Compose from './Compose';
 import Folders from './Folders';
 import FolderThreadListView from './FolderThreadListView';
 import LandingPageAuth from './LandingPageAuth';
-import MessageDetails from './MessageDetails';
 import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
@@ -13,7 +12,11 @@ import { Paths } from '../util/constants';
 
 const AuthorizedRoutes = () => {
   return (
-    <div className="vads-u-flex--fill" data-testid="secure-messaing">
+    <div
+      className="vads-l-col--12
+      medium-screen:vads-l-col--9"
+      data-testid="secure-messaging"
+    >
       <ScrollToTop />
       <Switch>
         <Route exact path="/" key="App">
@@ -24,9 +27,6 @@ const AuthorizedRoutes = () => {
         </Route>
         <Route exact path={Paths.COMPOSE} key="Compose">
           <Compose />
-        </Route>
-        <Route exact path={`${Paths.MESSAGE}:messageId/`} key="MessageDetails">
-          <MessageDetails />
         </Route>
         <Route
           exact
@@ -43,12 +43,6 @@ const AuthorizedRoutes = () => {
         </Route>
         <Route path={`${Paths.DRAFT}:draftId/`} key="Compose">
           <Compose />
-        </Route>
-        <Route path={`${Paths.SENT}:messageId/`} key="MessageDetails">
-          <MessageDetails />
-        </Route>
-        <Route path={`${Paths.DELETED}:messageId/`} key="MessageDetails">
-          <MessageDetails />
         </Route>
         <Route
           path={[

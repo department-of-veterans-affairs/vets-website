@@ -1,9 +1,5 @@
-import ReviewPage from '../components/ReviewPage';
-
 const review = {
-  uiSchema: {
-    'ui:description': ReviewPage,
-  },
+  uiSchema: {},
   schema: {
     definitions: {},
     type: 'object',

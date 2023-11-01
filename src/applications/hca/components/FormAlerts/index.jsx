@@ -14,11 +14,11 @@ export const DowntimeWarning = () => (
     <p>
       In the meantime, you can call{' '}
       <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
-      8:00 a.m. to 8:00 p.m. (
+      8:00 a.m. to 8:00 p.m.{' '}
       <dfn>
         <abbr title="Eastern Time">ET</abbr>
-      </dfn>
-      ) and press 2 to complete this application over the phone.
+      </dfn>{' '}
+      and press 2 to complete this application over the phone.
     </p>
   </va-alert>
 );
@@ -26,7 +26,7 @@ export const DowntimeWarning = () => (
 export const ServerErrorAlert = () => (
   <va-alert status="error">
     <h2 slot="headline">Something went wrong on our end</h2>
-    <p>We’re sorry. Something went wrong on our end. Please try again</p>
+    <p>We’re sorry. Something went wrong on our end. Please try again.</p>
   </va-alert>
 );
 

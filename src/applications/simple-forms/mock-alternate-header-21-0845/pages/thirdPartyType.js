@@ -23,6 +23,15 @@ export default {
           [THIRD_PARTY_TYPES.ORGANIZATION]: 'An organization',
         },
       },
+      'ui:reviewField': ({ children: { props } }) => (
+        <div className="review-row">
+          <dt>
+            Do you authorize us to release your information to a specific person
+            or to an organization?
+          </dt>
+          <dd>{props.uiSchema['ui:options'].labels[(props?.formData)]}</dd>
+        </div>
+      ),
     },
     // web component implementation
     // disabled until radio issues are resolved

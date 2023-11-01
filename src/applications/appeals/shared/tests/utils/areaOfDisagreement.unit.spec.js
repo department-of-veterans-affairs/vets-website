@@ -4,7 +4,8 @@ import {
   copyAreaOfDisagreementOptions,
   calculateOtherMaxLength,
 } from '../../utils/areaOfDisagreement';
-import { SUBMITTED_DISAGREEMENTS, MAX_LENGTH } from '../../constants';
+
+import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../constants';
 
 describe('copyAreaOfDisagreementOptions', () => {
   it('should return original issues only', () => {

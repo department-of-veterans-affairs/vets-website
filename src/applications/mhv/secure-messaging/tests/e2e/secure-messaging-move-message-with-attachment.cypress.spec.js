@@ -43,9 +43,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       .find('[id = "radiobutton-Deleted"]', { includeShadowDom: true })
       .click();
     cy.get('[data-testid="move-to-modal"]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
+      .find('va-button[text="Confirm"]')
       .click();
     cy.wait('@moveMessagewithAttachment');
     cy.injectAxe();
@@ -56,7 +54,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
         },
       },
     });
-    landingPage.verifyMoveMessagewithAttachmentSuccessMessage();
+    landingPage.verifyMoveMessageWithAttachmentSuccessMessage();
     cy.get('@moveMessagewithAttachment')
       .its('response')
       .then(response => {

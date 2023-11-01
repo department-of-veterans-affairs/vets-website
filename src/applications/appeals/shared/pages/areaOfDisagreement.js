@@ -6,9 +6,10 @@ import {
 } from '../content/areaOfDisagreement';
 import { areaOfDisagreementRequired } from '../validations/areaOfDisagreement';
 import { calculateOtherMaxLength } from '../utils/areaOfDisagreement';
+
 import {
-  MAX_LENGTH,
   DISAGREEMENT_TYPES,
+  MAX_LENGTH,
   SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 

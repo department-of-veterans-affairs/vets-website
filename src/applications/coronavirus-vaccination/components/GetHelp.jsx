@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 function GetFormHelp() {
   return (
@@ -10,8 +7,8 @@ function GetFormHelp() {
       <p className="help-talk">
         If you have questions or need help filling out this form, call our
         MyVA411 main information line at{' '}
-        <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
+        <va-telephone contact={CONTACTS.HELP_DESK} /> (
+        <va-telephone contact={CONTACTS[711]} tty />
         ).
       </p>
     </div>

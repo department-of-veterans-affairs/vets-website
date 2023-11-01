@@ -1,10 +1,10 @@
 /* eslint-disable deprecate/import */
 import React from 'react';
+// eslint-disable-next-line deprecate/import
 import { genderLabels } from 'platform/static-data/labels';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
+// eslint-disable-next-line deprecate/import
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import CustomReviewField from '../../../components/CustomReviewField';
 
 const { gender } = fullSchemaHca.properties;
@@ -12,7 +12,7 @@ const { gender } = fullSchemaHca.properties;
 const BirthSexDescription = () => {
   return (
     <div className="vads-u-margin-y--2">
-      <AdditionalInfo triggerText="Why we ask for this information">
+      <va-additional-info trigger="Why we ask for this information">
         <p>
           Population data shows that a person’s sex can affect things like their
           health risks and the way their body responds to medications. Knowing
@@ -33,7 +33,7 @@ const BirthSexDescription = () => {
           community. This helps us make sure that we’re serving the needs of all
           Veterans.
         </p>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   );
 };

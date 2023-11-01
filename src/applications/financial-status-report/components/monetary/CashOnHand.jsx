@@ -6,6 +6,8 @@ import { isValidCurrency } from '../../utils/validations';
 import { currency as currencyFormatter } from '../../utils/helpers';
 import { safeNumber } from '../../utils/calculateIncome';
 
+const CASH_ON_HAND = 'Cash on hand (not in bank)';
+
 const CashOnHand = ({
   contentBeforeButtons,
   contentAfterButtons,
@@ -15,9 +17,17 @@ const CashOnHand = ({
   setFormData,
 }) => {
   const { assets, gmtData } = data;
-  const { cashOnHand } = assets;
+  const { cashOnHand, monetaryAssets = [] } = assets;
 
-  const [cash, setCash] = useState(cashOnHand);
+  const cashOnHandTotal = monetaryAssets.find(f => f.name === CASH_ON_HAND) ?? {
+    amount: '',
+  };
+
+  const [cash, setCash] = useState(
+    data['view:streamlinedWaiverAssetUpdate']
+      ? cashOnHandTotal.amount
+      : cashOnHand,
+  );
   const ERR_MSG = 'Please enter a valid dollar amount';
   const [error, setError] = useState(null);
 
@@ -26,19 +36,37 @@ const CashOnHand = ({
       return setError(ERR_MSG);
     }
 
-    // update form data & gmtIsShort
-    setFormData({
-      ...data,
-      assets: {
-        ...data.assets,
-        cashOnHand: cash,
-      },
-      gmtData: {
-        ...gmtData,
-        cashBelowGmt: safeNumber(cash) < gmtData?.assetThreshold,
-      },
-    });
+    const filteredMonetaryAssets = monetaryAssets.filter(
+      asset => asset.name !== CASH_ON_HAND,
+    );
 
+    // New asset caclulation adds cash on hand to monetary assets array.
+    // secondary condition can be removed when feature flag is disabled
+    if (data['view:streamlinedWaiverAssetUpdate']) {
+      setFormData({
+        ...data,
+        assets: {
+          ...data.assets,
+          monetaryAssets: [
+            ...filteredMonetaryAssets,
+            { name: CASH_ON_HAND, amount: cash },
+          ],
+        },
+      });
+    } else {
+      // update form data & gmtIsShort
+      setFormData({
+        ...data,
+        assets: {
+          ...data.assets,
+          cashOnHand: cash,
+        },
+        gmtData: {
+          ...gmtData,
+          cashBelowGmt: safeNumber(cash) < gmtData?.assetThreshold,
+        },
+      });
+    }
     return setError(null);
   };
 
@@ -95,7 +123,9 @@ CashOnHand.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
       cashOnHand: PropTypes.string,
+      monetaryAssets: PropTypes.array,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
     gmtData: PropTypes.shape({
       assetThreshold: PropTypes.number,
     }),
@@ -105,11 +135,13 @@ CashOnHand.propTypes = {
   setFormData: PropTypes.func,
 };
 
+// Cash on hand review component won't be necessary after feature flag is disabled
+//  because cash on hand will be added to monetary assets array
 const CashOnHandReview = ({ data }) => {
   const { assets } = data;
   const { cashOnHand } = assets;
 
-  return (
+  return data['view:streamlinedWaiverAssetUpdate'] ? null : (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
@@ -131,6 +163,7 @@ CashOnHandReview.propTypes = {
     assets: PropTypes.shape({
       cashOnHand: PropTypes.string,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
 };
 

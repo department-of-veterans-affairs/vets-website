@@ -17,7 +17,7 @@ describe('profile utilities', () => {
   describe('getContent', () => {
     it('should return default content', () => {
       const content = getContent();
-      expect(Object.keys(content).length).to.eql(29);
+      expect(Object.keys(content).length).to.eql(35);
       expect(content.alertContent).to.contain('your application');
     });
     it('should return content with custom app name', () => {

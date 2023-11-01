@@ -1,30 +1,18 @@
-import React from 'react';
 import {
   fullNameSchema,
   fullNameUI,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-export function childViewCard({ formData }) {
-  return (
-    <div className="vads-u-padding--2">
-      <strong>
-        {formData.fullName?.first} {formData.fullName?.last}
-      </strong>
-      <br />
-    </div>
-  );
-}
+import { ChildViewCard } from '../components/viewElements';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Child Information'),
+    ...titleUI('Child Information'),
     exampleArrayData: {
       'ui:options': {
         itemName: 'Child',
-        viewField: childViewCard,
+        viewField: ChildViewCard,
         keepInPageOnReview: true,
         customTitle: ' ',
         useDlWrap: true,
@@ -40,7 +28,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       exampleArrayData: {
         type: 'array',
         minItems: 1,

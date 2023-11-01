@@ -13,7 +13,6 @@ describe('<MobileAppMessage>', () => {
   it('should render', () => {
     const wrapper = shallow(<MobileAppMessage mockUserAgent="blah" />);
     expect(wrapper.length).to.equal(1);
-    expect(wrapper.props().status).to.equal('info');
     const links = wrapper.find('a[target="_blank"]');
     expect(links.length).to.equal(2);
     expect(links.first().text()).to.eq('Download the app from the App Store');

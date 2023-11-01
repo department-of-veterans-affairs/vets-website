@@ -29,6 +29,7 @@ import {
 import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
@@ -67,6 +68,9 @@ export default function UpcomingAppointmentsList() {
   );
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
+  );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
   );
 
   useEffect(
@@ -148,7 +152,7 @@ export default function UpcomingAppointmentsList() {
                 'vads-u-margin-top--0': index === 0,
               })}
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-              data-cy="upcoming-appointment-list-header"
+              data-testid="appointment-list-header"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
@@ -165,12 +169,13 @@ export default function UpcomingAppointmentsList() {
                   'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
                 },
               )}
-              data-cy="upcoming-appointment-list"
+              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
               {featureAppointmentList &&
                 UpcomingAppointmentLayout({
                   featureStatusImprovement,
+                  featureBreadcrumbUrlUpdate,
                   hashTable,
                   history,
                 })}
@@ -180,6 +185,7 @@ export default function UpcomingAppointmentsList() {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
+                    featureBreadcrumbUrlUpdate,
                     featureStatusImprovement,
                     appointment: appt,
                   });
@@ -228,6 +234,7 @@ export default function UpcomingAppointmentsList() {
               });
               dispatch(startNewAppointmentFlow());
             }}
+            level={2}
           />
         </div>
       )}

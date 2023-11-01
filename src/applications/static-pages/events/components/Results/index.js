@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import VaPagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment-timezone';
 // Relative imports.
 import ResultsWhereContent from './ResultsWhereContent';
@@ -132,7 +132,7 @@ export const Results = ({
       {/* Pagination bar */}
       <VaPagination
         className="vads-u-border-top--0"
-        onPageSelect={onPageSelect}
+        onPageSelect={e => onPageSelect(e.detail.page)}
         page={page}
         pages={Math.ceil(totalResults / perPage)}
         maxPageListLength={perPage}

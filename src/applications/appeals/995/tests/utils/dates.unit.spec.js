@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import moment from 'moment';
 
-import { FORMAT_YMD, FORMAT_READABLE } from '../../constants';
 import { getDate } from '../../utils/dates';
+
+import { FORMAT_YMD, FORMAT_READABLE } from '../../../shared/constants';
 
 describe('getDate', () => {
   const dateString = '2021-02-10 00:00:00';

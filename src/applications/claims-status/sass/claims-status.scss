@@ -48,10 +48,6 @@
   }
 }
 
-.claim-list-item-container a {
-  position: relative;
-}
-
 @media (max-width: $medium-screen) {
   .claims-status-content .help-sidebar {
     margin-top: 0px;
@@ -97,14 +93,20 @@
   margin: 0;
 }
 
-.communications {
+.communications,
+.communications-old {
   list-style: none;
   padding: 0;
 }
 
+.communications-old,
+.status-old {
+  margin: 0 0 0.5em;
+}
+
 .communications,
 .status {
-  margin: 0 0 0.5em;
+  margin: 0;
 }
 
 // Index page V2
@@ -135,6 +137,43 @@
   }
 }
 
+// Index page V3
+.claim-list-item {
+  margin-bottom: 1em;
+
+  // TODO: We may or may not use this
+  &.in-progress {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.32);
+  }
+
+  .card-status {
+    margin: 0 0 1em;
+    // display: flex;
+
+    p {
+      margin-top: 0.25em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.claim-list-item-header {
+  margin-top: 0;
+
+  span {
+    display: block;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-family: var(--font-source-sans);
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
+  .usa-label {
+    margin-bottom: 1em;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -146,21 +185,7 @@
   border-radius: 0 0 0.5em 0.5em;
 }
 
-.claim-list-item {
-  text-decoration: none;
-  display: block;
-  color: inherit;
-
-  &:visited,
-  &:hover,
-  &:active {
-    color: inherit;
-    text-decoration: none;
-    background-color: inherit;
-  }
-}
-
-.claim-list-item-header {
+.claim-list-item-header-old {
   color: $color-primary;
   margin-top: 0;
 }
@@ -168,10 +193,6 @@
 .claim-list-item-header-v2 {
   margin-top: -2rem;
   white-space: pre-line;
-}
-
-.claim-list-item:hover .claim-list-item-header {
-  color: $color-primary-darker;
 }
 
 .claims-status {
@@ -381,7 +402,7 @@
 }
 
 .disability-claims-warning {
-  background-color: $color-warning-message;
+  background-color: $color-feedback-warning-background;
   text-align: left;
   font-weight: bold;
 }
@@ -1393,4 +1414,37 @@ $marker-text-width: 9rem;
   background-color: transparent;
   box-shadow: inset 0 0 0 2px $color-primary-darkest;
   color: $color-primary-darkest;
+}
+
+.claim-card-link {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px;
+
+  &:focus i::before,
+  &:hover i::before {
+    margin-left: 1.2rem;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: margin;
+  }
+
+  i::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 1.6rem;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 900;
+    line-height: 1;
+    margin-right: 0.8rem;
+    text-rendering: auto;
+    content: "\f105"; /* fa-angle-right */
+    margin-bottom: 0.1rem;
+    margin-left: 0.8rem;
+    margin-right: 0;
+    vertical-align: middle;
+  }
 }

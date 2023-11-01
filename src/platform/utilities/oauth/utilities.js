@@ -19,6 +19,7 @@ import {
   OAUTH_ALLOWED_PARAMS,
   OAUTH_ENDPOINTS,
   OAUTH_KEYS,
+  OPERATIONS,
 } from './constants';
 import * as oauthCrypto from './crypto';
 
@@ -128,11 +129,7 @@ export async function createOAuthRequest({
   // Build the authorization URL query params from config
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
-    [OAUTH_KEYS.ACR]:
-      acr ||
-      (passedOptions.isSignup
-        ? oAuthOptions.acrSignup[type]
-        : oAuthOptions.acr[type]),
+    [OAUTH_KEYS.ACR]: acr ?? oAuthOptions.acr[type],
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
@@ -140,6 +137,10 @@ export async function createOAuthRequest({
     }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+    ...(passedOptions.isSignup &&
+      type.includes('idme') && {
+        [OAUTH_ALLOWED_PARAMS.OPERATION]: OPERATIONS.SIGNUP,
+      }),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));

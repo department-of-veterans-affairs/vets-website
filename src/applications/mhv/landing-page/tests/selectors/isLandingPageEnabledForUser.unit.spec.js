@@ -72,7 +72,7 @@ describe(`${appName} -- isLandingPageEnabledForUser selector`, () => {
     it('user signed in with DS Logon', () => {
       state = stateFn({ serviceName: CSP_IDS.DS_LOGON });
       result = isLandingPageEnabledForUser(state);
-      expect(result).to.be.false;
+      expect(result).to.be.true;
     });
 
     it('user is a Cerner patient', () => {
@@ -85,7 +85,7 @@ describe(`${appName} -- isLandingPageEnabledForUser selector`, () => {
       ];
       state = stateFn({ facilities });
       result = isLandingPageEnabledForUser(state);
-      expect(result).to.be.false;
+      expect(result).to.be.true;
     });
 
     it('user has no facilities', () => {

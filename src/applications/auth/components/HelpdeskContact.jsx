@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function Helpdesk({ children }) {
   const startSentence = !children?.length;

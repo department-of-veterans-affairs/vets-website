@@ -181,6 +181,7 @@ describe('VAOS Backend Service Alert', () => {
       ...appointment.attributes,
       minutesDuration: 30,
       status: 'booked',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: yesterday.format(),
       locationId: '983',
       location: {
@@ -239,6 +240,7 @@ describe('VAOS Backend Service Alert', () => {
       ...appointment.attributes,
       minutesDuration: 30,
       status: 'booked',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: yesterday.format(),
       locationId: '983',
       location: {

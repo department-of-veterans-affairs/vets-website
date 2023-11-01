@@ -223,7 +223,7 @@ ObjectField.propTypes = {
     hideHeaderRow: PropTypes.bool,
     hideTitle: PropTypes.bool,
     onEdit: PropTypes.func,
-    pageTitle: PropTypes.string,
+    pageTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     reviewMode: PropTypes.bool,
   }),
   formData: PropTypes.object,

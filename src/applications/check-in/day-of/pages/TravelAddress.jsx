@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import { makeSelectVeteranData } from '../../selectors';
@@ -25,12 +25,26 @@ const TravelAddress = props => {
     </>
   );
 
+  const additionalInfoItems = [
+    {
+      info: (
+        <Trans
+          i18nKey="if-you-traveled-from-a-different-address--helptext"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+          ]}
+        />
+      ),
+      trigger: t('if-you-didnt-travel-from-your-home-address'),
+    },
+  ];
+
   return (
     <TravelPage
       header={t('did-you-travel-from-your-home-address')}
       eyebrow={t('check-in')}
       bodyText={bodyText}
-      helpText={t('if-you-traveled-from-a-different-address--helptext')}
+      additionalInfoItems={additionalInfoItems}
       pageType="travel-address"
       router={router}
     />

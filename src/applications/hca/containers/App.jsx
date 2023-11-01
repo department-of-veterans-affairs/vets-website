@@ -9,6 +9,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { isUserLOA3 } from '../utils/selectors';
 import formConfig from '../config/form';
 
 const App = props => {
@@ -17,6 +18,7 @@ const App = props => {
     location,
     features,
     formData,
+    isLOA3User,
     isLoggedIn,
     setFormData,
     hasSavedForm,
@@ -32,14 +34,15 @@ const App = props => {
     isSigiEnabled = false,
   } = features;
 
-  // Attempt to fetch disability rating for authenticated users
+  // Attempt to fetch disability rating for LOA3 users
   useEffect(
     () => {
-      if (isLoggedIn) {
+      if (isLOA3User) {
         getTotalDisabilityRating();
       }
     },
-    [getTotalDisabilityRating, isLoggedIn],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLOA3User],
   );
 
   /**
@@ -143,6 +146,7 @@ App.propTypes = {
   formData: PropTypes.object,
   getTotalDisabilityRating: PropTypes.func,
   hasSavedForm: PropTypes.bool,
+  isLOA3User: PropTypes.bool,
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
@@ -161,6 +165,7 @@ const mapStateToProps = state => ({
   hasSavedForm: state.user.profile.savedForms.some(
     form => form.form === VA_FORM_IDS.FORM_10_10EZ,
   ),
+  isLOA3User: isUserLOA3(state),
   isLoading: state.featureToggles.loading,
   isLoggedIn: state.user.login.currentlyLoggedIn,
   totalDisabilityRating: state.totalRating.totalDisabilityRating,

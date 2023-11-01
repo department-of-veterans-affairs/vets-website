@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import recordEvent from 'platform/monitoring/record-event';
 import FormButtons from '../../../components/FormButtons';
 import { GA_PREFIX } from '../../../utils/constants';
 import {
@@ -13,8 +15,8 @@ import {
 import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
-import recordEvent from 'platform/monitoring/record-event';
 import { lowerCase } from '../../../utils/formatters';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -28,7 +30,10 @@ const initialSchema = {
 
 const pageKey = 'ccPreferences';
 
-export default function CommunityCareProviderSelectionPage() {
+export default function CommunityCareProviderSelectionPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const dispatch = useDispatch();
   const { data, pageChangeInProgress, schema } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -53,6 +58,9 @@ export default function CommunityCareProviderSelectionPage() {
     recordEvent({
       event: `${GA_PREFIX}-community-care-provider-selection-page`,
     });
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -90,3 +98,7 @@ export default function CommunityCareProviderSelectionPage() {
     </div>
   );
 }
+
+CommunityCareProviderSelectionPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

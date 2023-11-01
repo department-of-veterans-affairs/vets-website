@@ -17,30 +17,44 @@ const gaBankInfoHelpText = () => {
   });
 };
 
+const directDepositDescriptionAssistance = (
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
+    <p>
+      Direct deposit information is not mandatory at this time. However,
+      benefits cannot be awarded without this information per U.S. Treasury
+      regulation 31 C.F.R. § 208.3.
+    </p>
+    <p>For assistance call 1-888-442-4551 (1-888-GIBILL-1)</p>
+  </div>
+);
+
 const bankInfoHelpText = (
-  <va-additional-info
-    trigger="What if I don’t have a bank account?"
-    onClick={gaBankInfoHelpText}
-  >
-    <span>
-      <p>
-        The{' '}
-        <a href="https://veteransbenefitsbanking.org/">
-          Veterans Benefits Banking Program (VBBP)
-        </a>{' '}
-        provides a list of Veteran-friendly banks and credit unions. They’ll
-        work with you to set up an account, or help you qualify for an account,
-        so you can use direct deposit. To get started, call one of the
-        participating banks or credit unions listed on the VBBP website. Be sure
-        to mention the Veterans Benefits Banking Program.
-      </p>
-      <p>
-        Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
-        subject to section 208.4, “all Federal payments made by an agency shall
-        be made by electronic funds transfer” (EFT).
-      </p>
-    </span>
-  </va-additional-info>
+  <>
+    {directDepositDescriptionAssistance}
+    <va-additional-info
+      trigger="What if I don’t have a bank account?"
+      onClick={gaBankInfoHelpText}
+    >
+      <span>
+        <p>
+          The{' '}
+          <a href="https://veteransbenefitsbanking.org/">
+            Veterans Benefits Banking Program (VBBP)
+          </a>{' '}
+          provides a list of Veteran-friendly banks and credit unions. They’ll
+          work with you to set up an account, or help you qualify for an
+          account, so you can use direct deposit. To get started, call one of
+          the participating banks or credit unions listed on the VBBP website.
+          Be sure to mention the Veterans Benefits Banking Program.
+        </p>
+        <p>
+          Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
+          subject to section 208.4, “all Federal payments made by an agency
+          shall be made by electronic funds transfer” (EFT).
+        </p>
+      </span>
+    </va-additional-info>
+  </>
 );
 
 const directDepositDescription = (
@@ -72,29 +86,19 @@ export default function createDirectDepositChangePage(schema) {
           labels: bankAccountChangeLabelsUpdate,
         },
       },
-      bankAccount: merge({}, bankAccountUI, {
-        'ui:options': {
-          hideIf: formData => !isStartUpdate(formData),
-          expandUnder: 'bankAccountChangeUpdate',
-        },
-        accountType: {
-          'ui:required': isStartUpdate,
-        },
-        accountNumber: {
-          'ui:required': isStartUpdate,
-        },
-        routingNumber: {
-          'ui:required': isStartUpdate,
-        },
-      }),
       'view:directDepositImageAndText': {
         'ui:description': directDepositDescription,
         'ui:options': {
           hideIf: formData =>
             formData.bankAccountChangeUpdate !== 'startUpdate',
-          expandUnder: 'bankAccountChangeUpdate',
         },
       },
+      bankAccount: merge({}, bankAccountUI, {
+        'ui:options': {
+          hideIf: formData => !isStartUpdate(formData),
+          expandUnder: 'view:directDepositImageAndText',
+        },
+      }),
       'view:noneWarning': {
         'ui:description': bankInfoHelpText,
         'ui:options': {
@@ -107,11 +111,11 @@ export default function createDirectDepositChangePage(schema) {
       type: 'object',
       properties: {
         bankAccountChangeUpdate,
-        bankAccount,
         'view:directDepositImageAndText': {
           type: 'object',
           properties: {},
         },
+        bankAccount,
         'view:noneWarning': {
           type: 'object',
           properties: {},

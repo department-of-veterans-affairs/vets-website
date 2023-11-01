@@ -2,13 +2,12 @@
 import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import CustomReviewField from '../../../components/CustomReviewField';
 
 const MaritalStatusDescription = () => {
   return (
     <div className="vads-u-margin-y--2">
-      <AdditionalInfo triggerText="Why we ask for this information">
+      <va-additional-info trigger="Why we ask for this information">
         <p>
           We want to make sure we understand your household’s financial
           situation.
@@ -19,7 +18,7 @@ const MaritalStatusDescription = () => {
           understand your spouse’s financial situation. This allows us to make a
           more informed decision about your application.
         </p>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   );
 };

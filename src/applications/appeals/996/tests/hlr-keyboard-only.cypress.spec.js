@@ -1,15 +1,13 @@
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
-import { fixDecisionDates } from './hlr.cypress.helpers';
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
-import mockVamc from './fixtures/mocks/vamc-ehr.json';
-import mockUser from './fixtures/mocks/user.json';
+
+import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Higher-Level Review keyboard only navigation', () => {
   after(() => {
@@ -17,23 +15,15 @@ describe('Higher-Level Review keyboard only navigation', () => {
   });
 
   it('keyboard navigates through a maximal form', () => {
+    cypressSetup();
+
     window.sessionStorage.removeItem(WIZARD_STATUS);
 
     cy.wrap(mockV2Data.data).as('testData');
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [],
-      },
-    });
+
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
-    cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-
-    cy.login(mockUser);
 
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
@@ -47,8 +37,9 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Wizard
       cy.url().should('include', '/start');
-      cy.tabToElement('va-radio-option');
+      cy.tabToElement('input[value="compensation"]');
       cy.realPress('Space');
+
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
 
@@ -73,9 +64,9 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // Contact info
       cy.url().should(
         'include',
-        chapters.infoPages.pages.confirmContactInformation.path,
+        chapters.infoPages.pages.confirmContactInfo.path,
       );
-      cy.tabToContinueForm();
+      cy.tabToElementAndPressSpace('.usa-button-primary');
 
       // Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
@@ -84,7 +75,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
-      cy.tabToInputWithLabel('Tinnitus');
+      cy.tabToElement('#root_contestedIssues_0'); // Tinnitus
       cy.realPress('Space');
       cy.tabToContinueForm();
 
@@ -98,9 +89,15 @@ describe('Higher-Level Review keyboard only navigation', () => {
       );
       cy.tabToInputWithLabel('service connection');
       cy.realPress('Space');
-      cy.tabToElement('#root_otherEntry');
-      cy.typeInFocused('Few words');
-      cy.tabToContinueForm();
+      cy.tabToElement('[name="otherEntry"]');
+      // Need to specifically find input within va-text-input element
+      cy.get(':focus')
+        .find('input')
+        .type('Few words', { delay: 0 });
+      // For some reason, the Continue button is not consistently appearing in Cypress snapshot with `[type="submit"]`
+      // Both Back and Continue button have ids ending with -continueButton, so using .usa-button-primary to identify which button is submit
+      cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
+      cy.realPress('Space');
 
       // Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
@@ -132,7 +129,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       // Informal conference time
       cy.url().should(
         'include',
-        chapters.informalConference.pages.conferenceTime.path,
+        chapters.informalConference.pages.conferenceTimeRep.path,
       );
       cy.tabToElement('[name="root_informalConferenceTime"]');
       cy.chooseRadio(data.informalConferenceTime);
@@ -140,13 +137,17 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('input[type="checkbox"]');
+      cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('button.screen-only').should('exist');
+      // Another instance where we need to specifically find the element inside of a shadow dom (va-button)
+      cy.get('.screen-only')
+        .shadow()
+        .find('[type="button"')
+        .should('exist');
     });
   });
 });

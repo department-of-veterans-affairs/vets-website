@@ -1,0 +1,34 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1985-01-01",
+    "veteranDateOfDeath": "2015-01-01",
+    "veteranId": { "ssn": "333221111" },
+    "isFirstRequest": true,
+    "applicantFullName": {
+      "first": "Joe",
+      "last": "Applicant"
+    },
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "NY",
+      "postalCode": "12345"
+    },
+    "applicantPhone": "5555555555",
+    "certificates": "3",
+    "additionalCertificates": true,
+    "additionalAddress": {
+      "country": "USA",
+      "street": "124 Any St",
+      "city": "Anytown",
+      "state": "NY",
+      "postalCode": "12345"
+    },
+    "additionalCopies": "3"
+  }
+}

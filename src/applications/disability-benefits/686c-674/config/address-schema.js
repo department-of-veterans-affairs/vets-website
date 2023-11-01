@@ -246,15 +246,31 @@ export const addressUISchema = (
       addressLine2: {
         'ui:title': 'Street address line 2',
         'ui:autocomplete': 'address-line2',
+        'ui:errorMessages': {
+          pattern: 'Street address line 2 must be 35 characters or less',
+        },
         'ui:options': {
           hideEmptyValueInReview: true,
+          updateSchema: (formData, schema) => {
+            return Object.assign(schema, {
+              maxLength: 35,
+            });
+          },
         },
       },
       addressLine3: {
         'ui:title': 'Street address line 3',
         'ui:autocomplete': 'address-line3',
+        'ui:errorMessages': {
+          pattern: 'Street address line 3 must be 35 characters or less',
+        },
         'ui:options': {
           hideEmptyValueInReview: true,
+          updateSchema: (formData, schema) => {
+            return Object.assign(schema, {
+              maxLength: 35,
+            });
+          },
         },
       },
       city: {

@@ -1,17 +1,18 @@
 import moment from 'moment';
 
-import { MAX_LENGTH, SHOW_PART3 } from '../constants';
+import { SHOW_PART3 } from '../constants';
 
-import { SELECTED } from '../../shared/constants';
-import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import {
-  returnUniqueIssues,
-  processContestableIssues,
-} from '../../shared/utils/issues';
+import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
+import {
+  processContestableIssues,
+  returnUniqueIssues,
+} from '../../shared/utils/issues';
+import {
+  fixDateFormat,
+  replaceSubmittedData,
+} from '../../shared/utils/replace';
+import { removeEmptyEntries } from '../../shared/utils/submit';
 
 /** Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
@@ -61,7 +62,7 @@ export const createIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ');
-  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
+  return replaceSubmittedData(result).substring(0, MAX_LENGTH.NOD_ISSUE_NAME);
 };
 
 /**
@@ -159,17 +160,6 @@ export const addUploads = formData =>
     : [];
 
 /**
- * Remove objects with empty string values; Lighthouse doesn't like `null`
- *  values
- * @param {Object}
- * @returns {Object} minus any empty string values
- */
-export const removeEmptyEntries = object =>
-  Object.fromEntries(
-    Object.entries(object).filter(([_, value]) => value !== ''),
-  );
-
-/**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
@@ -178,42 +168,33 @@ export const getAddress = (formData = {}) => {
   const { veteran = {} } = formData;
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  // note "ISO2" is submitted, "Iso2" is from profile address
+  const countryCodeISO2 = formData[SHOW_PART3]
+    ? truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY)
+    : '';
+  // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
     MAX_LENGTH.POSTAL_CODE,
   );
+  // zipCode5 is always required, set to 00000 for addresses outside the U.S.
+  // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+  const zipCode5 =
+    (formData[SHOW_PART3] && countryCodeISO2 !== 'US') ||
+    veteran.address?.countryCodeIso2 !== 'US'
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
     addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
     city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    zipCode5: internationalPostalCode
-      ? '00000'
-      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
     // Include countryName (v1) or countryCodeISO2 (v2)
     countryName: formData[SHOW_PART3] ? '' : veteran.address?.countryName || '',
-    // note "ISO2" is submitted, "Iso2" is from profile address
-    countryCodeISO2: formData[SHOW_PART3]
-      ? truncate('countryCodeIso2', MAX_LENGTH.COUNTRY)
-      : '',
+    countryCodeISO2,
+    zipCode5,
     internationalPostalCode,
-  });
-};
-
-/**
- * Strip out extra profile phone data
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
- */
-export const getPhone = ({ veteran = {} } = {}) => {
-  const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
 };
 

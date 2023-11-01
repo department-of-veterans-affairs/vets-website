@@ -24,16 +24,13 @@ import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
-  Categories,
   DefaultFolders,
-  Prompts,
   ErrorMessages,
 } from '../../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
+import EditPreferences from './EditPreferences';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -60,12 +57,11 @@ const ComposeForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [modalVisible, updateModalVisible] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
-  const fullState = useSelector(state => state);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -75,15 +71,6 @@ const ComposeForm = props => {
     selectedRecipient,
     draftAutoSaveTimeout,
   );
-
-  const {
-    OTHER,
-    COVID,
-    APPOINTMENTS,
-    MEDICATIONS,
-    TEST_RESULTS,
-    EDUCATION,
-  } = Categories;
 
   const formattededSignature = useMemo(
     () => {
@@ -142,10 +129,10 @@ const ComposeForm = props => {
       }
 
       if (!draft) {
-        setSelectedRecipient('');
+        setSelectedRecipient('0');
+        setCategory(null);
         setSubject('');
         setMessageBody('');
-        setCategory('');
       }
     },
     [recipients, draft],
@@ -158,29 +145,26 @@ const ComposeForm = props => {
           category,
           body: messageBody,
           subject,
-          draftId: draft?.messageId,
         };
+        messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              ),
-            )
-            .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
             navigateToFolderByFolderId(
               currentFolder?.folderId || DefaultFolders.INBOX.id,
               history,
             ),
-          );
-        }
+          )
+          .catch(setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],
@@ -208,7 +192,7 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
-  // Populates form fields with recipients and categories
+  //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
@@ -240,30 +224,6 @@ const ComposeForm = props => {
 
   if (draft && recipients && !formPopulated) populateForm();
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category ===
-      (COVID ||
-        OTHER ||
-        APPOINTMENTS ||
-        MEDICATIONS ||
-        TEST_RESULTS ||
-        EDUCATION)
-        ? Categories[category]
-        : 'New message';
-
-    if (category && subject) {
-      return `${Categories[category]}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${Categories[category]}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return `${casedCategory}`;
-  };
-
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
@@ -273,7 +233,6 @@ const ComposeForm = props => {
         !selectedRecipient
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -376,7 +335,8 @@ const ComposeForm = props => {
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
-        debouncedMessageBody
+        debouncedMessageBody &&
+        !modalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -387,6 +347,7 @@ const ComposeForm = props => {
       debouncedSubject,
       debouncedRecipient,
       saveDraftHandler,
+      modalVisible,
     ],
   );
 
@@ -410,6 +371,31 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (
+        selectedRecipient.toString() !==
+          (draft ? draft.recipientId.toString() : '0') ||
+        category !== (draft ? draft.category : null) ||
+        subject !== (draft ? draft.subject : '') ||
+        messageBody !== (draft ? draft.body : '')
+      ) {
+        e.returnValue = '';
+      }
+    },
+    [draft, selectedRecipient, category, subject, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
   return (
     <>
       <EmergencyNote dropDownFlag />
@@ -418,22 +404,26 @@ const ComposeForm = props => {
         {saveError && (
           <VaModal
             modalTitle={saveError.title}
-            onPrimaryButtonClick={() => setSaveError(null)}
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
             }}
-            primaryButtonText="Continue editing"
             status="warning"
             data-testid="quit-compose-double-dare"
             visible
           >
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
+            <va-button
+              text="Continue editing"
+              onClick={() => setSaveError(null)}
+            />
           </VaModal>
         )}
         <RouteLeavingGuard
           when={!!navigationError}
+          modalVisible={modalVisible}
+          updateModalVisible={updateModalVisible}
           navigate={path => {
             history.push(path);
           }}
@@ -447,16 +437,8 @@ const ComposeForm = props => {
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
         />
-        <div
-          className="compose-form-header"
-          data-testid="compose-form-header"
-          data-dd-privacy="mask"
-        >
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {setMessageTitle()}
-          </h2>
-        </div>
-        <div className="compose-inputs-container">
+        <div>
+          <EditPreferences />
           {recipientsList && (
             <>
               <VaSelect
@@ -477,41 +459,6 @@ const ComposeForm = props => {
                   </option>
                 ))}
               </VaSelect>
-
-              <VaModal
-                id="edit-list"
-                modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
-                name="edit-list"
-                visible={editListModal}
-                onCloseEvent={() => setEditListModal(false)}
-                status="warning"
-              >
-                <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
-                <a
-                  className="vads-c-action-link--green"
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'preferences',
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => {
-                    setEditListModal(false);
-                  }}
-                >
-                  Edit your contact list on the My HealtheVet website
-                </a>
-              </VaModal>
-
-              <va-button
-                id="edit-list-button"
-                text="Edit list"
-                label="Edit list"
-                secondary=""
-                class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
-                data-testid="Edit-List-Button"
-                onClick={() => setEditListModal(true)}
-              />
             </>
           )}
           <div className="compose-form-div">
@@ -538,7 +485,7 @@ const ComposeForm = props => {
               data-dd-privacy="mask"
             />
           </div>
-          <div className="compose-form-div">
+          <div className="compose-form-div vads-u-margin-bottom--0">
             <va-textarea
               label="Message"
               required

@@ -9,7 +9,7 @@ export const FilingDeadlinesDescription = (
       form <strong>within 1 year (365 days)</strong> from the date listed on
       your decision notice, unless one of these types of claims:
     </p>
-    <h2>If you have a contested claim</h2>
+    <h2 className="vads-u-margin-top--4">If you have a contested claim</h2>
     <p>
       A <strong>contested claim</strong> is when 2 or more people are claiming
       the right to a benefit that only 1 person can claim. If our decision
@@ -17,7 +17,9 @@ export const FilingDeadlinesDescription = (
       within <strong>60 days</strong> from the date listed on your decision
       notice.
     </p>
-    <h2>If you have a claim from the old appeals system</h2>
+    <h2 className="vads-u-margin-top--4">
+      If you have a claim from the old appeals system
+    </h2>
     <div>
       If you have a <strong>Statement of the Case (SOC)</strong> or a{' '}
       <strong>Supplemental Statement of the Case (SSOC)</strong> from the old

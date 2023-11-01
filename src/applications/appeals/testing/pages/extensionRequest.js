@@ -1,16 +1,20 @@
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { content } from '../content/extensionRequest';
 
 const requestExtension = {
   uiSchema: {
-    'ui:title': content.title,
-    'ui:description': content.description,
-    requestingExtension: {
-      'ui:title': content.label,
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        enableAnalytics: true,
-      },
+    'ui:title': ' ',
+    'ui:options': {
+      forceDivWrapper: true,
     },
+    requestingExtension: yesNoUI({
+      title: content.title,
+      hint: content.description,
+      enableAnalytics: true,
+      labelHeaderLevel: '1',
+      uswds: true,
+    }),
   },
 
   schema: {
@@ -23,7 +27,7 @@ const requestExtension = {
   },
 
   review: data => ({
-    'Are you requesting an extension?': data.requestExtension ? 'Yes' : 'No',
+    [content.title]: data.requestingExtension ? 'Yes' : 'No',
   }),
 };
 

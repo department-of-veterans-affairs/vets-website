@@ -45,6 +45,15 @@ const handleDirectDepositApi = action => {
   };
 };
 
+const filterEligibility = eligibility => {
+  return eligibility?.filter(
+    benefit =>
+      (benefit.veteranIsEligible === true ||
+        benefit.veteranIsEligible === null) &&
+      benefit.chapter !== ELIGIBILITY.CHAPTER33,
+  );
+};
+
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
@@ -55,9 +64,17 @@ export default {
           personalInfoFetchInProgress: true,
         };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
+        return {
+          ...state,
+          isPersonalInfoFetchFailed: false, // Set to false since the fetch was successful
+          personalInfoFetchComplete: true,
+          personalInfoFetchInProgress: false,
+          formData: action?.response || {},
+        };
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          isPersonalInfoFetchFailed: true, // Only set to true when there's a failure
           personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
@@ -82,19 +99,27 @@ export default {
         };
       case FETCH_ELIGIBILITY_SUCCESS:
       case FETCH_ELIGIBILITY_FAILURE:
+        if (action?.errors) {
+          return {
+            ...state,
+            eligibilityFetchComplete: true,
+            eligibility: ['Chapter30', 'Chapter1606', 'NotEligible'],
+          };
+        }
         return {
           ...state,
           eligibilityFetchComplete: true,
           eligibility:
-            action?.response?.data?.attributes?.eligibility
-              ?.filter(
-                benefit =>
-                  (benefit.veteranIsEligible === true ||
-                    benefit.veteranIsEligible === null) &&
-                  benefit.chapter !== ELIGIBILITY.CHAPTER33,
-              )
-              .map(benefit => benefit.chapter) || [],
+            filterEligibility(
+              action?.response?.data?.attributes?.eligibility,
+            ).map(
+              benefit =>
+                benefit.veteranIsEligible === null
+                  ? `${benefit.chapter}null`
+                  : benefit.chapter,
+            ) || [],
         };
+
       case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
         return {
           ...state,
