@@ -17,12 +17,13 @@ const ReviewPageNavigationAlert = ({ data, title }) => {
 
   return (
     <va-alert
-      class="vads-u-margin-y--1"
+      background-only
+      class="vads-u-margin-y--1 vads-u-margin-bottom--2"
       status="info"
       data-testid="review-page-navigation-alert"
       uswds
     >
-      <h4 slot="headline">Editing {title}</h4>
+      <h4>Editing {title}</h4>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         You are currently editing the {title} section. Complete the entire
         sectionto return to the review page.

@@ -13,7 +13,7 @@ const ReviewPageHeader = ({ title, goToPath }) => {
   return (
     <div className="form-review-panel-page" key="income-edit-navigation">
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+        <h4 className="form-review-panel-page-header">
           Review {title || 'this section'}
         </h4>
         <VaButton onClick={goToPath} secondary text="Edit section" />

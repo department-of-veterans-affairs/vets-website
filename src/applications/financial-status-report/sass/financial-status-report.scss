@@ -354,3 +354,12 @@
 
 @include hide-button("button.edit-page");
 @include hide-button(".edit-btn.primary-outline");
+
+.review-header {
+  border-bottom: 1px solid $color-gray-light;
+}
+
+.review-top-bottom-borders {
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+}
