@@ -3,16 +3,23 @@ import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { monetaryAssets as monetaryAssetList } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const MonetaryCheckList = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { monetaryAssets = [] } = assets;
 
   const onChange = ({ target }) => {
@@ -71,6 +78,23 @@ const MonetaryCheckList = ({
     ? streamlinedList
     : monetaryAssetList;
 
+  // reviewDepends - only show/handle review alert and navigation if
+  //  feature flag is on, user is in review mode, and they have not seen the cash pages
+  const reviewDepends =
+    reviewNavigation && showReviewNavigation && !adjustForStreamlined;
+
+  const handleBackNavigation = () => {
+    if (reviewDepends) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
+  };
+
   return (
     <form
       onSubmit={event => {
@@ -79,6 +103,9 @@ const MonetaryCheckList = ({
       }}
     >
       <fieldset>
+        {reviewDepends ? (
+          <ReviewPageNavigationAlert data={data} title="household income" />
+        ) : null}
         <Checklist
           title={title}
           prompt={prompt}
@@ -88,7 +115,7 @@ const MonetaryCheckList = ({
         />
         {contentBeforeButtons}
         <FormNavButtons
-          goBack={goBack}
+          goBack={handleBackNavigation}
           goForward={goForward}
           submitToContinue
         />
@@ -115,6 +142,7 @@ MonetaryCheckList.propTypes = {
       isMarried: PropTypes.bool,
     }),
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
