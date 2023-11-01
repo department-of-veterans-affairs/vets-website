@@ -6,7 +6,7 @@ import { resolveLandingPageLinks } from '../../../utilities/data';
 
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
-const noHealthDataHeading = /You do not have access to My HealtheVet tools/i;
+const noHealthDataHeading = /You don’t have access to My HealtheVet/i;
 
 // Validate a card has a heading and the correct number of links in it.
 function validateLinkGroup(cardHeadline, numLinks) {
