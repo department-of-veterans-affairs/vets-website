@@ -6,13 +6,12 @@ import {
   isValidPhone,
   isValidZipcode,
 } from 'platform/forms/validations';
+import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
 import {
-  schemaCrossXRef,
-  COUNTRY_NAMES,
-  COUNTRY_VALUES,
-  STREET_PATTERN,
+  REJECT_WHITESPACE_ONLY,
   US_POSTAL_CODE_PATTERN,
+  TWO_CAPS_PATTERN,
 } from '../../definitions/profileAddress';
 
 /**
@@ -109,7 +108,7 @@ export const getContent = (appName = 'application') => ({
   missingCountryError: 'Missing country',
   missingStreetAddressError: 'Missing street address',
   missingCityError: 'Missing city',
-  missingStateOrProvinceError: isUS => `Missing ${isUS ? 'state' : 'province'}`,
+  missingStateError: 'Missing state',
   // international postal code is optional
   missingZipError: isUS => (isUS ? 'Missing zip code' : ''),
 
@@ -128,7 +127,7 @@ export const REVIEW_CONTACT = 'onReviewPageContactInfo';
 export const blankSchema = { type: 'object', properties: {} };
 
 /**
- * Phone schema
+ * Phone schema from Lighthouse
  */
 export const standardPhoneSchema = isRequired => ({
   type: 'object',
@@ -172,76 +171,55 @@ export const standardEmailSchema = {
 };
 
 /**
- * Address schema
- */
-export const standardAddressSchema = isRequired => ({
-  type: 'object',
-  required: isRequired
-    ? [
-        schemaCrossXRef.country,
-        schemaCrossXRef.street,
-        schemaCrossXRef.city,
-        schemaCrossXRef.postalCode,
-      ]
-    : [],
-  properties: {
-    [schemaCrossXRef.isMilitary]: {
-      type: 'boolean',
-    },
-    [schemaCrossXRef.country]: {
-      type: 'string',
-      enum: COUNTRY_VALUES,
-      enumNames: COUNTRY_NAMES,
-    },
-    [schemaCrossXRef.street]: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: STREET_PATTERN,
-    },
-    [schemaCrossXRef.street2]: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: STREET_PATTERN,
-    },
-    [schemaCrossXRef.street3]: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 100,
-      pattern: STREET_PATTERN,
-    },
-    [schemaCrossXRef.city]: {
-      type: 'string',
-    },
-    [schemaCrossXRef.state]: {
-      type: 'string',
-    },
-    [schemaCrossXRef.postalCode]: {
-      type: 'string',
-    },
-  },
-});
-
-/**
  * Address schema matching the user profile mailing address; we're not including
  *  the required field here because it should be handled by the ui:validation
  *  dynamic checks for U.S. vs international addresses
  */
-export const standardProfileAddressSchema = {
+export const profileAddressSchema = {
   type: 'object',
-  required: ['countryName', 'addressLine1', 'city', 'stateCode', 'zipCode'],
+  oneOf: [
+    {
+      required: ['countryName', 'addressLine1', 'city'],
+      properties: {
+        addressType: {
+          type: 'string',
+          enum: [ADDRESS_TYPES.international],
+        },
+        zipCode: {
+          type: 'string',
+        },
+      },
+    },
+    {
+      required: ['countryName', 'addressLine1', 'city', 'zipCode'],
+      properties: {
+        addressType: {
+          not: {
+            type: 'string',
+            enum: [ADDRESS_TYPES.international],
+          },
+        },
+        zipCode: {
+          type: 'string',
+          pattern: US_POSTAL_CODE_PATTERN,
+        },
+      },
+    },
+  ],
   properties: {
+    // ISO2 included here because Lighthouse uses this value over countryName;
+    // countryName was required by earlier Lighthouse API endpoints
     countryCodeIso2: {
-      type: 'string', // US
+      type: 'string', // "US"
+      pattern: TWO_CAPS_PATTERN,
     },
     countryName: {
-      type: 'string', // United States
-      pattern: STREET_PATTERN,
+      type: 'string', // "United States"
+      pattern: REJECT_WHITESPACE_ONLY,
     },
     addressLine1: {
       type: 'string',
-      pattern: STREET_PATTERN,
+      pattern: REJECT_WHITESPACE_ONLY,
     },
     addressLine2: {
       type: 'string',
@@ -251,47 +229,11 @@ export const standardProfileAddressSchema = {
     },
     city: {
       type: 'string',
-      pattern: STREET_PATTERN,
+      pattern: REJECT_WHITESPACE_ONLY,
     },
     stateCode: {
+      // state is not required
       type: 'string',
-    },
-    zipCode: {
-      type: 'string',
-      pattern: US_POSTAL_CODE_PATTERN,
-    },
-  },
-};
-
-/**
- * Address schema matching the user profile mailing address; we're not including
- *  the required field here because it should be handled by the ui:validation
- *  dynamic checks for U.S. vs international addresses
- */
-export const internationalProfileAddressSchema = {
-  type: 'object',
-  required: ['countryName', 'addressLine1', 'city'],
-  properties: {
-    countryCodeIso2: {
-      type: 'string',
-    },
-    countryName: {
-      type: 'string',
-      pattern: STREET_PATTERN,
-    },
-    addressLine1: {
-      type: 'string',
-      pattern: STREET_PATTERN,
-    },
-    addressLine2: {
-      type: 'string',
-    },
-    addressLine3: {
-      type: 'string',
-    },
-    city: {
-      type: 'string',
-      pattern: STREET_PATTERN,
     },
     province: {
       type: 'string',
@@ -313,17 +255,56 @@ export const internationalProfileAddressSchema = {
  */
 /**
  * Combine area code and phone number in a string
- * @param {phoneObject} phone
+ * @param {phoneObject} phoneObject
  * @returns {String} area code + phone number
  */
-export const getPhoneString = (phone = {}) =>
-  `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;
+export const getPhoneString = (phoneObject = {}) =>
+  `${phoneObject?.areaCode || ''}${phoneObject?.phoneNumber || ''}`.trim();
 
-export const renderTelephone = (phone = {}) => {
-  const phoneString = getPhoneString(phone);
+export const renderTelephone = (phoneObject = {}) => {
+  const phoneString = getPhoneString(phoneObject);
   return phoneString ? (
     <va-telephone contact={phoneString} not-clickable />
   ) : null;
+};
+
+/**
+ * Default review & submit page validations
+ * @param {Object} content
+ * @param {*} email
+ * @returns
+ */
+export const validateEmail = (content, email) => {
+  const processedEmail = (email || '').trim();
+  if (!processedEmail) {
+    return content.missingEmailError;
+  }
+  if (!isValidEmail(processedEmail)) {
+    return content.invalidEmail;
+  }
+  return '';
+};
+
+export const validatePhone = (content, phoneObject) => {
+  const processedPhoneString = getPhoneString(phoneObject);
+  if (!processedPhoneString) {
+    return content.missingPhoneError;
+  }
+  if (!isValidPhone(processedPhoneString)) {
+    return content.invalidPhone;
+  }
+  return '';
+};
+
+export const validateZipcode = (content, zipcode) => {
+  const processedZipcode = (zipcode || '').trim();
+  if (!processedZipcode) {
+    return content.missingZipError(true);
+  }
+  if (!isValidZipcode(processedZipcode)) {
+    return content.invalidZip(true);
+  }
+  return '';
 };
 
 /**
@@ -352,70 +333,38 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
     requiredKeys.includes(phones.join('')) ||
     requiredKeys.includes(phones.reverse().join(''));
 
+  const isValidHomePhone = isValidPhone(getPhoneString(data[keys.homePhone]));
+  const isValidMobilePhone = isValidPhone(
+    getPhoneString(data[keys.mobilePhone]),
+  );
+
   if (keys.homePhone && keys.mobilePhone && eitherPhone) {
     missingInfo.push(
-      data[keys.homePhone]?.phoneNumber || data[keys.mobilePhone]?.phoneNumber
-        ? ''
-        : content.missingHomeOrMobile,
+      isValidHomePhone || isValidMobilePhone ? '' : content.missingHomeOrMobile,
     );
   } else {
     // If only one phone is used, make it required
     if (keys.homePhone && requiredKeys.includes(keys.homePhone)) {
-      missingInfo.push(
-        data[keys.homePhone]?.phoneNumber ? '' : content.missingHomePhone,
-      );
+      missingInfo.push(isValidHomePhone ? '' : content.missingHomePhone);
     }
     if (keys.mobilePhone && requiredKeys.includes(keys.mobilePhone)) {
-      missingInfo.push(
-        data[keys.mobilePhone]?.phoneNumber ? '' : content.missingMobilePhone,
-      );
+      missingInfo.push(isValidMobilePhone ? '' : content.missingMobilePhone);
     }
   }
   if (keys.email && requiredKeys.includes(keys.email)) {
     missingInfo.push(data[keys.email] ? '' : content.missingEmail);
   }
   if (keys.address && requiredKeys.includes(keys.address)) {
-    missingInfo.push(
-      data[keys.address]?.addressLine1 ? '' : content.missingAddress,
-    );
+    const addressObject = data[keys.address] || {};
+    const isUS = addressObject.addressType !== ADDRESS_TYPES.international;
+    const hasRequiredAddressFields =
+      addressObject.countryName &&
+      addressObject.addressLine1 &&
+      addressObject.city &&
+      (!isUS || (isUS && addressObject.zipCode));
+    missingInfo.push(hasRequiredAddressFields ? '' : content.missingAddress);
   }
   return missingInfo.filter(Boolean);
-};
-
-/**
- * Default review & submit page validations
- */
-export const validateEmail = (content, data) => {
-  const value = (data || '').trim();
-  if (!value) {
-    return content.missingEmailError;
-  }
-  if (!isValidEmail(value)) {
-    return content.invalidEmail;
-  }
-  return '';
-};
-
-export const validatePhone = (content, data) => {
-  const value = `${data.areaCode || ''}${data.phoneNumber || ''}`.trim();
-  if (!value) {
-    return content.missingPhoneError;
-  }
-  if (!isValidPhone(value)) {
-    return content.invalidPhone;
-  }
-  return '';
-};
-
-export const validateZipcode = (content, data) => {
-  const value = (data || '').trim();
-  if (!value) {
-    return content.missingZipError(true);
-  }
-  if (!isValidZipcode(value)) {
-    return content.invalidZip(true);
-  }
-  return '';
 };
 
 /**
@@ -454,13 +403,22 @@ export const contactInfoPropTypes = {
     editMobilePhone: PropTypes.string, // Edit mobile phone page title
     email: PropTypes.string, // review & submit email entry
     homePhone: PropTypes.string, // review & submit home phone entry
+    invalidEmail: PropTypes.string, // review & submit invalid entry error
+    invalidPhone: PropTypes.string, // review & submit invalid phone error
+    invalidZip: PropTypes.string, // review & submit invalid zipcode error
     mailingAddress: PropTypes.string, // review & submit address
     missingAddress: PropTypes.string, // address missing alert alert text
+    missingCityError: PropTypes.string, // review & submit missing city error
+    missingCountryError: PropTypes.string, // review & submit missing country error
     missingEmail: PropTypes.string, // email missing alert text
     missingEmailError: PropTypes.string, // review & submit missing email error message
     missingHomeOrMobile: PropTypes.string, // missing home phone alert text
     missingHomePhone: PropTypes.string, // missing home phone alert text
     missingMobilePhone: PropTypes.string, // missing mobile phone alert text
+    missingPhoneError: PropTypes.string, // review & submit missing phone error
+    missingStateError: PropTypes.string, // review & submit missing state error
+    missingStreetAddressError: PropTypes.string, // review & submit missing street line 1 error
+    missingZipError: PropTypes.string, // review & submit missing zipcode error
     mobilePhone: PropTypes.string, // review & submit mobile phone entry
     postal: PropTypes.string, // review & submit postal code entry
     province: PropTypes.string, // review & submit province entry

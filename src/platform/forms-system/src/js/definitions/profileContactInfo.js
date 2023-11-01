@@ -1,6 +1,3 @@
-import set from 'platform/utilities/data/set';
-import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
-
 import {
   EditAddress,
   EditEmail,
@@ -15,8 +12,7 @@ import {
   CONTACT_INFO_PATH,
   standardPhoneSchema,
   standardEmailSchema,
-  standardProfileAddressSchema,
-  internationalProfileAddressSchema,
+  profileAddressSchema,
   blankSchema,
 } from '../utilities/data/profile';
 
@@ -27,7 +23,7 @@ import {
  * @property {import('../utilities/data/profile').ContactInfoContent} content
  * @property {String} contactPath=contact-information - Contact info path of
  *  formConfig page
- * @property {String} addressSchema=standardProfileAddressSchema - Profile
+ * @property {String} addressSchema=profileAddressSchema - Profile
  *  address schema object
  * @property {Object} emailSchema=standardEmailSchema - Email schema object for
  *  email string
@@ -82,10 +78,10 @@ const profileContactInfo = ({
     // 'homePhone', // homePhone is required
     // 'mobilePhone', // mobilePhone is required
   ],
-  // Page key used within the chapter
+  // Page key used within the formConfig chapter
   contactInfoPageKey = 'confirmContactInfo',
 
-  // must use same keys as above
+  // Must use same keys as above
   included = ['mobilePhone', 'homePhone', 'mailingAddress', 'email'],
 
   // depends callback for contact info page
@@ -99,8 +95,7 @@ const profileContactInfo = ({
 
   if (included.includes(addressKey)) {
     keys.address = addressKey;
-    wrapperProperties[addressKey] =
-      addressSchema || standardProfileAddressSchema;
+    wrapperProperties[addressKey] = addressSchema || profileAddressSchema;
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
       path: `edit-${contactPath}-mailing-address`,
@@ -173,41 +168,7 @@ const profileContactInfo = ({
           content,
           keys,
         }),
-      uiSchema: {
-        ...contactInfoUiSchema,
-        'ui:options': {
-          ...(contactInfoUiSchema['ui:options'] || {}),
-          updateSchema: (formData, schema, ...rest) => {
-            // formData, _schema, _uiSchema, index, path
-            let result = schema;
-            // custom updateSchema; see appeals/996/pages/contactInformation
-            const customUpdateSchema =
-              contactInfoUiSchema?.['ui:options']?.updateSchema;
-
-            // Manually update schema for U.S. or international addresses
-            const newSchema =
-              formData[wrapperKey]?.[addressKey].addressType ===
-              ADDRESS_TYPES.international
-                ? internationalProfileAddressSchema
-                : standardProfileAddressSchema;
-            if (
-              schema.properties?.[wrapperKey]?.properties?.[
-                addressKey
-              ]?.required?.join() !== newSchema.required.join()
-            ) {
-              result = set(
-                `properties.${wrapperKey}.properties.${addressKey}`,
-                newSchema,
-                schema,
-              );
-            }
-            // call custom updateSchema with new schema
-            return typeof customUpdateSchema === 'function'
-              ? customUpdateSchema(formData, result, ...rest)
-              : result;
-          },
-        },
-      },
+      uiSchema: contactInfoUiSchema,
       schema: {
         type: 'object',
         properties: {
