@@ -10,14 +10,7 @@ const MessageThreadMeta = props => {
     activeReplyDraftMessage,
     draftMessageHistoryItem,
   } = props;
-  const {
-    recipientName,
-    senderName,
-    triageGroupName,
-    messageId,
-    sentDate,
-    replyToName,
-  } =
+  const { recipientName, senderName, triageGroupName, messageId, sentDate } =
     message ||
     replyMessage ||
     activeReplyDraftMessage ||
@@ -26,14 +19,14 @@ const MessageThreadMeta = props => {
   return (
     <div className="message-thread-meta">
       <div>
-        <p className="vads-u-margin-y--0p5" data-testid="message-date">
-          <>Date: </>
-          <span data-dd-privacy="mask">
-            {draftMessageHistoryItem
-              ? dateFormat(draftMessageHistoryItem[0]?.sentDate)
-              : dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
-          </span>
-        </p>
+        {sentDate !== null && (
+          <p className="vads-u-margin-y--0p5" data-testid="message-date">
+            <>Date: </>
+            <span data-dd-privacy="mask">
+              {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+            </span>
+          </p>
+        )}
         <p
           className="vads-u-padding-right--2 vads-u-margin-y--0p5"
           data-testid="from"
@@ -44,11 +37,7 @@ const MessageThreadMeta = props => {
               ? `${draftMessageHistoryItem[0]?.senderName} ${
                   !fromMe ? draftMessageHistoryItem[0]?.triageGroupName : ''
                 }`
-              : `${senderName} ${
-                  !fromMe || (!fromMe && replyToName)
-                    ? `(${triageGroupName})`
-                    : ''
-                }`}
+              : `${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </span>
         </p>
         <p
