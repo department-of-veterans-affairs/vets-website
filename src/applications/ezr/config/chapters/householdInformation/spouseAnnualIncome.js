@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -9,7 +9,11 @@ import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
 import content from '../../../locales/en/content.json';
 
-const { monetaryValue } = ezrSchema.definitions;
+const {
+  spouseGrossIncome,
+  spouseNetIncome,
+  spouseOtherIncome,
+} = ezrSchema.properties;
 
 const date = new Date();
 const lastYear = date.getFullYear() - 1;
@@ -65,23 +69,17 @@ export default {
       'view:spouseGrossIncome': {
         type: 'object',
         required: ['spouseGrossIncome'],
-        properties: {
-          spouseGrossIncome: monetaryValue,
-        },
+        properties: { spouseGrossIncome },
       },
       'view:spouseNetIncome': {
         type: 'object',
         required: ['spouseNetIncome'],
-        properties: {
-          spouseNetIncome: monetaryValue,
-        },
+        properties: { spouseNetIncome },
       },
       'view:spouseOtherIncome': {
         type: 'object',
         required: ['spouseOtherIncome'],
-        properties: {
-          spouseOtherIncome: monetaryValue,
-        },
+        properties: { spouseOtherIncome },
       },
     },
   },

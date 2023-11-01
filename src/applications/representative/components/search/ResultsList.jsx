@@ -1,89 +1,221 @@
-import React from 'react';
-// import SearchResult from './SearchResult';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+// import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-const ResultsList = ({ handleRedirect }) => {
-  const resultData = [
-    {
-      distance: 1.25,
-      organization: 'Catholic War Veterans of the USA (081)',
-      type: 'VSO',
-      addressLine1: '237-20 92nd Road',
-      addressLine2: 'Bellerose, NY 11426',
-      phone: '(702) 684-2997',
+import DelayedRender from 'platform/utilities/ui/DelayedRender';
+import { representativeTypes, sortOptions } from '../../config';
+// import { Error } from '../../constants';
+
+import { setFocus } from '../../utils/helpers';
+// import { recordSearchResultsEvents } from '../../utils/analytics';
+import { updateSearchQuery } from '../../actions';
+
+import SearchResult from './SearchResult';
+
+const ResultsList = props => {
+  const searchResultTitle = useRef();
+  const sortTypeRef = useRef();
+
+  const {
+    inProgress,
+    // searchString,
+    // locationInputString,
+    searchResults,
+    // searchError,
+    // pagination,
+    // currentQuery,
+    query,
+    // sortedSearchResults,
+    // sortSearchResults,
+    onUpdateSortType,
+    sortType,
+  } = props;
+
+  useEffect(
+    () => {
+      setFocus(searchResultTitle.current);
     },
-    {
-      distance: 1.55,
-      organization: 'Polish Legion of American Veterans (003)',
-      type: 'VSO',
-      addressLine1: '237-20 92nd Road',
-      addressLine2: 'Bellerose, NY 11426',
-      phone: '(703) 549-3622',
-    },
-    {
-      distance: 1.65,
-      organization: 'National Association of County Veterans Service Of (064)',
-      type: 'VSO',
-      addressLine1: 'Union County Services',
-      addressLine2: 'Elizabeth, NJ 07207',
-      phone: '(856) 780-1380',
-    },
-    {
-      distance: 1.75,
-      organization: 'Jewish War Veterans of the USA (086)',
-      type: 'VSO',
-      addressLine1: '237-20 92nd Road',
-      addressLine2: 'Bellerose, NY 11426',
-      phone: '(377) 777-8157',
-    },
-    {
-      distance: 2.05,
-      organization: 'Vietnam Veterans of America (070)',
-      type: 'VSO',
-      addressLine1: '616 E. Landis Ave.',
-      addressLine2: 'Vineland, NJ 08360',
-      phone: '(856) 293-7321',
-    },
-  ];
+    [searchResults, inProgress, props.error],
+  );
+
+  // method for triggering sortResults when sortType updates
+  const handleSortTypeChange = e => {
+    onUpdateSortType({ sortType: e.target.value });
+  };
+
+  // const currentPage = pagination ? pagination.currentPage : 1;
+
+  // const enrichedResultsData = searchResults.map(result => ({
+  //   ...result,
+  //   resultItem: true,
+  //   locationInputString,
+  //   currentPage,
+  // }));
+
+  const renderResultItems = (
+    searchQuery,
+    // apiResults
+  ) => {
+    const sQuery = searchQuery;
+    return (
+      <>
+        <div
+          className="representative-results-list"
+          style={{ marginBottom: 25 }}
+        >
+          {searchResults?.map((result, index) => {
+            return (
+              <>
+                <hr />
+                <SearchResult
+                  organization={result.organization}
+                  key={result.id}
+                  type={result.type}
+                  addressLine1={result.addressLine1}
+                  addressLine2={result.addressLine2}
+                  phone={result.phone}
+                  distance={result.distance}
+                  representative={result}
+                  query={sQuery}
+                  index={index}
+                />
+              </>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
+
+  // const currentPage = pagination ? pagination.currentPage : 1;
+  if (inProgress) {
+    return (
+      <div>
+        {/* <va-loading-indicator
+          message={`Searching for ${representativeTypeName} in ${searchString}`}
+        /> */}
+        <DelayedRender>
+          <va-alert visible status="info">
+            <h3 slot="headline">Please wait</h3>
+            <p>
+              Your results should appear in less than a minute. Thank you for
+              your patience.
+            </p>
+          </va-alert>
+        </DelayedRender>
+      </div>
+    );
+  }
+
+  // if (searchError) {
+  //   if (searchError.type === 'mapBox') {
+  //     return (
+  //       <SearchResultMessage
+  //         representativeType={representativeTypeName}
+  //         resultRef={searchResultTitle}
+  //         message={Error.LOCATION}
+  //       />
+  //     );
+  //   }
+  //   return (
+  //     <SearchResultMessage
+  //       representativeType={representativeTypeName}
+  //       resultRef={searchResultTitle}
+  //       message={Error.DEFAULT}
+  //       error={searchError}
+  //     />
+  //   );
+  // }
+
+  // const resultsData = searchResults?.map(result => ({
+  //   ...result,
+  //   resultItem: true,
+  //   searchString,
+  //   currentPage,
+  // }));
+
+  // if (resultsData.length > 0) {
+  //   recordSearchResultsEvents(props, resultsData);
+  // }
+
+  const options = Object.keys(sortOptions).map(option => (
+    <option key={option} value={option}>
+      {sortOptions[option]}
+    </option>
+  ));
 
   return (
     <>
-      <div className="representative-results-list" style={{ marginBottom: 25 }}>
-        <main>
-          <va-table table-title="My table">
-            <va-table-row slot="headers">
-              <span>Distance</span>
-              <span>Organization</span>
-              <span>Address</span>
-              <span>Phone</span>
-              <span>Select</span>
-            </va-table-row>
-            {resultData.map((result, index) => {
-              return (
-                <va-table-row key={index}>
-                  <span>{result.distance} Mi</span>
-                  <span>{result.organization}</span>
-                  <span>
-                    <address>
-                      <span>{result.addressLine1}</span>
-                      <br />
-                      <span>{result.addressLine2}</span>
-                    </address>
-                  </span>
-                  <span>
-                    <a href="/">{result.phone}</a>
-                  </span>
-                  <span>
-                    {' '}
-                    <va-button onClick={e => handleRedirect(e)} text="Select" />
-                  </span>
-                </va-table-row>
-              );
-            })}
-          </va-table>
-        </main>
-      </div>
+      {' '}
+      <label htmlFor="sort-by-dropdown">Sort by</label>
+      <select
+        id="representative-sorting-dropdown"
+        aria-label="Sort"
+        ref={sortTypeRef}
+        value={sortType}
+        title="Sort by:"
+        // className="bor-rad"
+        onChange={handleSortTypeChange}
+        style={{ fontWeight: 'bold' }}
+      >
+        {' '}
+        {options}{' '}
+      </select>
+      <div>{renderResultItems(query)}</div>
     </>
   );
 };
 
-export default ResultsList;
+ResultsList.propTypes = {
+  currentQuery: PropTypes.object,
+  error: PropTypes.object,
+  representativeTypeName: PropTypes.string,
+  inProgress: PropTypes.bool,
+  pagination: PropTypes.object,
+  query: PropTypes.object,
+  results: PropTypes.array,
+  searchError: PropTypes.object,
+  locationInputString: PropTypes.string,
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      updateSearchQuery,
+    },
+    dispatch,
+  );
+}
+
+function mapStateToProps(state) {
+  const {
+    context,
+    representativeType,
+    inProgress,
+    position,
+    locationInputString,
+  } = state.searchQuery;
+
+  const representativeTypeName = representativeTypes[representativeType];
+
+  return {
+    currentQuery: state.searchQuery,
+    context,
+    representativeTypeName,
+    inProgress,
+    results: state.searchResult.results,
+    searchError: state.searchResult.error,
+    pagination: state.searchResult.pagination,
+    position,
+    locationInputString,
+    selectedResult: state.searchResult.selectedResult,
+    resultTime: state.searchResult.resultTime,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ResultsList);

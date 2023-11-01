@@ -50,7 +50,7 @@ export const statementOfTruthFullNamePath = ({ formData } = {}) => {
   return 'survivingDependentFullName';
 };
 
-export const benefitSelectionStepperTitle = ({ formData } = {}) => {
+export const benefitSelectionChapterTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -64,21 +64,9 @@ export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const benefitSelectionTitle = ({ formData } = {}) => {
-  switch (formData?.preparerIdentification) {
-    case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependent:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartyVeteran:
-      return 'Select the benefits the Veteran intends to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartySurvivingDependent:
-      return 'Select the benefits the Claimant intends to file a claim for. Select all that apply';
-    default:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-  }
-};
-
-export const personalInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentPersonalInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -92,7 +80,9 @@ export const personalInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const contactInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentContactInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -106,6 +96,22 @@ export const contactInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
+export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your personal information';
+  }
+
+  return 'Veteran’s personal information';
+};
+
+export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your contact information';
+  }
+
+  return 'Veteran’s contact information';
+};
+
 export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
   return set(
     'preparerIdentification',
@@ -116,7 +122,9 @@ export const initializeFormDataWithPreparerIdentification = preparerIdentificati
 
 // Confirmation Page
 const benefitSelections = data =>
-  Object.keys(data.benefitSelection).filter(key => data.benefitSelection[key]);
+  Object.keys(data.benefitSelection)
+    .filter(key => data.benefitSelection[key])
+    .map(benefit => benefit.toUpperCase());
 
 const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
   Object.keys(alreadySubmittedIntents).filter(
@@ -144,7 +152,7 @@ export const getAlertType = (data, alreadySubmittedIntents) => {
     benefitSelections(data).some(
       benefitSelection =>
         !alreadySubmittedBenefitIntents(alreadySubmittedIntents).includes(
-          benefitSelection.toLowerCase(),
+          benefitSelection,
         ),
     )
   ) {
@@ -160,12 +168,12 @@ export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
   );
 
   if (newlySelectedBenefit) {
-    return `You’ve submitted your intent to file request for ${
-      benefitPhrases[newlySelectedBenefit.toLowerCase()]
+    return `You’ve submitted your intent to file for ${
+      benefitPhrases[newlySelectedBenefit]
     }`;
   }
 
-  return 'You’ve submitted your intent to file request';
+  return 'You’ve submitted your intent to file';
 };
 
 export const getSuccessAlertText = (
@@ -173,9 +181,9 @@ export const getSuccessAlertText = (
   alreadySubmittedIntents,
   expirationDate,
 ) => {
-  let benefitSelection = benefitSelections(data)[0].toLowerCase();
+  let benefitSelection = benefitSelections(data)[0];
   if (benefitSelections(data).length > 1) {
-    benefitSelection = 'compensationAndPension';
+    benefitSelection = 'COMPENSATION_AND_PENSION';
   }
 
   const benefitPhrase = benefitPhrases[benefitSelection];
@@ -190,7 +198,7 @@ export const getInfoAlertTitle = () =>
   'You’ve already submitted an intent to file';
 
 export const getInfoAlertText = (data, alreadySubmittedIntents) => {
-  let benefitSelection = benefitSelections(data)[0].toLowerCase();
+  const benefitSelection = benefitSelections(data)[0];
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
@@ -201,7 +209,6 @@ export const getInfoAlertText = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntents[benefitSelection].expirationDate,
   ).toLocaleDateString('en-US', dateOptions);
   if (benefitSelections(data).length > 1) {
-    benefitSelection = 'compensationAndPension';
     return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
   }
 
@@ -218,9 +225,7 @@ export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
     alreadySubmittedIntents,
   )[0];
   if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    alreadySubmittedIntent = 'compensationAndPension';
-  } else {
-    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
+    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
   }
 
   return `You’ve already submitted an intent to file for ${
@@ -247,15 +252,14 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
     expirationDate = new Date(
       alreadySubmittedIntents.pension?.expirationDate,
     ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = 'compensationAndPension';
+    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
   } else {
     expirationDate = new Date(
       alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,
     ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
   }
 
-  return `Our records show that you already have an Intent to File (ITF) for ${
+  return `Our records show that you already have an intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
   }. Your intent to file for ${
     benefitPhrases[alreadySubmittedIntent]
@@ -273,7 +277,7 @@ export const getNextStepsTextSecondParagraph = (
     month: 'long',
     day: 'numeric',
   };
-  const benefitSelection = benefitSelections(data)[0].toLowerCase();
+  const benefitSelection = benefitSelections(data)[0];
   if (benefitSelections(data).length > 1) {
     if (
       alreadySubmittedIntents?.compensation &&

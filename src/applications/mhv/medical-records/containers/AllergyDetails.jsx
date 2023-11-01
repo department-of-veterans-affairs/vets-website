@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -35,8 +36,7 @@ const AllergyDetails = props => {
   );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -70,24 +70,6 @@ const AllergyDetails = props => {
       }
     },
     [dispatch, allergy],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
   );
 
   const generateAllergyPdf = async () => {
@@ -139,6 +121,27 @@ const AllergyDetails = props => {
     makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
   };
 
+  const generateAllergyTxt = async () => {
+    const product = `
+    ${allergy.name} \n
+    Date entered: ${allergy.date} \n
+    _____________________________________________________ \n
+    \t Signs and symptoms: ${allergy.reaction} \n
+    \t Type of Allergy: ${allergy.type} \n
+    \t Location: ${allergy.location} \n
+    \t Observed or historical: ${allergy.observedOrReported} \n
+    \t Provider notes: ${allergy.notes} \n`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Allergy';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const content = () => {
     if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
       return (
@@ -181,6 +184,7 @@ const AllergyDetails = props => {
             <PrintDownload
               download={generateAllergyPdf}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergyTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
