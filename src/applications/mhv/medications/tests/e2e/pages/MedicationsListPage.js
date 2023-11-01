@@ -3,6 +3,7 @@ import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -190,6 +191,14 @@ class MedicationsListPage {
         'have.text',
         'We got your request on October 4, 2023. Check back for updates.',
       );
+  };
+
+  verifyNonVAPrescriptionNameOnListPage = () => {
+    cy.get(
+      `#card-header-${
+        nonVARx.data.id
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('contain', 'CALAMINE');
   };
 }
 export default MedicationsListPage;
