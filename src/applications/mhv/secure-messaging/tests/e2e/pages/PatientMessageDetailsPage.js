@@ -351,27 +351,23 @@ class PatientMessageDetailsPage {
     );
     cy.get('.older-message')
       .eq(messageIndex)
-      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+      .should(
+        'contain',
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
   };
 
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
-    if (messageIndex > 0) {
-      cy.get('[data-testid="from"]')
-        .eq(messageIndex)
-        .should(
-          'have.text',
-          `From: ${messageDetails.data.attributes.senderName} (${
-            messageDetails.data.attributes.triageGroupName
-          })`,
-        );
-    } else {
-      cy.get('[data-testid="from"]')
-        .eq(messageIndex)
-        .should(
-          'have.text',
-          `From: ${messageDetails.data.attributes.senderName} `,
-        );
-    }
+    cy.get('[data-testid="from"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
   };
 
   verifyExpandedMessageToDisplay = (messageDetails, messageIndex = 0) => {
@@ -433,7 +429,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} `,
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
       );
   };
 

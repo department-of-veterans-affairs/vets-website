@@ -60,7 +60,7 @@ describe('Secure Messaging Reply', () => {
     messageDetails.data.attributes.body = messageDetailsBody;
     messageDetailsPage.ReplyToMessageBody(messageDetailsBody);
 
-    // Posssibly move this to another test
+    // Possibly move this to another test
     PatientReplyPage.sendReplyDraft(
       messageDetails.data.attributes.messageId,
       messageDetails.data.attributes.senderId,
