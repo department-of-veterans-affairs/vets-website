@@ -18,13 +18,13 @@ export default {
   uiSchema: {
     ...descriptionUI(PrefillMessage, { hideOnReview: true }),
     'view:pageTitle': inlineTitleUI(content['vet-home-address-title']),
-    veteranHomeAddress: addressUI({ omit: ['isMilitary'] }),
+    veteranHomeAddress: addressUI(),
   },
   schema: {
     type: 'object',
     properties: {
       'view:pageTitle': inlineTitleSchema,
-      veteranHomeAddress: merge({}, addressSchema({ omit: ['isMilitary'] }), {
+      veteranHomeAddress: merge({}, addressSchema(), {
         properties: schemaOverride,
       }),
     },
