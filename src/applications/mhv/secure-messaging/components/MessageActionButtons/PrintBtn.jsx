@@ -44,13 +44,13 @@ const PrintBtn = props => {
     );
   };
 
-  const handleConfirmPrint = () => {
+  const handleConfirmPrint = async () => {
     if (printOption === null) {
       setPrintSelectError('Please select an option to print.');
       focusOnErrorField();
     } else {
+      await closeModal();
       setPrintOption(null);
-      closeModal();
       props.handlePrint(printOption);
     }
   };
@@ -76,7 +76,7 @@ const PrintBtn = props => {
               <VaRadioOption
                 data-testid="radio-print-one-message"
                 label="Print only this message"
-                value={PrintMessageOptions.PRINT_MAIN}
+                value={PrintMessageOptions.PRINT_THREAD}
                 name="this-message"
               />
 
