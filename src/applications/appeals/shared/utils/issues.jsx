@@ -1,3 +1,5 @@
+import React from 'react';
+
 // import the toggleValues helper
 import { LEGACY_TYPE, REGEXP, SELECTED } from '../constants';
 
@@ -41,6 +43,18 @@ export const getSelected = formData => {
     index,
   }));
 };
+
+/**
+ * Issues Listed on Confirmation Page
+ */
+export const getIssuesListItems = data =>
+  getSelected(data || []).map((issue, index) => (
+    <li key={index} className="vads-u-margin-bottom--0">
+      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+        {getIssueName(issue)}
+      </span>
+    </li>
+  ));
 
 // additionalIssues (items) are separate because we're checking the count before
 // the formData is updated
