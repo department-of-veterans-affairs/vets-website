@@ -6,13 +6,14 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import { PrintMessageOptions } from '../../util/constants';
+import { PrintMessageOptions, DefaultFolders } from '../../util/constants';
 import { focusOnErrorField } from '../../util/formHelpers';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [printSelectError, setPrintSelectError] = useState(null);
+  const { activeFolder } = props;
   const messageThread = useSelector(
     state => state.sm.messageDetails.messageHistory,
   );
@@ -43,13 +44,13 @@ const PrintBtn = props => {
     );
   };
 
-  const handleConfirmPrint = () => {
+  const handleConfirmPrint = async () => {
     if (printOption === null) {
       setPrintSelectError('Please select an option to print.');
       focusOnErrorField();
     } else {
+      await closeModal();
       setPrintOption(null);
-      closeModal();
       props.handlePrint(printOption);
     }
   };
@@ -75,7 +76,7 @@ const PrintBtn = props => {
               <VaRadioOption
                 data-testid="radio-print-one-message"
                 label="Print only this message"
-                value={PrintMessageOptions.PRINT_MAIN}
+                value={PrintMessageOptions.PRINT_THREAD}
                 name="this-message"
               />
 
@@ -102,7 +103,12 @@ const PrintBtn = props => {
       {/* TODO add GA event tracking Print button */}
       <button
         type="button"
-        className="usa-button-secondary"
+        className={`usa-button-secondary small-screen:${
+          activeFolder?.folderId !== DefaultFolders.SENT.id
+            ? 'vads-u-flex--3'
+            : 'vads-l-row--3'
+        } `}
+        style={{ minWidth: '100px' }}
         onClick={openModal}
       >
         <i
@@ -119,6 +125,7 @@ const PrintBtn = props => {
 };
 
 PrintBtn.propTypes = {
+  activeFolder: PropTypes.object,
   handlePrint: PropTypes.func,
   id: PropTypes.number,
 };

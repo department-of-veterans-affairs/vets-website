@@ -14,6 +14,7 @@ import {
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
 import { MockUser } from '../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
@@ -40,17 +41,20 @@ describe('VAOS past appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      PastAppointmentListPageObject.visit().validate();
-
-      // Assert
-      // Constrain search within list group.
-      cy.findByTestId(`appointment-list-${yesterday.format('YYYY-MM')}`).within(
-        () => {
-          cy.findAllByTestId('appointment-list-item').should($list => {
-            expect($list).to.have.length(1);
+      AppointmentListPageObject.visit();
+      cy.findByRole('link', { name: 'Past' })
+        .click()
+        .then(() => {
+          // Assert
+          // Constrain search within list group.
+          cy.findByTestId(
+            `appointment-list-${yesterday.format('YYYY-MM')}`,
+          ).within(() => {
+            cy.findAllByTestId('appointment-list-item').should($list => {
+              expect($list).to.have.length(1);
+            });
           });
-        },
-      );
+        });
 
       cy.axeCheckBestPractice();
     });
