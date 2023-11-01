@@ -10,7 +10,7 @@ const headerText = closedDate =>
 
 const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
   <>
-    <va-alert usdws>
+    <va-alert>
       <h3 className="claims-alert-header" slot="headline">
         {completedDate && headerText(completedDate)}
       </h3>
