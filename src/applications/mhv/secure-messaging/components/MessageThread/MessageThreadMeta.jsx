@@ -3,36 +3,57 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 
 const MessageThreadMeta = props => {
-  const { message, fromMe } = props;
   const {
-    recipientName,
-    senderName,
-    triageGroupName,
-    // messageId, // confirming with UCD if messageId is still needed
-    sentDate,
-  } = message;
+    message,
+    fromMe,
+    replyMessage,
+    activeReplyDraftMessage,
+    draftMessageHistoryItem,
+  } = props;
+  const { recipientName, senderName, triageGroupName, messageId, sentDate } =
+    message ||
+    replyMessage ||
+    activeReplyDraftMessage ||
+    draftMessageHistoryItem;
 
   return (
     <div className="message-thread-meta">
       <div>
-        <p className="vads-u-font-weight--bold" data-testid="message-date">
+        {sentDate !== null && (
+          <p className="vads-u-margin-y--0p5" data-testid="message-date">
+            <>Date: </>
+            <span data-dd-privacy="mask">
+              {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+            </span>
+          </p>
+        )}
+        <p
+          className="vads-u-padding-right--2 vads-u-margin-y--0p5"
+          data-testid="from"
+        >
+          <>From: </>
           <span data-dd-privacy="mask">
-            {dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}
+            {draftMessageHistoryItem
+              ? `${draftMessageHistoryItem[0]?.senderName} ${
+                  !fromMe ? draftMessageHistoryItem[0]?.triageGroupName : ''
+                }`
+              : `${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
           </span>
         </p>
-        <p className="vads-u-padding-right--2" data-testid="from">
-          <strong>From: </strong>
+        <p
+          className="vads-u-padding-right--2 vads-u-margin-y--0p5"
+          data-testid={!draftMessageHistoryItem ? 'to' : 'draftTo'}
+        >
+          <>To: </>
           <span data-dd-privacy="mask">
-            {`${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+            {recipientName || draftMessageHistoryItem[0]?.recipientName}
           </span>
         </p>
-        <p className="vads-u-padding-right--2" data-testid="to">
-          <strong>To: </strong>
-          <span data-dd-privacy="mask">{recipientName}</span>
-        </p>
-        <p data-testid="message-id">
-          <strong>Message ID: </strong>
-          <span data-dd-privacy="mask">{message.messageId}</span>
+        <p className="vads-u-margin-y--0p5" data-testid="message-id">
+          <>Message ID: </>
+          <span data-dd-privacy="mask">
+            {messageId || draftMessageHistoryItem[0]?.messageId}
+          </span>
         </p>
       </div>
     </div>
@@ -41,7 +62,10 @@ const MessageThreadMeta = props => {
 
 MessageThreadMeta.propTypes = {
   fromMe: PropTypes.bool.isRequired,
-  message: PropTypes.object.isRequired,
+  activeReplyDraftMessage: PropTypes.object,
+  draftMessageHistoryItem: PropTypes.array,
+  message: PropTypes.object,
+  replyMessage: PropTypes.object,
 };
 
 export default MessageThreadMeta;
