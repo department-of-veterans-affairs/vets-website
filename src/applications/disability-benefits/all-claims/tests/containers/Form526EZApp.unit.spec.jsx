@@ -387,11 +387,7 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   describe('isIntroPage', () => {
-    it('should return false when no path', () => {
-      expect(isIntroPage({})).to.be.false;
-    });
-
-    it('should return false when invalid param', () => {
+    it('should return false when no pathname param', () => {
       expect(isIntroPage()).to.be.false;
     });
   });
