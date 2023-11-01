@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import { mockCCSingleProviderFetch } from '../../../tests/mocks/helpers';
@@ -104,6 +104,82 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.queryByTestId('review-appointments-link')).to.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    fireEvent.click(screen.queryByTestId('review-appointments-link'));
+    expect(window.dataLayer[0]).to.deep.equal({
+      event: 'vaos-view-your-appointments-button-clicked',
+    });
+  });
+  it('should display appointment cancellation alert for VA request', async () => {
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'clinic',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'A message from the patient',
+      },
+      requestedPeriods: [
+        {
+          start: moment(testDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+        {
+          start: moment(testDate)
+            .add(4, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '323',
+      start: null,
+      status: 'cancelled',
+      cancelationReason: {
+        coding: [
+          {
+            code: 'pat',
+          },
+        ],
+      },
+    };
+
+    // mock using vaos service
+    mockSingleVAOSRequestFetch({ request: appointment });
+
+    const facility = createMockFacilityByVersion({
+      id: '983GC',
+      name: 'Cheyenne VA Medical Center',
+      address: {
+        postalCode: '82001-5356',
+        city: 'Cheyenne',
+        state: 'WY',
+        line: ['2360 East Pershing Boulevard'],
+      },
+      phone: '307-778-7550',
+    });
+
+    mockFacilityFetchByVersion({ facility });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: initialStateVAOSService,
+      path: `/requests/${appointment.id}`,
+    });
+    await waitFor(() => {
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+    });
+    expect(screen.baseElement).to.contain.text('You canceled this request');
+
+    expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
   });
   it('should display new appointment confirmation alert for CC request', async () => {
     const ccAppointmentRequest = getVAOSRequestMock();
@@ -117,7 +193,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         ],
       },
       kind: 'cc',
-      locationId: '983GC',
+      locationId: '983',
       id: '1234',
       practitioners: [{ identifier: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
@@ -175,5 +251,10 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     );
     expect(screen.queryByTestId('review-appointments-link')).to.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    fireEvent.click(screen.queryByTestId('schedule-appointment-link'));
+    expect(window.dataLayer[1]).to.deep.equal({
+      event: 'vaos-schedule-appointment-button-clicked',
+    });
   });
 });
