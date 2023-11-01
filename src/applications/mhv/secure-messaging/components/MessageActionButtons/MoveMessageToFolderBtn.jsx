@@ -169,10 +169,11 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     isVisible && (
-      <li>
+      <>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary small-screen:vads-u-flex--3"
+          style={{ minWidth: '100px' }}
           onClick={openModal}
         >
           <i
@@ -195,7 +196,7 @@ const MoveMessageToFolderBtn = props => {
             folders={updatedFoldersList}
           />
         )}
-      </li>
+      </>
     )
   );
 };
