@@ -27,6 +27,11 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import {
   employmentDescription,
   getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
@@ -254,16 +259,18 @@ const formConfig = {
             veteranFullName: fullNameUI,
             veteranSocialSecurityNumber: {
               ...ssnUI,
-              'ui:title':
-                'Social Security number (must have this or a VA file number)',
-              'ui:required': form => !form.vaFileNumber,
+              'ui:title': 'Your Social Security number',
             },
+            vaClaimsHistory: yesNoUI({
+              title: 'Have you filed any type of VA claim before?',
+              uswds: true,
+            }),
             vaFileNumber: {
-              'ui:title':
-                'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSocialSecurityNumber,
+              'ui:title': 'VA file number',
+              'ui:webComponentField': VaTextInputField,
               'ui:options': {
-                widgetClassNames: 'usa-input-medium',
+                hint: 'Enter your VA file number if it doesn’t match your SSN',
+                hideIf: formData => formData.vaClaimsHistory !== true,
               },
               'ui:errorMessages': {
                 pattern: 'Your VA file number must be 8 or 9 digits',
@@ -273,10 +280,15 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['veteranFullName', 'veteranDateOfBirth'],
+            required: [
+              'veteranFullName',
+              'veteranSocialSecurityNumber',
+              'veteranDateOfBirth',
+            ],
             properties: {
               veteranFullName,
               veteranSocialSecurityNumber,
+              vaClaimsHistory: yesNoSchema,
               vaFileNumber,
               veteranDateOfBirth,
             },
