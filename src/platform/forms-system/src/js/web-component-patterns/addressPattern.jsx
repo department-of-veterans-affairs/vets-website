@@ -451,13 +451,18 @@ export function addressUI(options) {
           const addressUiSchema = _uiSchema;
 
           // country-specific error messages
-          if (['CAN', 'MEX', 'USA'].includes(country)) {
+          if (country === 'USA') {
+            addressUiSchema['ui:errorMessages'] = {
+              required: 'Enter a zip code',
+              pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA,
+            };
+          } else if (['CAN', 'MEX'].includes(country)) {
             addressUiSchema['ui:errorMessages'] = {
               required: 'Enter a postal code',
               pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES[country],
             };
           } else {
-            // no pattern error message for other countries
+            // no pattern validation for other countries
             addressUiSchema['ui:errorMessages'] = {
               required:
                 'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
