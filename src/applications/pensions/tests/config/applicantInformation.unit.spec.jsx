@@ -29,7 +29,9 @@ describe('Pensions applicantInformation', () => {
 
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input,select,va-radio').length).to.equal(
+      9,
+    );
   });
   it('should require one of ssn or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -44,7 +46,7 @@ describe('Pensions applicantInformation', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     formDOM.fillData('#root_veteranSocialSecurityNumber', '134445555');
 
     formDOM.submitForm();
