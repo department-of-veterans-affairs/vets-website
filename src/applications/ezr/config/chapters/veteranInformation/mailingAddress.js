@@ -33,11 +33,9 @@ export default {
     required: ['view:doesMailingMatchHomeAddress'],
     properties: {
       'view:pageTitle': inlineTitleSchema,
-      veteranAddress: merge(
-        {},
-        addressSchema({ omit: ['isMilitary'] }),
-        schemaOverride,
-      ),
+      veteranAddress: merge({}, addressSchema({ omit: ['isMilitary'] }), {
+        properties: schemaOverride,
+      }),
       'view:doesMailingMatchHomeAddress': yesNoSchema,
     },
   },
