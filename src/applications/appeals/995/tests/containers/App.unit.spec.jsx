@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
@@ -7,55 +6,13 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import { setStoredSubTask } from 'platform/forms/sub-task';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import App from '../../containers/App';
 
-const profile = {
-  vapContactInfo: {
-    email: {
-      emailAddress: 'test@user.com',
-    },
-    homePhone: {
-      countryCode: '2',
-      areaCode: '345',
-      phoneNumber: '6789013',
-      phoneNumberExt: '34',
-      updatedAt: '2021-01-01',
-    },
-    mobilePhone: {
-      countryCode: '2',
-      areaCode: '345',
-      phoneNumber: '6789012',
-      phoneNumberExt: '',
-      updatedAt: '2021-01-01',
-    },
-    mailingAddress: {
-      addressLine1: '123 test',
-      addressLine2: 'c/o foo',
-      addressLine3: 'suite 99',
-      city: 'Big City',
-      stateCode: 'NV',
-      zipCode: '10101',
-      countryName: 'USA',
-      internationalPostalCode: '12345',
-      updatedAt: '2021-01-01',
-    },
-  },
-};
-
-const saved0995 = [
-  {
-    form: VA_FORM_IDS.FORM_20_0995,
-    metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
-  },
-];
-
 const getData = ({
   loggedIn = true,
-  mockProfile = profile,
   savedForms = [],
   loading = false,
   verified = true,
@@ -76,7 +33,6 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
-          ...mockProfile,
           savedForms,
           verified,
           accountUuid: 'abcd-5678',
@@ -178,28 +134,6 @@ describe('App', () => {
     expect(
       $('va-loading-indicator', container).getAttribute('message'),
     ).to.contain('Loading your previous decision');
-  });
-
-  it('should not throw an error if profile is null', () => {
-    const mockProfile = {
-      vapContactInfo: {
-        email: null,
-        homePhone: null,
-        mobilePhone: null,
-        mailingAddress: null,
-      },
-    };
-    const { props, data } = getData({
-      mockProfile,
-      savedForms: saved0995,
-    });
-    const { container } = render(
-      <Provider store={mockStore(data)}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    expect($('va-loading-indicator', container)).to.exist;
   });
 
   it('should redirect to start', () => {

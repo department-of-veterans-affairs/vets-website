@@ -8,28 +8,38 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import preparerIdentification from '../pages/preparerIdentification';
 import veteranBenefitSelection from '../pages/veteranBenefitSelection';
-import preparerPersonalInformation from '../pages/preparerPersonalInformation';
-import preparerIdentificationInformation from '../pages/preparerIdentificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import thirdPartyVeteranBenefitSelection from '../pages/thirdPartyVeteranBenefitSelection';
+import survivingDependentPersonalInformation from '../pages/survivingDependentPersonalInformation';
+import survivingDependentIdentificationInformation from '../pages/survivingDependentIdentificationInformation';
+import survivingDependentMailingAddress from '../pages/survivingDependentMailingAddress';
+import survivingDependentPhoneAndEmailAddress from '../pages/survivingDependentPhoneAndEmailAddress';
 import {
   preparerIsVeteran,
-  preparerIsSurvivingDependant,
-  preparerIsThirdParty,
+  preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
-  preparerIsThirdPartyToASurvivingDependant,
-  benefitSelectionStepperTitle,
-  personalInformationStepperTitle,
-  contactInformationStepperTitle,
+  preparerIsThirdPartyToASurvivingDependent,
+  benefitSelectionChapterTitle,
+  survivingDependentPersonalInformationChapterTitle,
+  survivingDependentContactInformationChapterTitle,
+  initializeFormDataWithPreparerIdentification,
+  statementOfTruthFullNamePath,
+  veteranPersonalInformationChapterTitle,
+  veteranContactInformationChapterTitle,
 } from './helpers';
-import survivingDependantBenefitSelection from '../pages/survivingDependantBenefitSelection';
+import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
+import thirdPartySurvivingDependentBenefitSelection from '../pages/thirdPartySurvivingDependentBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
-import preparerName from '../pages/preparerName';
+import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
+import veteranMailingAddress from '../pages/veteranMailingAddress';
+import veteranPhoneAndEmailAddress from '../pages/veteranPhoneAndEmailAddress';
+import survivingDependentVeteranPersonalInformation from '../pages/survivingDependentVeteranPersonalInformation';
+import thirdPartySurvivingDependentVeteranPersonalInformation from '../pages/thirdPartySurvivingDependentVeteranPersonalInformation';
+import survivingDependentRelationshipToVeteran from '../pages/survivingDependentRelationshipToVeteran';
+import thirdPartySurvivingDependentRelationshipToVeteran from '../pages/thirdPartySurvivingDependentRelationshipToVeteran';
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/minimal-test.json';
-import relationshipToVeteran from '../pages/relationshipToVeteran';
+import testData from '../tests/e2e/fixtures/data/veteran-minimal-test.json';
 
 const mockData = testData;
 
@@ -38,30 +48,6 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  // submit: () =>
-  //   Promise.resolve({
-  //     // confirmationNumber: '123123123',
-  //     // veteranStatus: 'confirmed',
-  //     // expirationDate: '2024-09-22T19:15:20.000-05:00',
-  //     // compensationIntent: {
-  //     //   creationDate: '2023-09-22T19:15:21.000-05:00',
-  //     //   expirationDate: '2024-09-22T19:15:20.000-05:00',
-  //     //   type: 'compensation',
-  //     //   status: 'active',
-  //     // },
-  //     // pensionIntent: {
-  //     //   creationDate: '2021-03-16T19:15:21.000-05:00',
-  //     //   expirationDate: '2022-03-16T19:15:20.000-05:00',
-  //     //   type: 'pension',
-  //     //   status: 'active',
-  //     // },
-  //     // survivorIntent: {
-  //     //   creationDate: '2021-03-16T19:15:21.000-05:00',
-  //     //   expirationDate: '2022-03-16T19:15:20.000-05:00',
-  //     //   type: 'survivor',
-  //     //   status: 'active',
-  //     // },
-  //   }),
   transformForSubmit,
   trackingPrefix: '21-0966-intent-to-file-a-claim-',
   introduction: IntroductionPage,
@@ -72,7 +58,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'preparerFullName',
+      fullNamePath: formData => statementOfTruthFullNamePath({ formData }),
     },
   },
   formId: '21-0966',
@@ -111,103 +97,178 @@ const formConfig = {
               : undefined,
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
+          updateFormData: (oldFormData, newFormData) =>
+            initializeFormDataWithPreparerIdentification(
+              newFormData.preparerIdentification,
+            ),
         },
-        preparerName: {
-          path: 'preparer-name',
-          // display only if preparer is a third-party
-          depends: formData => preparerIsThirdParty({ formData }),
+        thirdPartyPreparerFullName: {
+          path: 'third-party-preparer-name',
+          depends: formData =>
+            preparerIsThirdPartyToTheVeteran({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Your name',
-          uiSchema: preparerName.uiSchema,
-          schema: preparerName.schema,
+          uiSchema: thirdPartyPreparerFullName.uiSchema,
+          schema: thirdPartyPreparerFullName.schema,
         },
       },
     },
     benefitSelectionChapter: {
-      title: ({ formData }) => benefitSelectionStepperTitle({ formData }),
+      title: ({ formData }) => benefitSelectionChapterTitle({ formData }),
       pages: {
         veteranBenefitSelection: {
-          path: 'benefit-selection-1',
-          // display only if preparer is the veteran or a third-party to the veteran
-          depends: formData =>
-            preparerIsVeteran({ formData }) ||
-            preparerIsThirdPartyToTheVeteran({ formData }),
-          title: formData => benefitSelectionStepperTitle({ formData }),
+          path: 'veteran-benefit-selection',
+          depends: formData => preparerIsVeteran({ formData }),
+          title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelection.uiSchema,
           schema: veteranBenefitSelection.schema,
         },
-        survivingDependantBenefitSelection: {
-          path: 'benefit-selection-2',
-          // display only if preparer is a surviving dependant of the veteran or a third-party to a surviving dependant
+        thirdPartyVeteranBenefitSelection: {
+          path: 'third-party-veteran-benefit-selection',
+          depends: formData => preparerIsThirdPartyToTheVeteran({ formData }),
+          title: formData => benefitSelectionChapterTitle({ formData }),
+          uiSchema: thirdPartyVeteranBenefitSelection.uiSchema,
+          schema: thirdPartyVeteranBenefitSelection.schema,
+        },
+        survivingDependentBenefitSelection: {
+          path: 'surviving-dependent-benefit-selection',
+          depends: formData => preparerIsSurvivingDependent({ formData }),
+          title: formData => benefitSelectionChapterTitle({ formData }),
+          uiSchema: survivingDependentBenefitSelection.uiSchema,
+          schema: survivingDependentBenefitSelection.schema,
+        },
+        thirdPartySurvivingDependentBenefitSelection: {
+          path: 'third-party-surviving-dependent-benefit-selection',
           depends: formData =>
-            preparerIsSurvivingDependant({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
-          title: formData => benefitSelectionStepperTitle({ formData }),
-          uiSchema: survivingDependantBenefitSelection.uiSchema,
-          schema: survivingDependantBenefitSelection.schema,
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          title: formData => benefitSelectionChapterTitle({ formData }),
+          uiSchema: thirdPartySurvivingDependentBenefitSelection.uiSchema,
+          schema: thirdPartySurvivingDependentBenefitSelection.schema,
         },
       },
     },
-    personalInformationChapter: {
-      title: ({ formData }) => personalInformationStepperTitle({ formData }),
+    survivingDependentPersonalInformationChapter: {
+      title: ({ formData }) =>
+        survivingDependentPersonalInformationChapterTitle({ formData }),
       pages: {
-        personalInformation: {
-          path: 'personal-information',
-          title: formData => personalInformationStepperTitle({ formData }),
-          uiSchema: preparerPersonalInformation.uiSchema,
-          schema: preparerPersonalInformation.schema,
+        survivingDependentPersonalInformation: {
+          path: 'surviving-dependent-personal-information',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          title: formData =>
+            survivingDependentPersonalInformationChapterTitle({ formData }),
+          uiSchema: survivingDependentPersonalInformation.uiSchema,
+          schema: survivingDependentPersonalInformation.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
+        survivingDependentIdentificationInformation: {
+          path: 'surviving-dependent-identification-information',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Identification information',
-          uiSchema: preparerIdentificationInformation.uiSchema,
-          schema: preparerIdentificationInformation.schema,
+          uiSchema: survivingDependentIdentificationInformation.uiSchema,
+          schema: survivingDependentIdentificationInformation.schema,
         },
       },
     },
-    contactInformationChapter: {
-      title: ({ formData }) => contactInformationStepperTitle({ formData }),
+    survivingDependentContactInformationChapter: {
+      title: ({ formData }) =>
+        survivingDependentContactInformationChapterTitle({ formData }),
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
+        survivingDependentMailingAddress: {
+          path: 'surviving-dependent-mailing-address',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+          uiSchema: survivingDependentMailingAddress.uiSchema,
+          schema: survivingDependentMailingAddress.schema,
         },
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
+        survivingDependentPhoneAndEmailAddress: {
+          path: 'surviving-dependent-phone-and-email-address',
+          depends: formData =>
+            preparerIsSurvivingDependent({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
           title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+          uiSchema: survivingDependentPhoneAndEmailAddress.uiSchema,
+          schema: survivingDependentPhoneAndEmailAddress.schema,
         },
       },
     },
     veteranPersonalInformationChapter: {
-      title: 'Veteran’s personal information',
+      title: ({ formData }) =>
+        veteranPersonalInformationChapterTitle({ formData }),
       pages: {
         veteranPersonalInformation: {
           path: 'veteran-personal-information',
-          // display only if preparer is not the veteran
-          depends: formData => !preparerIsVeteran({ formData }),
+          depends: formData =>
+            preparerIsVeteran({ formData }) ||
+            preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
         },
+        survivingDependentVeteranPersonalInformation: {
+          path: 'surviving-dependent-veteran-personal-information',
+          depends: formData => preparerIsSurvivingDependent({ formData }),
+          title: 'Veteran’s name and date of birth',
+          uiSchema: survivingDependentVeteranPersonalInformation.uiSchema,
+          schema: survivingDependentVeteranPersonalInformation.schema,
+        },
+        thirdPartySurvivingDependentVeteranPersonalInformation: {
+          path: 'third-party-surviving-dependent-veteran-personal-information',
+          depends: formData =>
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          title: 'Veteran’s name and date of birth',
+          uiSchema:
+            thirdPartySurvivingDependentVeteranPersonalInformation.uiSchema,
+          schema: thirdPartySurvivingDependentVeteranPersonalInformation.schema,
+        },
         veteranIdentificationInformation: {
           path: 'veteran-identification-information',
-          // display only if preparer is not the veteran
-          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Identification information',
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
         },
-        relationshipToVeteran: {
-          path: 'relationship-to-veteran',
-          // display only if preparer is third-party to a surviving dependant
-          depends: formData =>
-            preparerIsThirdPartyToASurvivingDependant({ formData }),
+        survivingDependentRelationshipToVeteran: {
+          path: 'surviving-dependent-relationship-to-veteran',
+          depends: formData => preparerIsSurvivingDependent({ formData }),
           title: '',
-          uiSchema: relationshipToVeteran.uiSchema,
-          schema: relationshipToVeteran.schema,
+          uiSchema: survivingDependentRelationshipToVeteran.uiSchema,
+          schema: survivingDependentRelationshipToVeteran.schema,
+        },
+        thirdPartySurvivingDependentRelationshipToVeteran: {
+          path: 'third-party-surviving-dependent-relationship-to-veteran',
+          depends: formData =>
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          title: '',
+          uiSchema: thirdPartySurvivingDependentRelationshipToVeteran.uiSchema,
+          schema: thirdPartySurvivingDependentRelationshipToVeteran.schema,
+        },
+      },
+    },
+    veteranContactInformationChapter: {
+      title: ({ formData }) =>
+        veteranContactInformationChapterTitle({ formData }),
+      pages: {
+        veteranMailingAddress: {
+          path: 'veteran-mailing-address',
+          depends: formData =>
+            preparerIsVeteran({ formData }) ||
+            preparerIsThirdPartyToTheVeteran({ formData }),
+          title: 'Mailing address',
+          uiSchema: veteranMailingAddress.uiSchema,
+          schema: veteranMailingAddress.schema,
+        },
+        veteranPhoneAndEmailAddress: {
+          path: 'veteran-phone-and-email-address',
+          depends: formData =>
+            preparerIsVeteran({ formData }) ||
+            preparerIsThirdPartyToTheVeteran({ formData }),
+          title: 'Phone and email address',
+          uiSchema: veteranPhoneAndEmailAddress.uiSchema,
+          schema: veteranPhoneAndEmailAddress.schema,
         },
       },
     },

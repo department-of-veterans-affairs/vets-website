@@ -12,10 +12,7 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import {
-  Toggler,
-  useFeatureToggle,
-} from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -38,11 +35,10 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
-import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
+import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
-import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
@@ -51,7 +47,7 @@ import Debts from './debts/Debts';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
-import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
+import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import SavedApplications from './apply-for-benefits/SavedApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
@@ -90,35 +86,22 @@ const DashboardHeader = ({ showNotifications }) => {
 
 const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-      <Toggler.Enabled>
-        <>
-          <div className="vads-l-row">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-              <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
-            </div>
-          </div>
-
-          <ClaimsAndAppeals
-            useLighthouseClaims={useLighthouseClaims}
-            isLOA1={isLOA1}
-          />
-
-          <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
-          <EducationAndTraining isLOA1={isLOA1} />
-          <SavedApplications isLOA1={isLOA1} />
-        </>
-      </Toggler.Enabled>
-
-      <Toggler.Disabled>
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-            <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
-          </div>
+    <>
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
         </div>
-        <ApplyForBenefits />
-      </Toggler.Disabled>
-    </Toggler>
+      </div>
+
+      <ClaimsAndAppeals
+        useLighthouseClaims={useLighthouseClaims}
+        isLOA1={isLOA1}
+      />
+
+      <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
+      <EducationAndTraining isLOA1={isLOA1} />
+      <SavedApplications isLOA1={isLOA1} />
+    </>
   );
 };
 
@@ -341,7 +324,10 @@ const mapStateToProps = state => {
       hasLoadedFullName &&
       hasLoadedDisabilityRating);
 
-  const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
+  const togglesAreLoaded = !toggleValues(state)?.loading;
+
+  const showLoader =
+    !hasLoadedScheduledDowntime || !hasLoadedAllData || !togglesAreLoaded;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);
@@ -385,7 +371,7 @@ const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showNotifications,
-    payments: state.allPayments.payments || [],
+    payments: state.allPayments?.payments || [],
   };
 };
 

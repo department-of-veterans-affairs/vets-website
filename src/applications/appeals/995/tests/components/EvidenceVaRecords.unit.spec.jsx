@@ -86,6 +86,10 @@ describe('<EvidenceVaRecords>', () => {
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
+    // check Datadog classes
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(2);
   });
 
   const clickEvent = new MouseEvent('click', {
@@ -313,8 +317,7 @@ describe('<EvidenceVaRecords>', () => {
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total, event) => {
-      expect(getErrorElements(container).length).to.eq(total);
+    const testAndCloseModal = async (container, event) => {
       // modal visible
       await waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
@@ -372,7 +375,13 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
-      await testAndCloseModal(container, 3, 'secondaryButtonClick');
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
+      await testAndCloseModal(container, 'secondaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.true;
@@ -400,8 +409,14 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
       // keep partial entry
-      await testAndCloseModal(container, 3, 'primaryButtonClick');
+      await testAndCloseModal(container, 'primaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.false; // no data change

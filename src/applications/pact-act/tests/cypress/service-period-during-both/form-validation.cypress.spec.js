@@ -19,10 +19,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.SERVICE_PERIOD_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.SERVICE_PERIOD_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.SERVICE_PERIOD_INPUT, 2);
       h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
@@ -34,10 +31,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.BURN_PIT_2_1_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.BURN_PIT_2_1_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_INPUT, 2);
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_INPUT);
@@ -49,10 +43,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_1_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.BURN_PIT_2_1_1_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.BURN_PIT_2_1_1_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 2);
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_1_INPUT);
@@ -64,10 +55,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.BURN_PIT_2_1_2_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.BURN_PIT_2_1_2_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 2);
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
@@ -79,10 +67,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.ORANGE_2_2_A_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.ORANGE_2_2_A_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_A_INPUT, 0);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
@@ -94,10 +79,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.ORANGE_2_2_B_INPUT,
-        'Error Please select a location.',
-      );
+      h.checkFormAlertText(h.ORANGE_2_2_B_INPUT, 'Error Select a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
@@ -115,10 +97,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.ORANGE_2_2_1_A_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.ORANGE_2_2_1_A_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.ORANGE_2_2_1_A_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_1_A_INPUT, 0);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_1_A_INPUT);
@@ -130,10 +109,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.ORANGE_2_2_1_B_INPUT,
-        'Error Please select a location.',
-      );
+      h.checkFormAlertText(h.ORANGE_2_2_1_B_INPUT, 'Error Select a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_1_B_INPUT, 0);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
@@ -151,10 +127,7 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.ORANGE_2_2_2_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.ORANGE_2_2_2_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.ORANGE_2_2_2_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_2_INPUT, 2);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_2_INPUT);
@@ -166,12 +139,49 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.ORANGE_2_2_3_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(
-        h.ORANGE_2_2_3_INPUT,
-        'Error Please select a response.',
-      );
+      h.checkFormAlertText(h.ORANGE_2_2_3_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_3_INPUT, 2);
+      h.clickContinue();
+
+      // RADIATION_2_3_A ------------------------------
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      cy.injectAxeThenAxeCheck();
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_A_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.RADIATION_2_3_A_INPUT, 'Error Select a response.');
+
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 0);
+      h.clickContinue();
+
+      // RADIATION_2_3_B -----------------------------
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      cy.injectAxeThenAxeCheck();
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.RADIATION_2_3_B_INPUT, 'Error Select a location.');
+
+      h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 0);
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
+      h.clickBack();
+
+      // RADIATION_2_3_A ------------------------------
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_A_INPUT);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 2);
+      h.clickContinue();
+
+      // LEJEUNE_2_4 ------------------------------
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      cy.injectAxeThenAxeCheck();
+      h.verifyFormErrorNotShown(h.LEJEUNE_2_4_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.LEJEUNE_2_4_INPUT, 'Error Select a response.');
+
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
       h.clickContinue();
     });
   });

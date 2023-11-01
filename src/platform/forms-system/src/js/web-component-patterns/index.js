@@ -1,4 +1,5 @@
 export * from './addressPattern';
+export * from './checkboxGroupPattern';
 export * from './datePatterns';
 export * from './emailPattern';
 export * from './fullNamePattern';

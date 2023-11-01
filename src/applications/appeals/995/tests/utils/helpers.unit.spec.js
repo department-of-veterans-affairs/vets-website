@@ -1,28 +1,26 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { LEGACY_TYPE } from '../../constants';
 import { getDate } from '../../utils/dates';
 import {
   getEligibleContestableIssues,
-  getLegacyAppealsLength,
   mayHaveLegacyAppeals,
-  getSelectedCount,
-  getIssueName,
-  getIssueDate,
-  getIssueNameAndDate,
-  hasDuplicates,
-  isEmptyObject,
-  appStateSelector,
-  getItemSchema,
-  calculateIndexOffset,
 } from '../../utils/helpers';
 
-import { SELECTED } from '../../../shared/constants';
+import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
+import { getItemSchema, isEmptyObject } from '../../../shared/utils/helpers';
 import {
-  someSelected,
+  appStateSelector,
+  calculateIndexOffset,
+  hasDuplicates,
   hasSomeSelected,
+  getIssueDate,
+  getIssueName,
+  getIssueNameAndDate,
+  getLegacyAppealsLength,
   getSelected,
+  getSelectedCount,
+  someSelected,
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {

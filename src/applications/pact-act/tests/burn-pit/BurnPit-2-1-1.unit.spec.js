@@ -5,9 +5,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
-import { displayConditionsMet } from '../../utilities/display-logic';
+import { displayConditionsMet } from '../../utilities/display-logic-questions';
 
 import BurnPit211 from '../../containers/questions/burn-pit/BurnPit-2-1-1';
+
+const { BURN_PIT_2_1_1 } = SHORT_NAME_MAP;
+const {
+  DURING_BOTH_PERIODS,
+  EIGHTYNINE_OR_EARLIER,
+  NINETY_OR_LATER,
+  NO,
+  NOT_SURE,
+  YES,
+} = RESPONSES;
 
 // Form data is intentionally skipped for the render tests since these are very basic "does it load?" tests
 
@@ -89,44 +99,63 @@ describe('Burn Pit 2.1.1 Page', () => {
 describe('displayConditionsAreMet', () => {
   it('BURN_PIT_2_1_1: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: RESPONSES.NO,
-      SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
+      BURN_PIT_2_1: NO,
+      SERVICE_PERIOD: NINETY_OR_LATER,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.BURN_PIT_2_1_1, formResponses),
-    ).to.equal(true);
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(true);
   });
 
   it('BURN_PIT_2_1_1: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: RESPONSES.NOT_SURE,
-      SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+      BURN_PIT_2_1: NOT_SURE,
+      SERVICE_PERIOD: NINETY_OR_LATER,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.BURN_PIT_2_1_1, formResponses),
-    ).to.equal(true);
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(true);
+  });
+
+  it('BURN_PIT_2_1_1: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: NOT_SURE,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(true);
+  });
+
+  it('BURN_PIT_2_1_1: should return true when the display conditions are met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: NO,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(true);
   });
 
   it('BURN_PIT_2_1_1: should return false when the display conditions are not met', () => {
     const formResponses = {
-      SERVICE_PERIOD: RESPONSES.EIGHTYNINE_OR_EARLIER,
+      SERVICE_PERIOD: EIGHTYNINE_OR_EARLIER,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.BURN_PIT_2_1_1, formResponses),
-    ).to.equal(false);
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(false);
   });
 
   it('BURN_PIT_2_1_1: should return false when the display conditions are not met', () => {
     const formResponses = {
-      BURN_PIT_2_1: RESPONSES.YES,
-      SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
+      BURN_PIT_2_1: YES,
+      SERVICE_PERIOD: NINETY_OR_LATER,
     };
 
-    expect(
-      displayConditionsMet(SHORT_NAME_MAP.BURN_PIT_2_1_1, formResponses),
-    ).to.equal(false);
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(false);
+  });
+
+  it('BURN_PIT_2_1_1: should return false when the display conditions are not met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
+    };
+
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(false);
   });
 });

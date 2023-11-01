@@ -16,6 +16,7 @@ export const IntroductionPageView = ({
   const {
     formTitle,
     formSubTitle,
+    hideSipIntro = false, // show <SaveInProgressIntro> by default
     authStartFormText,
     saveInProgressText,
     unauthStartText,
@@ -32,19 +33,21 @@ export const IntroductionPageView = ({
     <article className="schemaform-intro">
       <FormTitle title={formTitle} subTitle={formSubTitle} />
       {childContent}
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText={authStartFormText}
-        unauthStartText={unauthStartText}
-        displayNonVeteranMessaging={displayNonVeteranMessaging}
-        verifiedPrefillAlert={verifiedPrefillAlert}
-        formConfig={formConfig}
-      >
-        {saveInProgressText}
-      </SaveInProgressIntro>
+      {!hideSipIntro && (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText={authStartFormText}
+          unauthStartText={unauthStartText}
+          displayNonVeteranMessaging={displayNonVeteranMessaging}
+          verifiedPrefillAlert={verifiedPrefillAlert}
+          formConfig={formConfig}
+        >
+          {saveInProgressText}
+        </SaveInProgressIntro>
+      )}
       {additionalChildContent || null}
       <p />
       {!customPrivacyActStmt ? (

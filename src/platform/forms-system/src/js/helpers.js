@@ -322,7 +322,7 @@ export function getArrayFields(data) {
 
     if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
-        findArrays(obj.properties[prop], ui[prop], path.concat(prop));
+        findArrays(obj.properties?.[prop], ui?.[prop], path.concat(prop));
       });
     }
   };
@@ -367,7 +367,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     };
   }
 
-  if (schema.type === 'object') {
+  if (
+    schema.type === 'object' &&
+    !get('ui:options.displayEmptyObjectOnReview', uiSchema)
+  ) {
     const newProperties = Object.keys(schema.properties).reduce(
       (current, next) => {
         const newSchema = getNonArraySchema(

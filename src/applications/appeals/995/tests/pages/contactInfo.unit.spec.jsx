@@ -13,7 +13,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.infoPages.pages.confirmContactInformation;
+} = formConfig.chapters.infoPages.pages.confirmContactInfo;
 
 describe('contact information page', () => {
   it('should render', () => {

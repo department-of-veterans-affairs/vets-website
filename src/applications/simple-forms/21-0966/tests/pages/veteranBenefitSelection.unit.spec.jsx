@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'Veteran benefit selection';
 
-const expectedNumberOfFields = 1;
+const expectedNumberOfFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

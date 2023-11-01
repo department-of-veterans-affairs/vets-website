@@ -126,6 +126,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.repeatKey('Tab', 4);
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
+    cy.realPress('Space');
 
     cy.realPress('Tab');
     cy.allyEvaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');

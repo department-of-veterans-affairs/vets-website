@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -112,7 +111,11 @@ const IntroductionPage = props => {
         className="omb-info--container vads-u-margin-bottom--3"
         style={{ paddingLeft: '0px' }}
       >
-        <OMBInfo resBurden={30} ombNumber="2900-0265" expDate="12/31/2021" />
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0265"
+          exp-date="12/31/2021"
+        />
       </div>
       <va-alert status="info" background-only>
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">

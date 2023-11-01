@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// eslint-disable-next-line deprecate/import
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 
@@ -44,12 +44,15 @@ export class ServiceAvailabilityBanner extends React.Component {
       case SERVICE_AVAILABILITY_STATES.down:
       default: {
         content = (
-          <AlertBox
-            headline="The Post-9/11 GI Bill Benefits tool is down for maintenance"
-            content="We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time."
-            isVisible
-            status="error"
-          />
+          <VaAlert visible status="error">
+            <h3 slot="headline">
+              The Post-9/11 GI Bill Benefits tool is down for maintenance
+            </h3>
+            We’re sorry the tool isn’t available right now. The tool will be
+            available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET,
+            and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during
+            that time.
+          </VaAlert>
         );
       }
     }

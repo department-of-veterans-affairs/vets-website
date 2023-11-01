@@ -13,7 +13,7 @@ import { ROUTES } from '../../../../constants';
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('1989 or earlier - "Yes" to ORANGE_2_2_A - "Yes" to two or more categories (Results Screen 1)', () => {
+  describe('1989 or earlier - "Yes" to two or more question categories (Results Screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit('/pact-act-wizard-test');
 
@@ -37,7 +37,46 @@ describe('PACT Act', () => {
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
       h.clickContinue();
 
-      // TODO add Radiation & Lejeune questions when they exist
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 0);
+      h.clickContinue();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 0);
+      h.clickContinue();
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.clickContinue();
+
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.verifyElement(h.RESULTS_1_P1_HEADER);
+      h.clickResultsContinue();
+
+      // RESULTS 1, P2
+      h.verifyUrl(ROUTES.RESULTS_1_P2);
+      h.verifyElement(h.RESULTS_1_P2_HEADER);
+      h.clickResultsBack();
+
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.clickResultsBack();
+
+      // LEJEUNE_2_4
+      h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.clickBack();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.clickBack();
+
+      // RADIATION_2_3_A
+      h.verifyUrl(ROUTES.RADIATION_2_3_A);
+      h.clickBack();
 
       // ORANGE_2_2_B
       h.verifyUrl(ROUTES.ORANGE_2_2_B);

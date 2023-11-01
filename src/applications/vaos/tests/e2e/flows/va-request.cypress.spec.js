@@ -1,6 +1,5 @@
 import moment from 'moment/moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
-import environment from 'platform/utilities/environment';
 
 import {
   vaosSetup,
@@ -14,15 +13,14 @@ import {
   mockSchedulingConfigurationApi,
   mockUserTransitionAvailabilities,
   mockEligibilityApi,
-  mockVamcEhr,
+  mockVamcEhrApi,
   mockFacilityApi,
   mockAppointmentApi,
+  mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
-const rootUrl = environment.isProduction()
-  ? 'health-care/schedule-view-va-appointments/appointments/'
-  : 'my-health/appointments/';
+const rootUrl = 'my-health/appointments/';
 describe('VAOS VA request flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
@@ -32,11 +30,11 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockClinicApi({ locations: ['983HK'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
+      vaOnlineSchedulingAcheronService: false,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: false,
     });
     mockUserTransitionAvailabilities();
+    mockAppointmentCreateApi();
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
@@ -69,7 +67,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: true,
       isRequest: true,
     });
-    mockVamcEhr({ isCerner: true });
+    mockVamcEhrApi({ isCerner: true });
     const data = [
       {
         id: '983',
@@ -169,7 +167,7 @@ describe('VAOS VA request flow using VAOS service', () => {
 
     mockAppointmentApi({
       id: 'mock1',
-      data: {
+      response: {
         id: 'mock1',
         type: 'appointment',
         attributes: {
@@ -191,7 +189,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: false,
       isRequest: true,
     });
-    mockVamcEhr();
+    mockVamcEhrApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -271,7 +269,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     ];
 
     mockAppointmentApi({
-      data: {
+      response: {
         id: 'mock1',
         type: 'Appointment',
         attributes: {
@@ -310,7 +308,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isDirect: false,
       isRequest: true,
     });
-    mockVamcEhr();
+    mockVamcEhrApi();
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -325,7 +323,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     cy.url().should('include', '/va-facility');
     cy.axeCheckBestPractice();
 
-    cy.findByText(/Continue/).click();
+    cy.findByText(/Continue/).click({ waitForAnimations: true });
 
     // Choose date and slot (AM or PM)
     newApptTests.selectRequestSlotTest();

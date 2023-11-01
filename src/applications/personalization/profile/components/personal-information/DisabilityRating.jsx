@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { totalDisabilityError } from '~/applications/personalization/rated-disabilities/selectors';
+import { canAccess } from '../../../common/selectors';
+import { totalDisabilityError } from '../../../common/selectors/ratedDisabilities';
 import { SingleFieldLoadFailAlert } from '../alerts/LoadFail';
-import { canAccess } from '~/applications/personalization/common/selectors';
 import { API_NAMES } from '~/applications/personalization/common/constants';
 
 const DisabilityRating = () => {

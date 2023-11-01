@@ -9,7 +9,10 @@ class EmploymentRecords {
       `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
     );
     if (employer.isCurrent) {
-      cy.get(`input[name="current-employment"]`).check();
+      cy.get(`va-checkbox[name="current-employment"]`)
+        .shadow()
+        .find('input')
+        .check();
     } else {
       cy.fillDate(
         'to',

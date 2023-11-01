@@ -29,6 +29,7 @@ describe('<PrimaryPhoneReview>', () => {
     const { container } = render(setup());
     expect($('dt', container).textContent).to.eq(content.homeLabel);
     expect($('dd', container).textContent).to.contain('(555) 800-1111');
+    expect($('dd.dd-privacy-hidden', container)).to.exist;
   });
   it('should render mobile phone as primary', () => {
     const { container } = render(setup({ primary: 'mobile' }));

@@ -9,7 +9,7 @@ import {
 import {
   navigateBackward,
   navigateForward,
-} from '../../utilities/display-logic';
+} from '../../utilities/page-navigation';
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 
@@ -91,7 +91,7 @@ const CheckboxGroup = ({
         data-testid={testId}
         onBlur={onBlurInput}
         className="vads-u-margin-bottom--3"
-        error={(formError && 'Please select a location.') || null}
+        error={(formError && 'Select a location.') || null}
         hint=""
         label={h1}
         label-header-level="1"

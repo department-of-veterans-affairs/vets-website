@@ -8,14 +8,25 @@ import {
   selectFeatureRequests,
   selectFeatureStatusImprovement,
   selectFeaturePrintList,
+  selectFeatureStartSchedulingLink,
 } from '../../redux/selectors';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
-function handleClick(history, dispatch, typeOfCare) {
-  return () => {
+function handleClick(
+  history,
+  dispatch,
+  typeOfCare,
+  featureStartSchedulingLink = false,
+) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
+
     recordEvent({
-      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+      event: featureStartSchedulingLink
+        ? `${GA_PREFIX}-start-scheduling-link`
+        : `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
     history.push(typeOfCare.url);
@@ -27,8 +38,25 @@ function ScheduleNewAppointmentButton() {
   const dispatch = useDispatch();
   const isPrintList = useSelector(state => selectFeaturePrintList(state));
   const { typeOfCare } = useSelector(getNewAppointmentFlow);
+  const featureStartSchedulingLink = useSelector(
+    selectFeatureStartSchedulingLink,
+  );
 
-  return (
+  return featureStartSchedulingLink ? (
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+    <a
+      className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
+      href="/"
+      onClick={handleClick(
+        history,
+        dispatch,
+        typeOfCare,
+        featureStartSchedulingLink,
+      )}
+    >
+      Start scheduling
+    </a>
+  ) : (
     <button
       type="button"
       className={`xsmall-screen:${

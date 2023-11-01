@@ -259,8 +259,11 @@ class TrackClaimsPage {
       });
     cy.get('.main .usa-button-primary').click({ force: true });
     cy.url().should('contain', 'ask-va-to-decide');
-    cy.get('input[type=checkbox]')
-      .click()
+    cy.get('va-checkbox')
+      .shadow()
+      .get('input')
+      .first()
+      .check()
       .then(() => {
         cy.get('.main .usa-button-primary').click();
         cy.wait('@askVA');

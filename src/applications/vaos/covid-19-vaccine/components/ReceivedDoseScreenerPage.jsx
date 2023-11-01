@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import {
   getCovid19VaccineFormPageInfo,
@@ -10,12 +10,11 @@ import {
 } from '../redux/selectors';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { openFormPage, updateFormData } from '../redux/actions';
 import {
-  openFormPage,
-  updateFormData,
-  routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
-} from '../redux/actions';
+  routeToPreviousAppointmentPage,
+} from '../flow';
 
 const initialSchema = {
   type: 'object',

@@ -71,6 +71,6 @@ describe('IssueSummary', () => {
     expect(list[2].textContent).to.contain('Decision date: February 1, 2021');
     expect(list[3].textContent).to.contain('Issue 4');
     expect(list[3].textContent).to.contain('Decision date: February 2, 2021');
-    expect($$('.dd-privacy-hidden', container).length).to.eq(4);
+    expect($$('.dd-privacy-hidden', container).length).to.eq(8);
   });
 });

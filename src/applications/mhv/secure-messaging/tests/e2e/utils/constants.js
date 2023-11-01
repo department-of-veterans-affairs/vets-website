@@ -38,6 +38,9 @@ export const Locators = {
     CONTINUE: '[data-testid="continue-button"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="Send-Button"]',
+    SAVE_DRAFT: '#save-draft-button',
+    DELETE_DRAFT: '#delete-draft-button',
+    CREATE_FOLDER: '[data-testid="create-new-folder"]',
   },
   InboxPage: {
     COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',

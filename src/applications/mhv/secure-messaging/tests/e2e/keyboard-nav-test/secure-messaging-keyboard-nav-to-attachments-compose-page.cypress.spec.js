@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT } from '../utils/constants';
+import requestBody from '../fixtures/message-compose-request-body.json';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
   it('Keyboard Nav to Focus on Attachment', () => {
@@ -11,11 +12,18 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    cy.tabToElement('#OTHEROTHER');
-    cy.realPress(['Enter']);
-    composePage.getMessageSubjectField().type('Test Attachment Focus');
-    composePage.getMessageBodyField().type('Focus Attachment');
+    composePage.selectRecipient(requestBody.recipientId);
+    composePage.selectCategory(
+      `${requestBody.category}${requestBody.category}input`,
+    );
+    // cy.tabToElement('#OTHEROTHERinput');
+    // cy.realPress(['Enter']);
+    composePage
+      .getMessageSubjectField()
+      .type(`${requestBody.subject}`, { force: true });
+    composePage
+      .getMessageBodyField()
+      .type(`${requestBody.body}`, { force: true });
     composePage.attachMessageFromFile('test_image.jpg');
     composePage.verifyFocusonMessageAttachment();
     cy.injectAxe();
@@ -26,5 +34,6 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
         },
       },
     });
+    composePage.sendMessage();
   });
 });

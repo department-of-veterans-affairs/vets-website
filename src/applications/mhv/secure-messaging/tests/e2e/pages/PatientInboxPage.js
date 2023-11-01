@@ -9,10 +9,9 @@ import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
-import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
-import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
+import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messages-response.json';
+import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -343,7 +342,7 @@ class PatientInboxPage {
     cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
-      .click();
+      .click({ waitForAnimations: true });
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
@@ -372,8 +371,18 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    const interstitialPage = new PatientInterstitialPage();
-    interstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.CheckFocusOnVcl();
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToInterstitialPage = () => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
+      mockSignature,
+    ).as('signature');
+    cy.get('[data-testid="compose-message-link"]').click({ force: true });
+    cy.wait('@signature');
   };
 
   navigateToComposePageByKeyboard = () => {
@@ -468,37 +477,6 @@ class PatientInboxPage {
       .type('testMessage', { force: true });
   };
 
-  composeDraftByKeyboard = () => {
-    cy.tabToElement('#recipient-dropdown')
-      .shadow()
-      .find('#select')
-      .select(1, { force: true });
-    cy.tabToElement('[data-testid="compose-category-radio-button"]')
-      .first()
-      .click();
-    cy.tabToElement('[data-testid="message-subject-field"]')
-      .shadow()
-      .find('#inputField')
-      .type('testSubject');
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('#textarea')
-      .type('testMessage', { force: true });
-  };
-
-  saveDraftByKeyboard = () => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE}/message_drafts`,
-      mockDraftResponse,
-    ).as('draft_message');
-    cy.tabToElement('[data-testid="Save-Draft-Button"]');
-    cy.realPress('Enter');
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
-  };
-
   verifySorting = () => {
     let listBefore;
     let listAfter;
@@ -506,7 +484,7 @@ class PatientInboxPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(listBefore);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -514,7 +492,7 @@ class PatientInboxPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(listAfter);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
@@ -537,13 +515,13 @@ class PatientInboxPage {
   filterMessages = () => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/search`,
-      sentSearchResponse,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      inboxSearchResponse,
     );
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
   };
 
-  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData = inboxSearchResponse) => {
     cy.get('[data-testid="message-list-item"]').should(
       'have.length',
       `${responseData.data.length}`,
@@ -579,7 +557,7 @@ class PatientInboxPage {
       .select(`${text}`, { force: true });
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/-1/threads**',
+      '/my_health/v1/messaging/folders/0/threads**',
       sortedResponse,
     );
     cy.get('[data-testid="sort-button"]').click({ force: true });

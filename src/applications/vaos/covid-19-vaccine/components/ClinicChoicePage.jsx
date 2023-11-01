@@ -2,17 +2,15 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { openClinicPage, updateFormData } from '../redux/actions';
 import {
-  openClinicPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
-} from '../redux/actions';
-
+} from '../flow';
 import { getClinicPageInfo } from '../redux/selectors';
 
 const initialSchema = {

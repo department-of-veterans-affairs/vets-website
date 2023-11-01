@@ -44,6 +44,7 @@ dump.rdb
 all-links.csv
 .tern-port
 *.iml
+.ignore
 
 # Track shared IDE config
 !.vscode/extensions.json

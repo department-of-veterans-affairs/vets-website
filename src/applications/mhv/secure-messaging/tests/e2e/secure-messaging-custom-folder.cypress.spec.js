@@ -12,18 +12,9 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
   });
-  it('Axe Check Custom Folder List', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
 
   it('Verify folder header', () => {
+    PatientMessageCustomFolderPage.verifyFolderHeader();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -32,22 +23,11 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
         },
       },
     });
-    PatientMessageCustomFolderPage.verifyFolderHeader();
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
   });
 
   it('Check sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     PatientMessageCustomFolderPage.verifySorting();
-  });
-  it('Verify Filter btn exist', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -56,6 +36,17 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
         },
       },
     });
+  });
+
+  it('Verify Filter btn exists', () => {
     PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

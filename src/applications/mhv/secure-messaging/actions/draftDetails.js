@@ -64,7 +64,7 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   if (response.ok) {
     dispatch({
       type: Actions.Draft.UPDATE_SUCCEEDED,
-      response,
+      response: messageData,
     });
   }
 };

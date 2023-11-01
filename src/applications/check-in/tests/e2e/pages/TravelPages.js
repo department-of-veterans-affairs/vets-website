@@ -27,7 +27,7 @@ class TravelPages {
     );
 
     cy.get('[data-testid="if-you-have-questions"]').contains(
-      'If you have questions about your appointsments',
+      'If you have questions about your appointments',
     );
     cy.get('[data-testid="for-questions-about-filing"]').contains(
       'For questions about filing a travel reimbursement claim or to check',
@@ -36,7 +36,7 @@ class TravelPages {
       'call the Veterans Crisis Line at',
     );
     cy.get('[data-testid="if-you-think-your-life-is-in-danger"]').contains(
-      'call 911 or go to the nearest emergency room',
+      'If you think your life or health is in danger',
     );
   };
 
@@ -75,12 +75,8 @@ class TravelPages {
 
   validateContent = page => {
     let body = true;
-    const helpText = true;
     if (page === 'vehicle' || page === 'mileage') {
       body = false;
-    }
-    if (helpText) {
-      cy.get(`[data-testid="help-message"]`).should('be.visible');
     }
     if (body) {
       cy.get(`[data-testid="body-text"]`).should('be.visible');

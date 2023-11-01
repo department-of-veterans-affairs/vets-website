@@ -12,7 +12,7 @@ export default {
       'ui:title': (
         <>
           <h2 className="vads-u-font-size--h3">{labelString}</h2>
-          <p>Select the description that fits you.</p>
+          Select the description that fits you.
         </>
       ),
       'ui:widget': 'radio',

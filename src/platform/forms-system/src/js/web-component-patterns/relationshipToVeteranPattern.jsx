@@ -45,6 +45,42 @@ export const relationshipToVeteranUI = personTitle => {
   };
 };
 
+export const relationshipToVeteranSpouseOrChildUI = personTitle => {
+  const person = personTitle ?? 'Veteran';
+
+  return {
+    relationshipToVeteran: radioUI({
+      title: `What’s your relationship to the ${person}?`,
+      labels: {
+        spouse: `I’m the ${person}’s spouse`,
+        child: `I’m the ${person}’s child`,
+      },
+      errorMessages: {
+        required: `Please select your relationship to the ${person}`,
+      },
+      labelHeaderLevel: '3',
+    }),
+  };
+};
+
+export const claimantRelationshipToVeteranSpouseOrChildUI = personTitle => {
+  const person = personTitle ?? 'Veteran';
+
+  return {
+    relationshipToVeteran: radioUI({
+      title: `What’s the claimant’s relationship to the ${person}?`,
+      labels: {
+        spouse: `The claimant is the ${person}’s spouse`,
+        child: `The claimant is the ${person}’s child`,
+      },
+      errorMessages: {
+        required: `Please select the claimant’s relationship to the ${person}`,
+      },
+      labelHeaderLevel: '3',
+    }),
+  };
+};
+
 export const relationshipToVeteranSchema = {
   type: 'object',
   properties: {
@@ -58,6 +94,14 @@ export const relationshipToVeteranSchema = {
     otherRelationshipToVeteran: {
       type: 'string',
     },
+  },
+  required: ['relationshipToVeteran'],
+};
+
+export const relationshipToVeteranSpouseOrChildSchema = {
+  type: 'object',
+  properties: {
+    relationshipToVeteran: radioSchema(['spouse', 'child']),
   },
   required: ['relationshipToVeteran'],
 };

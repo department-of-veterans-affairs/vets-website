@@ -8,7 +8,10 @@ describe('Medicaitons List Sort component', () => {
   const sortRxList = () => {};
   const setup = () => {
     return renderWithStoreAndRouter(
-      <MedicationsListSort sortRxList={sortRxList} />,
+      <MedicationsListSort
+        value={Object.keys(rxListSortingOptions)[0]}
+        sortRxList={sortRxList}
+      />,
       {
         path: '/',
       },
@@ -27,5 +30,12 @@ describe('Medicaitons List Sort component', () => {
     expect(sortOptions.length).to.equal(
       Object.keys(rxListSortingOptions).length,
     );
+  });
+  it('has a sort button', () => {
+    const screen = setup();
+
+    const sortButton = screen.getByText('Sort');
+
+    expect(sortButton).to.exist;
   });
 });

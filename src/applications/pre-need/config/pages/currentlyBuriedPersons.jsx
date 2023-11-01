@@ -4,7 +4,6 @@ import set from 'platform/utilities/data/set';
 import { merge } from 'lodash';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import { useSelector } from 'react-redux';
-import environment from 'platform/utilities/environment';
 import fullNameUI from '../../definitions/fullName';
 
 import EligibleBuriedView from '../../components/EligibleBuriedView';
@@ -26,9 +25,6 @@ function CurrentlyBuriedPersonsDescription() {
   if (isVeteran(data)) {
     return 'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.';
   }
-  if (environment.isProduction()) {
-    return 'Please provide the details of the person(s) currently buried in a VA national cemetery under your sponsor’s eligibility.';
-  }
   return 'Please provide the details of the person(s) currently buried in a VA national cemetery under the sponsor’s eligibility.';
 }
 
@@ -36,18 +32,11 @@ export const currentlyBuriedPersonsTitle = (
   <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
 );
 
-export const currentlyBuriedPersonsTitleProd = (
-  <h3 className="name-of-deceased-text">Name of deceased person(s)</h3>
-);
-
 export const currentlyBuriedPersonsTitleWrapper = (
-  <CurrentlyBuriedPersonsTitleProd />
+  <CurrentlyBuriedPersonsTitle />
 );
 
-function CurrentlyBuriedPersonsTitleProd() {
-  if (environment.isProduction()) {
-    return currentlyBuriedPersonsTitleProd;
-  }
+function CurrentlyBuriedPersonsTitle() {
   return currentlyBuriedPersonsTitle;
 }
 
@@ -68,7 +57,7 @@ export const uiSchema = {
           getCemeteries,
           {
             'ui:options': {
-              hideIf: () => !environment.isProduction(),
+              hideIf: () => true,
             },
           },
         ),

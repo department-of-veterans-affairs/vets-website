@@ -12,6 +12,7 @@ import textInputFullName from '../pages/mockTextInputFullName';
 import textInputAddress from '../pages/mockTextInputAddress';
 import textInputSsn from '../pages/mockTextInputSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
+import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
@@ -124,6 +125,13 @@ const formConfig = {
           path: 'checkbox-and-text-input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
+          depends: includePage('checkbox'),
+        },
+        checkboxGroup: {
+          title: 'Checkbox group',
+          path: 'checkbox-group',
+          uiSchema: checkboxGroup.uiSchema,
+          schema: checkboxGroup.schema,
           depends: includePage('checkbox'),
         },
       },

@@ -70,10 +70,12 @@ const generateIntroductionContent = async (doc, parent, data) => {
 
   // preface
   if (data.preface) {
-    introduction.add(createSubHeading(doc, config, data.preface, { x: 16 }));
+    introduction.add(
+      createSubHeading(doc, config, data.preface, { x: 16, paragraphGap: 6 }),
+    );
   }
 
-  doc.moveDown();
+  doc.moveDown(0.5);
   introduction.end();
 };
 
@@ -95,12 +97,14 @@ const generateResultsMedicationListContent = async (
 
   // medication section header
   for (const section of medication.sections) {
-    results.add(
-      await createHeading(doc, 'H4', config, section.header, {
-        paragraphGap: 10,
-        x: 16,
-      }),
-    );
+    if (section.header) {
+      results.add(
+        await createHeading(doc, 'H4', config, section.header, {
+          paragraphGap: 10,
+          x: 16,
+        }),
+      );
+    }
 
     // medication section items
     for (const resultItem of section.items) {
@@ -174,8 +178,8 @@ const generateResultsContent = async (doc, parent, data) => {
     }
 
     // results --> items
-    const hasHorizontalRule = resultItem.sectionSeparators !== false;
     for (const listItem of resultItem.list) {
+      const hasHorizontalRule = listItem.sectionSeparators !== false;
       await generateResultsMedicationListContent(
         listItem,
         doc,

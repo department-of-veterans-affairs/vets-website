@@ -173,4 +173,26 @@ describe('<AreaOfDisagreement>', () => {
       ).to.contain('This field should be less than 34 characters');
     });
   });
+
+  it('should not throw a JS error for undefined disagreementOptions', () => {
+    const goSpy = sinon.spy();
+    const data = {
+      data: {
+        areaOfDisagreement: [{}, { evaluation: undefined }],
+      },
+      pagePerItemIndex: null,
+      goForward: goSpy,
+      setFormData: () => {},
+    };
+    const { container } = render(
+      <div>
+        <AreaOfDisagreement {...data} />
+      </div>,
+    );
+    expect($('va-checkbox-group', container)).to.exist;
+    $('va-checkbox-group').__events.vaChange({
+      target: { getAttribute: () => 'evaluation' },
+      detail: true,
+    });
+  });
 });

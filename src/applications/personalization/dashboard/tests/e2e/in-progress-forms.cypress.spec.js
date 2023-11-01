@@ -37,7 +37,7 @@ describe('The My VA Dashboard', () => {
         },
         // This form is unknown and will be filtered out of the list of applications
         {
-          form: '28-1900',
+          form: '28-1800',
           metadata: {
             version: 0,
             returnUrl: '/communication-preferences',
@@ -122,7 +122,7 @@ describe('The My VA Dashboard', () => {
       const savedForms = [
         // This form is unknown and will be filtered out of the list of applications
         {
-          form: '28-1900',
+          form: '28-1800',
           metadata: {
             version: 0,
             returnUrl: '/communication-preferences',

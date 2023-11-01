@@ -24,14 +24,13 @@ import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
-  Categories,
   DefaultFolders,
   ErrorMessages,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
-import EditContentListOrSignatureModal from '../Modals/EditContentListOrSignatureModal';
+import EditPreferences from './EditPreferences';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -58,8 +57,8 @@ const ComposeForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [modalVisible, updateModalVisible] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -72,15 +71,6 @@ const ComposeForm = props => {
     selectedRecipient,
     draftAutoSaveTimeout,
   );
-
-  const {
-    OTHER,
-    COVID,
-    APPOINTMENTS,
-    MEDICATIONS,
-    TEST_RESULTS,
-    EDUCATION,
-  } = Categories;
 
   const formattededSignature = useMemo(
     () => {
@@ -139,10 +129,10 @@ const ComposeForm = props => {
       }
 
       if (!draft) {
-        setSelectedRecipient('');
+        setSelectedRecipient('0');
+        setCategory(null);
         setSubject('');
         setMessageBody('');
-        setCategory('');
       }
     },
     [recipients, draft],
@@ -158,26 +148,23 @@ const ComposeForm = props => {
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              ),
-            )
-            .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
             navigateToFolderByFolderId(
               currentFolder?.folderId || DefaultFolders.INBOX.id,
               history,
             ),
-          );
-        }
+          )
+          .catch(setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],
@@ -237,30 +224,6 @@ const ComposeForm = props => {
 
   if (draft && recipients && !formPopulated) populateForm();
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category ===
-      (COVID ||
-        OTHER ||
-        APPOINTMENTS ||
-        MEDICATIONS ||
-        TEST_RESULTS ||
-        EDUCATION)
-        ? Categories[category]
-        : 'New message';
-
-    if (category && subject) {
-      return `${Categories[category]}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${Categories[category]}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return `${casedCategory}`;
-  };
-
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
@@ -270,7 +233,6 @@ const ComposeForm = props => {
         !selectedRecipient
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-
         messageValid = false;
       }
       if (!subject || subject === '') {
@@ -373,7 +335,8 @@ const ComposeForm = props => {
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
-        debouncedMessageBody
+        debouncedMessageBody &&
+        !modalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -384,6 +347,7 @@ const ComposeForm = props => {
       debouncedSubject,
       debouncedRecipient,
       saveDraftHandler,
+      modalVisible,
     ],
   );
 
@@ -407,6 +371,31 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (
+        selectedRecipient.toString() !==
+          (draft ? draft.recipientId.toString() : '0') ||
+        category !== (draft ? draft.category : null) ||
+        subject !== (draft ? draft.subject : '') ||
+        messageBody !== (draft ? draft.body : '')
+      ) {
+        e.returnValue = '';
+      }
+    },
+    [draft, selectedRecipient, category, subject, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
   return (
     <>
       <EmergencyNote dropDownFlag />
@@ -415,22 +404,26 @@ const ComposeForm = props => {
         {saveError && (
           <VaModal
             modalTitle={saveError.title}
-            onPrimaryButtonClick={() => setSaveError(null)}
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
             }}
-            primaryButtonText="Continue editing"
             status="warning"
             data-testid="quit-compose-double-dare"
             visible
           >
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
+            <va-button
+              text="Continue editing"
+              onClick={() => setSaveError(null)}
+            />
           </VaModal>
         )}
         <RouteLeavingGuard
           when={!!navigationError}
+          modalVisible={modalVisible}
+          updateModalVisible={updateModalVisible}
           navigate={path => {
             history.push(path);
           }}
@@ -444,16 +437,8 @@ const ComposeForm = props => {
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
         />
-        <div
-          className="compose-form-header"
-          data-testid="compose-form-header"
-          data-dd-privacy="mask"
-        >
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {setMessageTitle()}
-          </h2>
-        </div>
-        <div className="compose-inputs-container">
+        <div>
+          <EditPreferences />
           {recipientsList && (
             <>
               <VaSelect
@@ -474,11 +459,6 @@ const ComposeForm = props => {
                   </option>
                 ))}
               </VaSelect>
-
-              <EditContentListOrSignatureModal
-                editListModal={editListModal}
-                setEditListModal={setEditListModal}
-              />
             </>
           )}
           <div className="compose-form-div">
@@ -521,17 +501,6 @@ const ComposeForm = props => {
               }}
               data-dd-privacy="mask"
             />
-            <div className="edit-contact-list-or-signature">
-              <va-button
-                id="edit-contact-list-or-signature-button"
-                text="Edit contact list or signature"
-                label="Edit contact list or signature"
-                secondary
-                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
-                data-testid="edit-list-button"
-                onClick={() => setEditListModal(true)}
-              />
-            </div>
           </div>
           <section className="attachments-section">
             <AttachmentsList

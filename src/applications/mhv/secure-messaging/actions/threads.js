@@ -20,31 +20,35 @@ export const getListOfThreads = (
       pageNumber,
       threadSort,
     );
-    if (response.length === 0) {
-      dispatch({
-        type: Actions.Thread.GET_EMPTY_LIST,
-        response,
-      });
-    } else {
-      dispatch({
-        type: Actions.Thread.GET_LIST,
-        response,
-      });
-    }
+    dispatch({
+      type: Actions.Thread.GET_LIST,
+      response,
+    });
   } catch (e) {
     dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
-    if (e.errors[0].detail === 'No messages in the requested folder') {
+    if (
+      e.errors &&
+      e.errors[0]?.detail === 'No messages in the requested folder'
+    ) {
       const noThreads = [];
       dispatch({
         type: Actions.Thread.GET_EMPTY_LIST,
         response: noThreads,
       });
+    } else if (e.errors) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          `${Constants.Alerts.Thread.GET_THREAD_ERROR} ${e.errors[0]?.detail}`,
+        ),
+      );
     } else {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
           '',
-          `${Constants.Alerts.Thread.GET_THREAD_ERROR}. ${e.errors[0].detail}`,
+          Constants.Alerts.Thread.GET_THREAD_ERROR,
         ),
       );
     }

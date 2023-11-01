@@ -35,13 +35,13 @@ const applicantContactInfoErrors = [
   'claimant_email',
 ];
 const preparerInfoErrors1 = ['applicant_applicantRelationshipToClaimant'];
-const preparerInfoErrors2 = [
-  'applicant_view\\:applicantInfo_name_first',
-  'applicant_view\\:applicantInfo_name_last',
+const preparerInfoErrors2 = ['applicant_name_first', 'applicant_name_last'];
+const preparerInfoErrors3 = [
   'applicant_view\\:applicantInfo_mailingAddress_street',
   'applicant_view\\:applicantInfo_mailingAddress_city',
+  'applicant_view\\:applicantInfo_mailingAddress_state',
   'applicant_view\\:applicantInfo_mailingAddress_postalCode',
-  'applicant_view\\:applicantInfo_view\\:contactInfo_applicantPhoneNumber',
+  'applicant_view\\:contactInfo_applicantPhoneNumber',
 ];
 
 module.exports = {
@@ -55,4 +55,5 @@ module.exports = {
   applicantContactInfoErrors,
   preparerInfoErrors1,
   preparerInfoErrors2,
+  preparerInfoErrors3,
 };

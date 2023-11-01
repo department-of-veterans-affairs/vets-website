@@ -127,7 +127,7 @@ export class ConfirmationPage extends React.Component {
           What if I have more questions?
         </h3>
         <p>
-          Please call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
+          Please call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.{' '}
           We’re here Monday through Friday, 8:00 am to 8:00 p.m. ET.
         </p>
       </div>

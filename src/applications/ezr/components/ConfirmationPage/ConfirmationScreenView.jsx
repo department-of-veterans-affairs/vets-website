@@ -15,40 +15,43 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
   return (
     <>
       <div className="ezr-success-message vads-u-margin-bottom--4">
-        <va-alert status="success">
-          <h2 slot="headline" className="vads-u-font-size--h3">
-            {content['confirm-page-title']}
-          </h2>
-          <div>{content['confirm-page-description']}</div>
+        <va-alert status="success" uswds>
+          <h2 slot="headline">{content['confirm-success-title']}</h2>
+          <div>
+            <p className="vads-u-margin-top--0">
+              {content['confirm-success-review-message']}
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              {content['confirm-success-changes-message']}
+            </p>
+          </div>
         </va-alert>
       </div>
 
       <va-alert status="info" class="vads-u-margin-bottom--4" background-only>
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+        <h3 className="vads-u-margin-bottom--2">
           {content['confirm-app-title']}
-        </h2>
-        <dl>
-          <div className="vads-u-margin-bottom--2">
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              {content['confirm-app-list-name']}
-            </dt>
-            <dd className="ezr-veteran-fullname">{name}</dd>
-          </div>
-          {timestamp ? (
-            <div className="ezr-application-date vads-u-margin-bottom--2">
-              <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-                {content['confirm-app-list-date']}
-              </dt>
-              <dd>{moment(timestamp).format('MMM D, YYYY')}</dd>
-            </div>
-          ) : null}
-          <div>
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              {content['confirm-app-list-confirm']}
-            </dt>
-            <dd>{content['confirm-app-list-print']}</dd>
-          </div>
-        </dl>
+        </h3>
+
+        <h4>{content['confirm-app-list-name']}</h4>
+        <p
+          className="ezr-veteran-fullname dd-privacy-mask"
+          data-dd-action-name="Full name"
+        >
+          {name}
+        </p>
+
+        {timestamp ? (
+          <>
+            <h4>{content['confirm-app-list-date']}</h4>
+            <p className="ezr-submission-date">
+              {moment(timestamp).format('MMM D, YYYY')}
+            </p>
+          </>
+        ) : null}
+
+        <h4>{content['confirm-app-list-confirm']}</h4>
+        <p>{content['confirm-app-list-print']}</p>
 
         <div className="vads-u-margin-top--2">
           <va-button

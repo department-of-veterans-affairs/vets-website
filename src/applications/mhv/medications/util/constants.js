@@ -1,16 +1,16 @@
 export const rxListSortingOptions = {
-  availableToFillOrRefillFirst: {
+  lastFilledFirst: {
+    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
+    LABEL: 'Last filled first',
+  },
+  alphabeticallyByStatus: {
     API_ENDPOINT:
       '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-    LABEL: 'Available to fill or refill first',
-  },
-  lastFilledFirst: {
-    API_ENDPOINT: '&sort[]=dispensed_date&sort[]=prescription_name',
-    LABEL: 'Last filled first',
+    LABEL: 'Alphabetically by status',
   },
   alphabeticalOrder: {
     API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
-    LABEL: 'Alphabetical Order',
+    LABEL: 'Alphabetically by name',
   },
 };
 
@@ -31,7 +31,7 @@ export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
 
 export const pdfStatusDefinitions = {
   active: `This is a current prescription. If you have refills left, you can request a refill now.
-Note: If you have not refills left, you’ll need to request a renewal instead.`,
+Note: If you have no refills left, you’ll need to request a renewal instead.`,
 
   activeParked: `Your VA provider prescribed this medication or supply to you.But we won’t send any shipments until you request to fill or refill it.
 We may use this status for either of these reasons:
@@ -65,6 +65,11 @@ If you need more of this prescription, request a renewal.`,
 export const pdfDefaultStatusDefinition = `There’s a problem with our system. You can’t manage this prescription online right now.
 If you need this prescription now, call your VA pharmacy.`;
 
+export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
+* Over-the-counter medications, supplements, and herbal remedies
+* Sample medications a provider gave you
+* Other drugs you’re taking that you don’t have a prescription for, including recreational drugs`;
+
 export const dispStatusObj = {
   unknown: 'Unknown',
   active: 'Active',
@@ -76,4 +81,12 @@ export const dispStatusObj = {
   nonVA: 'Active: Non-VA',
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
+};
+
+export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+
+export const PDF_GENERATE_STATUS = {
+  NotStarted: 'PDF_GENERATE_NOT_STARTED',
+  InProgress: 'PDF_GENERATE_IN_PROGRESS',
+  Success: 'PDF_GENERATE_SUCESS',
 };

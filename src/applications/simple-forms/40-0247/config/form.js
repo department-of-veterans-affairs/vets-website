@@ -18,6 +18,7 @@ import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
 import addlCertsReqPg from '../pages/additionalCertificatesRequest';
 import transformForSubmit from './submit-transformer';
+import { getInitialData } from '../helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -28,13 +29,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({
-      confirmationNumber: '[mock-confirmation-number]',
-    }),
-  // Coordinate with backend to determine final submitUrl
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '0247-pmc',
   dev: {
     showNavLinks: !window.Cypress,
@@ -76,22 +71,23 @@ const formConfig = {
       enum: [true],
     },
   },
+  useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
       title: 'Veteran’s personal information',
       pages: {
         veteranPersonalInfoPage: {
           path: 'veteran-personal-information',
-          title: '',
+          title: 'Veteran’s personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          initialData: getInitialData({ mockData, environment }),
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
           pageClass: 'veteran-personal-information',
+          // for this 1st page, default scroll-n-focus is not working
+          scrollAndFocusTarget:
+            'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
         },
       },
     },
@@ -100,7 +96,7 @@ const formConfig = {
       pages: {
         veteranIdentificationInfoPage: {
           path: 'veteran-identification-information',
-          title: '',
+          title: 'Veteran’s identification information',
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
@@ -112,7 +108,7 @@ const formConfig = {
       pages: {
         veteranSupportDocsPage: {
           path: 'veteran-supporting-documentation',
-          title: '',
+          title: 'Veteran’s supporting documentation',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',
@@ -124,7 +120,7 @@ const formConfig = {
       pages: {
         requestTypePage: {
           path: 'request-type',
-          title: '',
+          title: 'Request type',
           uiSchema: requestTypePg.uiSchema,
           schema: requestTypePg.schema,
           pageClass: 'request-type',
@@ -136,7 +132,7 @@ const formConfig = {
       pages: {
         applicantPersonalInfoPage: {
           path: 'applicant-personal-information',
-          title: '',
+          title: 'Your personal information',
           uiSchema: appPersInfoPg.uiSchema,
           schema: appPersInfoPg.schema,
           pageClass: 'applicant-personal-information',
@@ -148,7 +144,7 @@ const formConfig = {
       pages: {
         applicantAddressPage: {
           path: 'applicant-address',
-          title: '',
+          title: 'Your address',
           uiSchema: appAddrPg.uiSchema,
           schema: appAddrPg.schema,
           pageClass: 'applicant-address',
@@ -160,7 +156,7 @@ const formConfig = {
       pages: {
         applicantContactInfoPage: {
           path: 'applicant-contact-information',
-          title: '',
+          title: 'Your contact information',
           uiSchema: appContactInfoPg.uiSchema,
           schema: appContactInfoPg.schema,
           pageClass: 'applicant-contact-information',
@@ -172,7 +168,7 @@ const formConfig = {
       pages: {
         certificatesPage: {
           path: 'certificates',
-          title: '',
+          title: 'Certificates',
           uiSchema: certsPg.uiSchema,
           schema: certsPg.schema,
           pageClass: 'certificates',
@@ -184,14 +180,14 @@ const formConfig = {
       pages: {
         additionalCertificatesYesNoPage: {
           path: 'additional-certificates-yes-no',
-          title: '',
+          title: 'Additional certificates: Yes or No',
           uiSchema: addlCertsYNPg.uiSchema,
           schema: addlCertsYNPg.schema,
           pageClass: 'additional-certificates-yes-no',
         },
         additionalCertificatesRequestPage: {
           path: 'additional-certificates-request',
-          title: '',
+          title: 'Additional certificates: Address and quantity',
           depends: formData => formData.additionalCertificates === true,
           uiSchema: addlCertsReqPg.uiSchema,
           schema: addlCertsReqPg.schema,

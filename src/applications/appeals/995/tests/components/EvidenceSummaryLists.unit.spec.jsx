@@ -85,6 +85,10 @@ describe('evidenceSummaryList', () => {
       expect($$('.edit-item', container).length).to.eq(2);
       expect($$('h5', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
+      // check Datadog classes
+      expect(
+        $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+      ).to.eq(6); // 3 x 2 entries
     });
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
@@ -182,6 +186,10 @@ describe('evidenceSummaryList', () => {
       expect($$('h5', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(3);
+      // check Datadog classes
+      expect(
+        $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+      ).to.eq(6); // 3 x 2 entries
     });
     it('should not render limited consent section remove button', () => {
       const privateEvidence = records().providerFacility;
@@ -296,6 +304,10 @@ describe('evidenceSummaryList', () => {
       expect($$('h5', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(2);
       expect($$('.remove-item', container).length).to.eq(2);
+      // check Datadog classes
+      expect(
+        $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+      ).to.eq(2);
     });
     it('should render review-only uploaded content', () => {
       const otherEvidence = records().additionalDocuments;

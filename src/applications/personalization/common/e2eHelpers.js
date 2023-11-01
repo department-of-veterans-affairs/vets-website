@@ -13,14 +13,18 @@ export const checkForLegacyLoadingIndicator = (loadingMessage = '') => {
 };
 
 export const checkForWebComponentLoadingIndicator = (loadingMessage = '') => {
-  cy.find('va-loading-indicator').should('exist');
+  cy.get('va-loading-indicator').should('exist');
 
   if (loadingMessage) {
-    cy.find('va-loading-indicator')
-      .shadow()
-      .findByText(loadingMessage, { exact: false })
-      .should('exist');
+    cy.get('va-loading-indicator')
+      .should('exist')
+      .then($container => {
+        cy.wrap($container)
+          .shadow()
+          .findByText(loadingMessage, { exact: false })
+          .should('exist');
+      });
   }
 
-  cy.find('va-loading-indicator', { timeout: 3000 }).should('not.exist');
+  cy.get('va-loading-indicator', { timeout: 5000 }).should('not.exist');
 };

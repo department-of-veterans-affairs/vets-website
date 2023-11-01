@@ -1,10 +1,13 @@
-import { getIssueName, getIssueDate } from '../utils/helpers';
 import { errorMessages } from '../constants';
 import { validateDate } from './date';
 
 import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import {
+  getIssueDate,
+  getIssueName,
+  getSelected,
+} from '../../shared/utils/issues';
 import { addUniqueIssueErrorMessage } from '../../shared/validations/issues';
 
 // Alert Veteran to duplicates based on name & decision date
