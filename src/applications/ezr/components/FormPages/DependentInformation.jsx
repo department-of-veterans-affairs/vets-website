@@ -108,7 +108,7 @@ const DependentInformation = props => {
       if (index === activePages.length - 1) {
         setFormData({
           ...data,
-          [DEPENDENT_VIEW_FIELDS.report]: null,
+          [DEPENDENT_VIEW_FIELDS.add]: null,
           [DEPENDENT_VIEW_FIELDS.skip]: true,
         });
         goToPath(searchAction.pathToGo);
@@ -178,7 +178,7 @@ const DependentInformation = props => {
         <div className="vads-u-margin-y--2">
           <va-button
             text={replaceStrValues(
-              content['insurance-cancel-button-text'],
+              content['household-dependent-cancel-button-text'],
               searchAction.label,
             )}
             onClick={handlers.showConfirm}
@@ -218,6 +218,7 @@ const DependentInformation = props => {
         visible={modal}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
           {replaceStrValues(
