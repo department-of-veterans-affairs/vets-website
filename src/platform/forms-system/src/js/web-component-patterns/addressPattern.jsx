@@ -453,7 +453,7 @@ export function addressUI(options) {
           // country-specific error messages
           if (country === 'USA') {
             addressUiSchema['ui:errorMessages'] = {
-              required: 'Enter a zip code',
+              required: 'Enter a ZIP code',
               pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA,
             };
           } else if (['CAN', 'MEX'].includes(country)) {
