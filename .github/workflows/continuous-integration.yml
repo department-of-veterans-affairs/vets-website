@@ -1191,8 +1191,8 @@ jobs:
         uses: LouisBrunner/checks-action@v1.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Unit Tests Stress Tests Summary
-          conclusion: ${{ needs.unit-tests-stress-tests.result }}
+          name: Unit Tests Stress Test Summary
+          conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
