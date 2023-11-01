@@ -252,8 +252,6 @@ describe('Labs and tests details container with errors', () => {
       path: '/labs-and-tests/123',
     });
 
-    // screen.debug();
-
     await waitFor(() => {
       expect(
         screen.getByText(
