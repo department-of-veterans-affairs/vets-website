@@ -176,7 +176,9 @@ const profileContactInfo = ({
           // the contact info
           [keys.wrapper]: {
             type: 'object',
-            required: contactInfoRequiredKeys,
+            // required keys may include "homePhone|mobilePhone" which needs to
+            // be split before adding to the required schema
+            required: contactInfoRequiredKeys.join().split(/[|,]/g),
             properties: wrapperProperties,
           },
         },

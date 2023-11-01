@@ -20,7 +20,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.homePhone.required).to.deep.equal([
       'areaCode',
@@ -45,7 +46,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
   });
   it('should only return mobile phone page when included', () => {
@@ -61,7 +63,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.mobilePhone.required).to.deep.equal([
       'areaCode',
@@ -83,7 +86,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.homePhone.required).to.deep.equal([
       'areaCode',
@@ -105,7 +109,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.homePhone).to.be.undefined;
     expect(veteran.properties.mobilePhone).to.be.undefined;
