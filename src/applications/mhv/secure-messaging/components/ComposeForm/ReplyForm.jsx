@@ -15,7 +15,6 @@ import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 import {
-  dateFormat,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   setCaretToPos,
@@ -492,39 +491,6 @@ const ReplyForm = props => {
               />
             </div>
           </form>
-        </section>
-        <section
-          aria-label="Message you are replying to"
-          className="vads-u-margin--0 message-replied-to"
-          data-testid="message-replied-to"
-        >
-          <h2 className="sr-only">Message you are replying to.</h2>
-          <div>
-            <h3 className="sr-only">Message details</h3>
-            <p className="vads-u-margin--0">
-              <strong>From: </strong>
-              <span data-dd-privacy="mask">{replyMessage.senderName}</span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-to">
-              <strong>To: </strong>
-              <span data-dd-privacy="mask">{replyMessage.recipientName}</span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-date">
-              <strong>Date: </strong>
-              <span data-dd-privacy="mask">
-                {dateFormat(replyMessage.sentDate)}
-              </span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-id">
-              <strong>Message ID: </strong>
-              <span data-dd-privacy="mask">{replyMessage.messageId}</span>
-            </p>
-          </div>
-
-          <section aria-label="Message body." className="vads-u-margin-top--1">
-            <h3 className="sr-only">Message body.</h3>
-            <MessageThreadBody text={replyMessage.body} />
-          </section>
         </section>
       </>
     )

@@ -193,7 +193,7 @@ export const Prompts = {
     EDIT_PREFERENCES_CONTENT:
       'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
     EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
-    (opens in new tab)`,
+    (opens in a new tab)`,
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
