@@ -12,12 +12,7 @@ describe('<TotalRatedDisabilities />', () => {
         totalDisabilityRating={80}
       />,
     );
-    expect(
-      wrapper
-        .find('div')
-        .first()
-        .hasClass('vads-u-background-color--gray-lightest'),
-    ).to.be.true;
+    expect(wrapper.find('va-featured-content')).to.exist;
     wrapper.unmount();
   });
 
