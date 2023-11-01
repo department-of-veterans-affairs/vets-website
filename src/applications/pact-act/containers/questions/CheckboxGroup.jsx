@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import {
   VaButtonPair,
   VaCheckbox,
@@ -82,11 +83,9 @@ const CheckboxGroup = ({
   return (
     <>
       <div
-        className={
-          formError
-            ? 'vads-u-margin-bottom--3 pact-act-form-question-error'
-            : 'vads-u-margin-bottom--3'
-        }
+        className={classNames('vads-u-margin-bottom--3', {
+          'pact-act-form-question-error': formError,
+        })}
       >
         <h1
           className="pact-act-form-question-header"
