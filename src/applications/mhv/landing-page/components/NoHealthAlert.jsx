@@ -8,13 +8,13 @@ const NoHealthAlert = () => {
         <p className="vads-u-margin-y--0">
           To use our health management tools and access your health information
           online, <b>one</b> of the following must be true:
-          <ul>
-            <li>
-              You’ve received care at a VA facility, <b>or</b>
-            </li>
-            <li>You’ve applied for VA health care</li>
-          </ul>
         </p>
+        <ul>
+          <li>
+            You’ve received care at a VA facility, <b>or</b>
+          </li>
+          <li>You’ve applied for VA health care</li>
+        </ul>
         <p className="vads-u-margin-y--0">
           If you’ve received care at a VA health facility, call the facility and
           ask if you’re registered.
