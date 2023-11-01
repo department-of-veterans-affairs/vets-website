@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import orderBy from 'lodash/orderBy';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
-import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
+import { SERVICE_BADGE_IMAGE_PATHS, PROFILE_PATHS } from '../profile/constants';
 import { getServiceBranchDisplayName } from '../profile/helpers';
 import { formatFullName } from '../common/helpers';
 
@@ -92,6 +94,7 @@ const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
+  showProofOfVeteranStatus,
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
@@ -219,6 +222,17 @@ const NameTag = ({
               showFallbackLink={totalDisabilityRatingServerError}
             />
           </dl>
+          {showProofOfVeteranStatus && (
+            <a
+              href={PROFILE_PATHS.VETERAN_STATUS}
+              aria-label="view proof of veteran status"
+              className="vads-u-color--white"
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              View proof of veteran status
+              <i className="fas fa-chevron-right vads-u-margin-left--1" />
+            </a>
+          )}
         </div>
       </div>
     </section>
@@ -232,10 +246,15 @@ const mapStateToProps = state => {
     'desc',
   )[0]?.branchOfService;
 
+  const showProofOfVeteranStatus =
+    toggleValues(state)[FEATURE_FLAG_NAMES.profileShowProofOfVeteranStatus] ||
+    false;
+
   return {
     userFullName: state.vaProfile?.hero?.userFullName,
     latestBranchOfService,
     showBadgeImage: SERVICE_BADGE_IMAGE_PATHS.has(latestBranchOfService),
+    showProofOfVeteranStatus,
   };
 };
 
@@ -252,6 +271,7 @@ NameTag.defaultProps = {
 NameTag.propTypes = {
   latestBranchOfService: PropTypes.string,
   showBadgeImage: PropTypes.bool,
+  showProofOfVeteranStatus: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
   userFullName: PropTypes.shape({

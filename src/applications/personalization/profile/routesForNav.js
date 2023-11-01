@@ -5,6 +5,7 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
+import VeteranStatus from './components/veteran-status/Status';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 
@@ -68,12 +69,25 @@ export const routesForNav = [
     requiresLOA3: true,
     requiresMVI: true,
   },
+  {
+    component: VeteranStatus,
+    name: PROFILE_PATH_NAMES.VETERAN_STATUS,
+    path: PROFILE_PATHS.VETERAN_STATUS,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
 ];
 
-export const getRoutesForNav = profileContactsToggle =>
+export const getRoutesForNav = (
+  profileContactsToggle,
+  profileShowProofOfVeteranStatusToggle,
+) =>
   routesForNav.filter(route => {
     if (route.name === PROFILE_PATH_NAMES.CONTACTS) {
       return profileContactsToggle;
+    }
+    if (route.name === PROFILE_PATH_NAMES.VETERAN_STATUS) {
+      return profileShowProofOfVeteranStatusToggle;
     }
     return true;
   });
