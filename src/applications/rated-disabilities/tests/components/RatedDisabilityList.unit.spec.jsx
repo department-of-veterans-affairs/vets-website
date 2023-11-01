@@ -28,20 +28,7 @@ describe('<RatedDisabilityList/>', () => {
     ],
   };
   const fetchRatedDisabilities = () => {};
-  it('should render', () => {
-    const wrapper = render(
-      <RatedDisabilityList
-        fetchRatedDisabilities={fetchRatedDisabilities}
-        ratedDisabilities={ratedDisabilities}
-      />,
-    );
-    expect(
-      wrapper.getByRole('heading', {
-        level: 2,
-        name: 'Your individual ratings',
-      }),
-    ).to.exist;
-  });
+
   it('should convert disability data into a readable format', () => {
     const wrapper = render(
       <RatedDisabilityList
@@ -51,7 +38,7 @@ describe('<RatedDisabilityList/>', () => {
     );
     const date = moment(
       ratedDisabilities.ratedDisabilities[0].effectiveDate,
-    ).format('MM/DD/YYYY');
+    ).format('MMMM DD, YYYY');
     expect(wrapper.getByText(date)).to.exist;
   });
 
@@ -62,14 +49,18 @@ describe('<RatedDisabilityList/>', () => {
         ratedDisabilities={ratedDisabilities}
       />,
     );
-    const disability = ratedDisabilities.ratedDisabilities[0].name;
+
+    const disability = ratedDisabilities.ratedDisabilities[0];
+    const headingText = `${disability.ratingPercentage}% rating for ${
+      disability.name
+    }`;
+
     expect(
       wrapper.getByRole('heading', {
-        level: 2,
-        name: 'Your individual ratings',
+        level: 4,
+        name: headingText,
       }),
     ).to.exist;
-    expect(wrapper.getByText(disability)).to.exist;
   });
 
   it('should display a 500 alert', () => {
