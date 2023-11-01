@@ -34,9 +34,11 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
               </dd>
             </div>
             <div data-testid="ezr-veteran-ssn">
-              <dt>Social Security number:</dt>
+              <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
+                Social Security number:
+              </dt>
               <dd
-                className="dd-privacy-mask"
+                className="vads-u-display--inline-block dd-privacy-mask"
                 data-dd-action-name="Social Security number"
               >
                 {veteranSSN}
@@ -57,8 +59,13 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
             ) : null}
             {veteranGender ? (
               <div data-testid="ezr-veteran-gender">
-                <dt>Gender:</dt>
-                <dd className="dd-privacy-mask" data-dd-action-name="Gender">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
+                  Gender:
+                </dt>
+                <dd
+                  className="vads-u-display--inline-block dd-privacy-mask"
+                  data-dd-action-name="Gender"
+                >
                   {veteranGender}
                 </dd>
               </div>
