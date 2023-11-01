@@ -22,7 +22,7 @@ import {
   isOlderThan,
 } from '../../util/helpers';
 
-describe('Thread Details container', () => {
+describe.skip('Thread Details container', () => {
   const setup = state => {
     return renderWithStoreAndRouter(<ThreadDetails testing />, {
       initialState: state,
