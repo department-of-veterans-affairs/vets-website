@@ -16,19 +16,15 @@ describe('Navigate to Message Details ', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
-
-    cy.tabToElement('[class="usa-button-secondary vads-u-flex--1"]')
+    cy.contains('Print').should('be.visible');
+    cy.tabToElement('button')
       .eq(0)
       .should('contain', 'Print');
 
     cy.realPress('Tab');
-    cy.get('[class="usa-button-secondary vads-u-flex--1"]')
-      .eq(1)
-      .should('contain', 'Move');
+    cy.get('button:contains("Move")').should('have.focus');
     cy.realPress('Tab');
-    cy.get('[class="usa-button-secondary vads-u-flex--1"]')
-      .eq(2)
-      .should('contain', 'Trash');
+    cy.get('button:contains("Trash")').should('have.focus');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
