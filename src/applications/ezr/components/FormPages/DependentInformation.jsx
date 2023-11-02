@@ -138,7 +138,7 @@ const DependentInformation = props => {
           beforeIndex: dependents.slice(0, searchIndex),
           afterIndex: dependents.slice(searchIndex + 1),
         },
-        viewsFields: DEPENDENT_VIEW_FIELDS,
+        viewFields: DEPENDENT_VIEW_FIELDS,
         dataKey: 'dependents',
         localData,
         listRef,
