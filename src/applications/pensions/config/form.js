@@ -13,7 +13,6 @@ import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
@@ -26,11 +25,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import {
-  yesNoUI,
-  yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import {
   employmentDescription,
   getSpouseMarriageTitle,
@@ -72,6 +67,7 @@ import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
+import applicantInformation from '../pages/applicantInformation';
 
 import {
   validateServiceBirthDates,
@@ -105,12 +101,8 @@ const {
   dayPhone,
   nightPhone,
   mobilePhone,
-  veteranFullName,
-  veteranDateOfBirth,
-  veteranSocialSecurityNumber,
   vamcTreatmentCenters,
   noRapidProcessing,
-  vaFileNumber,
 } = fullSchemaPensions.properties;
 
 const {
@@ -254,45 +246,8 @@ const formConfig = {
         applicantInformation: {
           path: 'applicant/information',
           title: 'Applicant information',
-          uiSchema: {
-            'ui:description': applicantDescription,
-            veteranFullName: fullNameUI,
-            veteranSocialSecurityNumber: {
-              ...ssnUI,
-              'ui:title': 'Your Social Security number',
-            },
-            vaClaimsHistory: yesNoUI({
-              title: 'Have you filed any type of VA claim before?',
-              uswds: true,
-            }),
-            vaFileNumber: {
-              'ui:title': 'VA file number',
-              'ui:webComponentField': VaTextInputField,
-              'ui:options': {
-                hint: 'Enter your VA file number if it doesn’t match your SSN',
-                hideIf: formData => formData.vaClaimsHistory !== true,
-              },
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be 8 or 9 digits',
-              },
-            },
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'veteranFullName',
-              'veteranSocialSecurityNumber',
-              'veteranDateOfBirth',
-            ],
-            properties: {
-              veteranFullName,
-              veteranSocialSecurityNumber,
-              vaClaimsHistory: yesNoSchema,
-              vaFileNumber,
-              veteranDateOfBirth,
-            },
-          },
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
         },
       },
     },
