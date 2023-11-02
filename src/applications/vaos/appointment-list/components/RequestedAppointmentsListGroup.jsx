@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import {
   fetchPendingAppointments,
@@ -139,6 +139,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 });
                 startNewAppointmentFlow();
               }}
+              level={2}
             />
           </div>
         )}

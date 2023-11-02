@@ -10,11 +10,16 @@ export default {
   uiSchema: {
     ...titleUI(
       'Your name',
-      <p>
-        <b>Note:</b> If you’re a representative who is recognized by the VA to
-        make decisions or sign for the Veteran or surviving dependent, you can
-        sign this application for them.
-      </p>,
+      <>
+        <p>
+          If you’re representing a Veteran, or their spouse or child, add your
+          name here.
+        </p>
+        <p>
+          <b>Note:</b> You must be recognized by VA to make decisions or sign
+          for them.
+        </p>
+      </>,
     ),
     thirdPartyPreparerFullName: fullNameNoSuffixUI(),
   },

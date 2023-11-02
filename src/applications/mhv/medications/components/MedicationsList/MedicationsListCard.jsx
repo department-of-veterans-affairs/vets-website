@@ -33,7 +33,9 @@ const MedicationsListCard = props => {
             to={`/prescription/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
-            {rx.prescriptionName}
+            {rx.dispStatus === 'Active: Non-VA'
+              ? rx.orderableItem
+              : rx.prescriptionName}
           </Link>
         </h3>
         {rx && <LastFilledInfo {...rx} />}

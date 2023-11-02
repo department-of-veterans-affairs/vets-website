@@ -110,7 +110,12 @@ describe('Compose container', () => {
     const body = waitFor(() => {
       screen.getByTestId('message-body-field');
     });
-
+    expect(screen.getByText('Edit preferences', { selector: 'button' })).to
+      .exist;
+    expect(screen.getByTestId('edit-list')).to.have.attribute(
+      'visible',
+      'false',
+    );
     expect(recipient).to.exist;
     expect(categoryRadioButtons).to.have.length(6);
     expect(subject).to.exist;
@@ -129,37 +134,6 @@ describe('Compose container', () => {
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
-  });
-
-  it('displays draft page if path is /draft/:id', () => {
-    const state = {
-      sm: {
-        triageTeams: { triageTeams },
-        categories: { categories },
-        draftDetails: { draftMessage, draftMessageHistory: [] },
-      },
-    };
-    const screen = setup(state, `/draft/7171715`);
-    const headingText = waitFor(() => {
-      screen.getAllByRole('heading', {
-        name: 'Edit draft',
-      });
-    });
-    const draftMessageHeadingText = waitFor(() => {
-      screen.getAllByRole('heading', {
-        name: 'COVID: Covid-Inquiry',
-        level: 3,
-      });
-    });
-    const deleteButton = waitFor(() => {
-      screen.getAllByRole('va-button', {
-        name: 'Delete draft',
-        exact: false,
-      });
-    });
-    expect(headingText).to.exist;
-    expect(draftMessageHeadingText).to.exist;
-    expect(deleteButton).to.exist;
   });
 
   it('does not display recipients with preferredTeam:false attribute', async () => {
