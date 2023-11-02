@@ -16,20 +16,22 @@ describe('Validate the category', () => {
     );
     cy.realPress(['Tab']);
     cy.realPress(['Tab']);
+
+    cy.get('#OTHEROTHERinput').should('have.focus');
     cy.realPress(['Tab']);
-    cy.realPress(['ArrowDown']);
+
     cy.get('#COVIDCOVIDinput').should('have.focus');
     cy.realPress(['Tab']);
-    cy.realPress(['ArrowDown']);
+
     cy.get('#APPOINTMENTSAPPOINTMENTSinput').should('have.focus');
     cy.realPress(['Tab']);
-    cy.realPress(['ArrowDown']);
+
     cy.get('#MEDICATIONSMEDICATIONSinput').should('have.focus');
     cy.realPress(['Tab']);
-    cy.realPress(['ArrowDown']);
+
     cy.get('#TEST_RESULTSTEST_RESULTSinput').should('have.focus');
     cy.realPress(['Tab']);
-    cy.realPress(['ArrowDown']);
+
     cy.get('#EDUCATIONEDUCATIONinput').should('have.focus');
     cy.tabToElement('[data-testid="message-subject-field"]').should(
       'have.focus',
