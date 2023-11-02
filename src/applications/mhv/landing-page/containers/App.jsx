@@ -11,6 +11,7 @@ import {
   resolveUnreadMessageAriaLabel,
 } from '../utilities/data';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import ddrConfig from '../utilities/datadog-rum/config';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
@@ -55,32 +56,7 @@ const App = () => {
     ],
   );
 
-  const datadogRumConfig = {
-    applicationId: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
-    clientToken: 'pub3e48a5b97661792510e69581b3b272d1',
-    site: 'ddog-gov.com',
-    service: 'mhv-on-va.gov',
-    sessionSampleRate: 100,
-    sessionReplaySampleRate: 10,
-    trackInteractions: true,
-    trackUserInteractions: true,
-    trackResources: true,
-    trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
-    beforeSend: (event, _) => {
-      const { target, type } = event;
-      if (type === 'click' && target instanceof HTMLAnchorElement) {
-        /* eslint-disable-next-line no-param-reassign */
-        event.context = {
-          ...event.context,
-          'link-group': target.dataset.linkGroup,
-          'link-hostname': target.hostname,
-          'link-title': target.dataset.linkTitle,
-        };
-      }
-    },
-  };
-  useDatadogRum(datadogRumConfig);
+  useDatadogRum(ddrConfig);
 
   const loading =
     vamcEhrData.loading || featureToggles.loading || profile.loading;
