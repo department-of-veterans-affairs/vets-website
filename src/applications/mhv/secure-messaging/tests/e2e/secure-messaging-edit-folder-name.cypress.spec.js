@@ -5,6 +5,25 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 
 for (let i = 0; i < 200; i += 1) {
   describe('edit custom folder name validation', () => {
+    it('verify axe check', () => {
+      const landingPage = new PatientInboxPage();
+      const site = new SecureMessagingSite();
+      site.login();
+      landingPage.loadInboxMessages();
+      PatientMessageCustomFolderPage.loadFoldersList();
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      });
+    });
     it('verify edit folder name buttons', () => {
       const landingPage = new PatientInboxPage();
       const site = new SecureMessagingSite();
@@ -22,20 +41,10 @@ for (let i = 0; i < 200; i += 1) {
         .should('be.visible')
         .and('have.text', 'Folder was successfully renamed.');
 
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-          'color-contrast': {
-            enabled: false,
-          },
-        },
-      });
+      cy.get('[data-testid="folder-header"]').should('be.visible');
     });
 
-    it.skip('verify edit folder name error', () => {
+    it('verify edit folder name error', () => {
       const landingPage = new PatientInboxPage();
       const site = new SecureMessagingSite();
       site.login();
@@ -45,7 +54,7 @@ for (let i = 0; i < 200; i += 1) {
 
       PatientMessageCustomFolderPage.editFolderButton()
         .should('be.visible')
-        .click();
+        .click({ waitForAnimations: true });
 
       cy.get('[text="Save"]')
         .should('be.visible')
@@ -55,18 +64,6 @@ for (let i = 0; i < 200; i += 1) {
         .shadow()
         .find('#input-error-message')
         .and('include.text', 'Folder name cannot be blank');
-
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-          'color-contrast': {
-            enabled: false,
-          },
-        },
-      });
     });
   });
 }

@@ -217,7 +217,7 @@ class PatientMessageCustomFolderPage {
       .shadow()
       .find('[id="inputField"]')
       .should('be.visible')
-      .type(folderName);
+      .type(folderName, { force: true });
 
     cy.intercept('PUT', `/my_health/v1/messaging/folders/${this.folderId}`, {
       data: {
