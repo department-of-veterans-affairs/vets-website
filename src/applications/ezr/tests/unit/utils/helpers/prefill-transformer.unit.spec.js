@@ -15,6 +15,7 @@ describe('ezr prefill transformer', () => {
         countryCodeIso3: 'USA',
       };
       const desiredOutput = JSON.stringify({
+        isMilitary: false,
         street: '123 Apple Lane',
         street2: undefined,
         street3: undefined,
@@ -38,12 +39,33 @@ describe('ezr prefill transformer', () => {
         countryCodeIso3: 'USA',
       };
       const desiredOutput = JSON.stringify({
+        isMilitary: false,
         street: '123 Apple Lane',
         street2: 'Apt 1',
         street3: 'c/o homeowner',
         city: 'Plymouth',
         postalCode: '46563',
         state: 'IN',
+        country: 'USA',
+      });
+      const output = JSON.stringify(sanitizeAddress(addressToSanitize));
+      expect(output).to.equal(desiredOutput);
+    });
+
+    it('should set `isMilitary` to true when a military city code is provided', () => {
+      const addressToSanitize = {
+        addressLine1: 'PSC 808 Box 37',
+        city: 'FPO',
+        zipCode: '09618',
+        stateCode: 'AA',
+        countryCodeIso3: 'USA',
+      };
+      const desiredOutput = JSON.stringify({
+        isMilitary: true,
+        street: 'PSC 808 Box 37',
+        city: 'FPO',
+        postalCode: '09618',
+        state: 'AA',
         country: 'USA',
       });
       const output = JSON.stringify(sanitizeAddress(addressToSanitize));
@@ -141,7 +163,7 @@ describe('ezr prefill transformer', () => {
         );
         expect(Object.keys(prefillData)).to.have.lengthOf(15);
         expect(prefillData.veteranAddress).to.equal(undefined);
-        expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(7);
+        expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(8);
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
           undefined,
         );
@@ -216,9 +238,9 @@ describe('ezr prefill transformer', () => {
             state,
           );
           expect(Object.keys(prefillData)).to.have.lengthOf(16);
-          expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
+          expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(
-            7,
+            8,
           );
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.false;
         });
@@ -294,7 +316,7 @@ describe('ezr prefill transformer', () => {
           );
           expect(Object.keys(prefillData)).to.have.lengthOf(15);
           expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
-          expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(7);
+          expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
         });
       },

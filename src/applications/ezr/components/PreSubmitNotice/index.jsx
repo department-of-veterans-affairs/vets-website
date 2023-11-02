@@ -45,7 +45,6 @@ const PreSubmitNotice = props => {
         error={error}
         onVaChange={event => setAccepted(event.target.checked)}
         label={content['presubmit-checkbox-label']}
-        uswds
       />
     </>
   );

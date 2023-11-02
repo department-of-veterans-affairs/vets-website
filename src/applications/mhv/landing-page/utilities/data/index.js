@@ -48,6 +48,7 @@ const resolveLandingPageLinks = (
   featureToggles,
   unreadMessageCount = 0,
   unreadMessageAriaLabel,
+  userHasHealthData = false,
 ) => {
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
@@ -156,7 +157,7 @@ const resolveLandingPageLinks = (
       toggle: null,
     },
     {
-      href: 'https://pay.gov/public/form/start/25987221',
+      href: '/manage-va-debt/summary/copay-balances',
       oldHref: null,
       text: 'Pay copay bills',
       toggle: null,
@@ -307,7 +308,7 @@ const resolveLandingPageLinks = (
   ];
   const hubs = [
     {
-      title: 'My VA health benefits',
+      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {
