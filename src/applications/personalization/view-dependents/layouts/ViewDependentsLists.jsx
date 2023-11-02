@@ -1,9 +1,5 @@
 import React from 'react';
 import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsList';
-// we commented out this import and implementation because the modal was deemed not ready for production
-// and we wanted to keep it in case work picked back up
-// commenting it out allows us to isolate the personalization app folder for ci/cd purposes
-// import DependencyVerificationModal from '../../../static-pages/dependency-verification/components/dependencyVerificationModal';
 
 function ViewDependentsLists(props) {
   const onAwardSubhead = (
@@ -21,8 +17,6 @@ function ViewDependentsLists(props) {
       Please let us know if a dependent’s status has changed.
     </>
   );
-
-  // const { dependencyVerificationToggle } = props;
 
   return (
     <div>
@@ -44,7 +38,6 @@ function ViewDependentsLists(props) {
         linkText="Learn more about adding or removing a dependent from your VA benefits."
         dependents={props.notOnAwardDependents}
       />
-      {/* {dependencyVerificationToggle && <DependencyVerificationModal />} */}
     </div>
   );
 }
