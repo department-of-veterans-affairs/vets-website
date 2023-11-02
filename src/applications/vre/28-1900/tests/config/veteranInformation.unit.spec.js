@@ -60,9 +60,9 @@ describe('Chapter 31 veteran information', () => {
       target: { value: '1991' },
     });
 
-    // expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
-    //   0,
-    // );
+    expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
+      0,
+    );
 
     fireEvent.submit(form.container.querySelector('form'));
 
