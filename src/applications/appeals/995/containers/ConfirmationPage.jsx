@@ -11,6 +11,7 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 import GetFormHelp from '../content/GetFormHelp';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
+import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
 import { getIssuesListItems } from '../../shared/utils/issues';
 
 export const ConfirmationPage = () => {
@@ -71,13 +72,7 @@ export const ConfirmationPage = () => {
         {submitDate.isValid() ? (
           <DateSubmitted submitDate={submitDate} />
         ) : null}
-        <h4>You’ve selected these issues for review</h4>
-        <ul className="vads-u-margin-top--0">{issues}</ul>
-        <va-button
-          class="screen-only"
-          onClick={window.print}
-          text="Print this confirmation"
-        />
+        <IssuesSubmitted issues={issues} />
       </div>
       <h3>What to expect next</h3>
       <p>
