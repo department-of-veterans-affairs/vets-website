@@ -2,9 +2,9 @@
   "preparerIdentification": "THIRD_PARTY_SURVIVING_DEPENDENT",
   "thirdPartyPreparerFullName": {
     "first": "Third",
-    "middle": "Party",
     "last": "Veteran"
   },
+  "thirdPartyPreparerRole": "fiduciary",
   "benefitSelection": {
     "survivors": true
   },
