@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   apiRequest,
-  environment,
   logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -66,11 +65,7 @@ export default function TermsOfUse() {
           if (termsCodeExists || isAuthenticatedWithSiS) {
             window.location = logoutUrlSiS();
           } else {
-            IAMLogout({
-              queryParams: {
-                [`redirect`]: `${environment.BASE_URL}/terms-of-use/declined`,
-              },
-            });
+            IAMLogout({ queryParams: { [`agreements_declined`]: true } });
           }
         }
       }
