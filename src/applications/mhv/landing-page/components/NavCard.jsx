@@ -9,6 +9,7 @@ const NavCard = ({ icon = null, title, links }) => {
         href={l.href}
         aria-label={l.ariaLabel}
         data-link-group={title}
+        data-link-title={l.text}
       >
         {l.text}
         <i aria-hidden="true" />

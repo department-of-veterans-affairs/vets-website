@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
-      <a className="mhv-c-link" href={l.href} data-link-group={title}>
+      <a
+        className="mhv-c-link"
+        href={l.href}
+        data-link-group={title}
+        data-link-title={l.text}
+      >
         {l.text}
       </a>
     </li>

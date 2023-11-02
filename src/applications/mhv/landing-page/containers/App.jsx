@@ -73,9 +73,9 @@ const App = () => {
         /* eslint-disable-next-line no-param-reassign */
         event.context = {
           ...event.context,
-          'link-title': target.innerHTML,
           'link-group': target.linkGroup,
           'link-hostname': target.hostname,
+          'link-title': target.linkTitle,
         };
       }
     },
