@@ -125,7 +125,7 @@ class PatientReplyPage {
           'have.text',
           `Date: ${dateFormat(
             messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY, h:mm a z',
+            'MMMM D, YYYY [at] h:mm a z',
           )}`,
         );
     } else {
@@ -135,7 +135,7 @@ class PatientReplyPage {
           'have.text',
           `${dateFormat(
             messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY [at] h:mm a z',
+            'MMMM D, YYYY, [at] h:mm a z',
           )}`,
         );
     }
