@@ -1,24 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from '~/platform/monitoring/record-event';
-
 const HubSection = ({ section, title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
-      <a
-        className="mhv-c-link butt"
-        href={l.href}
-        data-link-group={section}
-        onClick={() =>
-          recordEvent({
-            event: 'mhv-link-click',
-            'link-title': l.text,
-            'link-group': section,
-            'link-hostname': new URL(l.href).hostname,
-          })
-        }
-      >
+      <a className="mhv-c-link" href={l.href} data-link-group={section}>
         {l.text}
       </a>
     </li>
@@ -39,7 +25,7 @@ const HubLinks = ({ hubs }) => {
       key={h.title}
       className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap"
     >
-      <HubSection title={h.title} links={h.links} />
+      <HubSection section={h.section} title={h.title} links={h.links} />
     </div>
   ));
   return (
