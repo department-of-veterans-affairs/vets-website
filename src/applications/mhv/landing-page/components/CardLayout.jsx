@@ -22,6 +22,7 @@ const CardLayout = ({ data }) => {
           <div
             key={`col-${y}`}
             className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
+            data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
           >
             <NavCard title={col.title} icon={col.icon} links={col.links} />
           </div>
