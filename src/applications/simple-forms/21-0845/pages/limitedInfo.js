@@ -2,6 +2,7 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
 import { objHasEmptyValues } from '../utils';
 
@@ -9,33 +10,38 @@ import { objHasEmptyValues } from '../utils';
 
 export default {
   uiSchema: {
-    limitedInformationItems: checkboxGroupUI({
-      /* TODO: Once bug #718 is fixed and merged, refactor to
-      * make this required [with a function] and 
-      * remove the 'ui:validations' else block below.
+    /* TODO: Once bug #718 is fixed and merged, refactor to
+      * uiSchema below
       */
-      title: 'Which specific information do you authorize us to release?',
-      description:
-        'Select the items we can share with your third-party source. You can select more than one',
-      labels: LIMITED_INFORMATION_ITEMS,
-      // required: formdata => !formdata.limitedInformationOther,
-      required: formData => !formData.limitedInformationOther,
-      labelHeaderLevel: '3',
-      tile: false,
-      errorMessages: {},
-    }),
+    limitedInformationItems: {
+      // deconstruct checkboxGroupUI, so that
+      // we can override the required prop with a function
+      ...checkboxGroupUI({
+        title: 'Which specific information do you authorize us to release?',
+        description:
+          'Select the items we can share with your third-party source. You can select more than one',
+        labels: LIMITED_INFORMATION_ITEMS,
+        required: false, // override with 'ui:required' below
+        labelHeaderLevel: '3',
+        tile: false,
+        errorMessages: {},
+      }),
+      // override checkboxGroupUI's required
+      'ui:required': formData => !formData.limitedInformationOther,
+    },
     limitedInformationOther: {
       'ui:title': 'Other (specify here)',
+      'ui:webComponentField': VaTextInputField,
     },
     'ui:validations': [
       (errors, fields) => {
-        const errMsg =
-          'Please select at least one type of information here, or specify something else below';
         if (
           objHasEmptyValues(fields.limitedInformationItems) &&
           typeof fields.limitedInformationOther === 'undefined'
         ) {
-          errors.limitedInformationItems.addError(errMsg);
+          errors.limitedInformationItems.addError(
+            'Please select at least one type of information here, or specify something else below',
+          );
         } else {
           // eslint-disable-next-line no-param-reassign
           errors.limitedInformationItems = [];
