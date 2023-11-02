@@ -15,10 +15,21 @@ import VaCheckboxField from '../web-component-fields/VaCheckboxField';
 /**
  * PATTERNS
  * STREET_PATTERN - rejects white space only
- * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
+ * POSTAL_CODE_PATTERNS - Matches US/Mexican/Canadian codes
  */
 const STREET_PATTERN = '^.*\\S.*';
-const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+const POSTAL_CODE_PATTERNS = {
+  CAN:
+    '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
+  MEX: '^\\d{5}$',
+  USA: '^\\d{5}$',
+};
+
+const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
+  CAN: 'Enter a valid 6-character postal code',
+  MEX: 'Enter a valid 5-digit postal code',
+  USA: 'Enter a valid 5-digit ZIP code',
+};
 
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
 const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
@@ -427,11 +438,6 @@ export function addressUI(options) {
       'ui:required': customRequired('postalCode') || (() => true),
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
-      'ui:errorMessages': {
-        required: 'Postal code is required',
-        pattern: 'Please enter a valid 5 digit US zip code',
-      },
-
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
@@ -441,14 +447,41 @@ export function addressUI(options) {
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
           const { isMilitary } = data;
-          if (isMilitary || country === 'USA') {
-            return {
-              type: 'string',
-              pattern: US_POSTAL_CODE_PATTERN,
+          const addressSchema = _schema;
+          const addressUiSchema = _uiSchema;
+
+          // country-specific error messages
+          if (country === 'USA') {
+            addressUiSchema['ui:errorMessages'] = {
+              required: 'Enter a ZIP code',
+              pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES.USA,
+            };
+          } else if (['CAN', 'MEX'].includes(country)) {
+            addressUiSchema['ui:errorMessages'] = {
+              required: 'Enter a postal code',
+              pattern: POSTAL_CODE_PATTERN_ERROR_MESSAGES[country],
+            };
+          } else {
+            // no pattern validation for other countries
+            addressUiSchema['ui:errorMessages'] = {
+              required:
+                'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
             };
           }
+
+          addressSchema.type = 'string';
+          // country-specific patterns
+          if (isMilitary) {
+            addressSchema.pattern = POSTAL_CODE_PATTERNS.USA;
+          } else if (['CAN', 'MEX', 'USA'].includes(country)) {
+            addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
+          } else {
+            // no pattern validation for other countries
+            addressSchema.pattern = undefined;
+          }
+
           return {
-            type: 'string',
+            ...addressSchema,
           };
         },
       },
