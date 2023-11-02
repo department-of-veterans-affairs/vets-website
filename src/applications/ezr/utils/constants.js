@@ -82,8 +82,10 @@ export const INSURANCE_VIEW_FIELDS = {
   skip: 'view:skipInsuranceInfo',
 };
 
+// declare military city codes to use for prefill transformer
 export const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
 
+// declare mock response for enrollment status API to use for simulated testing
 export const MOCK_ENROLLMENT_REPSONSE = {
   applicationDate: '2019-04-24T00:00:00.000-06:00',
   enrollmentDate: '2019-04-30T00:00:00.000-06:00',
