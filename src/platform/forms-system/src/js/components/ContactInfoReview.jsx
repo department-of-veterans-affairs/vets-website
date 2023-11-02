@@ -21,7 +21,7 @@ import {
  * Contact info fields shown on the review & submit page
  * @param {Object} data - form data
  * @param {function} editPage - edit page callback
- * @param {import('../utilities/data/profile').ContactInfoContent} content
+ * @param {ContactInfoContent} content
  * @param {Object} keys - form data keys
  * @returns {Element}
  */

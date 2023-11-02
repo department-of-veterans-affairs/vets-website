@@ -11,7 +11,6 @@ import set from 'platform/utilities/data/set';
 
 /**
  * PATTERNS
- * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  * TWO_CAPS_PATTERN - Matches state and ISO2 country codes
  */
@@ -78,19 +77,19 @@ export const schemaCrossXRef = {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: STREET_PATTERN,
+        pattern: REJECT_WHITESPACE_ONLY,
       },
       street2: {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: STREET_PATTERN,
+        pattern: REJECT_WHITESPACE_ONLY,
       },
       street3: {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: STREET_PATTERN,
+        pattern: REJECT_WHITESPACE_ONLY,
       },
       city: {
         type: 'string',
@@ -344,7 +343,7 @@ export default function addressUiSchema(
             title: 'City',
             minLength: 1,
             maxLength: 100,
-            pattern: STREET_PATTERN,
+            pattern: REJECT_WHITESPACE_ONLY,
           };
         },
       },

@@ -14,10 +14,10 @@ import VaCheckboxField from '../web-component-fields/VaCheckboxField';
 
 /**
  * PATTERNS
- * STREET_PATTERN - rejects white space only
+ * REJECT_WHITESPACE_ONLY - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  */
-const STREET_PATTERN = '^.*\\S.*';
+const REJECT_WHITESPACE_ONLY = '^.*\\S.*';
 const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
@@ -344,7 +344,7 @@ export function addressUI(options) {
             type: 'string',
             title: 'City',
             maxLength: 100,
-            pattern: STREET_PATTERN,
+            pattern: REJECT_WHITESPACE_ONLY,
           };
         },
       },
