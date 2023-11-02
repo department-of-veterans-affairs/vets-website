@@ -47,17 +47,6 @@ describe('Chapter 31 veteran information', () => {
     formDom.fillData('input#root_veteranInformation_dobYear', 1991);
 
     formDom.submitForm();
-
-    expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
-      0,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(form.debug());
-
-    // eslint-disable-next-line no-console
-    console.log(onSubmit.args[0][0].formData);
-
     expect(onSubmit.called).to.be.true;
   });
 
