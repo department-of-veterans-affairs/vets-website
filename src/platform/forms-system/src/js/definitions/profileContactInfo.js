@@ -74,9 +74,8 @@ const profileContactInfo = ({
   contactInfoRequiredKeys = [
     'mailingAddress',
     'email',
-    'homePhone|mobilePhone', // homePhone OR mobilePhone required
-    // 'homePhone', // homePhone is required
-    // 'mobilePhone', // mobilePhone is required
+    'homePhone',
+    'mobilePhone',
   ],
   // Page key used within the formConfig chapter
   contactInfoPageKey = 'confirmContactInfo',
