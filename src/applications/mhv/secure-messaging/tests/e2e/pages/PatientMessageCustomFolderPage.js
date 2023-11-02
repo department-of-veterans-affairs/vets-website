@@ -207,10 +207,11 @@ class PatientMessageCustomFolderPage {
       .click();
   };
 
+  editFolderButton = () => {
+    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
+  };
+
   editFolderName = folderName => {
-    cy.get('[data-testid="edit-folder-button"]')
-      .should('be.visible')
-      .click({ force: true });
     cy.get('[name="new-folder-name"]')
       .should('be.visible')
       .shadow()
@@ -234,7 +235,7 @@ class PatientMessageCustomFolderPage {
             'https://staging-api.va.gov/my_health/v1/messaging/folders/2556251',
         },
       },
-    });
+    }).as('updatedFolderName');
 
     cy.get('[text="Save"]')
       .should('be.visible')

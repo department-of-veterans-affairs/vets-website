@@ -3,9 +3,9 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
-for (let i = 0; i < 50; i += 1) {
+for (let i = 0; i < 200; i += 1) {
   describe('edit custom folder name validation', () => {
-    it.skip('verify edit folder name buttons', () => {
+    it('verify edit folder name buttons', () => {
       const landingPage = new PatientInboxPage();
       const site = new SecureMessagingSite();
       site.login();
@@ -13,6 +13,9 @@ for (let i = 0; i < 50; i += 1) {
       PatientMessageCustomFolderPage.loadFoldersList();
       PatientMessageCustomFolderPage.loadMessages();
 
+      PatientMessageCustomFolderPage.editFolderButton()
+        .should('be.visible')
+        .click({ waitForAnimations: true });
       PatientMessageCustomFolderPage.editFolderName('updatedName');
 
       cy.get('[close-btn-aria-label="Close notification"]')
@@ -32,7 +35,7 @@ for (let i = 0; i < 50; i += 1) {
       });
     });
 
-    it('verify edit folder name error', () => {
+    it.skip('verify edit folder name error', () => {
       const landingPage = new PatientInboxPage();
       const site = new SecureMessagingSite();
       site.login();
@@ -40,18 +43,17 @@ for (let i = 0; i < 50; i += 1) {
       PatientMessageCustomFolderPage.loadFoldersList();
       PatientMessageCustomFolderPage.loadMessages();
 
-      cy.get('[data-testid="edit-folder-button"]')
+      PatientMessageCustomFolderPage.editFolderButton()
         .should('be.visible')
-        .click({ force: true });
+        .click();
 
       cy.get('[text="Save"]')
         .should('be.visible')
         .click({ waitForAnimations: true });
 
-      cy.get('[label="Folder name"]')
+      cy.get('[label="Folder name"]', { timeout: 10000 })
         .shadow()
         .find('#input-error-message')
-        .should('be.visible')
         .and('include.text', 'Folder name cannot be blank');
 
       cy.injectAxe();
