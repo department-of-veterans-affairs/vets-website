@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-class DateTimeRequestPageObject extends PageObject {
+export class DateTimeRequestPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/community-request');
     cy.axeCheckBestPractice();

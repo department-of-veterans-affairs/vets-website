@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PageObject from './PageObject';
 
-class PreferredDatePageObject extends PageObject {
+export class PreferredDatePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/preferred-date');
     cy.axeCheckBestPractice();

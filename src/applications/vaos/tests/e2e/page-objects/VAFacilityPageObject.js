@@ -1,8 +1,7 @@
 import PageObject from './PageObject';
 
-class VAFacilityPageObject extends PageObject {
+export class VAFacilityPageObject extends PageObject {
   assertUrl() {
-    // cy.url().should('include', url, { timeout: 5000 });
     cy.url().should('include', '/location', { timeout: 5000 });
     cy.axeCheckBestPractice();
 
@@ -16,8 +15,9 @@ class VAFacilityPageObject extends PageObject {
         cy.findByText(/We found one VA facility for your/i);
       } else {
         cy.get('#root_clinicId_0')
-          .focus()
-          .click();
+          .as('radio')
+          .focus();
+        cy.get('@radio').click();
       }
     });
 
