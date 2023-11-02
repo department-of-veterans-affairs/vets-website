@@ -21,7 +21,7 @@ const AttachmentsList = props => {
   const [removedAttachmentName, setRemovedAttachmentName] = useState('');
   const [fileToRemove, setFileToRemove] = useState(null);
   const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
-  const attachFileAlertRef = useRef(null);
+  const attachFileAlertRef = useRef();
 
   const getSize = num => {
     if (num > 999999) {
@@ -43,17 +43,16 @@ const AttachmentsList = props => {
       //       .shadowRoot.querySelector('button'),
       //   );
       // } else
-      if (
-        attachments?.length > 0 &&
-        editingEnabled &&
-        attachmentReference.current &&
-        attachFileSuccess
-      ) {
+      if (attachFileSuccess && attachFileAlertRef.current) {
         // console.log('other one', attachFileAlertRef);
-        focusElement(attachFileAlertRef.current?.shadowRoot?.lastChild);
+        setTimeout(() => {
+          focusElement(
+            attachFileAlertRef.current.shadowRoot.querySelector('button'),
+          );
+        }, 300);
       }
     },
-    [attachments, editingEnabled, attachFileSuccess],
+    [attachFileSuccess],
   );
 
   // useEffect(
@@ -100,7 +99,7 @@ const AttachmentsList = props => {
       </div>
       {editingEnabled && <HowToAttachFiles />}
 
-      {attachFileSuccess ? (
+      {attachFileSuccess && (
         <VaAlert
           aria-live="polite"
           ref={attachFileAlertRef}
@@ -117,14 +116,9 @@ const AttachmentsList = props => {
           onCloseEvent={() => {
             setAttachFileSuccess(false);
           }}
-          onVaComponentDidLoad={() => {
-            // console.log('loaded');
-          }}
         >
           <p className="vads-u-margin-bottom--0">File attached</p>
         </VaAlert>
-      ) : (
-        ''
       )}
 
       <ul className="attachments-list">
