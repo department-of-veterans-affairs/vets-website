@@ -21,9 +21,9 @@ export const claimExamsDescription = (
       <p>
         You can go to your{' '}
         <a href="/profile" target="_blank" rel="noreferrer">
-          VA.gov profile
+          VA.gov profile (opens in a new tab)
         </a>{' '}
-        to confirm your phone number (opens in a new tab).
+        to confirm your phone number.
       </p>
     </va-alert>
 
@@ -62,9 +62,10 @@ export const claimExamsFAQ = (
             rel="noreferrer"
           >
             {' '}
-            contact an Overseas Military Services Coordinator
+            contact an Overseas Military Services Coordinator (opens in a new
+            tab)
           </a>{' '}
-          for help scheduling a claim exam (opens in a new tab).
+          for help scheduling a claim exam.
         </p>
       </va-accordion-item>
       <va-accordion-item>
