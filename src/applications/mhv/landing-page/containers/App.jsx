@@ -73,9 +73,9 @@ const App = () => {
         /* eslint-disable-next-line no-param-reassign */
         event.context = {
           ...event.context,
-          'link-group': target.linkGroup,
+          'link-group': target.dataset.linkGroup,
           'link-hostname': target.hostname,
-          'link-title': target.linkTitle,
+          'link-title': target.dataset.linkTitle,
         };
       }
     },
