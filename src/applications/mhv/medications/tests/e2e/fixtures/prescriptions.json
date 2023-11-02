@@ -1550,54 +1550,6 @@
             }
         },
         {
-            "id": "21142471",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 21142471,
-                "prescriptionNumber": "3636827",
-                "prescriptionName": "NAPROXEN 250MG TAB",
-                "refillStatus": "discontinued",
-                "refillSubmitDate": null,
-                "refillDate": "2022-03-11T05:00:00.000Z",
-                "refillRemaining": 2,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2022-02-09T05:00:00.000Z",
-                "quantity": 60,
-                "expirationDate": "2023-02-10T05:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142471"
-            }
-        },
-        {
-            "id": "21296559",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 21296559,
-                "prescriptionNumber": "3636827A",
-                "prescriptionName": "NAPROXEN 250MG TAB",
-                "refillStatus": "refillinprocess",
-                "refillSubmitDate": "2022-11-08T19:11:24.000Z",
-                "refillDate": "2022-11-08T05:00:00.000Z",
-                "refillRemaining": 2,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2022-09-20T04:00:00.000Z",
-                "quantity": 60,
-                "expirationDate": "2023-09-21T04:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21296559"
-            }
-        },
-        {
             "id": "22083122",
             "type": "prescriptions",
             "attributes": {

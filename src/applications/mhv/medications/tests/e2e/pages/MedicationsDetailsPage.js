@@ -170,5 +170,24 @@ class MedicationsDetailsPage {
       '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
     ).should('contain', 'You can’t refill this prescription.');
   };
+
+  verifyExpiredStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="expired-status-definition"]',
+    ).should('contain', 'This prescription is too old to refill.');
+  };
+
+  verifyTransferredStatusDropDownDefinition = () => {
+    cy.get('[data-testid="status-dropdown"] > p').should(
+      'contain',
+      'We moved this prescription to our My VA Health portal.',
+    );
+  };
+
+  verifyUnknownStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="unknown-status-definition"]',
+    ).should('contain', 'There’s a problem with our system');
+  };
 }
 export default MedicationsDetailsPage;
