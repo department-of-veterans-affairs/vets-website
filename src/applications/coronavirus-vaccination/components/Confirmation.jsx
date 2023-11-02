@@ -36,7 +36,7 @@ function Confirmation({ router, formData }) {
       <p>
         You can also get updates and answers to common questions on our main{' '}
         <a
-          href="/health-care/covid-19-vaccine/"
+          href="/health-care/covid-19-vaccinee/"
           aria-label="Main COVID-19 vaccines page"
         >
           COVID-19 vaccines page
