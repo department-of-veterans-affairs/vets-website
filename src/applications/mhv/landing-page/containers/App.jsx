@@ -18,6 +18,7 @@ import {
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
+  hasHealthData,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -30,6 +31,7 @@ const App = () => {
   const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
+  const userHasHealthData = useSelector(hasHealthData);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
@@ -41,9 +43,16 @@ const App = () => {
         featureToggles,
         unreadMessageCount,
         unreadMessageAriaLabel,
+        userHasHealthData,
       );
     },
-    [featureToggles, ssoe, unreadMessageCount, unreadMessageAriaLabel],
+    [
+      featureToggles,
+      ssoe,
+      unreadMessageCount,
+      unreadMessageAriaLabel,
+      userHasHealthData,
+    ],
   );
 
   const datadogRumConfig = {
