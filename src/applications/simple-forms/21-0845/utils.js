@@ -58,7 +58,7 @@ export const getEnumsFromConstants = (constants = {}) => {
 
 export const objHasEmptyValues = obj => {
   const keys = Object.keys(obj);
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     const value = obj[key];
     if (typeof value === 'object') {
