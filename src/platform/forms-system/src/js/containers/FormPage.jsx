@@ -53,6 +53,13 @@ class FormPage extends React.Component {
     const { pageConfig } = this.props.route;
     let newData = formData;
     if (pageConfig.showPagePerItem) {
+      if (
+        this.props.form.data &&
+        pageConfig.arrayPath &&
+        !this.props.form.data[pageConfig.arrayPath]
+      ) {
+        this.props.form.data[pageConfig.arrayPath] = [];
+      }
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
       newData = set(
@@ -165,7 +172,8 @@ class FormPage extends React.Component {
       appStateData,
     } = this.props;
 
-    let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
+    const pageProps = form.pages[route.pageConfig.pageKey];
+    let { schema, uiSchema } = pageProps;
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
@@ -175,6 +183,9 @@ class FormPage extends React.Component {
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema =
         schema.properties[route.pageConfig.arrayPath].items[params.index];
+      if (!schema && pageProps.allowPathWithNoItems) {
+        schema = schema.properties[route.pageConfig.arrayPath].additionalItems;
+      }
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
     }
