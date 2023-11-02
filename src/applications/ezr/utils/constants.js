@@ -82,6 +82,8 @@ export const INSURANCE_VIEW_FIELDS = {
   skip: 'view:skipInsuranceInfo',
 };
 
+export const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
+
 export const MOCK_ENROLLMENT_REPSONSE = {
   applicationDate: '2019-04-24T00:00:00.000-06:00',
   enrollmentDate: '2019-04-30T00:00:00.000-06:00',
