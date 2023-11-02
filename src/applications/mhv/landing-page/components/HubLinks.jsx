@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const HubSection = ({ section, title, links }) => {
+const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
-      <a className="mhv-c-link" href={l.href} data-link-group={section}>
+      <a className="mhv-c-link" href={l.href} data-link-group={title}>
         {l.text}
       </a>
     </li>
@@ -25,7 +25,7 @@ const HubLinks = ({ hubs }) => {
       key={h.title}
       className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap"
     >
-      <HubSection section={h.section} title={h.title} links={h.links} />
+      <HubSection title={h.title} links={h.links} />
     </div>
   ));
   return (
@@ -39,7 +39,6 @@ HubSection.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
   ),
-  section: PropTypes.string,
   title: PropTypes.string,
 };
 

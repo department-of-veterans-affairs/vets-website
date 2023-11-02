@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(l => (
     <li className="mhv-c-navlistitem" key={l.key || l.href}>
-      <a className="mhv-c-navlink" href={l.href} aria-label={l.ariaLabel}>
+      <a
+        className="mhv-c-navlink"
+        href={l.href}
+        aria-label={l.ariaLabel}
+        data-link-group={title}
+      >
         {l.text}
         <i aria-hidden="true" />
       </a>
