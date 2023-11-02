@@ -90,7 +90,7 @@ const profileContactInfo = ({
   const config = {};
   const wrapperProperties = {};
   const keys = { wrapper: wrapperKey };
-  const requiredList = contactInfoRequiredKeys.join();
+  const requiredList = contactInfoRequiredKeys;
 
   if (included.includes(addressKey)) {
     keys.address = addressKey;
@@ -175,9 +175,7 @@ const profileContactInfo = ({
           // the contact info
           [keys.wrapper]: {
             type: 'object',
-            // required keys may include "homePhone|mobilePhone" which needs to
-            // be split before adding to the required schema
-            required: contactInfoRequiredKeys.join().split(/[|,]/g),
+            required: contactInfoRequiredKeys,
             properties: wrapperProperties,
           },
         },
