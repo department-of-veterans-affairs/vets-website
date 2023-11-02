@@ -6,7 +6,9 @@ import {
   ErrorMessages,
 } from '../../util/constants';
 
-const FileInput = ({ attachments, setAttachments }) => {
+const FileInput = props => {
+  const { attachments, setAttachments, setAttachFileSuccess } = props;
+
   const [error, setError] = useState();
   const fileInputRef = useRef();
   const errorRef = useRef(null);
@@ -80,9 +82,11 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (attachments.length) {
       setAttachments(prevFiles => {
+        setAttachFileSuccess(true);
         return [...prevFiles, selectedFile];
       });
     } else {
+      setAttachFileSuccess(true);
       setAttachments([selectedFile]);
     }
   };
@@ -150,6 +154,7 @@ const FileInput = ({ attachments, setAttachments }) => {
 
 FileInput.propTypes = {
   attachments: PropTypes.array,
+  setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
 };
 

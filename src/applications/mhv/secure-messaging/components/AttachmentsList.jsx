@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
 
@@ -11,6 +12,8 @@ const AttachmentsList = props => {
     setAttachments,
     setNavigationError,
     editingEnabled,
+    attachFileSuccess,
+    setAttachFileSuccess,
   } = props;
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,6 +21,7 @@ const AttachmentsList = props => {
   const [removedAttachmentName, setRemovedAttachmentName] = useState('');
   const [fileToRemove, setFileToRemove] = useState(null);
   const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
+  const attachFileAlertRef = useRef(null);
 
   const getSize = num => {
     if (num > 999999) {
@@ -31,16 +35,41 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
+      // if (attachFileSuccess) {
+      //   console.log('help!!!!!!!!!');
+      //   focusElement(
+      //     document
+      //       .querySelector('.file-attached-success')
+      //       .shadowRoot.querySelector('button'),
+      //   );
+      // } else
       if (
         attachments?.length > 0 &&
         editingEnabled &&
-        attachmentReference.current
+        attachmentReference.current &&
+        attachFileSuccess
       ) {
-        focusElement(attachmentReference.current);
+        // console.log('other one', attachFileAlertRef);
+        focusElement(attachFileAlertRef.current?.shadowRoot?.lastChild);
       }
     },
-    [attachments, editingEnabled],
+    [attachments, editingEnabled, attachFileSuccess],
   );
+
+  // useEffect(
+  //   () => {
+  //     if (attachFileAlertRef) {
+  //       console.log('in useEffect attachFileSuccess');
+  //       console.log(attachFileAlertRef);
+  //       // focusElement(
+  //       //   document
+  //       //     .querySelector('.file-attached-success')
+  //       //     .shadowRoot.querySelector('button'),
+  //       // );
+  //     }
+  //   },
+  //   [attachFileAlertRef],
+  // );
 
   const removeAttachment = file => {
     const newAttArr = attachments?.filter(item => {
@@ -65,11 +94,39 @@ const AttachmentsList = props => {
   };
   return (
     <div>
-      <div className="message-body-attachments-label vads-u-margin-bottom--1">
+      <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
         Attachments
         {attachments.length > 0 ? <span> ({attachments.length})</span> : ''}
       </div>
       {editingEnabled && <HowToAttachFiles />}
+
+      {attachFileSuccess ? (
+        <VaAlert
+          aria-live="polite"
+          ref={attachFileAlertRef}
+          background-only
+          closeable
+          className="file-attached-success vads-u-margin-top--2"
+          close-btn-aria-label="Close notification"
+          data-testid="file-attached-success-alert"
+          disable-analytics
+          full-width="false"
+          show-icon
+          status="success"
+          // visible={attachFileSuccess}
+          onCloseEvent={() => {
+            setAttachFileSuccess(false);
+          }}
+          onVaComponentDidLoad={() => {
+            // console.log('loaded');
+          }}
+        >
+          <p className="vads-u-margin-bottom--0">File attached</p>
+        </VaAlert>
+      ) : (
+        ''
+      )}
+
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
@@ -181,8 +238,10 @@ const AttachmentsList = props => {
 };
 
 AttachmentsList.propTypes = {
+  attachFileSuccess: PropTypes.bool,
   attachments: PropTypes.array,
   editingEnabled: PropTypes.bool,
+  setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
   setNavigationError: PropTypes.func,

@@ -59,6 +59,7 @@ const ComposeForm = props => {
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
+  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -507,12 +508,15 @@ const ComposeForm = props => {
               compose
               attachments={attachments}
               setAttachments={setAttachments}
+              attachFileSuccess={attachFileSuccess}
+              setAttachFileSuccess={setAttachFileSuccess}
               editingEnabled
             />
 
             <FileInput
               attachments={attachments}
               setAttachments={setAttachments}
+              setAttachFileSuccess={setAttachFileSuccess}
             />
           </section>
           <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
