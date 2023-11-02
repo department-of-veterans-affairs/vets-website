@@ -25,6 +25,17 @@ describe('Medications Details Page Active Submmitted Status DropDown', () => {
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(submittedRx);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+        'link-name': {
+          enabled: false,
+        },
+      },
+    });
     detailsPage.verifySubmittedStatusDropDownDefinition();
   });
 });
