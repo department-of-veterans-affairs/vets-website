@@ -1,6 +1,6 @@
 import { CONFERENCE_TIMES_V2 } from '../constants';
 
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../shared/constants';
+import { MAX_LENGTH } from '../../shared/constants';
 import '../../shared/definitions';
 import { replaceSubmittedData } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
@@ -38,41 +38,6 @@ export const getTimeZone = () =>
   // supports IE11
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
   Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-/**
- * Add area of disagreement
- * @param {ContestableIssueSubmittable} issues - selected & processed issues
- * @param {FormData} formData
- * @return {ContestableIssuesSubmittable} issues with "disagreementArea" added
- */
-export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
-  const keywords = {
-    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
-    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
-    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
-  };
-  if (!areaOfDisagreement?.length) {
-    return issues;
-  }
-  return issues.map((issue, index) => {
-    const entry = areaOfDisagreement[index];
-    const reasons = Object.entries(entry.disagreementOptions)
-      .map(([key, value]) => value && keywords[key](entry))
-      .concat((entry?.otherEntry || '').trim())
-      .filter(Boolean);
-    const disagreementArea = replaceSubmittedData(
-      // max length in schema
-      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
-    );
-    return {
-      ...issue,
-      attributes: {
-        ...issue.attributes,
-        disagreementArea,
-      },
-    };
-  });
-};
 
 export const getContact = ({ informalConference }) => {
   if (informalConference === 'rep') {

@@ -6,6 +6,7 @@ import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-t
 import { Paths, Locators } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
+import mockFolderWithMessages from '../fixtures/customResponse/folder-messages-response .json';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -21,6 +22,7 @@ class PatientMessageCustomFolderPage {
       foldersList,
     ).as('customFoldersList');
     cy.get(Locators.FOLDERS_LIST).click();
+    cy.wait('@customFoldersList');
   };
 
   loadSingleFolderWithNoMessages = (folderId, folderName) => {
@@ -42,6 +44,38 @@ class PatientMessageCustomFolderPage {
     ).as('inboxFolderWithNoMessage');
 
     cy.contains(folderName).click({ waitForAnimations: true });
+    cy.wait('@singleFolder');
+    cy.wait('@singleFolderThread');
+    cy.wait('@inboxFolderWithNoMessage');
+  };
+
+  loadSingleFolderWithMessages = (folderId, folderName) => {
+    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`, {
+      data: {
+        id: `${folderId}`,
+        type: 'folders',
+        attributes: {
+          folderId,
+          name: folderName,
+          count: 0,
+          unreadCount: 0,
+          systemFolder: false,
+        },
+        links: {
+          self:
+            'https://staging-api.va.gov/my_health/v1/messaging/folders/3041238',
+        },
+      },
+    }).as('singleFolder');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
+      mockFolderWithMessages,
+    ).as('singleFolderThread');
+
+    cy.contains(folderName).click({ waitForAnimations: true });
+    cy.wait('@singleFolder');
+    cy.wait('@singleFolderThread');
   };
 
   loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
@@ -149,6 +183,7 @@ class PatientMessageCustomFolderPage {
   };
 
   createCustomFolder = folderName => {
+    mockFolders.data.push(createdFolderResponse.data);
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
     cy.get('[name="folder-name"]')
       .shadow()

@@ -11,8 +11,13 @@ import formConfig from '../config/form';
 const App = props => {
   const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
-  const { loading, isSigiEnabled } = features;
-  const { dob: veteranDateOfBirth, gender: veteranGender } = user;
+  const { loading: isLoadingFeatures, isSigiEnabled } = features;
+  const {
+    dob: veteranDateOfBirth,
+    gender: veteranGender,
+    loading: isLoadingProfile,
+  } = user;
+  const isAppLoading = isLoadingFeatures || isLoadingProfile;
 
   /**
    * Set default view fields in the form data
@@ -26,7 +31,7 @@ const App = props => {
    */
   useEffect(
     () => {
-      if (!loading) {
+      if (!isAppLoading) {
         const defaultViewFields = {
           'view:userGender': veteranGender,
           'view:userDob': veteranDateOfBirth,
@@ -40,11 +45,15 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isSigiEnabled, loading, veteranFullName, veteranDateOfBirth],
+    [isSigiEnabled, isAppLoading, veteranFullName, veteranDateOfBirth],
   );
 
-  return loading ? (
-    <va-loading-indicator message={content['load-app']} set-focus />
+  return isAppLoading ? (
+    <va-loading-indicator
+      message={content['load-app']}
+      class="vads-u-margin-y--4"
+      set-focus
+    />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

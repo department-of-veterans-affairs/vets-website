@@ -297,7 +297,6 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
-        ...toxicExposurePages,
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
@@ -532,6 +531,7 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
+        ...toxicExposurePages,
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',

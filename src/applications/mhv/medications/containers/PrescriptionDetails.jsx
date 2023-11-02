@@ -54,8 +54,13 @@ const PrescriptionDetails = () => {
             },
           ],
           {
-            url: `/my-health/medications/${prescription.prescriptionId}`,
-            label: prescription.prescriptionName,
+            url: `/my-health/medications/prescription/${
+              prescription.prescriptionId
+            }`,
+            label:
+              prescription.dispStatus === 'Active: Non-VA'
+                ? prescription.orderableItem
+                : prescription.prescriptionName,
           },
         ),
       );
@@ -75,6 +80,7 @@ const PrescriptionDetails = () => {
   const pdfData = useCallback(
     allergiesPdfList => {
       return {
+        subject: `Single Medication Record - ${prescription?.prescriptionName}`,
         headerBanner: [
           {
             text:
@@ -225,7 +231,9 @@ const PrescriptionDetails = () => {
             className="vads-u-margin-bottom--0"
             id="prescription-name"
           >
-            {prescription.prescriptionName}
+            {prescription.dispStatus === 'Active: Non-VA'
+              ? prescription.orderableItem
+              : prescription.prescriptionName}
           </h1>
           <p
             id="last-filled"

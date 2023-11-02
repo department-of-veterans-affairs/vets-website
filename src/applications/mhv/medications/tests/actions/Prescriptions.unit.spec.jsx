@@ -65,7 +65,7 @@ describe('Get prescription details action', () => {
     const dispatch = sinon.spy();
     return getPrescriptionDetails()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Prescriptions.GET,
+        Actions.Prescriptions.GET_DETAILS,
       );
     });
   });

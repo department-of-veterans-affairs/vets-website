@@ -1,4 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import testData from './schema/maximal-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
@@ -6,6 +5,7 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
   it('fills the form and navigates accordingly as a veteran', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
+
     // Applicant Information Page
     preneedHelpers.fillApplicantInfo(
       testData.data.application.veteran.currentName,
@@ -14,27 +14,8 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.relationshipToVet,
     );
 
-    // Applicant demographics
-    cy.get(
-      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
-    ).click();
-    cy.selectRadio(
-      'root_application_veteran_gender',
-      testData.data.application.veteran.gender,
-    );
-    cy.selectRadio(
-      'root_application_veteran_maritalStatus',
-      testData.data.application.veteran.maritalStatus,
-    );
-
-    cy.axeCheck();
-    preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-demographics');
-
     // Veteran Information Page
-    cy.get('input[name="root_application_veteran_militaryServiceNumber"]');
     preneedHelpers.validateProgressBar('1');
-
     cy.fill(
       'input[name="root_application_veteran_militaryServiceNumber"]',
       testData.data.application.veteran.militaryServiceNumber,
@@ -46,16 +27,22 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.get('#root_application_veteran_militaryStatus').select(
       testData.data.application.veteran.militaryStatus,
     );
-
+    cy.get(
+      'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
+    ).click();
+    cy.selectRadio(
+      'root_application_veteran_gender',
+      testData.data.application.veteran.gender,
+    );
+    cy.selectRadio(
+      'root_application_veteran_maritalStatus',
+      testData.data.application.veteran.maritalStatus,
+    );
     cy.axeCheck();
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/veteran-information');
 
     // Military History Page
-    cy.get(
-      'input[name="root_application_veteran_serviceRecords_0_serviceBranch"]',
-      { timeout: Timeouts.verySlow },
-    );
     preneedHelpers.validateProgressBar('2');
     preneedHelpers.fillMilitaryHistory(
       testData.data.application.veteran.serviceRecords,
@@ -63,15 +50,10 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     cy.url().should('not.contain', '/applicant-military-history');
 
     // Previous Names Page
-    preneedHelpers.fillPreviousName(
-      testData.data.application.veteran.serviceName,
-    );
+    preneedHelpers.fillPreviousName(testData.data.application.veteran);
     cy.url().should('not.contain', '/applicant-military-name');
 
     // Benefit Selection Page
-    cy.get('label[for="root_application_claimant_desiredCemetery"]').should(
-      'be.visible',
-    );
     preneedHelpers.validateProgressBar('3');
     preneedHelpers.fillBenefitSelection(
       testData.data.application.veteran.desiredCemetery.label,
@@ -80,20 +62,18 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     );
 
     // Supporting Documents Page
-    cy.get('label[for="root_application_preneedAttachments"]');
+    cy.get('label[for="root_application_preneedAttachments"]').should(
+      'be.visible',
+    );
     preneedHelpers.validateProgressBar('4');
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Veteran Contact Information Page
-    cy.get('select[name="root_application_claimant_address_country"]');
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillApplicantContactInfo(testData.data.application.veteran);
 
     // Preparer Contact Information Page
-    cy.get(
-      'label[for="root_application_applicant_applicantRelationshipToClaimant_1input"]',
-    );
     preneedHelpers.validateProgressBar('5');
     preneedHelpers.fillPreparerInfo(testData.data.application.applicantForeign);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -9,7 +9,12 @@ import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  recordType,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  accessAlertTypes,
+} from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
@@ -18,6 +23,7 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -30,32 +36,13 @@ const Vaccines = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
       dispatch(getVaccinesList());
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
   );
 
   useEffect(
@@ -120,11 +107,43 @@ const Vaccines = props => {
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
+  const generateVaccinesTxt = async () => {
+    const product = `
+    Vaccines\n 
+    For a list of your allergies and reactions (including any reactions to
+    vaccines), go to your allergy records. \n
+    If you have Vaccines that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${vaccines.length} from newest to oldest. \n
+    ${vaccines.map(
+      entry => `_____________________________________________________ \n
+      ${entry.name} \n 
+      \t Date received: ${entry.date} \n
+      \t Location: ${entry.location} \n
+      \t Reaction: ${processList(entry.reactions)} \n
+      \t Provider notes: ${processList(entry.notes)} \n`,
+    )}`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VA-Vaccines-list-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox alertType="Vaccine" />;
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
     if (vaccines?.length) {
       return <RecordList records={vaccines} type={recordType.VACCINES} />;
@@ -157,6 +176,7 @@ const Vaccines = props => {
         list
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateVaccinesTxt}
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}

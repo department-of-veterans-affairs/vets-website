@@ -130,3 +130,48 @@ describe('Condition details container still loading', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 });
+
+describe('Health conditions details container with errors', () => {
+  it('displays an error', async () => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {},
+        alerts: {
+          alertList: [
+            {
+              datestamp: '2023-10-10T16:03:28.568Z',
+              isActive: true,
+              type: 'error',
+            },
+            {
+              datestamp: '2023-10-10T16:03:28.572Z',
+              isActive: true,
+              type: 'error',
+            },
+          ],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ConditionDetails runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/conditions/123',
+      },
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'We can’t access your health conditions records right now',
+          {
+            exact: false,
+          },
+        ),
+      ).to.exist;
+    });
+  });
+});

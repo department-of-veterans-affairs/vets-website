@@ -18,6 +18,12 @@ function test(mobile = false) {
     cy.viewport('iphone-4');
   }
 
+  // should redirect to profile/account-security on load
+  cy.url().should(
+    'eq',
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
+  );
+
   // Should show a "not in MPI" error
   cy.findByText(/We can’t match your information with our Veteran records/i)
     .should('exist')
