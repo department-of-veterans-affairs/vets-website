@@ -1,57 +1,50 @@
-import React from 'react';
-
+import {
+  checkboxGroupUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
-import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
-
-const limitedInfoItemsLabel =
-  'Which specific information do you authorize us to release?';
+import { objHasEmptyValues } from '../utils';
 
 /** @type {PageSchema} */
+
 export default {
   uiSchema: {
+    /* TODO: Once bug #718 is fixed and merged, refactor to
+      * uiSchema below
+      */
     limitedInformationItems: {
-      'ui:title': (
-        <>
-          <h3>
-            {limitedInfoItemsLabel}{' '}
-            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
-              (*Required)
-            </span>
-          </h3>
-          <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-            Select the items we can share with your third-party source. You can
-            select more than one.
-          </span>
-        </>
-      ),
-      'ui:widget': GroupCheckboxWidget,
-      'ui:reviewField': ({ children }) => (
-        // prevent ui:title's <h3> from getting pulled into
-        // review-field's <dt> & causing a11y headers-hierarchy errors.
-        <div className="review-row">
-          <dt>{limitedInfoItemsLabel}</dt>
-          <dd>{children}</dd>
-        </div>
-      ),
+      // deconstruct checkboxGroupUI, so that
+      // we can override the required prop with a function
+      ...checkboxGroupUI({
+        title: 'Which specific information do you authorize us to release?',
+        description:
+          'Select the items we can share with your third-party source. You can select more than one',
+        labels: LIMITED_INFORMATION_ITEMS,
+        required: false, // override with 'ui:required' below
+        labelHeaderLevel: '3',
+        tile: false,
+        errorMessages: {},
+      }),
+      // override checkboxGroupUI's required
       'ui:required': formData => !formData.limitedInformationOther,
-      'ui:options': {
-        forceDivWrapper: true,
-        labels: Object.values(LIMITED_INFORMATION_ITEMS),
-        showFieldLabel: true,
-      },
     },
     limitedInformationOther: {
       'ui:title': 'Other (specify here)',
+      'ui:webComponentField': VaTextInputField,
     },
     'ui:validations': [
       (errors, fields) => {
-        const errMsg =
-          'Please select at least one type of information here, or specify something else below';
         if (
-          fields.limitedInformationItems === '' &&
+          objHasEmptyValues(fields.limitedInformationItems) &&
           typeof fields.limitedInformationOther === 'undefined'
         ) {
-          errors.limitedInformationItems.addError(errMsg);
+          errors.limitedInformationItems.addError(
+            'Please select at least one type of information here, or specify something else below',
+          );
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          errors.limitedInformationItems = [];
         }
       },
     ],
@@ -59,9 +52,9 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      limitedInformationItems: {
-        type: 'string',
-      },
+      limitedInformationItems: checkboxGroupSchema(
+        Object.keys(LIMITED_INFORMATION_ITEMS),
+      ),
       limitedInformationOther: {
         type: 'string',
       },

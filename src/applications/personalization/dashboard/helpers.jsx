@@ -26,8 +26,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
   [VA_FORM_IDS.FORM_26_4555]: 'specially adapted housing grant',
-  [VA_FORM_IDS.FORM_28_1900]:
-    'Application for Veteran Readiness and Employment Benefits',
+  [VA_FORM_IDS.FORM_28_1900]: 'Veteran Readiness and Employment Benefits',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',

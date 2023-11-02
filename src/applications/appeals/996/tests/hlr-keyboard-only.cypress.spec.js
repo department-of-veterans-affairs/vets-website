@@ -89,9 +89,15 @@ describe('Higher-Level Review keyboard only navigation', () => {
       );
       cy.tabToInputWithLabel('service connection');
       cy.realPress('Space');
-      cy.tabToElement('#root_otherEntry');
-      cy.typeInFocused('Few words');
-      cy.tabToContinueForm();
+      cy.tabToElement('[name="otherEntry"]');
+      // Need to specifically find input within va-text-input element
+      cy.get(':focus')
+        .find('input')
+        .type('Few words', { delay: 0 });
+      // For some reason, the Continue button is not consistently appearing in Cypress snapshot with `[type="submit"]`
+      // Both Back and Continue button have ids ending with -continueButton, so using .usa-button-primary to identify which button is submit
+      cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
+      cy.realPress('Space');
 
       // Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
@@ -137,7 +143,11 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Check confirmation page print button
       cy.url().should('include', 'confirmation');
-      cy.get('button.screen-only').should('exist');
+      // Another instance where we need to specifically find the element inside of a shadow dom (va-button)
+      cy.get('.screen-only')
+        .shadow()
+        .find('[type="button"')
+        .should('exist');
     });
   });
 });
