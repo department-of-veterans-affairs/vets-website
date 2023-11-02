@@ -40,10 +40,10 @@ export const AppointmentsCard = ({ appointments }) => {
     <>
       <h3 className="vads-u-margin-top--0">Next appointment</h3>
       <p className="vads-u-margin-bottom--1">
-        {format(startsAt, 'eeee, MMMM do, yyyy')}
+        {format(startsAt, 'eeee, MMMM d, yyyy')}
       </p>
       <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-        {`Time: ${format(startsAt, 'h:mm aaa')} ${timeZone.abbreviation}`}
+        {`Time: ${format(startsAt, 'h:mm aaaa')} ${timeZone.abbreviation}`}
       </p>
       {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
       <CTALink
