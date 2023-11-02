@@ -8,6 +8,7 @@ import { selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
+import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
 import { getIssuesListItems } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
@@ -22,9 +23,6 @@ export class ConfirmationPage extends React.Component {
     const issues = data ? getIssuesListItems(data) : [];
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
-    const handlers = {
-      print: () => window.print(),
-    };
 
     return (
       <div>
@@ -56,16 +54,7 @@ export class ConfirmationPage extends React.Component {
             </span>
           )}
           {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
-          <strong>
-            Issue
-            {issues?.length > 1 ? 's' : ''} submitted
-          </strong>
-          <ul className="vads-u-margin-top--0">{issues || null}</ul>
-          <va-button
-            class="screen-only"
-            onClick={handlers.print}
-            text="Print this for your records"
-          />
+          <IssuesSubmitted issues={issues} />
         </div>
 
         <h2 className="vads-u-font-size--h3">
