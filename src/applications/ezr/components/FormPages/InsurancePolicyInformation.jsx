@@ -111,7 +111,7 @@ const InsurancePolicyInformation = props => {
           beforeIndex: providers.slice(0, searchIndex),
           afterIndex: providers.slice(searchIndex + 1),
         },
-        viewsFields: INSURANCE_VIEW_FIELDS,
+        viewFields: INSURANCE_VIEW_FIELDS,
         dataKey: 'providers',
         localData,
         listRef,
