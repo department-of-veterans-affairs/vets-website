@@ -20,7 +20,7 @@ describe('<RatedDisabilityListItem />', () => {
 
   it('should render a service connected disability', () => {
     const formattedEffectiveDate = ratedDisability.effectiveDate.format(
-      'MM/DD/YYYY',
+      'MMMM DD, YYYY',
     );
     const wrapper = shallow(
       <RatedDisabilityListItem ratedDisability={ratedDisability} />,

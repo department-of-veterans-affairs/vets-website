@@ -31,6 +31,7 @@ import thirdPartySurvivingDependentBenefitSelection from '../pages/thirdPartySur
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
+import thirdPartyPreparerRole from '../pages/thirdPartyPreparerRole';
 import veteranMailingAddress from '../pages/veteranMailingAddress';
 import veteranPhoneAndEmailAddress from '../pages/veteranPhoneAndEmailAddress';
 import survivingDependentVeteranPersonalInformation from '../pages/survivingDependentVeteranPersonalInformation';
@@ -110,6 +111,15 @@ const formConfig = {
           title: 'Your name',
           uiSchema: thirdPartyPreparerFullName.uiSchema,
           schema: thirdPartyPreparerFullName.schema,
+        },
+        thirdPartyPreparerRole: {
+          path: 'third-party-preparer-role',
+          depends: formData =>
+            preparerIsThirdPartyToTheVeteran({ formData }) ||
+            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          title: 'Your role',
+          uiSchema: thirdPartyPreparerRole.uiSchema,
+          schema: thirdPartyPreparerRole.schema,
         },
       },
     },
