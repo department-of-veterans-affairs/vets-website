@@ -17,7 +17,7 @@ import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import RequestDatePageObject from '../../page-objects/RequestDatePageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
@@ -25,7 +25,7 @@ import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Primary care', () => {
@@ -83,7 +83,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -133,7 +133,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -199,11 +199,11 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
@@ -253,11 +253,11 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
@@ -321,11 +321,11 @@ describe('VAOS community care flow - Primary care', () => {
         .selectTypeOfFacility(/Community care facility/i)
         .clickNextButton();
 
-      RequestDatePageObject.assertUrl()
+      DateTimeRequestPageObject.assertUrl()
         .selectFirstAvailableDate()
         .clickNextButton();
 
-      ClosestCityPageObject.assertUrl()
+      ClosestCityStatePageObject.assertUrl()
         .selectFacility()
         .clickNextButton();
 
@@ -378,11 +378,11 @@ describe('VAOS community care flow - Primary care', () => {
         .selectTypeOfFacility(/Community care facility/i)
         .clickNextButton();
 
-      RequestDatePageObject.assertUrl()
+      DateTimeRequestPageObject.assertUrl()
         .selectFirstAvailableDate()
         .clickNextButton();
 
-      ClosestCityPageObject.assertUrl()
+      ClosestCityStatePageObject.assertUrl()
         .selectFacility()
         .clickNextButton();
 

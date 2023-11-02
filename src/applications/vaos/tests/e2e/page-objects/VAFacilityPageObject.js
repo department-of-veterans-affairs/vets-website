@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-class LocationChoicePageObject extends PageObject {
+class VAFacilityPageObject extends PageObject {
   assertUrl() {
     // cy.url().should('include', url, { timeout: 5000 });
     cy.url().should('include', '/location', { timeout: 5000 });
@@ -25,4 +25,4 @@ class LocationChoicePageObject extends PageObject {
   }
 }
 
-export default new LocationChoicePageObject();
+export default new VAFacilityPageObject();

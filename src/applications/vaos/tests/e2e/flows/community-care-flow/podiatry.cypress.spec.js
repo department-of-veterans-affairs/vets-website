@@ -7,7 +7,7 @@ import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import RequestDatePageObject from '../../page-objects/RequestDatePageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import {
@@ -23,7 +23,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
-import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Podiatry', () => {
@@ -74,7 +74,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -134,11 +134,11 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
@@ -184,11 +184,11 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
