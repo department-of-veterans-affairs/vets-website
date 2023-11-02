@@ -29,7 +29,6 @@ describe('VAOS upcoming appointment flow', () => {
       mockFeatureToggles();
       mockLoginApi();
       mockVamcEhrApi();
-      mockAppointmentsApi();
     });
 
     it('should display upcoming appointments list', () => {
