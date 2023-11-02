@@ -76,7 +76,7 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Non-VA</div>
-            <div className="no-print">
+            <div className="no-print" data-testid="status-dropdown">
               <va-additional-info trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
@@ -93,7 +93,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="parked-status-dropdown"
+              >
                 Your VA provider prescribed this medication or supply to you.
                 But we won’t send any shipments until you request to fill or
                 refill it.
@@ -120,7 +123,7 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Parked</div>
-            <div className="no-print">
+            <div className="no-print" data-testid="status-dropdown">
               <va-additional-info trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
@@ -203,7 +206,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="discontinued-status-definition"
+              >
                 You can’t refill this prescription. We may use this status for
                 either of these reasons:
               </p>
@@ -227,7 +233,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Discontinued</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>

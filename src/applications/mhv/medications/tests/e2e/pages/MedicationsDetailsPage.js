@@ -137,6 +137,13 @@ class MedicationsDetailsPage {
     });
   };
 
+  verifyNonVAStatusDropDownDefinition = () => {
+    cy.get('[data-testid="nonVA-status-definition"] > :nth-child(1)').should(
+      'contain',
+      'this isn’t a prescription you filled through a VA pharmacy.',
+    );
+  };
+
   verifyActiveStatusDropDownDefinition = () => {
     cy.get(
       '[data-testid="status-dropdown"] > [data-testid="active-status-definition"]',
@@ -147,6 +154,21 @@ class MedicationsDetailsPage {
     cy.get(
       '[data-testid="status-dropdown"] > [data-testid="onHold-status-definition"]',
     ).should('contain', 'We put a hold on this prescription.');
+  };
+
+  verifyParkedStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="parked-status-dropdown"]',
+    ).should(
+      'contain',
+      'we won’t send any shipments until you request to fill or refill it.',
+    );
+  };
+
+  verifyDiscontinuedStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
+    ).should('contain', 'You can’t refill this prescription.');
   };
 }
 export default MedicationsDetailsPage;
