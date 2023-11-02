@@ -123,8 +123,11 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Parked</div>
-            <div className="no-print" data-testid="status-dropdown">
-              <va-additional-info trigger="What does this status mean?">
+            <div className="no-print">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
