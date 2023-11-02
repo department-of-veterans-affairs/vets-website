@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
+
 import {
   DefinitionTester,
   getFormDOM,
@@ -15,6 +16,8 @@ const {
 } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
 describe('Chapter 31 veteran information', () => {
+  afterEach(cleanup);
+
   it('should render', () => {
     const form = render(
       <DefinitionTester
@@ -42,11 +45,18 @@ describe('Chapter 31 veteran information', () => {
     formDom.fillData('#root_veteranInformation_dobMonth', 1);
     formDom.fillData('#root_veteranInformation_dobDay', 1);
     formDom.fillData('input#root_veteranInformation_dobYear', 1991);
+
     formDom.submitForm();
 
     expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
       0,
     );
+
+    // eslint-disable-next-line no-console
+    console.log(form.debug());
+
+    // eslint-disable-next-line no-console
+    console.log(onSubmit.args[0][0].formData);
 
     expect(onSubmit.called).to.be.true;
   });
