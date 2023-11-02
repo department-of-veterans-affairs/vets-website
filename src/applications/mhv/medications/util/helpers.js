@@ -41,7 +41,7 @@ export const generateMedicationsPDF = async (
  * @param {String} fieldValue value that is being validated
  */
 export const validateField = fieldValue => {
-  if (fieldValue) {
+  if (fieldValue || fieldValue === 0) {
     return fieldValue;
   }
   return 'None noted';

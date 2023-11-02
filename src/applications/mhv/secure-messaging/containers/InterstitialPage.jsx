@@ -57,10 +57,10 @@ const InterstitialPage = props => {
             {continueButtonText}
           </a>
         }
-        <p>
+        <h2 className="vads-u-font-size--h3">
           If you need help sooner, use one of these urgent communication
           options:
-        </p>
+        </h2>
         <ul>
           <li>
             <p>
