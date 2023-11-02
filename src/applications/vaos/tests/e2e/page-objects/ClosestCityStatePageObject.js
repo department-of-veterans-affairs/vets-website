@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-class ClosestCityPageObject extends PageObject {
+export class ClosestCityStatePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', 'closest-city');
     cy.axeCheckBestPractice();
@@ -14,4 +14,4 @@ class ClosestCityPageObject extends PageObject {
   }
 }
 
-export default new ClosestCityPageObject();
+export default new ClosestCityStatePageObject();

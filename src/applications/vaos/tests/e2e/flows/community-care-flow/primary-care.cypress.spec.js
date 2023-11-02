@@ -25,7 +25,7 @@ import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Primary care', () => {
@@ -203,7 +203,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
@@ -257,7 +257,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
@@ -325,7 +325,7 @@ describe('VAOS community care flow - Primary care', () => {
         .selectFirstAvailableDate()
         .clickNextButton();
 
-      ClosestCityPageObject.assertUrl()
+      ClosestCityStatePageObject.assertUrl()
         .selectFacility()
         .clickNextButton();
 
@@ -382,7 +382,7 @@ describe('VAOS community care flow - Primary care', () => {
         .selectFirstAvailableDate()
         .clickNextButton();
 
-      ClosestCityPageObject.assertUrl()
+      ClosestCityStatePageObject.assertUrl()
         .selectFacility()
         .clickNextButton();
 

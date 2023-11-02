@@ -23,7 +23,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
-import ClosestCityPageObject from '../../page-objects/ClosestCityPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
 
 describe('VAOS community care flow - Podiatry', () => {
@@ -138,7 +138,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
@@ -188,7 +188,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectFirstAvailableDate()
           .clickNextButton();
 
-        ClosestCityPageObject.assertUrl()
+        ClosestCityStatePageObject.assertUrl()
           .selectFacility()
           .clickNextButton();
 
