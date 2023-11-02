@@ -6,8 +6,8 @@ const NoHealthAlert = () => {
       <h2 slot="headline">You don’t have access to My HealtheVet</h2>
       <div>
         <p className="vads-u-margin-y--0">
-          To use our health management tools and access your health information
-          online, <b>one</b> of the following must be true:
+          To access My HealtheVet, <b>one</b> of these descriptions must be
+          true:
         </p>
         <ul>
           <li>
