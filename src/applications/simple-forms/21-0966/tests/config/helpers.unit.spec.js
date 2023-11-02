@@ -26,8 +26,8 @@ import {
 import {
   preparerIdentifications,
   veteranBenefits,
-  survivingDependentBenefits,
   benefitPhrases,
+  survivingDependentBenefits,
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
@@ -389,13 +389,13 @@ describe('confirmation page helper functions', () => {
       };
       const expirationDate = 'expiration-date';
       const alreadySubmittedIntents = {
-        compensation: {
+        [veteranBenefits.COMPENSATION]: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.COMPENSATION,
           status: 'active',
         },
-        pension: {
+        [veteranBenefits.PENSION]: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.PENSION,
@@ -423,11 +423,7 @@ describe('confirmation page helper functions', () => {
 
   describe('next steps', () => {
     describe('One intent selected and filed', () => {
-      [
-        veteranBenefits.COMPENSATION,
-        veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVOR,
-      ].forEach(selectedIntent => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,

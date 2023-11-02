@@ -4,6 +4,7 @@
     "first": "Third",
     "last": "Veteran"
   },
+  "thirdPartyPreparerRole": "fiduciary",
   "benefitSelection": {
     "compensation": true
   },

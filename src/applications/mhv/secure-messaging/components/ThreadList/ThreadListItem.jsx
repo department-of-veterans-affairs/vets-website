@@ -168,7 +168,7 @@ const ThreadListItem = props => {
                 messageCount > 0 && (
                   <span className="vads-u-color--gray-medium">, </span>
                 )}
-              <span className="vads-u-color--secondary-darkest">draft</span>
+              <span className="vads-u-color--secondary-darkest">Draft</span>
             </>
           )}
         </div>
