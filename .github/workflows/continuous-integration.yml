@@ -1104,7 +1104,7 @@ jobs:
     name: Testing Reports - Unit Tests Stress Test
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests-stress-test]
-    if: ${{ always() }}
+    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
