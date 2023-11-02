@@ -12,7 +12,6 @@ import requests from '../../services/mocks/var/requests.json';
 import cancelReasons from '../../services/mocks/var/cancel_reasons.json';
 import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
 import facilityData from '../../services/mocks/var/facility_data.json';
-import clinicList983 from '../../services/mocks/var/clinicList983.json';
 import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
 import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
 
@@ -661,6 +660,18 @@ export function mockFacilitiesApi({
   }
 }
 
+/**
+ * Function to mock the 'create' appointment endpoint.
+ *
+ * @example POST '/vaos/v2/appointments'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Array.<String>} arguments.facilityIds - The response object to return from the mock api call.
+ * @param {string=} arguments.typeOfCareId - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {boolean=} arguments.isDirect - Api version number.
+ * @param {boolean=} arguments.isRequest - Api version number.
+ */
 export function mockSchedulingConfigurationApi({
   facilityIds,
   typeOfCareId = null,
@@ -822,23 +833,12 @@ export function mockEligibilityCCApi({
   }).as('eligibility-cc');
 }
 
-export function mockClinicApi({
+export function mockClinicsApi({
   clinicId,
-  facilityId,
   locations = [],
   apiVersion = 2,
 } = {}) {
-  if (apiVersion === 0) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v0/facilities/${facilityId}/clinics`,
-      },
-      req => {
-        req.reply({ data: clinicList983.data });
-      },
-    ).as('v0:get:clinics');
-  } else if (apiVersion === 2) {
+  if (apiVersion === 2) {
     locations.forEach(locationId => {
       let { data } = clinicsV2;
       if (clinicId) data = data.filter(clinic => clinic.id === clinicId);
@@ -866,7 +866,7 @@ export function mockClinicApi({
             data,
           });
         },
-      ).as('v2:get:clinic');
+      ).as('v2:get:clinics');
     });
   }
 }
@@ -878,37 +878,7 @@ export function mockDirectScheduleSlotsApi({
   end = moment(),
   apiVersion = 0,
 } = {}) {
-  if (apiVersion === 0) {
-    const data = [
-      {
-        id: '1',
-        type: 'slot',
-        attributes: {
-          appointmentTimeSlot: [
-            {
-              bookingStatus: '1',
-              remainingAllowedOverBookings: '3',
-              availability: true,
-              startDateTime: start.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-              endDateTime: end.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            },
-          ],
-        },
-      },
-    ];
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/vaos/v0/facilities/983/available_appointments*',
-      },
-      req => {
-        req.reply({
-          data,
-        });
-      },
-    ).as('v0:get:slots');
-  } else if (apiVersion === 2) {
+  if (apiVersion === 2) {
     cy.intercept(
       {
         method: 'GET',
@@ -922,11 +892,17 @@ export function mockDirectScheduleSlotsApi({
         req.reply({
           data: [
             {
-              id: '123',
+              id: '1',
               type: 'slots',
               attributes: {
-                start: start.utc().format(),
-                end: end.utc().format(),
+                start: start
+                  .utc()
+                  .add(1, 'day')
+                  .format(),
+                end: end
+                  .utc()
+                  .add(1, 'day')
+                  .format(),
               },
             },
           ],

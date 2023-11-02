@@ -1,7 +1,7 @@
 import moment from '../../../utils/business-days';
 import {
   mockCCEligibilityApi,
-  mockClinicApi,
+  mockClinicsApi,
   mockDirectScheduleSlotsApi,
   mockEligibilityApi,
   mockFacilityApi,
@@ -57,7 +57,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
 
     mockAppointmentsApi({ data, apiVersion: 2 });
     mockCCEligibilityApi();
-    mockClinicApi({ locations: ['983'], apiVersion: 2 });
+    mockClinicsApi({ locations: ['983'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({
       clinicId: '455',
       start,

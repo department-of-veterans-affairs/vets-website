@@ -6,7 +6,7 @@ import {
   mockFeatureToggles,
   mockAppointmentsApi,
   mockFacilitiesApi,
-  mockClinicApi,
+  mockClinicsApi,
   mockDirectScheduleSlotsApi,
   mockLoginApi,
   mockCCEligibilityApi,
@@ -27,7 +27,7 @@ describe('VAOS VA request flow using VAOS service', () => {
 
     // mockAppointmentsApi({ apiVersion: 0 });
     mockCCEligibilityApi();
-    mockClinicApi({ locations: ['983HK'], apiVersion: 2 });
+    mockClinicsApi({ locations: ['983HK'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockFeatureToggles({
       vaOnlineSchedulingAcheronService: false,
@@ -102,7 +102,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     ];
 
     mockFacilitiesApi({ data, apiVersion: 2 });
-    mockClinicApi({ locations: ['983'], apiVersion: 2 });
+    mockClinicsApi({ locations: ['983'], apiVersion: 2 });
 
     cy.visit(rootUrl);
     cy.injectAxe();
@@ -178,7 +178,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       },
     });
     mockAppointmentsApi({ apiVersion: 2 });
-    mockClinicApi({ locations: ['983', '983GB'], apiVersion: 2 });
+    mockClinicsApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
     mockFacilitiesApi({ data, apiVersion: 2 });
     mockFacilityApi({ id: '983GB', apiVersion: 2 });
@@ -297,7 +297,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       id: 'mock1',
     });
     mockAppointmentsApi({ apiVersion: 2 });
-    mockClinicApi({ locations: ['983', '983GB'], apiVersion: 2 });
+    mockClinicsApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
     mockFacilitiesApi({ data, apiVersion: 2 });
     mockFacilityApi({ id: '983GB', apiVersion: 2 });
