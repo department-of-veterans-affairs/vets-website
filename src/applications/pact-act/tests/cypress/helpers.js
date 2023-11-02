@@ -39,7 +39,7 @@ export const selectRadio = (selector, index) =>
   cy
     .findByTestId(selector)
     .should('exist')
-    .get('va-radio-option')
+    .get('[data-testid=va-radio-option]')
     .eq(index)
     .click();
 
@@ -84,14 +84,18 @@ export const clickResultsBack = () =>
 export const verifyFormErrorNotShown = selector =>
   cy
     .findByTestId(selector)
-    .shadow()
     .get('span[role="alert"]')
-    .should('not.be.visible');
+    .should('not.exist');
+
+export const verifyFormErrorNotShownCheckBox = selector =>
+  cy
+    .findByTestId(selector)
+    .get('span[role="alert"]')
+    .should('not.exist');
 
 export const checkFormAlertText = (selector, expectedValue) =>
   cy
     .findByTestId(selector)
-    .shadow()
     .get('span[role="alert"]')
     .should('be.visible')
     .should('have.text', expectedValue);
