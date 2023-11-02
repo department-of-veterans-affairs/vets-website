@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { PrintMessageOptions, DefaultFolders } from '../../util/constants';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const printButtonRef = useRef(null);
   const { activeFolder } = props;
 
   if (isModalVisible === false && printOption !== null) {
@@ -24,7 +26,7 @@ const PrintBtn = props => {
     await closeModal();
     setPrintOption(null);
     props.handlePrint(option);
-    // }
+    focusElement(printButtonRef.current);
   };
 
   const printModal = () => {
@@ -59,6 +61,7 @@ const PrintBtn = props => {
     <>
       {/* TODO add GA event tracking Print button */}
       <button
+        ref={printButtonRef}
         type="button"
         className={`usa-button-secondary small-screen:${
           activeFolder?.folderId !== DefaultFolders.SENT.id
