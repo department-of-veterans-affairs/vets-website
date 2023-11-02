@@ -1,3 +1,5 @@
+import { MILITARY_CITIES } from '../constants';
+
 /**
  * Map address object to match the key names in the schema
  * @param {Array} address - an array of arrays that defines the keys/values to map
@@ -15,6 +17,7 @@ export function sanitizeAddress(address) {
     countryCodeIso3,
   } = address;
   return {
+    isMilitary: MILITARY_CITIES.includes(city),
     street: addressLine1,
     street2: addressLine2 || undefined,
     street3: addressLine3 || undefined,

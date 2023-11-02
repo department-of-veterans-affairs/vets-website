@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAccordionItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -13,7 +13,7 @@ import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const { message, isDraftThread } = props;
+  const { message, isDraftThread, open } = props;
   const {
     attachment,
     attachments,
@@ -29,9 +29,13 @@ const MessageThreadItem = props => {
     triageGroupName,
   } = message;
 
-  const isSentOrRead =
+  const isDraft = folderId === DefaultFolders.DRAFTS.id;
+
+  const isSentOrReadOrDraft =
     folderId === DefaultFolders.SENT.id ||
+    isDraft ||
     readReceipt === MessageReadStatus.READ;
+
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
@@ -41,15 +45,40 @@ const MessageThreadItem = props => {
     }
   };
 
+  useEffect(
+    () => {
+      if (open && !preloaded) {
+        dispatch(markMessageAsReadInThread(messageId, isDraftThread));
+        // opening an accordion by triggering an event, as passsing in the open prop makes the accordion uncontrolled and rerender
+        const accordionItemToggledEvent = new CustomEvent(
+          'accordionItemToggled',
+          {
+            bubbles: true,
+            detail: {},
+          },
+        );
+        accordionItemRef.current.dispatchEvent(accordionItemToggledEvent);
+      }
+    },
+    [dispatch, isDraftThread, messageId, open, preloaded],
+  );
+
   const accordionAriaLabel = useMemo(
     () => {
-      return `${!isSentOrRead ? 'New ' : ''}message ${
+      return `${!isSentOrReadOrDraft ? 'New ' : ''}message ${
         fromMe ? 'sent' : 'received'
       } ${dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z')}, ${
         hasAttachments || attachment ? 'with attachment' : ''
-      } from ${senderName}."`;
+      } from ${senderName}.`;
     },
-    [attachment, fromMe, hasAttachments, isSentOrRead, senderName, sentDate],
+    [
+      attachment,
+      fromMe,
+      hasAttachments,
+      isSentOrReadOrDraft,
+      senderName,
+      sentDate,
+    ],
   );
 
   return (
@@ -57,17 +86,19 @@ const MessageThreadItem = props => {
       data-dd-privacy="mask" // need to mask entire accordion as the subheader with the sender name cannot masked
       aria-label={accordionAriaLabel}
       className={`older-message ${
-        !isSentOrRead ? 'accordion-unread' : 'accordion-read'
+        !isSentOrReadOrDraft ? 'accordion-unread' : 'accordion-read'
       }`}
       ref={accordionItemRef}
-      subheader={from}
+      subheader={!isDraft ? from : ''}
       onAccordionItemToggled={() => {
         handleExpand(preloaded);
       }}
       data-testid={`expand-message-button-${messageId}`}
     >
-      <h3 slot="headline">{dateFormat(sentDate, 'MMMM D [at] h:mm a z')}</h3>
-      {!isSentOrRead && (
+      <h3 slot="headline">
+        {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
+      </h3>
+      {!isSentOrReadOrDraft && (
         <i
           role="img"
           aria-hidden
@@ -104,6 +135,7 @@ const MessageThreadItem = props => {
 MessageThreadItem.propTypes = {
   isDraftThread: PropTypes.bool,
   message: PropTypes.object,
+  open: PropTypes.bool,
   printView: PropTypes.bool,
 };
 
