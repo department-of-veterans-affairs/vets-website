@@ -23,7 +23,7 @@ export default {
       content['vet-mailing-address-title'],
       content['vet-mailing-address-description'],
     ),
-    veteranAddress: addressUI({ omit: ['isMilitary'] }),
+    veteranAddress: addressUI(),
     'view:doesMailingMatchHomeAddress': yesNoUI(
       content['vet-address-match-title'],
     ),
@@ -33,7 +33,7 @@ export default {
     required: ['view:doesMailingMatchHomeAddress'],
     properties: {
       'view:pageTitle': inlineTitleSchema,
-      veteranAddress: merge({}, addressSchema({ omit: ['isMilitary'] }), {
+      veteranAddress: merge({}, addressSchema(), {
         properties: schemaOverride,
       }),
       'view:doesMailingMatchHomeAddress': yesNoSchema,
