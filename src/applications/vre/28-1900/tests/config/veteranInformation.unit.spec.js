@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 
 import {
   DefinitionTester,
@@ -39,14 +39,33 @@ describe('Chapter 31 veteran information', () => {
         onSubmit={onSubmit}
       />,
     );
-    const formDom = getFormDOM(form);
-    formDom.fillData('input#root_veteranInformation_fullName_first', 'John');
-    formDom.fillData('input#root_veteranInformation_fullName_last', 'Doe');
-    formDom.fillData('#root_veteranInformation_dobMonth', 1);
-    formDom.fillData('#root_veteranInformation_dobDay', 1);
-    formDom.fillData('input#root_veteranInformation_dobYear', 1991);
 
-    formDom.submitForm();
+    fireEvent.change(form.getByLabelText(/your first name/i), {
+      target: { value: 'John' },
+    });
+
+    fireEvent.change(form.getByLabelText(/your last name/i), {
+      target: { value: 'Doe' },
+    });
+
+    fireEvent.change(form.getByLabelText(/month/i), {
+      target: { value: '1' },
+    });
+
+    fireEvent.change(form.getByLabelText(/day/i), {
+      target: { value: '1' },
+    });
+
+    fireEvent.change(form.getByLabelText(/year/i), {
+      target: { value: '1991' },
+    });
+
+    // expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
+    //   0,
+    // );
+
+    fireEvent.submit(form.container.querySelector('form'));
+
     expect(onSubmit.called).to.be.true;
   });
 
@@ -65,6 +84,7 @@ describe('Chapter 31 veteran information', () => {
     expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
       3,
     );
+
     expect(onSubmit.called).to.be.false;
   });
 });
