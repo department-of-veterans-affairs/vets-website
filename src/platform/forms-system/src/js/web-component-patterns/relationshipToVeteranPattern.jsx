@@ -56,7 +56,7 @@ export const relationshipToVeteranSpouseOrChildUI = personTitle => {
         child: `I’m the ${person}’s child`,
       },
       errorMessages: {
-        required: `Please select your relationship to the ${person}`,
+        required: `Select your relationship to the ${person}`,
       },
       labelHeaderLevel: '3',
     }),
@@ -74,7 +74,7 @@ export const claimantRelationshipToVeteranSpouseOrChildUI = personTitle => {
         child: `The claimant is the ${person}’s child`,
       },
       errorMessages: {
-        required: `Please select the claimant’s relationship to the ${person}`,
+        required: `Select the claimant’s relationship to the ${person}`,
       },
       labelHeaderLevel: '3',
     }),

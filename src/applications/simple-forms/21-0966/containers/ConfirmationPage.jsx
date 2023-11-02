@@ -46,14 +46,14 @@ export class ConfirmationPage extends React.Component {
     ).toLocaleDateString('en-US', dateOptions);
     const alreadySubmittedIntents = {};
     if (submission.response?.compensationIntent) {
-      alreadySubmittedIntents.COMPENSATION =
+      alreadySubmittedIntents.compensation =
         submission.response.compensationIntent;
     }
     if (submission.response?.pensionIntent) {
-      alreadySubmittedIntents.PENSION = submission.response.pensionIntent;
+      alreadySubmittedIntents.pension = submission.response.pensionIntent;
     }
     if (submission.response?.survivorIntent) {
-      alreadySubmittedIntents.SURVIVOR = submission.response.survivorIntent;
+      alreadySubmittedIntents.survivor = submission.response.survivorIntent;
     }
 
     const alreadySubmittedTitle = getAlreadySubmittedTitle(
@@ -172,7 +172,7 @@ export class ConfirmationPage extends React.Component {
                 href={href}
                 key={nextStep}
               >
-                Complete your {benefitPhrases[nextStep.toUpperCase()]}
+                Complete your {benefitPhrases[nextStep]}
               </a>
             );
           })}
