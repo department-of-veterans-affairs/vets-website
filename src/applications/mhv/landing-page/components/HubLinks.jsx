@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
-      <a className="mhv-c-link" href={l.href}>
+      <a
+        className="mhv-c-link"
+        href={l.href}
+        data-dd-action-name={`mhv-link-title ${l.text}`}
+      >
         {l.text}
       </a>
     </li>
@@ -13,7 +17,12 @@ const HubSection = ({ title, links }) => {
     <>
       <h2>{title}</h2>
       <nav>
-        <ul className="mhv-c-link-list">{listItems}</ul>
+        <ul
+          className="mhv-c-link-list"
+          data-dd-action-name={`mhv-link-group ${title}`}
+        >
+          {listItems}
+        </ul>
       </nav>
     </>
   );
