@@ -79,7 +79,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
     [
       content.homePhone, // label
       () => {
-        // key.homePhone is undefined if not in `included` option within
+        // keys.homePhone is undefined if not in `included` option within
         // `profileContactInfo`
         if (!keys.homePhone) {
           return ''; // Don't render row
@@ -95,7 +95,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
     [
       content.mobilePhone,
       () => {
-        // key.mobilePhone is undefined if not in `included` option within
+        // keys.mobilePhone is undefined if not in `included` option within
         // `profileContactInfo`
         if (!keys.mobilePhone) {
           return ''; // Don't render row

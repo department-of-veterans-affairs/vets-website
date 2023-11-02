@@ -178,6 +178,7 @@ export const standardEmailSchema = {
 export const profileAddressSchema = {
   type: 'object',
   oneOf: [
+    // Schema for international addresses
     {
       required: ['countryName', 'addressLine1', 'city'],
       properties: {
@@ -190,6 +191,7 @@ export const profileAddressSchema = {
         },
       },
     },
+    // Schema for domestic addresses
     {
       required: ['countryName', 'addressLine1', 'city', 'zipCode'],
       properties: {

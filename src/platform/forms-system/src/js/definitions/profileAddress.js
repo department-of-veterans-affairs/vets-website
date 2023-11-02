@@ -15,8 +15,8 @@ import set from 'platform/utilities/data/set';
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
  * TWO_CAPS_PATTERN - Matches state and ISO2 country codes
  */
-export const STREET_PATTERN = '^.*\\S.*';
 export const REJECT_WHITESPACE_ONLY = '^.*\\S.*';
+export const STREET_PATTERN = REJECT_WHITESPACE_ONLY;
 export const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
 export const TWO_CAPS_PATTERN = '^[A-Z]{2}$';
 
