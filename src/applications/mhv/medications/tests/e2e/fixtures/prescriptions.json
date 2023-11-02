@@ -1238,30 +1238,6 @@
             }
         },
         {
-            "id": "22244915",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 22244915,
-                "prescriptionNumber": "2720518",
-                "prescriptionName": "BUTALBITAL ACETAMINOPHEN 50/325MG TAB",
-                "refillStatus": "activeParked",
-                "refillSubmitDate": "2023-06-29T17:09:33.000Z",
-                "refillDate": "2023-06-29T04:00:00.000Z",
-                "refillRemaining": 0,
-                "facilityName": "DAYT29",
-                "orderedDate": "2023-05-30T04:00:00.000Z",
-                "quantity": 30,
-                "expirationDate": "2024-05-30T04:00:00.000Z",
-                "dispensedDate": "2023-06-29T04:00:00.000Z",
-                "stationNumber": "989",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22244915"
-            }
-        },
-        {
             "id": "22177889",
             "type": "prescriptions",
             "attributes": {
