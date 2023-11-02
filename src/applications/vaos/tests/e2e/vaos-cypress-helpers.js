@@ -346,14 +346,13 @@ export function mockCCProvidersApi({
 /**
  * Function to mock the 'GET' appointment endpoint.
  *
- * @example GET '/vaos/v2/appointments/${data.id}'
+ * @example GET '/vaos/v2/appointments/:id'
  *
  * @export
  * @param {Object} arguments - Function arguments.
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
- * @returns {void}
  */
 export function mockAppointmentApi({
   response: data,
@@ -390,7 +389,6 @@ export function mockAppointmentApi({
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
  */
 export function mockAppointmentUpdateApi({
   response: data,
@@ -429,7 +427,6 @@ export function mockAppointmentUpdateApi({
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
  */
 export function mockAppointmentCreateApi({
   response: data,
@@ -490,7 +487,6 @@ export function mockAppointmentCreateApi({
 export function mockAppointmentsApi({
   response: data,
   responseCode = 200,
-  // status = APPOINTMENT_STATUS.booked,
   apiVersion = 2,
 } = {}) {
   if (apiVersion === 2) {
@@ -515,13 +511,6 @@ export function mockAppointmentsApi({
         if (data) {
           req.reply({ data });
         }
-        //  else if (status === APPOINTMENT_STATUS.booked) {
-        //   req.reply({
-        //     data: confirmedV2.data,
-        //   });
-        // } else if (status === APPOINTMENT_STATUS.pending) {
-        //   req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
-        // } else req.reply({});
       },
     ).as('v2:get:appointments');
   }
