@@ -211,7 +211,7 @@ class PatientMessageCustomFolderPage {
     return cy.get(Locators.BUTTONS.EDIT_FOLDER);
   };
 
-  editFolderName = folderName => {
+  submitEditFolderName = folderName => {
     cy.get('[name="new-folder-name"]')
       .should('be.visible')
       .shadow()

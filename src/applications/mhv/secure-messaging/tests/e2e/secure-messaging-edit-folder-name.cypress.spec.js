@@ -34,7 +34,7 @@ describe('edit custom folder name validation', () => {
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });
-    PatientMessageCustomFolderPage.editFolderName('updatedName');
+    PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
     cy.get('[close-btn-aria-label="Close notification"]')
       .should('be.visible')
