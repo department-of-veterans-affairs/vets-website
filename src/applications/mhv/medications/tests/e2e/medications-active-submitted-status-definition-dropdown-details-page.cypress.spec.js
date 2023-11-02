@@ -1,10 +1,10 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
-import discontinuedRx from './fixtures/discontinued-prescription-details.json';
+import submittedRx from './fixtures/active-submitted-prescription-details.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 
-describe('Medications Details Page Discontinued Status DropDown', () => {
-  it('visits Medications Details Page Discontinued Status DropDown', () => {
+describe('Medications Details Page Active Submmitted Status DropDown', () => {
+  it('visits Medications Details Page Active Submitted Status DropDown', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
@@ -23,8 +23,8 @@ describe('Medications Details Page Discontinued Status DropDown', () => {
       },
     });
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(discontinuedRx);
+    detailsPage.clickMedicationDetailsLink(submittedRx);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
-    detailsPage.verifyDiscontinuedStatusDropDownDefinition();
+    detailsPage.verifySubmittedStatusDropDownDefinition();
   });
 });

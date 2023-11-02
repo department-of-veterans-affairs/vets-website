@@ -189,5 +189,14 @@ class MedicationsDetailsPage {
       '[data-testid="status-dropdown"] > [data-testid="unknown-status-definition"]',
     ).should('contain', 'There’s a problem with our system');
   };
+
+  verifySubmittedStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="submitted-status-definition"]',
+    ).should(
+      'contain',
+      'We got your request to fill or refill this prescription.',
+    );
+  };
 }
 export default MedicationsDetailsPage;

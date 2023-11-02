@@ -251,7 +251,7 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p>
+              <p data-testid="submitted-status-definition">
                 We got your request to fill or refill this prescription. We’ll
                 update the status when we process your request.
                 <br />
@@ -265,7 +265,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: Submitted</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
