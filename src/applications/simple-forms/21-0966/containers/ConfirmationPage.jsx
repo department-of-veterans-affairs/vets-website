@@ -155,29 +155,27 @@ export class ConfirmationPage extends React.Component {
           <h2>What are my next steps?</h2>
           <p>You should complete and file your claim as soon as possible.</p>
           <p>{nextStepsTextSecondParagraph}</p>
-          <ul style={{ listStyleType: 'none' }}>
-            {nextStepsLinks.map(nextStep => {
-              let href = '/';
-              if (nextStep === veteranBenefits.COMPENSATION) {
-                href =
-                  'https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction';
-              } else if (nextStep === veteranBenefits.PENSION) {
-                href =
-                  'https://www.va.gov/pension/application/527EZ/introduction';
-              }
+          {nextStepsLinks.map(nextStep => {
+            let href = '/';
+            if (nextStep === veteranBenefits.COMPENSATION) {
+              href =
+                '/disability/file-disability-claim-form-21-526ez/introduction';
+            } else if (nextStep === veteranBenefits.PENSION) {
+              href = '/pension/application/527EZ/introduction';
+            } else if (nextStep === veteranBenefits.SURVIVOR) {
+              href = '/find-forms/about-form-21p-534ez/';
+            }
 
-              return (
-                <li key={nextStep}>
-                  <a
-                    className="vads-c-action-link--green vads-u-margin-bottom--4"
-                    href={href}
-                  >
-                    Complete your {benefitPhrases[nextStep.toUpperCase()]}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+            return (
+              <a
+                className="vads-c-action-link--green vads-u-margin-bottom--4"
+                href={href}
+                key={nextStep}
+              >
+                Complete your {benefitPhrases[nextStep.toUpperCase()]}
+              </a>
+            );
+          })}
         </div>
         <a
           className="vads-c-action-link--green vads-u-margin-bottom--4"
