@@ -219,6 +219,40 @@ describe('TermsOfUse', () => {
       expect(global.window.location).to.eql(redirectUrl);
     });
   });
+  it('should redirect to the `redirect_url`', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+    global.window.location = `https://dev.va.gov/terms-of-use/`;
+    sessionStorage.setItem('authReturnUrl', redirectUrl);
+
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+        (_, res, ctx) =>
+          res(
+            ctx.status(200),
+            ctx.json({ termsOfUseAgreement: { 'some-key': 'some-value' } }),
+          ),
+      ),
+    );
+    const { queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const acceptButton = queryAllByTestId('accept')[0];
+      expect(acceptButton).to.exist;
+
+      fireEvent.click(acceptButton);
+      expect(global.window.location).to.eql(redirectUrl);
+    });
+  });
   it('should pass along `terms_code` to API', async () => {
     const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=logingov`;
     const termsCode = '123456abc';
