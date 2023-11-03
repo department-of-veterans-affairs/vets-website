@@ -4,14 +4,12 @@ import { merge, pick } from 'lodash';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+import fullNameUI from 'platform/forms/definitions/fullName';
 import {
   sponsorMilitaryStatusDescription,
   veteranUI,
   ssnDashesUI,
 } from '../../utils/helpers';
-
-import fullNameUI from '../../definitions/fullName';
-import { validateSponsorDeathDate } from '../../validation';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
@@ -68,24 +66,6 @@ export const uiSchema = {
           },
         },
       },
-      isDeceased: {
-        'ui:title': 'Has the sponsor died?',
-        'ui:widget': 'radio',
-        'ui:options': {
-          labels: {
-            yes: 'Yes',
-            no: 'No',
-            unsure: 'I don’t know',
-          },
-        },
-      },
-      dateOfDeath: merge({}, currentOrPastDateUI('Sponsor’s date of death'), {
-        'ui:options': {
-          expandUnder: 'isDeceased',
-          expandUnderCondition: 'yes',
-        },
-      }),
-      'ui:validations': [validateSponsorDeathDate],
     }),
   },
 };
@@ -98,7 +78,7 @@ export const schema = {
       properties: {
         veteran: {
           type: 'object',
-          required: ['ssn', 'militaryStatus', 'isDeceased'],
+          required: ['ssn', 'militaryStatus'],
           properties: pick(veteran.properties, [
             'currentName',
             'ssn',
@@ -107,8 +87,6 @@ export const schema = {
             'vaClaimNumber',
             'placeOfBirth',
             'militaryStatus',
-            'isDeceased',
-            'dateOfDeath',
           ]),
         },
       },

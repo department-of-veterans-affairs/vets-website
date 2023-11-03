@@ -262,6 +262,10 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
 
+export function isSponserDeceased(item) {
+  return get('application.veteran.isDeceased', item) === 'yes';
+}
+
 export function isSpouse(item) {
   return get('application.claimant.relationshipToVet', item) === '2';
 }

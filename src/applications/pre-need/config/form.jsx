@@ -20,6 +20,8 @@ import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as sponsorDetails from './pages/sponserDetails';
 import * as sponsorDemographics from './pages/sponserDemographics';
+import * as sponsorDeceased from './pages/sponsorDeceased';
+import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
@@ -66,6 +68,7 @@ import {
   preparerAddressHasState,
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
+  isSponserDeceased,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -489,6 +492,20 @@ const formConfig = {
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorDemographics.uiSchema,
               schema: sponsorDemographics.schema,
+            },
+            sponsorDeceased: {
+              path: 'sponsor-deceased',
+              depends: formData => !isVeteran(formData),
+              uiSchema: sponsorDeceased.uiSchema,
+              schema: sponsorDeceased.schema,
+            },
+            sponsorDateOfDeath: {
+              path: 'sponsor-date-of-death',
+              depends:
+                (formData => !isVeteran(formData)) &&
+                (formData => isSponserDeceased(formData)),
+              uiSchema: sponsorDateOfDeath.uiSchema,
+              schema: sponsorDateOfDeath.schema,
             },
           },
     },
