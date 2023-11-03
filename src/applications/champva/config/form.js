@@ -11,6 +11,8 @@ import {
   addressUI,
   phoneSchema,
   phoneUI,
+  dateOfBirthSchema,
+  dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -122,6 +124,20 @@ const formConfig = {
             required: ['sponsorPhone'],
             properties: {
               sponsorPhone: phoneSchema,
+            },
+          },
+        },
+        page6: {
+          path: 'sponsor-dob',
+          title: 'Sponsor Date of Birth',
+          uiSchema: {
+            sponsorDOB: dateOfBirthUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorDOB'],
+            properties: {
+              sponsorDOB: dateOfBirthSchema,
             },
           },
         },
