@@ -19,7 +19,7 @@ import {
   SHOW_8940_4192,
 } from '../constants';
 
-describe.skip('526EZ keyboard only navigation', () => {
+describe('526EZ keyboard only navigation', () => {
   before(() => {
     cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test.json')).as(
       'testData',
