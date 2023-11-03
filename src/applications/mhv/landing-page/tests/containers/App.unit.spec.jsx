@@ -12,35 +12,19 @@ import { appName } from '../../manifest.json';
 
 const stateFn = ({
   currentlyLoggedIn = true,
-  facilities = [{ facilityId: '655', isCerner: false }],
   featureTogglesLoading = false,
   mhv_landing_page_enabled = true,
   profileLoading = false,
   serviceName = CSP_IDS.ID_ME,
-  vamcEhrDataLoading = false,
 } = {}) => ({
   featureToggles: {
     loading: featureTogglesLoading,
     mhv_landing_page_enabled,
     sign_in_service_enabled: true,
   },
-  drupalStaticData: {
-    vamcEhrData: {
-      loading: vamcEhrDataLoading,
-      data: {
-        cernerFacilities: [
-          {
-            vhaId: '668',
-            ehr: 'cerner',
-          },
-        ],
-      },
-    },
-  },
   user: {
     profile: {
       loading: profileLoading,
-      facilities,
       session: {
         ssoe: false,
       },
@@ -72,12 +56,6 @@ describe(`${appName} -- <App /> container`, () => {
   // });
 
   describe('renders a loading indicator when', () => {
-    it('drupalStaticData.vamcEhrData is loading', () => {
-      const initialState = stateFn({ vamcEhrDataLoading: true });
-      const { getByTestId } = setup({ initialState });
-      getByTestId('mhv-landing-page-loading');
-    });
-
     it('featureToggles is loading', () => {
       const initialState = stateFn({ featureTogglesLoading: true });
       const { getByTestId } = setup({ initialState });
@@ -137,33 +115,6 @@ describe(`${appName} -- <App /> container`, () => {
       const initialState = stateFn({ serviceName: CSP_IDS.MHV });
       const { getByTestId } = setup({ initialState });
       getByTestId('landing-page-container');
-    });
-
-    it('user has one facility and one Cerner facility', async () => {
-      const facilities = [{ facilityId: '668' }];
-      const initialState = stateFn({ facilities });
-      const { getByTestId } = setup({ initialState });
-      getByTestId('landing-page-container');
-    });
-
-    it('user has many facilities and one Cerner facility', async () => {
-      const facilities = [
-        { facilityId: '655' },
-        { facilityId: '668' },
-        { facilityId: '650' },
-      ];
-      const initialState = stateFn({ facilities });
-      const { getByTestId } = setup({ initialState });
-      getByTestId('landing-page-container');
-    });
-
-    it('user has no facilities', async () => {
-      const initialState = stateFn({ facilities: [] });
-      const { getByTestId } = setup({ initialState });
-      getByTestId('mhv-landing-page-loading');
-      await waitFor(() => {
-        expect(replace.calledOnce).to.be.true;
-      });
     });
   });
 });
