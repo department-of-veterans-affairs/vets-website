@@ -578,6 +578,7 @@ export const serviceRecordsUI = {
     itemName: 'Service period',
     keepInPageOnReview: true,
     useDlWrap: true,
+    genIndvItemHeaders: true,
   },
   items: {
     'ui:order': [
@@ -587,9 +588,6 @@ export const serviceRecordsUI = {
       'dischargeType',
       'nationalGuardState',
     ],
-    'ui:options': {
-      itemName: 'Service Period',
-    },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,

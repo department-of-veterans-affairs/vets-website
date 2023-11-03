@@ -322,7 +322,9 @@ export default class ArrayField extends React.Component {
       : null;
     const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+    const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
+    const { genIndvItemHeaders } = uiOptions;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -390,6 +392,11 @@ export default class ArrayField extends React.Component {
                       {isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
                           New {uiItemName}
+                        </h3>
+                      ) : null}
+                      {!isLast && multipleRows && genIndvItemHeaders ? (
+                        <h3 className="vads-u-font-size--h5">
+                          {uiItemNameOriginal}
                         </h3>
                       ) : null}
                       <div className="input-section">
