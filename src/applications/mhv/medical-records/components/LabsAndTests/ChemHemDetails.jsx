@@ -199,6 +199,7 @@ const ChemHemDetails = props => {
             "low". But this doesn’t automatically mean you have a health
             problem.
           </p>
+          <br />
           <p>
             Your provider will review your results. If you need to do anything,
             your provider will contact you.
