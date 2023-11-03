@@ -237,7 +237,6 @@ const ReplyForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        // setUserSaved(true)
         await setMessageInvalid(false);
         if (checkMessageValidity()) {
           setLastFocusableElement(e.target);
@@ -487,6 +486,7 @@ const ReplyForm = props => {
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
                 setDeleteButtonClicked={setDeleteButtonClicked}
+                messageBody={messageBody}
               />
             </div>
           </form>

@@ -56,7 +56,6 @@ const ComposeForm = props => {
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  // const [userSaved, setUserSaved] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
@@ -356,7 +355,6 @@ const ComposeForm = props => {
       messageBody,
       selectedRecipient,
       subject,
-      // userSaved,
     ],
   );
 
@@ -573,7 +571,6 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setDeleteButtonClicked={setDeleteButtonClicked}
             setUnsavedNavigationError={setUnsavedNavigationError}
-            // savedForm={userSaved}
             deleteButtonClicked={deleteButtonClicked}
           />
         </div>

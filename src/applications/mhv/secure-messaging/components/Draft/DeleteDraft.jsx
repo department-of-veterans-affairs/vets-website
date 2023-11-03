@@ -29,18 +29,23 @@ const DeleteDraft = props => {
     setDeleteButtonClicked,
     setNavigationError,
     setUnsavedNavigationError,
+    messageBody,
   } = props;
 
   const savedDraft = draftId;
+  const savedReplyDraft = !!savedDraft === true && formPopulated === undefined;
   const unsavedReplyDraft = draftId === null;
   const unsavedNewDraft = draftId === undefined;
+  const inProgressReplyDraft =
+    messageBody !== '' && !!unsavedReplyDraft === true;
+  const blankReplyDraft =
+    unsavedReplyDraft && formPopulated === undefined && messageBody === '';
   const editableDraft = !!savedDraft === true && formPopulated === true;
   const newMessageNavErr =
     (unsavedNewDraft || unsavedReplyDraft) && navigationError !== null;
-  const replyDraft = !!savedDraft === true && formPopulated === undefined;
   const blankNewMessage =
     (unsavedNewDraft || unsavedReplyDraft) && navigationError === null;
-  const blankReplyDraft = savedDraft === null && formPopulated === undefined;
+
   const unsavedDeleteSuccessful = () =>
     dispatch(
       addAlert(ALERT_TYPE_SUCCESS, '', Alerts.Message.DELETE_DRAFT_SUCCESS),
@@ -91,11 +96,17 @@ const DeleteDraft = props => {
         } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5`}
         data-testid="delete-draft-button"
         onClick={() => {
-          if (newMessageNavErr || editableDraft || replyDraft) {
+          if (
+            newMessageNavErr ||
+            editableDraft ||
+            savedReplyDraft ||
+            inProgressReplyDraft
+          ) {
             setIsModalVisible(true);
             setDeleteButtonClicked(true);
             setNavigationError(null);
           }
+          // if true users can nav away if no saved changes are made
           if (blankReplyDraft) {
             unsavedDeleteSuccessful();
             navigateToFolderByFolderId(
@@ -130,6 +141,7 @@ DeleteDraft.propTypes = {
   draft: PropType.object,
   draftId: PropType.number,
   formPopulated: PropType.bool,
+  messageBody: PropType.string,
   navigationError: PropType.object,
   setDeleteButtonClicked: PropType.func,
   setNavigationError: PropType.func,

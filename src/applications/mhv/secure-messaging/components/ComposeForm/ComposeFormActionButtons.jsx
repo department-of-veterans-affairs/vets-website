@@ -13,6 +13,7 @@ const ComposeFormActionButtons = ({
   setNavigationError,
   setUnsavedNavigationError,
   savedForm,
+  messageBody,
 }) => {
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
@@ -52,6 +53,7 @@ const ComposeFormActionButtons = ({
         setUnsavedNavigationError={setUnsavedNavigationError}
         setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
+        messageBody={messageBody}
       />
     </div>
   );
@@ -61,6 +63,7 @@ ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
   formPopulated: PropTypes.bool,
+  messageBody: PropTypes.string,
   navigationError: PropTypes.object,
   savedForm: PropTypes.bool,
   setDeleteButtonClicked: PropTypes.func,
