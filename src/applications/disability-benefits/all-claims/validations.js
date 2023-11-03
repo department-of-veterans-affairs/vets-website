@@ -70,7 +70,7 @@ export function validateZIP(errors, zip) {
  * @param {Object} schema - Schema for the form
  * @param {Object} messages - Validation error messages
  * @param {Object} options - Validation options
- * @param {number} arrayIndex -
+ * @param {number} arrayIndex - If using an array, includes the index of the page
  */
 export function validateMilitaryCity(
   errors,
@@ -105,7 +105,7 @@ export function validateMilitaryCity(
  * @param {Object} schema - Schema for the form
  * @param {Object} messages - Validation error messages
  * @param {Object} options - Validation options
- * @param {number} arrayIndex -
+ * @param {number} arrayIndex - If using an array, includes the index of the page
  */
 export function validateMilitaryState(
   errors,
@@ -139,8 +139,7 @@ export function validateMilitaryState(
  * @param {Object} formData - Full formData for the form
  * @param {Object} schema - Schema for the form
  * @param {Object} messages - Validation error messages
- * @param {Object} options - Validation options
- * @param {number} arrayIndex -
+ * @param {number} index - If using an array, includes the index of the page
  */
 export function validateMilitaryTreatmentCity(
   errors,
@@ -173,8 +172,7 @@ export function validateMilitaryTreatmentCity(
  * @param {Object} formData - Full formData for the form
  * @param {Object} schema - Schema for the form
  * @param {Object} messages - Validation error messages
- * @param {Object} options - Validation options
- * @param {number} arrayIndex -
+ * @param {Object} index - If using an array, includes the index of the page
  */
 export function validateMilitaryTreatmentState(
   errors,
@@ -209,7 +207,7 @@ export function validateMilitaryTreatmentState(
  * @param {Object} schema - Schema for the form
  * @param {Object} messages - Validation error messages
  * @param {Object} options - Validation options
- * @param {number} index -
+ * @param {number} index - If using an array, includes the index of the page
  */
 export const validateIfHasEvidence = (
   errors,
@@ -361,8 +359,8 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
  * @param {Object} formData - Full formData for the form
  * @param {Object} _schema - Schema for the form
  * @param {Object} _uiSchema - UI Schema object
- * @param {number} _index -
- * @param {Object} appStateData - Service information
+ * @param {number} _index - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector. Service information.
  */
 export const isWithinServicePeriod = (
   errors,
@@ -404,8 +402,8 @@ export const missingConditionMessage =
  * @param {Object} _formData - Full formData for the form
  * @param {Object} _schema - Schema for the form
  * @param {Object} _uiSchema - The UI Schema object
- * @param {number} _index -
- * @param {Object} appStateData -
+ * @param {number} _index - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
  */
 export const validateDisabilityName = (
   err,
@@ -458,7 +456,7 @@ export const validateDisabilityName = (
  * has not been chosen for the claim type.
  * @param {Object} err - Errors object from rjsf, which includes an addError method
  * @param {Object} fieldData - The data associated with the current schema. New conditions.
- * @param {Object}} formData - Full formData for the form
+ * @param {Object} formData - Full formData for the form
  */
 export const requireDisability = (err, fieldData, formData) => {
   if (!hasClaimedConditions(formData)) {
@@ -552,8 +550,8 @@ export function validateBooleanGroup(
  * @param {Object} _formData - Full formData for the form
  * @param {Object} _schema - Schema for the form
  * @param {Object} _uiSchema - The UI Schema object
- * @param {number} _currentIndex - Current index
- * @param {Object} appStateData
+ * @param {number} _currentIndex - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
  */
 export const validateAge = (
   errors,
@@ -581,8 +579,8 @@ const reservesList = Object.values(RESERVE_GUARD_TYPES);
  * @param {Object} _formData - Full formData for the form
  * @param {Object} _schema - Schema for the form
  * @param {Object} _uiSchema - The UI Schema object
- * @param {number} currentIndex - Current index
- * @param {Object} appStateData
+ * @param {number} currentIndex - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
  */
 export const validateSeparationDate = (
   errors,
@@ -619,12 +617,12 @@ export const validateSeparationDate = (
  * Validates service periods for reserve or national guard. Adds an error if
  * activation date is not after earliest reserve/guard start date.
  * @param {Object} errors - Errors object from rjsf, which includes an addError method
- * @param {string} dateString - Activation date
+ * @param {string} dateString - Activation date (fieldData)
  * @param {Object} _formData - Full formData for the form
  * @param {Object} _schema - Schema for the form
  * @param {Object} _uiSchema - The UI Schema object
- * @param {number} _index
- * @param {Object} appStateData
+ * @param {number} _index - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
  */
 export const validateTitle10StartDate = (
   errors,
