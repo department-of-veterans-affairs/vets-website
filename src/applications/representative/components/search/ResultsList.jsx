@@ -20,7 +20,6 @@ const ResultsList = props => {
 
   const {
     inProgress,
-    // searchString,
     // locationInputString,
     searchResults,
     // searchError,
@@ -94,7 +93,7 @@ const ResultsList = props => {
     return (
       <div>
         {/* <va-loading-indicator
-          message={`Searching for ${representativeTypeName} in ${searchString}`}
+          message={`Searching for ${representativeTypeName} in ${locationInputString}`}
         /> */}
         <DelayedRender>
           <va-alert visible status="info">
@@ -132,7 +131,7 @@ const ResultsList = props => {
   // const resultsData = searchResults?.map(result => ({
   //   ...result,
   //   resultItem: true,
-  //   searchString,
+  //   locationInputString,
   //   currentPage,
   // }));
 

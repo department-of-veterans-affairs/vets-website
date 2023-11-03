@@ -19,7 +19,7 @@ const SearchControls = props => {
     locationInputString,
     repOrganizationInputString,
     representativeType,
-    // geolocationInProgress,
+    geolocationInProgress,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -32,7 +32,7 @@ const SearchControls = props => {
     // } = currentQuery;
 
     if (!locationInputString) {
-      onChange({ searchString: '' });
+      onChange({ locationInputString: '' });
       focusElement('#street-city-state-zip');
       return;
     }
@@ -86,7 +86,7 @@ const SearchControls = props => {
   };
 
   return (
-    <div className="search-controls-container clearfix">
+    <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h3 style={{ marginBottom: '1em' }}>Search for a representative</h3>
@@ -95,6 +95,7 @@ const SearchControls = props => {
               <label
                 htmlFor="street-city-state-zip"
                 id="street-city-state-zip-label"
+                className="vads-u-margin-top--2"
               >
                 City, state or postal code{' '}
                 <span className="form-required-span">(*Required)</span>
@@ -103,6 +104,7 @@ const SearchControls = props => {
 
             <input
               id="street-city-state-zip"
+              className="vads-u-margin-top--2"
               ref={locationInputFieldRef}
               name="street-city-state-zip"
               type="text"
@@ -112,19 +114,30 @@ const SearchControls = props => {
               title="Your location: Street, City, State or Postal code"
             />
             <div className="use-my-location-button-container">
-              <button
-                onClick={handleGeolocationButtonClick}
-                type="button"
-                className="use-my-location-button"
-                aria-label="Use my location"
-              >
-                <i
-                  className="use-my-location-icon"
-                  aria-hidden="true"
-                  role="presentation"
-                />
-                <div className="button-text">Use my location</div>
-              </button>
+              {geolocationInProgress ? (
+                <div className="finding-your-location-loading">
+                  <i
+                    className="fa fa-spinner fa-spin use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <span aria-live="assertive"> Finding your location...</span>
+                </div>
+              ) : (
+                <button
+                  onClick={handleGeolocationButtonClick}
+                  type="button"
+                  className="use-my-location-button"
+                  aria-label="Use my location"
+                >
+                  <i
+                    className="use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <div className="button-text">Use my location</div>
+                </button>
+              )}
             </div>
           </div>
 
@@ -139,7 +152,10 @@ const SearchControls = props => {
                 htmlFor="representative-organization"
                 id="representative-organization-label"
               >
-                Organization or Representative Name{' '}
+                {representativeType === 'Veteran Service Organization (VSO)'
+                  ? 'Organization'
+                  : 'Representative'}{' '}
+                name{' '}
               </label>
             </div>
             <input
