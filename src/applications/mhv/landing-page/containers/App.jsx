@@ -67,6 +67,18 @@ const App = () => {
     trackResources: true,
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
+    beforeSend: (event, _) => {
+      const { target, type } = event;
+      if (type === 'click' && target instanceof HTMLAnchorElement) {
+        /* eslint-disable-next-line no-param-reassign */
+        event.context = {
+          ...event.context,
+          'link-title': target.innerHTML,
+          'link-group': target.linkGroup,
+          'link-hostname': target.hostname,
+        };
+      }
+    },
   };
   useDatadogRum(datadogRumConfig);
 
