@@ -54,9 +54,9 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
+  // const [userSaved, setUserSaved] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
@@ -294,8 +294,8 @@ const ComposeForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setUserSaved(true);
         setLastFocusableElement(e.target);
+        // setUserSaved(true)
         await setMessageInvalid(false);
         if (checkMessageValidity() === true) {
           setNavigationError(null);
@@ -325,7 +325,7 @@ const ComposeForm = props => {
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
-        setUserSaved(true);
+        // setUserSaved(true);
         return;
       }
 
@@ -356,7 +356,7 @@ const ComposeForm = props => {
       messageBody,
       selectedRecipient,
       subject,
-      userSaved,
+      // userSaved,
     ],
   );
 
@@ -563,7 +563,7 @@ const ComposeForm = props => {
               setAttachments={setAttachments}
             />
           </section>
-          <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
+          <DraftSavedInfo />
           <ComposeFormActionButtons
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
@@ -573,7 +573,7 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setDeleteButtonClicked={setDeleteButtonClicked}
             setUnsavedNavigationError={setUnsavedNavigationError}
-            savedForm={userSaved}
+            // savedForm={userSaved}
             deleteButtonClicked={deleteButtonClicked}
           />
         </div>
