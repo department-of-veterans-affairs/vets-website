@@ -19,7 +19,7 @@ const SearchControls = props => {
     locationInputString,
     repOrganizationInputString,
     representativeType,
-    // geolocationInProgress,
+    geolocationInProgress,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -32,7 +32,7 @@ const SearchControls = props => {
     // } = currentQuery;
 
     if (!locationInputString) {
-      onChange({ searchString: '' });
+      onChange({ locationInputString: '' });
       focusElement('#street-city-state-zip');
       return;
     }
@@ -112,19 +112,30 @@ const SearchControls = props => {
               title="Your location: Street, City, State or Postal code"
             />
             <div className="use-my-location-button-container">
-              <button
-                onClick={handleGeolocationButtonClick}
-                type="button"
-                className="use-my-location-button"
-                aria-label="Use my location"
-              >
-                <i
-                  className="use-my-location-icon"
-                  aria-hidden="true"
-                  role="presentation"
-                />
-                <div className="button-text">Use my location</div>
-              </button>
+              {geolocationInProgress ? (
+                <div className="finding-your-location-loading">
+                  <i
+                    className="fa fa-spinner fa-spin use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <span aria-live="assertive"> Finding your location...</span>
+                </div>
+              ) : (
+                <button
+                  onClick={handleGeolocationButtonClick}
+                  type="button"
+                  className="use-my-location-button"
+                  aria-label="Use my location"
+                >
+                  <i
+                    className="use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <div className="button-text">Use my location</div>
+                </button>
+              )}
             </div>
           </div>
 
@@ -139,7 +150,10 @@ const SearchControls = props => {
                 htmlFor="representative-organization"
                 id="representative-organization-label"
               >
-                Organization or Representative Name{' '}
+                {representativeType === 'Veteran Service Organization (VSO)'
+                  ? 'Organization'
+                  : 'Representative'}{' '}
+                name{' '}
               </label>
             </div>
             <input

@@ -34,7 +34,7 @@ const SearchPage = props => {
   //   const queryParams = {
   //     ...location.query,
   //     page: currentQuery.currentPage,
-  //     address: currentQuery.searchString,
+  //     address: currentQuery.locationInputString,
   //     representativeType: currentQuery.representativeType,
   //     latitude: props.currentQuery.position?.latitude,
   //     longitude: props.currentQuery.position?.longitude,
@@ -51,10 +51,10 @@ const SearchPage = props => {
 
   const handleSearch = async () => {
     // const { currentQuery } = props;
-    // const { searchString } = currentQuery;
+    // const { locationInputString } = currentQuery;
 
     // updateUrlParams({
-    //   address: searchString,
+    //   address: locationInputString,
     // });
     // setIsSearching(true);
     focusElement('#search-results-subheader');
@@ -176,7 +176,7 @@ const SearchPage = props => {
   //   const {
   //     searchArea,
   //     // context,
-  //     // searchString
+  //     // locationInputString
   //   } = currentQuery;
   //   const coords = currentQuery.position;
   //   const { radius } = currentQuery;
@@ -184,7 +184,7 @@ const SearchPage = props => {
   //   if (searchArea) {
   //     // updateUrlParams({
   //     //   context,
-  //     //   searchString,
+  //     //   locationInputString,
   //     // });
   //     props.searchWithBounds({
   //       bounds: props.currentQuery.bounds,
@@ -200,7 +200,7 @@ const SearchPage = props => {
   //   if (isSearching) {
   //     // updateUrlParams({
   //     //   context: props.currentQuery.context,
-  //     //   address: props.currentQuery.searchString,
+  //     //   address: props.currentQuery.locationInputString,
   //     // });
   //     const { currentQuery } = props;
   //     const coords = currentQuery.position;
