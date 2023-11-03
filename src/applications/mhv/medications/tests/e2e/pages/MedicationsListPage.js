@@ -115,9 +115,11 @@ class MedicationsListPage {
   };
 
   verifyInformationBasedOnStatusActiveParked = () => {
-    cy.get(`[aria-describedby="card-header-${parkedRx.data.id}"]`).should(
-      'be.visible',
-    );
+    cy.get(
+      `#card-header-${
+        parkedRx.data.id
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('be.visible');
     cy.get(
       ':nth-child(5) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
     )
