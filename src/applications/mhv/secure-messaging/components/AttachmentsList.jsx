@@ -22,6 +22,7 @@ const AttachmentsList = props => {
   const [fileToRemove, setFileToRemove] = useState(null);
   const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
   const attachFileAlertRef = useRef();
+  const [focusedElement, setFocusedElement] = useState(null);
 
   const getSize = num => {
     if (num > 999999) {
@@ -35,40 +36,32 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      // if (attachFileSuccess) {
-      //   console.log('help!!!!!!!!!');
-      //   focusElement(
-      //     document
-      //       .querySelector('.file-attached-success')
-      //       .shadowRoot.querySelector('button'),
-      //   );
-      // } else
-      if (attachFileSuccess && attachFileAlertRef.current) {
-        // console.log('other one', attachFileAlertRef);
-        setTimeout(() => {
-          focusElement(
-            attachFileAlertRef.current.shadowRoot.querySelector('button'),
-          );
-        }, 300);
-      }
+      focusElement(focusedElement);
     },
-    [attachFileSuccess],
+    [focusedElement],
   );
 
-  // useEffect(
-  //   () => {
-  //     if (attachFileAlertRef) {
-  //       console.log('in useEffect attachFileSuccess');
-  //       console.log(attachFileAlertRef);
-  //       // focusElement(
-  //       //   document
-  //       //     .querySelector('.file-attached-success')
-  //       //     .shadowRoot.querySelector('button'),
-  //       // );
-  //     }
-  //   },
-  //   [attachFileAlertRef],
-  // );
+  useEffect(
+    () => {
+      if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
+        setTimeout(() => {
+          setFocusedElement(
+            attachFileAlertRef.current.shadowRoot.querySelector('button'),
+          );
+        }, 200);
+      }
+    },
+    [attachFileSuccess, attachments],
+  );
+
+  useEffect(
+    () => {
+      if (attachments.length === 0) {
+        setAttachFileSuccess(false);
+      }
+    },
+    [attachments],
+  );
 
   const removeAttachment = file => {
     const newAttArr = attachments?.filter(item => {
@@ -80,8 +73,9 @@ const AttachmentsList = props => {
     setRemovedAttachmentName(file.name);
     setAttachments(newAttArr);
     setIsAttachmentRemoved(true);
+    setAttachFileSuccess(false);
 
-    focusElement(
+    setFocusedElement(
       document
         .querySelector('.attach-file-button')
         .shadowRoot.querySelector('button'),
@@ -91,6 +85,23 @@ const AttachmentsList = props => {
       setRecentlyRemovedFile(true);
     }
   };
+
+  const handleSuccessAlertClose = () => {
+    setAttachFileSuccess(false);
+    if (attachments.length > 0) {
+      setFocusedElement(
+        document.querySelector('.attachments-list').firstChild.firstChild
+          .lastChild,
+      );
+    } else {
+      setFocusedElement(
+        document
+          .querySelector('.attach-file-button')
+          .shadowRoot.querySelector('button'),
+      );
+    }
+  };
+
   return (
     <div>
       <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-margin-top--3">
@@ -99,27 +110,25 @@ const AttachmentsList = props => {
       </div>
       {editingEnabled && <HowToAttachFiles />}
 
-      {attachFileSuccess && (
-        <VaAlert
-          aria-live="polite"
-          ref={attachFileAlertRef}
-          background-only
-          closeable
-          className="file-attached-success vads-u-margin-top--2"
-          close-btn-aria-label="Close notification"
-          data-testid="file-attached-success-alert"
-          disable-analytics
-          full-width="false"
-          show-icon
-          status="success"
-          // visible={attachFileSuccess}
-          onCloseEvent={() => {
-            setAttachFileSuccess(false);
-          }}
-        >
-          <p className="vads-u-margin-bottom--0">File attached</p>
-        </VaAlert>
-      )}
+      {attachFileSuccess &&
+        attachments.length > 0 && (
+          <VaAlert
+            aria-live="polite"
+            ref={attachFileAlertRef}
+            background-only
+            closeable
+            className="file-attached-success vads-u-margin-top--2"
+            close-btn-aria-label="Close notification"
+            data-testid="file-attached-success-alert"
+            disable-analytics
+            full-width="false"
+            show-icon
+            status="success"
+            onCloseEvent={handleSuccessAlertClose}
+          >
+            <p className="vads-u-margin-bottom--0">File attached</p>
+          </VaAlert>
+        )}
 
       <ul className="attachments-list">
         {!!attachments.length &&

@@ -103,6 +103,7 @@ const FileInput = props => {
 
   const useFileInput = () => {
     fileInputRef.current.click();
+    setAttachFileSuccess(false);
   };
 
   return (
