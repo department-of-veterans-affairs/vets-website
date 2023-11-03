@@ -5,7 +5,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 const HubSection = ({ section, title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
-      <a
+      <va-link
         className="mhv-c-link butt"
         href={l.href}
         data-link-group={section}
@@ -19,7 +19,7 @@ const HubSection = ({ section, title, links }) => {
         }
       >
         {l.text}
-      </a>
+      </va-link>
     </li>
   ));
   return (
