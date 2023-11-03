@@ -1,3 +1,5 @@
+import rxTracking from '../fixtures/prescription-tracking-details.json';
+
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
@@ -196,6 +198,16 @@ class MedicationsDetailsPage {
     ).should(
       'contain',
       'We got your request to fill or refill this prescription.',
+    );
+  };
+
+  verifyPrescriptionTrackingInformation = () => {
+    cy.get('[data-testid="track-package"]').should('be.visible');
+    // cy.get('[data-testid="tracking-number"]')
+    //   .should('contain', `${rxTracking.data.attributes.trackingList[0][0].tracking[0].trackingNumber}`);
+    cy.get('[data-testid="rx-name"]').should(
+      'contain',
+      `${rxTracking.data.attributes.prescriptionName}`,
     );
   };
 }
