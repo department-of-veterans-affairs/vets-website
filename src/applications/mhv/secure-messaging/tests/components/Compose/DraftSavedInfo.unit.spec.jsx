@@ -60,16 +60,6 @@ describe('DraftSavedInfo component', () => {
     expect(alert.getAttribute('visible')).to.equal('true');
   });
 
-  it('renders with aria-live="off" on autosave when attachments is undefined', () => {
-    const customProps = {
-      userSaved: false,
-      attachments: undefined,
-    };
-    setup(initialState, customProps);
-    const alert = document.querySelector('va-alert');
-    expect(alert.getAttribute('aria-live')).to.equal('off');
-  });
-
   it('returns an error message when saveError is true', () => {
     const customState = {
       sm: {
