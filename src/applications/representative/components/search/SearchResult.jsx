@@ -11,7 +11,7 @@ const SearchResult = ({
   distance,
   // result,
   representative,
-  // query,
+  query,
   // index,
 }) => {
   return (
@@ -29,15 +29,12 @@ const SearchResult = ({
           </div>
           <RepresentativeDirectionsLink
             representative={representative}
-            from="SearchResult"
-            // query={query}
+            query={query}
           />
         </div>
         <div>
           <strong>Main Number: </strong>
-          <a href={phone} className="primary">
-            {phone}
-          </a>
+          <va-telephone contact={phone} />
         </div>
 
         {/* <div className="va-h-ruled" /> */}
