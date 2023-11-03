@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import DelayedRender from 'platform/utilities/ui/DelayedRender';
+// import DelayedRender from 'platform/utilities/ui/DelayedRender';
+import DelayedRender from '@department-of-veterans-affairs/platform-utilities/ui/DelayedRender';
 import { representativeTypes, sortOptions } from '../../config';
 // import { Error } from '../../constants';
 
@@ -170,13 +171,15 @@ const ResultsList = props => {
 ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
-  representativeTypeName: PropTypes.string,
   inProgress: PropTypes.bool,
+  locationInputString: PropTypes.string,
   pagination: PropTypes.object,
   query: PropTypes.object,
-  results: PropTypes.array,
+  representativeTypeName: PropTypes.string,
   searchError: PropTypes.object,
-  locationInputString: PropTypes.string,
+  searchResults: PropTypes.array,
+  sortType: PropTypes.string,
+  onUpdateSortType: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
