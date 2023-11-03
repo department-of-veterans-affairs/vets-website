@@ -117,10 +117,12 @@ const RadiologyDetails = props => {
             Your provider will review your results. If you need to do anything,
             your provider will contact you.
           </p>
+          <br />
           <p>
-            If you have questions, send a message to the care team that ordered
-            this test.
+            If you have any questions, send a message to the care team that
+            ordered this test.
           </p>
+          <br />
           <p>
             <a
               href={mhvUrl(
@@ -131,6 +133,7 @@ const RadiologyDetails = props => {
               Compose a new message
             </a>
           </p>
+          <br />
           <p>
             <span className="vads-u-font-weight--bold">Note: </span>
             If you have questions about more than 1 test ordered by the same

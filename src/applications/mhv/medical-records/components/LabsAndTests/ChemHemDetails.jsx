@@ -188,16 +188,27 @@ const ChemHemDetails = props => {
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
         <h2>Results</h2>
-        <va-additional-info
+        <va-alert-expandable
           trigger="Need help understanding your results?"
-          class="no-print"
+          class="no-print vads-u-margin-y--1p5"
+          status="info"
         >
           <p className="vads-u-margin-bottom--1">
-            If your results are outside the standard range, this doesn’t
-            automatically mean you have a health problem. Your provider will
-            review your results and explain what they mean for your health.
+            If your results are outside the reference range (the expected range
+            for that test), your results may include a word like "high" or
+            "low". But this doesn’t automatically mean you have a health
+            problem.
           </p>
-          <p>To ask a question now, send a secure message to your care team.</p>
+          <p>
+            Your provider will review your results. If you need to do anything,
+            your provider will contact you.
+          </p>
+          <br />
+          <p>
+            If you have any questions, send a message to the care team that
+            ordered this test.
+          </p>
+          <br />
           <p>
             <a
               href={mhvUrl(
@@ -209,7 +220,13 @@ const ChemHemDetails = props => {
               Compose a message.
             </a>
           </p>
-        </va-additional-info>
+          <br />
+          <p>
+            <strong>Note:</strong> if you have questions about more than 1 test
+            oredered by the same care team, send 1 message with all of your
+            questions.
+          </p>
+        </va-alert-expandable>
         <div className="print-only">
           <p>
             Your provider will review your results and explain what they mean
