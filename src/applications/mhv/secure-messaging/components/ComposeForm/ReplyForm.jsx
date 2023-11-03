@@ -479,7 +479,6 @@ const ReplyForm = props => {
                 </section>
               )}
 
-              {/* <DraftSavedInfo userSaved={userSaved}/> */}
               <DraftSavedInfo />
               <ComposeFormActionButtons
                 onSend={sendMessageHandler}
