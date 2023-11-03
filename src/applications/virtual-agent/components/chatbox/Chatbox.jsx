@@ -17,10 +17,10 @@ import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
 // const ONE_MINUTE_IN_MS = 60_000;
 
-function useWebChat(props, virtualAgentUpgradeWebchat14158) {
+function useWebChat(props, virtualAgentWebchatUpgrade) {
   const webchatFramework = useWebChatFramework(
     props,
-    virtualAgentUpgradeWebchat14158,
+    virtualAgentWebchatUpgrade,
   );
   const token = useVirtualAgentToken(props);
 
@@ -134,20 +134,18 @@ export default function Chatbox(props) {
 }
 
 function App(props) {
-  const { virtualAgentUpgradeWebchat14158 } = useSelector(
+  const { virtualAgentWebchatUpgrade } = useSelector(
     state => {
       return {
-        virtualAgentUpgradeWebchat14158:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.virtualAgentUpgradeWebchat14158
-          ],
+        virtualAgentWebchatUpgrade:
+          state.featureToggles[FEATURE_FLAG_NAMES.virtualAgentWebchatUpgrade],
       };
     },
     state => state.featureToggles,
   );
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
-    virtualAgentUpgradeWebchat14158,
+    virtualAgentWebchatUpgrade,
   );
 
   switch (loadingStatus) {
