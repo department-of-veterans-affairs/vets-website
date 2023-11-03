@@ -49,4 +49,79 @@ describe('<CompareGrid>', () => {
     ).to.eq('BBB');
     tree.unmount();
   });
+
+  it('should render', () => {
+    const tree = shallow(<CompareGrid institutions={[]} fieldData={[]} />);
+    expect(tree.type()).to.not.equal(null);
+    tree.unmount();
+  });
+
+  it('should add small-screen:vads-l-col--4 class when institution.length = 3 and smallScreen is false', () => {
+    const tree = shallow(
+      <CompareGrid
+        institutions={[
+          {
+            name: 'Institution A',
+            testValue: 'AAA',
+          },
+          {
+            name: 'Institution B',
+            testValue: 'BBB',
+          },
+          {
+            name: 'Institution C',
+            testValue: 'CCC',
+          },
+        ]}
+        fieldData={[
+          {
+            label: 'Test Field',
+            mapper: institution => institution.testValue,
+          },
+        ]}
+        smallScreen
+      />,
+    );
+    expect(tree.find('div.field-label').text()).to.eql('Test Field');
+    tree.unmount();
+  });
+
+  it('should add small-screen:vads-l-col--12 class if institution.length = 2 & smallScreen is false', () => {
+    const tree = shallow(
+      <CompareGrid
+        institutions={[
+          {
+            name: 'Institution C',
+            testValue: 'CCC',
+          },
+        ]}
+        fieldData={[
+          {
+            label: 'Test Field',
+            mapper: institution => institution.testValue,
+          },
+        ]}
+        smallScreen
+      />,
+    );
+    expect(tree.find('div.field-label').text()).to.eql('Test Field');
+    tree.unmount();
+  });
+
+  it('should add has-diff class if institution.length = 0 & smallScreen is false', () => {
+    const tree = shallow(
+      <CompareGrid
+        institutions={[]}
+        fieldData={[
+          {
+            label: 'Test Field',
+            mapper: institution => institution.testValue,
+          },
+        ]}
+        smallScreen
+      />,
+    );
+    expect(tree.find('div.field-label').text()).to.eql('Test Field');
+    tree.unmount();
+  });
 });
