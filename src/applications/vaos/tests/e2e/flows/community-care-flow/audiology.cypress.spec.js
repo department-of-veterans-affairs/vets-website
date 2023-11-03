@@ -75,7 +75,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -129,7 +129,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -199,7 +199,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -257,7 +257,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 

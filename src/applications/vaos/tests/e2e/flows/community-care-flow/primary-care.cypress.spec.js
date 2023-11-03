@@ -75,7 +75,7 @@ describe('VAOS community care flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -125,7 +125,7 @@ describe('VAOS community care flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -191,7 +191,7 @@ describe('VAOS community care flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -245,7 +245,7 @@ describe('VAOS community care flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -313,7 +313,7 @@ describe('VAOS community care flow - Primary care', () => {
       AppointmentListPageObject.visit().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
-        .assertAddressAlert(false)
+        .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/Primary care/i)
         .clickNextButton();
 
@@ -370,7 +370,7 @@ describe('VAOS community care flow - Primary care', () => {
       }).scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
-        .assertAddressAlert(false)
+        .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/Primary care/i)
         .clickNextButton();
 

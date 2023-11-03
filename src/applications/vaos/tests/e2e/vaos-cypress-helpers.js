@@ -833,6 +833,17 @@ export function mockEligibilityCCApi({
   }).as('eligibility-cc');
 }
 
+/**
+ * Function to mock the 'GET' appointment endpoint.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Array.<String>} [arguments.locations] - Location ids.
+ * @param {String=} arguments.clinicId - Clinic id. The clinicId is used to filter the collection of clinics returned in the response.
+ * @param {number} [arguments.apiVersion=2] - Api version number.
+ */
 export function mockClinicsApi({
   clinicId,
   locations = [],
