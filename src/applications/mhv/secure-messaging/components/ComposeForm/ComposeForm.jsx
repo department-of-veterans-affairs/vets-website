@@ -54,7 +54,6 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -256,7 +255,6 @@ const ComposeForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setUserSaved(true);
         setLastFocusableElement(e.target);
         await setMessageInvalid(false);
         if (checkMessageValidity()) {
@@ -515,7 +513,7 @@ const ComposeForm = props => {
               setAttachments={setAttachments}
             />
           </section>
-          <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
+          <DraftSavedInfo />
           <ComposeFormActionButtons
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
