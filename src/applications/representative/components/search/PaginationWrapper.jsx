@@ -8,11 +8,13 @@ const PaginationWrapper = ({
   // searchResults,
 }) => {
   return (
-    <VaPagination
-      onPageSelect={handlePageSelect}
-      page={currentPage}
-      pages={totalPages}
-    />
+    <div className="pagination-container vads-u-padding-bottom--2">
+      <VaPagination
+        onPageSelect={handlePageSelect}
+        page={currentPage}
+        pages={totalPages}
+      />
+    </div>
   );
 };
 
