@@ -67,15 +67,14 @@ describe('VAOS community care flow - Primary care', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser();
-        mockUser.setAddress('123 Main St');
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         // Act
         cy.login(mockUser);
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -89,7 +88,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -125,7 +124,7 @@ describe('VAOS community care flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -139,7 +138,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
@@ -183,15 +182,14 @@ describe('VAOS community care flow - Primary care', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser();
-        mockUser.setAddress('123 Main St');
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         // Act
         cy.login(mockUser);
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -209,7 +207,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -245,7 +243,7 @@ describe('VAOS community care flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
@@ -263,7 +261,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
@@ -303,8 +301,7 @@ describe('VAOS community care flow - Primary care', () => {
 
     it('should display alert', () => {
       // Arrange
-      const mockUser = new MockUser();
-      mockUser.setAddress('123 Main St');
+      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockCCProvidersApi({ response: [] });
 
@@ -313,7 +310,7 @@ describe('VAOS community care flow - Primary care', () => {
       AppointmentListPageObject.visit().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
-        .assertAddressAlert(false)
+        .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/Primary care/i)
         .clickNextButton();
 
@@ -341,8 +338,7 @@ describe('VAOS community care flow - Primary care', () => {
   describe('When browser blocked from finding location', () => {
     it('should display alert', () => {
       // Arrange
-      const mockUser = new MockUser();
-      mockUser.setAddress('123 Main St');
+      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockCCProvidersApi({ response: [] });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
@@ -370,7 +366,7 @@ describe('VAOS community care flow - Primary care', () => {
       }).scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
-        .assertAddressAlert(false)
+        .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/Primary care/i)
         .clickNextButton();
 
@@ -389,7 +385,7 @@ describe('VAOS community care flow - Primary care', () => {
       CommunityCarePreferencesPageObject.assertUrl()
         .expandAccordian()
         .selectCurrentLocation()
-        .assertWarningAlert(true);
+        .assertWarningAlert();
 
       // Assert
       cy.axeCheckBestPractice();

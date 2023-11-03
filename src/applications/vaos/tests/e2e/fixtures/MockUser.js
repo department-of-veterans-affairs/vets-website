@@ -1,3 +1,6 @@
+/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
+import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
+
 /**
  * Mock user class.
  *
@@ -8,7 +11,7 @@ export class MockUser {
   /**
    * Creates an instance of MockUser.
    * @param {Object} props - Properties used to determine what type of mock user to create.
-   * @param {Array} props.facilities - Set user registered facilities.
+   * @param {Array} [props.facilities=] - Set user registered facilities.
    * @param {string} [props.addressLine1 = '345 Home Address St'] - Set user home address
    * @param {String} [props.id = '1'] - Set user id.
    * @memberof MockUser
@@ -95,9 +98,31 @@ export class MockUser {
           'MDOT',
         ],
         vet360ContactInformation: {
-          residentialAddress: {
-            addressLine1: addressLine1 || undefined,
+          ...mockContactInformation,
+          email: {
+            ...mockContactInformation.email,
+            emailAddress: null,
           },
+          homePhone: {
+            ...mockContactInformation.homePhone,
+            areaCode: null,
+            phoneNumber: null,
+          },
+          mobilePhone: {
+            ...mockContactInformation.mobilePhone,
+            areaCode: null,
+            phoneNumber: null,
+          },
+          residentialAddress: addressLine1
+            ? {
+                addressLine1,
+                city: 'FPO',
+                stateCode: 'AE',
+                zipCode: '09618',
+                latitude: 37.5615,
+                longitude: -121.9988,
+              }
+            : {},
         },
       },
       meta: { errors: null },
@@ -105,9 +130,22 @@ export class MockUser {
   }
 
   setAddress(addressLine1) {
-    this.data.attributes.vet360ContactInformation.residentialAddress = {
-      addressLine1,
-    };
+    let {
+      address,
+    } = this.data.attributes.vet360ContactInformation.residentialAddress;
+
+    if (address) {
+      address = addressLine1;
+    } else {
+      this.data.attributes.vet360ContactInformation.residentialAddress = {
+        addressLine1,
+        city: 'FPO',
+        latitude: 37.5615,
+        longitude: -121.9988,
+        stateCode: 'AE',
+        zipCode: '09618',
+      };
+    }
 
     return this;
   }

@@ -80,7 +80,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
@@ -124,7 +124,7 @@ describe('VAOS community care flow - Podiatry', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser().setAddress('123 Main St.');
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         // Act
         cy.login(mockUser);
@@ -144,7 +144,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -194,7 +194,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 

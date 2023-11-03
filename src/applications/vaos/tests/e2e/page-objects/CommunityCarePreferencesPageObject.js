@@ -1,7 +1,7 @@
 import PageObject from './PageObject';
 
 export class CommunityCarePreferencesPage extends PageObject {
-  assertHomeAddress(trueOrFalse) {
+  assertHomeAddress({ exist = true } = {}) {
     cy.findByTestId('providersSelect')
       .as('providersSelect')
       .shadow();
@@ -12,7 +12,7 @@ export class CommunityCarePreferencesPage extends PageObject {
     cy.get('@select')
       .find('option')
       .contains('Your home address')
-      .should(`${trueOrFalse ? 'exist' : 'not.exist'}`);
+      .should(`${exist ? 'exist' : 'not.exist'}`);
 
     return this;
   }
@@ -24,7 +24,7 @@ export class CommunityCarePreferencesPage extends PageObject {
     return this;
   }
 
-  assertWarningAlert(exist) {
+  assertWarningAlert({ exist = true } = {}) {
     if (exist) {
       cy.get('va-alert[status=warning]')
         .as('alert')

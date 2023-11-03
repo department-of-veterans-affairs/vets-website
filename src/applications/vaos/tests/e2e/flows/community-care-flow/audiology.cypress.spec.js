@@ -67,15 +67,14 @@ describe('VAOS community care flow - Audiology', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser();
-        mockUser.setAddress('123 Main St.');
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         // Act
         cy.login(mockUser);
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -93,7 +92,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -129,7 +128,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -147,7 +146,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
@@ -199,7 +198,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(false)
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -221,7 +220,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -257,7 +256,7 @@ describe('VAOS community care flow - Audiology', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert(true)
+          .assertAddressAlert()
           .selectTypeOfCare(/Audiology and speech/)
           .clickNextButton();
 
@@ -279,7 +278,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
