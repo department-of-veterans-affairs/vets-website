@@ -6,7 +6,7 @@ export const validateDocumentDescription = (errors, fileList) => {
   fileList.forEach((file, index) => {
     const error =
       file.attachmentType === 'Other' && !file.attachmentDescription
-        ? 'Please provide a description'
+        ? 'Provide a description'
         : null;
     if (error && !errors[index]) {
       /* eslint-disable no-param-reassign */
