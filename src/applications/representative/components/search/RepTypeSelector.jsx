@@ -10,7 +10,7 @@ const RepTypeSelector = ({ onChange }) => {
     <>
       <div className="vads-u-margin-top--3">
         <label htmlFor="representative-type" className="vads-u-margin-top--2">
-          Type of representative{" "}
+          Type of representative{' '}
           <span className="form-required-span">(*Required)</span>
         </label>
         <va-radio
@@ -53,7 +53,7 @@ const RepTypeSelector = ({ onChange }) => {
                 How can each type of representative help me?
               </h6>
               <p>
-                <strong>Veteran Services Organization (VSO)</strong>{" "}
+                <strong>Veteran Services Organization (VSO)</strong>{' '}
                 representatives can help you gather evidence and file your
                 claims, decision reviews, and appeals. They can also communicate
                 with VA about your case on your behalf. Examples of VSOs include
