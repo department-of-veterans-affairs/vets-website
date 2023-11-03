@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import ApplicationStatus from 'platform/forms/save-in-progress/ApplicationStatus';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-export const App = ({ loggedIn, toggleLoginModal }) => {
+export const App = ({ loggedIn }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
   return pensionFormEnabled ? (
@@ -28,7 +27,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       aria-describedby="alert-description"
     >
       <h3 id="alert-heading" slot="headline">
-        You can’t apply online right now
+        The PDF form is the only computer option for applying right now
       </h3>
       <div id="alert-description">
         {loggedIn ? (
@@ -67,37 +66,30 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         ) : (
           <>
             <p>
-              We’re updating our online form. Our new online form will be
-              available in January 2024. If you already started applying online,
-              you can continue your application then. We’ll transfer your saved
-              information to the new form.
+              We’re updating our online application. While we’re updating on
+              online application, your options are:
+              <ul>
+                <li>
+                  <strong>You can apply now using a PDF form.</strong> We
+                  provide a link on this page so you can download the PDF form.
+                  If you already started applying online, you can still refer to
+                  your saved information when you fill out the PDF form. Keep
+                  reading on this page for instructions.
+                </li>
+                <li>
+                  <strong>
+                    You can wait until January 2024 and apply online then.
+                  </strong>{' '}
+                  If you already started applying online, we’ll transfer your
+                  saved information to the new online application.
+                </li>
+              </ul>
             </p>
-            <p>
-              Or, you can apply now using a PDF form. You can sign in to VA.gov
-              to refer to your saved information to fill out the PDF form.
-            </p>
-            <va-link
-              download
-              filetype="PDF"
-              href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
-              pages={8}
-              text="Download VA form 21P-527EZ"
-            />
-            <p>
-              You can sign in to VA.gov to refer to your saved information to
-              fill out the PDF form.
-            </p>
-            <va-button
-              onClick={() => {
-                toggleLoginModal(true);
-              }}
-              text="Sign in to VA.gov"
-            />
             <p>
               <strong>Note: </strong>
               We’ll record the potential start date for your benefits as the
               date you first saved your online form. You have 1 year from this
-              date to submit your application.
+              date to apply.
             </p>
           </>
         )}
@@ -107,7 +99,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 };
 
 App.propTypes = {
-  toggleLoginModal: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool,
 };
 
@@ -115,11 +106,4 @@ export const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
-export const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps)(App);

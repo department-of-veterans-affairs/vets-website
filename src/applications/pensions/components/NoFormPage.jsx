@@ -62,17 +62,14 @@ export const NoFormPage = () => {
                 online then, we’ll transfer your saved information to the new
                 form.
               </p>
-              <p>
-                Or, you can apply now using a PDF form.
-                <br />
-                <va-link
-                  download
-                  filetype="PDF"
-                  href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
-                  pages={8}
-                  text="Download VA form 21P-527EZ"
-                />
-              </p>
+              <p>Or, you can apply now using a PDF form.</p>
+              <va-link
+                download
+                filetype="PDF"
+                href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+                pages={8}
+                text="Download VA form 21P-527EZ"
+              />
               <p>
                 <strong>Note:</strong> You can refer to your saved information
                 on this page to fill out the PDF form.
