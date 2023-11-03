@@ -230,6 +230,8 @@ export default Object.freeze({
   vaOnlineSchedulingStartSchedulingLink: 'va_online_scheduling_start_scheduling_link',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
+  virtualAgentEnableParamErrorDetection: 'virtual_agent_enable_param_error_detection',
   virtualAgentVoice: 'virtual_agent_voice',
+  virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

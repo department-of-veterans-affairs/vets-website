@@ -21,6 +21,7 @@ const LandingPage = () => {
     },
     state => state.featureToggles,
   );
+
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
@@ -31,7 +32,9 @@ const LandingPage = () => {
   const focusAndOpenAccordionRxRenew = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
-    manageMedicationsAccordionSection.current.scrollIntoView();
+    if (!featureTogglesLoading && appEnabled) {
+      manageMedicationsAccordionSection.current.scrollIntoView();
+    }
   };
 
   useEffect(
@@ -40,7 +43,7 @@ const LandingPage = () => {
         focusAndOpenAccordionRxRenew();
       }
     },
-    [location.pathname],
+    [location.pathname, featureTogglesLoading, appEnabled],
   );
 
   const content = () => {
