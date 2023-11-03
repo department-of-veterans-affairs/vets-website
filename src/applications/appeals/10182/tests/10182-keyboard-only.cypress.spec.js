@@ -1,10 +1,9 @@
-import path from 'path';
-
 import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
 import { CONTESTABLE_ISSUES_API } from '../constants';
+import mockData from './fixtures/data/maximal-test.json';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
@@ -12,20 +11,16 @@ import cypressSetup from '../../shared/tests/cypress.setup';
 
 // Skipping for now
 describe('Notice of Disagreement keyboard only navigation', () => {
-  before(() => {
+  it('navigates through a maximal form', () => {
     cypressSetup();
 
-    cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test.json')).as(
-      'testData',
-    );
+    cy.wrap(mockData.data).as('testData');
 
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
     cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
     cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
-  });
 
-  it('navigates through a maximal form', () => {
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
       cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {

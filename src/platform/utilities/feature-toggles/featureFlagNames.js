@@ -231,6 +231,7 @@ export default Object.freeze({
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentDecisionLetterDownloadTracking: 'virtual_agent_decision_letter_download_tracking',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
+  virtualAgentEnableParamErrorDetection: 'virtual_agent_enable_param_error_detection',
   virtualAgentVoice: 'virtual_agent_voice',
   virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
