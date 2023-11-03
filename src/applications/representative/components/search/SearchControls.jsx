@@ -86,7 +86,7 @@ const SearchControls = props => {
   };
 
   return (
-    <div className="search-controls-container clearfix">
+    <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h3 style={{ marginBottom: '1em' }}>Search for a representative</h3>
@@ -95,6 +95,7 @@ const SearchControls = props => {
               <label
                 htmlFor="street-city-state-zip"
                 id="street-city-state-zip-label"
+                className="vads-u-margin-top--2"
               >
                 City, state or postal code{' '}
                 <span className="form-required-span">(*Required)</span>
@@ -103,6 +104,7 @@ const SearchControls = props => {
 
             <input
               id="street-city-state-zip"
+              className="vads-u-margin-top--2"
               ref={locationInputFieldRef}
               name="street-city-state-zip"
               type="text"

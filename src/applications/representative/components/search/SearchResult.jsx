@@ -16,22 +16,30 @@ const SearchResult = ({
 }) => {
   return (
     <>
-      <div className="representative-result">
+      <div>
         <div>
           <strong>{distance} Mi</strong>
         </div>
-        <div>
+        <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
           <strong>{organization}</strong>
         </div>
-        <div>
-          {addressLine1}, {addressLine2}
+        <div className="vads-u-padding-y--1p5">
+          <div>
+            {addressLine1}, {addressLine2}
+          </div>
+          <RepresentativeDirectionsLink
+            representative={representative}
+            from="SearchResult"
+            // query={query}
+          />
         </div>
-        <div className="primary">{phone}</div>
-        <RepresentativeDirectionsLink
-          representative={representative}
-          from="SearchResult"
-          // query={query}
-        />
+        <div>
+          <strong>Main Number: </strong>
+          <a href={phone} className="primary">
+            {phone}
+          </a>
+        </div>
+
         {/* <div className="va-h-ruled" /> */}
       </div>
     </>

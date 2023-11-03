@@ -15,7 +15,7 @@ function RepresentativeDirectionsLink({ representative, from }) {
   // }
 
   return (
-    <div className="vads-u-margin-bottom--1p5">
+    <div className="vads-u-margin-bottom--1p5 representative-directions-link">
       <a
         href={`https://maps.google.com?saddr=${
           representative.locationInputString
