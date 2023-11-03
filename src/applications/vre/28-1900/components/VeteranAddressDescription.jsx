@@ -10,8 +10,7 @@ export const VeteranAddressDescription = () => (
     <p className="vads-u-margin-bottom--0">
       Updates you make here{' '}
       <strong>will only apply to this application.</strong> To update your
-      contact information for all of your VA accounts, please go to your profile
-      page.{' '}
+      contact information for all of your VA accounts, go to your profile page.
     </p>
     <a href="/profile/contact-information">
       Go to your profile page to update your contact information
