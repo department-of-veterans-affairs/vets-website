@@ -118,7 +118,7 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
       coordinates[0] + BOUNDING_RADIUS,
       coordinates[1] + BOUNDING_RADIUS,
     ],
-    searchString: placeName,
+    locationInputString: placeName,
     position: { longitude, latitude },
   };
 };
