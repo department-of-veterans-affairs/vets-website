@@ -31,7 +31,7 @@ const IntroductionPage = props => {
         startText="Apply for Veteran Readiness and Employment"
         headingLevel="2"
       >
-        Please complete the 28-1900 form to apply for Vocational Rehabilitation.
+        Complete the 28-1900 form to apply for Vocational Rehabilitation.
       </SaveInProgressIntro>
       <h2>
         Follow these steps to apply for Veteran Readiness and Employment

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { App } from '.';
+import { App } from '../../components/App';
 
 describe('Header <App>', () => {
   it('renders legacy header when our width is more than 768px', () => {
