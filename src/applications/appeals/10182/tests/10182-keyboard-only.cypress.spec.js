@@ -32,8 +32,6 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       cy.injectAxeThenAxeCheck();
 
       // Intro page
-      // TODO: tabToStartForm Cypress function needs to be updated to only
-      // target action links
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
 

@@ -96,31 +96,33 @@ describe('526EZ keyboard only navigation', () => {
         5. Can edit newly provided address
         6. Can edit contact information stored on profile page
       C. Alternative Names
+        1. Can indicate that they are not at risk of becoming homeless
+      D. Alternative Names
         1. Can indicate that they have no alternate names
         2. Can indicate they do have alternate names
         3. Can provide first alterate name
         4. Can provide a second alternate name
         5. Can begin providing a third alternate name but then cancel
         6. Can update the second alternate name
-      D. Military History (if not in Reserve National Guard)
+      E. Military History (if not in Reserve National Guard)
         1. Can provide non-RNG service branch
         2. Can provide first service period
         3. Can provide second service period
         4. Can remove the second service period
         5. Can edit the first service period
         6. Submission brings them to Separation Pay page, rather than the Reserve National Guard Info page
-      E. Military History (if in Reserve National Guard)
+      F. Military History (if in Reserve National Guard)
         1. Can provide RNG service branch
-      F. Reserve National Guard Info
+      G. Reserve National Guard Info
         1. Can provide service period
-      G. Federal Orders
-      H. Separation Pay
+      H. Federal Orders
+      I. Separation Pay
         1. Can provide separation pay details if received
         2. Can indicate that they never received separation pay
-      I. Retirement Pay
+      J. Retirement Pay
         1. Can provide retirement pay details, if they exist
         2. Can indicate that they never received retirement pay
-      J. Training Pay
+      K. Training Pay
     II. Disabilities
       ...
   */
@@ -162,9 +164,8 @@ describe('526EZ keyboard only navigation', () => {
       // a part of a shared component, I don't believe there is a need to run
       // these particular tests again.
       cy.tabToElement('.schemaform-sip-save-link');
-      cy.tabToElement('#1-continueButton');
-      cy.tabToElement('#2-continueButton');
-      cy.realPress('Enter');
+
+      cy.tabToContinueForm();
 
       // I. Veteran Details > B. Contact Information
       // ===========================================
@@ -226,7 +227,18 @@ describe('526EZ keyboard only navigation', () => {
 
       cy.tabToContinueForm();
 
-      // I. Veteran Details > C. Alternative Names
+      // I. Veteran Details > C. Housing Situation
+      // =========================================
+      cy.url().should('include', veteranDetailsPages.homelessOrAtRisk.path);
+      cy.injectAxeThenAxeCheck();
+
+      // 1. Can indicate that they are not at risk of becoming homeless
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('no');
+      cy.realPress('Space');
+      cy.tabToContinueForm();
+
+      // I. Veteran Details > D. Alternative Names
       // =========================================
       cy.url().should('include', veteranDetailsPages.alternateNames.path);
       cy.injectAxeThenAxeCheck();
@@ -254,15 +266,15 @@ describe('526EZ keyboard only navigation', () => {
 
       // 5. Can begin providing a third alternate name but then cancel
       cy.tabToElementAndPressSpace('.va-growable-add-btn');
-      cy.tabToElementAndPressSpace('[aria-label="Remove Name"]');
+      cy.tabToElementAndPressSpace('[aria-label="Remove name"]');
 
       // 6. Can update the second alternate name
       cy.tabToElementAndPressSpace('.edit', false);
-      cy.tabToElement('[aria-label="Update Name"]');
+      cy.tabToElement('[aria-label="Update name"]');
 
       cy.tabToContinueForm();
 
-      // I. Veteran Details > D. Military History (if not in Reserve National Guard)
+      // I. Veteran Details > E. Military History (if not in Reserve National Guard)
       // ===========================================================================
       cy.url().should('include', veteranDetailsPages.militaryHistory.path);
       cy.injectAxeThenAxeCheck();
@@ -289,7 +301,7 @@ describe('526EZ keyboard only navigation', () => {
       // 3. Can provide second service period
       cy.tabToElementAndPressSpace('.va-growable-add-btn');
       cy.tabToElement(`${idRoot}1_serviceBranch`);
-      cy.chooseSelectOptionByTyping('Marine Corps Reserve');
+      cy.chooseSelectOptionByTyping('Marine Corps Reserves');
       cy.tabToElement(`${idRoot}1_dateRange_fromMonth`);
       cy.chooseSelectOptionByTyping('April');
       cy.tabToElement(`${idRoot}1_dateRange_fromDay`);
@@ -313,14 +325,19 @@ describe('526EZ keyboard only navigation', () => {
       cy.chooseSelectOptionByTyping('Navy');
       cy.tabToElementAndPressSpace('[type="button"]');
 
-      cy.tabToContinueForm();
+      // For some reason using `cy.tabToContinueForm` here doesn't work. It
+      // instead will skip ahead to the following page.
+      cy.tabToElementAndPressSpace('button[type="submit"]');
 
       // 6. Submission brings them to Separation Pay page, rather than the Reserve National Guard Info page
       cy.url().should('include', veteranDetailsPages.separationPay.path);
       cy.injectAxeThenAxeCheck();
-      cy.tabToGoBack();
 
-      // I. Veteran Details > E. Military History (if in Reserve National Guard)
+      // For some reason using `cy.tabToGoBack` here doesn't work. It
+      // instead will go forard a page, even though it finds the back button.
+      cy.tabToElementAndPressSpace('#1-continueButton');
+
+      // I. Veteran Details > F. Military History (if in Reserve National Guard)
       // =======================================================================
       cy.url().should('include', veteranDetailsPages.militaryHistory.path);
       cy.injectAxeThenAxeCheck();
@@ -329,11 +346,12 @@ describe('526EZ keyboard only navigation', () => {
       cy.tabToElementAndPressSpace('.edit');
       cy.tabToElement(`${idRoot}0_serviceBranch`);
       cy.chooseSelectOptionByTyping('Army National Guard');
-      cy.tabToElementAndPressSpace('[type="button"]');
+      cy.findByText('Save');
+      cy.realPress('Enter');
 
       cy.tabToContinueForm();
 
-      // I. Veteran Information > F. Reserve National Guard Info
+      // I. Veteran Information > G. Reserve National Guard Info
       // =======================================================
       cy.url().should(
         'include',
@@ -363,7 +381,7 @@ describe('526EZ keyboard only navigation', () => {
 
       cy.tabToContinueForm();
 
-      // I. Veteran Information > G. Federal Orders
+      // I. Veteran Information > H. Federal Orders
       // ==========================================
       cy.url().should('include', veteranDetailsPages.federalOrders.path);
       cy.injectAxeThenAxeCheck();
@@ -372,10 +390,13 @@ describe('526EZ keyboard only navigation', () => {
       // because we are simulating a non-BDD vet.
       cy.tabToElement('[type="radio"]');
       cy.findOption('N');
+      cy.realPress('Space');
 
-      cy.tabToContinueForm();
+      // For some reason using `cy.tabToContinueForm` here doesn't work. It
+      // instead will skip ahead to the following page.
+      cy.tabToElementAndPressSpace('button[type="submit"]');
 
-      // I. Veteran Information > H. Separation Pay
+      // I. Veteran Information > I. Separation Pay
       // ==========================================
       cy.url().should('include', veteranDetailsPages.separationPay.path);
       cy.injectAxeThenAxeCheck();
@@ -396,7 +417,7 @@ describe('526EZ keyboard only navigation', () => {
 
       cy.tabToContinueForm();
 
-      // I. Veteran Information > I. Retirement Pay
+      // I. Veteran Information > J. Retirement Pay
       // ==========================================
       cy.url().should('include', veteranDetailsPages.retirementPay.path);
       cy.injectAxeThenAxeCheck();
@@ -414,7 +435,7 @@ describe('526EZ keyboard only navigation', () => {
 
       cy.tabToContinueForm();
 
-      // I. Veteran Information > J. Training Pay
+      // I. Veteran Information > K. Training Pay
       // ========================================
       cy.url().should('include', veteranDetailsPages.trainingPay.path);
       cy.injectAxeThenAxeCheck();
