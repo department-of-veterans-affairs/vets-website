@@ -1,0 +1,126 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+#supporting-documents-description {
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  .form-expanding-group {
+    margin-bottom: 1em;
+  }
+}
+
+.schemaform-radio-indent {
+  margin: 0;
+}
+
+.autosuggest-list {
+  max-height: 17rem;
+}
+
+h3.name-of-deceased-text {
+  color: rgb(50, 58, 69);
+  font-family: "Bitter";
+  font-weight: bold;
+}
+
+.mail-or-fax-message,
+.mail-or-fax-steps {
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.mail-or-fax-steps {
+  padding: 0 0 0 1rem;
+}
+
+.mail-or-fax-step {
+  margin-bottom: 0.75rem;
+  padding-left: 1rem;
+}
+
+.mail-fax-address {
+  border-left: 3px solid $color-primary;
+  padding-left: 1rem;
+}
+
+article#pre-need[data-location="applicant-demographics"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+}
+
+article#pre-need[data-location="review-and-submit"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+}
+
+dl.review + dl.review .review-row {
+  border-top: none;
+  padding-top: 0px;
+}
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: -2em;
+  margin-bottom: 0em;
+}
+
+.schemaform-file-list > li {
+  margin-top: 3em;
+  margin-bottom: -2em;
+}
+
+.schemaform-first-field .schemaform-label {
+  padding-top: 1em;
+}
+
+.vads-u-font-size--h5 {
+  margin-top: 0em;
+}
+
+.preparer-contact-details-title {
+  margin-bottom: -0.5em;
+}
+
+.preparer-contact-details-additional-info {
+  padding-top: 1em;
+}
+.preparer-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.preparer-va-radio {
+  padding-top: 0.5em;
+}
+
+.desiredCemeteryNoteTitle {
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.applicantDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.applicantDemographicsDescription {
+  padding-bottom: 1em;
+}
+
+.ApplicantDescriptionWrapper {
+  padding-bottom: 1em;
+}
+
+
+.militaryDetailsSubHeader {
+  margin-bottom: -1em;
+}

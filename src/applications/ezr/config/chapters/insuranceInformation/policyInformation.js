@@ -64,8 +64,8 @@ export default {
         type: 'object',
         properties: {
           insurancePolicyNumber,
-          insuranceGroupCode,
           'view:or': VIEW_FIELD_SCHEMA,
+          insuranceGroupCode,
         },
       },
     },
