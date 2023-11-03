@@ -143,7 +143,7 @@ const SearchPage = props => {
     };
 
     return (
-      <div>
+      <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
           {/* {!searchError && ( */}
 
@@ -247,13 +247,12 @@ const SearchPage = props => {
       <va-breadcrumbs>{renderBreadcrumbs()}</va-breadcrumbs>
 
       <div className="usa-grid usa-width-three-fourths search-page-container">
-        <div className="title-section">
-          <h1>Find a Representative</h1>
+        <div className="title-section vads-u-padding-y--1">
+          <h1>Find a VA accredited representative</h1>
           <p>
-            Find a VA accredited representative or Veteran Service Organizaiton.
-            After you find a representative, you’ll need to contact them to ask
-            if they’re available to help you. If you don’t, they may not be able
-            to help you or they may reject your request.
+            Find a representative to help you file a claim, submit an appeal, or
+            request a decision review. Then contact them to ask if they’re
+            available to help.
           </p>
         </div>
 
@@ -264,7 +263,7 @@ const SearchPage = props => {
           onSubmit={handleSearch}
           clearSearchText={props.clearSearchText}
         />
-        <div>{renderView()}</div>
+        {renderView()}
       </div>
     </>
   );

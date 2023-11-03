@@ -5,11 +5,9 @@ const GetFormHelp = () => (
   <div className="help-footer-box">
     <h2 className="help-heading">Need Help?</h2>
     <p className="help-talk">
-      If you have questions about selecting a representative, please call our
-      MYVA411 main information line at:{' '}
-      <va-telephone contact={CONTACTS.VA_411} /> select 0. We’re here 24/7. If
-      you have hearing loss, call <va-telephone contact={CONTACTS['711']} tty />
-      .
+      You can call us at <va-telephone contact={CONTACTS.VA_411} /> (
+      <va-telephone contact={CONTACTS['711']} tty />
+      ). We’re here 24/7.
     </p>
   </div>
 );
