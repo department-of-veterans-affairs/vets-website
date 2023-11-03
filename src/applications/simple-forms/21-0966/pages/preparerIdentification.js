@@ -21,7 +21,8 @@ export default {
       },
       labelHeaderLevel: '3',
       errorMessages: {
-        enum: 'Please select your identity',
+        enum: 'Select one that best describes you',
+        required: 'Select one that best describes you',
       },
     }),
   },
