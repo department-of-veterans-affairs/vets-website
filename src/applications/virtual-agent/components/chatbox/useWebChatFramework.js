@@ -18,11 +18,15 @@ function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
   }, timeout);
 }
 
-const loadWebChat = () => {
+export const loadWebChat = virtualAgentUpgradeWebchat14158 => {
   const script = document.createElement('script');
-
-  script.src =
-    'https://cdn.botframework.com/botframework-webchat/4.15.2/webchat-es5.js';
+  if (virtualAgentUpgradeWebchat14158) {
+    script.src =
+      'https://cdn.botframework.com/botframework-webchat/4.15.8/webchat.js';
+  } else {
+    script.src =
+      'https://cdn.botframework.com/botframework-webchat/4.15.2/webchat.js';
+  }
   script.crossOrigin = 'anonymous';
   script.dataset.testid = 'webchat-framework-script';
 
@@ -31,11 +35,14 @@ const loadWebChat = () => {
 
 const TIMEOUT_DURATION_MS = 250;
 
-export default function useWebChatFramework(props) {
+export default function useWebChatFramework(
+  props,
+  virtualAgentUpgradeWebchat14158,
+) {
   useEffect(() => {
     window.React = React;
     window.ReactDOM = ReactDOM;
-    loadWebChat();
+    loadWebChat(virtualAgentUpgradeWebchat14158);
   }, []);
 
   const [loadingStatus, setLoadingStatus] = useState(
