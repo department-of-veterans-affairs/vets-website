@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { buildAddressArray } from '../../utils/representativeAddress';
 
-function RepresentativeDirectionsLink({ representative, from }) {
+function RepresentativeDirectionsLink({ representative, query }) {
   let address = buildAddressArray(representative);
 
   if (address.length !== 0) {
@@ -15,14 +15,13 @@ function RepresentativeDirectionsLink({ representative, from }) {
   // }
 
   return (
-    <div className="vads-u-margin-bottom--1p5">
+    <div className="vads-u-margin-bottom--1p5 representative-directions-link">
       <a
         href={`https://maps.google.com?saddr=${
-          representative.locationInputString
+          query.locationInputString
         }&daddr=${address}`}
         rel="noopener noreferrer"
       >
-        {from === 'SearchResults' && <i className="fa fa-road" />}
         Get directions on Google Maps{' '}
         <span className="sr-only">
           {`to ${representative.attributes.name}`}
