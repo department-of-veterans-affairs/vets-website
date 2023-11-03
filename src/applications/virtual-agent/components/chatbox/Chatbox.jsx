@@ -39,8 +39,11 @@ const getLoadingStatus = (
   return preliminaryCombinedLoadingStatus;
 };
 
-function useWebChat(props, paramLoadingStatus) {
-  const webchatFramework = useWebChatFramework(props);
+function useWebChat(props, paramLoadingStatus, virtualAgentUpgradeWebchat14158) {
+  const webchatFramework = useWebChatFramework(
+    props,
+    virtualAgentUpgradeWebchat14158,
+  );
   const token = useVirtualAgentToken(props);
 
   const loadingStatus = getLoadingStatus(
@@ -163,10 +166,22 @@ function Chatbox(props) {
 
 function App(props) {
   // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
+  const { virtualAgentUpgradeWebchat14158 } = useSelector(
+    state => {
+      return {
+        virtualAgentUpgradeWebchat14158:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.virtualAgentUpgradeWebchat14158
+          ],
+      };
+    },
+    state => state.featureToggles,
+  );
   const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
     paramLoadingStatus,
+    virtualAgentUpgradeWebchat14158,
   );
 
   switch (loadingStatus) {
