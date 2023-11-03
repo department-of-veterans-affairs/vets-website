@@ -232,5 +232,6 @@ export default Object.freeze({
   virtualAgentDecisionLetterDownloadTracking: 'virtual_agent_decision_letter_download_tracking',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
   virtualAgentVoice: 'virtual_agent_voice',
+  virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });
