@@ -9,6 +9,8 @@ import {
   vaFileNumberUI,
   addressSchema,
   addressUI,
+  phoneSchema,
+  phoneUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -106,6 +108,20 @@ const formConfig = {
             type: 'object',
             properties: {
               sponsorAddress: addressSchema(),
+            },
+          },
+        },
+        page5: {
+          path: 'sponsor-phone-number',
+          title: 'Sponsor Phone Number',
+          uiSchema: {
+            sponsorPhone: phoneUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorPhone'],
+            properties: {
+              sponsorPhone: phoneSchema,
             },
           },
         },
