@@ -200,7 +200,7 @@ class MedicationsListPage {
       `#card-header-${
         nonVARx.data.id
       } > [data-testid="medications-history-details-link"]`,
-    ).should('contain', 'CALAMINE');
+    ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 }
 export default MedicationsListPage;
