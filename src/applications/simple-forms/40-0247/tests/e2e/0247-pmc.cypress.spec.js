@@ -116,6 +116,18 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [pagePaths.certificatesPage]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { certificates } = data;
+
+            fillTextWebComponent('certificates', certificates);
+
+            cy.axeCheck('.form-panel');
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       [pagePaths.additionalCertificatesRequestPage]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
