@@ -1,8 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import { shallow } from 'enzyme';
+import {
+  ConfirmationPage,
+  mapStateToProps,
+} from '../../containers/ConfirmationPage';
 import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {
@@ -27,5 +30,12 @@ describe('<ConfirmationPage>', () => {
     expect(tree.find(ConfirmationPageContent)).to.not.be.undefined;
 
     tree.unmount();
+  });
+});
+
+describe('mapStateToProps', () => {
+  it('should render appropriately', () => {
+    const goodObj = { form: {} };
+    expect(mapStateToProps(goodObj)).to.eql({ form: {} });
   });
 });
