@@ -94,7 +94,9 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
-      setLoading(true);
+      if (!paginatedPrescriptionsList) {
+        setLoading(true);
+      }
       dispatch(
         getPrescriptionsPaginatedSortedList(
           currentPage,
@@ -102,6 +104,8 @@ const Prescriptions = props => {
         ),
       ).then(() => setLoading(false));
     },
+    // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, currentPage, selectedSortOption],
   );
 
