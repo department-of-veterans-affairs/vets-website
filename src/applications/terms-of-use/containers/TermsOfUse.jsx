@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   apiRequest,
-  environment,
   logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -66,11 +65,7 @@ export default function TermsOfUse() {
           if (termsCodeExists || isAuthenticatedWithSiS) {
             window.location = logoutUrlSiS();
           } else {
-            IAMLogout({
-              queryParams: {
-                [`redirect`]: `${environment.BASE_URL}/terms-of-use/declined`,
-              },
-            });
+            IAMLogout({ queryParams: { [`agreements_declined`]: true } });
           }
         }
       }
@@ -89,9 +84,8 @@ export default function TermsOfUse() {
             VA online services terms of use
           </h1>
           <p className="va-introtext va-introtext vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
-            To sign in to VA.gov and most other VA online services, you’ll need
-            to accept the terms of use. We recently updated the terms. Read the
-            updated terms on this page. Then confirm if you accept or not.
+            To sign in, you’ll need to accept the updated terms of use. Read the
+            updated terms on this page. Then confirm if you accept.
           </p>
           <article>
             <div>
@@ -100,12 +94,6 @@ export default function TermsOfUse() {
                 Last updated: {touUpdatedDate}
               </p>
             </div>
-            <TermsAcceptance
-              error={error}
-              isAuthenticated={isAuthenticated}
-              handleTouClick={handleTouClick}
-              setShowDeclineModal={setShowDeclineModal}
-            />
             <h2 id="terms-of-use">Terms of use</h2>
             <p>
               The Department of Veterans Affairs (VA) owns and manages VA.gov
