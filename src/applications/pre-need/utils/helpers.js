@@ -572,28 +572,6 @@ export const veteranUI = {
   },
 };
 
-function agentHas(keyword) {
-  return navigator.userAgent.toLowerCase().search(keyword.toLowerCase()) > -1;
-}
-
-export function isSafari() {
-  return (
-    (!!window.ApplePaySetupFeature || !!window.safari) &&
-    agentHas('Safari') &&
-    !agentHas('Chrome') &&
-    !agentHas('CriOS')
-  );
-}
-
-export function safariCssChanges(location) {
-  if (location?.pathname?.slice(1) === 'review-and-submit') {
-    const collection = document.getElementsByClassName('review');
-    for (const element of collection) {
-      element.style.padding = '16px';
-    }
-  }
-}
-
 export const serviceRecordsUI = {
   'ui:title': 'Service period(s)',
   'ui:options': {
