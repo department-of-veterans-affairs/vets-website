@@ -1,21 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-
-/**
- * Returns a copy of the passed-in string with the first letter capitalized
- *
- * @param {string} input - word to capitalize
- * @returns {string} - the input string with the first letter capitalized
- */
-const capitalizeFirstLetter = input => {
-  const capitalizedFirstLetter = input[0].toUpperCase();
-  return `${capitalizedFirstLetter}${input.slice(1)}`;
-};
 
 const ApplicationInProgress = ({
   continueUrl,
@@ -38,7 +28,7 @@ const ApplicationInProgress = ({
           aria-describedby={formId}
           className="vads-u-font-size--h3 vads-u-margin-top--0"
         >
-          {capitalizeFirstLetter(formTitle)}
+          {capitalize(formTitle)}
         </h3>
         <div className="vads-u-display--flex">
           <i
