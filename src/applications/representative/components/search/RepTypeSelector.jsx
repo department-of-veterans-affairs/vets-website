@@ -69,8 +69,8 @@ const RepTypeSelector = ({ onChange }) => {
                 <strong>Attorneys</strong> usually work on decision reviews and
                 appeals, including cases that require legal knowledge. They
                 don’t have to take a test about VA claims and benefits, but they
-                must be a member in good standing of the bar association. They
-                don’t have to t Attorneys can charge fees for their services.
+                must be a member in good standing of the bar association.
+                Attorneys can charge fees for their services.
               </p>
               <p>
                 <strong>Claims agents</strong> usually work on decision reviews
