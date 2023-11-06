@@ -20,7 +20,7 @@ export const uiSchema = {
     name: {
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:title': 'School’s name',
-      'ui:errorMessages': { required: 'Please enter a school name' },
+      'ui:errorMessages': { required: 'Enter a school name' },
     },
     schoolType: {
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
