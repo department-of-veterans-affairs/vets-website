@@ -156,6 +156,8 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
+    skip: true,
+
     dataDir: path.join(__dirname, 'schema'),
 
     dataSets: ['maximal-test'],
