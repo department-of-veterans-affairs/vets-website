@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
 
 const SearchControls = props => {
@@ -12,10 +13,11 @@ const SearchControls = props => {
     onChange,
     geolocateUser,
     onSubmit,
+    clearGeocodeError,
     // clearSearchText
   } = props;
   const {
-    // locationChanged,
+    locationChanged,
     locationInputString,
     repOrganizationInputString,
     representativeType,
@@ -23,6 +25,11 @@ const SearchControls = props => {
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
+
+  const showError =
+    locationChanged &&
+    !geolocationInProgress &&
+    (!locationInputString || locationInputString.length === 0);
 
   const handleSearchButtonClick = e => {
     e.preventDefault();
@@ -87,6 +94,16 @@ const SearchControls = props => {
 
   return (
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
+      <VaModal
+        modalTitle={
+          currentQuery.geocodeError === 1
+            ? 'We need to use your location'
+            : "We couldn't locate you"
+        }
+        onCloseEvent={() => clearGeocodeError()}
+        status="warning"
+        visible={currentQuery.geocodeError > 0}
+      />
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h3 style={{ marginBottom: '1em' }}>Search for a representative</h3>
@@ -101,7 +118,12 @@ const SearchControls = props => {
                 <span className="form-required-span">(*Required)</span>
               </label>
             </div>
-
+            {showError && (
+              <span className="usa-input-error-message" role="alert">
+                <span className="sr-only">Error</span>
+                Please fill in a city, state, or postal code.
+              </span>
+            )}
             <input
               id="street-city-state-zip"
               className="vads-u-margin-top--2"

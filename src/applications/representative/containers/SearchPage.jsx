@@ -270,6 +270,7 @@ const SearchPage = props => {
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           clearSearchText={props.clearSearchText}
+          clearGeocodeError={props.clearGeocodeError}
         />
         {renderView()}
       </div>
