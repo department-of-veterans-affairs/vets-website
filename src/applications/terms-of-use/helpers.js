@@ -5,7 +5,7 @@ import {
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 export const parseRedirectUrl = url => {
-  if (url === null) {
+  if (!url) {
     return `${environment.BASE_URL}`;
   }
 
