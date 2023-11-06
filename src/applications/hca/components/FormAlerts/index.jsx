@@ -124,3 +124,17 @@ export const FinancialDisclosureAlert = () => (
     qualifying eligibility factor, VA can’t enroll you.
   </va-alert>
 );
+
+export const DependentSIPWarning = () => (
+  <va-alert
+    status="warning"
+    data-testid="hca-sip-warning"
+    class="vads-u-margin-bottom--4"
+    background-only
+  >
+    <p className="vads-u-margin-y--0">
+      To save your progress, make sure to fill in all the required fields for
+      your dependent.
+    </p>
+  </va-alert>
+);
