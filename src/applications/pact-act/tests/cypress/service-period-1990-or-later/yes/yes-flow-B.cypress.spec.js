@@ -12,7 +12,7 @@ import { ROUTES } from '../../../../constants';
 describe('PACT Act', () => {
   describe('1990 or later -  "Yes" to one question category (Results Screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
-      cy.visit('/pact-act-wizard-test');
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

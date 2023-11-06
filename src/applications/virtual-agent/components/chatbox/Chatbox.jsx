@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
@@ -16,8 +17,11 @@ import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
 // const ONE_MINUTE_IN_MS = 60_000;
 
-function useWebChat(props) {
-  const webchatFramework = useWebChatFramework(props);
+function useWebChat(props, virtualAgentUpgradeWebchat14158) {
+  const webchatFramework = useWebChatFramework(
+    props,
+    virtualAgentUpgradeWebchat14158,
+  );
   const token = useVirtualAgentToken(props);
 
   const loadingStatus = combineLoadingStatus(
@@ -130,8 +134,20 @@ export default function Chatbox(props) {
 }
 
 function App(props) {
+  const { virtualAgentUpgradeWebchat14158 } = useSelector(
+    state => {
+      return {
+        virtualAgentUpgradeWebchat14158:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.virtualAgentUpgradeWebchat14158
+          ],
+      };
+    },
+    state => state.featureToggles,
+  );
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
+    virtualAgentUpgradeWebchat14158,
   );
 
   switch (loadingStatus) {

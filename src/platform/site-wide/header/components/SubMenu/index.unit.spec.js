@@ -1,9 +1,7 @@
-// Node modules.
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-// Relative imports.
 import { SubMenu } from '.';
 
 const menuSections = [
@@ -24,7 +22,6 @@ const menuSections = [
 
 describe('Header <SubMenu>', () => {
   it('renders correctly with a sub menu and fires off updateSubMenu when toggled', () => {
-    // Set up.
     const subMenu = {
       id: 'sub-menu-id',
       menuSections,
@@ -34,7 +31,6 @@ describe('Header <SubMenu>', () => {
       <SubMenu subMenu={subMenu} updateSubMenu={updateSubMenu} />,
     );
 
-    // Assertions.
     expect(wrapper.find('.header-menu-item-button')).to.have.length(1);
     expect(wrapper.find('.header-menu-item-button').text()).includes(
       'Back to menu',
@@ -46,13 +42,10 @@ describe('Header <SubMenu>', () => {
       wrapper.find('li.vads-u-background-color--primary-darker'),
     ).to.have.length(7);
 
-    // Set up.
     wrapper.find('.header-menu-item-button').simulate('click');
 
-    // Assertions.
     expect(updateSubMenu.calledOnce).to.be.true;
 
-    // Clean up.
     wrapper.unmount();
   });
 });
