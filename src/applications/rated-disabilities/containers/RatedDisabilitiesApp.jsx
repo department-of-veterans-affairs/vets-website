@@ -9,6 +9,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
+import AppContent from '../components/AppContent';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 import {
   isLoadingFeatures,
@@ -20,42 +21,37 @@ const RatedDisabilitiesApp = props => {
   const { featureFlagsLoading, ratedDisabilities } = props.ratedDisabilities;
 
   return (
-    <RequiredLoginView
-      serviceRequired={backendServices.USER_PROFILE}
-      user={props.user}
-    >
-      <DowntimeNotification
-        appTitle="Rated Disabilities"
-        dependencies={[
-          externalServices.evss,
-          externalServices.global,
-          externalServices.mvi,
-          externalServices.vaProfile,
-          externalServices.vbms,
-        ]}
+    <div className="vads-u-margin-y--5">
+      <RequiredLoginView
+        serviceRequired={backendServices.USER_PROFILE}
+        user={props.user}
       >
-        {!featureFlagsLoading ? (
-          <RatedDisabilityView
-            detectDiscrepancies={props.detectDiscrepancies}
-            error={props.error}
-            fetchRatedDisabilities={props.fetchRatedDisabilities}
-            fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
-            loading={props.loading}
-            ratedDisabilities={ratedDisabilities}
-            sortToggle={props.sortToggle}
-            totalDisabilityRating={props.totalDisabilityRating}
-            user={props.user}
-          />
-        ) : (
-          <div className="vads-u-margin-y--5">
-            <va-loading-indicator
-              data-testid="feature-flags-loading"
-              message="Loading your information..."
+        <DowntimeNotification
+          appTitle="Rated Disabilities"
+          dependencies={[
+            externalServices.evss,
+            externalServices.global,
+            externalServices.mvi,
+            externalServices.vaProfile,
+            externalServices.vbms,
+          ]}
+        >
+          <AppContent featureFlagsLoading={featureFlagsLoading}>
+            <RatedDisabilityView
+              detectDiscrepancies={props.detectDiscrepancies}
+              error={props.error}
+              fetchRatedDisabilities={props.fetchRatedDisabilities}
+              fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
+              loading={props.loading}
+              ratedDisabilities={ratedDisabilities}
+              sortToggle={props.sortToggle}
+              totalDisabilityRating={props.totalDisabilityRating}
+              user={props.user}
             />
-          </div>
-        )}
-      </DowntimeNotification>
-    </RequiredLoginView>
+          </AppContent>
+        </DowntimeNotification>
+      </RequiredLoginView>
+    </div>
   );
 };
 
