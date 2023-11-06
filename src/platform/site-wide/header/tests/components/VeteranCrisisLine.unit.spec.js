@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { VeteranCrisisLine } from '.';
+import { VeteranCrisisLine } from '../../components/VeteranCrisisLine';
 
 describe('Header <VeteranCrisisLine>', () => {
   it('renders content', () => {
