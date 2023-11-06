@@ -578,7 +578,7 @@ export const serviceRecordsUI = {
     itemName: 'Service period',
     keepInPageOnReview: true,
     useDlWrap: true,
-    genIndvItemHeaders: true,
+    generateIndividualItemHeaders: true,
   },
   items: {
     'ui:order': [

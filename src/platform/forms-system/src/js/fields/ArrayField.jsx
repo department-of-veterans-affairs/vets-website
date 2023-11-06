@@ -12,7 +12,6 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
-import environment from 'platform/utilities/environment';
 import {
   scrollToFirstError,
   focusElement,
@@ -325,7 +324,7 @@ export default class ArrayField extends React.Component {
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
     const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
-    const { genIndvItemHeaders } = uiOptions;
+    const { generateIndividualItemHeaders } = uiOptions;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -395,10 +394,9 @@ export default class ArrayField extends React.Component {
                           New {uiItemName}
                         </h3>
                       ) : null}
-                      {!environment.isProduction() && // MBMS-50892
-                      !isLast &&
+                      {!isLast &&
                       multipleRows &&
-                      genIndvItemHeaders ? (
+                      generateIndividualItemHeaders ? (
                         <h3 className="vads-u-font-size--h5">
                           {uiItemNameOriginal}
                         </h3>
