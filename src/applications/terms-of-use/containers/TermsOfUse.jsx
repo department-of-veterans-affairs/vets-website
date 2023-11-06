@@ -9,6 +9,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
   logout as IAMLogout,
   isAuthenticatedWithOAuth,
+  AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import { parseRedirectUrl, errorMessages, touStyles } from '../helpers';
@@ -21,8 +22,12 @@ export default function TermsOfUse() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const redirectLocation = new URL(window.location);
   const termsCodeExists =
-    new URL(window.location).searchParams.get('terms_code')?.length > 1;
+    redirectLocation.searchParams.get('terms_code')?.length > 1;
+  const redirectUrl =
+    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
+    redirectLocation.searchParams.get('redirect_url');
 
   useEffect(
     () => {
@@ -34,16 +39,22 @@ export default function TermsOfUse() {
           }
         });
       }
+
+      if (redirectUrl) {
+        sessionStorage.setItem(
+          AUTHN_SETTINGS.RETURN_URL,
+          parseRedirectUrl(redirectUrl),
+        );
+      }
     },
-    [termsCodeExists],
+    [termsCodeExists, redirectUrl],
   );
 
   const handleTouClick = async type => {
-    const url = new URL(window.location);
-    const redirectUrl = parseRedirectUrl(url.searchParams.get('redirect_url'));
     const termsCode = termsCodeExists
-      ? `?terms_code=${url.searchParams.get('terms_code')}`
+      ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
       : '';
+
     try {
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${type}${termsCode}`,
