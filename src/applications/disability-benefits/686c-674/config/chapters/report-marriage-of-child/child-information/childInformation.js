@@ -23,7 +23,7 @@ export const uiSchema = {
       'ui:validations': [validateName],
       first: {
         'ui:title': 'First name',
-        'ui:errorMessages': { required: 'Please enter a first name' },
+        'ui:errorMessages': { required: 'Enter a first name' },
         'ui:required': formData =>
           isChapterFieldRequired(
             formData,
@@ -38,7 +38,7 @@ export const uiSchema = {
       },
       last: {
         'ui:title': 'Last name before marriage',
-        'ui:errorMessages': { required: 'Please enter a last name' },
+        'ui:errorMessages': { required: 'Enter a last name' },
         'ui:required': formData =>
           isChapterFieldRequired(
             formData,

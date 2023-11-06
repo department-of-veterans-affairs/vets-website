@@ -27,7 +27,7 @@ const DependentSummary = props => {
 
   const {
     dependents = [],
-    [DEPENDENT_VIEW_FIELDS.report]: reportDependents = null,
+    [DEPENDENT_VIEW_FIELDS.add]: addDependents = null,
   } = data;
   const pageTitle = dependents.length
     ? content['household-dependent-summary-title']
@@ -40,7 +40,7 @@ const DependentSummary = props => {
    *  - fieldData - data value to use for radio group and continue path
    */
   const [error, hasError] = useState(false);
-  const [fieldData, setFieldData] = useState(reportDependents);
+  const [fieldData, setFieldData] = useState(addDependents);
 
   /**
    * declare event handlers
@@ -53,7 +53,7 @@ const DependentSummary = props => {
       setFieldData(value);
       setFormData({
         ...data,
-        [DEPENDENT_VIEW_FIELDS.report]: value,
+        [DEPENDENT_VIEW_FIELDS.add]: value,
         [DEPENDENT_VIEW_FIELDS.skip]: value === false,
       });
       hasError(false);
