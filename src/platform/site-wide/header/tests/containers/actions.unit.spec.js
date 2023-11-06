@@ -1,6 +1,12 @@
 import { expect } from 'chai';
-import { updateExpandedMenuIDAction, updateSubMenuAction } from './actions';
-import { UPDATE_EXPANDED_MENU_ID, UPDATE_SUB_MENU } from './constants';
+import {
+  updateExpandedMenuIDAction,
+  updateSubMenuAction,
+} from '../../containers/Menu/actions';
+import {
+  UPDATE_EXPANDED_MENU_ID,
+  UPDATE_SUB_MENU,
+} from '../../containers/Menu/constants';
 
 describe('Menu actions', () => {
   it('updateExpandedMenuIDAction', () => {
