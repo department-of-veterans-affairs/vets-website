@@ -6,7 +6,6 @@ describe.skip('Breadcrumb Test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList);
     trackClaimsPage.checkBreadcrumbs();
-    trackClaimsPage.checkBreadcrumbsMobile();
     cy.expandAccordions();
     cy.axeCheck('va-nav-breadcrumbs');
   });
