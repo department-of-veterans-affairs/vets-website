@@ -37,8 +37,8 @@ class TrackClaimsPage {
         'You do not have any submitted claims',
       );
     }
-    cy.get('va-breadcrumbs').should('be.visible');
-    cy.get('.va-breadcrumbs-li').should('be.visible');
+    cy.get('va-nav-breadcrumbs').should('be.visible');
+    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
     cy.get('a[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PropTypes from 'prop-types';
 
 class ClaimsBreadcrumbs extends React.Component {
@@ -27,9 +28,7 @@ class ClaimsBreadcrumbs extends React.Component {
 
   render() {
     return (
-      <va-breadcrumbs>
-        {this.renderBreadcrumbs(this.props.children)}
-      </va-breadcrumbs>
+      <Breadcrumbs>{this.renderBreadcrumbs(this.props.children)}</Breadcrumbs>
     );
   }
 }
