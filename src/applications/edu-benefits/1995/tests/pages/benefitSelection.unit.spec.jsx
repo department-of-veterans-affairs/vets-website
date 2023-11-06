@@ -51,6 +51,7 @@ describe('Edu 1995 benefitSelection', () => {
 });
 
 describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
+  const buildType = `${__BUILDTYPE__}`;
   __BUILDTYPE__ = environments.VAGOVPROD;
   const {
     schema,
@@ -67,4 +68,5 @@ describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
     expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
+  __BUILDTYPE__ = buildType;
 });
