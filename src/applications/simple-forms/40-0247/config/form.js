@@ -108,7 +108,7 @@ const formConfig = {
       pages: {
         veteranSupportDocsPage: {
           path: 'veteran-supporting-documentation',
-          title: 'Veteran’s supporting documentation',
+          title: 'Upload documents (preferably DD214)',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',

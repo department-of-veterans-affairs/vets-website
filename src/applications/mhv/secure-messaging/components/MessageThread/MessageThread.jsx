@@ -33,6 +33,16 @@ const MessageThread = props => {
   const messageHistoryRef = useRef([]);
   const viewCountRef = useRef();
 
+  const messageCount = useMemo(
+    () => {
+      if (messageHistory?.length) {
+        return messageHistory.filter(m => m.sentDate !== null).length || 0;
+      }
+      return 0;
+    },
+    [messageHistory],
+  );
+
   // value for screen readers to indicate how many messages are being loaded
   const messagesLoaded = useMemo(
     () => {
@@ -126,61 +136,67 @@ const MessageThread = props => {
         <va-loading-indicator message="Loading message history..." />
       )}
 
-      {messageHistory?.length > 0 &&
-        viewCount && (
-          <section
-            aria-label="Messages in this conversation."
-            className={`older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 ${
-              isForPrint ? 'print' : 'do-not-print'
-            }`}
-          >
-            <h2 className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-              Messages in this conversation
-            </h2>
+      <section
+        aria-label={
+          messageCount > 0 &&
+          `${messageCount} Message${
+            messageCount > 1 ? 's' : ''
+          } in this conversation`
+        }
+        className={`older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 ${
+          isForPrint ? 'print' : 'do-not-print'
+        }`}
+      >
+        <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+          {messageCount > 0 &&
+            `${messageCount} Message${
+              messageCount > 1 ? 's' : ''
+            } in this conversation`}
+        </h2>
+        <VaAccordion ref={accordionRef} bordered>
+          {messageHistory.map((m, i) => {
+            return (
+              i < viewCount && (
+                <MessageThreadItem
+                  open={i === 0}
+                  key={m.messageId}
+                  message={m}
+                  isDraftThread={isDraftThread}
+                  preloaded={m.preloaded}
+                  expanded
+                />
+              )
+            );
+          })}
+        </VaAccordion>
 
-            <VaAccordion ref={accordionRef} bordered>
-              {messageHistory.map((m, i) => {
-                return (
-                  i < viewCount && (
-                    <MessageThreadItem
-                      key={m.messageId}
-                      message={m}
-                      isDraftThread={isDraftThread}
-                      preloaded={m.preloaded}
-                      expanded
-                    />
-                  )
-                );
-              })}
-            </VaAccordion>
-
-            {viewCount < messageHistory?.length && (
-              <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--flex-start">
-                {/* Per design decision it was determined to use a link instead of a button */}
-                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <a
-                  aria-label="Load 5 more messages"
-                  role="button"
-                  tabIndex="0"
-                  onKeyPress={handleKeyPress}
-                  onClick={handleLoadMoreMessages}
-                >
-                  + 5 more messages
-                </a>
-              </div>
-            )}
-            {viewCount > 6 && (
-              <div
-                // announce to screen readers that more messages have been loaded
-                aria-live="polite"
-                role="alert"
-                aria-label={`${messagesLoaded} more message${
-                  messagesLoaded > 1 ? 's are' : ' is'
-                } loaded. Continue to navigate to the next message`}
-              />
-            )}
-          </section>
+        {viewCount < messageHistory?.length && (
+          <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--flex-start">
+            {/* Per design decision it was determined to use a link instead of a button */}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              aria-label="Load 5 more messages"
+              role="button"
+              tabIndex="0"
+              onKeyPress={handleKeyPress}
+              onClick={handleLoadMoreMessages}
+            >
+              + 5 more messages
+            </a>
+          </div>
         )}
+
+        {viewCount > 6 && (
+          <div
+            // announce to screen readers that more messages have been loaded
+            aria-live="polite"
+            role="alert"
+            aria-label={`${messagesLoaded} more message${
+              messagesLoaded > 1 ? 's are' : ' is'
+            } loaded. Continue to navigate to the next message`}
+          />
+        )}
+      </section>
     </>
   );
 };
@@ -189,6 +205,7 @@ MessageThread.propTypes = {
   isDraftThread: PropType.bool,
   isForPrint: PropType.bool,
   messageHistory: PropType.array,
+  replyMessage: PropType.object,
   viewCount: PropType.number,
 };
 

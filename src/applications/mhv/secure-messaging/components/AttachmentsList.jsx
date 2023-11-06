@@ -218,9 +218,9 @@ const AttachmentsList = props => {
           setIsAttachmentRemoved(false);
         }}
         onDelete={() => {
+          setNavigationError();
           setIsModalVisible(false);
           removeAttachment(fileToRemove);
-          setNavigationError(null);
         }}
       />
       {isAttachmentRemoved ? (
