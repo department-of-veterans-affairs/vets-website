@@ -71,14 +71,13 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
   });
-  it.skip('focus on error message for empty message body', () => {
+  it('focus on error message for empty message body', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage.selectCategory();
     composePage.getMessageSubjectField().type('Test Subject', { force: true });
 
-    // lines below not working due to incorrect focusing ???
-    // composePage.pushSendMessageWithKeyboardPress();
-    // composePage.verifyFocusOnErrorEmptyMessageBody();
+    composePage.pushSendMessageWithKeyboardPress();
+    composePage.verifyFocusOnErrorEmptyMessageBody();
 
     cy.get(Locators.BUTTONS.SEND).click();
     composePage.verifyErrorEmptyMessageBody();
