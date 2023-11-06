@@ -9,7 +9,7 @@ import { INSURANCE_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
 // declare shared data & route attrs from the form
-const { providers: INSURANCE_PATHS } = SHARED_PATHS;
+const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
 
 // declare default component
 const InsuranceSummary = props => {
