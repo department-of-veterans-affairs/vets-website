@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
 import CalculateYourBenefitsForm from '../../../components/profile/CalculateYourBenefitsForm';
 
 describe('<CalculateYourBenefitsForm>', () => {
