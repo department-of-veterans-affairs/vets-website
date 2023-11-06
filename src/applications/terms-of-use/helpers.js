@@ -19,9 +19,9 @@ export const parseRedirectUrl = url => {
   ];
 
   const { protocol, hostname } = new URL(parsedUrl);
-  const domain = protocol.includes('http')
-    ? hostname
-    : `${protocol}//${hostname}`;
+  const domain = protocol.includes('vamobile')
+    ? `${protocol}//login-success`
+    : hostname;
 
   if (allowedDomains.includes(domain)) {
     return parsedUrl.includes('mhv-portal-web') &&
