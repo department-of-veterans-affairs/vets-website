@@ -2,7 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { SubMenu } from '.';
+import { SubMenu } from '../../components/SubMenu';
 
 const menuSections = [
   { text: 'Veterans Health Administration', href: 'https://www.va.gov/health' },
@@ -26,6 +26,7 @@ describe('Header <SubMenu>', () => {
       id: 'sub-menu-id',
       menuSections,
     };
+
     const updateSubMenu = sinon.spy();
     const wrapper = shallow(
       <SubMenu subMenu={subMenu} updateSubMenu={updateSubMenu} />,
