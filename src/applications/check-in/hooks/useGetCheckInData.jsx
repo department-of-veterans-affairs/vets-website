@@ -90,7 +90,15 @@ const useGetCheckInData = ({
         }
       });
     },
-    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled, reload],
+    [
+      appointmentsOnly,
+      dispatch,
+      token,
+      isTravelReimbursementEnabled,
+      reload,
+      getTravelPaySent,
+      isTravelLogicEnabled,
+    ],
   );
 
   const setPreCheckInData = useCallback(

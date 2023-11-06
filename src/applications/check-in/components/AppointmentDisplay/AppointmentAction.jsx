@@ -52,7 +52,15 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
+    [
+      appointment,
+      updateError,
+      jumpToPage,
+      token,
+      event,
+      setCheckinComplete,
+      setECheckinStartedCalled,
+    ],
   );
   if (
     appointment.eligibility &&
