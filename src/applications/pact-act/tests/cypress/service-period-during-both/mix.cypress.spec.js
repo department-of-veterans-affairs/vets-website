@@ -26,7 +26,7 @@ import { ROUTES } from '../../../constants';
 describe('PACT Act', () => {
   describe('During both of these time periods - Mixed responses (Results screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
-      cy.visit('/pact-act-wizard-test');
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
