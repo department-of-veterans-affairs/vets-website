@@ -19,6 +19,7 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     );
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+
     cy.tabToElement(`a[href^="${PROFILE_PATHS.PERSONAL_INFORMATION}"`);
 
     cy.realPress('Tab');
