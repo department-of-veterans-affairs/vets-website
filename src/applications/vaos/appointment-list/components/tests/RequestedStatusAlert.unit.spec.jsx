@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 import { Facility } from '../../../tests/mocks/unit-test-helpers';
 
@@ -113,9 +113,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         path: `/requests/${appointment.id}`,
       },
     );
-    await waitFor(() => {
-      expect(screen.baseElement).to.contain('.usa-alert-error');
-    });
+    expect(await screen.baseElement).to.contain('.usa-alert-error');
     expect(screen.baseElement).to.contain.text('You canceled this request');
 
     expect(screen.queryByTestId('review-appointments-link')).to.not.exist;

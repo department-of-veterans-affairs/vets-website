@@ -97,6 +97,17 @@ export default function RequestedStatusAlert({ appointment, facility }) {
 }
 
 RequestedStatusAlert.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    cancelationReason: PropTypes.string,
+  }),
+  facility: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+};
+RequestedStatusAlert.defaultProps = {
+  appointment: {
+    status: 'pending',
+    cancelationReason: '',
+  },
 };
