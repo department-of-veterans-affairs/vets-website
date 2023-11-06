@@ -24,7 +24,7 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaEnableNotificationComponent: true,
     myVaUseExperimental: true,
-    myVaUseExperimentalFrontend: false,
+    myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
     myVaHideNotificationsSection: true,
