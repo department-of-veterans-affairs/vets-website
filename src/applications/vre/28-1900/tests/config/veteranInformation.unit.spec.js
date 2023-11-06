@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { cleanup, fireEvent, render } from '@testing-library/react';
+
 import {
   DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from 'platform/testing/unit/helpers';
+  getFormDOM,
+} from '~/platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -16,21 +16,22 @@ const {
 } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
 describe('Chapter 31 veteran information', () => {
+  afterEach(cleanup);
+
   it('should render', () => {
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
       />,
     );
-    expect(form.find('input').length).to.equal(4);
-    form.unmount();
+    expect(form.container.querySelectorAll('input').length).to.equal(4);
   });
 
   it('should submit with the required fields', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -38,20 +39,39 @@ describe('Chapter 31 veteran information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_veteranInformation_fullName_first', 'John');
-    fillData(form, 'input#root_veteranInformation_fullName_last', 'Doe');
-    changeDropdown(form, '#root_veteranInformation_dobMonth', 1);
-    changeDropdown(form, '#root_veteranInformation_dobDay', 1);
-    fillData(form, 'input#root_veteranInformation_dobYear', 1991);
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
+
+    fireEvent.change(form.getByLabelText(/your first name/i), {
+      target: { value: 'John' },
+    });
+
+    fireEvent.change(form.getByLabelText(/your last name/i), {
+      target: { value: 'Doe' },
+    });
+
+    fireEvent.change(form.getByLabelText(/month/i), {
+      target: { value: '1' },
+    });
+
+    fireEvent.change(form.getByLabelText(/day/i), {
+      target: { value: '1' },
+    });
+
+    fireEvent.change(form.getByLabelText(/year/i), {
+      target: { value: '1991' },
+    });
+
+    expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
+      0,
+    );
+
+    fireEvent.submit(form.container.querySelector('form'));
+
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
   it('should not submit without required fields', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const form = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -59,9 +79,12 @@ describe('Chapter 31 veteran information', () => {
         onSubmit={onSubmit}
       />,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    const formDom = getFormDOM(form);
+    formDom.submitForm();
+    expect(form.container.querySelectorAll('.usa-input-error').length).to.equal(
+      3,
+    );
+
     expect(onSubmit.called).to.be.false;
-    form.unmount();
   });
 });

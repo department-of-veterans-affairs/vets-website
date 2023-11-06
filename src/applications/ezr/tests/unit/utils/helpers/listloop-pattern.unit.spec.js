@@ -14,7 +14,7 @@ describe('ezr list-loop pattern helpers', () => {
         beforeIndex: listRef.slice(0, searchIndex),
         afterIndex: listRef.slice(searchIndex + 1),
       },
-      datakey: 'dependents',
+      dataKey: 'dependents',
       localData: { name: 'Liz' },
       listRef,
       viewFields: {

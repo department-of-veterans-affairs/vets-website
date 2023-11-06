@@ -10,8 +10,9 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 
 import GetFormHelp from '../content/GetFormHelp';
 
-import { FORMAT_READABLE } from '../../shared/constants';
-import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
+import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
+import { getIssuesListItems } from '../../shared/utils/issues';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -31,13 +32,7 @@ export const ConfirmationPage = () => {
   );
 
   const { submission, data } = form;
-  const issues = getSelected(data || []).map((issue, index) => (
-    <li key={index} className="vads-u-margin-bottom--0">
-      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
-        {getIssueName(issue)}
-      </span>
-    </li>
-  ));
+  const issues = data ? getIssuesListItems(data) : [];
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
   const submitDate = moment(submission?.timestamp);
   resetStoredSubTask();
@@ -75,19 +70,9 @@ export const ConfirmationPage = () => {
         ) : null}
 
         {submitDate.isValid() ? (
-          <>
-            <p />
-            <h4 className="vads-u-margin-top--0">Date you filed your claim</h4>
-            <span>{submitDate.format(FORMAT_READABLE)}</span>
-          </>
+          <DateSubmitted submitDate={submitDate} />
         ) : null}
-        <h4>You’ve selected these issues for review</h4>
-        <ul className="vads-u-margin-top--0">{issues}</ul>
-        <va-button
-          class="screen-only"
-          onClick={window.print}
-          text="Print this confirmation"
-        />
+        <IssuesSubmitted issues={issues} />
       </div>
       <h3>What to expect next</h3>
       <p>
