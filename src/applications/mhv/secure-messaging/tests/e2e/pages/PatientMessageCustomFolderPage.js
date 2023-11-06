@@ -206,6 +206,41 @@ class PatientMessageCustomFolderPage {
       .find('[type="button"]')
       .click();
   };
+
+  editFolderButton = () => {
+    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
+  };
+
+  submitEditFolderName = folderName => {
+    cy.get('[name="new-folder-name"]')
+      .should('be.visible')
+      .shadow()
+      .find('[id="inputField"]')
+      .should('be.visible')
+      .type(folderName, { force: true });
+
+    cy.intercept('PUT', `/my_health/v1/messaging/folders/${this.folderId}`, {
+      data: {
+        id: '2556251',
+        type: 'folders',
+        attributes: {
+          folderId: 2556251,
+          name: folderName,
+          count: 0,
+          unreadCount: 0,
+          systemFolder: false,
+        },
+        links: {
+          self:
+            'https://staging-api.va.gov/my_health/v1/messaging/folders/2556251',
+        },
+      },
+    }).as('updatedFolderName');
+
+    cy.get('[text="Save"]')
+      .should('be.visible')
+      .click();
+  };
 }
 
 export default new PatientMessageCustomFolderPage();

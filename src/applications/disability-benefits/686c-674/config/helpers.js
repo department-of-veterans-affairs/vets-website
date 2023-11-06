@@ -31,9 +31,9 @@ export const VaFileNumberMissingAlert = (
       number.
     </p>
     <p className="vads-u-font-size--base">
-      You’ll need to update your personal information. Please call Veterans
-      Benefits Assistance at <va-telephone contact="8008271000" /> between 8:00
-      a.m. and 9:00 p.m. ET Monday through Friday.
+      You’ll need to update your personal information. Call Veterans Benefits
+      Assistance at <va-telephone contact="8008271000" /> between 8:00 a.m. and
+      9:00 p.m. ET Monday through Friday.
     </p>
   </>
 );
@@ -47,11 +47,11 @@ export const ServerErrorAlert = (
       We’re sorry. Something went wrong on our end
     </h2>
     <p className="vads-u-font-size--base">
-      Please refresh this page or check back later. You can also sign out of
-      VA.gov and try signing back into this page.
+      Refresh this page or check back later. You can also sign out of VA.gov and
+      try signing back into this page.
     </p>
     <p className="vads-u-font-size--base">
-      If you get this error again, please call the VA.gov help desk at{' '}
+      If you get this error again, call the VA.gov help desk at{' '}
       <va-telephone contact={CONTACTS.VA_311} /> (
       <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -163,7 +163,7 @@ export const hoursPerWeekUiSchema = {
   'ui:options': {
     widgetClassNames: 'form-select-medium',
   },
-  'ui:errorMessages': { required: 'Please enter a number' },
+  'ui:errorMessages': { required: 'Enter a number' },
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 168) {
@@ -178,7 +178,7 @@ export const classesPerWeekUiSchema = {
   'ui:options': {
     widgetClassNames: 'form-select-medium',
   },
-  'ui:errorMessages': { required: 'Please enter a number' },
+  'ui:errorMessages': { required: 'Enter a number' },
   'ui:validations': [
     (errors, fieldData) => {
       if (fieldData > 999) {

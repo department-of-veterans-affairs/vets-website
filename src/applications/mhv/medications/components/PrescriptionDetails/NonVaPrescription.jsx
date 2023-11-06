@@ -16,8 +16,11 @@ const NonVaPrescription = prescription => {
           </h3>
           <div>{validateField(status)}</div>
           <div className="no-print">
-            <va-additional-info trigger="What does this status mean?">
-              <ul className="non-va-ul">
+            <va-additional-info
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>
                   A VA provider added this medication record in your VA medical
                   records. But this isn’t a prescription you filled through a VA
