@@ -395,7 +395,7 @@ export default class ArrayField extends React.Component {
                           New {uiItemName}
                         </h3>
                       ) : null}
-                      {!environment.isProduction() &&
+                      {!environment.isProduction() && // MBMS-50892
                       !isLast &&
                       multipleRows &&
                       genIndvItemHeaders ? (
