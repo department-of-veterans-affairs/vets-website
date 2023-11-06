@@ -6,7 +6,7 @@
   },
   "thirdPartyPreparerRole": "fiduciary",
   "benefitSelection": {
-    "survivors": true
+    "survivor": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",

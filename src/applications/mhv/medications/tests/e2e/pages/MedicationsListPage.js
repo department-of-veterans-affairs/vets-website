@@ -184,6 +184,10 @@ class MedicationsListPage {
     cy.get(
       ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
     ).should('have.text', 'Not filled yet');
+    cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)').should(
+      'contain',
+      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
+    );
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {
