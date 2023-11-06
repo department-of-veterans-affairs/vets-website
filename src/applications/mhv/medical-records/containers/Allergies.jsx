@@ -112,6 +112,38 @@ const Allergies = props => {
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
+  const generateAllergiesTxt = async () => {
+    const product = `
+    Allergies and reactions \n 
+    Review allergies, reactions, and side effects in your VA medical
+    records. This includes medication side effects (also called adverse drug
+    reactions). \n
+    If you have allergies that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${allergies.length} from newest to oldest. \n
+    ${allergies.map(
+      entry =>
+        `_____________________________________________________ \n
+      ${entry.name} \n
+      \t Date entered: ${entry.date} \n
+      \t Signs and symptoms: ${entry.reaction} \n
+      \t Type of Allergy: ${entry.type} \n
+      \t Location: ${entry.location} \n
+      \t Observed or historical: ${entry.observedOrReported} \n
+      \t Provider notes: ${entry.notes} \n`,
+    )}`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'AllergyList';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
@@ -125,6 +157,7 @@ const Allergies = props => {
             list
             download={generateAllergiesPdf}
             allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateAllergiesTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <RecordList records={allergies} type={recordType.ALLERGIES} />
@@ -137,7 +170,10 @@ const Allergies = props => {
           className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
           data-testid="record-list-item"
         >
-          <h2 className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0">
+          <h2
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
+            data-testid="no-allergy-records"
+          >
             There are no allergies or reactions in your VA medical records.
           </h2>
         </div>

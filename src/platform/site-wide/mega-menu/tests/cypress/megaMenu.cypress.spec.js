@@ -5,7 +5,6 @@
  * @testrailinfo groupId 2975
  * @testrailinfo runName SH-e2e-MegaMenu
  */
-// Relative imports.
 import { mockUser } from 'applications/personalization/profile/tests/fixtures/users/user.js';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 

@@ -32,7 +32,7 @@ const UploadRequirements = ({ formData }) => {
         Upload your documents
       </h3>
       {identity && (
-        <p className="vads-u-font-weight--bold">Please upload the following</p>
+        <p className="vads-u-font-weight--bold">Upload the following</p>
       )}
       <ul>
         {identity &&

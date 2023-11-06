@@ -1,5 +1,6 @@
 import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
 import fortyFiveMinuteTextStLouis from './fortyFiveMinuteText/stLouis.json';
+import fileTravelClaimStLouis from './fileTravelClaim/stLouis.json';
 // import salem from './travelClaim/salem.json';
 
 const devStations = {
@@ -18,6 +19,7 @@ const pilotFeatures = {
     pilotStations: {
       ...devStations,
       ...fileTravelClaimWilkesBarre,
+      ...fileTravelClaimStLouis,
       // Week 1 658
       // ...fileTravelClaimSalem,
       // Week 2 565

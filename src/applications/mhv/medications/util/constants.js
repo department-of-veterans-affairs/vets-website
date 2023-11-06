@@ -24,7 +24,7 @@ export const dispStatusForRefillsLeft = [
   'Active: Parked',
   'Active: On Hold',
   'Active: Submitted',
-  'Active: Refill in process',
+  'Active: Refill in Process',
 ];
 
 export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';

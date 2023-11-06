@@ -285,7 +285,7 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 1200
         env:
           CYPRESS_CI: true

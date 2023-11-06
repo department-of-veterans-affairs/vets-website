@@ -5,7 +5,7 @@ import mockPrescriptionDetails from './fixtures/prescription-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
 describe('Medications Details Page Breadcrumbs', () => {
-  it.skip('visits Medications Details Page Breadcrumbs', () => {
+  it('visits Medications Details Page Breadcrumbs', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
