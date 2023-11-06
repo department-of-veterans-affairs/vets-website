@@ -1,15 +1,12 @@
-// Node modules.
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-
-// Relative imports.
-import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import { apiRequest } from '~/platform/utilities/api';
+import recordEvent from '~/platform/monitoring/record-event';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import SearchDropdownComponent from '~/applications/search/components/SearchDropdown/SearchDropdownComponent';
 import { replaceWithStagingDomain } from '../../../../utilities/environment/stagingDomains';
 
 export const Search = ({ searchDropdownComponentEnabled }) => {
@@ -18,10 +15,8 @@ export const Search = ({ searchDropdownComponentEnabled }) => {
   const onFormSubmit = event => {
     event.preventDefault();
 
-    // Derive the search results page.
     const searchResultsPage = `https://www.va.gov/search/?query=${term}&t=false`;
 
-    // Record the analytic event.
     recordEvent({
       event: 'view_search_results',
       'search-page-path': searchResultsPage,
@@ -38,7 +33,6 @@ export const Search = ({ searchDropdownComponentEnabled }) => {
       'type-ahead-options-count': null,
     });
 
-    // Redirect to the search results page.
     window.location.href = searchResultsPage;
   };
 
@@ -99,7 +93,6 @@ export const Search = ({ searchDropdownComponentEnabled }) => {
       'type-ahead-options-count': validSuggestions.length,
     });
 
-    // create a search url
     const searchUrl = replaceWithStagingDomain(
       `https://www.va.gov/search/?query=${encodeURIComponent(
         inputValue,
@@ -135,7 +128,6 @@ export const Search = ({ searchDropdownComponentEnabled }) => {
       'type-ahead-options-count': validSuggestions.length,
     });
 
-    // create a search url
     const searchUrl = replaceWithStagingDomain(
       `https://www.va.gov/search/?query=${encodeURIComponent(
         validSuggestions[index],
