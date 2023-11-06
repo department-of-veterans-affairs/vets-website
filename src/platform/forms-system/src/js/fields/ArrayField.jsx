@@ -12,6 +12,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
+import environment from 'platform/utilities/environment';
 import {
   scrollToFirstError,
   focusElement,
@@ -394,7 +395,10 @@ export default class ArrayField extends React.Component {
                           New {uiItemName}
                         </h3>
                       ) : null}
-                      {!isLast && multipleRows && genIndvItemHeaders ? (
+                      {!environment.isProduction() &&
+                      !isLast &&
+                      multipleRows &&
+                      genIndvItemHeaders ? (
                         <h3 className="vads-u-font-size--h5">
                           {uiItemNameOriginal}
                         </h3>
