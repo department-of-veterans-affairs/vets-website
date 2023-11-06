@@ -5,7 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
 import formConfig from './config/form';
-import { isVeteran } from './utils/helpers';
+import { isVeteran, isSafari, safariCssChanges } from './utils/helpers';
 
 const veteranLabels = [
   [
@@ -55,11 +55,15 @@ const veteranLabelMap = new Map(veteranLabels);
 const nonVeteranMap = new Map(nonVeteranLabels);
 
 export default function PreNeedApp({ location, children }) {
+  const usingSafari = isSafari();
   const [priorEvent, setPriorEvent] = useState();
   const selectorData = useSelector(state => state.form || {});
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
+      if (usingSafari) {
+        safariCssChanges(location);
+      }
       const hasVeteran = isVeteran(selectorData.data);
       const radios = document.querySelectorAll(
         'input[type="radio"]:not(input[id="root_application_applicant_applicantRelationshipToClaimant_0input"], input[id="root_application_applicant_applicantRelationshipToClaimant_1input"])',
