@@ -1,6 +1,6 @@
 import vapService from '@@vap-svc/reducers';
 import hcaEnrollmentStatus from './hcaEnrollmentStatus';
-import ratedDisabilities from '~/applications/personalization/rated-disabilities/reducers';
+import ratedDisabilities from './rated-disabilities';
 import vaProfile from './vaProfile';
 import communicationPreferences from '../ducks/communicationPreferences';
 import { profileContactsReducer } from './contacts';
