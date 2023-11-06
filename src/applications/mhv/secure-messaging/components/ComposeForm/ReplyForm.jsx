@@ -46,7 +46,6 @@ const ReplyForm = props => {
   const [newDraftId, setNewDraftId] = useState(
     draftToEdit ? draftToEdit.messageId : null,
   );
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [messageInvalid, setMessageInvalid] = useState(false);
@@ -237,8 +236,6 @@ const ReplyForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setUserSaved(true);
-
         await setMessageInvalid(false);
         if (checkMessageValidity()) {
           setLastFocusableElement(e.target);
@@ -482,7 +479,7 @@ const ReplyForm = props => {
                 </section>
               )}
 
-              <DraftSavedInfo userSaved={userSaved} />
+              <DraftSavedInfo />
               <ComposeFormActionButtons
                 onSend={sendMessageHandler}
                 onSaveDraft={(type, e) => saveDraftHandler(type, e)}
