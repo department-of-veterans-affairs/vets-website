@@ -39,5 +39,9 @@ export const cstIncludeDdlBoaLetters = state =>
 export const cstUseNewClaimCards = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstUseNewClaimCards];
 
+// 'cst_use_claim_details_v2'
+export const cstUseClaimDetailsV2 = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseClaimDetailsV2];
+
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;
