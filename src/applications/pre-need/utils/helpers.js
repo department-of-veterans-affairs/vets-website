@@ -76,6 +76,12 @@ export const sponsorDemographicsDescription = (
   </div>
 );
 
+export const sponsorMilitaryDetailsSubHeader = (
+  <div className="sponsorMilitaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+  </div>
+);
+
 export const militaryDetailsSubHeader = (
   <div className="militaryDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Military details</h3>
