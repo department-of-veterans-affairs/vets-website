@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
-// import format from 'date-fns/format';
-// import getUnixTime from 'date-fns/fromUnixTime';
 
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
