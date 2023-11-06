@@ -1,7 +1,6 @@
-// Node modules.
+/* eslint-disable react/button-has-type */
 import React from 'react';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
 export const VeteranCrisisLine = props => (
   <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">

@@ -607,6 +607,19 @@ describe('Authentication Utilities', () => {
         appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
       );
     });
+
+    it('should redirect to the SSOe logout session url with `agreements_declined=true` if provided', () => {
+      setup({ path: nonUsipPath });
+      const params = { [`agreements_declined`]: true };
+      authUtilities.logout({
+        version: API_VERSION,
+        clickedEvent: AUTH_EVENTS.LOGOUT,
+        queryParams: params,
+      });
+      expect(global.window.location).to.eql(
+        appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
+      );
+    });
   });
 
   describe('generateReturnURL', () => {

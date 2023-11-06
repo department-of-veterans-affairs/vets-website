@@ -30,7 +30,7 @@ export const uiSchema = {
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
         'ui:title': 'First name',
-        'ui:errorMessages': { required: 'Please enter a first name' },
+        'ui:errorMessages': { required: 'Enter a first name' },
       },
       middle: {
         'ui:title': 'Middle name',
@@ -45,7 +45,7 @@ export const uiSchema = {
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
         'ui:title': 'Last name',
-        'ui:errorMessages': { required: 'Please enter a last name' },
+        'ui:errorMessages': { required: 'Enter a last name' },
       },
       suffix: {
         'ui:title': 'Suffix',
