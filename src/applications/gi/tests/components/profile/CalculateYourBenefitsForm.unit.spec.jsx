@@ -15,18 +15,4 @@ describe('<CalculateYourBenefitsForm>', () => {
     expect(tree.type()).to.not.equal(null);
     tree.unmount();
   });
-
-  // it('should render', () => {
-  //   const tree = shallow(
-  //     <CalculateYourBenefitsForm
-  //       eligibility={{}}
-  //       inputs={{}}
-  //       displayedInputs={{}}
-  //     />,
-  //   );
-  //   console.log(tree.instance(), "tree")
-  //   tree.find('AccordionItem').first().simulate('click');
-  //   expect(tree.instance().toggleExpanded.calledWith('aboutYourSchool', true)).to.be.true;
-  //   tree.unmount();
-  // });
 });
