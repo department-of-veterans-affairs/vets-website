@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const PrintDownload = props => {
-  const { download, list, allowTxtDownloads } = props;
+  const { download, downloadTxt, list, allowTxtDownloads } = props;
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
@@ -27,7 +27,7 @@ const PrintDownload = props => {
       e.preventDefault();
       document.getElementById(`printButton-${printIndex - 1}`).focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < 1 && e.keyCode === 40) {
+    } else if (printIndex < 2 && e.keyCode === 40) {
       e.preventDefault();
       document.getElementById(`printButton-${printIndex + 1}`).focus();
       setPrintIndex(printIndex + 1);
@@ -79,9 +79,9 @@ const PrintDownload = props => {
               type="button"
               id="printButton-2"
               data-testid="printButton-2"
+              onClick={downloadTxt}
             >
-              Download {list && 'list '}
-              as a text file
+              Download {list ? 'list' : 'page'} as a text file
             </button>
           </li>
         )}
@@ -95,5 +95,6 @@ export default PrintDownload;
 PrintDownload.propTypes = {
   allowTxtDownloads: PropTypes.bool,
   download: PropTypes.any,
+  downloadTxt: PropTypes.any,
   list: PropTypes.any,
 };

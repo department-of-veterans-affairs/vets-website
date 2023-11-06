@@ -1,15 +1,14 @@
 import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
-  contactInformationStepperTitle,
+  survivingDependentContactInformationChapterTitle,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
   preparerIsThirdParty,
   preparerIsVeteran,
-  benefitSelectionTitle,
-  personalInformationStepperTitle,
-  benefitSelectionStepperTitle,
+  survivingDependentPersonalInformationChapterTitle,
+  benefitSelectionChapterTitle,
   initializeFormDataWithPreparerIdentification,
   statementOfTruthFullNamePath,
   getAlertType,
@@ -19,14 +18,16 @@ import {
   getInfoAlertText,
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
+  veteranPersonalInformationChapterTitle,
+  veteranContactInformationChapterTitle,
   getNextStepsTextSecondParagraph,
   getNextStepsLinks,
 } from '../../config/helpers';
 import {
   preparerIdentifications,
   veteranBenefits,
-  survivingDependentBenefits,
   benefitPhrases,
+  survivingDependentBenefits,
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
@@ -43,10 +44,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
   });
 
   it('provides the correct information for a surviving dependent', () => {
@@ -61,10 +71,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the veteran', () => {
@@ -79,10 +98,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Veteran/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Veteran/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Veteran/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the surviving dependent', () => {
@@ -97,10 +125,19 @@ describe('form helper functions', () => {
       true,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Claimant/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Claimant/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Claimant/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides a reasonble default', () => {
@@ -115,10 +152,16 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 });
 
@@ -180,7 +223,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -292,7 +335,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
@@ -346,13 +389,13 @@ describe('confirmation page helper functions', () => {
       };
       const expirationDate = 'expiration-date';
       const alreadySubmittedIntents = {
-        compensation: {
+        [veteranBenefits.COMPENSATION]: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.COMPENSATION,
           status: 'active',
         },
-        pension: {
+        [veteranBenefits.PENSION]: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.PENSION,
@@ -380,11 +423,7 @@ describe('confirmation page helper functions', () => {
 
   describe('next steps', () => {
     describe('One intent selected and filed', () => {
-      [
-        veteranBenefits.COMPENSATION,
-        veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
-      ].forEach(selectedIntent => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
@@ -524,7 +563,7 @@ describe('confirmation page helper functions', () => {
       [
         veteranBenefits.COMPENSATION,
         veteranBenefits.PENSION,
-        survivingDependentBenefits.SURVIVORS,
+        survivingDependentBenefits.SURVIVOR,
       ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {

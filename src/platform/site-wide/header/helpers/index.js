@@ -1,36 +1,28 @@
-// Node modules.
 import * as Sentry from '@sentry/browser';
 import { isArray } from 'lodash';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import recordEvent from '~/platform/monitoring/record-event';
+import { apiRequest } from '~/platform/utilities/api';
+import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
 export const hideLegacyHeader = () => {
-  // Derive the legacy header.
   const legacyHeader = document.getElementById('legacy-header');
 
-  // Escape early if the legacy header doesn't exist.
   if (!legacyHeader) {
     return;
   }
 
-  // Add `vads-u-display--none` to the legacy header if it doesn't already have it.
   if (!legacyHeader.classList.contains('vads-u-display--none')) {
     legacyHeader.classList.add('vads-u-display--none');
   }
 };
 
 export const showLegacyHeader = () => {
-  // Derive the legacy header.
   const legacyHeader = document.getElementById('legacy-header');
 
-  // Escape early if the legacy header doesn't exist.
   if (!legacyHeader) {
     return;
   }
 
-  // Add `vads-u-display--none` to the legacy header if it doesn't already have it.
   if (legacyHeader.classList.contains('vads-u-display--none')) {
     legacyHeader.classList.remove('vads-u-display--none');
   }
@@ -90,7 +82,6 @@ export const onSearch = componentState => {
     'type-ahead-options-count': validSuggestions?.length,
   });
 
-  // create a search url
   const searchUrl = replaceWithStagingDomain(
     `https://www.va.gov/search/?query=${encodeURIComponent(
       searchTerm,
@@ -126,7 +117,6 @@ export const onSuggestionSubmit = (index, componentState) => {
     'type-ahead-options-count': validSuggestions?.length,
   });
 
-  // create a search url
   const searchUrl = replaceWithStagingDomain(
     `https://www.va.gov/search/?query=${encodeURIComponent(
       validSuggestions?.[index],
@@ -140,12 +130,10 @@ export const onSuggestionSubmit = (index, componentState) => {
 export const formatMenuItems = menuItems => {
   const formattedMenuItems = [];
 
-  // Escape early if menu sections is already an array.
   if (menuItems && isArray(menuItems)) {
     return menuItems;
   }
 
-  // Add seeAllLink first.
   if (menuItems?.seeAllLink) {
     formattedMenuItems.push({
       title: menuItems?.seeAllLink?.text,
@@ -153,7 +141,6 @@ export const formatMenuItems = menuItems => {
     });
   }
 
-  // Add columns as items.
   if (menuItems?.mainColumn) {
     formattedMenuItems.push({
       title: menuItems?.mainColumn?.title,

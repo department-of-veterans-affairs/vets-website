@@ -46,7 +46,7 @@ NavCard.propTypes = {
   ]),
   links: PropTypes.arrayOf(
     PropTypes.shape({
-      text: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
       href: PropTypes.string,
     }),
   ),

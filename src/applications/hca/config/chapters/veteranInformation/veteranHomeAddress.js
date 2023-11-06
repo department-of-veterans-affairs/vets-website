@@ -11,6 +11,8 @@ import { ShortFormAlert } from '../../../components/FormAlerts';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
+const { veteranHomeAddress: address } = fullSchemaHca.properties;
+
 export default {
   uiSchema: {
     'view:homeAddressShortFormMessage': {
@@ -52,27 +54,18 @@ export default {
     properties: {
       'view:homeAddressShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
-      veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
-        properties: {
-          street: {
-            minLength: 1,
-            maxLength: 30,
-          },
-          street2: {
-            minLength: 1,
-            maxLength: 30,
-          },
-          street3: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 30,
-          },
-          city: {
-            minLength: 1,
-            maxLength: 30,
+      veteranHomeAddress: merge(
+        {},
+        addressSchema({ definitions: { address } }, true),
+        {
+          properties: {
+            city: {
+              minLength: 1,
+              maxLength: 30,
+            },
           },
         },
-      }),
+      ),
     },
   },
 };

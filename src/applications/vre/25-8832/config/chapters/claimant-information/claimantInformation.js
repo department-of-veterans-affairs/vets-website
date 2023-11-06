@@ -46,7 +46,7 @@ export const uiSchema = {
       hideEmptyValueInReview: true,
     },
     'ui:errorMessages': {
-      pattern: 'Please enter a valid VA file number',
+      pattern: 'Enter a valid VA file number',
     },
   },
   dateOfBirth: merge(currentOrPastDateUI('Date of birth'), {
