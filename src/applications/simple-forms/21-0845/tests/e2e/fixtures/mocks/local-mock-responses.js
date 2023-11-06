@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 // use this file to mock api responses for local development
 // yarn mock-api --responses ./src/applications/simple-forms/21-0845/tests/e2e/fixtures/mocks/local-mock-responses.js
+const mockSubmit = require('../../../../../shared/tests/e2e/fixtures/mocks/application-submit.json');
+
 const responses = {
   'GET /v0/user': {
     data: {
@@ -92,6 +94,8 @@ const responses = {
       ],
     },
   },
+
+  'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 
 module.exports = responses;
