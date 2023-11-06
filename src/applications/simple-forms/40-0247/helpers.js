@@ -11,13 +11,6 @@ export function getInitialData({ mockData, environment }) {
     : undefined;
 }
 
-export const wipContent = {
-  description:
-    'We’re rolling out the Presidential Memorial Certificate Request (VA Form 40-0247) in stages. It’s not quite ready yet. Please check back again soon.',
-  redirectLink: '/',
-  redirectText: 'Return to VA home page',
-};
-
 export const supportingDocsDescription = (
   <>
     <p>
