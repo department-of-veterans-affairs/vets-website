@@ -27,6 +27,7 @@ class ClaimsBreadcrumbs extends React.Component {
 
   render() {
     return (
+      // Note: not using uswds option here because react-router Links are not compatible currently
       <va-breadcrumbs>
         {this.renderBreadcrumbs(this.props.children)}
       </va-breadcrumbs>

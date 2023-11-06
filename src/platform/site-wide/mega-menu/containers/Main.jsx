@@ -1,10 +1,7 @@
-// Node modules.
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-// Relative imports.
 import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
@@ -60,7 +57,6 @@ export class Main extends Component {
     toggleMobileDisplayHidden: PropTypes.func.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     updateCurrentSection: PropTypes.func.isRequired,
-    // From mapStateToProps.
     currentDropdown: PropTypes.string,
     currentSection: PropTypes.string,
     data: PropTypes.arrayOf(

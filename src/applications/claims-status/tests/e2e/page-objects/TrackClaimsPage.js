@@ -27,6 +27,7 @@ class TrackClaimsPage {
       'eq',
       'Check your claim, decision review, or appeal status | Veterans Affairs',
     );
+
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
         'be.visible',
@@ -37,11 +38,10 @@ class TrackClaimsPage {
         'You do not have any submitted claims',
       );
     }
+
     cy.get('va-breadcrumbs').should('be.visible');
-    cy.get('va-breadcrumbs  > :nth-child(2)').should('be.visible');
-    cy.get('va-breadcrumbs > :nth-child(2) a[aria-current="page"').should(
-      'be.visible',
-    );
+    cy.get('.va-breadcrumbs-li').should('be.visible');
+    cy.get('a[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
