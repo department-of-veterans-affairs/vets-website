@@ -37,6 +37,16 @@ describe('Utils', () => {
           emergencyContactUpToDate: false,
         });
       });
+      it('returns an object with the correct key value pairs with empty object', () => {
+        const patientDemographicsStatus = {};
+        expect(
+          getDemographicsStatuses(patientDemographicsStatus),
+        ).to.deep.equal({
+          demographicsUpToDate: false,
+          nextOfKinUpToDate: false,
+          emergencyContactUpToDate: false,
+        });
+      });
     });
   });
 });

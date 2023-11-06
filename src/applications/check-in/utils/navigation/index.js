@@ -19,13 +19,13 @@ const updateFormPages = (
     emergencyContactUpToDate,
   } = getDemographicsStatuses(patientDemographicsStatus);
 
-  if (!demographicsUpToDate) {
+  if (demographicsUpToDate) {
     skippedPages.push(URLS.DEMOGRAPHICS);
   }
-  if (!nextOfKinUpToDate) {
+  if (nextOfKinUpToDate) {
     skippedPages.push(URLS.NEXT_OF_KIN);
   }
-  if (!emergencyContactUpToDate) {
+  if (emergencyContactUpToDate) {
     skippedPages.push(URLS.EMERGENCY_CONTACT);
   }
 
