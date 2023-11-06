@@ -56,7 +56,7 @@ if (TESTS_BLOCKING_MERGE.length > 0) {
       title: `${mergeCheckType} Allow List Merge Blocked`,
       message: `*MERGE BLOCK NOTICE* This PR contains changes related to this test spec which has been disabled for flakiness.
                 \n As of Nov 6th, 2023, merging is blocked for PRs in products that have flaky Unit/E2E tests associated with them.
-                \n Please resolve these tests to remvoe this blocker.
+                \n Please resolve these tests to remove this blocker.
                 \n More information is available at: https://depo-platform-documentation.scrollhelp.site/developer-docs/test-stability-review.`,
       annotation_level: 'failure',
     };
