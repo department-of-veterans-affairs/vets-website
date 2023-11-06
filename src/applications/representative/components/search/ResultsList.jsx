@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 // import DelayedRender from 'platform/utilities/ui/DelayedRender';
-import DelayedRender from '@department-of-veterans-affairs/platform-utilities/ui/DelayedRender';
+// import DelayedRender from '@department-of-veterans-affairs/platform-utilities/ui/DelayedRender';
 import { representativeTypes, sortOptions } from '../../config';
 // import { Error } from '../../constants';
 
@@ -90,24 +90,6 @@ const ResultsList = props => {
   };
 
   // const currentPage = pagination ? pagination.currentPage : 1;
-  if (inProgress) {
-    return (
-      <div>
-        {/* <va-loading-indicator
-          message={`Searching for ${representativeTypeName} in ${locationInputString}`}
-        /> */}
-        <DelayedRender>
-          <va-alert visible status="info">
-            <h3 slot="headline">Please wait</h3>
-            <p>
-              Your results should appear in less than a minute. Thank you for
-              your patience.
-            </p>
-          </va-alert>
-        </DelayedRender>
-      </div>
-    );
-  }
 
   // if (searchError) {
   //   if (searchError.type === 'mapBox') {

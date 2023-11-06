@@ -142,6 +142,14 @@ const SearchPage = props => {
       );
     };
 
+    if (currentQuery.inProgress) {
+      return (
+        <div>
+          <va-loading-indicator message="Search in progress" />
+        </div>
+      );
+    }
+
     return (
       <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
