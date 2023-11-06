@@ -20,7 +20,7 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
         'ui:title': 'Spouse’s first name',
-        'ui:errorMessages': { required: 'Please enter a first name' },
+        'ui:errorMessages': { required: 'Enter a first name' },
       },
       middle: {
         'ui:title': 'Spouse’s middle name',
@@ -32,7 +32,7 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
         'ui:title': 'Spouse’s last name',
-        'ui:errorMessages': { required: 'Please enter a last name' },
+        'ui:errorMessages': { required: 'Enter a last name' },
       },
       suffix: {
         'ui:title': 'Spouse’s suffix',
@@ -68,7 +68,7 @@ export const uiSchema = {
     },
     serviceNumber: {
       'ui:title': 'Spouse’s service number',
-      'ui:errorMessages': { pattern: 'Please enter a valid Service Number' },
+      'ui:errorMessages': { pattern: 'Enter a valid Service Number' },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         expandUnder: 'isVeteran',
