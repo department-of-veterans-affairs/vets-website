@@ -65,3 +65,14 @@ export const updateFormAction = ({
     },
   };
 };
+
+export const ADDITIONAL_CONTEXT = 'ADDITIONAL_CONTEXT';
+
+export const additionalContext = ({ setECheckinStartedCalled }) => {
+  return {
+    type: ADDITIONAL_CONTEXT,
+    payload: {
+      context: { setECheckinStartedCalled },
+    },
+  };
+};
