@@ -1,4 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
+import get from 'platform/utilities/data/get';
 
 import {
   fullNameSchema,
@@ -13,6 +14,10 @@ import {
   phoneUI,
   dateOfBirthSchema,
   dateOfBirthUI,
+  dateOfDeathSchema,
+  dateOfDeathUI,
+  yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -128,16 +133,31 @@ const formConfig = {
           },
         },
         page6: {
+          // TODO:
+          // - verify that date of death is not before date of birth
           path: 'sponsor-dob',
-          title: 'Sponsor Date of Birth',
-          uiSchema: {
-            sponsorDOB: dateOfBirthUI(),
-          },
+          title: 'Sponsor Dates',
           schema: {
             type: 'object',
-            required: ['sponsorDOB'],
+            required: ['sponsorDOB', 'sponsorIsDeceased'],
             properties: {
               sponsorDOB: dateOfBirthSchema,
+              sponsorIsDeceased: yesNoSchema,
+              sponsorDOD: dateOfDeathSchema,
+            },
+          },
+          uiSchema: {
+            sponsorDOB: dateOfBirthUI(),
+            sponsorIsDeceased: yesNoUI({
+              title: 'Is the Veteran deceased?',
+              description: 'Select one',
+            }),
+            sponsorDOD: {
+              ...dateOfDeathUI(),
+              'ui:options': {
+                hideIf: formData => !get('sponsorIsDeceased', formData),
+              },
+              'ui:required': formData => formData.sponsorIsDeceased,
             },
           },
         },
