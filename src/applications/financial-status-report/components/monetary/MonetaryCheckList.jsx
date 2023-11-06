@@ -104,7 +104,7 @@ const MonetaryCheckList = ({
     >
       <fieldset>
         {reviewDepends ? (
-          <ReviewPageNavigationAlert data={data} title="household income" />
+          <ReviewPageNavigationAlert data={data} title="household assets" />
         ) : null}
         <Checklist
           title={title}

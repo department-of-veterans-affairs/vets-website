@@ -56,7 +56,6 @@ const DependentCount = ({
             ...data?.personalData,
             dependents: [],
           },
-          reviewNavigation: false,
         });
       } else {
         setFormData({
@@ -77,6 +76,11 @@ const DependentCount = ({
         if (error) return;
         // head to review page if nav is true, and there are no dependents to get ages for
         if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+          // Don't forget to disable reviewNav!
+          setFormData({
+            ...data,
+            reviewNavigation: false,
+          });
           goToPath('/review-and-submit');
         } else {
           goForward(data);
