@@ -1,4 +1,9 @@
 import environment from 'platform/utilities/environment';
+import environments from 'site/constants/environments';
+
+export const isProductionOfTestProdEnv = () => {
+  return environment.isProduction() || __BUILDTYPE__ === environments.VAGOVPROD;
+};
 
 export const buildSubmitEventData = formData => {
   const yesNoOrUndefined = value => {

@@ -9,6 +9,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import environments from 'site/constants/environments';
 import formConfig from '../../config/form';
 
 describe('Edu 1995 benefitSelection', () => {
@@ -46,5 +47,24 @@ describe('Edu 1995 benefitSelection', () => {
     submitForm(form);
 
     expect(onSubmit.called).to.be.true;
+  });
+});
+
+describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
+  __BUILDTYPE__ = environments.VAGOVPROD;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.benefitSelection.pages.benefitSelection;
+  it('renders the correct amount of options for the benefit selection radio button', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
+    );
+    expect(form.find('input').length).to.equal(5);
+    form.unmount();
   });
 });
