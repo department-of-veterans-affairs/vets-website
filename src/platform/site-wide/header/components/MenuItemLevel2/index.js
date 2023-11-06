@@ -35,8 +35,10 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
   };
 
   return (
-    <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
-      {/* Raw title */}
+    <li
+      className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+      data-e2e-id={item?.title?.replaceAll(' ', '-')}
+    >
       {!item?.links &&
         !item?.href && (
           <span className="vads-u-display--flex vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full">
@@ -48,6 +50,10 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
         item?.href && (
           <a
             className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full"
+            data-e2e-id={item?.title
+              ?.replaceAll(' ', '-')
+              ?.replaceAll(/[{(,&)}]/g, '')
+              .toLowerCase()}
             href={item?.href}
           >
             {item?.title}
@@ -57,6 +63,7 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
       {item?.links && (
         <button
           className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
+          data-e2e-id={menuItemID}
           id={menuItemID}
           onClick={toggleShowItems(item?.title)}
           type="button"
