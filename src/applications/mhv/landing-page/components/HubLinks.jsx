@@ -13,7 +13,7 @@ const HubSection = ({ section, title, links }) => {
           recordEvent({
             event: 'mhv-link-click',
             'link-title': l.text,
-            'link-group': section,
+            'link-group': title,
             'link-hostname': new URL(l.href).hostname,
           })
         }
@@ -53,7 +53,6 @@ HubSection.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
   ),
-  section: PropTypes.string,
   title: PropTypes.string,
 };
 
