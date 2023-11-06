@@ -16,7 +16,7 @@ const App = ({ formEnabled }) => {
         <p>You can apply for a PMC in any of these 5 ways.</p>
         <h3>Option 1: Apply online</h3>
         <a
-          className="vads-c-action-link--blue"
+          className="vads-c-action-link--green"
           href="/burials-memorials/memorial-items/presidential-memorial-certificates/request-certificate-form-40-0247"
         >
           Apply for a PMC online
@@ -36,7 +36,7 @@ const App = ({ formEnabled }) => {
           Mail your application, along with copies of the Veteran’s death
           certificate and DD214 or other discharge documents, to this address:
         </p>
-        <p>
+        <p className="va-address-block">
           NCA FP Evidence Intake Center
           <br />
           PO Box 5237
@@ -69,7 +69,7 @@ const App = ({ formEnabled }) => {
           the AccessVA website using the QuickSubmit tool.
         </p>
         <p>
-          If it’s your first time signing into this tool, you’ll need to
+          If it’s your first time signing in to this tool, you’ll need to
           register first. After you’ve registered, you can upload your
           application and documents online.
         </p>
@@ -94,6 +94,7 @@ const App = ({ formEnabled }) => {
 
   return (
     <>
+      <p>You can apply for a PMC in any of these 4 ways.</p>
       <h3>Option 1: Upload your application</h3>
       <p>
         First, complete the Presidential Memorial Certificate Request Form (VA
@@ -110,7 +111,7 @@ const App = ({ formEnabled }) => {
         AccessVA website using the QuickSubmit tool.
       </p>
       <p>
-        If it’s your first time signing into this tool, you’ll need to register
+        If it’s your first time signing in to this tool, you’ll need to register
         first. After you’ve registered, you can upload your application and
         documents online.
       </p>
@@ -135,7 +136,7 @@ const App = ({ formEnabled }) => {
         Mail your application, along with copies of the Veteran’s death
         certificate and DD214 or other discharge documents, to this address:
       </p>
-      <p>
+      <p className="va-address-block">
         NCA FP Evidence Intake Center
         <br />
         PO Box 5237
