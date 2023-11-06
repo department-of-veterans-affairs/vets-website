@@ -1,11 +1,17 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import { merge, pick } from 'lodash';
-import { veteranUI } from '../../utils/helpers';
+import {
+  sponsorDemographicsDescription,
+  sponsorDemographicsSubHeader,
+  veteranUI,
+} from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
+  'ui:title': sponsorDemographicsSubHeader,
+  'ui:description': sponsorDemographicsDescription,
   application: {
     veteran: merge({}, veteranUI, {
       gender: {

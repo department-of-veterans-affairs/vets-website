@@ -9,11 +9,13 @@ import {
   sponsorMilitaryStatusDescription,
   veteranUI,
   ssnDashesUI,
+  sponsorDetailsSubHeader,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
+  'ui:title': sponsorDetailsSubHeader,
   'ui:description': applicantDescription,
   application: {
     veteran: merge({}, veteranUI, {

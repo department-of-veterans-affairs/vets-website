@@ -54,6 +54,28 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
+export const sponsorDetailsSubHeader = (
+  <div className="sponsorDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+  </div>
+);
+
+export const sponsorDemographicsSubHeader = (
+  <div className="sponsorDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+  </div>
+);
+
+export const sponsorDemographicsDescription = (
+  <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+);
+
 export const militaryDetailsSubHeader = (
   <div className="militaryDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Military details</h3>
