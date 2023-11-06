@@ -1,3 +1,4 @@
+export const ROOT = '/pact-act-eligibility';
 export const START_LINK = 'paw-start-form';
 
 export const SERVICE_PERIOD_INPUT = 'paw-servicePeriod';
@@ -29,8 +30,7 @@ export const clickStart = () =>
     .should('be.visible')
     .click();
 
-export const verifyUrl = link =>
-  cy.url().should('contain', `/pact-act-wizard-test/${link}`);
+export const verifyUrl = link => cy.url().should('contain', `${ROOT}/${link}`);
 
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
@@ -91,7 +91,7 @@ export const verifyFormErrorNotShownCheckBox = selector =>
   cy
     .findByTestId(selector)
     .get('span[role="alert"]')
-    .should('not.exist');
+    .should('not.be.visible');
 
 export const checkFormAlertText = (selector, expectedValue) =>
   cy
