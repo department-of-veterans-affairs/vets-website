@@ -482,13 +482,13 @@ const formConfig = {
             },
           }
         : {
-            sponserDetails: {
+            sponsorDetails: {
               path: 'sponsor-detials',
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorDetails.uiSchema,
               schema: sponsorDetails.schema,
             },
-            sponserDemographics: {
+            sponsorDemographics: {
               path: 'sponsor-demographics',
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorDemographics.uiSchema,
