@@ -11,27 +11,28 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 
 const langAssistanceLabel = 'Language assistance';
 
+export const languageLinks = [
+  {
+    label: 'Español',
+    lang: 'es',
+    href: '/asistencia-y-recursos-en-espanol',
+  },
+  {
+    label: 'Tagalog',
+    lang: 'tl',
+    href: '/tagalog-wika-mapagkukunan-at-tulong',
+  },
+  {
+    label: 'Other languages',
+    lang: 'en',
+    href: '/resources/how-to-get-free-language-assistance-from-va/',
+  },
+];
+
 function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
     <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
-      {[
-        {
-          label: 'Español',
-          lang: 'es',
-          href: 'https://www.va.gov/asistencia-y-recursos-en-espanol',
-        },
-        {
-          label: 'Tagalog',
-          lang: 'tl',
-          href: 'https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong',
-        },
-        {
-          label: 'Other languages',
-          lang: 'en',
-          href:
-            'https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/',
-        },
-      ].map((link, i) => (
+      {languageLinks.map((link, i) => (
         <li key={i}>
           <a
             href={replaceWithStagingDomain(link.href)}

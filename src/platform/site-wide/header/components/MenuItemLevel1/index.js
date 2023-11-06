@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import MenuItemLevel2 from '../MenuItemLevel2';
 import recordEvent from '~/platform/monitoring/record-event';
+import MenuItemLevel2 from '../MenuItemLevel2';
 import { deriveMenuItemID, formatMenuItems } from '../../helpers';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
@@ -62,6 +62,7 @@ export const MenuItemLevel1 = ({
           <button
             aria-expanded={isExpanded ? 'true' : 'false'}
             className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
+            data-e2e-id={menuItemID}
             id={menuItemID}
             onClick={toggleShowItems(item?.title)}
             type="button"
