@@ -1,11 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Header } from '.';
+import Header from '../../components/Header';
 
 describe('Header <Header>', () => {
   const renderHeader = () => shallow(<Header showMegaMenu showNavLogin />);
-
   let wrapper;
 
   beforeEach(() => {

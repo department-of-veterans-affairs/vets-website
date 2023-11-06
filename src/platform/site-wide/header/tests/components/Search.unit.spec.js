@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Search } from '.';
+import { Search } from '../../components/Search';
 
 describe('Header <Search>', () => {
   it('renders correct content with no props', () => {
