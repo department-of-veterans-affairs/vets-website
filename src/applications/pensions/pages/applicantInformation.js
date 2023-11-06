@@ -9,6 +9,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
 
 const {
   veteranFullName,
@@ -21,6 +22,12 @@ const {
 export default {
   uiSchema: {
     'ui:description': applicantDescription,
+    'view:warningAlert': {
+      'ui:description': UnauthenticatedWarningAlert,
+      'ui:options': {
+        hideIf: formData => formData.isLoggedIn,
+      },
+    },
     veteranFullName: fullNameUI,
     veteranSocialSecurityNumber: {
       ...ssnUI,
@@ -51,6 +58,10 @@ export default {
       'veteranDateOfBirth',
     ],
     properties: {
+      'view:warningAlert': {
+        type: 'object',
+        properties: {},
+      },
       veteranFullName,
       veteranSocialSecurityNumber,
       vaClaimsHistory: yesNoSchema,
