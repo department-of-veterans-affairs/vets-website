@@ -65,7 +65,7 @@ describe('TermsOfUse', () => {
     );
 
     await waitFor(() => {
-      expect($$('va-button', container).length).to.eql(4);
+      expect($$('va-button', container).length).to.eql(2);
     });
   });
   it('should NOT display buttons if URL comes back as a 401', async () => {
