@@ -460,7 +460,7 @@ describe('Schemaform <ArrayField>', () => {
   });
 });
 
-describe('should handle genIndvItemHeaders boolean', () => {
+describe('should handle generateIndividualItemHeaders boolean', () => {
   let tree;
   let errorSchema;
   let onChange;
@@ -486,7 +486,7 @@ describe('should handle genIndvItemHeaders boolean', () => {
       'ui:title': 'List of things',
       'ui:options': {
         viewField: f => f,
-        genIndvItemHeaders: true,
+        generateIndividualItemHeaders: true,
       },
     };
     const formData = [{}, {}];
@@ -508,7 +508,7 @@ describe('should handle genIndvItemHeaders boolean', () => {
       />,
     );
   });
-  it('add with genIndvItemHeadersgenIndvItemHeaders true', () => {
+  it('add with generateIndividualItemHeaders true', () => {
     expect(tree.everySubTree('SchemaField').length).to.equal(1);
 
     tree.getMountedInstance().handleAdd();
