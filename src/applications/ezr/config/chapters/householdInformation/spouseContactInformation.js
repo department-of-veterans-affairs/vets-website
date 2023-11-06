@@ -22,11 +22,9 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      spouseAddress: merge(
-        {},
-        addressSchema({ omit: ['isMilitary'] }),
-        schemaOverride,
-      ),
+      spouseAddress: merge({}, addressSchema({ omit: ['isMilitary'] }), {
+        properties: schemaOverride,
+      }),
       spousePhone,
     },
   },

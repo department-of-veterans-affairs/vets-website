@@ -49,8 +49,8 @@ class IntroductionPage extends React.Component {
             </h2>
             <p className="vads-u-font-size--base">
               We’re rolling out the Form 21-686c (Application to add and/or
-              remove dependents) in stages. It’s not quite ready yet. Please
-              check back again soon.{' '}
+              remove dependents) in stages. It’s not quite ready yet. Check back
+              again soon.{' '}
             </p>
             <a
               href="/view-change-dependents/"
