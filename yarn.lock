@@ -2764,13 +2764,11 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^31.0.0":
+"@department-of-veterans-affairs/component-library@file:../component-library/packages/core":
   version "31.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-31.0.0.tgz#abe2be90f71d8328fa17174907595ebd814faa19"
-  integrity sha512-HkLjzueZ8jhJgbrS5FN/bw7GXraz+dehvYcFzy+sj1uGo1MabKT+yd/kbPxAgeVeadPEZBbbgkxEfZDl4Nh9zA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "25.0.0"
-    "@department-of-veterans-affairs/web-components" "4.46.3"
+    "@department-of-veterans-affairs/react-components" "workspace:*"
+    "@department-of-veterans-affairs/web-components" "workspace:*"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2788,10 +2786,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.9":
-  version "7.0.9"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.9.tgz#2a18c435f8527081d5354629a1a2f203c1f3d910"
-  integrity sha512-U72RcNsRYGC5IAo59m7QxItLXf0IPm2TdH7Oe6Z8SuSjd1RtlbLIPuEGEkMuEj6SjCROsVAyX2P24YshUJ6Sgg==
+"@department-of-veterans-affairs/formation@7.1.0-color-beta":
+  version "7.1.0-color-beta"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.1.0-color-beta.tgz#d833638a1ada8e7519f5d4e50443aa77a57a5b5d"
+  integrity sha512-kIwN4bLs/6CMRCnm1IX3hpeK/moyVNttAN2MA8sR1T/Otb1Bx9nUtwytH2d8neS7A1HYz8OiZ76ONyYY0HHa1g==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2807,7 +2805,7 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@25.0.0":
+"@department-of-veterans-affairs/react-components@workspace:*":
   version "25.0.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-25.0.0.tgz#9c5330869c7abdebe99cac5476a7f469bd920fd8"
   integrity sha512-xArlOaMd5fPuEpc4b/g7gJfJoObG2JkOscH2Adi6m6gauXbtGXbQGEu3amKVsZEvpM5biy3Ga/aL3SA3DMO9iw==
@@ -2848,7 +2846,7 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.46.3":
+"@department-of-veterans-affairs/web-components@workspace:*":
   version "4.46.3"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.46.3.tgz#2b3a2da86349b4061cf4c93ff9ea28338d2220f2"
   integrity sha512-TSz6/5stHVUL1FYOsyh20axkYx7kFGqhjQEtIo2x+hoGolEXZL1hCK/jofwyKvgRNvgkW4rnvjh9TKfL4JAR8Q==
