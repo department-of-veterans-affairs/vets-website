@@ -2,7 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { MenuItemLevel1 } from '.';
+import { MenuItemLevel1 } from '../../components/MenuItemLevel1';
 
 describe('Header <MenuItemLevel1>', () => {
   it('renders an item with no children', () => {
@@ -26,6 +26,7 @@ describe('Header <MenuItemLevel1>', () => {
       menuSections: [{ title: 'random title', href: 'https://example.com' }],
       title: 'example',
     };
+
     const wrapper = shallow(
       <MenuItemLevel1
         expandedMenuID="example--1"
@@ -57,6 +58,7 @@ describe('Header <MenuItemLevel1>', () => {
       menuSections: [{ title: 'random title', href: 'https://example.com' }],
       title: 'example',
     };
+
     const wrapper = shallow(
       <MenuItemLevel1
         expandedMenuID="some-other-expanded-menu--1"

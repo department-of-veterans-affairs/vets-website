@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Menu } from '.';
+import { Menu } from '../../containers/Menu';
 
 describe('Header <Menu>', () => {
   it('does not render when isMenuOpen is falsey', () => {
@@ -36,6 +36,7 @@ describe('Header <Menu>', () => {
   it('renders nav with megamenu data when subMenu and showMegaMenu is truthy', () => {
     const wrapper = shallow(<Menu isMenuOpen showMegaMenu />);
 
+    expect(wrapper.find('Connect(SubMenu)')).to.have.length(0);
     expect(
       wrapper.find('div.vads-u-background-color--gray-lightest'),
     ).to.have.length(1);
@@ -53,6 +54,7 @@ describe('Header <Menu>', () => {
         title: 'Find a VA Location',
       },
     ];
+
     const wrapper = shallow(
       <Menu isMenuOpen showMegaMenu megaMenuData={megaMenuData} />,
     );
