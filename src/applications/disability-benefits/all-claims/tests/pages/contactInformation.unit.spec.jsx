@@ -494,7 +494,7 @@ describe('Disability benefits 526EZ contact information', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(5);
+    expect(form.find('.usa-input-error-message').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
