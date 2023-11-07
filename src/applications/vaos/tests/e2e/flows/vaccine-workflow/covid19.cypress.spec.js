@@ -8,11 +8,13 @@ import {
   mockAppointmentApi,
   mockAppointmentCreateApi,
   mockAppointmentsApi,
+  mockClinicApi,
   mockClinicsApi,
   mockFacilitiesApi,
   mockFacilityApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
+  mockSlotsApi,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
@@ -30,6 +32,7 @@ import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactFacilityPageObject from '../../page-objects/ContactFacilityPageObject';
 import { MockFacility } from '../../fixtures/MockFacility';
+import { MockSlot } from '../../fixtures/MockSlot';
 
 describe('VAOS covid-19 vaccine flow', () => {
   beforeEach(() => {
@@ -47,7 +50,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         attributes: { ...appt.attributes, clinic: '308', locationId: '983' },
       },
     });
-    mockAppointmentCreateApi();
+    mockAppointmentCreateApi({ response: appt });
     mockAppointmentsApi({ response: [] });
     mockFacilityApi({ id: '983', apiVersion: 2 });
     mockFeatureToggles();
@@ -56,12 +59,20 @@ describe('VAOS covid-19 vaccine flow', () => {
 
   describe('When more than one facility supports online scheduling', () => {
     beforeEach(() => {
+      // Add one day since same day appointments are not allowed.
+      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
+
       mockFacilitiesApi({ apiVersion: 2 });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',
         isDirect: true,
         isRequest: true,
+      });
+      mockSlotsApi({
+        locationId: '983',
+        clinicId: '308',
+        response: [mockSlot],
       });
     });
 
@@ -178,11 +189,19 @@ describe('VAOS covid-19 vaccine flow', () => {
 
   describe('When one facility supports online scheduling', () => {
     beforeEach(() => {
+      // Add one day since same day appointments are not allowed.
+      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
+
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',
         isDirect: true,
         isRequest: true,
+      });
+      mockSlotsApi({
+        locationId: '983',
+        clinicId: '308',
+        response: [mockSlot],
       });
     });
 
@@ -369,7 +388,9 @@ describe('VAOS covid-19 vaccine flow', () => {
         .clickNextButton();
 
       VAFacilityPageObject.assertUrl()
-        .assertWarning()
+        .assertAlertWarning({
+          text: /We couldn.t find a VA facility where you receive care that accepts online appointments for COVID-19 vaccines/i,
+        })
         .assertNexButton({ enabled: false });
 
       // Assert
@@ -412,13 +433,15 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
   });
 
+  // TODO: Update Figma diagram
   describe('When site is configured for covid but no clinics are found', () => {
     it('should display alert', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       // Use any invalid clinic id to for an empty return from the api call.
-      mockClinicsApi({ clinicId: '???', locations: ['983'] });
+      mockClinicApi({ locationId: '983', response: [] });
+
       mockFacilitiesApi({ apiVersion: 2 });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
@@ -447,9 +470,11 @@ describe('VAOS covid-19 vaccine flow', () => {
         .selectLocation(/Cheyenne VA Medical Center/i)
         .clickNextButton();
 
-      // ContactFacilityPageObject.assertUrl().assertText(
-      //   /Contact one of your registered VA facilities to schedule your vaccine appointment/i,
-      // );
+      cy.wait('@v2:get:clinics').then(() => {
+        VAFacilityPageObject.assertModalWarning({
+          text: /We.re sorry. We couldn.t find any available slots for your appointment./i,
+        });
+      });
 
       // Assert
       cy.axeCheckBestPractice();

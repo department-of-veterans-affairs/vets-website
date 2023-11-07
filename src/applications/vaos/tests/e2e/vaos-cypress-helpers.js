@@ -822,6 +822,37 @@ export function mockEligibilityCCApi({
   }).as('eligibility-cc');
 }
 
+export function mockClinicApi({
+  locationId,
+  response: data,
+  responseCode = 200,
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    // let { data } = clinicsV2;
+    // if (clinicId) data = data.filter(clinic => clinic.id === clinicId);
+
+    cy.intercept(
+      {
+        method: 'GET',
+        path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
+      },
+      req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
+        req.reply({
+          data,
+        });
+      },
+    ).as(`v2:get:clinics`);
+  }
+}
 /**
  * Function to mock the 'GET' appointment endpoint.
  *
@@ -871,6 +902,39 @@ export function mockClinicsApi({
   }
 }
 
+export function mockSlotsApi({
+  locationId,
+  clinicId,
+  response: data,
+  responseCode = 200,
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/vaos/v2/locations/${locationId}/clinics/${clinicId}/slots`,
+        query: {
+          start: '*',
+          end: '*',
+        },
+      },
+      req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
+        req.reply({
+          data,
+        });
+      },
+    ).as('v2:get:slots');
+  }
+}
 export function mockDirectScheduleSlotsApi({
   locationId = '983',
   clinicId,

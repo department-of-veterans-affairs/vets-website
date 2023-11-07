@@ -1,4 +1,3 @@
-import { mockDirectScheduleSlotsApi } from '../vaos-cypress-helpers';
 import PageObject from './PageObject';
 
 export class ClinicChoicePageObject extends PageObject {
@@ -19,15 +18,6 @@ export class ClinicChoicePageObject extends PageObject {
 
     cy.findByLabelText(selection).as('radio');
     cy.get('@radio').check();
-
-    // Get the selected clinic id
-    cy.get('@radio')
-      .invoke('val')
-      .then(value => {
-        const tokens = value.split('_');
-        const [, clinicId] = tokens;
-        mockDirectScheduleSlotsApi({ clinicId, apiVersion: 2 });
-      });
 
     return this;
   }
