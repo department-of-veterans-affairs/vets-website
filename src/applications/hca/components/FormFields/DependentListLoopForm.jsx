@@ -18,11 +18,11 @@ const DependentListLoopForm = props => {
   const currentUISchema = {
     ...uiSchema[page.id],
     'ui:title': page.title.replace(/%s/g, nameToDisplay),
-    'ui:description': isLoggedIn ? DependentSIPWarning : undefined,
   };
 
   return (
     <>
+      {isLoggedIn ? <DependentSIPWarning /> : null}
       <SchemaForm
         name="Dependent"
         title="Dependent"
