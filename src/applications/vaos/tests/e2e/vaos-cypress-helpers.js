@@ -349,7 +349,7 @@ export function mockCCProvidersApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
+ * @param {Object} arguments.response - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -385,9 +385,9 @@ export function mockAppointmentApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
+ * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentUpdateApi({
   response: data,
@@ -422,10 +422,10 @@ export function mockAppointmentUpdateApi({
  * @example POST '/vaos/v2/appointments'
  *
  * @export
- * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
+ * @param {Object} arguments
+ * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentCreateApi({
   response: data,
@@ -446,11 +446,9 @@ export function mockAppointmentCreateApi({
           return;
         }
 
-        if (data) {
-          req.reply({
-            data,
-          });
-        }
+        req.reply({
+          data,
+        });
 
         // Save and return the same appointment back to the caller with a new simulated
         // appointment id. The saved appointment is used in the next 'v2:get:appointment'
@@ -479,7 +477,7 @@ export function mockAppointmentCreateApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
+ * @param {Object} arguments.response - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -611,7 +609,7 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object=} arguments.data - The response object to return from the mock api call.
+ * @param {Object=} arguments.data - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.apiVersion=2] - Api version number.
  */
@@ -656,10 +654,10 @@ export function mockFacilitiesApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Array.<String>} arguments.facilityIds - The response object to return from the mock api call.
- * @param {string=} arguments.typeOfCareId - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {boolean=} arguments.isDirect - Api version number.
- * @param {boolean=} arguments.isRequest - Api version number.
+ * @param {Array.<String>} arguments.facilityIds - Array of facility ids.
+ * @param {string=} [arguments.typeOfCareId] - Type of care id.
+ * @param {boolean} [arguments.isDirect=false] - Toggle if facility supports direct scheduling or not.
+ * @param {boolean} [arguments.isRequest=false] - Toggle if facility supports request scheduling or not.
  */
 export function mockSchedulingConfigurationApi({
   facilityIds,

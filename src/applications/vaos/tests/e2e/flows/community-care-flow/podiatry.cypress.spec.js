@@ -42,7 +42,7 @@ describe('VAOS community care flow - Podiatry', () => {
       },
     });
     mockAppointmentsApi({ response: [] });
-    mockAppointmentCreateApi();
+    mockAppointmentCreateApi({ response: appt });
     mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles();
     mockVamcEhrApi();

@@ -44,7 +44,7 @@ describe('VAOS community care flow - Audiology', () => {
       },
     });
     mockAppointmentsApi({ response: [] });
-    mockAppointmentCreateApi();
+    mockAppointmentCreateApi({ response: appt });
     mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles();
     mockVamcEhrApi();
