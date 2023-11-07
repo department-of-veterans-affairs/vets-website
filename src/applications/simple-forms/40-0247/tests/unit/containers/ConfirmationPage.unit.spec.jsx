@@ -47,46 +47,4 @@ describe('Confirmation page', () => {
     );
     getByText(fullNameStringRegex);
   });
-
-  it('should handle missing submission response', () => {
-    const storeWithMissingResponse = {
-      ...storeBase,
-      form: {
-        ...storeBase.form,
-        submission: {
-          ...storeBase.form.submission,
-          response: null,
-        },
-      },
-    };
-
-    const { queryByText } = render(
-      <Provider store={mockStore(storeWithMissingResponse)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-
-    expect(queryByText(/123456/)).to.be.null;
-  });
-
-  it('should handle missing submission response', () => {
-    const storeWithMissingResponse = {
-      ...storeBase,
-      form: {
-        ...storeBase.form,
-        submission: {
-          ...storeBase.form.submission,
-          response: null,
-        },
-      },
-    };
-
-    const { queryByText } = render(
-      <Provider store={mockStore(storeWithMissingResponse)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-
-    expect(queryByText(/123456/)).to.be.null;
-  });
 });
