@@ -1,5 +1,5 @@
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
@@ -161,6 +161,35 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       setBotPonyfill(() => res);
     });
   }, []);
+
+  const webchatRef = useRef(null);
+  useEffect(() => {
+    const handleKeyDown = event => {
+      // console.log('any key down event');
+      // only handle keydown events when webchat is focused
+      if (webchatRef.current && webchatRef.current.contains(event.target)) {
+        const webchatScrollbar = webchatRef.current.querySelector(
+          '.webchat__basic-transcript__scrollable',
+        );
+        if (event.code === 'ArrowUp') {
+          // console.log('up arrow key pressed inside webchat');
+          event.preventDefault();
+          webchatScrollbar.scrollBy(0, -50);
+        } else if (event.code === 'ArrowDown') {
+          // console.log('down arrow key pressed inside webchat');
+          event.preventDefault();
+          webchatScrollbar.scrollBy(0, 50);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const [isRXSkill, setIsRXSkill] = useState();
   useEffect(
     () => {
@@ -191,7 +220,11 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       );
     }
     return (
-      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+      <div
+        data-testid="webchat"
+        ref={webchatRef}
+        style={{ height: '550px', width: '100%' }}
+      >
         <ReactWebChat
           styleOptions={styleOptions}
           directLine={directLine}
@@ -219,7 +252,11 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   }
   return (
-    <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+    <div
+      data-testid="webchat"
+      ref={webchatRef}
+      style={{ height: '550px', width: '100%' }}
+    >
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware(
           virtualAgentDecisionLetterDownloadTracking,
