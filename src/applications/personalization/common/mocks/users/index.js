@@ -30,6 +30,12 @@ const simpleUser = {
         birthDate: '1949-03-04',
         gender: 'M',
         zip: '97063',
+        claims: {
+          appeals: true,
+          militaryHistory: true,
+          paymentHistory: true,
+          ratingInfo: true,
+        },
         lastSignedIn: '2022-03-24T18:15:06.566Z',
         loa: {
           current: 3,
@@ -59,7 +65,48 @@ const simpleUser = {
         isVeteran: true,
         servedInMilitary: true,
       },
-      inProgressForms: [],
+      inProgressForms: [
+        {
+          form: '40-10007',
+          lastUpdated: 1696002346,
+          metadata: {
+            version: 0,
+            returnUrl: '/applicant-contact-information',
+            savedAt: 1696002345850,
+            submission: {
+              status: false,
+              errorMessage: false,
+              id: false,
+              timestamp: false,
+              hasAttemptedSubmit: false,
+            },
+            createdAt: 1696002097,
+            expiresAt: 1702844198,
+            lastUpdated: 1696002346,
+            inProgressFormId: 25417,
+          },
+        },
+        {
+          form: '21-526EZ',
+          lastUpdated: 1691764281,
+          metadata: {
+            version: 9,
+            returnUrl: '/new-disabilities/ptsd-type',
+            savedAt: 1691764281066,
+            submission: {
+              status: false,
+              errorMessage: false,
+              id: false,
+              timestamp: false,
+              hasAttemptedSubmit: false,
+            },
+            createdAt: 1691764170,
+            expiresAt: 1729282589,
+            lastUpdated: 1691764281,
+            inProgressFormId: 23844,
+          },
+        },
+      ],
       prefillsAvailable: ['21-686C'],
       vet360ContactInformation: {
         email: {
