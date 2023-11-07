@@ -2,6 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+
 import { RatedDisabilitiesApp } from '../../containers/RatedDisabilitiesApp';
 
 describe('<RatedDisabilityApp/>', () => {
@@ -12,6 +13,7 @@ describe('<RatedDisabilityApp/>', () => {
     verifyUrl: '',
     fetchRatedDisabilities: sinon.stub(),
   };
+
   it('should render a RequiredLoginView', () => {
     const wrapper = shallow(
       <RatedDisabilitiesApp {...props}>
