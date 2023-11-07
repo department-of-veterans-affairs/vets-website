@@ -1,14 +1,11 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
 
 const SearchControls = props => {
-  const locationInputFieldRef = useRef(null);
-  const repInputFieldRef = useRef(null);
-
   const {
     currentQuery,
     onChange,
@@ -41,7 +38,7 @@ const SearchControls = props => {
 
     if (!locationInputString) {
       onChange({ locationInputString: '' });
-      focusElement('#street-city-state-zip');
+      focusElement('.location-input-container');
       return;
     }
 
@@ -111,41 +108,22 @@ const SearchControls = props => {
           <h3 className="vads-u-margin-bottom--0">
             Search for a representative
           </h3>
-          <div
-            className={classNames('location-input-container', {
-              'usa-input-error': showError,
-            })}
-          >
-            <div className="location-input-header">
-              <label
-                htmlFor="street-city-state-zip"
-                id="street-city-state-zip-label"
-                className={showError ? null : 'vads-u-margin-bottom--1p5'}
-                style={showError ? null : { marginTop: '1em' }}
-              >
-                City, state or postal code{' '}
-                <span className="form-required-span">(*Required)</span>
-              </label>
-            </div>
-            {showError && (
-              <span
-                className="usa-input-error-message"
-                style={{ whiteSpace: 'nowrap' }}
-                role="alert"
-              >
-                <span className="sr-only">Error</span>
-                Please fill in a city, state or postal code.
-              </span>
-            )}
-            <input
-              id="street-city-state-zip"
-              ref={locationInputFieldRef}
-              name="street-city-state-zip"
-              type="text"
-              onChange={handleLocationChange}
-              onBlur={handleLocationBlur}
+          <div className="location-input-container">
+            <va-text-input
+              error={
+                showError
+                  ? 'Please fill in a city, state or postal code.'
+                  : null
+              }
+              hint={null}
+              label="City, State or Postal code"
+              message-aria-describedby="Text input for location"
+              name="City, State or Postal code"
+              onBlur={handleLocationChange}
+              onInput={handleLocationBlur}
               value={locationInputString}
-              title="Your location: Street, City, State or Postal code"
+              uswds
+              required
             />
             <div
               className={classNames('use-my-location-button-container', {
@@ -184,29 +162,22 @@ const SearchControls = props => {
             onChange={onChange}
           />
 
-          <div>
-            <div>
-              <label
-                htmlFor="representative-organization"
-                id="representative-organization-label"
-              >
-                {representativeType === 'Veteran Service Organization (VSO)'
-                  ? 'Organization'
-                  : 'Representative'}{' '}
-                name{' '}
-              </label>
-            </div>
-            <input
-              id="representative-organization"
-              ref={repInputFieldRef}
-              name="representative-organization"
-              type="text"
-              onChange={handleRepOrganizationChange}
-              onBlur={handleRepOrganizationBlur}
-              value={repOrganizationInputString}
-              title="Organization or Representative Name"
-            />
-          </div>
+          <va-text-input
+            hint={null}
+            label={
+              representativeType === 'Veteran Service Organization (VSO)'
+                ? 'Organization Name'
+                : 'Representative Name'
+            }
+            message-aria-describedby="Text input for organization or representative name"
+            name="Organization or Representative Name"
+            onChange={handleRepOrganizationChange}
+            onBlur={handleRepOrganizationBlur}
+            onInput={handleLocationBlur}
+            value={repOrganizationInputString}
+            uswds
+            required
+          />
 
           <button
             id="representative-search"
@@ -224,6 +195,7 @@ const SearchControls = props => {
 
 SearchControls.propTypes = {
   currentQuery: PropTypes.object.isRequired,
+  clearGeocodeError: PropTypes.func,
   geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,

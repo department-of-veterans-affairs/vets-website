@@ -9,16 +9,13 @@ const RepTypeSelector = ({ onChange }) => {
   return (
     <>
       <div className="vads-u-margin-top--3">
-        <label htmlFor="representative-type" className="vads-u-margin-top--2">
-          Type of representative{' '}
-          <span className="form-required-span">(*Required)</span>
-        </label>
         <va-radio
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
-          label=""
-          label-header-level="3"
+          label="Type of representative"
+          required
+          label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
           uswds
         >
