@@ -35,7 +35,7 @@ describe('Confirmation page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
 
-  it('it should show status success and the correct name of applicant', () => {
+  it('should show status success and the correct name of applicant', () => {
     const { container, getByText } = render(
       <Provider store={mockStore(storeBase)}>
         <ConfirmationPage />
@@ -69,24 +69,18 @@ describe('Confirmation page', () => {
     expect(queryByText(/123456/)).to.be.null;
   });
 
-  it('should handle missing submission response', () => {
-    const storeWithMissingResponse = {
+  it('should throw an error when state.form is empty', () => {
+    const storeWithEmptyForm = {
       ...storeBase,
-      form: {
-        ...storeBase.form,
-        submission: {
-          ...storeBase.form.submission,
-          response: null,
-        },
-      },
+      form: {},
     };
 
-    const { queryByText } = render(
-      <Provider store={mockStore(storeWithMissingResponse)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-
-    expect(queryByText(/123456/)).to.be.null;
+    expect(() => {
+      render(
+        <Provider store={mockStore(storeWithEmptyForm)}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+    }).to.throw();
   });
 });
