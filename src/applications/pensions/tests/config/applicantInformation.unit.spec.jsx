@@ -9,14 +9,12 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+import applicantInformation from '../../pages/applicantInformation';
 
 const definitions = formConfig.defaultDefinitions;
 
 describe('Pensions applicantInformation', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  const { schema, uiSchema } = applicantInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

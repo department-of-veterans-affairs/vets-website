@@ -11,13 +11,11 @@ import {
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
+import applicantInformation from '../../pages/applicantInformation';
 
 const definitions = formConfig.defaultDefinitions;
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.applicantInformation.pages.applicantInformation;
+const { schema, uiSchema } = applicantInformation;
 
 describe('pension applicant information page', () => {
   it('should render with all fields and buttons', () => {
