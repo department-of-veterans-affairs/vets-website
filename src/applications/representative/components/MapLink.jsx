@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 const MapLink = props => {
   const { name, address, city, state, postalCode } = props;
-  const searchString = `${name} ${
+  const locationInputString = `${name} ${
     address ? `${address} ` : ''
   }${city}, ${state} ${postalCode}`;
 
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${searchString}`,
+    `${locationInputString}`,
   )}`;
 
   return (
