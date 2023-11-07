@@ -6,7 +6,7 @@ const Breadcrumbs = () => {
       <a href="/" key="home">
         Home
       </a>
-      <a href="/health-care" key="health-caree">
+      <a href="/health-care" key="health-care">
         Health Care
       </a>
       <a href="/health-care/income-limits" key="income-limits">
