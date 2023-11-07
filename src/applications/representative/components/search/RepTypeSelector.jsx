@@ -20,6 +20,7 @@ const RepTypeSelector = ({ onChange }) => {
           label=""
           label-header-level="3"
           onVaValueChange={handleRadioButtonSelect}
+          uswds
         >
           <va-radio-option
             label="Veteran Service Organization (VSO)"
@@ -43,9 +44,7 @@ const RepTypeSelector = ({ onChange }) => {
             section-heading={{
               value: 'null',
             }}
-            uswds={{
-              value: 'false',
-            }}
+            uswds
             open-single
           >
             <va-accordion-item id="first">
