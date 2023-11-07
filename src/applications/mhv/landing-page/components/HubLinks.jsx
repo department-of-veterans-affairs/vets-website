@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-const HubSection = ({ section, title, links }) => {
+const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
       <va-link
         className="mhv-c-link butt"
         href={l.href}
-        data-link-group={section}
         onClick={() =>
           recordEvent({
             event: 'mhv-link-click',
