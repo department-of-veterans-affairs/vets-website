@@ -35,8 +35,8 @@ export const recordSearchResultsEvents = (props, results) => {
       dataPush['fl-service-type-filter'] = currentQuery.serviceType;
     }
 
-    if (currentQuery.searchString) {
-      dataPush['fl-searched-query'] = currentQuery.searchString;
+    if (currentQuery.locationInputString) {
+      dataPush['fl-searched-query'] = currentQuery.locationInputString;
     }
 
     if (currentQuery.mapBoxQuery) {

@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
+// Location to custom commands type definitions.
+/// <reference path="./index.d.ts" />
 import unset from 'platform/utilities/data/unset';
 import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 
@@ -14,12 +16,12 @@ import clinicList983 from '../../services/mocks/var/clinicList983.json';
 import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
 import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
 
-import { APPOINTMENT_STATUS } from '../../utils/constants';
+// import { APPOINTMENT_STATUS } from '../../utils/constants';
 import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
-import confirmedV2 from '../../services/mocks/v2/confirmed.json';
-import requestsV2 from '../../services/mocks/v2/requests.json';
+// import confirmedV2 from '../../services/mocks/v2/confirmed.json';
+// import requestsV2 from '../../services/mocks/v2/requests.json';
 import { getStagingId } from '../../services/var';
 
 import featureFlags from '../../utils/featureFlags';
@@ -317,7 +319,10 @@ export function mockVisitsApi({ facilityId = '983' } = {}) {
   ).as('v0:get:visits:request');
 }
 
-export function mockCCProvidersApi() {
+export function mockCCProvidersApi({
+  response: data,
+  responseCode = 200,
+} = {}) {
   cy.intercept(
     {
       method: 'GET',
@@ -325,46 +330,30 @@ export function mockCCProvidersApi() {
       pathname: '/facilities_api/v1/ccp/provider',
     },
     req => {
-      req.reply({
-        data: [
-          {
-            id: '1497723753',
-            type: 'provider',
-            attributes: {
-              accNewPatients: 'true',
-              address: {
-                street: '1012 14TH ST NW STE 700',
-                city: 'WASHINGTON',
-                state: 'DC',
-                zip: '20005-3477',
-              },
-              caresitePhone: '202-638-0750',
-              email: null,
-              fax: null,
-              gender: 'Male',
-              lat: 38.903195,
-              long: -77.032382,
-              name: 'Doe, Jane',
-              phone: null,
-              posCodes: null,
-              prefContact: null,
-              uniqueId: '1497723753',
-            },
-            relationships: {
-              specialties: {
-                data: [
-                  { id: '363L00000X', type: 'specialty' },
-                  { id: '363LP2300X', type: 'specialty' },
-                ],
-              },
-            },
-          },
-        ],
-      });
+      if (responseCode !== 200) {
+        req.reply({
+          forceNetworkError: true,
+        });
+
+        return;
+      }
+
+      req.reply({ data });
     },
   ).as('v1:get:provider');
 }
 
+/**
+ * Function to mock the 'GET' appointment endpoint.
+ *
+ * @example GET '/vaos/v2/appointments/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} arguments.response - The response object to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
 export function mockAppointmentApi({
   response: data,
   responseCode = 200,
@@ -400,7 +389,6 @@ export function mockAppointmentApi({
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
  */
 export function mockAppointmentUpdateApi({
   response: data,
@@ -439,7 +427,6 @@ export function mockAppointmentUpdateApi({
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
  */
 export function mockAppointmentCreateApi({
   response: data,
@@ -494,14 +481,12 @@ export function mockAppointmentCreateApi({
  * @export
  * @param {Object} arguments - Function arguments.
  * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentsApi({
   response: data,
   responseCode = 200,
-  status = APPOINTMENT_STATUS.booked,
   apiVersion = 2,
 } = {}) {
   if (apiVersion === 2) {
@@ -525,13 +510,7 @@ export function mockAppointmentsApi({
 
         if (data) {
           req.reply({ data });
-        } else if (status === APPOINTMENT_STATUS.booked) {
-          req.reply({
-            data: confirmedV2.data,
-          });
-        } else if (status === APPOINTMENT_STATUS.pending) {
-          req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
-        } else req.reply({});
+        }
       },
     ).as('v2:get:appointments');
   }
@@ -626,7 +605,22 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
   }
 }
 
-export function mockFacilitiesApi({ data, apiVersion = 0 } = {}) {
+/**
+ * Function to mock the 'GET' facilities endpoint.
+ *
+ * @example GET '/vaos/v2/facilities'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object=} arguments.data - The response object to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.apiVersion=2] - Api version number.
+ */
+export function mockFacilitiesApi({
+  data,
+  responseCode = 200,
+  apiVersion = 0,
+} = {}) {
   if (apiVersion === 2) {
     cy.intercept(
       {
@@ -638,6 +632,14 @@ export function mockFacilitiesApi({ data, apiVersion = 0 } = {}) {
         },
       },
       req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
         if (data) {
           req.reply({ data });
         } else {
@@ -794,13 +796,16 @@ export function mockCCEligibilityApi({
   ).as('v0:get:cc-eligibility');
 }
 // TODO: Refactor into 'mockCCEligibilityApi'!
-export function mockGetEligibilityCC(typeOfCare = 'PrimaryCare') {
+export function mockEligibilityCCApi({
+  typeOfCare = 'PrimaryCare',
+  isEligible: eligible = true,
+} = {}) {
   cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
     req.reply({
       data: {
         id: typeOfCare,
         type: 'cc_eligibility',
-        attributes: { eligible: true },
+        attributes: { eligible },
       },
     });
   }).as('eligibility-cc');
@@ -972,6 +977,11 @@ export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
   }
 }
 
+/**
+ * Function to add custom Cypress commands.
+ *
+ * @export
+ */
 export function vaosSetup() {
   Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {
