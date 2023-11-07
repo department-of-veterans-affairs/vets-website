@@ -3,13 +3,21 @@ import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
 import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 
-describe('Profile - Hub page, Keyboard navigation', () => {
-  beforeEach(() => {
-    cy.login(mockUser);
-    mockProfileLOA3();
-  });
+const PROFILE_HREFS = [
+  PROFILE_PATHS.PERSONAL_INFORMATION,
+  PROFILE_PATHS.CONTACT_INFORMATION,
+  PROFILE_PATHS.CONTACTS,
+  PROFILE_PATHS.MILITARY_INFORMATION,
+  '/records/get-military-service-records/',
+  PROFILE_PATHS.DIRECT_DEPOSIT,
+  PROFILE_PATHS.NOTIFICATION_SETTINGS,
+  PROFILE_PATHS.ACCOUNT_SECURITY,
+  'https://wallet.id.me/settings',
+  PROFILE_PATHS.CONNECTED_APPLICATIONS,
+];
 
-  it('should tab through all links on the page, in order', () => {
+describe('Profile - Hub page, Keyboard navigation', () => {
+  it('should allow tabing through all links on the page, in order', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
@@ -17,53 +25,16 @@ describe('Profile - Hub page, Keyboard navigation', () => {
         profileContacts: true,
       }),
     );
-
+    cy.login(mockUser);
+    mockProfileLOA3();
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-    cy.tabToElement(`a[href^="${PROFILE_PATHS.PERSONAL_INFORMATION}"`);
-
-    cy.realPress('Tab');
-    cy.focused().should('have.attr', 'href', PROFILE_PATHS.CONTACT_INFORMATION);
-
-    cy.realPress('Tab');
-    cy.focused().should('have.attr', 'href', PROFILE_PATHS.CONTACTS);
-
-    cy.realPress('Tab');
-    cy.focused().should(
-      'have.attr',
-      'href',
-      PROFILE_PATHS.MILITARY_INFORMATION,
-    );
-
-    cy.realPress('Tab');
-    cy.focused().should(
-      'have.attr',
-      'href',
-      '/records/get-military-service-records/',
-    );
-
-    cy.realPress('Tab');
-    cy.focused().should('have.attr', 'href', PROFILE_PATHS.DIRECT_DEPOSIT);
-
-    cy.realPress('Tab');
-    cy.focused().should(
-      'have.attr',
-      'href',
-      PROFILE_PATHS.NOTIFICATION_SETTINGS,
-    );
-
-    cy.realPress('Tab');
-    cy.focused().should('have.attr', 'href', PROFILE_PATHS.ACCOUNT_SECURITY);
-
-    cy.realPress('Tab');
-    cy.focused().should('have.attr', 'href', 'https://wallet.id.me/settings');
-
-    cy.realPress('Tab');
-    cy.focused().should(
-      'have.attr',
-      'href',
-      PROFILE_PATHS.CONNECTED_APPLICATIONS,
-    );
+    const [firstHref, ...hrefs] = PROFILE_HREFS;
+    cy.tabToElement(`a[href^="${firstHref}"`);
+    hrefs.forEach(href => {
+      cy.realPress('Tab');
+      cy.focused().should('have.attr', 'href', href);
+    });
 
     cy.injectAxeThenAxeCheck();
   });
