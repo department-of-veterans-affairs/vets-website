@@ -152,7 +152,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case CLEAR_SEARCH_TEXT:
       return {
         ...state,
-        searchString: '',
+        locationInputString: '',
         isValid: false,
         locationChanged: true,
       };
