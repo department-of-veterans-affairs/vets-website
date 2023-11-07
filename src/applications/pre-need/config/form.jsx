@@ -18,8 +18,8 @@ import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
-import * as sponsorDetails from './pages/sponserDetails';
-import * as sponsorDemographics from './pages/sponserDemographics';
+import * as sponsorDetails from './pages/sponsorDetails';
+import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
@@ -69,7 +69,7 @@ import {
   preparerAddressHasState,
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
-  isSponserDeceased,
+  isSponsorDeceased,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -506,7 +506,7 @@ const formConfig = {
               path: 'sponsor-date-of-death',
               depends:
                 (formData => !isVeteran(formData)) &&
-                (formData => isSponserDeceased(formData)),
+                (formData => isSponsorDeceased(formData)),
               uiSchema: sponsorDateOfDeath.uiSchema,
               schema: sponsorDateOfDeath.schema,
             },
