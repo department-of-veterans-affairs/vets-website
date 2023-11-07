@@ -11,6 +11,13 @@ export default class PageObject {
     return this;
   }
 
+  selectRadioButton(label) {
+    cy.findByLabelText(label).as('radio');
+    cy.get('@radio').check();
+
+    return this;
+  }
+
   visit(url = '', options = {}) {
     const normalizedUrl = `${this.rootUrl}/${url.replace(/^\//, '')}`;
 

@@ -740,9 +740,48 @@ export function mockSchedulingConfigurationApi({
   ).as('scheduling-configurations');
 }
 
+/**
+ * Function to mock the 'GET' eligibility endpoint.
+ *
+ * @example GET '/vaos/v2/eligibility'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} arguments.response - The response object to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockEligibilityApi2({
+  response: data,
+  responseCode = 200,
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v2/eligibility',
+        query: { facility_id: '*', clinical_service_id: '*', type: 'request' },
+      },
+      req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
+        req.reply({
+          data,
+        });
+      },
+    ).as('v2:get:eligibility');
+  }
+}
 export function mockEligibilityApi({
   typeOfCare = 'primaryCare',
-  isEligible = false,
+  isEligible = true,
   apiVersion = 2,
 } = {}) {
   if (apiVersion === 2) {
@@ -860,6 +899,52 @@ export function mockClinicApi({
   }
 }
 
+/**
+ * Function to mock the 'GET' available appointment slots endpoint.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics/:clinicId/slots'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {String} arguments.clinicId - Clinic id.
+ * @param {String} arguments.locationId - Location id.
+ * @param {Object} arguments.response - The response object to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockSlotsApi({
+  clinicId,
+  locationId,
+  response: data,
+  responseCode = 200,
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/vaos/v2/locations/${locationId}/clinics/${clinicId}/slots`,
+        query: {
+          start: '*',
+          end: '*',
+        },
+      },
+      req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
+        req.reply({
+          data,
+        });
+      },
+    ).as('v2:get:slots');
+  }
+}
 export function mockDirectScheduleSlotsApi({
   locationId = '983',
   clinicId,
