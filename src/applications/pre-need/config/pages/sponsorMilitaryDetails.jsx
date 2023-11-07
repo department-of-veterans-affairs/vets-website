@@ -15,7 +15,7 @@ export const uiSchema = {
     veteran: merge({}, veteranUI, {
       militaryServiceNumber: {
         'ui:title':
-          'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
+          'Sponsor’s military Service number (if they have one that’s different than their Social Security number)',
         'ui:errorMessages': {
           pattern:
             'Sponsor’s Military Service number must be between 4 to 9 characters',
@@ -29,7 +29,7 @@ export const uiSchema = {
       },
       militaryStatus: {
         'ui:title':
-          'Sponsor’s current military status (You can add more service history information later in this application)',
+          'Sponsor’s current military status (You can add more service history information later in this application.)',
         'ui:options': {
           nestedContent: {
             X: sponsorMilitaryStatusDescription,

@@ -20,7 +20,7 @@ export const uiSchema = {
       },
       race: {
         'ui:title':
-          'Which categories best describe your sponsor? (You may check more than one)',
+          'Which categories best describe your sponsor? (You may check more than one.)',
       },
       maritalStatus: {
         'ui:title': 'Sponsor’s marital status',

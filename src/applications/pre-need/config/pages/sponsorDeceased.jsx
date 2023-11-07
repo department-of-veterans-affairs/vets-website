@@ -1,13 +1,11 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import { merge, pick } from 'lodash';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import { veteranUI } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
-  'ui:description': applicantDescription,
   application: {
     veteran: merge({}, veteranUI, {
       isDeceased: {

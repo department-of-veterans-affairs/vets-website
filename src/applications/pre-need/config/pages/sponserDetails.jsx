@@ -56,7 +56,7 @@ export const schema = {
       properties: {
         veteran: {
           type: 'object',
-          required: ['ssn', 'dateOfBirth'],
+          required: ['ssn'],
           properties: pick(veteran.properties, [
             'currentName',
             'ssn',
