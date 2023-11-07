@@ -78,7 +78,7 @@ describe('submitToAPI', () => {
     setTimeout(() => {
       const response2 = setState.secondCall.args[0];
       expect(response2.files.length).to.eq(1);
-      expect(response2.errorMessage).to.contain('try again later');
+      expect(response2.errorMessage).to.contain('Try again later');
       expect(response2.successMessage).to.be.undefined;
       expect(response2.submissionPending).to.be.false;
       done();
@@ -90,6 +90,6 @@ describe('submitToAPI', () => {
     submitToAPI({ files: [] }, setState);
 
     expect(setState.called).to.be.true;
-    expect(setState.args[0][0].errorMessage).to.contain('choose a file');
+    expect(setState.args[0][0].errorMessage).to.contain('Choose a file');
   });
 });

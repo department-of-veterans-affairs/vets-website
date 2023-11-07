@@ -113,7 +113,7 @@ class PatientInboxPage {
 
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    cy.wait('@inboxMessages', { requestTimeout: 10000 });
     if (this.mockInboxMessages.length) cy.get('.thread-list').should('exist');
   };
 

@@ -74,9 +74,9 @@ export class ConfirmationPage extends React.Component {
         </p>
         <p>
           If we haven’t contacted you within a week after you submitted your
-          application, please don’t apply again. Instead, please call our
-          toll-free hotline at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-          We’re here Monday through Friday, 8:00 am to 8:00 pm ET.
+          application, don’t apply again. Instead, call our toll-free hotline at{' '}
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
+          through Friday, 8:00 am to 8:00 pm ET.
         </p>
         <h3>How can I check the status of my application?</h3>
         <div className="process schemaform-process vads-u-padding-bottom--0">
@@ -110,9 +110,9 @@ export class ConfirmationPage extends React.Component {
                 Applications section of you homepage.
               </p>
               <p>
-                Please note: Your application status may take some time to
-                appear on our homepage. If you don’t see it there right away,
-                please check back later.
+                Note: Your application status may take some time to appear on
+                our homepage. If you don’t see it there right away, check back
+                later.
               </p>
             </li>
           </ol>
@@ -121,7 +121,7 @@ export class ConfirmationPage extends React.Component {
           What if I have more questions?
         </h3>
         <p>
-          Please call our toll-free hotline at{' '}
+          Call our toll-free hotline at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
           through Friday, 8:00 am to 8:00 pm ET.
         </p>

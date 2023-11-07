@@ -2,6 +2,7 @@ import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { FileField } from 'platform/forms-system/src/js/fields/FileField';
+import SupportingDocsViewField from '../components/SupportingDocsViewField';
 
 import {
   createPayload,
@@ -14,6 +15,7 @@ export default {
   uiSchema: {
     ...titleUI('Upload documents (preferably DD214)'),
     'ui:description': supportingDocsDescription,
+    'ui:objectViewField': SupportingDocsViewField,
     veteranSupportingDocuments: {
       'ui:title': 'Upload documents',
       'ui:field': FileField,
