@@ -6,17 +6,6 @@ import CCInstructions from '../CCInstructions';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
-  version: 2,
-  vaos: {
-    isCanceled: false,
-    appointmentType: 'vaAppointment',
-    isUpcomingAppointment: true,
-    isPastAppointment: false,
-    isCompAndPenAppointment: false,
-  },
-  videoData: {
-    isVideo: false,
-  },
   location: {
     vistaId: '983',
     clinicId: '848',
@@ -32,7 +21,7 @@ describe('DetailsVA component', () => {
     },
   };
 
-  it('should render CCInstructions', async () => {
+  it('should render comment in CCInstructions', async () => {
     const appointment = {
       ...appointmentData,
       comment: 'Follow-up/Routine: I have a headache',
@@ -45,8 +34,25 @@ describe('DetailsVA component', () => {
       },
     );
 
-    // VAInstructions with upcoming appointment
+    // CCInstructions with comment
     expect(await wrapper.findByText('Follow-up/Routine: I have a headache')).to
       .exist;
+  });
+
+  it('should not render comment in CCInstructions', async () => {
+    const appointment = {
+      ...appointmentData,
+      comment: '',
+    };
+
+    const wrapper = renderWithStoreAndRouter(
+      <CCInstructions appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
+
+    // CCInstructions with no comment
+    expect(await wrapper).to.exist;
   });
 });
