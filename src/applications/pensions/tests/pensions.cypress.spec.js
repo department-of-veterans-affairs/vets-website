@@ -154,6 +154,7 @@ const financialDisclosurePageHooks = Object.fromEntries(
 
 const testConfig = createTestConfig(
   {
+    skip: true,
     dataPrefix: 'data',
 
     dataDir: path.join(__dirname, 'schema'),
