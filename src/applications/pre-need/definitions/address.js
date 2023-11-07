@@ -70,7 +70,7 @@ function validateAddress(errors, address, formData, currentSchema) {
   if (
     hasAddressInfo &&
     typeof address.state === 'undefined' &&
-    environment.isProduction() // MBMS-50969
+    environment.isProduction() // MBMS-50969 -- remove whole conditional block and const hasAddressInfo for PROD flag removal
   ) {
     errors.state.addError(
       'Please enter a state or province, or remove other address information.',
