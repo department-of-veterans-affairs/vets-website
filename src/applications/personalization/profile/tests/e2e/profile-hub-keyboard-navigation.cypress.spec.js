@@ -33,6 +33,9 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     cy.tabToElement(`a[href^="${firstHref}"`);
     hrefs.forEach(href => {
       cy.realPress('Tab');
+      // using the cy.focused() method as described in the documentation
+      // https://docs.cypress.io/api/commands/focused#Make-an-assertion-on-the-focused-element
+      /* eslint-disable-next-line cypress/unsafe-to-chain-command */
       cy.focused().should('have.attr', 'href', href);
     });
 
