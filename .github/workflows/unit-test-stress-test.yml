@@ -52,7 +52,7 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
   fetch-unit-tests-allow-list:
-    name: Fetch Unit Tests Allow List
+    name: Fetch Unit Test Stability Allow List
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -84,7 +84,7 @@ jobs:
         env:
           TEST_TYPE: unit_test
 
-      - name: Archive allow list
+      - name: Archive Unit Test Stability Allow List
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
@@ -154,7 +154,7 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
-      - name: Download Allow List
+      - name: Download Unit Test Stability Allow List
         uses: actions/download-artifact@v3
         with:
           name: unit-test-allow-list
@@ -176,7 +176,7 @@ jobs:
           path: mocha/results
 
   update-unit-test-allow-list:
-    name: Update Unit Tests Allow List
+    name: Update Unit Test Stability Allow List
     runs-on: ubuntu-latest
     needs: [unit-tests-stress-test, fetch-unit-tests-allow-list]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
@@ -231,7 +231,7 @@ jobs:
           name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
-      - name: Download Allow List
+      - name: Download Unit Test Stability Allow List
         uses: actions/download-artifact@v3
         with:
           name: unit-test-allow-list

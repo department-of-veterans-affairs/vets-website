@@ -1503,7 +1503,7 @@ jobs:
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
   test-stability-review-merge-status:
-    name: Test Stability Review Merge Status
+    name: QA Merge Status
     runs-on: ubuntu-latest
     needs:
       [
