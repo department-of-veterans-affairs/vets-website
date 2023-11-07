@@ -14,7 +14,7 @@ const appointmentData = {
   },
 };
 
-describe('DetailsVA component', () => {
+describe('CCInstructions component', () => {
   const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink]: true,
