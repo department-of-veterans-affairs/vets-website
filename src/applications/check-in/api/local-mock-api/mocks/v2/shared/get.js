@@ -253,6 +253,7 @@ const createAppointments = (
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       },
+      setECheckinStartedCalled: true,
     },
   };
 };

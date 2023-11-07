@@ -9,7 +9,8 @@ export class AppointmentListPageObject extends PageObject {
   selectListItem() {
     cy.findByTestId('appointment-list-item')
       .first()
-      .click({ waitForAnimations: true });
+      .should('exist')
+      .click();
 
     // cy.axeCheckBestPractice();
 
@@ -19,10 +20,11 @@ export class AppointmentListPageObject extends PageObject {
   validate() {
     // Wait for appointments to load
     cy.wait(['@v2:get:appointments']);
-
-    cy.get('h2')
-      .should('be.visible')
-      .and('contain', 'Appointments');
+    // find each header month
+    cy.findAllByTestId('appointment-list-header').each(item => {
+      // Assert the text using the .wrap() command
+      cy.wrap(item).should('contain.text', 'Appointments in');
+    });
 
     cy.findByText(/You don.t have any upcoming appointments/i).should(
       'not.exist',

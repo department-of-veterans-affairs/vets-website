@@ -16,6 +16,8 @@ import {
 } from '../pages';
 import { isProductionOfTestProdEnv } from '../helpers';
 
+import { isProductionOfTestProdEnv } from '../helpers';
+
 export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
