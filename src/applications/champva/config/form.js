@@ -144,6 +144,7 @@ const formConfig = {
               sponsorDOB: dateOfBirthSchema,
               sponsorIsDeceased: yesNoSchema,
               sponsorDOD: dateOfDeathSchema,
+              sponsorDeathConditions: yesNoSchema,
             },
           },
           uiSchema: {
@@ -154,6 +155,16 @@ const formConfig = {
             }),
             sponsorDOD: {
               ...dateOfDeathUI(),
+              'ui:options': {
+                hideIf: formData => !get('sponsorIsDeceased', formData),
+              },
+              'ui:required': formData => formData.sponsorIsDeceased,
+            },
+            sponsorDeathConditions: {
+              ...yesNoUI({
+                title: 'Did the Veteran die while on active military service?',
+                description: 'Select one',
+              }),
               'ui:options': {
                 hideIf: formData => !get('sponsorIsDeceased', formData),
               },
