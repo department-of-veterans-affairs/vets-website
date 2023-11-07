@@ -106,6 +106,9 @@ class ReviewCollapsibleChapter extends React.Component {
         onReviewPage,
       });
     }
+    if (chapterTitle === 'Disabilities') {
+      chapterTitle = 'Conditions';
+    }
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
     }
@@ -415,10 +418,8 @@ class ReviewCollapsibleChapter extends React.Component {
   render() {
     let pageContent = null;
 
-    let chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
-    if (chapterTitle === 'Disabilities') {
-      chapterTitle = 'Conditions';
-    }
+    const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
+
     if (this.props.open) {
       pageContent = this.getChapterContent(this.props);
     }
