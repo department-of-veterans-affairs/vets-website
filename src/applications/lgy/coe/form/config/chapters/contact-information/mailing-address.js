@@ -9,10 +9,9 @@ const description = () => (
   <>
     <p>We’ll send any updates about your request to this address.</p>
     <p>
-      If you notice any errors, please correct them now. Any updates you make
-      will change the information on this request only. If you need to update
-      your address with VA, please go to your profile to make any changes.{' '}
-      <br />
+      If you notice any errors, correct them now. Any updates you make will
+      change the information on this request only. If you need to update your
+      address with VA, go to your profile to make any changes. <br />
       <a href="/profile/contact-information#addresses">
         Update your address in your profile
       </a>

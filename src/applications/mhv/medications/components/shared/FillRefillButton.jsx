@@ -12,15 +12,11 @@ const FillRefillButton = rx => {
     dispensedDate,
     error,
     prescriptionId,
-    refillRemaining,
-    dispStatus,
     success,
+    isRefillable,
   } = rx;
 
-  if (
-    (dispStatus === 'Active' && refillRemaining !== 0) ||
-    dispStatus === 'Active: Parked'
-  ) {
+  if (isRefillable) {
     return (
       <div>
         {success && (

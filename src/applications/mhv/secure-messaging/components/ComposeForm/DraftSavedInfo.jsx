@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
 import { ErrorMessages } from '../../util/constants';
 
-const DraftSavedInfo = props => {
-  const { userSaved, attachments } = props;
-
+const DraftSavedInfo = () => {
   const { isSaving, lastSaveTime, saveError } = useSelector(
     state => state.sm.draftDetails,
-  );
-  const [ariaLive, setAriaLive] = useState('off');
-
-  useEffect(
-    () => {
-      setAriaLive(
-        attachments === undefined || attachments.length > 0 ? 'off' : 'polite',
-      );
-    },
-    [attachments],
   );
 
   const content = () => {
     if (isSaving) return 'Saving...';
 
-    return `Your message was saved on ${dateFormat(
-      lastSaveTime,
-      'MMMM D, YYYY [at] h:mm a z',
-    )}.`;
+    if (lastSaveTime) {
+      return `Your message was saved on ${dateFormat(
+        lastSaveTime,
+        'MMMM D, YYYY [at] h:mm a z',
+      )}.`;
+    }
+    return '';
   };
 
   if (saveError) {
@@ -46,17 +36,17 @@ const DraftSavedInfo = props => {
       </va-alert>
     );
   }
-  if (lastSaveTime) {
+  if (isSaving || lastSaveTime) {
     return (
       <>
         <va-alert
-          aria-live={!userSaved ? ariaLive : 'polite'}
+          aria-live="polite"
           background-only
           class="last-save-time"
           full-width="false"
           show-icon
           status="success"
-          visible={userSaved}
+          visible
           aria-describedby="save-draft-button"
         >
           <p className="vads-u-margin-y--0">{content()}</p>
@@ -65,11 +55,6 @@ const DraftSavedInfo = props => {
     );
   }
   return '';
-};
-
-DraftSavedInfo.propTypes = {
-  attachments: PropTypes.array,
-  userSaved: PropTypes.bool,
 };
 
 export default DraftSavedInfo;

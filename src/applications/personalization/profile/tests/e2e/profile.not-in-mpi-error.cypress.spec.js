@@ -34,6 +34,14 @@ function test(mobile = false) {
     .closest('va-alert')
     .should('exist');
 
+  // should redirect to profile/account-security on load
+  cy.url().should(
+    'eq',
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
+  );
+
+  cy.injectAxeThenAxeCheck();
+
   subNavOnlyContainsAccountSecurity(mobile);
 
   onlyAccountSecuritySectionIsAccessible();
