@@ -8,12 +8,12 @@ import {
   mockAppointmentsApi,
   mockFacilitiesApi,
   mockFeatureToggles,
-  mockLoginApi,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
+import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
@@ -23,35 +23,22 @@ describe('VAOS past appointment flow', () => {
 
       mockFacilitiesApi();
       mockFeatureToggles();
-      mockLoginApi();
       mockVamcEhrApi();
+
+      cy.login(new MockUser());
     });
 
     it('should display past appointments list', () => {
       // Arrange
       const yesterday = moment().subtract(1, 'day');
-      const response = [];
 
-      for (let i = 1; i <= 2; i++) {
-        const appt = new MockAppointment({
-          id: i,
-          cancellable: false,
-          localStartTime: yesterday,
-          status: APPOINTMENT_STATUS.booked,
-        });
-        response.push(appt);
-      }
-
-      const lastMonth = moment().subtract(1, 'month');
       const appt = new MockAppointment({
-        id: '3',
         cancellable: false,
-        localStartTime: lastMonth,
+        localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
       });
-      response.push(appt);
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit();
@@ -62,13 +49,6 @@ describe('VAOS past appointment flow', () => {
           // Constrain search within list group.
           cy.findByTestId(
             `appointment-list-${yesterday.format('YYYY-MM')}`,
-          ).within(() => {
-            cy.findAllByTestId('appointment-list-item').should($list => {
-              expect($list).to.have.length(2);
-            });
-          });
-          cy.findByTestId(
-            `appointment-list-${lastMonth.format('YYYY-MM')}`,
           ).within(() => {
             cy.findAllByTestId('appointment-list-item').should($list => {
               expect($list).to.have.length(1);

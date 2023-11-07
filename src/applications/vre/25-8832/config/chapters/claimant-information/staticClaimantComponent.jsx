@@ -39,7 +39,7 @@ const ClaimantInformationComponent = ({
       <va-alert status="info">{alertContent}</va-alert>
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        please call Veterans Benefits Assistance at{' '}
+        Call Veterans Benefits Assistance at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> Monday through Friday,{' '}
         between 8:00 a.m. and 9:00 p.m. ET.
       </p>

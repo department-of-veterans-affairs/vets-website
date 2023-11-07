@@ -15,7 +15,6 @@ import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 import {
-  dateFormat,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   setCaretToPos,
@@ -47,12 +46,12 @@ const ReplyForm = props => {
   const [newDraftId, setNewDraftId] = useState(
     draftToEdit ? draftToEdit.messageId : null,
   );
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, updateModalVisible] = useState(false);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -238,8 +237,6 @@ const ReplyForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setUserSaved(true);
-
         await setMessageInvalid(false);
         if (checkMessageValidity()) {
           setLastFocusableElement(e.target);
@@ -249,7 +246,11 @@ const ReplyForm = props => {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError(null);
+          setNavigationError({
+            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+            confirmButtonText: 'Continue editing',
+            cancelButtonText: 'Delete draft',
+          });
         }
       }
 
@@ -315,15 +316,9 @@ const ReplyForm = props => {
         (messageBody === '' && draftBody === null)
       ) {
         setNavigationError(null);
-      } else if (messageBody !== draftBody) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-          confirmButtonText: 'Continue editing',
-          cancelButtonText: 'Delete draft',
-        });
       }
     },
-    [draft, messageBody],
+    [deleteButtonClicked, draft, messageBody],
   );
 
   useEffect(
@@ -483,49 +478,18 @@ const ReplyForm = props => {
                 </section>
               )}
 
-              <DraftSavedInfo userSaved={userSaved} />
+              <DraftSavedInfo />
               <ComposeFormActionButtons
                 onSend={sendMessageHandler}
                 onSaveDraft={(type, e) => saveDraftHandler(type, e)}
                 draftId={newDraftId}
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
+                setDeleteButtonClicked={setDeleteButtonClicked}
+                messageBody={messageBody}
               />
             </div>
           </form>
-        </section>
-        <section
-          aria-label="Message you are replying to"
-          className="vads-u-margin--0 message-replied-to"
-          data-testid="message-replied-to"
-        >
-          <h2 className="sr-only">Message you are replying to.</h2>
-          <div>
-            <h3 className="sr-only">Message details</h3>
-            <p className="vads-u-margin--0">
-              <strong>From: </strong>
-              <span data-dd-privacy="mask">{replyMessage.senderName}</span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-to">
-              <strong>To: </strong>
-              <span data-dd-privacy="mask">{replyMessage.recipientName}</span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-date">
-              <strong>Date: </strong>
-              <span data-dd-privacy="mask">
-                {dateFormat(replyMessage.sentDate)}
-              </span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-id">
-              <strong>Message ID: </strong>
-              <span data-dd-privacy="mask">{replyMessage.messageId}</span>
-            </p>
-          </div>
-
-          <section aria-label="Message body." className="vads-u-margin-top--1">
-            <h3 className="sr-only">Message body.</h3>
-            <MessageThreadBody text={replyMessage.body} />
-          </section>
         </section>
       </>
     )

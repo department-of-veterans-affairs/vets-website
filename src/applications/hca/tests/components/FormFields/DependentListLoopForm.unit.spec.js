@@ -36,4 +36,28 @@ describe('hca <DependentListLoopForm>', () => {
       expect(title).to.contain.text('Mary Smith\u2019s additional information');
     });
   });
+
+  describe('when the user is logged out', () => {
+    it('should not render the save-in-progress warning', () => {
+      const props = {
+        ...defaultProps,
+        data: { 'view:isLoggedIn': false },
+      };
+      const { container } = render(<DependentListLoopForm {...props} />);
+      const alert = container.querySelector('[data-testid="hca-sip-warning"]');
+      expect(alert).to.not.exist;
+    });
+  });
+
+  describe('when the user is logged in', () => {
+    it('should render the save-in-progress warning', () => {
+      const props = {
+        ...defaultProps,
+        data: { 'view:isLoggedIn': true },
+      };
+      const { container } = render(<DependentListLoopForm {...props} />);
+      const alert = container.querySelector('[data-testid="hca-sip-warning"]');
+      expect(alert).to.exist;
+    });
+  });
 });
