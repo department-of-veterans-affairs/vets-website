@@ -11,7 +11,7 @@ const UnauthenticatedWarningAlert = ({ toggleLoginModal, isLoggedIn }) => {
   };
 
   if (isLoggedIn) {
-    return null; // Return null if user is logged in
+    return null;
   }
 
   return (
@@ -36,7 +36,7 @@ const UnauthenticatedWarningAlert = ({ toggleLoginModal, isLoggedIn }) => {
 };
 
 UnauthenticatedWarningAlert.propTypes = {
-  isLoggedIn: PropTypes.bool, // Add PropTypes for isLoggedIn
+  isLoggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
 };
 
