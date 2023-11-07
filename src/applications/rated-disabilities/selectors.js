@@ -24,9 +24,16 @@ export const hasTotalDisabilityServerError = state => {
 };
 
 // Feature toggles
+export const isLoadingFeatures = state => toggleValues(state).loading;
+
+// 'rated_disabilities_detect_discrepancies'
+export const rdDetectDiscrepancies = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.ratedDisabilitiesDetectDiscrepancies];
+
 // 'rated_disabilities_use_lighthouse`
 export const rdUseLighthouse = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.ratedDisabilitiesUseLighthouse];
 
-export const rdDetectDiscrepancies = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.ratedDisabilitiesDetectDiscrepancies];
+// 'rated_disabilities_sort_ab_test'
+export const rdSortAbTest = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.ratedDisabilitiesSortAbTest];
