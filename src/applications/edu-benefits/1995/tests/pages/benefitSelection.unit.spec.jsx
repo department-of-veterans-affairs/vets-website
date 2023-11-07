@@ -9,7 +9,6 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import environments from 'site/constants/environments';
 import formConfig from '../../config/form';
 
 describe('Edu 1995 benefitSelection', () => {
@@ -51,8 +50,12 @@ describe('Edu 1995 benefitSelection', () => {
 });
 
 describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
-  const buildType = `${__BUILDTYPE__}`;
-  __BUILDTYPE__ = environments.VAGOVPROD;
+  beforeEach(() => {
+    global.window.buildType = true;
+  });
+  afterEach(() => {
+    global.window.buildType = false;
+  });
   const {
     schema,
     uiSchema,
@@ -68,5 +71,4 @@ describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
     expect(form.find('input').length).to.equal(5);
     form.unmount();
   });
-  __BUILDTYPE__ = buildType;
 });

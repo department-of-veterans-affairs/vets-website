@@ -1,8 +1,10 @@
 import environment from 'platform/utilities/environment';
-import environments from 'site/constants/environments';
 
 export const isProductionOfTestProdEnv = () => {
-  return environment.isProduction() || __BUILDTYPE__ === environments.VAGOVPROD;
+  return (
+    environment.isProduction() ||
+    (global && global?.window && global?.window?.buildType)
+  );
 };
 
 export const buildSubmitEventData = formData => {
