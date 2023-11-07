@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const HubCard = ({ heading, content, children, className }) => {
+export const HubCard = ({ heading, content, children }) => {
   return (
-    <va-card class={className}>
+    <va-card>
       <h2 className="vads-u-margin--0 vads-u-font-size--h3">{heading}</h2>
       <p>{content}</p>
       {children}
@@ -18,5 +18,4 @@ HubCard.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  className: PropTypes.string,
 };
