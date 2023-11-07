@@ -183,7 +183,6 @@ describe('<ContactInformation>', () => {
     };
 
     const wrapper = shallow(<ContactInformation institution={institution} />);
-
     expect(
       wrapper
         .find('.small-screen-font')
