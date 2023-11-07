@@ -302,7 +302,7 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
 }
 
-export function isSponserDeceased(item) {
+export function isSponsorDeceased(item) {
   return get('application.veteran.isDeceased', item) === 'yes';
 }
 
