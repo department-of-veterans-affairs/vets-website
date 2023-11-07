@@ -15,7 +15,7 @@ import {
 } from '../../vaos-cypress-helpers';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import RequestDatePageObject from '../../page-objects/RequestDatePageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
@@ -67,8 +67,7 @@ describe('VAOS community care flow - Audiology', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser();
-        mockUser.setAddress('123 Main St.');
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         // Act
         cy.login(mockUser);
@@ -87,13 +86,13 @@ describe('VAOS community care flow - Audiology', () => {
           .selectTypeOfCare(/Routine hearing exam/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -141,13 +140,13 @@ describe('VAOS community care flow - Audiology', () => {
           .selectTypeOfCare(/Routine hearing exam/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
@@ -211,7 +210,7 @@ describe('VAOS community care flow - Audiology', () => {
           .selectTypeOfCare(/Routine hearing exam/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -221,7 +220,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -269,7 +268,7 @@ describe('VAOS community care flow - Audiology', () => {
           .selectTypeOfCare(/Routine hearing exam/i)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -279,7 +278,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 

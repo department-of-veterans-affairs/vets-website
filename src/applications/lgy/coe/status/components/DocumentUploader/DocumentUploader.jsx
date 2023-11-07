@@ -38,7 +38,7 @@ const DocumentUploader = () => {
     if (state.documentType === '') {
       setState({
         ...state,
-        errorMessage: 'Please choose a document type above.',
+        errorMessage: 'Choose a document type above.',
       });
       return;
     }
@@ -59,8 +59,8 @@ const DocumentUploader = () => {
       <h2>We need documents from you</h2>
       <p>
         We’ve emailed you a notification letter about documentation for your COE
-        request. Please send us all the documents listed so we can make a
-        decision about your request.
+        request. Send us all the documents listed so we can make a decision
+        about your request.
       </p>
       {state.successMessage ? (
         <va-alert

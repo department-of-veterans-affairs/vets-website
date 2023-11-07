@@ -7,7 +7,7 @@ import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import RequestDatePageObject from '../../page-objects/RequestDatePageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import {
@@ -74,13 +74,13 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 
@@ -124,7 +124,7 @@ describe('VAOS community care flow - Podiatry', () => {
     describe('And veteran does have a home address', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser().setAddress('123 Main St.');
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         // Act
         cy.login(mockUser);
@@ -134,7 +134,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -144,7 +144,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(true)
+          .assertHomeAddress()
           .selectProvider()
           .clickNextButton();
 
@@ -184,7 +184,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        RequestDatePageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -194,7 +194,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         CommunityCarePreferencesPageObject.assertUrl()
           .expandAccordian()
-          .assertHomeAddress(false)
+          .assertHomeAddress({ exist: false })
           .selectProvider()
           .clickNextButton();
 

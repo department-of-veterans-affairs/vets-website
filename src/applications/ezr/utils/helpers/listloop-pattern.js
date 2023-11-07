@@ -6,10 +6,10 @@
  * @returns {Object} - the dataset to return
  */
 export function getDataToSet(props) {
-  const { slices, datakey, localData, listRef, viewFields } = props;
+  const { slices, dataKey, localData, listRef, viewFields } = props;
   return localData === null
-    ? { [datakey]: listRef, [viewFields.add]: null, [viewFields.skip]: true }
-    : { [datakey]: [...slices.beforeIndex, localData, ...slices.afterIndex] };
+    ? { [dataKey]: listRef, [viewFields.add]: null, [viewFields.skip]: true }
+    : { [dataKey]: [...slices.beforeIndex, localData, ...slices.afterIndex] };
 }
 
 /**

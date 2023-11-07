@@ -10,8 +10,9 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 
-import { FORMAT_READABLE } from '../../shared/constants';
-import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
+import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
+import { getIssuesListItems } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -27,18 +28,9 @@ export class ConfirmationPage extends React.Component {
     const { name = {}, form } = this.props;
     const { submission, formId, data } = form;
     const { response } = submission;
-    const issues = getSelected(data || []).map((issue, index) => (
-      <li key={index} className="vads-u-margin-bottom--0">
-        <span className="dd-privacy-hidden" data-dd-action-name="issue name">
-          {getIssueName(issue)}
-        </span>
-      </li>
-    ));
+    const issues = data ? getIssuesListItems(data) : [];
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
-    const handlers = {
-      print: () => window.print(),
-    };
 
     return (
       <div>
@@ -72,22 +64,9 @@ export class ConfirmationPage extends React.Component {
           {response && (
             <>
               {submitDate.isValid() && (
-                <p>
-                  <strong>Date submitted</strong>
-                  <br role="presentation" />
-                  <span>{submitDate.format(FORMAT_READABLE)}</span>
-                </p>
+                <DateSubmitted submitDate={submitDate} />
               )}
-              <strong>
-                Issue
-                {issues.length > 1 ? 's' : ''} submitted
-              </strong>
-              <ul className="vads-u-margin-top--0">{issues}</ul>
-              <va-button
-                class="screen-only"
-                onClick={handlers.print}
-                text="Print for your records"
-              />
+              <IssuesSubmitted issues={issues} />
             </>
           )}
         </div>

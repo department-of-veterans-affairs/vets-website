@@ -345,14 +345,13 @@ export function mockCCProvidersApi({
 /**
  * Function to mock the 'GET' appointment endpoint.
  *
- * @example GET '/vaos/v2/appointments/${data.id}'
+ * @example GET '/vaos/v2/appointments/:id'
  *
  * @export
  * @param {Object} arguments - Function arguments.
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
- * @returns {void}
  */
 export function mockAppointmentApi({
   response: data,
@@ -389,7 +388,6 @@ export function mockAppointmentApi({
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
  */
 export function mockAppointmentUpdateApi({
   response: data,
@@ -428,7 +426,6 @@ export function mockAppointmentUpdateApi({
  * @param {Object} arguments.response - The response object to return from the mock api call.
  * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
  */
 export function mockAppointmentCreateApi({
   response: data,
@@ -458,18 +455,18 @@ export function mockAppointmentCreateApi({
         // Save and return the same appointment back to the caller with a new simulated
         // appointment id. The saved appointment is used in the next 'v2:get:appointment'
         // api call.
-        const newAppointment = {
-          data: {
-            id: 'mock1',
-            attributes: {
-              ...req.body,
-              start: req.body.slot ? req.body.slot.start : null,
-              cancellable: req.body.status,
-            },
-          },
-        };
+        // const newAppointment = {
+        //   data: {
+        //     id: 'mock1',
+        //     attributes: {
+        //       ...req.body,
+        //       start: req.body.slot ? req.body.slot.start : null,
+        //       cancellable: req.body.status,
+        //     },
+        //   },
+        // };
 
-        req.reply(newAppointment);
+        // req.reply(newAppointment);
       },
     ).as('v2:create:appointment');
   }
@@ -489,7 +486,6 @@ export function mockAppointmentCreateApi({
 export function mockAppointmentsApi({
   response: data,
   responseCode = 200,
-  // status = APPOINTMENT_STATUS.booked,
   apiVersion = 2,
 } = {}) {
   if (apiVersion === 2) {
@@ -514,13 +510,6 @@ export function mockAppointmentsApi({
         if (data) {
           req.reply({ data });
         }
-        //  else if (status === APPOINTMENT_STATUS.booked) {
-        //   req.reply({
-        //     data: confirmedV2.data,
-        //   });
-        // } else if (status === APPOINTMENT_STATUS.pending) {
-        //   req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
-        // } else req.reply({});
       },
     ).as('v2:get:appointments');
   }
