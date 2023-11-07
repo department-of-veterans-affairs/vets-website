@@ -29,7 +29,8 @@ button.va-crisis-line {
     outline-offset: -2px;
   }
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: $red-70v;
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
@@ -103,6 +104,7 @@ button.va-crisis-line {
     background: url(/img/vcl-logo.png) no-repeat left;
     background-position: left 5px;
     background-size: 32px auto;
+    margin-top: 0;
   }
   &-list {
     list-style: none;
@@ -116,8 +118,18 @@ button.va-crisis-line {
         border-bottom: 1px solid $color-gray-light;
       }
       > a {
-        padding: 0.5em 0;
+        color: $color-link-default;
+        text-decoration: underline;
         align-self: center;
+      }
+      > p {
+        color: $color-link-default;
+        text-decoration: underline;
+        margin-bottom: 0;
+      }
+      > p > a {
+        color: $color-link-default;
+        padding: 0;
       }
     }
   }
