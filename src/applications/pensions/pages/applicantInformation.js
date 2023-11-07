@@ -24,9 +24,6 @@ export default {
     'ui:description': applicantDescription,
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
-      'ui:options': {
-        hideIf: formData => formData.isLoggedIn,
-      },
     },
     veteranFullName: fullNameUI,
     veteranSocialSecurityNumber: {
