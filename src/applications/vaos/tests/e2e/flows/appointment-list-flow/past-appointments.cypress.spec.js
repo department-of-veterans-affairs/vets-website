@@ -8,12 +8,12 @@ import {
   mockAppointmentsApi,
   mockFacilitiesApi,
   mockFeatureToggles,
-  mockLoginApi,
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
+import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
@@ -23,8 +23,9 @@ describe('VAOS past appointment flow', () => {
 
       mockFacilitiesApi();
       mockFeatureToggles();
-      mockLoginApi();
       mockVamcEhrApi();
+
+      cy.login(new MockUser());
     });
 
     it('should display past appointments list', () => {
