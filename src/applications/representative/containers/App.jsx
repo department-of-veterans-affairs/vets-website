@@ -10,7 +10,7 @@ import GetFormHelp from '../components/GetFormHelp';
 export default function App({ children }) {
   return (
     <>
-      <div className="find-a-representative">
+      <div className="find-a-representative vads-u-margin-x--3">
         <div className="row">{children}</div>
         <div className="row">
           <div className="usa-grid usa-width-three-fourths">
