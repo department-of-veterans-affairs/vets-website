@@ -31,6 +31,11 @@
         .location-input-container {
           position: relative;
         }
+
+        .usa-input-error {
+          margin-top: 0em;
+        }
+
         .use-my-location-button-container {
           @media (min-width: $large-screen) {
             position: absolute;
@@ -40,13 +45,20 @@
           }
         }
 
+        .use-my-location-button-container-error {
+          @media (min-width: $large-screen) {
+            top: 4.2em;
+            left: 30.8em;
+          }
+        }
+
         .use-my-location-button {
           text-decoration: none;
           background-color: transparent;
           color: $color-link-default;
           font-weight: normal;
           padding: 0 0 0 1.5em;
-          margin-top: 0.7em;
+          margin-top: 0.4em;
           background-image: url("/img/location-arrow-solid.svg");
           background-repeat: no-repeat;
           background-color: transparent;
