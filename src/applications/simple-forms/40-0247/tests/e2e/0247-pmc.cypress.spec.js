@@ -21,6 +21,8 @@ import manifest from '../../manifest.json';
 const pagePaths = getPagePaths(formConfig);
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
+
     dataPrefix: 'data',
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -53,16 +55,6 @@ const testConfig = createTestConfig(
               'veteranDateOfDeath',
               veteranDateOfDeath,
             );
-
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.veteranIdentificationInfoPage]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
 
             cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -110,18 +102,6 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextWebComponent('applicantPhone', data.applicantPhone);
-
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.certificatesPage]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { certificates } = data;
-
-            fillTextWebComponent('certificates', certificates);
 
             cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
