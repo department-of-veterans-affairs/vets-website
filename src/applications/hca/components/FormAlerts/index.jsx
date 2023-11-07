@@ -133,8 +133,8 @@ export const DependentSIPWarning = () => (
     background-only
   >
     <p className="vads-u-margin-y--0">
-      To save your progress, make sure to fill in all the required fields for
-      your dependent.
+      Be sure to enter all the required information for your dependent. We can
+      only save your progress when you enter the required information.
     </p>
   </va-alert>
 );
