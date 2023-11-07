@@ -11,6 +11,7 @@ import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import { makePdf, processList } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -188,46 +189,13 @@ const ChemHemDetails = props => {
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
         <h2>Results</h2>
-        <va-alert-expandable
-          trigger="Need help understanding your results?"
-          class="no-print vads-u-margin-y--1p5"
-          status="info"
-        >
-          <p className="vads-u-margin-bottom--1">
-            If your results are outside the reference range (the expected range
-            for that test), your results may include a word like "high" or
-            "low". But this doesn’t automatically mean you have a health
-            problem.
-          </p>
-          <br />
-          <p>
-            Your provider will review your results. If you need to do anything,
-            your provider will contact you.
-          </p>
-          <br />
-          <p>
-            If you have any questions, send a message to the care team that
-            ordered this test.
-          </p>
-          <br />
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-              rel="noreferrer" // check dis
-            >
-              Compose a message.
-            </a>
-          </p>
-          <br />
-          <p>
-            <strong>Note:</strong> if you have questions about more than 1 test
-            oredered by the same care team, send 1 message with all of your
-            questions.
-          </p>
-        </va-alert-expandable>
+        <InfoAlert
+          highLowResults
+          messagingURL={mhvUrl(
+            isAuthenticatedWithSSOe(fullState),
+            'compose-message',
+          )}
+        />
         <div className="print-only">
           <p>
             Your provider will review your results and explain what they mean

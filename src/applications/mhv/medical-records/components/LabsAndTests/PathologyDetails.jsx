@@ -9,6 +9,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import { nameFormat, dateFormat, makePdf } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
@@ -138,38 +139,12 @@ const PathologyDetails = props => {
       </div>
       <div className="test-results-container">
         <h4>Results</h4>
-        <va-alert-expandable
-          status="info"
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results. If you need to do anything,
-            your provider will contact you.
-          </p>
-          <br />
-          <p>
-            If you have any questions, send a message to the care team that
-            ordered this test.
-          </p>
-          <br />
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Compose a new message
-            </a>
-          </p>
-          <br />
-          <p>
-            <span className="vads-u-font-weight--bold">Note: </span>
-            If you have questions about more than 1 test ordered by the same
-            care team, send 1 message with all of your questions.
-          </p>
-        </va-alert-expandable>
+        <InfoAlert
+          messagingURL={mhvUrl(
+            isAuthenticatedWithSSOe(fullState),
+            'compose-message',
+          )}
+        />
         <p>{record.results}</p>
       </div>
     </div>
