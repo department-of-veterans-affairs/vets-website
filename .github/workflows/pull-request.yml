@@ -35,7 +35,7 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Fetch Unit Test allow list
+      - name: Fetch Unit Test Stability Allow List
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
