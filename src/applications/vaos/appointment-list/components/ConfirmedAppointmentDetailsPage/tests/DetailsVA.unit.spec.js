@@ -4,7 +4,6 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import DetailsVA from '../DetailsVA';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
-import CCInstructions from '../CCInstructions';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
@@ -126,24 +125,6 @@ describe('DetailsVA component', () => {
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
       initialState,
     });
-
-    // VAInstructions with upcoming appointment
-    expect(await wrapper.findByText('Follow-up/Routine: I have a headache')).to
-      .exist;
-  });
-
-  it('should render CCInstructions', async () => {
-    const appointment = {
-      ...appointmentData,
-      comment: 'Follow-up/Routine: I have a headache',
-    };
-
-    const wrapper = renderWithStoreAndRouter(
-      <CCInstructions appointment={appointment} />,
-      {
-        initialState,
-      },
-    );
 
     // VAInstructions with upcoming appointment
     expect(await wrapper.findByText('Follow-up/Routine: I have a headache')).to
