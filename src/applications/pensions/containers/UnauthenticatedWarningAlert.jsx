@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
-const UnauthenticatedAlert = ({ toggleLoginModal }) => {
+const UnauthenticatedWarningAlert = ({ toggleLoginModal, isLoggedIn }) => {
   const showLoginModal = e => {
     e.preventDefault();
     toggleLoginModal(true);
   };
+
+  if (isLoggedIn) {
+    return null; // Return null if user is logged in
+  }
+
   return (
     <va-alert status="warning" uswds slim>
       <React.Fragment key=".1">
@@ -30,15 +35,20 @@ const UnauthenticatedAlert = ({ toggleLoginModal }) => {
   );
 };
 
-UnauthenticatedAlert.propTypes = {
+UnauthenticatedWarningAlert.propTypes = {
+  isLoggedIn: PropTypes.bool, // Add PropTypes for isLoggedIn
   toggleLoginModal: PropTypes.func,
 };
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.login.currentlyLoggedIn,
+});
 
 const mapDispatchToProps = {
   toggleLoginModal: toggleLoginModalAction,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
-)(UnauthenticatedAlert);
+)(UnauthenticatedWarningAlert);
