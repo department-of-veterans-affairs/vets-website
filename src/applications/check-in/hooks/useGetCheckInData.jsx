@@ -13,6 +13,7 @@ import {
   receivedMultipleAppointmentDetails,
   triggerRefresh,
   updateFormAction as updateDayOfForm,
+  additionalContext,
 } from '../actions/day-of';
 
 import {
@@ -65,10 +66,11 @@ const useGetCheckInData = ({
           appointments,
           demographics,
           patientDemographicsStatus,
+          setECheckinStartedCalled,
         } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-
+        dispatch(additionalContext({ setECheckinStartedCalled }));
         if (!appointmentsOnly) {
           const travelPaySent = getTravelPaySent(window);
           dispatch(receivedDemographicsData(demographics));
@@ -88,7 +90,15 @@ const useGetCheckInData = ({
         }
       });
     },
-    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled, reload],
+    [
+      appointmentsOnly,
+      dispatch,
+      token,
+      isTravelReimbursementEnabled,
+      reload,
+      getTravelPaySent,
+      isTravelLogicEnabled,
+    ],
   );
 
   const setPreCheckInData = useCallback(
