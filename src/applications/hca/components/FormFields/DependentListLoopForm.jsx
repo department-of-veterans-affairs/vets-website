@@ -6,10 +6,11 @@ import {
   dependentSchema as schema,
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
+import { DependentSIPWarning } from '../FormAlerts';
 
 const DependentListLoopForm = props => {
   const { children, data, page, onChange, onSubmit } = props;
-  const { fullName = {} } = data || {};
+  const { fullName = {}, 'view:isLoggedIn': isLoggedIn } = data || {};
 
   // build the uiSchema title attribute based on form data & page
   const nameToDisplay =
@@ -21,6 +22,7 @@ const DependentListLoopForm = props => {
 
   return (
     <>
+      {isLoggedIn ? <DependentSIPWarning /> : null}
       <SchemaForm
         name="Dependent"
         title="Dependent"
