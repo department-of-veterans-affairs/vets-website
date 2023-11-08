@@ -6,7 +6,7 @@ const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
       <va-link
-        className="mhv-c-link butt"
+        className="mhv-c-link"
         href={l.href}
         onClick={() =>
           recordEvent({
