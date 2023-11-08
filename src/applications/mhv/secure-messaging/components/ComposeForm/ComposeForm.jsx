@@ -120,6 +120,12 @@ const ComposeForm = props => {
         category === null &&
         attachments.length === 0;
 
+      const editPopulatedForm =
+        messageBody !== draft?.messageBody ||
+        selectedRecipient !== draft?.recipientId ||
+        category !== draft?.category ||
+        subject !== draft?.subject;
+
       if (blankForm) {
         setUnsavedNavigationError(null);
       } else {
@@ -127,7 +133,7 @@ const ComposeForm = props => {
           setUnsavedNavigationError(
             ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
           );
-          if (formPopulated) {
+          if (formPopulated && !editPopulatedForm) {
             setUnsavedNavigationError(null);
           }
         }
@@ -324,10 +330,8 @@ const ComposeForm = props => {
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
-        // setUserSaved(true);
         return;
       }
-
       setFieldsString(newFieldsString);
 
       const formData = {
