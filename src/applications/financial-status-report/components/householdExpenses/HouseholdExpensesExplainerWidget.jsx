@@ -49,13 +49,13 @@ const HouseholdExpensesExplainerWidget = ({
       }}
     >
       <fieldset>
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="household expenses" />
-        ) : null}
         <div className="vads-u-margin-top--neg4 vads-u-padding-top--0p25">
-          <h3 className="schemaform-block-title">
+          <h3 className="schemaform-block-title" ref={headerRef}>
             Your monthly household expenses
           </h3>
+          {reviewNavigation && showReviewNavigation ? (
+            <ReviewPageNavigationAlert data={data} title="household expenses" />
+          ) : null}
           <p>
             Now we’re going to ask you about your monthly household expenses,
             including:
