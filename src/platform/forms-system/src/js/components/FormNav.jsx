@@ -125,8 +125,10 @@ export default function FormNav(props) {
           if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
             customScrollAndFocus(page.scrollAndFocusTarget, index);
           } else {
-            // h2 fallback for confirmation page
-            focusByOrder([defaultFocusSelector, 'h2']);
+            focusByOrder(
+              [defaultFocusSelector, 'h2'],
+              document.querySelector(defaultFocusSelector),
+            );
           }
         } else {
           // h2 fallback for confirmation page
@@ -153,6 +155,7 @@ export default function FormNav(props) {
           current={currentChapterDisplay}
           uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
+          name="v3SementedProgressBar"
           {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
         />
       )}
