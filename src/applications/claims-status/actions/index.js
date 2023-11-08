@@ -500,6 +500,7 @@ export function clearAdditionalEvidenceNotification() {
   };
 }
 
+// TODO: remove this function when Lighthouse feature toggle is removed
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
