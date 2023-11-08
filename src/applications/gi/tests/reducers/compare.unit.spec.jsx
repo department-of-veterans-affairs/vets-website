@@ -134,4 +134,67 @@ describe('compare reducer', () => {
     const state = compare(initialState, actions);
     expect(state).to.deep.equal(newState);
   });
+
+  const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
+
+  const mockActionPayload = [
+    {
+      attributes: {
+        facilityCode: 'FAC001',
+        name: 'Institution 1',
+      },
+    },
+    {
+      attributes: {
+        facilityCode: 'FAC002',
+        name: 'Institution 2',
+      },
+    },
+  ];
+
+  const initialState = {
+    search: {
+      loaded: [],
+      institutions: {},
+    },
+    details: {
+      loaded: [],
+      institutions: {},
+    },
+    selected: [],
+  };
+  describe('reducer for UPDATE_COMPARE_DETAILS', () => {
+    it('should update the state with details from the action payload', () => {
+      const action = {
+        type: UPDATE_COMPARE_DETAILS,
+        payload: mockActionPayload,
+      };
+
+      const expectedLoadedCodes = mockActionPayload.map(
+        item => item.attributes.facilityCode,
+      );
+      const newState = compare(initialState, action);
+      expect(newState.search.loaded).to.deep.equal(expectedLoadedCodes);
+      expect(newState.details.loaded).to.deep.equal(expectedLoadedCodes);
+      mockActionPayload.forEach(item => {
+        const code = item.attributes.facilityCode;
+        expect(newState.search.institutions).to.have.property(code);
+        expect(newState.search.institutions[code].name).to.equal(
+          item.attributes.name,
+        );
+        expect(newState.details.institutions).to.have.property(code);
+        expect(newState.details.institutions[code]).to.include(item.attributes);
+        expect(newState.details.institutions[code].feesAndTuition).to.be.a(
+          'number',
+        );
+        expect(
+          newState.details.institutions[code].feesAndTuition,
+        ).to.be.at.least(10000);
+        expect(newState.details.institutions[code].feesAndTuition).to.be.below(
+          20000,
+        );
+      });
+      expect(newState.error).to.be.null;
+    });
+  });
 });

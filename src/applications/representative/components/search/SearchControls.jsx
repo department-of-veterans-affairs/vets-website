@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
 
 const SearchControls = props => {
@@ -12,17 +14,23 @@ const SearchControls = props => {
     onChange,
     geolocateUser,
     onSubmit,
+    clearGeocodeError,
     // clearSearchText
   } = props;
   const {
-    // locationChanged,
+    locationChanged,
     locationInputString,
     repOrganizationInputString,
     representativeType,
-    // geolocationInProgress,
+    geolocationInProgress,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
+
+  const showError =
+    locationChanged &&
+    !geolocationInProgress &&
+    (!locationInputString || locationInputString.length === 0);
 
   const handleSearchButtonClick = e => {
     e.preventDefault();
@@ -32,7 +40,7 @@ const SearchControls = props => {
     // } = currentQuery;
 
     if (!locationInputString) {
-      onChange({ searchString: '' });
+      onChange({ locationInputString: '' });
       focusElement('#street-city-state-zip');
       return;
     }
@@ -86,21 +94,48 @@ const SearchControls = props => {
   };
 
   return (
-    <div className="search-controls-container clearfix">
+    <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
+      <VaModal
+        modalTitle={
+          currentQuery.geocodeError === 1
+            ? 'We need to use your location'
+            : "We couldn't locate you"
+        }
+        onCloseEvent={() => clearGeocodeError()}
+        status="warning"
+        visible={currentQuery.geocodeError > 0}
+      />
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
-          <h3 style={{ marginBottom: '1em' }}>Search for a representative</h3>
-          <div className="location-input-container">
+          <h3 className="vads-u-margin-bottom--0">
+            Search for a representative
+          </h3>
+          <div
+            className={classNames('location-input-container', {
+              'usa-input-error': showError,
+            })}
+          >
             <div className="location-input-header">
               <label
                 htmlFor="street-city-state-zip"
                 id="street-city-state-zip-label"
+                className={showError ? null : 'vads-u-margin-bottom--1p5'}
+                style={showError ? null : { marginTop: '1em' }}
               >
                 City, state or postal code{' '}
                 <span className="form-required-span">(*Required)</span>
               </label>
             </div>
-
+            {showError && (
+              <span
+                className="usa-input-error-message"
+                style={{ whiteSpace: 'nowrap' }}
+                role="alert"
+              >
+                <span className="sr-only">Error</span>
+                Please fill in a city, state or postal code.
+              </span>
+            )}
             <input
               id="street-city-state-zip"
               ref={locationInputFieldRef}
@@ -111,20 +146,35 @@ const SearchControls = props => {
               value={locationInputString}
               title="Your location: Street, City, State or Postal code"
             />
-            <div className="use-my-location-button-container">
-              <button
-                onClick={handleGeolocationButtonClick}
-                type="button"
-                className="use-my-location-button"
-                aria-label="Use my location"
-              >
-                <i
-                  className="use-my-location-icon"
-                  aria-hidden="true"
-                  role="presentation"
-                />
-                <div className="button-text">Use my location</div>
-              </button>
+            <div
+              className={classNames('use-my-location-button-container', {
+                'use-my-location-button-container-error': showError,
+              })}
+            >
+              {geolocationInProgress ? (
+                <div className="finding-your-location-loading">
+                  <i
+                    className="fa fa-spinner fa-spin use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <span aria-live="assertive"> Finding your location...</span>
+                </div>
+              ) : (
+                <button
+                  onClick={handleGeolocationButtonClick}
+                  type="button"
+                  className="use-my-location-button"
+                  aria-label="Use my location"
+                >
+                  <i
+                    className="use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <div className="button-text">Use my location</div>
+                </button>
+              )}
             </div>
           </div>
 
@@ -139,7 +189,10 @@ const SearchControls = props => {
                 htmlFor="representative-organization"
                 id="representative-organization-label"
               >
-                Organization or Representative Name{' '}
+                {representativeType === 'Veteran Service Organization (VSO)'
+                  ? 'Organization'
+                  : 'Representative'}{' '}
+                name{' '}
               </label>
             </div>
             <input
