@@ -1,6 +1,4 @@
 import disabilityLabelsReduced from './disabilityLabelsReduced';
-// import isStaging
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const disabilityLabelsFull = {
   10: 'abnormal heart',
@@ -838,7 +836,7 @@ const disabilityLabelsFull = {
   249482: 'Musculoskeletal - Bones',
 };
 
-export const getDisabilityLabels = () => {
-  if (environment.isStaging()) return disabilityLabelsReduced;
+export const getDisabilityLabels = isReducedContentionList => {
+  if (isReducedContentionList) return disabilityLabelsReduced;
   return disabilityLabelsFull;
 };
