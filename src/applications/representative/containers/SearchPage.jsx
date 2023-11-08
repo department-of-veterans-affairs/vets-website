@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 // import appendQuery from 'append-query';
 // import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
@@ -86,18 +88,18 @@ const SearchPage = props => {
 
   const renderBreadcrumbs = () => {
     return [
-      <a href="/" key="home">
-        Home
-      </a>,
-      <a href="/" key="disability">
-        Disability
-      </a>,
-      <a href="/" key="find-an-accredited-representative">
-        Find an Accredited Representative
-      </a>,
-      <a href="/" key="find-a-representative">
-        Find a Representative
-      </a>,
+      {
+        href: '#one',
+        label: 'Home',
+      },
+      {
+        href: '#two',
+        label: 'Get help from a VA accredited representative',
+      },
+      {
+        href: '#three',
+        label: 'Find a VA accredited representative',
+      },
     ];
   };
 
@@ -252,7 +254,7 @@ const SearchPage = props => {
 
   return (
     <>
-      <va-breadcrumbs>{renderBreadcrumbs()}</va-breadcrumbs>
+      <VaBreadcrumbs breadcrumbList={renderBreadcrumbs()} uswds />
 
       <div className="usa-grid usa-width-three-fourths search-page-container">
         <div className="title-section vads-u-padding-y--1">
