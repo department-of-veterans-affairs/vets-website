@@ -55,8 +55,8 @@ class FormPage extends React.Component {
     if (pageConfig.showPagePerItem) {
       if (
         pageConfig.allowPathWithNoItems &&
-        this.props.form.data &&
         pageConfig.arrayPath &&
+        this.props.form.data &&
         !this.props.form.data[pageConfig.arrayPath]
       ) {
         this.props.form.data[pageConfig.arrayPath] = [];
