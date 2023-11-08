@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import sinon from 'sinon';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import UnauthenticatedWarningAlert from '../../containers/UnauthenticatedWarningAlert';
 
@@ -64,5 +65,18 @@ describe('Unauthenticated warning alert', () => {
     const link = container.querySelector('a');
     expect(link).to.exist;
     expect(link).to.contain.text('sign in to save your progress');
+  });
+  it('should call toggleLoginModal when the "sign in" link is clicked', async () => {
+    const toggleLoginModal = sinon.spy();
+    const { container } = render(
+      <Provider store={mockStoreNotLoggedIn}>
+        <UnauthenticatedWarningAlert toggleLoginModal={toggleLoginModal} />
+      </Provider>,
+    );
+    const link = container.querySelector('a');
+    fireEvent.click(link);
+    waitFor(() => {
+      expect(toggleLoginModal.called).to.be.true;
+    });
   });
 });
