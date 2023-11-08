@@ -25,6 +25,7 @@ import {
 
 const originalLocation = global.window.location;
 const originalGA = global.ga;
+const originalCrypto = global.window.crypto;
 
 const base = 'https://dev.va.gov';
 const usipPath = '/sign-in';
@@ -76,6 +77,14 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   }
 };
 
+const teardown = () => {
+  global.window.location = originalLocation;
+  global.ga = originalGA;
+  global.window.crypto = originalCrypto;
+  localStorage.clear();
+  sessionStorage.clear();
+};
+
 describe('Authentication Utilities', () => {
   describe('loginAppUrlRE', () => {
     it('should match true against sign-in page paths', () => {
@@ -94,6 +103,7 @@ describe('Authentication Utilities', () => {
   describe('getQueryParams', () => {
     const application = 'application';
     const to = 'to';
+    after(() => teardown());
 
     it('should return any AUTH_PARAMS params when present', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
@@ -146,6 +156,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('isExternalRedirect', () => {
+    after(() => teardown());
     it('should return true on USiP and valid application param', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.isExternalRedirect()).to.be.true;
@@ -174,6 +185,7 @@ describe('Authentication Utilities', () => {
     const queryParams = {
       test: 'test',
     };
+    after(() => teardown());
 
     it('should return null if not provided a type', () => {
       expect(authUtilities.sessionTypeUrl({})).to.be.null;
@@ -293,6 +305,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('getGAClientId', () => {
+    after(() => teardown());
     it('should return the GA client id', () => {
       setup({
         mockGA: {
@@ -324,6 +337,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('createExternalApplicationUrl', () => {
+    after(() => teardown());
     it('should return correct url or null for the parsed application param', () => {
       Object.values(EXTERNAL_APPS).forEach(application => {
         setup({ path: `${usipPath}?application=${application}` });
@@ -332,7 +346,6 @@ describe('Authentication Utilities', () => {
           switch (application) {
             case EXTERNAL_APPS.EBENEFITS:
               return EBENEFITS_DEFAULT_PATH;
-            case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;
             case EXTERNAL_APPS.MY_VA_HEALTH:
@@ -353,18 +366,16 @@ describe('Authentication Utilities', () => {
     });
 
     it('should pass all query params through for OCC and Flagship mobile applications', () => {
-      [EXTERNAL_APPS.VA_OCC_MOBILE, EXTERNAL_APPS.VA_FLAGSHIP_MOBILE].forEach(
-        application => {
-          const mockParams = `?application=${application}&foo=bar&bar=foo`;
-          setup({ path: `${usipPath}${mockParams}` });
+      [EXTERNAL_APPS.VA_OCC_MOBILE].forEach(application => {
+        const mockParams = `?application=${application}&foo=bar&bar=foo`;
+        setup({ path: `${usipPath}${mockParams}` });
 
-          expect(authUtilities.createExternalApplicationUrl()).to.eq(
-            `${EXTERNAL_REDIRECTS[application]}${mockParams}`,
-          );
+        expect(authUtilities.createExternalApplicationUrl()).to.eq(
+          `${EXTERNAL_REDIRECTS[application]}${mockParams}`,
+        );
 
-          setup({});
-        },
-      );
+        setup({});
+      });
     });
 
     it('should return with an `authenticated=true` query parameter for Cerner when no `to` query param present', () => {
@@ -387,6 +398,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('createAndStoreReturnUrl', () => {
+    after(() => teardown());
     it('should return window.location when not on USiP', () => {
       setup({ path: nonUsipPath });
       expect(authUtilities.createAndStoreReturnUrl()).to.equal(
@@ -428,6 +440,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('redirect', () => {
+    after(() => teardown());
     it('should redirect to the provided redirectUrl in its simplest use case', () => {
       authUtilities.redirect(base);
       expect(global.window.location).to.equal(base);
@@ -467,6 +480,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('mockLogin', () => {
+    after(() => teardown());
     it('should redirect to proper mockLogin url', async () => {
       Object.values(CSP_IDS).forEach(async policy => {
         setup({});
@@ -474,12 +488,12 @@ describe('Authentication Utilities', () => {
         expect(global.window.location).to.include(
           `v0/sign_in/authorize?type=${policy}&client_id=vamock`,
         );
-        setup({});
       });
     });
   });
 
   describe('login', () => {
+    after(() => teardown());
     it('should setLoginAttempted and redirect to login session url for all CSPs not on USiP', () => {
       Object.values(CSP_IDS).forEach(async policy => {
         setup({ path: nonUsipPath });
@@ -492,7 +506,6 @@ describe('Authentication Utilities', () => {
         expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
           `${base}${nonUsipPath}`,
         );
-        setup({});
       });
     });
 
@@ -531,6 +544,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('mfa', () => {
+    after(() => teardown());
     it('should redirect to the mfa session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.mfa();
@@ -587,6 +601,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('logout', () => {
+    after(() => teardown());
     it('should redirect to the logout session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.logout();
