@@ -8,6 +8,7 @@ const HubSection = ({ title, links }) => {
       <va-link
         className="mhv-c-link"
         href={l.href}
+        text={l.text}
         onClick={() =>
           recordEvent({
             event: 'mhv-link-click',
