@@ -14,6 +14,7 @@ const PaginationWrapper = ({
         onPageSelect={handlePageSelect}
         page={currentPage}
         pages={totalPages}
+        uswds
       />
     </div>
   );
