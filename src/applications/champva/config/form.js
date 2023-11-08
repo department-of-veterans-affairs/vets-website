@@ -57,12 +57,12 @@ const formConfig = {
   title: 'Application for CHAMPVA Benefits',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Sponsor Information',
+    sponsorName: {
+      title: 'Sponsor Name',
       pages: {
         page1: {
-          path: 'name',
-          title: 'Name',
+          path: 'sponsor-name',
+          title: 'Sponsor Name',
           uiSchema: {
             veteransFullName: fullNameUI(),
           },
@@ -73,9 +73,14 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    sponsorSSN: {
+      title: 'Sponsor SSN and VA File Number',
+      pages: {
         page2: {
           path: 'sponsor-ssn',
-          title: 'Social Security Number',
+          title: 'Sponsor Social Security Number',
           uiSchema: {
             ssn: ssnUI(),
           },
@@ -101,9 +106,14 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    sponsorAddress: {
+      title: 'Sponsor Address',
+      pages: {
         page4: {
           path: 'sponsor-address',
-          title: 'Address',
+          title: 'Sponsor Address',
           uiSchema: {
             sponsorAddress: addressUI({
               labels: {
@@ -119,6 +129,11 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    sponsorPhone: {
+      title: 'Sponsor Phone',
+      pages: {
         page5: {
           path: 'sponsor-phone-number',
           title: 'Sponsor Phone Number',
@@ -133,6 +148,11 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    sponsorDateOfBirthAndDeath: {
+      title: 'Sponsor Date of Birth',
+      pages: {
         page6: {
           // TODO:
           // - verify that date of death is not before date of birth
@@ -177,7 +197,7 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {
         applicants: {
-          title: 'Applicants',
+          title: 'All Applicants',
           path: 'applicants',
           uiSchema: {
             'ui:title': 'Applicants',
