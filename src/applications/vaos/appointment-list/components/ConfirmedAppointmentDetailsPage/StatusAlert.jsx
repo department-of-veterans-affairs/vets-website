@@ -92,6 +92,23 @@ export default function StatusAlert({ appointment, facility }) {
 }
 
 StatusAlert.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    cancelationReason: PropTypes.string,
+  }),
+  facility: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  vaos: PropTypes.shape({
+    isPastAppointment: PropTypes.bool.isRequired,
+  }),
+};
+StatusAlert.defaultProps = {
+  appointment: {
+    status: 'booked',
+    cancelationReason: '',
+  },
+  vaos: {
+    isPastAppointment: false,
+  },
 };
