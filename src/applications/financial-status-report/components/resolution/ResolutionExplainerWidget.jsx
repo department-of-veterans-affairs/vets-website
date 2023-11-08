@@ -37,12 +37,6 @@ const ResolutionExplainerWidget = ({
       }}
     >
       <fieldset>
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert
-            data={data}
-            title="repayment or relief options"
-          />
-        ) : null}
         <va-alert
           close-btn-aria-label="Close notification"
           disable-analytics="false"
@@ -60,6 +54,12 @@ const ResolutionExplainerWidget = ({
             you need help with.
           </p>
         </va-alert>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert
+            data={data}
+            title="repayment or relief options"
+          />
+        ) : null}
         {contentBeforeButtons}
         <FormNavButtons
           goBack={handleBackNavigation}
