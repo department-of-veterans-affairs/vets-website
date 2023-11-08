@@ -102,7 +102,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
                 submit an intent to file form. This sets a potential start date
                 for your benefits. If you notify us of your intent to file, you
                 may be able to get back payments for the time between when you
-                submit your intent to file form and when we receive your claim.
+                submit your intent to file form and when we approve your claim.
               </p>
             </div>
           </va-alert>
@@ -199,7 +199,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
                 submit an intent to file form. This sets a potential start date
                 for your benefits. If you notify us of your intent to file, you
                 may be able to get back payments for the time between when you
-                submit your intent to file form and when we receive your claim.
+                submit your intent to file form and when we approve your claim.
               </p>
               <va-link
                 text="Find out how to submit an intent to file form"
