@@ -40,15 +40,14 @@
           @media (min-width: $large-screen) {
             position: absolute;
             left: 30em;
-            top: 2.5em;
+            top: 2em;
             min-width: 10em;
           }
         }
 
         .use-my-location-button-container-error {
           @media (min-width: $large-screen) {
-            top: 4.2em;
-            left: 30.8em;
+            top: 4em;
           }
         }
 
@@ -58,7 +57,6 @@
           color: $color-link-default;
           font-weight: normal;
           padding: 0 0 0 1.5em;
-          margin-top: 0.4em;
           background-image: url("/img/location-arrow-solid.svg");
           background-repeat: no-repeat;
           background-color: transparent;
@@ -69,7 +67,7 @@
           min-width: 14em;
           text-decoration: none;
           background-color: transparent;
-          margin-top: 0.5em;
+          margin-top: 0.3em;
           color: $color-link-default;
           font-weight: normal;
           background-repeat: no-repeat;
