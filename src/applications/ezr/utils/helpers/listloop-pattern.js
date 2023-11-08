@@ -42,3 +42,30 @@ export function getSearchIndex(params, array = []) {
   }
   return indexToReturn;
 }
+
+/**
+ * Helper that determines the default dataset to use based on search params
+ * @param {Object} props - the params to use to parse the default state
+ * @returns {Object} - the parsed state data
+ */
+export function getDefaultState(props) {
+  const {
+    searchIndex,
+    searchAction,
+    defaultData = {},
+    dataToSearch = [],
+    name,
+  } = props;
+  const resultToReturn = { ...defaultData };
+
+  // check if data exists at the array index and set return result accordingly
+  if (typeof dataToSearch[searchIndex] !== 'undefined') {
+    resultToReturn.data = dataToSearch[searchIndex];
+
+    if (searchAction.mode !== 'add') {
+      window.sessionStorage.setItem(name, searchIndex);
+    }
+  }
+
+  return resultToReturn;
+}
