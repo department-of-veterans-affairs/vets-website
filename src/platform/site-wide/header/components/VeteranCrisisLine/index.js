@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
+import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
 export const VeteranCrisisLine = props => (
@@ -21,5 +22,9 @@ export const VeteranCrisisLine = props => (
     </button>
   </div>
 );
+
+VeteranCrisisLine.propTypes = {
+  id: PropTypes.string,
+};
 
 export default VeteranCrisisLine;

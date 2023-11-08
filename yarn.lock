@@ -2781,10 +2781,10 @@
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.1.0-rc4.tgz#30e73420f42afaa6903347920081f778dbde63f8"
   integrity sha512-VjbDupf4S0xUPXnepS0lzwTHxioNkQZGm33D+9/lrZLdpcRdSIurNBajP5vtSBpqKEhG/UrHHpxkv9/S94WfAQ==
 
-"@department-of-veterans-affairs/eslint-plugin@^1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.12.0.tgz#a69a8d7d0175f789a9016af6e25fd7b2c55b3a58"
-  integrity sha512-UFNHTKAeUIsw79rDQUmfOHrDJmT00tzSLSNkJ9ac4Q115OsErXc7GcMjUXFVG9PX+gJyAqYynaIYCZJzUILOxQ==
+"@department-of-veterans-affairs/eslint-plugin@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.13.0.tgz#1bf84fa6eb4b1a6b602b2c77ce23921bab5a0f87"
+  integrity sha512-s4ovnPp+VbI0qqMqdhV391mw25X3T1cpizinLyuoC7msvwdW9e+UcFIO7XK4LCWKoG5kkx4nCLjAKhcKcFj/yA==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
@@ -19986,9 +19986,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#08af8902f6e439abe1c5474cf4adf961f8dbeedf":
-  version "20.29.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#08af8902f6e439abe1c5474cf4adf961f8dbeedf"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#073596c40c696c501fa3b9d20405aa1aacdc9050":
+  version "20.30.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#073596c40c696c501fa3b9d20405aa1aacdc9050"
   dependencies:
     minimist "^1.2.3"
 

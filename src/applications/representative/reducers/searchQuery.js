@@ -30,6 +30,8 @@ export const INITIAL_STATE = {
   fetchSvcsInProgress: false,
   geocodeInProgress: false,
   geocodeResults: [],
+  isErrorEmptyInput: false,
+  isErrorCleared: true,
   mapMoved: false,
   error: false,
   isValid: true,
@@ -42,7 +44,8 @@ export const validateForm = (oldState, payload) => {
   };
 
   return {
-    isValid: newState.locationString?.length > 0,
+    isValid: newState.locationInputString?.length > 0,
+    isErrorEmptyInput: newState.locationInputString?.length === 0,
     locationChanged:
       oldState.locationInputString !== newState.locationInputString,
     repOrganizationChanged:
@@ -152,7 +155,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case CLEAR_SEARCH_TEXT:
       return {
         ...state,
-        searchString: '',
+        locationInputString: '',
         isValid: false,
         locationChanged: true,
       };

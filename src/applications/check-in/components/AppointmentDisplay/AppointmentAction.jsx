@@ -20,7 +20,7 @@ const AppointmentAction = props => {
   const { appointment, router, event } = props;
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
+  const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   const { setCheckinComplete } = useStorage(false);
 
@@ -38,7 +38,8 @@ const AppointmentAction = props => {
         const json = await api.v2.postCheckInData({
           uuid: token,
           appointmentIen: appointment.appointmentIen,
-          facilityId: appointment.facilityId,
+          facilityId: 'appointment.facilityId',
+          setECheckinStartedCalled,
         });
         const { status } = json;
         if (status === 200) {
@@ -51,7 +52,15 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
+    [
+      appointment,
+      updateError,
+      jumpToPage,
+      token,
+      event,
+      setCheckinComplete,
+      setECheckinStartedCalled,
+    ],
   );
   if (
     appointment.eligibility &&
