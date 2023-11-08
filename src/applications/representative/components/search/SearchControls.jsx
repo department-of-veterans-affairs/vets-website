@@ -176,7 +176,6 @@ const SearchControls = props => {
             onInput={handleLocationBlur}
             value={repOrganizationInputString}
             uswds
-            required
           />
 
           <button
