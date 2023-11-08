@@ -1,6 +1,96 @@
 # Form: 21P-527EZ - Application for Veterans Pension
 
-### Context
+## Routes (URLs)
+### Base URLs
+[https://www.staging.va.gov/pension/application/527EZ](https://www.staging.va.gov/pension/application/527EZ)
+
+[https://www.va.gov/pension/application/527EZ](https://www.va.gov/pension/application/527EZ)
+
+Note: All of the following urls are listed with the `va.gov` base url
+
+### Introduction
+[https://www.va.gov/pension/application/527EZ/introduction](https://www.va.gov/pension/application/527EZ/introduction)
+
+### Chapters and Pages
+#### Applicant Information
+- Applicant Information
+[https://www.va.gov/pension/application/527EZ/applicant/information](https://www.va.gov/pension/application/527EZ/applicant/information)
+
+#### Military History
+- Service Periods
+[https://www.va.gov/pension/application/527EZ/military/history](https://www.va.gov/pension/application/527EZ/military/history)
+- General History
+[https://www.va.gov/pension/application/527EZ/military/general](https://www.va.gov/pension/application/527EZ/military/general)
+- Reserve and National Guard
+[https://www.va.gov/pension/application/527EZ/military/reserve-national-guard](https://www.va.gov/pension/application/527EZ/military/reserve-national-guard)
+- Pow Status & Severance Pay
+[https://www.va.gov/pension/application/527EZ/military/pow-severance](https://www.va.gov/pension/application/527EZ/military/pow-severance)
+
+#### Work History
+- Disability History
+[https://www.va.gov/pension/application/527EZ/disability/history](https://www.va.gov/pension/application/527EZ/disability/history)
+- Employment History
+[https://www.va.gov/pension/application/527EZ/employment/history](https://www.va.gov/pension/application/527EZ/employment/history)
+
+#### Household Information
+- Marriage History
+[https://www.va.gov/pension/application/527EZ/household/marriage-info](https://www.va.gov/pension/application/527EZ/household/marriage-info)
+- Current Marriage / 1st Marriage / 2nd Marriage / Etc.
+[https://www.va.gov/pension/application/527EZ/household/marriages/:index](https://www.va.gov/pension/application/527EZ/household/marriages/:index)
+- Spouse Information (Required if married)
+[https://www.va.gov/pension/application/527EZ/household/spouse-info](https://www.va.gov/pension/application/527EZ/household/spouse-info)
+- Spouse Marriage History (Required if spouse married more than once)
+[https://www.va.gov/pension/application/527EZ/household/spouse-marriages/:index](https://www.va.gov/pension/application/527EZ/household/spouse-marriages/:index)
+- Dependent Children
+[https://www.va.gov/pension/application/527EZ/household/dependents](https://www.va.gov/pension/application/527EZ/household/dependents)
+- Children Information (Required if dependents)
+[https://www.va.gov/pension/application/527EZ/household/dependents/children/information/:index](https://www.va.gov/pension/application/527EZ/household/dependents/children/information/:index)
+- Children Address (Required if dependents)
+[https://www.va.gov/pension/application/527EZ/household/dependents/children/address/:index](https://www.va.gov/pension/application/527EZ/household/dependents/children/address/:index)
+
+#### Financial Disclosure
+- Net Worth
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/net-worth](https://www.va.gov/pension/application/527EZ/financial-disclosure/net-worth)
+- Monthly Income
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/monthly-income](https://www.va.gov/pension/application/527EZ/financial-disclosure/monthly-income)
+- Expected Income
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/expected-income](https://www.va.gov/pension/application/527EZ/financial-disclosure/expected-income)
+- Other Expenses
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/other-expenses](https://www.va.gov/pension/application/527EZ/financial-disclosure/other-expenses)
+- Spouse Net Worth (Required if married)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/net-worth/spouse](https://www.va.gov/pension/application/527EZ/financial-disclosure/net-worth/spouse)
+- Spouse Monthly Income (Required if married)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/monthly-income/spouse](https://www.va.gov/pension/application/527EZ/financial-disclosure/monthly-income/spouse)
+- Spouse Expected Income (Required if married)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/expected-income/spouse](https://www.va.gov/pension/application/527EZ/financial-disclosure/expected-income/spouse)
+- Spouse Other Expenses (Required if married)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/other-expenses/spouse](https://www.va.gov/pension/application/527EZ/financial-disclosure/other-expenses/spouse)
+- Dependents Net Worth (Required if dependents)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/net-worth/dependents/:index](https://www.va.gov/pension/application/527EZ/financial-disclosure/net-worth/dependents/:index)
+- Dependents Monthly Income (Required if dependents)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/monthly-income/dependents/:index](https://www.va.gov/pension/application/527EZ/financial-disclosure/monthly-income/dependents/:index)
+- Dependents Expected Income (Required if dependents)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/expected-income/dependents/:index](https://www.va.gov/pension/application/527EZ/financial-disclosure/expected-income/dependents/:index)
+- Dependents Other Expenses (Required if dependents)
+[https://www.va.gov/pension/application/527EZ/financial-disclosure/other-expenses/dependents/:index](https://www.va.gov/pension/application/527EZ/financial-disclosure/other-expenses/dependents/:index)
+
+#### Additional Information
+- Direct Deposit
+[https://www.va.gov/pension/application/527EZ/additional-information/direct-deposit](https://www.va.gov/pension/application/527EZ/additional-information/direct-deposit)
+- Contact Information
+[https://www.va.gov/pension/application/527EZ/additional-information/contact](https://www.va.gov/pension/application/527EZ/additional-information/contact)
+- Aid and Attendance and Housebound benefits
+[https://www.va.gov/pension/application/527EZ/additional-information/aid-attendance](https://www.va.gov/pension/application/527EZ/additional-information/aid-attendance)
+- Document Upload
+[https://www.va.gov/pension/application/527EZ/documents](https://www.va.gov/pension/application/527EZ/documents)
+- Fully Developed Claim Program
+[https://www.va.gov/pension/application/527EZ/additional-information/fdc](https://www.va.gov/pension/application/527EZ/additional-information/fdc)
+
+#### Review and Submit
+- Review Application
+[https://www.va.gov/pension/application/527EZ/review-and-submit](https://www.va.gov/pension/application/527EZ/review-and-submit)
+
+## Context
 
 VA Form 21P-527EZ (Application for Veterans Pension) is intended for wartime Veterans who want to file a pension claim. 
 
