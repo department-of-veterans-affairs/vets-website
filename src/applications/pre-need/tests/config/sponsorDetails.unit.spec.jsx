@@ -6,16 +6,14 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-  selectRadio,
-  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need sponsor information', () => {
+describe('Pre-need sponsor details', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.sponsorInformation.pages.sponsorInformation;
+  } = formConfig.chapters.sponsorInformation.pages.sponsorDetails;
 
   it('should render', () => {
     const form = mount(
@@ -26,8 +24,8 @@ describe('Pre-need sponsor information', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(26);
-    expect(form.find('select').length).to.equal(4);
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
 
@@ -44,7 +42,7 @@ describe('Pre-need sponsor information', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(8);
+    expect(form.find('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -66,6 +64,7 @@ describe('Pre-need sponsor information', () => {
     fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
+    /*
     selectRadio(form, 'root_application_veteran_gender', 'Female');
     selectCheckbox(
       form,
@@ -75,30 +74,10 @@ describe('Pre-need sponsor information', () => {
     selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
     fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
     selectRadio(form, 'root_application_veteran_isDeceased', 'no');
-
+    */
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should reveal date of death question', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect(form.find('input').length).to.equal(26);
-    expect(form.find('select').length).to.equal(4);
-
-    selectRadio(form, 'root_application_veteran_isDeceased', 'yes');
-    expect(form.find('input').length).to.equal(27);
-    expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
 });
