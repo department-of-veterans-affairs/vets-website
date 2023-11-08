@@ -129,7 +129,7 @@ export const DependentSIPWarning = () => (
   <va-alert
     status="warning"
     data-testid="hca-sip-warning"
-    class="vads-u-margin-bottom--4"
+    class="vads-u-margin-bottom--2"
     background-only
   >
     <p className="vads-u-margin-y--0">
