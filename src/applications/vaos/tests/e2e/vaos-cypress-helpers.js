@@ -609,16 +609,16 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object=} arguments.data - The response to return from the mock api call.
+ * @param {Object} [arguments.response=] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number} [arguments.apiVersion=2] - Api version number.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockFacilitiesApi({
-  data,
+  response: data,
   responseCode = 200,
-  apiVersion = 0,
+  version = 2,
 } = {}) {
-  if (apiVersion === 2) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',

@@ -1,19 +1,6 @@
 import PageObject from './PageObject';
 
 export class VAFacilityPageObject extends PageObject {
-  assertAlertWarning({ text, exist = true }) {
-    if (exist) {
-      cy.get('va-alert[status=warning]')
-        .as('alert')
-        .shadow();
-      cy.get('@alert').contains(text);
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
-
-    return this;
-  }
-
   /**
    * Method to assert exisitence of home address.
    *
@@ -35,19 +22,6 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  assertModalWarning({ text, exist = true }) {
-    if (exist) {
-      cy.get('va-modal[status=warning]')
-        .as('alert')
-        .shadow();
-      cy.get('@alert').contains(text);
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
-
-    return this;
-  }
-
   assertOneLocation({ locationName } = {}) {
     cy.findByText(
       /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
@@ -58,9 +32,37 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   assertUrl() {
+    cy.log('assertUrl');
     // cy.url().should('include', url, { timeout: 5000 });
     cy.url().should('include', '/location', { timeout: 5000 });
     cy.axeCheckBestPractice();
+
+    return this;
+  }
+
+  assertWarningAlert({ text, exist = true }) {
+    if (exist) {
+      cy.get('va-alert[status=warning]')
+        .as('alert')
+        .shadow();
+      cy.get('@alert').contains(text);
+    } else {
+      cy.get('va-alert[status=warning]').should('not.exist');
+    }
+
+    return this;
+  }
+
+  assertWarningModal({ text, exist = true }) {
+    if (exist) {
+      cy.get('va-modal[status=warning]')
+        .as('alert')
+        .shadow();
+      cy.get('@alert').contains(text);
+      cy.log('done');
+    } else {
+      cy.get('va-alert[status=warning]').should('not.exist');
+    }
 
     return this;
   }
@@ -76,6 +78,7 @@ export class VAFacilityPageObject extends PageObject {
     //       .click();
     //   }
     // });
+    cy.log('selectLocation');
     cy.findByLabelText(label)
       .as('radio')
       .focus();

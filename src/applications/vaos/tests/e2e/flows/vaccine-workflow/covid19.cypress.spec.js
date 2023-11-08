@@ -62,7 +62,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       // Add one day since same day appointments are not allowed.
       const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
 
-      mockFacilitiesApi({ apiVersion: 2 });
+      mockFacilitiesApi();
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',
@@ -211,9 +211,10 @@ describe('VAOS covid-19 vaccine flow', () => {
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
         mockUser.setAddress('123 Main St.');
 
-        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+        // Create 1 facility and clinic that supports online scheduling
         const mockFacility = new MockFacility();
-        mockFacilitiesApi({ data: [mockFacility], apiVersion: 2 });
+        mockFacilitiesApi({ response: [mockFacility] });
+        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
 
         // Act
         cy.login(mockUser);
@@ -232,7 +233,9 @@ describe('VAOS covid-19 vaccine flow', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .assertOneLocation({ locationName: /Cheyenne VA Medical Center/i })
+          .assertOneLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+          })
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
@@ -267,9 +270,10 @@ describe('VAOS covid-19 vaccine flow', () => {
         // Arrange
         const mockUser = new MockUser();
 
-        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+        // Create 1 facility and clinic that supports online scheduling
         const mockFacility = new MockFacility();
-        mockFacilitiesApi({ data: [mockFacility], apiVersion: 2 });
+        mockFacilitiesApi({ response: [mockFacility] });
+        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
 
         // Act
         cy.login(mockUser);
@@ -325,7 +329,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockClinicsApi({ locations: ['983'], apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 2 });
+      mockFacilitiesApi();
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',
@@ -356,93 +360,15 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
   });
 
+  // TODO: Update Figma diagram
   describe('When site is configured for covid but no locations are found', () => {
     it('should display alert', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       // Use any invalid clinic id to for an empty return from the api call.
-      // mockClinicsApi({ clinicId: '???', locations: ['983'] });
-      mockFacilitiesApi({ data: [], apiVersion: 2 });
-      mockSchedulingConfigurationApi({
-        facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
-        isDirect: true,
-        isRequest: true,
-      });
-
-      // Act
-      cy.login(mockUser);
-
-      AppointmentListPageObject.visit().scheduleAppointment();
-
-      TypeOfCarePageObject.assertUrl()
-        .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
-        .clickNextButton();
-
-      PlanAheadPageObject.assertUrl().clickNextButton();
-
-      DosesReceivedPageObject.assertUrl()
-        .selectRadioButton(/No\/I.m not sure/i)
-        .clickNextButton();
-
-      VAFacilityPageObject.assertUrl()
-        .assertAlertWarning({
-          text: /We couldn.t find a VA facility where you receive care that accepts online appointments for COVID-19 vaccines/i,
-        })
-        .assertNexButton({ enabled: false });
-
-      // Assert
-      cy.axeCheckBestPractice();
-    });
-  });
-
-  describe('When sites is not configured for covid', () => {
-    // TODO: Consult with Peter. Alert is not displayed.
-    it('should display alert', () => {
-      // Arrange
-      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-
-      mockClinicsApi({ locations: ['983'], apiVersion: 2 });
-      mockFacilitiesApi({ apiVersion: 2 });
-      mockSchedulingConfigurationApi({
-        facilityIds: ['983', '984'],
-        // Site not configured for 'covid'
-        typeOfCareId: 'primaryCare',
-        isDirect: true,
-        isRequest: true,
-      });
-
-      // Act
-      cy.login(mockUser);
-
-      AppointmentListPageObject.visit().scheduleAppointment();
-
-      TypeOfCarePageObject.assertUrl()
-        .assertAddressAlert({ exist: false })
-        .selectTypeOfCare(/COVID-19 vaccine/i)
-        .clickNextButton();
-
-      ContactFacilityPageObject.assertUrl().assertText(
-        /Contact one of your registered VA facilities to schedule your vaccine appointment/i,
-      );
-
-      // Assert
-      cy.axeCheckBestPractice();
-    });
-  });
-
-  // TODO: Update Figma diagram
-  describe('When site is configured for covid but no clinics are found', () => {
-    it('should display alert', () => {
-      // Arrange
-      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-
-      // Use any invalid clinic id to for an empty return from the api call.
       mockClinicApi({ locationId: '983', response: [] });
-
-      mockFacilitiesApi({ apiVersion: 2 });
+      mockFacilitiesApi();
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',
@@ -469,12 +395,45 @@ describe('VAOS covid-19 vaccine flow', () => {
       VAFacilityPageObject.assertUrl()
         .selectLocation(/Cheyenne VA Medical Center/i)
         .clickNextButton();
-
-      cy.wait('@v2:get:clinics').then(() => {
-        VAFacilityPageObject.assertModalWarning({
-          text: /We.re sorry. We couldn.t find any available slots for your appointment./i,
-        });
+      cy.wait('@v2:get:clinics');
+      VAFacilityPageObject.assertUrl().assertWarningModal({
+        text: /We.re sorry. We couldn.t find any available slots for your appointment./i,
       });
+
+      // Assert
+      cy.axeCheckBestPractice();
+    });
+  });
+
+  describe('When sites is not configured for covid', () => {
+    // TODO: Consult with Peter. Alert is not displayed.
+    it('should display alert', () => {
+      // Arrange
+      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+      mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+      mockFacilitiesApi();
+      mockSchedulingConfigurationApi({
+        facilityIds: ['983', '984'],
+        // Site not configured for 'covid'
+        typeOfCareId: 'primaryCare',
+        isDirect: true,
+        isRequest: true,
+      });
+
+      // Act
+      cy.login(mockUser);
+
+      AppointmentListPageObject.visit().scheduleAppointment();
+
+      TypeOfCarePageObject.assertUrl()
+        .assertAddressAlert({ exist: false })
+        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .clickNextButton();
+
+      ContactFacilityPageObject.assertUrl().assertText(
+        /Contact one of your registered VA facilities to schedule your vaccine appointment/i,
+      );
 
       // Assert
       cy.axeCheckBestPractice();

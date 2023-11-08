@@ -68,7 +68,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       isRequest: true,
     });
     mockVamcEhrApi({ isCerner: true });
-    const data = [
+    const response = [
       {
         id: '983',
         type: 'facilities',
@@ -101,7 +101,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       },
     ];
 
-    mockFacilitiesApi({ data, apiVersion: 2 });
+    mockFacilitiesApi({ response });
     mockClinicsApi({ locations: ['983'], apiVersion: 2 });
 
     cy.visit(rootUrl);
@@ -130,7 +130,7 @@ describe('VAOS VA request flow using VAOS service', () => {
   });
 
   it('should submit form successfully for a multi system user', () => {
-    const data = [
+    const response = [
       {
         id: '983',
         type: 'facilities',
@@ -180,7 +180,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockAppointmentsApi({ apiVersion: 2 });
     mockClinicsApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
-    mockFacilitiesApi({ data, apiVersion: 2 });
+    mockFacilitiesApi({ response });
     mockFacilityApi({ id: '983GB', apiVersion: 2 });
     mockLoginApi({ withoutAddress: false });
     mockSchedulingConfigurationApi({
@@ -250,7 +250,7 @@ describe('VAOS VA request flow using VAOS service', () => {
   });
 
   it('should submit form successfully for a single system user', () => {
-    const data = [
+    const response = [
       {
         id: '983GB',
         type: 'facilities',
@@ -268,7 +268,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       },
     ];
 
-    mockAppointmentApi({
+    mockAppointmentCreateApi({
       response: {
         id: 'mock1',
         type: 'Appointment',
@@ -296,10 +296,10 @@ describe('VAOS VA request flow using VAOS service', () => {
       },
       id: 'mock1',
     });
-    mockAppointmentsApi({ apiVersion: 2 });
+    mockAppointmentsApi({ response: [], apiVersion: 2 });
     mockClinicsApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
-    mockFacilitiesApi({ data, apiVersion: 2 });
+    mockFacilitiesApi({ response });
     mockFacilityApi({ id: '983GB', apiVersion: 2 });
     mockLoginApi({ withoutAddress: false });
     mockSchedulingConfigurationApi({

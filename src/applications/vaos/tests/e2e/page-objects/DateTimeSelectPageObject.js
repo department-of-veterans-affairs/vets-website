@@ -31,7 +31,7 @@ export class DateTimeSelectPageObject extends PageObject {
   selectFirstAvailableDate() {
     cy.get(
       '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-    ).click();
+    ).click({ waitForAnimations: true });
     cy.get(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     ).click();

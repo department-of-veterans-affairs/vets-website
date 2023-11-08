@@ -45,7 +45,7 @@ describe('VAOS community care flow - Primary care', () => {
     });
     mockAppointmentsApi({ response: [] });
     mockAppointmentCreateApi({ response: appt });
-    mockFacilitiesApi({ apiVersion: 2 });
+    mockFacilitiesApi();
     mockFeatureToggles();
     mockVamcEhrApi();
   });
