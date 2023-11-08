@@ -40,7 +40,7 @@ describe('EZR Dependents', () => {
     }).as('mockSubmit');
   });
 
-  it.skip('should successfully fill maximum dependent information', () => {
+  it('should successfully fill maximum dependent information', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
