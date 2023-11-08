@@ -42,7 +42,7 @@ export const genSearchAreaFromCenter = query => {
             type: SEARCH_QUERY_UPDATED,
             payload: {
               radius,
-              searchString: location,
+              locationInputString: location,
               context: location,
               searchArea: {
                 locationString: location,

@@ -192,7 +192,11 @@ const PrescriptionDetails = () => {
         {prescription.dispensedDate ? (
           <span>
             Last filled on{' '}
-            {dateFormat(prescription.dispensedDate, 'MMMM D, YYYY')}
+            {dateFormat(
+              prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ||
+                prescription.dispensedDate,
+              'MMMM D, YYYY',
+            )}
           </span>
         ) : (
           <span>Not filled yet</span>
