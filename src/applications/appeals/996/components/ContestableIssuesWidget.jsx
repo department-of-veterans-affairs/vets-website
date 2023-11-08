@@ -27,9 +27,9 @@ import {
 import { focusIssue } from '../../shared/utils/focus';
 import { isEmptyObject } from '../../shared/utils/helpers';
 import {
+  calculateIndexOffset,
   getSelected,
   someSelected,
-  calculateIndexOffset,
 } from '../../shared/utils/issues';
 
 /**

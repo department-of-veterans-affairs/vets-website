@@ -4,6 +4,12 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 export default function Disclaimer() {
   return (
     <>
+      <va-breadcrumbs label="Breadcrumb">
+        <a href="/">Home</a>
+        <a href="/contact-us">Contact us</a>
+        <a href="/contact-us/virtual-agent">VA chatbot</a>
+      </va-breadcrumbs>
+
       <h1>VA chatbot</h1>
 
       <div className="va-introtext">
@@ -152,11 +158,8 @@ export default function Disclaimer() {
           <p>
             <ol>
               <li>
-                Press <b>Tab</b> to select the chatbot window.
-              </li>
-              <li>
-                Press <b>Tab</b> to select the "Accept" button and press{' '}
-                <b>Enter</b>.
+                Press <b>Tab</b> until the "Start chat" button is in focus and
+                press <b>Enter</b>.
               </li>
               <li>Use the arrow keys to listen to the chatbot messages.</li>
               <li>

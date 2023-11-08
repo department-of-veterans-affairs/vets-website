@@ -11,6 +11,14 @@ import {
   isCountryUSA,
   rubyifyKeys,
   sortOptionsByStateName,
+  boolYesNo,
+  naIfNull,
+  isURL,
+  schoolSize,
+  getStateNameForCode,
+  phoneInfo,
+  isPresent,
+  locationInfo,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -87,6 +95,8 @@ describe('GIBCT helpers:', () => {
         { value: 'CA', label: 'California' },
       ];
       expect(data.sort(sortOptionsByStateName)).to.deep.equal(sortedData);
+      const junkData = [{ value: 'AL', label: 'Alabama' }];
+      expect(sortOptionsByStateName(data, junkData)).to.deep.equal(0);
     });
   });
 
@@ -108,6 +118,116 @@ describe('GIBCT helpers:', () => {
       document.body.appendChild(mainDiv);
       handleScrollOnInputFocus('test');
       expect(scrolledIntoViewIsCalled).to.be.true;
+    });
+  });
+
+  describe('isURL', () => {
+    it('Any value will return the same value ', () => {
+      const value = 'https://test.com';
+      expect(isURL(value)).to.eq(true);
+    });
+    it("Any null or undefined will return 'N/A' ", () => {
+      const value = undefined;
+      expect(isURL(value)).to.eq(false);
+    });
+  });
+
+  describe('naIfNull', () => {
+    it('Any value will return the same value ', () => {
+      const value = true;
+      expect(naIfNull(value)).to.eq(true);
+    });
+    it("Any null or undefined will return 'N/A' ", () => {
+      const value = undefined;
+      expect(naIfNull(value)).to.eq('N/A');
+    });
+  });
+  describe('boolYesNo', () => {
+    it("Boolean true is turned into string 'Yes' ", () => {
+      const field = true;
+      expect(boolYesNo(field)).to.eq('Yes');
+    });
+    it("Boolean true is turned into string 'No' ", () => {
+      const field = false;
+      expect(boolYesNo(field)).to.eq('No');
+    });
+  });
+  describe('schoolSize', () => {
+    it("null is turned into string 'Unknown' ", () => {
+      const enrollment = null;
+      expect(schoolSize(enrollment)).to.eq('Unknown');
+    });
+    it(" '1abc8' is turned into string 'Unknown' ", () => {
+      const enrollment = '1abc8';
+      expect(schoolSize(enrollment)).to.eq('Unknown');
+    });
+    it("enrollment = 1,980 is turned into string 'Small' ", () => {
+      const enrollment = 1980;
+      expect(schoolSize(enrollment)).to.eq('Small');
+    });
+    it("enrollment = 14,800 is turned into string 'Medium' ", () => {
+      const enrollment = 14800;
+      expect(schoolSize(enrollment)).to.eq('Medium');
+    });
+    it("enrollment = 1480,000 is turned into string 'Large' ", () => {
+      const enrollment = 1480000;
+      expect(schoolSize(enrollment)).to.eq('Large');
+    });
+  });
+  describe('getStateNameForCode', () => {
+    it("field = 'FL' is turned into string 'Florida' ", () => {
+      const field = 'FL';
+      expect(getStateNameForCode(field)).to.eq('Florida');
+    });
+    it("field = 'FL' is turned into string 'Florida' ", () => {
+      const field = 'n/a';
+      expect(getStateNameForCode(field)).to.eq('N/A');
+    });
+  });
+  describe('phoneInfo', () => {
+    it(" areaCode = 123, phoneNumber = 4567890 are turned into number 'Florida' ", () => {
+      const areaCode = 123;
+      const phoneNumber = 4567890;
+      expect(phoneInfo(areaCode, phoneNumber)).to.eq('123-4567890');
+    });
+  });
+  describe('isPresent', () => {
+    it(" value = 'SampleText' are turned into number false ", () => {
+      const value = 'SampleText';
+      expect(isPresent(value)).to.eq(true);
+    });
+  });
+  // locationInfo
+  describe('locationInfo', () => {
+    it(" value = 'SampleText' are turned into number false ", () => {
+      const city = 'Austin';
+      const state = 'TX';
+      const country = 'USA';
+      expect(locationInfo(city, state, country)).to.eq('Austin, TX');
+    });
+    it(' Not State are turned into number false ', () => {
+      const city = 'Austin';
+      const state = undefined;
+      const country = 'USA';
+      expect(locationInfo(city, state, country)).to.eq('Austin');
+    });
+    it(' Not City are turned into number false ', () => {
+      const city = undefined;
+      const state = 'TX';
+      const country = 'USA';
+      expect(locationInfo(city, state, country)).to.eq('TX');
+    });
+    it(' Not City are turned into number false ', () => {
+      const city = undefined;
+      const state = undefined;
+      const country = 'CA';
+      expect(locationInfo(city, state, country)).to.eq('CA');
+    });
+    it(' Not City are turned into number false ', () => {
+      const city = 'Rome';
+      const state = 'Italy';
+      const country = 'CA';
+      expect(locationInfo(city, state, country)).to.eq('Rome, CA');
     });
   });
 

@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../constants';
 import { RESPONSES } from '../constants/question-data-map';
-import { displayConditionsMet } from '../utilities/display-logic';
+import { displayConditionsMet } from '../utilities/display-logic-questions';
 
 import ServicePeriod from '../containers/questions/ServicePeriod';
 

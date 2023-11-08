@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
+import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { EMPTY_FIELD, interpretationMap } from './constants';
 
 /**
@@ -27,21 +28,6 @@ export const nameFormat = ({ first, middle, last, suffix }) => {
 };
 
 /**
- * @param {String} name
- * @param {Base64String} base64Str
- * @returns {Undefined} downloads the file
- */
-export const downloadFile = (name, base64Str) => {
-  const pdf = `data:application/pdf;base64, ${base64Str}`;
-  const link = document.createElement('a');
-  link.href = pdf;
-  link.setAttribute('download', name);
-  document.body.appendChild(link);
-  link.click();
-  link.parentNode.removeChild(link);
-};
-
-/**
  * @param {Object} record
  * @returns {Array of Strings} array of reactions
  */
@@ -54,15 +40,6 @@ export const getReactions = record => {
     });
   });
   return reactions;
-};
-
-/**
- * @param {Object} record
- * @returns {Array of Strings} array of names, separated by a comma
- */
-export const getNames = record => {
-  if (!record) return '';
-  return record.code.coding.map(code => code.display).join(', ');
 };
 
 /**
@@ -147,4 +124,44 @@ export const macroCase = str => {
  */
 export const isArrayAndHasItems = obj => {
   return Array.isArray(obj) && obj.length;
+};
+
+/**
+ * Create a pdf using the platform pdf generator tool
+ * @param {Boolean} pdfName what the pdf file should be named
+ * @param {Object} pdfData data to be passed to pdf generator
+ * @param {String} sentryError name of the app feature where the call originated
+ * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
+ */
+export const makePdf = async (
+  pdfName,
+  pdfData,
+  sentryError,
+  runningUnitTest,
+) => {
+  try {
+    if (!runningUnitTest) {
+      await generatePdf('medicalRecords', pdfName, pdfData);
+    }
+  } catch (error) {
+    sendErrorToSentry(error, sentryError);
+  }
+};
+
+/**
+ * Extract a contained resource from a FHIR resource's "contained" array.
+ * @param {Object} resource a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} referenceId an internal ID referencing a contained resource
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedResource = (resource, referenceId) => {
+  if (resource && isArrayAndHasItems(resource.contained) && referenceId) {
+    // Strip the leading "#" from the reference.
+    const strippedRefId = referenceId.substring(1);
+    const containedResource = resource.contained.find(
+      containedItem => containedItem.id === strippedRefId,
+    );
+    return containedResource || null;
+  }
+  return null;
 };

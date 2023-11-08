@@ -13,7 +13,6 @@ import recordEvent from 'platform/monitoring/record-event';
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { calculateIndexOffset } from '../utils/helpers';
 import {
   uniqueIssue,
   missingIssueName,
@@ -29,7 +28,7 @@ import {
   MAX_LENGTH,
   SELECTED,
 } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;

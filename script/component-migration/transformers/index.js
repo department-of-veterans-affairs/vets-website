@@ -1,11 +1,8 @@
-const alertBoxReplacement = require('./alertbox').alertBoxReplacement;
-const loadingIndicatorReplacement = require('./loadingindicator')
-  .loadingIndicatorReplacement;
-const additionalInfoReplacement = require('./additionalinfo')
-  .additionalInfoReplacement;
+const { alertBoxReplacement } = require('./alertbox');
+
+const { additionalInfoReplacement } = require('./additionalinfo');
 
 module.exports = {
   AdditionalInfo: additionalInfoReplacement,
   AlertBox: alertBoxReplacement,
-  LoadingIndicator: loadingIndicatorReplacement,
 };

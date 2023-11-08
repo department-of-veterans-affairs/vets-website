@@ -45,10 +45,11 @@ class PatientComposePage {
     // cy.wait('@message');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.main-content > va-alert')
-      .should('have.text', 'Secure message was successfully sent.')
-      .and('be.focused');
+  verifySendMessageConfirmationMessageText = () => {
+    cy.get('.main-content > va-alert').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
   };
 
   verifySendMessageConfirmationMessageHasFocus = () => {
@@ -132,13 +133,6 @@ class PatientComposePage {
     cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
   };
 
-  verifyErrorEmptyMessageBody = () => {
-    cy.get('#input-error-message').should(
-      'contain.text',
-      'Message body cannot be blank',
-    );
-  };
-
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
@@ -167,6 +161,20 @@ class PatientComposePage {
         expect(message.subject).to.eq(draftMessage.data.attributes.subject);
         expect(message.body).to.eq(draftMessage.data.attributes.body);
       });
+  };
+
+  keyboardNavToMessageBodyField = () => {
+    return cy
+      .get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('#textarea');
+  };
+
+  keyboardNavToMessageSubjectField = () => {
+    return cy
+      .tabToElement('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('#inputField');
   };
 
   composeDraftByKeyboard = () => {
@@ -273,10 +281,9 @@ class PatientComposePage {
   };
 
   clickOnDeleteDraftButton = () => {
-    cy.get('[primary-button-text="Continue editing"]')
-      .shadow()
-      .find('button')
-      .contains('Delete draft')
+    cy.get('va-button[text="Continue editing"]')
+      .parent()
+      .find('va-button[text="Delete draft"]')
       .click();
   };
 
@@ -288,7 +295,7 @@ class PatientComposePage {
   };
 
   clickOnContinueEditingButton = () => {
-    cy.get('[primary-button-text="Continue editing"]')
+    cy.get('va-button[text="Continue editing"]')
       .shadow()
       .find('button')
       .contains('Continue editing')
@@ -368,13 +375,13 @@ class PatientComposePage {
   };
 
   verifyDeleteDraftSuccessfulMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+    cy.get('.main-content > va-alert').should(
       'have.text',
       'Message conversation was successfully moved to Trash.',
     );
   };
 
-  verifySelcteRespitantErrorMessage = () => {
+  verifySelectRecipientErrorMessage = () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="error-message"]')

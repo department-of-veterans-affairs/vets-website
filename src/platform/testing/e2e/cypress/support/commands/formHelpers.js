@@ -41,90 +41,14 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
 /**
  * Original React date widget
  */
-const reactDate = (fieldName, date) => {
+const reactDate = (fieldName, dateString) => {
+  const date = dateString
+    .split('-')
+    .map(number => parseInt(number, 10).toString());
+
   cy.get(`#${fieldName}Month`).select(date[1]);
   cy.get(`#${fieldName}Day`).select(date[2]);
   cy.fill(`input[name="${fieldName}Year"]`, date[0]);
-};
-
-const vaDate = (element, monthYearOnly, date) => {
-  cy.wrap(element)
-    .shadow()
-    .then(el => {
-      cy.wrap(el)
-        .find('va-select.select-month')
-        .shadow()
-        .find('select')
-        .select(date[1]);
-      if (!monthYearOnly) {
-        cy.wrap(el)
-          .find('va-select.select-day')
-          .shadow()
-          .find('select')
-          .select(date[2]);
-      }
-      cy.wrap(el)
-        .find('va-text-input.input-year')
-        .shadow()
-        .find('input')
-        .type(date[0]);
-    });
-};
-
-const vaMemorableDate = (element, vaMemorableDateMonthSelect, date) => {
-  cy.wrap(element)
-    .shadow()
-    .then(el => {
-      // There is a bug only on Chromium based browsers where
-      // VaMemorableDate text input fields will think they are
-      // disabled if you blur focus of the window while the test
-      // is running. realPress and realType solve this issue,
-      // but these are only available for Chromium based browsers.
-      // See cypress-real-events npmjs for more info.
-      // ** see applications/simple-forms/shared/tests/e2e/helpers.js **
-      const isChrome = navigator.userAgent.includes('Chrome');
-      const getSelectors = type =>
-        `va-text-input.input-${type}, va-text-input.usa-form-group--${type}-input`;
-
-      if (vaMemorableDateMonthSelect) {
-        cy.wrap(el)
-          .find('va-select.usa-form-group--month-select')
-          .shadow()
-          .find('select')
-          .focus();
-        cy.select(date[1]);
-      } else if (isChrome) {
-        cy.wrap(el)
-          .find(getSelectors('month'))
-          .shadow()
-          .find('input')
-          .focus();
-        cy.realType(date[1]);
-      } else {
-        cy.wrap(el)
-          .find(getSelectors('month'))
-          .shadow()
-          .find('input')
-          .type(date[1]);
-      }
-      if (isChrome) {
-        cy.realPress('Tab')
-          .realType(date[2])
-          .realPress('Tab')
-          .realType(date[0]);
-      } else {
-        cy.wrap(el)
-          .find(getSelectors('day'))
-          .shadow()
-          .find('input')
-          .type(date[2]);
-        cy.wrap(el)
-          .find(getSelectors('year'))
-          .shadow()
-          .find('input')
-          .type(date[0]);
-      }
-    });
 };
 
 /**
@@ -132,10 +56,6 @@ const vaMemorableDate = (element, vaMemorableDateMonthSelect, date) => {
  * expects dateString in YYYY-MM-DD format
  */
 Cypress.Commands.add('fillDate', (fieldName, dateString) => {
-  // Split the date & remove leading zeros
-  const date = dateString
-    .split('-')
-    .map(number => parseInt(number, 10).toString());
   cy.document().then(doc => {
     const vaDateElement = doc.querySelector(`va-date[name="${fieldName}"]`);
     const vaMemorableDateElement = doc.querySelector(
@@ -145,15 +65,19 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
       const monthYearOnly = !!doc.querySelector(
         `va-date[name="${fieldName}"][monthyearonly]`,
       );
-      vaDate(vaDateElement, !!monthYearOnly, date);
+      cy.fillVaDate(vaDateElement, dateString, !!monthYearOnly);
     } else if (vaMemorableDateElement) {
       // USWDS v3 only
       const vaMemorableDateMonthSelect = !!doc.querySelector(
         `va-memorable-date[name="${fieldName}"][monthselect]`,
       );
-      vaMemorableDate(vaMemorableDateElement, vaMemorableDateMonthSelect, date);
+      cy.fillVaMemorableDate(
+        vaMemorableDateElement,
+        dateString,
+        vaMemorableDateMonthSelect,
+      );
     } else {
-      reactDate(fieldName, date);
+      reactDate(fieldName, dateString);
     }
   });
 });

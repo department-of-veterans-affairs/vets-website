@@ -1,54 +1,11 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 
-import { getInitialData, textInputNumericRange } from '../../helpers';
-
-describe('textInputNumericRange', () => {
-  it('should add an error if the number of copies is less than the minimum range', () => {
-    const errors = { copies: { addError: sinon.stub() } };
-    const formData = { copies: '2' };
-    const input = { schemaKey: 'copies', range: { min: 3, max: 10 } };
-    textInputNumericRange(errors, formData, input);
-    expect(
-      errors.copies.addError.calledWith(
-        `Please raise your number to at least ${input.range.min}`,
-      ),
-    ).to.be.true;
-  });
-
-  it('should add an error if the number of copies is greater than the maximum range', () => {
-    const errors = { copies: { addError: sinon.stub() } };
-    const formData = { copies: '11' };
-    const input = { schemaKey: 'copies', range: { min: 3, max: 10 } };
-    textInputNumericRange(errors, formData, input);
-    expect(
-      errors.copies.addError.calledWith(
-        'Please lower your number to less than 10',
-      ),
-    ).to.be.true;
-  });
-
-  it('should not add an error if the number of copies is within the range', () => {
-    const errors = { copies: { addError: sinon.stub() } };
-    const formData = { copies: '5' };
-    const input = { schemaKey: 'copies', range: { min: 3, max: 10 } };
-    textInputNumericRange(errors, formData, input);
-    expect(errors.copies.addError.called).to.be.false;
-  });
-
-  it('should use custom error messages if provided', () => {
-    const errors = { copies: { addError: sinon.stub() } };
-    const formData = { copies: '2' };
-    const input = {
-      schemaKey: 'copies',
-      range: { min: 3, max: 10 },
-      customErrorMessages: { min: 'Custom min error message' },
-    };
-    textInputNumericRange(errors, formData, input);
-    expect(errors.copies.addError.calledWith('Custom min error message')).to.be
-      .true;
-  });
-});
+import {
+  createPayload,
+  getInitialData,
+  dateOfDeathValidation,
+  parseResponse,
+} from '../../helpers';
 
 describe('getInitialData', () => {
   it('returns mockData if environment is localhost and Cypress is not running', () => {
@@ -78,5 +35,90 @@ describe('getInitialData', () => {
     const result = getInitialData({ mockData, environment });
     expect(result).to.be.undefined;
     window.Cypress = undefined;
+  });
+});
+
+describe('createPayload', () => {
+  it('should create a FormData object with the file and password (if provided)', () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const formId = 'test-form';
+    const password = 'test-password';
+    const payload = createPayload(file, formId, password);
+
+    expect(payload.get('file')).to.equal(file);
+    expect(payload.get('password')).to.equal(password);
+  });
+
+  it('should create a FormData object with only the file if no password is provided', () => {
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const formId = 'test-form';
+    const payload = createPayload(file, formId);
+
+    expect(payload.get('file')).to.equal(file);
+    expect(payload.get('password')).to.be.null;
+  });
+});
+
+describe('parseResponse', () => {
+  it('should return an object with the name and confirmation code from the response', () => {
+    const response = {
+      data: {
+        attributes: {
+          confirmationCode: 'test-guid',
+          name: 'test-file.txt',
+        },
+      },
+    };
+    const result = parseResponse(response);
+
+    expect(result).to.deep.equal({
+      name: 'test-file.txt',
+      confirmationCode: 'test-guid',
+    });
+  });
+});
+
+describe('dateOfDeathValidation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = {
+      veteranDateOfDeath: {
+        addError: error => {
+          errors.veteranDateOfDeath.errors.push(error);
+        },
+        errors: [],
+      },
+    };
+  });
+
+  it('should add an error if date of death is before date of birth', () => {
+    const fields = {
+      veteranDateOfBirth: '1950-01-01',
+      veteranDateOfDeath: '1940-01-01',
+    };
+
+    dateOfDeathValidation(errors, fields);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
+  });
+
+  it('should not add an error if date of death is after date of birth', () => {
+    const fields = {
+      veteranDateOfBirth: '1950-01-01',
+      veteranDateOfDeath: '1960-01-01',
+    };
+
+    dateOfDeathValidation(errors, fields);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+  });
+
+  it('should not add an error if date of death is the same as date of birth', () => {
+    const fields = {
+      veteranDateOfBirth: '1950-01-01',
+      veteranDateOfDeath: '1950-01-01',
+    };
+
+    dateOfDeathValidation(errors, fields);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
   });
 });

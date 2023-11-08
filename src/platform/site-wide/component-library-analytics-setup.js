@@ -24,13 +24,6 @@ const analyticsEvents = {
       prefix: 'breadcrumbs',
     },
   ],
-  LoadingIndicator: [
-    {
-      action: 'displayed',
-      event: 'loading-indicator-displayed',
-      prefix: 'loading-indicator',
-    },
-  ],
   TextInput: [
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
   ],

@@ -1,20 +1,17 @@
-// Node modules.
+/* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
 export const OfficialGovtWebsite = () => {
   const [expanded, setExpanded] = useState(false);
 
   const onToggle = () => {
-    // Log the event.
     if (expanded) {
       recordEvent({ event: 'int-accordion-collapse' });
     } else {
       recordEvent({ event: 'int-accordion-expand' });
     }
 
-    // Toggle the state.
     setExpanded(!expanded);
   };
 
@@ -40,7 +37,6 @@ export const OfficialGovtWebsite = () => {
           />
         </button>
       </div>
-
       {/* Expanded section */}
       {expanded && (
         <div

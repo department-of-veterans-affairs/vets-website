@@ -63,11 +63,6 @@ module.exports = {
         use: '<va-breadcrumbs>',
       },
       {
-        name:
-          '@department-of-veterans-affairs/component-library/LoadingIndicator',
-        use: '<va-loading-indicator>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
       },

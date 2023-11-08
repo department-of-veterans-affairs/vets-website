@@ -1,19 +1,21 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../../shared/constants';
-import { getDate } from '../../utils/dates';
 
+import { getDate } from '../../utils/dates';
 import {
-  createIssueName,
-  getContestedIssues,
-  addIncludedIssues,
-  addAreaOfDisagreement,
-  getConferenceTime,
-  removeEmptyEntries,
-  getRep,
   getAddress,
-  getPhone,
+  getConferenceTime,
+  getRep,
   getTimeZone,
 } from '../../utils/submit';
+
+import { SELECTED } from '../../../shared/constants';
+import {
+  addIncludedIssues,
+  createIssueName,
+  getContestedIssues,
+  getPhone,
+  removeEmptyEntries,
+} from '../../../shared/utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
@@ -163,71 +165,6 @@ describe('addIncludedIssues', () => {
       issue1.result,
       issue2.result,
     ]);
-  });
-});
-
-describe('addAreaOfDisagreement', () => {
-  it('should process a single choice', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: false,
-          },
-        },
-        {
-          disagreementOptions: {
-            effectiveDate: true,
-          },
-          otherEntry: '',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement(
-      [issue1.result, issue2.result],
-      formData,
-    );
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection',
-    );
-    expect(result[1].attributes.disagreementArea).to.equal('effective date');
-  });
-  it('should process multiple choices', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: true,
-            evaluation: true,
-          },
-          otherEntry: '',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection,effective date,disability evaluation',
-    );
-  });
-  it('should process other choice', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: true,
-            evaluation: true,
-          },
-          otherEntry: 'this is an other entry',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection,effective date,disability evaluation,this is an other entry',
-    );
   });
 });
 

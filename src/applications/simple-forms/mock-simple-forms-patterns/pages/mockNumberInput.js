@@ -13,11 +13,18 @@ export default {
       hint: 'Hint text',
       width: 'xs',
     }),
+    withMinMax: numberUI({
+      title: 'With min and max',
+      hint: 'Please enter a valid number between 1 and 99',
+      min: 1,
+      max: 99,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       amountOrNumber: numberSchema,
+      withMinMax: numberSchema,
     },
     required: ['amountOrNumber'],
   },

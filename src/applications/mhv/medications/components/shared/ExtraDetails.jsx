@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const ExtraDetails = rx => {
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
   }
   return (
-    <div className="shipping-info">
+    <div className="shipping-info" id="status-description">
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
           <div>
@@ -65,7 +69,11 @@ const ExtraDetails = rx => {
             You can’t refill this prescription. If you need more, send a message
             to your care team.
           </p>
-          <va-link href="/" text="Compose a message" />
+          <va-link
+            href={mhvUrl(ssoe, 'secure-messaging')}
+            text="Compose a message"
+            data-testid="discontinued-compose-message-link"
+          />
         </div>
       )}
       {dispStatus === dispStatusObj.transferred && (

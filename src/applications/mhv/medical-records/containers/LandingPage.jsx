@@ -7,6 +7,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
+import { createSession } from '../api/MrApi';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      // Create the user's MHV session when they arrive at the MR landing page
+      createSession();
       dispatch(
         setBreadcrumbs([], {
           url: '/my-health/medical-records',
@@ -39,18 +42,18 @@ const LandingPage = () => {
       <div>
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            Allergies
+            Allergies and reactions
           </h2>
           <p className="vads-u-margin-bottom--2">
             Get a list of all allergies, reactions, and side effects in your VA
-            medical records. This includes allergies and reactions to
-            medications.
+            medical records. This includes medication side effects (also called
+            adverse drug reactions).
           </p>
           <a
             className="vads-c-action-link--green"
             href="/my-health/medical-records/allergies"
           >
-            Go to your allergies
+            Go to your allergies and reactions
           </a>
         </section>
         <section>

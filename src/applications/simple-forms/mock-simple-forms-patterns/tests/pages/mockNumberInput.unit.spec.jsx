@@ -8,7 +8,7 @@ const { schema, uiSchema } = formConfig.chapters.numberInput.pages.numberInput;
 
 const pageTitle = 'mock number inputs';
 
-const expectedNumberOfWebComponentFields = 1;
+const expectedNumberOfWebComponentFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

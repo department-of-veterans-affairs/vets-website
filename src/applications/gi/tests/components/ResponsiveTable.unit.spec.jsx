@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import ResponsiveTable from '../../components/ResponsiveTable';
 import { createId } from '../../utils/helpers';
@@ -29,7 +30,7 @@ describe('<ResponsiveTable>', () => {
       <ResponsiveTable
         columns={fields}
         data={data}
-        tableClass={'table-class-name'}
+        tableClass="table-class-name"
       />,
     );
     expect(wrapper.find('.table-class-name')).to.not.be.undefined;
@@ -47,7 +48,7 @@ describe('<ResponsiveTable>', () => {
       <ResponsiveTable
         columns={fields}
         data={data}
-        tableClass={'table-class-name'}
+        tableClass="table-class-name"
       />,
     );
     const column1 = wrapper.find('thead > tr > th');
@@ -78,7 +79,7 @@ describe('<ResponsiveTable>', () => {
       <ResponsiveTable
         columns={fields}
         data={data}
-        tableClass={'table-class-name'}
+        tableClass="table-class-name"
       />,
     );
 
@@ -109,7 +110,7 @@ describe('<ResponsiveTable>', () => {
       <ResponsiveTable
         columns={fields}
         data={data}
-        tableClass={'table-class-name'}
+        tableClass="table-class-name"
       />,
     );
 
@@ -125,9 +126,9 @@ describe('<ResponsiveTable>', () => {
 
     expect(
       wrapper.containsAllMatchingElements([
-        <span
-          key={`${row1Data.key}-${createId(column1Header)}`}
-        >{`${column1Header}: `}</span>,
+        <span key={`${row1Data.key}-${createId(column1Header)}`}>
+          {`${column1Header}: `}
+        </span>,
       ]),
     ).to.equal(true);
     wrapper.unmount();
@@ -148,7 +149,7 @@ describe('<ResponsiveTable>', () => {
       <ResponsiveTable
         columns={fields}
         data={data}
-        tableClass={'table-class-name'}
+        tableClass="table-class-name"
       />,
     );
 
@@ -165,12 +166,52 @@ describe('<ResponsiveTable>', () => {
 
     expect(
       wrapper.containsAllMatchingElements([
-        <span
-          key={`${row1Data.key}-${createId(column2Header)}`}
-        >{`${column2Header}: `}</span>,
+        <span key={`${row1Data.key}-${createId(column2Header)}`}>
+          {`${column2Header}: `}
+        </span>,
       ]),
     ).to.equal(true);
 
+    wrapper.unmount();
+  });
+
+  it('should process columnData when it is a string', () => {
+    const columnData = 'Test String'; // Simulate a string value
+    const wrapper = shallow(
+      <ResponsiveTable
+        columns={['Column 1']}
+        data={[{ 'Column 1': columnData }]}
+      />,
+    );
+
+    expect(wrapper.find('.vads-u-margin-0').first()).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('should process columnData when it is an object with value and mobileHeader', () => {
+    const stringCellDataStub = sinon.stub();
+    stringCellDataStub.returns(
+      <span className="mocked-object-result">Mocked Object Result</span>,
+    );
+
+    const columnData = {
+      value: 'Test Value',
+      mobileHeader: 'Mobile Header',
+    };
+    Object.defineProperty(global, 'screen', {
+      screen: { width: 300 },
+      writable: true,
+      configurable: true,
+    });
+
+    const wrapper = shallow(
+      <ResponsiveTable
+        columns={['Column 1']}
+        data={[{ 'Column 1': columnData }]}
+      />,
+    );
+    expect(wrapper.find('.vads-u-font-weight--bold')).to.have.lengthOf(2);
+    expect(wrapper.find('.vads-u-margin-0').first()).to.have.lengthOf(1);
     wrapper.unmount();
   });
 });

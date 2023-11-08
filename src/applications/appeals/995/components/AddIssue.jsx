@@ -9,8 +9,6 @@ import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { calculateIndexOffset } from '../utils/helpers';
-
 import { checkValidations } from '../validations';
 import {
   uniqueIssue,
@@ -27,7 +25,7 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';

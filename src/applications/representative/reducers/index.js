@@ -1,6 +1,9 @@
-import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
-import formConfig from '../config/form';
+import { SearchResultReducer } from './searchResult';
+import { SearchQueryReducer } from './searchQuery';
 
-export default {
-  form: createSaveInProgressFormReducer(formConfig),
+const rootReducer = {
+  searchResult: SearchResultReducer,
+  searchQuery: SearchQueryReducer,
 };
+
+export default rootReducer;

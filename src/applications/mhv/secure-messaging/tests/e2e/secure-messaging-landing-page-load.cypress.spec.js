@@ -32,7 +32,7 @@ describe('SM main page', () => {
   });
 
   it('verify the new message link', () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.contains('Start a new message').click();
     cy.location('pathname').should('contain', 'new-message');
   });
 

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const dateFns = require('date-fns');
 const { utcToZonedTime, format } = require('date-fns-tz');
 const {
@@ -252,6 +253,7 @@ const createAppointments = (
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       },
+      setECheckinStartedCalled: true,
     },
   };
 };
