@@ -54,6 +54,7 @@ class FormPage extends React.Component {
     let newData = formData;
     if (pageConfig.showPagePerItem) {
       if (
+        pageConfig.allowPathWithNoItems &&
         this.props.form.data &&
         pageConfig.arrayPath &&
         !this.props.form.data[pageConfig.arrayPath]
@@ -303,6 +304,7 @@ FormPage.propTypes = {
   }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
+      allowPathWithNoItems: PropTypes.bool,
       arrayPath: PropTypes.string,
       CustomPage: PropTypes.oneOfType([
         PropTypes.element,
