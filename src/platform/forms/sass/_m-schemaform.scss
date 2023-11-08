@@ -107,7 +107,7 @@ dl.review {
   }
   border-bottom: 1px solid $color-gray-light;
 }
-
+// MBMS-51921 remove this and update dl.review when the prod flag removal story is ready
 dl.review-auto-margin {
   margin: 16px auto;
   .review-row {

@@ -202,7 +202,7 @@ class ObjectField extends React.Component {
           environment.isProduction() && (
             <Tag className="review">{renderedProperties}</Tag>
           )}
-        {!formContext?.hideHeaderRow &&
+        {!formContext?.hideHeaderRow && // MBMS-51921 remove this codeblock when feature flag is no longer needed. Update review to have the margin: 16px auto setting.
           !environment.isProduction() && (
             <Tag className="review-auto-margin">{renderedProperties}</Tag>
           )}
