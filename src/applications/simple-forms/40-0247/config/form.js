@@ -29,13 +29,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({
-      confirmationNumber: '[mock-confirmation-number]',
-    }),
-  // Coordinate with backend to determine final submitUrl
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '0247-pmc',
   dev: {
     showNavLinks: !window.Cypress,
@@ -114,7 +108,7 @@ const formConfig = {
       pages: {
         veteranSupportDocsPage: {
           path: 'veteran-supporting-documentation',
-          title: 'Veteran’s supporting documentation',
+          title: 'Upload documents (preferably DD214)',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',
@@ -186,14 +180,14 @@ const formConfig = {
       pages: {
         additionalCertificatesYesNoPage: {
           path: 'additional-certificates-yes-no',
-          title: 'Yes or No',
+          title: 'Additional certificates: Yes or No',
           uiSchema: addlCertsYNPg.uiSchema,
           schema: addlCertsYNPg.schema,
           pageClass: 'additional-certificates-yes-no',
         },
         additionalCertificatesRequestPage: {
           path: 'additional-certificates-request',
-          title: 'Address and quantity',
+          title: 'Additional certificates: Address and quantity',
           depends: formData => formData.additionalCertificates === true,
           uiSchema: addlCertsReqPg.uiSchema,
           schema: addlCertsReqPg.schema,

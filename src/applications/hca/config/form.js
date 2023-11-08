@@ -12,7 +12,6 @@ import {
   includeSpousalInformation,
 } from '../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM, SHARED_PATHS } from '../utils/constants';
-import { createDependentSchema } from '../definitions/dependent';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IDPage from '../containers/IDPage';
@@ -85,15 +84,7 @@ import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
-const {
-  date,
-  fullName,
-  monetaryValue,
-  phone,
-  provider,
-  ssn,
-} = fullSchemaHca.definitions;
-const dependentSchema = createDependentSchema(fullSchemaHca);
+const { date } = fullSchemaHca.definitions;
 
 /**
  * NOTE: Prefill message data values can be found in
@@ -147,15 +138,7 @@ const formConfig = {
   },
   footerContent: FormFooter,
   getHelp: GetHelp,
-  defaultDefinitions: {
-    date,
-    provider,
-    fullName,
-    ssn,
-    phone,
-    dependent: dependentSchema,
-    monetaryValue,
-  },
+  defaultDefinitions: { date },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',

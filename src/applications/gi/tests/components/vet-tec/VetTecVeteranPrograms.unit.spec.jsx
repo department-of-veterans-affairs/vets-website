@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
+import sinon from 'sinon';
 import VetTecVeteranPrograms from '../../../components/vet-tec/VetTecVeteranPrograms';
 
 const institution = {
@@ -28,18 +28,40 @@ const institution = {
       providerWebsite: 'https://galvanize.edu',
       phoneAreaCode: '843',
       phoneNumber: '333-3333',
+      available: true,
+      studentVetGroup: true,
+      vetSuccessEmail: 'vetsuccess@example.com',
+      vetSuccessName: 'Vet Success',
+      studentVetGroupWebsite: 'http://studentvetgroup.com',
     },
   ],
 };
 describe('<VetTecVeteranPrograms/>', () => {
   it('should render', () => {
+    const onShowModalSpy = sinon.spy();
     const wrapper = shallow(
       <VetTecVeteranPrograms
         institution={institution}
+        onShowModal={onShowModalSpy}
         programs={institution.programs}
       />,
     );
     expect(wrapper.html()).to.not.be.undefined;
+    wrapper.unmount();
+  });
+  it('calls onShowModal when LearnMoreLabel is clicked', () => {
+    const onShowModalSpy = sinon.spy();
+    const wrapper = shallow(
+      <VetTecVeteranPrograms
+        institution={institution}
+        onShowModal={onShowModalSpy}
+      />,
+    );
+    wrapper
+      .find('LearnMoreLabel')
+      .first()
+      .simulate('click');
+    expect(onShowModalSpy.calledOnce).to.be.true;
     wrapper.unmount();
   });
 });

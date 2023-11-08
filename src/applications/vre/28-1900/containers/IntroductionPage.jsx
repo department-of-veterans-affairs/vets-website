@@ -31,11 +31,11 @@ const IntroductionPage = props => {
         startText="Apply for Veteran Readiness and Employment"
         headingLevel="2"
       >
-        Please complete the 28-1900 form to apply for Vocational Rehabilitation.
+        Complete the 28-1900 form to apply for Vocational Rehabilitation.
       </SaveInProgressIntro>
-      <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
-        Follow the steps below to apply for Veteran Readiness and Employment
-        benefits.
+      <h2>
+        Follow these steps to apply for Veteran Readiness and Employment
+        Benefits.
       </h2>
       <p id="vre-orientation-return">
         If you’re not sure this is the right form, you can{' '}
@@ -92,11 +92,11 @@ const IntroductionPage = props => {
           <li className="process-step list-four">
             <h3>Decision</h3>
             <p>
-              If you’re eligible for Veteran Readiness and Employment benefits,
-              we’ll schedule a meeting for you with a Vocational Rehabilitation
-              Counselor (VRC). The counselor will work with you to create a
-              personalized rehabilitation plan that outlines what VR&E services
-              you can get.
+              If you’re eligible for Veteran Readiness and Employment (VR&E)
+              benefits, we’ll schedule a meeting for you with a Vocational
+              Rehabilitation Counselor (VRC). The counselor will work with you
+              to create a personalized rehabilitation plan that outlines what
+              VR&E services you can get.
             </p>
           </li>
         </ol>

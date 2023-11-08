@@ -24,14 +24,13 @@ import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
-  Categories,
   DefaultFolders,
   ErrorMessages,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
-import EditContentListOrSignatureModal from '../Modals/EditContentListOrSignatureModal';
+import EditPreferences from './EditPreferences';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -55,12 +54,11 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -74,15 +72,6 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
 
-  const {
-    OTHER,
-    COVID,
-    APPOINTMENTS,
-    MEDICATIONS,
-    TEST_RESULTS,
-    EDUCATION,
-  } = Categories;
-
   const formattededSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
@@ -90,8 +79,21 @@ const ComposeForm = props => {
     [signature],
   );
 
+  useEffect(
+    () => {
+      dispatch(getCategories());
+    },
+    [dispatch],
+  );
+
   const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === 'attachment') {
+    if (typeOfError === null) {
+      setNavigationError(null);
+    }
+    if (
+      typeOfError ===
+      ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR
+    ) {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
         confirmButtonText:
@@ -99,7 +101,8 @@ const ComposeForm = props => {
         cancelButtonText:
           ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
       });
-    } else {
+    }
+    if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
         confirmButtonText: 'Continue editing',
@@ -110,18 +113,41 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
-  );
+      const blankForm =
+        messageBody === '' &&
+        subject === '' &&
+        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        category === null &&
+        attachments.length === 0;
 
-  useEffect(
-    () => {
-      if (attachments.length > 0) {
-        setUnsavedNavigationError('attachment');
+      if (blankForm) {
+        setUnsavedNavigationError(null);
+      } else {
+        if (!deleteButtonClicked) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+          if (formPopulated) {
+            setUnsavedNavigationError(null);
+          }
+        }
+        if (!deleteButtonClicked && attachments.length > 0) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
+          );
+          updateModalVisible(false);
+        }
       }
     },
-    [attachments],
+    [
+      attachments,
+      category,
+      deleteButtonClicked,
+      formPopulated,
+      messageBody,
+      selectedRecipient,
+      subject,
+    ],
   );
 
   useEffect(
@@ -159,26 +185,23 @@ const ComposeForm = props => {
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              ),
-            )
-            .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
             navigateToFolderByFolderId(
               currentFolder?.folderId || DefaultFolders.INBOX.id,
               history,
             ),
-          );
-        }
+          )
+          .catch(setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],
@@ -238,30 +261,6 @@ const ComposeForm = props => {
 
   if (draft && recipients && !formPopulated) populateForm();
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category ===
-      (COVID ||
-        OTHER ||
-        APPOINTMENTS ||
-        MEDICATIONS ||
-        TEST_RESULTS ||
-        EDUCATION)
-        ? Categories[category]
-        : 'New message';
-
-    if (category && subject) {
-      return `${Categories[category]}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${Categories[category]}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return `${casedCategory}`;
-  };
-
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
@@ -294,17 +293,25 @@ const ComposeForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setUserSaved(true);
         setLastFocusableElement(e.target);
+        // setUserSaved(true)
         await setMessageInvalid(false);
-        if (checkMessageValidity()) {
+        if (checkMessageValidity() === true) {
           setNavigationError(null);
-        }
-        if (attachments.length) {
+        } else
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+
+        if (attachments.length > 0) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError(null);
+          setNavigationError({
+            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+            confirmButtonText: 'Continue editing',
+            cancelButtonText: 'Delete draft',
+          });
         }
       }
 
@@ -317,6 +324,7 @@ const ComposeForm = props => {
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
+        // setUserSaved(true);
         return;
       }
 
@@ -332,7 +340,6 @@ const ComposeForm = props => {
       if (checkMessageValidity() === true) {
         dispatch(saveDraft(formData, type, draftId));
       }
-      if (!attachments.length) setNavigationError(null);
     },
     [
       attachments.length,
@@ -475,16 +482,8 @@ const ComposeForm = props => {
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
         />
-        <div
-          className="compose-form-header"
-          data-testid="compose-form-header"
-          data-dd-privacy="mask"
-        >
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {setMessageTitle()}
-          </h2>
-        </div>
-        <div className="compose-inputs-container">
+        <div>
+          <EditPreferences />
           {recipientsList && (
             <>
               <VaSelect
@@ -505,11 +504,6 @@ const ComposeForm = props => {
                   </option>
                 ))}
               </VaSelect>
-
-              <EditContentListOrSignatureModal
-                editListModal={editListModal}
-                setEditListModal={setEditListModal}
-              />
             </>
           )}
           <div className="compose-form-div">
@@ -552,23 +546,13 @@ const ComposeForm = props => {
               }}
               data-dd-privacy="mask"
             />
-            <div className="edit-contact-list-or-signature">
-              <va-button
-                id="edit-contact-list-or-signature-button"
-                text="Edit contact list or signature"
-                label="Edit contact list or signature"
-                secondary
-                class="vads-u-flex--1 edit-contact-list-or-signature-button vads-u-margin-bottom--1 vads-u-width--full hydrated"
-                data-testid="edit-list-button"
-                onClick={() => setEditListModal(true)}
-              />
-            </div>
           </div>
           <section className="attachments-section">
             <AttachmentsList
               compose
               attachments={attachments}
               setAttachments={setAttachments}
+              setNavigationError={setNavigationError}
               editingEnabled
             />
 
@@ -577,12 +561,17 @@ const ComposeForm = props => {
               setAttachments={setAttachments}
             />
           </section>
-          <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
+          <DraftSavedInfo />
           <ComposeFormActionButtons
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
+            formPopulated={formPopulated}
+            navigationError={navigationError}
             setNavigationError={setNavigationError}
+            setDeleteButtonClicked={setDeleteButtonClicked}
+            setUnsavedNavigationError={setUnsavedNavigationError}
+            deleteButtonClicked={deleteButtonClicked}
           />
         </div>
       </form>

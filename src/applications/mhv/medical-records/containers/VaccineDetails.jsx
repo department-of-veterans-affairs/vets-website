@@ -12,11 +12,17 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -30,6 +36,7 @@ const VaccineDetails = props => {
   );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -65,7 +72,7 @@ const VaccineDetails = props => {
         );
       }
     },
-    [record],
+    [dispatch, record],
   );
 
   const generateVaccinePdf = async () => {
@@ -102,7 +109,41 @@ const VaccineDetails = props => {
     makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
   };
 
+  const generateVaccineTxt = async () => {
+    const product = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Location: ${record.location} \n
+    \t Reaction: ${processList(record.reactions)} \n
+    \t Provider notes: ${processList(record.notes)} \n`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VA-Vaccines-details-${user.userFullName.first}-${
+      user.userFullName.last
+    }-${moment()
+      .format('M-D-YYYY_hhmmssa')
+      .replace(/\./g, '')}`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const content = () => {
+    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
+      return (
+        <>
+          <h1 className="vads-u-margin-bottom--0p5">Vaccine:</h1>
+          <AccessTroubleAlertBox
+            alertType={accessAlertTypes.VACCINE}
+            className="vads-u-margin-bottom--9"
+          />
+        </>
+      );
+    }
     if (record) {
       return (
         <>
@@ -123,6 +164,7 @@ const VaccineDetails = props => {
               <span
                 className="vads-u-font-weight--normal"
                 data-dd-privacy="mask"
+                data-testid="header-time"
               >
                 {record.date}
               </span>
@@ -131,6 +173,7 @@ const VaccineDetails = props => {
           <PrintDownload
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="detail-block max-80">

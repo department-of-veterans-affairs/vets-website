@@ -113,7 +113,7 @@ class PatientInboxPage {
 
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    cy.wait('@inboxMessages', { requestTimeout: 10000 });
     if (this.mockInboxMessages.length) cy.get('.thread-list').should('exist');
   };
 
@@ -371,6 +371,7 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
+    PatientInterstitialPage.CheckFocusOnVcl();
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 

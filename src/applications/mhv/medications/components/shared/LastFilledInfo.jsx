@@ -4,7 +4,7 @@ import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
-  const { dispStatus, orderedDate, dispensedDate } = rx;
+  const { dispStatus, orderedDate, dispensedDate, rxRfRecords } = rx;
   let nonVA = false;
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
@@ -21,13 +21,17 @@ const LastFilledInfo = rx => {
           </p>
         )}
       {showLastFilledDate && (
-        <p>Last filled on {dateFormat(dispensedDate, 'MMMM D, YYYY')}</p>
+        <p data-testid="rx-last-filled-date">
+          Last filled on{' '}
+          {dateFormat(
+            rxRfRecords?.[0]?.[1][0]?.dispensedDate || dispensedDate,
+            'MMMM D, YYYY',
+          )}
+        </p>
       )}
       {!nonVA &&
         !showLastFilledDate && (
-          <p data-testid="active-not-filled-rx">
-            You haven’t filled this prescription yet
-          </p>
+          <p data-testid="active-not-filled-rx">Not filled yet</p>
         )}
     </div>
   );
@@ -38,6 +42,7 @@ LastFilledInfo.propTypes = {
     dispStatus: PropTypes.string,
     dispensedDate: PropTypes.string,
     orderedDate: PropTypes.string,
+    rxRfRecords: PropTypes.array,
   }),
 };
 

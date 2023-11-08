@@ -6,49 +6,94 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-.representative-search {
-  @media (max-width: $large-screen) {
-    margin: 0 12px;
-  }
-
-  @media (max-width: $small-screen) {
-    margin: 0;
-  }
-
-  margin: 0 1.5rem;
-
-  .title-section {
-    padding: 0.5rem 0;
-  }
+.find-a-representative {
   h1:first-child {
     margin-top: 0;
-    // padding: 0 0 0 1.5rem;
   }
 
-  .rep-type-selector {
-    va-checkbox-group {
-      margin-top: -30px;
-    }
+  .clearfix {
+    content: "";
+    display: block;
+    clear: both;
   }
 
-  .search-controls-container {
-    .use-my-location-link {
-      text-decoration: none;
-      background-color: transparent;
-      color: $color-link-default;
-      font-weight: normal;
-      padding: 0;
-      margin: 0 0 0 20px;
+  .va-accordion__button {
+    visibility: hidden !important;
+  }
 
-      @media (max-width: $small-desktop-screen) {
-        margin: 1em 0;
-        text-align: left;
+  .search-page-container {
+    .search-controls-container {
+      #representative-search-controls {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .location-input-container {
+          position: relative;
+        }
+
+        .usa-input-error {
+          margin-top: 0em;
+        }
+
+        .use-my-location-button-container {
+          @media (min-width: $large-screen) {
+            position: absolute;
+            left: 30em;
+            top: 2.5em;
+            min-width: 10em;
+          }
+        }
+
+        .use-my-location-button-container-error {
+          @media (min-width: $large-screen) {
+            top: 4.2em;
+            left: 30.8em;
+          }
+        }
+
+        .use-my-location-button {
+          text-decoration: none;
+          background-color: transparent;
+          color: $color-link-default;
+          font-weight: normal;
+          padding: 0 0 0 1.5em;
+          margin-top: 0.4em;
+          background-image: url("/img/location-arrow-solid.svg");
+          background-repeat: no-repeat;
+          background-color: transparent;
+          max-width: 9em;
+        }
+
+        .finding-your-location-loading {
+          min-width: 14em;
+          text-decoration: none;
+          background-color: transparent;
+          margin-top: 0.5em;
+          color: $color-link-default;
+          font-weight: normal;
+          background-repeat: no-repeat;
+          background-color: transparent;
+        }
+
+        #representative-search {
+          max-width: 8em;
+          margin-top: 2em !important;
+        }
+
+        .rep-type-selector {
+          p:last-child {
+            margin-bottom: -1em !important;
+          }
+        }
       }
     }
   }
 
-  .rep-type-info {
-    margin: 20px 0px;
+  .representative-search-results-container {
+    .pagination-container .hydrated {
+      border-top: none !important;
+    }
   }
 
   .primary {

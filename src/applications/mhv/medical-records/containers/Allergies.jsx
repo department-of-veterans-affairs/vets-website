@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -6,7 +6,12 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PropTypes from 'prop-types';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  recordType,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  accessAlertTypes,
+} from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -17,6 +22,7 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -29,32 +35,13 @@ const Allergies = props => {
       ],
   );
   const user = useSelector(state => state.user.profile);
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
       dispatch(getAllergiesList());
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
   );
 
   useEffect(
@@ -104,6 +91,11 @@ const Allergies = props => {
             inline: true,
           },
           {
+            title: 'Observed or historical',
+            value: item.observedOrReported,
+            inline: true,
+          },
+          {
             title: 'Provider notes',
             value: item.notes,
             inline: !item.notes,
@@ -120,31 +112,82 @@ const Allergies = props => {
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
+  const generateAllergiesTxt = async () => {
+    const product = `
+    Allergies and reactions \n 
+    Review allergies, reactions, and side effects in your VA medical
+    records. This includes medication side effects (also called adverse drug
+    reactions). \n
+    If you have allergies that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${allergies.length} from newest to oldest. \n
+    ${allergies.map(
+      entry =>
+        `_____________________________________________________ \n
+      ${entry.name} \n
+      \t Date entered: ${entry.date} \n
+      \t Signs and symptoms: ${entry.reaction} \n
+      \t Type of Allergy: ${entry.type} \n
+      \t Location: ${entry.location} \n
+      \t Observed or historical: ${entry.observedOrReported} \n
+      \t Provider notes: ${entry.notes} \n`,
+    )}`;
+
+    const blob = new Blob([product], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'AllergyList';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  };
+
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox />;
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
     }
     if (allergies?.length > 0) {
-      return <RecordList records={allergies} type={recordType.ALLERGIES} />;
+      return (
+        <>
+          <PrintDownload
+            list
+            download={generateAllergiesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateAllergiesTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <RecordList records={allergies} type={recordType.ALLERGIES} />
+        </>
+      );
     }
     if (allergies?.length === 0) {
       return (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
-            You don’t have any records in Allergies
-          </va-alert>
+        <div
+          className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+          data-testid="record-list-item"
+        >
+          <h2
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
+            data-testid="no-allergy-records"
+          >
+            There are no allergies or reactions in your VA medical records.
+          </h2>
         </div>
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+        <va-loading-indicator
+          message="We’re loading your records. This could take up to a minute."
+          setFocus
+          data-testid="loading-indicator"
+          // class="loading-indicator"
+        />
+      </div>
     );
   };
 
@@ -161,16 +204,6 @@ const Allergies = props => {
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
-      {!accessAlert && (
-        <>
-          <PrintDownload
-            list
-            download={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </>
-      )}
       {content()}
     </div>
   );

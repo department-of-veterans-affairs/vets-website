@@ -10,7 +10,11 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers.js';
 
-import Form526Entry, { serviceRequired, idRequired } from '../../Form526EZApp';
+import Form526Entry, {
+  serviceRequired,
+  idRequired,
+  isIntroPage,
+} from '../../Form526EZApp';
 import reducers from '../../reducers';
 import {
   MVI_ADD_INITIATED,
@@ -380,5 +384,11 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('va-loading-indicator')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(0);
     tree.unmount();
+  });
+
+  describe('isIntroPage', () => {
+    it('should return false when no pathname param', () => {
+      expect(isIntroPage()).to.be.false;
+    });
   });
 });

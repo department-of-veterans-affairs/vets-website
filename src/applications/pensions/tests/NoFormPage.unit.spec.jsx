@@ -78,7 +78,6 @@ describe('NoFormPage', () => {
       rest.get(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
         (req, res, ctx) => {
-          // Mock the API response data
           const responseData = { formData: {}, metadata: {} };
           return res(ctx.json(responseData), ctx.status(200));
         },
@@ -95,7 +94,7 @@ describe('NoFormPage', () => {
         'Review pension benefits application',
       );
       expect($$('h2', container)[0].textContent).to.eql(
-        'You don’t have any saved online pension forms.',
+        'You don’t have any saved online pension form.',
       );
     });
   });
@@ -105,7 +104,6 @@ describe('NoFormPage', () => {
       rest.get(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
         (req, res, ctx) => {
-          // Mock the API response data
           const responseData = { formData: {}, metadata: {} };
           return res(ctx.json(responseData), ctx.status(200));
         },
@@ -129,7 +127,6 @@ describe('NoFormPage', () => {
       rest.get(
         'https://dev-api.va.gov/v0/in_progress_forms/21P-527EZ',
         (req, res, ctx) => {
-          // Mock the API response data
           const responseData = {
             formData: { ...mockFormData },
             metadata: { inProgressFormId: 5, createdAt: 1695063470866 },
@@ -146,9 +143,9 @@ describe('NoFormPage', () => {
     );
     await waitFor(() => {
       expect($$('h2', container)[0].textContent).to.eql(
-        'This online form isn’t working right now',
+        'You can’t use our online application right now',
       );
-      expect($$('h2', container).length <= 10).to.be.true;
+      expect($$('h2', container).length <= 12).to.be.true;
     });
   });
 });

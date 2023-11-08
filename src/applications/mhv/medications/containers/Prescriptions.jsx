@@ -1,16 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import PropTypes from 'prop-types';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
-  clearAllergisError,
+  clearAllergiesError,
 } from '../actions/prescriptions';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintHeader from './PrintHeader';
+import PrintBottom from './PrintBottom';
 import {
   PDF_GENERATE_STATUS,
   rxListSortingOptions,
@@ -18,22 +21,23 @@ import {
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { getPrescriptionSortedList } from '../api/rxApi';
+import Alert from '../components/shared/Alert';
 
-const Prescriptions = () => {
+const Prescriptions = props => {
+  const { fullList = [] } = props;
+  const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
-  const [fullPrescriptionsList, setFullPrescriptionsList] = useState([]);
+  const [fullPrescriptionsList, setFullPrescriptionsList] = useState(fullList);
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -47,61 +51,11 @@ const Prescriptions = () => {
     sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) || defaultSortOption,
   );
   const [isAlertVisible, setAlertVisible] = useState('false');
-  const [isLoading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setLoading] = useState();
+  const [currentPage, setCurrentPage] = useState(page ?? 1);
   const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
     PDF_GENERATE_STATUS.NotStarted,
   );
-
-  const topAlert = () => {
-    return (
-      <div visible={isAlertVisible} className="no-print vads-u-margin-top--5">
-        {!paginatedPrescriptionsList && (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible={isAlertVisible}
-          >
-            <h2 slot="headline">We can’t access your medications right now</h2>
-            <div>
-              <section className="vads-u-margin-bottom--0">
-                <p>
-                  We’re sorry. There’s a problem with our system. Check back
-                  later.
-                </p>
-                <p>
-                  <strong>If it still doesn’t work,</strong> email us at{' '}
-                  <FeedbackEmail />.
-                </p>
-                <p>
-                  <strong>If you need to request a refill now,</strong> call
-                  your VA pharmacy. You can find the pharmacy phone number on
-                  your prescription label.
-                </p>
-              </section>
-            </div>
-          </va-alert>
-        )}
-        {paginatedPrescriptionsList?.length <= 0 && (
-          <va-alert status="info" uswds>
-            <div>
-              <h4 className="vads-u-margin-top--0">
-                You don’t have any medications in your medications list
-              </h4>
-              <strong>Note</strong>: This list doesn’t include older
-              prescriptions that have been inactive for more than{' '}
-              <strong>180 days</strong>. To find these older prescriptions, go
-              to your VA Blue Button report on the My HealtheVet website.{' '}
-              <a href={mhvUrl(ssoe, 'va-blue-button')} rel="noreferrer">
-                Go to VA Blue Button&reg; on the My HealtheVet website
-              </a>
-            </div>
-          </va-alert>
-        )}
-        <div className="vads-u-margin-bottom--4" />
-      </div>
-    );
-  };
 
   const sortRxList = sortOption => {
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
@@ -109,6 +63,14 @@ const Prescriptions = () => {
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     focusElement(document.getElementById('showingRx'));
   };
+
+  useEffect(
+    () => {
+      const newUrl = `/my-health/medications/${currentPage}`;
+      window.history.pushState(null, '', newUrl);
+    },
+    [currentPage],
+  );
 
   useEffect(
     () => {
@@ -132,6 +94,9 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
+      if (!paginatedPrescriptionsList) {
+        setLoading(true);
+      }
       dispatch(
         getPrescriptionsPaginatedSortedList(
           currentPage,
@@ -139,6 +104,8 @@ const Prescriptions = () => {
         ),
       ).then(() => setLoading(false));
     },
+    // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, currentPage, selectedSortOption],
   );
 
@@ -157,6 +124,7 @@ const Prescriptions = () => {
   const pdfData = useCallback(
     (rxList, allergiesList) => {
       return {
+        subject: 'Full Medications List',
         headerBanner: [
           {
             text:
@@ -258,15 +226,14 @@ const Prescriptions = () => {
   };
 
   const handleModalClose = () => {
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
   };
 
   const handleModalDownloadButton = () => {
     generatePDF(buildPrescriptionsPDFList(fullPrescriptionsList));
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
   };
-
   const content = () => {
     if (!isLoading) {
       return (
@@ -276,24 +243,25 @@ const Prescriptions = () => {
             Medications
           </h1>
           <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 no-print"
             data-testid="Title-Notes"
           >
             Refill and track your VA prescriptions. And review all medications
             in your VA medical records.
           </div>
-          <div className="print-only">
-            <p className="vads-u-margin-y--0">
-              <strong>Note:</strong> This file doesn’t include:
+          <div className="print-only vads-l-col--12 medium-screen:vads-l-col--6">
+            <p className="vads-u-margin-y--1">
+              <strong>Note:</strong>
+              This document may not include all medications in your VA medical
+              records. And it doesn’t include a list of your allergies and
+              reactions to medications.
             </p>
-            <ul className="vads-u-margin-y--0">
-              <li className="vads-u-margin-y--0">All of your medications</li>
-              <li className="vads-u-margin-y--0">
-                Your allergies or adverse reactions
-              </li>
-            </ul>
           </div>
-          {topAlert()}
+          <Alert
+            isAlertVisible={isAlertVisible}
+            paginatedPrescriptionsList={paginatedPrescriptionsList}
+            ssoe={ssoe}
+          />
           <AllergiesErrorModal
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
@@ -325,6 +293,7 @@ const Prescriptions = () => {
           ) : (
             ''
           )}
+          <PrintBottom />
         </div>
       );
     }
@@ -341,3 +310,7 @@ const Prescriptions = () => {
 };
 
 export default Prescriptions;
+
+Prescriptions.propTypes = {
+  fullList: PropTypes.any,
+};
