@@ -340,7 +340,8 @@ const formConfig = {
       title: 'Sponsor information',
       /* 
        * Prod flag this high up because its screen division. Make sure content 
-       * changes are in correct spots and not in a code chunk that is getting deleted. 
+       * changes are in correct spots and not in a code chunk that is getting deleted.
+       * This prod flag is from MBMS-47184. Delete this comment when prod flag is deleted. 
        */
       pages: environment.isProduction()
         ? {
