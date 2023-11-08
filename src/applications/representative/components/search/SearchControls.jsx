@@ -15,19 +15,16 @@ const SearchControls = props => {
     // clearSearchText
   } = props;
   const {
-    locationChanged,
     locationInputString,
     repOrganizationInputString,
     representativeType,
     geolocationInProgress,
+    isErrorEmptyInput,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
-  const showError =
-    locationChanged &&
-    !geolocationInProgress &&
-    (!locationInputString || locationInputString.length === 0);
+  const showError = isErrorEmptyInput && !geolocationInProgress;
 
   const handleSearchButtonClick = e => {
     e.preventDefault();
@@ -71,17 +68,6 @@ const SearchControls = props => {
     });
   };
 
-  const handleLocationBlur = e => {
-    // force redux state to register a change
-    onChange({ locationInputString: ' ' });
-    handleLocationChange(e);
-  };
-  const handleRepOrganizationBlur = e => {
-    // force redux state to register a change
-    onChange({ repOrganizationInputString: ' ' });
-    handleRepOrganizationChange(e);
-  };
-
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
     // recordEvent({
@@ -119,8 +105,7 @@ const SearchControls = props => {
               label="City, State or Postal code"
               message-aria-describedby="Text input for location"
               name="City, State or Postal code"
-              onBlur={handleLocationChange}
-              onInput={handleLocationBlur}
+              onInput={handleLocationChange}
               value={locationInputString}
               uswds
               required
@@ -172,8 +157,8 @@ const SearchControls = props => {
             message-aria-describedby="Text input for organization or representative name"
             name="Organization or Representative Name"
             onChange={handleRepOrganizationChange}
-            onBlur={handleRepOrganizationBlur}
-            onInput={handleLocationBlur}
+            // onBlur={handleRepOrganizationBlur}
+            onInput={handleRepOrganizationChange}
             value={repOrganizationInputString}
             uswds
           />
