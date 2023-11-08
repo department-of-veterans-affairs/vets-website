@@ -31,11 +31,9 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  assertUrl() {
-    cy.log('assertUrl');
-    // cy.url().should('include', url, { timeout: 5000 });
+  assertUrl({ axCheck = true } = {}) {
     cy.url().should('include', '/location', { timeout: 5000 });
-    cy.axeCheckBestPractice();
+    if (axCheck) cy.axeCheckBestPractice();
 
     return this;
   }
@@ -56,13 +54,24 @@ export class VAFacilityPageObject extends PageObject {
   assertWarningModal({ text, exist = true }) {
     if (exist) {
       cy.get('va-modal[status=warning]')
-        .as('alert')
+        .as('modal')
         .shadow();
-      cy.get('@alert').contains(text);
+      cy.get('@modal').contains(text);
       cy.log('done');
     } else {
       cy.get('va-alert[status=warning]').should('not.exist');
     }
+
+    return this;
+  }
+
+  closeModal() {
+    cy.get('va-modal[status=warning]')
+      .as('modal')
+      .shadow();
+    cy.get('@modal')
+      .find('button')
+      .click();
 
     return this;
   }

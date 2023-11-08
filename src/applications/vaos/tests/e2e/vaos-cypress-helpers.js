@@ -423,7 +423,7 @@ export function mockAppointmentUpdateApi({
  *
  * @export
  * @param {Object} arguments
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
  */

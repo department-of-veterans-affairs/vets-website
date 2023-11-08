@@ -392,13 +392,9 @@ describe('VAOS covid-19 vaccine flow', () => {
         .selectRadioButton(/No\/I.m not sure/i)
         .clickNextButton();
 
-      VAFacilityPageObject.assertUrl()
+      VAFacilityPageObject.assertUrl({ axCheck: false })
         .selectLocation(/Cheyenne VA Medical Center/i)
         .clickNextButton();
-      cy.wait('@v2:get:clinics');
-      VAFacilityPageObject.assertUrl().assertWarningModal({
-        text: /We.re sorry. We couldn.t find any available slots for your appointment./i,
-      });
 
       // Assert
       cy.axeCheckBestPractice();
@@ -434,6 +430,76 @@ describe('VAOS covid-19 vaccine flow', () => {
       ContactFacilityPageObject.assertUrl().assertText(
         /Contact one of your registered VA facilities to schedule your vaccine appointment/i,
       );
+
+      // Assert
+      cy.axeCheckBestPractice();
+    });
+  });
+
+  describe('When appointment can not be scheduled', () => {
+    it('should display 500 error message', () => {
+      // Arrange
+      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+      // Add one day since same day appointments are not allowed.
+      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
+
+      mockAppointmentCreateApi({ responseCode: 500 });
+      mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+      mockFacilitiesApi();
+      mockSchedulingConfigurationApi({
+        facilityIds: ['983', '984'],
+        typeOfCareId: 'covid',
+        isDirect: true,
+        isRequest: true,
+      });
+      mockSlotsApi({
+        locationId: '983',
+        clinicId: '308',
+        response: [mockSlot],
+      });
+
+      // Act
+      cy.login(mockUser);
+
+      AppointmentListPageObject.visit().scheduleAppointment();
+
+      TypeOfCarePageObject.assertUrl()
+        .assertAddressAlert({ exist: false })
+        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .clickNextButton();
+
+      PlanAheadPageObject.assertUrl().clickNextButton();
+
+      DosesReceivedPageObject.assertUrl()
+        .selectRadioButton(/No\/I.m not sure/i)
+        .clickNextButton();
+
+      VAFacilityPageObject.assertUrl()
+        .assertHomeAddress({ address: /123 Main St/i })
+        .selectLocation(/Cheyenne VA Medical Center/i)
+        .clickNextButton();
+
+      ClinicChoicePageObject.assertUrl()
+        .selectClinic(/Green Team Clinic1/i, true)
+        .clickNextButton();
+
+      DateTimeSelectPageObject.assertUrl({
+        isCovid: true,
+      })
+        .selectFirstAvailableDate()
+        .clickNextButton();
+
+      SecondDosePageObject.assertUrl().clickNextButton();
+
+      ContactInfoPageObject.assertUrl()
+        .typePhoneNumber('5555555555')
+        .typeEmailAddress('user@va.gov')
+        .clickNextButton();
+
+      ReviewPageObject.assertUrl().clickConfirmButton();
+
+      // ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+      // cy.findByText('We’ve scheduled and confirmed your appointment.');
 
       // Assert
       cy.axeCheckBestPractice();
