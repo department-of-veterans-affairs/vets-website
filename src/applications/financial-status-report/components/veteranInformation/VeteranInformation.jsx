@@ -51,14 +51,14 @@ const VeteranInformation = ({
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="veteran information" />
-        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Veteran information
           </h3>
         </legend>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="veteran information" />
+        ) : null}
         <VeteranInfoBox
           first={first}
           middle={middle}
@@ -67,14 +67,14 @@ const VeteranInformation = ({
           ssnLastFour={ssn}
           fileNumber={fileNumber}
         />
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handleBackNavigation}
+          goForward={goForward}
+          submitToContinue
+        />
+        {contentAfterButtons}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons
-        goBack={handleBackNavigation}
-        goForward={goForward}
-        submitToContinue
-      />
-      {contentAfterButtons}
     </form>
   );
 };

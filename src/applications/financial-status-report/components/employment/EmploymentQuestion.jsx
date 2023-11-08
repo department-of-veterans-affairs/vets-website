@@ -125,14 +125,14 @@ const EmploymentQuestion = props => {
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="household income" />
-        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Your work history
           </h3>
         </legend>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="household income" />
+        ) : null}
         <VaRadio
           class="vads-u-margin-y--2"
           label="Have you had any jobs in the last 2 years?"
@@ -153,14 +153,14 @@ const EmploymentQuestion = props => {
             checked={!hasJobToAdd}
           />
         </VaRadio>
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handleBackNavigation}
+          goForward={goForward}
+          submitToContinue
+        />
+        {contentAfterButtons}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons
-        goBack={handleBackNavigation}
-        goForward={goForward}
-        submitToContinue
-      />
-      {contentAfterButtons}
     </form>
   );
 };

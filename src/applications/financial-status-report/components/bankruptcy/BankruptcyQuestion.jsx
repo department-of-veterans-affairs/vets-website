@@ -88,14 +88,14 @@ const BankruptcyQuestion = ({
       }}
     >
       <fieldset className="vads-u-margin-y--2">
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="bankruptcy history" />
-        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Your bankruptcy details
           </h3>
         </legend>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="bankruptcy history" />
+        ) : null}
         <VaRadio
           class="vads-u-margin-y--2"
           label="Have you ever declared bankruptcy?"
@@ -125,14 +125,14 @@ const BankruptcyQuestion = ({
             }
           />
         </VaRadio>
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handleBackNavigation}
+          goForward={onGoForward}
+          submitToContinue
+        />
+        {contentAfterButtons}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons
-        goBack={handleBackNavigation}
-        goForward={onGoForward}
-        submitToContinue
-      />
-      {contentAfterButtons}
     </form>
   );
 };
@@ -147,6 +147,7 @@ BankruptcyQuestion.propTypes = {
   }).isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
+  goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.node,
   contentBeforeButtons: PropTypes.node,
