@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { monetaryAssets as monetaryAssetList } from '../../constants/checkboxSelections';
@@ -21,6 +22,17 @@ const MonetaryCheckList = ({
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { monetaryAssets = [] } = assets;
+
+  const headerRef = useRef(null);
+  // Header ref for setting focus
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -103,11 +115,15 @@ const MonetaryCheckList = ({
       }}
     >
       <fieldset>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0" ref={headerRef}>
+            {title}
+          </h3>
+        </legend>
         {reviewDepends ? (
           <ReviewPageNavigationAlert data={data} title="household assets" />
         ) : null}
         <Checklist
-          title={title}
           prompt={prompt}
           options={adjustedAssetList}
           onChange={event => onChange(event)}
