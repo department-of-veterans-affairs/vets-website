@@ -22,6 +22,7 @@ import {
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import ApplicantField from '../components/applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.properties;
@@ -151,7 +152,6 @@ const formConfig = {
             sponsorDOB: dateOfBirthUI(),
             sponsorIsDeceased: yesNoUI({
               title: 'Is the Veteran deceased?',
-              description: 'Select one',
             }),
             sponsorDOD: {
               ...dateOfDeathUI(),
@@ -163,12 +163,55 @@ const formConfig = {
             sponsorDeathConditions: {
               ...yesNoUI({
                 title: 'Did the Veteran die while on active military service?',
-                description: 'Select one',
               }),
               'ui:options': {
                 hideIf: formData => !get('sponsorIsDeceased', formData),
               },
               'ui:required': formData => formData.sponsorIsDeceased,
+            },
+          },
+        },
+      },
+    },
+    chapter2: {
+      title: 'Applicant Information',
+      pages: {
+        applicants: {
+          title: 'Applicants',
+          path: 'applicants',
+          uiSchema: {
+            'ui:title': 'Applicants',
+            applicants: {
+              'ui:options': {
+                itemName: 'Applicant',
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+                useDlWrap: false,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant.',
+              },
+              items: {
+                applicantName: fullNameUI(),
+                applicantDoB: dateOfBirthUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  required: ['applicantName'],
+                  properties: {
+                    applicantName: fullNameSchema,
+                    applicantDoB: dateOfBirthSchema,
+                  },
+                },
+              },
             },
           },
         },

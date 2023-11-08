@@ -38,6 +38,7 @@ class IntroductionPage extends React.Component {
             <h4>To fill out this application, you’ll need your:</h4>
             <ul>
               <li>Social Security number (required)</li>
+              <li>VA File number (required)</li>
             </ul>
             <p>
               <strong>What if I need help filling out my application?</strong>{' '}
