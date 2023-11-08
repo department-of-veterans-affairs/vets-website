@@ -33,6 +33,12 @@ describe('CCInstructions component', () => {
         initialState,
       },
     );
+    expect(
+      await wrapper.queryByRole('heading', {
+        level: 2,
+        name: 'Special instructions',
+      }),
+    ).to.exist;
 
     // CCInstructions with comment
     expect(await wrapper.findByText('Follow-up/Routine: I have a headache')).to
