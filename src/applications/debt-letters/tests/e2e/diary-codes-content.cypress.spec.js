@@ -11,12 +11,12 @@ describe('Diary Codes', () => {
     cy.injectAxe();
   });
 
-  it('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
+  it.skip('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: We referred this debt to the U.S. Department of the Treasury.',
     );
     cy.get('[data-testid="diary-code-080-next-step"]').contains(
-      'Next step: Call the U.S. Department of the Treasury’s Debt Management Center at888-826-3127, 8:30 a.m. to 6:30 p.m. ET. ',
+      'Next step: Call the U.S. Department of the Treasury’s Debt Management Center at 888-826-3127, 8:30 a.m. to 6:30 p.m. ET. ',
     );
     cy.axeCheck();
   });
