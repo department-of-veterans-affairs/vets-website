@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-import DelayedRender from 'platform/utilities/ui/DelayedRender';
+// import DelayedRender from 'platform/utilities/ui/DelayedRender';
+// import DelayedRender from '@department-of-veterans-affairs/platform-utilities/ui/DelayedRender';
 import { representativeTypes, sortOptions } from '../../config';
 // import { Error } from '../../constants';
 
@@ -20,7 +21,6 @@ const ResultsList = props => {
 
   const {
     inProgress,
-    // searchString,
     // locationInputString,
     searchResults,
     // searchError,
@@ -90,24 +90,6 @@ const ResultsList = props => {
   };
 
   // const currentPage = pagination ? pagination.currentPage : 1;
-  if (inProgress) {
-    return (
-      <div>
-        {/* <va-loading-indicator
-          message={`Searching for ${representativeTypeName} in ${searchString}`}
-        /> */}
-        <DelayedRender>
-          <va-alert visible status="info">
-            <h3 slot="headline">Please wait</h3>
-            <p>
-              Your results should appear in less than a minute. Thank you for
-              your patience.
-            </p>
-          </va-alert>
-        </DelayedRender>
-      </div>
-    );
-  }
 
   // if (searchError) {
   //   if (searchError.type === 'mapBox') {
@@ -132,7 +114,7 @@ const ResultsList = props => {
   // const resultsData = searchResults?.map(result => ({
   //   ...result,
   //   resultItem: true,
-  //   searchString,
+  //   locationInputString,
   //   currentPage,
   // }));
 
@@ -171,13 +153,15 @@ const ResultsList = props => {
 ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
-  representativeTypeName: PropTypes.string,
   inProgress: PropTypes.bool,
+  locationInputString: PropTypes.string,
   pagination: PropTypes.object,
   query: PropTypes.object,
-  results: PropTypes.array,
+  representativeTypeName: PropTypes.string,
   searchError: PropTypes.object,
-  locationInputString: PropTypes.string,
+  searchResults: PropTypes.array,
+  sortType: PropTypes.string,
+  onUpdateSortType: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

@@ -1,7 +1,5 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import environment from 'platform/utilities/environment';
-import { isActiveDuty } from '../containers/PreSubmitInfo';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
@@ -38,19 +36,6 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
-  const tempActiveDuty = formData => {
-    if (!environment.isProduction()) {
-      try {
-        const clonedData = _.cloneDeep(formData);
-        clonedData.isActiveDuty = isActiveDuty(formData);
-        return clonedData;
-      } catch (e) {
-        return formData;
-      }
-    }
-    return formData;
-  };
-
   // This needs to be last function call in array below
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
@@ -63,7 +48,6 @@ export function transform(formConfig, form) {
 
   const transformedData = [
     newSchoolTransform,
-    tempActiveDuty, // Temp Solution for isActiveDuy
     fryScholarshipTransform,
     contactInfoTransform,
     usFormTransform, // This needs to be last function call in array
