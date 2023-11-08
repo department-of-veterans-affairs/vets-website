@@ -1,7 +1,9 @@
+import sinon from 'sinon';
 import searchReducer, {
   uppercaseKeys,
   normalizedInstitutionFacets,
   derivePaging,
+  buildSearchResults,
 } from '../../reducers/search';
 
 const { expect } = require('chai');
@@ -376,6 +378,95 @@ describe('SearchReducer', () => {
       const state = searchReducer(initialState, action);
       expect(state.query.mapState.zoom).to.equal(15);
       expect(state.query.mapState.position).to.equal('north');
+    });
+  });
+  describe('buildSearchResults', () => {
+    const mockPayload = {
+      data: [
+        {
+          id: 1,
+          type: 'institutions',
+          attributes: {
+            facilityCode: '1',
+            institutionName: 'Test University',
+          },
+        },
+        {
+          id: 2,
+          type: 'institutions',
+          attributes: {
+            facilityCode: '2',
+            institutionName: 'Another Test University',
+          },
+        },
+      ],
+      links: {
+        self: 'http://api.example.com/institutions?page=1',
+        last: 'http://api.example.com/institutions?page=10&per_page=10',
+      },
+      meta: {
+        count: 2,
+        facets: {
+          category: {
+            school: 2,
+          },
+          state: {
+            ca: 1,
+            ny: 1,
+          },
+          country: ['USA', 'Canada'],
+          provider: [
+            { name: 'provider1', count: 10 },
+            { name: 'provider2', count: 5 },
+          ],
+        },
+      },
+    };
+    let camelCaseKeysRecursiveStub;
+    let normalizedInstitutionAttributesStub;
+    let derivePagingStub;
+    let normalizedInstitutionFacetsStub;
+
+    beforeEach(() => {
+      camelCaseKeysRecursiveStub = sinon.stub(uppercaseKeys, 'default');
+      normalizedInstitutionAttributesStub = sinon.stub(
+        normalizedInstitutionFacets,
+        'default',
+      );
+      derivePagingStub = sinon.stub(derivePaging, 'default');
+      normalizedInstitutionFacetsStub = sinon.stub(
+        normalizedInstitutionFacets,
+        'default',
+      );
+    });
+    it('should return search results with correctly formatted data', () => {
+      camelCaseKeysRecursiveStub.returns(mockPayload);
+      normalizedInstitutionAttributesStub.callsFake(attrs => ({
+        ...attrs,
+        normalized: true,
+      }));
+      derivePagingStub.returns({ currentPage: 1, totalPages: 10, perPage: 10 });
+      normalizedInstitutionFacetsStub.returns(mockPayload.meta.facets);
+
+      const results = buildSearchResults(mockPayload);
+
+      expect(results).to.have.keys([
+        'results',
+        'pagination',
+        'facets',
+        'count',
+      ]);
+
+      expect(results.results).to.be.an('array').that.is.not.empty;
+
+      expect(results.pagination)
+        .to.be.an('object')
+        .that.has.all.keys(['currentPage', 'totalPages', 'perPage']);
+      expect(results.pagination.currentPage).to.equal(1);
+
+      expect(results.facets)
+        .to.be.an('object')
+        .that.has.all.keys(['category', 'state', 'country', 'provider']);
     });
   });
 });

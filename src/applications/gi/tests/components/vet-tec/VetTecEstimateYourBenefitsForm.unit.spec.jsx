@@ -88,8 +88,6 @@ describe('<VetTecApprovedProgramsList/>', () => {
   it('handles approved programs change correctly', () => {
     const wrapper = mount(<VetTecEstimateYourBenefitsForm {...defaultProps} />);
     const dropdown = wrapper.find('.calculator-form');
-    // eslint-disable-next-line no-console
-    console.log(wrapper.debug(), 'de');
     dropdown.simulate('change', { target: { value: 'Program Name 1' } });
     expect(wrapper.state('programName')).to.equal('Program Name 1');
     expect(wrapper.state('tuitionFees')).to.equal(1000);
