@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { flow, groupBy } from 'lodash';
+import environment from 'platform/utilities/environment';
 
 import {
   getDefaultFormState,
@@ -197,7 +198,14 @@ class ObjectField extends React.Component {
             {defaultEditButton()}
           </div>
         )}
-        <Tag className="review">{renderedProperties}</Tag>
+        {!formContext?.hideHeaderRow &&
+          environment.isProduction() && (
+            <Tag className="review">{renderedProperties}</Tag>
+          )}
+        {!formContext?.hideHeaderRow &&
+          !environment.isProduction() && (
+            <Tag className="review-auto-margin">{renderedProperties}</Tag>
+          )}
       </>
     ) : (
       <>{renderedProperties}</>
