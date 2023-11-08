@@ -1,6 +1,25 @@
 import PageObject from '../PageObject';
 
 export class AppointmentListPageObject extends PageObject {
+  assertAppointmentList({ numberOfAppointments = 0 } = {}) {
+    // Wait for appointments to load
+    cy.wait(['@v2:get:appointments']);
+
+    cy.findAllByTestId('appointment-list-item').should($li => {
+      expect($li).to.have.length(numberOfAppointments);
+    });
+
+    return this;
+  }
+
+  assertNoAppointments({ exist = true } = {}) {
+    cy.findByText(/You don.t have any upcoming appointments/i).should(
+      exist ? 'exist' : 'not.exist',
+    );
+
+    return this;
+  }
+
   scheduleAppointment() {
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
     return this;
@@ -10,25 +29,6 @@ export class AppointmentListPageObject extends PageObject {
     cy.findByTestId('appointment-list-item')
       .first()
       .click({ waitForAnimations: true });
-
-    // cy.axeCheckBestPractice();
-
-    return this;
-  }
-
-  validate() {
-    // Wait for appointments to load
-    cy.wait(['@v2:get:appointments']);
-
-    cy.get('h2')
-      .should('be.visible')
-      .and('contain', 'Appointments');
-
-    cy.findByText(/You don.t have any upcoming appointments/i).should(
-      'not.exist',
-    );
-
-    cy.axeCheckBestPractice();
 
     return this;
   }
