@@ -46,7 +46,7 @@ export const SearchResultsHeader = props => {
   };
 
   return (
-    <div>
+    <div className="search-results-header vads-u-margin-top--6">
       <h2
         id="search-results-subheader"
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
@@ -57,7 +57,7 @@ export const SearchResultsHeader = props => {
         &quot;
         {userLocation && (
           <>
-            &nbsp;near &quot;
+            &nbsp;within 50 miles of &quot;
             <b>{userLocation}</b>
             &quot;
           </>
