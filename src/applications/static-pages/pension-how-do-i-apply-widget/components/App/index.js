@@ -98,9 +98,11 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> We’ll record the potential start date for
-                your benefits as the date you first saved your online
-                application. You have 1 year from this date to apply.
+                <strong>If you’re not ready to apply yet,</strong> you can
+                submit an intent to file form. This sets a potential start date
+                for your benefits. If you notify us of your intent to file, you
+                may be able to get back payments for the time between when you
+                submit your intent to file form and when we approve your claim.
               </p>
             </div>
           </va-alert>
@@ -193,10 +195,16 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> We’ll record the potential start date for
-                your benefits as the date you first saved your online
-                application. You have 1 year from this date to apply.
+                <strong>If you’re not ready to apply yet,</strong> you can
+                submit an intent to file form. This sets a potential start date
+                for your benefits. If you notify us of your intent to file, you
+                may be able to get back payments for the time between when you
+                submit your intent to file form and when we approve your claim.
               </p>
+              <va-link
+                text="Find out how to submit an intent to file form"
+                href="/pension/how-to-apply/#should-i-submit-an-intent-to-f"
+              />
             </div>
           </va-alert>
           <h3>You can apply in any of these 4 ways</h3>
