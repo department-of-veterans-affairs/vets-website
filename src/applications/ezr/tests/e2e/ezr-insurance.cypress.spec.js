@@ -17,7 +17,8 @@ import {
 const { data: testData } = maxTestData;
 
 describe('EZR Insurance Policies', () => {
-  before(() => {
+  // eslint-disable-next-line func-names
+  before(function() {
     if (Cypress.env('CI')) this.skip();
   });
 
