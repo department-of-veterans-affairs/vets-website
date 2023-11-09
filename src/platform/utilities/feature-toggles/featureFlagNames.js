@@ -54,6 +54,7 @@ export default Object.freeze({
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
+  disability526RevisedDisabilityLabels: 'disability_526_revised_disability_labels',
   disability526MaximumRating: 'disability_526_maximum_rating',
   disability526ToxicExposure: 'disability_526_toxic_exposure',
   dischargeWizardFeatures: 'discharge_wizard_features',
