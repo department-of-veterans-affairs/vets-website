@@ -37,7 +37,7 @@ describe('Pension Widget <App>', () => {
       </Provider>,
     );
     expect($('h3', container).textContent).to.equal(
-      `You can’t apply online right now`,
+      `You can’t use our online application right now`,
     );
   });
 

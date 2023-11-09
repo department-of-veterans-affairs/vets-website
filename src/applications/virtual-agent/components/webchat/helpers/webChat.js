@@ -20,17 +20,24 @@ export const cardActionMiddleware = decisionLetterEnabled => () => next => card 
   return next(card);
 };
 
+export const hasAllParams = (csrfToken, apiSession, userFirstName, userUuid) =>
+  csrfToken &&
+  apiSession &&
+  typeof userFirstName === 'string' &&
+  (userUuid === null || typeof userUuid === 'string');
+
 export const ifMissingParamsCallSentry = (
   csrfToken,
   apiSession,
   userFirstName,
   userUuid,
 ) => {
-  const hasAllParams =
-    csrfToken &&
-    apiSession &&
-    typeof userFirstName === 'string' &&
-    (userUuid === null || typeof userUuid === 'string');
+  const doesNotHaveAllParams = !hasAllParams(
+    csrfToken,
+    apiSession,
+    userFirstName,
+    userUuid,
+  );
   const getSanitizedVariable = (variable, variableName) => {
     if (variable === undefined) {
       return `${variableName} was undefined`;
@@ -41,7 +48,7 @@ export const ifMissingParamsCallSentry = (
     return variable;
   };
 
-  if (!hasAllParams) {
+  if (doesNotHaveAllParams) {
     const sanitizedCsrfToken = getSanitizedVariable(csrfToken, 'csrfToken');
     const sanitizedApiSession = getSanitizedVariable(apiSession, 'apiSession');
     const sanitizedUserFirstName = getSanitizedVariable(

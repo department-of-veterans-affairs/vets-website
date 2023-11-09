@@ -13,7 +13,7 @@ import {
   mockFacilitiesApi,
   mockUserTransitionAvailabilities,
   mockAppointmentApi,
-  mockGetEligibilityCC,
+  mockEligibilityCCApi,
   mockAppointmentCreateApi,
 } from '../vaos-cypress-helpers';
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
@@ -92,7 +92,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     });
 
     mockEligibilityApi({ isEligible: true });
-    mockGetEligibilityCC();
+    mockEligibilityCCApi();
     mockLoginApi();
     mockSchedulingConfigurationApi({ typeOfCareId: 'primaryCare' });
 
@@ -171,7 +171,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     });
 
     mockEligibilityApi({ typeOfCare: 'optometry', isEligible: true });
-    mockGetEligibilityCC('Optometry');
+    mockEligibilityCCApi({ typeOfCare: 'Optometry' });
     mockLoginApi();
     mockSchedulingConfigurationApi({
       facilityIds: ['983', '984'],
@@ -264,7 +264,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     });
 
     mockEligibilityApi({ typeOfCare: 'homeSleepTesting', isEligible: true });
-    mockGetEligibilityCC('homeSleepTesting');
+    mockEligibilityCCApi({ typeOfCare: 'homeSleepTesting' });
     mockLoginApi();
     mockSchedulingConfigurationApi({
       facilityIds: ['983', '984'],

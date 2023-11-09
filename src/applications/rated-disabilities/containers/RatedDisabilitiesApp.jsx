@@ -5,17 +5,20 @@ import { connect } from 'react-redux';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
+import AppContent from '../components/AppContent';
 import RatedDisabilityView from '../components/RatedDisabilityView';
-import { rdDetectDiscrepancies } from '../selectors';
+import {
+  isLoadingFeatures,
+  rdDetectDiscrepancies,
+  rdSortAbTest,
+} from '../selectors';
 
 const RatedDisabilitiesApp = props => {
-  const { ratedDisabilities } = props.ratedDisabilities;
+  const { featureFlagsLoading, ratedDisabilities } = props.ratedDisabilities;
 
   return (
     <RequiredLoginView
@@ -32,17 +35,19 @@ const RatedDisabilitiesApp = props => {
           externalServices.vbms,
         ]}
       >
-        <RatedDisabilityView
-          detectDiscrepancies={props.detectDiscrepancies}
-          error={props.error}
-          fetchRatedDisabilities={props.fetchRatedDisabilities}
-          fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
-          loading={props.loading}
-          ratedDisabilities={ratedDisabilities}
-          sortToggle={props.sortToggle}
-          totalDisabilityRating={props.totalDisabilityRating}
-          user={props.user}
-        />
+        <AppContent featureFlagsLoading={featureFlagsLoading}>
+          <RatedDisabilityView
+            detectDiscrepancies={props.detectDiscrepancies}
+            error={props.error}
+            fetchRatedDisabilities={props.fetchRatedDisabilities}
+            fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
+            loading={props.loading}
+            ratedDisabilities={ratedDisabilities}
+            sortToggle={props.sortToggle}
+            totalDisabilityRating={props.totalDisabilityRating}
+            user={props.user}
+          />
+        </AppContent>
       </DowntimeNotification>
     </RequiredLoginView>
   );
@@ -63,11 +68,10 @@ RatedDisabilitiesApp.propTypes = {
 const mapStateToProps = state => ({
   detectDiscrepancies: rdDetectDiscrepancies(state),
   error: state.totalRating.error,
+  featureFlagsLoading: isLoadingFeatures(state),
   loading: state.totalRating.loading,
   ratedDisabilities: state.ratedDisabilities,
-  sortToggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.ratedDisabilitiesSortAbTest
-  ],
+  sortToggle: rdSortAbTest(state),
   totalDisabilityRating: state.totalRating.totalDisabilityRating,
   user: state.user,
 });
