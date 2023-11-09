@@ -1,9 +1,11 @@
 const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories`,
-  GET_TOPICS: `/topics`,
-  GET_SUBTOPICS: `${baseURL}/topics`,
+  GET_CATEGORIES: `${baseURL}/categories?mock=true`,
+  GET_TOPICS: `/topics?mock=true`,
+  GET_SUBTOPICS: `${baseURL}/topics?mock=true`,
+  // TODO: Add address validation endpoint
+  ADDRESS_VALIDATION: '',
 };
 
 export const requireSignInCategories = [
