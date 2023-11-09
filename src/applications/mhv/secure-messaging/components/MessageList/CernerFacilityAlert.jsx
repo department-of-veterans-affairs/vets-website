@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
+import { getFacilitiesByIds } from '../../api/facilitiesApi';
 
 const CernerFacilityAlert = props => {
   const { cernerFacilities } = props;
+  const [facilities, setFacilities] = useState([]);
+
+  const getFacilities = async ids => {
+    return getFacilitiesByIds(ids);
+  };
+
+  useEffect(
+    () => {
+      if (cernerFacilities?.length > 0) {
+        const ids = cernerFacilities.map(
+          facility => `vha_${facility.facilityId}`,
+        );
+        getFacilities(ids).then(response => {
+          setFacilities(response.data);
+        });
+      }
+    },
+    [cernerFacilities],
+  );
+
+  const cernerFacilitiesNames = useMemo(
+    () => {
+      return facilities?.map(facility => facility.attributes.name);
+    },
+    [facilities],
+  );
 
   return (
     <>
-      {cernerFacilities?.length > 0 && (
+      {facilities?.length > 0 && (
         <va-alert
           className="vads-u-margin-bottom--2"
           status="warning"
@@ -19,13 +46,28 @@ const CernerFacilityAlert = props => {
             Make sure you’re in the right health portal
           </h2>
           <div>
-            <p>
-              To manage appointments at <strong>Cerner Facility,</strong> go to
-              My VA Health.
-            </p>
+            {cernerFacilitiesNames?.length > 1 && (
+              <>
+                <p>
+                  To manage appointments at these facilities, go to My VA
+                  Health:
+                </p>
+                <ul>
+                  {cernerFacilitiesNames.map((facilityName, i) => (
+                    <li key={i}>{facilityName}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {cernerFacilitiesNames?.length === 1 && (
+              <p>
+                To manage appointments at{' '}
+                <strong>{cernerFacilitiesNames[0]}</strong> go to My VA Health.
+              </p>
+            )}
             <Link
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-              to="/"
+              to="/" // TODO: What is the correct path to My VA Health?
             >
               Go to My VA Health
             </Link>
