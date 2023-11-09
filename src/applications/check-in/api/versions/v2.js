@@ -71,7 +71,6 @@ const v2 = {
   postCheckInData: async ({
     uuid,
     appointmentIen,
-    facilityId,
     setECheckinStartedCalled,
     isTravelEnabled,
     travelSubmitted,
@@ -82,7 +81,6 @@ const v2 = {
       patientCheckIns: {
         uuid,
         appointmentIen,
-        facilityId,
         setECheckinStartedCalled,
         isTravelEnabled,
         travelSubmitted,

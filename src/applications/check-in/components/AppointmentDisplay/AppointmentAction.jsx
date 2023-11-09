@@ -54,7 +54,6 @@ const AppointmentAction = props => {
         const json = await api.v2.postCheckInData({
           uuid: token,
           appointmentIen: appointment.appointmentIen,
-          facilityId: 'appointment.facilityId',
           setECheckinStartedCalled,
           isTravelEnabled,
           travelSubmitted,

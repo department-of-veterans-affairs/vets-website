@@ -106,7 +106,6 @@ describe('check-in', () => {
       action.getByTestId('check-in-button').click();
       sandbox.assert.calledWith(v2.postCheckInData, {
         appointmentIen: undefined,
-        facilityId: 'appointment.facilityId',
         isTravelEnabled: true,
         setECheckinStartedCalled: undefined,
         travelSubmitted: true,
@@ -149,7 +148,6 @@ describe('check-in', () => {
       action.getByTestId('check-in-button').click();
       sandbox.assert.calledWith(v2.postCheckInData, {
         appointmentIen: undefined,
-        facilityId: 'appointment.facilityId',
         isTravelEnabled: false,
         setECheckinStartedCalled: undefined,
         travelSubmitted: false,
@@ -192,7 +190,6 @@ describe('check-in', () => {
       action.getByTestId('check-in-button').click();
       sandbox.assert.calledWith(v2.postCheckInData, {
         appointmentIen: undefined,
-        facilityId: 'appointment.facilityId',
         isTravelEnabled: true,
         setECheckinStartedCalled: undefined,
         travelSubmitted: false,
