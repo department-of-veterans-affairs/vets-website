@@ -4,7 +4,6 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
-  getPagePaths,
   fillAddressWebComponentPattern,
   fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
@@ -17,9 +16,48 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-const pagePaths = getPagePaths(formConfig);
+formConfig.useCustomScrollAndFocus = false;
+
+const awaitFocusSelectorThenTest = () => {
+  return ({ afterHook }) => {
+    // cy.injectAxeThenAxeCheck();
+    afterHook(() => {
+      cy.get('va-segmented-progress-bar[uswds][heading-text][header-level="2"]')
+        .should('be.visible')
+        .then(() => {
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(50);
+          cy.fillPage();
+          cy.axeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+    });
+  };
+};
+
+const pagePaths = [
+  'veteran-personal-information',
+  'veteran-identification-information',
+  'veteran-supporting-documentation',
+  'request-type',
+  'applicant-personal-information',
+  'applicant-address',
+  'applicant-contact-information',
+  'certificates',
+  'additional-certificates-yes-no',
+  'additional-certificates-request',
+];
+
+const pageTestConfigs = pagePaths.reduce((obj, pagePath) => {
+  return {
+    ...obj,
+    [pagePath]: awaitFocusSelectorThenTest(),
+  };
+}, {});
+
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -34,7 +72,8 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      [pagePaths.veteranPersonalInfoPage]: ({ afterHook }) => {
+      ...pageTestConfigs,
+      'veteran-personal-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const {
@@ -43,32 +82,45 @@ const testConfig = createTestConfig(
               veteranDateOfDeath,
             } = data;
 
-            fillFullNameWebComponentPattern('veteranFullName', veteranFullName);
-            fillDateWebComponentPattern(
-              'veteranDateOfBirth',
-              veteranDateOfBirth,
-            );
-            fillDateWebComponentPattern(
-              'veteranDateOfDeath',
-              veteranDateOfDeath,
-            );
+            cy.get('input[name="root_veteranFullName_first"]')
+              .should('not.have.attr', 'disabled')
+              .then(() => {
+                fillFullNameWebComponentPattern(
+                  'veteranFullName',
+                  veteranFullName,
+                );
+                fillDateWebComponentPattern(
+                  'veteranDateOfBirth',
+                  veteranDateOfBirth,
+                );
+                fillDateWebComponentPattern(
+                  'veteranDateOfDeath',
+                  veteranDateOfDeath,
+                );
 
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                cy.axeCheck('.form-panel');
+                cy.findByText(/continue/i, { selector: 'button' }).click();
+              });
           });
         });
       },
-      [pagePaths.veteranIdentificationInfoPage]: ({ afterHook }) => {
+      'veteran-identification-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
+            cy.get('input[name="root_veteranId_ssn"]')
+              .should('not.have.attr', 'disabled')
+              .then(() => {
+                // eslint-disable-next-line cypress/no-unnecessary-waiting
+                cy.wait(50);
+                fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
 
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                cy.axeCheck('.form-panel');
+                cy.findByText(/continue/i, { selector: 'button' }).click();
+              });
           });
         });
       },
-      [pagePaths.requestTypePage]: ({ afterHook }) => {
+      'request-type': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             selectYesNoWebComponent('isFirstRequest', data.isFirstRequest);
@@ -78,20 +130,26 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.applicantPersonalInfoPage]: ({ afterHook }) => {
+      'applicant-personal-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'applicantFullName',
-              data.applicantFullName,
-            );
+            cy.get('input[name="root_applicantFullName_first"]')
+              .should('not.have.attr', 'disabled')
+              .then(() => {
+                // eslint-disable-next-line cypress/no-unnecessary-waiting
+                cy.wait(50);
+                fillFullNameWebComponentPattern(
+                  'applicantFullName',
+                  data.applicantFullName,
+                );
 
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                cy.axeCheck('.form-panel');
+                cy.findByText(/continue/i, { selector: 'button' }).click();
+              });
           });
         });
       },
-      [pagePaths.applicantAddressPage]: ({ afterHook }) => {
+      'applicant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressWebComponentPattern(
@@ -104,18 +162,40 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.applicantContactInfoPage]: ({ afterHook }) => {
+      'applicant-contact-information': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent('applicantPhone', data.applicantPhone);
+            cy.get('input[name="root_applicantPhone"]')
+              .should('not.have.attr', 'disabled')
+              .then(() => {
+                // eslint-disable-next-line cypress/no-unnecessary-waiting
+                cy.wait(50);
+                fillTextWebComponent('applicantPhone', data.applicantPhone);
 
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                cy.axeCheck('.form-panel');
+                cy.findByText(/continue/i, { selector: 'button' }).click();
+              });
           });
         });
       },
-      [pagePaths.additionalCertificatesRequestPage]: ({ afterHook }) => {
+      certificates: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('input[name="root_certificates"]')
+              .should('not.have.attr', 'disabled')
+              .then(() => {
+                // eslint-disable-next-line cypress/no-unnecessary-waiting
+                cy.wait(50);
+                fillTextWebComponent('certificates', data.certificates);
+
+                cy.axeCheck('.form-panel');
+                cy.findByText(/continue/i, { selector: 'button' }).click();
+              });
+          });
+        });
+      },
+      'additional-certificates-request': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { additionalAddress, additionalCopies } = data;
@@ -144,6 +224,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept(formConfig.submitUrl, mockSubmit);
+      cy.config('includeShadowDom', true);
     },
 
     // Skip tests in CI until the form is released.
