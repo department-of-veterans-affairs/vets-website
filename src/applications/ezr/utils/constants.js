@@ -86,7 +86,7 @@ export const INSURANCE_VIEW_FIELDS = {
 export const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
 
 // declare mock response for enrollment status API to use for simulated testing
-export const MOCK_ENROLLMENT_REPSONSE = {
+export const MOCK_ENROLLMENT_RESPONSE = {
   applicationDate: '2019-04-24T00:00:00.000-06:00',
   enrollmentDate: '2019-04-30T00:00:00.000-06:00',
   preferredFacility: '463 - CHEY6',
