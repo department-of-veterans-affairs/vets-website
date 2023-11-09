@@ -31,6 +31,7 @@ export default function FormButtons({
           onClick={onSubmit}
           disabled={disabled}
           className="usa-button usa-button-primary"
+          aria-label={nextButtonText || 'Continue'}
         >
           {nextButtonText || 'Continue »'}
         </LoadingButton>

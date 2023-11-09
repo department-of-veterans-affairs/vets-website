@@ -8,14 +8,16 @@ const RepTypeSelector = ({ onChange }) => {
 
   return (
     <>
-      <div className="rep-type-selector">
+      <div className="vads-u-margin-top--3">
         <va-radio
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
-          label=""
-          label-header-level="3"
+          label="Type of representative"
+          required
+          label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
+          uswds
         >
           <va-radio-option
             label="Veteran Service Organization (VSO)"
@@ -39,9 +41,7 @@ const RepTypeSelector = ({ onChange }) => {
             section-heading={{
               value: 'null',
             }}
-            uswds={{
-              value: 'false',
-            }}
+            uswds
             open-single
           >
             <va-accordion-item id="first">
@@ -49,22 +49,30 @@ const RepTypeSelector = ({ onChange }) => {
                 How can each type of representative help me?
               </h6>
               <p>
-                <strong>Veteran Services Organizations (VSOs) </strong>
-                are recognized and accredited by the VA and offer services free
-                of charge for Veterans and their families. VSOs help gather
-                evidence to submit a Fully Developed Claim and can correspond
-                with the VA about a claim on behalf of a Veteran.
+                <strong>Veteran Services Organization (VSO)</strong>{' '}
+                representatives can help you gather evidence and file your
+                claims, decision reviews, and appeals. They can also communicate
+                with VA about your case on your behalf. Examples of VSOs include
+                the American Legion, County Veteran Service Offices, Disabled
+                American Veterans, and Veterans of Foreign Wars.
               </p>
               <p>
-                <strong>Attorneys</strong> can provide similar services as VSOs,
-                but usually specialize in appeals. They can provide more
-                dedicated help throughout the claims process. Attorneys charge a
-                fee for their services.
+                VSO representatives have completed training and passed tests
+                about VA claims and benefits. They provide services to Veterans
+                and their families at no cost.
               </p>
               <p>
-                <strong>Claims agents</strong> can provide similar services as
-                VSOs, but they function independently. Claims agents will charge
-                a fee for their services.
+                <strong>Attorneys</strong> usually work on decision reviews and
+                appeals, including cases that require legal knowledge. They
+                don’t have to take a test about VA claims and benefits, but they
+                must be a member in good standing of the bar association.
+                Attorneys can charge fees for their services.
+              </p>
+              <p>
+                <strong>Claims agents</strong> usually work on decision reviews
+                and appeals. They’re independent professionals who have passed a
+                test about VA claims and benefits. Claims agents can charge fees
+                for their services.
               </p>
             </va-accordion-item>
           </va-accordion>

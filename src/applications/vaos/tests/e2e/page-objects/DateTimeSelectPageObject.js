@@ -1,31 +1,19 @@
 import PageObject from './PageObject';
 
-/**
- *
- * @export
- * @class DateTimeSelectPageObject
- * @extends {PageObject}
- */
 export class DateTimeSelectPageObject extends PageObject {
-  /**
-   * Method to assert the URL.
-   *
-   * @returns Instance
-   * @memberof DateTimeSelectPageObject
-   */
-  assertUrl() {
-    cy.url().should('include', '/date-time');
+  assertUrl({ isCovid = false } = {}) {
+    if (isCovid) {
+      cy.url().should('include', '/date-time');
+    } else {
+      cy.url().should('include', '/select-date');
+    }
+
+    cy.wait('@v2:get:slots');
     cy.axeCheckBestPractice();
 
     return this;
   }
 
-  /**
-   * Method to click the 'next' month calendar button.
-   *
-   * @returns Instance
-   * @memberof DateTimeSelectPageObject
-   */
   clickNextMonth() {
     cy.contains('button', 'Next')
       .as('button')
@@ -36,26 +24,14 @@ export class DateTimeSelectPageObject extends PageObject {
     return this;
   }
 
-  /**
-   * Method to click the 'previous' month button.
-   *
-   * @returns Instance
-   * @memberof DateTimeSelectPageObject
-   */
   clickPreviousMonth() {
     return this;
   }
 
-  /**
-   * Method to select the first available date.
-   *
-   * @returns Instance
-   * @memberof DateTimeSelectPageObject
-   */
   selectFirstAvailableDate() {
     cy.get(
       '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-    ).click();
+    ).click({ waitForAnimations: true });
     cy.get(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     ).click();
