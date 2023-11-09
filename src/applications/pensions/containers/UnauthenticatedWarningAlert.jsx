@@ -19,21 +19,19 @@ const UnauthenticatedWarningAlert = () => {
 
   return (
     <va-alert status="warning" uswds slim>
-      <React.Fragment key=".1">
-        <p className="vads-u-margin-y--0">
-          This application is 7 steps long and it contains several substeps per
-          step. We advise you{' '}
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a href="#" onClick={showLoginModal}>
-            sign in to save your progress
-          </a>
-          .
-        </p>
-        <p>
-          <strong>Note:</strong> You can sign in after you start your
-          application. But you’ll lose any information you already filled in.
-        </p>
-      </React.Fragment>
+      <p className="vads-u-margin-y--0">
+        This application is 7 steps long and it contains several substeps per
+        step. We advise you{' '}
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <a href="#" onClick={showLoginModal}>
+          sign in to save your progress
+        </a>
+        .
+      </p>
+      <p>
+        <strong>Note:</strong> You can sign in after you start your application.
+        But you’ll lose any information you already filled in.
+      </p>
     </va-alert>
   );
 };
