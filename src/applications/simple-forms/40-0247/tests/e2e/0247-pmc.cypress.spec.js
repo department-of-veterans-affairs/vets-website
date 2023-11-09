@@ -13,15 +13,17 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-// disable custom scroll-n-focus to avoid interference with input-fills
+// disable custom scroll-n-focus to minimize interference with input-fills
 formConfig.useCustomScrollAndFocus = false;
 
+const v3StepHeaderSelector =
+  'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
 const awaitFocusSelectorThenTest = () => {
   // handle other scroll/focus interferences besides customScrollAndFocus
   return ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get('va-segmented-progress-bar[uswds][heading-text][header-level="2"]')
+      cy.get(v3StepHeaderSelector)
         .should('be.visible')
         .then(() => {
           // callback to prevent scroll/focus interferences, but
@@ -79,20 +81,24 @@ const testConfig = createTestConfig(
       'applicant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('input[name="root_applicantAddress_state"]')
-              .should('not.have.attr', 'disabled')
+            cy.get(v3StepHeaderSelector)
+              .should('be.visible')
               .then(() => {
-                // callback to avoid field-disabled errors, but
-                // even now we must wait a bit!
-                // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(500);
-                fillAddressWebComponentPattern(
-                  'applicantAddress',
-                  data.applicantAddress,
-                );
+                cy.get('[name="root_applicantAddress_state"]')
+                  .should('not.have.attr', 'disabled')
+                  .then(() => {
+                    // callback to avoid field-disabled errors, but
+                    // even now we must wait a bit!
+                    // eslint-disable-next-line cypress/no-unnecessary-waiting
+                    cy.wait(500);
+                    fillAddressWebComponentPattern(
+                      'applicantAddress',
+                      data.applicantAddress,
+                    );
 
-                cy.axeCheck('.form-panel');
-                cy.findByText(/continue/i, { selector: 'button' }).click();
+                    cy.axeCheck('.form-panel');
+                    cy.findByText(/continue/i, { selector: 'button' }).click();
+                  });
               });
           });
         });
@@ -102,21 +108,25 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { additionalAddress, additionalCopies } = data;
 
-            cy.get('input[name="root_additionalAddress_state"]')
-              .should('not.be.disabled')
+            cy.get(v3StepHeaderSelector)
+              .should('be.visible')
               .then(() => {
-                // callback to avoid field-disabled errors, but
-                // even now we must wait a bit!
-                // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(500);
-                fillAddressWebComponentPattern(
-                  'additionalAddress',
-                  additionalAddress,
-                );
-                fillTextWebComponent('additionalCopies', additionalCopies);
+                cy.get('input[name="root_additionalAddress_state"]')
+                  .should('not.be.disabled')
+                  .then(() => {
+                    // callback to avoid field-disabled errors, but
+                    // even now we must wait a bit!
+                    // eslint-disable-next-line cypress/no-unnecessary-waiting
+                    cy.wait(500);
+                    fillAddressWebComponentPattern(
+                      'additionalAddress',
+                      additionalAddress,
+                    );
+                    fillTextWebComponent('additionalCopies', additionalCopies);
 
-                cy.axeCheck('.form-panel');
-                cy.findByText(/continue/i, { selector: 'button' }).click();
+                    cy.axeCheck('.form-panel');
+                    cy.findByText(/continue/i, { selector: 'button' }).click();
+                  });
               });
           });
         });
