@@ -58,6 +58,7 @@ export default Object.freeze({
   disability526ToxicExposure: 'disability_526_toxic_exposure',
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
+  ezrProdEnabled: 'ezr_prod_enabled',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare:
     'facilities_ppms_suppress_community_care',
