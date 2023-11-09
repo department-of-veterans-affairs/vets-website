@@ -1,6 +1,18 @@
 import { expect } from 'chai';
 import * as schoolSearch from '../../selectors/schoolSearch';
 
+// 'errorSchema.facilityCode.__errors'
+const ownProps = {
+  formContext: {
+    submitted: false,
+  },
+  errorSchema: {
+    facilityCode: {
+      __errors: [],
+    },
+  },
+};
+
 const state = {
   schoolSelect: {
     currentPageNumber: 1,
@@ -86,5 +98,15 @@ describe('SchoolSearch', () => {
   it('should pass selectShowSearchResults', () => {
     const showSearchResults = schoolSearch.selectShowSearchResults(state);
     expect(showSearchResults).to.be.true;
+  });
+  it('should pass selectFormSubmitted', () => {
+    const submitted = schoolSearch.selectFormSubmitted(ownProps);
+    expect(submitted).to.be.false;
+  });
+  it('should pass selectFacilityCodeErrorMessages', () => {
+    const errorMessages = schoolSearch.selectFacilityCodeErrorMessages(
+      ownProps,
+    );
+    expect(errorMessages).to.deep.equal([]);
   });
 });
