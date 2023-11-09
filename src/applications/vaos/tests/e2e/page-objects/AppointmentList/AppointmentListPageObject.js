@@ -28,7 +28,8 @@ export class AppointmentListPageObject extends PageObject {
   selectListItem() {
     cy.findByTestId('appointment-list-item')
       .first()
-      .click({ waitForAnimations: true });
+      .should('exist')
+      .click();
 
     return this;
   }

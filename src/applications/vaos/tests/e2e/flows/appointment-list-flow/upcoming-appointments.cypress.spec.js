@@ -20,7 +20,7 @@ import {
   VIDEO_TYPES,
 } from '../../../../utils/constants';
 
-describe('VAOS upcomming appointment flow', () => {
+describe('VAOS upcoming appointment flow', () => {
   describe('When veteran has upcoming appointments', () => {
     beforeEach(() => {
       vaosSetup();
@@ -119,7 +119,7 @@ describe('VAOS upcomming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should display upcomming appointment details for CC appointment', () => {
+    it('should display upcoming appointment details for CC appointment', () => {
       // Arrange
       const today = moment();
       const appt = new MockAppointment({
@@ -143,7 +143,7 @@ describe('VAOS upcomming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should display upcomming appointment details for VA video appointment', () => {
+    it('should display upcoming appointment details for VA video appointment', () => {
       // Arrange
       const appt = new MockAppointment({
         kind: TYPE_OF_VISIT_ID.telehealth,
@@ -163,7 +163,7 @@ describe('VAOS upcomming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should display upcomming appointment details for Atlas video appointment ', () => {
+    it('should display upcoming appointment details for Atlas video appointment ', () => {
       // Arrange
       const appt = new MockAppointment({
         id: '4',
@@ -193,7 +193,7 @@ describe('VAOS upcomming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should display upcomming appointment details for GFE video appointment.', () => {
+    it('should display upcoming appointment details for GFE video appointment.', () => {
       // Arrange
       const appt = new MockAppointment({
         id: '7',
@@ -215,7 +215,7 @@ describe('VAOS upcomming appointment flow', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should display upcomming appointment details for HOME video appointment ', () => {
+    it('should display upcoming appointment details for HOME video appointment ', () => {
       // Arrange
       const appt = new MockAppointment({
         id: '8',
@@ -290,19 +290,25 @@ describe('VAOS upcomming appointment flow', () => {
         .selectListItem();
 
       // Assert
-      cy.findByText(/Cancel appointment/i).click({ waitForAnimations: true });
+      cy.findByText(/Cancel appointment/i)
+        .should('exist')
+        .click({ waitForAnimations: true });
 
       cy.get('#cancelAppt').shadow();
-      cy.findByText(/Yes, cancel this appointment/i).click({
-        waitForAnimations: true,
-      });
+      cy.findByText(/Yes, cancel this appointment/i)
+        .should('exist')
+        .click({
+          waitForAnimations: true,
+        });
 
       cy.get('#cancelAppt')
         .shadow()
         .find('h1')
         .should('be.visible')
         .and('contain', 'Your appointment has been canceled');
-      cy.findByText(/Continue/i).click();
+      cy.findByText(/Continue/i)
+        .should('exist')
+        .click();
 
       cy.findByText(/You canceled your appointment/i);
 
