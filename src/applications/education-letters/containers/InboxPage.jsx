@@ -43,7 +43,14 @@ const InboxPage = ({
         window.location.href = '/education/download-letters/';
       }
     },
-    [isLoggedIn, user?.login],
+    [
+      MEBClaimStatusFetchComplete,
+      MEBClaimStatusFetchInProgress,
+      TOEClaimStatusFetchComplete,
+      TOEClaimStatusFetchInProgress,
+      isLoggedIn,
+      user?.login,
+    ],
   );
 
   const renderInbox = () => {
@@ -97,10 +104,10 @@ const InboxPage = ({
 InboxPage.propTypes = {
   claimStatus: PropTypes.object,
   getClaimStatus: PropTypes.func,
-  MEBClaimStatusFetchInProgress: PropTypes.bool,
   MEBClaimStatusFetchComplete: PropTypes.bool,
-  TOEClaimStatusFetchInProgress: PropTypes.bool,
+  MEBClaimStatusFetchInProgress: PropTypes.bool,
   TOEClaimStatusFetchComplete: PropTypes.bool,
+  TOEClaimStatusFetchInProgress: PropTypes.bool,
   user: PropTypes.object,
 };
 

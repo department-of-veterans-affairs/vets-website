@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
 import LoginWidget from '../components/LoginWidget';
 
-const App = ({ user }) => {
+const App = ({ user, showMebLettersMaintenanceAlert }) => {
   function renderUI() {
     if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
       return (
@@ -30,6 +32,22 @@ const App = ({ user }) => {
           text: 'Download your VA education letter',
         }}
       >
+        {showMebLettersMaintenanceAlert && (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="error"
+            visible
+          >
+            <h2 slot="headline">System Maintenance</h2>
+            <div>
+              <p className="vads-u-margin-top--0">
+                We’re currently making updates to the My Education Benefits
+                platform. We apologize for the inconvenience. Please check back
+                soon.
+              </p>
+            </div>
+          </va-alert>
+        )}
         <FormTitle title="Download your VA education letter" />
 
         <p className="va-introtext">
@@ -87,10 +105,13 @@ const App = ({ user }) => {
 };
 
 App.propTypes = {
+  showMebLettersMaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
+  showMebLettersMaintenanceAlertt:
+    state.featureToggles[featureFlagNames.showMebLettersMaintenanceAlert],
   user: state.user || {},
 });
 
