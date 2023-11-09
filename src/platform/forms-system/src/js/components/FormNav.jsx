@@ -125,10 +125,7 @@ export default function FormNav(props) {
           if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
             customScrollAndFocus(page.scrollAndFocusTarget, index);
           } else {
-            focusByOrder(
-              [defaultFocusSelector, 'h2'],
-              document.querySelector(defaultFocusSelector),
-            );
+            focusByOrder([defaultFocusSelector, 'h2']);
           }
         } else {
           // h2 fallback for confirmation page
