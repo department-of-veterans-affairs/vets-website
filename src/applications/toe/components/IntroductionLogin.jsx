@@ -7,6 +7,7 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { getAppData } from '../selectors';
 import LoadingIndicator from './LoadingIndicator';
@@ -118,9 +119,10 @@ function IntroductionLogin({
             </p>
           </>
         )}
-
-      {apiCallsComplete &&
-        isLoggedIn &&
+      {isLoggedIn &&
+      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
+      showMeb1990EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
+        apiCallsComplete &&
         isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
@@ -188,6 +190,9 @@ IntroductionLogin.propTypes = {
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
+  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  showMeb1990EMaintenanceAlert:
+    state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
 });
 
 const mapDispatchToProps = {
