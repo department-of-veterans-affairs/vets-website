@@ -6,7 +6,7 @@ const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
       <va-link
-        className="mhv-c-link"
+        class="mhv-c-link"
         href={l.href}
         text={l.text}
         onClick={() =>
@@ -17,9 +17,7 @@ const HubSection = ({ title, links }) => {
             'link-hostname': new URL(l.href).hostname,
           })
         }
-      >
-        {l.text}
-      </va-link>
+      />
     </li>
   ));
   return (
