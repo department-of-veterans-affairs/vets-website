@@ -157,7 +157,7 @@ class ObjectField extends React.Component {
 
     const Tag = divWrapper ? 'div' : 'dl';
     const ObjectViewField = uiSchema?.['ui:objectViewField'];
-    // eslint-disable-next-line no-console
+
     const defaultEditButton = ({
       label = editLabel,
       onEdit = formContext?.onEdit,
