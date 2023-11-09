@@ -121,6 +121,18 @@
   }
 }
 
+#remove-attachment-modal {
+  va-button::part(button) {
+    width: 100%;
+    margin-right: 0;
+
+    @include media($small-screen) {
+      width: auto;
+      margin-right: 24px;
+    }
+  }
+}
+
 .edit-preferences-button {
   box-shadow: inset 0 0 0 2px $color-gray-dark;
   color: $color-gray-dark;

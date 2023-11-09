@@ -222,6 +222,7 @@ const AttachmentsList = props => {
           setIsModalVisible(false);
           removeAttachment(fileToRemove);
         }}
+        data-testid="remove-attachment-modal"
       />
       {isAttachmentRemoved ? (
         <>

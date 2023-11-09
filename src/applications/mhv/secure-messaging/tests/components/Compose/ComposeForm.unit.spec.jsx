@@ -2,7 +2,7 @@ import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
@@ -57,7 +57,11 @@ describe('Compose form component', () => {
     return prop;
   };
 
-  it('renders without errors', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
   });
@@ -383,7 +387,7 @@ describe('Compose form component', () => {
 
   it('displays file-attached alert only after file successfully attached', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
-    const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
+    const file = new File(['(⌐□_□)'], 'test1.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
     const attachFileButton = screen.getByTestId('attach-file-button');
@@ -397,12 +401,55 @@ describe('Compose form component', () => {
       }),
     );
 
-    expect(screen.queryByTestId('file-attached-success-alert')).to.exist;
+    // expect(screen.queryByTestId('file-attached-success-alert')).to.exist;
+    const successAlert = await screen.queryByTestId(
+      'file-attached-success-alert',
+    );
+
+    expect(successAlert).to.exist;
+
+    // await waitFor(() => {
+    //   fireEvent.click(screen.getByTestId('remove-attachment-button'));
+    // });
+
+    // await waitFor(() => {
+    //   fireEvent.click(screen.getByTestId('confirm-remove-attachment-button'));
+    // });
+    // expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
+  });
+
+  it('removes file-attached alert when REMOVE button is clicked', async () => {
+    const screen = setup(initialState, Paths.COMPOSE);
+    const file = new File(['(⌐□_□)'], 'test1.png', { type: 'image/png' });
+    const uploader = screen.getByTestId('attach-file-input');
+
+    // const attachFileButton = screen.getByTestId('attach-file-button');
+    // expect(attachFileButton).to.have.attribute('text', 'Attach file');
+
+    // expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+
+    // expect(screen.queryByTestId('file-attached-success-alert')).to.exist;
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('remove-attachment-button'));
+    });
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('confirm-remove-attachment-button'));
+    });
+    screen.debug(undefined, 10000);
+    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
   });
 
   it('removes file-attached alert when attach-additional-file button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
-    const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
+    const file = new File(['(⌐□_□)'], 'test2.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
@@ -413,10 +460,15 @@ describe('Compose form component', () => {
       }),
     );
 
-    const successAlert = await screen.queryByTestId(
-      'file-attached-success-alert',
+    screen.debug(undefined, 10000);
+
+    await waitFor(
+      () => {
+        screen.getByTestId('file-attached-success-alert');
+      },
+      { timeout: 500 },
     );
-    expect(successAlert).to.exist;
+    // expect(successAlert).to.exist;
 
     const attachFileButton = screen.getByTestId('attach-file-button');
     expect(attachFileButton).to.have.attribute(
