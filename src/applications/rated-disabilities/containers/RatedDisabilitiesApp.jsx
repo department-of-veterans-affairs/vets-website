@@ -21,37 +21,35 @@ const RatedDisabilitiesApp = props => {
   const { featureFlagsLoading, ratedDisabilities } = props.ratedDisabilities;
 
   return (
-    <div className="vads-u-margin-y--5">
-      <RequiredLoginView
-        serviceRequired={backendServices.USER_PROFILE}
-        user={props.user}
+    <RequiredLoginView
+      serviceRequired={backendServices.USER_PROFILE}
+      user={props.user}
+    >
+      <DowntimeNotification
+        appTitle="Rated Disabilities"
+        dependencies={[
+          externalServices.evss,
+          externalServices.global,
+          externalServices.mvi,
+          externalServices.vaProfile,
+          externalServices.vbms,
+        ]}
       >
-        <DowntimeNotification
-          appTitle="Rated Disabilities"
-          dependencies={[
-            externalServices.evss,
-            externalServices.global,
-            externalServices.mvi,
-            externalServices.vaProfile,
-            externalServices.vbms,
-          ]}
-        >
-          <AppContent featureFlagsLoading={featureFlagsLoading}>
-            <RatedDisabilityView
-              detectDiscrepancies={props.detectDiscrepancies}
-              error={props.error}
-              fetchRatedDisabilities={props.fetchRatedDisabilities}
-              fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
-              loading={props.loading}
-              ratedDisabilities={ratedDisabilities}
-              sortToggle={props.sortToggle}
-              totalDisabilityRating={props.totalDisabilityRating}
-              user={props.user}
-            />
-          </AppContent>
-        </DowntimeNotification>
-      </RequiredLoginView>
-    </div>
+        <AppContent featureFlagsLoading={featureFlagsLoading}>
+          <RatedDisabilityView
+            detectDiscrepancies={props.detectDiscrepancies}
+            error={props.error}
+            fetchRatedDisabilities={props.fetchRatedDisabilities}
+            fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
+            loading={props.loading}
+            ratedDisabilities={ratedDisabilities}
+            sortToggle={props.sortToggle}
+            totalDisabilityRating={props.totalDisabilityRating}
+            user={props.user}
+          />
+        </AppContent>
+      </DowntimeNotification>
+    </RequiredLoginView>
   );
 };
 
