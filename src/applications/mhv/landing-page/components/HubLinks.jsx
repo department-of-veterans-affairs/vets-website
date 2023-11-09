@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { getHostname } from '../utilities';
 
 const HubSection = ({ title, links }) => {
   const listItems = links.map(({ href, text }, index) => (
@@ -16,7 +15,6 @@ const HubSection = ({ title, links }) => {
             event: 'nav-linkslist',
             'links-list-title': text,
             'links-list-group': title,
-            'links-list-hostname': getHostname(href),
           })
         }
       />
