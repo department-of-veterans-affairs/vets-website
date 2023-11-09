@@ -157,7 +157,8 @@ class ObjectField extends React.Component {
 
     const Tag = divWrapper ? 'div' : 'dl';
     const ObjectViewField = uiSchema?.['ui:objectViewField'];
-
+    // eslint-disable-next-line no-console
+    console.log('Environment is prod', environment.isProduction());
     const defaultEditButton = ({
       label = editLabel,
       onEdit = formContext?.onEdit,
@@ -202,7 +203,8 @@ class ObjectField extends React.Component {
           environment.isProduction() && (
             <Tag className="review">{renderedProperties}</Tag>
           )}
-        {!formContext?.hideHeaderRow && // MBMS-51921 remove this codeblock when feature flag is no longer needed. Update review to have the margin: 16px auto setting.
+
+        {!formContext?.hideHeaderRow &&
           !environment.isProduction() && (
             <Tag className="review-auto-margin">{renderedProperties}</Tag>
           )}
