@@ -1,13 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 
-const UnauthenticatedWarningAlert = ({ toggleLoginModal, isLoggedIn }) => {
+const UnauthenticatedWarningAlert = () => {
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const dispatch = useDispatch();
+
   const showLoginModal = e => {
     e.preventDefault();
-    toggleLoginModal(true);
+    dispatch(toggleLoginModal(true));
   };
 
   if (isLoggedIn) {
@@ -40,15 +43,4 @@ UnauthenticatedWarningAlert.propTypes = {
   toggleLoginModal: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-});
-
-const mapDispatchToProps = {
-  toggleLoginModal: toggleLoginModalAction,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UnauthenticatedWarningAlert);
+export default UnauthenticatedWarningAlert;
