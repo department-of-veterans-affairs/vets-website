@@ -1,22 +1,20 @@
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import {
+  dateOfBirthUI,
+  dateOfBirthSchema,
+  fullNameUI,
+  fullNameSchema,
+  ssnUI,
+  ssnSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
 
-const {
-  veteranFullName,
-  veteranDateOfBirth,
-  veteranSocialSecurityNumber,
-  vaFileNumber,
-} = fullSchemaPensions.properties;
+const { vaFileNumber } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -25,19 +23,18 @@ export default {
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
-    veteranFullName: fullNameUI,
-    veteranSocialSecurityNumber: {
-      ...ssnUI,
-      'ui:title': 'Your Social Security number',
-    },
+    veteranFullName: fullNameUI(),
+    veteranSocialSecurityNumber: ssnUI(),
     vaClaimsHistory: yesNoUI({
       title: 'Have you filed any type of VA claim before?',
       uswds: true,
+      classNames: 'vads-u-margin-bottom--2',
     }),
     vaFileNumber: {
       'ui:title': 'VA file number',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames: 'vads-u-margin-bottom--2',
         hint: 'Enter your VA file number if it doesn’t match your SSN',
         hideIf: formData => formData.vaClaimsHistory !== true,
       },
@@ -45,7 +42,7 @@ export default {
         pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
-    veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
+    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
@@ -59,11 +56,11 @@ export default {
         type: 'object',
         properties: {},
       },
-      veteranFullName,
-      veteranSocialSecurityNumber,
+      veteranFullName: fullNameSchema,
+      veteranSocialSecurityNumber: ssnSchema,
       vaClaimsHistory: yesNoSchema,
       vaFileNumber,
-      veteranDateOfBirth,
+      veteranDateOfBirth: dateOfBirthSchema,
     },
   },
 };

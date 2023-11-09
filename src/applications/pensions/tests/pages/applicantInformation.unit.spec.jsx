@@ -58,7 +58,7 @@ const getData = ({
 describe('pension applicant information page', () => {
   const middleware = [];
   const mockStore = configureStore(middleware);
-  it('should render with all alerts, fields and buttons', () => {
+  it('should render with all alerts, fields and buttons', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });
     const store = mockStore(data);
@@ -75,13 +75,15 @@ describe('pension applicant information page', () => {
       </Provider>,
     );
 
-    expect($$('va-alert', container).length).to.equal(1);
-    expect($$('input', container).length).to.equal(5);
-    expect($$('select', container).length).to.equal(3);
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($('button[type="submit"]', container)).to.exist;
+    waitFor(() => {
+      expect($$('va-alert', container).length).to.equal(1);
+      expect($$('input', container).length).to.equal(5);
+      expect($$('select', container).length).to.equal(3);
+      expect($$('va-radio', container).length).to.equal(1);
+      expect($('button[type="submit"]', container)).to.exist;
+    });
   });
-  it('should not allow submit with errors', () => {
+  it('should not allow submit with errors', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });
     const store = mockStore(data);
@@ -100,10 +102,12 @@ describe('pension applicant information page', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error', container).length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
+    waitFor(() => {
+      expect($('.usa-input-error', container).length).to.equal(4);
+      expect(onSubmit.called).to.be.false;
+    });
   });
-  it('should submit with no errors with all required fields filled in', () => {
+  it('should submit with no errors with all required fields filled in', async () => {
     const { data } = getData({ loggedIn: false });
     const { queryByText, queryByRole, container } = render(
       <Provider store={mockStore(data)}>
@@ -130,18 +134,19 @@ describe('pension applicant information page', () => {
     const birthYear = container.querySelector('#root_veteranDateOfBirthYear');
 
     fireEvent.click(submitBtn);
+    waitFor(() => {
+      expect($$('.usa-input-error-message', container)).not.to.be.empty;
 
-    expect($$('.usa-input-error-message', container)).not.to.be.empty;
+      fireEvent.change(firstName, { target: { value: 'Jon' } });
+      fireEvent.change(lastName, { target: { value: 'Snow' } });
+      fireEvent.change(ssnInput, { target: { value: '134445555' } });
+      fireEvent.change(birthMonth, { target: { value: '2' } });
+      fireEvent.change(birthDay, { target: { value: '15' } });
+      fireEvent.change(birthYear, { target: { value: '1960' } });
+      fireEvent.click(submitBtn);
 
-    fireEvent.change(firstName, { target: { value: 'Jon' } });
-    fireEvent.change(lastName, { target: { value: 'Snow' } });
-    fireEvent.change(ssnInput, { target: { value: '134445555' } });
-    fireEvent.change(birthMonth, { target: { value: '2' } });
-    fireEvent.change(birthDay, { target: { value: '15' } });
-    fireEvent.change(birthYear, { target: { value: '1960' } });
-    fireEvent.click(submitBtn);
-
-    expect($$('.usa-input-error-message', container)).to.be.empty;
+      expect($$('.usa-input-error-message', container)).to.be.empty;
+    });
   });
   it('should reveal va file number', async () => {
     const onSubmit = sinon.spy();
@@ -159,16 +164,15 @@ describe('pension applicant information page', () => {
         />
       </Provider>,
     );
-
-    // Verify va file number is not visible
-    expect($$('input', container).length).to.equal(5);
-
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'Y' },
-    });
-    $('va-radio', container).__events.vaValueChange(changeEvent);
-
     waitFor(() => {
+      // Verify va file number is not visible
+      expect($$('input', container).length).to.equal(5);
+
+      const changeEvent = new CustomEvent('selected', {
+        detail: { value: 'Y' },
+      });
+      $('va-radio', container).__events.vaValueChange(changeEvent);
+
       expect($$('va-radio-option', container).length).to.eq(2);
       // Verify va file number is now visible
       expect($$('input', container).length).to.equal(6);
