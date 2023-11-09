@@ -32,6 +32,80 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.5.0'
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0
+      - name: Display GitVersion outputs (step output)
+        run: |
+            echo "Major: ${{ steps.gitversion.outputs.major }}"
+            echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+            echo "Patch: ${{ steps.gitversion.outputs.patch }}"
+            echo "PreReleaseTag: ${{ steps.gitversion.outputs.preReleaseTag }}"
+            echo "PreReleaseTagWithDash: ${{ steps.gitversion.outputs.preReleaseTagWithDash }}"
+            echo "PreReleaseLabel: ${{ steps.gitversion.outputs.preReleaseLabel }}"
+            echo "PreReleaseNumber: ${{ steps.gitversion.outputs.preReleaseNumber }}"
+            echo "WeightedPreReleaseNumber: ${{ steps.gitversion.outputs.weightedPreReleaseNumber }}"
+            echo "BuildMetaData: ${{ steps.gitversion.outputs.buildMetaData }}"
+            echo "BuildMetaDataPadded: ${{ steps.gitversion.outputs.buildMetaDataPadded }}"
+            echo "FullBuildMetaData: ${{ steps.gitversion.outputs.fullBuildMetaData }}"
+            echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
+            echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+            echo "LegacySemVer: ${{ steps.gitversion.outputs.legacySemVer }}"
+            echo "LegacySemVerPadded: ${{ steps.gitversion.outputs.legacySemVerPadded }}"
+            echo "AssemblySemVer: ${{ steps.gitversion.outputs.assemblySemVer }}"
+            echo "AssemblySemFileVer: ${{ steps.gitversion.outputs.assemblySemFileVer }}"
+            echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+            echo "InformationalVersion: ${{ steps.gitversion.outputs.informationalVersion }}"
+            echo "BranchName: ${{ steps.gitversion.outputs.branchName }}"
+            echo "EscapedBranchName: ${{ steps.gitversion.outputs.escapedBranchName }}"
+            echo "Sha: ${{ steps.gitversion.outputs.sha }}"
+            echo "ShortSha: ${{ steps.gitversion.outputs.shortSha }}"
+            echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
+            echo "NuGetVersion: ${{ steps.gitversion.outputs.nuGetVersion }}"
+            echo "NuGetPreReleaseTagV2: ${{ steps.gitversion.outputs.nuGetPreReleaseTagV2 }}"
+            echo "NuGetPreReleaseTag: ${{ steps.gitversion.outputs.nuGetPreReleaseTag }}"
+            echo "VersionSourceSha: ${{ steps.gitversion.outputs.versionSourceSha }}"
+            echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.commitsSinceVersionSource }}"
+            echo "CommitsSinceVersionSourcePadded: ${{ steps.gitversion.outputs.commitsSinceVersionSourcePadded }}"
+            echo "UncommittedChanges: ${{ steps.gitversion.outputs.uncommittedChanges }}"
+            echo "CommitDate: ${{ steps.gitversion.outputs.commitDate }}"
+      - name: Display GitVersion outputs (step output with prefix)
+        run: |
+          echo "Major: ${{ steps.gitversion.outputs.GitVersion_Major }}"
+          echo "Minor: ${{ steps.gitversion.outputs.GitVersion_Minor }}"
+          echo "Patch: ${{ steps.gitversion.outputs.GitVersion_Patch }}"
+          echo "PreReleaseTag: ${{ steps.gitversion.outputs.GitVersion_PreReleaseTag }}"
+          echo "PreReleaseTagWithDash: ${{ steps.gitversion.outputs.GitVersion_PreReleaseTagWithDash }}"
+          echo "PreReleaseLabel: ${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}"
+          echo "PreReleaseNumber: ${{ steps.gitversion.outputs.GitVersion_PreReleaseNumber }}"
+          echo "WeightedPreReleaseNumber: ${{ steps.gitversion.outputs.GitVersion_WeightedPreReleaseNumber }}"
+          echo "BuildMetaData: ${{ steps.gitversion.outputs.GitVersion_BuildMetaData }}"
+          echo "BuildMetaDataPadded: ${{ steps.gitversion.outputs.GitVersion_BuildMetaDataPadded }}"
+          echo "FullBuildMetaData: ${{ steps.gitversion.outputs.GitVersion_FullBuildMetaData }}"
+          echo "MajorMinorPatch: ${{ steps.gitversion.outputs.GitVersion_MajorMinorPatch }}"
+          echo "SemVer: ${{ steps.gitversion.outputs.GitVersion_SemVer }}"
+          echo "LegacySemVer: ${{ steps.gitversion.outputs.GitVersion_LegacySemVer }}"
+          echo "LegacySemVerPadded: ${{ steps.gitversion.outputs.GitVersion_LegacySemVerPadded }}"
+          echo "AssemblySemVer: ${{ steps.gitversion.outputs.GitVersion_AssemblySemVer }}"
+          echo "AssemblySemFileVer: ${{ steps.gitversion.outputs.GitVersion_AssemblySemFileVer }}"
+          echo "FullSemVer: ${{ steps.gitversion.outputs.GitVersion_FullSemVer }}"
+          echo "InformationalVersion: ${{ steps.gitversion.outputs.GitVersion_InformationalVersion }}"
+          echo "BranchName: ${{ steps.gitversion.outputs.GitVersion_BranchName }}"
+          echo "EscapedBranchName: ${{ steps.gitversion.outputs.GitVersion_EscapedBranchName }}"
+          echo "Sha: ${{ steps.gitversion.outputs.GitVersion_Sha }}"
+          echo "ShortSha: ${{ steps.gitversion.outputs.GitVersion_ShortSha }}"
+          echo "NuGetVersionV2: ${{ steps.gitversion.outputs.GitVersion_NuGetVersionV2 }}"
+          echo "NuGetVersion: ${{ steps.gitversion.outputs.GitVersion_NuGetVersion }}"
+          echo "NuGetPreReleaseTagV2: ${{ steps.gitversion.outputs.GitVersion_NuGetPreReleaseTagV2 }}"
+          echo "NuGetPreReleaseTag: ${{ steps.gitversion.outputs.GitVersion_NuGetPreReleaseTag }}"
+          echo "VersionSourceSha: ${{ steps.gitversion.outputs.GitVersion_VersionSourceSha }}"
+          echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.GitVersion_CommitsSinceVersionSource }}"
+          echo "CommitsSinceVersionSourcePadded: ${{ steps.gitversion.outputs.GitVersion_CommitsSinceVersionSourcePadded }}"
+          echo "UncommittedChanges: ${{ steps.gitversion.outputs.GitVersion_UncommittedChanges }}"
+          echo "CommitDate: ${{ steps.gitversion.outputs.GitVersion_CommitDate }}"
       - name: Git Version
         id: version
         uses: codacy/git-version@2.7.1
