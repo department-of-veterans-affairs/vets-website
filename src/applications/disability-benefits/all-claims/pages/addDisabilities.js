@@ -3,7 +3,6 @@ import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { getDisabilityLabels } from '../content/disabilityLabels';
 import {
   autoSuggestTitle,
   newOnlyAlert,
@@ -28,7 +27,7 @@ import {
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
-export const uiSchema = {
+const uiSchemaBase = {
   newDisabilities: {
     'ui:title': 'Please tell us the new conditions you want to claim.',
     'ui:field': ArrayField,
@@ -43,53 +42,7 @@ export const uiSchema = {
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
-    items: {
-      condition: autosuggest.uiSchema(
-        autoSuggestTitle,
-        () =>
-          Promise.resolve(
-            Object.entries(getDisabilityLabels()).map(([key, value]) => ({
-              id: key,
-              label: value,
-            })),
-          ),
-        {
-          'ui:reviewField': ({ children }) => children,
-          'ui:options': {
-            debounceRate: 200,
-            freeInput: true,
-            inputTransformers: [
-              // Replace a bunch of things that aren't valid with valid equivalents
-              input => input.replace(/["”’]/g, `'`),
-              input => input.replace(/[;–]/g, ' -- '),
-              input => input.replace(/[&]/g, ' and '),
-              input => input.replace(/[\\]/g, '/'),
-              // TODO: Remove the period replacer once permanent fix in place
-              input => input.replace(/[.]/g, ' '),
-              // Strip out everything that's not valid and doesn't need to be replaced
-              // TODO: Add period back into allowed chars regex
-              input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
-              // Get rid of extra whitespace characters
-              input => input.trim(),
-              input => input.replace(/\s{2,}/g, ' '),
-            ],
-          },
-          // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
-          'ui:validations': [validateDisabilityName, limitNewDisabilities],
-          'ui:required': () => true,
-          'ui:errorMessages': {
-            required: missingConditionMessage,
-          },
-        },
-      ),
-      // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
-      // disabled until design changes have been approved
-      'ui:objectViewField': ConditionReviewField,
-      'ui:options': {
-        itemAriaLabel: data => data.condition,
-        itemName: 'New condition',
-      },
-    },
+    items: null, // feature flag required, see getAddDisabilitiesUiSchemaItems()
   },
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
   'view:newDisabilityErrors': {
@@ -110,6 +63,64 @@ export const uiSchema = {
       },
     },
   },
+};
+
+const getAddDisabilitiesUiSchemaItems = disabilitiesList => {
+  return {
+    condition: autosuggest.uiSchema(
+      autoSuggestTitle,
+      () =>
+        Promise.resolve(
+          Object.entries(disabilitiesList).map(([key, value]) => ({
+            id: key,
+            label: value,
+          })),
+        ),
+      {
+        'ui:reviewField': ({ children }) => children,
+        'ui:options': {
+          debounceRate: 200,
+          freeInput: true,
+          inputTransformers: [
+            // Replace a bunch of things that aren't valid with valid equivalents
+            input => input.replace(/["”’]/g, `'`),
+            input => input.replace(/[;–]/g, ' -- '),
+            input => input.replace(/[&]/g, ' and '),
+            input => input.replace(/[\\]/g, '/'),
+            // TODO: Remove the period replacer once permanent fix in place
+            input => input.replace(/[.]/g, ' '),
+            // Strip out everything that's not valid and doesn't need to be replaced
+            // TODO: Add period back into allowed chars regex
+            input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
+            // Get rid of extra whitespace characters
+            input => input.trim(),
+            input => input.replace(/\s{2,}/g, ' '),
+          ],
+        },
+        // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+        'ui:validations': [validateDisabilityName, limitNewDisabilities],
+        'ui:required': () => true,
+        'ui:errorMessages': {
+          required: missingConditionMessage,
+        },
+      },
+    ),
+    // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
+    // disabled until design changes have been approved
+    'ui:objectViewField': ConditionReviewField,
+    'ui:options': {
+      itemAriaLabel: data => data.condition,
+      itemName: 'New condition',
+    },
+  };
+};
+
+export const getUiSchema = disabilitiesList => {
+  const schema = uiSchemaBase;
+  schema.newDisabilities.items = getAddDisabilitiesUiSchemaItems(
+    disabilitiesList,
+  );
+  return schema;
 };
 
 export const schema = {

@@ -1,5 +1,10 @@
 import disabilityLabelsReduced from './disabilityLabelsReduced';
 
-export const getDisabilityLabels = () => {
+const revisedDisabilityLabels = [];
+
+export const getDisabilityLabels = isRevisedDisabilityList => {
+  if (isRevisedDisabilityList) {
+    return revisedDisabilityLabels;
+  }
   return disabilityLabelsReduced;
 };

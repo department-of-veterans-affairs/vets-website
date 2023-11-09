@@ -15,7 +15,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import formConfig from './config/form';
+import { getFormConfig } from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
 import {
@@ -45,6 +45,7 @@ import {
   fetchBranches,
   getBranches,
 } from './utils/serviceBranches';
+import { getDisabilityLabels } from './content/disabilityLabels';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -88,6 +89,11 @@ export const Form526Entry = ({
   const showToxicExposurePages = useToggleValue(
     TOGGLE_NAMES.disability526ToxicExposure,
   );
+  const isRevisedDisabilitiesList = useToggleValue(
+    TOGGLE_NAMES.disability526RevisedDisabilityLabels,
+  );
+  const disabilityLabels = getDisabilityLabels(isRevisedDisabilitiesList);
+  const formConfig = getFormConfig(disabilityLabels);
   const hasSavedForm = savedForms.some(
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),

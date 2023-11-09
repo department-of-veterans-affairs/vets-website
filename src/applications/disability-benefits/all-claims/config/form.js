@@ -129,7 +129,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
-const formConfig = {
+const formConfigBase = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -321,21 +321,7 @@ const formConfig = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        addDisabilities: {
-          title: 'Add a new disability',
-          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
-          uiSchema: addDisabilities.uiSchema,
-          schema: addDisabilities.schema,
-          updateFormData: addDisabilities.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
-        },
+        addDisabilities: null, // this part of form requires feature flag, see getAddDisabilitiesConfig()
         followUpDesc: {
           title: 'Follow-up questions',
           depends: formData => claimingNew(formData) && !isBDD(formData),
@@ -346,19 +332,7 @@ const formConfig = {
           },
           schema: { type: 'object', properties: {} },
         },
-        newDisabilityFollowUp: {
-          title: formData =>
-            typeof formData.condition === 'string'
-              ? capitalizeEachWord(formData.condition)
-              : NULL_CONDITION_STRING,
-          depends: claimingNew,
-          path: 'new-disabilities/follow-up/:index',
-          showPagePerItem: true,
-          itemFilter: item => !isDisabilityPtsd(item.condition),
-          arrayPath: 'newDisabilities',
-          uiSchema: newDisabilityFollowUp.uiSchema,
-          schema: newDisabilityFollowUp.schema,
-        },
+        newDisabilityFollowUp: null, // this part of form requires feature flag, see getNewDisabilityFollowUp()
         // Consecutive `showPagePerItem` pages that have the same arrayPath
         // will force each item in the array to be evaluated by both pages
         // before the next item is evaluated (e.g., if PTSD was entered first,
@@ -740,4 +714,48 @@ const formConfig = {
   },
 };
 
-export default formConfig;
+const getAddDisabilitiesConfig = disabilityLabels => {
+  return {
+    title: 'Add a new disability',
+    path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+    depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+    uiSchema: addDisabilities.getUiSchema(disabilityLabels),
+    schema: addDisabilities.schema,
+    updateFormData: addDisabilities.updateFormData,
+    appStateSelector: state => ({
+      // needed for validateDisabilityName to work properly on the review
+      // & submit page. Validation functions are provided the pageData and
+      // not the formData on the review & submit page. For more details
+      // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+      newDisabilities: state.form?.data?.newDisabilities || [],
+    }),
+  };
+};
+
+const getNewDisabilityFollowUp = disabilityLabels => {
+  return {
+    title: formData =>
+      typeof formData.condition === 'string'
+        ? capitalizeEachWord(formData.condition)
+        : NULL_CONDITION_STRING,
+    depends: claimingNew,
+    path: 'new-disabilities/follow-up/:index',
+    showPagePerItem: true,
+    itemFilter: item => !isDisabilityPtsd(item.condition),
+    arrayPath: 'newDisabilities',
+    uiSchema: newDisabilityFollowUp.getUiSchema(disabilityLabels),
+    schema: newDisabilityFollowUp.schema,
+  };
+};
+
+export const getFormConfig = disabilityLabels => {
+  const formConfig = formConfigBase;
+  formConfig.chapters.disabilities.pages.addDisabilities = getAddDisabilitiesConfig(
+    disabilityLabels,
+  );
+  formConfig.chapters.disabilities.pages.newDisabilityFollowUp = getNewDisabilityFollowUp(
+    disabilityLabels,
+  );
+
+  return formConfig;
+};
