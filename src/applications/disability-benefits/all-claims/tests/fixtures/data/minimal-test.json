@@ -6,7 +6,7 @@
     "isVaEmployee": false,
     "homelessOrAtRisk": "no",
     "phoneAndEmail": {
-      "primaryPhone": "4445551212",
+      "primaryPhone": "",
       "emailAddress": "test2@test1.net"
     },
     "mailingAddress": {
