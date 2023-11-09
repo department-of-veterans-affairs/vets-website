@@ -77,6 +77,8 @@ const AppointmentAction = props => {
       event,
       setCheckinComplete,
       setECheckinStartedCalled,
+      isTravelEnabled,
+      travelSubmitted,
     ],
   );
   if (
