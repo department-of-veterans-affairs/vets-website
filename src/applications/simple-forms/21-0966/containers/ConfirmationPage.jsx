@@ -167,13 +167,14 @@ export class ConfirmationPage extends React.Component {
             }
 
             return (
-              <a
-                className="vads-c-action-link--green vads-u-margin-bottom--4"
-                href={href}
-                key={nextStep}
-              >
-                Complete your {benefitPhrases[nextStep]}
-              </a>
+              <p key={nextStep}>
+                <a
+                  className="vads-c-action-link--green vads-u-margin-bottom--4"
+                  href={href}
+                >
+                  Complete your {benefitPhrases[nextStep]}
+                </a>
+              </p>
             );
           })}
         </div>
