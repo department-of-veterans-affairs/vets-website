@@ -1,7 +1,7 @@
-import './sass/rated-disabilities.scss';
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
+import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import startApp from 'platform/startup';
+import './sass/rated-disabilities.scss';
 
 import routes from './routes';
 import reducer from './reducers';
