@@ -33,7 +33,7 @@ const AppointmentAction = props => {
 
   const isTravelEnabled =
     isTravelReimbursementEnabled && isTravelReimbursementInPilot;
-  const travelSubmitted = travelPayEligible;
+  const travelSubmitted = travelPayEligible || false; // The hook returns undefined so coercing to false
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
