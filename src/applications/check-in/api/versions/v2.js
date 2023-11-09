@@ -73,6 +73,8 @@ const v2 = {
     appointmentIen,
     facilityId,
     setECheckinStartedCalled,
+    isTravelEnabled,
+    travelSubmitted,
   }) => {
     const url = '/check_in/v2/patient_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
@@ -82,6 +84,8 @@ const v2 = {
         appointmentIen,
         facilityId,
         setECheckinStartedCalled,
+        isTravelEnabled,
+        travelSubmitted,
       },
     };
     const body = JSON.stringify(data);
