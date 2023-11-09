@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import * as schoolSearch from '../../selectors/schoolSearch';
 
-// 'errorSchema.facilityCode.__errors'
 const ownProps = {
   formContext: {
     submitted: false,
