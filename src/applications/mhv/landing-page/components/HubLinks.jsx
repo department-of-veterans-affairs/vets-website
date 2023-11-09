@@ -3,22 +3,21 @@ import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
 const HubSection = ({ title, links }) => {
-  const listItems = links.map((l, index) => (
-    <li key={`${l.href}--${index}`}>
+  const listItems = links.map(({ href, text }, index) => (
+    <li key={`${href}--${index}`}>
       <va-link
-        className="mhv-c-link"
-        href={l.href}
+        class="mhv-c-link"
+        href={href}
+        text={text}
         onClick={() =>
           recordEvent({
             event: 'mhv-link-click',
-            'link-title': l.text,
+            'link-title': text,
             'link-group': title,
-            'link-hostname': new URL(l.href).hostname,
+            'link-hostname': new URL(href).hostname,
           })
         }
-      >
-        {l.text}
-      </va-link>
+      />
     </li>
   ));
   return (
