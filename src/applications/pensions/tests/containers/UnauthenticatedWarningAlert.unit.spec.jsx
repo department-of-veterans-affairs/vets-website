@@ -5,18 +5,6 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import UnauthenticatedWarningAlert from '../../containers/UnauthenticatedWarningAlert';
 
-const isNotLoggedInStore = ({ isLoggedIn = false } = {}) => ({
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: isLoggedIn,
-      },
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-});
-
 const isLoggedInStore = ({ isLoggedIn = true } = {}) => ({
   getState: () => ({
     user: {
@@ -30,8 +18,8 @@ const isLoggedInStore = ({ isLoggedIn = true } = {}) => ({
 });
 
 describe('Unauthenticated warning alert', () => {
-  const mockStoreLoggedIn = isLoggedInStore();
-  const mockStoreNotLoggedIn = isNotLoggedInStore();
+  const mockStoreLoggedIn = isLoggedInStore({ isLoggedIn: true });
+  const mockStoreNotLoggedIn = isLoggedInStore({ isLoggedIn: false });
 
   it('should not render if the user is logged in', () => {
     const { container } = render(
