@@ -65,7 +65,6 @@ export function FilterYourResults({
       'gibct-form-value': e.target.checked,
     });
   };
-
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
   };
