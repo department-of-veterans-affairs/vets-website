@@ -2,7 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
+import environment from 'platform/utilities/environment';
 import ObjectField from '../../../src/js/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
@@ -585,7 +585,10 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByLabelText('Edit Page Title')).to.exist;
 
-    const review = document.getElementsByClassName('review')[0];
+    let review;
+    if (environment.isProduction())
+      review = document.getElementsByClassName('review')[0];
+    else review = document.getElementsByClassName('review-auto-margin')[0];
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -693,8 +696,11 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
+    let review;
+    if (environment.isProduction())
+      review = document.querySelector('div.review');
+    else review = document.querySelector('div.review-auto-margin');
 
-    const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -735,7 +741,11 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
-    const review = document.querySelector('dl.review');
+    let review;
+    if (environment.isProduction())
+      review = document.querySelector('dl.review');
+    else review = document.querySelector('dl.review-auto-margin');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -775,8 +785,10 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
-    const review = document.querySelector('div.review');
+    let review;
+    if (environment.isProduction())
+      review = document.querySelector('div.review');
+    else review = document.querySelector('div.review-auto-margin');
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -816,8 +828,11 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
+    let review;
+    if (environment.isProduction())
+      review = document.querySelector('div.review');
+    else review = document.querySelector('div.review-auto-margin');
 
-    const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -858,7 +873,11 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
-    const review = document.querySelector('dl.review');
+    let review;
+    if (environment.isProduction())
+      review = document.querySelector('dl.review');
+    else review = document.querySelector('dl.review-auto-margin');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
