@@ -121,14 +121,14 @@ const CashOnHand = ({
   return (
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
-        {reviewNavigation && showReviewNavigation ? (
-          <ReviewPageNavigationAlert data={data} title="household assets" />
-        ) : null}
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Cash on hand
           </h3>
         </legend>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="household assets" />
+        ) : null}
         <VaNumberInput
           currency
           error={error}
