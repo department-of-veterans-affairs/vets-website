@@ -199,7 +199,7 @@ class ObjectField extends React.Component {
             {defaultEditButton()}
           </div>
         )}
-        {!formContext?.hideHeaderRow &&
+        {formContext?.hideHeaderRow &&
           environment.isProduction() && (
             <Tag className="review">{renderedProperties}</Tag>
           )}
