@@ -26,7 +26,7 @@ const awaitFocusSelectorThenTest = () => {
         .should('be.visible')
         .then(() => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(250);
+          cy.wait(500);
           cy.fillPage();
           cy.axeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -111,7 +111,7 @@ const testConfig = createTestConfig(
               .should('not.have.attr', 'disabled')
               .then(() => {
                 // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(250);
+                cy.wait(500);
                 fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
 
                 cy.axeCheck('.form-panel');
@@ -137,7 +137,7 @@ const testConfig = createTestConfig(
               .should('not.have.attr', 'disabled')
               .then(() => {
                 // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(250);
+                cy.wait(500);
                 fillFullNameWebComponentPattern(
                   'applicantFullName',
                   data.applicantFullName,
@@ -170,7 +170,7 @@ const testConfig = createTestConfig(
               .should('not.have.attr', 'disabled')
               .then(() => {
                 // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(250);
+                cy.wait(500);
                 fillTextWebComponent('applicantPhone', data.applicantPhone);
 
                 cy.axeCheck('.form-panel');
@@ -186,7 +186,7 @@ const testConfig = createTestConfig(
               .should('not.have.attr', 'disabled')
               .then(() => {
                 // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(250);
+                cy.wait(500);
                 fillTextWebComponent('certificates', data.certificates);
 
                 cy.axeCheck('.form-panel');
