@@ -137,6 +137,7 @@
 
 /**
  * @typedef {Object} FormConfigPage
+ * @property {boolean} [allowPathWithNoItems] For array pages. if true, will allow a path with no items in the array at /0. Used with showPagePerItem.
  * @property {string} [arrayPath] the name of the property in the schema/uiSchema that is `type: 'array'`
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
