@@ -90,6 +90,15 @@ class FormPage extends React.Component {
 
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
+    if (typeof route.pageConfig.onNavForward === 'function') {
+      route.pageConfig.onNavForward({
+        formData,
+        goPath: customPath => this.props.router.push(customPath),
+        goNextPath: () => this.props.router.push(path),
+      });
+      return;
+    }
+
     this.props.router.push(path);
   };
 
@@ -109,13 +118,22 @@ class FormPage extends React.Component {
   };
 
   goBack = () => {
-    const {
-      form,
-      route: { pageList },
-      location,
-    } = this.props;
+    const { form, route, location } = this.props;
 
-    const path = getPreviousPagePath(pageList, form.data, location.pathname);
+    const path = getPreviousPagePath(
+      route.pageList,
+      form.data,
+      location.pathname,
+    );
+
+    if (typeof route.pageConfig.onNavBack === 'function') {
+      route.pageConfig.onNavBack({
+        formData: form.data,
+        goPath: customPath => this.props.router.push(customPath),
+        goPreviousPath: () => this.props.router.push(path),
+      });
+      return;
+    }
 
     this.props.router.push(path);
   };
@@ -281,6 +299,8 @@ FormPage.propTypes = {
         PropTypes.func,
       ]),
       onContinue: PropTypes.func,
+      onNavBack: PropTypes.func,
+      onNavForward: PropTypes.func,
       pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
