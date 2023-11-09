@@ -3,9 +3,9 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { RatedDisabilitiesApp } from '../../containers/RatedDisabilitiesApp';
+import { App } from '../../containers/App';
 
-describe('<RatedDisabilityApp/>', () => {
+describe('<App/>', () => {
   const props = {
     ratedDisabilities: [],
     user: {},
@@ -16,10 +16,11 @@ describe('<RatedDisabilityApp/>', () => {
 
   it('should render a RequiredLoginView', () => {
     const wrapper = shallow(
-      <RatedDisabilitiesApp {...props}>
+      <App {...props}>
         <div>App Children</div>
-      </RatedDisabilitiesApp>,
+      </App>,
     );
+
     expect(wrapper.find('RequiredLoginView').length).to.equal(1);
     wrapper.unmount();
   });
