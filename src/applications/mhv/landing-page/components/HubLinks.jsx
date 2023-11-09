@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { getHostname } from '../utilities';
 
 const HubSection = ({ title, links }) => {
   const listItems = links.map(({ href, text }, index) => (
     <li key={`${href}--${index}`}>
       <va-link
         class="mhv-c-link"
+        disable-analytics
         href={href}
         text={text}
         onClick={() =>
           recordEvent({
-            event: 'mhv-link-click',
-            'link-title': text,
-            'link-group': title,
-            'link-hostname': new URL(href).hostname,
+            event: 'nav-linkslist',
+            'links-list-title': text,
+            'links-list-group': title,
+            'links-list-hostname': getHostname(href),
           })
         }
       />

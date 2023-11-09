@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { getHostname } from '../utilities';
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
@@ -11,10 +12,10 @@ const NavCard = ({ icon = null, title, links }) => {
         aria-label={ariaLabel}
         onClick={() =>
           recordEvent({
-            event: 'mhv-link-click',
-            'link-title': String(text) === text ? text : 'Inbox',
-            'link-group': title,
-            'link-hostname': new URL(href).hostname,
+            event: 'nav-linkslist',
+            'links-list-title': String(text) === text ? text : 'Inbox', // hack to handle 'the dot'
+            'links-list-group': title,
+            'links-list-hostname': getHostname(href),
           })
         }
       >
