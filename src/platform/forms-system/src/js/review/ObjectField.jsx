@@ -198,15 +198,13 @@ class ObjectField extends React.Component {
             {defaultEditButton()}
           </div>
         )}
-        {formContext?.hideHeaderRow &&
-          environment.isProduction() && (
-            <Tag className="review">{renderedProperties}</Tag>
-          )}
+        {environment.isProduction() && (
+          <Tag className="review">{renderedProperties}</Tag>
+        )}
 
-        {!formContext?.hideHeaderRow &&
-          !environment.isProduction() && (
-            <Tag className="review-auto-margin">{renderedProperties}</Tag>
-          )}
+        {!environment.isProduction() && (
+          <Tag className="review-auto-margin">{renderedProperties}</Tag>
+        )}
       </>
     ) : (
       <>{renderedProperties}</>
