@@ -5,26 +5,27 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import {
   fillAddressWebComponentPattern,
-  fillDateWebComponentPattern,
-  fillFullNameWebComponentPattern,
   fillTextWebComponent,
   reviewAndSubmitPageFlow,
-  selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
+// disable custom scroll-n-focus to avoid interference with input-fills
 formConfig.useCustomScrollAndFocus = false;
 
 const awaitFocusSelectorThenTest = () => {
+  // handle other scroll/focus interferences besides customScrollAndFocus
   return ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('va-segmented-progress-bar[uswds][heading-text][header-level="2"]')
         .should('be.visible')
         .then(() => {
+          // callback to prevent scroll/focus interferences, but
+          // even now field-disabled errors still occur, so must wait a bit.
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500);
           cy.fillPage();
@@ -57,6 +58,8 @@ const pageTestConfigs = pagePaths.reduce((obj, pagePath) => {
 
 const testConfig = createTestConfig(
   {
+    // automate all v3-web-component page-flows except
+    // where addressUIs are used
     useWebComponentFields: true,
     dataPrefix: 'data',
 
@@ -73,121 +76,20 @@ const testConfig = createTestConfig(
         });
       },
       ...pageTestConfigs,
-      'veteran-personal-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const {
-              veteranFullName,
-              veteranDateOfBirth,
-              veteranDateOfDeath,
-            } = data;
-
-            cy.get('input[name="root_veteranFullName_first"]')
-              .should('not.have.attr', 'disabled')
-              .then(() => {
-                fillFullNameWebComponentPattern(
-                  'veteranFullName',
-                  veteranFullName,
-                );
-                fillDateWebComponentPattern(
-                  'veteranDateOfBirth',
-                  veteranDateOfBirth,
-                );
-                fillDateWebComponentPattern(
-                  'veteranDateOfDeath',
-                  veteranDateOfDeath,
-                );
-
-                cy.axeCheck('.form-panel');
-                cy.findByText(/continue/i, { selector: 'button' }).click();
-              });
-          });
-        });
-      },
-      'veteran-identification-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('input[name="root_veteranId_ssn"]')
-              .should('not.have.attr', 'disabled')
-              .then(() => {
-                // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(500);
-                fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
-
-                cy.axeCheck('.form-panel');
-                cy.findByText(/continue/i, { selector: 'button' }).click();
-              });
-          });
-        });
-      },
-      'request-type': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent('isFirstRequest', data.isFirstRequest);
-
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      'applicant-personal-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('input[name="root_applicantFullName_first"]')
-              .should('not.have.attr', 'disabled')
-              .then(() => {
-                // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(500);
-                fillFullNameWebComponentPattern(
-                  'applicantFullName',
-                  data.applicantFullName,
-                );
-
-                cy.axeCheck('.form-panel');
-                cy.findByText(/continue/i, { selector: 'button' }).click();
-              });
-          });
-        });
-      },
       'applicant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'applicantAddress',
-              data.applicantAddress,
-            );
-
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      'applicant-contact-information': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('input[name="root_applicantPhone"]')
+            cy.get('input[name="root_applicantAddress_state"]')
               .should('not.have.attr', 'disabled')
               .then(() => {
+                // callback to avoid field-disabled errors, but
+                // even now we must wait a bit!
                 // eslint-disable-next-line cypress/no-unnecessary-waiting
                 cy.wait(500);
-                fillTextWebComponent('applicantPhone', data.applicantPhone);
-
-                cy.axeCheck('.form-panel');
-                cy.findByText(/continue/i, { selector: 'button' }).click();
-              });
-          });
-        });
-      },
-      certificates: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get('input[name="root_certificates"]')
-              .should('not.have.attr', 'disabled')
-              .then(() => {
-                // eslint-disable-next-line cypress/no-unnecessary-waiting
-                cy.wait(500);
-                fillTextWebComponent('certificates', data.certificates);
+                fillAddressWebComponentPattern(
+                  'applicantAddress',
+                  data.applicantAddress,
+                );
 
                 cy.axeCheck('.form-panel');
                 cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -200,14 +102,22 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { additionalAddress, additionalCopies } = data;
 
-            fillAddressWebComponentPattern(
-              'additionalAddress',
-              additionalAddress,
-            );
-            fillTextWebComponent('additionalCopies', additionalCopies);
+            cy.get('input[name="root_additionalAddress_state"]')
+              .should('not.be.disabled')
+              .then(() => {
+                // callback to avoid field-disabled errors, but
+                // even now we must wait a bit!
+                // eslint-disable-next-line cypress/no-unnecessary-waiting
+                cy.wait(500);
+                fillAddressWebComponentPattern(
+                  'additionalAddress',
+                  additionalAddress,
+                );
+                fillTextWebComponent('additionalCopies', additionalCopies);
 
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                cy.axeCheck('.form-panel');
+                cy.findByText(/continue/i, { selector: 'button' }).click();
+              });
           });
         });
       },
