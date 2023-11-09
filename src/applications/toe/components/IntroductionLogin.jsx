@@ -16,11 +16,11 @@ function IntroductionLogin({
   isLoggedIn,
   isLOA3,
   isPersonalInfoFetchComplete,
+  isPersonalInfoFetchFailed,
   isSponsorsFetchComplete,
   route,
   showHideLoginModal,
-  showMebEnhancements,
-  showMebEnhancements06,
+  showMeb1990EMaintenanceAlert,
   user,
 }) {
   const apiCallsComplete =
@@ -33,19 +33,37 @@ function IntroductionLogin({
 
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
-  const headlineText = showMebEnhancements06
-    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.'
-    : 'Save time-and save your work in progress-by signing in before starting your application.';
-
+  const headlineText =
+    'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.';
+  const shouldShowLoadingIndicator =
+    (!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete;
   return (
     <>
-      {((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
-        !apiCallsComplete) && <LoadingIndicator />}
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
 
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
           Begin your application for education benefits
         </h2>
+      )}
+
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
+
+      {(isPersonalInfoFetchFailed || showMeb1990EMaintenanceAlert) && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We’re currently making updates to the My Education Benefits
+              platform. We apologize for the inconvenience. Please check back
+              soon.
+            </p>
+          </div>
+        </va-alert>
       )}
 
       {!isLoggedIn &&
@@ -91,22 +109,12 @@ function IntroductionLogin({
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
-              {showMebEnhancements ? (
-                // If showMebEnhancements is true, display paper form option
-                <>
-                  If you don't want to sign in, you can{' '}
-                  <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
-                    apply using the paper form
-                  </a>
-                  . Please expect longer processing time for decisions when
-                  opting for this method.
-                </>
-              ) : (
-                // If showMebEnhancements is false, display option to start application without signing in
-                <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
-                  Start your application without signing in
-                </a>
-              )}
+              If you don't want to sign in, you can{' '}
+              <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+                apply using the paper form
+              </a>
+              . Please expect longer processing time for decisions when opting
+              for this method.
             </p>
           </>
         )}
@@ -170,10 +178,10 @@ IntroductionLogin.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
+  isPersonalInfoFetchFailed: PropTypes.bool,
   isSponsorsFetchComplete: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
+  showMeb1990EMaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
 };
 
