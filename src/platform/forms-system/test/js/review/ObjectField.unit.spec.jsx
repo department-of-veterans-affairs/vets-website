@@ -587,6 +587,7 @@ describe('Schemaform review: ObjectField', () => {
 
     let review;
     if (environment.isProduction())
+      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
       review = document.getElementsByClassName('review')[0];
     else review = document.getElementsByClassName('review-auto-margin')[0];
     expect(within(review).getByRole('textbox')).to.exist;
@@ -698,6 +699,8 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByLabelText('Edit Blah')).to.exist;
     let review;
     if (environment.isProduction())
+      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
+
       review = document.querySelector('div.review');
     else review = document.querySelector('div.review-auto-margin');
 
@@ -743,6 +746,8 @@ describe('Schemaform review: ObjectField', () => {
 
     let review;
     if (environment.isProduction())
+      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
+
       review = document.querySelector('dl.review');
     else review = document.querySelector('dl.review-auto-margin');
 
@@ -787,6 +792,8 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByLabelText('Edit Blah')).to.exist;
     let review;
     if (environment.isProduction())
+      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
+
       review = document.querySelector('div.review');
     else review = document.querySelector('div.review-auto-margin');
     expect(within(review).getByRole('textbox')).to.exist;
@@ -830,6 +837,8 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByLabelText('Edit Blah')).to.exist;
     let review;
     if (environment.isProduction())
+      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
+
       review = document.querySelector('div.review');
     else review = document.querySelector('div.review-auto-margin');
 
@@ -875,6 +884,8 @@ describe('Schemaform review: ObjectField', () => {
 
     let review;
     if (environment.isProduction())
+      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
+
       review = document.querySelector('dl.review');
     else review = document.querySelector('dl.review-auto-margin');
 
