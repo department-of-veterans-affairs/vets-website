@@ -15,7 +15,7 @@ import {
   removeFacilityCodeIfManualEntry,
   transform,
   transformSearchToolAddress,
-} from '../../feedback-tool/helpers';
+} from '../helpers';
 
 describe('removeEmptyStringProperties', () => {
   it('removes keys that have empty string values', () => {
