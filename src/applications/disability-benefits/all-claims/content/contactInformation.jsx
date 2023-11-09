@@ -12,7 +12,8 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const phoneString = `${firstPhoneString}-${middlePhoneString}-${lastPhoneString}`;
   return (
     <p>
-      <strong>{name}</strong>: {phoneString}
+      <strong>{name}</strong>:{' '}
+      {phoneNumber.trim().length > 0 ? phoneString : ''}
     </p>
   );
 };
