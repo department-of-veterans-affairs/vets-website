@@ -9,7 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [DEPENDENT_VIEW_FIELDS.report]: yesNoSchema,
+      [DEPENDENT_VIEW_FIELDS.add]: yesNoSchema,
       dependents: {
         ...dependents,
         default: [],

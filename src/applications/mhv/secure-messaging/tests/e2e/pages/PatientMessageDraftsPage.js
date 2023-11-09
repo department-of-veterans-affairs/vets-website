@@ -177,7 +177,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
+  confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
       `/my_health/v1/messaging/messages/${
@@ -185,20 +185,11 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    if (isNewDraftText) {
-      cy.get('[data-testid="delete-draft-modal"]')
-        .find('va-button[text="Yes, delete this draft"]', { force: true })
-        .contains('Yes, delete this draft')
-        .click({ force: true });
-      // Wait needs to be added back in before closing PR
-      // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    } else {
-      cy.get('[data-testid="delete-draft-modal"]')
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    }
+    cy.get('[data-testid="delete-draft-modal"]')
+      .find('va-button[text="Delete draft"]', { force: true })
+      .contains('Delete draft')
+      .click({ force: true });
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
   };
 
   verifyDeleteConfirmationMessage = () => {
