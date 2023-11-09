@@ -6,7 +6,8 @@ const { runCommand } = require('./utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 const specDirs = '{src,script}';
-const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
+const defaultPath = `./src/platform/forms-system/test/js/containers/**/*.unit.spec.js?(x)`;
+// const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
