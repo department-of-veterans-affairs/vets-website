@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import { fetchPost911GiBillEligibility } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
@@ -22,6 +24,7 @@ export function EnrollmentVerificationIntroPage({
   hasCheckedKeepAlive,
   getPost911GiBillEligibility,
   post911GiBillEligibility,
+  showMebEnrollmentVerificationMaintenanceAlert,
 }) {
   const history = useHistory();
   const [
@@ -83,6 +86,23 @@ export function EnrollmentVerificationIntroPage({
 
   return (
     <EnrollmentVerificationPageWrapper>
+      {showMebEnrollmentVerificationMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We’re currently making updates to the My Education Benefits
+              platform. We apologize for the inconvenience. Please check back
+              soon.
+            </p>
+          </div>
+        </va-alert>
+      )}
+
       <h1>Verify your school enrollments</h1>
       <p className="va-introtext">
         If you have education benefits, verify your enrollments each month to
@@ -200,7 +220,13 @@ export function EnrollmentVerificationIntroPage({
   );
 }
 
-const mapStateToProps = state => getEVData(state);
+const mapStateToProps = state => ({
+  ...getEVData(state),
+  showMebEnrollmentVerificationMaintenanceAlert:
+    state.featureToggles[
+      featureFlagNames.showMebEnrollmentVerificationMaintenanceAlert
+    ],
+});
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
