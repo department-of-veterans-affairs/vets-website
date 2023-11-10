@@ -498,9 +498,6 @@ describe('VAOS covid-19 vaccine flow', () => {
 
       ReviewPageObject.assertUrl().clickConfirmButton();
 
-      // ConfirmationPageObject.assertUrl({ apiVersion: 2 });
-      // cy.findByText('We’ve scheduled and confirmed your appointment.');
-
       // Assert
       cy.axeCheckBestPractice();
     });
