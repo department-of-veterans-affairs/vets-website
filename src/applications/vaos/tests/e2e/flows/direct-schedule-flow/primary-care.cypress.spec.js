@@ -8,10 +8,8 @@ import {
   mockAppointmentApi,
   mockAppointmentCreateApi,
   mockAppointmentsApi,
-  mockCCProvidersApi,
   mockClinicApi,
-  mockEligibilityApi2,
-  mockEligibilityCCApi,
+  mockEligibilityApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -20,9 +18,7 @@ import {
   vaosSetup,
 } from '../../vaos-cypress-helpers';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockProvider } from '../../fixtures/MockProvider';
 import { MockEligibility } from '../../fixtures/MockEligibility';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
@@ -32,6 +28,8 @@ import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointm
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
+import { MockFacility } from '../../fixtures/MockFacility';
 
 describe('VAOS direct schedule flow - Primary care', () => {
   beforeEach(() => {
@@ -48,36 +46,28 @@ describe('VAOS direct schedule flow - Primary care', () => {
         ...appt,
       },
     });
+    mockAppointmentCreateApi({ response: appt });
     mockAppointmentsApi({ response: [] });
-    mockAppointmentCreateApi();
-    mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
 
   describe('When one facility supports online scheduling', () => {
     beforeEach(() => {
-      const mockProvider = new MockProvider();
       const mockEligibility = new MockEligibility({
         facilityId: '983',
         typeOfCare: 'primaryCare',
-        isDirectSchedule: true,
+        type: 'direct',
+        isEligible: true,
       });
-      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'month') });
 
-      mockCCProvidersApi({ response: [{ ...mockProvider }] });
-      mockEligibilityApi2({ response: mockEligibility });
-      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockEligibilityApi({ response: mockEligibility });
+      mockFacilitiesApi({ response: [new MockFacility()] });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: 'primaryCare',
         isDirect: true,
         isRequest: true,
-      });
-      mockSlotsApi({
-        locationId: '983',
-        clinicId: '308',
-        response: [mockSlot],
       });
     });
 
@@ -85,8 +75,20 @@ describe('VAOS direct schedule flow - Primary care', () => {
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        const mockSlot = new MockSlot({
+          id: 1,
+          start: moment().add(1, 'month'),
+        });
 
-        mockClinicApi({ locations: ['983'], apiVersion: 2 });
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 2 }),
+        });
+        mockSlotsApi({
+          locationId: '983',
+          clinicId: '0',
+          response: [mockSlot],
+        });
 
         // Act
         cy.login(mockUser);
@@ -98,16 +100,18 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
-        TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/VA medical center or clinic/i)
-          .clickNextButton();
+        // TypeOfFacilityPageObject.assertUrl()
+        //   .selectTypeOfFacility(/VA medical center or clinic/i)
+        //   .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .assertSingleLocation()
+          .assertSingleLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+          })
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectClinic(/Green Team Clinic1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
@@ -131,6 +135,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickConfirmButton();
 
         ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        cy.findByText('We’ve scheduled and confirmed your appointment.');
 
         // Assert
         cy.axeCheckBestPractice();
@@ -141,8 +146,20 @@ describe('VAOS direct schedule flow - Primary care', () => {
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser();
+        const mockSlot = new MockSlot({
+          id: 1,
+          start: moment().add(1, 'month'),
+        });
 
-        mockClinicApi({ locations: ['983'], apiVersion: 2 });
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 2 }),
+        });
+        mockSlotsApi({
+          locationId: '983',
+          clinicId: '0',
+          response: [mockSlot],
+        });
 
         // Act
         cy.login(mockUser);
@@ -154,16 +171,10 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
-        TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/VA medical center or clinic/i)
-          .clickNextButton();
-
-        VAFacilityPageObject.assertUrl()
-          .assertSingleLocation()
-          .clickNextButton();
+        VAFacilityPageObject.assertUrl().clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectClinic(/Green Team Clinic1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
@@ -196,9 +207,21 @@ describe('VAOS direct schedule flow - Primary care', () => {
     describe('And one clinic supports online scheduling', () => {
       it('should submit form', () => {
         // Arrange
-        const mockUser = new MockUser();
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        const mockSlot = new MockSlot({
+          id: 1,
+          start: moment().add(1, 'month'),
+        });
 
-        mockClinicApi({ clinicId: '308', locations: ['983'], apiVersion: 2 });
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
+        mockSlotsApi({
+          locationId: '983',
+          clinicId: '0',
+          response: [mockSlot],
+        });
 
         // Act
         cy.login(mockUser);
@@ -206,22 +229,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert({ exist: true })
+          .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
-        TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/VA medical center or clinic/i)
-          .clickNextButton();
-
         VAFacilityPageObject.assertUrl()
-          .assertSingleLocation()
+          .assertSingleLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+          })
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
           .assertSingleClinic()
-          .assertAddress({ facilityName: /Cheyenne VA Medical Center/i })
-          .selectRadioButton(/Yes, make my appointment here/i)
+          .selectRadioButton(/Yes. make my appointment here/i)
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
@@ -245,6 +265,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickConfirmButton();
 
         ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        cy.findByText('We’ve scheduled and confirmed your appointment.');
 
         // Assert
         cy.axeCheckBestPractice();
@@ -254,7 +275,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
   describe('When more than one facility supports online scheduling', () => {
     beforeEach(() => {
-      const mockProvider = new MockProvider();
       const mockEligibility = new MockEligibility({
         facilityId: '983',
         typeOfCare: 'primaryCare',
@@ -262,10 +282,16 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
       const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'month') });
 
-      mockClinicApi({ locations: ['983'], apiVersion: 2 });
-      mockCCProvidersApi({ response: [{ ...mockProvider }] });
-      mockEligibilityApi2({ response: mockEligibility });
-      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockClinicApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({ count: 2 }),
+      });
+      mockFacilitiesApi({
+        response: MockFacility.createMockFacilities({
+          facilityIds: ['983', '984'],
+        }),
+      });
+      mockEligibilityApi({ response: mockEligibility });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'primaryCare',
@@ -274,7 +300,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
       mockSlotsApi({
         locationId: '983',
-        clinicId: '308',
+        clinicId: '0',
         response: [mockSlot],
       });
     });
@@ -294,16 +320,12 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
-        TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/VA medical center or clinic/i)
-          .clickNextButton();
-
         VAFacilityPageObject.assertUrl()
-          .selectLocation(/Cheyenne VA Medical Center/i)
+          .selectLocation(/Facility 983/i)
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectClinic(/Green Team Clinic1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
@@ -348,16 +370,12 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
-        TypeOfFacilityPageObject.assertUrl()
-          .selectTypeOfFacility(/VA medical center or clinic/i)
-          .clickNextButton();
-
         VAFacilityPageObject.assertUrl()
-          .selectLocation(/Cheyenne VA Medical Center/i)
+          .selectLocation(/Facility 983/i)
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
-          .selectClinic(/Green Team Clinic1/i)
+          .selectClinic({ selection: /Clinic 1/i })
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()

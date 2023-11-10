@@ -1,12 +1,8 @@
 import PageObject from './PageObject';
 
 export class DateTimeSelectPageObject extends PageObject {
-  assertUrl({ isCovid = false } = {}) {
-    if (isCovid) {
-      cy.url().should('include', '/date-time');
-    } else {
-      cy.url().should('include', '/select-date');
-    }
+  assertUrl() {
+    cy.url().should('include', '/date-time');
 
     cy.wait('@v2:get:slots');
     cy.axeCheckBestPractice();

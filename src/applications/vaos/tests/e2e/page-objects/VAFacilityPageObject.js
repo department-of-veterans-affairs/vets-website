@@ -22,10 +22,22 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  assertOneLocation({ locationName } = {}) {
-    cy.findByText(
-      /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
-    );
+  /**
+   * Method to assert whether single location/facility text is displayed or not.
+   *
+   * @param {Object} arguments - Method arguments.
+   * @param {string|RegExp} arguments.locationName - Facility location name to assert.
+   * @param {boolean} [arguments.isVA = true] - Is this a VA appointment or not.
+   * @memberof VAFacilityPageObject
+   */
+  assertSingleLocation({ locationName, isVA = true } = {}) {
+    if (isVA) {
+      cy.findByText(/We found one VA facility for your .* appointment/i);
+    } else {
+      cy.findByText(
+        /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
+      );
+    }
     cy.findByText(locationName);
 
     return this;

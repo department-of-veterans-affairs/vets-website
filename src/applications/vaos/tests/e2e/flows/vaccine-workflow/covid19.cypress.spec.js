@@ -52,7 +52,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
     mockAppointmentCreateApi({ response: appt });
     mockAppointmentsApi({ response: [] });
-    mockFacilityApi({ id: '983', apiVersion: 2 });
+    mockFacilityApi({ id: '983' });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -233,8 +233,9 @@ describe('VAOS covid-19 vaccine flow', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .assertOneLocation({
+          .assertSingleLocation({
             locationName: /Cheyenne VA Medical Center/i,
+            isVA: false,
           })
           .clickNextButton();
 
@@ -242,9 +243,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           .selectClinic({ selection: /Green Team Clinic1/i, isCovid: true })
           .clickNextButton();
 
-        DateTimeSelectPageObject.assertUrl({
-          isCovid: true,
-        })
+        DateTimeSelectPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -292,16 +291,17 @@ describe('VAOS covid-19 vaccine flow', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
-          .assertOneLocation({ locationName: /Cheyenne VA Medical Center/i })
+          .assertSingleLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+            isVA: false,
+          })
           .clickNextButton();
 
         ClinicChoicePageObject.assertUrl()
           .selectClinic({ selection: /Green Team Clinic1/i, isCovid: true })
           .clickNextButton();
 
-        DateTimeSelectPageObject.assertUrl({
-          isCovid: true,
-        })
+        DateTimeSelectPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 

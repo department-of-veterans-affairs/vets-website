@@ -1,6 +1,11 @@
 import PageObject from './PageObject';
 
 export class ClinicChoicePageObject extends PageObject {
+  assertSingleClinic() {
+    cy.findByText(/Would you like to make an appointment at/i);
+    return this;
+  }
+
   assertUrl() {
     cy.url().should('include', '/clinic', { timeout: 5000 });
     cy.axeCheckBestPractice();
