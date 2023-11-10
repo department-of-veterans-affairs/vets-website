@@ -81,7 +81,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+        mockClinicsApi({ locations: ['983'] });
 
         // Act
         cy.login(mockUser);
@@ -108,9 +108,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           .selectClinic({ selection: /Green Team Clinic1/i, isCovid: true })
           .clickNextButton();
 
-        DateTimeSelectPageObject.assertUrl({
-          isCovid: true,
-        })
+        DateTimeSelectPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -136,7 +134,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         // Arrange
         const mockUser = new MockUser();
 
-        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+        mockClinicsApi({ locations: ['983'] });
 
         // Act
         cy.login(mockUser);
@@ -163,9 +161,7 @@ describe('VAOS covid-19 vaccine flow', () => {
           .selectClinic({ selection: /Green Team Clinic1/i, isCovid: true })
           .clickNextButton();
 
-        DateTimeSelectPageObject.assertUrl({
-          isCovid: true,
-        })
+        DateTimeSelectPageObject.assertUrl()
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -214,7 +210,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         // Create 1 facility and clinic that supports online scheduling
         const mockFacility = new MockFacility();
         mockFacilitiesApi({ response: [mockFacility] });
-        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+        mockClinicsApi({ locations: ['983'] });
 
         // Act
         cy.login(mockUser);
@@ -272,7 +268,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         // Create 1 facility and clinic that supports online scheduling
         const mockFacility = new MockFacility();
         mockFacilitiesApi({ response: [mockFacility] });
-        mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+        mockClinicsApi({ locations: ['983'] });
 
         // Act
         cy.login(mockUser);
@@ -328,7 +324,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-      mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+      mockClinicsApi({ locations: ['983'] });
       mockFacilitiesApi();
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
@@ -407,7 +403,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-      mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+      mockClinicsApi({ locations: ['983'] });
       mockFacilitiesApi();
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
@@ -444,7 +440,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
 
       mockAppointmentCreateApi({ responseCode: 500 });
-      mockClinicsApi({ locations: ['983'], apiVersion: 2 });
+      mockClinicsApi({ locations: ['983'] });
       mockFacilitiesApi();
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
@@ -483,9 +479,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         .selectClinic({ selection: /Green Team Clinic1/i, isCovid: true })
         .clickNextButton();
 
-      DateTimeSelectPageObject.assertUrl({
-        isCovid: true,
-      })
+      DateTimeSelectPageObject.assertUrl()
         .selectFirstAvailableDate()
         .clickNextButton();
 
@@ -497,9 +491,6 @@ describe('VAOS covid-19 vaccine flow', () => {
         .clickNextButton();
 
       ReviewPageObject.assertUrl().clickConfirmButton();
-
-      // ConfirmationPageObject.assertUrl({ apiVersion: 2 });
-      // cy.findByText('We’ve scheduled and confirmed your appointment.');
 
       // Assert
       cy.axeCheckBestPractice();

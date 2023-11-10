@@ -7,6 +7,7 @@ export class ClinicChoicePageObject extends PageObject {
   }
 
   assertUrl() {
+    // cy.url().should('include', url, { timeout: 5000 });
     cy.url().should('include', '/clinic', { timeout: 5000 });
     cy.axeCheckBestPractice();
 

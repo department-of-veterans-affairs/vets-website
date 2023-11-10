@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 
 export default function FormButtons({
   onBack,
@@ -42,5 +42,11 @@ export default function FormButtons({
 
 FormButtons.propTypes = {
   onBack: PropTypes.func.isRequired,
+  backBeforeText: PropTypes.string,
+  backButtonText: PropTypes.string,
+  disabled: PropTypes.bool,
+  loadingText: PropTypes.string,
+  nextButtonText: PropTypes.string,
   pageChangeInProgress: PropTypes.bool,
+  onSubmit: PropTypes.func,
 };
