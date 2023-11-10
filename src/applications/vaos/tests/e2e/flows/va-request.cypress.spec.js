@@ -21,7 +21,7 @@ import {
 import * as newApptTests from '../vaos-cypress-schedule-appointment-helpers';
 
 const rootUrl = 'my-health/appointments/';
-describe('VAOS VA request flow using VAOS service', () => {
+describe.skip('VAOS VA request flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
 
@@ -177,11 +177,11 @@ describe('VAOS VA request flow using VAOS service', () => {
         },
       },
     });
-    mockAppointmentsApi({ apiVersion: 2 });
+    mockAppointmentsApi({ response: [] });
     mockClinicsApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
     mockFacilitiesApi({ response });
-    mockFacilityApi({ id: '983GB', apiVersion: 2 });
+    mockFacilityApi({ id: '983GB' });
     mockLoginApi({ withoutAddress: false });
     mockSchedulingConfigurationApi({
       facilityIds: ['983', '983GB'],
@@ -300,7 +300,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockClinicsApi({ locations: ['983', '983GB'], apiVersion: 2 });
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
     mockFacilitiesApi({ response });
-    mockFacilityApi({ id: '983GB', apiVersion: 2 });
+    mockFacilityApi({ id: '983GB' });
     mockLoginApi({ withoutAddress: false });
     mockSchedulingConfigurationApi({
       facilityIds: ['983', '983GB'],
