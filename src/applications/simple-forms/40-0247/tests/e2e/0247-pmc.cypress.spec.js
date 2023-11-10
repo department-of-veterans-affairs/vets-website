@@ -148,10 +148,6 @@ const testConfig = createTestConfig(
       cy.intercept(formConfig.submitUrl, mockSubmit);
       cy.config('includeShadowDom', true);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
