@@ -23,6 +23,7 @@ export const processActionConnectFulfilled = ({
   userUuid,
 }) => () => {
   const currentConversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+  const isMobile = true;
   const options = {
     csrfToken,
     apiSession,
@@ -31,6 +32,7 @@ export const processActionConnectFulfilled = ({
     userFirstName,
     userUuid,
     currentConversationId,
+    isMobile,
   };
   dispatch(startConversationActivity(options));
 
