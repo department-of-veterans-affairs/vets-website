@@ -81,7 +81,7 @@ export default function AppointmentColumnLayout({
                 { 'vads-u-display--none': !first },
               )}
             >
-              <span aria-hidden="true">{parsedDate.format('D')}</span>
+              <span aria-hidden="false">{parsedDate.format('D')}</span>
             </h3>
           </AppointmentColumn>
           <AppointmentColumn
@@ -91,11 +91,16 @@ export default function AppointmentColumnLayout({
               'xsmall-screen:margin-top--1',
             )}
             size="1"
-            style={{ minWidth: '30px', maxWidth: '30px', alignSelf: 'center' }}
+            style={{
+              minWidth: '30px',
+              maxWidth: '30px',
+              alignSelf: 'center',
+            }}
           >
             <span
               className={classNames({ 'vads-u-display--none': !first })}
               aria-hidden="true"
+              data-testid="day"
             >
               {parsedDate.format('ddd')}
             </span>

@@ -26,7 +26,7 @@ const AccountBlocked = ({ recordCustomProfileEvent }) => {
         status="warning"
         onVa-component-did-load={recordView}
       >
-        <h3 slot="headline">We can’t show your information</h3>
+        <h2 slot="headline">We can’t show your information</h2>
         <p>
           We’re sorry. Based on our records, we can’t show your information in
           your VA.gov profile.

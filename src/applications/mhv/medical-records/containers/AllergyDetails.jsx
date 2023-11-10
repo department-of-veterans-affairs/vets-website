@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,13 +10,23 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../util/helpers';
-import { ALERT_TYPE_ERROR, pageTitles } from '../util/constants';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -31,8 +40,7 @@ const AllergyDetails = props => {
   );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -65,25 +73,7 @@ const AllergyDetails = props => {
         updatePageTitle(`${allergy.name} - ${pageTitles.ALLERGIES_PAGE_TITLE}`);
       }
     },
-    [dispatch, allergy, allergyId],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
+    [dispatch, allergy],
   );
 
   const generateAllergyPdf = async () => {
@@ -126,13 +116,23 @@ const AllergyDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Allergies-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
+  };
+
+  const generateAllergyTxt = async () => {
+    const content = `
+    ${allergy.name} \n
+    Date entered: ${allergy.date} \n
+    _____________________________________________________ \n
+    \t Signs and symptoms: ${allergy.reaction} \n
+    \t Type of Allergy: ${allergy.type} \n
+    \t Location: ${allergy.location} \n
+    \t Observed or historical: ${allergy.observedOrReported} \n
+    \t Provider notes: ${allergy.notes} \n`;
+
+    generateTextFile(content, 'Allergy');
   };
 
   const content = () => {
@@ -141,7 +141,7 @@ const AllergyDetails = props => {
         <>
           <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
           <AccessTroubleAlertBox
-            alertType="Allergy"
+            alertType={accessAlertTypes.ALLERGY}
             className="vads-u-margin-bottom--9"
           />
         </>
@@ -177,10 +177,14 @@ const AllergyDetails = props => {
             <PrintDownload
               download={generateAllergyPdf}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergyTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
-          <div className="condition-details max-80">
+          <div
+            className="condition-details max-80"
+            data-testid="allergy-reaction"
+          >
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Signs and symptoms
             </h2>
@@ -188,19 +192,27 @@ const AllergyDetails = props => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Type of allergy
             </h2>
-            <p data-dd-privacy="mask">{allergy.type}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-type">
+              {allergy.type}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">{allergy.location}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-location">
+              {allergy.location}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Observed or historical
             </h2>
-            <p data-dd-privacy="mask">{allergy.observedOrReported}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-observed">
+              {allergy.observedOrReported}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider notes
             </h2>
-            <p data-dd-privacy="mask">{allergy.notes}</p>
+            <p data-dd-privacy="mask" data-testid="allergy-notes">
+              {allergy.notes}
+            </p>
           </div>
         </>
       );

@@ -27,9 +27,7 @@ export const RouteLeavingGuard = ({
 
   const closeModal = cb => {
     updateModalVisible(false);
-    if (typeof cb === 'function') {
-      cb();
-    }
+    cb();
   };
 
   const handleBlockedNavigation = nextLocation => {
@@ -68,11 +66,7 @@ export const RouteLeavingGuard = ({
       <Prompt when={when} message={handleBlockedNavigation} />
       <VaModal
         modalTitle={title}
-        onPrimaryButtonClick={closeModal}
-        onSecondaryButtonClick={handleConfirmNavigationClick}
         onCloseEvent={closeModal}
-        primaryButtonText={confirmButtonText}
-        secondaryButtonText={cancelButtonText}
         status="warning"
         visible={modalVisible}
       >
@@ -82,6 +76,12 @@ export const RouteLeavingGuard = ({
               .saveDraft && p1}
         </p>
         {p2 && <p>{p2}</p>}
+        <va-button text={confirmButtonText} onClick={closeModal} />
+        <va-button
+          secondary
+          text={cancelButtonText}
+          onClick={handleConfirmNavigationClick}
+        />
       </VaModal>
     </>
   );

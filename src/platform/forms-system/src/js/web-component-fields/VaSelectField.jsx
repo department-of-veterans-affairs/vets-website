@@ -55,7 +55,7 @@ export default function VaSelectField(props) {
       value={
         props.childrenProps.formData ??
         props.childrenProps.schema.default ??
-        null
+        undefined
       }
     >
       {addDefaultEntry &&

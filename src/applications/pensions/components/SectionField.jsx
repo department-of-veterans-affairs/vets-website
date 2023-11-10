@@ -2,12 +2,16 @@ import React from 'react';
 import { formatSSN } from 'platform/utilities/ui';
 
 export const convertDateFormat = date => {
+  if (!date) return '';
   const [year, month, day] = date.split('-');
   return `${month}/${day}/${year}`;
 };
 
-const formatPhoneNumber = num =>
-  `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`;
+export const formatPhoneNumber = num => {
+  return typeof num === 'string'
+    ? `(${num.substr(0, 3)}) ${num.substr(3, 3)}-${num.substr(6)}`
+    : '';
+};
 
 export const formatCurrency = num => {
   if (num == null) {
@@ -19,7 +23,7 @@ export const formatCurrency = num => {
     maximumFractionDigits: 2,
   })}`;
 };
-const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
+export const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
 export function ApplicantInformation({ title, id, formData }) {
   return (
@@ -69,9 +73,7 @@ export function ApplicantInformation({ title, id, formData }) {
           Date of birth
         </p>
         <p className="vads-u-margin-top--0">
-          {formData?.veteranDateOfBirth
-            ? convertDateFormat(formData?.veteranDateOfBirth)
-            : ''}
+          {convertDateFormat(formData?.veteranDateOfBirth)}
         </p>
       </div>
     </>
@@ -194,9 +196,7 @@ export function WorkHistory({ title, id, formData }) {
                       Date disability began
                     </p>
                     <p className="vads-u-margin-bottom--1">
-                      {item?.disabilityStartDate
-                        ? convertDateFormat(item?.disabilityStartDate)
-                        : ''}
+                      {convertDateFormat(item?.disabilityStartDate)}
                     </p>
                   </div>
                 );
@@ -430,7 +430,7 @@ export function FinancialDisclosure({ title, id, formData }) {
                     Date
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item?.date ? convertDateFormat(item?.date) : ''}
+                    {convertDateFormat(item?.date)}
                   </p>
                 </div>
               );
@@ -514,21 +514,19 @@ export function AdditionalInformation({ title, id, formData }) {
           Daytime phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData?.dayPhone ? formatPhoneNumber(formData?.dayPhone) : ''}
+          {formatPhoneNumber(formData?.dayPhone)}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Evening phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData?.nightPhone ? formatPhoneNumber(formData?.nightPhone) : ''}
+          {formatPhoneNumber(formData?.nightPhone)}
         </p>
         <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
           Mobile phone
         </p>
         <p className="vads-u-margin-top--0">
-          {formData?.mobilePhone
-            ? formatPhoneNumber(formData?.mobilePhone)
-            : ''}
+          {formatPhoneNumber(formData?.mobilePhone)}
         </p>
         <h3 className="vads-u-font-size--h4">Document upload</h3>
         <p>Review all your uploaded documentation to support your claim.</p>

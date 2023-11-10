@@ -19,7 +19,7 @@ import {
   getNextStepsTextSecondParagraph,
   getNextStepsLinks,
 } from '../config/helpers';
-import { benefitPhrases } from '../definitions/constants';
+import { benefitPhrases, veteranBenefits } from '../definitions/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -52,9 +52,10 @@ export class ConfirmationPage extends React.Component {
     if (submission.response?.pensionIntent) {
       alreadySubmittedIntents.pension = submission.response.pensionIntent;
     }
-    if (submission.response?.survivorsIntent) {
-      alreadySubmittedIntents.survivors = submission.response.survivorsIntent;
+    if (submission.response?.survivorIntent) {
+      alreadySubmittedIntents.survivor = submission.response.survivorIntent;
     }
+
     const alreadySubmittedTitle = getAlreadySubmittedTitle(
       data,
       alreadySubmittedIntents,
@@ -154,18 +155,28 @@ export class ConfirmationPage extends React.Component {
           <h2>What are my next steps?</h2>
           <p>You should complete and file your claim as soon as possible.</p>
           <p>{nextStepsTextSecondParagraph}</p>
-          <ul style={{ listStyleType: 'none' }}>
-            {nextStepsLinks.map(nextStep => (
-              <li key={nextStep}>
+          {nextStepsLinks.map(nextStep => {
+            let href = '/';
+            if (nextStep === veteranBenefits.COMPENSATION) {
+              href =
+                '/disability/file-disability-claim-form-21-526ez/introduction';
+            } else if (nextStep === veteranBenefits.PENSION) {
+              href = '/pension/application/527EZ/introduction';
+            } else if (nextStep === veteranBenefits.SURVIVOR) {
+              href = '/find-forms/about-form-21p-534ez/';
+            }
+
+            return (
+              <p key={nextStep}>
                 <a
                   className="vads-c-action-link--green vads-u-margin-bottom--4"
-                  href="/"
+                  href={href}
                 >
-                  Complete your {benefitPhrases[nextStep.toLowerCase()]}
+                  Complete your {benefitPhrases[nextStep]}
                 </a>
-              </li>
-            ))}
-          </ul>
+              </p>
+            );
+          })}
         </div>
         <a
           className="vads-c-action-link--green vads-u-margin-bottom--4"
@@ -198,7 +209,7 @@ ConfirmationPage.propTypes = {
         expirationDate: PropTypes.string,
         compensationIntent: PropTypes.shape(),
         pensionIntent: PropTypes.shape(),
-        survivorsIntent: PropTypes.shape(),
+        survivorIntent: PropTypes.shape(),
       }),
       timestamp: PropTypes.string,
     }),

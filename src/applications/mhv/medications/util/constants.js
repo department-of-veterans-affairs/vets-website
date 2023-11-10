@@ -24,14 +24,14 @@ export const dispStatusForRefillsLeft = [
   'Active: Parked',
   'Active: On Hold',
   'Active: Submitted',
-  'Active: Refill in process',
+  'Active: Refill in Process',
 ];
 
 export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
 
 export const pdfStatusDefinitions = {
   active: `This is a current prescription. If you have refills left, you can request a refill now.
-Note: If you have not refills left, you’ll need to request a renewal instead.`,
+Note: If you have no refills left, you’ll need to request a renewal instead.`,
 
   activeParked: `Your VA provider prescribed this medication or supply to you.But we won’t send any shipments until you request to fill or refill it.
 We may use this status for either of these reasons:

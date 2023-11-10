@@ -12,7 +12,7 @@ import {
 } from '../../actions';
 
 import { SELECTED } from '../../../shared/constants';
-import { getRandomDate } from '../nod.cypress.helpers';
+import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 describe('<ContestableIssuesWidget>', () => {
   const getProps = ({
