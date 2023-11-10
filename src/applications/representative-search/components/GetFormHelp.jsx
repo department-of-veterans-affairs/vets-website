@@ -3,7 +3,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 const GetFormHelp = () => (
   <div className="help-footer-box">
-    <h2 className="help-heading">Need Help?</h2>
+    <h2 className="help-heading">Need help?</h2>
     <p className="help-talk">
       If you have questions about selecting a representative, please call our
       MYVA411 main information line at:{' '}
