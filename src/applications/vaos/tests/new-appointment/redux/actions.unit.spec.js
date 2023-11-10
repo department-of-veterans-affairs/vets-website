@@ -97,6 +97,7 @@ describe('VAOS newAppointment actions', () => {
     it('should route to previous page', async () => {
       const history = {
         push: sinon.spy(),
+        location: { pathname: '' },
       };
       const dispatch = sinon.spy();
       const state = {

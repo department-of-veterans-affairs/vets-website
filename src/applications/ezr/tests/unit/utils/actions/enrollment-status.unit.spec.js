@@ -1,12 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import {
   mockApiRequest,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-import { fetchEnrollmentStatus } from '../../../../utils/actions/entrollment-status';
-import { ENROLLMENT_STATUS_ACTIONS } from '../../../../utils/constants';
+import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
+import {
+  ENROLLMENT_STATUS_ACTIONS,
+  MOCK_ENROLLMENT_RESPONSE,
+} from '../../../../utils/constants';
 
 describe('ezr enrollment status actions', () => {
   const {
@@ -19,17 +21,20 @@ describe('ezr enrollment status actions', () => {
   let mockData;
   let thunk;
 
-  describe('when `fetchEnrollmentStatus` executes', () => {
+  beforeEach(() => {
+    dispatch = sinon.spy();
+    getState = () => ({
+      enrollmentStatus: { loading: false },
+    });
+    mockData = { data: 'data' };
+  });
+
+  context('when environment is not localhost', () => {
     beforeEach(() => {
-      dispatch = sinon.spy();
-      getState = () => ({
-        enrollmentStatus: { loading: false },
-      });
-      mockData = { data: 'data' };
       thunk = fetchEnrollmentStatus();
     });
 
-    describe('when fetch operation starts', () => {
+    context('when fetch operation starts', () => {
       it('should dispatch a fetch started action', done => {
         mockApiRequest(mockData);
         thunk(dispatch, getState)
@@ -41,7 +46,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when fetch operation succeeds', () => {
+    context('when fetch operation succeeds', () => {
       it('should dispatch a fetch succeeded action with data', done => {
         mockApiRequest(mockData);
         thunk(dispatch, getState)
@@ -54,7 +59,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when fetch operation fails', () => {
+    context('when fetch operation fails', () => {
       it('should dispatch a fetch failed action', done => {
         mockApiRequest(mockData, false);
         setFetchJSONResponse(
@@ -71,7 +76,7 @@ describe('ezr enrollment status actions', () => {
       });
     });
 
-    describe('when fetch operation is already in progress', () => {
+    context('when fetch operation is already in progress', () => {
       it('should not dispatch anything', done => {
         getState = () => ({
           enrollmentStatus: { loading: true },
@@ -81,45 +86,20 @@ describe('ezr enrollment status actions', () => {
         done();
       });
     });
+  });
 
-    describe('when form data is provided to fetch operation', () => {
-      it('should append the form data to the request URL', done => {
-        mockData = {
-          data: {
-            dob: '01-01-00',
-            firstName: 'Pat',
-            lastName: 'Smith',
-            ssn: '123-12-1234',
-          },
-        };
-        thunk = fetchEnrollmentStatus(mockData.data);
+  context('when environment is localhost', () => {
+    beforeEach(() => {
+      thunk = fetchEnrollmentStatus({ isLocalhost: () => true }, true);
+    });
 
-        mockApiRequest(mockData);
-        setFetchJSONResponse(global.fetch.onCall(0), { status: 'OK' });
-
+    context('when fetch operation succeeds', () => {
+      it('should dispatch a fetch succeeded action with data', done => {
         thunk(dispatch, getState)
           .then(() => {
-            const fetch = global.fetch.firstCall.args[0];
-            expect(fetch).to.contain(
-              `${encodeURI('userAttributes[veteranDateOfBirth]')}=${
-                mockData.data.dob
-              }`,
-            );
-            expect(fetch).to.contain(
-              `${encodeURI('userAttributes[veteranFullName][first]')}=${
-                mockData.data.firstName
-              }`,
-            );
-            expect(fetch).to.contain(
-              `${encodeURI('userAttributes[veteranFullName][last]')}=${
-                mockData.data.lastName
-              }`,
-            );
-            expect(fetch).to.contain(
-              `${encodeURI('userAttributes[veteranSocialSecurityNumber]')}=${
-                mockData.data.ssn
-              }`,
-            );
+            const action = dispatch.secondCall.args[0];
+            expect(action.type).to.equal(FETCH_ENROLLMENT_STATUS_SUCCEEDED);
+            expect(action.response).to.equal(MOCK_ENROLLMENT_RESPONSE);
           })
           .then(done, done);
       });

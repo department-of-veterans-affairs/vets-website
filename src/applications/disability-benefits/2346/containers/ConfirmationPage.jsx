@@ -21,7 +21,7 @@ const ConfirmationPage = ({
 }) => {
   // TODO: move to util or custom hook.
   const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-    ? 'hearing aid and CPAP supplies'
+    ? 'hearing aid or CPAP supplies'
     : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
     <div className="print-details">
@@ -32,7 +32,6 @@ const ConfirmationPage = ({
         className="vads-u-margin-bottom--2"
       />
       <h1 className="vads-u-font-size--h3">Order {supplyDescription}</h1>
-      <span>Form 2346A</span>
       <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
         We’ll send you an email confirming your order to{' '}

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -10,6 +11,17 @@ import { medicationsUrls } from '../util/constants';
 const LandingPage = () => {
   const location = useLocation();
   const fullState = useSelector(state => state);
+  const { featureTogglesLoading, appEnabled } = useSelector(
+    state => {
+      return {
+        featureTogglesLoading: state.featureToggles.loading,
+        appEnabled:
+          state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease],
+      };
+    },
+    state => state.featureToggles,
+  );
+
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
@@ -20,7 +32,9 @@ const LandingPage = () => {
   const focusAndOpenAccordionRxRenew = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
-    manageMedicationsAccordionSection.current.scrollIntoView();
+    if (!featureTogglesLoading && appEnabled) {
+      manageMedicationsAccordionSection.current.scrollIntoView();
+    }
   };
 
   useEffect(
@@ -29,7 +43,7 @@ const LandingPage = () => {
         focusAndOpenAccordionRxRenew();
       }
     },
-    [location.pathname],
+    [location.pathname, featureTogglesLoading, appEnabled],
   );
 
   const content = () => {
@@ -37,10 +51,10 @@ const LandingPage = () => {
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <div className="main-content">
           <section>
-            <h1>About medications</h1>
+            <h1 data-testid="landing-page-heading">About medications</h1>
             <p className="vads-u-font-size--lg">
-              Learn how to manage your VA prescriptions and review all
-              medications in your VA medical records.
+              Learn how to manage your VA prescriptions and review your
+              medications list.
             </p>
           </section>
           <section>
@@ -120,17 +134,35 @@ const LandingPage = () => {
                   </p>
                   <ul>
                     <li>
+                      <strong>
+                        Older prescriptions that have been inactive for more
+                        than 180 days.{' '}
+                      </strong>
+                      To find these older prescriptions, go to your VA Blue
+                      Button report on the My HealthVet website{' '}
+                      <a
+                        href={mhvUrl(
+                          isAuthenticatedWithSSOe(fullState),
+                          'va-blue-button',
+                        )}
+                        rel="noreferrer"
+                      >
+                        Go to VA Blue Button® on the My HealtheVet website
+                      </a>
+                    </li>
+                    <li>
                       <strong>Medications you entered yourself. </strong>
                       To find your self-entered medications, go back to your
                       medications list on the My HealtheVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
-                          'my-complete-medications-list',
+                          'self-entered-medications-supplements',
                         )}
                         rel="noreferrer"
                       >
-                        Go to your medications list on the My HealtheVet website
+                        Go to your self-entered medications on the My HealtheVet
+                        website
                       </a>
                     </li>
                     <li>
@@ -247,7 +279,7 @@ const LandingPage = () => {
               review allergies and reactions in your VA medical records.
             </p>
             <section>
-              <va-accordion bordered>
+              <va-accordion bordered data-testid="more-ways-to-manage">
                 <va-accordion-item open={isRxRenewAccordionOpen}>
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to renew prescriptions
@@ -364,7 +396,7 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to manage notifications for prescription shipments
                   </h3>
-                  <p>
+                  <p data-testid="notifications">
                     You can sign up to get email notifications when we ship your
                     prescriptions. You can also opt out of notifications at any
                     time.
@@ -391,6 +423,23 @@ const LandingPage = () => {
       </div>
     );
   };
+
+  if (featureTogglesLoading) {
+    return (
+      <div className="vads-l-grid-container">
+        <va-loading-indicator
+          message="Loading your medications..."
+          setFocus
+          data-testid="rx-feature-flag-loading-indicator"
+        />
+      </div>
+    );
+  }
+
+  if (!appEnabled) {
+    window.location.replace('/health-care/refill-track-prescriptions');
+    return <></>;
+  }
 
   return (
     <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">

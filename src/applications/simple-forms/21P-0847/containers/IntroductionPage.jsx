@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const content = {
-  formTitle: 'Request to be a substitute for a deceased claimant',
+  formTitle: 'Request to be a substitute claimant for a deceased claimant',
   formSubTitle:
     'Request for substitution of claimant upon death of claimant (VA Form 21P-0847)',
   authStartFormText: 'Start your request to be a substitute claimant',

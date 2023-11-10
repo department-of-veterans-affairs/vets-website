@@ -4,13 +4,22 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, vitalTypes, pageTitles } from '../util/constants';
+import {
+  recordType,
+  vitalTypes,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -42,13 +51,19 @@ const Vitals = () => {
           vitals.find(vital => vital.type === vitalTypes.HEIGHT),
           vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
           vitals.find(vital => vital.type === vitalTypes.WEIGHT),
+          vitals.find(vital => vital.type === vitalTypes.PAIN),
         ]);
       }
     },
     [vitals],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
     if (cards?.length) {
       return (
         <RecordList
@@ -79,7 +94,7 @@ const Vitals = () => {
   };
 
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8" id="vitals">
+    <div id="vitals">
       <h1 className="vads-u-margin--0">Vitals</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
         Vitals are basic health numbers your providers check at your

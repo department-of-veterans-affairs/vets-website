@@ -1,6 +1,6 @@
 import {
-  currentOrPastDateSchema,
   dateOfDeathUI,
+  dateOfDeathSchema,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   titleUI,
@@ -20,7 +20,7 @@ export default {
     type: 'object',
     properties: {
       deceasedClaimantFullName: fullNameNoSuffixSchema,
-      deceasedClaimantDateOfDeath: currentOrPastDateSchema,
+      deceasedClaimantDateOfDeath: dateOfDeathSchema,
     },
     required: ['deceasedClaimantDateOfDeath'],
   },

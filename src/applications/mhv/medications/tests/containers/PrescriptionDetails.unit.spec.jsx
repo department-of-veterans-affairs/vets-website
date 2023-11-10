@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
@@ -20,7 +21,7 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouter(<PrescriptionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/prescriptions/1234567891',
+      path: '/1234567891',
     });
   };
 
@@ -61,7 +62,7 @@ describe('Prescription details container', () => {
     );
   });
 
-  it('displays "Information entered on" instead of "filled by" date, when med is non VA', () => {
+  it('displays "Documented on" instead of "filled by" date, when med is non VA', () => {
     const nonVaRxState = {
       rx: {
         prescriptions: {
@@ -72,10 +73,31 @@ describe('Prescription details container', () => {
     const screen = setup(nonVaRxState);
 
     expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
-      `Information entered on ${dateFormat(
+      `Documented on ${dateFormat(
         nonVaRxResponse.data.attributes.orderedDate,
         'MMMM D, YYYY',
       )}`,
     );
+  });
+
+  it('prescription name for non va prescription', () => {
+    const mockData = [nonVaRxResponse];
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: nonVaRxResponse.data.attributes,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/21142496',
+    });
+    const rxName = screen.findByText(
+      nonVaRxResponse.data.attributes.orderableItem,
+    );
+
+    expect(rxName).to.exist;
   });
 });

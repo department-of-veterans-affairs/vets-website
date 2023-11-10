@@ -6,20 +6,21 @@ const hintText =
   'You can only add an issue that you’ve received a VA decision notice for.';
 
 export const issueErrorMessages = {
-  missingIssue: 'Add the name of an issue',
-  uniqueIssue: 'Enter a unique condition name',
-  maxLength: `Enter less than ${
+  missingIssue: 'You must add an issue',
+  uniqueIssue: 'You must enter an issue you haven’t already entered',
+  maxLength: `You can enter a maximum of ${
     MAX_LENGTH.NOD_ISSUE_NAME
-  } characters for this issue name`,
+  } characters`,
 
-  invalidDate: 'Provide a valid date',
-  blankDecisionDate: 'Enter a decision date',
-  invalidDateRange: (min, max) => `Enter a year between ${min} and ${max}`,
-  pastDate: 'Add a past decision date',
-  // date must be < 1 year old
-  newerDate: 'Add an issue with a decision date less than a year old',
-  // date must be more recent (set to 100 years max)
-  recentDate: 'You must add a more recent decision date',
+  invalidDate: 'You must provide a date that includes a month, day, and year',
+  blankDecisionDate: 'You must enter a decision date',
+  invalidDateRange: (min, max) =>
+    `You must enter a year between ${min} and ${max}`,
+  pastDate: 'You must add a decision date that’s in the past',
+  recentDate:
+    'You must add an issue with a decision date that’s less than a year old',
+  newerDate:
+    'You must add an issue with a decision date that’s less than 100 years old',
 };
 
 export const content = {

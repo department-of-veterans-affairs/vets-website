@@ -6,11 +6,11 @@ import moment from 'moment';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getReviewPage, selectPageChangeInProgress } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-} from '../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+} from '../flow';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'When to plan for a second dose';

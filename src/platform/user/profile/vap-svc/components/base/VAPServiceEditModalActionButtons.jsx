@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { toLower } from 'lodash';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -16,7 +15,7 @@ class VAPServiceEditModalActionButtons extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // Once the AlertBox is mounted, we want to set the focus to the heading
+    // Once the va-alert is mounted, we want to set the focus to the heading
     // for screen reader use
     if (this.state.deleteInitiated && !prevState.deleteInitiated) {
       const heading = document.getElementById('deleteConfirmationHeading');
@@ -107,16 +106,14 @@ class VAPServiceEditModalActionButtons extends React.Component {
 
     if (this.state.deleteInitiated) {
       return (
-        <AlertBox
-          isVisible
-          status="warning"
-          headline={
+        <va-alert visible status="warning">
+          <h3 slot="headline">
             <span tabIndex="-1" id="deleteConfirmationHeading">
               Are you sure?
             </span>
-          }
-          content={alertContent}
-        />
+          </h3>
+          {alertContent}
+        </va-alert>
       );
     }
 

@@ -18,13 +18,13 @@
       "preparerTitle": "Super title",
       "preparerOrganization": "Ultra org",
       "courtAppointmentInfo": "court info here",
-      "relationshipToVeteran": "Alternate Signer"
+      "relationshipToVeteran": "Alternate signer (a person certified to file a claim forms for the Veteran or non-Veteran) "
     },
     "limitedConsent": "limitations, limitations, limitations, limitations, limitations, limitations, ",
     "providerFacility": [
       {
         "providerFacilityName": "Hospital 1",
-        "conditionsTreated": "conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
         "treatmentDateRange": { "from": "2000-02-04", "to": "2000-03-04" },
         "providerFacilityAddress": {
           "street": "street",
@@ -37,7 +37,7 @@
       },
       {
         "providerFacilityName": "Hospital 2",
-        "conditionsTreated": "conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, ",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
         "treatmentDateRange": { "from": "2000-05-03", "to": "2001-04-15" },
         "providerFacilityAddress": {
           "street": "2 street",
@@ -50,7 +50,7 @@
       },
       {
         "providerFacilityName": "Hospital 3",
-        "conditionsTreated": "conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, ",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
         "treatmentDateRange": { "from": "2005-02-02", "to": "2005-03-02" },
         "providerFacilityAddress": {
           "street": "3 street",
@@ -63,7 +63,7 @@
       },
       {
         "providerFacilityName": "Hospital 4",
-        "conditionsTreated": "conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, ",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
         "treatmentDateRange": { "from": "2007-07-11", "to": "2007-07-16" },
         "providerFacilityAddress": {
           "street": "4 street",
@@ -76,7 +76,7 @@
       },
       {
         "providerFacilityName": "Hospital 5",
-        "conditionsTreated": "conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, conditions here, ",
+        "conditionsTreated": "conditions here, conditions here, conditions here, conditions",
         "treatmentDateRange": { "from": "2011-04-12", "to": "2011-08-16" },
         "providerFacilityAddress": {
           "street": "street",

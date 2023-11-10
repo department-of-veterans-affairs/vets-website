@@ -1,0 +1,37 @@
+{
+  "preparerIdentification": "THIRD_PARTY_VETERAN",
+  "thirdPartyPreparerFullName": {
+    "first": "Third",
+    "middle": "Party",
+    "last": "Veteran"
+  },
+  "thirdPartyPreparerRole": "other",
+  "otherThirdPartyPreparerRole": "Secret agent",
+  "benefitSelection": {
+    "compensation": true,
+    "pension": true
+  },
+  "veteranFullName": {
+    "first": "Veteran",
+    "middle": "Elddim",
+    "last": "Eteranvay"
+  },
+  "veteranDateOfBirth": "1962-01-21",
+  "veteranId": {
+    "ssn": "246813579",
+    "vaFileNumber": "24681357"
+  },
+  "veteranMailingAddress": {
+    "isMilitary": true,
+    "country": "USA",
+    "street": "867 Five St",
+    "street2": "Call me",
+    "street3": "Any time",
+    "city": "APO",
+    "state": "AA",
+    "postalCode": "99999"
+  },
+  "veteranPhone": "1122334455",
+  "veteranInternationalPhone": "5544332211",
+  "veteranEmail": "veteran@person.com"
+}

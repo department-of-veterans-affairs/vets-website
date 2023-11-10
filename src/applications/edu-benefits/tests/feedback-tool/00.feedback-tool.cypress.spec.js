@@ -84,7 +84,14 @@ describe('Feedback Tool Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.axeCheck();
 
-    cy.get('input[type="checkbox"]').click();
+    cy.get('va-checkbox')
+      .shadow()
+      .find('input')
+      .click();
+    cy.get('va-checkbox')
+      .shadow()
+      .find('input')
+      .click();
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },

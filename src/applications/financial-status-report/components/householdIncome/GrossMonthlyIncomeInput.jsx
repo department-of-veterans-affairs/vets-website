@@ -133,8 +133,7 @@ const GrossMonthlyIncomeInput = props => {
       </h3>
       <va-number-input
         label="What’s your gross monthly income at this job?"
-        hint="You’ll find this in your pay stub. It’s the amount of your pay before
-        taxes and deductions."
+        hint="Gross income is income before taxes and any other deductions. You can use information from your pay stub to calculate your gross monthly income."
         inputmode="numeric"
         id="gross-monthly-income"
         currency
@@ -151,6 +150,26 @@ const GrossMonthlyIncomeInput = props => {
             : ''
         }
       />
+      <va-additional-info
+        trigger="How to calculate your gross monthly income"
+        class="vads-u-margin-top--2"
+        uswds
+      >
+        <p className="vads-u-padding-bottom--2">
+          <strong>If you’re a salaried employee,</strong> divide your annual
+          salary by 12.
+        </p>
+        <p>
+          <strong>If you’re an hourly employee,</strong> follow these steps:
+        </p>
+        <ol className="vads-u-margin--0 vads-u-padding-left--4 vads-u-padding-top--2 vads-u-padding-bottom--0p25">
+          <li>
+            Multiply your hourly rate by the number of hours you work each week
+          </li>
+          <li>Multiply that number by 52</li>
+          <li>Divide that number by 12</li>
+        </ol>
+      </va-additional-info>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

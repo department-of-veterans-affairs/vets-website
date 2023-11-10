@@ -1,4 +1,4 @@
-import { returnPhoneObject } from '../utils/helpers';
+import { returnPhoneObject } from '../../shared/utils/helpers';
 
 export const forceRepPhoneFix = data => {
   const formData = { ...data };

@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
 import {
   currency as currencyFormatter,
+  firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
 
@@ -32,10 +33,6 @@ const CreditCardBillSummary = ({
   const { expenses } = formData;
   const { creditCardBills } = expenses || [];
 
-  useEffect(() => {
-    clearJobIndex();
-  }, []);
-
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
@@ -50,10 +47,6 @@ const CreditCardBillSummary = ({
   const onDelete = deleteIndex => {
     setFormData({
       ...formData,
-      // questions: {
-      //   ...data.questions,
-      //   hasCreditCardBills: deleteIndex !== 0,
-      // },
       expenses: {
         ...expenses,
         creditCardBills: creditCardBills.filter(
@@ -63,7 +56,16 @@ const CreditCardBillSummary = ({
     });
   };
 
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
+
   const emptyPrompt = `Select the 'add additional credit card bill' link to add another bill. Select the continue button to move on to the next question.`;
+  const billHeading = 'Credit card bill';
 
   const billBody = bill => {
     return (
@@ -94,14 +96,14 @@ const CreditCardBillSummary = ({
           ) : (
             creditCardBills.map((bill, index) => (
               <MiniSummaryCard
-                ariaLabel={`Credit card bill ${index + 1}`}
+                ariaLabel={`${billHeading} ${index + 1}`}
                 editDestination={{
                   pathname: '/your-credit-card-bills',
                   search: `?index=${index}`,
                 }}
-                heading="Credit card bill"
+                heading={`${billHeading} ${index + 1}`}
                 key={generateUniqueKey(bill, keyFieldsForCreditCard, index)}
-                onDelete={() => onDelete(index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 body={billBody(bill)}
                 index={index}
@@ -118,10 +120,20 @@ const CreditCardBillSummary = ({
         >
           Add additional credit card bill
         </Link>
+        {contentBeforeButtons}
+        <FormNavButtons goBack={handlers.onBack} submitToContinue />
+        {contentAfterButtons}
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(
+              `${billHeading} ${deleteIndex + 1}`,
+            )}
+          />
+        ) : null}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onBack} submitToContinue />
-      {contentAfterButtons}{' '}
     </form>
   );
 };

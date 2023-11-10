@@ -24,10 +24,14 @@ export const getGMT = (dependents, year, zipCode) => {
       // discretionaryStatus is 1.25% of the GMT
       const discretionaryIncomeThreshold =
         data.gmtThreshold * DISCRETIONARY_INCOME_PERCENTAGE;
+      const gmtThresholdError =
+        typeof data.gmtThreshold === 'number'
+          ? null
+          : 'GMT threshold is not a number';
 
       return {
         ...data,
-        error: null,
+        error: gmtThresholdError,
         incomeUpperThreshold,
         assetThreshold,
         discretionaryIncomeThreshold,

@@ -38,6 +38,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
+const contacts = require('../tests/fixtures/contacts.json');
+
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
 
@@ -59,6 +61,7 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
+            profileContacts: true,
             profileLighthouseDirectDeposit: true,
             profileUseFieldEditingPage: true,
             profileUseHubPage: true,
@@ -85,6 +88,10 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
+
+    // data claim users
+    // return res.json(user.loa3UserWithNoRatingInfoClaim);
+    // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
   },
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -159,13 +166,16 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
+    // user doesnt have any service history or is not authorized
+    // return res.status(403).json(genericErrors.error403);
+
     return res.status(200).json(serviceHistory.airForce);
     // return res
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected40,
+    ratingInfo.success.serviceConnected0,
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
@@ -266,10 +276,15 @@ const responses = {
       },
     });
 
+    // uncomment to test 500 error
+    // return res.status(500).json(error500);
+
     delaySingleResponse(() => res.json(mockedRes), 1);
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
+  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  'GET /v0/profile/contacts': contacts,
 };
 
 function terminationHandler(signal) {

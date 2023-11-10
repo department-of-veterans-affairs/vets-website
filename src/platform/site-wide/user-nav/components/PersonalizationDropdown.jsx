@@ -18,7 +18,6 @@ const recordNavUserEvent = section => () => {
 };
 
 const recordMyVaEvent = recordNavUserEvent('my-va');
-const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 const recordDependentsEvent = recordNavUserEvent('dependents');
 const recordLettersEvent = recordNavUserEvent('letters');
@@ -70,11 +69,7 @@ export function PersonalizationDropdown(props) {
           My VA
         </a>
       </li>
-      <MyHealthLink
-        onClick={recordMyHealthEvent}
-        isSSOe={isSSOe}
-        showEnhancements={showAuthenticatedMenuEnhancements}
-      />
+      <MyHealthLink recordNavUserEvent={recordNavUserEvent} isSSOe={isSSOe} />
       <li>
         <a href="/profile" onClick={recordProfileEvent}>
           Profile

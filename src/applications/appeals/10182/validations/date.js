@@ -34,11 +34,11 @@ export const validateDate = (
   const hasMessages = addDateErrorMessages(errors, issueErrorMessages, date);
   if (!hasMessages) {
     if (!data[SHOW_PART3] && date.momentDate.isBefore(minDate1)) {
-      errors.addError(issueErrorMessages.newerDate);
+      errors.addError(issueErrorMessages.recentDate);
       date.errors.year = true;
     } else if (date.momentDate.isBefore(minDate100)) {
       // max 1 year for old form or 100 years for newer form
-      errors.addError(issueErrorMessages.recentDate);
+      errors.addError(issueErrorMessages.newerDate);
       date.errors.year = true; // only the year is invalid at this point
     }
   }

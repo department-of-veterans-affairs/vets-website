@@ -24,8 +24,8 @@ ComboAlert.Error = () => {
       <h3 className="vads-u-font-size--h4">What you can do</h3>
       <p>
         If you continue having trouble viewing information about your current
-        overpayments and copay bills, email us at{' '}
-        <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+        overpayments and copay bills, contact us online through{' '}
+        <a href="https://ask.va.gov">Ask VA</a>.
       </p>
     </va-alert>
   );

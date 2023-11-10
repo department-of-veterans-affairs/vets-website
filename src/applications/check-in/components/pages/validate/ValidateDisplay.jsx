@@ -110,6 +110,7 @@ export default function ValidateDisplay({
           value={lastName}
           data-testid="last-name-input"
           onKeyDown={handleEnter}
+          uswds
         />
         <div data-testid="dob-input">
           <VaMemorableDate
@@ -120,6 +121,8 @@ export default function ValidateDisplay({
             value={dob}
             required
             onKeyDown={handleEnter}
+            monthSelect={false}
+            uswds
           />
         </div>
         <button

@@ -11,7 +11,6 @@ import environment from 'platform/utilities/environment';
 
 import NeedsToVerify from '../../shared/components/NeedsToVerify';
 import MissingInfo from '../components/MissingInfo';
-import { clearReturnState } from '../utils/contactInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -30,9 +29,6 @@ class IntroductionPage extends React.Component {
     } = this.props;
     const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
-
-    // clear contact info editing state
-    clearReturnState();
 
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;

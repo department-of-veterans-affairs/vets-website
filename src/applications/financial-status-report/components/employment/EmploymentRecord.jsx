@@ -7,8 +7,8 @@ import {
   VaSelect,
   VaDate,
   VaTextInput,
+  VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
 const defaultRecord = [
@@ -173,11 +173,13 @@ const EmploymentRecord = ({
           error={toDateError}
         />
       </div>
-      <Checkbox
+      <VaCheckbox
         name="current-employment"
         label="I currently work here"
         checked={employment[index].isCurrent || false}
-        onValueChange={value => handleCheckboxChange('isCurrent', value)}
+        onVaChange={event =>
+          handleCheckboxChange('isCurrent', event.detail.checked)
+        }
       />
       <div className="input-size-6 vads-u-margin-bottom--2">
         <VaTextInput

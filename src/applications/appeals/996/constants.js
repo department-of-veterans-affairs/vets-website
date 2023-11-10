@@ -3,6 +3,10 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 export const APP_NAME = 'Higher-Level Review';
 
+export const DATA_DOG_ID = '321995f8-5fed-4b4f-907b-e3f5ec34c28f';
+export const DATA_DOG_TOKEN = 'pub780eb728ff6dc0306d17cbb08743f86b';
+export const DATA_DOG_SERVICE = 'benefits---higher-level-review';
+
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
 // Same as "rootUrl" in manifest.json
@@ -73,8 +77,6 @@ const supportedBenefitTypes = [
   // 'insurance',
   // 'nca',
 ];
-
-export const LEGACY_TYPE = 'legacyAppeal';
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,

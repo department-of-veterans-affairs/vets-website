@@ -4,12 +4,21 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getConditionsList } from '../actions/conditions';
-import { recordType, pageTitles } from '../util/constants';
+import {
+  recordType,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const HealthConditions = () => {
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
+
   useEffect(
     () => {
       dispatch(getConditionsList());
@@ -30,7 +39,14 @@ const HealthConditions = () => {
     [dispatch],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+      );
+    }
     if (conditions?.length > 0) {
       return (
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
@@ -40,7 +56,7 @@ const HealthConditions = () => {
       return (
         <div className="vads-u-margin-bottom--3">
           <va-alert background-only status="info">
-            You don’t have any records in Vitals
+            You don’t have any records in Health conditions
           </va-alert>
         </div>
       );
@@ -56,7 +72,7 @@ const HealthConditions = () => {
   };
 
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+    <>
       <h1 className="vads-u-margin--0">Health conditions</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
         Health condition records are available{' '}
@@ -64,7 +80,7 @@ const HealthConditions = () => {
         providers enter them.
       </p>
       {content()}
-    </div>
+    </>
   );
 };
 

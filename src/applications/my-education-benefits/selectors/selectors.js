@@ -28,9 +28,6 @@ export const getAppData = state => ({
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
   ],
-  showMebCh33SelfForm: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebCh33SelfForm
-  ],
   showMebDgi42Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi42Features
   ],
@@ -47,6 +44,9 @@ export const getAppData = state => ({
   ],
   showMebEnhancements09: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements09
+  ],
+  showMebServiceHistoryCategorizeDisagreement: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebServiceHistoryCategorizeDisagreement
   ],
   user: state.user || {},
 });

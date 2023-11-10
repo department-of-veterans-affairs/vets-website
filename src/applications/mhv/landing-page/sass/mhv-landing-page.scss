@@ -6,10 +6,22 @@ $anchor-font-size: 1.9rem;
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
 @media screen and (-webkit-min-device-pixel-ratio: 2),
   screen and (min-resolution: 2dppx) {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
   }
+}
+
+.indicator::before {
+  background-color: $color-red;
+  content: "";
+  height: 1rem;
+  width: 1rem;
+  border-radius: 1rem;
+  display: inline-block;
+  margin-left: 1rem;
 }
 
 .mhv-u-list-style--none {
@@ -21,6 +33,16 @@ $anchor-font-size: 1.9rem;
 
   &:not(:last-of-type) {
     border-bottom: 1px solid $color-gray-light;
+  }
+
+  .indicator::before {
+    background-color: $color-red;
+    border-radius: 1rem;
+    content: "";
+    display: inline-block;
+    height: 1rem;
+    margin-right: 1rem;
+    width: 1rem;
   }
 
   > a {

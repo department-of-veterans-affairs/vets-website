@@ -9,15 +9,17 @@ import {
   getStatusContents,
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import ClaimCard from '../ClaimCard';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
-// This component is also used by the personalization application, which will pass the external flag.
+const formatDate = buildDateFormatter('MMMM d, yyyy');
 
-export default function AppealListItemV3({ appeal, name, external = false }) {
+export default function AppealListItemV3({ appeal, name }) {
   let requestEventType;
   let isAppeal;
 
@@ -59,37 +61,31 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
   // "Appeal updated on March 6, 2019"
   // "Disability Compensation Appeal"
 
-  let appealTitle = '';
+  let appealTitle = getTypeName(appeal);
   let updatedOn = '';
 
-  if (isAppeal) {
-    if (programArea) {
-      appealTitle = `${programArea} `;
-    }
-    appealTitle += getTypeName(appeal);
-  } else {
-    appealTitle = getTypeName(appeal);
-    if (programArea) {
+  if (programArea) {
+    if (isAppeal) {
+      appealTitle = `${programArea} ${appealTitle}`;
+    } else {
       appealTitle += ` for ${programArea}`;
     }
   }
 
   appealTitle = capitalizeWord(appealTitle);
-  updatedOn = moment(updatedEventDateString).format('MMMM D, YYYY');
+  updatedOn = formatDate(updatedEventDateString);
+
+  const ariaLabel = `View details for ${appealTitle}`;
+  const href = `appeals/${appeal.id}/status`;
 
   return (
-    <va-card class="claim-list-item">
-      <h3 className="claim-list-item-header vads-u-margin-bottom--2">
-        {/* eslint-disable-next-line jsx-a11y/aria-role */}
-        <div role="text">
-          {appealTitle}
-          {requestEvent && (
-            <span>
-              Submitted on {moment(requestEvent.date).format('MMMM D, YYYY')}
-            </span>
-          )}
-        </div>
-      </h3>
+    <ClaimCard
+      title={appealTitle}
+      subtitle={
+        requestEvent &&
+        `Submitted on ${moment(requestEvent.date).format('MMMM D, YYYY')}`
+      }
+    >
       <div className="card-status">
         {appeal.attributes.description && (
           <p>
@@ -100,25 +96,8 @@ export default function AppealListItemV3({ appeal, name, external = false }) {
         <p>Status: {getStatusContents(appeal, name).title}</p>
         <p>Last updated: {updatedOn}</p>
       </div>
-      {!external && (
-        <va-link
-          active
-          aria-label={`View details for ${appealTitle}`}
-          href={`appeals/${appeal.id}/status`}
-          text="View details"
-          class="vads-u-margin-top--2 vads-u-display--block"
-        />
-      )}
-      {external && (
-        <va-link
-          active
-          aria-label={`View details for ${appealTitle}`}
-          href={`/track-claims/appeals/${appeal.id}/status`}
-          text="View details"
-          class="vads-u-margin-top--2 vads-u-display--block"
-        />
-      )}
-    </va-card>
+      <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
+    </ClaimCard>
   );
 }
 
@@ -143,7 +122,6 @@ AppealListItemV3.propTypes = {
     }),
     type: PropTypes.string,
   }),
-  external: PropTypes.bool,
   name: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,

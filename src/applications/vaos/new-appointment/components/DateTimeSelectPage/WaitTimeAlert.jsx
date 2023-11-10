@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { startRequestAppointmentFlow } from '../../redux/actions';
 import { getRealFacilityId } from '../../../utils/appointment';
-import newAppointmentFlow from '../../newAppointmentFlow';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, requestDateTime) {
   return () => {
     dispatch(startRequestAppointmentFlow());
-    history.push(newAppointmentFlow.requestDateTime.url);
+    history.push(requestDateTime.url);
   };
 }
 
@@ -45,13 +45,14 @@ function ActionButtons(props) {
   const { eligibleForRequests, facilityId } = props;
   const history = useHistory();
   const dispatch = useDispatch();
+  const { requestDateTime } = useSelector(getNewAppointmentFlow);
 
   return (
     <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
       {eligibleForRequests && (
         <>
           <va-button
-            onClick={handleClick(history, dispatch)}
+            onClick={handleClick(history, dispatch, requestDateTime)}
             text="Request an earlier appointment"
             secondary
           />

@@ -1,18 +1,28 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import newAppointmentFlow from '../../newAppointmentFlow';
-import { PURPOSE_TEXT } from '../../../utils/constants';
+import { useSelector } from 'react-redux';
+import { PURPOSE_TEXT_V2 } from '../../../utils/constants';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history) {
+function handleClick(history, pageFlow) {
+  const { home, reasonForAppointment } = pageFlow;
+
   return () => {
-    history.push(newAppointmentFlow.reasonForAppointment.url);
+    if (
+      history.location.pathname.endsWith('/') ||
+      (reasonForAppointment.url.endsWith('/') &&
+        reasonForAppointment.url !== home.url)
+    )
+      history.push(`../${reasonForAppointment.url}`);
+    else history.push(reasonForAppointment.url);
   };
 }
 
 export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
   const history = useHistory();
+  const pageFlow = useSelector(getNewAppointmentFlow);
 
   if (!reasonForAppointment && !reasonAdditionalInfo) {
     return null;
@@ -25,8 +35,9 @@ export default function ReasonForAppointmentSection({ data }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">
-              {PURPOSE_TEXT.find(purpose => purpose.id === reasonForAppointment)
-                ?.short || 'Additional details'}
+              {PURPOSE_TEXT_V2.find(
+                purpose => purpose.id === reasonForAppointment,
+              )?.short || 'Additional details'}
             </h3>
             <span className="vaos-u-word-break--break-word">
               {reasonAdditionalInfo}
@@ -37,7 +48,7 @@ export default function ReasonForAppointmentSection({ data }) {
               aria-label="Edit purpose of appointment"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history)}
+              onClick={handleClick(history, pageFlow)}
             />
           </div>
         </div>

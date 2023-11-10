@@ -8,17 +8,6 @@ const LabsAndTestsListItem = props => {
   const { record } = props;
   const formattedDate = formatDateLong(record.date);
 
-  const orderedOrRequested = () => {
-    return (
-      <>
-        <span className="field-label">
-          {record.orderedBy ? 'Ordered by ' : 'Requested by '}
-        </span>{' '}
-        {record.orderedBy || record.requestedBy}
-      </>
-    );
-  };
-
   return (
     <div
       className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
@@ -39,16 +28,16 @@ const LabsAndTestsListItem = props => {
         {record.type === labTypes.CHEM_HEM && (
           <div>Type of test: Chemistry and hematology</div>
         )}
-        {(record.orderedBy || record.requestedBy) && (
-          <div>{orderedOrRequested()}</div>
-        )}
+        <div>
+          <span className="field-label">Ordered by:</span> {record.orderedBy}
+        </div>
       </div>
       <Link
         to={`/labs-and-tests/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
         aria-describedby={`details-button-description-${record.id}`}
       >
-        <span className="vads-u-font-weight--bold">Details</span>
+        <strong>Details</strong>
         <i
           className="fas fa-angle-right details-link-icon"
           aria-hidden="true"

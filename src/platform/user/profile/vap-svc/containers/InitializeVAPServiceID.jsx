@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import {
   INIT_VAP_SERVICE_ID,
   ANALYTICS_FIELD_MAP,
@@ -66,16 +64,10 @@ class InitializeVAPServiceID extends React.Component {
 
       case VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
         return (
-          <AlertBox
-            isVisible
-            status="info"
-            content={
-              <p>
-                We’re sorry. Something went wrong on our end. Please refresh
-                this page or try again later.
-              </p>
-            }
-          />
+          <va-alert visible status="info">
+            We’re sorry. Something went wrong on our end. Please refresh this
+            page or try again later.
+          </va-alert>
         );
 
       case VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZING:

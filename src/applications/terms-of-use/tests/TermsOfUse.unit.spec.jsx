@@ -6,13 +6,24 @@ import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import TermsOfUse, { parseRedirectUrl } from '../containers/TermsOfUse';
+import TermsOfUse from '../containers/TermsOfUse';
+import { errorMessages } from '../helpers';
 
-const store = ({ termsOfUseEnabled = true } = {}) => ({
+const store = ({
+  termsOfUseEnabled = true,
+  authenticatedWithSiS = false,
+} = {}) => ({
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       terms_of_use: termsOfUseEnabled,
+    },
+    user: {
+      profile: {
+        session: {
+          authBroker: authenticatedWithSiS ? 'sis' : 'ssoe',
+        },
+      },
     },
   }),
   subscribe: () => {},
@@ -36,7 +47,6 @@ describe('TermsOfUse', () => {
     expect($('h1', container).textContent).to.eql(
       'VA online services terms of use',
     );
-    expect($('va-on-this-page', container)).to.exist;
     expect($('va-accordion', container)).to.exist;
     expect($('va-alert', container)).to.exist;
   });
@@ -58,7 +68,27 @@ describe('TermsOfUse', () => {
       expect($$('va-button', container).length).to.eql(2);
     });
   });
-  it('should NOT display buttons if URL comes back bad', async () => {
+  it('should NOT display buttons if URL comes back as a 401', async () => {
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => {
+          return res(ctx.status(401), ctx.json({ errors: [{ code: '401' }] }));
+        },
+      ),
+    );
+    const { container } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect($$('va-button', container).length).to.eql(0);
+    });
+  });
+  it('should NOT display buttons if title is `Not authorized`', async () => {
     const mockStore = store();
     server.use(
       rest.get(
@@ -66,7 +96,7 @@ describe('TermsOfUse', () => {
         (_, res, ctx) => {
           return res(
             ctx.status(401),
-            ctx.json({ errors: [{ title: 'Not authorized', code: '401' }] }),
+            ctx.json({ errors: [{ code: '500', title: 'Not authorized' }] }),
           );
         },
       ),
@@ -91,7 +121,7 @@ describe('TermsOfUse', () => {
 
     expect($$('va-button', container).length).to.eql(0);
   });
-  it('should display a Modal if the decline button is clicked', async () => {
+  it('should display the declined modal if the decline button is clicked', async () => {
     const mockStore = store();
     server.use(
       rest.get(
@@ -99,20 +129,61 @@ describe('TermsOfUse', () => {
         (_, res, ctx) => res(ctx.status(200)),
       ),
     );
-    const { container, queryByTestId } = render(
+    const { container, queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const declineButton = queryByTestId('decline');
+      const declineButton = queryAllByTestId('decline')[0];
 
       fireEvent.click(declineButton);
 
       const modal = container.querySelector('va-modal');
       expect(modal).to.exist;
       expect(modal).to.have.attribute('visible', 'true');
+    });
+  });
+  it('should call `/decline` when `Decline and sign out button` is clicked', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+    const termsCode = `555abc`;
+    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&terms_code=${termsCode}`;
+
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+        (req, res, ctx) => {
+          expect(req.url.searchParams.get('terms_code')).to.eql(termsCode);
+          return res(
+            ctx.status(200),
+            ctx.json({ termsOfUseAgreement: { 'some-key': 'some-value' } }),
+          );
+        },
+      ),
+    );
+    const { container, queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const declineButton = queryAllByTestId('decline')[0];
+
+      fireEvent.click(declineButton);
+
+      const modal = $('va-modal', container);
+      expect(modal).to.exist;
+      expect(modal).to.have.attribute('visible', 'true');
+
+      // click the Decline and sign out button
+      modal.__events.primaryButtonClick();
     });
   });
   it('should redirect to the `redirect_url`', async () => {
@@ -134,34 +205,195 @@ describe('TermsOfUse', () => {
           ),
       ),
     );
-    const { queryByTestId } = render(
+    const { queryAllByTestId } = render(
       <Provider store={mockStore}>
         <TermsOfUse />
       </Provider>,
     );
 
     await waitFor(() => {
-      const acceptButton = queryByTestId('accept');
+      const acceptButton = queryAllByTestId('accept')[0];
       expect(acceptButton).to.exist;
 
       fireEvent.click(acceptButton);
       expect(global.window.location).to.eql(redirectUrl);
     });
   });
-});
+  it('should redirect to the `redirect_url`', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+    global.window.location = `https://dev.va.gov/terms-of-use/`;
+    sessionStorage.setItem('authReturnUrl', redirectUrl);
 
-describe('parseRedirectUrl', () => {
-  const testUrls = {
-    [`https%3A%2F%2Fdev.va.gov%2Fauth%2Flogin%2Fcallback%2F%3Ftype%3Didme`]: `https://dev.va.gov/auth/login/callback/?type=idme`,
-    [`https://staging-patientportal.myhealth.va.gov`]: `https://staging-patientportal.myhealth.va.gov`,
-    [`https://staging-patientportal.myhealth.va.gov/?authenticated=true`]: `https://staging-patientportal.myhealth.va.gov/?authenticated=true`,
-    [`https://int.eauth.va.gov/mhv-portal-web/eauth&postLogin=true`]: `https://int.eauth.va.gov/mhv-portal-web/eauth`,
-    [`https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=home&postLogin=true`]: `https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=home&postLogin=true`,
-    [`https://google.com?q=https://va.gov`]: `https://dev.va.gov`,
-  };
-  Object.entries(testUrls).forEach(([parsedUrl, formattedUrl]) => {
-    it('should return the proper url', () => {
-      expect(parseRedirectUrl(parsedUrl)).to.eql(formattedUrl);
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+        (_, res, ctx) =>
+          res(
+            ctx.status(200),
+            ctx.json({ termsOfUseAgreement: { 'some-key': 'some-value' } }),
+          ),
+      ),
+    );
+    const { queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const acceptButton = queryAllByTestId('accept')[0];
+      expect(acceptButton).to.exist;
+
+      fireEvent.click(acceptButton);
+      expect(global.window.location).to.eql(redirectUrl);
+    });
+  });
+  it('should pass along `terms_code` to API', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=logingov`;
+    const termsCode = '123456abc';
+    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&terms_code=${termsCode}`;
+
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+        (req, res, ctx) => {
+          expect(req.url.searchParams.get('terms_code')).to.eql(termsCode);
+          return res(
+            ctx.status(200),
+            ctx.json({ termsOfUseAgreement: { 'some-key': 'some-value' } }),
+          );
+        },
+      ),
+    );
+    const { queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const acceptButton = queryAllByTestId('accept')[0];
+      expect(acceptButton).to.exist;
+      fireEvent.click(acceptButton);
+      expect(global.window.location).to.not.eql(redirectUrl);
+    });
+  });
+  it('should show an error state if there is a network error | non-modal', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;
+
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+        (_, res) => res.networkError(),
+      ),
+    );
+    const { queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const accept = queryAllByTestId('accept')[0];
+      expect(accept).to.exist;
+
+      fireEvent.click(accept);
+
+      const nonModalErrorState = queryAllByTestId('error-non-modal')[0];
+      expect(nonModalErrorState).to.exist;
+      expect(nonModalErrorState.textContent).to.eql(errorMessages.network);
+    });
+  });
+  it('should close the Decline modal when Close or Go Back buttons are clicked', async () => {
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+    );
+    const { container, queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const declineButton = queryAllByTestId('decline')[0];
+      expect(declineButton).to.exist;
+
+      fireEvent.click(declineButton);
+
+      // click close button on modal
+      const openedModal = $('va-modal[visible="true"]', container);
+      openedModal.__events.closeEvent();
+      expect($('va-modal[visible="false"]', container)).to.be.exist;
+
+      // open the modal again
+      fireEvent.click(declineButton);
+      expect(openedModal).to.exist;
+      // click `Go back` button
+      openedModal.__events.secondaryButtonClick();
+      expect($('va-modal[visible="false"]', container)).to.be.exist;
+    });
+  });
+  ['sis', 'ssoe'].forEach(authBroker => {
+    it(`should use the proper logout for Auth Broker: ${authBroker}`, async () => {
+      const touPage = `https://dev.va.gov/terms-of-use`;
+      global.window.location = touPage;
+      const authenticatedWithSiS = authBroker === 'sis';
+      const mockStore = store({ authenticatedWithSiS });
+      server.use(
+        rest.get(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+          (_, res, ctx) => res(ctx.status(200)),
+        ),
+        rest.post(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+          (_, res, ctx) =>
+            res(
+              ctx.status(200),
+              ctx.json({
+                termsOfUseAgreement: { 'some-key': 'some-value' },
+              }),
+            ),
+        ),
+      );
+      const { container, queryAllByTestId } = render(
+        <Provider store={mockStore}>
+          <TermsOfUse />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const declineButton = queryAllByTestId('decline')[0];
+        expect(declineButton).to.exist;
+
+        fireEvent.click(declineButton);
+
+        // click close button on modal
+        const openedModal = $('va-modal[visible="true"]', container);
+        openedModal.__events.primaryButtonClick();
+
+        // should send them to logout
+        expect(global.window.location.href).to.not.eql(touPage);
+      });
     });
   });
 });

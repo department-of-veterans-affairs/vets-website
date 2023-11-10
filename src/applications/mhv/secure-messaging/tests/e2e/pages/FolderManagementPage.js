@@ -1,6 +1,7 @@
 import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
+import mockFolders from '../fixtures/generalResponses/folders.json';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -10,6 +11,10 @@ class FolderManagementPage {
       .get('[text="Create new folder"]')
       .shadow()
       .find('[type="button"]');
+  };
+
+  deleteFolderButton = () => {
+    return cy.get('[data-testid="remove-folder-button"]');
   };
 
   editFolderNameButton = () => {
@@ -174,6 +179,7 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
+    cy.get('[data-testid="move-button-text"]');
     cy.get('[data-testid="move-button-text"]').click();
     cy.get('[data-testid = "move-to-modal"')
 
@@ -193,9 +199,7 @@ class FolderManagementPage {
       mockCustomResponse,
     ).as('moveMockCustomResponse');
     cy.get('[data-testid="move-to-modal"]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
+      .find('va-button[text="Confirm"]')
       .click();
     // cy.wait('@mockCustomResponse');
   };
@@ -221,7 +225,7 @@ class FolderManagementPage {
     cy.get(`[data-testid="radiobutton-${folderName}"]`)
       .should('exist')
       .click();
-    cy.get('#modal-primary-button').click();
+    cy.get('va-button[text="Confirm"]').click();
   };
 
   verifyMoveMessageSuccessConfirmationFocus = () => {
@@ -230,8 +234,17 @@ class FolderManagementPage {
       .and('have.text', 'Message conversation was successfully moved.');
   };
 
-  deleteFolder = () => {
-    cy.get('[data-testid="remove-folder-button"]').click();
+  confirmDeleteFolder = folderId => {
+    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
+      statusCode: 204,
+    }).as('deleteFolder');
+
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page=1&per_page=999&useCache=false',
+      mockFolders,
+    ).as('updatedFoldersList');
+
     cy.get('[text="Yes, remove this folder"]')
       .shadow()
       .find('[type="button"]')

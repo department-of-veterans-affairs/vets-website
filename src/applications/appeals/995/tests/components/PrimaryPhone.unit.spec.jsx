@@ -3,11 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { PrimaryPhone } from '../../components/PrimaryPhone';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
-
-import { $, $$ } from '../../utils/ui';
 
 describe('<PrimaryPhone>', () => {
   const setup = ({

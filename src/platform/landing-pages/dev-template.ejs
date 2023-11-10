@@ -37,7 +37,6 @@
     <script nonce="**CSP_NONCE**" type="text/javascript">
       function focusContent(e) {
         e.preventDefault();
-        e.target.hidden = true;
         const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
         contentElement.setAttribute('tabindex', '-1');
         contentElement.addEventListener('blur', function(event) {

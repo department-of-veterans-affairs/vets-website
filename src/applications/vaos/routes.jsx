@@ -31,7 +31,7 @@ export default function createRoutesWithStore(store) {
   const newAppointmentPaths = ['/new-appointment', '/schedule'];
   const vaccinePaths = [
     '/new-covid-19-vaccine-appointment',
-    '/schedule/new-covid-19-vaccine-appointment',
+    '/schedule/covid-vaccine',
   ];
 
   return (

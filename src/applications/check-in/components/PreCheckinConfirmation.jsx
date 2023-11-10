@@ -7,9 +7,18 @@ import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData, router } = props;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // appt link will be /my-health/appointments if toggle is on
+  const apptLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
+  )
+    ? 'https://va.gov/my-health/appointments/'
+    : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
 
   // If the demographics answers are not present in the data, we
   // assume that the page was skipped, and default to "yes".
@@ -50,10 +59,7 @@ const PreCheckinConfirmation = props => {
         />
         <HowToLink apptType={apptType} />
         <p className="vads-u-margin-bottom--4">
-          <ExternalLink
-            href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
-            hrefLang="en"
-          >
+          <ExternalLink href={apptLink} hrefLang="en">
             {t('sign-in-to-manage')}
           </ExternalLink>
         </p>

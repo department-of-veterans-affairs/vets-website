@@ -26,7 +26,7 @@ const DownloadRecordsPage = () => {
   );
 
   return (
-    <div className="vads-u-margin-bottom--5 vads-l-col--12 medium-screen:vads-l-col--8">
+    <div className="vads-u-margin-bottom--5">
       <section>
         <h1>Download all medical records</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">

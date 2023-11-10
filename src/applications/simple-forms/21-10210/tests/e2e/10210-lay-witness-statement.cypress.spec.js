@@ -8,8 +8,13 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
+import {
+  getPagePaths,
+  fillAddressWebComponentPattern,
+  reviewAndSubmitPageFlow,
+} from '../../../shared/tests/e2e/helpers';
 
+const pagePaths = getPagePaths(formConfig);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -46,6 +51,34 @@ const testConfig = createTestConfig(
                   .first()
                   .click();
               });
+          });
+        });
+      },
+      [pagePaths.veteranMailingAddressInfo1]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'veteranMailingAddress',
+              data.veteranMailingAddress,
+            );
+
+            cy.axeCheck('.form-panel');
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.claimantAddrInfoPage]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.claimantMailingAddress) {
+              fillAddressWebComponentPattern(
+                'claimantMailingAddress',
+                data.claimantMailingAddress,
+              );
+
+              cy.axeCheck('.form-panel');
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            }
           });
         });
       },

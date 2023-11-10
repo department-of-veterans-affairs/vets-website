@@ -1,27 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaModal,
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSelector } from 'react-redux';
-import { PrintMessageOptions } from '../../util/constants';
-import { focusOnErrorField } from '../../util/formHelpers';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { PrintMessageOptions, DefaultFolders } from '../../util/constants';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [printSelectError, setPrintSelectError] = useState(null);
-  const messageThread = useSelector(
-    state => state.sm.messageDetails.messageHistory,
-  );
-  const messageThreadCount = useMemo(
-    () => {
-      return messageThread?.length + 1; // +1 for the original message
-    },
-    [messageThread],
-  );
+  const printButtonRef = useRef(null);
+  const { activeFolder } = props;
 
   if (isModalVisible === false && printOption !== null) {
     setPrintOption(null);
@@ -33,25 +20,13 @@ const PrintBtn = props => {
 
   const closeModal = () => {
     setIsModalVisible(false);
-    setPrintSelectError(null);
   };
 
-  const handleOnChangePrintOption = ({ detail }) => {
-    setPrintOption(detail.value);
-    setPrintSelectError(
-      detail.value ? null : 'Please select an option to print.',
-    );
-  };
-
-  const handleConfirmPrint = () => {
-    if (printOption === null) {
-      setPrintSelectError('Please select an option to print.');
-      focusOnErrorField();
-    } else {
-      setPrintOption(null);
-      closeModal();
-      props.handlePrint(printOption);
-    }
+  const handleConfirmPrint = async option => {
+    await closeModal();
+    setPrintOption(null);
+    props.handlePrint(option);
+    focusElement(printButtonRef.current);
   };
 
   const printModal = () => {
@@ -59,41 +34,24 @@ const PrintBtn = props => {
       <div className="message-actions-buttons-modal">
         <VaModal
           id="print-modal"
-          large
-          modalTitle="What do you want to print?"
+          modalTitle="Make sure you have all messages expanded"
           onCloseEvent={closeModal}
-          onPrimaryButtonClick={handleConfirmPrint}
-          onSecondaryButtonClick={closeModal}
-          primaryButtonText="Print"
-          secondaryButtonText="Cancel"
           data-testid="print-modal-popup"
           visible={isModalVisible}
         >
-          <div>
-            <VaRadio
-              className="form-radio-buttons"
-              enable-analytics
-              error={printSelectError}
-              onVaValueChange={handleOnChangePrintOption}
-            >
-              <VaRadioOption
-                data-testid="radio-print-one-message"
-                label="Print only this message"
-                value={PrintMessageOptions.PRINT_MAIN}
-                name="this-message"
-              />
+          <p>
+            We can only print messages that you currently have expanded. If you
+            don’t have all messages expanded, cancel this print request. Then
+            select <strong>Expand all</strong> and print again.
+          </p>
 
-              <VaRadioOption
-                data-testid="radio-print-all-messages"
-                style={{ display: 'flex' }}
-                aria-label={`Print all messages in this conversation (${messageThreadCount} messages)`}
-                label="Print all messages in this conversation"
-                description={`(${messageThreadCount} messages)`}
-                value={PrintMessageOptions.PRINT_THREAD}
-                name="all-messages"
-              />
-            </VaRadio>
-          </div>
+          <va-button
+            text="Print"
+            onClick={() => {
+              handleConfirmPrint(PrintMessageOptions.PRINT_THREAD);
+            }}
+          />
+          <va-button secondary text="Cancel" onClick={closeModal} />
         </VaModal>
       </div>
     );
@@ -103,8 +61,14 @@ const PrintBtn = props => {
     <>
       {/* TODO add GA event tracking Print button */}
       <button
+        ref={printButtonRef}
         type="button"
-        className="usa-button-secondary"
+        className={`usa-button-secondary small-screen:${
+          activeFolder?.folderId !== DefaultFolders.SENT.id
+            ? 'vads-u-flex--3'
+            : 'vads-l-row--3'
+        } `}
+        style={{ minWidth: '100px' }}
         onClick={openModal}
       >
         <i
@@ -121,6 +85,7 @@ const PrintBtn = props => {
 };
 
 PrintBtn.propTypes = {
+  activeFolder: PropTypes.object,
   handlePrint: PropTypes.func,
   id: PropTypes.number,
 };

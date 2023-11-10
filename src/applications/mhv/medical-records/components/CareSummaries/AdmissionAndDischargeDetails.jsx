@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { sendErrorToSentry } from '../../util/helpers';
+import { makePdf } from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../../shared/util/helpers';
-
-import { pageTitles } from '../../util/constants';
+import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 
 const AdmissionAndDischargeDetails = props => {
-  const { record } = props;
+  const { record, runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -30,7 +28,7 @@ const AdmissionAndDischargeDetails = props => {
     () => {
       focusElement(document.querySelector('h1'));
       const titleDate =
-        record.startDate && record.endDate
+        record.startDate !== EMPTY_FIELD && record.endDate !== EMPTY_FIELD
           ? `${record.startDate} to ${record.endDate} - `
           : '';
       updatePageTitle(
@@ -94,85 +92,82 @@ const AdmissionAndDischargeDetails = props => {
       ],
     };
 
-    try {
-      await generatePdf('medicalRecords', 'care_summaries_report', scaffold);
-    } catch (error) {
-      sendErrorToSentry(error, 'Care Summary details');
-    }
-  };
-
-  const content = () => {
-    if (record) {
-      return (
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <PrintHeader />
-          <h1
-            className="vads-u-margin-bottom--0"
-            aria-describedby="admission-discharge-date"
-          >
-            {record.name}
-          </h1>
-          <div className="time-header">
-            <h2
-              className="vads-u-font-size--base vads-u-font-family--sans"
-              id="admission-discharge-date"
-            >
-              Dates:{' '}
-              <span className="vads-u-font-weight--normal">
-                {record.startDate} to {record.endDate}
-              </span>
-            </h2>
-          </div>
-
-          <p className="vads-u-margin-bottom--0">
-            Review a summary of your stay at a hospital or other health facility
-            (called an admission and discharge summary).
-          </p>
-          <div className="no-print">
-            <PrintDownload
-              download={generateCareNotesPDF}
-              allowTxtDownloads={allowTxtDownloads}
-            />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          </div>
-
-          <div className="test-details-container max-80">
-            <h2>Details</h2>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Location
-            </h3>
-            <p>{record.location}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Admission date
-            </h3>
-            <p>{record.startDate}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharge date
-            </h3>
-            <p>{record.endDate}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Admitted by
-            </h3>
-            <p>{record.admittingPhysician || record.physician}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharged by
-            </h3>
-            <p>{record.dischargePhysician || record.physician}</p>
-          </div>
-
-          <div className="test-results-container">
-            <h2>Summary</h2>
-            <p>{record.summary}</p>
-          </div>
-        </div>
-      );
-    }
-    return <></>;
+    makePdf(
+      'care_summaries_report',
+      scaffold,
+      'Care Summary details',
+      runningUnitTest,
+    );
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {content()}
+      <PrintHeader />
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="admission-discharge-date"
+      >
+        {record.name}
+      </h1>
+
+      <div className="time-header">
+        <h2
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          id="admission-discharge-date"
+        >
+          Dates:{' '}
+          {record.startDate &&
+            record.endDate && (
+              <span
+                className="vads-u-font-weight--normal"
+                data-testid="header-times"
+              >
+                {record.startDate} to {record.endDate}
+              </span>
+            )}
+        </h2>
+      </div>
+
+      <p className="vads-u-margin-bottom--0">
+        Review a summary of your stay at a hospital or other health facility
+        (called an admission and discharge summary).
+      </p>
+      <div className="no-print">
+        <PrintDownload
+          download={generateCareNotesPDF}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      </div>
+
+      <div className="test-details-container max-80">
+        <h2>Details</h2>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Location
+        </h3>
+        <p>{record.location}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Admission date
+        </h3>
+        <p>{record.startDate}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Discharge date
+        </h3>
+        <p>{record.endDate}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Admitted by
+        </h3>
+        <p>{record.admittingPhysician}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Discharged by
+        </h3>
+        <p>{record.dischargePhysician}</p>
+      </div>
+
+      <div className="test-results-container">
+        <h2>Summary</h2>
+        <p>{record.summary}</p>
+      </div>
     </div>
   );
 };
@@ -181,4 +176,5 @@ export default AdmissionAndDischargeDetails;
 
 AdmissionAndDischargeDetails.propTypes = {
   record: PropTypes.object,
+  runningUnitTest: PropTypes.bool,
 };

@@ -1,15 +1,15 @@
+import { EVIDENCE_OTHER, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 import {
-  addIncludedIssues,
   getAddress,
   getClaimantData,
-  getPhone,
   getEmail,
-  getTimeZone,
   getEvidence,
   getForm4142,
+  getPhone,
+  getTimeZone,
 } from '../utils/submit';
 
-import { EVIDENCE_OTHER, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import { addIncludedIssues } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current

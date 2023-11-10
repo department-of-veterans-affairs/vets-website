@@ -1,12 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import ReplyForm from '../../../components/ComposeForm/ReplyForm';
 import reducer from '../../../reducers';
 import { draftDetails } from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import folders from '../../fixtures/folder-inbox-response.json';
 import signatureReducers from '../../fixtures/signature-reducers.json';
+import { ErrorMessages } from '../../../util/constants';
+import { inputVaTextInput } from '../../../util/testUtils';
+import saveDraftResponse from '../../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
 
 describe('Reply form component', () => {
   const { signature } = signatureReducers.signatureEnabled;
@@ -21,17 +26,31 @@ describe('Reply form component', () => {
   const replyMessage = draftDetails.draftMessageHistory[0];
   const { category, subject, senderName, triageGroupName } = replyMessage;
 
-  const render = (state = initialState) => {
-    return renderWithStoreAndRouter(<ReplyForm replyMessage={replyMessage} />, {
-      initialState: state,
-      reducers: reducer,
-      path: `/reply/7171715`,
-    });
+  const render = (state = initialState, props = {}) => {
+    return renderWithStoreAndRouter(
+      <ReplyForm replyMessage={replyMessage} {...props} />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: `/reply/7171715`,
+      },
+    );
   };
 
   it('renders without errors', async () => {
     const screen = render();
     expect(screen).to.exist;
+  });
+
+  it('adds beforeunload event listener', () => {
+    const screen = render();
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-body-field'), {
+      target: { innerHTML: 'test beforeunload event' },
+    });
+
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
   });
 
   it('renders the subject header', async () => {
@@ -72,13 +91,6 @@ describe('Reply form component', () => {
     expect(actionButtons).to.exist;
   });
 
-  it('renders the message replied to', async () => {
-    const screen = render();
-    expect(screen.getByText('Message you are replying to.', { selector: 'h2' }))
-      .to.have.attribute('class')
-      .to.equal('sr-only');
-  });
-
   it('renders the message signature in the textarea if a signature is included', async () => {
     const screen = render();
     expect(screen.getByTestId('message-body-field'))
@@ -100,5 +112,55 @@ describe('Reply form component', () => {
     const messageBodyInput = screen.getByTestId('message-body-field');
     expect(messageBodyInput).to.exist;
     expect(messageBodyInput).to.not.have.attribute('value');
+  });
+
+  it('renders the attachments component when adding a file', async () => {
+    const screen = render();
+    const fileName = 'test.png';
+    const file = new File(['(⌐□_□)'], fileName, { type: 'image/png' });
+
+    const uploader = screen.getByTestId('attach-file-input');
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+
+    expect(uploader.files[0].name).to.equal('test.png');
+    expect(uploader.files.length).to.equal(1);
+    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          `va-modal[modal-title="${
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.title
+          }"]`,
+        ),
+      ).to.have.attribute('visible', 'true');
+    });
+  });
+
+  it('renders success message on new reply draft save', async () => {
+    const customState = {
+      sm: {
+        ...initialState.sm,
+        messagedetails: {
+          message: replyMessage,
+        },
+      },
+    };
+
+    const screen = render(customState);
+    await waitFor(() => {
+      screen.getByTestId('message-body-field');
+    });
+    fireEvent.focus(screen.getByTestId('message-body-field'));
+    inputVaTextInput(screen.container, 'Test draft message', 'va-textarea');
+    mockApiRequest(saveDraftResponse);
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      expect(screen.getByText('Your message was saved', { exact: false }));
+    });
   });
 });

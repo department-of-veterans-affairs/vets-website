@@ -59,7 +59,7 @@ export const FORMAT_COMPACT = 'MMM DD, YYYY';
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
 export const MAX_YEARS_PAST = 100;
-
+export const LEGACY_TYPE = 'legacyAppeal';
 export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 /**

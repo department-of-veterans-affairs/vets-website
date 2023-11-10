@@ -60,7 +60,7 @@ describe('<YourClaimLetters>', () => {
         </Provider>,
       );
 
-      await findByText('still working', { exact: false });
+      await findByText('fixing some problems', { exact: false });
     });
 
     it('should render a message alerting the user to a problem if unable to retrieve letters', async () => {

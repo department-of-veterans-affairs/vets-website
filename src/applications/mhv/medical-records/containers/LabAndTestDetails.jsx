@@ -11,7 +11,13 @@ import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
 import ChemHemDetails from '../components/LabsAndTests/ChemHemDetails';
-import { labTypes } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  labTypes,
+} from '../util/constants';
+import useAlerts from '../hooks/use-alerts';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -20,6 +26,7 @@ const LabAndTestDetails = () => {
   );
   const fullState = useSelector(state => state);
   const { labId } = useParams();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -47,39 +54,40 @@ const LabAndTestDetails = () => {
     [labId, dispatch],
   );
 
-  if (labAndTestDetails?.name) {
-    switch (labAndTestDetails.type) {
-      case labTypes.CHEM_HEM:
-        return (
-          <ChemHemDetails record={labAndTestDetails} fullState={fullState} />
-        );
-      case labTypes.MICROBIOLOGY:
-        return (
-          <MicroDetails record={labAndTestDetails} fullState={fullState} />
-        );
-      case labTypes.PATHOLOGY:
-        return (
-          <PathologyDetails record={labAndTestDetails} fullState={fullState} />
-        );
-      case labTypes.EKG:
-        return <EkgDetails record={labAndTestDetails} />;
-      case labTypes.RADIOLOGY:
-        return (
-          <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
-        );
-      default:
-        return <p>something else</p>;
-    }
-  } else {
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
     );
   }
+  if (labAndTestDetails?.type === labTypes.CHEM_HEM) {
+    return <ChemHemDetails record={labAndTestDetails} fullState={fullState} />;
+  }
+  if (labAndTestDetails?.type === labTypes.MICROBIOLOGY) {
+    return <MicroDetails record={labAndTestDetails} fullState={fullState} />;
+  }
+  if (labAndTestDetails?.type === labTypes.PATHOLOGY) {
+    return (
+      <PathologyDetails record={labAndTestDetails} fullState={fullState} />
+    );
+  }
+  if (labAndTestDetails?.type === labTypes.EKG) {
+    return <EkgDetails record={labAndTestDetails} />;
+  }
+  if (labAndTestDetails?.type === labTypes.RADIOLOGY) {
+    return (
+      <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
+    );
+  }
+  return (
+    <va-loading-indicator
+      message="Loading..."
+      setFocus
+      data-testid="loading-indicator"
+      class="loading-indicator"
+    />
+  );
 };
 
 export default LabAndTestDetails;

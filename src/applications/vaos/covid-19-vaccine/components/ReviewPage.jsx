@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getRealFacilityId } from '../../utils/appointment';
 import { getReviewPage } from '../redux/selectors';
-import flow from '../flow';
+import getNewBookingFlow from '../flow';
 import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
@@ -19,9 +19,9 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const pageTitle = 'Review your appointment details';
 
-function handleClick(history) {
+function handleClick(history, contactInfo) {
   return () => {
-    history.push(flow.contactInfo.url);
+    history.push(contactInfo.url);
   };
 }
 
@@ -41,6 +41,7 @@ export default function ReviewPage({ changeCrumb }) {
 
   const { date1, vaFacility } = data;
   const dispatch = useDispatch();
+  const { contactInfo } = useSelector(getNewBookingFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -110,7 +111,7 @@ export default function ReviewPage({ changeCrumb }) {
             </div>
           </div>
           <va-link
-            onClick={handleClick(history)}
+            onClick={handleClick(history, contactInfo)}
             aria-label="Edit contact information"
             text="Edit"
             data-testid="edit-contact-information-link"
@@ -170,6 +171,7 @@ export default function ReviewPage({ changeCrumb }) {
                     name={facilityDetails.name}
                     facility={facilityDetails}
                     showDirectionsLink
+                    level={3}
                   />
                 )}
               </>

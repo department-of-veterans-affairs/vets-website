@@ -4,17 +4,18 @@ import {
   isStreamlinedLongForm,
 } from './streamlinedDepends';
 import {
+  safeNumber,
   sumValues,
   dateFormatter,
   getFsrReason,
-  getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
   getAmountCanBePaidTowardDebt,
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getMonthlyIncome } from './calculateIncome';
+import { getMonthlyExpenses, getAllExpenses } from './calculateExpenses';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -46,26 +47,18 @@ export const transform = (formConfig, form) => {
       dependents,
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
-    expenses: {
-      creditCardBills = [],
-      expenseRecords = [],
-      food = 0,
-      rentOrMortgage = 0,
-    } = {},
-    otherExpenses = [],
-    utilityRecords,
     assets,
-    installmentContracts = [],
     additionalData,
     selectedDebtsAndCopays = [],
     realEstateRecords,
-    gmtData,
   } = form.data;
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
   const isShortStreamlined = isStreamlinedShortForm(form.data);
   const isLongStreamlined = isStreamlinedLongForm(form.data);
+  const streamlinedAssetUpdateActive =
+    form.data['view:streamlinedWaiverAssetUpdate'];
 
   // === Set Streamlined FSR flag ===
   let streamlinedData;
@@ -92,41 +85,31 @@ export const transform = (formConfig, form) => {
     form.data,
   );
 
-  // === expenses ===
-  // rent & mortgage expenses for box 18
-  const rentOrMortgageExpenses = expenseRecords.filter(
-    expense => expense.name === 'Rent' || expense.name === 'Mortgage payment',
-  ) || { amount: 0 };
+  // === Expenses ===
+  const totalMonthlyExpenses = getMonthlyExpenses(form.data);
 
-  // food expenses for box 19
-  const foodExpenses = otherExpenses?.find(expense =>
-    expense?.name?.includes('Food'),
-  ) || { amount: 0 };
+  // Extract the values from getMonthlyExpenses
+  const {
+    food,
+    rentOrMortgage,
+    utilities,
+    otherLivingExpenses,
+    filteredExpenses,
+    otherExpenses,
+    installmentContractsAndCreditCards,
+    expensesInstallmentContractsAndOtherDebts,
+  } = getAllExpenses(form.data);
 
-  // other living expenses box 21
-  // Including options from expoenseRecords (living expenses) w/o rent & mortgage
-  const filteredExpenses = [
-    ...otherExpenses?.filter(
-      expense => expense?.name?.toLowerCase().includes('food') === false,
-    ),
-    ...expenseRecords.filter(
-      expense =>
-        expense?.name !== 'Rent' && expense?.name !== 'Mortgage payment',
-    ),
-  ];
-
-  const installmentContractsAndCreditCards = [
-    ...installmentContracts,
-    ...creditCardBills,
-  ];
-
-  const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
   // monetary asset filters
-  const cashFilters = ['Cash'];
-  const bankFilters = ['Checking accounts', 'Savings accounts'];
+  const cashFilters = ['Cash', 'Cash on hand (not in bank)'];
+  const bankFilters = [
+    'Checking accounts',
+    'Savings accounts',
+    'Cash in a bank (savings and checkings)',
+  ];
   const usSavingsFilters = ['U.S. Savings Bonds'];
   const otherStocksFilters = [
     'Other stocks and bonds (not in your retirement accounts)',
@@ -137,14 +120,22 @@ export const transform = (formConfig, form) => {
 
   // monetary assets
   const { monetaryAssets } = assets;
-  // Cash on hand is stored separately for potential short forms
+  // Cash on hand is stored separately for potential short forms until streamlined asset update
   // Same conditions for the cash on hand page depends
-  const calculatedCashOnHand =
-    gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt
-      ? filterReduceByName(monetaryAssets, cashFilters) +
-        safeNumber(assets.cashOnHand)
-      : filterReduceByName(monetaryAssets, cashFilters);
+  const cashFilteredMonetaryAssets = filterReduceByName(
+    monetaryAssets,
+    cashFilters,
+  );
+  // streamlinedCashOnHand - Asset determination for short form prior to streamlined asset update
+  const streamlinedCashOnHand =
+    cashFilteredMonetaryAssets + safeNumber(assets?.cashOnHand);
+
+  const calculatedCashOnHand = streamlinedAssetUpdateActive
+    ? cashFilteredMonetaryAssets
+    : streamlinedCashOnHand;
+
   const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
+
   const calculatedUsSavingsBonds = filterReduceByName(
     monetaryAssets,
     usSavingsFilters,
@@ -237,29 +228,16 @@ export const transform = (formConfig, form) => {
       },
     ],
     expenses: {
-      rentOrMortgage: enhancedFSRActive
-        ? sumValues(rentOrMortgageExpenses, 'amount')
-        : rentOrMortgage,
-      food: enhancedFSRActive ? foodExpenses?.amount : food,
-      utilities: enhancedFSRActive
-        ? sumValues(utilityRecords, 'amount')
-        : sumValues(utilityRecords, 'monthlyUtilityAmount'),
-      otherLivingExpenses: {
-        name: enhancedFSRActive
-          ? filteredExpenses?.map(expense => expense.name).join(', ')
-          : otherExpenses?.map(expense => expense.name).join(', '),
-        amount: enhancedFSRActive
-          ? sumValues(filteredExpenses, 'amount')
-          : sumValues(otherExpenses, 'amount'),
-      },
-      expensesInstallmentContractsAndOtherDebts: sumValues(
-        installmentContractsAndCreditCards,
-        'amountDueMonthly',
-      ),
-      totalMonthlyExpenses: totMonthlyExpenses,
+      rentOrMortgage,
+      food,
+      utilities,
+      otherLivingExpenses,
+      expensesInstallmentContractsAndOtherDebts,
+      totalMonthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: totalMonthlyNetIncome - totMonthlyExpenses,
+      netMonthlyIncomeLessExpenses:
+        totalMonthlyNetIncome - totalMonthlyExpenses,
       amountCanBePaidTowardDebt,
     },
     assets: {

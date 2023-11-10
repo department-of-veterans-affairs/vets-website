@@ -2,6 +2,7 @@
 // import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
 
 import manifest from '../manifest.json';
+import { requiredForSubtopicPage } from '../constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -9,6 +10,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // Category and Topic pages
 import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
+import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
 
 // Your Question
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
@@ -18,6 +20,7 @@ import submitterContactPage from './chapters/submitterInformation/submitterConta
 
 // Contact Information
 import veteransAddressPage from './chapters/contactInformation/veteransAddress';
+import veteranAddressConfirmationPage from './chapters/contactInformation/veteranAddressConfirmation';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -45,6 +48,8 @@ const formConfig = {
       'Please sign in again to continue your application for ask the va test.',
   },
   title: 'Ask VA',
+  subTitle:
+    'Get answers to your questions about VA benefits and services and send documents online',
   defaultDefinitions: {},
   chapters: {
     categoryAndTopic: {
@@ -63,6 +68,14 @@ const formConfig = {
           editModeOnReviewPage: true,
           uiSchema: selectTopicPage.uiSchema,
           schema: selectTopicPage.schema,
+        },
+        selectSubtopic: {
+          path: 'category-topic-3',
+          title: 'SubTopic Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectSubtopicPage.uiSchema,
+          schema: selectSubtopicPage.schema,
+          depends: form => requiredForSubtopicPage.includes(form.selectTopic),
         },
       },
     },
@@ -96,6 +109,12 @@ const formConfig = {
           title: 'Veteran Address',
           uiSchema: veteransAddressPage.uiSchema,
           schema: veteransAddressPage.schema,
+        },
+        veteranAddressConfirmation: {
+          path: 'contact-info-2',
+          title: 'Veteran Address Confirmation',
+          uiSchema: veteranAddressConfirmationPage.uiSchema,
+          schema: veteranAddressConfirmationPage.schema,
         },
       },
     },

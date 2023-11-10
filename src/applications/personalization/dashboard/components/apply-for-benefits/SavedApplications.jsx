@@ -54,7 +54,11 @@ const AllBenefits = () => (
   </div>
 );
 
-const SavedApplications = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
+const SavedApplications = ({
+  getESREnrollmentStatus,
+  isLOA1,
+  shouldGetESRStatus,
+}) => {
   useEffect(
     () => {
       if (shouldGetESRStatus) {
@@ -72,7 +76,7 @@ const SavedApplications = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
           <AllBenefits />
         </Toggler.Disabled>
       </Toggler>
-      <ApplicationsInProgress hideH3 />
+      <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
     </div>
   );
 };
@@ -94,6 +98,7 @@ const mapStateToProps = state => {
 
 SavedApplications.propTypes = {
   getESREnrollmentStatus: PropTypes.func,
+  isLOA1: PropTypes.bool,
   shouldGetESRStatus: PropTypes.bool,
 };
 

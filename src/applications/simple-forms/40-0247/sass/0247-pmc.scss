@@ -6,6 +6,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.form-review-panel-page .hideOnReviewPage {
+  display: none !important;
+}
 // Custom-style 'ui:title's as h3s, without using <h3> tags.
 // A11y best-practices say <label>s should not contain <h> tags.
 @mixin label-as-h3 {
@@ -42,6 +45,11 @@
   display: none !important;
 }
 
+.form-review-panel-page #root_veteranSupportingDocuments__title > h3 {
+  font-size: 1.7rem !important;
+  margin-bottom: 0 !important;
+}
+
 #root_veteranSupportingDocuments_add_label {
   margin-top: 0;
 }
@@ -51,8 +59,6 @@ input[name="root_additionalCopies"] {
   max-width: 7rem;
 }
 
-.form-panel.additional-certificates-request
-  .rjsf-object-field:first-child
-  fieldset {
-  margin-bottom: 0 !important;
+va-text-input[name="root_additionalCopies"]::part(label) {
+  margin-top: 0;
 }

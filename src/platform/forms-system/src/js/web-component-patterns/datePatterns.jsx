@@ -1,3 +1,4 @@
+import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
 import { validateCurrentOrPastMemorableDate } from '../validation';
@@ -25,8 +26,10 @@ const currentOrPastDateUI = options => {
   const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
+  const uiTitle = title ?? 'Date';
+
   return {
-    'ui:title': title ?? 'Date',
+    'ui:title': uiTitle,
     'ui:webComponentField': VaMemorableDateField,
     'ui:validations': [validateCurrentOrPastMemorableDate],
     'ui:errorMessages': {
@@ -37,6 +40,24 @@ const currentOrPastDateUI = options => {
     'ui:options': {
       ...uiOptions,
     },
+    'ui:reviewField': ({ children }) => (
+      <div className="review-row">
+        <dt>{uiTitle}</dt>
+        <dd>
+          {children.props.formData && (
+            <>
+              {new Date(
+                `${children.props.formData}T00:00:00`,
+              ).toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </>
+          )}
+        </dd>
+      </div>
+    ),
   };
 };
 

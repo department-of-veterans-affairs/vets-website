@@ -10,7 +10,7 @@ import content from '../../../../locales/en/content.json';
 describe('ezr <ConfirmationScreenView>', () => {
   const defaultProps = {
     name: normalizeFullName(
-      { first: 'John', middle: 'Marjorie', last: 'Smith', suffix: 'Sr.' },
+      { first: 'John', middle: 'David', last: 'Smith' },
       true,
     ),
     form: {
@@ -24,28 +24,26 @@ describe('ezr <ConfirmationScreenView>', () => {
   };
 
   describe('when the component renders', () => {
-    describe('default behavior', () => {
+    context('default behavior', () => {
       it('should render section titles and applicant name', () => {
         const { container } = render(
           <ConfirmationScreenView {...defaultProps} />,
         );
         const selectors = {
-          subtitles: container.querySelectorAll('h2'),
+          subtitles: container.querySelectorAll('h2, h3'),
           veteranName: container.querySelector('.ezr-veteran-fullname'),
         };
         expect(selectors.subtitles).to.have.lengthOf(2);
         expect(selectors.subtitles[0]).to.contain.text(
-          content['confirm-page-title'],
+          content['confirm-success-title'],
         );
         expect(selectors.subtitles[1]).to.contain.text(
           content['confirm-app-title'],
         );
-        expect(selectors.veteranName).to.contain.text(
-          'John Marjorie Smith Sr.',
-        );
+        expect(selectors.veteranName).to.contain.text('John David Smith');
       });
 
-      it('should render application print button', () => {
+      it('should render `print page` button', () => {
         const { container } = render(
           <ConfirmationScreenView {...defaultProps} />,
         );
@@ -57,7 +55,7 @@ describe('ezr <ConfirmationScreenView>', () => {
       });
     });
 
-    describe('when timestamp is not provided', () => {
+    context('when timestamp is not provided', () => {
       it('should not render application date', () => {
         const { container } = render(
           <ConfirmationScreenView {...defaultProps} />,
@@ -67,11 +65,11 @@ describe('ezr <ConfirmationScreenView>', () => {
       });
     });
 
-    describe('when timestamp is provided', () => {
-      it('should render application date with the correct date format', () => {
+    context('when timestamp is provided', () => {
+      it('should render submission date with the correct date format', () => {
         const props = { ...defaultProps, timestamp: 1666887649663 };
         const { container } = render(<ConfirmationScreenView {...props} />);
-        const selector = container.querySelector('.ezr-application-date');
+        const selector = container.querySelector('.ezr-submission-date');
         expect(selector).to.exist;
         expect(selector).to.contain.text('Oct. 27, 2022');
       });

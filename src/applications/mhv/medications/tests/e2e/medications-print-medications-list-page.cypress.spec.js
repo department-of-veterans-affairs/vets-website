@@ -7,7 +7,6 @@ describe('Medications List Page Print List', () => {
     const listPage = new MedicationsListPage();
     cy.visit('my-health/about-medications/');
     site.login();
-
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -20,7 +19,6 @@ describe('Medications List Page Print List', () => {
       },
     });
     listPage.clickGotoMedicationsLink();
-
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyPrintMedicationsListEnabledOnListPage();
   });

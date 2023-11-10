@@ -18,6 +18,8 @@ class PatientMessageTrashPage {
       mockMessagesResponse,
     ).as('trashFolderMessages');
     cy.get('[data-testid="trash-sidebar"]').click();
+    cy.wait('@trashFolder');
+    cy.wait('@trashFolderMessages');
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
@@ -84,7 +86,7 @@ class PatientMessageTrashPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(listBefore);
+        cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -93,7 +95,7 @@ class PatientMessageTrashPage {
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            cy.log(` ###  ${listAfter}`);
+            cy.log(JSON.stringify(listAfter));
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });

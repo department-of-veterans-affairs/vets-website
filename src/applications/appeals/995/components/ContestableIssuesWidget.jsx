@@ -6,11 +6,8 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
 
-import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../constants';
-import { focusIssue } from '../utils/focus';
 
 import {
   LAST_ISSUE,
@@ -18,6 +15,7 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
+import { IssueCard } from '../../shared/components/IssueCard';
 import {
   ContestableIssuesLegend,
   NoIssuesLoadedAlert,
@@ -25,10 +23,11 @@ import {
   MaxSelectionsAlert,
   removeModalContent,
 } from '../../shared/content/contestableIssues';
+import { focusIssue } from '../../shared/utils/focus';
 import {
+  calculateIndexOffset,
   getSelected,
   someSelected,
-  calculateIndexOffset,
 } from '../../shared/utils/issues';
 import { isEmptyObject } from '../../shared/utils/helpers';
 
@@ -69,17 +68,7 @@ const ContestableIssuesWidget = props => {
   useEffect(
     () => {
       if (editState) {
-        window.sessionStorage.removeItem(LAST_ISSUE);
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const card = `#issue-${lastEdited}`;
-          const target =
-            returnState === 'cancel'
-              ? `${card} .edit-issue-link`
-              : `${card} input`;
-          scrollTo(card);
-          focusElement(target);
-        }, 100);
+        focusIssue();
       }
     },
     [editState],
@@ -151,6 +140,7 @@ const ContestableIssuesWidget = props => {
       setShowRemoveModal(true);
     },
     onRemoveModalClose: () => {
+      focusIssue(null, null, `${value.length + removeIndex},remove-cancel`);
       setShowRemoveModal(false);
       setRemoveIndex(null);
     },
@@ -158,15 +148,11 @@ const ContestableIssuesWidget = props => {
       const updatedAdditionalIssues = additionalIssues.filter(
         (issue, indx) => removeIndex !== indx,
       );
-      // Focus management: target add a new issue action link
-      window.sessionStorage.setItem(LAST_ISSUE, -1);
       setShowRemoveModal(false);
       setRemoveIndex(null);
       // setTimeout needed to allow rerender
       setTimeout(() => {
-        // focusIssue is called by form config scrollAndFocusTarget, but only on
-        // page change
-        focusIssue();
+        focusIssue(null, null, -1);
       });
 
       setFormData({

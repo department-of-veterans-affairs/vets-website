@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField, getImageUri } from '../../util/helpers';
+import { validateField, getImageUri, dateFormat } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
@@ -9,6 +9,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 const VaPrescription = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
   refillHistory.push({
+    prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
     cmopNdcNumber: prescription?.cmopNdcNumber,
     id: prescription?.prescriptionId,
@@ -44,7 +45,7 @@ const VaPrescription = prescription => {
               Request refills by this prescription expiration date
             </h3>
             <p data-testid="expiration-date">
-              {validateField(prescription.expirationDate, 'date')}
+              {dateFormat(prescription.expirationDate)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescription number
@@ -56,7 +57,7 @@ const VaPrescription = prescription => {
               Prescribed on
             </h3>
             <p datat-testid="ordered-date">
-              {validateField(prescription.orderedDate, 'date')}
+              {dateFormat(prescription.orderedDate)}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Prescribed by
@@ -105,13 +106,6 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              What it looks like
-            </h3>
-            <p>
-              Your medication may look different when you get a refill. Find the
-              most recent image in your refill history.
-            </p>
           </div>
 
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
@@ -134,30 +128,30 @@ const VaPrescription = prescription => {
                   Filled by pharmacy on
                 </h4>
                 <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {validateField(entry.dispensedDate, 'date')}
+                  {dateFormat(entry.dispensedDate)}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Shipped on
                 </h4>
                 <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {validateField(shippedOn?.[i]?.completeDateTime, 'date')}
+                  {dateFormat(shippedOn?.[i]?.completeDateTime)}
                 </p>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
                   Image of the medication or supply
                 </h4>
                 <div className="no-print">
-                  <va-additional-info trigger="Review image">
-                    {entry.cmopNdcNumber ? (
+                  {entry.cmopNdcNumber ? (
+                    <va-additional-info trigger="Review image">
                       <img
                         src={getImageUri(entry.cmopNdcNumber)}
                         alt={entry.prescriptionName}
                         width="350"
                         height="350"
                       />
-                    ) : (
-                      <p>No Image Available</p>
-                    )}
-                  </va-additional-info>
+                    </va-additional-info>
+                  ) : (
+                    <p className="vads-u-margin--0">No Image Available</p>
+                  )}
                 </div>
                 <div className="print-only">
                   {entry.cmopNdcNumber ? (

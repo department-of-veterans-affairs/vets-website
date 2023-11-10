@@ -57,12 +57,12 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns false if the selected appointment is found and is the only eligible appointment', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          facility: 'some-facility',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
@@ -75,12 +75,12 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns true if the selected appointment is found and there are more eligible appointments', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          facilityId: 'some-facility',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),

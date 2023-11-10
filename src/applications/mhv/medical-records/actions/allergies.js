@@ -12,9 +12,9 @@ export const getAllergiesList = () => async dispatch => {
   }
 };
 
-export const getAllergyDetails = conditionId => async dispatch => {
+export const getAllergyDetails = id => async dispatch => {
   try {
-    const response = await getAllergy(conditionId);
+    const response = await getAllergy(id);
     dispatch({ type: Actions.Allergies.GET, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));

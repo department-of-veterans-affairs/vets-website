@@ -56,7 +56,9 @@ describe('<ServiceAvailabilityBanner/>', () => {
         serviceAvailability={SERVICE_AVAILABILITY_STATES.down}
       />,
     );
-    expect(wrapper.find('AlertBox[status="error"]').length).to.equal(1);
+    expect(wrapper.text()).to.contain(
+      'The Post-9/11 GI Bill Benefits tool is down for maintenance',
+    );
     wrapper.unmount();
   });
 });

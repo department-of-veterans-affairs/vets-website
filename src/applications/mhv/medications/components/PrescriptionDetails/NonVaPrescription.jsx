@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField } from '../../util/helpers';
+import { validateField, dateFormat } from '../../util/helpers';
 import ExtraDetails from '../shared/ExtraDetails';
 
 const NonVaPrescription = prescription => {
@@ -16,8 +16,11 @@ const NonVaPrescription = prescription => {
           </h3>
           <div>{validateField(status)}</div>
           <div className="no-print">
-            <va-additional-info trigger="What does this status mean?">
-              <ul className="non-va-ul">
+            <va-additional-info
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>
                   A VA provider added this medication record in your VA medical
                   records. But this isn’t a prescription you filled through a VA
@@ -59,7 +62,7 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             When you started taking this medication
           </h3>
-          <p>{validateField(prescription.dispensedDate, 'date')}</p>
+          <p>{dateFormat(prescription.dispensedDate)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
