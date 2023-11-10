@@ -1,0 +1,7 @@
+{
+  "appName": "Find a Representative",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "find-a-representative",
+  "rootUrl": "/get-help-from-accredited-representative/find-rep",
+  "productId": "decb6c85-abcd-44b5-b722-550905f48dd7"
+}
