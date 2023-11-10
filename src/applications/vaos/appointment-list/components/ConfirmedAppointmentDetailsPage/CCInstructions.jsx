@@ -22,7 +22,7 @@ export default function CCInstructions({ appointment }) {
 
 CCInstructions.propTypes = {
   appointment: PropTypes.shape({
-    comment: PropTypes.string.isRequired,
+    comment: PropTypes.string,
   }),
 };
 

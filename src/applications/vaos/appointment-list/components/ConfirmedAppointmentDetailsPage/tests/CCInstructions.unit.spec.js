@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import CCInstructions from '../CCInstructions';
 
 describe('CCInstructions component', () => {
