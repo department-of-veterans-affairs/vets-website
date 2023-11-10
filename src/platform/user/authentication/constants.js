@@ -108,9 +108,7 @@ export const EXTERNAL_REDIRECTS = {
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
   [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
-  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `https://${
-    eauthEnvironmentPrefixes[environment.BUILDTYPE]
-  }fed.eauth.va.gov/oauthe/sps/oauth/oauth20/authorize`,
+  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
 };
 
