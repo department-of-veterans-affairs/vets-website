@@ -161,7 +161,7 @@ export class ConfirmationPage extends React.Component {
               href =
                 '/disability/file-disability-claim-form-21-526ez/introduction';
             } else if (nextStep === veteranBenefits.PENSION) {
-              href = '/pension/application/527EZ/introduction';
+              href = '/find-forms/about-form-21p-527ez/';
             } else if (nextStep === veteranBenefits.SURVIVOR) {
               href = '/find-forms/about-form-21p-534ez/';
             }
