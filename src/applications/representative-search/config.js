@@ -17,12 +17,12 @@ const apiSettings = {
 };
 
 export const sortOptions = {
-  DISTANCE_CLOSEST_TO_FARTHEST: 'Distance (closest to farthest)',
-  DISTANCE_FARTHEST_TO_CLOSEST: 'Distance (farthest to closest)',
-  FIRST_NAME_ALPHABETICAL_A_TO_Z: 'First Name (A - Z)',
-  FIRST_NAME_ALPHABETICAL_Z_TO_A: 'First Name (Z - A)',
-  LAST_NAME_ALPHABETICAL_A_TO_Z: 'Last Name (A - Z)',
-  LAST_NAME_ALPHABETICAL_Z_TO_A: 'Last Name (Z - A)',
+  DISTANCE_ASC: 'Distance (closest to farthest)',
+  DISTANCE_DESC: 'Distance (farthest to closest)',
+  FIRST_NAME_ASC: 'First Name (A - Z)',
+  FIRST_NAME_DESC: 'First Name (Z - A)',
+  LAST_NAME_ASC: 'Last Name (A - Z)',
+  LAST_NAME_DESC: 'Last Name (Z - A)',
 };
 
 const railsEngineApi = {
@@ -40,41 +40,45 @@ export const getAPI = () => railsEngineApi;
  */
 export const resolveParamsWithUrl = ({
   address,
-  representativeType,
-  page,
-  bounds,
-  center,
-  radius,
-  // store,
+  lat,
+  long,
+  name,
+  page = 1,
+  perPage = 10,
+  sort,
+  type = 'organization',
 }) => {
   const api = getAPI();
 
   const { url } = api;
-  let roundRadius;
-  const perPage = 10;
 
-  if (radius) roundRadius = Math.max(1, radius.toFixed());
+  let representativeType;
 
-  const locationParams = [
+  switch (type) {
+    case 'Attorney':
+      representativeType = 'attorney';
+      break;
+    case 'Claims Agent':
+      representativeType = 'claim_agents';
+      break;
+    default:
+      representativeType = 'organization';
+  }
+
+  const params = [
     address ? `address=${address}` : null,
-    ...bounds.map(c => `bbox[]=${c}`),
-    center && center.length > 0 ? `latitude=${center[0]}` : null,
-    center && center.length > 0 ? `longitude=${center[1]}` : null,
+    lat.length > 0 ? `latitude=${lat}` : null,
+    long.length > 0 ? `longitude=${long}` : null,
+    name ? `name=${name}` : null,
+    `page=${page}`,
+    `per_page=${perPage}`,
+    `sort=${sort}`,
+    type ? `type=${representativeType}` : null,
   ];
-
-  const representativeParams = representativeType
-    ? `type=${representativeType}`
-    : null;
 
   return {
     url,
-    params: compact([
-      representativeParams,
-      `page=${page}`,
-      `per_page=${perPage}`,
-      roundRadius ? `radius=${roundRadius}` : null,
-      ...locationParams,
-    ]).join('&'),
+    params: compact([...params]).join('&'),
   };
 };
 // Please use sentence case for all of these
