@@ -2,14 +2,31 @@ import React from 'react';
 
 import moment from 'moment';
 
-import { focusElement } from 'platform/utilities/ui';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  getScrollOptions,
+  focusElement,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export function getInitialData({ mockData, environment }) {
   return !!mockData && environment.isLocalhost() && !window.Cypress
     ? mockData
     : undefined;
 }
+
+export const pageFocusScroll = () => {
+  const focusSelector =
+    'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+  const scrollToName = 'v3SementedProgressBar';
+  return () => {
+    waitForRenderThenFocus(focusSelector);
+    setTimeout(() => {
+      scrollTo(scrollToName, getScrollOptions({ offset: 0 }));
+    }, 100);
+  };
+};
 
 export const supportingDocsDescription = (
   <>
