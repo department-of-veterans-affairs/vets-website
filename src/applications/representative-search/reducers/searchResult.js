@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   results: [],
   sortedSearchResults: [],
   selectedResult: null,
-  sortType: 'DISTANCE_CLOSEST_TO_FARTHEST',
+  sortType: 'DISTANCE_ASC',
   pagination: {},
 };
 
