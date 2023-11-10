@@ -193,6 +193,7 @@ export const Form526Entry = ({
   }
 
   // wraps the app and redirects user if they are not enrolled
+  //const content = <RoutedSavableApp>{children}</RoutedSavableApp>;
   const content = (
     <RoutedSavableApp
       formConfig={getFormConfig(disabilityLabels)}

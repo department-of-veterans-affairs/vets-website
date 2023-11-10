@@ -2,13 +2,22 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import set from 'platform/utilities/data/set';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import getFormConfig from '../../config/form';
+import Form526Entry from '../../Form526EZApp';
+import { WIZARD_STATUS_COMPLETE } from '~/platform/site-wide/wizard';
+import { WIZARD_STATUS } from '../../constants';
+
+import disabilityLabelsReduced from '../../content/disabilityLabelsReduced';
 
 import { updateFormData } from '../../pages/addDisabilities';
 
 describe('Add new disabilities', () => {
+  const formConfig = getFormConfig(disabilityLabelsReduced);
   const {
     schema,
     uiSchema,
@@ -193,6 +202,34 @@ describe('Add new disabilities', () => {
     expect(error.text()).to.include('enter a condition or select one');
     expect(onSubmit.called).to.be.false;
     form.unmount();
+  });
+  it('should render reduced contention list', () => {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    const initialState = {
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+        profile: {
+          verified: true,
+          services: [backendServices.ORIGINAL_CLAIMS],
+          dob: '2000-01-01',
+        },
+      },
+      featureToggles: {
+        [Toggler.TOGGLE_NAMES.disability526ReducedContentionList]: true,
+        show526Wizard: true,
+      },
+    };
+    const form = renderWithStoreAndRouter(
+      <Form526Entry
+        location={{ pathname: '/new-disabilities/add', search: '' }}
+      >
+        <></>
+      </Form526Entry>,
+      { initialState },
+    );
+    expect(form.getByRole('input').length).to.equal(1);
   });
 
   describe('updateFormData', () => {
