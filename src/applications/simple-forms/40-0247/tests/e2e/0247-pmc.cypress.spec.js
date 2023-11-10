@@ -12,6 +12,7 @@ import {
   reviewAndSubmitPageFlow,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
 import formConfig from '../../config/form';
@@ -20,6 +21,8 @@ import manifest from '../../manifest.json';
 const pagePaths = getPagePaths(formConfig);
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
+
     dataPrefix: 'data',
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -52,16 +55,6 @@ const testConfig = createTestConfig(
               'veteranDateOfDeath',
               veteranDateOfDeath,
             );
-
-            cy.axeCheck('.form-panel');
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.veteranIdentificationInfoPage]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
 
             cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -143,6 +136,7 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept(formConfig.submitUrl, mockSubmit);
     },
 
