@@ -99,7 +99,9 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             name="addOrUpdateIncome"
           >
             <h3 className="vads-u-margin--0">
-              Add your spouse’s additional sources of income
+              {`${
+                spAddlIncome.length === index ? 'Add' : 'Update'
+              }  your spouse’s additional sources of income`}{' '}
             </h3>
           </legend>
           <VaTextInput
@@ -127,12 +129,11 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             type="text"
             value={assetAmount || ''}
           />
-          <br />
-          <p>
+          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
             <button
               type="button"
               id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
+              className="usa-button-secondary small-screen:vads-u-width--auto"
               onClick={handlers.onCancel}
             >
               Cancel
@@ -140,14 +141,14 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             <button
               type="submit"
               id="submit"
-              className="vads-u-width--auto"
+              className="usa-button-primary small-screen:vads-u-width--auto"
               onClick={handlers.onUpdate}
             >
               {`${
                 spAddlIncome.length === index ? 'Add' : 'Update'
               } other income`}
             </button>
-          </p>
+          </div>
         </fieldset>
       </form>
     </>

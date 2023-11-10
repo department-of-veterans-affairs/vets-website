@@ -95,7 +95,9 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             className="schemaform-block-title"
             name="addOrUpdateIncome"
           >
-            Add your additional sources of income
+            {`${
+              addlIncRecords.length === index ? 'Add' : 'Update'
+            } your additional sources of income`}{' '}
           </legend>
           <VaTextInput
             className="no-wrap input-size-3"
@@ -122,12 +124,11 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             type="text"
             value={assetAmount || ''}
           />
-          <br />
-          <p>
+          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
             <button
               type="button"
               id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
+              className="usa-button-secondary small-screen:vads-u-width--auto"
               onClick={handlers.onCancel}
             >
               Cancel
@@ -135,14 +136,14 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             <button
               type="submit"
               id="submit"
-              className="vads-u-width--auto"
+              className="small-screen:vads-u-width--auto"
               onClick={handlers.onUpdate}
             >
               {`${
                 addlIncRecords.length === index ? 'Add' : 'Update'
               } other income`}
             </button>
-          </p>
+          </div>
         </fieldset>
       </form>
     </>

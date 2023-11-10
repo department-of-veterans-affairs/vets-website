@@ -109,11 +109,11 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
 
   const renderAddCancelButtons = () => {
     return (
-      <>
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
         <button
           type="button"
           id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
+          className="usa-button-secondary small-screen:vads-u-width--auto"
           onClick={handleBack}
         >
           Cancel
@@ -121,35 +121,41 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
         <button
           type="submit"
           id="submit"
-          className="vads-u-width--auto"
+          className="usa-button-primary small-screen:vads-u-width--auto"
           onClick={updateFormData}
         >
           {`${automobiles.length === editIndex ? 'Add' : 'Update'} vehicle`}
         </button>
-      </>
+      </div>
     );
   };
 
   const renderContinueBackButtons = () => {
     return (
-      <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handleBack}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={updateFormData}
-        >
-          Continue
-        </button>
-      </>
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary"
+            onClick={handleBack}
+          >
+            <i aria-hidden="true" className="fa fa-angles-left" />
+            Back
+          </button>
+        </div>
+        <div className="small-6 medium-5 end columns">
+          <button
+            type="submit"
+            id="submit"
+            className="usa-button-primary"
+            onClick={updateFormData}
+          >
+            Continue
+            <i aria-hidden="true" className="fa fa-angles-right" />
+          </button>
+        </div>
+      </div>
     );
   };
 

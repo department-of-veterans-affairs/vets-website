@@ -131,7 +131,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             <button
               type="button"
               id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
+              className="usa-button-secondary small-screen:vads-u-width--auto"
               onClick={handlers.onCancel}
             >
               Cancel
@@ -139,7 +139,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             <button
               type="submit"
               id="submit"
-              className="vads-u-width--auto"
+              className="small-screen:vads-u-width--auto"
               onClick={handlers.onUpdate}
             >
               {`${otherExpenses.length === index ? 'Add' : 'Update'} expense`}

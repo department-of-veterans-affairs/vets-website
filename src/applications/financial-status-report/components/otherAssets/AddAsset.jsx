@@ -96,7 +96,9 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             className="schemaform-block-title"
             name="addOrUpdateAsset"
           >
-            Add your additional assets
+            {`${
+              otherAssets.length === index ? 'Add' : 'Update'
+            } your additional assets`}
           </legend>
           <VaTextInput
             className="no-wrap input-size-3"
@@ -146,11 +148,11 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
               </li>
             </ul>
           </va-additional-info>
-          <p>
+          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
             <button
               type="button"
               id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
+              className="usa-button-secondary small-screen:vads-u-width--auto"
               onClick={handlers.onCancel}
             >
               Cancel
@@ -158,12 +160,12 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             <button
               type="submit"
               id="submit"
-              className="vads-u-width--auto"
+              className="small-screen:vads-u-width--auto"
               onClick={handlers.onUpdate}
             >
               {`${otherAssets.length === index ? 'Add' : 'Update'} asset`}
             </button>
-          </p>
+          </div>
         </fieldset>
       </form>
     </>

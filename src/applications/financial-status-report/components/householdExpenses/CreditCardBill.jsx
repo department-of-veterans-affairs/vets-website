@@ -145,11 +145,11 @@ const CreditCardBill = props => {
 
   const renderAddCancelButtons = () => {
     return (
-      <>
+      <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
         <button
           type="button"
           id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
+          className="usa-button-secondary small-screen:vads-u-width--auto"
           onClick={handlers.onCancel}
         >
           Cancel
@@ -157,37 +157,43 @@ const CreditCardBill = props => {
         <button
           type="button"
           id="submit"
-          className="vads-u-width--auto usa-button-primary"
+          className="usa-button-primary small-screen:vads-u-width--auto"
           onClick={handlers.onUpdate}
         >
           {`${
             creditCardBills.length === index ? 'Add' : 'Update'
-          } a credit card bill`}
+          } credit card bill`}
         </button>
-      </>
+      </div>
     );
   };
 
   const renderContinueBackButtons = () => {
     return (
-      <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={updateFormData}
-        >
-          Continue
-        </button>
-      </>
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary"
+            onClick={handlers.onCancel}
+          >
+            <i aria-hidden="true" className="fa fa-angles-left" />
+            Back
+          </button>
+        </div>
+        <div className="small-6 medium-5 end columns">
+          <button
+            type="submit"
+            id="submit"
+            className="usa-button-primary"
+            onClick={updateFormData}
+          >
+            Continue
+            <i aria-hidden="true" className="fa fa-angles-right" />
+          </button>
+        </div>
+      </div>
     );
   };
 
@@ -245,11 +251,9 @@ const CreditCardBill = props => {
             value={creditCardBillRecord.amountPastDue}
           />
         </div>
-        <p>
-          {creditCardBills.length > 0
-            ? renderAddCancelButtons()
-            : renderContinueBackButtons()}
-        </p>
+        {creditCardBills.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </fieldset>
     </form>
   );

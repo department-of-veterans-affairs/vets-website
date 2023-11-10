@@ -186,11 +186,11 @@ const InstallmentContract = props => {
 
   const renderAddCancelButtons = () => {
     return (
-      <>
+      <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
         <button
           type="button"
           id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
+          className="usa-button-secondary small-screen:vads-u-width--auto"
           onClick={handlers.onCancel}
         >
           Cancel
@@ -198,37 +198,43 @@ const InstallmentContract = props => {
         <button
           type="submit"
           id="submit"
-          className="vads-u-width--auto"
+          className="usa-button-primary small-screen:vads-u-width--auto"
           onClick={handlers.onUpdate}
         >
           {`${
             installmentContracts.length === index ? 'Add' : 'Update'
-          } an installment contract`}
+          } installment contract`}
         </button>
-      </>
+      </div>
     );
   };
 
   const renderContinueBackButtons = () => {
     return (
-      <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={updateFormData}
-        >
-          Continue
-        </button>
-      </>
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary"
+            onClick={handlers.onCancel}
+          >
+            <i aria-hidden="true" className="fa fa-angles-left" />
+            Back
+          </button>
+        </div>
+        <div className="small-6 medium-5 end columns">
+          <button
+            type="submit"
+            id="submit"
+            className="usa-button-primary"
+            onClick={updateFormData}
+          >
+            Continue
+            <i aria-hidden="true" className="fa fa-angles-right" />
+          </button>
+        </div>
+      </div>
     );
   };
 
