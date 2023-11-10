@@ -166,33 +166,70 @@ const EmploymentWorkDates = props => {
     );
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary small-screen:vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="usa-button-primary small-screen:vads-u-width--auto"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            employmentRecords.length === index ? 'Add' : 'Update'
+          } employment record`}
+        </button>
+      </div>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <button
+            type="button"
+            id="cancel"
+            className="usa-button-secondary"
+            onClick={handlers.onCancel}
+          >
+            <i aria-hidden="true" className="fa fa-angles-left" />
+            Back
+          </button>
+        </div>
+        <div className="small-6 medium-5 end columns">
+          <button
+            type="submit"
+            id="submit"
+            className="usa-button-primary"
+            onClick={updateFormData}
+          >
+            Continue
+            <i aria-hidden="true" className="fa fa-angles-right" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <form onSubmit={handlers.onSubmitted}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           Your job at {employerName}
         </legend>
-        <div>{ShowWorkDates()}</div>
-        <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
-            onClick={handlers.onUpdate}
-          >
-            {`${
-              employmentRecords.length === index ? 'Update' : 'Add'
-            } employment record`}
-          </button>
-        </p>
+        {ShowWorkDates()}
+        {employmentRecords.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </fieldset>
     </form>
   );
