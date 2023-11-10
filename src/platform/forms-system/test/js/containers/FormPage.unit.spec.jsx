@@ -374,6 +374,83 @@ describe('Schemaform <FormPage>', () => {
       form.data.arrayProp[0],
     );
   });
+
+  it('should allow going to an array page with no data if allowPathWithNoItems is enabled', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const onSubmit = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'firstPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+      },
+      pageList: [
+        {
+          path: '/first-page',
+          pageKey: 'firstPage',
+        },
+        {
+          path: '/array-item',
+          pageKey: 'arrayItem',
+          showPagePerItem: true,
+          arrayPath: 'arrayProp',
+          allowPathWithNoItems: true,
+        },
+      ],
+    };
+
+    const form = {
+      pages: {
+        firstPage: {
+          uiSchema: {},
+          schema: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}],
+              },
+            },
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {},
+            },
+          },
+          showPagePerItem: true,
+          arrayPath: 'arrayProp',
+          allowPathWithNoItems: true,
+        },
+      },
+      data: {
+        name: 'test',
+        arrayProp: undefined,
+      },
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={form}
+        route={route}
+        router={router}
+        onSubmit={onSubmit}
+        location={{ pathname: '/first-page' }}
+      />,
+    );
+
+    tree.getMountedInstance().onSubmit({});
+    expect(router.push.calledWith('/array-item')).to.be.true;
+  });
+
   it('should handle change in array page', () => {
     const setData = sinon.spy();
     const route = makeRoute({
