@@ -24,21 +24,6 @@ export class CommunityCarePreferencesPageObject extends PageObject {
     return this;
   }
 
-  // assertWarningAlert({ exist = true } = {}) {
-  //   if (exist) {
-  //     cy.get('va-alert[status=warning]')
-  //       .as('alert')
-  //       .shadow();
-  //     cy.get('@alert').contains(
-  //       /Your browser is blocked from finding your current location/i,
-  //     );
-  //   } else {
-  //     cy.get('va-alert[status=warning]').should('not.exist');
-  //   }
-
-  //   return this;
-  // }
-
   assertUrl() {
     cy.url().should('include', 'preferred-provider');
     cy.axeCheckBestPractice();
