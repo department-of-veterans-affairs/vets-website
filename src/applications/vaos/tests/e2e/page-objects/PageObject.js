@@ -1,6 +1,14 @@
 export default class PageObject {
   rootUrl = '/my-health/appointments';
 
+  assertNexButton({ enabled = true, label = 'Continue' } = {}) {
+    cy.contains('button', label)
+      .as('button')
+      .should(enabled ? 'be.enabled' : 'be.disabled');
+
+    return this;
+  }
+
   clickNextButton(label = 'Continue') {
     cy.contains('button', label)
       .as('button')
