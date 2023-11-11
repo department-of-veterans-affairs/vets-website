@@ -30,6 +30,7 @@ import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
 import { MockFacility } from '../../fixtures/MockFacility';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 
 describe('VAOS direct schedule flow - Primary care', () => {
   beforeEach(() => {
@@ -86,7 +87,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         mockSlotsApi({
           locationId: '983',
-          clinicId: '0',
+          clinicId: '1',
           response: [mockSlot],
         });
 
@@ -157,7 +158,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         mockSlotsApi({
           locationId: '983',
-          clinicId: '0',
+          clinicId: '1',
           response: [mockSlot],
         });
 
@@ -219,7 +220,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         });
         mockSlotsApi({
           locationId: '983',
-          clinicId: '0',
+          clinicId: '1',
           response: [mockSlot],
         });
 
@@ -271,6 +272,85 @@ describe('VAOS direct schedule flow - Primary care', () => {
         cy.axeCheckBestPractice();
       });
     });
+
+    describe('And user selects "I need a different clinic"', () => {
+      it('should start appointment request flow', () => {
+        // Arrange
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        const mockSlot = new MockSlot({
+          id: 1,
+          start: moment().add(1, 'month'),
+        });
+
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 2 }),
+        });
+        mockSlotsApi({
+          locationId: '983',
+          clinicId: '1',
+          response: [mockSlot],
+        });
+
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .assertSingleLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+          })
+          .clickNextButton();
+
+        ClinicChoicePageObject.assertUrl()
+          .selectRadioButton(/I need a different clinic/i)
+          .clickNextButton();
+
+        DateTimeRequestPageObject.assertUrl();
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+
+    describe('And no clinic supports online scheduling', () => {
+      it('should start appointment request flow', () => {
+        // Arrange
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+        mockClinicApi({
+          locationId: '983',
+          response: [],
+        });
+
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .assertSingleLocation({
+            locationName: /Cheyenne VA Medical Center/i,
+          })
+          .clickNextButton();
+
+        DateTimeRequestPageObject.assertUrl();
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
   });
 
   describe('When more than one facility supports online scheduling', () => {
@@ -282,10 +362,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
       const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'month') });
 
-      mockClinicApi({
-        locationId: '983',
-        response: MockClinicResponse.createResponses({ count: 2 }),
-      });
       mockFacilitiesApi({
         response: MockFacility.createMockFacilities({
           facilityIds: ['983', '984'],
@@ -300,7 +376,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
       mockSlotsApi({
         locationId: '983',
-        clinicId: '0',
+        clinicId: '1',
         response: [mockSlot],
       });
     });
@@ -309,6 +385,11 @@ describe('VAOS direct schedule flow - Primary care', () => {
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 2 }),
+        });
 
         // Act
         cy.login(mockUser);
@@ -360,6 +441,11 @@ describe('VAOS direct schedule flow - Primary care', () => {
         // Arrange
         const mockUser = new MockUser();
 
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 2 }),
+        });
+
         // Act
         cy.login(mockUser);
 
@@ -399,6 +485,50 @@ describe('VAOS direct schedule flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickConfirmButton();
 
         ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
+
+    describe('And user selects "I need a different clinic"', () => {
+      it('should start appointment request flow', () => {
+        // Arrange
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        const mockSlot = new MockSlot({
+          id: 1,
+          start: moment().add(1, 'month'),
+        });
+
+        mockClinicApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 2 }),
+        });
+        mockSlotsApi({
+          locationId: '983',
+          clinicId: '1',
+          response: [mockSlot],
+        });
+
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .selectLocation(/Facility 983/i)
+          .clickNextButton();
+
+        ClinicChoicePageObject.assertUrl()
+          .selectRadioButton(/I need a different clinic/i)
+          .clickNextButton();
+
+        DateTimeRequestPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();

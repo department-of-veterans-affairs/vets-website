@@ -385,7 +385,9 @@ describe('VAOS community care flow - Primary care', () => {
       CommunityCarePreferencesPageObject.assertUrl()
         .expandAccordian()
         .selectCurrentLocation()
-        .assertWarningAlert();
+        .assertWarningAlert({
+          text: /Your browser is blocked from finding your current location/i,
+        });
 
       // Assert
       cy.axeCheckBestPractice();

@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class CommunityCarePreferencesPage extends PageObject {
+export class CommunityCarePreferencesPageObject extends PageObject {
   assertHomeAddress({ exist = true } = {}) {
     cy.findByTestId('providersSelect')
       .as('providersSelect')
@@ -24,20 +24,20 @@ export class CommunityCarePreferencesPage extends PageObject {
     return this;
   }
 
-  assertWarningAlert({ exist = true } = {}) {
-    if (exist) {
-      cy.get('va-alert[status=warning]')
-        .as('alert')
-        .shadow();
-      cy.get('@alert').contains(
-        /Your browser is blocked from finding your current location/i,
-      );
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
+  // assertWarningAlert({ exist = true } = {}) {
+  //   if (exist) {
+  //     cy.get('va-alert[status=warning]')
+  //       .as('alert')
+  //       .shadow();
+  //     cy.get('@alert').contains(
+  //       /Your browser is blocked from finding your current location/i,
+  //     );
+  //   } else {
+  //     cy.get('va-alert[status=warning]').should('not.exist');
+  //   }
 
-    return this;
-  }
+  //   return this;
+  // }
 
   assertUrl() {
     cy.url().should('include', 'preferred-provider');
@@ -109,4 +109,4 @@ export class CommunityCarePreferencesPage extends PageObject {
   }
 }
 
-export default new CommunityCarePreferencesPage();
+export default new CommunityCarePreferencesPageObject();

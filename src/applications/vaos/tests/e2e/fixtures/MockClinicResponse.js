@@ -13,7 +13,7 @@ export class MockClinicResponse {
   }
 
   /**
-   * Method to create multiple mock clinics. The clinic id will start at 0 and
+   * Method to create multiple mock clinics. The clinic id will start at 1 and
    * increment by 1 for each mock clinic created.
    *
    * @static
@@ -28,7 +28,7 @@ export class MockClinicResponse {
     for (let index = 0; index < count; index++) {
       array.push(
         new MockClinicResponse({
-          id: index,
+          id: index + 1,
           locationId,
           name: `Clinic ${index + 1}`,
         }),

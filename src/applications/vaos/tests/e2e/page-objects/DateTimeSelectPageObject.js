@@ -1,6 +1,16 @@
 import PageObject from './PageObject';
 
 export class DateTimeSelectPageObject extends PageObject {
+  assertRequestLink({ exist = true } = {}) {
+    cy.get('va-alert[status=warning]')
+      .as('alert')
+      .shadow();
+    cy.get('@alert')
+      .contains('Request an earlier appointment')
+      .should(exist ? 'exist' : 'not.exist');
+    return this;
+  }
+
   assertUrl() {
     cy.url().should('include', '/date-time');
 

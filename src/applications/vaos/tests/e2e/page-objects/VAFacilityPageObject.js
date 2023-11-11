@@ -50,33 +50,6 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  assertWarningAlert({ text, exist = true }) {
-    if (exist) {
-      cy.get('va-alert[status=warning]')
-        .as('alert')
-        .shadow();
-      cy.get('@alert').contains(text);
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
-
-    return this;
-  }
-
-  assertWarningModal({ text, exist = true }) {
-    if (exist) {
-      cy.get('va-modal[status=warning]')
-        .as('modal')
-        .shadow();
-      cy.get('@modal').contains(text);
-      cy.log('done');
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
-
-    return this;
-  }
-
   closeModal() {
     cy.get('va-modal[status=warning]')
       .as('modal')
@@ -89,16 +62,6 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
-    // cy.wait(['@v2:get:eligibility', '@v2:get:clinics']).then(() => {
-    //   cy.findByText(/Your appointment location/i, { selector: 'h1' });
-    //   if (isSingleLocation) {
-    //     cy.findByText(/We found one VA facility for your/i);
-    //   } else {
-    //     cy.get('#root_clinicId_0')
-    //       .focus()
-    //       .click();
-    //   }
-    // });
     cy.log('selectLocation');
     cy.findByLabelText(label)
       .as('radio')
