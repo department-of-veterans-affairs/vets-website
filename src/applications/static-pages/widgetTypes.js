@@ -38,6 +38,7 @@ export default {
   FORM_214142_CTA: 'form214142',
   FORM_21P0847_CTA: 'form21p-0847',
   FORM_264555_CTA: 'form264555',
+  FORM_400247_CTA: 'form400247',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HCA_PERFORMANCE_WARNING: 'hca-performance-warning',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
