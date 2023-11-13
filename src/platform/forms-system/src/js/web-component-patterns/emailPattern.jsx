@@ -24,6 +24,8 @@ const emailUI = (title, showAllowCorrespondence = false) => {
       required: 'Please enter an email address',
       format:
         'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
+      pattern:
+        'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
     },
     'ui:options': {
       inputType: 'email',
