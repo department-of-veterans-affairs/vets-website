@@ -104,6 +104,8 @@ export const createExternalApplicationUrl = () => {
 
   switch (application) {
     case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
+      URL = externalRedirectUrl;
+      break;
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
       break;
