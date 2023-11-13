@@ -23,7 +23,12 @@ export const Hub = () => {
 
   return (
     <>
-      <DevTools devtoolsData={{ label, link, hasBadAddress }} />
+      <DevTools
+        devtoolsData={{ label, link, hasBadAddress }}
+        shouldAlwaysRenderChildren={false}
+      >
+        <ExampleForDevTools data={{ label, link }} something="bork bork bork" />
+      </DevTools>
       <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
 
       {/* ROW */}
@@ -37,19 +42,21 @@ export const Hub = () => {
 
       {/* ROW */}
       <div className="vads-l-row vads-u-margin-bottom--4">
-        <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
-          heading="Personal information"
-          content="Review your legal name, date of birth, and disability rating. And
-              manage your preferred name and gender identity."
-        >
-          <div className="vads-u-margin-bottom--0p5">
-            <ProfileLink
-              text="Manage your personal information"
-              href={PROFILE_PATHS.PERSONAL_INFORMATION}
-            />
-          </div>
-        </HubCard>
+        <DevTools>
+          <HubCard
+            className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
+            heading="Personal information"
+            content="Review your legal name, date of birth, and disability rating. And
+          manage your preferred name and gender identity."
+          >
+            <div className="vads-u-margin-bottom--0p5">
+              <ProfileLink
+                text="Manage your personal information"
+                href={PROFILE_PATHS.PERSONAL_INFORMATION}
+              />
+            </div>
+          </HubCard>
+        </DevTools>
 
         <HubCard
           heading="Contact information"
@@ -152,7 +159,6 @@ export const Hub = () => {
           </div>
         </HubCard>
       </div>
-      <ExampleForDevTools />
     </>
   );
 };

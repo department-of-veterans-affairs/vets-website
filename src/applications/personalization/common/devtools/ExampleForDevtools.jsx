@@ -1,11 +1,9 @@
 import React from 'react';
-import { DevTools } from './DevTools';
 
-export const ExampleForDevTools = () => {
+export const ExampleForDevTools = (props = { data: 'no props passed' }) => {
   return (
     <div data-devtools="exampleForDevTools">
-      <p>ExampleForDevtools</p>
-      <DevTools />
+      <pre>{JSON.stringify(props, 2, null)}</pre>
     </div>
   );
 };

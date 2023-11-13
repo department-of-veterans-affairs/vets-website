@@ -1,11 +1,19 @@
-import React, { useEffect, createRef, useState } from 'react';
-import './sass/DevTools.scss';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
+
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+
+const DevToolsLoader = lazy(() => import('./DevToolsLoader'));
+
+const ChildrenRenderer = ({ children, shouldRender }) => {
+  return shouldRender ? children : null;
+};
 
 export const DevTools = ({
   devtoolsData = { error: 'no data provided to devtools instance' },
+  shouldAlwaysRenderChildren = true,
+  children,
 }) => {
   const [visible, setVisible] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   if (!window?.showDevTools) {
     window.showDevTools = () => {
@@ -19,49 +27,48 @@ export const DevTools = ({
     };
   }
 
-  const handlers = {
-    panelOnMouseEnter: () => {
-      setHovered(true);
-    },
-    panelOnMouseLeave: () => {
-      setHovered(false);
-    },
-  };
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
+  const loading = useToggleLoadingValue();
+  const devToolsShouldLoad = useToggleValue(
+    TOGGLE_NAMES.profileUseExperimental,
+  );
 
-  const panelDefaultClasses = 'devtools-panel devtools-panel--hidden';
-  const panelHoveredClasses = 'devtools-panel devtools-panel--hovered';
-
-  const devToolsRef = createRef();
+  const devToolsRef = useRef(null);
 
   useEffect(
     () => {
-      if (visible) {
-        devToolsRef.current.parentNode.classList.add('devtools-active');
-      } else {
-        devToolsRef.current.parentNode.classList = [''];
+      if (!loading && devToolsShouldLoad) {
+        setVisible(true);
+      }
+    },
+    [loading, devToolsShouldLoad],
+  );
+
+  useEffect(
+    () => {
+      if (devToolsRef?.current) {
+        const classList = visible ? 'devtools-active' : '';
+        devToolsRef.current.parentNode.classList = [classList];
       }
     },
     [visible, devToolsRef],
   );
 
-  useEffect(() => {
-    setVisible(true);
-    // console.log(devToolsRef.current.parentNode);
-  }, []);
-
-  return (
-    <div
-      className="devtools-container"
-      ref={devToolsRef}
-      onMouseEnter={handlers.panelOnMouseEnter}
-      onMouseLeave={handlers.panelOnMouseLeave}
-    >
-      <i className="fas fa-code" />
-      <div className={hovered ? panelHoveredClasses : panelDefaultClasses}>
-        <strong>panel</strong>
-        <pre>{JSON.stringify(devtoolsData, null, 2)}</pre>
-      </div>
+  return !loading && devToolsShouldLoad ? (
+    <div className="devtools-root" ref={devToolsRef}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <DevToolsLoader devtoolsData={devtoolsData} />
+        {children}
+      </Suspense>
     </div>
+  ) : (
+    <ChildrenRenderer shouldRender={shouldAlwaysRenderChildren}>
+      {children}
+    </ChildrenRenderer>
   );
 };
 
