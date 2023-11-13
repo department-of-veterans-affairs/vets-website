@@ -48,10 +48,10 @@ describe('Fill Refill Button component', () => {
   it('dispatches the fillPrescription action', () => {
     const screen = setup();
     const fillButton = screen.getByTestId('refill-request-button');
-    expect(screen.find('va-loading-indicator').length).to.equal(0);
+    expect(screen.getByTestId('refill-loader')).not.to.exist;
     fireEvent.click(fillButton);
     expect(fillButton).to.exist;
-    expect(screen.find('va-loading-indicator').length).to.equal(1);
+    expect(screen.getByTestId('refill-loader')).to.exist;
   });
 
   it('does not render the fill button when the prescription is NOT fillable', () => {
