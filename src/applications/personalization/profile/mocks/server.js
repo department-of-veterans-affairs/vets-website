@@ -61,6 +61,7 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
+            authExpVbaDowntimeMessage: true,
             profileContacts: true,
             profileLighthouseDirectDeposit: true,
             profileUseFieldEditingPage: true,
