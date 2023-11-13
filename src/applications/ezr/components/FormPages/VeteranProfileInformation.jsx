@@ -77,14 +77,14 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
           information, call our VA benefits hotline at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
           <va-telephone contact={CONTACTS[711]} tty />
-          ), Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
           .
         </p>
         <p>
-          You can also call your VA medical center to get help changing your
+          You can also call your VA health facility to get help changing your
           name on file with VA. Ask for the eligibility department.{' '}
           <va-link
             href="/find-locations/"

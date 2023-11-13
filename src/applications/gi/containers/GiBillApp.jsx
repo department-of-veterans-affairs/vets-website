@@ -89,7 +89,9 @@ export function GiBillApp({
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
-          <GiBillBreadcrumbs />
+          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+            <GiBillBreadcrumbs />
+          </div>
           {constants.inProgress && (
             <VaLoadingIndicator
               data-testid="loading-indicator"

@@ -1,4 +1,4 @@
-import manifest from '../../feedback-tool/manifest.json';
+import manifest from '../manifest.json';
 
 describe('Feedback Tool Keyboard Test', () => {
   it('Is accessible accordingly via keyboard', () => {
