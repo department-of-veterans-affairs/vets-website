@@ -18,7 +18,7 @@ export class ConfirmationPage extends React.Component {
 
     const submitDate = new Date(submission?.timestamp);
 
-    const { fullName } = data;
+    const { veteransFullName } = data;
 
     return (
       <div>
@@ -40,15 +40,16 @@ export class ConfirmationPage extends React.Component {
             Application for CHAMPVA Benefits Claim{' '}
             <span className="vads-u-font-weight--normal">(Form {formId})</span>
           </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
+          {veteransFullName ? (
+            <span className="veterans-full-name">
+              for {veteransFullName.first} {veteransFullName.middle}{' '}
+              {veteransFullName.last}
+              {veteransFullName.suffix ? `, ${veteransFullName.suffix}` : null}
             </span>
           ) : null}
 
           {isValid(submitDate) ? (
-            <p>
+            <p className="date-submitted">
               <strong>Date submitted</strong>
               <br />
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
@@ -70,7 +71,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      veteransFullName: {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
