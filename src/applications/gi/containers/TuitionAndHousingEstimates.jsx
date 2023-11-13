@@ -16,7 +16,6 @@ export function TuitionAndHousingEstimates({
   smallScreen,
 }) {
   const { expanded } = eligibility;
-
   const [giBillChapter, setGiBillChapter] = useState(eligibility.giBillChapter);
   const [militaryStatus, setMilitaryStatus] = useState(
     eligibility.militaryStatus,
@@ -37,7 +36,6 @@ export function TuitionAndHousingEstimates({
     eligibility.numberOfDependents,
   );
   const [onlineClasses, setOnlineClasses] = useState(eligibility.onlineClasses);
-
   const updateStore = () => {
     dispatchEligibilityChange({
       expanded,

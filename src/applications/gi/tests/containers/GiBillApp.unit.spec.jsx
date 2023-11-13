@@ -12,7 +12,25 @@ describe('<GiBillApp>', () => {
         constants: mockConstants(),
       },
     });
+    await waitFor(() => {
+      expect(screen.getByRole('application')).to.be.ok;
+    });
+  });
 
+  it('should render after running shouldExitPreviewMode()', async () => {
+    const screen = renderWithStoreAndRouter(
+      <GiBillApp TESTVERSION TESTQUERYPARAMS={false} />,
+      {
+        initialState: {
+          preview: {
+            display: true,
+            version: {
+              id: null,
+            },
+          },
+        },
+      },
+    );
     await waitFor(() => {
       expect(screen.getByRole('application')).to.be.ok;
     });
