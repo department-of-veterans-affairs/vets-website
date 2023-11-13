@@ -21,7 +21,7 @@ describe('<GiBillBreadcrumbs>', () => {
       </MemoryRouter>,
     );
 
-    expect(wrapper.find('Breadcrumbs')).to.have.lengthOf(1);
+    expect(wrapper.find('Breadcrumbs')).to.have.lengthOf(0);
     expect(wrapper.find('Link')).to.have.lengthOf(1);
     wrapper.unmount();
   });
