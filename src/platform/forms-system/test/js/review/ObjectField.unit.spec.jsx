@@ -2,7 +2,6 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import environment from 'platform/utilities/environment';
 import ObjectField from '../../../src/js/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
@@ -585,11 +584,7 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByLabelText('Edit Page Title')).to.exist;
 
-    let review;
-    if (environment.isProduction())
-      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
-      review = document.getElementsByClassName('review')[0];
-    else review = document.getElementsByClassName('review-auto-margin')[0];
+    const review = document.getElementsByClassName('review')[0];
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -697,13 +692,7 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-    let review;
-    if (environment.isProduction())
-      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
-
-      review = document.querySelector('div.review');
-    else review = document.querySelector('div.review-auto-margin');
-
+    const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -744,12 +733,7 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
-    let review;
-    if (environment.isProduction())
-      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
-
-      review = document.querySelector('dl.review');
-    else review = document.querySelector('dl.review-auto-margin');
+    const review = document.querySelector('dl.review');
 
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -790,12 +774,7 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-    let review;
-    if (environment.isProduction())
-      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
-
-      review = document.querySelector('div.review');
-    else review = document.querySelector('div.review-auto-margin');
+    const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -835,12 +814,7 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-    let review;
-    if (environment.isProduction())
-      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
-
-      review = document.querySelector('div.review');
-    else review = document.querySelector('div.review-auto-margin');
+    const review = document.querySelector('div.review');
 
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -882,13 +856,7 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
-    let review;
-    if (environment.isProduction())
-      // MBMS-51921 Removed this with the review-auto-margin logic. Keep review.
-
-      review = document.querySelector('dl.review');
-    else review = document.querySelector('dl.review-auto-margin');
-
+    const review = document.querySelector('dl.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
