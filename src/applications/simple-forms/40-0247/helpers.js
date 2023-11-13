@@ -36,9 +36,9 @@ export const supportingDocsDescription = (
       documents if they’re available.
     </p>
     <p className="hideOnReviewPage">
-      We prefer that you upload the Veteran’s or Reservist’s DD214.Guidelines
-      for uploading a file:
+      We prefer that you upload the Veteran’s or Reservist’s DD214.
     </p>
+    <p>Guidelines for uploading a file:</p>
     <ul className="hideOnReviewPage">
       <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
       <li>Your file should be no larger than 20MB</li>
