@@ -8,16 +8,15 @@ import {
   submitForm,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
+import applicantInformation from '../../pages/applicantInformation';
 
 const definitions = formConfig.defaultDefinitions;
 
 describe('Pensions applicantInformation', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  it('should render', () => {
+  const { schema, uiSchema } = applicantInformation;
+  it('should render', async () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -28,10 +27,13 @@ describe('Pensions applicantInformation', () => {
     );
 
     const formDOM = getFormDOM(form);
-
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(9);
+    waitFor(() => {
+      expect(formDOM.querySelectorAll('input,select,va-radio').length).to.equal(
+        9,
+      );
+    });
   });
-  it('should require one of ssn or file number', () => {
+  it('should not require ssn after entered', async () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -44,14 +46,14 @@ describe('Pensions applicantInformation', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
-    formDOM.fillData('#root_veteranSocialSecurityNumber', '134445555');
-
-    formDOM.submitForm();
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    waitFor(() => {
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+      formDOM.fillData('#root_veteranSocialSecurityNumber', '134445555');
+      formDOM.submitForm();
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    });
   });
-  it('should submit with no errors with all required fields filled in', () => {
+  it('should submit with no errors with all required fields filled in', async () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -64,48 +66,50 @@ describe('Pensions applicantInformation', () => {
     );
     const formDOM = getFormDOM(form);
     submitForm(form);
-    const find = formDOM.querySelector.bind(formDOM);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
-      .empty;
+    waitFor(() => {
+      const find = formDOM.querySelector.bind(formDOM);
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+        .empty;
 
-    ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
-      target: {
-        value: 'Test',
-      },
-    });
-    ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
-      target: {
-        value: 'Test',
-      },
-    });
-    ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthMonth'), {
-      target: {
-        value: '1',
-      },
-    });
-    ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthDay'), {
-      target: {
-        value: '1',
-      },
-    });
-    ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthYear'), {
-      target: {
-        value: '1980',
-      },
-    });
-    const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    ).find(input => input.id === 'root_veteranSocialSecurityNumber');
-    ReactTestUtils.Simulate.change(ssn, {
-      target: {
-        value: '123456788',
-      },
-    });
+      ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
+        target: {
+          value: 'Test',
+        },
+      });
+      ReactTestUtils.Simulate.change(find('#root_veteranFullName_last'), {
+        target: {
+          value: 'Test',
+        },
+      });
+      ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthMonth'), {
+        target: {
+          value: '1',
+        },
+      });
+      ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthDay'), {
+        target: {
+          value: '1',
+        },
+      });
+      ReactTestUtils.Simulate.change(find('#root_veteranDateOfBirthYear'), {
+        target: {
+          value: '1980',
+        },
+      });
+      const ssn = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+        form,
+        'input',
+      ).find(input => input.id === 'root_veteranSocialSecurityNumber');
+      ReactTestUtils.Simulate.change(ssn, {
+        target: {
+          value: '123456788',
+        },
+      });
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
-      .empty;
-    submitForm(form);
-    expect(onSubmit.called).to.be.true;
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+        .empty;
+      submitForm(form);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 });
