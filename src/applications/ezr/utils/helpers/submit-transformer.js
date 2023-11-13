@@ -36,6 +36,7 @@ export function submitTransformer(formConfig, form) {
     'veteranFullName',
     'veteranDateOfBirth',
     'veteranSocialSecurityNumber',
+    'gender',
   ];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
