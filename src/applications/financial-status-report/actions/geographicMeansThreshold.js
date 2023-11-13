@@ -15,7 +15,7 @@ const DISCRETIONARY_INCOME_PERCENTAGE = 0.0125;
 // Manually toggle this to true for using mock data in local environment
 const DETECT_LOCALHOST = environment.isLocalhost();
 // Manually set to true to use mock data in a local environment. Ensure this is false in commits.
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 // Manually set to true to use staging data in a local environment. Ensure this is false in commits.
 const USE_STAGING_DATA = false;
 // Mock GMT value for testing
