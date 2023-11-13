@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TabItem from '../TabItem';
+import TabItem from './AppealsV2TabItem';
 
 const location = {
   pathname: '/some path',
