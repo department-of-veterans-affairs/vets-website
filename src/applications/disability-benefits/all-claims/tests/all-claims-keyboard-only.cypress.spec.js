@@ -167,65 +167,65 @@ describe('526EZ keyboard only navigation', () => {
 
       cy.tabToContinueForm();
 
-      // // I. Veteran Details > B. Contact Information
-      // // ===========================================
-      // cy.url().should('include', veteranDetailsPages.contactInformation.path);
-      // cy.injectAxeThenAxeCheck();
+      // I. Veteran Details > B. Contact Information
+      // ===========================================
+      cy.url().should('include', veteranDetailsPages.contactInformation.path);
+      cy.injectAxeThenAxeCheck();
 
-      // // 1. Can update existing info
-      // idRoot = '#root_phoneAndEmail_';
-      // cy.tabToElement('.edit-button');
-      // cy.realPress('Space');
-      // // NOTE: Cypress quirk requires you to clear current input before typing
-      // // new input. IRL, this is not necessary.
-      // cy.tabToElement(`${idRoot}primaryPhone`);
-      // cy.typeInFocused('');
-      // cy.typeInFocused(data.phoneAndEmail.primaryPhone);
-      // cy.typeInIfDataExists(
-      // `${idRoot}emailAddress`,
-      // data.phoneAndEmail.emailAddress,
-      // );
-      // cy.tabToElementAndPressSpace('.update-button');
+      // 1. Can update existing info
+      idRoot = '#root_phoneAndEmail_';
+      cy.tabToElement('.edit-button');
+      cy.realPress('Space');
+      // NOTE: Cypress quirk requires you to clear current input before typing
+      // new input. IRL, this is not necessary.
+      cy.tabToElement(`${idRoot}primaryPhone`);
+      cy.typeInFocused('');
+      cy.typeInFocused(data.phoneAndEmail.primaryPhone);
+      cy.typeInIfDataExists(
+        `${idRoot}emailAddress`,
+        data.phoneAndEmail.emailAddress,
+      );
+      cy.tabToElementAndPressSpace('.update-button');
 
-      // // 2. Can start editing but then cancel
-      // cy.tabToElementAndPressSpace('.edit-button');
-      // cy.tabToElementAndPressSpace('.cancel-button');
+      // 2. Can start editing but then cancel
+      cy.tabToElementAndPressSpace('.edit-button');
+      cy.tabToElementAndPressSpace('.cancel-button');
 
-      // // 3. Can indicate address on a military base outside of the US
-      // idRoot = '#root_mailingAddress_';
-      // // NOTE: Cypress quirk - unable to select checkbox by ID or by label text
-      // // (via tabToInputWithLabel), but selecting by input type works.
-      // cy.tabToElementAndPressSpace('[type="checkbox"]');
-      // cy.typeInIfDataExists(`${idRoot}addressLine1`, '123 foo st');
-      // cy.typeInIfDataExists(`${idRoot}addressLine2`, 'Apt 1');
-      // cy.typeInIfDataExists(`${idRoot}addressLine3`, 'Room 2');
-      // cy.tabToElement(`${idRoot}city`);
-      // cy.chooseSelectOptionByTyping('APO');
-      // cy.tabToElement(`${idRoot}state`);
-      // cy.chooseSelectOptionByTyping('Armed Forces Americas (AA)');
-      // cy.typeInIfDataExists(`${idRoot}zipCode`, '11111');
+      // 3. Can indicate address on a military base outside of the US
+      idRoot = '#root_mailingAddress_';
+      // NOTE: Cypress quirk - unable to select checkbox by ID or by label text
+      // (via tabToInputWithLabel), but selecting by input type works.
+      cy.tabToElementAndPressSpace('[type="checkbox"]');
+      cy.typeInIfDataExists(`${idRoot}addressLine1`, '123 foo st');
+      cy.typeInIfDataExists(`${idRoot}addressLine2`, 'Apt 1');
+      cy.typeInIfDataExists(`${idRoot}addressLine3`, 'Room 2');
+      cy.tabToElement(`${idRoot}city`);
+      cy.chooseSelectOptionByTyping('APO');
+      cy.tabToElement(`${idRoot}state`);
+      cy.chooseSelectOptionByTyping('Armed Forces Americas (AA)');
+      cy.typeInIfDataExists(`${idRoot}zipCode`, '11111');
 
-      // // 4. Can indicate a US address
-      // cy.tabToElementAndPressSpace('[type="checkbox"]', false);
-      // cy.tabToElement(`${idRoot}country`);
-      // cy.chooseSelectOptionByTyping('USA');
-      // // (Street address already exists from before)
-      // cy.typeInIfDataExists(`${idRoot}city`, 'Foo');
-      // cy.tabToElement(`${idRoot}state`);
-      // cy.chooseSelectOptionByTyping('Alabama');
-      // cy.tabToElementAndPressSpace('.update-button');
+      // 4. Can indicate a US address
+      cy.tabToElementAndPressSpace('[type="checkbox"]', false);
+      cy.tabToElement(`${idRoot}country`);
+      cy.chooseSelectOptionByTyping('USA');
+      // (Street address already exists from before)
+      cy.typeInIfDataExists(`${idRoot}city`, 'Foo');
+      cy.tabToElement(`${idRoot}state`);
+      cy.chooseSelectOptionByTyping('Alabama');
+      cy.tabToElementAndPressSpace('.update-button');
 
-      // // 5. Can edit newly provided address
-      // // TODO: after saving mailing address, focus is brought to the Phone &
-      // // Email header, rather than the Mailing Address header. Might need to
-      // // fix that.
-      // cy.tabToElementAndPressSpace('[aria-label="Edit Mailing address"]');
-      // cy.tabToElementAndPressSpace('.cancel-button');
+      // 5. Can edit newly provided address
+      // TODO: after saving mailing address, focus is brought to the Phone &
+      // Email header, rather than the Mailing Address header. Might need to
+      // fix that.
+      cy.tabToElementAndPressSpace('[aria-label="Edit Mailing address"]');
+      cy.tabToElementAndPressSpace('.cancel-button');
 
-      // // 6. Can edit contact information stored on profile page
-      // cy.tabToElement('[href="/profile/contact-information"]');
+      // 6. Can edit contact information stored on profile page
+      cy.tabToElement('[href="/profile/contact-information"]');
 
-      // cy.tabToContinueForm();
+      cy.tabToContinueForm();
 
       // // I. Veteran Details > C. Housing Situation
       // // =========================================
