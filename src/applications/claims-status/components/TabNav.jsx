@@ -3,9 +3,9 @@ import React from 'react';
 
 import TabItem from './TabItem';
 
-function TabNav({ id }) {
+export default function TabNav({ id }) {
   return (
-    <ul className="va-tabs claims-status-tabs" role="tablist">
+    <ul className="tabs" role="tablist">
       <TabItem
         shortcut={1}
         tabpath={`your-claims/${id}/status`}
@@ -24,5 +24,3 @@ function TabNav({ id }) {
 TabNav.propTypes = {
   id: PropTypes.string,
 };
-
-export default TabNav;

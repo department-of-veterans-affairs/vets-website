@@ -20,19 +20,18 @@ class TabItem extends React.Component {
   };
 
   render() {
-    const { className, id, tabpath, title } = this.props;
+    const { tabpath, title } = this.props;
     const activeTab = this.trimCurrentUrl();
+
     return (
-      <li className={className} role="presentation">
+      <li role="presentation">
         <IndexLink
-          id={`tab${id || title}`}
-          aria-controls={
-            activeTab === tabpath ? `tabPanel${id || title}` : null
-          }
+          id={`tab${title}`}
+          aria-controls={activeTab === tabpath ? `tabPanel${title}` : null}
           aria-selected={activeTab === tabpath}
+          activeClassName="tab--current"
+          className="tab"
           role="tab"
-          className="va-tab-trigger"
-          activeClassName="va-tab-trigger--current"
           to={tabpath}
         >
           {title}
