@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
-import ResponsiveTable from '../ResponsiveTable';
 import { Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { getCalculatedBenefits } from '../../selectors/calculator';
+import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
 
 export default function SchoolLocations({
   calculator,
@@ -163,17 +162,19 @@ export default function SchoolLocations({
             mobileHeader: upperCaseFirstLetterOnly(type),
           };
 
+    const location = schoolLocationTableInfo(
+      physicalCity,
+      physicalState,
+      physicalCountry,
+      physicalZip,
+    );
+
     return {
       key: `${facilityCode}-${type}`,
       rowClassName: `${type}-row`,
-      'School name': schoolName,
-      Location: schoolLocationTableInfo(
-        physicalCity,
-        physicalState,
-        physicalCountry,
-        physicalZip,
-      ),
-      'Estimated housing': (
+      schoolName,
+      location,
+      estimatedHousing: (
         <>
           {estimatedHousingValue(inst)}
           {month}
@@ -229,20 +230,25 @@ export default function SchoolLocations({
   };
 
   const renderFacilityTable = mainMap => {
-    const maxRows = viewableRowCount;
-
-    const fields = ['School name', 'Location', 'Estimated housing'];
-
     const data = Array.of(createMainRow(mainMap.institution)).concat(
-      createBranchesAndExtensionsRows(mainMap, maxRows),
+      createBranchesAndExtensionsRows(mainMap, viewableRowCount),
     );
 
     return (
-      <ResponsiveTable
-        columns={fields}
-        tableClass="school-locations"
-        data={data}
-      />
+      <va-table class="school-locations">
+        <va-table-row slot="headers">
+          <span>School name</span>
+          <span>Location</span>
+          <span>Estimated housing</span>
+        </va-table-row>
+        {data.map(row => (
+          <va-table-row key={row.key} class={row.rowClassName}>
+            <span>{row.schoolName}</span>
+            <span>{row.location}</span>
+            <span>{row.estimatedHousing}</span>
+          </va-table-row>
+        ))}
+      </va-table>
     );
   };
 
