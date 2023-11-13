@@ -44,7 +44,7 @@ export const reformatData = ({ data }) => {
 };
 
 export const transform = (formConfig, form) => {
-  const formData = transformForSubmit(formConfig, reformatData(form));
+  const formData = transformForSubmit(formConfig, { data: reformatData(form) });
 
   return JSON.stringify({
     educationCareerCounselingClaim: {
