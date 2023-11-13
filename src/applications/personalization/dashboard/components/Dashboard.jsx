@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
@@ -7,12 +7,16 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -138,6 +142,8 @@ const Dashboard = ({
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
 
+  const [visibleAlert, setVisibleAlert] = useState(true);
+
   useEffect(() => {
     // use Drupal based Cerner facility data
     connectDrupalSourceOfTruthCerner(dispatch);
@@ -189,6 +195,10 @@ const Dashboard = ({
     },
     [canAccessPaymentHistory, getPayments],
   );
+
+  const hideAlert = () => {
+    setVisibleAlert(false);
+  };
 
   return (
     <RequiredLoginView
@@ -247,6 +257,35 @@ const Dashboard = ({
               )}
 
               {/* LOA3 user experience */}
+              {/* Remove the following after maintenance is over */}
+              <div className="vads-u-margin-top--4 vads-l-col--9">
+                <Toggler
+                  toggleName={Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage}
+                >
+                  <Toggler.Enabled>
+                    <VaAlert
+                      closeBtnAriaLabel="Close notification"
+                      closeable
+                      onCloseEvent={hideAlert}
+                      status="warning"
+                      visible={visibleAlert}
+                    >
+                      <h2 slot="headline">
+                        This is an informational alert using the dismissible
+                        option
+                      </h2>
+                      <div>
+                        <p className="vads-u-margin-y--0">
+                          Dismissible alert text would go here. This is an
+                          example.
+                        </p>
+                      </div>
+                    </VaAlert>
+                  </Toggler.Enabled>
+                </Toggler>
+              </div>
+              {/* end Remove */}
+
               {props.showClaimsAndAppeals && (
                 <DowntimeNotification
                   dependencies={[
