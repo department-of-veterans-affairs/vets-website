@@ -18,7 +18,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsNumber = PrescriptionsNumber => {
-    cy.get('[data-testid="prescription-number"]').should(
+    cy.get('p[data-testid="prescription-number"]').should(
       'have.text',
       PrescriptionsNumber,
     );
@@ -79,7 +79,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid ="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };

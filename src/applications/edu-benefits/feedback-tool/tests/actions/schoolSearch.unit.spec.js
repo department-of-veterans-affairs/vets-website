@@ -12,7 +12,7 @@ import {
   searchSchools,
   selectInstitution,
   toggleManualSchoolEntry,
-} from '../../../feedback-tool/actions/schoolSearch';
+} from '../../actions/schoolSearch';
 
 describe('schoolSearch actions', () => {
   describe('clearSearch', () => {
