@@ -71,8 +71,9 @@ const v2 = {
   postCheckInData: async ({
     uuid,
     appointmentIen,
-    facilityId,
     setECheckinStartedCalled,
+    isTravelEnabled,
+    travelSubmitted,
   }) => {
     const url = '/check_in/v2/patient_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
@@ -80,8 +81,9 @@ const v2 = {
       patientCheckIns: {
         uuid,
         appointmentIen,
-        facilityId,
         setECheckinStartedCalled,
+        isTravelEnabled,
+        travelSubmitted,
       },
     };
     const body = JSON.stringify(data);
