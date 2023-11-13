@@ -16,7 +16,6 @@ describe('<GiBillApp>', () => {
       expect(screen.getByRole('application')).to.be.ok;
     });
   });
-
   it('should render after running shouldExitPreviewMode()', async () => {
     const screen = renderWithStoreAndRouter(
       <GiBillApp TESTVERSION TESTQUERYPARAMS={false} />,

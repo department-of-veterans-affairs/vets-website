@@ -117,4 +117,27 @@ describe('<KeywordSearch>', () => {
     );
     wrapper.unmount();
   });
+  it('itemToString function returns correct value', () => {
+    const wrapper = shallow(<KeywordSearch label required />);
+    const item = 'testItem';
+    const result = wrapper.find('Downshift').prop('itemToString')(item);
+    expect(result).to.equal(item);
+    wrapper.unmount();
+  });
+  it('handles Enter key press correctly', () => {
+    const mockOnPressEnter = sinon.spy();
+    const mockOnUpdateAutocompleteSearchTerm = sinon.spy();
+    const wrapper = mount(
+      <KeywordSearch
+        onPressEnter={mockOnPressEnter}
+        onUpdateAutocompleteSearchTerm={mockOnUpdateAutocompleteSearchTerm}
+        onSelection={() => {}}
+        inputValue="test"
+      />,
+    );
+    const event = { keyCode: 13 };
+    wrapper.find('input').simulate('keyUp', event);
+    expect(mockOnPressEnter.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
 });
