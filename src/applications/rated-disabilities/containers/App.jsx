@@ -17,7 +17,7 @@ import {
   rdSortAbTest,
 } from '../selectors';
 
-const RatedDisabilitiesApp = props => {
+const App = props => {
   const { featureFlagsLoading, ratedDisabilities } = props.ratedDisabilities;
 
   return (
@@ -53,7 +53,7 @@ const RatedDisabilitiesApp = props => {
   );
 };
 
-RatedDisabilitiesApp.propTypes = {
+App.propTypes = {
   detectDiscrepancies: PropTypes.bool,
   error: PropTypes.string,
   fetchRatedDisabilities: PropTypes.func,
@@ -84,5 +84,5 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RatedDisabilitiesApp);
-export { RatedDisabilitiesApp };
+)(App);
+export { App };
