@@ -203,7 +203,9 @@ class ObjectField extends React.Component {
         )}
 
         {!environment.isProduction() && (
-          <Tag className="review-auto-margin">{renderedProperties}</Tag>
+          <Tag className="review" style={{ margin: '16px auto' }}>
+            {renderedProperties}
+          </Tag>
         )}
       </>
     ) : (
