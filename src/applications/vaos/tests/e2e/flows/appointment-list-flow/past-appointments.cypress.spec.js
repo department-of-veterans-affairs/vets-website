@@ -43,18 +43,19 @@ describe('VAOS past appointment flow', () => {
       // Act
       AppointmentListPageObject.visit();
       cy.findByRole('link', { name: 'Past' })
-        .click()
-        .then(() => {
-          // Assert
-          // Constrain search within list group.
-          cy.findByTestId(
-            `appointment-list-${yesterday.format('YYYY-MM')}`,
-          ).within(() => {
-            cy.findAllByTestId('appointment-list-item').should($list => {
-              expect($list).to.have.length(1);
-            });
+        .as('link')
+        .click();
+      cy.get('@link').then(() => {
+        // Assert
+        // Constrain search within list group.
+        cy.findByTestId(
+          `appointment-list-${yesterday.format('YYYY-MM')}`,
+        ).within(() => {
+          cy.findAllByTestId('appointment-list-item').should($list => {
+            expect($list).to.have.length(1);
           });
         });
+      });
 
       cy.axeCheckBestPractice();
     });
@@ -73,7 +74,7 @@ describe('VAOS past appointment flow', () => {
 
       // Act
       PastAppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -100,7 +101,7 @@ describe('VAOS past appointment flow', () => {
 
       // Act
       PastAppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectDateRange(2);
 
       // Assert
