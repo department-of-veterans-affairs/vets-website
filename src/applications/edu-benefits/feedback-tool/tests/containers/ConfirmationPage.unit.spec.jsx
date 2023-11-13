@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 
-import { ConfirmationPage } from '../../../feedback-tool/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
 describe('GI Feedback Tool <ConfirmationPage>', () => {
   it('should render', () => {

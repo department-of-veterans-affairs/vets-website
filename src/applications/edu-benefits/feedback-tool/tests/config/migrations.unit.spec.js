@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import migrations from '../../../feedback-tool/config/migrations';
+import migrations from '../../config/migrations';
 
 describe('Feedback tool migrations', () => {
   it('should convert keys in programs object', () => {

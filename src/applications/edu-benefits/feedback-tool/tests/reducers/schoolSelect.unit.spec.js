@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import schoolSelect from '../../../feedback-tool/reducers/schoolSelect';
+import schoolSelect from '../../reducers/schoolSelect';
 
 describe('schoolSearch reducer', () => {
   describe('INSTITUTION_SELECTED', () => {
