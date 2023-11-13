@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
-import { getGMT } from '../../../actions/geographicMeansThreshold'; // Adjust the import path as necessary
+import { getGMT } from '../../../actions/geographicMeansThreshold';
 import {
   GMT_FETCH_INITIATED,
   GMT_FETCH_SUCCESS,
@@ -56,7 +56,6 @@ describe('getGMT action creator', () => {
       dispatch,
     ).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(GMT_FETCH_INITIATED);
-      // Assertions for staging environment...
     });
   });
 
@@ -64,7 +63,6 @@ describe('getGMT action creator', () => {
     mockApiRequest(mockResponse); // Mock response for production API
     return getGMT(dependents, year, zipCode)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(GMT_FETCH_INITIATED);
-      // Assertions for production environment...
     });
   });
 
