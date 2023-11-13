@@ -5,7 +5,7 @@ import {
 } from '../../../../utils/helpers/prefill-transformer';
 
 describe('ezr prefill transformer', () => {
-  describe('when `sanitizeAddress` executes', () => {
+  context('when `sanitizeAddress` executes', () => {
     it('should return all required fields when provided', () => {
       const addressToSanitize = {
         addressLine1: '123 Apple Lane',
@@ -77,7 +77,7 @@ describe('ezr prefill transformer', () => {
     });
   });
 
-  describe('when `prefillTransformer` executes', () => {
+  context('when `prefillTransformer` executes', () => {
     const formData = {
       veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
       gender: 'M',
@@ -85,13 +85,6 @@ describe('ezr prefill transformer', () => {
       veteranSocialSecurityNumber: '796121200',
       homePhone: '4445551212',
       email: 'test2@test1.net',
-      lastServiceBranch: 'air force',
-      lastEntryDate: '2001-03-21',
-      postNov111998Combat: true,
-      lastDischargeDate: '2014-07-21',
-      dischargeType: 'honorable',
-      vaCompensationType: 'lowDisability',
-      'view:demographicCategories': { isSpanishHispanicLatino: false },
     };
 
     context('when profile data omits all addresses', () => {
@@ -110,7 +103,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(14);
+        expect(Object.keys(prefillData)).to.have.lengthOf(7);
         expect(Object.keys(prefillData).veteranAddress).to.not.exist;
         expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -161,7 +154,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(15);
+        expect(Object.keys(prefillData)).to.have.lengthOf(8);
         expect(prefillData.veteranAddress).to.equal(undefined);
         expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(8);
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -237,7 +230,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(16);
+          expect(Object.keys(prefillData)).to.have.lengthOf(9);
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(
             8,
@@ -314,7 +307,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(15);
+          expect(Object.keys(prefillData)).to.have.lengthOf(8);
           expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;

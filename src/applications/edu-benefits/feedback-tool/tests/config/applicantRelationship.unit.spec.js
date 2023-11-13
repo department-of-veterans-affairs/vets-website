@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../../feedback-tool/config/form';
+import formConfig from '../../config/form';
 
 describe('feedback tool applicant info', () => {
   const {

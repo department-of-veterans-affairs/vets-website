@@ -1,0 +1,7 @@
+.ezr-button-link, .ezr-button-remove {
+  &:hover, &:focus, &:active { padding: 4px 8px !important; }
+}
+.ezr-button-remove { border-radius: 5px; color: $color-secondary-dark !important; font-weight: 700; text-decoration: none; text-transform: uppercase;
+  &:hover, &:focus, &:active { background: $color-secondary-lightest !important; }
+  &:hover, &:active { color: $color-secondary-darkest !important; }
+}
