@@ -25,7 +25,7 @@ export function CalculateYourBenefits({
   dispatchUpdateEstimatedBenefits,
   eligibility,
   estimatedBenefits,
-  gibctEybBottomSheet,
+  gibctEybBottomSheet, //= true,// delete the = true part
   profile,
   isOJT,
 }) {

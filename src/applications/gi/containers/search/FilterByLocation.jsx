@@ -27,7 +27,6 @@ export function FilterByLocation({
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
-
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
   };

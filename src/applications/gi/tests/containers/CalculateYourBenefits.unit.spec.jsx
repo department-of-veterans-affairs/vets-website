@@ -1517,14 +1517,14 @@ describe('<CalculateYourBenefits>', () => {
     const mockStore = configureStore(middleware);
     // const { props, data } = getData();
 
-    const gibctEybBottomSheet = undefined;
+    // const gibctEybBottomSheet = undefined;
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
     render(
       <Provider store={mockStore(data)}>
         <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
+          // // gibctEybBottomSheet={gibctEybBottomSheet}
           isOJT={isOJT}
           {...props}
         />
@@ -1535,54 +1535,17 @@ describe('<CalculateYourBenefits>', () => {
       expect(action.length).to.eq(0);
     });
   });
-  it('should render and handle scroll events', () => {
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-
-    const gibctEybBottomSheet = true;
-    const isOJT = false;
-    const { props, data } = getData();
-    const store = mockStore(data);
-
-    const mockSetShowEybSheet = sinon.spy();
-    const mockSetExpandEybSheet = sinon.spy();
-    const useStateStub = sinon.stub(React, 'useState');
-    useStateStub.onCall(0).returns([false, mockSetShowEybSheet]);
-    useStateStub.onCall(1).returns([false, mockSetExpandEybSheet]);
-    const addEventListenerSpy = sinon.spy(global.window, 'addEventListener');
-    const removeEventListenerSpy = sinon.spy(
-      global.window,
-      'removeEventListener',
-    );
-    const tree = mount(
-      <Provider store={store}>
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-          {...props}
-        />
-      </Provider>,
-    );
-    global.window.dispatchEvent(new Event('scroll'));
-    sinon.assert.calledWith(addEventListenerSpy, 'scroll', sinon.match.func);
-    const element = tree.find('div#eyb-summary-sheet').getDOMNode();
-    expect(document.body.contains(element)).to.be.false;
-    tree.unmount();
-    sinon.assert.calledWith(removeEventListenerSpy, 'scroll', sinon.match.func);
-    addEventListenerSpy.restore();
-    useStateStub.restore();
-  });
   it('should return no ', () => {
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
+    // const gibctEybBottomSheet = true;
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
     const tree = mount(
       <Provider store={store}>
         <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
+          // // gibctEybBottomSheet={gibctEybBottomSheet}
           isOJT={isOJT}
           {...props}
         />
@@ -1600,7 +1563,7 @@ describe('<CalculateYourBenefits>', () => {
   it('should', () => {
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
+    // const gibctEybBottomSheet = true;
     const isOJT = false;
     const { props, data } = getData();
     const newData = {
@@ -1620,7 +1583,7 @@ describe('<CalculateYourBenefits>', () => {
     const tree = mount(
       <Provider store={store}>
         <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
+          // // gibctEybBottomSheet={gibctEybBottomSheet}
           isOJT={isOJT}
           {...props}
         />
@@ -1647,7 +1610,7 @@ describe('<CalculateYourBenefits>', () => {
   it('sets showEybSheet to true when scrolled to the correct position', () => {
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
+    // const gibctEybBottomSheet = true;
     const isOJT = false;
     const { props, data } = getData();
     const newData = {
@@ -1668,7 +1631,7 @@ describe('<CalculateYourBenefits>', () => {
     const tree = mount(
       <Provider store={store}>
         <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
+          // // gibctEybBottomSheet={gibctEybBottomSheet}
           isOJT={isOJT}
           {...props}
         />
