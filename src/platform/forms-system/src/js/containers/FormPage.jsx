@@ -184,8 +184,9 @@ class FormPage extends React.Component {
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema =
         schema.properties[route.pageConfig.arrayPath].items[params.index];
-      if (!schema && pageProps.allowPathWithNoItems) {
-        schema = schema.properties[route.pageConfig.arrayPath].additionalItems;
+      if (!schema && route.pageConfig.allowPathWithNoItems) {
+        schema =
+          route.pageConfig.schema.properties[route.pageConfig.arrayPath].items;
       }
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;

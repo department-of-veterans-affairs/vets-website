@@ -105,6 +105,11 @@ const savedAddress = {
   stateCode: '',
 };
 
+const getAddressPath = (path, index) => {
+  const addressPath = [...path].shift();
+  return index !== null ? [addressPath, index] : addressPath;
+};
+
 /**
  * Update form data to remove selected military city & state and restore any
  * previously set city & state when the "I live on a U.S. military base"
@@ -257,7 +262,7 @@ export function addressUI(options) {
          * user selects that they live on a military base outside the US.
          */
         updateSchema: (formData, schema, _uiSchema, index, path) => {
-          const addressPath = [...path].shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
@@ -341,7 +346,7 @@ export function addressUI(options) {
           if (schema.maxLength) {
             cityMaxLength = schema.maxLength;
           }
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const ui = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
@@ -399,7 +404,7 @@ export function addressUI(options) {
          * If the country value is anything other than USA, change the title and default to string.
          */
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
@@ -442,7 +447,7 @@ export function addressUI(options) {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
@@ -520,14 +525,55 @@ export const addressSchema = options => {
   return schema;
 };
 
+/**
+ * Web component uiSchema for address
+ *
+ * ```js
+ * schema: {
+ *   address: addressNoMilitaryUI()
+ *   simpleAddress: addressNoMilitaryUI({ omit: ['street2', 'street3'] })
+ *   futureAddress: addressNoMilitaryUI({
+ *     labels: {
+ *      street3: 'Apt or Unit number',
+ *     }
+ *   })
+ *   changeRequired: addressNoMilitaryUI({
+ *     required: {
+ *       country: (formData) => false,
+ *       street2: (formData) => true
+ *     }
+ *   })
+ * }
+ * ```
+ * @param {{
+ *   labels?: {
+ *     street?: string,
+ *     street2?: string,
+ *     street3?: string,
+ *   }},
+ *   omit?: Array<AddressSchemaKey>,
+ *   required?: Record<AddressSchemaKey, (formData:any) => boolean>
+ * }} [options]
+ * @returns {UISchemaOptions}
+ */
 export const addressNoMilitaryUI = options =>
   addressUI({
-    omit: ['isMilitary'],
     ...options,
+    omit: ['isMilitary', ...(options?.omit || [])],
   });
 
+/**
+ * Web component schema for address
+ *
+ * ```js
+ * schema: {
+ *   address: addressNoMilitarySchema()
+ *   simpleAddress: addressNoMilitarySchema({ omit: ['street2', 'street3'] })
+ * }
+ * ```
+ */
 export const addressNoMilitarySchema = options =>
   addressSchema({
-    omit: ['isMilitary'],
     ...options,
+    omit: ['isMilitary', ...(options?.omit || [])],
   });

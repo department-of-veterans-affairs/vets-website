@@ -67,10 +67,17 @@ class IntroductionPage extends React.Component {
               <Link to="/date">Date</Link>
             </li>
             <li>
-              <Link to="/array-single-page">Array in a single page</Link>
+              <Link to="/array-single-page">Array - single page</Link>
             </li>
             <li>
-              <Link to="/array-multiple-page">Array with multiple pages</Link>
+              <Link to="/array-multiple-page-hash">
+                Array - multiple page - hash
+              </Link>
+            </li>
+            <li>
+              <Link to="/array-multiple-page-builder-summary">
+                Array - multiple page - builder
+              </Link>
             </li>
           </ul>
         </div>

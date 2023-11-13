@@ -9,14 +9,11 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.arrayMultiplePage.pages.multiplePageStart;
+} = formConfig.chapters.arrayMultiPageBuilder.pages.multiPageBuilderStart;
 
-const pageTitle = 'array multiple page start';
+const pageTitle = 'array multi page builder summary';
 
-// Test full array functionality in e2e.
-// Just test initial fields on start page here
-
-const expectedNumberOfWebComponentFields = 4;
+const expectedNumberOfWebComponentFields = 1;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -25,10 +22,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-// should be 4, but if multiple arrays are on the page
-// the first array becomes optional. This is a bug,
-// but also a rare use case.
-const expectedNumberOfWebComponentErrors = 2;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
