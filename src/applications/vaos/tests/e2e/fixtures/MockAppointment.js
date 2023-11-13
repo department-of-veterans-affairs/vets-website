@@ -1,5 +1,9 @@
 import moment from 'moment';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, TYPE_OF_VISIT_ID } from '../../../utils/constants';
+
+/**
+ * @typedef {import('moment-timezone').Moment} Moment
+ */
 
 /**
  * Mock appointment class.
@@ -17,7 +21,7 @@ export class MockAppointment {
    * @param {string=} props.vvsKind - Set type of video appointment.
    * @param {string|number} [props.id=1] - Set appointment id.
    * @param {boolean} [props.cancellable=true] - Set if appointment is cancellable.
-   * @param {string} [props.kind=clinic] - Set if appointment is VA or CC appointment.
+   * @param {string|TYPE_OF_VISIT_ID} [props.kind=clinic] - Set if appointment is VA or CC appointment.
    * @param {boolean} [props.patientHasMobileGfe=false] - Set if patient has mobile device for video appointments.
    * @param {string} [props.serviceType=primaryCare] - Set appointment type of care.
    * @param {string} [props.status=booked] - Set appointment status. If appointment status is 'APPOINTMENT_STATUS.proposed', localStart time is used for requested periods.
@@ -30,7 +34,7 @@ export class MockAppointment {
     vvsKind,
     id = '1',
     cancellable = true,
-    kind = 'clinic',
+    kind = TYPE_OF_VISIT_ID.clinic,
     patientHasMobileGfe = false,
     serviceType = 'primaryCare',
     status = 'booked',

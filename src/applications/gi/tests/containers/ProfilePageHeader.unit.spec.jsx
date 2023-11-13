@@ -345,7 +345,6 @@ describe('<ProfilePageHeader>', () => {
         },
       },
     );
-
     await waitFor(() => {
       expect(screen).to.not.be.null;
     });

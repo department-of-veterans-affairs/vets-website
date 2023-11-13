@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { expect } from 'chai';
 
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
@@ -9,16 +8,7 @@ import reducers from '@@profile/reducers';
 import { fireEvent } from '@testing-library/react';
 import PersonalHealthCareContacts from './PersonalHealthCareContacts';
 
-const stateFn = ({
-  featureTogglesLoading = false,
-  profile_contacts = true,
-  loading = false,
-  error = false,
-} = {}) => ({
-  featureToggles: {
-    loading: featureTogglesLoading,
-    profile_contacts,
-  },
+const stateFn = ({ loading = false, error = false } = {}) => ({
   profileContacts: {
     data: contacts.data,
     loading,
@@ -44,18 +34,6 @@ describe('PersonalHealthCareContacts component', () => {
     fireEvent.click(infoComponent);
     getByTestId('va-800-number');
     getByTestId('va-711-number');
-  });
-
-  it('does not render when disabled', () => {
-    const initialState = stateFn({ profile_contacts: false });
-    const { container } = setup({ initialState });
-    expect(container).to.be.empty;
-  });
-
-  it('renders a loading indicator when feature toggles are loading', () => {
-    const initialState = stateFn({ featureTogglesLoading: true });
-    const { getByTestId } = setup({ initialState });
-    getByTestId('phcc-loading');
   });
 
   it('renders a loading indicator when contacts are loading', () => {

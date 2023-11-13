@@ -53,6 +53,14 @@ class FormPage extends React.Component {
     const { pageConfig } = this.props.route;
     let newData = formData;
     if (pageConfig.showPagePerItem) {
+      if (
+        pageConfig.allowPathWithNoItems &&
+        pageConfig.arrayPath &&
+        this.props.form.data &&
+        !this.props.form.data[pageConfig.arrayPath]
+      ) {
+        this.props.form.data[pageConfig.arrayPath] = [];
+      }
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
       newData = set(
@@ -90,6 +98,15 @@ class FormPage extends React.Component {
 
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
+    if (typeof route.pageConfig.onNavForward === 'function') {
+      route.pageConfig.onNavForward({
+        formData,
+        goPath: customPath => this.props.router.push(customPath),
+        goNextPath: () => this.props.router.push(path),
+      });
+      return;
+    }
+
     this.props.router.push(path);
   };
 
@@ -109,13 +126,22 @@ class FormPage extends React.Component {
   };
 
   goBack = () => {
-    const {
-      form,
-      route: { pageList },
-      location,
-    } = this.props;
+    const { form, route, location } = this.props;
 
-    const path = getPreviousPagePath(pageList, form.data, location.pathname);
+    const path = getPreviousPagePath(
+      route.pageList,
+      form.data,
+      location.pathname,
+    );
+
+    if (typeof route.pageConfig.onNavBack === 'function') {
+      route.pageConfig.onNavBack({
+        formData: form.data,
+        goPath: customPath => this.props.router.push(customPath),
+        goPreviousPath: () => this.props.router.push(path),
+      });
+      return;
+    }
 
     this.props.router.push(path);
   };
@@ -147,7 +173,8 @@ class FormPage extends React.Component {
       appStateData,
     } = this.props;
 
-    let { schema, uiSchema } = form.pages[route.pageConfig.pageKey];
+    const pageProps = form.pages[route.pageConfig.pageKey];
+    let { schema, uiSchema } = pageProps;
 
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
@@ -157,6 +184,9 @@ class FormPage extends React.Component {
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema =
         schema.properties[route.pageConfig.arrayPath].items[params.index];
+      if (!schema && pageProps.allowPathWithNoItems) {
+        schema = schema.properties[route.pageConfig.arrayPath].additionalItems;
+      }
       // Similarly, the items uiSchema and the data for just that particular item are passed
       uiSchema = uiSchema[route.pageConfig.arrayPath].items;
     }
@@ -274,6 +304,7 @@ FormPage.propTypes = {
   }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
+      allowPathWithNoItems: PropTypes.bool,
       arrayPath: PropTypes.string,
       CustomPage: PropTypes.oneOfType([
         PropTypes.element,
@@ -281,6 +312,8 @@ FormPage.propTypes = {
         PropTypes.func,
       ]),
       onContinue: PropTypes.func,
+      onNavBack: PropTypes.func,
+      onNavForward: PropTypes.func,
       pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,

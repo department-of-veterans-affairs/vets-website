@@ -1,7 +1,7 @@
 {
   "preparerIdentification": "SURVIVING_DEPENDENT",
   "benefitSelection": {
-    "survivors": true
+    "survivor": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",
@@ -15,7 +15,7 @@
     "country": "CAN",
     "street": "314 Round Circle",
     "city": "Whoville",
-    "postalCode": "12345"
+    "postalCode": "A9A 9A9"
   },
   "survivingDependentPhone": "1234567890",
   "veteranFullName": {

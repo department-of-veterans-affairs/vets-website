@@ -47,7 +47,10 @@ const HealthCareCTA = ({
               text="Go to your inbox"
               icon="comments"
               dotIndicator={unreadMessagesCount > 0}
-              ariaLabel={unreadMessagesCount > 0 && 'Unread messages.'}
+              ariaLabel={
+                unreadMessagesCount > 0 &&
+                'You have unread messages. Go to your inbox.'
+              }
               href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
               testId="view-your-messages-link-from-cta"
               onClick={() =>

@@ -74,6 +74,7 @@ const formConfig = {
     },
   },
   formId: '21-10210',
+  v3SegmentedProgressBar: true,
   customText: {
     appType: 'statement',
   },
