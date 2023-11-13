@@ -102,12 +102,7 @@ const DependentInformation = props => {
           localData,
           listRef,
         });
-        setFormData({
-          ...data,
-          ...dataToSet,
-          [DEPENDENT_VIEW_FIELDS.add]: null,
-          [DEPENDENT_VIEW_FIELDS.skip]: true,
-        });
+        setFormData({ ...data, ...dataToSet });
         goToPath(searchAction.pathToGo);
       } else {
         setCurrentPage(activePages[index + 1]);

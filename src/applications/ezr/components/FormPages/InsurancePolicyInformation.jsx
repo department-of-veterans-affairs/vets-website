@@ -88,12 +88,7 @@ const InsurancePolicyInformation = props => {
         localData,
         listRef,
       });
-      setFormData({
-        ...data,
-        ...dataToSet,
-        [INSURANCE_VIEW_FIELDS.add]: null,
-        [INSURANCE_VIEW_FIELDS.skip]: true,
-      });
+      setFormData({ ...data, ...dataToSet });
       goToPath(searchAction.pathToGo);
     },
     showConfirm: () => {
