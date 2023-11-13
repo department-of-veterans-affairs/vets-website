@@ -1,7 +1,4 @@
 // @ts-check
-// Inteligent code
-/// <reference types="cypress" />
-
 import moment from 'moment';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import {

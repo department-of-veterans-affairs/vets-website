@@ -1,7 +1,5 @@
 /* eslint-disable no-plusplus */
-// Enable intelliSense for Cypress
-/// <reference types="cypress" />
-
+// @ts-check
 import moment from 'moment';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import {

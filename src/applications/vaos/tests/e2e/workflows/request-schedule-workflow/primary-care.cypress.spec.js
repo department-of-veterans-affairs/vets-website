@@ -1,3 +1,4 @@
+// @ts-check
 import moment from 'moment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import { MockAppointment } from '../../fixtures/MockAppointment';

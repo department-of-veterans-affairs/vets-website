@@ -1,7 +1,5 @@
 /* eslint-disable no-plusplus */
-// Inteligent code
-/// <reference types="cypress" />
-
+// @ts-check
 import moment from 'moment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import {
