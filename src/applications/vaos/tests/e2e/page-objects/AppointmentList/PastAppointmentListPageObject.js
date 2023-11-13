@@ -1,6 +1,13 @@
 import { AppointmentListPageObject } from './AppointmentListPageObject';
 
 export class PastAppointmentListPageObject extends AppointmentListPageObject {
+  assertAppointmentList({ numberOfAppointments = 0 } = {}) {
+    super.assertAppointmentList({ numberOfAppointments });
+
+    cy.findByText(/Past appointments/i, { selector: 'h1' }).should('exist');
+    return this;
+  }
+
   selectDateRange(index) {
     cy.findByTestId('vaosSelect')
       .shadow()
@@ -14,15 +21,6 @@ export class PastAppointmentListPageObject extends AppointmentListPageObject {
 
     // Wait for appointments to load
     cy.wait('@v2:get:appointments');
-
-    return this;
-  }
-
-  validate() {
-    // Wait for appointments to load
-    cy.wait('@v2:get:appointments');
-    cy.findByText(/Past appointments/i, { selector: 'h1' }).should('exist');
-    cy.findAllByTestId('appointment-list-item').should('exist');
 
     return this;
   }

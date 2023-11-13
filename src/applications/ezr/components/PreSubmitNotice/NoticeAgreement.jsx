@@ -10,13 +10,13 @@ const NoticeAgreement = () => (
         that may apply, based on your priority group and other factors.
       </li>
       <li>
-        You agree that we can contact you at the email, home phone number, and
-        mobile phone number you gave us in the application.
+        You agree that we can contact you at the address and any email or phone
+        number you gave us in this application.
       </li>
       <li>
         You agree to the assignment of benefits so we can bill your other health
-        insurance or other responsible party for charges of nonservice-connected
-        VA medical care or services.
+        insurance or other responsible party for any charges for
+        non-service-connected VA medical care or services that may apply.
       </li>
       <li>
         You’ve read and accept our privacy policy.{' '}
@@ -26,6 +26,11 @@ const NoticeAgreement = () => (
             <span className="vads-u-visibility--screen-reader">
               , will open in new tab
             </span>
+            <i
+              className="fas fa-external-link-alt vads-u-margin-left--1"
+              role="presentation"
+              aria-hidden="true"
+            />
           </a>
         </span>
       </li>

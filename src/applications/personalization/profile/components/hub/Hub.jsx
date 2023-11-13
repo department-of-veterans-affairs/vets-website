@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   hasBadAddress as hasBadAddressSelector,
   selectProfileContactsToggle,
   selectProfileShowProofOfVeteranStatusToggle,
 } from '@@profile/selectors';
-import { useSelector } from 'react-redux';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';

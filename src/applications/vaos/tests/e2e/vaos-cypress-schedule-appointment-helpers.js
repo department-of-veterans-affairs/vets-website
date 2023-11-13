@@ -146,7 +146,10 @@ export function contactInfoDirectScheduleTest() {
 export function reviewTest() {
   cy.url().should('include', '/review');
   cy.axeCheckBestPractice();
-  cy.findByText('Confirm appointment').click();
+  cy.findByText('Confirm appointment')
+    .as('button')
+    .focus();
+  cy.get('@button').click();
 }
 
 export function confirmationPageV2Test(
