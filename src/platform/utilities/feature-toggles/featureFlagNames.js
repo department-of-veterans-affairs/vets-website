@@ -2,6 +2,7 @@
 
 export default Object.freeze({
   avsEnabled: 'avs_enabled',
+  authExpVbaDowntimeMessage: 'auth_exp_vba_downtime_message',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',

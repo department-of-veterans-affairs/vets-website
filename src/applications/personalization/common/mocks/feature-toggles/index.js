@@ -1,5 +1,6 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
+    authExpVbaDowntimeMessage = true,
     myVaEnableNotificationComponent = true,
     myVaHideNotificationsSection = true,
     myVaUseExperimental = true,
@@ -16,6 +17,10 @@ const generateFeatureToggles = (toggles = {}) => {
     data: {
       type: 'feature_toggles',
       features: [
+        {
+          name: 'auth_exp_vba_downtime_message',
+          value: authExpVbaDowntimeMessage,
+        },
         {
           name: 'my_va_notification_component',
           value: myVaEnableNotificationComponent,
