@@ -49,7 +49,7 @@ const PreCheckinConfirmation = props => {
     }
     return (
       <Wrapper
-        pageTitle={t('youve-completed-pre-check-in')}
+        pageTitle={t('youve-successfully-reviewed-your-contact-information')}
         testID="confirmation-wrapper"
       >
         <AppointmentBlock
