@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../feedback-tool/config/form';
+import formConfig from '../../config/form';
 
 describe('feedback tool benefits info', () => {
   const {
