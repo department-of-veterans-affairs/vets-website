@@ -225,9 +225,14 @@ export const ATTACHMENT_KEYS = [
 ];
 
 // fix this
-export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
-  getDisabilityLabels(),
-).map(v => v.toLowerCase());
+// export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
+//   getDisabilityLabels(),
+// ).map(v => v.toLowerCase());
+export const getLoweredDisabilityDescriptions = isRevisedDisabilityList => {
+  return Object.values(getDisabilityLabels(isRevisedDisabilityList)).map(v =>
+    v.toLowerCase(),
+  );
+};
 
 export const PTSD_TYPES_TO_FORMS = {
   combatNonCombat: '781',

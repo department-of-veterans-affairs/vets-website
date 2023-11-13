@@ -105,6 +105,7 @@ export function transform(formConfig, form) {
 
   // new disabilities that match a name on our mapped list need their
   // respective classification code added
+  // fix this to include isRevisedDisabilityList, maybe from formData??
   const addClassificationCodeToNewDisabilities = formData => {
     const { newDisabilities } = formData;
     if (!newDisabilities) {
@@ -309,7 +310,7 @@ export function transform(formConfig, form) {
     cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
-    addClassificationCodeToNewDisabilities,
+    addClassificationCodeToNewDisabilities, // move this??
     addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
     transformSecondaryDisabilities,
