@@ -1457,12 +1457,11 @@ $marker-text-width: 9rem;
 
   & > li {
     display: inline-block;
-    margin-bottom: 0;
     margin: 0 1rem;
   }
 
   & > :first-child {
-    margin-left: 0
+    margin-left: 0;
   }
 }
 
