@@ -51,9 +51,10 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 
   const mergedSettings = {
     ...settings,
-    ...(!environment.isProduction() && {
-      retryOn,
-    }),
+    ...(!environment.isProduction() &&
+      !settings.retryOn && {
+        retryOn,
+      }),
   };
 
   return _fetch(url, mergedSettings).then(response => {

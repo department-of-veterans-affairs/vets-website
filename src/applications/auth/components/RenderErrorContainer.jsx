@@ -41,9 +41,7 @@ export default function RenderErrorContainer({
             try signing in with your premium DS Logon or premium My HealtheVet
             username and password.
           </p>
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -81,9 +79,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <Helpdesk />
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -101,9 +97,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -119,7 +113,6 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <p />
           <p>
             For problems with your Login.gov account, please review{' '}
             <a
@@ -141,9 +134,7 @@ export default function RenderErrorContainer({
           <Helpdesk>
             If you’ve taken the steps above and still can’t sign in,
           </Helpdesk>
-          <button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -396,6 +387,21 @@ export default function RenderErrorContainer({
       );
       break;
 
+    case AUTH_ERRORS.CERNER_PROVISION_FAILED.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble provisioning your My VA Health account right now.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <Helpdesk startSentence />
+          <va-button onClick={openLoginModal} text="Try signing in again" />
+        </>
+      );
+      break;
+
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
@@ -407,9 +413,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
