@@ -7,6 +7,7 @@ export default {
     properties: {
       [INSURANCE_VIEW_FIELDS.add]: { type: 'boolean' },
       providers: {
+        default: [],
         type: 'array',
         items: {
           type: 'object',
