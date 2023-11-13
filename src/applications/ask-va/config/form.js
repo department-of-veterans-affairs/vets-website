@@ -15,8 +15,10 @@ import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
 // Your Question
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
-// Submitter Contact Information
-import submitterContactPage from './chapters/submitterInformation/submitterContact';
+// Personal Information
+import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
+import vaEmployeePage from './chapters/personalInformation/vaEmployee';
+import submitterContactPage from './chapters/personalInformation/submitterContact';
 
 // Contact Information
 import veteransAddressPage from './chapters/contactInformation/veteransAddress';
@@ -89,11 +91,24 @@ const formConfig = {
         },
       },
     },
-    submitterInfo: {
-      title: "Submitter's Information",
+    personalInformation: {
+      title: 'Personal Information',
       pages: {
+        searchVAMedicalCenter: {
+          path: 'personal-info-1',
+          title: 'VA Medical Center',
+          uiSchema: searchVAMedicalCenterPage.uiSchema,
+          schema: searchVAMedicalCenterPage.schema,
+        },
+        vaEmployee: {
+          path: 'personal-info-2',
+          title: 'VA Employee',
+          subTitle: 'testing subTitle',
+          uiSchema: vaEmployeePage.uiSchema,
+          schema: vaEmployeePage.schema,
+        },
         submitterContactInfo: {
-          path: 'submitter-info-1',
+          path: 'personal-info-3',
           title: "Submitter's Contact Information",
           uiSchema: submitterContactPage.uiSchema,
           schema: submitterContactPage.schema,
