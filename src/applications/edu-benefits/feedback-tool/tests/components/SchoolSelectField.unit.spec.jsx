@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { SchoolSelectField } from '../../../feedback-tool/components/SchoolSelectField';
+import { SchoolSelectField } from '../../components/SchoolSelectField';
 
 describe('<SchoolSelectField>', () => {
   it('should render initial search view', () => {
