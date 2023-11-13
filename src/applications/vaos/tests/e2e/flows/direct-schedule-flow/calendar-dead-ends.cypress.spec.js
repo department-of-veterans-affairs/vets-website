@@ -3,8 +3,8 @@ import moment from 'moment';
 import { MockSlot } from '../../fixtures/MockSlot';
 import { MockUser } from '../../fixtures/MockUser';
 import {
-  mockAppointmentsApi,
-  mockClinicApi,
+  mockAppointmentsGetApi,
+  mockClinicsApi,
   mockEligibilityApi,
   mockFacilitiesApi,
   mockFeatureToggles,
@@ -19,7 +19,7 @@ import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import { MockEligibility } from '../../fixtures/MockEligibility';
-import { MockFacility } from '../../fixtures/MockFacility';
+import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
 import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
 import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
 
@@ -27,7 +27,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -41,7 +41,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
       });
 
       mockFacilitiesApi({
-        response: MockFacility.createMockFacilities({
+        response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
         }),
       });
@@ -59,7 +59,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -111,7 +111,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           start: moment().add(1, 'day'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -159,7 +159,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -215,7 +215,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
       });
 
       mockFacilitiesApi({
-        response: MockFacility.createMockFacilities({
+        response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
         }),
       });
@@ -233,7 +233,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -285,7 +285,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           start: moment().add(1, 'day'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -333,7 +333,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });

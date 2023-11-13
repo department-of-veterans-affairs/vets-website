@@ -7,11 +7,7 @@ import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local
 
 import moment from '../../utils/business-days';
 import * as momentTZ from '../../lib/moment-tz';
-
-import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
-import clinicsV2 from '../../services/mocks/v2/clinics.json';
-
 import featureFlags from '../../utils/featureFlags';
 
 const mockUser = {
@@ -156,7 +152,6 @@ export function mockCCProvidersApi({
   cy.intercept(
     {
       method: 'GET',
-      // url: '/facilities_api/v1/ccp/provider*',
       pathname: '/facilities_api/v1/ccp/provider',
     },
     req => {
@@ -184,7 +179,7 @@ export function mockCCProvidersApi({
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockAppointmentApi({
+export function mockAppointmentGetApi({
   response: data,
   responseCode = 200,
   version = 2,
@@ -248,7 +243,7 @@ export function mockAppointmentUpdateApi({
 }
 
 /**
- * Function to mock the 'create' appointment endpoint.
+ * Function to mock the 'CREATE' appointment endpoint.
  *
  * @example POST '/vaos/v2/appointments'
  *
@@ -296,12 +291,12 @@ export function mockAppointmentCreateApi({
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call. Use this to simulate a network error.
  * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockAppointmentsApi({
+export function mockAppointmentsGetApi({
   response: data,
   responseCode = 200,
-  apiVersion = 2,
+  version = 2,
 } = {}) {
-  if (apiVersion === 2) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
@@ -406,8 +401,6 @@ export function mockFacilitiesApi({
 
         if (data) {
           req.reply({ data });
-        } else {
-          req.reply(facilitiesV2);
         }
       },
     ).as('v2:get:facilities');
@@ -415,7 +408,7 @@ export function mockFacilitiesApi({
 }
 
 /**
- * Function to mock the 'create' appointment endpoint.
+ * Function to mock the 'GET' facility configuration endpoint.
  *
  * @example GET '/vaos/v2/scheduling/configuration'
  *
@@ -567,27 +560,6 @@ export function mockEligibilityRequestApi({
   }
 }
 
-export function mockCCEligibilityApi({
-  typeOfCare = 'PrimaryCare',
-  isEligible = true,
-} = {}) {
-  cy.intercept(
-    {
-      method: 'GET',
-      url: `/vaos/v0/community_care/eligibility/${typeOfCare}`,
-    },
-    req => {
-      req.reply({
-        data: {
-          id: typeOfCare,
-          type: 'cc_eligibility',
-          attributes: { eligible: isEligible },
-        },
-      });
-    },
-  ).as('v0:get:cc-eligibility');
-}
-// TODO: Refactor into 'mockCCEligibilityApi'!
 export function mockEligibilityCCApi({
   typeOfCare = 'PrimaryCare',
   isEligible: eligible = true,
@@ -603,7 +575,19 @@ export function mockEligibilityCCApi({
   }).as('eligibility-cc');
 }
 
-export function mockClinicApi({
+/**
+ * Function to mock the 'GET' clinics endpoint.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {String} [arguments.locationId] - Location id.
+ * @param {Object} arguments.response -
+ * @param {number} [arguments.responseCode=200] -
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockClinicsApi({
   locationId,
   response: data,
   responseCode = 200,
@@ -631,57 +615,9 @@ export function mockClinicApi({
     ).as(`v2:get:clinics`);
   }
 }
-/**
- * Function to mock the 'GET' appointment endpoint.
- *
- * @example GET '/vaos/v2/locations/:locationId/clinics'
- *
- * @export
- * @param {Object} arguments - Function arguments.
- * @param {Array.<String>} [arguments.locations] - Location ids.
- * @param {String=} arguments.clinicId - Clinic id. The clinicId is used to filter the collection of clinics returned in the response.
- * @param {number} [arguments.apiVersion=2] - Api version number.
- */
-export function mockClinicsApi({
-  clinicId,
-  locations = [],
-  apiVersion = 2,
-} = {}) {
-  if (apiVersion === 2) {
-    locations.forEach(locationId => {
-      let { data } = clinicsV2;
-      if (clinicId) data = data.filter(clinic => clinic.id === clinicId);
-
-      cy.intercept(
-        {
-          method: 'GET',
-          path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
-        },
-        req => {
-          req.reply({
-            data,
-          });
-        },
-      ).as(`v2:get:clinics`);
-
-      cy.intercept(
-        {
-          method: 'GET',
-          // path: `/vaos/v2/locations/${locationId}/clinics\\?clinic_ids[]**`,
-          path: `/vaos/v2/locations/${locationId}/clinics\\?clinic_ids%5B%5D**`,
-        },
-        req => {
-          req.reply({
-            data,
-          });
-        },
-      ).as('v2:get:clinics');
-    });
-  }
-}
 
 /**
- * Function to create appointment slots.
+ * Function to mock the 'GET' clinic available appointment slots endpoint.
  *
  * @example GET '/vaos/v2/locations/:locationId/clinics/:clinicId/slots'
  *
@@ -721,46 +657,6 @@ export function mockSlotsApi({
 
         req.reply({
           data,
-        });
-      },
-    ).as('v2:get:slots');
-  }
-}
-export function mockDirectScheduleSlotsApi({
-  locationId = '983',
-  clinicId,
-  start = moment(),
-  end = moment(),
-  apiVersion = 0,
-} = {}) {
-  if (apiVersion === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v2/locations/${locationId}/clinics/${clinicId}/slots`,
-        query: {
-          start: '*',
-          end: '*',
-        },
-      },
-      req => {
-        req.reply({
-          data: [
-            {
-              id: '1',
-              type: 'slots',
-              attributes: {
-                start: start
-                  .utc()
-                  .add(1, 'day')
-                  .format(),
-                end: end
-                  .utc()
-                  .add(1, 'day')
-                  .format(),
-              },
-            },
-          ],
         });
       },
     ).as('v2:get:slots');

@@ -11,9 +11,9 @@ import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObj
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import {
-  mockAppointmentApi,
+  mockAppointmentGetApi,
   mockAppointmentCreateApi,
-  mockAppointmentsApi,
+  mockAppointmentsGetApi,
   mockCCProvidersApi,
   mockFacilitiesApi,
   mockFeatureToggles,
@@ -25,6 +25,7 @@ import {
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
+import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS community care flow - Podiatry', () => {
   beforeEach(() => {
@@ -36,12 +37,12 @@ describe('VAOS community care flow - Podiatry', () => {
       status: 'proposed',
       serviceType: 'podiatry',
     });
-    mockAppointmentApi({
+    mockAppointmentGetApi({
       response: {
         ...appt,
       },
     });
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockAppointmentCreateApi({ response: appt });
     mockFacilitiesApi();
     mockFeatureToggles();
@@ -54,6 +55,11 @@ describe('VAOS community care flow - Podiatry', () => {
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: '411',
@@ -66,8 +72,10 @@ describe('VAOS community care flow - Podiatry', () => {
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser();
+
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -99,7 +107,7 @@ describe('VAOS community care flow - Podiatry', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -113,6 +121,11 @@ describe('VAOS community care flow - Podiatry', () => {
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Podiatry', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: '411',
@@ -128,6 +141,7 @@ describe('VAOS community care flow - Podiatry', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -139,7 +153,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
-          .selectFacility()
+          .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -163,7 +177,7 @@ describe('VAOS community care flow - Podiatry', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -189,7 +203,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
-          .selectFacility()
+          .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -213,7 +227,7 @@ describe('VAOS community care flow - Podiatry', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();

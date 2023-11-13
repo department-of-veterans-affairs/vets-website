@@ -5,8 +5,7 @@
 import moment from 'moment';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import {
-  mockAppointmentsApi,
-  mockFacilitiesApi,
+  mockAppointmentsGetApi,
   mockFeatureToggles,
   mockLoginApi,
   mockAppointmentUpdateApi,
@@ -25,7 +24,6 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFacilitiesApi();
       mockFeatureToggles();
       mockLoginApi();
       mockVamcEhrApi();
@@ -108,7 +106,7 @@ describe('VAOS upcoming appointment flow', () => {
         mobileVideoAppt,
       ];
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -127,7 +125,7 @@ describe('VAOS upcoming appointment flow', () => {
         localStartTime: today,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -151,7 +149,7 @@ describe('VAOS upcoming appointment flow', () => {
         vvsKind: VIDEO_TYPES.clinic,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -181,7 +179,7 @@ describe('VAOS upcoming appointment flow', () => {
         vvsKind: VIDEO_TYPES.adhoc,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -203,7 +201,7 @@ describe('VAOS upcoming appointment flow', () => {
         patientHasMobileGfe: true,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -224,7 +222,7 @@ describe('VAOS upcoming appointment flow', () => {
         vvsKind: VIDEO_TYPES.mobile,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -238,7 +236,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it("should display warning when veteran doesn't have any appointments", () => {
       // Arrange
-      mockAppointmentsApi({ response: [] });
+      mockAppointmentsGetApi({ response: [] });
 
       // Act
       AppointmentListPageObject.visit().assertNoAppointments();
@@ -249,7 +247,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display generic error message', () => {
       // Arrange
-      mockAppointmentsApi({ response: [], responseCode: 400 });
+      mockAppointmentsGetApi({ response: [], responseCode: 400 });
 
       // Act
       AppointmentListPageObject.visit();
@@ -281,7 +279,7 @@ describe('VAOS upcoming appointment flow', () => {
         },
       };
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
       mockAppointmentUpdateApi({ response: canceledAppt });
 
       // Act
@@ -329,7 +327,7 @@ describe('VAOS upcoming appointment flow', () => {
         });
         response.push(appt);
       }
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -371,7 +369,7 @@ describe('VAOS upcoming appointment flow', () => {
         response.push(appt);
       }
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -411,7 +409,7 @@ describe('VAOS upcoming appointment flow', () => {
         });
         response.push(appt);
       }
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -454,7 +452,7 @@ describe('VAOS upcoming appointment flow', () => {
       });
       response.push(appt);
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({

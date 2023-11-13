@@ -7,10 +7,9 @@ import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import PendingAppointmentListPageObject from '../../page-objects/AppointmentList/PendingAppointmentListPageObject';
 import {
   vaosSetup,
-  mockFacilitiesApi,
   mockFeatureToggles,
   mockLoginApi,
-  mockAppointmentsApi,
+  mockAppointmentsGetApi,
   mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
 import { MockAppointment } from '../../fixtures/MockAppointment';
@@ -20,7 +19,6 @@ describe('VAOS pending appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFacilitiesApi();
       mockFeatureToggles();
       mockLoginApi();
       mockVamcEhrApi();
@@ -38,7 +36,7 @@ describe('VAOS pending appointment flow', () => {
         });
         response.push(appt);
       }
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       PendingAppointmentListPageObject.visit().assertAppointmentList({
@@ -59,7 +57,7 @@ describe('VAOS pending appointment flow', () => {
         status: APPOINTMENT_STATUS.proposed,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       PendingAppointmentListPageObject.visit().assertAppointmentList({
@@ -76,7 +74,7 @@ describe('VAOS pending appointment flow', () => {
 
     it("should display warning when veteran doesn't have any appointments", () => {
       // Act
-      mockAppointmentsApi({ response: [] });
+      mockAppointmentsGetApi({ response: [] });
 
       // Arrange
       PendingAppointmentListPageObject.visit();
@@ -90,7 +88,7 @@ describe('VAOS pending appointment flow', () => {
 
     it('should display generic error message', () => {
       // Arrange
-      mockAppointmentsApi({ response: [], responseCode: 400 });
+      mockAppointmentsGetApi({ response: [], responseCode: 400 });
 
       // Act
       PendingAppointmentListPageObject.visit();

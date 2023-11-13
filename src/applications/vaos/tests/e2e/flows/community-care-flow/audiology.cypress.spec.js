@@ -2,9 +2,9 @@
 import moment from 'moment';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import {
-  mockAppointmentApi,
+  mockAppointmentGetApi,
   mockAppointmentCreateApi,
-  mockAppointmentsApi,
+  mockAppointmentsGetApi,
   mockCCProvidersApi,
   mockEligibilityCCApi,
   mockFacilitiesApi,
@@ -12,6 +12,7 @@ import {
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
+  mockClinicsApi,
 } from '../../vaos-cypress-helpers';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
@@ -27,6 +28,8 @@ import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObjec
 import AudiologyPageObject from '../../page-objects/AudiologyPageObject';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
+import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
+import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
 
 describe('VAOS community care flow - Audiology', () => {
   beforeEach(() => {
@@ -38,14 +41,13 @@ describe('VAOS community care flow - Audiology', () => {
       status: 'proposed',
       serviceType: 'audiology',
     });
-    mockAppointmentApi({
+    mockAppointmentGetApi({
       response: {
         ...appt,
       },
     });
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockAppointmentCreateApi({ response: appt });
-    mockFacilitiesApi();
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -55,10 +57,19 @@ describe('VAOS community care flow - Audiology', () => {
       const mockProvider = new MockProvider();
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({ count: 2 }),
+      });
       mockEligibilityCCApi({ typeOfCare: 'Audiology', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
-        typeOfCareId: '411',
+        typeOfCareId: 'audiology',
         isDirect: true,
         isRequest: true,
       });
@@ -71,6 +82,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -111,7 +123,7 @@ describe('VAOS community care flow - Audiology', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -125,6 +137,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -165,7 +178,7 @@ describe('VAOS community care flow - Audiology', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -179,9 +192,14 @@ describe('VAOS community care flow - Audiology', () => {
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'Audiology', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: '411',
+        typeOfCareId: 'audiology',
         isDirect: true,
         isRequest: true,
       });
@@ -195,6 +213,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -215,7 +234,7 @@ describe('VAOS community care flow - Audiology', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
-          .selectFacility()
+          .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -239,7 +258,7 @@ describe('VAOS community care flow - Audiology', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -253,6 +272,7 @@ describe('VAOS community care flow - Audiology', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -273,7 +293,7 @@ describe('VAOS community care flow - Audiology', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
-          .selectFacility()
+          .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -297,7 +317,7 @@ describe('VAOS community care flow - Audiology', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();

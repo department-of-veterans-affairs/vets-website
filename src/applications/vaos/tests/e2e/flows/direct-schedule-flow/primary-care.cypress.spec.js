@@ -5,10 +5,10 @@ import { MockUser } from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import {
-  mockAppointmentApi,
+  mockAppointmentGetApi,
   mockAppointmentCreateApi,
-  mockAppointmentsApi,
-  mockClinicApi,
+  mockAppointmentsGetApi,
+  mockClinicsApi,
   mockEligibilityApi,
   mockFacilitiesApi,
   mockFeatureToggles,
@@ -29,7 +29,7 @@ import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
-import { MockFacility } from '../../fixtures/MockFacility';
+import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
 import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 
 describe('VAOS direct schedule flow - Primary care', () => {
@@ -42,13 +42,13 @@ describe('VAOS direct schedule flow - Primary care', () => {
       status: APPOINTMENT_STATUS.booked,
       serviceType: 'primaryCare',
     });
-    mockAppointmentApi({
+    mockAppointmentGetApi({
       response: {
         ...appt,
       },
     });
     mockAppointmentCreateApi({ response: appt });
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -63,7 +63,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
       });
 
       mockEligibilityApi({ response: mockEligibility });
-      mockFacilitiesApi({ response: [new MockFacility()] });
+      mockFacilitiesApi({ response: [new MockFacilityResponse()] });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: 'primaryCare',
@@ -81,7 +81,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           start: moment().add(1, 'month'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -135,7 +135,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl().clickConfirmButton();
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
         cy.findByText('We’ve scheduled and confirmed your appointment.');
 
         // Assert
@@ -152,7 +152,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           start: moment().add(1, 'month'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -198,7 +198,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl().clickConfirmButton();
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -214,7 +214,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           start: moment().add(1, 'month'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 1 }),
         });
@@ -265,7 +265,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl().clickConfirmButton();
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
         cy.findByText('We’ve scheduled and confirmed your appointment.');
 
         // Assert
@@ -282,7 +282,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           start: moment().add(1, 'month'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -324,7 +324,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: [],
         });
@@ -358,12 +358,12 @@ describe('VAOS direct schedule flow - Primary care', () => {
       const mockEligibility = new MockEligibility({
         facilityId: '983',
         typeOfCare: 'primaryCare',
-        isDirectSchedule: true,
+        isEligible: false,
       });
       const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'month') });
 
       mockFacilitiesApi({
-        response: MockFacility.createMockFacilities({
+        response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
         }),
       });
@@ -386,7 +386,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -429,7 +429,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl().clickConfirmButton();
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -441,7 +441,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         // Arrange
         const mockUser = new MockUser();
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
@@ -484,7 +484,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
         ReviewPageObject.assertUrl().clickConfirmButton();
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -500,7 +500,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           start: moment().add(1, 'month'),
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });

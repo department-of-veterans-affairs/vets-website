@@ -2,9 +2,9 @@
 import moment from 'moment';
 import { MockAppointment } from '../../fixtures/MockAppointment';
 import {
-  mockAppointmentApi,
+  mockAppointmentGetApi,
   mockAppointmentCreateApi,
-  mockAppointmentsApi,
+  mockAppointmentsGetApi,
   mockCCProvidersApi,
   mockFacilitiesApi,
   mockFeatureToggles,
@@ -27,6 +27,7 @@ import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePag
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import { MockProvider } from '../../fixtures/MockProvider';
+import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS community care flow - Primary care', () => {
   beforeEach(() => {
@@ -38,14 +39,13 @@ describe('VAOS community care flow - Primary care', () => {
       status: APPOINTMENT_STATUS.proposed,
       serviceType: 'primaryCare',
     });
-    mockAppointmentApi({
+    mockAppointmentGetApi({
       response: {
         ...appt,
       },
     });
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockAppointmentCreateApi({ response: appt });
-    mockFacilitiesApi();
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -56,6 +56,11 @@ describe('VAOS community care flow - Primary care', () => {
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: 'primaryCare',
@@ -71,6 +76,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -107,7 +113,7 @@ describe('VAOS community care flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -121,6 +127,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -157,7 +164,7 @@ describe('VAOS community care flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -171,6 +178,11 @@ describe('VAOS community care flow - Primary care', () => {
 
       mockCCProvidersApi({ response: [{ ...mockProvider }] });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'primaryCare',
@@ -186,6 +198,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -202,7 +215,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
-          .selectFacility()
+          .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -226,7 +239,7 @@ describe('VAOS community care flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -240,6 +253,7 @@ describe('VAOS community care flow - Primary care', () => {
 
         // Act
         cy.login(mockUser);
+
         AppointmentListPageObject.visit().scheduleAppointment();
 
         TypeOfCarePageObject.assertUrl()
@@ -256,7 +270,7 @@ describe('VAOS community care flow - Primary care', () => {
           .clickNextButton();
 
         ClosestCityStatePageObject.assertUrl()
-          .selectFacility()
+          .selectFacility({ label: /City 983/i })
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
@@ -280,7 +294,7 @@ describe('VAOS community care flow - Primary care', () => {
         ReviewPageObject.assertUrl().clickNextButton('Request appointment');
         cy.wait('@v2:get:appointment');
 
-        ConfirmationPageObject.assertUrl({ apiVersion: 2 });
+        ConfirmationPageObject.assertUrl();
 
         // Assert
         cy.axeCheckBestPractice();
@@ -291,6 +305,11 @@ describe('VAOS community care flow - Primary care', () => {
   describe('When no providers within 60 miles', () => {
     beforeEach(() => {
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'primaryCare',
@@ -307,6 +326,7 @@ describe('VAOS community care flow - Primary care', () => {
 
       // Act
       cy.login(mockUser);
+
       AppointmentListPageObject.visit().scheduleAppointment();
 
       TypeOfCarePageObject.assertUrl()
@@ -323,7 +343,7 @@ describe('VAOS community care flow - Primary care', () => {
         .clickNextButton();
 
       ClosestCityStatePageObject.assertUrl()
-        .selectFacility()
+        .selectFacility({ label: /City 983/i })
         .clickNextButton();
 
       CommunityCarePreferencesPageObject.assertUrl()
@@ -342,6 +362,11 @@ describe('VAOS community care flow - Primary care', () => {
 
       mockCCProvidersApi({ response: [] });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockFacilitiesApi({
+        response: MockFacilityResponse.createResponses({
+          facilityIds: ['983', '984'],
+        }),
+      });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'primaryCare',
@@ -351,6 +376,7 @@ describe('VAOS community care flow - Primary care', () => {
 
       // Act
       cy.login(mockUser);
+
       AppointmentListPageObject.visit('/', {
         onBeforeLoad: ({ navigator }) => {
           navigator.permissions.query({ name: 'geolocation' }).then(result => {
@@ -379,7 +405,7 @@ describe('VAOS community care flow - Primary care', () => {
         .clickNextButton();
 
       ClosestCityStatePageObject.assertUrl()
-        .selectFacility()
+        .selectFacility({ label: /City 983/i })
         .clickNextButton();
 
       CommunityCarePreferencesPageObject.assertUrl()

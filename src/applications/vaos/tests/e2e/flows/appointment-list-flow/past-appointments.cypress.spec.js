@@ -5,8 +5,7 @@
 import moment from 'moment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import {
-  mockAppointmentsApi,
-  mockFacilitiesApi,
+  mockAppointmentsGetApi,
   mockFeatureToggles,
   mockVamcEhrApi,
   vaosSetup,
@@ -21,7 +20,6 @@ describe('VAOS past appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFacilitiesApi();
       mockFeatureToggles();
       mockVamcEhrApi();
 
@@ -38,7 +36,7 @@ describe('VAOS past appointment flow', () => {
         status: APPOINTMENT_STATUS.booked,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit();
@@ -70,7 +68,7 @@ describe('VAOS past appointment flow', () => {
         status: APPOINTMENT_STATUS.booked,
       });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [appt] });
 
       // Act
       PastAppointmentListPageObject.visit()
@@ -97,7 +95,7 @@ describe('VAOS past appointment flow', () => {
         });
       });
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       PastAppointmentListPageObject.visit()
@@ -121,7 +119,7 @@ describe('VAOS past appointment flow', () => {
 
     it("should display warning when veteran doesn't have any appointments", () => {
       // Act
-      mockAppointmentsApi({ response: [] });
+      mockAppointmentsGetApi({ response: [] });
 
       // Arrange
       PastAppointmentListPageObject.visit();
@@ -135,7 +133,7 @@ describe('VAOS past appointment flow', () => {
 
     it('should display generic error message', () => {
       // Arrange
-      mockAppointmentsApi({ response: [], responseCode: 400 });
+      mockAppointmentsGetApi({ response: [], responseCode: 400 });
 
       // Act
       PastAppointmentListPageObject.visit();

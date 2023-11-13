@@ -1,15 +1,28 @@
 export default class PageObject {
   rootUrl = '/my-health/appointments';
 
+  assertHeading({ name, level = 1, exist = true } = {}) {
+    cy.findByRole('heading', { level, name }).should(
+      exist ? 'exist' : 'not.exist',
+    );
+
+    return this;
+  }
+
+  assertText({ text, exist = true } = {}) {
+    cy.findByText(text).should(exist ? 'exist' : 'not.exist');
+    return this;
+  }
+
   assertLink({ name, exist = true } = {}) {
     cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
     return this;
   }
 
-  assertNexButton({ enabled = true, label = 'Continue' } = {}) {
+  assertNexButton({ isEnabled = true, label = 'Continue' } = {}) {
     cy.contains('button', label)
       .as('button')
-      .should(enabled ? 'be.enabled' : 'be.disabled');
+      .should(isEnabled ? 'be.enabled' : 'be.disabled');
 
     return this;
   }

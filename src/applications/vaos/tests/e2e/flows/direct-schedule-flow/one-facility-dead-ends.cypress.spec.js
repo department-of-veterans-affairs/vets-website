@@ -1,8 +1,8 @@
 // @ts-check
 import { MockUser } from '../../fixtures/MockUser';
 import {
-  mockAppointmentsApi,
-  mockClinicApi,
+  mockAppointmentsGetApi,
+  mockClinicsApi,
   mockEligibilityApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -16,13 +16,13 @@ import { MockEligibility } from '../../fixtures/MockEligibility';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockFacility } from '../../fixtures/MockFacility';
+import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS direct schedule flow - dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -39,12 +39,12 @@ describe('VAOS direct schedule flow - dead ends', () => {
           isEligible: true,
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: [],
         });
         mockEligibilityApi({ response: mockEligibility });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId: 'primaryCare',
@@ -66,7 +66,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -83,7 +83,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
             type: 'request',
           }),
         });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId: 'primaryCare',
@@ -105,7 +105,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -124,7 +124,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           isEligible: false,
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: [],
         });
@@ -134,7 +134,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           }),
         });
         mockEligibilityRequestApi({ response: mockEligibility });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to accept direct schedule appointments for
         // primary care.
@@ -159,7 +159,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -176,7 +176,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
             type: 'request',
           }),
         });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to accept request schedule appointments for
         // primary care.
@@ -201,7 +201,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
