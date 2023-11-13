@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
@@ -108,12 +106,7 @@ const RadiologyDetails = props => {
 
       <div className="test-results-container">
         <h2>Results</h2>
-        <InfoAlert
-          messagingURL={mhvUrl(
-            isAuthenticatedWithSSOe(fullState),
-            'compose-message',
-          )}
-        />
+        <InfoAlert fullState={fullState} />
         <p className="monospace">{record.results}</p>
       </div>
     </div>

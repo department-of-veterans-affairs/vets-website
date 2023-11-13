@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-const InfoAlert = ({ highLowResults, messagingURL }) => (
+const InfoAlert = ({ highLowResults, fullState }) => (
   <>
     <va-alert-expandable
       trigger="Need help understanding your results?"
@@ -24,7 +27,7 @@ const InfoAlert = ({ highLowResults, messagingURL }) => (
       </p>
       <p className="vads-u-padding-bottom--2">
         <a
-          href={messagingURL}
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
           rel="noreferrer" // check dis
         >
           Compose a message on the My HealtheVet website
@@ -40,3 +43,8 @@ const InfoAlert = ({ highLowResults, messagingURL }) => (
 );
 
 export default InfoAlert;
+
+InfoAlert.propTypes = {
+  fullState: PropTypes.object,
+  highLowResults: PropTypes.object,
+};

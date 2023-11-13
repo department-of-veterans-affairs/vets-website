@@ -5,8 +5,6 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
@@ -189,13 +187,7 @@ const ChemHemDetails = props => {
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
         <h2>Results</h2>
-        <InfoAlert
-          highLowResults
-          messagingURL={mhvUrl(
-            isAuthenticatedWithSSOe(fullState),
-            'compose-message',
-          )}
-        />
+        <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>
             Your provider will review your results and explain what they mean
