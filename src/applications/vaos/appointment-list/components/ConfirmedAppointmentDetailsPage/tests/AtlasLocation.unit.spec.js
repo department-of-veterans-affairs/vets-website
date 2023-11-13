@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { render } from '@testing-library/react';
 import AtlasLocation from '../AtlasLocation';
 import { AtlasAppoinment } from '../../../../tests/mocks/unit-test-helpers';
 
@@ -23,7 +23,7 @@ describe('Atlas location component', () => {
       ...atlasAppointment,
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AtlasLocation
         appointment={appointment}
         isPast={appointment.vaos.isPastAppointment}
@@ -57,7 +57,7 @@ describe('Atlas location component', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <AtlasLocation
         appointment={appointment}
         isPast={appointment.vaos.isPastAppointment}
