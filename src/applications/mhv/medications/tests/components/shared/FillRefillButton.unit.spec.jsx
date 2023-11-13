@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import reducer from '../../../reducers';
 import FillRefillButton from '../../../components/shared/FillRefillButton';
 
@@ -46,8 +47,10 @@ describe('Fill Refill Button component', () => {
   it('dispatches the fillPrescription action', () => {
     const screen = setup();
     const fillButton = screen.getByTestId('refill-request-button');
+    expect($('va-loading-indicator', screen)).to.not.exist;
     fireEvent.click(fillButton);
     expect(fillButton).to.exist;
+    expect($('va-loading-indicator', screen)).to.exist;
   });
 
   it('does not render the fill button when the prescription is NOT fillable', () => {
