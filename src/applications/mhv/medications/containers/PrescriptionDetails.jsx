@@ -189,7 +189,8 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate ? (
+        {prescription.dispensedDate ||
+        prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ? (
           <span>
             Last filled on{' '}
             {dateFormat(
