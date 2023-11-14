@@ -24,16 +24,12 @@ class TabItem extends React.Component {
     const activeTab = this.trimCurrentUrl();
 
     return (
-      <li role="presentation">
+      <li>
         <IndexLink
           id={`tab${id || title}`}
-          aria-controls={
-            activeTab === tabpath ? `tabPanel${id || title}` : null
-          }
-          aria-selected={activeTab === tabpath}
+          aria-current={activeTab === tabpath ? 'page' : null}
           activeClassName="tab--current"
           className="tab"
-          role="tab"
           to={tabpath}
         >
           <span>{title}</span>

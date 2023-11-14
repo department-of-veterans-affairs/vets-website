@@ -10,7 +10,7 @@ const defaultProps = {
 describe('<AppealsV2TabNav/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealsV2TabNav {...defaultProps} />);
-    expect(wrapper.type()).to.equal('ul');
+    expect(wrapper.type()).to.equal('nav');
     wrapper.unmount();
   });
 

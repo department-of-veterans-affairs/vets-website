@@ -1451,6 +1451,7 @@ $marker-text-width: 9rem;
 .tabs {
   list-style: none;
   margin-bottom: -1px;
+  margin-left: -10px;
   padding: 0;
 
   & > li {
@@ -1463,9 +1464,10 @@ $marker-text-width: 9rem;
   padding: 0.5em 1.5rem;
   display: inline-block;
   font-size: 20px;
+  text-decoration: none;
+  color: $color-base !important;
 
   &:hover {
-    color: $color-base !important;
     text-decoration: none;
     position: relative;
 
@@ -1481,21 +1483,12 @@ $marker-text-width: 9rem;
       bottom: 0;
     }
   }
-
-  &:visited {
-    color: $color-link-default;
-  }
-
-  & > :nth-of-type(1) {
-    padding-left: 0;
-  }
 }
 
 .tab--current {
-  color: $color-base !important;
   font-weight: bold;
-  text-decoration: none;
   position: relative;
+  // Lowering the padding to account for the font-weight: bold above
   padding-left: 1.4rem;
   padding-right: 1.4rem;
 
