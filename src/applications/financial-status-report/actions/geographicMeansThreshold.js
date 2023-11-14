@@ -50,6 +50,8 @@ export const getGMT = (dependents, year, zipCode, config = {}) => dispatch => {
 
   dispatch({ type: GMT_FETCH_INITIATED });
 
+  let requestUrl;
+
   if (detectLocalhost && useMockData) {
     const thresholds = calculateThresholds(mockGmtValue);
     return Promise.resolve({
@@ -58,12 +60,12 @@ export const getGMT = (dependents, year, zipCode, config = {}) => dispatch => {
       ...thresholds,
     });
   }
-
-  let requestUrl = `${
-    environment.API_URL
-  }/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
-  if (detectLocalhost && useStagingData && !useMockData) {
+  if (detectLocalhost && useStagingData) {
     requestUrl = `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
+  } else {
+    requestUrl = `${
+      environment.API_URL
+    }/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
   }
 
   return apiRequest(requestUrl)
