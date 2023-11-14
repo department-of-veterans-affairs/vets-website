@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
@@ -39,6 +39,7 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
+import { useSessionStorage } from '~/applications/personalization/common/hooks/useSessionStorage';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -142,8 +143,6 @@ const Dashboard = ({
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
 
-  const [visibleAlert, setVisibleAlert] = useState(true);
-
   useEffect(() => {
     // use Drupal based Cerner facility data
     connectDrupalSourceOfTruthCerner(dispatch);
@@ -196,8 +195,12 @@ const Dashboard = ({
     [canAccessPaymentHistory, getPayments],
   );
 
-  const hideAlert = () => {
-    setVisibleAlert(false);
+  // use session storage to track if downtime alert has been dismissed
+  const [dismissed, setDismissed] = useSessionStorage(
+    'authExpVbaDowntimeMessageDismissed',
+  );
+  const handleDismiss = () => {
+    setDismissed('true');
   };
 
   return (
@@ -266,9 +269,9 @@ const Dashboard = ({
                     <VaAlert
                       closeBtnAriaLabel="Close notification"
                       closeable
-                      onCloseEvent={hideAlert}
+                      onCloseEvent={handleDismiss}
                       status="warning"
-                      visible={visibleAlert}
+                      visible={dismissed !== 'true'}
                     >
                       <h2 slot="headline">
                         We’re updating our systems right now
