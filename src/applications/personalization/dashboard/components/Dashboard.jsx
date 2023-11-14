@@ -257,12 +257,12 @@ const Dashboard = ({
               )}
 
               {/* LOA3 user experience */}
-              {/* Remove the following after maintenance is over */}
-              <div className="vads-u-margin-top--4 vads-l-col--9">
-                <Toggler
-                  toggleName={Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage}
-                >
-                  <Toggler.Enabled>
+              {/* Remove everything in <Toggler.Enabled> after maintenance is over */}
+              <Toggler
+                toggleName={Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage}
+              >
+                <Toggler.Enabled>
+                  <div className="vads-u-margin-top--4 vads-l-col--8">
                     <VaAlert
                       closeBtnAriaLabel="Close notification"
                       closeable
@@ -271,44 +271,58 @@ const Dashboard = ({
                       visible={visibleAlert}
                     >
                       <h2 slot="headline">
-                        This is an informational alert using the dismissible
-                        option
+                        We’re updating our systems right now
                       </h2>
                       <div>
                         <p className="vads-u-margin-y--0">
-                          Dismissible alert text would go here. This is an
-                          example.
+                          We’re updating out systems to add the 2024
+                          cost-of-living increase for VA benefits. If you have
+                          trouble using this tool, check back after{' '}
+                          <strong>Sunday, November 19, 2023</strong>, at{' '}
+                          <strong>11:59 p.m. ET</strong>.
                         </p>
                       </div>
                     </VaAlert>
-                  </Toggler.Enabled>
-                </Toggler>
-              </div>
-              {/* end Remove */}
+                  </div>
 
-              {props.showClaimsAndAppeals && (
-                <DowntimeNotification
-                  dependencies={[
-                    externalServices.mhv,
-                    externalServices.appeals,
-                  ]}
-                  render={RenderClaimsWidgetDowntimeNotification}
-                >
-                  <ClaimsAndAppeals useLighthouseClaims={useLighthouseClaims} />
-                </DowntimeNotification>
-              )}
-              {isLOA3 && (
-                <>
-                  <HealthCare isVAPatient={isVAPatient} />
-                  <Debts />
-                  <BenefitPayments
-                    payments={payments}
-                    showNotifications={showNotifications}
-                  />
-                  <EducationAndTraining />
-                  <SavedApplications />
-                </>
-              )}
+                  {isLOA3 && (
+                    <>
+                      <HealthCare isVAPatient={isVAPatient} />
+                      <EducationAndTraining />
+                      <SavedApplications />
+                    </>
+                  )}
+                </Toggler.Enabled>
+
+                <Toggler.Disabled>
+                  {props.showClaimsAndAppeals && (
+                    <DowntimeNotification
+                      dependencies={[
+                        externalServices.mhv,
+                        externalServices.appeals,
+                      ]}
+                      render={RenderClaimsWidgetDowntimeNotification}
+                    >
+                      <ClaimsAndAppeals
+                        useLighthouseClaims={useLighthouseClaims}
+                      />
+                    </DowntimeNotification>
+                  )}
+                  {isLOA3 && (
+                    <>
+                      <HealthCare isVAPatient={isVAPatient} />
+                      <Debts />
+                      <BenefitPayments
+                        payments={payments}
+                        showNotifications={showNotifications}
+                      />
+                      <EducationAndTraining />
+                      <SavedApplications />
+                    </>
+                  )}
+                </Toggler.Disabled>
+              </Toggler>
+              {/* end Remove */}
             </div>
           </div>
         )}
