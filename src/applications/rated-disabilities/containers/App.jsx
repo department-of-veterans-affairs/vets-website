@@ -9,16 +9,23 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
-import AppContent from '../components/AppContent';
+import AppContent from './AppContent';
+import FeatureFlagsLoaded from '../components/FeatureFlagsLoaded';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 import {
   isLoadingFeatures,
   rdDetectDiscrepancies,
   rdSortAbTest,
+  rdUseLighthouse,
 } from '../selectors';
 
 const App = props => {
-  const { featureFlagsLoading, ratedDisabilities } = props.ratedDisabilities;
+  const {
+    featureFlagsLoading,
+    ratedDisabilities,
+  } = props.ratedDisabilities;
+
+  console.log(props.useLighthouse);
 
   return (
     <RequiredLoginView
@@ -35,19 +42,23 @@ const App = props => {
           externalServices.vbms,
         ]}
       >
-        <AppContent featureFlagsLoading={featureFlagsLoading}>
-          <RatedDisabilityView
-            detectDiscrepancies={props.detectDiscrepancies}
-            error={props.error}
-            fetchRatedDisabilities={props.fetchRatedDisabilities}
-            fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
-            loading={props.loading}
-            ratedDisabilities={ratedDisabilities}
-            sortToggle={props.sortToggle}
-            totalDisabilityRating={props.totalDisabilityRating}
-            user={props.user}
-          />
-        </AppContent>
+        <FeatureFlagsLoaded featureFlagsLoading={featureFlagsLoading}>
+          {props.useLighthouse ? (
+            <AppContent />
+          ) : (
+            <RatedDisabilityView
+              detectDiscrepancies={props.detectDiscrepancies}
+              error={props.error}
+              fetchRatedDisabilities={props.fetchRatedDisabilities}
+              fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
+              loading={props.loading}
+              ratedDisabilities={ratedDisabilities}
+              sortToggle={props.sortToggle}
+              totalDisabilityRating={props.totalDisabilityRating}
+              user={props.user}
+            />
+          )}
+        </FeatureFlagsLoaded>
       </DowntimeNotification>
     </RequiredLoginView>
   );
@@ -63,6 +74,9 @@ App.propTypes = {
   sortToggle: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 const mapStateToProps = state => ({
@@ -74,6 +88,9 @@ const mapStateToProps = state => ({
   sortToggle: rdSortAbTest(state),
   totalDisabilityRating: state.totalRating.totalDisabilityRating,
   user: state.user,
+  // START lighthouse_migration
+  useLighthouse: rdUseLighthouse(state),
+  // END lighthouse_migration
 });
 
 const mapDispatchToProps = {

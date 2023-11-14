@@ -111,6 +111,10 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
   };
 }
 
+export function getRatedDisabilities() {
+
+};
+
 export function checkForDiscrepancies() {
   getData('/rated_disabilities_discrepancies');
 }

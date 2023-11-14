@@ -10,11 +10,11 @@ const loadingIndicator = (
   </div>
 );
 
-export default function AppContent({ children, featureFlagsLoading }) {
+export default function FeatureFlagsLoaded({ children, featureFlagsLoading }) {
   return !featureFlagsLoading ? children : loadingIndicator;
 }
 
-AppContent.propTypes = {
+FeatureFlagsLoaded.propTypes = {
   children: PropTypes.node,
   featureFlagsLoading: PropTypes.bool,
 };
