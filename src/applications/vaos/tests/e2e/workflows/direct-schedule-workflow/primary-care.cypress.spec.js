@@ -97,10 +97,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .selectTypeOfCare(/Primary care/i)
           .clickNextButton();
 
-        // TypeOfFacilityPageObject.assertUrl()
-        //   .selectTypeOfFacility(/VA medical center or clinic/i)
-        //   .clickNextButton();
-
         VAFacilityPageObject.assertUrl()
           .assertSingleLocation({
             locationName: /Cheyenne VA Medical Center/i,
