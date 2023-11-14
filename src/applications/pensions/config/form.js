@@ -65,6 +65,7 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from '../pages/applicantInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
+import pow from '../pages/pow';
 
 import {
   validateAfterMarriageDate,
@@ -77,8 +78,6 @@ import manifest from '../manifest.json';
 const {
   disabilities,
   jobs,
-  powDateRange,
-  severancePay,
   spouseDateOfBirth,
   spouseSocialSecurityNumber,
   spouseVaFileNumber,
@@ -257,67 +256,11 @@ const formConfig = {
           uiSchema: generalHistory.uiSchema,
           schema: generalHistory.schema,
         },
-        powAndSeverance: {
-          path: 'military/pow-severance',
-          title: 'POW status & severance pay',
-          uiSchema: {
-            'ui:title': 'POW Status & Severance Pay',
-            'ui:order': [
-              'view:powStatus',
-              'powDateRange',
-              'view:receivedSeverancePay',
-              'severancePay',
-            ],
-            'view:powStatus': {
-              'ui:title': 'Have you ever been a POW?',
-              'ui:widget': 'yesNo',
-            },
-            powDateRange: set(
-              'ui:options.expandUnder',
-              'view:powStatus',
-              dateRangeUI(
-                'Start of confinement',
-                'End of confinement',
-                'Confinement start date must be before end date',
-              ),
-            ),
-            'view:receivedSeverancePay': {
-              'ui:title':
-                'Have you received any type of severance or separation pay?',
-              'ui:widget': 'yesNo',
-            },
-            severancePay: {
-              'ui:order': ['type', 'amount'],
-              'ui:options': {
-                expandUnder: 'view:receivedSeverancePay',
-              },
-              amount: currencyUI('Amount'),
-              type: {
-                'ui:title': 'Pay Type',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    PDRL: 'Permanent Disability Retirement List (PDRL)',
-                    TDRL: 'Temporary Disability Retirement List (TDRL)',
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:powStatus', 'view:receivedSeverancePay'],
-            properties: {
-              'view:powStatus': {
-                type: 'boolean',
-              },
-              powDateRange,
-              'view:receivedSeverancePay': {
-                type: 'boolean',
-              },
-              severancePay,
-            },
-          },
+        pow: {
+          path: 'military/pow',
+          title: 'POW status',
+          uiSchema: pow.uiSchema,
+          schema: pow.schema,
         },
       },
     },
