@@ -1449,46 +1449,69 @@ $marker-text-width: 9rem;
 }
 
 .tabs {
-  min-width: 240px;
   list-style: none;
   margin-bottom: -1px;
   padding: 0;
 
   & > li {
     display: inline-block;
-    margin: 0 1rem;
-  }
-
-  & > :first-child {
-    margin-left: 0;
+    margin-bottom: 0;
   }
 }
 
 .tab {
-  padding: 0.5em 0.25em;
+  padding: 0.5em 1.5rem;
   display: inline-block;
   font-size: 20px;
 
   &:hover {
-    background: none;
-    border-bottom: 6px solid $color-blue;
     color: $color-base !important;
-    font-weight: bold;
     text-decoration: none;
+    position: relative;
+
+    & > span::after {
+      background-color: $color-blue;
+      border-radius: 0;
+      content: "";
+      display: block;
+      position: absolute;
+      height: 6px;
+      left: 1rem;
+      right: 1rem;
+      bottom: 0;
+    }
   }
 
   &:visited {
     color: $color-link-default;
+  }
+
+  & > :nth-of-type(1) {
+    padding-left: 0;
   }
 }
 
 .tab--current {
   color: $color-base !important;
   font-weight: bold;
-  border-bottom: 6px solid $color-blue;
   text-decoration: none;
+  position: relative;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+
+  & > span::after {
+    background-color: $color-blue;
+    border-radius: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    height: 6px;
+    left: 1rem;
+    right: 1rem;
+    bottom: 0;
+  }
 }
 
 .tab-content {
-  border-top: 1px solid $color-gray;
+  border-top: 1px solid $color-gray-lighter;
 }

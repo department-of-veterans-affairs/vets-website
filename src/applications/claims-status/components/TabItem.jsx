@@ -36,7 +36,7 @@ class TabItem extends React.Component {
           role="tab"
           to={tabpath}
         >
-          {title}
+          <span>{title}</span>
         </IndexLink>
       </li>
     );
