@@ -4,7 +4,6 @@
 // TODO: Determine if we are actually using any of these
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
 .claim-list {
   margin-bottom: 2em;
@@ -1488,4 +1487,8 @@ $marker-text-width: 9rem;
   font-weight: bold;
   border-bottom: 6px solid $color-blue;
   text-decoration: none;
+}
+
+.tab-content {
+  border-top: 1px solid $color-gray;
 }

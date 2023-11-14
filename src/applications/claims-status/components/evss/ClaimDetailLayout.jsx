@@ -106,7 +106,7 @@ export default function ClaimDetailLayout(props) {
             aria-labelledby={`tab${tab}`}
           >
             {currentTab === tab && (
-              <div className="va-tab-content claim-tab-content">
+              <div className="tab-content claim-tab-content">
                 {isPopulatedClaim(claim || {}) ||
                 !claim?.attributes.open ? null : (
                   <AddingDetails />

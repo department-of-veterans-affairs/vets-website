@@ -20,11 +20,11 @@ class TabItem extends React.Component {
   };
 
   render() {
-    const { id, className, tabpath, title } = this.props;
+    const { id, tabpath, title } = this.props;
     const activeTab = this.trimCurrentUrl();
 
     return (
-      <li className={className} role="presentation">
+      <li role="presentation">
         <IndexLink
           id={`tab${id || title}`}
           aria-controls={
