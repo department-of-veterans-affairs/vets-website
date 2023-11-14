@@ -3,7 +3,10 @@ import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { SchoolSelectField } from '../../components/SchoolSelectField';
+import {
+  SchoolSelectField,
+  mapStateToProps,
+} from '../../components/SchoolSelectField';
 
 describe('<SchoolSelectField>', () => {
   it('should render initial search view', () => {
@@ -509,6 +512,114 @@ describe('<SchoolSelectField>', () => {
     expect(onChange.calledOnce).to.eql(true);
     expect(onChange.firstCall.args[0]).to.eql({});
     expect(clearSearch.calledOnce).to.eql(true);
+    tree.unmount();
+  });
+  it('mapStateToProps Without Form Data', () => {
+    const ownProps = {
+      formContext: {
+        submitted: false,
+      },
+      errorSchema: {
+        facilityCode: {
+          __errors: [],
+        },
+      },
+    };
+
+    const state = {
+      schoolSelect: {
+        currentPageNumber: 1,
+        institutions: [],
+        institutionQuery: '',
+        institutionSelected: {},
+        manualSchoolEntryChecked: false,
+        pagesCount: 0,
+        searchInputValue: '',
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: false,
+        showNoResultsFound: false,
+        showPagination: false,
+        showPaginationLoading: false,
+        showSearchResults: true,
+      },
+    };
+    const wrapper = mapStateToProps(state, ownProps);
+    expect(wrapper).to.not.be.null;
+  });
+  it('mapStateToProps With Form Data', () => {
+    const ownProps = {
+      formData: {},
+      formContext: {
+        submitted: false,
+      },
+      errorSchema: {
+        facilityCode: {
+          __errors: [],
+        },
+      },
+    };
+
+    const state = {
+      schoolSelect: {
+        currentPageNumber: 1,
+        institutions: [],
+        institutionQuery: '',
+        institutionSelected: {},
+        manualSchoolEntryChecked: false,
+        pagesCount: 0,
+        searchInputValue: '',
+        searchResultsCount: 0,
+        showInstitutions: false,
+        showInstitutionsLoading: false,
+        showNoResultsFound: false,
+        showPagination: false,
+        showPaginationLoading: false,
+        showSearchResults: true,
+      },
+    };
+    const wrapper = mapStateToProps(state, ownProps);
+    expect(wrapper).to.not.be.null;
+  });
+  it('should Not render initial search view', () => {
+    const tree = mount(
+      <SchoolSelectField
+        formData={{}}
+        formContext={{ reviewMode: true }}
+        showInstitutions={false}
+        showInstitutionsLoading={false}
+        showPagination={false}
+        showPaginationLoading={false}
+        manualSchoolEntryChecked
+      />,
+    );
+    expect(tree.find('va-checkbox').exists()).to.be.false;
+    tree.unmount();
+  });
+  it('should render reviewMode true with institutionSelected', () => {
+    const institutionSelected = {
+      name: 'John Doe',
+      address1: '254 PHAYATHAI ROAD',
+      address2: 'ENGINEERING BLDG 2',
+      address3: 'ROOM 107   10330',
+      city: 'BANGKOK',
+      country: 'THAILAND',
+      state: 'TX',
+      zip: 12345,
+    };
+    const tree = mount(
+      <SchoolSelectField
+        formData={{}}
+        formContext={{ reviewMode: true }}
+        showInstitutions={false}
+        showInstitutionsLoading={false}
+        showPagination={false}
+        showPaginationLoading={false}
+        manualSchoolEntryChecked={false}
+        institutionSelected={institutionSelected}
+      />,
+    );
+    expect(tree.find('va-checkbox').exists()).to.be.false;
     tree.unmount();
   });
 });
