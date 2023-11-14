@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FacilityAddress from '../../../components/FacilityAddress';
 
 export default function AtlasLocation({ appointment, isPast }) {
@@ -26,3 +27,41 @@ export default function AtlasLocation({ appointment, isPast }) {
     </div>
   );
 }
+
+AtlasLocation.propTypes = {
+  appointment: PropTypes.shape({
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+    }),
+    videoData: PropTypes.shape({
+      atlasConfirmationCode: PropTypes.string.isRequired,
+      atlasLocation: PropTypes.shape({
+        address: PropTypes.shape({
+          line: PropTypes.array.isRequired,
+          city: PropTypes.string.isRequired,
+          state: PropTypes.string.isRequired,
+          postalCode: PropTypes.string.isRequired,
+        }),
+      }),
+    }),
+  }),
+  isPast: PropTypes.bool,
+};
+AtlasLocation.defaultProps = {
+  appointment: {
+    vaos: {
+      isPastAppointment: false,
+    },
+    videoData: {
+      atlasConfirmationCode: '',
+      atlasLocation: {
+        address: {
+          line: [''],
+          city: '',
+          state: '',
+          zip: '',
+        },
+      },
+    },
+  },
+};

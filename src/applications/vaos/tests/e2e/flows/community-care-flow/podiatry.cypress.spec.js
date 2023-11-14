@@ -42,8 +42,8 @@ describe('VAOS community care flow - Podiatry', () => {
       },
     });
     mockAppointmentsApi({ response: [] });
-    mockAppointmentCreateApi();
-    mockFacilitiesApi({ apiVersion: 2 });
+    mockAppointmentCreateApi({ response: appt });
+    mockFacilitiesApi();
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -74,7 +74,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -134,7 +134,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -184,7 +184,7 @@ describe('VAOS community care flow - Podiatry', () => {
           .selectTypeOfCare(/Podiatry/)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
