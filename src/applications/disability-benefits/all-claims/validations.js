@@ -421,17 +421,12 @@ export const validateDisabilityName = (
   // about the length - we only care about the length of unique user-entered
   // disability names. We could've done this with `updateSchema` but this seems
   // lighter-touch.
-  const isRevisedDisabilityList = _formData?.isRevisedDisabilityList;
-  if (isRevisedDisabilityList === undefined) {
-    err.addError('something is not correct, need isRevisedDisabilityList set');
-  }
   if (
     // !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     // fieldData.length > 255
-    !getLoweredDisabilityDescriptions(isRevisedDisabilityList).includes(
-      fieldData.toLowerCase(),
-    ) &&
-    fieldData.length > (255).includes(fieldData.toLowerCase()) &&
+    !getLoweredDisabilityDescriptions(
+      appStateData.isRevisedDisabilityList,
+    ).includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
   ) {
     err.addError('Condition names should be less than 256 characters');

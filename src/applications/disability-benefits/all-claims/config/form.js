@@ -129,7 +129,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
-const formConfigBase = {
+export const formConfigBase = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -728,6 +728,7 @@ const getAddDisabilitiesConfig = disabilityLabels => {
       // not the formData on the review & submit page. For more details
       // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
       newDisabilities: state.form?.data?.newDisabilities || [],
+      isRevisedDisabilityList: state.form?.data?.isRevisedDisabilityList,
     }),
   };
 };

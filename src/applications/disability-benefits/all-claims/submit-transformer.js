@@ -113,8 +113,9 @@ export function transform(formConfig, form) {
     }
 
     const flippedDisabilityLabels = {};
-    // fix this
-    Object.entries(getDisabilityLabels()).forEach(([code, description]) => {
+    Object.entries(
+      getDisabilityLabels(formData.isRevisedDisabilityList),
+    ).forEach(([code, description]) => {
       flippedDisabilityLabels[description?.toLowerCase()] = code;
     });
 
@@ -310,7 +311,7 @@ export function transform(formConfig, form) {
     cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
-    addClassificationCodeToNewDisabilities, // move this??
+    addClassificationCodeToNewDisabilities, // <-----
     addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
     transformSecondaryDisabilities,

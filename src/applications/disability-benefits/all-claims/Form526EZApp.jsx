@@ -13,6 +13,7 @@ import {
 import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { getFormConfig } from './config/form';
@@ -72,6 +73,7 @@ export const isIntroPage = ({ pathname = '' } = {}) =>
 
 export const Form526Entry = ({
   children,
+  formData,
   inProgressFormId,
   isBDDForm,
   location,
@@ -79,6 +81,7 @@ export const Form526Entry = ({
   mvi,
   router,
   savedForms,
+  setFormData,
   showSubforms,
   showWizard,
   user,
@@ -156,6 +159,17 @@ export const Form526Entry = ({
       }
     },
     [loggedIn],
+  );
+
+  useEffect(
+    () => {
+      setFormData({
+        ...formData,
+        isRevisedDisabilitiesList,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isRevisedDisabilitiesList],
   );
 
   if (!loggedIn) {
@@ -263,8 +277,13 @@ Form526Entry.propTypes = {
   }),
 };
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  formData: state?.form?.data,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
@@ -276,4 +295,7 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

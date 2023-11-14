@@ -14,7 +14,8 @@ import {
 import Wizard from 'applications/static-pages/wizard';
 
 import pages from '../../wizard/pages';
-import formConfig from '../config/form';
+// import formConfig from '../config/form';
+import { formConfigBase } from '../config/form';
 import { getPageTitle, wrapWithBreadcrumb } from '../utils';
 import {
   SAVED_SEPARATION_DATE,
@@ -44,7 +45,8 @@ const WizardContainer = () => {
     title,
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <FormTitle title={title} subTitle={formConfig.subTitle} />
+        {/* disabilities list not needed for subTitle */}
+        <FormTitle title={title} subTitle={formConfigBase.subTitle} />
         <div className="wizard-container">
           <h2>Is this the form I need?</h2>
           <p>
@@ -84,7 +86,8 @@ const WizardContainer = () => {
             If you know VA Form 21-526EZ is right, apply now
           </a>
         </div>
-        <FormFooter formConfig={formConfig} />
+        {/* disabilities list not needed for getHelp */}
+        <FormFooter formConfig={formConfigBase} />
       </div>
     </div>,
   );
