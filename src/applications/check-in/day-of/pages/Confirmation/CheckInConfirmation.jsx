@@ -24,7 +24,7 @@ import { useUpdateError } from '../../../hooks/useUpdateError';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const CheckInConfirmation = props => {
-  const { appointments, selectedAppointment, triggerRefresh, router } = props;
+  const { selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
@@ -169,7 +169,7 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        {appointments.length > 1 && <BackToAppointments />}
+        <BackToAppointments />
       </Wrapper>
     );
   };
@@ -188,7 +188,6 @@ const CheckInConfirmation = props => {
 };
 
 CheckInConfirmation.propTypes = {
-  appointments: PropTypes.array,
   router: PropTypes.object,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,
