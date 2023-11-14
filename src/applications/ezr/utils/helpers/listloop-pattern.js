@@ -9,7 +9,11 @@ export function getDataToSet(props) {
   const { slices, dataKey, localData, listRef, viewFields } = props;
   return localData === null
     ? { [dataKey]: listRef, [viewFields.add]: null, [viewFields.skip]: true }
-    : { [dataKey]: [...slices.beforeIndex, localData, ...slices.afterIndex] };
+    : {
+        [dataKey]: [...slices.beforeIndex, localData, ...slices.afterIndex],
+        [viewFields.add]: null,
+        [viewFields.skip]: true,
+      };
 }
 
 /**

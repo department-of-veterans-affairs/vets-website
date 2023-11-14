@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { HealthInsuranceDescription } from '../FormDescriptions/HealthInsuranceDescriptions';
 import InsuranceCoverageField from '../FormFields/InsuranceCoverageField';
 import InsurancePolicyList from '../FormFields/InsurancePolicyList';
 import { INSURANCE_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
@@ -109,6 +110,7 @@ const InsuranceSummary = props => {
           <>
             {/** Field radio group */}
             <div data-testid="ezr-policy-declaration-field">
+              <HealthInsuranceDescription />
               <InsuranceCoverageField
                 defaultValue={fieldData}
                 error={error}

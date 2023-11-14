@@ -53,4 +53,36 @@ describe('filter reducer', () => {
     expect(state.country).to.eql('ALL');
     expect(state.state).to.eql('ALL');
   });
+  it('should convert string "true" and "false" to boolean values and update state', () => {
+    const initialState2 = {
+      expanded: false,
+      search: false,
+      schools: false,
+      excludedSchoolTypes: [],
+      excludeCautionFlags: false,
+      accredited: false,
+      studentVeteran: false,
+      yellowRibbonScholarship: false,
+      specialMission: 'ALL',
+      employers: false,
+      vettec: false,
+      preferredProvider: false,
+      country: 'ALL',
+      state: 'ALL',
+    };
+
+    const action = {
+      type: 'UPDATE_QUERY_PARAMS',
+      payload: {
+        search: 'true',
+        accredited: 'false',
+      },
+    };
+
+    const newState = filterReducer(initialState2, action);
+    expect(newState.search).to.be.true;
+    expect(newState.accredited).to.be.false;
+    expect(newState.schools).to.be.false;
+    expect(newState.country).to.equal('ALL');
+  });
 });

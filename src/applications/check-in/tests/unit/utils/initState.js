@@ -52,7 +52,7 @@ const createStore = ({
           'travel-question': travelQuestion,
           'travel-address': travelAddress,
           'travel-mileage': travelMileage,
-          'travel-Vehicle': travelVehicle,
+          'travel-vehicle': travelVehicle,
         },
       },
       appointments,
