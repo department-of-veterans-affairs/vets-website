@@ -367,5 +367,21 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       );
       expect(isRxSkillSessionStorageSet).to.equal(null);
     });
+    it('should verify isMobile is present in startConversationActivity', async () => {
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        'currentConversationId',
+        'isMobile',
+      )(store)(fakeNext)(connectFulfilledAction);
+
+      const actions = store.getActions();
+
+      expect(actions[0].payload.activity.value).to.have.property('isMobile');
+    });
   });
 });
