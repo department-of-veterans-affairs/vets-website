@@ -1,6 +1,6 @@
 // @ts-check
 import moment from 'moment';
-import { MockAppointment } from '../../fixtures/MockAppointment';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
   mockAppointmentGetApi,
   mockAppointmentCreateApi,
@@ -23,40 +23,36 @@ import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointm
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
 import AudiologyPageObject from '../../page-objects/AudiologyPageObject';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
-import { MockProvider } from '../../fixtures/MockProvider';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
-import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
+import MockProviderResponse from '../../fixtures/MockProviderResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import MockClinicResponse from '../../fixtures/MockClinicResponse';
 
 describe('VAOS community care flow - Audiology', () => {
   beforeEach(() => {
     vaosSetup();
 
-    const appt = new MockAppointment({
+    const response = new MockAppointmentResponse({
       id: 'mock1',
       localStartTime: moment(),
       status: 'proposed',
       serviceType: 'audiology',
     });
     mockAppointmentGetApi({
-      response: {
-        ...appt,
-      },
+      response,
     });
     mockAppointmentsGetApi({ response: [] });
-    mockAppointmentCreateApi({ response: appt });
+    mockAppointmentCreateApi({ response });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
 
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      const mockProvider = new MockProvider();
-
-      mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockCCProvidersApi({ response: MockProviderResponse.createResponses() });
       mockClinicsApi({
         locationId: '983',
         response: MockClinicResponse.createResponses({ count: 2 }),
@@ -188,9 +184,7 @@ describe('VAOS community care flow - Audiology', () => {
 
   describe('When more than one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      const mockProvider = new MockProvider();
-
-      mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockCCProvidersApi({ response: MockProviderResponse.createResponses() });
       mockEligibilityCCApi({ typeOfCare: 'Audiology', isEligible: true });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({

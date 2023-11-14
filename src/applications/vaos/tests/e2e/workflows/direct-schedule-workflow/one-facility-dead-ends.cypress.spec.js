@@ -1,5 +1,5 @@
 // @ts-check
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -12,11 +12,11 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockEligibility } from '../../fixtures/MockEligibility';
+import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS direct schedule flow - dead ends', () => {
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibility = new MockEligibility({
+        const mockEligibility = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCare: 'primaryCare',
           type: 'direct',
@@ -79,9 +79,11 @@ describe('VAOS direct schedule flow - dead ends', () => {
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityRequestApi({
-          response: MockEligibility.createPatientHistoryInsufficientResponse({
-            type: 'request',
-          }),
+          response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
+            {
+              type: 'request',
+            },
+          ),
         });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
@@ -117,7 +119,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        const mockEligibility = new MockEligibility({
+        const mockEligibility = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCare: 'primaryCare',
           type: 'request',
@@ -129,9 +131,11 @@ describe('VAOS direct schedule flow - dead ends', () => {
           response: [],
         });
         mockEligibilityDirectApi({
-          response: MockEligibility.createPatientHistoryInsufficientResponse({
-            type: 'direct',
-          }),
+          response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
+            {
+              type: 'direct',
+            },
+          ),
         });
         mockEligibilityRequestApi({ response: mockEligibility });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
@@ -172,9 +176,11 @@ describe('VAOS direct schedule flow - dead ends', () => {
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityRequestApi({
-          response: MockEligibility.createFacilityRequestLimitExceededResponse({
-            type: 'request',
-          }),
+          response: MockEligibilityResponse.createFacilityRequestLimitExceededResponse(
+            {
+              type: 'request',
+            },
+          ),
         });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 

@@ -1,7 +1,7 @@
 // @ts-check
 import moment from 'moment';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
-import { MockAppointment } from '../../fixtures/MockAppointment';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
   mockAppointmentGetApi,
   mockAppointmentCreateApi,
@@ -15,14 +15,14 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockSlot } from '../../fixtures/MockSlot';
-import { MockUser } from '../../fixtures/MockUser';
-import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
+import MockSlotResponse from '../../fixtures/MockSlotResponse';
+import MockUser from '../../fixtures/MockUser';
+import MockClinicResponse from '../../fixtures/MockClinicResponse';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockEligibility } from '../../fixtures/MockEligibility';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
+import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
 import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
 import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
@@ -34,18 +34,16 @@ describe('VAOS direct schedule flow - Primary care', () => {
   beforeEach(() => {
     vaosSetup();
 
-    const appt = new MockAppointment({
+    const response = new MockAppointmentResponse({
       id: 'mock1',
       localStartTime: moment(),
       status: APPOINTMENT_STATUS.proposed,
       serviceType: 'primaryCare',
     });
     mockAppointmentGetApi({
-      response: {
-        ...appt,
-      },
+      response,
     });
-    mockAppointmentCreateApi({ response: appt });
+    mockAppointmentCreateApi({ response });
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
@@ -53,12 +51,11 @@ describe('VAOS direct schedule flow - Primary care', () => {
 
   describe('When more than one facility supports online scheduling', () => {
     beforeEach(() => {
-      const mockEligibility = new MockEligibility({
+      const mockEligibility = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCare: 'primaryCare',
         isEligible: true,
       });
-      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'month') });
 
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
@@ -75,7 +72,9 @@ describe('VAOS direct schedule flow - Primary care', () => {
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
-        response: [mockSlot],
+        response: MockSlotResponse.createResponses({
+          startTimes: [moment().add(1, 'month')],
+        }),
       });
     });
 

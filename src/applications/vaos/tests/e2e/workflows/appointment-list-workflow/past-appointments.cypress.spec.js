@@ -8,9 +8,9 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockAppointment } from '../../fixtures/MockAppointment';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import PastAppointmentListPageObject from '../../page-objects/AppointmentList/PastAppointmentListPageObject';
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 
 describe('VAOS past appointment flow', () => {
@@ -28,13 +28,13 @@ describe('VAOS past appointment flow', () => {
       // Arrange
       const yesterday = moment().subtract(1, 'day');
 
-      const appt = new MockAppointment({
+      const response = new MockAppointmentResponse({
         cancellable: false,
         localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
       });
 
-      mockAppointmentsGetApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [response] });
 
       // Act
       AppointmentListPageObject.visit();
@@ -59,14 +59,14 @@ describe('VAOS past appointment flow', () => {
     it('should display past appointment details', () => {
       // Arrange
       const yesterday = moment().subtract(1, 'day');
-      const appt = new MockAppointment({
+      const response = new MockAppointmentResponse({
         id: '3',
         cancellable: false,
         localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
       });
 
-      mockAppointmentsGetApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [response] });
 
       // Act
       PastAppointmentListPageObject.visit()
@@ -85,7 +85,7 @@ describe('VAOS past appointment flow', () => {
     it('should display past appointments for selected date range', () => {
       // Arrange
       const response = [3, 6, 9, 12].map(i => {
-        return new MockAppointment({
+        return new MockAppointmentResponse({
           id: i,
           cancellable: false,
           localStartTime: moment().subtract(i, 'month'),

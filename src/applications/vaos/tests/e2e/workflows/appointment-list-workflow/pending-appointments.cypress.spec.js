@@ -10,7 +10,7 @@ import {
   mockAppointmentsGetApi,
   mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
-import { MockAppointment } from '../../fixtures/MockAppointment';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 
 describe('VAOS pending appointment flow', () => {
   describe('When veteran has pending appointments', () => {
@@ -27,7 +27,7 @@ describe('VAOS pending appointment flow', () => {
       const response = [];
 
       for (let i = 1; i <= 5; i++) {
-        const appt = new MockAppointment({
+        const appt = new MockAppointmentResponse({
           id: i,
           localStartTime: moment(),
           status: APPOINTMENT_STATUS.proposed,
@@ -49,7 +49,7 @@ describe('VAOS pending appointment flow', () => {
 
     it('should display pending appointment details', () => {
       // Arrange
-      const appt = new MockAppointment({
+      const appt = new MockAppointmentResponse({
         localStartTime: moment(),
         serviceType: 'primaryCare',
         status: APPOINTMENT_STATUS.proposed,

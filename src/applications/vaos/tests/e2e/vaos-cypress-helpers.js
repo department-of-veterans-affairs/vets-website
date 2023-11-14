@@ -316,7 +316,9 @@ export function mockAppointmentsGetApi({
         }
 
         if (data) {
-          req.reply({ data });
+          req.reply({
+            data: data.flat().map((resp, index) => resp.setId(index + 1)),
+          });
         }
       },
     ).as('v2:get:appointments');

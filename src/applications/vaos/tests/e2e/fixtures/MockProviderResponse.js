@@ -1,6 +1,6 @@
-export class MockProvider {
-  constructor() {
-    this.id = '1';
+export default class MockProviderResponse {
+  constructor({ id = 1 } = {}) {
+    this.id = id.toString();
     this.type = 'provider';
     this.attributes = {
       address: {
@@ -13,6 +13,12 @@ export class MockProvider {
       long: -77.032382,
       name: 'Doe, Jane',
     };
+  }
+
+  static createResponses({ count = 1 } = {}) {
+    return Array(count)
+      .fill(count)
+      .map((_, index) => new MockProviderResponse({ id: index }));
   }
 
   setLatitude(value) {

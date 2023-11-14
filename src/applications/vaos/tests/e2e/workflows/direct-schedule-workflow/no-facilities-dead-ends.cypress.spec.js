@@ -1,5 +1,5 @@
 // @ts-check
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import {
   mockAppointmentsGetApi,
   mockFacilitiesApi,
@@ -11,7 +11,7 @@ import {
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS direct schedule flow - No facility dead ends', () => {
   beforeEach(() => {

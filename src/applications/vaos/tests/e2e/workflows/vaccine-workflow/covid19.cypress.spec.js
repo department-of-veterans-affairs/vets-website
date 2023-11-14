@@ -1,6 +1,6 @@
 // @ts-check
 import moment from 'moment';
-import { MockAppointment } from '../../fixtures/MockAppointment';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
   mockAppointmentGetApi,
   mockAppointmentCreateApi,
@@ -14,7 +14,7 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import PlanAheadPageObject from '../../page-objects/PlanAheadPageObject';
@@ -27,15 +27,15 @@ import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ContactFacilityPageObject from '../../page-objects/ContactFacilityPageObject';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
-import { MockSlot } from '../../fixtures/MockSlot';
-import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../fixtures/MockSlotResponse';
+import MockClinicResponse from '../../fixtures/MockClinicResponse';
 
 describe('VAOS covid-19 vaccine flow', () => {
   beforeEach(() => {
     vaosSetup();
 
-    const appt = new MockAppointment({
+    const response = new MockAppointmentResponse({
       id: 'mock1',
       localStartTime: moment(),
       status: 'booked',
@@ -43,11 +43,15 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
     mockAppointmentGetApi({
       response: {
-        ...appt,
-        attributes: { ...appt.attributes, clinic: '308', locationId: '983' },
+        ...response,
+        attributes: {
+          ...response.attributes,
+          clinic: '308',
+          locationId: '983',
+        },
       },
     });
-    mockAppointmentCreateApi({ response: appt });
+    mockAppointmentCreateApi({ response });
     mockAppointmentsGetApi({ response: [] });
     mockFacilityApi({ id: '983' });
     mockFeatureToggles();
@@ -56,9 +60,6 @@ describe('VAOS covid-19 vaccine flow', () => {
 
   describe('When more than one facility supports online scheduling', () => {
     beforeEach(() => {
-      // Add one day since same day appointments are not allowed.
-      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
-
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
@@ -73,7 +74,10 @@ describe('VAOS covid-19 vaccine flow', () => {
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
-        response: [mockSlot],
+        // Add one day since same day appointments are not allowed.
+        response: MockSlotResponse.createResponses({
+          startTimes: [moment().add(1, 'day')],
+        }),
       });
     });
 
@@ -198,9 +202,6 @@ describe('VAOS covid-19 vaccine flow', () => {
 
   describe('When one facility supports online scheduling', () => {
     beforeEach(() => {
-      // Add one day since same day appointments are not allowed.
-      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
-
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'covid',
@@ -210,7 +211,10 @@ describe('VAOS covid-19 vaccine flow', () => {
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
-        response: [mockSlot],
+        // Add one day since same day appointments are not allowed.
+        response: MockSlotResponse.createResponses({
+          startTimes: [moment().add(1, 'day')],
+        }),
       });
     });
 
@@ -484,8 +488,6 @@ describe('VAOS covid-19 vaccine flow', () => {
     it('should display 500 error message', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-      // Add one day since same day appointments are not allowed.
-      const mockSlot = new MockSlot({ id: 1, start: moment().add(1, 'day') });
 
       mockAppointmentCreateApi({ responseCode: 500 });
       mockClinicsApi({
@@ -510,7 +512,10 @@ describe('VAOS covid-19 vaccine flow', () => {
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
-        response: [mockSlot],
+        response: MockSlotResponse.createResponses({
+          // Add one day since same day appointments are not allowed.
+          startTimes: [moment().add(1, 'day')],
+        }),
       });
 
       // Act

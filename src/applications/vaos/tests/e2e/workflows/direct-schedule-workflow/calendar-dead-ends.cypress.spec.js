@@ -1,7 +1,7 @@
 // @ts-check
 import moment from 'moment';
-import { MockSlot } from '../../fixtures/MockSlot';
-import { MockUser } from '../../fixtures/MockUser';
+import MockSlotResponse from '../../fixtures/MockSlotResponse';
+import MockUser from '../../fixtures/MockUser';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -13,13 +13,13 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockClinicResponse } from '../../fixtures/MockClinicResponse';
+import MockClinicResponse from '../../fixtures/MockClinicResponse';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
-import { MockEligibility } from '../../fixtures/MockEligibility';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
+import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
 import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
 
@@ -34,7 +34,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
   describe('When direct and request appointment schedule is enabled', () => {
     beforeEach(() => {
-      const mockEligibility = new MockEligibility({
+      const mockEligibility = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCare: 'primaryCare',
         isDirectSchedule: true,
@@ -106,10 +106,6 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
       it('should display warning with link to start request flow', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockSlot = new MockSlot({
-          id: 1,
-          start: moment().add(1, 'day'),
-        });
 
         mockClinicsApi({
           locationId: '983',
@@ -118,7 +114,9 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         mockSlotsApi({
           locationId: '983',
           clinicId: '1',
-          response: [mockSlot],
+          response: MockSlotResponse.createResponses({
+            startTimes: [moment().add(1, 'day')],
+          }),
         });
 
         // Act
@@ -208,7 +206,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
   describe('When direct is enabled and request is disabled', () => {
     beforeEach(() => {
-      const mockEligibility = new MockEligibility({
+      const mockEligibility = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCare: 'primaryCare',
         isDirectSchedule: true,
@@ -280,10 +278,6 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockSlot = new MockSlot({
-          id: 1,
-          start: moment().add(1, 'day'),
-        });
 
         mockClinicsApi({
           locationId: '983',
@@ -292,7 +286,9 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
         mockSlotsApi({
           locationId: '983',
           clinicId: '1',
-          response: [mockSlot],
+          response: MockSlotResponse.createResponses({
+            startTimes: [moment().add(1, 'day')],
+          }),
         });
 
         // Act

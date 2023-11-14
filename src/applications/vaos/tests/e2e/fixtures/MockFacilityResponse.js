@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-export class MockFacilityResponse {
+export default class MockFacilityResponse {
   constructor({ id = '983', name = 'Cheyenne VA Medical Center' } = {}) {
     this.id = id;
     this.type = 'facility';

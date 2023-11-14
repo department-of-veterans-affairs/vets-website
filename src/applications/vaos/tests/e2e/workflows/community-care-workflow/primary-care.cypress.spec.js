@@ -1,6 +1,6 @@
 // @ts-check
 import moment from 'moment';
-import { MockAppointment } from '../../fixtures/MockAppointment';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
   mockAppointmentGetApi,
   mockAppointmentCreateApi,
@@ -13,7 +13,7 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
@@ -26,35 +26,31 @@ import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
-import { MockProvider } from '../../fixtures/MockProvider';
-import { MockFacilityResponse } from '../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../fixtures/MockProviderResponse';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS community care flow - Primary care', () => {
   beforeEach(() => {
     vaosSetup();
 
-    const appt = new MockAppointment({
+    const response = new MockAppointmentResponse({
       id: 'mock1',
       localStartTime: moment(),
       status: APPOINTMENT_STATUS.proposed,
       serviceType: 'primaryCare',
     });
     mockAppointmentGetApi({
-      response: {
-        ...appt,
-      },
+      response,
     });
     mockAppointmentsGetApi({ response: [] });
-    mockAppointmentCreateApi({ response: appt });
+    mockAppointmentCreateApi({ response });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
 
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      const mockProvider = new MockProvider();
-
-      mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockCCProvidersApi({ response: MockProviderResponse.createResponses() });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
@@ -174,9 +170,7 @@ describe('VAOS community care flow - Primary care', () => {
 
   describe('When more than one facility supports CC online scheduling', () => {
     beforeEach(() => {
-      const mockProvider = new MockProvider();
-
-      mockCCProvidersApi({ response: [{ ...mockProvider }] });
+      mockCCProvidersApi({ response: MockProviderResponse.createResponses() });
       mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
