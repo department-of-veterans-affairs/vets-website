@@ -1,28 +1,21 @@
-// Node modules.
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import { deriveMenuItemID, formatSubMenuSections } from '../../helpers';
 import { updateSubMenuAction } from '../../containers/Menu/actions';
 
 export const SubMenu = ({ subMenu, updateSubMenu }) => {
   useEffect(() => {
-    // Scroll to the top when the sub menu is opened.
     window.scrollTo(0, 0);
-
-    // Focus back to menu button.
     document.getElementById('header-back-to-menu')?.focus?.();
   }, []);
 
   const onBack = () => {
-    // Record analytic event.
     recordEvent({ event: 'nav-header-back-to-menu' });
     updateSubMenu();
   };
 
-  // Format the menu sections.
   const formattedMenuSections = formatSubMenuSections(subMenu?.menuSections);
 
   return (
@@ -42,14 +35,13 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
             Back to menu
           </button>
         </li>
-
         {formattedMenuSections?.map(item => {
-          // Derive the menu item ID.
           const menuItemID = deriveMenuItemID(item, '3');
 
           return (
             <li
               className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+              data-e2e-id={item?.text?.replaceAll(' ', '-')}
               key={menuItemID}
             >
               {/* Raw title */}
@@ -66,6 +58,10 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
                   <a
                     className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
                     href={item?.href}
+                    data-e2e-id={item?.text
+                      ?.replaceAll(' ', '-')
+                      ?.replaceAll(/[{(,&)}]/g, '')
+                      .toLowerCase()}
                   >
                     {item?.text}
                   </a>
@@ -79,13 +75,11 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
 };
 
 SubMenu.propTypes = {
-  // From mapStateToProps.
+  updateSubMenu: PropTypes.func.isRequired,
   subMenu: PropTypes.shape({
     id: PropTypes.string.isRequired,
     menuSections: PropTypes.arrayOf(PropTypes.object),
   }),
-  // From mapDispatchToProps.
-  updateSubMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

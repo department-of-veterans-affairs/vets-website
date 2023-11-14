@@ -12,7 +12,6 @@ describe('<GiBillApp>', () => {
         constants: mockConstants(),
       },
     });
-
     await waitFor(() => {
       expect(screen.getByRole('application')).to.be.ok;
     });

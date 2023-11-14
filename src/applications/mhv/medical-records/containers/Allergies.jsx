@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
@@ -16,7 +15,12 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
@@ -104,16 +108,12 @@ const Allergies = props => {
       });
     });
 
-    const pdfName = `VA-Allergies-list-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
   const generateAllergiesTxt = async () => {
-    const product = `
+    const content = `
     Allergies and reactions \n 
     Review allergies, reactions, and side effects in your VA medical
     records. This includes medication side effects (also called adverse drug
@@ -134,14 +134,7 @@ const Allergies = props => {
       \t Provider notes: ${entry.notes} \n`,
     )}`;
 
-    const blob = new Blob([product], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'AllergyList';
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    generateTextFile(content, 'AllergyList');
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

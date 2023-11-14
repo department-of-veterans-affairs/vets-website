@@ -65,7 +65,7 @@ const IconCTALink = ({
                 className="fa-stack fa-sm vads-u-height--full vads-u-margin-left--1"
               >
                 <i
-                  aria-label={`${ariaLabel} ${text}.`}
+                  aria-hidden="true"
                   className="fas fa-xs fa-stack-1x vads-u-height--full fa-circle vads-u-color--secondary-dark"
                 />
               </span>
