@@ -21,9 +21,9 @@ export const processActionConnectFulfilled = ({
   baseURL,
   userFirstName,
   userUuid,
+  isMobile,
 }) => () => {
   const currentConversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
-  const isMobile = true;
   const options = {
     csrfToken,
     apiSession,

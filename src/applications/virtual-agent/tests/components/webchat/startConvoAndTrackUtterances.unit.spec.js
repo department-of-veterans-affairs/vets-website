@@ -375,13 +375,13 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        'currentConversationId',
         'isMobile',
       )(store)(fakeNext)(connectFulfilledAction);
 
       const actions = store.getActions();
 
       expect(actions[0].payload.activity.value).to.have.property('isMobile');
+      expect(actions[0].payload.activity.value.isMobile).to.equal('isMobile');
     });
   });
 });
