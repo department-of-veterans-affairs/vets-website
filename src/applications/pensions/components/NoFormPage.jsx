@@ -87,6 +87,17 @@ export const NoFormPage = () => {
                   </p>
                 </li>
               </ul>
+              <p>
+                <strong>If you’re not ready to apply yet,</strong> you can
+                submit an intent to file form. This sets a potential start date
+                for your benefits. If you notify us of your intent to file, you
+                may be able to get back payments for the time between when you
+                submit your intent to file form and when we approve your claim.
+              </p>
+              <va-link
+                text="Find out how to submit an intent to file form"
+                href="/pension/how-to-apply/#should-i-submit-an-intent-to-f"
+              />
             </div>
           </va-alert>
           <div>
@@ -160,7 +171,7 @@ export const NoFormPage = () => {
               representative.
             </p>
             <va-link
-              href="/pension/survivors-pension/"
+              href="/pension/how-to-apply/"
               text="Learn more about how to apply for VA pension benefits"
             />
           </va-alert>
@@ -181,15 +192,15 @@ export const NoFormPage = () => {
       <p>VA Form 21P-527EZ</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
-          You don’t have any saved online pension form.
+          You can’t use our online application right now
         </h2>
         <p>
-          You can apply for VA pension benefits by mail, in person at a VA
-          regional office, or with the help of a VSO or other accredited
-          representative.
+          We’re updating our online application. If you started applying online
+          already, you can still sign in to VA.gov to refer to your saved
+          information when you fill out the PDF form.
         </p>
         <va-link
-          href="/pension/survivors-pension/"
+          href="/pension/how-to-apply/"
           text="Learn more about how to apply for VA pension benefits"
         />
       </va-alert>
