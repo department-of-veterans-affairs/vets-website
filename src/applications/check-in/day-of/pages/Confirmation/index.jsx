@@ -63,7 +63,6 @@ const Confirmation = props => {
       {appointment && (
         <CheckInConfirmation
           selectedAppointment={appointment}
-          appointments={appointments}
           triggerRefresh={refreshAppointments}
           router={router}
         />
