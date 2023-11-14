@@ -11,7 +11,9 @@ const HistoryTable = ({ history }) => (
     </va-table-row>
     {history.map((debt, index) => (
       <va-table-row key={`${debt.date}-${index}`}>
-        <span>{moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}</span>
+        <span className="vads-u-padding-top--5">
+          {moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+        </span>
         <span>{renderLetterHistory(debt.letterCode)}</span>
       </va-table-row>
     ))}
