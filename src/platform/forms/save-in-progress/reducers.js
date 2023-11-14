@@ -138,12 +138,14 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
 
 export function createSaveInProgressFormReducer(formConfig) {
   let formReducers = reducers;
-  let initialState = createInitialState(formConfig);
+  let initialState = createInitialState(formConfig); // formId and trackingPrefix don't require disabilities list
 
   if (!formConfig.disableSave) {
     formReducers = { ...formReducers, ...saveInProgressReducers };
+    // does not required disbilites list
     initialState = createSaveInProgressInitialState(formConfig, initialState);
   }
 
+  // formId and tracking prefix don't require disabilities list from formConfig
   return createSchemaFormReducer(formConfig, initialState, formReducers);
 }
