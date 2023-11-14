@@ -323,6 +323,8 @@ class PatientInboxPage {
   };
 
   replyToMessage = () => {
+    const currentDate = new Date();
+    mockSingleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
@@ -338,7 +340,6 @@ class PatientInboxPage {
       }`,
       mockSingleMessage,
     ).as('singleThread');
-
     cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)

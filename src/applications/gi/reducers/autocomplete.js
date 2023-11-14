@@ -1,3 +1,4 @@
+import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import {
   AUTOCOMPLETE_STARTED,
   AUTOCOMPLETE_FAILED,
@@ -6,7 +7,6 @@ import {
   UPDATE_AUTOCOMPLETE_LOCATION,
   LOCATION_AUTOCOMPLETE_SUCCEEDED,
 } from '../actions';
-import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 const INITIAL_STATE = {
   inProgress: false,
@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   locationSuggestions: [],
 };
 
-const buildSuggestions = (suggestions, mapper, searchTerm) => {
+export const buildSuggestions = (suggestions, mapper, searchTerm) => {
   const mapped = suggestions.map(mapper);
   if (searchTerm && suggestions.length && searchTerm !== suggestions[0].label) {
     mapped.unshift({

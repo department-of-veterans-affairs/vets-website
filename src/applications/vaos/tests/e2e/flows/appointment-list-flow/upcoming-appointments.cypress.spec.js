@@ -111,7 +111,9 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPageObject.visit().validate();
+      AppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 8,
+      });
 
       // Assert
       cy.axeCheckBestPractice();
@@ -129,7 +131,7 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Act
       AppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -153,7 +155,7 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Act
       AppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -183,7 +185,7 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Act
       AppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -205,7 +207,7 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Act
       AppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -226,7 +228,7 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Act
       AppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -239,13 +241,9 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsApi({ response: [] });
 
       // Act
-      AppointmentListPageObject.visit();
+      AppointmentListPageObject.visit().assertNoAppointments();
 
       // Assert
-      cy.findByText(/You don.t have any upcoming appointments/i).should(
-        'exist',
-      );
-
       cy.axeCheckBestPractice();
     });
 
@@ -288,7 +286,7 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Act
       AppointmentListPageObject.visit()
-        .validate()
+        .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
       // Assert
@@ -334,7 +332,9 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPageObject.visit().validate();
+      AppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 2,
+      });
 
       // Assert
       cy.findAllByTestId('appointment-list-item').should($list => {
@@ -374,7 +374,9 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPageObject.visit().validate();
+      AppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 4,
+      });
 
       // Assert
       cy.findAllByTestId('appointment-list-item').should($list => {
@@ -412,7 +414,9 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPageObject.visit().validate();
+      AppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 2,
+      });
 
       // Assert
       // Constrain search within list group.
@@ -453,7 +457,9 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      AppointmentListPageObject.visit().validate();
+      AppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 3,
+      });
 
       // Assert
       // Constrain search within list group.

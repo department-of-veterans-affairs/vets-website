@@ -65,7 +65,7 @@ class IntroductionPage extends React.Component {
             automatically of your intent to file.
           </li>
           <li>
-            <a href="https://www.va.gov/pension/application/527EZ/introduction">
+            <a href="https://www.va.gov/find-forms/about-form-21p-527ez/">
               Pension claim (VA Form 21P-527EZ)
             </a>
           </li>
