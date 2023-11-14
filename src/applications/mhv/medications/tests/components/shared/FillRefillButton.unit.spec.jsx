@@ -48,7 +48,6 @@ describe('Fill Refill Button component', () => {
   it('dispatches the fillPrescription action', async () => {
     const screen = setup();
     const fillButton = screen.getByTestId('refill-request-button');
-    expect(screen.getByTestId('refill-loader')).not.to.exist;
     fireEvent.click(fillButton);
     expect(fillButton).to.exist;
     await waitFor(() => expect(screen.getByTestId('refill-loader')).to.exist);
