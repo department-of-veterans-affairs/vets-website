@@ -52,8 +52,8 @@ describe('RenderErrorContainer', () => {
     });
   });
 
-  it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009 | 202`', () => {
-    ['001', '003', '004', '005', '009', '202'].forEach(CODE => {
+  it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009 | 202 | 110`', () => {
+    ['001', '003', '004', '005', '009', '202', '110'].forEach(CODE => {
       const { errorCode } = getAuthError(CODE);
       const wrapper = mount(
         <RenderErrorContainer
@@ -64,7 +64,7 @@ describe('RenderErrorContainer', () => {
         />,
       );
 
-      const button = wrapper.find('button');
+      const button = wrapper.find('va-button');
       button.simulate('click');
 
       expect(renderOptions.openLoginModal.called).to.be.true;
