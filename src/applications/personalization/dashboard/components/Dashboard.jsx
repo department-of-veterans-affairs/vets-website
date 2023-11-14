@@ -272,6 +272,7 @@ const Dashboard = ({
                       onCloseEvent={handleDismiss}
                       status="warning"
                       visible={dismissed !== 'true'}
+                      data-testid="downtime-alert"
                     >
                       <h2 slot="headline">
                         We’re updating our systems right now

@@ -3,6 +3,7 @@ import { act, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import reducers from '~/applications/personalization/dashboard/reducers';
 import Dashboard from '../../components/Dashboard';
 
@@ -49,6 +50,9 @@ describe('<Dashboard />', () => {
           services: ['appeals-status'],
           claims: {},
         },
+      },
+      featureToggles: {
+        [Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage]: false,
       },
     };
   });
@@ -154,6 +158,33 @@ describe('<Dashboard />', () => {
 
     await waitFor(() => {
       expect(tree.getByTestId('req-loader')).to.exist;
+    });
+  });
+
+  it('should show downtime va-alert and Claims, Debts, and Benefit payment sections should be hidden', async () => {
+    mockFetch();
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage]: true,
+    };
+    let tree;
+    await act(async () => {
+      tree = renderInReduxProvider(<Dashboard />, {
+        initialState,
+        reducers,
+      });
+    });
+
+    await waitFor(() => {
+      expect(tree.getByTestId('dashboard-title')).to.exist;
+      expect(tree.getByTestId('downtime-alert')).to.exist;
+      expect(tree.queryByTestId('dashboard-section-claims-and-appeals')).not.to
+        .exist;
+      expect(tree.getByTestId('dashboard-section-health-care')).to.exist;
+      expect(tree.queryByTestId('dashboard-section-debts')).not.to.exist;
+      expect(tree.queryByTestId('dashboard-section-payment')).not.to.exist;
+      expect(tree.getByTestId('dashboard-section-saved-applications')).to.exist;
+      expect(tree.getByTestId('dashboard-section-education-and-training')).to
+        .exist;
     });
   });
 });
