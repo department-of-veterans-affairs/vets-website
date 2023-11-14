@@ -3,11 +3,14 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { INITIAL_STATE } from '../../../reducers/filters';
 import NameSearchForm from '../../../containers/search/NameSearchForm';
-import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
+import {
+  mockConstants,
+  renderWithStoreAndRouter,
+  noFilters,
+} from '../../helpers';
 
-describe('<GiBillApp>', () => {
+describe('<NameSearchForm>', () => {
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<NameSearchForm />, {
       initialState: {
@@ -120,7 +123,7 @@ describe('<GiBillApp>', () => {
         validateSearchTerm={validateSearchTermSpy}
         doSearch={doSearchSpy}
         filters={{
-          ...INITIAL_STATE,
+          ...noFilters,
           employers: false,
           vettec: false,
           schools: false,
@@ -130,7 +133,7 @@ describe('<GiBillApp>', () => {
         initialState: {
           constants: mockConstants(),
           filters: {
-            ...INITIAL_STATE,
+            ...noFilters,
             employers: false,
             vettec: false,
             schools: false,
@@ -157,7 +160,7 @@ describe('<GiBillApp>', () => {
     const props = {
       autocomplete: { nameSuggestions: [] },
       filters: {
-        ...INITIAL_STATE,
+        ...noFilters,
         search: true,
       },
       preview: { version: '1' },
@@ -172,7 +175,7 @@ describe('<GiBillApp>', () => {
       {
         initialState: {
           constants: mockConstants(),
-          filters: { ...INITIAL_STATE, search: true },
+          filters: { ...noFilters, search: true },
         },
       },
     );

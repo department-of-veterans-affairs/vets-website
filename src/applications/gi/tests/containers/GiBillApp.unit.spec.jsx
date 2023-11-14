@@ -13,7 +13,20 @@ describe('<GiBillApp>', () => {
       },
     });
     await waitFor(() => {
-      expect(screen.getByRole('application')).to.be.ok;
+      expect(screen.getByRole('application')).to.not.be.null;
+    });
+  });
+  it('should render after running shouldExitPreviewMode()', async () => {
+    const screen = renderWithStoreAndRouter(
+      <GiBillApp TESTVERSION TESTQUERYPARAMS={false} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(screen.getByRole('application')).to.not.be.null;
     });
   });
 });
