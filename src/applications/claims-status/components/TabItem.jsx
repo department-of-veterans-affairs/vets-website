@@ -1,5 +1,6 @@
 import React from 'react';
 import { IndexLink, withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 class TabItem extends React.Component {
   componentDidMount() {
@@ -38,6 +39,15 @@ class TabItem extends React.Component {
     );
   }
 }
+
+TabItem.propTypes = {
+  tabpath: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  location: PropTypes.object,
+  router: PropTypes.object,
+  shortcut: PropTypes.number,
+  title: PropTypes.string,
+};
 
 export default withRouter(TabItem);
 
