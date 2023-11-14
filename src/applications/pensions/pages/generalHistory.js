@@ -1,17 +1,23 @@
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+import {
+  fullNameUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
-import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 const { placeOfSeparation, previousNames } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:serveUnderOtherNames': {
-      'ui:title': 'Did you serve under another name?',
-      'ui:widget': 'yesNo',
-    },
+    'view:serveUnderOtherNames': yesNoUI({
+      title: 'Did you serve under another name?',
+      uswds: true,
+      classNames: 'vads-u-margin-bottom--2',
+    }),
     previousNames: {
       'ui:options': {
         itemName: 'Name',
@@ -24,15 +30,14 @@ export default {
     placeOfSeparation: {
       'ui:title':
         'Place of last or anticipated separation (city and state or foreign country)',
+      'ui:webComponentField': VaTextInputField,
     },
   },
   schema: {
     type: 'object',
     required: ['view:serveUnderOtherNames'],
     properties: {
-      'view:serveUnderOtherNames': {
-        type: 'boolean',
-      },
+      'view:serveUnderOtherNames': yesNoSchema,
       previousNames: {
         ...previousNames,
         minItems: 1,

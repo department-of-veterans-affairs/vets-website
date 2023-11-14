@@ -75,8 +75,6 @@ import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 const {
-  nationalGuardActivation,
-  nationalGuard,
   disabilities,
   jobs,
   powDateRange,
@@ -258,51 +256,6 @@ const formConfig = {
           title: 'General history',
           uiSchema: generalHistory.uiSchema,
           schema: generalHistory.schema,
-        },
-        reserveAndNationalGuard: {
-          path: 'military/reserve-national-guard',
-          title: 'Reserve and National Guard',
-          uiSchema: {
-            'ui:title': 'Reserve and National Guard',
-            nationalGuardActivation: {
-              'ui:title':
-                'Are you currently on federal active duty in the National Guard?',
-              'ui:widget': 'yesNo',
-            },
-            nationalGuard: {
-              'ui:options': {
-                expandUnder: 'nationalGuardActivation',
-              },
-              name: {
-                'ui:title': 'Name of Reserve/National Guard unit',
-                'ui:required': form => form.nationalGuardActivation === true,
-              },
-              address: merge(
-                {},
-                address.uiSchema('Unit address', false, false, true),
-                {
-                  state: {
-                    'ui:required': form =>
-                      form.nationalGuardActivation === true,
-                  },
-                },
-              ),
-              phone: phoneUI('Unit phone number'),
-              date: currentOrPastDateUI('Service activation date'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['nationalGuardActivation'],
-            properties: {
-              nationalGuardActivation,
-              nationalGuard: set(
-                'properties.address',
-                address.schema(fullSchemaPensions),
-                nationalGuard,
-              ),
-            },
-          },
         },
         powAndSeverance: {
           path: 'military/pow-severance',
