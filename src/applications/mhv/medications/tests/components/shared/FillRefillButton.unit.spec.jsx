@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import FillRefillButton from '../../../components/shared/FillRefillButton';
 
@@ -45,13 +45,13 @@ describe('Fill Refill Button component', () => {
     expect(errorMessage).to.exist;
   });
 
-  it('dispatches the fillPrescription action', () => {
+  it('dispatches the fillPrescription action', async () => {
     const screen = setup();
     const fillButton = screen.getByTestId('refill-request-button');
     expect(screen.getByTestId('refill-loader')).not.to.exist;
     fireEvent.click(fillButton);
     expect(fillButton).to.exist;
-    expect(screen.getByTestId('refill-loader')).to.exist;
+    await waitFor(() => expect(screen.getByTestId('refill-loader')).to.exist);
   });
 
   it('does not render the fill button when the prescription is NOT fillable', () => {
