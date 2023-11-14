@@ -94,7 +94,7 @@ describe('NoFormPage', () => {
         'Review pension benefits application',
       );
       expect($$('h2', container)[0].textContent).to.eql(
-        'You don’t have any saved online pension form.',
+        'You can’t use our online application right now',
       );
     });
   });
@@ -143,7 +143,7 @@ describe('NoFormPage', () => {
     );
     await waitFor(() => {
       expect($$('h2', container)[0].textContent).to.eql(
-        'You can’t apply online right now',
+        'You can’t use our online application right now',
       );
       expect($$('h2', container).length <= 12).to.be.true;
     });

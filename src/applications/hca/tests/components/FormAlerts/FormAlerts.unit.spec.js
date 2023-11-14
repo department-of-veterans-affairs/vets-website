@@ -7,6 +7,7 @@ import {
   ServerErrorAlert,
   ShortFormAlert,
   IdentityVerificationAlert,
+  DependentSIPWarning,
 } from '../../../components/FormAlerts';
 
 describe('hca <DowntimeWarning>', () => {
@@ -51,5 +52,14 @@ describe('hca <IdentityVerificationAlert>', () => {
     expect(selector).to.contain.text(
       'Please verify your identity before applying for VA health care',
     );
+  });
+});
+
+describe('hca <DependentSIPWarning>', () => {
+  it('should render', () => {
+    const { container } = render(<DependentSIPWarning />);
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.contain.attr('status', 'warning');
   });
 });

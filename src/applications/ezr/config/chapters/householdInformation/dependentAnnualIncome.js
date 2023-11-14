@@ -6,15 +6,13 @@ import {
 } from '../../../components/FormDescriptions/IncomeDescriptions';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
 const {
   dependents: { items: dependent },
 } = ezrSchema.properties;
 const { grossIncome, netIncome, otherIncome } = dependent.properties;
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
 
 export default {
   uiSchema: {
@@ -25,7 +23,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-dependent-income-gross-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -38,7 +36,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-dependent-income-net-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -51,7 +49,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-dependent-income-other-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
