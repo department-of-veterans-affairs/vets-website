@@ -9,12 +9,10 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
+import servicePeriods from '../../pages/servicePeriods';
 
 describe('Pensions service periods', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.servicePeriods;
+  const { schema, uiSchema } = servicePeriods;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
