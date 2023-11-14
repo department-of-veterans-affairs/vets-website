@@ -71,7 +71,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(prescription.prescriptionName);
+        updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
       }
     },
     [prescription],
