@@ -8,10 +8,15 @@ import reducer from './reducers';
 import manifest from './manifest.json';
 import analyticsEvents from './analytics-events';
 
+const createRoutesWithStore = store => {
+  // pass toggle from store to form config??
+}
+
 startApp({
   url: manifest.rootUrl,
   reducer,
-  routes,
+  //routes,
+  createRoutesWithStore,
   analyticsEvents,
   entryName: manifest.entryName,
 });

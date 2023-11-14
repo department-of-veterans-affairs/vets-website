@@ -1,4 +1,4 @@
-import formConfig from '../config/form';
+import { formConfigBase } from '../config/form';
 import formConfig8940 from '../config/8940';
 import formConfig4192 from '../config/4192';
 import { SHOW_8940_4192 } from '../constants';
@@ -39,14 +39,14 @@ export default function redirectToxicExposure(savedData) {
 
   // add the supporting evidence chapter
   for (const page of Object.entries(
-    formConfig.chapters.supportingEvidence.pages,
+    formConfigBase.chapters.supportingEvidence.pages,
   )) {
     afterTEUrls.push(`/${page[1].path}`);
   }
 
   // add additional information chapter
   for (const page of Object.entries(
-    formConfig.chapters.additionalInformation.pages,
+    formConfigBase.chapters.additionalInformation.pages,
   )) {
     afterTEUrls.push(`/${page[1].path}`);
   }

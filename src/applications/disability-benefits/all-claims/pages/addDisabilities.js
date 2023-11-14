@@ -75,6 +75,7 @@ export const getUiSchema = disabilityLabels => {
             ],
           },
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+          // validateDisabilityName depends on toggle
           'ui:validations': [validateDisabilityName, limitNewDisabilities],
           'ui:required': () => true,
           'ui:errorMessages': {
