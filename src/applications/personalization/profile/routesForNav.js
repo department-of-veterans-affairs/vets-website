@@ -5,12 +5,11 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
-import VeteranStatus from './components/veteran-status/Status';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 
 // the routesForNav array is used in the routes file to build the routes
-// the edit and hub routes are not present in the routesForNav array because
+// the veteran status, edit and hub routes are not present in the routesForNav array because
 // they are not shown in nav UI
 export const routesForNav = [
   {
@@ -69,25 +68,12 @@ export const routesForNav = [
     requiresLOA3: true,
     requiresMVI: true,
   },
-  {
-    component: VeteranStatus,
-    name: PROFILE_PATH_NAMES.VETERAN_STATUS,
-    path: PROFILE_PATHS.VETERAN_STATUS,
-    requiresLOA3: true,
-    requiresMVI: true,
-  },
 ];
 
-export const getRoutesForNav = (
-  profileContactsToggle,
-  profileShowProofOfVeteranStatusToggle,
-) =>
+export const getRoutesForNav = profileContactsToggle =>
   routesForNav.filter(route => {
     if (route.name === PROFILE_PATH_NAMES.CONTACTS) {
       return profileContactsToggle;
-    }
-    if (route.name === PROFILE_PATH_NAMES.VETERAN_STATUS) {
-      return profileShowProofOfVeteranStatusToggle;
     }
     return true;
   });

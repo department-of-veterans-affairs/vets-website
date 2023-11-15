@@ -50,14 +50,8 @@ const ProfileWrapper = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
-  const profileShowProofOfVeteranStatusToggle = useToggleValue(
-    TOGGLE_NAMES.profileShowProofOfVeteranStatus,
-  );
 
-  const routesForNav = getRoutesForNav(
-    profileContactsToggle,
-    profileShowProofOfVeteranStatusToggle,
-  );
+  const routesForNav = getRoutesForNav(profileContactsToggle);
 
   const layout = useMemo(
     () => {
