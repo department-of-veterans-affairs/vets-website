@@ -12,12 +12,12 @@ const getRoutes = (
     profileContactsPage,
     useFieldEditingPage,
     profileUseHubPage,
-    profileVeteranStatusPage,
+    profileShowProofOfVeteranStatus,
   } = {
     profileContactsPage: false,
     useFieldEditingPage: false,
     profileUseHubPage: false,
-    profileVeteranStatusPage: false,
+    profileShowProofOfVeteranStatus: false,
   },
 ) => {
   return [
@@ -44,7 +44,7 @@ const getRoutes = (
           },
         ]
       : []),
-    ...(profileVeteranStatusPage
+    ...(profileShowProofOfVeteranStatus
       ? [
           {
             component: VeteranStatus,

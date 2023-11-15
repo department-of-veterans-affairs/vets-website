@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
@@ -25,7 +23,7 @@ const VeteranStatusInformation = ({ showProofOfVeteranStatus }) => {
         render={handleDowntimeForSection('military service')}
         dependencies={[externalServices.emis]}
       >
-        {!showProofOfVeteranStatus && (
+        {showProofOfVeteranStatus && (
           <div>Proof of veteran status is under construction.</div>
         )}
       </DowntimeNotification>
@@ -33,10 +31,9 @@ const VeteranStatusInformation = ({ showProofOfVeteranStatus }) => {
   );
 };
 
-const mapStateToProps = state => {
-  const showProofOfVeteranStatus =
-    toggleValues(state)[FEATURE_FLAG_NAMES.profileShowProofOfVeteranStatus] ||
-    false;
+const mapStateToProps = () => {
+  // TODO: eventually this will get mapped to the military information discharge status in state
+  const showProofOfVeteranStatus = true;
   return {
     showProofOfVeteranStatus,
   };

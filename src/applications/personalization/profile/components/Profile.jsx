@@ -173,7 +173,7 @@ class Profile extends Component {
       profileContactsPage: toggles.profileContacts,
       useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
-      profileVeteranStatusPage: toggles.profileVeteranStatusPage,
+      profileShowProofOfVeteranStatus: toggles.profileShowProofOfVeteranStatus,
     });
 
     return (
