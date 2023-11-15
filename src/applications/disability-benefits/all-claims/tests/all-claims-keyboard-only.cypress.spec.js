@@ -179,7 +179,7 @@ describe('526EZ keyboard only navigation', () => {
       // // NOTE: Cypress quirk requires you to clear current input before typing
       // // new input. IRL, this is not necessary.
       cy.tabToElement(`${idRoot}primaryPhone`);
-      cy.typeInFocused('');
+      // cy.typeInFocused('');
       // cy.typeInFocused(data.phoneAndEmail.primaryPhone);
       // cy.typeInIfDataExists(
       // `${idRoot}emailAddress`,
