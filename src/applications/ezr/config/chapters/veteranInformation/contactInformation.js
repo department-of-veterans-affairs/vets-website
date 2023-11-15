@@ -3,6 +3,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   emailUI,
   phoneUI,
+  phoneSchema,
   descriptionUI,
   inlineTitleUI,
   inlineTitleSchema,
@@ -10,7 +11,7 @@ import {
 import ContactInfoDescription from '../../../components/FormDescriptions/ContactInfoDescription';
 import content from '../../../locales/en/content.json';
 
-const { email, homePhone, mobilePhone } = ezrSchema.properties;
+const { email } = ezrSchema.properties;
 
 export default {
   uiSchema: {
@@ -27,8 +28,8 @@ export default {
     type: 'object',
     properties: {
       'view:pageTitle': inlineTitleSchema,
-      homePhone,
-      mobilePhone,
+      homePhone: phoneSchema,
+      mobilePhone: phoneSchema,
       email,
     },
   },
