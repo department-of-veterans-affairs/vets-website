@@ -8,6 +8,7 @@ import {
   mockConstants,
   renderWithStoreAndRouter,
   noFilters,
+  mockSearchResults,
 } from '../../helpers';
 
 describe('<NameSearchForm>', () => {
@@ -176,6 +177,38 @@ describe('<NameSearchForm>', () => {
         initialState: {
           constants: mockConstants(),
           filters: { ...noFilters, search: true },
+        },
+      },
+    );
+    expect(doSearchSpy.calledWith('some name')).to.be.false;
+  });
+  it('should not call doSearch with search?.query?.name is null', () => {
+    const validateSearchTermSpy = sinon.spy();
+    const doSearchSpy = sinon.spy();
+    const props = {
+      autocomplete: { nameSuggestions: [] },
+      filters: {
+        ...noFilters,
+        search: false,
+      },
+      preview: { version: '1' },
+      search: { query: { name: 'some name' }, tab: null, loadFromUrl: true },
+    };
+    renderWithStoreAndRouter(
+      <NameSearchForm
+        validateSearchTerm={validateSearchTermSpy}
+        doSearch={doSearchSpy}
+        {...props}
+      />,
+      {
+        initialState: {
+          constants: mockConstants(),
+          filters: { ...noFilters, search: false },
+          search: {
+            ...mockSearchResults,
+            query: { name: 'some name' },
+            loadFromUrl: true,
+          },
         },
       },
     );
