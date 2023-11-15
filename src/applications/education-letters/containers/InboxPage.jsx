@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import Layout from '../components/Layout';
 import { HasLetters, NoLetters } from '../components/LetterResults';
 import { fetchClaimStatus } from '../actions';
@@ -9,10 +12,13 @@ const InboxPage = ({
   claimStatus,
   getClaimStatus,
   user,
+  isMEBClaimStausFetchFailed,
+  isTOEClaimStausFetchFailed,
   MEBClaimStatusFetchInProgress,
   MEBClaimStatusFetchComplete,
   TOEClaimStatusFetchInProgress,
   TOEClaimStatusFetchComplete,
+  showMebLettersMaintenanceAlert,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
   const isLoggedIn = useRef(user?.login?.currentlyLoggedIn);
@@ -52,6 +58,12 @@ const InboxPage = ({
       user?.login,
     ],
   );
+
+  // Determine if the maintenance alert should be shown
+  const shouldShowMaintenanceAlert =
+    showMebLettersMaintenanceAlert ||
+    isMEBClaimStausFetchFailed ||
+    isTOEClaimStausFetchFailed;
 
   const renderInbox = () => {
     if (
@@ -96,6 +108,22 @@ const InboxPage = ({
         text: 'Your VA education letter',
       }}
     >
+      {shouldShowMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We’re currently making updates to the My Education Benefits
+              platform. We apologize for the inconvenience. Please check back
+              soon.
+            </p>
+          </div>
+        </va-alert>
+      )}
       <article>{renderInbox()}</article>
     </Layout>
   );
@@ -104,8 +132,11 @@ const InboxPage = ({
 InboxPage.propTypes = {
   claimStatus: PropTypes.object,
   getClaimStatus: PropTypes.func,
+  isMEBClaimStausFetchFailed: PropTypes.bool,
+  isTOEClaimStausFetchFailed: PropTypes.bool,
   MEBClaimStatusFetchComplete: PropTypes.bool,
   MEBClaimStatusFetchInProgress: PropTypes.bool,
+  showMebLettersMaintenanceAlert: PropTypes.bool,
   TOEClaimStatusFetchComplete: PropTypes.bool,
   TOEClaimStatusFetchInProgress: PropTypes.bool,
   user: PropTypes.object,
@@ -138,6 +169,8 @@ const mapStateToProps = state => {
     TOEClaimStatusFetchInProgress: state?.data?.TOEClaimStatusFetchInProgress,
     TOEClaimStatusFetchComplete: state?.data?.TOEClaimStatusFetchComplete,
     user: state.user,
+    showMebLettersMaintenanceAlert:
+      state.featureToggles[featureFlagNames.showMebLettersMaintenanceAlert],
   };
 };
 

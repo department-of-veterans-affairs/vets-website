@@ -18,9 +18,16 @@ export default {
           MEBClaimStatusFetchInProgress: true,
         };
       case MEB_FETCH_CLAIM_STATUS_SUCCESS:
+        return {
+          ...state,
+          isMEBClaimStausFetchFailed: false,
+          MEBClaimStatusFetchComplete: true,
+          MEBClaimStatusFetchInProgress: false,
+        };
       case MEB_FETCH_CLAIM_STATUS_FAILED:
         return {
           ...state,
+          isMEBClaimStausFetchFailed: true,
           MEBClaimStatusFetchComplete: true,
           MEBClaimStatusFetchInProgress: false,
           MEBClaimStatus: {
@@ -33,9 +40,16 @@ export default {
           TOEClaimStatusFetchInProgress: true,
         };
       case TOE_FETCH_CLAIM_STATUS_SUCCESS:
+        return {
+          ...state,
+          isTOEClaimStausFetchFailed: false,
+          TOEClaimStatusFetchComplete: true,
+          TOEClaimStatusFetchInProgress: false,
+        };
       case TOE_FETCH_CLAIM_STATUS_FAILED:
         return {
           ...state,
+          isTOEClaimStausFetchFailed: true,
           TOEClaimStatusFetchComplete: true,
           TOEClaimStatusFetchInProgress: false,
           TOEClaimStatus: {

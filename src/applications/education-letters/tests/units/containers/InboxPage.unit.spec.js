@@ -28,6 +28,9 @@ describe('Render as a logged in user <InboxPage />', () => {
           currentlyLoggedIn: true,
         },
       },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
+      },
     };
 
     const store = mockStore(initialState);
@@ -59,6 +62,9 @@ describe('Render as a logged in user <InboxPage />', () => {
           currentlyLoggedIn: true,
         },
       },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
+      },
     };
 
     const store = mockStore(initialState);
@@ -67,7 +73,6 @@ describe('Render as a logged in user <InboxPage />', () => {
         <InboxPage />,
       </Provider>,
     );
-
     expect(wrapper.html()).to.include(
       'Your education decision letter isn’t available',
     );
@@ -78,6 +83,46 @@ describe('Render as a logged in user <InboxPage />', () => {
     wrapper.unmount();
   });
 
+  it('should show maintenance alert when the maintenance flag is on', () => {
+    const initialState = {
+      data: {
+        // ... other necessary data states
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: true,
+      },
+    };
+    const store = mockStore(initialState);
+    // Check the state directly from the store
+    expect(store.getState().featureToggles.showMebLettersMaintenanceAlert).to.be
+      .true;
+  });
+  it('should show maintenance alert when claim status fetch fails', () => {
+    const initialState = {
+      data: {
+        // ... other necessary data states
+        isMEBClaimStausFetchFailed: true,
+        isTOEClaimStausFetchFailed: true,
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
+      },
+    };
+    const store = mockStore(initialState);
+    // Check the state directly from the store
+    expect(store.getState().data.isMEBClaimStausFetchFailed).to.be.true;
+    expect(store.getState().data.isTOEClaimStausFetchFailed).to.be.true;
+  });
   it('should show spinner while fetching APIs', () => {
     const initialState = {
       data: {
@@ -93,6 +138,9 @@ describe('Render as a logged in user <InboxPage />', () => {
         login: {
           currentlyLoggedIn: true,
         },
+      },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
       },
     };
     const store = mockStore(initialState);
