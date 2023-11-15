@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 
 import profile from '@@profile/reducers';
 import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
+import { snakeCase } from 'lodash';
 import {
   renderInReduxProvider,
   renderWithStoreAndRouter,
@@ -213,10 +214,20 @@ export function createBasicInitialState() {
 }
 
 export function createFeatureTogglesState(customToggles = {}) {
+  // Convert the custom toggles to snake case so that they could be passed in as camel case first
+  const snakeCasedToggles = Object.entries(customToggles).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [snakeCase(key)]: value,
+    }),
+    {},
+  );
+
   return {
     featureToggles: {
       loading: false,
       ...customToggles,
+      ...snakeCasedToggles,
     },
   };
 }
