@@ -72,7 +72,7 @@ const DependentInformation = props => {
       showModal(false);
       document
         .getElementById('ezr-modal-cancel')
-        .shadowRoot.children[0].focus();
+        .shadowRoot?.children[0]?.focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -203,8 +203,6 @@ const DependentInformation = props => {
 };
 
 DependentInformation.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,

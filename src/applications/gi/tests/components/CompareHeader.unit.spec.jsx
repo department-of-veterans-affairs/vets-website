@@ -155,4 +155,16 @@ describe('<CompareHeader>', () => {
       .false;
     wrapper.unmount();
   });
+  it('appends version to the URL when version is provided', () => {
+    const institutions = [{ facilityCode: '123' }];
+    const version = '456';
+    const wrapper = shallow(
+      <CompareHeader institutions={institutions} version={version} />,
+    );
+
+    const link = wrapper.find('Link').at(0);
+    const linkProps = link.prop('to');
+    expect(linkProps.pathname).to.equal(`/institution/123?version=456`);
+    wrapper.unmount();
+  });
 });
