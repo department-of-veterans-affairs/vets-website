@@ -22,10 +22,22 @@ export class VAFacilityPageObject extends PageObject {
     return this;
   }
 
-  assertOneLocation({ locationName } = {}) {
-    cy.findByText(
-      /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
-    );
+  /**
+   * Method to assert whether single location/facility text is displayed or not.
+   *
+   * @param {Object} arguments - Method arguments.
+   * @param {string|RegExp} arguments.locationName - Facility location name to assert.
+   * @param {boolean} [arguments.isVA = true] - Is this a VA appointment or not.
+   * @memberof VAFacilityPageObject
+   */
+  assertSingleLocation({ locationName, isVA = true } = {}) {
+    if (isVA) {
+      cy.findByText(/We found one VA facility for your .* appointment/i);
+    } else {
+      cy.findByText(
+        /We found one VA location where you.re registered that offers COVID-19 vaccine appointments/i,
+      );
+    }
     cy.findByText(locationName);
 
     return this;
@@ -34,33 +46,6 @@ export class VAFacilityPageObject extends PageObject {
   assertUrl({ axCheck = true } = {}) {
     cy.url().should('include', '/location', { timeout: 5000 });
     if (axCheck) cy.axeCheckBestPractice();
-
-    return this;
-  }
-
-  assertWarningAlert({ text, exist = true }) {
-    if (exist) {
-      cy.get('va-alert[status=warning]')
-        .as('alert')
-        .shadow();
-      cy.get('@alert').contains(text);
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
-
-    return this;
-  }
-
-  assertWarningModal({ text, exist = true }) {
-    if (exist) {
-      cy.get('va-modal[status=warning]')
-        .as('modal')
-        .shadow();
-      cy.get('@modal').contains(text);
-      cy.log('done');
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
 
     return this;
   }
@@ -77,16 +62,6 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
-    // cy.wait(['@v2:get:eligibility', '@v2:get:clinics']).then(() => {
-    //   cy.findByText(/Your appointment location/i, { selector: 'h1' });
-    //   if (isSingleLocation) {
-    //     cy.findByText(/We found one VA facility for your/i);
-    //   } else {
-    //     cy.get('#root_clinicId_0')
-    //       .focus()
-    //       .click();
-    //   }
-    // });
     cy.log('selectLocation');
     cy.findByLabelText(label)
       .as('radio')
