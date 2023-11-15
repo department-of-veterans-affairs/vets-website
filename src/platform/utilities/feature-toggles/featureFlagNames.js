@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  authExpVbaDowntimeMessage: 'auth_exp_vba_downtime_message',
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
