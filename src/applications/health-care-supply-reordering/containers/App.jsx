@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -64,27 +63,25 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <Breadcrumbs>
+          <va-breadcrumbs class="va-nav-breadcrumbs">
             <a href="/">Home</a>
             {/* this will get updated when this route is added */}
             <a href="/health-care">Health care</a>
             <a href="/health-care/order-hearing-aid-batteries-and-accessories">
               Order {supplyDescription}
             </a>
-          </Breadcrumbs>
+          </va-breadcrumbs>
         )}
         {pending && (
           <va-loading-indicator>
             Loading your information...
           </va-loading-indicator>
         )}
-        {isError &&
-          !pending &&
-          isLoggedIn && (
-            <div className="row vads-u-margin-bottom--3">
-              <ErrorMessage />
-            </div>
-          )}
+        {isError && !pending && isLoggedIn && (
+          <div className="row vads-u-margin-bottom--3">
+            <ErrorMessage />
+          </div>
+        )}
         {showMainContent && (
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             {children}
@@ -106,7 +103,4 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ fetchFormStatus }, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -29,9 +29,11 @@ export function GiBillApp({
   dispatchExitPreviewMode,
   dispatchFetchConstants,
   dispatchUpdateQueryParams,
+  TESTVERSION = false, // used with unit testing for extended test coverage
+  TESTVALUE = false, // used with unit testing for extended test coverage
 }) {
   const queryParams = useQueryParams();
-  const version = queryParams.get('version');
+  const version = TESTVERSION ? TESTVALUE : queryParams.get('version');
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
@@ -40,24 +42,20 @@ export function GiBillApp({
   useEffect(() => {
     document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     document.addEventListener('focus', scrollToFocusedElement, true);
-
     return () => {
       document.removeEventListener('focus', scrollToFocusedElement);
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (shouldExitPreviewMode) {
-        dispatchExitPreviewMode();
-      } else if (shouldEnterPreviewMode) {
-        dispatchEnterPreviewMode(version);
-      } else {
-        dispatchFetchConstants();
-      }
-    },
-    [shouldExitPreviewMode, shouldEnterPreviewMode],
-  );
+  useEffect(() => {
+    if (shouldExitPreviewMode) {
+      dispatchExitPreviewMode();
+    } else if (shouldEnterPreviewMode) {
+      dispatchEnterPreviewMode(version);
+    } else {
+      dispatchFetchConstants();
+    }
+  }, [shouldExitPreviewMode, shouldEnterPreviewMode]);
 
   useEffect(() => {
     const params = {};
@@ -88,7 +86,9 @@ export function GiBillApp({
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
-          <GiBillBreadcrumbs />
+          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+            <GiBillBreadcrumbs />
+          </div>
           {constants.inProgress && (
             <VaLoadingIndicator
               data-testid="loading-indicator"
@@ -135,7 +135,4 @@ const mapDispatchToProps = {
   dispatchUpdateQueryParams: updateQueryParams,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(GiBillApp);
+export default connect(mapStateToProps, mapDispatchToProps)(GiBillApp);

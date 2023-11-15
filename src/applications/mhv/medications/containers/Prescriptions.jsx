@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
@@ -22,13 +23,13 @@ import {
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
@@ -64,33 +65,28 @@ const Prescriptions = props => {
     focusElement(document.getElementById('showingRx'));
   };
 
-  useEffect(
-    () => {
-      const newUrl = `/my-health/medications/${currentPage}`;
-      window.history.pushState(null, '', newUrl);
-    },
-    [currentPage],
-  );
+  useEffect(() => {
+    updatePageTitle('Medications | Veterans Affairs');
+    const newUrl = `/my-health/medications/${currentPage}`;
+    window.history.pushState(null, '', newUrl);
+  }, [currentPage]);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: '/my-health/about-medications',
-              label: 'About Medications',
-            },
-          ],
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [
           {
-            url: '/my-health/medications',
-            label: 'Medications',
+            url: '/my-health/about-medications',
+            label: 'About Medications',
           },
-        ),
-      );
-    },
-    [dispatch],
-  );
+        ],
+        {
+          url: '/my-health/medications',
+          label: 'Medications',
+        },
+      ),
+    );
+  }, [dispatch]);
 
   useEffect(
     () => {
@@ -109,17 +105,14 @@ const Prescriptions = props => {
     [dispatch, currentPage, selectedSortOption],
   );
 
-  useEffect(
-    () => {
-      if (
-        !isLoading &&
-        (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
-      ) {
-        setAlertVisible('true');
-      }
-    },
-    [isLoading, paginatedPrescriptionsList],
-  );
+  useEffect(() => {
+    if (
+      !isLoading &&
+      (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
+    ) {
+      setAlertVisible('true');
+    }
+  }, [isLoading, paginatedPrescriptionsList]);
 
   const pdfData = useCallback(
     (rxList, allergiesList) => {
@@ -193,21 +186,18 @@ const Prescriptions = props => {
     [userName, pdfData, setPdfGenerateStatus],
   );
 
-  useEffect(
-    () => {
-      if (
-        fullPrescriptionsList?.length &&
-        allergies &&
-        pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress
-      ) {
-        generatePDF(
-          buildPrescriptionsPDFList(fullPrescriptionsList),
-          buildAllergiesPDFList(allergies),
-        );
-      }
-    },
-    [allergies, fullPrescriptionsList, pdfGenerateStatus, generatePDF],
-  );
+  useEffect(() => {
+    if (
+      fullPrescriptionsList?.length &&
+      allergies &&
+      pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress
+    ) {
+      generatePDF(
+        buildPrescriptionsPDFList(fullPrescriptionsList),
+        buildAllergiesPDFList(allergies),
+      );
+    }
+  }, [allergies, fullPrescriptionsList, pdfGenerateStatus, generatePDF]);
 
   const handleDownloadPDF = async () => {
     setPdfGenerateStatus(PDF_GENERATE_STATUS.InProgress);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { fillPrescription } from '../../actions/prescriptions';
@@ -16,15 +16,26 @@ const FillRefillButton = rx => {
     isRefillable,
   } = rx;
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (success || error) {
+      setIsLoading(false);
+    }
+  }, [success, error]);
+
   if (isRefillable) {
     return (
-      <div>
+      <div className="rx-fill-refill-button">
         {success && (
           <va-alert status="success" setFocus aria-live="polite">
-            <p className="vads-u-margin-y--0">We got your request.</p>
+            <p className="vads-u-margin-y--0">
+              We got your request to {`${dispensedDate ? 'refill' : 'fill'}`}{' '}
+              this prescription.
+            </p>
           </va-alert>
         )}
-        {error && (
+        {error && !isLoading && (
           <>
             <va-alert
               status="error"
@@ -42,14 +53,22 @@ const FillRefillButton = rx => {
             </p>
           </>
         )}
+        {isLoading && (
+          <va-loading-indicator
+            label="Submitting your request..."
+            set-focus
+            data-testid="refill-loader"
+          />
+        )}
         <button
           type="button"
           id="fill-or-refill-button"
           aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
           data-testid="refill-request-button"
-          hidden={success}
+          hidden={success || isLoading}
           onClick={() => {
+            setIsLoading(true);
             dispatch(fillPrescription(prescriptionId));
           }}
         >

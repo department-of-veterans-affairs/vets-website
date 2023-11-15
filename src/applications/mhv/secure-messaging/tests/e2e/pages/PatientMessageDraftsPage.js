@@ -140,9 +140,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
+      `/my_health/v1/messaging/messages/${mockParentMessageDetails.data.attributes.messageId}/thread`,
       this.currentThread,
     ).as('full-thread');
 
@@ -177,28 +175,17 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
+  confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/messages/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
-    if (isNewDraftText) {
-      cy.get('[data-testid="delete-draft-modal"]')
-        .find('va-button[text="Yes, delete this draft"]', { force: true })
-        .contains('Yes, delete this draft')
-        .click({ force: true });
-      // Wait needs to be added back in before closing PR
-      // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    } else {
-      cy.get('[data-testid="delete-draft-modal"]')
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    }
+    cy.get('[data-testid="delete-draft-modal"]')
+      .find('va-button[text="Delete draft"]', { force: true })
+      .contains('Delete draft')
+      .click({ force: true });
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
   };
 
   verifyDeleteConfirmationMessage = () => {
@@ -211,9 +198,7 @@ class PatientMessageDraftsPage {
   confirmDeleteDraftWithEnterKey = draftMessage => {
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/messages/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
@@ -225,9 +210,7 @@ class PatientMessageDraftsPage {
 
     cy.intercept(
       'DELETE',
-      `/my_health/v1/messaging/messages/${
-        draftMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/messages/${draftMessage.data.attributes.messageId}`,
       { statuscode: 204 },
     ).as('deletedDraftResponse');
 

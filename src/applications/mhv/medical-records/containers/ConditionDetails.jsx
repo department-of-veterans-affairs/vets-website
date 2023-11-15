@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { makePdf } from '../util/helpers';
+import { getNameDateAndTime, makePdf } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -42,44 +41,33 @@ const ConditionDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/my-health/medical-records/conditions',
-            label: 'Conditions',
-          },
-        ]),
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/conditions',
+          label: 'Conditions',
+        },
+      ]),
+    );
+    return () => {
+      dispatch(clearConditionDetails());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (conditionId) dispatch(getConditionDetails(conditionId));
+  }, [conditionId, dispatch]);
+
+  useEffect(() => {
+    if (record?.name) {
+      focusElement(document.querySelector('h1'));
+      const titleDate = record !== EMPTY_FIELD ? `${record} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${pageTitles.HEALTH_CONDITIONS_PAGE_TITLE}`,
       );
-      return () => {
-        dispatch(clearConditionDetails());
-      };
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (conditionId) dispatch(getConditionDetails(conditionId));
-    },
-    [conditionId, dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (record?.name) {
-        focusElement(document.querySelector('h1'));
-        const titleDate = record !== EMPTY_FIELD ? `${record} - ` : '';
-        updatePageTitle(
-          `${titleDate}${record.name} - ${
-            pageTitles.HEALTH_CONDITIONS_PAGE_TITLE
-          }`,
-        );
-      }
-    },
-    [record],
-  );
+    }
+  }, [record]);
 
   const generateConditionDetails = async () => {
     const title = `Conditions: ${record.name} on ${record.date}`;
@@ -121,11 +109,7 @@ const ConditionDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Conditions-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Health condition details', runningUnitTest);
   };

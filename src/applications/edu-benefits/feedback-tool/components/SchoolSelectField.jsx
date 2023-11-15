@@ -311,151 +311,143 @@ export class SchoolSelectField extends React.Component {
             label="I want to type in my school’s name and address."
           />
           <div aria-live="polite" aria-relevant="additions text">
-            {showSearchResults &&
-              searchResultsCount > 0 && (
-                <span
-                  className="search-results-count"
-                  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                  tabIndex="0"
-                  ref={el => {
-                    this.resultCount = el;
-                  }}
-                >
-                  {`${searchResultsCount} results for ${institutionQuery}`}
-                </span>
-              )}
-            {showSearchResults &&
-              showInstitutions && (
-                <div>
-                  {institutions.map(
-                    (
-                      {
-                        address1,
-                        address2,
-                        address3,
-                        city,
-                        country,
-                        facilityCode,
-                        name,
-                        state,
-                        zip,
-                      },
-                      index,
-                    ) => (
-                      <div key={index}>
-                        <div className="radio-button">
-                          <input
-                            autoComplete="false"
-                            checked={facilityCodeSelected === facilityCode}
-                            id={`page-${currentPageNumber}-${index}`}
-                            name={`page-${currentPageNumber}`}
-                            type="radio"
-                            onKeyDown={this.onKeyDown}
-                            onChange={() =>
-                              this.handleOptionClick({
-                                address1,
-                                address2,
-                                address3,
-                                city,
-                                country,
-                                facilityCode,
-                                name,
-                                state,
-                                zip,
-                              })
-                            }
-                            value={facilityCode}
-                          />
-                          <label
-                            id={`institution-${index}-label`}
-                            htmlFor={`page-${currentPageNumber}-${index}`}
-                          >
-                            <span className="institution-information">
-                              {name && (
-                                <span className="institution-name">{name}</span>
-                              )}
-                              {address1 && (
-                                <span className="institution-address">
-                                  {address1}
-                                </span>
-                              )}
-                              {address2 && (
-                                <span className="institution-address">
-                                  {address2}
-                                </span>
-                              )}
-                              {address3 && (
-                                <span className="institution-address">
-                                  {address3}
-                                </span>
-                              )}
-                              {(city || state) && (
-                                <span className="institution-city-state">
-                                  {`${city}${city && state && ', '}${state}`}
-                                </span>
-                              )}
-                              {!city &&
-                                !state && (
-                                  <span className="institution-country">
-                                    {country}
-                                  </span>
-                                )}
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}{' '}
-            {showSearchResults &&
-              showInstitutionsLoading && (
-                <div>
-                  <VaLoadingIndicator
-                    message={`Searching ${institutionQuery}...`}
-                  />
-                </div>
-              )}
-            {showSearchResults &&
-              showNoResultsFound && (
-                <div className="no-results-box">
-                  <p>
-                    <strong>We can’t find your school</strong>
-                    <br />
-                    We’re sorry. We can’t find any school that matches your
-                    entry. Please try entering a different school name or city.
-                    Or, you can check the box to enter your school information
-                    yourself.
-                  </p>
-                </div>
-              )}
-            {showSearchResults &&
-              showPaginationLoading && (
-                <div>
-                  <VaLoadingIndicator
-                    message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}
-                  />
-                </div>
-              )}
-          </div>
-          {showSearchResults &&
-            showPagination && (
-              <VaPagination
-                page={currentPageNumber}
-                pages={pagesCount}
-                ariaLabelSuffix="of school results"
-                onPageSelect={this.handlePageSelect}
-                maxPageListLength={10}
-                showLastPage
-              />
+            {showSearchResults && searchResultsCount > 0 && (
+              <span
+                className="search-results-count"
+                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                tabIndex="0"
+                ref={el => {
+                  this.resultCount = el;
+                }}
+              >
+                {`${searchResultsCount} results for ${institutionQuery}`}
+              </span>
             )}
+            {showSearchResults && showInstitutions && (
+              <div>
+                {institutions.map(
+                  (
+                    {
+                      address1,
+                      address2,
+                      address3,
+                      city,
+                      country,
+                      facilityCode,
+                      name,
+                      state,
+                      zip,
+                    },
+                    index,
+                  ) => (
+                    <div key={index}>
+                      <div className="radio-button">
+                        <input
+                          autoComplete="false"
+                          checked={facilityCodeSelected === facilityCode}
+                          id={`page-${currentPageNumber}-${index}`}
+                          name={`page-${currentPageNumber}`}
+                          type="radio"
+                          onKeyDown={this.onKeyDown}
+                          onChange={() =>
+                            this.handleOptionClick({
+                              address1,
+                              address2,
+                              address3,
+                              city,
+                              country,
+                              facilityCode,
+                              name,
+                              state,
+                              zip,
+                            })
+                          }
+                          value={facilityCode}
+                        />
+                        <label
+                          id={`institution-${index}-label`}
+                          htmlFor={`page-${currentPageNumber}-${index}`}
+                        >
+                          <span className="institution-information">
+                            {name && (
+                              <span className="institution-name">{name}</span>
+                            )}
+                            {address1 && (
+                              <span className="institution-address">
+                                {address1}
+                              </span>
+                            )}
+                            {address2 && (
+                              <span className="institution-address">
+                                {address2}
+                              </span>
+                            )}
+                            {address3 && (
+                              <span className="institution-address">
+                                {address3}
+                              </span>
+                            )}
+                            {(city || state) && (
+                              <span className="institution-city-state">
+                                {`${city}${city && state && ', '}${state}`}
+                              </span>
+                            )}
+                            {!city && !state && (
+                              <span className="institution-country">
+                                {country}
+                              </span>
+                            )}
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  ),
+                )}
+              </div>
+            )}{' '}
+            {showSearchResults && showInstitutionsLoading && (
+              <div>
+                <VaLoadingIndicator
+                  message={`Searching ${institutionQuery}...`}
+                />
+              </div>
+            )}
+            {showSearchResults && showNoResultsFound && (
+              <div className="no-results-box">
+                <p>
+                  <strong>We can’t find your school</strong>
+                  <br />
+                  We’re sorry. We can’t find any school that matches your entry.
+                  Please try entering a different school name or city. Or, you
+                  can check the box to enter your school information yourself.
+                </p>
+              </div>
+            )}
+            {showSearchResults && showPaginationLoading && (
+              <div>
+                <VaLoadingIndicator
+                  message={`Loading page ${currentPageNumber} results for ${institutionQuery}...`}
+                />
+              </div>
+            )}
+          </div>
+          {showSearchResults && showPagination && (
+            <VaPagination
+              page={currentPageNumber}
+              pages={pagesCount}
+              ariaLabelSuffix="of school results"
+              onPageSelect={this.handlePageSelect}
+              maxPageListLength={10}
+              showLastPage
+            />
+          )}
         </div>
       </fieldset>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const currentPageNumber = selectCurrentPageNumber(state);
   const errorMessages = selectFacilityCodeErrorMessages(ownProps);
   const facilityCodeSelected = ownProps.formData
@@ -509,26 +501,26 @@ const mapDispatchToProps = {
 };
 
 SchoolSelectField.propTypes = {
-  currentPageNumber: PropTypes.number,
-  errorMessages: PropTypes.array,
-  facilityCodeSelected: PropTypes.string,
-  institutionQuery: PropTypes.string,
-  institutions: PropTypes.array,
-  institutionSelected: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-  manualSchoolEntryChecked: PropTypes.bool,
-  pagesCount: PropTypes.number,
-  searchInputValue: PropTypes.string,
-  searchResultsCount: PropTypes.number,
-  showErrors: PropTypes.bool,
   showInstitutions: PropTypes.bool.isRequired,
   showInstitutionsLoading: PropTypes.bool.isRequired,
   showNoResultsFound: PropTypes.bool.isRequired,
   showPagination: PropTypes.bool.isRequired,
   showPaginationLoading: PropTypes.bool.isRequired,
   showSearchResults: PropTypes.bool.isRequired,
+  currentPageNumber: PropTypes.number,
+  errorMessages: PropTypes.array,
+  facilityCodeSelected: PropTypes.string,
+  institutionQuery: PropTypes.string,
+  institutionSelected: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
+  institutions: PropTypes.array,
+  manualSchoolEntryChecked: PropTypes.bool,
+  pagesCount: PropTypes.number,
+  searchInputValue: PropTypes.string,
+  searchResultsCount: PropTypes.number,
+  showErrors: PropTypes.bool,
 };
 
 SchoolSelectField.defaultProps = {
@@ -540,7 +532,4 @@ SchoolSelectField.defaultProps = {
   showSearchResults: true,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SchoolSelectField);
+export default connect(mapStateToProps, mapDispatchToProps)(SchoolSelectField);

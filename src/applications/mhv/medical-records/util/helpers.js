@@ -80,9 +80,7 @@ export const concatObservationInterpretations = record => {
  */
 export const getObservationValueWithUnits = observation => {
   if (observation.valueQuantity) {
-    return `${observation.valueQuantity.value} ${
-      observation.valueQuantity.unit
-    }`;
+    return `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
   }
   return null;
 };
@@ -164,4 +162,31 @@ export const extractContainedResource = (resource, referenceId) => {
     return containedResource || null;
   }
   return null;
+};
+
+/**
+ * Download a text file
+ * @param {String} content text file content
+ * @param {String} fileName name for the text file
+ */
+export const generateTextFile = (content, fileName) => {
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  window.URL.revokeObjectURL(url);
+  a.remove();
+};
+
+/**
+ * Returns the date and time for file download name
+ * @param {Object} user user object from redux store
+ * @returns the user's name with the date and time in the format John-Doe-M-D-YYYY_hhmmssa
+ */
+export const getNameDateAndTime = user => {
+  return `${user.userFullName.first}-${user.userFullName.last}-${moment()
+    .format('M-D-YYYY_hhmmssa')
+    .replace(/\./g, '')}`;
 };

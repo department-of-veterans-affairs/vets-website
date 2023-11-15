@@ -18,7 +18,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsNumber = PrescriptionsNumber => {
-    cy.get('[data-testid="prescription-number"]').should(
+    cy.get('p[data-testid="prescription-number"]').should(
       'have.text',
       PrescriptionsNumber,
     );
@@ -74,12 +74,10 @@ class MedicationsDetailsPage {
   clickMedicationHistoryAndDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${
-        prescriptionDetails.data.attributes.prescriptionId
-      }`,
+      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid ="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -87,20 +85,14 @@ class MedicationsDetailsPage {
   clickMedicationDetailsLink = prescriptionDetails => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions/${
-        prescriptionDetails.data.attributes.prescriptionId
-      }`,
+      `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId}`,
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `#card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      `#card-header-${prescriptionDetails.data.attributes.prescriptionId} > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `#card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      `#card-header-${prescriptionDetails.data.attributes.prescriptionId} > [data-testid="medications-history-details-link"]`,
     ).click({ waitForAnimations: true });
   };
 

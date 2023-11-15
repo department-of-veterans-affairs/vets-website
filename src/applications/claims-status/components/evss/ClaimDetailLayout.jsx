@@ -15,7 +15,8 @@ const MAX_CONTENTIONS = 3;
 
 export const isPopulatedClaim = ({ attributes }) =>
   !!attributes.claimType &&
-  (attributes.contentionList && !!attributes.contentionList.length) &&
+  attributes.contentionList &&
+  !!attributes.contentionList.length &&
   !!attributes.dateFiled;
 
 const getBreadcrumbText = (currentTab, claimType) => {
@@ -99,14 +100,9 @@ export default function ClaimDetailLayout(props) {
       <div className="claim-container">
         <TabNav id={props.claim.id} />
         {tabs.map(tab => (
-          <div
-            key={tab}
-            role="tabpanel"
-            id={`tabPanel${tab}`}
-            aria-labelledby={`tab${tab}`}
-          >
+          <div key={tab} id={`tabPanel${tab}`}>
             {currentTab === tab && (
-              <div className="va-tab-content claim-tab-content">
+              <div className="tab-content claim-tab-content">
                 {isPopulatedClaim(claim || {}) ||
                 !claim?.attributes.open ? null : (
                   <AddingDetails />

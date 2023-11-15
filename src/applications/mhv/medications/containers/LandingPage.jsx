@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { medicationsUrls } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const LandingPage = () => {
   const location = useLocation();
@@ -37,14 +38,12 @@ const LandingPage = () => {
     }
   };
 
-  useEffect(
-    () => {
-      if (location.pathname.includes('/accordion-renew-rx')) {
-        focusAndOpenAccordionRxRenew();
-      }
-    },
-    [location.pathname, featureTogglesLoading, appEnabled],
-  );
+  useEffect(() => {
+    updatePageTitle('About medications | Veterans Affairs');
+    if (location.pathname.includes('/accordion-renew-rx')) {
+      focusAndOpenAccordionRxRenew();
+    }
+  }, [location.pathname, featureTogglesLoading, appEnabled]);
 
   const content = () => {
     return (

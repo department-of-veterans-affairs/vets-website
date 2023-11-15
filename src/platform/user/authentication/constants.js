@@ -108,9 +108,7 @@ export const EXTERNAL_REDIRECTS = {
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
   [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
-  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `https://${
-    eauthEnvironmentPrefixes[environment.BUILDTYPE]
-  }fed.eauth.va.gov/oauthe/sps/oauth/oauth20/authorize`,
+  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
 };
 
@@ -187,15 +185,9 @@ export const AUTH_DEPENDENCIES = [
 
 export const generateCSPBanner = ({ csp }) => {
   return {
-    headline: `You may have trouble signing in with ${
-      SERVICE_PROVIDERS[csp].label
-    }`,
+    headline: `You may have trouble signing in with ${SERVICE_PROVIDERS[csp].label}`,
     status: 'warning',
-    message: `We’re sorry. We’re working to fix some problems with our ${
-      SERVICE_PROVIDERS[csp].label
-    } sign in process. If you’d like to sign in to VA.gov with your ${
-      SERVICE_PROVIDERS[csp].label
-    } account, please check back later.`,
+    message: `We’re sorry. We’re working to fix some problems with our ${SERVICE_PROVIDERS[csp].label} sign in process. If you’d like to sign in to VA.gov with your ${SERVICE_PROVIDERS[csp].label} account, please check back later.`,
   };
 };
 

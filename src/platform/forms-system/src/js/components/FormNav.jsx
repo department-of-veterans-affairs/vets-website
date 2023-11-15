@@ -104,44 +104,40 @@ export default function FormNav(props) {
   // we want to force react to remove the <h2> and re-render it. This should
   // ensure that VoiceOver on iOS will pick up on the new <h2>
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
-  useEffect(
-    () => {
-      if (current > index + 1) {
-        setIndex(index + 1);
-      } else if (current === index) {
-        setIndex(index - 1);
-      }
+  useEffect(() => {
+    if (current > index + 1) {
+      setIndex(index + 1);
+    } else if (current === index) {
+      setIndex(index - 1);
+    }
 
-      return () => {
-        // Check main toggle to enable custom focus; the unmounting of the page
-        // before the review & submit page may cause the customScrollAndFocus
-        // function to be called inadvertently
-        if (
-          !(
-            page.chapterKey === 'review' ||
-            window.location.pathname.endsWith('review-and-submit')
-          )
-        ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
-          } else {
-            // h2 fallback for confirmation page
-            focusByOrder([defaultFocusSelector, 'h2']);
-          }
+    return () => {
+      // Check main toggle to enable custom focus; the unmounting of the page
+      // before the review & submit page may cause the customScrollAndFocus
+      // function to be called inadvertently
+      if (
+        !(
+          page.chapterKey === 'review' ||
+          window.location.pathname.endsWith('review-and-submit')
+        )
+      ) {
+        if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
+          customScrollAndFocus(page.scrollAndFocusTarget, index);
         } else {
-          // h2 fallback for confirmation page
           focusByOrder([defaultFocusSelector, 'h2']);
         }
-      };
-    },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-    ],
-  );
+      } else {
+        // h2 fallback for confirmation page
+        focusByOrder([defaultFocusSelector, 'h2']);
+      }
+    };
+  }, [
+    current,
+    formConfig.useCustomScrollAndFocus,
+    index,
+    page.chapterKey,
+    page.scrollAndFocusTarget,
+  ]);
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
@@ -153,31 +149,31 @@ export default function FormNav(props) {
           current={currentChapterDisplay}
           uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
+          name="v3SementedProgressBar"
           {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
         />
       )}
-      {!v3SegmentedProgressBar &&
-        !hideFormNavProgress && (
-          <div className="schemaform-chapter-progress">
-            <div className="nav-header nav-header-schemaform">
-              {showHeader ? (
-                <h2
-                  id="nav-form-header"
-                  data-testid="navFormHeader"
-                  className="vads-u-font-size--h4"
-                >
-                  {stepText}
-                  {inProgressMessage}
-                </h2>
-              ) : (
-                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-                  {stepText}
-                  {inProgressMessage}
-                </div>
-              )}
-            </div>
+      {!v3SegmentedProgressBar && !hideFormNavProgress && (
+        <div className="schemaform-chapter-progress">
+          <div className="nav-header nav-header-schemaform">
+            {showHeader ? (
+              <h2
+                id="nav-form-header"
+                data-testid="navFormHeader"
+                className="vads-u-font-size--h4"
+              >
+                {stepText}
+                {inProgressMessage}
+              </h2>
+            ) : (
+              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                {stepText}
+                {inProgressMessage}
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

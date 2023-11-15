@@ -13,6 +13,7 @@ import {
   receivedMultipleAppointmentDetails,
   triggerRefresh,
   updateFormAction as updateDayOfForm,
+  additionalContext,
 } from '../actions/day-of';
 
 import {
@@ -65,10 +66,11 @@ const useGetCheckInData = ({
           appointments,
           demographics,
           patientDemographicsStatus,
+          setECheckinStartedCalled,
         } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-
+        dispatch(additionalContext({ setECheckinStartedCalled }));
         if (!appointmentsOnly) {
           const travelPaySent = getTravelPaySent(window);
           dispatch(receivedDemographicsData(demographics));
@@ -88,7 +90,15 @@ const useGetCheckInData = ({
         }
       });
     },
-    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled, reload],
+    [
+      appointmentsOnly,
+      dispatch,
+      token,
+      isTravelReimbursementEnabled,
+      reload,
+      getTravelPaySent,
+      isTravelLogicEnabled,
+    ],
   );
 
   const setPreCheckInData = useCallback(
@@ -102,93 +112,90 @@ const useGetCheckInData = ({
     },
     [dispatch, reload],
   );
-  useLayoutEffect(
-    () => {
-      if (isStale && token && !isLoading) {
-        setIsLoading(true);
-        if (isPreCheckIn) {
-          api.v2
-            .getPreCheckInData(token, reload)
-            .then(json => {
-              if (json.error) {
-                updateError('error-getting-pre-check-in-data');
-                return; // prevent a react no-op on an unmounted component
-              }
-              const { payload } = json;
-              setPreCheckInData(payload);
+  useLayoutEffect(() => {
+    if (isStale && token && !isLoading) {
+      setIsLoading(true);
+      if (isPreCheckIn) {
+        api.v2
+          .getPreCheckInData(token, reload)
+          .then(json => {
+            if (json.error) {
+              updateError('error-getting-pre-check-in-data');
+              return; // prevent a react no-op on an unmounted component
+            }
+            const { payload } = json;
+            setPreCheckInData(payload);
 
-              if (payload.appointments?.length > 0) {
-                if (appointmentStartTimePast15(payload.appointments)) {
-                  updateError('pre-check-in-past-appointment');
-                  return;
-                }
-                if (preCheckinExpired(payload.appointments)) {
-                  updateError('pre-check-in-expired');
-                  return;
-                }
-              }
-
-              if (appointmentWasCanceled(payload.appointments)) {
-                updateError('possible-canceled-appointment');
+            if (payload.appointments?.length > 0) {
+              if (appointmentStartTimePast15(payload.appointments)) {
+                updateError('pre-check-in-past-appointment');
                 return;
               }
-
-              if (allAppointmentsCanceled(payload.appointments)) {
-                updateError('appointment-canceled');
+              if (preCheckinExpired(payload.appointments)) {
+                updateError('pre-check-in-expired');
                 return;
               }
+            }
 
-              if (preCheckinAlreadyCompleted(payload.appointments)) {
-                setPreCheckinComplete(window, true);
-                jumpToPage(URLS.COMPLETE);
-              }
-            })
-            .catch(e => {
-              if (e.errors && e?.errors[0]?.status === '404') {
-                updateError('uuid-not-found');
-              } else {
-                setCheckInDataError(true);
-              }
-            })
-            .finally(() => {
-              setIsStale(false);
-              setIsComplete(true);
-              setIsLoading(false);
-            });
-        } else {
-          api.v2
-            .getCheckInData(token)
-            .then(json => {
-              setDayOfData(json.payload);
-            })
-            .catch(e => {
-              if (e.errors && e.errors[0]?.status === '404') {
-                updateError('uuid-not-found');
-              } else {
-                setCheckInDataError(true);
-              }
-            })
-            .finally(() => {
-              setIsStale(false);
-              setIsComplete(true);
-              setIsLoading(false);
-            });
-        }
+            if (appointmentWasCanceled(payload.appointments)) {
+              updateError('possible-canceled-appointment');
+              return;
+            }
+
+            if (allAppointmentsCanceled(payload.appointments)) {
+              updateError('appointment-canceled');
+              return;
+            }
+
+            if (preCheckinAlreadyCompleted(payload.appointments)) {
+              setPreCheckinComplete(window, true);
+              jumpToPage(URLS.COMPLETE);
+            }
+          })
+          .catch(e => {
+            if (e.errors && e?.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              setCheckInDataError(true);
+            }
+          })
+          .finally(() => {
+            setIsStale(false);
+            setIsComplete(true);
+            setIsLoading(false);
+          });
+      } else {
+        api.v2
+          .getCheckInData(token)
+          .then(json => {
+            setDayOfData(json.payload);
+          })
+          .catch(e => {
+            if (e.errors && e.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              setCheckInDataError(true);
+            }
+          })
+          .finally(() => {
+            setIsStale(false);
+            setIsComplete(true);
+            setIsLoading(false);
+          });
       }
-    },
-    [
-      isStale,
-      setDayOfData,
-      token,
-      isLoading,
-      reload,
-      isPreCheckIn,
-      updateError,
-      jumpToPage,
-      setPreCheckInData,
-      setPreCheckinComplete,
-    ],
-  );
+    }
+  }, [
+    isStale,
+    setDayOfData,
+    token,
+    isLoading,
+    reload,
+    isPreCheckIn,
+    updateError,
+    jumpToPage,
+    setPreCheckInData,
+    setPreCheckinComplete,
+  ]);
 
   return { checkInDataError, isLoading, refreshCheckInData, isComplete };
 };

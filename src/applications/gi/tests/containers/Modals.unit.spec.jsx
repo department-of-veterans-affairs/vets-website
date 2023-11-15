@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-
 import createCommonStore from 'platform/startup/store';
+import { mockModalProfileData } from '../helpers';
+
 import { Modals } from '../../containers/Modals';
 import reducer from '../../reducers';
 
@@ -763,6 +764,7 @@ describe('<Modals>', () => {
       modals: {
         displaying: 'inStateWithLink',
       },
+      profile: { ...mockModalProfileData },
     };
 
     it('should render', () => {

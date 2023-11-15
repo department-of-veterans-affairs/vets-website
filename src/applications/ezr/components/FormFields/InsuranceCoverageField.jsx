@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
-import HealthInsuranceDescription from '../FormDescriptions/HealthInsuranceDescription';
+import { HealthInsuranceAddtlInfoDescription } from '../FormDescriptions/HealthInsuranceDescriptions';
 import { INSURANCE_VIEW_FIELDS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
@@ -12,14 +12,11 @@ const InsuranceCoverageField = ({ defaultValue, error, hasList, onChange }) => {
   const fieldsetRef = useRef(null);
 
   // set focus to this component on form error
-  useEffect(
-    () => {
-      if (error && fieldsetRef?.current) {
-        scrollAndFocus(fieldsetRef?.current);
-      }
-    },
-    [error, fieldsetRef],
-  );
+  useEffect(() => {
+    if (error && fieldsetRef?.current) {
+      scrollAndFocus(fieldsetRef?.current);
+    }
+  }, [error, fieldsetRef]);
 
   return (
     <fieldset
@@ -47,7 +44,7 @@ const InsuranceCoverageField = ({ defaultValue, error, hasList, onChange }) => {
       </legend>
 
       {/** Additional Info component for description */}
-      <HealthInsuranceDescription />
+      <HealthInsuranceAddtlInfoDescription />
 
       {/** Error message */}
       {error ? (

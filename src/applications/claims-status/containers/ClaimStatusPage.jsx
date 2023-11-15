@@ -191,7 +191,7 @@ class ClaimStatusPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('.tab--current');
     }
   }
 
@@ -339,9 +339,6 @@ ClaimStatusPage.propTypes = {
   useLighthouse: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ClaimStatusPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimStatusPage);
 
 export { ClaimStatusPage };

@@ -9,7 +9,6 @@ import {
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -24,6 +23,8 @@ import {
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
+import { benefitTypes } from '~/applications/personalization/common/constants';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import VerifyIdentity from './alerts/VerifyIdentity';
 
@@ -32,14 +33,11 @@ import Headline from '../ProfileSectionHeadline';
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfo from './BankInfo';
-import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import DirectDepositWrapper from './DirectDepositWrapper';
-import TemporaryOutage from './alerts/TemporaryOutage';
+import TemporaryOutageCnp from './alerts/TemporaryOutageCnp';
 
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
-
-import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const DirectDeposit = ({
   cnpUiState,
@@ -84,105 +82,109 @@ const DirectDeposit = ({
   }, []);
 
   // show the user a success alert after their CNP bank info has saved
-  useEffect(
-    () => {
-      if (wasSavingCNPBankInfo && !isSavingCNPBankInfo && !cnpSaveError) {
-        setShowCNPSuccessMessage(true);
-        removeBankInfoUpdatedAlert();
-      }
-    },
-    [
-      wasSavingCNPBankInfo,
-      isSavingCNPBankInfo,
-      cnpSaveError,
-      removeBankInfoUpdatedAlert,
-    ],
-  );
+  useEffect(() => {
+    if (wasSavingCNPBankInfo && !isSavingCNPBankInfo && !cnpSaveError) {
+      setShowCNPSuccessMessage(true);
+      removeBankInfoUpdatedAlert();
+    }
+  }, [
+    wasSavingCNPBankInfo,
+    isSavingCNPBankInfo,
+    cnpSaveError,
+    removeBankInfoUpdatedAlert,
+  ]);
 
   // show the user a success alert after their EDU bank info has saved
-  useEffect(
-    () => {
-      if (wasSavingEDUBankInfo && !isSavingEDUBankInfo && !eduSaveError) {
-        removeBankInfoUpdatedAlert();
-        setShowEDUSuccessMessage(true);
-      }
-    },
-    [
-      wasSavingEDUBankInfo,
-      isSavingEDUBankInfo,
-      eduSaveError,
-      removeBankInfoUpdatedAlert,
-    ],
-  );
+  useEffect(() => {
+    if (wasSavingEDUBankInfo && !isSavingEDUBankInfo && !eduSaveError) {
+      removeBankInfoUpdatedAlert();
+      setShowEDUSuccessMessage(true);
+    }
+  }, [
+    wasSavingEDUBankInfo,
+    isSavingEDUBankInfo,
+    eduSaveError,
+    removeBankInfoUpdatedAlert,
+  ]);
 
   // fix for when the TemporaryOutage is displayed
   // prevents alert from showing when navigating away from DD page and no edits have been made
-  useEffect(
-    () => {
-      if (hideDirectDepositCompAndPen) {
-        setCnpFormIsDirty(true);
-      }
-    },
-    [hideDirectDepositCompAndPen, setCnpFormIsDirty],
-  );
+  useEffect(() => {
+    if (hideDirectDepositCompAndPen) {
+      setCnpFormIsDirty(true);
+    }
+  }, [hideDirectDepositCompAndPen, setCnpFormIsDirty]);
 
-  useEffect(
-    () => {
-      // Show alert when navigating away
-      if (!allFormsAreEmpty && !viewingIsRestricted) {
-        window.onbeforeunload = () => true;
-        return;
-      }
-      window.onbeforeunload = undefined;
-    },
-    [allFormsAreEmpty, viewingIsRestricted],
-  );
+  useEffect(() => {
+    // Show alert when navigating away
+    if (!allFormsAreEmpty && !viewingIsRestricted) {
+      window.onbeforeunload = () => true;
+      return;
+    }
+    window.onbeforeunload = undefined;
+  }, [allFormsAreEmpty, viewingIsRestricted]);
 
   return (
     <>
       <Headline>Direct deposit information</Headline>
 
-      <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
-        <Prompt
-          message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-          when={!allFormsAreEmpty}
-        />
-        {showBankInformation ? (
-          <DowntimeNotification
-            appTitle="direct deposit"
-            render={handleDowntimeForSection(
-              'direct deposit for compensation and pension',
-            )}
-            dependencies={[externalServices.evss]}
-          >
-            {hideDirectDepositCompAndPen ? (
-              <TemporaryOutage />
-            ) : (
-              <BankInfo
-                type={benefitTypes.CNP}
-                setFormIsDirty={setCnpFormIsDirty}
-                setViewingPayments={setViewingPayments}
-                showSuccessMessage={showCNPSuccessMessage}
-              />
-            )}
-          </DowntimeNotification>
-        ) : (
-          <VerifyIdentity useOAuth={useOAuth} />
-        )}
-        <FraudVictimAlert />
-        {showBankInformation ? (
-          <>
-            <BankInfo
-              type={benefitTypes.EDU}
-              setFormIsDirty={setEduFormIsDirty}
-              setViewingPayments={setViewingPayments}
-              showSuccessMessage={showEDUSuccessMessage}
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage}>
+        <Toggler.Enabled>
+          <va-alert status="warning">
+            <h2 slot="headline">We’re updating our systems right now</h2>
+            <p>
+              We’re updating our systems to add the 2024 cost-of-living increase
+              for VA benefits. Direct deposit information isn’t available right
+              now. Check back after <strong>Sunday, November 19, 2023</strong>,
+              at <strong>11:59 p.m. ET</strong>.
+            </p>
+          </va-alert>
+        </Toggler.Enabled>
+
+        <Toggler.Disabled>
+          <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
+            <Prompt
+              message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+              when={!allFormsAreEmpty}
             />
-            {(viewingPayments[benefitTypes.CNP] ||
-              viewingPayments[benefitTypes.EDU]) && <PaymentHistory />}
-          </>
-        ) : null}
-      </DirectDepositWrapper>
+            {showBankInformation ? (
+              <DowntimeNotification
+                appTitle="direct deposit"
+                render={handleDowntimeForSection(
+                  'direct deposit for compensation and pension',
+                )}
+                dependencies={[externalServices.evss]}
+              >
+                {hideDirectDepositCompAndPen ? (
+                  <TemporaryOutageCnp />
+                ) : (
+                  <BankInfo
+                    type={benefitTypes.CNP}
+                    setFormIsDirty={setCnpFormIsDirty}
+                    setViewingPayments={setViewingPayments}
+                    showSuccessMessage={showCNPSuccessMessage}
+                  />
+                )}
+              </DowntimeNotification>
+            ) : (
+              <VerifyIdentity useOAuth={useOAuth} />
+            )}
+            <FraudVictimAlert />
+            {showBankInformation ? (
+              <>
+                <BankInfo
+                  type={benefitTypes.EDU}
+                  setFormIsDirty={setEduFormIsDirty}
+                  setViewingPayments={setViewingPayments}
+                  showSuccessMessage={showEDUSuccessMessage}
+                />
+                {(viewingPayments[benefitTypes.CNP] ||
+                  viewingPayments[benefitTypes.EDU]) && <PaymentHistory />}
+              </>
+            ) : null}
+          </DirectDepositWrapper>
+        </Toggler.Disabled>
+      </Toggler>
     </>
   );
 };
@@ -213,9 +215,7 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
-    hideDirectDepositCompAndPen:
-      toggleValues(state)?.[TOGGLE_NAMES.profileUseExperimental] ||
-      selectHideDirectDepositCompAndPen(state),
+    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
     useOAuth: isAuthenticatedWithOAuth(state),
   };
 };

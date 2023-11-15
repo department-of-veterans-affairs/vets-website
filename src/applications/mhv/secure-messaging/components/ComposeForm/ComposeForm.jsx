@@ -58,7 +58,6 @@ const ComposeForm = props => {
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
-  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -72,28 +71,12 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
 
-  const formattededSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
-  );
+  const formattededSignature = useMemo(() => {
+    return messageSignatureFormatter(signature);
+  }, [signature]);
 
   const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === null) {
-      setNavigationError(null);
-    }
-    if (
-      typeOfError ===
-      ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR
-    ) {
+    if (typeOfError === 'attachment') {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
         confirmButtonText:
@@ -101,8 +84,7 @@ const ComposeForm = props => {
         cancelButtonText:
           ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
       });
-    }
-    if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
+    } else {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
         confirmButtonText: 'Continue editing',
@@ -111,119 +93,78 @@ const ComposeForm = props => {
     }
   };
 
-  useEffect(
-    () => {
-      const blankForm =
-        messageBody === '' &&
-        subject === '' &&
-        (selectedRecipient === 0 || selectedRecipient === '0') &&
-        category === null &&
-        attachments.length === 0;
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
-      if (blankForm) {
-        setUnsavedNavigationError(null);
+  useEffect(() => {
+    if (attachments.length > 0) {
+      setUnsavedNavigationError('attachment');
+    }
+  }, [attachments]);
+
+  useEffect(() => {
+    if (recipients?.length) {
+      const filteredRecipients = recipients.filter(
+        team => team.preferredTeam === true,
+      );
+      setRecipientsList(prevRecipientsList => [
+        ...prevRecipientsList.filter(
+          oldRecip =>
+            !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
+        ),
+        ...filteredRecipients,
+      ]);
+    }
+
+    if (!draft) {
+      setSelectedRecipient('0');
+      setCategory(null);
+      setSubject('');
+      setMessageBody('');
+    }
+  }, [recipients, draft]);
+
+  useEffect(() => {
+    if (sendMessageFlag && isSaving !== true) {
+      const messageData = {
+        category,
+        body: messageBody,
+        subject,
+      };
+      messageData[`${'draft_id'}`] = draft?.messageId;
+      messageData[`${'recipient_id'}`] = selectedRecipient;
+
+      let sendData;
+      if (attachments.length > 0) {
+        sendData = new FormData();
+        sendData.append('message', JSON.stringify(messageData));
+        attachments.map(upload => sendData.append('uploads[]', upload));
       } else {
-        if (!deleteButtonClicked) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-          if (formPopulated) {
-            setUnsavedNavigationError(null);
-          }
-        }
-        if (!deleteButtonClicked && attachments.length > 0) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-          );
-          updateModalVisible(false);
-        }
+        sendData = JSON.stringify(messageData);
       }
-    },
-    [
-      attachments,
-      category,
-      deleteButtonClicked,
-      formPopulated,
-      messageBody,
-      selectedRecipient,
-      subject,
-    ],
-  );
-
-  useEffect(
-    () => {
-      if (recipients?.length) {
-        const filteredRecipients = recipients.filter(
-          team => team.preferredTeam === true,
-        );
-        setRecipientsList(prevRecipientsList => [
-          ...prevRecipientsList.filter(
-            oldRecip =>
-              !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
+      dispatch(sendMessage(sendData, attachments.length > 0))
+        .then(() =>
+          navigateToFolderByFolderId(
+            currentFolder?.folderId || DefaultFolders.INBOX.id,
+            history,
           ),
-          ...filteredRecipients,
-        ]);
-      }
+        )
+        .catch(setSendMessageFlag(false));
+    }
+  }, [sendMessageFlag, isSaving]);
 
-      if (!draft) {
-        setSelectedRecipient('0');
-        setCategory(null);
-        setSubject('');
-        setMessageBody('');
-      }
-    },
-    [recipients, draft],
-  );
+  useEffect(() => {
+    if (messageInvalid) {
+      focusOnErrorField();
+    }
+  }, [messageInvalid]);
 
-  useEffect(
-    () => {
-      if (sendMessageFlag && isSaving !== true) {
-        const messageData = {
-          category,
-          body: messageBody,
-          subject,
-        };
-        messageData[`${'draft_id'}`] = draft?.messageId;
-        messageData[`${'recipient_id'}`] = selectedRecipient;
-
-        let sendData;
-        if (attachments.length > 0) {
-          sendData = new FormData();
-          sendData.append('message', JSON.stringify(messageData));
-          attachments.map(upload => sendData.append('uploads[]', upload));
-        } else {
-          sendData = JSON.stringify(messageData);
-        }
-        dispatch(sendMessage(sendData, attachments.length > 0))
-          .then(() =>
-            navigateToFolderByFolderId(
-              currentFolder?.folderId || DefaultFolders.INBOX.id,
-              history,
-            ),
-          )
-          .catch(setSendMessageFlag(false));
-      }
-    },
-    [sendMessageFlag, isSaving],
-  );
-
-  useEffect(
-    () => {
-      if (messageInvalid) {
-        focusOnErrorField();
-      }
-    },
-    [messageInvalid],
-  );
-
-  useEffect(
-    () => {
-      if (alertStatus) {
-        focusElement(lastFocusableElement);
-      }
-    },
-    [alertStatus],
-  );
+  useEffect(() => {
+    if (alertStatus) {
+      focusElement(lastFocusableElement);
+    }
+  }, [alertStatus]);
 
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
@@ -261,57 +202,45 @@ const ComposeForm = props => {
 
   if (draft && recipients && !formPopulated) populateForm();
 
-  const checkMessageValidity = useCallback(
-    () => {
-      let messageValid = true;
-      if (
-        selectedRecipient === '0' ||
-        selectedRecipient === '' ||
-        !selectedRecipient
-      ) {
-        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-        messageValid = false;
-      }
-      if (!subject || subject === '') {
-        setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
-        messageValid = false;
-      }
-      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-        messageValid = false;
-      }
-      if (!category || category === '') {
-        setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
-        messageValid = false;
-      }
-      setMessageInvalid(!messageValid);
-      return messageValid;
-    },
-    [category, messageBody, selectedRecipient, subject],
-  );
+  const checkMessageValidity = useCallback(() => {
+    let messageValid = true;
+    if (
+      selectedRecipient === '0' ||
+      selectedRecipient === '' ||
+      !selectedRecipient
+    ) {
+      setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+      messageValid = false;
+    }
+    if (!subject || subject === '') {
+      setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
+      messageValid = false;
+    }
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+      messageValid = false;
+    }
+    if (!category || category === '') {
+      setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
+      messageValid = false;
+    }
+    setMessageInvalid(!messageValid);
+    return messageValid;
+  }, [category, messageBody, selectedRecipient, subject]);
 
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
         setLastFocusableElement(e.target);
-        // setUserSaved(true)
         await setMessageInvalid(false);
-        if (checkMessageValidity() === true) {
+        if (checkMessageValidity()) {
           setNavigationError(null);
-        } else
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-
-        if (attachments.length > 0) {
+        }
+        if (attachments.length) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError({
-            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-            confirmButtonText: 'Continue editing',
-            cancelButtonText: 'Delete draft',
-          });
+          setNavigationError(null);
         }
       }
 
@@ -324,7 +253,6 @@ const ComposeForm = props => {
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
-        // setUserSaved(true);
         return;
       }
 
@@ -340,6 +268,7 @@ const ComposeForm = props => {
       if (checkMessageValidity() === true) {
         dispatch(saveDraft(formData, type, draftId));
       }
+      if (!attachments.length) setNavigationError(null);
     },
     [
       attachments.length,
@@ -374,27 +303,24 @@ const ComposeForm = props => {
     [checkMessageValidity],
   );
 
-  useEffect(
-    () => {
-      if (
-        debouncedRecipient &&
-        debouncedCategory &&
-        debouncedSubject &&
-        debouncedMessageBody &&
-        !modalVisible
-      ) {
-        saveDraftHandler('auto');
-      }
-    },
-    [
-      debouncedCategory,
-      debouncedMessageBody,
-      debouncedSubject,
-      debouncedRecipient,
-      saveDraftHandler,
-      modalVisible,
-    ],
-  );
+  useEffect(() => {
+    if (
+      debouncedRecipient &&
+      debouncedCategory &&
+      debouncedSubject &&
+      debouncedMessageBody &&
+      !modalVisible
+    ) {
+      saveDraftHandler('auto');
+    }
+  }, [
+    debouncedCategory,
+    debouncedMessageBody,
+    debouncedSubject,
+    debouncedRecipient,
+    saveDraftHandler,
+    modalVisible,
+  ]);
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
@@ -431,15 +357,12 @@ const ComposeForm = props => {
     [draft, selectedRecipient, category, subject, messageBody],
   );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useEffect(() => {
+    window.addEventListener('beforeunload', beforeUnloadHandler);
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+    };
+  }, [beforeUnloadHandler]);
 
   return (
     <>
@@ -552,7 +475,6 @@ const ComposeForm = props => {
               compose
               attachments={attachments}
               setAttachments={setAttachments}
-              setNavigationError={setNavigationError}
               editingEnabled
             />
 
@@ -566,12 +488,7 @@ const ComposeForm = props => {
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
-            formPopulated={formPopulated}
-            navigationError={navigationError}
             setNavigationError={setNavigationError}
-            setDeleteButtonClicked={setDeleteButtonClicked}
-            setUnsavedNavigationError={setUnsavedNavigationError}
-            deleteButtonClicked={deleteButtonClicked}
           />
         </div>
       </form>

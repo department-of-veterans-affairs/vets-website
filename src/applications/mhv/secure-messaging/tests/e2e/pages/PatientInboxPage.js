@@ -154,9 +154,7 @@ class PatientInboxPage {
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
-      `a[href*="/my-health/secure-messages/message/${
-        inputMockMessage.attributes.messageId
-      }"]`,
+      `a[href*="/my-health/secure-messages/message/${inputMockMessage.attributes.messageId}"]`,
     );
     cy.realPress(['Enter']);
     cy.wait('@message');
@@ -323,22 +321,19 @@ class PatientInboxPage {
   };
 
   replyToMessage = () => {
+    const currentDate = new Date();
+    mockSingleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }/thread`,
+      `${Paths.SM_API_BASE}/messages/${mockSingleThread.data[0].attributes.messageId}/thread`,
       mockSingleThread,
     ).as('singleThread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }`,
+      `${Paths.SM_API_BASE}/messages/${mockSingleThread.data[0].attributes.messageId}`,
       mockSingleMessage,
     ).as('singleThread');
-
     cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)

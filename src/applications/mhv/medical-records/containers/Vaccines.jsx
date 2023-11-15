@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,12 @@ import {
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -38,29 +42,23 @@ const Vaccines = props => {
   );
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getVaccinesList());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(getVaccinesList());
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/vaccines',
-            label: 'VA vaccines',
-          },
-        ),
-      );
-      focusElement(document.querySelector('h1'));
-      updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs(
+        [{ url: '/my-health/medical-records/', label: 'Medical records' }],
+        {
+          url: '/my-health/medical-records/vaccines',
+          label: 'VA vaccines',
+        },
+      ),
+    );
+    focusElement(document.querySelector('h1'));
+    updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
+  }, [dispatch]);
 
   const generateVaccinesPdf = async () => {
     const title = 'Vaccines';
@@ -98,17 +96,13 @@ const Vaccines = props => {
       });
     });
 
-    const pdfName = `VA-Vaccines-list-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
   const generateVaccinesTxt = async () => {
-    const product = `
+    const content = `
     Vaccines\n 
     For a list of your allergies and reactions (including any reactions to
     vaccines), go to your allergy records. \n
@@ -125,18 +119,9 @@ const Vaccines = props => {
       \t Provider notes: ${processList(entry.notes)} \n`,
     )}`;
 
-    const blob = new Blob([product], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `VA-Vaccines-list-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    const fileName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

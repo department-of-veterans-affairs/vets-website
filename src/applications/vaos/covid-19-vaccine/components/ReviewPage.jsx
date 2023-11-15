@@ -51,14 +51,11 @@ export default function ReviewPage({ changeCrumb }) {
     }
   }, []);
 
-  useEffect(
-    () => {
-      if (submitStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('.info-alert');
-      }
-    },
-    [submitStatus],
-  );
+  useEffect(() => {
+    if (submitStatus === FETCH_STATUS.failed) {
+      scrollAndFocus('.info-alert');
+    }
+  }, [submitStatus]);
 
   if (!vaFacility) {
     return <Redirect to="/" />;
@@ -171,6 +168,7 @@ export default function ReviewPage({ changeCrumb }) {
                     name={facilityDetails.name}
                     facility={facilityDetails}
                     showDirectionsLink
+                    level={3}
                   />
                 )}
               </>

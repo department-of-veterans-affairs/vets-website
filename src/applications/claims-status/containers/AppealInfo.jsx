@@ -136,7 +136,7 @@ export class AppealInfo extends React.Component {
       appealContent = (
         <>
           <AppealsV2TabNav appealId={params.id} />
-          <div className="va-tab-content va-appeals-content">
+          <div className="tab-content va-appeals-content">
             {React.Children.map(children, child =>
               React.cloneElement(child, { appeal, fullName }),
             )}
@@ -232,7 +232,4 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = { getAppealsV2: getAppealsV2Action };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppealInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(AppealInfo);

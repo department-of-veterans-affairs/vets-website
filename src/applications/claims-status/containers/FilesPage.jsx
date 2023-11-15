@@ -68,7 +68,7 @@ class FilesPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('.tab--current');
     }
   }
 
@@ -141,13 +141,12 @@ class FilesPage extends React.Component {
             </div>
           ) : null}
 
-          {documentsTurnedIn.map(
-            (item, itemIndex) =>
-              item.status && item.id ? (
-                <SubmittedTrackedItem item={item} key={itemIndex} />
-              ) : (
-                <AdditionalEvidenceItem item={item} key={itemIndex} />
-              ),
+          {documentsTurnedIn.map((item, itemIndex) =>
+            item.status && item.id ? (
+              <SubmittedTrackedItem item={item} key={itemIndex} />
+            ) : (
+              <AdditionalEvidenceItem item={item} key={itemIndex} />
+            ),
           )}
         </div>
       </div>
@@ -228,9 +227,6 @@ FilesPage.propTypes = {
   useLighthouse: PropTypes.bool,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FilesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(FilesPage);
 
 export { FilesPage };

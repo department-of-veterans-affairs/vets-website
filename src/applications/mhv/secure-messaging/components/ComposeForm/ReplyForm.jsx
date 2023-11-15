@@ -51,7 +51,6 @@ const ReplyForm = props => {
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, updateModalVisible] = useState(false);
-  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -69,96 +68,78 @@ const ReplyForm = props => {
 
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
 
-  const formattededSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
-  );
+  const formattededSignature = useMemo(() => {
+    return messageSignatureFormatter(signature);
+  }, [signature]);
 
-  useEffect(
-    () => {
-      if (replyMessage && !draftToEdit) {
-        setSelectedRecipient(replyMessage.senderId);
-        setSubject(replyMessage.subject);
-        setMessageBody('');
-        setCategory(replyMessage.category);
-      }
-      if (draftToEdit) {
-        setDraft(draftToEdit);
-      }
-    },
-    [replyMessage, draftToEdit],
-  );
+  useEffect(() => {
+    if (replyMessage && !draftToEdit) {
+      setSelectedRecipient(replyMessage.senderId);
+      setSubject(replyMessage.subject);
+      setMessageBody('');
+      setCategory(replyMessage.category);
+    }
+    if (draftToEdit) {
+      setDraft(draftToEdit);
+    }
+  }, [replyMessage, draftToEdit]);
 
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearDraft());
+  useEffect(() => {
+    return () => {
+      dispatch(clearDraft());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (messageInvalid) {
+      focusOnErrorField();
+    }
+  }, [messageInvalid]);
+
+  useEffect(() => {
+    if (alertStatus) {
+      focusElement(lastFocusableElement);
+    }
+  }, [alertStatus]);
+
+  useEffect(() => {
+    if (sendMessageFlag && isSaving !== true) {
+      const messageData = {
+        category,
+        body: messageBody,
+        subject,
       };
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (messageInvalid) {
-        focusOnErrorField();
+      if (draft && replyToMessageId) {
+        messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
       }
-    },
-    [messageInvalid],
-  );
+      messageData[`${'recipient_id'}`] = selectedRecipient;
+      setIsAutosave(false);
 
-  useEffect(
-    () => {
-      if (alertStatus) {
-        focusElement(lastFocusableElement);
+      let sendData;
+
+      if (attachments.length > 0) {
+        sendData = new FormData();
+        sendData.append('message', JSON.stringify(messageData));
+        attachments.map(upload => sendData.append('uploads[]', upload));
+      } else {
+        sendData = JSON.stringify(messageData);
       }
-    },
-    [alertStatus],
-  );
 
-  useEffect(
-    () => {
-      if (sendMessageFlag && isSaving !== true) {
-        const messageData = {
-          category,
-          body: messageBody,
-          subject,
-        };
-        if (draft && replyToMessageId) {
-          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
-        }
-        messageData[`${'recipient_id'}`] = selectedRecipient;
-        setIsAutosave(false);
-
-        let sendData;
-
-        if (attachments.length > 0) {
-          sendData = new FormData();
-          sendData.append('message', JSON.stringify(messageData));
-          attachments.map(upload => sendData.append('uploads[]', upload));
-        } else {
-          sendData = JSON.stringify(messageData);
-        }
-
-        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
-          .then(() => {
-            navigateToFolderByFolderId(
-              draftToEdit?.threadFolderId
-                ? draftToEdit?.threadFolderId
-                : folderId,
-              history,
-            );
-          })
-          .catch(() => {
-            setSendMessageFlag(false);
-            setIsAutosave(true);
-          });
-      }
-    },
-    [sendMessageFlag, isSaving],
-  );
+      dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+        .then(() => {
+          navigateToFolderByFolderId(
+            draftToEdit?.threadFolderId
+              ? draftToEdit?.threadFolderId
+              : folderId,
+            history,
+          );
+        })
+        .catch(() => {
+          setSendMessageFlag(false);
+          setIsAutosave(true);
+        });
+    }
+  }, [sendMessageFlag, isSaving]);
 
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
@@ -190,36 +171,27 @@ const ReplyForm = props => {
     );
   };
 
-  useEffect(
-    () => {
-      if (draft && !formPopulated) {
-        populateForm();
-      }
-    },
-    [draft],
-  );
+  useEffect(() => {
+    if (draft && !formPopulated) {
+      populateForm();
+    }
+  }, [draft]);
 
-  const messageTitle = useMemo(
-    () => {
-      const casedCategory =
-        category === 'COVID' ? category : capitalize(category);
-      return `${casedCategory}: ${subject}`;
-    },
-    [category, subject],
-  );
+  const messageTitle = useMemo(() => {
+    const casedCategory =
+      category === 'COVID' ? category : capitalize(category);
+    return `${casedCategory}: ${subject}`;
+  }, [category, subject]);
 
-  const checkMessageValidity = useCallback(
-    () => {
-      let messageValid = true;
-      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-        messageValid = false;
-      }
-      setMessageInvalid(!messageValid);
-      return messageValid;
-    },
-    [messageBody],
-  );
+  const checkMessageValidity = useCallback(() => {
+    let messageValid = true;
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+      messageValid = false;
+    }
+    setMessageInvalid(!messageValid);
+    return messageValid;
+  }, [messageBody]);
 
   const sendMessageHandler = useCallback(
     async e => {
@@ -246,11 +218,7 @@ const ReplyForm = props => {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError({
-            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-            confirmButtonText: 'Continue editing',
-            cancelButtonText: 'Delete draft',
-          });
+          setNavigationError(null);
         }
       }
 
@@ -308,33 +276,33 @@ const ReplyForm = props => {
   );
 
   // Before Save
-  useEffect(
-    () => {
-      const draftBody = draft && draft.body;
-      if (
-        messageBody === draftBody ||
-        (messageBody === '' && draftBody === null)
-      ) {
-        setNavigationError(null);
-      }
-    },
-    [deleteButtonClicked, draft, messageBody],
-  );
+  useEffect(() => {
+    const draftBody = draft && draft.body;
+    if (
+      messageBody === draftBody ||
+      (messageBody === '' && draftBody === null)
+    ) {
+      setNavigationError(null);
+    } else if (messageBody !== draftBody) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+    }
+  }, [draft, messageBody]);
 
-  useEffect(
-    () => {
-      if (debouncedMessageBody && isAutosave && !cannotReply && !modalVisible) {
-        saveDraftHandler('auto');
-      }
-    },
-    [
-      cannotReply,
-      debouncedMessageBody,
-      isAutosave,
-      modalVisible,
-      saveDraftHandler,
-    ],
-  );
+  useEffect(() => {
+    if (debouncedMessageBody && isAutosave && !cannotReply && !modalVisible) {
+      saveDraftHandler('auto');
+    }
+  }, [
+    cannotReply,
+    debouncedMessageBody,
+    isAutosave,
+    modalVisible,
+    saveDraftHandler,
+  ]);
 
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
@@ -358,15 +326,12 @@ const ReplyForm = props => {
     [draft, messageBody],
   );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useEffect(() => {
+    window.addEventListener('beforeunload', beforeUnloadHandler);
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
+    };
+  }, [beforeUnloadHandler]);
 
   return (
     replyMessage && (
@@ -485,8 +450,6 @@ const ReplyForm = props => {
                 draftId={newDraftId}
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
-                setDeleteButtonClicked={setDeleteButtonClicked}
-                messageBody={messageBody}
               />
             </div>
           </form>

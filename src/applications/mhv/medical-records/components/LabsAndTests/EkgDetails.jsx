@@ -8,7 +8,11 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf } from '../../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 
@@ -21,19 +25,15 @@ const EkgDetails = props => {
       ],
   );
   const formattedDate = record.date ? formatDateLong(record?.date) : '';
+  const user = useSelector(state => state.user.profile);
 
-  useEffect(
-    () => {
-      focusElement(document.querySelector('h1'));
-      const titleDate = formattedDate ? `${formattedDate} - ` : '';
-      updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
-      );
-    },
-    [formattedDate, record.name],
-  );
+  useEffect(() => {
+    focusElement(document.querySelector('h1'));
+    const titleDate = formattedDate ? `${formattedDate} - ` : '';
+    updatePageTitle(
+      `${titleDate}${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
+    );
+  }, [formattedDate, record.name]);
 
   const generateEkgDetails = async () => {
     const pdfData = {
@@ -90,6 +90,21 @@ const EkgDetails = props => {
     makePdf('electrocardiogram_report', pdfData, 'EKG', runningUnitTest);
   };
 
+  const generateEkgTxt = async () => {
+    const content = `
+    ${record.name} \n
+    Date: ${record.date} \n
+    _____________________________________________________ \n
+    \t Ordering location: ${record.facility} \n
+    \t Results: Your EKG results aren’t available in this tool. To get your EKG
+    results, you can request a copy of your complete medical record from
+    your VA health facility.\n`;
+
+    const fileName = `VA-EKG-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
+  };
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
@@ -114,6 +129,7 @@ const EkgDetails = props => {
         <PrintDownload
           download={generateEkgDetails}
           allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateEkgTxt}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       </div>

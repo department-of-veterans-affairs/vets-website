@@ -6,6 +6,7 @@ import { parseISO } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
 import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -15,44 +16,68 @@ import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 import { useStorage } from '../../hooks/useStorage';
 import { getAppointmentId } from '../../utils/appointment';
+import { isInPilot } from '../../utils/pilotFeatures';
+import { useTravelPayFlags } from '../../hooks/useTravelPayFlags';
 
 const AppointmentAction = props => {
   const { appointment, router, event } = props;
 
+  const isTravelReimbursementInPilot = isInPilot({
+    appointment,
+    pilotFeature: 'fileTravelClaim',
+  });
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled } = featureToggles;
+  const { travelPayEligible } = useTravelPayFlags(appointment);
+
+  const isTravelEnabled =
+    isTravelReimbursementEnabled && isTravelReimbursementInPilot;
+  const travelSubmitted = travelPayEligible || false; // The hook returns undefined so coercing to false
+
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
+  const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   const { setCheckinComplete } = useStorage(false);
 
   const { updateError } = useUpdateError();
 
   const { jumpToPage } = useFormRouting(router);
-  const onClick = useCallback(
-    async () => {
-      if (event) {
-        recordEvent({
-          event: createAnalyticsSlug(event, 'nav'),
-        });
+  const onClick = useCallback(async () => {
+    if (event) {
+      recordEvent({
+        event: createAnalyticsSlug(event, 'nav'),
+      });
+    }
+    try {
+      const json = await api.v2.postCheckInData({
+        uuid: token,
+        appointmentIen: appointment.appointmentIen,
+        setECheckinStartedCalled,
+        isTravelEnabled,
+        travelSubmitted,
+      });
+      const { status } = json;
+      if (status === 200) {
+        setCheckinComplete(window, true);
+        jumpToPage(`complete/${getAppointmentId(appointment)}`);
+      } else {
+        updateError('check-in-post-error');
       }
-      try {
-        const json = await api.v2.postCheckInData({
-          uuid: token,
-          appointmentIen: appointment.appointmentIen,
-          facilityId: appointment.facilityId,
-        });
-        const { status } = json;
-        if (status === 200) {
-          setCheckinComplete(window, true);
-          jumpToPage(`complete/${getAppointmentId(appointment)}`);
-        } else {
-          updateError('check-in-post-error');
-        }
-      } catch (error) {
-        updateError('error-completing-check-in');
-      }
-    },
-    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
-  );
+    } catch (error) {
+      updateError('error-completing-check-in');
+    }
+  }, [
+    appointment,
+    updateError,
+    jumpToPage,
+    token,
+    event,
+    setCheckinComplete,
+    setECheckinStartedCalled,
+    isTravelEnabled,
+    travelSubmitted,
+  ]);
   if (
     appointment.eligibility &&
     areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)

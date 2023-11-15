@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -38,42 +42,33 @@ const VaccineDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      if (vaccineId) dispatch(getVaccineDetails(vaccineId));
-    },
-    [vaccineId, dispatch],
-  );
+  useEffect(() => {
+    if (vaccineId) dispatch(getVaccineDetails(vaccineId));
+  }, [vaccineId, dispatch]);
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/my-health/medical-records/vaccines',
-            label: 'Vaccines',
-          },
-        ]),
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/vaccines',
+          label: 'Vaccines',
+        },
+      ]),
+    );
+    return () => {
+      dispatch(clearVaccineDetails());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (record) {
+      focusElement(document.querySelector('h1'));
+      const titleDate = record.date ? `${record.date} - ` : '';
+      updatePageTitle(
+        `${titleDate}${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`,
       );
-      return () => {
-        dispatch(clearVaccineDetails());
-      };
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (record) {
-        focusElement(document.querySelector('h1'));
-        const titleDate = record.date ? `${record.date} - ` : '';
-        updatePageTitle(
-          `${titleDate}${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`,
-        );
-      }
-    },
-    [dispatch, record],
-  );
+    }
+  }, [dispatch, record]);
 
   const generateVaccinePdf = async () => {
     const title = `Vaccines: ${record.name} on ${record.date}`;
@@ -100,17 +95,13 @@ const VaccineDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Vaccines-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
   };
 
   const generateVaccineTxt = async () => {
-    const product = `
+    const content = `
     ${record.name} \n
     Date entered: ${record.date} \n
     _____________________________________________________ \n
@@ -118,18 +109,9 @@ const VaccineDetails = props => {
     \t Reaction: ${processList(record.reactions)} \n
     \t Provider notes: ${processList(record.notes)} \n`;
 
-    const blob = new Blob([product], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `VA-Vaccines-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const content = () => {

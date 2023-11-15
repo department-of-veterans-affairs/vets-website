@@ -41,7 +41,9 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsApi({ response });
 
       // Act
-      PendingAppointmentListPageObject.visit().validate();
+      PendingAppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 5,
+      });
 
       // Assert
       cy.findByText(/Pending \(5\)/i).should('be.ok');
@@ -60,7 +62,9 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsApi({ response: [appt] });
 
       // Act
-      PendingAppointmentListPageObject.visit().validate();
+      PendingAppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 1,
+      });
       cy.findByText(/Primary care/i).click({ waitForAnimations: true });
 
       // Assert

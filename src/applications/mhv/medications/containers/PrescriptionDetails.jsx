@@ -54,9 +54,7 @@ const PrescriptionDetails = () => {
             },
           ],
           {
-            url: `/my-health/medications/prescription/${
-              prescription.prescriptionId
-            }`,
+            url: `/my-health/medications/prescription/${prescription.prescriptionId}`,
             label:
               prescription.dispStatus === 'Active: Non-VA'
                 ? prescription.orderableItem
@@ -67,15 +65,12 @@ const PrescriptionDetails = () => {
     }
   });
 
-  useEffect(
-    () => {
-      if (prescription) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(prescription.prescriptionName);
-      }
-    },
-    [prescription],
-  );
+  useEffect(() => {
+    if (prescription) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
+    }
+  }, [prescription]);
 
   const pdfData = useCallback(
     allergiesPdfList => {
@@ -150,34 +145,25 @@ const PrescriptionDetails = () => {
     [nonVaPrescription, userName, pdfData],
   );
 
-  useEffect(
-    () => {
-      if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
-    },
-    [prescriptionId, dispatch],
-  );
+  useEffect(() => {
+    if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
+  }, [prescriptionId, dispatch]);
 
-  useEffect(
-    () => {
-      if (allergies && pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress) {
-        generatePDF(buildAllergiesPDFList(allergies));
-      }
-    },
-    [allergies, pdfGenerateStatus, generatePDF],
-  );
+  useEffect(() => {
+    if (allergies && pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress) {
+      generatePDF(buildAllergiesPDFList(allergies));
+    }
+  }, [allergies, pdfGenerateStatus, generatePDF]);
 
-  useEffect(
-    () => {
-      if (prescription) {
-        setPrescriptionPdfList(
-          nonVaPrescription
-            ? buildNonVAPrescriptionPDFList(prescription)
-            : buildVAPrescriptionPDFList(prescription),
-        );
-      }
-    },
-    [nonVaPrescription, prescription],
-  );
+  useEffect(() => {
+    if (prescription) {
+      setPrescriptionPdfList(
+        nonVaPrescription
+          ? buildNonVAPrescriptionPDFList(prescription)
+          : buildVAPrescriptionPDFList(prescription),
+      );
+    }
+  }, [nonVaPrescription, prescription]);
 
   const filledEnteredDate = () => {
     if (nonVaPrescription) {
@@ -189,7 +175,8 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate ? (
+        {prescription.dispensedDate ||
+        prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ? (
           <span>
             Last filled on{' '}
             {dateFormat(

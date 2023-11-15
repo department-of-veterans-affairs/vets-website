@@ -11,7 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { macroCase, makePdf } from '../util/helpers';
+import { getNameDateAndTime, macroCase, makePdf } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
   pageTitles,
@@ -45,36 +45,30 @@ const VitalDetails = props => {
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/my-health/medical-records/vitals',
-            label: 'Vitals',
-          },
-        ]),
-      );
-      return () => {
-        dispatch(clearVitalDetails());
-      };
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      setBreadcrumbs([
+        {
+          url: '/my-health/medical-records/vitals',
+          label: 'Vitals',
+        },
+      ]),
+    );
+    return () => {
+      dispatch(clearVitalDetails());
+    };
+  }, [dispatch]);
 
-  useEffect(
-    () => {
-      if (records?.length) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${vitalTypeDisplayNames[records[0].type]} - ${
-            pageTitles.VITALS_PAGE_TITLE
-          }`,
-        );
-      }
-    },
-    [records],
-  );
+  useEffect(() => {
+    if (records?.length) {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${vitalTypeDisplayNames[records[0].type]} - ${
+          pageTitles.VITALS_PAGE_TITLE
+        }`,
+      );
+    }
+  }, [records]);
 
   const paginateData = data => {
     return chunk(data, perPage);
@@ -91,26 +85,20 @@ const VitalDetails = props => {
     return [from, to];
   };
 
-  useEffect(
-    () => {
-      if (records?.length) {
-        paginatedVitals.current = paginateData(records);
-        setCurrentVitals(paginatedVitals.current[currentPage - 1]);
-      }
-    },
-    [currentPage, records],
-  );
+  useEffect(() => {
+    if (records?.length) {
+      paginatedVitals.current = paginateData(records);
+      setCurrentVitals(paginatedVitals.current[currentPage - 1]);
+    }
+  }, [currentPage, records]);
 
   const displayNums = fromToNums(currentPage, records?.length);
 
-  useEffect(
-    () => {
-      if (vitalType) {
-        dispatch(getVitalDetails(macroCase(vitalType)));
-      }
-    },
-    [vitalType, dispatch],
-  );
+  useEffect(() => {
+    if (vitalType) {
+      dispatch(getVitalDetails(macroCase(vitalType)));
+    }
+  }, [vitalType, dispatch]);
 
   const generateVitalsPdf = async () => {
     const title = `Vitals`;
@@ -137,11 +125,7 @@ const VitalDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Vital-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vital-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
