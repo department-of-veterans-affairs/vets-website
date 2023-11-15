@@ -12,7 +12,6 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
  * @property {string} appointmentIen,
  * @property {Date} startTime,
  * @property {string} eligibility,
- * @property {string} facilityId,
  * @property {Date} checkInWindowStart,
  * @property {Date} checkInWindowEnd,
  * @property {string} checkedInTime,

@@ -44,8 +44,8 @@ describe('VAOS community care flow - Primary care', () => {
       },
     });
     mockAppointmentsApi({ response: [] });
-    mockAppointmentCreateApi();
-    mockFacilitiesApi({ apiVersion: 2 });
+    mockAppointmentCreateApi({ response: appt });
+    mockFacilitiesApi();
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -82,7 +82,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -132,7 +132,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -197,7 +197,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -251,7 +251,7 @@ describe('VAOS community care flow - Primary care', () => {
           .selectTypeOfFacility(/Community care facility/i)
           .clickNextButton();
 
-        DateTimeRequestPageObject.assertUrl()
+        DateTimeRequestPageObject.assertUrl({ isVARequest: false })
           .selectFirstAvailableDate()
           .clickNextButton();
 
@@ -318,7 +318,7 @@ describe('VAOS community care flow - Primary care', () => {
         .selectTypeOfFacility(/Community care facility/i)
         .clickNextButton();
 
-      DateTimeRequestPageObject.assertUrl()
+      DateTimeRequestPageObject.assertUrl({ isVARequest: false })
         .selectFirstAvailableDate()
         .clickNextButton();
 
@@ -374,7 +374,7 @@ describe('VAOS community care flow - Primary care', () => {
         .selectTypeOfFacility(/Community care facility/i)
         .clickNextButton();
 
-      DateTimeRequestPageObject.assertUrl()
+      DateTimeRequestPageObject.assertUrl({ isVARequest: false })
         .selectFirstAvailableDate()
         .clickNextButton();
 
@@ -385,7 +385,9 @@ describe('VAOS community care flow - Primary care', () => {
       CommunityCarePreferencesPageObject.assertUrl()
         .expandAccordian()
         .selectCurrentLocation()
-        .assertWarningAlert();
+        .assertWarningAlert({
+          text: /Your browser is blocked from finding your current location/i,
+        });
 
       // Assert
       cy.axeCheckBestPractice();
