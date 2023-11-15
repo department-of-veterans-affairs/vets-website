@@ -32,7 +32,7 @@ const responses = {
     myVaRemoveCernerMessage: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-    vaOnlineSchedulingStaticLandingPage: false,
+    vaOnlineSchedulingStaticLandingPage: true,
   }),
   'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
