@@ -1,7 +1,7 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import Form526EZApp from './Form526EZApp';
-import formConfig from './config/form';
+import { formConfigBase } from './config/form';
 import WizardContainer from './containers/WizardContainer';
 
 // 526 SubTask is incomplete - each nested page will need content and an h2,
@@ -19,7 +19,7 @@ const routes = [
     indexRoute: {
       onEnter: (nextState, replace) => replace('/introduction'),
     },
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
+    childRoutes: createRoutesWithSaveInProgress(formConfigBase),
   },
 ];
 

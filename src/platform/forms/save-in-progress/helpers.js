@@ -8,7 +8,9 @@ import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
 
-export function createRoutesWithSaveInProgress(formConfig) {
+// only formConfig properties used are:
+// urlPrefix, additionalRoutes, introduction, confirmation, chapters
+export function createRoutesWithSaveInProgress(formConfigBase) {
   const protectedRoutes = new Set([
     'introduction',
     'review-and-submit',
@@ -16,56 +18,54 @@ export function createRoutesWithSaveInProgress(formConfig) {
     '*',
   ]);
 
-  if (Array.isArray(formConfig.additionalRoutes)) {
-    formConfig.additionalRoutes.forEach(route => {
+  if (Array.isArray(formConfigBase.additionalRoutes)) {
+    formConfigBase.additionalRoutes.forEach(route => {
       protectedRoutes.add(route.path);
     });
   }
 
-  const formPages = createFormPageList(formConfig);
-  const pageList = createPageList(formConfig, formPages);
-  const newRoutes = createRoutes(formConfig);
-
+  const formPages = createFormPageList(formConfigBase);
+  const pageList = createPageList(formConfigBase, formPages);
+  const newRoutes = createRoutes(formConfigBase);
   newRoutes.forEach((route, index) => {
     let newRoute;
 
     // rewrite page component
     if (!protectedRoutes.has(route.path)) {
-      newRoute = Object.assign({}, route, {
+      newRoute = {
+        ...route,
         component: RoutedSavablePage,
-        formConfig,
-      });
+        formConfigBase,
+      };
       newRoutes[index] = newRoute;
     }
 
     // rewrite review page component
     if (route.path === 'review-and-submit') {
-      newRoute = Object.assign({}, route, {
-        component: RoutedSavableReviewPage,
-      });
+      newRoute = { ...route, component: RoutedSavableReviewPage };
       newRoutes[index] = newRoute;
     }
   });
 
-  if (!formConfig.disableSave) {
+  if (!formConfigBase.disableSave) {
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'form-saved',
-      component: formConfig.formSavedPage || FormSaved,
+      component: formConfigBase.formSavedPage || FormSaved,
       pageList,
-      formConfig,
+      formConfigBase,
     });
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'error',
       component: SaveInProgressErrorPage,
       pageList, // In case we need it for startOver?
-      formConfig,
+      formConfigBase,
     });
 
     newRoutes.splice(newRoutes.length - 1, 0, {
       path: 'resume',
       pageList,
-      formConfig,
+      formConfigBase,
     });
   }
 
