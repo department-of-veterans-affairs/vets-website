@@ -34,9 +34,7 @@ describe('Webchat.jsx Helpers', () => {
       recordEventStub: sandbox.stub(recordEventObject, 'default'),
     });
 
-    describe('when decision letter tracking is enabled', () => {
-      const decisionLetterEnabled = true;
-
+    describe('cardActionMiddleware', () => {
       it('should call recordEvent and next when card is a decision letter', () => {
         const decisionLetterCard = generateFakeCard(
           'https://www.va.gov/v0/claim_letters/abc',
@@ -49,9 +47,7 @@ describe('Webchat.jsx Helpers', () => {
           'button-click-label': 'Decision Letter',
           time: new Date(Date.now()),
         };
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-          decisionLetterCard,
-        );
+        cardActionMiddleware()(nextSpy)(decisionLetterCard);
 
         expect(recordEventStub.calledOnce).to.be.true;
         expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
@@ -66,9 +62,7 @@ describe('Webchat.jsx Helpers', () => {
           'random_thing_we_dont_use',
         );
         const { nextSpy, recordEventStub } = generateSinonFunctions();
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-          nonDecisionLetterCard,
-        );
+        cardActionMiddleware()(nextSpy)(nonDecisionLetterCard);
         expect(recordEventStub.notCalled).to.be.true;
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
@@ -79,7 +73,7 @@ describe('Webchat.jsx Helpers', () => {
           'notOpenUrl',
         );
         const { nextSpy, recordEventStub } = generateSinonFunctions();
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(notOpenUrl);
+        cardActionMiddleware()(nextSpy)(notOpenUrl);
         expect(recordEventStub.notCalled).to.be.true;
         expect(nextSpy.calledOnce).to.be.true;
         expect(nextSpy.firstCall.args[0]).to.eql(notOpenUrl);
@@ -88,9 +82,7 @@ describe('Webchat.jsx Helpers', () => {
         it('should not throw an error when cardAction.value is not a string', () => {
           const missingCardActionValue = generateFakeCard({}, 'notOpenUrl');
           const { nextSpy, recordEventStub } = generateSinonFunctions();
-          cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-            missingCardActionValue,
-          );
+          cardActionMiddleware()(nextSpy)(missingCardActionValue);
           expect(recordEventStub.notCalled).to.be.true;
           expect(nextSpy.calledOnce).to.be.true;
           expect(nextSpy.firstCall.args[0]).to.eql(missingCardActionValue);
@@ -98,29 +90,11 @@ describe('Webchat.jsx Helpers', () => {
         it('should not throw an error when cardAction is not present', () => {
           const missingCardActionObj = {};
           const { nextSpy, recordEventStub } = generateSinonFunctions();
-          cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-            missingCardActionObj,
-          );
+          cardActionMiddleware()(nextSpy)(missingCardActionObj);
           expect(recordEventStub.notCalled).to.be.true;
           expect(nextSpy.calledOnce).to.be.true;
           expect(nextSpy.firstCall.args[0]).to.eql(missingCardActionObj);
         });
-      });
-    });
-
-    describe('when decision letter tracking is disabled', () => {
-      it('should not call recordEvent', () => {
-        const decisionLetterEnabled = false;
-        const nonDecisionLetterCard = generateFakeCard(
-          'random_thing_we_dont_use',
-        );
-        const { nextSpy, recordEventStub } = generateSinonFunctions();
-        cardActionMiddleware(decisionLetterEnabled)()(nextSpy)(
-          nonDecisionLetterCard,
-        );
-        expect(recordEventStub.notCalled).to.be.true;
-        expect(nextSpy.calledOnce).to.be.true;
-        expect(nextSpy.firstCall.args[0]).to.eql(nonDecisionLetterCard);
       });
     });
   });

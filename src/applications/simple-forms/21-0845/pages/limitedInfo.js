@@ -1,10 +1,11 @@
+import { isEmpty } from 'lodash';
+
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
-import { objHasEmptyValues } from '../utils';
 
 /** @type {PageSchema} */
 
@@ -35,9 +36,15 @@ export default {
     },
     'ui:validations': [
       (errors, fields) => {
+        const { limitedInformationItems, limitedInformationOther } = fields;
+
         if (
-          objHasEmptyValues(fields.limitedInformationItems) &&
-          typeof fields.limitedInformationOther === 'undefined'
+          (typeof limitedInformationItems === 'undefined' ||
+            isEmpty(limitedInformationItems) ||
+            Object.values(limitedInformationItems).every(
+              val => val === false || val === undefined,
+            )) &&
+          typeof limitedInformationOther === 'undefined'
         ) {
           errors.limitedInformationItems.addError(
             'Please select at least one type of information here, or specify something else below',
