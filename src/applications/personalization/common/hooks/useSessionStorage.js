@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react';
 
-export const useSessionStorage = key => {
-  if (!key) throw new Error('useSessionStorage requires a key parameter');
+export const useSessionStorage = (
+  storageKey,
+  sessionStorage = window.sessionStorage,
+) => {
+  if (!storageKey)
+    throw new Error('useSessionStorage requires a key parameter');
 
-  const [sessionStorageValue, setSessionStorageValue] = useState('');
+  // use whatever existing value is in sessionStorage or initialize to empty string
+  const [sessionStorageValue, setSessionStorageValue] = useState(() => {
+    const storedValue = sessionStorage.getItem(storageKey);
+    return storedValue ?? '';
+  });
 
+  // update sessionStorage when sessionStorageValue changes
   useEffect(
     () => {
-      const storedValue = sessionStorage.getItem(key);
-      if (storedValue) {
-        setSessionStorageValue(storedValue);
+      const currentValue = sessionStorage.getItem(storageKey);
+      if (sessionStorageValue !== currentValue) {
+        sessionStorage.setItem(storageKey, sessionStorageValue);
       }
     },
-    [key],
-  );
-
-  useEffect(
-    () => {
-      sessionStorage.setItem(key, sessionStorageValue);
-    },
-    [key, sessionStorageValue],
+    [storageKey, sessionStorageValue, sessionStorage],
   );
 
   return [sessionStorageValue, setSessionStorageValue];
