@@ -169,7 +169,7 @@ describe('526EZ keyboard only navigation', () => {
 
       // I. Veteran Details > B. Contact Information
       // ===========================================
-      // cy.url().should('include', veteranDetailsPages.contactInformation.path);
+      cy.url().should('include', veteranDetailsPages.contactInformation.path);
       // cy.injectAxeThenAxeCheck();
 
       // 1. Can update existing info
