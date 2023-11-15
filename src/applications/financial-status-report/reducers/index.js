@@ -1,5 +1,5 @@
-import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import vapService from '@@vap-svc/reducers';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/save-in-progress/reducers';
 
 import formConfig from '../config/form';
 import {
@@ -8,9 +8,6 @@ import {
   FSR_RESET_ERRORS,
   DEBTS_FETCH_SUCCESS,
   DEBTS_FETCH_FAILURE,
-  GMT_FETCH_INITIATED,
-  GMT_FETCH_SUCCESS,
-  GMT_FETCH_FAILURE,
 } from '../constants/actionTypes';
 import {
   MCP_STATEMENTS_FETCH_INIT,
@@ -23,9 +20,6 @@ const initialState = {
   errorCode: {},
   pending: true,
   pendingCopays: true,
-  gmtData: null,
-  gmtLoading: false,
-  gmtError: null,
   debts: [],
   statements: [],
 };
@@ -78,24 +72,6 @@ const fsrApi = (state = initialState, action) => {
         statements: action.statements,
         pendingCopays: false,
         copayError: action.copayError,
-      };
-    case GMT_FETCH_INITIATED:
-      return {
-        ...state,
-        gmtLoading: true,
-        gmtError: null,
-      };
-    case GMT_FETCH_SUCCESS:
-      return {
-        ...state,
-        gmtData: action.payload,
-        gmtLoading: false,
-      };
-    case GMT_FETCH_FAILURE:
-      return {
-        ...state,
-        gmtError: action.error,
-        gmtLoading: false,
       };
     default:
       return state;

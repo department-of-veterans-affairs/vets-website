@@ -1,12 +1,15 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import environment from 'platform/utilities/environment';
 import { DEBT_TYPES } from '../constants';
+import copays from '../tests/e2e/fixtures/mocks/copays.json';
 
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
 export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
-
+export const useMockData = false;
+export const detectLocalhost = environment.isLocalhost();
 const titleCase = str => {
   return str
     .toLowerCase()
@@ -33,8 +36,25 @@ const transformStatementData = data => {
   });
 };
 
+const getStatementsMock = async dispatch => {
+  if (!useMockData) return;
+  dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  const { data } = copays;
+  dispatch({
+    type: MCP_STATEMENTS_FETCH_SUCCESS,
+    statements: transformStatementData(data),
+  });
+};
+
 export const getStatements = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
+
+  if (useMockData && detectLocalhost) {
+    return getStatementsMock(dispatch);
+  }
+
   return apiRequest('/medical_copays')
     .then(({ data }) => {
       return dispatch({

@@ -6,16 +6,20 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import {
-  GMT_FETCH_INITIATED,
-  GMT_FETCH_SUCCESS,
-  GMT_FETCH_FAILURE,
-} from '../constants/actionTypes';
 
 // Constants used for calculating thresholds
 const INCOME_UPPER_PERCENTAGE = 1.5;
 const ASSET_PERCENTAGE = 0.065;
 const DISCRETIONARY_INCOME_PERCENTAGE = 0.0125;
+
+// Manually toggle this to true for using mock data in local environment
+const DETECT_LOCALHOST = environment.isLocalhost();
+// Manually set to true to use mock data in a local environment. Ensure this is false in commits.
+const USE_MOCK_DATA = false;
+// Manually set to true to use staging data in a local environment. Ensure this is false in commits.
+const USE_STAGING_DATA = false;
+// Mock GMT value for testing
+const MOCK_GMT_VALUE = 78300; // change value to test different scenarios
 
 /**
  * Helper calculates and returns the income upper threshold, asset threshold, and discretionary income threshold
@@ -37,30 +41,21 @@ const calculateThresholds = gmtValue => ({
  * @param {number} dependents - The number of dependents.
  * @param {number} year - The year for which data is being requested.
  * @param {string} zipCode - The ZIP code for which data is being requested.
- * @param {Object} config - Configuration object for testing purposes.
  * @returns {Promise<Object>} A promise resolving to the GMT thresholds data.
  */
-export const getGMT = (dependents, year, zipCode, config = {}) => dispatch => {
-  const {
-    detectLocalhost = environment.isLocalhost(),
-    useMockData = false,
-    useStagingData = false,
-    mockGmtValue = 76750, // Default mock value
-  } = config;
 
-  dispatch({ type: GMT_FETCH_INITIATED });
-
+export const getGMT = (dependents, year, zipCode) => {
   let requestUrl;
 
-  if (detectLocalhost && useMockData) {
-    const thresholds = calculateThresholds(mockGmtValue);
+  if (DETECT_LOCALHOST && USE_MOCK_DATA) {
+    const thresholds = calculateThresholds(MOCK_GMT_VALUE);
     return Promise.resolve({
-      gmtThreshold: mockGmtValue,
+      gmtThreshold: MOCK_GMT_VALUE,
       error: null,
       ...thresholds,
     });
   }
-  if (detectLocalhost && useStagingData) {
+  if (DETECT_LOCALHOST && USE_STAGING_DATA && !USE_MOCK_DATA) {
     requestUrl = `https://staging-api.va.gov/income_limits/v1/limitsByZipCode/${zipCode}/${year}/${dependents}`;
   } else {
     requestUrl = `${
@@ -73,22 +68,17 @@ export const getGMT = (dependents, year, zipCode, config = {}) => dispatch => {
       if (typeof data.gmtThreshold !== 'number') {
         throw new Error('GMT threshold is not a number');
       }
-
-      const result = {
+      return {
         ...data,
         ...calculateThresholds(data.gmtThreshold),
         error: null,
       };
-
-      dispatch({ type: GMT_FETCH_SUCCESS, payload: result });
-      return result;
     })
     .catch(error => {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         Sentry.captureMessage(`income_limits failed: ${error}`);
       });
-      dispatch({ type: GMT_FETCH_FAILURE, error });
       return { gmtThreshold: null, error };
     });
 };
