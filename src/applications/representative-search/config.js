@@ -26,9 +26,10 @@ export const sortOptions = {
 };
 
 const railsEngineApi = {
-  baseUrl: `${environment.API_URL}/facilities_api/v1`,
-  url: `${environment.API_URL}/facilities_api/v1/va`,
-  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  baseUrl: `${
+    environment.API_URL
+  }/services/veteran/v0/accredited_representatives`,
+  url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
 
