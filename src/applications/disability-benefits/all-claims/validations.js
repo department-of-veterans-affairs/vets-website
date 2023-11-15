@@ -16,7 +16,6 @@ import {
 import {
   MILITARY_CITIES,
   MILITARY_STATE_VALUES,
-  // LOWERED_DISABILITY_DESCRIPTIONS,
   getLoweredDisabilityDescriptions,
   NULL_CONDITION_STRING,
   RESERVE_GUARD_TYPES,
@@ -422,8 +421,6 @@ export const validateDisabilityName = (
   // disability names. We could've done this with `updateSchema` but this seems
   // lighter-touch.
   if (
-    // !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
-    // fieldData.length > 255
     !getLoweredDisabilityDescriptions(
       appStateData.isRevisedDisabilityList,
     ).includes(fieldData.toLowerCase()) &&

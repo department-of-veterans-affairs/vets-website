@@ -224,10 +224,6 @@ export const ATTACHMENT_KEYS = [
   'secondaryUploadSources2',
 ];
 
-// fix this
-// export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
-//   getDisabilityLabels(),
-// ).map(v => v.toLowerCase());
 export const getLoweredDisabilityDescriptions = isRevisedDisabilityList => {
   return Object.values(getDisabilityLabels(isRevisedDisabilityList)).map(v =>
     v.toLowerCase(),
