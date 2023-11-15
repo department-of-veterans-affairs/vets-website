@@ -101,7 +101,7 @@ const MILITARY_BASE_ZIP_REGEX = {
 };
 
 export const DOMESTIC_BASE_ERROR =
-  'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
+  'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base.” If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
 export const INVALID_ZIP_ERROR =
   'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.';
 

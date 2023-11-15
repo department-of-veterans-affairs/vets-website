@@ -582,7 +582,7 @@ describe('Veteran address', () => {
         )
         .text(),
     ).to.include(
-      'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.',
+      'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base.” If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();
