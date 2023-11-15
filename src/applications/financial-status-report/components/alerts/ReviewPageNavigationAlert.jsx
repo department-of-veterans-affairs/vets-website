@@ -19,14 +19,19 @@ const ReviewPageNavigationAlert = ({ data, title }) => {
     <va-alert
       aria-labelledby="alertHeader"
       aria-live="polite"
-      background-only
-      class="vads-u-margin-y--1 vads-u-margin-bottom--2"
+      class="vads-u-margin-y--2"
       data-testid="review-page-navigation-alert"
       role="alertdialog"
       status="info"
       uswds
     >
-      <h4 id="alertHeader">Editing {title}</h4>
+      <h4
+        id="alertHeader"
+        slot="headline"
+        className="vads-u-margin-top--0p5 vads-u-font-size--h4"
+      >
+        Editing {title}
+      </h4>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         You are currently editing the {title} section. Complete the entire
         sectionto return to the review page.
