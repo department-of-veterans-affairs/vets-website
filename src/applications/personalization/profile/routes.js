@@ -2,7 +2,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import { Edit } from './components/edit/Edit';
 import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
-import { VeteranStatus } from './components/veteran-status/Status';
+import VeteranStatus from './components/veteran-status/Status';
 
 // conditionally add the edit route based on feature toggle
 // conditionally add the profile hub route based on feature toggle
