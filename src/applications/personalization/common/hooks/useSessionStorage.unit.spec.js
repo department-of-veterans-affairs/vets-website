@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, act } from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import PropTypes from 'prop-types';
 
@@ -46,7 +46,7 @@ describe('useSessionStorage', () => {
     expect(getByTestId('value').textContent).to.equal('storedValue');
   });
 
-  it('sets a new value in sessionStorage', () => {
+  it('sets a new value in sessionStorage', async () => {
     const setItemMock = sinon.spy();
     const mockSessionStorage = {
       getItem: () => '',
@@ -60,9 +60,13 @@ describe('useSessionStorage', () => {
       />,
     );
     act(() => {
-      getByTestId('change-button').click();
+      fireEvent.click(getByTestId('change-button'));
     });
-    expect(setItemMock.calledWith(testKey, 'newValue')).to.be.true;
+
+    await waitFor(() => {
+      expect(setItemMock.calledWith(testKey, 'newValue')).to.be.true;
+      expect(getByTestId('value').textContent).to.equal('newValue');
+    });
   });
 
   // ... additional tests ...
