@@ -1,8 +1,10 @@
 import PageObject from './PageObject';
 
 export class DateTimeRequestPageObject extends PageObject {
-  assertUrl() {
-    cy.url().should('include', '/community-request');
+  assertUrl({ isVARequest = true } = {}) {
+    if (isVARequest) cy.url().should('include', '/va-request');
+    else cy.url().should('include', '/community-request');
+
     cy.axeCheckBestPractice();
 
     return this;
