@@ -61,6 +61,7 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
+            authExpVbaDowntimeMessage: true,
             profileContacts: true,
             profileLighthouseDirectDeposit: true,
             profileUseFieldEditingPage: true,
@@ -146,12 +147,15 @@ const responses = {
     return res.status(200).json(paymentInformation.updates.success);
   },
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    // return res.status(500).json(genericErrors.error500);
+
     // Lighthouse based API endpoint for direct deposit CNP
     // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
     return res.json(disabilityComps.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res.status(200).json(disabilityComps.updates.success);
+    return res.status(500).json(genericErrors.error500);
+    // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
