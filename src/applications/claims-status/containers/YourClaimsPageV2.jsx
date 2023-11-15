@@ -280,7 +280,7 @@ class YourClaimsPageV2 extends React.Component {
         content = <NoClaims />;
       }
 
-      content = <div className="va-tab-content">{content}</div>;
+      content = <div className="tab-content">{content}</div>;
     }
 
     return (
