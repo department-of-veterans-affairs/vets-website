@@ -29,6 +29,7 @@ import {
 } from '../util/pdfConfigs';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
@@ -66,6 +67,7 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
+      updatePageTitle('Medications | Veterans Affairs');
       const newUrl = `/my-health/medications/${currentPage}`;
       window.history.pushState(null, '', newUrl);
     },

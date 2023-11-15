@@ -7,6 +7,7 @@ import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { medicationsUrls } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const LandingPage = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      updatePageTitle('About medications | Veterans Affairs');
       if (location.pathname.includes('/accordion-renew-rx')) {
         focusAndOpenAccordionRxRenew();
       }
