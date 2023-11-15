@@ -321,7 +321,22 @@ export const formConfigBase = {
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
         },
-        addDisabilities: null, // this part of form requires feature flag, see getAddDisabilitiesConfig()
+        addDisabilities: {
+          title: 'Add a new disability',
+          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          uiSchema: null, // requires feature flag, see getFormConfig() below
+          schema: addDisabilities.schema,
+          updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            newDisabilities: state.form?.data?.newDisabilities || [],
+            isRevisedDisabilityList: state.form?.data?.isRevisedDisabilityList,
+          }),
+        },
         followUpDesc: {
           title: 'Follow-up questions',
           depends: formData => claimingNew(formData) && !isBDD(formData),
@@ -332,7 +347,20 @@ export const formConfigBase = {
           },
           schema: { type: 'object', properties: {} },
         },
-        newDisabilityFollowUp: null, // this part of form requires feature flag, see getNewDisabilityFollowUp()
+        newDisabilityFollowUp: {
+          title: formData =>
+            typeof formData.condition === 'string'
+              ? capitalizeEachWord(formData.condition)
+              : NULL_CONDITION_STRING,
+          depends: claimingNew,
+          path: 'new-disabilities/follow-up/:index',
+          showPagePerItem: true,
+          itemFilter: item => !isDisabilityPtsd(item.condition),
+          arrayPath: 'newDisabilities',
+          uiSchema: null, // this part of form requires feature flag, see getFormConfig() below
+          schema: newDisabilityFollowUp.schema,
+        },
+
         // Consecutive `showPagePerItem` pages that have the same arrayPath
         // will force each item in the array to be evaluated by both pages
         // before the next item is evaluated (e.g., if PTSD was entered first,
@@ -714,47 +742,53 @@ export const formConfigBase = {
   },
 };
 
-const getAddDisabilitiesConfig = disabilityLabels => {
-  return {
-    title: 'Add a new disability',
-    path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-    depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
-    uiSchema: addDisabilities.getUiSchema(disabilityLabels),
-    schema: addDisabilities.schema,
-    updateFormData: addDisabilities.updateFormData,
-    appStateSelector: state => ({
-      // needed for validateDisabilityName to work properly on the review
-      // & submit page. Validation functions are provided the pageData and
-      // not the formData on the review & submit page. For more details
-      // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-      newDisabilities: state.form?.data?.newDisabilities || [],
-      isRevisedDisabilityList: state.form?.data?.isRevisedDisabilityList,
-    }),
-  };
-};
+// const getAddDisabilitiesConfig = disabilityLabels => {
+//   return {
+//     title: 'Add a new disability',
+//     path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+//     depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+//     uiSchema: addDisabilities.getUiSchema(disabilityLabels),
+//     schema: addDisabilities.schema,
+//     updateFormData: addDisabilities.updateFormData,
+//     appStateSelector: state => ({
+//       // needed for validateDisabilityName to work properly on the review
+//       // & submit page. Validation functions are provided the pageData and
+//       // not the formData on the review & submit page. For more details
+//       // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+//       newDisabilities: state.form?.data?.newDisabilities || [],
+//       isRevisedDisabilityList: state.form?.data?.isRevisedDisabilityList,
+//     }),
+//   };
+// };
 
-const getNewDisabilityFollowUp = disabilityLabels => {
-  return {
-    title: formData =>
-      typeof formData.condition === 'string'
-        ? capitalizeEachWord(formData.condition)
-        : NULL_CONDITION_STRING,
-    depends: claimingNew,
-    path: 'new-disabilities/follow-up/:index',
-    showPagePerItem: true,
-    itemFilter: item => !isDisabilityPtsd(item.condition),
-    arrayPath: 'newDisabilities',
-    uiSchema: newDisabilityFollowUp.getUiSchema(disabilityLabels),
-    schema: newDisabilityFollowUp.schema,
-  };
-};
+// const getNewDisabilityFollowUp = disabilityLabels => {
+//   return {
+//     title: formData =>
+//       typeof formData.condition === 'string'
+//         ? capitalizeEachWord(formData.condition)
+//         : NULL_CONDITION_STRING,
+//     depends: claimingNew,
+//     path: 'new-disabilities/follow-up/:index',
+//     showPagePerItem: true,
+//     itemFilter: item => !isDisabilityPtsd(item.condition),
+//     arrayPath: 'newDisabilities',
+//     uiSchema: newDisabilityFollowUp.getUiSchema(disabilityLabels),
+//     schema: newDisabilityFollowUp.schema,
+//   };
+// };
 
 export const getFormConfig = disabilityLabels => {
   const formConfig = formConfigBase;
-  formConfig.chapters.disabilities.pages.addDisabilities = getAddDisabilitiesConfig(
+  // formConfig.chapters.disabilities.pages.addDisabilities = getAddDisabilitiesConfig(
+  //   disabilityLabels,
+  // );
+  formConfig.chapters.disabilities.pages.addDisabilities.uiSchema = addDisabilities.getUiSchema(
     disabilityLabels,
   );
-  formConfig.chapters.disabilities.pages.newDisabilityFollowUp = getNewDisabilityFollowUp(
+  // formConfig.chapters.disabilities.pages.newDisabilityFollowUp = getNewDisabilityFollowUp(
+  //   disabilityLabels,
+  // );
+  formConfig.chapters.disabilities.pages.addDisabilities.uiSchema = newDisabilityFollowUp.getUiSchema(
     disabilityLabels,
   );
 
