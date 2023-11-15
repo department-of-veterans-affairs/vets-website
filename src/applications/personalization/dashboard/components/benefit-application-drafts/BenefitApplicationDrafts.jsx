@@ -54,7 +54,7 @@ const AllBenefits = () => (
   </div>
 );
 
-const SavedApplications = ({
+const BenefitApplicationDrafts = ({
   getESREnrollmentStatus,
   isLOA1,
   shouldGetESRStatus,
@@ -96,7 +96,7 @@ const mapStateToProps = state => {
   };
 };
 
-SavedApplications.propTypes = {
+BenefitApplicationDrafts.propTypes = {
   getESREnrollmentStatus: PropTypes.func,
   isLOA1: PropTypes.bool,
   shouldGetESRStatus: PropTypes.bool,
@@ -110,4 +110,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SavedApplications);
+)(BenefitApplicationDrafts);
