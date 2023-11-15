@@ -70,12 +70,40 @@ class IntroductionPage extends React.Component {
                 the end of this pension benefits form that must be completed by
                 an administrator or licensed medical professional
               </li>
-              <li>Claim for Special Monthly Pension (VA Form 21-2680)</li>
+              <li>
+                Claim for Special Monthly Pension (
+                <a
+                  href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  VA Form 21-2680
+                </a>
+                )
+              </li>
               <li>
                 Claim for Medicare Nursing Home and/por $90.00 Rate Reduction
-                Request (VA Form 21-0779)
+                Request (
+                <a
+                  href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  VA Form 21-0779
+                </a>
+                )
               </li>
-              <li>Claim for Fiduciary Assistance (VA Form 21-2680)</li>
+              <li>
+                Claim for Fiduciary Assistance (
+                <a
+                  href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  VA Form 21-2680
+                </a>
+                )
+              </li>
             </ul>
           </li>
           <li>
