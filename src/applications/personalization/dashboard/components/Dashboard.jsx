@@ -283,7 +283,7 @@ const Dashboard = ({
                           cost-of-living increase for VA benefits. If you have
                           trouble using this tool, check back after{' '}
                           <strong>Sunday, November 19, 2023</strong>, at{' '}
-                          <strong>11:59 p.m. ET</strong>.
+                          <strong>7:00 p.m. ET</strong>.
                         </p>
                       </div>
                     </VaAlert>
