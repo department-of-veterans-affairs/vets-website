@@ -164,11 +164,12 @@ const PersonalInformation = () => {
             onCloseEvent={handleDismiss}
             visible={dismissed !== 'true'}
           >
-            <h2 slot="headline" className="vads-u-font-size--h3">
-              This is an informational alert using the dismissible property
-            </h2>
-            <p className="vads-u-font-size--base">
-              This is the content for the alert.
+            <h2 slot="headline">We’re updating our systems right now</h2>
+            <p>
+              We’re updating our systems to add the 2024 cost-of-living increase
+              for VA benefits. If you have trouble using this tool, check back
+              after <strong>Sunday, November 19, 2023</strong>, at{' '}
+              <strong>11:59 p.m. ET</strong>.
             </p>
           </VaAlert>
         )}
