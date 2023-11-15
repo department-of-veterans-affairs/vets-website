@@ -45,8 +45,6 @@ import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
 import preparerPhoneUI from '../components/PreparerPhone';
 import { validateSponsorDeathDate } from '../validation';
-import submitForm from './submitForm';
-
 import manifest from '../manifest.json';
 
 import {
@@ -168,7 +166,6 @@ const formConfig = {
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
   preSubmitInfo,
-  submit: submitForm,
   footerContent: ({ currentLocation }) => (
     <Footer formConfig={formConfig} currentLocation={currentLocation} />
   ),
