@@ -8,21 +8,22 @@ export const SearchResultsHeader = props => {
   const {
     searchResults,
     representativeType,
-    userLocation,
-    // context,
-    // inProgress,
+    // userLocation,
+    context,
+    inProgress,
     pagination,
   } = props;
   const noResultsFound = !searchResults || !searchResults.length;
 
-  //   if (inProgress || !context) {
-  //     return <div style={{ height: '38px' }} />;
-  //   }
+  if (inProgress || !context) {
+    return <div style={{ height: '38px' }} />;
+  }
 
-  // const location = context ? context.replace(', United States', '') : null;
+  const location = context ? context.replace(', United States', '') : null;
+
+  const { totalEntries, currentPage, totalPages } = pagination;
 
   const handleNumberOfResults = () => {
-    const { totalEntries, currentPage, totalPages } = pagination;
     if (noResultsFound) {
       return 'No results found';
     }
@@ -55,10 +56,10 @@ export const SearchResultsHeader = props => {
         {handleNumberOfResults()} for &quot;
         <b>{representativeType}</b>
         &quot;
-        {userLocation && (
+        {location && (
           <>
             &nbsp;within 50 miles of &quot;
-            <b>{userLocation}</b>
+            <b>{location}</b>
             &quot;
           </>
         )}
