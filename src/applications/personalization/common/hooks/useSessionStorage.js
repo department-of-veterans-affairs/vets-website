@@ -5,7 +5,9 @@ export const useSessionStorage = (
   sessionStorage = window.sessionStorage,
 ) => {
   if (!storageKey)
-    throw new Error('useSessionStorage requires a key parameter');
+    throw new Error(
+      'useSessionStorage requires a storageKey parameter as the first argument',
+    );
 
   // use whatever existing value is in sessionStorage or initialize to empty string
   const [sessionStorageValue, setSessionStorageValue] = useState(() => {

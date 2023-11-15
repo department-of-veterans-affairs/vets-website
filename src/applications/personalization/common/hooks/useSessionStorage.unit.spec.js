@@ -8,19 +8,23 @@ import { useSessionStorage } from './useSessionStorage';
 
 // Create a test component that utilizes useSessionStorage
 function TestComponent({ storageKey, mockSessionStorage }) {
-  const [value, setValue] = useSessionStorage(storageKey, mockSessionStorage);
-  return (
-    <div>
-      <span data-testid="value">{value}</span>
-      <button
-        type="button"
-        onClick={() => setValue('newValue')}
-        data-testid="change-button"
-      >
-        Change Value
-      </button>
-    </div>
-  );
+  try {
+    const [value, setValue] = useSessionStorage(storageKey, mockSessionStorage);
+    return (
+      <div>
+        <span data-testid="value">{value}</span>
+        <button
+          type="button"
+          onClick={() => setValue('newValue')}
+          data-testid="change-button"
+        >
+          Change Value
+        </button>
+      </div>
+    );
+  } catch (error) {
+    return <p>{error.message}</p>;
+  }
 }
 
 TestComponent.propTypes = {
@@ -69,5 +73,23 @@ describe('useSessionStorage', () => {
     });
   });
 
-  // ... additional tests ...
+  it('throws an error if no key is provided', () => {
+    const mockSessionStorage = {
+      getItem: sinon.spy(),
+      setItem: sinon.spy(),
+    };
+
+    const view = render(
+      <TestComponent
+        storageKey={null}
+        mockSessionStorage={mockSessionStorage}
+      />,
+    );
+
+    expect(
+      view.getByText(
+        'useSessionStorage requires a storageKey parameter as the first argument',
+      ),
+    ).to.exist;
+  });
 });
