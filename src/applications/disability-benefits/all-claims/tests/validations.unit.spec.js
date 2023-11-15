@@ -377,16 +377,29 @@ describe('526 All Claims validations', () => {
       validateDisabilityName(err);
       expect(err.addError.calledOnce).to.be.true;
     });
-    it('should not add error when disability is in list', () => {
+    it('should not add error when disability is in list - disability labels ff ON', () => {
       const err = { addError: sinon.spy() };
-      validateDisabilityName(err, getDisabilityLabels()[7100]);
+      validateDisabilityName(err, getDisabilityLabels(true)[7100]);
       expect(err.addError.called).to.be.false;
     });
-    it('should not add error when disability is in list but capitalization is different', () => {
+    it('should not add error when disability is in list - disability labels ff OFF', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, getDisabilityLabels(false)[7100]);
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability is in list but capitalization is different - disability labels ff ON', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(
         err,
-        capitalizeEachWord(getDisabilityLabels()[7100]),
+        capitalizeEachWord(getDisabilityLabels(false)[7100]),
+      );
+      expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability is in list but capitalization is different - disability labels ff OFF', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(
+        err,
+        capitalizeEachWord(getDisabilityLabels(true)[7100]),
       );
       expect(err.addError.called).to.be.false;
     });
