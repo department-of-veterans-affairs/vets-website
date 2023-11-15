@@ -399,7 +399,7 @@ describe('Report 674 student address and marriage information', () => {
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'For APO addresses, check the "They live outside of the United States on a U.S. military base" checkbox. If you live on a military base in the U.S., enter your city.',
+      'For APO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();

@@ -62,9 +62,9 @@ const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
     <va-additional-info trigger="Learn more about military base addresses">
       <span>
-        We consider U.S. military bases to be domestic addresses that are part
-        of the United States. When you check this checkbox, we automatically
-        choose the U.S. as the country.
+        Addresses on U.S. military bases are considered domestic addresses, even
+        when the military base is in another country. When you check this box,
+        we automatically choose the United States as the country.
       </span>
     </va-additional-info>
   </div>
@@ -101,9 +101,9 @@ const MILITARY_BASE_ZIP_REGEX = {
 };
 
 export const DOMESTIC_BASE_ERROR =
-  'This postal code is within the U.S. If your mailing address is in the U.S., uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
+  'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base”. If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
 export const INVALID_ZIP_ERROR =
-  'Because your address is outside the United States on a military base, please provide an APO/FPO/DPO postal code.';
+  'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.';
 
 export const validateZipCode = (zipCode, stateCode, errors) => {
   if (
@@ -367,7 +367,7 @@ export const addressUISchema = (
               // `src/platform/forms-system/src/js/validation.js` (`defaultMessages.enum`). There are no reasonable workarounds that I am
               // aware of.
               errors.addError(
-                `For ${city} addresses, check the "${checkBoxTitleState} live outside of the United States on a U.S. military base" checkbox. If you live on a military base in the U.S., enter your city.`,
+                `For ${city} addresses, check the "${checkBoxTitleState} receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.`,
               );
             }
           },
