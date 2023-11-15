@@ -173,7 +173,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.injectAxeThenAxeCheck();
 
       // 1. Can update existing info
-      // idRoot = '#root_phoneAndEmail_';
+      idRoot = '#root_phoneAndEmail_';
       // cy.tabToElement('.edit-button');
       // cy.realPress('Space');
       // // NOTE: Cypress quirk requires you to clear current input before typing
