@@ -129,7 +129,7 @@ describe('526EZ keyboard only navigation', () => {
 
   it('navigate through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
-      const idRoot = '';
+      let idRoot = '';
       const { chapters } = formConfig;
       const veteranDetailsPages = chapters.veteranDetails.pages;
       const disabilitiesPages = chapters.disabilities.pages;
