@@ -139,7 +139,7 @@ const MicroDetails = props => {
     Results \n
     \t${record.results}`;
 
-    generateTextFile(content, 'Micro');
+    generateTextFile(content, 'Microbiology');
   };
 
   return (
