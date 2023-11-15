@@ -46,7 +46,7 @@ const PrescriptionDetails = () => {
           [
             {
               url: '/my-health/about-medications',
-              label: 'About Medications',
+              label: 'About medications',
             },
             {
               url: '/my-health/medications/',
