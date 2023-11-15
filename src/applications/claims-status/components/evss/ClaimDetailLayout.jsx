@@ -99,7 +99,7 @@ export default function ClaimDetailLayout(props) {
       <div className="claim-container">
         <TabNav id={props.claim.id} />
         {tabs.map(tab => (
-          <div key={tab} id={`tabPanel${tab}`} aria-labelledby={`tab${tab}`}>
+          <div key={tab} id={`tabPanel${tab}`}>
             {currentTab === tab && (
               <div className="tab-content claim-tab-content">
                 {isPopulatedClaim(claim || {}) ||
