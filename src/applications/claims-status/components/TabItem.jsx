@@ -1,5 +1,6 @@
 import React from 'react';
 import { IndexLink, withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 class TabItem extends React.Component {
   componentDidMount() {
@@ -20,27 +21,33 @@ class TabItem extends React.Component {
   };
 
   render() {
-    const { className, id, tabpath, title } = this.props;
+    const { id, tabpath, title } = this.props;
     const activeTab = this.trimCurrentUrl();
+
     return (
-      <li className={className} role="presentation">
+      <li>
         <IndexLink
           id={`tab${id || title}`}
-          aria-controls={
-            activeTab === tabpath ? `tabPanel${id || title}` : null
-          }
-          aria-selected={activeTab === tabpath}
-          role="tab"
-          className="va-tab-trigger"
-          activeClassName="va-tab-trigger--current"
+          aria-current={activeTab === tabpath ? 'page' : null}
+          activeClassName="tab--current"
+          className="tab"
           to={tabpath}
         >
-          {title}
+          <span>{title}</span>
         </IndexLink>
       </li>
     );
   }
 }
+
+TabItem.propTypes = {
+  tabpath: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  location: PropTypes.object,
+  router: PropTypes.object,
+  shortcut: PropTypes.number,
+  title: PropTypes.string,
+};
 
 export default withRouter(TabItem);
 
