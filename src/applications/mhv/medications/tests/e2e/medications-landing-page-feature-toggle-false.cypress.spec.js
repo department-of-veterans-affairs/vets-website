@@ -1,6 +1,6 @@
 import MedicationsSite from './med_site/MedicationsSite';
 
-describe.skip('Medications Landing Page', () => {
+describe('Medications Landing Page', () => {
   it('visits Medications landing Page', () => {
     const site = new MedicationsSite();
     site.login(true, false);

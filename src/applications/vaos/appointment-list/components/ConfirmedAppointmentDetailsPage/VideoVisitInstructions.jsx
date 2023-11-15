@@ -81,3 +81,6 @@ export function VideoVisitInstructions({ instructionsType }) {
 VideoVisitInstructions.propTypes = {
   instructionsType: PropTypes.string,
 };
+VideoVisitInstructions.defaultProps = {
+  instructionsType: '',
+};

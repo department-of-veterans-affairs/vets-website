@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -14,10 +14,12 @@ import {
   getDataToSet,
   getSearchAction,
   getSearchIndex,
+  getDefaultState,
 } from '../../utils/helpers/listloop-pattern';
 import { replaceStrValues } from '../../utils/helpers/general';
 import policyInformation from '../../config/chapters/insuranceInformation/policyInformation';
 import content from '../../locales/en/content.json';
+import SaveInProgressWarning from '../FormAlerts/SaveInProgressWarning';
 
 // declare shared route & schema attrs from the form
 const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
@@ -25,43 +27,28 @@ const { uiSchema, schema } = policyInformation;
 
 // declare default component
 const InsurancePolicyInformation = props => {
-  const {
-    data,
-    goToPath,
-    setFormData,
-    contentBeforeButtons,
-    contentAfterButtons,
-  } = props;
+  const { data, goToPath, setFormData } = props;
 
   const { providers = [] } = data;
   const search = new URLSearchParams(window.location.search);
   const searchIndex = getSearchIndex(search, providers);
   const searchAction = getSearchAction(search, INSURANCE_PATHS.summary);
+  const defaultState = getDefaultState({
+    defaultData: { data: {} },
+    dataToSearch: providers,
+    name: SESSION_ITEMS.insurance,
+    searchAction,
+    searchIndex,
+  });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const listRef = useMemo(() => providers, []);
-
-  // determine which dataset to start with based on the index
-  const defaultData = () => {
-    let resultToReturn = {};
-
-    // check if data exists at the array index and set return result accordingly
-    if (typeof providers[searchIndex] !== 'undefined') {
-      resultToReturn = providers[searchIndex];
-
-      if (searchAction.mode !== 'add') {
-        window.sessionStorage.setItem(SESSION_ITEMS.insurance, searchIndex);
-      }
-    }
-
-    return resultToReturn;
-  };
 
   /**
    * declare default state/ref variables
    *  - localData - the object that will hold the dependent form data
    *  - modal - the settings to trigger cancel confirmation show/hide
    */
-  const [localData, setLocalData] = useState(defaultData());
+  const [localData, setLocalData] = useState(defaultState.data);
   const [modal, showModal] = useState(false);
 
   /**
@@ -78,7 +65,7 @@ const InsurancePolicyInformation = props => {
       showModal(false);
       document
         .getElementById('ezr-modal-cancel')
-        .shadowRoot.children[0].focus();
+        .shadowRoot?.children[0]?.focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -91,11 +78,17 @@ const InsurancePolicyInformation = props => {
       handlers.showConfirm();
     },
     onSubmit: () => {
-      setFormData({
-        ...data,
-        [INSURANCE_VIEW_FIELDS.add]: null,
-        [INSURANCE_VIEW_FIELDS.skip]: true,
+      const dataToSet = getDataToSet({
+        slices: {
+          beforeIndex: providers.slice(0, searchIndex),
+          afterIndex: providers.slice(searchIndex + 1),
+        },
+        viewFields: INSURANCE_VIEW_FIELDS,
+        dataKey: 'providers',
+        localData,
+        listRef,
       });
+      setFormData({ ...data, ...dataToSet });
       goToPath(searchAction.pathToGo);
     },
     showConfirm: () => {
@@ -103,27 +96,9 @@ const InsurancePolicyInformation = props => {
     },
   };
 
-  // set form data on each change to the localData object state
-  useEffect(
-    () => {
-      const dataToSet = getDataToSet({
-        slices: {
-          beforeIndex: providers.slice(0, searchIndex),
-          afterIndex: providers.slice(searchIndex + 1),
-        },
-        viewsFields: INSURANCE_VIEW_FIELDS,
-        dataKey: 'providers',
-        localData,
-        listRef,
-      });
-      setFormData({ ...data, ...dataToSet });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [localData],
-  );
-
   return (
     <>
+      <SaveInProgressWarning type="policy" />
       <SchemaForm
         name="Insurance"
         title="Insurance"
@@ -147,9 +122,7 @@ const InsurancePolicyInformation = props => {
         </div>
 
         {/** Form progress buttons */}
-        {contentBeforeButtons}
         <FormNavButtons goBack={handlers.onGoBack} submitToContinue />
-        {contentAfterButtons}
       </SchemaForm>
 
       <VaModal
@@ -171,6 +144,7 @@ const InsurancePolicyInformation = props => {
         visible={modal}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
           {replaceStrValues(
@@ -184,8 +158,6 @@ const InsurancePolicyInformation = props => {
 };
 
 InsurancePolicyInformation.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,

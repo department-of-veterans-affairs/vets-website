@@ -61,6 +61,10 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
   max-width: 5rem;
 }
 
+#root_limitedInformationOther-label {
+  margin-top: 2rem;
+}
+
 .row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
 .row div[id^="organizationRepresentatives_"] > .row.small-collapse {
   margin: 0 0 !important;

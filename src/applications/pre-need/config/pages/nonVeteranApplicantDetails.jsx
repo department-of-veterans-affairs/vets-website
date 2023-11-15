@@ -18,7 +18,7 @@ const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = !environment.isProduction()
   ? {
-      'ui:description': applicantDescription,
+      'ui:description': environment.isProduction() ? applicantDescription : '', // Connor Fewin - MBMS-53309 (delete entire line when removing prod flag)
       application: {
         'ui:title': applicantDetailsSubHeader,
         claimant: {
@@ -35,7 +35,11 @@ export const uiSchema = !environment.isProduction()
       },
     }
   : {
-      'ui:description': applicantDescription,
+      /* 
+       * Connor Fewin - MBMS-53309 (delete entire line when removing prod flag) 
+       * This is fine to be deleted when the parent prod flag is deleted.
+       */
+      'ui:description': environment.isProduction() ? applicantDescription : '',
       application: {
         'ui:title': applicantDetailsSubHeader,
         claimant: {

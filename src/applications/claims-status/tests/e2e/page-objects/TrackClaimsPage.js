@@ -27,6 +27,7 @@ class TrackClaimsPage {
       'eq',
       'Check your claim, decision review, or appeal status | Veterans Affairs',
     );
+
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
         'be.visible',
@@ -37,40 +38,20 @@ class TrackClaimsPage {
         'You do not have any submitted claims',
       );
     }
-    cy.get('.va-nav-breadcrumbs').should('be.visible');
-    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
+
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('.va-breadcrumbs-li').should('be.visible');
     cy.get('a[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
   checkBreadcrumbs() {
-    cy.get(
-      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
-    ).should('exist');
-    cy.get(
-      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
-    ).should('contain', 'Check your claims and appeals');
-    cy.get(
-      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
-    ).should('have.css', 'pointer-events', 'none');
-  }
-
-  checkBreadcrumbsMobile() {
-    cy.viewportPreset('va-top-mobile-1');
-    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
-    cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))').should(
-      'have.css',
-      'display',
-      'none',
+    cy.get('va-breadcrumbs > :nth-child(2) a[aria-current="page"]').should(
+      'exist',
     );
-    cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').should(
+    cy.get('va-breadcrumbs > :nth-child(2) a[aria-current="page"]').should(
       'contain',
-      'Home',
-    );
-    cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').should(
-      'have.css',
-      'display',
-      'inline-block',
+      'Check your claims and appeals',
     );
   }
 

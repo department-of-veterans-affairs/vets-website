@@ -39,12 +39,12 @@ const createMockSuccessResponse = (
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       },
+      setECheckinStartedCalled: true,
     },
   };
   if (hasBeenValidated) {
     rv.payload.appointments[0].startTime = '2021-08-19T13:56:31';
     rv.payload.appointments[0].eligibility = 'ELIGIBLE';
-    rv.payload.appointments[0].facilityId = 'ABC_123';
   }
   return rv;
 };

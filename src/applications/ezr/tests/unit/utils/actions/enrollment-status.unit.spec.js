@@ -7,7 +7,7 @@ import {
 import { fetchEnrollmentStatus } from '../../../../utils/actions/enrollment-status';
 import {
   ENROLLMENT_STATUS_ACTIONS,
-  MOCK_ENROLLMENT_REPSONSE,
+  MOCK_ENROLLMENT_RESPONSE,
 } from '../../../../utils/constants';
 
 describe('ezr enrollment status actions', () => {
@@ -99,7 +99,7 @@ describe('ezr enrollment status actions', () => {
           .then(() => {
             const action = dispatch.secondCall.args[0];
             expect(action.type).to.equal(FETCH_ENROLLMENT_STATUS_SUCCEEDED);
-            expect(action.response).to.equal(MOCK_ENROLLMENT_REPSONSE);
+            expect(action.response).to.equal(MOCK_ENROLLMENT_RESPONSE);
           })
           .then(done, done);
       });

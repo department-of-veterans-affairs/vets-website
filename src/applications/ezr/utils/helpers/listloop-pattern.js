@@ -6,10 +6,14 @@
  * @returns {Object} - the dataset to return
  */
 export function getDataToSet(props) {
-  const { slices, datakey, localData, listRef, viewFields } = props;
+  const { slices, dataKey, localData, listRef, viewFields } = props;
   return localData === null
-    ? { [datakey]: listRef, [viewFields.add]: null, [viewFields.skip]: true }
-    : { [datakey]: [...slices.beforeIndex, localData, ...slices.afterIndex] };
+    ? { [dataKey]: listRef, [viewFields.add]: null, [viewFields.skip]: true }
+    : {
+        [dataKey]: [...slices.beforeIndex, localData, ...slices.afterIndex],
+        [viewFields.add]: null,
+        [viewFields.skip]: true,
+      };
 }
 
 /**
@@ -41,4 +45,31 @@ export function getSearchIndex(params, array = []) {
     indexToReturn = array.length;
   }
   return indexToReturn;
+}
+
+/**
+ * Helper that determines the default dataset to use based on search params
+ * @param {Object} props - the params to use to parse the default state
+ * @returns {Object} - the parsed state data
+ */
+export function getDefaultState(props) {
+  const {
+    searchIndex,
+    searchAction,
+    defaultData = {},
+    dataToSearch = [],
+    name,
+  } = props;
+  const resultToReturn = { ...defaultData };
+
+  // check if data exists at the array index and set return result accordingly
+  if (typeof dataToSearch[searchIndex] !== 'undefined') {
+    resultToReturn.data = dataToSearch[searchIndex];
+
+    if (searchAction.mode !== 'add') {
+      window.sessionStorage.setItem(name, searchIndex);
+    }
+  }
+
+  return resultToReturn;
 }
