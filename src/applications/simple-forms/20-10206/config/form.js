@@ -9,13 +9,17 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
+// TODO: Double-check post-MVP roadmap, and
+// refactor tracking-prefix and manifest prop(s) where needed
+// Our current MVP only supports PA, and we'll likely have to
+// add FOIA support down the road.
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'foia-10206',
+  trackingPrefix: 'foia-pa-10206',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10206',
