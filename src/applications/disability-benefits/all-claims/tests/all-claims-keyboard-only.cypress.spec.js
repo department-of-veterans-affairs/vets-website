@@ -129,7 +129,7 @@ describe('526EZ keyboard only navigation', () => {
 
   it('navigate through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
-      let idRoot = '';
+      const idRoot = '';
       const { chapters } = formConfig;
       const veteranDetailsPages = chapters.veteranDetails.pages;
       const disabilitiesPages = chapters.disabilities.pages;
@@ -170,7 +170,7 @@ describe('526EZ keyboard only navigation', () => {
       // I. Veteran Details > B. Contact Information
       // ===========================================
       cy.url().should('include', veteranDetailsPages.contactInformation.path);
-      // cy.injectAxeThenAxeCheck();
+      cy.injectAxeThenAxeCheck();
 
       // 1. Can update existing info
       // idRoot = '#root_phoneAndEmail_';
