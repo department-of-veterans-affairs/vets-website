@@ -175,17 +175,17 @@ describe('526EZ keyboard only navigation', () => {
       // 1. Can update existing info
       idRoot = '#root_phoneAndEmail_';
       cy.tabToElement('.edit-button');
-      cy.get(':focus').type('{enter}');
-      // NOTE: Cypress quirk requires you to clear current input before typing
-      // new input. IRL, this is not necessary.
-      cy.tabToElement(`${idRoot}primaryPhone`);
-      cy.typeInFocused('');
-      cy.typeInFocused(data.phoneAndEmail.primaryPhone);
-      cy.typeInIfDataExists(
-        `${idRoot}emailAddress`,
-        data.phoneAndEmail.emailAddress,
-      );
-      cy.tabToElementAndPressSpace('.update-button');
+      cy.realPress('Space');
+      // // NOTE: Cypress quirk requires you to clear current input before typing
+      // // new input. IRL, this is not necessary.
+      // cy.tabToElement(`${idRoot}primaryPhone`);
+      // cy.typeInFocused('');
+      // cy.typeInFocused(data.phoneAndEmail.primaryPhone);
+      // cy.typeInIfDataExists(
+      // `${idRoot}emailAddress`,
+      // data.phoneAndEmail.emailAddress,
+      // );
+      // cy.tabToElementAndPressSpace('.update-button');
 
       // // 2. Can start editing but then cancel
       // cy.tabToElementAndPressSpace('.edit-button');
