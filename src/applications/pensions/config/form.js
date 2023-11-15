@@ -36,8 +36,6 @@ import {
   isMarried,
   uploadMessage,
   dependentsMinItem,
-  wartimeWarning,
-  servedDuringWartime,
   disabilityDocs,
   schoolAttendanceWarning,
   marriageWarning,
@@ -58,7 +56,6 @@ import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
-import ServicePeriodView from '../components/ServicePeriodView';
 import ErrorText from '../components/ErrorText';
 import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
@@ -68,9 +65,9 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from '../pages/applicantInformation';
+import servicePeriods from '../pages/servicePeriods';
 
 import {
-  validateServiceBirthDates,
   validateAfterMarriageDate,
   validateCentralMailPostalCode,
 } from '../validation';
@@ -257,79 +254,8 @@ const formConfig = {
         servicePeriods: {
           path: 'military/history',
           title: 'Service periods',
-          uiSchema: {
-            'ui:title': 'Service periods',
-            servicePeriods: {
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-                reviewTitle: 'Service periods',
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service',
-                },
-                activeServiceDateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'Date entered service must be before date left service',
-                ),
-                'ui:validations': [validateServiceBirthDates],
-              },
-            },
-            'view:wartimeWarning': (() => {
-              const hideWartimeWarning = createSelector(
-                form => form.servicePeriods,
-                periods => {
-                  const completePeriods = (periods || []).filter(
-                    period =>
-                      period.activeServiceDateRange &&
-                      isFullDate(period.activeServiceDateRange.to) &&
-                      isFullDate(period.activeServiceDateRange.from),
-                  );
-                  if (!completePeriods.length) {
-                    return true;
-                  }
-                  return completePeriods.some(period =>
-                    servedDuringWartime(period.activeServiceDateRange),
-                  );
-                },
-              );
-
-              return {
-                'ui:description': wartimeWarning,
-                'ui:options': {
-                  hideIf: hideWartimeWarning,
-                },
-              };
-            })(),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              servicePeriods: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['serviceBranch', 'activeServiceDateRange'],
-                  properties: {
-                    serviceBranch: {
-                      type: 'string',
-                    },
-                    activeServiceDateRange: {
-                      ...dateRange,
-                      required: ['from', 'to'],
-                    },
-                  },
-                },
-              },
-              'view:wartimeWarning': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: servicePeriods.uiSchema,
+          schema: servicePeriods.schema,
         },
         general: {
           path: 'military/general',
