@@ -13,6 +13,7 @@ import moment from 'moment';
 export class MockSlot {
   /**
    * Creates an instance of MockSlot.
+   *
    * @param {Object} arguments
    * @param {String} id
    * @param {Moment} start - Open slot start date and time.

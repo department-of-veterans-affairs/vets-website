@@ -2,12 +2,12 @@ import React from 'react';
 
 export const HealthInsuranceDescription = () => (
   <>
-    <p>
+    <p className="vads-u-margin-top--2">
       Health insurance includes any coverage that you get through a spouse or
       significant other. Health insurance also includes Medicare, private
       insurance, or insurance from your employer.
     </p>
-    <p className="vads-u-margin-bottom--4">
+    <p className="vads-u-margin-bottom--0">
       We ask for this information for billing purposes only. Your health
       insurance coverage doesn’t affect the VA health care benefits you can get.
     </p>

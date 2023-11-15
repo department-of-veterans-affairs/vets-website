@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class CommunityCarePreferencesPage extends PageObject {
+export class CommunityCarePreferencesPageObject extends PageObject {
   assertHomeAddress({ exist = true } = {}) {
     cy.findByTestId('providersSelect')
       .as('providersSelect')
@@ -21,21 +21,6 @@ export class CommunityCarePreferencesPage extends PageObject {
     cy.findByText(/We can.t find any Primary care providers close to you/i, {
       selector: 'h2',
     });
-    return this;
-  }
-
-  assertWarningAlert({ exist = true } = {}) {
-    if (exist) {
-      cy.get('va-alert[status=warning]')
-        .as('alert')
-        .shadow();
-      cy.get('@alert').contains(
-        /Your browser is blocked from finding your current location/i,
-      );
-    } else {
-      cy.get('va-alert[status=warning]').should('not.exist');
-    }
-
     return this;
   }
 
@@ -109,4 +94,4 @@ export class CommunityCarePreferencesPage extends PageObject {
   }
 }
 
-export default new CommunityCarePreferencesPage();
+export default new CommunityCarePreferencesPageObject();
