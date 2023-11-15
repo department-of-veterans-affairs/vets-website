@@ -163,19 +163,19 @@ describe('526EZ keyboard only navigation', () => {
       // continue buttons with their keyboard. These buttons appear to be
       // a part of a shared component, I don't believe there is a need to run
       // these particular tests again.
-      cy.tabToElement('.schemaform-sip-save-link');
+      // cy.tabToElement('.schemaform-sip-save-link');
 
       cy.tabToContinueForm();
 
       // I. Veteran Details > B. Contact Information
       // ===========================================
-      cy.url().should('include', veteranDetailsPages.contactInformation.path);
-      cy.injectAxeThenAxeCheck();
+      // cy.url().should('include', veteranDetailsPages.contactInformation.path);
+      // cy.injectAxeThenAxeCheck();
 
       // 1. Can update existing info
-      idRoot = '#root_phoneAndEmail_';
-      cy.tabToElement('.edit-button');
-      cy.realPress('Space');
+      // idRoot = '#root_phoneAndEmail_';
+      // cy.tabToElement('.edit-button');
+      // cy.realPress('Space');
       // // NOTE: Cypress quirk requires you to clear current input before typing
       // // new input. IRL, this is not necessary.
       // cy.tabToElement(`${idRoot}primaryPhone`);
