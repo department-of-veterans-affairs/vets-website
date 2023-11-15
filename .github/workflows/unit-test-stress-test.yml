@@ -1,4 +1,4 @@
-name: Unit Tests Stress Test
+name: Unit Test Stability Review
 
 on:
   schedule:
@@ -52,7 +52,7 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
   fetch-unit-tests-allow-list:
-    name: Fetch Unit Tests Allow List
+    name: Fetch Unit Test Stability Allow List
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -78,13 +78,13 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Fetch Unit Test allow list
+      - name: Fetch Unit Test Stability Allow List
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: unit_test
 
-      - name: Archive allow list
+      - name: Archive Unit Test Stability Allow List
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
@@ -154,7 +154,7 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
-      - name: Download Allow List
+      - name: Download Unit Test Stability Allow List
         uses: actions/download-artifact@v3
         with:
           name: unit-test-allow-list
@@ -176,7 +176,7 @@ jobs:
           path: mocha/results
 
   update-unit-test-allow-list:
-    name: Update Unit Tests Allow List
+    name: Update Unit Test Stability Allow List
     runs-on: ubuntu-latest
     needs: [unit-tests-stress-test, fetch-unit-tests-allow-list]
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
@@ -231,7 +231,7 @@ jobs:
           name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
-      - name: Download Allow List
+      - name: Download Unit Test Stability Allow List
         uses: actions/download-artifact@v3
         with:
           name: unit-test-allow-list
@@ -240,93 +240,10 @@ jobs:
       - name: Copy test results to mochawesome directory
         run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
-      - name: Update Unit Test Allow List
+      - name: Update Unit Test Stability Allow List
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: unit_test
           IS_CI: false
           GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-  # testing-reports-unit-tests-stress-test:
-  #   name: Testing Reports - Unit Tests Stress Test
-  #   runs-on: ubuntu-latest
-  #   needs: [testing-reports-prep, unit-tests-stress-test]
-  #   if: ${{ always() }}
-  #   continue-on-error: true
-  #   env:
-  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-  #   steps:
-  #     - name: Set IS_MASTER_BUILD
-  #       run: |
-  #         if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-  #             echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-  #         else
-  #             echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-  #         fi
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     # ------------------------
-  #     # | Upload BigQuery Data |
-  #     # ------------------------
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
-  #     - name: Get va-vsp-bot token
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
-  #     - name: Get AWS IAM role
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-  #     - name: Set UUID for Mochawesome reports
-  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-  #     - name: Configure AWS Credentials (2)
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
-  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-  #         role-duration-seconds: 900
-  #         role-session-name: vsp-frontendteam-githubaction
-  #     # --------------------------------------------------
-  #     # | Publish Unit Test Report and Upload to BigQuery |
-  #     # --------------------------------------------------
-  #     - name: Download Unit Test Results
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: unit-test-stress-test-results
-  #         path: qa-standards-dashboard-data/src/testing-reports/data
-  #     - name: Create Unit Test report
-  #       run: yarn unit-mochawesome-to-bigquery
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
-  #         UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
-  #         TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
-  #     - name: Upload Unit Test Stress Test Report to S3
-  #       run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
-  #     # -------------------------
-  #     # | Unit Tests Summary |
-  #     # -------------------------
-  #     - name: Publish Unit Test Stress Test Results
-  #       if: ${{ always() }}
-  #       uses: LouisBrunner/checks-action@v1.1.1
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         name: Unit Tests Stress Test Summary
-  #         conclusion: ${{ needs.unit-tests-stress-test.result }}
-  #         output: |
-  #           {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-# Temporarily disabling unit test stress test reporting. Job runs out of memory due to too many results. Will revisit or remove when a decision is made on this.
