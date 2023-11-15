@@ -49,7 +49,7 @@ describe('25-8832 - helpers', () => {
     });
   });
 
-  describe.skip('transform', () => {
+  describe('transform', () => {
     it('should transform data into a stringified JSON', () => {
       expect(typeof transform(config, veteranFormData) === 'string').to.be.true;
     });
