@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
@@ -28,15 +27,15 @@ const MedicationsListCard = props => {
           className="vads-u-font-weight--bold"
           id={`card-header-${rx.prescriptionId}`}
         >
-          <Link
+          <a
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
-            to={`/prescription/${rx.prescriptionId}`}
+            href={`/my-health/medications/prescription/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
             {rx.dispStatus === 'Active: Non-VA'
               ? rx.orderableItem
               : rx.prescriptionName}
-          </Link>
+          </a>
         </h3>
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
