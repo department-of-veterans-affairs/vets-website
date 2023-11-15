@@ -197,7 +197,7 @@ const Dashboard = ({
 
   // use session storage to track if downtime alert has been dismissed
   const [dismissed, setDismissed] = useSessionStorage(
-    'authExpVbaDowntimeMessageDismissed',
+    'myVaVbaDowntimeMessageDismissed',
   );
   const handleDismiss = () => {
     setDismissed('true');
