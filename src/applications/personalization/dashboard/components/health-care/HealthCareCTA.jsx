@@ -51,7 +51,7 @@ const HealthCareCTA = ({
                 text="Visit My HealtheVet on VA.gov"
                 icon="briefcase-medical"
                 href="/my-health"
-                testId="view-your-messages-link-from-cta"
+                testId="visit-mhv-on-va-gov"
                 onClick={() =>
                   recordEvent({
                     event: 'nav-linkslist',
