@@ -1,0 +1,42 @@
+import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import React from 'react';
+import PreSubmitInfo from '../../pages/PreSubmitInfo';
+
+describe('PreSubmitNotice />', () => {
+  it('should render corrcetly', () => {
+    const wrapper = shallow(
+      <PreSubmitInfo
+        formData={{
+          veteranDateOfBirth: '1900-1-1',
+          currentlyActiveDuty: {
+            yes: true,
+          },
+        }}
+      />,
+    );
+
+    expect(wrapper.find('strong').text()).to.equal('By submitting this form');
+    wrapper.unmount();
+  });
+  it('it should show   You are the parent, guardian, or custodian of the applicant if applicant is 17', () => {
+    const wrapper = shallow(
+      <PreSubmitInfo
+        formData={{
+          veteranDateOfBirth: '2006-01-01',
+          currentlyActiveDuty: {
+            yes: false,
+          },
+        }}
+      />,
+    );
+
+    expect(
+      wrapper
+        .find('li')
+        .first()
+        .text(),
+    ).to.equal('You are the parent, guardian, or custodian of the applicant');
+    wrapper.unmount();
+  });
+});
