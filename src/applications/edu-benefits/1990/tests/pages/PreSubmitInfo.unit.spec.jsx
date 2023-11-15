@@ -29,7 +29,6 @@ describe('PreSubmitNotice />', () => {
         }}
       />,
     );
-
     expect(
       wrapper
         .find('li')
