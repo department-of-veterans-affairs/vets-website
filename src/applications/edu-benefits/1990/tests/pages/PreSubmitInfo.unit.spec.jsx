@@ -15,7 +15,6 @@ describe('PreSubmitNotice />', () => {
         }}
       />,
     );
-
     expect(wrapper.find('strong').text()).to.equal('By submitting this form');
     wrapper.unmount();
   });
