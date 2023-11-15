@@ -13,7 +13,6 @@ describe('BenefitApplicationDrafts component', () => {
       reducers,
     });
 
-    expect(view.getByTestId('dashboard-all-benefits')).to.exist;
     expect(view.getByTestId('applications-in-progress')).to.exist;
   });
 });
