@@ -66,7 +66,9 @@ import applicantInformation from '../pages/applicantInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
-
+import socialSecurityDisabilityHistory from '../pages/socialSecurityDisabilityHistory';
+import medicalHistory from '../pages/medicalHistory';
+import nursingHomeHistory from '../pages/nursingHomeHistory';
 
 import {
   validateAfterMarriageDate,
@@ -262,6 +264,33 @@ const formConfig = {
           title: 'POW status',
           uiSchema: pow.uiSchema,
           schema: pow.schema,
+        },
+      },
+    },
+    healthHistory: {
+      title: 'Health history',
+      pages: {
+        socialSecurityDisabilityHistory: {
+          title: 'Medical care',
+          path: 'medical/history/social-security-disability',
+          depends: isUnder65,
+          uiSchema: socialSecurityDisabilityHistory.uiSchema,
+          schema: socialSecurityDisabilityHistory.schema,
+        },
+        medicalHistory: {
+          title: 'Medical condition',
+          path: 'medical/history/condition',
+          depends: formData => {
+            return formData.socialSecurityDisabilityHistory !== true;
+          },
+          uiSchema: medicalHistory.uiSchema,
+          schema: medicalHistory.schema,
+        },
+        nursingHomeHistory: {
+          title: 'Nursing home',
+          path: 'medical/history/nursing-home',
+          uiSchema: nursingHomeHistory.uiSchema,
+          schema: nursingHomeHistory.schema,
         },
       },
     },
