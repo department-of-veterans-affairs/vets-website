@@ -10,7 +10,12 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { generateTextFile, makePdf, nameFormat } from '../../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  nameFormat,
+} from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 
@@ -123,23 +128,26 @@ const MicroDetails = props => {
   };
 
   const generateMicroTxt = async () => {
-    const content = `
-    ${record.name} \n
-    Date: ${record.date} \n
-    _____________________________________________________ \n\r
-    Details about this test \n
-    \t Sample tested: ${record.sampleTested} \n
-    \t Sample from: ${record.sampleFrom} \n
-    \t Ordered by: ${record.orderedBy} \n
-    \t Ordering location: ${record.orderingLocation} \n
-    \t Collecting location: ${record.collectingLocation} \n
-    \t Lab location: ${record.labLocation} \n
-    \t Date completed: ${record.date} \n\r
-    _____________________________________________________ \n\r
-    Results \n
-    \t${record.results}`;
+    const content = `\n
+${record.name}\n
+Date: ${record.date}\n
+_____________________________________________________\n\n
+Details about this test\n
+    Sample tested: ${record.sampleTested}\n
+    Sample from: ${record.sampleFrom}\n
+    Ordered by: ${record.orderedBy}\n
+    Ordering location: ${record.orderingLocation}\n
+    Collecting location: ${record.collectingLocation}\n
+    Lab location: ${record.labLocation}\n
+    Date completed: ${record.date}\n
+_____________________________________________________\n\n
+Results\n
+    ${record.results}`;
 
-    generateTextFile(content, 'Microbiology');
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
+    );
   };
 
   return (
