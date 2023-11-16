@@ -75,7 +75,6 @@ const testConfig = createTestConfig(
         });
       },
     },
-
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
