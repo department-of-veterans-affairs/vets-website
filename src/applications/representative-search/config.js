@@ -53,28 +53,15 @@ export const resolveParamsWithUrl = ({
 
   const { url } = api;
 
-  let representativeType;
-
-  switch (type) {
-    case 'Attorney':
-      representativeType = 'attorney';
-      break;
-    case 'Claims Agent':
-      representativeType = 'claim_agents';
-      break;
-    default:
-      representativeType = 'organization';
-  }
-
   const params = [
     address ? `address=${address}` : null,
-    lat.length > 0 ? `latitude=${lat}` : null,
-    long.length > 0 ? `longitude=${long}` : null,
+    lat?.length > 0 ? `latitude=${lat}` : null,
+    long?.length > 0 ? `longitude=${long}` : null,
     name ? `name=${name}` : null,
     `page=${page}`,
     `per_page=${perPage}`,
     `sort=${sort}`,
-    type ? `type=${representativeType}` : null,
+    type ? `type=${type}` : null,
   ];
 
   return {
