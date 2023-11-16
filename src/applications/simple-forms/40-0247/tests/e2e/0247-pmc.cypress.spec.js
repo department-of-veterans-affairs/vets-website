@@ -142,7 +142,6 @@ const testConfig = createTestConfig(
         });
       },
     },
-
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept(formConfig.submitUrl, mockSubmit);
