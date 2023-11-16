@@ -110,7 +110,6 @@ const ComposeForm = props => {
       });
     }
   };
-
   useEffect(
     () => {
       const blankForm =
@@ -300,7 +299,6 @@ const ComposeForm = props => {
     async (type, e) => {
       if (type === 'manual') {
         setLastFocusableElement(e.target);
-        // setUserSaved(true)
         await setMessageInvalid(false);
         if (checkMessageValidity() === true) {
           setNavigationError(null);
