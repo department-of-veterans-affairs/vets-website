@@ -24,6 +24,7 @@ export const uiSchema = {
         },
         from: {
           'ui:title': 'Obligation start date',
+          'ui:widget': 'date',
           'ui:webComponentField': VaMemorableDateField,
           'ui:validations': [validateDate],
           'ui:errorMessages': {
@@ -33,6 +34,7 @@ export const uiSchema = {
         },
         to: {
           'ui:title': 'Obligation end date',
+          'ui:widget': 'date',
           'ui:webComponentField': VaMemorableDateField,
           'ui:validations': [validateDate],
           'ui:errorMessages': {
