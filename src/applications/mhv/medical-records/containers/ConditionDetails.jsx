@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -129,6 +134,22 @@ const ConditionDetails = props => {
     generateConditionDetails();
   };
 
+  const generateConditionTxt = async () => {
+    const content = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Provider: ${record.provider} \n
+    \t Provider Notes: ${processList(record.note)} \n
+    \t Status of health condition: ${record.active} \n
+    \t Location: ${record.facility} \n
+    \t SNOMED Clinical term: ${record.name} \n`;
+
+    const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
+  };
+
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
@@ -167,6 +188,7 @@ const ConditionDetails = props => {
             <PrintDownload
               download={download}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateConditionTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>

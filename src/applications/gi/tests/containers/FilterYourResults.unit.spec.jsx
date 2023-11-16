@@ -147,11 +147,14 @@ describe('<FilterYourResults>', () => {
   });
 
   it('should click Update Results button in a mobile screen', async () => {
-    const screen = renderWithStoreAndRouter(<FilterYourResults smallScreen />, {
-      initialState: {
-        constants: mockConstants(),
+    const screen = renderWithStoreAndRouter(
+      <FilterYourResults modalClose={() => {}} smallScreen />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
       },
-    });
+    );
     const updateFilterResultsButton = screen.getByRole('button', {
       name: 'Update results',
     });
