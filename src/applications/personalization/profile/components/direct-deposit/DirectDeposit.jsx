@@ -148,7 +148,7 @@ const DirectDeposit = ({
               We’re updating our systems to add the 2024 cost-of-living increase
               for VA benefits. Direct deposit information isn’t available right
               now. Check back after <strong>Sunday, November 19, 2023</strong>,
-              at <strong>11:59 p.m. ET</strong>.
+              at <strong>7:00 p.m. ET</strong>.
             </p>
           </va-alert>
         </Toggler.Enabled>
