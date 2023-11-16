@@ -367,7 +367,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       );
       expect(isRxSkillSessionStorageSet).to.equal(null);
     });
-    it('should pass isMobile to PVA', async () => {
+    it('should pass isMobile=true to PVA', async () => {
       await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
         'csrfToken',
         'apiSession',
@@ -375,13 +375,29 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        'isMobile',
+        true,
       )(store)(fakeNext)(connectFulfilledAction);
 
       const actions = store.getActions();
 
       expect(actions[0].payload.activity.value).to.have.property('isMobile');
-      expect(actions[0].payload.activity.value.isMobile).to.equal('isMobile');
+      expect(actions[0].payload.activity.value.isMobile).to.equal(true);
+    });
+    it('should pass isMobile=false to PVA', async () => {
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        false,
+      )(store)(fakeNext)(connectFulfilledAction);
+
+      const actions = store.getActions();
+
+      expect(actions[0].payload.activity.value).to.have.property('isMobile');
+      expect(actions[0].payload.activity.value.isMobile).to.equal(false);
     });
   });
 });
