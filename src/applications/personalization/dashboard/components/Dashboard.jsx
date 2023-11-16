@@ -53,7 +53,7 @@ import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
-import SavedApplications from './apply-for-benefits/SavedApplications';
+import BenefitApplicationDrafts from './benefit-application-drafts/BenefitApplicationDrafts';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications }) => {
@@ -105,7 +105,7 @@ const LOA1Content = ({ isLOA1, isVAPatient, useLighthouseClaims }) => {
 
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
       <EducationAndTraining isLOA1={isLOA1} />
-      <SavedApplications isLOA1={isLOA1} />
+      <BenefitApplicationDrafts isLOA1={isLOA1} />
     </>
   );
 };
@@ -321,7 +321,7 @@ const Dashboard = ({
                         showNotifications={showNotifications}
                       />
                       <EducationAndTraining />
-                      <SavedApplications />
+                      <BenefitApplicationDrafts />
                     </>
                   )}
                 </Toggler.Disabled>
