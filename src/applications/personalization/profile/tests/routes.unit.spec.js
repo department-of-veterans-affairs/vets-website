@@ -17,7 +17,7 @@ describe('getRoutes', () => {
   });
   describe('it should conditionally render the veteran status route', () => {
     it('should return the veteran status path when the toggle is true', () => {
-      const allRoutes = getRoutes({ profileVeteranStatusPage: true });
+      const allRoutes = getRoutes({ profileShowProofOfVeteranStatus: true });
       const hasVeteranStatusRoute = allRoutes.some(
         route => route.name === PROFILE_PATH_NAMES.VETERAN_STATUS,
       );
@@ -25,7 +25,7 @@ describe('getRoutes', () => {
       expect(hasVeteranStatusRoute).to.be.true;
     });
     it('should not return the veteran status path when the toggle is false', () => {
-      const allRoutes = getRoutes({ profileVeteranStatusPage: false });
+      const allRoutes = getRoutes({ profileShowProofOfVeteranStatus: false });
       const hasVeteranStatusRoute = allRoutes.some(
         route => route.name === PROFILE_PATH_NAMES.VETERAN_STATUS,
       );
