@@ -134,17 +134,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
     invalidVeteranStatus &&
     !militaryInformation?.serviceHistory?.serviceHistory
   ) {
-    return (
-      <>
-        <NotAVeteranAlert />
-        {/* {profileShowProofOfVeteranStatus && (
-          <ProfileLink
-            href={PROFILE_PATHS.VETERAN_STATUS}
-            text="View proof of Veteran status"
-          />
-        )} */}
-      </>
-    );
+    return <NotAVeteranAlert />;
   }
 
   const {
@@ -153,33 +143,13 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   if (error) {
     if (some(error.errors, ['code', '403'])) {
-      return (
-        <>
-          <NotInDEERSAlert />
-          {/* {profileShowProofOfVeteranStatus && (
-            <ProfileLink
-              href={PROFILE_PATHS.VETERAN_STATUS}
-              text="View proof of Veteran status"
-            />
-          )} */}
-        </>
-      );
+      return <NotInDEERSAlert />;
     }
     return <LoadFail />;
   }
 
   if (serviceHistory.length === 0) {
-    return (
-      <>
-        <NoServiceHistoryAlert />
-        {/* {profileShowProofOfVeteranStatus && (
-          <ProfileLink
-            href={PROFILE_PATHS.VETERAN_STATUS}
-            text="View proof of Veteran status"
-          />
-        )} */}
-      </>
-    );
+    return <NoServiceHistoryAlert />;
   }
 
   return (
