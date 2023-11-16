@@ -20,12 +20,6 @@ export const maxIssues = (
   }
 };
 
-export const missingIssueName = (errors, data) => {
-  if (!data) {
-    errors.addError(issueErrorMessages.missingIssue);
-  }
-};
-
 export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.NOD_ISSUE_NAME) {
     errors.addError(issueErrorMessages.maxLength);

@@ -1,11 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  maxIssues,
-  missingIssueName,
-  maxNameLength,
-} from '../../validations/issues';
+import { maxIssues, maxNameLength } from '../../validations/issues';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
@@ -67,19 +63,6 @@ describe('selectionRequired', () => {
   it('should show not show an error when an additional issue is selected', () => {
     const errors = { addError: sinon.spy() };
     selectionRequired(errors, _, getData(false, true));
-    expect(errors.addError.called).to.be.false;
-  });
-});
-
-describe('missingIssueName', () => {
-  it('should show an error when a name is missing', () => {
-    const errors = { addError: sinon.spy() };
-    missingIssueName(errors);
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show an error when a name is missing', () => {
-    const errors = { addError: sinon.spy() };
-    missingIssueName(errors, 'test');
     expect(errors.addError.called).to.be.false;
   });
 });
