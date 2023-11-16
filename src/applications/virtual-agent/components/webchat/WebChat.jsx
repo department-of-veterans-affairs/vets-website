@@ -4,7 +4,7 @@ import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
 import { ERROR } from '../chatbox/loadingStatus';
 // import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';

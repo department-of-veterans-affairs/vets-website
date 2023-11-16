@@ -367,7 +367,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       );
       expect(isRxSkillSessionStorageSet).to.equal(null);
     });
-    it('should verify isMobile is present in startConversationActivity', async () => {
+    it('should pass isMobile to PVA', async () => {
       await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
         'csrfToken',
         'apiSession',
