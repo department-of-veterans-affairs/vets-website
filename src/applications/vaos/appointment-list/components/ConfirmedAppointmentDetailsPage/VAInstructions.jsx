@@ -36,5 +36,6 @@ VAInstructions.propTypes = {
 VAInstructions.defaultProps = {
   appointment: {
     comment: '',
+    version: 2,
   },
 };
