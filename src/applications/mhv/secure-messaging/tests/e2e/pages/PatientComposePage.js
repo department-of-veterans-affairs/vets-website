@@ -112,7 +112,9 @@ class PatientComposePage {
   };
 
   verifyFocusonMessageAttachment = () => {
-    cy.get('[class="va-alert-close"]').should('have.focus');
+    cy.get('[data-testid="close-success-alert-button"]')
+      .eq(0)
+      .should('have.focus');
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
