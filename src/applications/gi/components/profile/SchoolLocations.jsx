@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
+import { locationInfo } from '../../utils/helpers';
 
 export default function SchoolLocations({
   calculator,
@@ -148,19 +148,11 @@ export default function SchoolLocations({
       physicalCountry,
       physicalZip,
     } = inst;
-    const nameLabel = institutionIsBeingViewed(facilityCode) ? (
+    const schoolName = institutionIsBeingViewed(facilityCode) ? (
       <p className="school-name">{name}</p>
     ) : (
       name
     );
-
-    const schoolName =
-      type === 'main'
-        ? nameLabel
-        : {
-            value: nameLabel,
-            mobileHeader: upperCaseFirstLetterOnly(type),
-          };
 
     const location = schoolLocationTableInfo(
       physicalCity,
@@ -236,7 +228,7 @@ export default function SchoolLocations({
 
     return (
       <va-table class="school-locations">
-        <va-table-row slot="headers">
+        <va-table-row slot="headers" key="header">
           <span>School name</span>
           <span>Location</span>
           <span>Estimated housing</span>
@@ -322,7 +314,7 @@ export default function SchoolLocations({
           </span>
         )}
       </span>
-      {renderFacilityTable(main)}
+      <Router>{renderFacilityTable(main)}</Router>
       {renderViewCount()}
       {renderViewButtons()}
     </div>

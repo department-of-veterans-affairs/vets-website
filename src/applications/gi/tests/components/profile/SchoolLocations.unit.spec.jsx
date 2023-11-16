@@ -214,13 +214,19 @@ describe('<SchoolLocations>', () => {
 
     dataRow = tableRows.at(2);
     dataLabels = dataRow.find('span');
-    ['', 'Test 1, KY 12345', '$150per month/mo'].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
-    });
+    ['MAIN BRANCH FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
+      (column, index) => {
+        expect(dataLabels.at(index).text()).equal(column);
+      },
+    );
 
     dataRow = tableRows.at(3);
     dataLabels = dataRow.find('span');
-    ['', 'Test 2, OH 12345', '$200per month/mo'].forEach((column, index) => {
+    [
+      'BRANCH EXTENSION FACILITY',
+      'Test 2, OH 12345',
+      '$200per month/mo',
+    ].forEach((column, index) => {
       expect(dataLabels.at(index).text()).equal(column);
     });
 
@@ -296,9 +302,11 @@ describe('<SchoolLocations>', () => {
     dataRow = tableRows.at(2);
     dataLabels = dataRow.find('span');
 
-    ['', 'Test 1, KY 12345', '$150per month/mo'].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
-    });
+    ['MAIN EXTENSION FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
+      (column, index) => {
+        expect(dataLabels.at(index).text()).equal(column);
+      },
+    );
 
     wrapper.unmount();
   });
