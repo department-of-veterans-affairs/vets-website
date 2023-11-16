@@ -163,34 +163,32 @@ const HealthCareContent = ({
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
           !isLOA1 && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn &&
-          noCerner && (
-            <HealthCareCTA
-              noCerner={noCerner}
-              hasInboxError={hasInboxError}
-              authenticatedWithSSOe={authenticatedWithSSOe}
-              hasUpcomingAppointment={hasUpcomingAppointment}
-              unreadMessagesCount={unreadMessagesCount}
-              isVAPatient={isVAPatient}
-              isLOA1={isLOA1}
-              hasAppointmentsError={hasAppointmentsError}
-            />
-          )}
-      </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn &&
-        noCerner && (
-          <DashboardWidgetWrapper>
-            <HealthCareCTA
-              noCerner={noCerner}
-              hasInboxError={hasInboxError}
-              authenticatedWithSSOe={authenticatedWithSSOe}
-              hasUpcomingAppointment={hasUpcomingAppointment}
-              unreadMessagesCount={unreadMessagesCount}
-              isVAPatient={isVAPatient}
-              hasAppointmentsError={hasAppointmentsError}
-            />
-          </DashboardWidgetWrapper>
+        {shouldShowOnOneColumn && (
+          <HealthCareCTA
+            noCerner={noCerner}
+            hasInboxError={hasInboxError}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+            hasUpcomingAppointment={hasUpcomingAppointment}
+            unreadMessagesCount={unreadMessagesCount}
+            isVAPatient={isVAPatient}
+            isLOA1={isLOA1}
+            hasAppointmentsError={hasAppointmentsError}
+          />
         )}
+      </DashboardWidgetWrapper>
+      {!shouldShowOnOneColumn && (
+        <DashboardWidgetWrapper>
+          <HealthCareCTA
+            noCerner={noCerner}
+            hasInboxError={hasInboxError}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+            hasUpcomingAppointment={hasUpcomingAppointment}
+            unreadMessagesCount={unreadMessagesCount}
+            isVAPatient={isVAPatient}
+            hasAppointmentsError={hasAppointmentsError}
+          />
+        </DashboardWidgetWrapper>
+      )}
     </div>
   );
 };
