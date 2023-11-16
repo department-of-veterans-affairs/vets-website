@@ -44,6 +44,7 @@ const MedicationsListCard = props => {
           <div
             id="status"
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+            data-testid="rxStatus"
           >
             {rx.dispStatus}
           </div>
