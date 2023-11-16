@@ -91,7 +91,8 @@ describe('<Dashboard />', () => {
       expect(tree.getByTestId('dashboard-section-health-care')).to.exist;
       expect(tree.getByTestId('dashboard-section-debts')).to.exist;
       expect(tree.getByTestId('dashboard-section-payment')).to.exist;
-      expect(tree.getByTestId('dashboard-section-saved-applications')).to.exist;
+      expect(tree.getByTestId('dashboard-section-benefit-application-drafts'))
+        .to.exist;
       expect(tree.getByTestId('dashboard-section-education-and-training')).to
         .exist;
     });
@@ -115,7 +116,8 @@ describe('<Dashboard />', () => {
       expect(tree.getByTestId('dashboard-section-health-care')).to.exist;
       expect(tree.getByTestId('dashboard-section-debts')).to.exist;
       expect(tree.getByTestId('dashboard-section-payment')).to.exist;
-      expect(tree.getByTestId('dashboard-section-saved-applications')).to.exist;
+      expect(tree.getByTestId('dashboard-section-benefit-application-drafts'))
+        .to.exist;
       expect(tree.getByTestId('dashboard-section-education-and-training')).to
         .exist;
     });
@@ -139,7 +141,8 @@ describe('<Dashboard />', () => {
       expect(tree.getByTestId('dashboard-section-health-care')).to.exist;
       expect(tree.getByTestId('dashboard-section-debts')).to.exist;
       expect(tree.getByTestId('dashboard-section-payment')).to.exist;
-      expect(tree.getByTestId('dashboard-section-saved-applications')).to.exist;
+      expect(tree.getByTestId('dashboard-section-benefit-application-drafts'))
+        .to.exist;
       expect(tree.getByTestId('dashboard-section-education-and-training')).to
         .exist;
     });
@@ -182,7 +185,8 @@ describe('<Dashboard />', () => {
       expect(tree.getByTestId('dashboard-section-health-care')).to.exist;
       expect(tree.queryByTestId('dashboard-section-debts')).not.to.exist;
       expect(tree.queryByTestId('dashboard-section-payment')).not.to.exist;
-      expect(tree.getByTestId('dashboard-section-saved-applications')).to.exist;
+      expect(tree.getByTestId('dashboard-section-benefit-application-drafts'))
+        .to.exist;
       expect(tree.getByTestId('dashboard-section-education-and-training')).to
         .exist;
     });
