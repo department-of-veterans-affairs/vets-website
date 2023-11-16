@@ -170,12 +170,12 @@ describe('526EZ keyboard only navigation', () => {
 
       // I. Veteran Details > B. Contact Information
       // ===========================================
-      // cy.url().should('include', veteranDetailsPages.contactInformation.path);
-      // cy.injectAxeThenAxeCheck();
+      cy.url().should('include', veteranDetailsPages.contactInformation.path);
+      cy.injectAxeThenAxeCheck();
 
       // 1. Can update existing info
-      idRoot = '#root_phoneAndEmail_';
-      cy.tabToElementAndPressSpace('.edit-button');
+      // idRoot = '#root_phoneAndEmail_';
+      // cy.tabToElementAndPressSpace('.edit-button');
       // // NOTE: Cypress quirk requires you to clear current input before typing
       // // new input. IRL, this is not necessary.
       // cy.tabToElement(`${idRoot}primaryPhone`);
