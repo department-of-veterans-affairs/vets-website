@@ -26,7 +26,7 @@ const BenefitApplicationDrafts = ({
   );
 
   return (
-    <div data-testid="dashboard-section-saved-applications">
+    <div data-testid="dashboard-section-benefit-application-drafts">
       <h2>Benefit application drafts</h2>
       <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
     </div>
