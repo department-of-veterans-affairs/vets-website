@@ -50,9 +50,7 @@ describe('Medicaitons Print/Download button component', () => {
       throw new Error('error');
     };
     const screen = setup(handleDownloadPDFError);
-    const downloadButton = screen.getByText(
-      'Download your medication details as a PDF',
-    );
+    const downloadButton = screen.getByText('Download this page as a PDF');
     fireEvent.click(downloadButton);
 
     const errorMessage = await screen.getByText(
