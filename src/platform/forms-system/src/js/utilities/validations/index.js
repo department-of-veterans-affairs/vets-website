@@ -4,7 +4,7 @@ import moment from 'moment';
 import {
   minYear,
   maxYear,
-} from '@department-of-veterans-affairs/platform-forms-system/src/js/helpers';
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
