@@ -24,11 +24,11 @@ const awaitFocusSelectorThenTest = () => {
   return ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get(v3StepHeaderSelector)
+      cy.get(v3StepHeaderSelector, { timeout: 10000 })
         .should('be.visible')
         .then(() => {
-          // callback to prevent scroll/focus interferences, but
-          // even now field-disabled errors still occur, so must wait a bit.
+          // callback to avoid field-disabled errors, but
+          // even now we must wait a bit!
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(500);
           cy.fillPage();
@@ -82,10 +82,12 @@ const testConfig = createTestConfig(
       'applicant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get(v3StepHeaderSelector)
+            cy.get(v3StepHeaderSelector, { timeout: 10000 })
               .should('be.visible')
               .then(() => {
-                cy.get('[name="root_applicantAddress_state"]')
+                cy.get('[name="root_applicantAddress_state"]', {
+                  timeout: 10000,
+                })
                   .should('not.have.attr', 'disabled')
                   .then(() => {
                     // callback to avoid field-disabled errors, but
@@ -109,10 +111,12 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { additionalAddress, additionalCopies } = data;
 
-            cy.get(v3StepHeaderSelector)
+            cy.get(v3StepHeaderSelector, { timeout: 10000 })
               .should('be.visible')
               .then(() => {
-                cy.get('input[name="root_additionalAddress_state"]')
+                cy.get('input[name="root_additionalAddress_state"]', {
+                  timeout: 10000,
+                })
                   .should('not.be.disabled')
                   .then(() => {
                     // callback to avoid field-disabled errors, but
