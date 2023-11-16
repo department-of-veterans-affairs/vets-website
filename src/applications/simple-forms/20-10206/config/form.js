@@ -15,7 +15,7 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'foia-10206',
+  trackingPrefix: 'pa-10206',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10206',
