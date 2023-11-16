@@ -9,7 +9,10 @@ const LastFilledInfo = rx => {
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
     nonVA = true;
-  } else if (dispensedDate && dispStatus !== dispStatusObj.transferred) {
+  } else if (
+    (dispensedDate || rxRfRecords?.[0]?.[1][0]?.dispensedDate) &&
+    dispStatus !== dispStatusObj.transferred
+  ) {
     showLastFilledDate = true;
   }
   return (
