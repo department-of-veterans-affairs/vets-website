@@ -274,7 +274,7 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go to VA Blue Button on the My HealtheVet website
+                  Go to VA Blue Button&reg; on the My HealtheVet website
                 </a>
               </p>
             </va-accordion-item>
@@ -448,7 +448,7 @@ const LandingPage = () => {
                 <span className="vads-u-font-weight--bold">
                   To find health information you entered yourself,
                 </span>{' '}
-                go to VA Blue Button on the My HealtheVet website.
+                go to VA Blue Button&reg; on the My HealtheVet website.
               </p>
               <p>
                 <a
@@ -458,7 +458,7 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go to VA Blue Button on the My HealtheVet website
+                  Go to VA Blue Button&reg; on the My HealtheVet website
                 </a>
               </p>
               <p>
