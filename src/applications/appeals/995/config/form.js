@@ -92,7 +92,12 @@ const formConfig = {
   // verifyRequiredPrefill: true,
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.vaProfile],
+    dependencies: [
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
+    ],
   },
   saveInProgress,
   savedFormMessages,
