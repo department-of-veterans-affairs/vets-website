@@ -3,15 +3,13 @@ import _ from 'lodash';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import RepresentativeDirectionsLink from '../../components/search/RepresentativeDirectionsLink';
-import testDataRepresentatives from '../../constants/mock-representative-data.json';
+import testDataRepresentative from '../../constants/mock-representative-v0.json';
 
 const verifyLink = data => {
   const wrapper = shallow(
     <RepresentativeDirectionsLink
-      location={{
-        ...data,
-        ...{ searchString: 'my house' },
-      }}
+      representative={data}
+      query={{ locationQueryString: 'my house' }}
     />,
   );
 
@@ -24,15 +22,15 @@ const verifyLink = data => {
     rel: 'noopener noreferrer',
   });
   expect(wrapper.find('a').text()).to.equal(
-    'Get directions on Google Maps to Austin VA Clinic',
+    'Get directions on Google Maps to Bobby Low',
   );
-  expect(wrapper.find('.sr-only').text()).to.equal('to Austin VA Clinic');
+  expect(wrapper.find('.sr-only').text()).to.equal('to Bobby Low');
 
   wrapper.unmount();
 };
 
 describe('RepresentativeDirectionsLink', () => {
   it('should render RepresentativeDirectionsLink', () => {
-    verifyLink(testDataRepresentatives.data);
+    verifyLink(testDataRepresentative.data);
   });
 });
