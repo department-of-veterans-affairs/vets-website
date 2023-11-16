@@ -3,9 +3,13 @@ import {
   SEARCH_STARTED,
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,
-  FETCH_SPECIALTIES,
+  GEOCODE_STARTED,
   CLEAR_SEARCH_TEXT,
   FETCH_REPRESENTATIVES,
+  GEOLOCATE_USER,
+  GEOCODE_FAILED,
+  GEOCODE_COMPLETE,
+  GEOCODE_CLEAR_ERROR,
 } from '../../utils/actionTypes';
 import {
   SearchQueryReducer,
@@ -80,6 +84,56 @@ describe('search query reducer', () => {
     expect(state.isValid).to.eql(false);
   });
 
+  it('should handle geocode started', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: GEOCODE_STARTED,
+    });
+
+    expect(state.error).to.eql(false);
+    expect(state.geocodeInProgress).to.eql(true);
+  });
+
+  it('should handle geolocate user', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: GEOLOCATE_USER,
+    });
+
+    expect(state.geolocationInProgress).to.eql(true);
+  });
+
+  it('should handle geocode failed', () => {
+    const action = {
+      type: GEOCODE_FAILED,
+      payload: { geocodeError: -1 },
+    };
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: GEOCODE_FAILED,
+    });
+
+    expect(action.payload.geocodeError).to.eql(-1);
+    expect(state.geocodeInProgress).to.eql(false);
+    expect(state.geolocationInProgress).to.eql(false);
+  });
+
+  it('should handle geocode complete', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: GEOCODE_COMPLETE,
+    });
+
+    expect(state.geocodeInProgress).to.eql(false);
+    expect(state.geolocationInProgress).to.eql(false);
+  });
+
+  it('should handle geocode clear error', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: GEOCODE_CLEAR_ERROR,
+    });
+
+    expect(state.geocodeError).to.eql(0);
+    expect(state.geocodeInProgress).to.eql(false);
+    expect(state.geolocationInProgress).to.eql(false);
+  });
+
   describe('isValid', () => {
     it('should be true with locationInputString and representativeType', () => {
       const state = SearchQueryReducer(INITIAL_STATE, {
@@ -118,15 +172,6 @@ describe('search query reducer', () => {
       expect(state.locationChanged).to.eql(true);
       expect(state.representativeTypeChanged).to.eql(true);
     });
-  });
-
-  it('should handle fetching services', () => {
-    const state = SearchQueryReducer(INITIAL_STATE, {
-      type: FETCH_SPECIALTIES,
-    });
-
-    expect(state.error).to.eql(false);
-    expect(state.fetchSvcsInProgress).to.eql(true);
   });
 
   it('should invalidate form when clearing search text', () => {

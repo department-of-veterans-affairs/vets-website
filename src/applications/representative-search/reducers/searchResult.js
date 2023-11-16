@@ -3,8 +3,6 @@ import {
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
   SORT_TYPE_UPDATED,
-  MOCK_SEARCH,
-  MOCK_SEARCH_PAGE_2,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -19,11 +17,6 @@ const INITIAL_STATE = {
 
 export const SearchResultReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    // case SORT_TYPE_UPDATED:
-    //   return {
-    //     ...state,
-    //     ...action.payload,
-    //   };
     case FETCH_REPRESENTATIVES:
       return {
         ...state,
@@ -33,8 +26,6 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         resultTime: action.payload.meta.resultTime,
       };
     case SORT_TYPE_UPDATED:
-    case MOCK_SEARCH:
-    case MOCK_SEARCH_PAGE_2:
       return {
         ...state,
         ...action.payload,

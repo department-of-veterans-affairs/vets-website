@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { FETCH_REPRESENTATIVES } from '../../utils/actionTypes';
+import {
+  FETCH_REPRESENTATIVES,
+  SORT_TYPE_UPDATED,
+  SEARCH_FAILED,
+} from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
@@ -27,6 +31,27 @@ describe('representatives reducer', () => {
     expect(state.pagination.currentPage).to.eql(1);
   });
 
+  it('should handle sort type updated', () => {
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: SORT_TYPE_UPDATED,
+      payload: {
+        sortType: 'DISTANCE_DSC',
+      },
+    });
+
+    expect(state.sortType).to.not.eql('DISTANCE_ASC');
+  });
+
+  it('should return error if error present', () => {
+    const action = { error: 404 };
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: SEARCH_FAILED,
+      error: 404,
+    });
+
+    expect(state.error).to.eql(action.error);
+  });
+
   it('should clear error after a successful search', () => {
     const state = SearchResultReducer(
       { ...INITIAL_STATE, error: true },
@@ -42,7 +67,6 @@ describe('representatives reducer', () => {
         },
       },
     );
-
     expect(state.error).to.be.null;
   });
 
