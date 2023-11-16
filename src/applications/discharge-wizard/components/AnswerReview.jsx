@@ -41,12 +41,12 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
             shouldShowQuestion(k, formValues.questions) && (
               <div key={k} className="answer-review">
                 <p className="vads-u-padding-right--2">{reviewLabel}</p>
-                <va-button
+                <va-link
+                  href="#"
                   onClick={handleScrollTo}
-                  secondary
-                  text="Edit"
                   name={k}
-                  label={reviewLabel}
+                  text="Edit"
+                  aria-label={reviewLabel}
                 />
               </div>
             )
