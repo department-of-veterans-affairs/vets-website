@@ -293,7 +293,7 @@ const Dashboard = ({
                     <>
                       <HealthCare isVAPatient={isVAPatient} />
                       <EducationAndTraining />
-                      <SavedApplications />
+                      <BenefitApplicationDrafts />
                     </>
                   )}
                 </Toggler.Enabled>
