@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-// import appendQuery from 'append-query';
-// import { browserHistory } from 'react-router';
+import { isEmpty } from 'lodash';
+import appendQuery from 'append-query';
+import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/search/SearchResultsHeader';
 import ResultsList from '../components/search/ResultsList';
@@ -22,6 +22,7 @@ import {
   updateSearchQuery,
   updateSortType,
   geolocateUser,
+  geocodeUserAddress,
   clearGeocodeError,
   mockSearch,
   mockSearchPage2,
@@ -31,37 +32,84 @@ const SearchPage = props => {
   const searchResultTitleRef = useRef(null);
   // const [isSearching, setIsSearching] = useState(false);
 
-  // const updateUrlParams = params => {
-  //   const { location, currentQuery } = props;
-  //   const queryParams = {
-  //     ...location.query,
-  //     page: currentQuery.currentPage,
-  //     address: currentQuery.locationInputString,
-  //     representativeType: currentQuery.representativeType,
-  //     latitude: props.currentQuery.position?.latitude,
-  //     longitude: props.currentQuery.position?.longitude,
-  //     radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
-  //     bounds: props.currentQuery.bounds,
-  //     ...params,
-  //   };
-  //   const queryStringObj = appendQuery(
-  //     `/find-representatives${location.pathname}`,
-  //     queryParams,
-  //   );
-  //   browserHistory.push(queryStringObj);
-  // };
+  const updateUrlParams = params => {
+    const { location, currentQuery, sortType } = props;
+
+    const queryParams = {
+      ...location.query,
+      address: currentQuery.locationInputString,
+
+      latitude: props.currentQuery.position?.latitude,
+      longitude: props.currentQuery.position?.longitude,
+
+      page: currentQuery.currentPage,
+      /* eslint-disable camelcase */
+      per_page: 10,
+      sort: sortType.toLowerCase(),
+      type: currentQuery.representativeType,
+      name: currentQuery.repOrganizationInputString,
+
+      ...params,
+    };
+    const queryStringObj = appendQuery(
+      `/get-help-from-accredited-representative/find-rep${location.pathname}`,
+      queryParams,
+    );
+    browserHistory.push(queryStringObj);
+  };
 
   const handleSearch = async () => {
-    // const { currentQuery } = props;
-    // const { locationInputString } = currentQuery;
+    const { currentQuery } = props;
+    const {
+      locationInputString,
+      repOrganizationInputString,
+      representativeType,
+    } = currentQuery;
 
-    // updateUrlParams({
-    //   address: locationInputString,
-    // });
+    props.updateSearchQuery({
+      locationQueryString: locationInputString,
+      repOrganizationQueryString: repOrganizationInputString,
+    });
+
+    props.geocodeUserAddress(currentQuery);
+
+    updateUrlParams({
+      address: locationInputString,
+      name: repOrganizationInputString || null,
+      type: representativeType,
+    });
     // setIsSearching(true);
+
+    // TODO: useeffect for when results changes
     focusElement('#search-results-subheader');
 
     props.mockSearch();
+  };
+
+  const searchWithUrl = () => {
+    // Check for scenario when results are in the store
+    if (!!props.location.search && props.results && props.results.length > 0) {
+      return;
+    }
+    const { location } = props;
+
+    if (!isEmpty(location.query)) {
+      props.updateSearchQuery({
+        locationQueryString: location.query.address,
+        locationInputString: location.query.address,
+        repOrganizationQueryString: location.query.name,
+        repOrganizationInputString: location.query.name,
+        representativeType: location.query.type,
+      });
+    }
+
+    if (location.query.address) {
+      props.updateSearchQuery({
+        locationQueryString: location.query.address,
+        // context: location.query.context,
+      });
+      // setIsSearching(true);
+    }
   };
 
   const handlePageSelect = e => {
@@ -167,7 +215,7 @@ const SearchPage = props => {
               <SearchResultsHeader
                 searchResults={props.searchResults}
                 representativeType={currentQuery.representativeType}
-                userLocation={currentQuery.locationInputString}
+                userLocation={currentQuery.locationQueryString}
                 context={queryContext}
                 inProgress={currentQuery.inProgress}
                 pagination={props.pagination}
@@ -186,7 +234,7 @@ const SearchPage = props => {
   //   const {
   //     searchArea,
   //     // context,
-  //     // locationInputString
+  //     // locationQueryString
   //   } = currentQuery;
   //   const coords = currentQuery.position;
   //   const { radius } = currentQuery;
@@ -194,7 +242,7 @@ const SearchPage = props => {
   //   if (searchArea) {
   //     // updateUrlParams({
   //     //   context,
-  //     //   locationInputString,
+  //     //   locationQueryString,
   //     // });
   //     props.searchWithBounds({
   //       bounds: props.currentQuery.bounds,
@@ -210,7 +258,7 @@ const SearchPage = props => {
   //   if (isSearching) {
   //     // updateUrlParams({
   //     //   context: props.currentQuery.context,
-  //     //   address: props.currentQuery.locationInputString,
+  //     //   address: props.currentQuery.locationQueryString,
   //     // });
   //     const { currentQuery } = props;
   //     const coords = currentQuery.position;
@@ -241,6 +289,7 @@ const SearchPage = props => {
   useEffect(() => {
     // Scroll to the top of the page
     window.scrollTo(0, 0);
+    searchWithUrl();
   }, []);
 
   // useEffect(
@@ -315,6 +364,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   geolocateUser,
   clearGeocodeError,
+  geocodeUserAddress,
   fetchRepresentatives,
   updateSearchQuery,
   updateSortType,
