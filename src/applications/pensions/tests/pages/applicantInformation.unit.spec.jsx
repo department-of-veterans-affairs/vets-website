@@ -28,8 +28,7 @@ const getData = ({
 } = {}) => ({
   props: {
     loggedIn,
-    location: { pathname: '/introduction', search: '' },
-    children: <h1>Intro</h1>,
+    location: {},
     router: { push: routerPush },
   },
   data: {
