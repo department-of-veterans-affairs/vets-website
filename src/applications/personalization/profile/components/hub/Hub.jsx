@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import {
   hasBadAddress as hasBadAddressSelector,
   selectProfileContactsToggle,
-  selectProfileShowProofOfVeteranStatusToggle,
 } from '@@profile/selectors';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
@@ -19,9 +18,6 @@ export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
   const profileContactsEnabled = useSelector(selectProfileContactsToggle);
-  const profileShowProofOfVeteranStatus = useSelector(
-    selectProfileShowProofOfVeteranStatusToggle,
-  );
 
   useEffect(() => {
     document.title = `Profile | Veterans Affairs`;
@@ -143,13 +139,6 @@ export const Hub = () => {
           />
         </HubCard>
       </div>
-      {/* Temporary link to proof of veteran status page for toggle testing  */}
-      {profileShowProofOfVeteranStatus && (
-        <ProfileLink
-          href={PROFILE_PATHS.VETERAN_STATUS}
-          text="View proof of Veteran status"
-        />
-      )}
     </>
   );
 };

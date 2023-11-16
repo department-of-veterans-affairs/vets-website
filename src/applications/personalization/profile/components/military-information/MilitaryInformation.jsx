@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { some } from 'lodash';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { selectProfileShowProofOfVeteranStatusToggle } from '@@profile/selectors';
+import { ProfileLink } from '@@profile/components/ProfileLink';
+import { PROFILE_PATHS } from '@@profile/constants';
 
 import DowntimeNotification, {
   externalServices,
@@ -119,6 +122,10 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
     focusElement('[data-focus-target]');
   }, []);
 
+  const profileShowProofOfVeteranStatus = useSelector(
+    selectProfileShowProofOfVeteranStatusToggle,
+  );
+
   const invalidVeteranStatus =
     !veteranStatus?.status || veteranStatus?.status === 'NOT_AUTHORIZED';
 
@@ -127,7 +134,17 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
     invalidVeteranStatus &&
     !militaryInformation?.serviceHistory?.serviceHistory
   ) {
-    return <NotAVeteranAlert />;
+    return (
+      <>
+        <NotAVeteranAlert />
+        {/* {profileShowProofOfVeteranStatus && (
+          <ProfileLink
+            href={PROFILE_PATHS.VETERAN_STATUS}
+            text="View proof of Veteran status"
+          />
+        )} */}
+      </>
+    );
   }
 
   const {
@@ -136,13 +153,33 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 
   if (error) {
     if (some(error.errors, ['code', '403'])) {
-      return <NotInDEERSAlert />;
+      return (
+        <>
+          <NotInDEERSAlert />
+          {/* {profileShowProofOfVeteranStatus && (
+            <ProfileLink
+              href={PROFILE_PATHS.VETERAN_STATUS}
+              text="View proof of Veteran status"
+            />
+          )} */}
+        </>
+      );
     }
     return <LoadFail />;
   }
 
   if (serviceHistory.length === 0) {
-    return <NoServiceHistoryAlert />;
+    return (
+      <>
+        <NoServiceHistoryAlert />
+        {/* {profileShowProofOfVeteranStatus && (
+          <ProfileLink
+            href={PROFILE_PATHS.VETERAN_STATUS}
+            text="View proof of Veteran status"
+          />
+        )} */}
+      </>
+    );
   }
 
   return (
@@ -155,6 +192,13 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         level={2}
         asList
       />
+
+      {profileShowProofOfVeteranStatus && (
+        <ProfileLink
+          href={PROFILE_PATHS.VETERAN_STATUS}
+          text="View proof of Veteran status"
+        />
+      )}
 
       <div className="vads-u-margin-top--4">
         <va-additional-info trigger="What if I don't think my military service information is correct?">
