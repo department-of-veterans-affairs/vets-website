@@ -25,7 +25,8 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
-import { checkValidations, uniqueIssue } from '../../shared/validations/issues';
+import { checkValidations } from '../../shared/validations';
+import { uniqueIssue } from '../../shared/validations/issues';
 import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 import { setStorage } from '../../shared/utils/addIssue';
 

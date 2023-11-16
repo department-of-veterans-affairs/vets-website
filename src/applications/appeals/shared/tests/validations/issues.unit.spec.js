@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { uniqueIssue } from '../../validations';
+import { uniqueIssue, missingIssueName } from '../../validations/issues';
 
 describe('uniqueIssue', () => {
   const _ = null;
@@ -52,5 +52,18 @@ describe('uniqueIssue', () => {
       ],
     });
     expect(errors.addError.called).to.be.true;
+  });
+});
+
+describe('missingIssueName', () => {
+  it('should show an error when a name is missing', () => {
+    const errors = { addError: sinon.spy() };
+    missingIssueName(errors);
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error when a name is missing', () => {
+    const errors = { addError: sinon.spy() };
+    missingIssueName(errors, 'test');
+    expect(errors.addError.called).to.be.false;
   });
 });
