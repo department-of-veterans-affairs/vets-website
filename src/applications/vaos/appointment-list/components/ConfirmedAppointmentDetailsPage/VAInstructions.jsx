@@ -29,6 +29,7 @@ export default function VAInstructions({ appointment }) {
 VAInstructions.propTypes = {
   appointment: PropTypes.shape({
     comment: PropTypes.string,
+    version: PropTypes.number,
   }),
 };
 
