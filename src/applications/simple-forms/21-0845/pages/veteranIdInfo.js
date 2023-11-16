@@ -8,8 +8,7 @@ export default {
     veteranVaFileNumber: {
       'ui:title': 'VA file number (if available)',
       'ui:errorMessages': {
-        pattern:
-          "Please enter a valid VA file number.  All should have 7-9 digits; some may start with a 'C'",
+        pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
     veteranServiceNumber: {
@@ -25,7 +24,7 @@ export default {
     required: ['veteranSSN'],
     properties: {
       veteranSSN: definitions.ssn,
-      veteranVaFileNumber: definitions.vaFileNumber,
+      veteranVaFileNumber: definitions.centralMailVaFile,
       veteranServiceNumber: definitions.veteranServiceNumber,
     },
   },
