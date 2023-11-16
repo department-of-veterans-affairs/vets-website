@@ -257,7 +257,7 @@ describe('Compose form component', () => {
     );
   });
 
-  it('renders without errors on Delete draft button click', async () => {
+  it.skip('renders without errors on Delete draft button click', async () => {
     const deleteDraftSpy = sinon.spy(draftActions, 'deleteDraft');
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,

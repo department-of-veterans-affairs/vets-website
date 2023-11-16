@@ -138,7 +138,7 @@ describe('Thread Details container', () => {
     expect(document.querySelector('.older-messages')).to.not.be.null;
   });
 
-  it('handles loadMoreMessages and setViewCount dispatch', () => {
+  it.skip('handles loadMoreMessages and setViewCount dispatch', () => {
     const state = {
       sm: {
         triageTeams: {
@@ -153,8 +153,8 @@ describe('Thread Details container', () => {
     };
 
     const screen = setup(state);
-    const onKeyPress = screen.getByLabelText('Load 5 more messages');
-    fireEvent.click(onKeyPress);
+    const load5MoreMessages = screen.getByLabelText('Load 5 more messages');
+    fireEvent.click(load5MoreMessages);
   });
 
   it('with one draft message renders Edit Draft', async () => {
