@@ -247,11 +247,7 @@ const ReplyForm = props => {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError({
-            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-            confirmButtonText: 'Continue editing',
-            cancelButtonText: 'Delete draft',
-          });
+          setNavigationError(null);
         }
       }
 
@@ -317,9 +313,15 @@ const ReplyForm = props => {
         (messageBody === '' && draftBody === null)
       ) {
         setNavigationError(null);
+      } else if (messageBody !== draftBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
       }
     },
-    [deleteButtonClicked, draft, messageBody],
+    [draft, messageBody],
   );
 
   useEffect(
@@ -489,8 +491,6 @@ const ReplyForm = props => {
                 draftId={newDraftId}
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
-                setDeleteButtonClicked={setDeleteButtonClicked}
-                messageBody={messageBody}
               />
             </div>
           </form>

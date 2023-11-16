@@ -29,7 +29,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     cy.get('[data-testid="Send-Button"]')
       .contains('Send')
       .click();
-    composePage.verifySelcteRespitantErrorMessage();
+    composePage.verifySelectRecipientErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

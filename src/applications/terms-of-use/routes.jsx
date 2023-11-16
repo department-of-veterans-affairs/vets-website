@@ -1,5 +1,6 @@
 import TermsOfUse from './containers/TermsOfUse';
 import Declined from './components/Declined';
+import MyVAHealth from './components/MyVAHealth';
 
 export const e2eRoutes = {
   homepage: '/terms-of-use',
@@ -13,6 +14,10 @@ export default {
     {
       path: '/declined',
       component: Declined,
+    },
+    {
+      path: '/myvahealth',
+      component: MyVAHealth,
     },
   ],
 };

@@ -80,21 +80,8 @@ const ComposeForm = props => {
     [signature],
   );
 
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
-  );
-
   const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === null) {
-      setNavigationError(null);
-    }
-    if (
-      typeOfError ===
-      ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR
-    ) {
+    if (typeOfError === 'attachment') {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
         confirmButtonText:
@@ -102,8 +89,7 @@ const ComposeForm = props => {
         cancelButtonText:
           ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
       });
-    }
-    if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
+    } else {
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
         confirmButtonText: 'Continue editing',
@@ -114,41 +100,18 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      const blankForm =
-        messageBody === '' &&
-        subject === '' &&
-        (selectedRecipient === 0 || selectedRecipient === '0') &&
-        category === null &&
-        attachments.length === 0;
+      dispatch(getCategories());
+    },
+    [dispatch],
+  );
 
-      if (blankForm) {
-        setUnsavedNavigationError(null);
-      } else {
-        if (!deleteButtonClicked) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-          if (formPopulated) {
-            setUnsavedNavigationError(null);
-          }
-        }
-        if (!deleteButtonClicked && attachments.length > 0) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-          );
-          updateModalVisible(false);
-        }
+  useEffect(
+    () => {
+      if (attachments.length > 0) {
+        setUnsavedNavigationError('attachment');
       }
     },
-    [
-      attachments,
-      category,
-      deleteButtonClicked,
-      formPopulated,
-      messageBody,
-      selectedRecipient,
-      subject,
-    ],
+    [attachments],
   );
 
   useEffect(
@@ -295,24 +258,15 @@ const ComposeForm = props => {
     async (type, e) => {
       if (type === 'manual') {
         setLastFocusableElement(e.target);
-        // setUserSaved(true)
         await setMessageInvalid(false);
-        if (checkMessageValidity() === true) {
+        if (checkMessageValidity()) {
           setNavigationError(null);
-        } else
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-
-        if (attachments.length > 0) {
+        }
+        if (attachments.length) {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError({
-            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-            confirmButtonText: 'Continue editing',
-            cancelButtonText: 'Delete draft',
-          });
+          setNavigationError(null);
         }
       }
 
@@ -325,7 +279,6 @@ const ComposeForm = props => {
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
-        // setUserSaved(true);
         return;
       }
 
@@ -341,6 +294,7 @@ const ComposeForm = props => {
       if (checkMessageValidity() === true) {
         dispatch(saveDraft(formData, type, draftId));
       }
+      if (!attachments.length) setNavigationError(null);
     },
     [
       attachments.length,
@@ -570,12 +524,7 @@ const ComposeForm = props => {
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
-            formPopulated={formPopulated}
-            navigationError={navigationError}
             setNavigationError={setNavigationError}
-            setDeleteButtonClicked={setDeleteButtonClicked}
-            setUnsavedNavigationError={setUnsavedNavigationError}
-            deleteButtonClicked={deleteButtonClicked}
           />
         </div>
       </form>
