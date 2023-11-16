@@ -173,16 +173,15 @@ describe('526EZ keyboard only navigation', () => {
       cy.url().should('include', veteranDetailsPages.contactInformation.path);
       cy.injectAxeThenAxeCheck();
 
-      // 1. Can update existing info
-      // idRoot = '#root_phoneAndEmail_';
+      // // 1. Can update existing info
       // cy.tabToElementAndPressSpace('.edit-button');
       // // NOTE: Cypress quirk requires you to clear current input before typing
       // // new input. IRL, this is not necessary.
-      // cy.tabToElement(`${idRoot}primaryPhone`);
+      // cy.tabToElement('#root_phoneAndEmail_primaryPhone');
       // cy.typeInFocused('');
       // cy.typeInFocused(data.phoneAndEmail.primaryPhone);
       // cy.typeInIfDataExists(
-      // `${idRoot}emailAddress`,
+      // '#root_phoneAndEmail_emailAddress',
       // data.phoneAndEmail.emailAddress,
       // );
       // cy.tabToElementAndPressSpace('.update-button');
@@ -191,19 +190,19 @@ describe('526EZ keyboard only navigation', () => {
       // cy.tabToElementAndPressSpace('.edit-button');
       // cy.tabToElementAndPressSpace('.cancel-button');
 
-      // // 3. Can indicate address on a military base outside of the US
-      // idRoot = '#root_mailingAddress_';
-      // // NOTE: Cypress quirk - unable to select checkbox by ID or by label text
-      // // (via tabToInputWithLabel), but selecting by input type works.
-      // cy.tabToElementAndPressSpace('[type="checkbox"]');
-      // cy.typeInIfDataExists(`${idRoot}addressLine1`, '123 foo st');
-      // cy.typeInIfDataExists(`${idRoot}addressLine2`, 'Apt 1');
-      // cy.typeInIfDataExists(`${idRoot}addressLine3`, 'Room 2');
-      // cy.tabToElement(`${idRoot}city`);
-      // cy.chooseSelectOptionByTyping('APO');
-      // cy.tabToElement(`${idRoot}state`);
-      // cy.chooseSelectOptionByTyping('Armed Forces Americas (AA)');
-      // cy.typeInIfDataExists(`${idRoot}zipCode`, '11111');
+      // 3. Can indicate address on a military base outside of the US
+      idRoot = '#root_mailingAddress_';
+      // NOTE: Cypress quirk - unable to select checkbox by ID or by label text
+      // (via tabToInputWithLabel), but selecting by input type works.
+      cy.tabToElementAndPressSpace('[type="checkbox"]');
+      cy.typeInIfDataExists(`${idRoot}addressLine1`, '123 foo st');
+      cy.typeInIfDataExists(`${idRoot}addressLine2`, 'Apt 1');
+      cy.typeInIfDataExists(`${idRoot}addressLine3`, 'Room 2');
+      cy.tabToElement(`${idRoot}city`);
+      cy.chooseSelectOptionByTyping('APO');
+      cy.tabToElement(`${idRoot}state`);
+      cy.chooseSelectOptionByTyping('Armed Forces Americas (AA)');
+      cy.typeInIfDataExists(`${idRoot}zipCode`, '11111');
 
       // // 4. Can indicate a US address
       // cy.tabToElementAndPressSpace('[type="checkbox"]', false);
