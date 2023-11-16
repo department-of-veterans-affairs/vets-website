@@ -46,7 +46,7 @@ const AttachmentsList = props => {
       if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
         setTimeout(() => {
           setFocusedElement(
-            attachFileAlertRef.current.shadowRoot.querySelector('button'),
+            document.querySelector('#close-success-alert-button'),
           );
         }, 200);
       }
@@ -116,9 +116,9 @@ const AttachmentsList = props => {
             aria-live="polite"
             ref={attachFileAlertRef}
             background-only
-            closeable
             className="file-attached-success vads-u-margin-top--2"
-            close-btn-aria-label="Close notification"
+            // closeable
+            // close-btn-aria-label="Close notification"
             data-testid="file-attached-success-alert"
             disable-analytics
             full-width="false"
@@ -127,6 +127,24 @@ const AttachmentsList = props => {
             onCloseEvent={handleSuccessAlertClose}
           >
             <p className="vads-u-margin-bottom--0">File attached</p>
+            <button
+              className="close-success-alert-button vads-u-padding--0p5"
+              id="close-success-alert-button"
+              data-testid="close-success-alert-button"
+              aria-label="Close notification"
+              type="button"
+              onClick={() => {
+                setAttachFileSuccess(false);
+                handleSuccessAlertClose();
+              }}
+            >
+              <i
+                className="fas fa-times-circle vads-u-color--black"
+                style={{ fontSize: '2.4rem' }}
+                alt="Close notification icon"
+                aria-hidden="true"
+              />
+            </button>
           </VaAlert>
         )}
 

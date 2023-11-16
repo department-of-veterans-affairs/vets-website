@@ -10,10 +10,6 @@ const RemoveAttachmentModal = props => {
       data-testid="remove-attachment-modal"
       modalTitle={Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}
       onCloseEvent={props.onClose}
-      // onPrimaryButtonClick={props.onDelete}
-      // onSecondaryButtonClick={props.onClose}
-      // primaryButtonText="Remove"
-      // secondaryButtonText="Cancel"
       visible={props.visible}
       status="warning"
     >

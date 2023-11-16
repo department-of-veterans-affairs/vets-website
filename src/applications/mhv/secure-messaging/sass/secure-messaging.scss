@@ -251,6 +251,17 @@ va-modal va-radio {
       left: 3px;
     }
   }
+
+}
+
+.close-success-alert-button {
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 4px;
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 pre {

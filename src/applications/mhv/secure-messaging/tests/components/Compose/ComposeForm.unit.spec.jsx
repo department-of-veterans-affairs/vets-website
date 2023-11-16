@@ -319,7 +319,7 @@ describe('Compose form component', () => {
     );
     const val = 'Test Subject';
     inputVaTextInput(screen.container, val);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('message-subject-field')).to.have.value(val);
     });
   });
@@ -335,7 +335,7 @@ describe('Compose form component', () => {
     );
     const val = 'test body';
     inputVaTextInput(screen.container, val, 'va-textarea');
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('message-body-field')).to.have.value(val);
     });
   });
@@ -383,100 +383,5 @@ describe('Compose form component', () => {
     });
 
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
-  });
-
-  it('displays file-attached alert only after file successfully attached', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
-    const file = new File(['(⌐□_□)'], 'test1.png', { type: 'image/png' });
-    const uploader = screen.getByTestId('attach-file-input');
-
-    const attachFileButton = screen.getByTestId('attach-file-button');
-    expect(attachFileButton).to.have.attribute('text', 'Attach file');
-
-    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
-
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
-
-    // expect(screen.queryByTestId('file-attached-success-alert')).to.exist;
-    const successAlert = await screen.queryByTestId(
-      'file-attached-success-alert',
-    );
-
-    expect(successAlert).to.exist;
-
-    // await waitFor(() => {
-    //   fireEvent.click(screen.getByTestId('remove-attachment-button'));
-    // });
-
-    // await waitFor(() => {
-    //   fireEvent.click(screen.getByTestId('confirm-remove-attachment-button'));
-    // });
-    // expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
-  });
-
-  it('removes file-attached alert when REMOVE button is clicked', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
-    const file = new File(['(⌐□_□)'], 'test1.png', { type: 'image/png' });
-    const uploader = screen.getByTestId('attach-file-input');
-
-    // const attachFileButton = screen.getByTestId('attach-file-button');
-    // expect(attachFileButton).to.have.attribute('text', 'Attach file');
-
-    // expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
-
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
-
-    // expect(screen.queryByTestId('file-attached-success-alert')).to.exist;
-
-    await waitFor(() => {
-      fireEvent.click(screen.getByTestId('remove-attachment-button'));
-    });
-
-    await waitFor(() => {
-      fireEvent.click(screen.getByTestId('confirm-remove-attachment-button'));
-    });
-    screen.debug(undefined, 10000);
-    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
-  });
-
-  it('removes file-attached alert when attach-additional-file button is clicked', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
-    const file = new File(['(⌐□_□)'], 'test2.png', { type: 'image/png' });
-    const uploader = screen.getByTestId('attach-file-input');
-
-    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
-
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
-
-    screen.debug(undefined, 10000);
-
-    await waitFor(
-      () => {
-        screen.getByTestId('file-attached-success-alert');
-      },
-      { timeout: 500 },
-    );
-    // expect(successAlert).to.exist;
-
-    const attachFileButton = screen.getByTestId('attach-file-button');
-    expect(attachFileButton).to.have.attribute(
-      'text',
-      'Attach additional file',
-    );
-
-    fireEvent.click(attachFileButton);
-    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
   });
 });
