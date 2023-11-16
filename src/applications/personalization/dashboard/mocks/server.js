@@ -23,7 +23,7 @@ const hasDebts = false;
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     myVaEnableNotificationComponent: true,
-    myVaUseExperimental: true,
+    myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
