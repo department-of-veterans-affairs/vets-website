@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   isReactComponent,
   focusElement,
@@ -34,6 +35,7 @@ function focusForm(route, index) {
 
 class FormPage extends React.Component {
   componentDidMount() {
+    this.prePopulateArrayData();
     if (!this.props.blockScrollOnMount) {
       focusForm(this.props.route, this.props?.params?.index);
     }
@@ -45,6 +47,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
+      this.prePopulateArrayData();
       focusForm(this.props.route, this.props?.params?.index);
     }
   }
@@ -108,6 +111,38 @@ class FormPage extends React.Component {
     }
 
     this.props.router.push(path);
+  };
+
+  prePopulateArrayData = () => {
+    const { pageConfig } = this.props.route;
+    // only applicable to array routes with these settings
+    if (pageConfig.showPagePerItem && pageConfig.allowPathWithNoItems) {
+      const arrayFormData = get(
+        [pageConfig.arrayPath, this.props.params.index],
+        this.props.form.data,
+      );
+      if (!arrayFormData) {
+        // we are trying to visit a route where there is no formData
+        // for this index in the array, so we need to create and
+        // pre-populate it with empty values for SchemaForm to work properly
+        const defaultData = getDefaultFormState(
+          pageConfig.schema.properties[pageConfig.arrayPath].items ||
+            pageConfig.schema.properties[pageConfig.arrayPath].additionalItems,
+        );
+        let newData = this.props.form.data;
+        if (!get(pageConfig.arrayPath, this.props.form.data)) {
+          // if the array doesn’t exist yet, create it (non-destructively)
+          newData = set([pageConfig.arrayPath], [], this.props.form.data);
+        }
+        // add the new data (empty defaults) to the array (non-destructively)
+        newData = set(
+          [pageConfig.arrayPath, this.props.params.index],
+          defaultData,
+          newData,
+        );
+        this.props.setData(newData);
+      }
+    }
   };
 
   formData = () => {
