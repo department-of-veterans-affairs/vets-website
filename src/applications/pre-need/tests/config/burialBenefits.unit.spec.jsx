@@ -5,7 +5,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  selectRadio,
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
@@ -116,5 +119,26 @@ describe('Pre-need burial benefits', () => {
       form.unmount();
       done();
     });
+  });
+
+  it('should submit with required information', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />{' '}
+      </Provider>,
+    );
+
+    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
+
+    form.find('form').simulate('submit');
+
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });
