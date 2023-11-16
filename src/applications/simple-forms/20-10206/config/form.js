@@ -1,25 +1,33 @@
-// import fullSchema from 'vets-json-schema/dist/20-10206-schema.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import manifest from '../manifest.json';
+// we're NOT using JSON Schema for this form, so we don't need to import it
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import preparerTypePg from '../pages/preparerType';
+import vetPersInfoPg from '../pages/veteranPersonalInfo';
+import vetIdInfoPg from '../pages/veteranIdentificationInfo';
+import vetAddressPg from '../pages/veteranAddress';
+import vetPhoneEmailPg from '../pages/veteranPhoneEmail';
+import { PREPARER_TYPES } from './constants';
 
-// const { } = fullSchema.properties;
+// mock-data import for local development
+import testData from '../tests/e2e/fixtures/data/test-data.json';
 
-// const { } = fullSchema.definitions;
+const mockData = testData.data;
 
-// TODO: Double-check post-MVP roadmap, and
-// refactor tracking-prefix and manifest prop(s) where needed
-// Our current MVP only supports PA, and we'll likely have to
-// add FOIA support down the road.
+/** @type {FormConfig} */
 const formConfig = {
+  dev: {
+    showNavLinks: !window.Cypress,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'foia-pa-10206',
+  trackingPrefix: 'pa-10206',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10206',
@@ -40,17 +48,71 @@ const formConfig = {
   title: 'Request personal records',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    preparerTypeChapter: {
+      title: 'Your identity',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
+        preparerTypePage: {
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData:
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
+          path: 'preparer-type',
+          title: 'Preparer type',
+          uiSchema: preparerTypePg.uiSchema,
+          schema: preparerTypePg.schema,
+          pageClass: 'preparer-type-page',
+        },
+      },
+    },
+    veteranPersonalInformationChapter: {
+      title: 'Your personal information',
+      pages: {
+        veteranPersonalInfoPage: {
+          depends: {
+            preparerType: PREPARER_TYPES.VETERAN,
           },
+          path: 'veteran-personal-information',
+          title: 'Name and date of birth',
+          uiSchema: vetPersInfoPg.uiSchema,
+          schema: vetPersInfoPg.schema,
+          pageClass: 'veteran-personal-information',
+        },
+        veteranIdentificationInfoPage: {
+          depends: {
+            preparerType: PREPARER_TYPES.VETERAN,
+          },
+          path: 'veteran-identification-information',
+          title: 'Identification information',
+          uiSchema: vetIdInfoPg.uiSchema,
+          schema: vetIdInfoPg.schema,
+          pageClass: 'veteran-identification-information',
+        },
+      },
+    },
+    veteranContactInformationChapter: {
+      title: 'Your contact information',
+      pages: {
+        veteranAddressPage: {
+          depends: {
+            preparerType: PREPARER_TYPES.VETERAN,
+          },
+          path: 'veteran-contact-information',
+          title: 'Mailing address',
+          uiSchema: vetAddressPg.uiSchema,
+          schema: vetAddressPg.schema,
+          pageClass: 'veteran-address',
+        },
+        veteranPhoneEmailPage: {
+          depends: {
+            preparerType: PREPARER_TYPES.VETERAN,
+          },
+          path: 'veteran-phone-email',
+          title: 'Phone and email address',
+          uiSchema: vetPhoneEmailPg.uiSchema,
+          schema: vetPhoneEmailPg.schema,
+          pageClass: 'veteran-phone-email',
         },
       },
     },

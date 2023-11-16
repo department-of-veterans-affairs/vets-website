@@ -1,0 +1,22 @@
+{
+  "data": {
+    "preparerType": "veteran",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "2000-01-01",
+    "veteranId": {
+      "ssn": "333221111"
+    },
+    "veteranAddress": {
+      "street": "1234 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345",
+      "country": "USA"
+    },
+    "veteranHomePhone": "5555555555"
+  }
+}
