@@ -66,10 +66,10 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vaProfile,
-      services.bgs,
-      services.mvi,
-      services.appeals,
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
     ],
   },
 
