@@ -1,5 +1,18 @@
 // import fullSchema from 'vets-json-schema/dist/10-7959C-schema.json';
 
+import {
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  ssnUI,
+  ssnSchema,
+  addressUI,
+  addressSchema,
+  radioUI,
+  radioSchema,
+  checkboxGroupUI,
+  checkboxGroupSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -9,6 +22,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
+/** @type {PageSchema} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -38,15 +52,80 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Chapter 1',
+      title: 'Beneficiary Information',
       pages: {
         page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
+          path: 'beneficiary-name',
+          title: 'Beneficiary Name',
+          uiSchema: {
+            beneficiaryFullName: fullNameNoSuffixUI(),
+          },
           schema: {
             type: 'object',
-            properties: {},
+            properties: {
+              beneficiaryFullName: fullNameNoSuffixSchema,
+            },
+          },
+        },
+        page2: {
+          path: 'beneficiary-ssn',
+          title: 'Beneficiary SSN',
+          uiSchema: {
+            beneficiarySSN: ssnUI(),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              beneficiarySSN: ssnSchema,
+            },
+          },
+        },
+        page3: {
+          path: 'beneficiary-address',
+          title: 'Beneficiary Address',
+          uiSchema: {
+            beneficiaryAddress: addressUI(),
+            beneficiaryNewAddress: checkboxGroupUI({
+              title: 'Address Information',
+              required: false,
+              labels: {
+                addressIsNew: 'Check if this is a new address',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              beneficiaryAddress: addressSchema({
+                omit: [
+                  'isMilitary',
+                  'view:militaryBaseDescription',
+                  'country',
+                  'street2',
+                  'street3',
+                ],
+              }),
+              beneficiaryNewAddress: checkboxGroupSchema(['addressIsNew']),
+            },
+          },
+        },
+        page4: {
+          path: 'beneficiary-gender',
+          title: 'Beneficiary Gender',
+          uiSchema: {
+            beneficiaryGender: radioUI({
+              title: 'Gender',
+              labels: {
+                male: 'Male',
+                female: 'Female',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              beneficiaryGender: radioSchema(['male', 'female']),
+            },
           },
         },
       },
