@@ -176,16 +176,13 @@ class TrackClaimsPage {
   }
 
   verifyNumberOfFiles(number) {
-    cy.get('.va-tabs li:nth-child(2) > a')
+    cy.get('.tabs li:nth-child(2) > a')
       .click()
       .then(() => {
         cy.get('.file-request-list-item').should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('a.va-tab-trigger.va-tab-trigger--current').should(
-      'contain',
-      'Files',
-    );
+    cy.get('a.tab.tab--current').should('contain', 'Files');
     cy.get('.file-request-list-item').should('have.length', number);
     cy.get('.submitted-file-list-item').should('have.length', number);
   }
@@ -198,7 +195,7 @@ class TrackClaimsPage {
   }
 
   claimDetailsTab() {
-    cy.get('.va-tabs li:nth-child(3) > a')
+    cy.get('.tabs li:nth-child(3) > a')
       .click()
       .then(() => {
         cy.get('.claim-details').should('be.visible');
@@ -208,10 +205,7 @@ class TrackClaimsPage {
   }
 
   verifyClaimDetails() {
-    cy.get('a.va-tab-trigger.va-tab-trigger--current').should(
-      'contain',
-      'Details',
-    );
+    cy.get('a.tab.tab--current').should('contain', 'Details');
     const details = [
       'Claim type',
       'What you’ve claimed',
