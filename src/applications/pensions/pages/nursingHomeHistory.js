@@ -6,7 +6,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Disabilities/medical information',
+    'ui:title': 'Nursing home information',
     nursingHomeHistory: yesNoUI({
       title: 'Do you live in a nursing home?',
       uswds: true,

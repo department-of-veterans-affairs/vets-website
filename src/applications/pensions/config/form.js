@@ -268,7 +268,7 @@ const formConfig = {
       },
     },
     healthHistory: {
-      title: 'Health history',
+      title: 'Health and employment information',
       pages: {
         socialSecurityDisabilityHistory: {
           title: 'Medical care',
