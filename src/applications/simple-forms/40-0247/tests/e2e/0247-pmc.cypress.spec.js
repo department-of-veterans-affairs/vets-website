@@ -30,7 +30,7 @@ const awaitFocusSelectorThenTest = () => {
           // callback to avoid field-disabled errors, but
           // even now we must wait a bit!
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(500);
+          cy.wait(1000);
           cy.fillPage();
           cy.axeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -93,7 +93,7 @@ const testConfig = createTestConfig(
                     // callback to avoid field-disabled errors, but
                     // even now we must wait a bit!
                     // eslint-disable-next-line cypress/no-unnecessary-waiting
-                    cy.wait(500);
+                    cy.wait(1000);
                     fillAddressWebComponentPattern(
                       'applicantAddress',
                       data.applicantAddress,
@@ -122,7 +122,7 @@ const testConfig = createTestConfig(
                     // callback to avoid field-disabled errors, but
                     // even now we must wait a bit!
                     // eslint-disable-next-line cypress/no-unnecessary-waiting
-                    cy.wait(500);
+                    cy.wait(1000);
                     fillAddressWebComponentPattern(
                       'additionalAddress',
                       additionalAddress,
