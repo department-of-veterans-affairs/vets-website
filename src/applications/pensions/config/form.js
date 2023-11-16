@@ -67,7 +67,6 @@ import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
 
-
 import {
   validateAfterMarriageDate,
   validateCentralMailPostalCode,
