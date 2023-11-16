@@ -135,11 +135,12 @@ export default function SchoolLocations({
   };
 
   const createRow = (inst, type, name = inst.institution) => {
-    const month = (
-      <React.Fragment key="months">
+    const estimatedHousing = (
+      <div key="months">
+        <span>{estimatedHousingValue(inst)}</span>
         <span className="sr-only">per month</span>
         <span aria-hidden="true">/mo</span>
-      </React.Fragment>
+      </div>
     );
     const {
       facilityCode,
@@ -166,12 +167,7 @@ export default function SchoolLocations({
       rowClassName: `${type}-row`,
       schoolName,
       location,
-      estimatedHousing: (
-        <>
-          {estimatedHousingValue(inst)}
-          {month}
-        </>
-      ),
+      estimatedHousing,
     };
   };
 
