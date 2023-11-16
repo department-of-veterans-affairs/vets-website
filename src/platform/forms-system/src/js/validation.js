@@ -10,7 +10,6 @@ import {
   isValidSSN,
   isValidYear,
   isValidVAFileNumber,
-  isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureDate,
@@ -19,6 +18,7 @@ import {
   isValidRoutingNumber,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
+  isValidDate,
 } from './utilities/validations';
 
 /*
@@ -368,7 +368,9 @@ export function validateDate(
     errors.addError(
       `Please enter a year between ${customMinYear} and ${customMaxYear}`,
     );
-  } else if (!isValidPartialDate(day, month, year)) {
+  } else if (!isValidYear(year)) {
+    errors.addError('Please provide a valid year');
+  } else if (!isValidDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
 }
