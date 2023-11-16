@@ -164,12 +164,11 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
 
       {profileShowProofOfVeteranStatus && (
-        <div className="vads-u-margin-top--4">
-          <ProfileLink
-            href={PROFILE_PATHS.VETERAN_STATUS}
-            text="View proof of Veteran status"
-          />
-        </div>
+        <ProfileLink
+          className="vads-u-display--block vads-u-margin-top--4"
+          href={PROFILE_PATHS.VETERAN_STATUS}
+          text="View proof of Veteran status"
+        />
       )}
 
       <div className="vads-u-margin-top--4">
