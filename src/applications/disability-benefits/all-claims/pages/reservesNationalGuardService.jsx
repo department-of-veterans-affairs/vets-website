@@ -3,7 +3,7 @@ import {
   validateDate,
   validateDateRange,
 } from '@department-of-veterans-affairs/platform-forms-system/validation';
-import VaMemorableDateField from '@department-of-veterans-affairs/platform-forms-system/VaMemorableDateField';
+import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { ReservesGuardDescription } from '../utils';
 
 const {

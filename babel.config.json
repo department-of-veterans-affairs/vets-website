@@ -237,7 +237,6 @@
 
           "@department-of-veterans-affairs/platform-forms-system/exports": "./src/platform/forms-system/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms-system/AddressViewField": "./src/platform/forms-system/src/js/components/AddressViewField.jsx",
-          "@department-of-veterans-affairs/platform-forms-system/VaMemorableDateField": "./src/platform/forms-system/src/js/web-component-fields/VaMemorableDateField",
           "@department-of-veterans-affairs/platform-forms-system/FormNavButtons": "./src/platform/forms-system/src/js/components/FormNavButtons.jsx",
           "@department-of-veterans-affairs/platform-forms-system/FormTitle": "./src/platform/forms-system/src/js/components/FormTitle.jsx",
           "@department-of-veterans-affairs/platform-forms-system/ProgressButton": "./src/platform/forms-system/src/js/components/ProgressButton.jsx",
