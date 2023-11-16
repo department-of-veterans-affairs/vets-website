@@ -1,12 +1,18 @@
 import PageObject from './PageObject';
 
 export class DateTimeSelectPageObject extends PageObject {
-  assertUrl({ isCovid = false } = {}) {
-    if (isCovid) {
-      cy.url().should('include', '/date-time');
-    } else {
-      cy.url().should('include', '/select-date');
-    }
+  assertRequestLink({ exist = true } = {}) {
+    cy.get('va-alert[status=warning]')
+      .as('alert')
+      .shadow();
+    cy.get('@alert')
+      .contains('Request an earlier appointment')
+      .should(exist ? 'exist' : 'not.exist');
+    return this;
+  }
+
+  assertUrl() {
+    cy.url().should('include', '/date-time');
 
     cy.wait('@v2:get:slots');
     cy.axeCheckBestPractice();
@@ -14,7 +20,7 @@ export class DateTimeSelectPageObject extends PageObject {
     return this;
   }
 
-  selectNextMonth() {
+  clickNextMonth() {
     cy.contains('button', 'Next')
       .as('button')
       .should('not.be.disabled')
@@ -24,7 +30,7 @@ export class DateTimeSelectPageObject extends PageObject {
     return this;
   }
 
-  selectPreviousMonth() {
+  clickPreviousMonth() {
     return this;
   }
 

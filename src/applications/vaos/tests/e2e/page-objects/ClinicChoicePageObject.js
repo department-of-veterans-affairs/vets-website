@@ -1,6 +1,11 @@
 import PageObject from './PageObject';
 
 export class ClinicChoicePageObject extends PageObject {
+  assertSingleClinic() {
+    cy.findByText(/Would you like to make an appointment at/i);
+    return this;
+  }
+
   assertUrl() {
     // cy.url().should('include', url, { timeout: 5000 });
     cy.url().should('include', '/clinic', { timeout: 5000 });
@@ -9,7 +14,7 @@ export class ClinicChoicePageObject extends PageObject {
     return this;
   }
 
-  selectClinic(selection, isCovid = false) {
+  selectClinic({ selection, isCovid = false } = {}) {
     if (isCovid) {
       cy.findByText(/Choose a clinic/i, { selector: 'h1' });
     } else {

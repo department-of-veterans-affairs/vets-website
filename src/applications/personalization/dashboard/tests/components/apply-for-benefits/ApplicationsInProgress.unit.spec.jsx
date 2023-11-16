@@ -8,7 +8,7 @@ import {
 } from '@@profile/tests/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import ApplicationsInProgress from '../../../components/apply-for-benefits/ApplicationsInProgress';
+import ApplicationsInProgress from '../../../components/benefit-application-drafts/ApplicationsInProgress';
 import reducers from '~/applications/personalization/dashboard/reducers';
 
 const savedForms = [

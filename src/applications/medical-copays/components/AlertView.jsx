@@ -1,5 +1,5 @@
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import PropTypes from 'prop-types';
 import Alert from './Alerts';
 import alertMessage from '../utils/alert-messages';
@@ -37,12 +37,12 @@ const AlertView = ({ pathname, alertType, error, cdpToggle, hasDebts }) => {
 
   return (
     <>
-      <Breadcrumbs className="vads-u-font-family--sans no-wrap">
+      <VaBreadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
         <a href="/health-care/pay-copay-bill/your-current-balances">{title}</a>
-      </Breadcrumbs>
+      </VaBreadcrumbs>
       <h1 data-testid="overview-page-title">{title}</h1>
       {cdpToggle ? (
         renderAlert(alertType, hasDebts)

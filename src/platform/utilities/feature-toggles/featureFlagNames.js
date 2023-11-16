@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  authExpVbaDowntimeMessage: 'auth_exp_vba_downtime_message',
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
@@ -50,6 +51,7 @@ export default Object.freeze({
   'cstUseLighthouse#show': 'cst_use_lighthouse_show',
   cstIncludeDdlBoaLetters: 'cst_include_ddl_boa_letters',
   cstUseNewClaimCards: 'cst_use_new_claim_cards',
+  cstUseClaimDetailsV2: 'cst_use_claim_details_v2',
   debtLettersShowLetters: 'debt_letters_show_letters',
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',

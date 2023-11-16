@@ -2764,12 +2764,12 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^31.0.1":
-  version "31.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-31.0.1.tgz#9382356d33481fad4e544b506f85b863e17c9c4c"
-  integrity sha512-Xh8i8PQYf7cA84kzdXJnOBZazlbqYD6Tdzmxv3/wzTU09d3jA3EOpbowuOXkA0QYoF4fRvJBTkaDl+2FZF/Now==
+"@department-of-veterans-affairs/component-library@^32.0.0":
+  version "32.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-32.0.0.tgz#e7ff7f92397f0c64bffc60fb10682e95e6e1b10d"
+  integrity sha512-/SkyObSmycMa5aZbhw8lQb2q4hCkQ/BIopQOYnhL5RtSxDZJbPPqeFWVC1IghEgJwLqmwaxKFsS+JjFI9GhP7Q==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "25.0.0"
+    "@department-of-veterans-affairs/react-components" "26.0.0"
     "@department-of-veterans-affairs/web-components" "4.47.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
@@ -2807,10 +2807,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@25.0.0":
-  version "25.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-25.0.0.tgz#9c5330869c7abdebe99cac5476a7f469bd920fd8"
-  integrity sha512-xArlOaMd5fPuEpc4b/g7gJfJoObG2JkOscH2Adi6m6gauXbtGXbQGEu3amKVsZEvpM5biy3Ga/aL3SA3DMO9iw==
+"@department-of-veterans-affairs/react-components@26.0.0":
+  version "26.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-26.0.0.tgz#c37a5bd8d41461ca2197195a0d890df99bd6e442"
+  integrity sha512-sdaEBQPxFgMg6X4XU6wsHm+wqY79EWQSLIk/k7eGVEZeHI1gasiphzkI/u/8B+JM4HjGUiRHRhaHfIgwcibzcQ==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -10350,9 +10350,9 @@ get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
 get-func-name@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/get-func-name/-/get-func-name-2.0.0.tgz"
-  integrity sha1-6td0q+5y4gQJQzoGY2YCPdaIekE=
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.2.tgz#0d7cf20cd13fda808669ffa88f4ffc7a3943fc41"
+  integrity sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.1:
   version "1.2.1"
