@@ -110,50 +110,6 @@ const ComposeForm = props => {
       });
     }
   };
-  useEffect(
-    () => {
-      const blankForm =
-        messageBody === '' &&
-        subject === '' &&
-        (selectedRecipient === 0 || selectedRecipient === '0') &&
-        category === null &&
-        attachments.length === 0;
-
-      const editPopulatedForm =
-        messageBody !== draft?.messageBody ||
-        selectedRecipient !== draft?.recipientId ||
-        category !== draft?.category ||
-        subject !== draft?.subject;
-
-      if (blankForm) {
-        setUnsavedNavigationError(null);
-      } else {
-        if (!deleteButtonClicked) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-          if (formPopulated && !editPopulatedForm) {
-            setUnsavedNavigationError(null);
-          }
-        }
-        if (!deleteButtonClicked && attachments.length > 0) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-          );
-          updateModalVisible(false);
-        }
-      }
-    },
-    [
-      attachments,
-      category,
-      deleteButtonClicked,
-      formPopulated,
-      messageBody,
-      selectedRecipient,
-      subject,
-    ],
-  );
 
   useEffect(
     () => {
@@ -378,6 +334,55 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
+      const blankForm =
+        messageBody === '' &&
+        subject === '' &&
+        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        category === null &&
+        attachments.length === 0;
+
+      const editPopulatedForm =
+        messageBody !== draft?.messageBody ||
+        selectedRecipient !== draft?.recipientId ||
+        category !== draft?.category ||
+        subject !== draft?.subject;
+
+      if (blankForm) {
+        setUnsavedNavigationError(null);
+      } else {
+        if (
+          (editPopulatedForm && !deleteButtonClicked) ||
+          (editPopulatedForm && formPopulated && !deleteButtonClicked)
+        ) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+        }
+        if (
+          editPopulatedForm &&
+          !deleteButtonClicked &&
+          attachments.length > 0
+        ) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
+          );
+          updateModalVisible(false);
+        }
+      }
+    },
+    [
+      attachments,
+      category,
+      deleteButtonClicked,
+      formPopulated,
+      messageBody,
+      selectedRecipient,
+      subject,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (
         debouncedRecipient &&
         debouncedCategory &&
@@ -386,6 +391,7 @@ const ComposeForm = props => {
         !modalVisible
       ) {
         saveDraftHandler('auto');
+        setUnsavedNavigationError(null);
       }
     },
     [
