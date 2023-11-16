@@ -6,27 +6,6 @@ import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues'
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';
 
-// TODO: refactor once issueErrorMessages and errorMessages are the same upon content review
-import { addUniqueIssueErrorMessage } from '../../shared/validations/issues';
-
-// Alert Veteran to duplicates based on name & decision date
-export const uniqueIssue = (
-  errors,
-  _fieldData,
-  formData,
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  addUniqueIssueErrorMessage(
-    errors,
-    formData,
-    appStateData,
-    issueErrorMessages,
-  );
-};
-
 export const maxIssues = (
   errors,
   _fieldData,

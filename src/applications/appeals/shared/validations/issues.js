@@ -1,6 +1,6 @@
 import { hasDuplicates, hasSomeSelected } from '../utils/issues';
 import { noneSelected } from '../content/contestableIssues';
-
+import errorMessages from '../content/errorMessages';
 /**
  *
  * @param {Function[]} validations - array of validation functions
@@ -35,16 +35,17 @@ export const selectionRequired = (
   }
 };
 
-// *NOTE* in 995, it's called errorMessages - pending content refactoring
-// *NOTE* in 996/10182, it's called issueErrorMessages
 // Alert Veteran to duplicates based on name & decision date
-export const addUniqueIssueErrorMessage = (
+export const uniqueIssue = (
   errors,
+  _fieldData,
   formData,
+  _schema,
+  _uiSchema,
+  _index,
   appStateData,
-  errorMssgs,
 ) => {
   if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(errorMssgs.uniqueIssue);
+    errors.addError(errorMessages.uniqueIssue);
   }
 };

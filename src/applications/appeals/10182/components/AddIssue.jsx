@@ -15,11 +15,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { validateDate } from '../validations/date';
-import {
-  uniqueIssue,
-  missingIssueName,
-  maxNameLength,
-} from '../validations/issues';
+import { missingIssueName, maxNameLength } from '../validations/issues';
 import { content } from '../content/addIssue';
 
 import {
@@ -29,7 +25,7 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
-import { checkValidations } from '../../shared/validations/issues';
+import { checkValidations, uniqueIssue } from '../../shared/validations/issues';
 import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 import { setStorage } from '../../shared/utils/addIssue';
 
