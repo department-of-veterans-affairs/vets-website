@@ -71,7 +71,7 @@ const HealthCareContent = ({
   const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
 
   const shouldShowOnOneColumn =
-    !isVAPatient || !hasUpcomingAppointment || isLOA1 || noCerner;
+    !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -157,39 +157,40 @@ const HealthCareContent = ({
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment &&
-          !isLOA1 &&
-          !noCerner && <AppointmentsCard appointments={appointments} />}
-        {!isVAPatient && !isLOA1 && !noCerner && <NoHealthcareText />}
+          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
-          !isLOA1 &&
-          !noCerner && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn && (
-          <HealthCareCTA
-            noCerner={noCerner}
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            isLOA1={isLOA1}
-            hasAppointmentsError={hasAppointmentsError}
-          />
-        )}
+          !isLOA1 && <NoUpcomingAppointmentsText />}
+        {shouldShowOnOneColumn &&
+          noCerner && (
+            <HealthCareCTA
+              noCerner={noCerner}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              unreadMessagesCount={unreadMessagesCount}
+              isVAPatient={isVAPatient}
+              isLOA1={isLOA1}
+              hasAppointmentsError={hasAppointmentsError}
+            />
+          )}
       </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && (
-        <DashboardWidgetWrapper>
-          <HealthCareCTA
-            hasInboxError={hasInboxError}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-            hasUpcomingAppointment={hasUpcomingAppointment}
-            unreadMessagesCount={unreadMessagesCount}
-            isVAPatient={isVAPatient}
-            hasAppointmentsError={hasAppointmentsError}
-          />
-        </DashboardWidgetWrapper>
-      )}
+      {!shouldShowOnOneColumn &&
+        noCerner && (
+          <DashboardWidgetWrapper>
+            <HealthCareCTA
+              noCerner={noCerner}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              unreadMessagesCount={unreadMessagesCount}
+              isVAPatient={isVAPatient}
+              hasAppointmentsError={hasAppointmentsError}
+            />
+          </DashboardWidgetWrapper>
+        )}
     </div>
   );
 };
