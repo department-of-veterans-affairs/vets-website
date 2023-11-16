@@ -1,5 +1,5 @@
 /*
-On each <MesageThreadItem> expand we need to send a /read call to the backend to retrieve full message data.
+On each <MessageThreadItem> expand we need to send a /read call to the backend to retrieve full message data.
 We are able to do this by using the onAccordionItemToggled event from the <va-accordion> component.
 However, as of 4/11/2023 <va-accordion> Expand All button is not triggering onAccordionItemToggled 
 for each individual <va-accordion-item> event. Preloading all messages on the first render of <MessageThread>
