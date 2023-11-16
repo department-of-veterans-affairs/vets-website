@@ -24,11 +24,21 @@ describe('Secure Messaging Inbox Message Sort', () => {
 
     cy.contains('more messages').click();
 
+    cy.focused().should(
+      'contain.text',
+      mockThread.data[5].attributes.senderName,
+    );
+
     cy.get('va-accordion-item')
       .should('have.length', 10)
       .as('quantity-after-first-expanding');
 
     cy.contains('more messages').click();
+
+    cy.focused().should(
+      'contain.text',
+      mockThread.data[10].attributes.senderName,
+    );
 
     cy.get('va-accordion-item')
       .should('have.length', mockThread.data.length)
