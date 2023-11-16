@@ -4,13 +4,12 @@ import { Paths } from '../../util/constants';
 
 const ComposeMessageButton = () => {
   return (
-    <div className="vads-u-margin-top--0p5 vads-u-margin-bottom--2p5">
+    <div className="vads-u-margin-top--1 vads-u-font-size--lg">
       <Link
-        className="compose-message-link vads-u-font-weight--bold"
+        className="compose-message-link vads-c-action-link--green  vads-u-font-weight--bold"
         to={Paths.COMPOSE}
         data-testid="compose-message-link"
       >
-        <i className="fas fa-edit vads-u-margin-right--1" aria-hidden />
         Start a new message
       </Link>
     </div>

@@ -36,7 +36,7 @@ const testConfig = createTestConfig(
         });
       },
       [formConfig.chapters.survivingDependentContactInformationChapter.pages
-        .mailingAddress.path]: ({ afterHook }) => {
+        .survivingDependentMailingAddress.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -50,8 +50,8 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [formConfig.chapters.veteranContactInformationChapter.pages.mailingAddress
-        .path]: ({ afterHook }) => {
+      [formConfig.chapters.veteranContactInformationChapter.pages
+        .veteranMailingAddress.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -82,7 +82,7 @@ const testConfig = createTestConfig(
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

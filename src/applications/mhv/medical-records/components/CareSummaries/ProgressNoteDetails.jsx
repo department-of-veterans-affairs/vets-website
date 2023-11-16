@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { sendErrorToSentry } from '../../util/helpers';
+import { makePdf } from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -84,84 +83,75 @@ const ProgressNoteDetails = props => {
       ],
     };
 
-    try {
-      if (!runningUnitTest) {
-        await generatePdf('medicalRecords', 'care_notes_report', scaffold);
-      }
-    } catch (error) {
-      sendErrorToSentry(error, 'Care Note details');
-    }
+    makePdf(
+      'care_notes_report',
+      scaffold,
+      'Care Note details',
+      runningUnitTest,
+    );
   };
 
   const download = () => {
     generateCareNotesPDF();
   };
 
-  const content = () => {
-    return (
-      <>
-        <PrintHeader />
-        <h1
-          className="vads-u-margin-bottom--0"
-          aria-describedby="progress-note-date"
-        >
-          {record.name}
-        </h1>
-
-        <div className="time-header">
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans"
-            id="progress-note-date"
-          >
-            Date:{' '}
-            <span
-              className="vads-u-font-weight--normal"
-              data-testid="header-time"
-            >
-              {record.dateSigned}
-            </span>
-          </h2>
-        </div>
-
-        <div className="no-print">
-          <PrintDownload
-            download={download}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </div>
-
-        <div className="test-details-container max-80">
-          <h2>Details</h2>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Location
-          </h3>
-          <p>{record.location}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Signed by
-          </h3>
-          <p>{record.physician}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Last updated
-          </h3>
-          <p>{record.dateUpdated}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Date signed
-          </h3>
-          <p>{record.dateSigned}</p>
-        </div>
-
-        <div className="test-results-container">
-          <h2>Note</h2>
-          <p>{record.summary}</p>
-        </div>
-      </>
-    );
-  };
-
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {record && content()}
+      <PrintHeader />
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="progress-note-date"
+      >
+        {record.name}
+      </h1>
+
+      <div className="time-header">
+        <h2
+          className="vads-u-font-size--base vads-u-font-family--sans"
+          id="progress-note-date"
+        >
+          Date:{' '}
+          <span
+            className="vads-u-font-weight--normal"
+            data-testid="header-time"
+          >
+            {record.dateSigned}
+          </span>
+        </h2>
+      </div>
+
+      <div className="no-print">
+        <PrintDownload
+          download={download}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      </div>
+
+      <div className="test-details-container max-80">
+        <h2>Details</h2>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Location
+        </h3>
+        <p>{record.location}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Signed by
+        </h3>
+        <p>{record.physician}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Last updated
+        </h3>
+        <p>{record.dateUpdated}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Date signed
+        </h3>
+        <p>{record.dateSigned}</p>
+      </div>
+
+      <div className="test-results-container">
+        <h2>Note</h2>
+        <p>{record.summary}</p>
+      </div>
     </div>
   );
 };

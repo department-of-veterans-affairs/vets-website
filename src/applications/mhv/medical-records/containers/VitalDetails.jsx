@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -12,15 +11,23 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { macroCase, sendErrorToSentry } from '../util/helpers';
-import { vitalTypeDisplayNames, pageTitles } from '../util/constants';
+import { getNameDateAndTime, macroCase, makePdf } from '../util/helpers';
+import {
+  vitalTypeDisplayNames,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const MAX_PAGE_LIST_LENGTH = 5;
-const VitalDetails = () => {
+const VitalDetails = props => {
+  const { runningUnitTest } = props;
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
@@ -29,7 +36,6 @@ const VitalDetails = () => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
@@ -37,6 +43,7 @@ const VitalDetails = () => {
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -130,22 +137,17 @@ const VitalDetails = () => {
       ],
     };
 
-    try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Vital-details-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        scaffold,
-      );
-    } catch (error) {
-      sendErrorToSentry(error, 'Vital details');
-    }
+    const pdfName = `VA-Vital-details-${getNameDateAndTime(user)}`;
+
+    makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
     if (records?.length) {
       return (
         <>
@@ -250,5 +252,5 @@ const VitalDetails = () => {
 export default VitalDetails;
 
 VitalDetails.propTypes = {
-  print: PropTypes.func,
+  runningUnitTest: PropTypes.bool,
 };

@@ -25,6 +25,7 @@ import {
 
 const originalLocation = global.window.location;
 const originalGA = global.ga;
+const originalCrypto = global.window.crypto;
 
 const base = 'https://dev.va.gov';
 const usipPath = '/sign-in';
@@ -32,6 +33,7 @@ const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
 const mhvUsipParams = '?application=mhv&to=home';
 const cernerUsipParams = '?application=myvahealth';
+const cernerComplicatedParams = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fstaging-patientportal.myhealth.va.gov%252F&oauth=false`;
 const occUsipParams = '?application=vaoccmobile';
 const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
@@ -75,6 +77,14 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   }
 };
 
+const cleanup = () => {
+  global.window.location = originalLocation;
+  global.ga = originalGA;
+  global.window.crypto = originalCrypto;
+  sessionStorage.clear();
+  localStorage.clear();
+};
+
 describe('Authentication Utilities', () => {
   describe('loginAppUrlRE', () => {
     it('should match true against sign-in page paths', () => {
@@ -93,6 +103,7 @@ describe('Authentication Utilities', () => {
   describe('getQueryParams', () => {
     const application = 'application';
     const to = 'to';
+    afterEach(() => cleanup());
 
     it('should return any AUTH_PARAMS params when present', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
@@ -145,6 +156,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('isExternalRedirect', () => {
+    afterEach(() => cleanup());
     it('should return true on USiP and valid application param', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.isExternalRedirect()).to.be.true;
@@ -173,6 +185,7 @@ describe('Authentication Utilities', () => {
     const queryParams = {
       test: 'test',
     };
+    afterEach(() => cleanup());
 
     it('should return null if not provided a type', () => {
       expect(authUtilities.sessionTypeUrl({})).to.be.null;
@@ -292,6 +305,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('getGAClientId', () => {
+    afterEach(() => cleanup());
     it('should return the GA client id', () => {
       setup({
         mockGA: {
@@ -323,6 +337,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('createExternalApplicationUrl', () => {
+    afterEach(() => cleanup());
     it('should return correct url or null for the parsed application param', () => {
       Object.values(EXTERNAL_APPS).forEach(application => {
         setup({ path: `${usipPath}?application=${application}` });
@@ -331,9 +346,10 @@ describe('Authentication Utilities', () => {
           switch (application) {
             case EXTERNAL_APPS.EBENEFITS:
               return EBENEFITS_DEFAULT_PATH;
-            case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;
+            case EXTERNAL_APPS.MY_VA_HEALTH:
+              return `/?authenticated=true`;
             default:
               return '';
           }
@@ -349,23 +365,29 @@ describe('Authentication Utilities', () => {
       expect(authUtilities.createExternalApplicationUrl()).to.eq(null);
     });
 
-    it('should pass all query params through for OCC and Flagship mobile applications', () => {
-      [EXTERNAL_APPS.VA_OCC_MOBILE, EXTERNAL_APPS.VA_FLAGSHIP_MOBILE].forEach(
-        application => {
-          const mockParams = `?application=${application}&foo=bar&bar=foo`;
-          setup({ path: `${usipPath}${mockParams}` });
+    it('should pass all query params through for OCC mobile applications', () => {
+      const application = EXTERNAL_APPS.VA_OCC_MOBILE;
+      const mockParams = `?application=${application}&foo=bar&bar=foo`;
+      setup({ path: `${usipPath}${mockParams}` });
 
-          expect(authUtilities.createExternalApplicationUrl()).to.eq(
-            `${EXTERNAL_REDIRECTS[application]}${mockParams}`,
-          );
+      expect(authUtilities.createExternalApplicationUrl()).to.eq(
+        `${EXTERNAL_REDIRECTS[application]}${mockParams}`,
+      );
+    });
 
-          setup({});
-        },
+    it('should strip out the 2 `to` query parameters, uses the correct one', () => {
+      setup({
+        path: `${usipPath}${cernerUsipParams}${cernerComplicatedParams}`,
+      });
+
+      expect(authUtilities.createExternalApplicationUrl()).to.eql(
+        `https://staging-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
       );
     });
   });
 
   describe('createAndStoreReturnUrl', () => {
+    afterEach(() => cleanup());
     it('should return window.location when not on USiP', () => {
       setup({ path: nonUsipPath });
       expect(authUtilities.createAndStoreReturnUrl()).to.equal(
@@ -407,6 +429,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('redirect', () => {
+    afterEach(() => cleanup());
     it('should redirect to the provided redirectUrl in its simplest use case', () => {
       authUtilities.redirect(base);
       expect(global.window.location).to.equal(base);
@@ -446,6 +469,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('mockLogin', () => {
+    afterEach(() => cleanup());
     it('should redirect to proper mockLogin url', async () => {
       Object.values(CSP_IDS).forEach(async policy => {
         setup({});
@@ -459,6 +483,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('login', () => {
+    afterEach(() => cleanup());
     it('should setLoginAttempted and redirect to login session url for all CSPs not on USiP', () => {
       Object.values(CSP_IDS).forEach(async policy => {
         setup({ path: nonUsipPath });
@@ -510,6 +535,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('mfa', () => {
+    afterEach(() => cleanup());
     it('should redirect to the mfa session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.mfa();
@@ -520,6 +546,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('verify', () => {
+    afterEach(() => cleanup());
     it.skip('should redirect to the verify session url', async () => {
       setup({ path: nonUsipPath });
       await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
@@ -532,6 +559,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('signupOrVerify (SAML)', () => {
+    afterEach(() => cleanup());
     ['idme', 'logingov'].forEach(policy => {
       it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
         const signupUrl = await authUtilities.signupOrVerify({
@@ -566,6 +594,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('logout', () => {
+    afterEach(() => cleanup());
     it('should redirect to the logout session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.logout();
@@ -583,6 +612,19 @@ describe('Authentication Utilities', () => {
         queryParams: params,
       });
       expect(global.window.location).to.equal(
+        appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
+      );
+    });
+
+    it('should redirect to the SSOe logout session url with `agreements_declined=true` if provided', () => {
+      setup({ path: nonUsipPath });
+      const params = { [`agreements_declined`]: true };
+      authUtilities.logout({
+        version: API_VERSION,
+        clickedEvent: AUTH_EVENTS.LOGOUT,
+        queryParams: params,
+      });
+      expect(global.window.location).to.eql(
         appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
       );
     });

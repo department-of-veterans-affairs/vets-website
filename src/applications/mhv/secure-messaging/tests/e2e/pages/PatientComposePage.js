@@ -133,13 +133,6 @@ class PatientComposePage {
     cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
   };
 
-  verifyErrorEmptyMessageBody = () => {
-    cy.get('#input-error-message').should(
-      'contain.text',
-      'Message body cannot be blank',
-    );
-  };
-
   //* Refactor* Needs to have mockDraftMessage as parameter
   clickOnSendMessageButton = () => {
     cy.intercept(
@@ -288,10 +281,9 @@ class PatientComposePage {
   };
 
   clickOnDeleteDraftButton = () => {
-    cy.get('[primary-button-text="Continue editing"]')
-      .shadow()
-      .find('button')
-      .contains('Delete draft')
+    cy.get('va-button[text="Continue editing"]')
+      .parent()
+      .find('va-button[text="Delete draft"]')
       .click();
   };
 
@@ -303,7 +295,7 @@ class PatientComposePage {
   };
 
   clickOnContinueEditingButton = () => {
-    cy.get('[primary-button-text="Continue editing"]')
+    cy.get('va-button[text="Continue editing"]')
       .shadow()
       .find('button')
       .contains('Continue editing')
@@ -389,7 +381,7 @@ class PatientComposePage {
     );
   };
 
-  verifySelcteRespitantErrorMessage = () => {
+  verifySelectRecipientErrorMessage = () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="error-message"]')

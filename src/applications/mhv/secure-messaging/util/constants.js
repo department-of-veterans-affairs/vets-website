@@ -184,11 +184,11 @@ export const Prompts = {
       'If you remove an attachment, you will have to attach it again.',
   },
   Compose: {
-    EDIT_LIST_TITLE: 'Edit your contact list or signature',
-    EDIT_LIST_CONTENT:
-      'You can edit your contact list or signature on the My HealtheVet website. Then refresh this page to review your updated contacts and signature.',
-    EDIT_LIST_LINK: `Edit your contact list or signature on the My HealtheVet website (opens
-        in new tab)`,
+    EDIT_PREFERENCES_TITLE: 'Edit your message preferences',
+    EDIT_PREFERENCES_CONTENT:
+      'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
+    EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
+    (opens in a new tab)`,
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:

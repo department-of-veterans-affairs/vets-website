@@ -6,7 +6,7 @@ export const submitToAPI = (state, setState) => {
   if (state.files.length === 0) {
     setState({
       ...state,
-      errorMessage: 'Please choose a file to upload.',
+      errorMessage: 'Choose a file to upload.',
     });
     return;
   }
@@ -51,7 +51,7 @@ export const submitToAPI = (state, setState) => {
       setState({
         ...state,
         errorMessage:
-          'We’re sorry, we had a connection problem. Please try again later.',
+          'We’re sorry, we had a connection problem. Try again later.',
         submissionPending: false,
       });
     });

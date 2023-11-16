@@ -1,10 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 const expectedFieldTypes = 'input, select, textarea';
-
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
@@ -17,7 +16,7 @@ export const testNumberOfFields = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should have appropriate number of fields', () => {
+    it('should have appropriate number of fields', async () => {
       const { container } = render(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -28,9 +27,11 @@ export const testNumberOfFields = (
         />,
       );
 
-      expect(container.querySelectorAll(expectedFieldTypes)).to.have.lengthOf(
-        expectedNumberOfFields,
-      );
+      await waitFor(() => {
+        expect(container.querySelectorAll(expectedFieldTypes)).to.have.lengthOf(
+          expectedNumberOfFields,
+        );
+      });
     });
   });
 };
@@ -44,7 +45,7 @@ export const testNumberOfErrorsOnSubmit = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit', () => {
+    it('should show the correct number of errors on submit', async () => {
       const { getByRole, queryAllByRole } = render(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -57,7 +58,9 @@ export const testNumberOfErrorsOnSubmit = (
 
       getByRole('button', { name: /submit/i }).click();
       const errors = queryAllByRole('alert');
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      await waitFor(() => {
+        expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      });
     });
   });
 };
@@ -71,7 +74,7 @@ export const testNumberOfWebComponentFields = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should have appropriate number of web components', () => {
+    it('should have appropriate number of web components', async () => {
       const { container } = render(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -82,9 +85,11 @@ export const testNumberOfWebComponentFields = (
         />,
       );
 
-      expect(
-        container.querySelectorAll(expectedFieldTypesWebComponents),
-      ).to.have.lengthOf(expectedNumberOfFields);
+      await waitFor(() => {
+        expect(
+          container.querySelectorAll(expectedFieldTypesWebComponents),
+        ).to.have.lengthOf(expectedNumberOfFields);
+      });
     });
   });
 };
@@ -98,7 +103,7 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit for web components', () => {
+    it('should show the correct number of errors on submit for web components', async () => {
       const { container, getByRole } = render(
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -114,7 +119,9 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
         container.querySelectorAll(expectedFieldTypesWebComponents),
       );
       const errors = nodes.filter(node => node.error);
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      await waitFor(() => {
+        expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      });
     });
   });
 };

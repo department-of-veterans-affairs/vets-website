@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import PropTypes from 'prop-types';
 
 class ClaimsBreadcrumbs extends React.Component {
   renderBreadcrumbs = childNodes => {
@@ -27,9 +27,16 @@ class ClaimsBreadcrumbs extends React.Component {
 
   render() {
     return (
-      <Breadcrumbs>{this.renderBreadcrumbs(this.props.children)}</Breadcrumbs>
+      // Note: not using uswds option here because react-router Links are not compatible currently
+      <va-breadcrumbs>
+        {this.renderBreadcrumbs(this.props.children)}
+      </va-breadcrumbs>
     );
   }
 }
+
+ClaimsBreadcrumbs.propTypes = {
+  children: PropTypes.node,
+};
 
 export default ClaimsBreadcrumbs;

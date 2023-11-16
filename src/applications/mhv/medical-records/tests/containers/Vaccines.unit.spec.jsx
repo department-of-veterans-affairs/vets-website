@@ -6,16 +6,30 @@ import { beforeEach } from 'mocha';
 import Vaccines from '../../containers/Vaccines';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
-import vaccines from '../fixtures/vaccines.json';
-import { convertVaccine } from '../../reducers/vaccines';
 
-describe('Vaccines list container', () => {
+describe('Vaccines list container with errors', () => {
   const initialState = {
     user,
     mr: {
-      vaccines: {
-        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
+      vaccines: {},
+      alerts: {
+        alertList: [
+          {
+            datestamp: '2023-10-10T16:03:28.568Z',
+            isActive: true,
+            type: 'error',
+          },
+          {
+            datestamp: '2023-10-10T16:03:28.572Z',
+            isActive: true,
+            type: 'error',
+          },
+        ],
       },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
     },
   };
 
@@ -43,6 +57,11 @@ describe('Vaccines list container', () => {
 
   it('should download a pdf', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen).to.exist;
   });
 });

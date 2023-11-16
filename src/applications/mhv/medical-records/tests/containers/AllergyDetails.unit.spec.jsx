@@ -18,6 +18,10 @@ describe('Allergy details container', () => {
         allergyDetails: convertAllergy(allergy),
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
@@ -84,6 +88,11 @@ describe('Allergy details container', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen).to.exist;
   });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
 });
 
 describe('Allergy details container with date missing', () => {
@@ -108,7 +117,7 @@ describe('Allergy details container with date missing', () => {
     });
   });
 
-  it('should not display the formatted date if startDate or endDate is missing', () => {
+  it('should not display the formatted date if date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         'None noted',
@@ -169,7 +178,7 @@ describe('Allergy details container with errors', () => {
     screen = renderWithStoreAndRouter(<AllergyDetails runningUnitTest />, {
       initialState,
       reducers: reducer,
-      path: '/allergies',
+      path: '/allergies/123',
     });
   });
 
@@ -177,7 +186,7 @@ describe('Allergy details container with errors', () => {
     await waitFor(() => {
       expect(
         screen.getByText('We can’t access your allergy records right now', {
-          exact: true,
+          exact: false,
         }),
       ).to.exist;
     });

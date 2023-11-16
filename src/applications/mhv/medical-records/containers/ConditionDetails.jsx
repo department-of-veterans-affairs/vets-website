@@ -2,11 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { dateFormat, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -20,10 +23,18 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  EMPTY_FIELD,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
-const ConditionDetails = () => {
-  const condition = useSelector(state => state.mr.conditions.conditionDetails);
+const ConditionDetails = props => {
+  const { runningUnitTest } = props;
+  const record = useSelector(state => state.mr.conditions.conditionDetails);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -33,7 +44,7 @@ const ConditionDetails = () => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
-  const formattedDate = dateFormat(condition?.date, 'MMMM D, YYYY [at] h:mm z');
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -61,21 +72,21 @@ const ConditionDetails = () => {
 
   useEffect(
     () => {
-      if (condition?.name) {
+      if (record?.name) {
         focusElement(document.querySelector('h1'));
-        const titleDate = formattedDate ? `${formattedDate} - ` : '';
+        const titleDate = record !== EMPTY_FIELD ? `${record} - ` : '';
         updatePageTitle(
-          `${titleDate}${condition.name} - ${
+          `${titleDate}${record.name} - ${
             pageTitles.HEALTH_CONDITIONS_PAGE_TITLE
           }`,
         );
       }
     },
-    [condition, formattedDate],
+    [record],
   );
 
   const generateConditionDetails = async () => {
-    const title = `Conditions: ${condition.name} on ${formattedDate}`;
+    const title = `Conditions: ${record.name} on ${record.date}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
@@ -83,60 +94,71 @@ const ConditionDetails = () => {
       items: [
         {
           title: 'Date',
-          value: moment(condition.date).format('MMMM Do YYYY') || ' ',
+          value: record.date,
           inline: true,
         },
         {
           title: 'Provider',
-          value: condition.provider || ' ',
+          value: record.provider,
           inline: true,
         },
         {
           title: 'Provider Notes',
-          value: condition.comments.length
-            ? processList(condition.comments)
-            : 'none noted',
-          inline: !condition.comments.length,
+          value: record.note,
+          inline: !record.comments.length,
         },
         {
           title: 'Status of health condition',
-          value: condition.active ? 'active' : 'inactive',
+          value: record.active,
           inline: true,
         },
         {
           title: 'Location',
-          value: condition.facility || ' ',
+          value: record.facility,
           inline: true,
         },
         {
           title: 'SNOMED Clinical term',
-          value: condition.name || ' ',
+          value: record.name,
           inline: true,
         },
       ],
     };
 
-    try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Conditions-details-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        scaffold,
-      );
-    } catch (error) {
-      // Error logging/presentation goes here...
-    }
+    const pdfName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
+
+    makePdf(pdfName, scaffold, 'Health condition details', runningUnitTest);
   };
 
   const download = () => {
     generateConditionDetails();
   };
 
+  const generateConditionTxt = async () => {
+    const content = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Provider: ${record.provider} \n
+    \t Provider Notes: ${processList(record.note)} \n
+    \t Status of health condition: ${record.active} \n
+    \t Location: ${record.facility} \n
+    \t SNOMED Clinical term: ${record.name} \n`;
+
+    const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
+  };
+
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
-    if (condition) {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+      );
+    }
+    if (record) {
       return (
         <>
           <PrintHeader />
@@ -145,7 +167,7 @@ const ConditionDetails = () => {
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {condition.name.split(' (')[0]}
+            {record.name.split(' (')[0]}
           </h1>
           <div className="condition-subheader vads-u-margin-bottom--3">
             <div className="time-header">
@@ -157,14 +179,16 @@ const ConditionDetails = () => {
                 <span
                   className="vads-u-font-weight--normal"
                   data-dd-privacy="mask"
+                  data-testid="header-time"
                 >
-                  {formattedDate}
+                  {record.date}
                 </span>
               </h2>
             </div>
             <PrintDownload
               download={download}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateConditionTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
@@ -172,26 +196,23 @@ const ConditionDetails = () => {
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Status of health condition
             </h2>
-            <p data-dd-privacy="mask">
-              {condition.active ? 'Active' : 'Inactive'}
-            </p>
+            <p data-dd-privacy="mask">{record.active}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
             </h2>
-            <p data-dd-privacy="mask">{condition.provider}</p>
+            <p data-dd-privacy="mask">{record.provider}</p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
             <p data-dd-privacy="mask">
-              {condition.facility ||
-                'There is no facility reported at this time'}
+              {record.facility || 'There is no facility reported at this time'}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               SNOMED Clinical term
             </h2>
-            <p data-dd-privacy="mask">{condition.name}</p>
+            <p data-dd-privacy="mask">{record.name}</p>
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-            <ItemList list={condition.comments} />
+            <ItemList list={record.comments} />
           </div>
         </>
       );
@@ -217,5 +238,5 @@ const ConditionDetails = () => {
 export default ConditionDetails;
 
 ConditionDetails.propTypes = {
-  print: PropTypes.func,
+  runningUnitTest: PropTypes.bool,
 };

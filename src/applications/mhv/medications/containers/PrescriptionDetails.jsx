@@ -5,7 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   getPrescriptionDetails,
   getAllergiesList,
-  clearAllergisError,
+  clearAllergiesError,
 } from '../actions/prescriptions';
 import PrintHeader from './PrintHeader';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -54,8 +54,13 @@ const PrescriptionDetails = () => {
             },
           ],
           {
-            url: `/my-health/medications/${prescription.prescriptionId}`,
-            label: prescription.prescriptionName,
+            url: `/my-health/medications/prescription/${
+              prescription.prescriptionId
+            }`,
+            label:
+              prescription.dispStatus === 'Active: Non-VA'
+                ? prescription.orderableItem
+                : prescription.prescriptionName,
           },
         ),
       );
@@ -66,7 +71,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(prescription.prescriptionName);
+        updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
       }
     },
     [prescription],
@@ -75,6 +80,7 @@ const PrescriptionDetails = () => {
   const pdfData = useCallback(
     allergiesPdfList => {
       return {
+        subject: `Single Medication Record - ${prescription?.prescriptionName}`,
         headerBanner: [
           {
             text:
@@ -183,10 +189,15 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate ? (
+        {prescription.dispensedDate ||
+        prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ? (
           <span>
             Last filled on{' '}
-            {dateFormat(prescription.dispensedDate, 'MMMM D, YYYY')}
+            {dateFormat(
+              prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ||
+                prescription.dispensedDate,
+              'MMMM D, YYYY',
+            )}
           </span>
         ) : (
           <span>Not filled yet</span>
@@ -196,13 +207,13 @@ const PrescriptionDetails = () => {
   };
 
   const handleModalClose = () => {
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
   };
 
   const handleModalDownloadButton = () => {
     generatePDF();
-    dispatch(clearAllergisError());
+    dispatch(clearAllergiesError());
   };
 
   const content = () => {
@@ -225,7 +236,9 @@ const PrescriptionDetails = () => {
             className="vads-u-margin-bottom--0"
             id="prescription-name"
           >
-            {prescription.prescriptionName}
+            {prescription.dispStatus === 'Active: Non-VA'
+              ? prescription.orderableItem
+              : prescription.prescriptionName}
           </h1>
           <p
             id="last-filled"
