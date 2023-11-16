@@ -11,7 +11,7 @@ import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimsUnavailable from './ClaimsUnavailable';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
-const MAX_CONTENTIONS = 3;
+const MAX_CONTENTIONS = 10;
 
 const getBreadcrumbText = (currentTab, claimType) => {
   let joiner;
@@ -22,6 +22,16 @@ const getBreadcrumbText = (currentTab, claimType) => {
   }
 
   return `${currentTab} ${joiner} your ${claimType} claim`;
+};
+
+const showAdditionalContentions = () => {
+  document.getElementsByClassName('ellipsis')[0].style.display = 'none';
+  document.getElementsByClassName('additional-contentions')[0].style.display =
+    'inline';
+  document.getElementsByClassName(
+    'view-more-contentions-btn',
+  )[0].style.display = 'none';
+  document.getElementsByClassName('claim-contentions-header')[0].focus();
 };
 
 export default function ClaimDetailLayout(props) {
@@ -62,6 +72,13 @@ export default function ClaimDetailLayout(props) {
           .join(', ')
       : 'Not available';
 
+    const additionalContentionsText = hasContentions
+      ? contentions
+          .slice(MAX_CONTENTIONS, contentions.length)
+          .map(cond => cond.name)
+          .join(', ')
+      : false;
+
     headingContent = (
       <>
         {message && (
@@ -74,19 +91,32 @@ export default function ClaimDetailLayout(props) {
         )}
         <h1 className="claim-title">{claimTitle}</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
-        <div className="claim-contentions">
-          <h2 className="claim-contentions-header vads-u-font-size--h6">
-            What you’ve claimed:
+        <div className="claim-contentions medium-screen:vads-l-col--8">
+          <h2
+            className="claim-contentions-header vads-u-font-size--h4"
+            tabIndex="-1"
+          >
+            What you’ve claimed
           </h2>
-          <span>{contentionsText}</span>
+          <span className="claim-contentions-list">{contentionsText}</span>
           {hasContentions && contentions.length > MAX_CONTENTIONS ? (
-            <span>
-              <br />
-              <Link to={`your-claims/${claim.id}/details`}>
-                See all your claimed contentions
-              </Link>
-              .
-            </span>
+            <>
+              <span className="ellipsis">&hellip;</span>
+              <span className="additional-contentions">
+                , {additionalContentionsText}
+              </span>
+              <span>
+                <br />
+                <va-button
+                  class="view-more-contentions-btn"
+                  onClick={() => {
+                    showAdditionalContentions();
+                  }}
+                  secondary
+                  text="Show full list"
+                />
+              </span>
+            </>
           ) : null}
         </div>
       </>
