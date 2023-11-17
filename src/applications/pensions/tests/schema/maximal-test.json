@@ -45,9 +45,9 @@
       "from": "1971-02-26",
       "to": "1973-03-02"
     },
-    "socialSecurityDisabilityHistory": false,
-    "medicalHistory": false,
-    "nursingHomeHistory": false,
+    "socialSecurityDisability": false,
+    "medicalCondition": false,
+    "nursingHome": false,
     "disabilities": [
       {
         "name": "Back pain",
