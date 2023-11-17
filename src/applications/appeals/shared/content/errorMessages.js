@@ -1,4 +1,4 @@
-const errorMessages = {
+export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
   uniqueIssue: 'You must enter a condition you haven’t already entered',
@@ -24,5 +24,3 @@ const errorMessages = {
   invalidZip:
     'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };
-
-export default errorMessages;

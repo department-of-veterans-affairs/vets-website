@@ -8,6 +8,8 @@ import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { MAX_LENGTH } from '../constants';
 
+import { errorMessages } from './errorMessages';
+
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
@@ -45,14 +47,11 @@ ContestableIssuesLegend.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export const maxSelectedErrorMessage =
-  'You’ve reached the maximum number of allowed selected issues';
-
 // Not setting "visible" as a variable since we're controlling rendering at a
 // higher level
 export const MaxSelectionsAlert = ({ closeModal, appName }) => (
   <VaModal
-    modalTitle={maxSelectedErrorMessage}
+    modalTitle={errorMessages.maxSelected}
     status="warning"
     onCloseEvent={closeModal}
     visible

@@ -36,7 +36,6 @@ import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
-// const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const defaultData = {
   providerFacilityName: '',

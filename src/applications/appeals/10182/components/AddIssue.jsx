@@ -20,8 +20,8 @@ import { content } from '../content/addIssue';
 
 import {
   CONTESTABLE_ISSUES_PATH,
-  MAX_LENGTH,
   REVIEW_AND_SUBMIT,
+  MAX_LENGTH,
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';

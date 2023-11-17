@@ -15,6 +15,7 @@ import { content } from '../content/addIssue';
 
 import {
   CONTESTABLE_ISSUES_PATH,
+  REVIEW_AND_SUBMIT,
   MAX_LENGTH,
   REVIEW_ISSUES,
   SELECTED,
@@ -25,7 +26,6 @@ import { checkValidations } from '../../shared/validations';
 import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
-const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};

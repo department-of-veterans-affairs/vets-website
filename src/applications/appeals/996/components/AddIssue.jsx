@@ -19,6 +19,7 @@ import { content } from '../content/addIssue';
 
 import {
   CONTESTABLE_ISSUES_PATH,
+  REVIEW_AND_SUBMIT,
   REVIEW_ISSUES,
   MAX_LENGTH,
   SELECTED,
@@ -29,7 +30,6 @@ import { setStorage } from '../../shared/utils/addIssue';
 import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
-const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const AddIssue = props => {
   const { data, goToPath, setFormData, testingIndex } = props;

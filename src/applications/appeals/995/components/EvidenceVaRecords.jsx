@@ -28,7 +28,6 @@ import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
-// const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const defaultData = {
   locationAndName: '',
