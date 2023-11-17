@@ -95,21 +95,6 @@ const SearchControls = props => {
             Search for a representative
           </h3>
           <div className="location-input-container">
-            <va-text-input
-              error={
-                showError
-                  ? 'Please fill in a city, state or postal code.'
-                  : null
-              }
-              hint={null}
-              label="City, State or Postal code"
-              message-aria-describedby="Text input for location"
-              name="City, State or Postal code"
-              onInput={handleLocationChange}
-              value={locationInputString}
-              uswds
-              required
-            />
             <div
               className={classNames('use-my-location-button-container', {
                 'use-my-location-button-container-error': showError,
@@ -140,6 +125,22 @@ const SearchControls = props => {
                 </button>
               )}
             </div>
+            <va-text-input
+              error={
+                showError
+                  ? 'Please fill in a city, state or postal code.'
+                  : null
+              }
+              hint={null}
+              id="street-city-state-zip"
+              label="City, State or Postal code"
+              message-aria-describedby="Text input for location"
+              name="City, State or Postal code"
+              onInput={handleLocationChange}
+              value={locationInputString}
+              uswds
+              required
+            />
           </div>
 
           <RepTypeSelector
