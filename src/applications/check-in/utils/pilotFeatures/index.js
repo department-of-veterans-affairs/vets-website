@@ -1,5 +1,8 @@
 import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
-// import salem from './travelClaim/salem.json';
+import fileTravelClaimWichita from './fileTravelClaim/wichita.json';
+import fortyFiveMinuteTextWichita from './fortyFiveMinuteText/wichita.json';
+import fileTravelClaimStLouis from './fileTravelClaim/stLouis.json';
+import fortyFiveMinuteTextStLouis from './fortyFiveMinuteText/stLouis.json';
 
 const devStations = {
   // Dev
@@ -17,6 +20,8 @@ const pilotFeatures = {
     pilotStations: {
       ...devStations,
       ...fileTravelClaimWilkesBarre,
+      ...fileTravelClaimWichita,
+      ...fileTravelClaimStLouis,
       // Week 1 658
       // ...fileTravelClaimSalem,
       // Week 2 565
@@ -31,13 +36,13 @@ const pilotFeatures = {
       // ...fileTravelClaimSalisbury,
       // Week 7 637
       // ...fileTravelClaimAsheville,
-      // Week 8
-      // VISN 15
     },
   },
   fortyFiveMinuteText: {
     pilotStations: {
       ...devStations,
+      ...fortyFiveMinuteTextWichita,
+      ...fortyFiveMinuteTextStLouis,
     },
   },
 };

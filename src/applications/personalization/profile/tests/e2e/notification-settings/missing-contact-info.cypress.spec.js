@@ -176,9 +176,11 @@ describe('Notification Settings', () => {
             }).should('exist');
 
             // there should be no loading indicator
-            cy.findByRole('progressbar', { name: /loading/i }).should(
-              'not.exist',
-            );
+            cy.get('va-loading-indicator').should('not.exist');
+            cy.injectAxeThenAxeCheck();
+
+            // and then the loading indicator should be removed
+            cy.get('va-loading-indicator').should('not.exist');
             cy.injectAxeThenAxeCheck();
 
             cy.findByText('We don’t have your contact information').should(
@@ -234,9 +236,7 @@ describe('Notification Settings', () => {
           }).should('exist');
 
           // there should be no loading indicator
-          cy.findByRole('progressbar', { name: /loading/i }).should(
-            'not.exist',
-          );
+          cy.get('va-loading-indicator').should('not.exist');
           cy.injectAxeThenAxeCheck();
 
           cy.findAllByTestId('add-mobile-phone-link')

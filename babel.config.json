@@ -50,7 +50,6 @@
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
 
-          "@department-of-veterans-affairs/component-library/LoadingIndicator": "@department-of-veterans-affairs/react-components/LoadingIndicator",
           "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
           "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",
           "@department-of-veterans-affairs/component-library/Breadcrumbs": "@department-of-veterans-affairs/react-components/Breadcrumbs",
@@ -122,7 +121,6 @@
           "@department-of-veterans-affairs/platform-user/CreateAccountLink": "./src/platform/user/authentication/components/CreateAccountLink.jsx",
           "@department-of-veterans-affairs/platform-user/VerifyAccountLink": "./src/platform/user/authentication/components/VerifyAccountLink.jsx",
           "@department-of-veterans-affairs/platform-user/DowntimeBanner": "./src/platform/user/authentication/components/DowntimeBanner.js",
-          "@department-of-veterans-affairs/platform-user/FedWarning": "./src/platform/user/authentication/components/FedWarning.jsx",
           "@department-of-veterans-affairs/platform-user/IDMeSVG": "./src/platform/user/authentication/components/IDMeSVG.jsx",
           "@department-of-veterans-affairs/platform-user/LoginActions": "./src/platform/user/authentication/components/LoginActions.jsx",
           "@department-of-veterans-affairs/platform-user/LoginButton": "./src/platform/user/authentication/components/LoginButton.jsx",

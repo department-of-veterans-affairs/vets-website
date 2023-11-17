@@ -1,7 +1,5 @@
 import { errorMessages, PRIMARY_PHONE } from '../constants';
 
-import { validateRequireRatedDisability } from '../../shared/validations';
-
 /**
  * Check validations for Custom pages
  * @param {Function[]} validations - array of validation functions
@@ -22,24 +20,6 @@ export const checkValidations = (
     validation(errors, data, fullData, null, null, index, fullData),
   );
   return errors.errorMessages;
-};
-
-export const requireRatedDisability = (errors = {}, fieldData) => {
-  validateRequireRatedDisability(errors, fieldData, errorMessages);
-};
-
-/* Contact info */
-export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
-  const { veteran = {} } = formData || {};
-  if (!veteran.email) {
-    errors.addError?.(errorMessages.missingEmail);
-  }
-  if (!(veteran.homePhone?.phoneNumber || veteran.mobilePhone?.phoneNumber)) {
-    errors.addError?.(errorMessages.missingPhone);
-  }
-  if (!veteran.address?.addressLine1) {
-    errors.addError?.(errorMessages.missingAddress);
-  }
 };
 
 export const missingPrimaryPhone = (error, _fieldData, formData) => {

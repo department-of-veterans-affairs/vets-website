@@ -103,7 +103,7 @@ const HelpBlock = ({ travel }) => {
 };
 
 HelpBlock.propTypes = {
-  travel: PropTypes.bool.isRequired,
+  travel: PropTypes.bool,
 };
 
 export default HelpBlock;

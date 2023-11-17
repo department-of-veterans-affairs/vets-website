@@ -12,6 +12,7 @@ export const phoneFormSchema = {
       type: 'string',
       pattern: '^[0-9-() ]+$',
       maxLength: 14,
+      minLength: 10,
     },
     extension: {
       type: 'string',
@@ -22,12 +23,22 @@ export const phoneFormSchema = {
   required: ['inputPhoneNumber'],
 };
 
+const phoneErrorMessage = 'Enter a 10 digit phone number';
 export const phoneUiSchema = fieldName => {
   return {
     inputPhoneNumber: {
       'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:validations': [
+        (errors, field) => {
+          // checks that the phone number is at least 10 numerical digits
+          const strippedPhone = field?.replace(/[^0-9]/g, '');
+          if (strippedPhone?.length !== 10) {
+            errors.addError(phoneErrorMessage);
+          }
+        },
+      ],
       'ui:errorMessages': {
-        pattern: 'Enter a 10 digit phone number',
+        pattern: phoneErrorMessage,
       },
       'ui:options': {
         ariaDescribedby: 'error-message-details',

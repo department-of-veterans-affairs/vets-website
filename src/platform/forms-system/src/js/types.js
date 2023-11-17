@@ -137,12 +137,15 @@
 
 /**
  * @typedef {Object} FormConfigPage
+ * @property {boolean} [allowPathWithNoItems] For array pages. if true, will allow a path with no items in the array at /0. Used with showPagePerItem.
  * @property {string} [arrayPath] the name of the property in the schema/uiSchema that is `type: 'array'`
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
  * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
  * @property {Object} [initialData]
- * @property {(formData: any) => void} [onContinue]
+ * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
+ * @property {({ formData, goPath, goPreviousPath }: { formData, goPath: (path: string) => void, goPreviousPath: () => void }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
+ * @property {({ formData, goPath, goNextPath }: { formData, goPath: (path: string) => void, goNextPath: () => void }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]
@@ -182,7 +185,7 @@
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
- *   'ui:validations'?: Array<((errors, value) => void)>,
+ *   'ui:validations'?: Array<((errors, formData, uiSchema, schema, errorMessages) => void)>,
  *   'ui:webComponentField'?: React.ReactNode,
  *   'ui:widget'?: 'yesNo' | 'checkbox' | 'radio' | 'select' | 'email' | 'date' | 'textarea'  | OrAnyString | ((props: any) => JSX.Element),
  * } & {
@@ -213,6 +216,7 @@
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
  * @property {string} [customTitle] For the review page, for arrays and some widgets. This doesn't appear to change any text, but is just used for a hack to prevent an outer DL wrapper. Often set to `' '`, and used with `useDlWrap: true` to get a11y issues to pass. Will format field title and body vertically instead of horizontally. `useDlWrap` will format text horizontally.
  * @property {number} [debounceRate] Used for AutoSuggest widget
+ * @property {boolean} [displayEmptyObjectOnReview] For objects with empty properties object. This will display ui:title and ui:description on the review page.
  * @property {number} [doNotScroll] For arrays. By default when adding a new item it will scroll to the next item. Set this to true to disable that behavior.
  * @property {string} [duplicateKey] For arrays.
  * @property {boolean} [enableAnalytics] Enable google analytic events. Sent on blur. Use a browser extension such as Adswerve to view the events in the console.
@@ -221,6 +225,7 @@
  * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
  * @property {boolean} [forceDivWrapper] Used as an a11y helper when you need to wrap a field in a div
  * @property {boolean} [freeInput] for AutoSuggest widget
+ * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
  * @property {(formData: any) => boolean} [hideIf] Conditional logic if the field should be hidden
  * @property {boolean} [hideLabelText] Hide the text above a form field. May be useful for checkbox widgets and some other corner cases.
@@ -281,7 +286,7 @@
  * @property {boolean} required
  * @property {string} error
  * @property {UIOptions} uiOptions
- * @property {number} index
+ * @property {number | string} index
  * @property {{
  *  schema: SchemaOptions,
  *  uiSchema: UISchemaOptions,

@@ -3,10 +3,7 @@ import moment from 'moment';
 import { AMA_DATE } from '../constants';
 
 import { FORMAT_YMD } from '../../shared/constants';
-import {
-  getSelected,
-  processContestableIssues,
-} from '../../shared/utils/issues';
+import { processContestableIssues } from '../../shared/utils/issues';
 import '../../shared/definitions';
 
 /**
@@ -60,18 +57,3 @@ export const mayHaveLegacyAppeals = ({
     return decisionDate.isBefore(amaCutoff);
   });
 };
-
-// additionalIssues (items) are separate because we're checking the count before
-// the formData is updated
-export const getSelectedCount = (formData, items) =>
-  getSelected({ ...formData, additionalIssues: items }).length;
-
-/**
- * Calculate the index offset for the additional issue
- * @param {Number} index - index of data in combined array of contestable issues
- *   and additional issues
- * @param {Number} contestableIssuesLength - contestable issues array length
- * @returns {Number}
- */
-export const calculateIndexOffset = (index, contestableIssuesLength) =>
-  index - contestableIssuesLength;

@@ -171,7 +171,7 @@ export function transform(formConfig, form) {
           default:
         }
 
-        return Object.assign({}, disability, disabilityDescription);
+        return { ...disability, ...disabilityDescription };
       },
     );
 

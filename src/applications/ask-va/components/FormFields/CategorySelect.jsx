@@ -1,59 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import {
-  VaSelect,
-  VaModal,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect, useDispatch } from 'react-redux';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { apiRequest } from 'platform/utilities/api';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import RequireSignInModal from '../RequireSignInModal';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL } from '../../constants';
+import { URL, requireSignInCategories } from '../../constants';
+import { setCategoryID } from '../../actions';
 
 const CategorySelect = props => {
   const { id, onChange, value, loggedIn } = props;
+  const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [dirty, setDirty] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
-  //   define our error message(s)
   const errorMessages = { required: 'Please provide a response' };
 
   const onModalNo = () => {
     onChange('');
-    setShowModal(false);
+    setShowModal({ show: false, selected: '' });
   };
 
-  // define our custom onchange event
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    setDirty(true);
+    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
+    dispatch(setCategoryID(selected.id));
     onChange(selectedValue);
-    // TODO: change this to look for education and other categories that require loggedIn
-    if (selectedValue === 'Test Category 1' && !loggedIn) setShowModal(true);
+    setDirty(true);
+    if (requireSignInCategories.includes(selectedValue) && !loggedIn)
+      setShowModal({ show: true, selected: `${selectedValue}` });
   };
 
-  //   define our custom onblur event
   const handleBlur = () => {
     setDirty(true);
   };
 
-  //   check field for validation errors only if field is dirty or form has been submitted
   const showError = () => {
     return dirty && !value ? errorMessages.required : false;
   };
 
-  // fetch, map and set our list of facilities based on the state selection
   const getApiData = url => {
     isLoading(true);
-    // TODO: Update this to work with data when we get it
     return apiRequest(url)
       .then(res => {
         setApiData(res.data);
@@ -67,7 +61,7 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
+      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}?mock=true`);
     },
     [loggedIn],
   );
@@ -91,30 +85,22 @@ const CategorySelect = props => {
         onBlur={handleBlur}
       >
         <option value="">&nbsp;</option>
-        {/* TODO: Update this to work with data when we get it */}
-        {apiData.map(f => (
-          <option key={f.id} value={f.attributes.name}>
-            {f.attributes.name}
+        {apiData.map(category => (
+          <option
+            key={category.id}
+            value={category.attributes.name}
+            id={category.id}
+          >
+            {category.attributes.name}
           </option>
         ))}
       </VaSelect>
 
-      <VaModal
-        clickToClose
-        status="info TEST"
-        modalTitle="You must Sign In to continue"
-        onCloseEvent={onModalNo}
-        visible={showModal}
-      >
-        <p>
-          To continue with "Education" selected you must Sign In or select
-          another category.
-        </p>
-        <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
-          <VaButton onClick={() => {}} primary text="Sign in and Start Over" />
-        </Link>
-        <VaButton onClick={onModalNo} secondary text="Do Not Sign In" />
-      </VaModal>
+      <RequireSignInModal
+        onClose={onModalNo}
+        show={showModal.show}
+        restrictedItem={showModal.selected}
+      />
     </>
   ) : (
     <ServerErrorAlert />

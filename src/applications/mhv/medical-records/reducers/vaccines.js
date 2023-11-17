@@ -27,7 +27,9 @@ export const convertVaccine = vaccine => {
   return {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
-    date: formatDateLong(vaccine.occurrenceDateTime) || EMPTY_FIELD,
+    date: vaccine.occurrenceDateTime
+      ? formatDateLong(vaccine.occurrenceDateTime)
+      : EMPTY_FIELD,
     location: vaccine.location?.display || EMPTY_FIELD,
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
     reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
@@ -51,12 +53,13 @@ export const vaccineReducer = (state = initialState, action) => {
       const vaccineList = action.response.entry;
       return {
         ...state,
-        vaccinesList: vaccineList
-          .map(record => {
-            const vaccine = record.resource;
-            return convertVaccine(vaccine);
-          })
-          .sort((a, b) => new Date(b.date) - new Date(a.date)),
+        vaccinesList:
+          vaccineList
+            ?.map(record => {
+              const vaccine = record.resource;
+              return convertVaccine(vaccine);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
       };
     }
     case Actions.Vaccines.CLEAR_DETAIL: {

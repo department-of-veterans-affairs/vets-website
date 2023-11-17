@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
-import { displayConditionsMet } from '../../utilities/display-logic';
+import { displayConditionsMet } from '../../utilities/display-logic-questions';
 
 import BurnPit211 from '../../containers/questions/burn-pit/BurnPit-2-1-1';
 
@@ -145,6 +145,15 @@ describe('displayConditionsAreMet', () => {
     const formResponses = {
       BURN_PIT_2_1: YES,
       SERVICE_PERIOD: NINETY_OR_LATER,
+    };
+
+    expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(false);
+  });
+
+  it('BURN_PIT_2_1_1: should return false when the display conditions are not met', () => {
+    const formResponses = {
+      BURN_PIT_2_1: YES,
+      SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
     expect(displayConditionsMet(BURN_PIT_2_1_1, formResponses)).to.equal(false);

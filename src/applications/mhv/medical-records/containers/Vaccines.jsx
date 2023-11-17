@@ -1,24 +1,36 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
-import { recordType, EMPTY_FIELD, pageTitles } from '../util/constants';
+import {
+  recordType,
+  ALERT_TYPE_ERROR,
+  pageTitles,
+  accessAlertTypes,
+} from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { processList, sendErrorToSentry } from '../util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
-const Vaccines = () => {
+const Vaccines = props => {
+  const { runningUnitTest } = props;
   const dispatch = useDispatch();
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
@@ -28,6 +40,7 @@ const Vaccines = () => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -67,12 +80,12 @@ const Vaccines = () => {
         items: [
           {
             title: 'Date received',
-            value: item.date || EMPTY_FIELD,
+            value: item.date,
             inline: true,
           },
           {
             title: 'Location',
-            value: item.location || EMPTY_FIELD,
+            value: item.location,
             inline: true,
           },
           {
@@ -89,22 +102,40 @@ const Vaccines = () => {
       });
     });
 
-    try {
-      await generatePdf(
-        'medicalRecords',
-        `VA-Vaccines-list-${user.userFullName.first}-${
-          user.userFullName.last
-        }-${moment()
-          .format('M-D-YYYY_hhmmssa')
-          .replace(/\./g, '')}`,
-        pdfData,
-      );
-    } catch (error) {
-      sendErrorToSentry(error, 'Vaccines');
-    }
+    const pdfName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
+
+    makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
+  const generateVaccinesTxt = async () => {
+    const content = `
+    Vaccines\n 
+    For a list of your allergies and reactions (including any reactions to
+    vaccines), go to your allergy records. \n
+    If you have Vaccines that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${vaccines.length} from newest to oldest. \n
+    ${vaccines.map(
+      entry => `_____________________________________________________ \n
+      ${entry.name} \n 
+      \t Date received: ${entry.date} \n
+      \t Location: ${entry.location} \n
+      \t Reaction: ${processList(entry.reactions)} \n
+      \t Provider notes: ${processList(entry.notes)} \n`,
+    )}`;
+
+    const fileName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
+  };
+
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
+    }
     if (vaccines?.length) {
       return <RecordList records={vaccines} type={recordType.VACCINES} />;
     }
@@ -136,6 +167,7 @@ const Vaccines = () => {
         list
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateVaccinesTxt}
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
@@ -144,3 +176,7 @@ const Vaccines = () => {
 };
 
 export default Vaccines;
+
+Vaccines.propTypes = {
+  runningUnitTest: PropTypes.bool,
+};

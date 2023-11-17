@@ -4,23 +4,66 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
-  getPagePaths,
   fillAddressWebComponentPattern,
-  fillDateWebComponentPattern,
-  fillFullNameWebComponentPattern,
   fillTextWebComponent,
-  introductionPageFlow,
   reviewAndSubmitPageFlow,
-  selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-const pagePaths = getPagePaths(formConfig);
+// disable custom scroll-n-focus to minimize interference with input-fills
+formConfig.useCustomScrollAndFocus = false;
+
+const v3StepHeaderSelector =
+  'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+const awaitFocusSelectorThenTest = () => {
+  // handle other scroll/focus interferences besides customScrollAndFocus
+  return ({ afterHook }) => {
+    cy.injectAxeThenAxeCheck();
+    afterHook(() => {
+      cy.get(v3StepHeaderSelector)
+        .should('be.visible')
+        .then(() => {
+          // callback to prevent scroll/focus interferences, but
+          // even now field-disabled errors still occur, so must wait a bit.
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(500);
+          cy.fillPage();
+          cy.axeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+    });
+  };
+};
+
+const pagePaths = [
+  'veteran-personal-information',
+  'veteran-identification-information',
+  'veteran-supporting-documentation',
+  'request-type',
+  'applicant-personal-information',
+  'applicant-address',
+  'applicant-contact-information',
+  'certificates',
+  'additional-certificates-yes-no',
+  'additional-certificates-request',
+];
+
+const pageTestConfigs = pagePaths.reduce((obj, pagePath) => {
+  return {
+    ...obj,
+    [pagePath]: awaitFocusSelectorThenTest(),
+  };
+}, {});
+
 const testConfig = createTestConfig(
   {
+    // automate all v3-web-component page-flows except
+    // where addressUIs are used
+    useWebComponentFields: true,
     dataPrefix: 'data',
 
     dataDir: path.join(__dirname, 'fixtures', 'data'),
@@ -30,84 +73,62 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          introductionPageFlow();
+          cy.findAllByText(/start/i, { selector: 'a' })
+            .first()
+            .click();
         });
       },
-      [pagePaths.veteranPersonalInfoPage]: ({ afterHook }) => {
+      ...pageTestConfigs,
+      'applicant-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const {
-              veteranFullName,
-              veteranDateOfBirth,
-              veteranDateOfDeath,
-            } = data;
+            cy.get(v3StepHeaderSelector)
+              .should('be.visible')
+              .then(() => {
+                cy.get('[name="root_applicantAddress_state"]')
+                  .should('not.have.attr', 'disabled')
+                  .then(() => {
+                    // callback to avoid field-disabled errors, but
+                    // even now we must wait a bit!
+                    // eslint-disable-next-line cypress/no-unnecessary-waiting
+                    cy.wait(500);
+                    fillAddressWebComponentPattern(
+                      'applicantAddress',
+                      data.applicantAddress,
+                    );
 
-            fillFullNameWebComponentPattern('veteranFullName', veteranFullName);
-            fillDateWebComponentPattern(
-              'veteranDateOfBirth',
-              veteranDateOfBirth,
-            );
-            fillDateWebComponentPattern(
-              'veteranDateOfDeath',
-              veteranDateOfDeath,
-            );
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                    cy.axeCheck('.form-panel');
+                    cy.findByText(/continue/i, { selector: 'button' }).click();
+                  });
+              });
           });
         });
       },
-      [pagePaths.veteranIdentificationInfoPage]: ({ afterHook }) => {
+      'additional-certificates-request': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent('veteranId_ssn', data.veteranId.ssn);
+            const { additionalAddress, additionalCopies } = data;
 
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.requestTypePage]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectYesNoWebComponent('isFirstRequest', data.isFirstRequest);
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.applicantPersonalInfoPage]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillFullNameWebComponentPattern(
-              'applicantFullName',
-              data.applicantFullName,
-            );
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.applicantAddressPage]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'applicantAddress',
-              data.applicantAddress,
-            );
+            cy.get(v3StepHeaderSelector)
+              .should('be.visible')
+              .then(() => {
+                cy.get('input[name="root_additionalAddress_state"]')
+                  .should('not.be.disabled')
+                  .then(() => {
+                    // callback to avoid field-disabled errors, but
+                    // even now we must wait a bit!
+                    // eslint-disable-next-line cypress/no-unnecessary-waiting
+                    cy.wait(500);
+                    fillAddressWebComponentPattern(
+                      'additionalAddress',
+                      additionalAddress,
+                    );
+                    fillTextWebComponent('additionalCopies', additionalCopies);
 
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.applicantContactInfoPage]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('applicantPhone', data.applicantPhone);
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+                    cy.axeCheck('.form-panel');
+                    cy.findByText(/continue/i, { selector: 'button' }).click();
+                  });
+              });
           });
         });
       },
@@ -115,6 +136,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { applicantFullName } = data;
+
             reviewAndSubmitPageFlow(applicantFullName, 'Submit request');
           });
         });
@@ -122,11 +144,10 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept(formConfig.submitUrl, mockSubmit);
+      cy.config('includeShadowDom', true);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
     skip: Cypress.env('CI'),
   },
   manifest,

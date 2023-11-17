@@ -20,7 +20,7 @@
       "postalCode": "12345"
     },
     "applicantPhone": "5555555555",
-    "certificates": 3,
+    "certificates": "3",
     "additionalCertificates": true,
     "additionalAddress": {
       "country": "USA",

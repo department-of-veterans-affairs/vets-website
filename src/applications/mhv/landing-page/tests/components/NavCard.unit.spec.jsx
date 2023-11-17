@@ -1,20 +1,33 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { resolveLandingPageLinks } from '../../utilities/data';
+import {
+  resolveLandingPageLinks,
+  resolveUnreadMessageAriaLabel,
+} from '../../utilities/data';
 import NavCard from '../../components/NavCard';
 
 describe('unread message indicator', () => {
   function renderCards(unreadMessageCount) {
+    const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
+      unreadMessageCount,
+    );
     const { cards } = resolveLandingPageLinks(
       undefined,
       { featureToggles: {} },
       unreadMessageCount,
+      unreadMessageAriaLabel,
     );
 
     return render(
       cards.map(c => (
-        <NavCard key={c.title} icon={c.icon} title={c.title} links={c.links} />
+        <NavCard
+          key={c.title}
+          icon={c.icon}
+          title={c.title}
+          links={c.links}
+          aria-label={c.ariaLabel}
+        />
       )),
     );
   }
@@ -23,22 +36,26 @@ describe('unread message indicator', () => {
 
   it('includes unread messages message when greater than 0', () => {
     const unreadMessageCount = 4;
-    const { getByRole } = renderCards(unreadMessageCount);
+    const { getByText } = renderCards(unreadMessageCount);
 
-    const indicator = getByRole('status');
-    const message = indicator.getAttribute('aria-label');
+    const inboxSpan = getByText('Inbox');
+    const message = inboxSpan.parentNode.getAttribute('aria-label');
 
-    expect(indicator).to.exist;
+    expect(inboxSpan).to.exist;
     expect(message).to.equal(messagesMessage);
   });
 
   it('does not include unread messages message when message count is 0', () => {
     const unreadMessageCount = 0;
-    const { queryByRole } = renderCards(unreadMessageCount);
-
+    const { queryByRole, getByText } = renderCards(unreadMessageCount);
     const indicator = queryByRole('status');
 
     expect(indicator).not.to.exist;
+
+    const inboxSpan = getByText('Inbox');
+    const message = inboxSpan.parentNode.getAttribute('aria-label');
+
+    expect(message).to.not.exist;
   });
 
   it('renders if message count is undefined', () => {

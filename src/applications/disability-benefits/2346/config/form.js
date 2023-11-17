@@ -148,15 +148,15 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_VA_2346A,
   saveInProgress: {
     messages: {
-      inProgress: 'You have a hearing aid and CPAP supplies order in progress.',
+      inProgress: 'You have a hearing aid or CPAP supplies order in progress.',
       expired:
-        'Your saved hearing aid and CPAP supplies order has expired. Please start a new order.',
-      saved: 'Your hearing aid and CPAP supplies order has been saved.',
+        'Your saved hearing aid or CPAP supplies order has expired. Please start a new order.',
+      saved: 'Your hearing aid or CPAP supplies order has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
-  title: 'Order hearing aid and CPAP supplies',
+  title: 'Order hearing aid or CPAP supplies',
   subTitle: '',
   savedFormMessages: {
     notFound:

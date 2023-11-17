@@ -116,6 +116,8 @@ export function KeywordSearch({
             className="usa-input-error-message"
             role="alert"
             id="search-error-message"
+            aria-live="assertive"
+            aria-relevant="additions removals"
           >
             <span className="sr-only">Error</span>
             {error}
@@ -150,7 +152,8 @@ export function KeywordSearch({
                   onChange: handleChange,
                   onKeyUp: handleEnterPress,
                   onFocus: handleFocus,
-                  'aria-labelledby': 'institution-search-label',
+                  'aria-labelledby':
+                    'search-error-message institution-search-label',
                 })}
               />
               {/* eslint-disable-next-line no-nested-ternary */}

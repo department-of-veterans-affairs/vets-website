@@ -8,7 +8,13 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
-import { loincCodes } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  loincCodes,
+} from '../util/constants';
+import useAlerts from '../hooks/use-alerts';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -16,6 +22,7 @@ const CareSummariesDetails = () => {
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesDetails,
   );
   const { summaryId } = useParams();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -43,25 +50,29 @@ const CareSummariesDetails = () => {
     [summaryId, dispatch],
   );
 
-  if (careSummary?.name) {
-    switch (careSummary.type) {
-      case loincCodes.DISCHARGE_SUMMARY:
-        return <AdmissionAndDischargeDetails record={careSummary} />;
-      case loincCodes.PHYSICIAN_PROCEDURE_NOTE:
-        return <ProgressNoteDetails record={careSummary} />;
-      default:
-        return <p>Something else</p>;
-    }
-  } else {
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
       />
     );
   }
+  if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
+    return <AdmissionAndDischargeDetails record={careSummary} />;
+  }
+  if (careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE) {
+    return <ProgressNoteDetails record={careSummary} />;
+  }
+  return (
+    <va-loading-indicator
+      message="Loading..."
+      setFocus
+      data-testid="loading-indicator"
+      class="loading-indicator"
+    />
+  );
 };
 
 export default CareSummariesDetails;

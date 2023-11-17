@@ -7,6 +7,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
+import { createSession } from '../api/MrApi';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      // Create the user's MHV session when they arrive at the MR landing page
+      createSession();
       dispatch(
         setBreadcrumbs([], {
           url: '/my-health/medical-records',
@@ -39,18 +42,18 @@ const LandingPage = () => {
       <div>
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            Allergies
+            Allergies and reactions
           </h2>
           <p className="vads-u-margin-bottom--2">
             Get a list of all allergies, reactions, and side effects in your VA
-            medical records. This includes allergies and reactions to
-            medications.
+            medical records. This includes medication side effects (also called
+            adverse drug reactions).
           </p>
           <a
             className="vads-c-action-link--green"
             href="/my-health/medical-records/allergies"
           >
-            Go to your allergies
+            Go to your allergies and reactions
           </a>
         </section>
         <section>
@@ -271,7 +274,7 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go to VA Blue Button on the My HealtheVet website
+                  Go to VA Blue Button&reg; on the My HealtheVet website
                 </a>
               </p>
             </va-accordion-item>
@@ -445,7 +448,7 @@ const LandingPage = () => {
                 <span className="vads-u-font-weight--bold">
                   To find health information you entered yourself,
                 </span>{' '}
-                go to VA Blue Button on the My HealtheVet website.
+                go to VA Blue Button&reg; on the My HealtheVet website.
               </p>
               <p>
                 <a
@@ -455,7 +458,7 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go to VA Blue Button on the My HealtheVet website
+                  Go to VA Blue Button&reg; on the My HealtheVet website
                 </a>
               </p>
               <p>

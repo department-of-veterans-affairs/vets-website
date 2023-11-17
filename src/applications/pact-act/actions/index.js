@@ -14,19 +14,11 @@ import {
   PAW_UPDATE_RADIATION_2_3_B,
   PAW_UPDATE_LEJEUNE_2_4,
   PAW_UPDATE_FORM_STORE,
-  PAW_VIEWED_RESULTS_PAGE_1,
 } from '../constants';
 
 export const updateIntroPageViewed = value => {
   return {
     type: PAW_VIEWED_INTRO_PAGE,
-    payload: value,
-  };
-};
-
-export const updateResultsPage1Viewed = value => {
-  return {
-    type: PAW_VIEWED_RESULTS_PAGE_1,
     payload: value,
   };
 };

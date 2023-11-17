@@ -24,19 +24,33 @@ const MedicationsListCard = props => {
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
         <h3
+          aria-describedby="status status-description fill-or-refill-button"
           className="vads-u-font-weight--bold"
           id={`card-header-${rx.prescriptionId}`}
         >
           <Link
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
-            to={`/${rx.prescriptionId}`}
+            to={`/prescription/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
           >
-            {rx.prescriptionName}
+            {rx.dispStatus === 'Active: Non-VA'
+              ? rx.orderableItem
+              : rx.prescriptionName}
           </Link>
         </h3>
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
+        {rx.dispStatus !== 'Unknown' && (
+          <div
+            id="status"
+            className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+            data-testid="rxStatus"
+          >
+            {rx.dispStatus !== 'Active: Refill in Process'
+              ? rx.dispStatus
+              : 'Active: Refill in process'}
+          </div>
+        )}
         {rx && <ExtraDetails {...rx} />}
         {rx && <FillRefillButton {...rx} />}
       </div>

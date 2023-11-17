@@ -12,6 +12,7 @@ import {
 } from '../../utils/appointment';
 import { APP_NAMES } from '../../utils/appConstants';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
+import { isInPilot } from '../../utils/pilotFeatures';
 
 const AppointmentListItem = props => {
   const { appointment, goToDetails, router, app, page } = props;
@@ -34,7 +35,11 @@ const AppointmentListItem = props => {
         </span>
       );
     }
-    if (is45MinuteReminderEnabled) {
+    if (
+      is45MinuteReminderEnabled &&
+      appointment &&
+      isInPilot({ appointment, pilotFeature: 'fortyFiveMinuteText' })
+    ) {
       return (
         <span data-testid="in-person-msg-confirmation">
           {t('remember-to-bring-your-insurance-cards-with-you')}
@@ -86,8 +91,8 @@ const AppointmentListItem = props => {
               t('phone')
             ) : (
               <>
-                {`${t('in-person')} at ${appointment.facility}`} <br /> Clinic:{' '}
-                {clinic}
+                {`${t('in-person')} ${appointment.facility}`} <br />
+                {`${t('clinic')}: ${clinic}`}
               </>
             )}
           </div>

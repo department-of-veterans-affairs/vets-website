@@ -2,14 +2,27 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { medicationsUrls } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const LandingPage = () => {
   const location = useLocation();
   const fullState = useSelector(state => state);
+  const { featureTogglesLoading, appEnabled } = useSelector(
+    state => {
+      return {
+        featureTogglesLoading: state.featureToggles.loading,
+        appEnabled:
+          state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsToVaGovRelease],
+      };
+    },
+    state => state.featureToggles,
+  );
+
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
@@ -20,16 +33,19 @@ const LandingPage = () => {
   const focusAndOpenAccordionRxRenew = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
-    manageMedicationsAccordionSection.current.scrollIntoView();
+    if (!featureTogglesLoading && appEnabled) {
+      manageMedicationsAccordionSection.current.scrollIntoView();
+    }
   };
 
   useEffect(
     () => {
+      updatePageTitle('About medications | Veterans Affairs');
       if (location.pathname.includes('/accordion-renew-rx')) {
         focusAndOpenAccordionRxRenew();
       }
     },
-    [location.pathname],
+    [location.pathname, featureTogglesLoading, appEnabled],
   );
 
   const content = () => {
@@ -38,19 +54,19 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1 data-testid="landing-page-heading">About medications</h1>
-            <p className="vads-u-font-size--lg">
+            <p className="vads-u-font-family--serif">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
           </section>
           <section>
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--4 vads-u-border-left--7px vads-u-border-color vads-u-border-color--primary-alt-dark">
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
               <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                Manage your medications now
+                Go to your medications now
               </h2>
               <p className="vads-u-margin-y--3">
-                Refill and track your VA prescriptions. And review all
-                medications in your VA medical records.
+                Refill and track your VA prescriptions. And review your
+                medications list.
               </p>
               <a
                 className="vads-c-action-link--green vads-u-margin--0"
@@ -125,7 +141,7 @@ const LandingPage = () => {
                         than 180 days.{' '}
                       </strong>
                       To find these older prescriptions, go to your VA Blue
-                      Button report on the My HealthVet website{' '}
+                      Button report on the My HealthVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
@@ -133,7 +149,7 @@ const LandingPage = () => {
                         )}
                         rel="noreferrer"
                       >
-                        Go to VA Blue Button® on the My HealtheVet website
+                        Go to VA Blue Button&reg; on the My HealtheVet website
                       </a>
                     </li>
                     <li>
@@ -265,7 +281,7 @@ const LandingPage = () => {
               review allergies and reactions in your VA medical records.
             </p>
             <section>
-              <va-accordion bordered>
+              <va-accordion bordered data-testid="more-ways-to-manage">
                 <va-accordion-item open={isRxRenewAccordionOpen}>
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to renew prescriptions
@@ -304,6 +320,7 @@ const LandingPage = () => {
                     Send a secure message to your VA care team.
                   </p>
                   <a
+                    className="vads-u-margin-bottom--1 vads-u-display--block"
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
                       'secure-messaging',
@@ -382,7 +399,7 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to manage notifications for prescription shipments
                   </h3>
-                  <p>
+                  <p data-testid="notifications">
                     You can sign up to get email notifications when we ship your
                     prescriptions. You can also opt out of notifications at any
                     time.
@@ -409,6 +426,23 @@ const LandingPage = () => {
       </div>
     );
   };
+
+  if (featureTogglesLoading) {
+    return (
+      <div className="vads-l-grid-container">
+        <va-loading-indicator
+          message="Loading your medications..."
+          setFocus
+          data-testid="rx-feature-flag-loading-indicator"
+        />
+      </div>
+    );
+  }
+
+  if (!appEnabled) {
+    window.location.replace('/health-care/refill-track-prescriptions');
+    return <></>;
+  }
 
   return (
     <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">

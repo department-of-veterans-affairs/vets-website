@@ -106,10 +106,6 @@ const MoveMessageToFolderBtn = props => {
           data-testid="move-to-modal"
           large
           modalTitle="Move to:"
-          onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeModal}
-          primaryButtonText="Confirm"
-          secondaryButtonText="Cancel"
           onCloseEvent={closeModal}
           visible={isModalVisible}
         >
@@ -128,6 +124,7 @@ const MoveMessageToFolderBtn = props => {
               updatedFoldersList.map((folder, i) => (
                 <>
                   <VaRadioOption
+                    checked={parseInt(selectedFolder, 10) === folder.id}
                     data-dd-privacy="mask"
                     data-testid={`radiobutton-${folder.name}`}
                     key={i}
@@ -150,10 +147,13 @@ const MoveMessageToFolderBtn = props => {
                 label="Create new folder"
                 name="defaultName"
                 value="newFolder"
+                checked={selectedFolder === 'newFolder'}
               />
             </>
           </VaRadio>
           <p /> {/* to create extra margin between radio and action buttons */}
+          <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
+          <va-button secondary text="Cancel" onClick={closeModal} />
         </VaModal>
       </div>
     );
@@ -169,10 +169,11 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     isVisible && (
-      <li>
+      <>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary small-screen:vads-u-flex--3"
+          style={{ minWidth: '100px' }}
           onClick={openModal}
         >
           <i
@@ -195,7 +196,7 @@ const MoveMessageToFolderBtn = props => {
             folders={updatedFoldersList}
           />
         )}
-      </li>
+      </>
     )
   );
 };

@@ -21,7 +21,7 @@ const ConfirmationPage = ({
 }) => {
   // TODO: move to util or custom hook.
   const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-    ? 'hearing aid and CPAP supplies'
+    ? 'hearing aid or CPAP supplies'
     : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
     <div className="print-details">

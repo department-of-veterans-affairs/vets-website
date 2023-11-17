@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
-import { displayConditionsMet } from '../../utilities/display-logic';
+import { displayConditionsMet } from '../../utilities/display-logic-questions';
 
 import BurnPit212 from '../../containers/questions/burn-pit/BurnPit-2-1-2';
 
@@ -99,6 +99,7 @@ describe('Burn Pit 2.1.2 Page', () => {
 describe('displayConditionsAreMet', () => {
   it('BURN_PIT_2_1_2: should return true when the display conditions are met', () => {
     const formResponses = {
+      BURN_PIT_2_1: NO,
       BURN_PIT_2_1_1: NO,
       SERVICE_PERIOD: NINETY_OR_LATER,
     };
@@ -108,6 +109,7 @@ describe('displayConditionsAreMet', () => {
 
   it('BURN_PIT_2_1_2: should return true when the display conditions are met', () => {
     const formResponses = {
+      BURN_PIT_2_1: NOT_SURE,
       BURN_PIT_2_1_1: NOT_SURE,
       SERVICE_PERIOD: NINETY_OR_LATER,
     };
@@ -117,7 +119,8 @@ describe('displayConditionsAreMet', () => {
 
   it('BURN_PIT_2_1_2: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1_1: NOT_SURE,
+      BURN_PIT_2_1: NO,
+      BURN_PIT_2_1_1: NO,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
@@ -126,7 +129,8 @@ describe('displayConditionsAreMet', () => {
 
   it('BURN_PIT_2_1_2: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1_1: NO,
+      BURN_PIT_2_1: NOT_SURE,
+      BURN_PIT_2_1_1: NOT_SURE,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 
@@ -143,6 +147,7 @@ describe('displayConditionsAreMet', () => {
 
   it('BURN_PIT_2_1_2: should return false when the display conditions are not met', () => {
     const formResponses = {
+      BURN_PIT_2_1: NO,
       BURN_PIT_2_1_1: YES,
       SERVICE_PERIOD: NINETY_OR_LATER,
     };

@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import VeteranProfileInformation from '../../../../components/FormPages/VeteranProfileInformation';
 
-describe('ezr VeteranProfileInformation', () => {
+describe('ezr VeteranProfileInformation page', () => {
   const getData = ({ dob = null, gender = null }) => ({
     props: {
       goBack: sinon.spy(),
@@ -16,7 +16,7 @@ describe('ezr VeteranProfileInformation', () => {
       getState: () => ({
         form: {
           data: {
-            veteranSocialSecurityNumber: '211-11-1111',
+            veteranSocialSecurityNumber: '211111111',
           },
         },
         user: {

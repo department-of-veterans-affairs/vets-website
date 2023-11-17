@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const dateFns = require('date-fns');
 const { utcToZonedTime, format } = require('date-fns-tz');
 const {
@@ -95,7 +96,6 @@ const getAppointmentStartTime = (
 const createAppointment = ({
   facility = singleAppointment[0].facility,
   eligibility = singleAppointment[0].eligibility,
-  facilityId = singleAppointment[0].facilityId,
   appointmentIen = Math.floor(Math.random() * 100000),
   clinicFriendlyName = 'HEART CLINIC 1',
   clinicName = singleAppointment[0].clinicName,
@@ -166,7 +166,6 @@ const createAppointment = ({
     appointmentIen,
     startTime: formattedStartTime,
     eligibility,
-    facilityId,
     checkInWindowStart: formattedCheckInWindowStart,
     checkInWindowEnd: formattedCheckInWindowEnd,
     checkedInTime: '',
@@ -196,7 +195,6 @@ const createAppointments = (
   let appointments = [
     createAppointment({
       eligibility: 'ELIGIBLE',
-      facilityId: 'ABC_123',
       clinicIen: '0001',
       appointmentIen: `0001`,
       clinicFriendlyName: `HEART CLINIC-1`,
@@ -209,7 +207,6 @@ const createAppointments = (
     appointments = [
       createAppointment({
         eligibility: 'INELIGIBLE_TOO_LATE',
-        facilityId: 'ABC_123',
         clinicIen: '0001',
         appointmentIen: '0000',
         clinicFriendlyName: `HEART CLINIC-1`,
@@ -219,7 +216,6 @@ const createAppointments = (
       appointments.push(
         createAppointment({
           eligibility: 'ELIGIBLE',
-          facilityId: 'ABC_123',
           clinicIen: '0001',
           appointmentIen: `000${i + 1}`,
           clinicFriendlyName: `HEART CLINIC-${i}`,
@@ -231,7 +227,6 @@ const createAppointments = (
     appointments.push(
       createAppointment({
         eligibility: 'INELIGIBLE_TOO_EARLY',
-        facilityId: 'ABC_123',
         clinicIen: '0001',
         appointmentIen: `0050`,
         clinicFriendlyName: `HEART CLINIC-E`,
@@ -252,6 +247,7 @@ const createAppointments = (
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       },
+      setECheckinStartedCalled: true,
     },
   };
 };

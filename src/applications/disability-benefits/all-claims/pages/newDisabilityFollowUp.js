@@ -1,15 +1,14 @@
 import { createSelector } from 'reselect';
 
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { validateLength } from 'platform/forms/validations';
 import { capitalizeEachWord, isBDD } from '../utils';
 import { getDisabilityLabels } from '../content/disabilityLabels';
 
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import {
   disabilityNameTitle,
   ServiceConnectedDisabilityDescription,
 } from '../content/newDisabilityFollowUp';
-
-import { validateLength } from 'platform/forms/validations';
 
 import { NULL_CONDITION_STRING, CHAR_LIMITS } from '../constants';
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -49,7 +48,7 @@ class App extends Component {
     } = this.props;
     const showMainContent = !pending && !isError && !featureToggles.loading;
     const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-      ? 'hearing aid and CPAP supplies'
+      ? 'hearing aid or CPAP supplies'
       : 'hearing aid batteries and accessories';
 
     // Update form config on the fly based on feature toggle.
@@ -64,14 +63,14 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <Breadcrumbs>
+          <va-breadcrumbs class="va-nav-breadcrumbs">
             <a href="/">Home</a>
             {/* this will get updated when this route is added */}
             <a href="/health-care">Health care</a>
             <a href="/health-care/order-hearing-aid-batteries-and-accessories">
               Order {supplyDescription}
             </a>
-          </Breadcrumbs>
+          </va-breadcrumbs>
         )}
         {pending && (
           <va-loading-indicator>

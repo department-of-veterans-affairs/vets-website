@@ -6,8 +6,7 @@ import MedicationsListCard from '../../../components/MedicationsList/Medications
 import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
-  const rx = prescriptionsListItem;
-  const setup = () => {
+  const setup = (rx = prescriptionsListItem) => {
     return renderWithStoreAndRouter(<MedicationsListCard rx={rx} />, {
       path: '/',
       state: {},
@@ -18,5 +17,22 @@ describe('Medication card component', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('shows status', () => {
+    const screen = setup();
+    if (prescriptionsListItem.dispStatus === 'Active: Refill in Process') {
+      expect(screen.getByText('Active: Refill in process')).to.exist;
+    } else {
+      expect(screen.getByText(prescriptionsListItem.dispStatus)).to.exist;
+    }
+  });
+  it('does not show Unknown when status is unknown', () => {
+    const rxWithUnknownStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Unknown',
+    };
+    const screen = setup(rxWithUnknownStatus);
+    expect(screen.queryByText(rxWithUnknownStatus.dispStatus)).to.not.exist;
   });
 });

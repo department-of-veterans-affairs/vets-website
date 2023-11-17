@@ -1,6 +1,5 @@
 import loa1User from '@@profile/tests/fixtures/users/user-loa1.json';
 import manifest from '~/applications/personalization/dashboard/manifest.json';
-import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 /**
  *
@@ -11,7 +10,7 @@ import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNa
  * - loads the my VA Dashboard,
  * - checks that focus is managed correctly, and performs an aXe scan
  */
-function loa1DashboardTest(mobile, stubs) {
+const loa1DashboardTest = (mobile, stubs) => {
   cy.visit(manifest.rootUrl);
 
   // TODO: update cy.viewport to Cypress.env().vaTopMobileViewports
@@ -39,29 +38,6 @@ function loa1DashboardTest(mobile, stubs) {
   // make sure that the name tag is not visible
   cy.findByTestId('name-tag').should('not.exist');
 
-  context('Before UX updates', () => {
-    cy.findByTestId('dashboard-section-claims-and-appeals').should('not.exist');
-    cy.findByRole('link', { name: /file a.*claim/i }).should('exist');
-
-    cy.findByTestId('dashboard-section-health-care').should('not.exist');
-
-    // make sure that the apply for benefits section is visible
-    cy.findByTestId('dashboard-section-apply-for-benefits').should('exist');
-
-    // make sure that the Education and training section is visible
-    cy.findByTestId('dashboard-section-education-and-training').should(
-      'not.exist',
-    );
-  });
-}
-
-const loa1AfterUxUpdates = mobile => {
-  cy.visit(manifest.rootUrl);
-
-  if (mobile) {
-    cy.viewport('iphone-4');
-  }
-
   // make sure that the "Verify" alert is shown
   cy.findByText(/Verify your identity to access/i).should('exist');
   cy.findByText(/we need to make sure you’re you/i).should('exist');
@@ -80,7 +56,9 @@ const loa1AfterUxUpdates = mobile => {
   cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
 
   // make sure that the Benefit application drafts section is visible
-  cy.findByTestId('dashboard-section-saved-applications').should('exist');
+  cy.findByTestId('dashboard-section-benefit-application-drafts').should(
+    'exist',
+  );
 
   // make sure that the Education and training section is visible
   cy.findByTestId('dashboard-section-education-and-training').should('exist');
@@ -134,21 +112,9 @@ describe('The My VA Dashboard', () => {
       getEnrollmentStatusStub();
     });
   });
+
   it('should handle LOA1 users at desktop size', () => {
     loa1DashboardTest(false, stubs);
-    // delete instances of feature toggle when new appts URL is launched
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.myVaUseExperimentalFrontend,
-            value: true,
-          },
-        ],
-      },
-    }).as('loa1Feature');
-    loa1AfterUxUpdates(false);
 
     // make the a11y check
     cy.injectAxe();
@@ -157,19 +123,6 @@ describe('The My VA Dashboard', () => {
 
   it('should handle LOA1 users at mobile phone size', () => {
     loa1DashboardTest(true, stubs);
-    // delete instances of feature toggle when new appts URL is launched
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.myVaUseExperimentalFrontend,
-            value: true,
-          },
-        ],
-      },
-    }).as('loa1Feature');
-    loa1AfterUxUpdates(true);
 
     // make the a11y check
     cy.injectAxe();

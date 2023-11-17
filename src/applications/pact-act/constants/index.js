@@ -13,11 +13,10 @@ export const PAW_UPDATE_RADIATION_2_3_A = 'pact-act/PAW_UPDATE_RADIATION_2_3_A';
 export const PAW_UPDATE_RADIATION_2_3_B = 'pact-act/PAW_UPDATE_RADIATION_2_3_B';
 export const PAW_UPDATE_LEJEUNE_2_4 = 'pact-act/PAW_UPDATE_LEJEUNE_2_4';
 export const PAW_UPDATE_FORM_STORE = 'pact-act/PAW_UPDATE_FORM_STORE';
-export const PAW_VIEWED_RESULTS_PAGE_1 = 'pact-act/PAW_VIEWED_RESULTS_PAGE_1';
 
 // Except for HOME and results pages, left side must match
 // short name codes in constants/question-data-map
-export const ROUTES = {
+export const ROUTES = Object.freeze({
   HOME: 'introduction',
   SERVICE_PERIOD: 'service-period-1',
   BURN_PIT_2_1: 'burn-pit-2-1',
@@ -34,4 +33,8 @@ export const ROUTES = {
   LEJEUNE_2_4: 'lejeune-2-4',
   RESULTS_SET_1_PAGE_1: 'results-1-1',
   RESULTS_SET_1_PAGE_2: 'results-1-2',
-};
+  RESULTS_1_P1: 'results-1-1-temp',
+  RESULTS_1_P2: 'results-1-2-temp',
+  RESULTS_2: 'results-2',
+  RESULTS_3: 'results-3',
+});

@@ -1404,6 +1404,7 @@ const mockErrorResponses = {
   },
 };
 
+// users with various contact info missing
 const loa3UserWithNoMobilePhone = set(
   cloneDeep(baseUserResponses.loa3User72),
   'data.attributes.vet360ContactInformation.mobilePhone',
@@ -1428,6 +1429,20 @@ const loa3UserWithNoHomeAddress = set(
   null,
 );
 
+// users with various data claims missing
+// this user has no rating info claim and therefore should not request the rating_info endpoint
+const loa3UserWithNoRatingInfoClaim = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.profile.claims.ratingInfo',
+  false,
+);
+
+const loa3UserWithNoMilitaryHistoryClaim = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.profile.claims.militaryHistory',
+  false,
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1442,6 +1457,8 @@ const responses = {
     ],
   ),
   loa3UserWithNoHomeAddress,
+  loa3UserWithNoRatingInfoClaim,
+  loa3UserWithNoMilitaryHistoryClaim,
 };
 
 // handler that can be used to customize the user data returned

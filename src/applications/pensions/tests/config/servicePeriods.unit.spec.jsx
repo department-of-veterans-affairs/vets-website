@@ -7,13 +7,12 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
+import servicePeriods from '../../pages/servicePeriods';
 
 describe('Pensions service periods', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.servicePeriods;
+  const { schema, uiSchema } = servicePeriods;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -98,7 +97,7 @@ describe('Pensions service periods', () => {
     expect(formDOM.querySelectorAll('.usa-alert').length).to.equal(0);
   });
 
-  it('should add another service period', () => {
+  it('should add another service period', async () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -126,13 +125,14 @@ describe('Pensions service periods', () => {
     ReactTestUtils.Simulate.click(
       formDOM.querySelector('.va-growable-add-btn'),
     );
-
-    expect(
-      formDOM.querySelector('.va-growable-background').textContent,
-    ).to.contain('Army');
+    waitFor(() => {
+      expect(
+        formDOM.querySelector('.va-growable-background').textContent,
+      ).to.contain('Army');
+    });
   });
 
-  it('should submit with valid data', () => {
+  it('should submit with valid data', async () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -156,8 +156,9 @@ describe('Pensions service periods', () => {
     );
 
     formDOM.submitForm();
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    waitFor(() => {
+      expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 });

@@ -1,6 +1,6 @@
 // This file serves to be the source of truth for question text and response text
 // to make content edits simpler and keep responses DRY
-export const QUESTION_MAP = {
+export const QUESTION_MAP = Object.freeze({
   SERVICE_PERIOD: 'When did you serve in the U.S. military?',
   BURN_PIT_2_1: 'Burn pit S2.1, did you serve in any of these locations?',
   BURN_PIT_2_1_1: 'Burn pit S2.1.1, did you serve in any of these locations?',
@@ -20,10 +20,10 @@ export const QUESTION_MAP = {
     'Radiation S2.3.B, which response efforts did you participate in?',
   LEJEUNE_2_4:
     'Camp lejeune S2.4, did you spend time at either of these bases in North Carolina?',
-};
+});
 
 // Left side must match routes in constants/index.js (ROUTES)
-export const SHORT_NAME_MAP = {
+export const SHORT_NAME_MAP = Object.freeze({
   SERVICE_PERIOD: 'SERVICE_PERIOD',
   BURN_PIT_2_1: 'BURN_PIT_2_1',
   BURN_PIT_2_1_1: 'BURN_PIT_2_1_1',
@@ -37,9 +37,16 @@ export const SHORT_NAME_MAP = {
   RADIATION_2_3_A: 'RADIATION_2_3_A',
   RADIATION_2_3_B: 'RADIATION_2_3_B',
   LEJEUNE_2_4: 'LEJEUNE_2_4',
-};
+});
 
-export const RESPONSES = {
+// Left side must match the keys in resultsDcs in constants/display-conditions
+export const RESULTS_NAME_MAP = Object.freeze({
+  RESULTS_1: 'RESULTS_1',
+  RESULTS_2: 'RESULTS_2',
+  RESULTS_3: 'RESULTS_3',
+});
+
+export const RESPONSES = Object.freeze({
   AMERICAN_SAMOA: 'American Samoa or its territorial waters',
   CAMBODIA: 'Cambodia at Mimot or Krek, Kampong Cham Province',
   DURING_BOTH_PERIODS: 'During both of these time periods',
@@ -62,4 +69,4 @@ export const RESPONSES = {
   VIETNAM_WATERS: 'The waters in or around Vietnam',
   VIETNAM_REP: 'The Republic of Vietnam',
   YES: 'Yes',
-};
+});

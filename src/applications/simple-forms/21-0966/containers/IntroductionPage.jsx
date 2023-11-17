@@ -24,8 +24,7 @@ class IntroductionPage extends React.Component {
           you notify us of your intent to file, you may be able to get
           retroactive payments (payments for the time between when you submit
           your intent to file and when we approve your claim). An intent to file
-          request sets a potential start date (or effective date) for your
-          benefits.
+          sets a potential start date (or effective date) for your benefits.
         </p>
         <h2>What to know before you fill out this form</h2>
         <p>
@@ -34,15 +33,36 @@ class IntroductionPage extends React.Component {
           date for your benefits will expire.
         </p>
         <p>
-          <b>Note:</b> This form only tells us that you plan to file a claim. To
-          get benefits, you’ll need to complete and file at least one of these
-          claims. And then we’ll need to approve it.
+          <va-alert
+            background-only
+            class="vads-u-margin-bottom--1"
+            close-btn-aria-label="Close notification"
+            disable-analytics="false"
+            full-width="false"
+            status="info"
+            visible="true"
+          >
+            <p className="vads-u-margin-y--0">
+              This form only tells us that you plan to file a claim. To get
+              benefits, you’ll need to complete and file the claim application.
+              And then we’ll need to approve it.
+            </p>
+          </va-alert>
+        </p>
+        <h2>Claims you can file after filling out this form</h2>
+        <p>
+          After you complete this form, we’ll direct you to the benefit
+          application you need to complete.
         </p>
         <ul>
           <li>
-            <a href="https://www.va.gov/find-forms/about-form-21-526ez/">
+            <a href="https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction">
               Disability compensation claim (VA Form 21-526EZ)
             </a>
+            . If you start your disability claim online now, you don’t need to
+            fill out this intent to file form. When you start your disability
+            application (or Supplemental Claim) online, it notifies us
+            automatically of your intent to file.
           </li>
           <li>
             <a href="https://www.va.gov/find-forms/about-form-21p-527ez/">

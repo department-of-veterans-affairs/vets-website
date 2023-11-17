@@ -24,6 +24,6 @@ describe('submitterContactPage', () => {
       />,
     );
 
-    expect($('h2', container).textContent).to.eq('Veteran Contact Information');
+    expect($('h3', container).textContent).to.eq('Veteran Contact Information');
   });
 });

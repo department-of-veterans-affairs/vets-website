@@ -1,5 +1,3 @@
-import mockDraftMessages from './fixtures/drafts-response.json';
-import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
@@ -11,7 +9,7 @@ describe('Secure Messaging Draft Folder checks', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessages();
   });
 
   it('Verify filter works correctly', () => {
@@ -55,7 +53,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     draftsPage.verifyFilterFieldCleared();
   });
 
-  it.skip('Check sorting works properly', () => {
+  it('Check sorting works properly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

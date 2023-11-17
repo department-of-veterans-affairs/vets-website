@@ -3,7 +3,6 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { mockNotificationSettingsAPIs } from '../helpers';
 
 import mockUser from '../../fixtures/users/user-36.json';
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 const deepLinks = [
   // this first one is to make sure unsupported deep link urls manage focus
@@ -53,9 +52,6 @@ function checkAllDeepLinks(mobile = false) {
   if (mobile) {
     cy.viewportPreset('va-top-mobile-1');
   }
-
-  // should show a loading indicator
-  checkForLegacyLoadingIndicator();
 
   deepLinks.forEach(({ url, expectedTarget }) => {
     cy.visit(url);
