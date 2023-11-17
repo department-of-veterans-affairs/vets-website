@@ -1,8 +1,8 @@
 // @ts-check
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import {
-  mockAppointmentsApi,
-  mockClinicApi,
+  mockAppointmentsGetApi,
+  mockClinicsApi,
   mockEligibilityApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -12,17 +12,21 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import { MockEligibility } from '../../fixtures/MockEligibility';
+import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockFacility } from '../../fixtures/MockFacility';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import { PRIMARY_CARE } from '../../../../utils/constants';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+
+const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
 describe('VAOS direct schedule flow - dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -32,19 +36,19 @@ describe('VAOS direct schedule flow - dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibility = new MockEligibility({
+        const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
-          typeOfCare: 'primaryCare',
+          typeOfCareId,
           type: 'direct',
           isEligible: true,
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: [],
         });
-        mockEligibilityApi({ response: mockEligibility });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId: 'primaryCare',
@@ -66,7 +70,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -79,11 +83,13 @@ describe('VAOS direct schedule flow - dead ends', () => {
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityRequestApi({
-          response: MockEligibility.createPatientHistoryInsufficientResponse({
-            type: 'request',
-          }),
+          response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
+            {
+              type: 'request',
+            },
+          ),
         });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId: 'primaryCare',
@@ -105,7 +111,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -117,24 +123,26 @@ describe('VAOS direct schedule flow - dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        const mockEligibility = new MockEligibility({
+        const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCare: 'primaryCare',
           type: 'request',
           isEligible: false,
         });
 
-        mockClinicApi({
+        mockClinicsApi({
           locationId: '983',
           response: [],
         });
         mockEligibilityDirectApi({
-          response: MockEligibility.createPatientHistoryInsufficientResponse({
-            type: 'direct',
-          }),
+          response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
+            {
+              type: 'direct',
+            },
+          ),
         });
-        mockEligibilityRequestApi({ response: mockEligibility });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockEligibilityRequestApi({ response: mockEligibilityResponse });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to accept direct schedule appointments for
         // primary care.
@@ -159,7 +167,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -172,11 +180,13 @@ describe('VAOS direct schedule flow - dead ends', () => {
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
         mockEligibilityRequestApi({
-          response: MockEligibility.createFacilityRequestLimitExceededResponse({
-            type: 'request',
-          }),
+          response: MockEligibilityResponse.createFacilityRequestLimitExceededResponse(
+            {
+              type: 'request',
+            },
+          ),
         });
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to accept request schedule appointments for
         // primary care.
@@ -201,7 +211,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           .assertWarningAlert({
             text: /We found one facility that accepts online scheduling for this care/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
