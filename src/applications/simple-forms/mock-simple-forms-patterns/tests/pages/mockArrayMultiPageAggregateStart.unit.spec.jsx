@@ -9,9 +9,9 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.arrayMultiPageHash.pages.multiPageStart;
+} = formConfig.chapters.arrayMultiPageAggregate.pages.multiPageStart;
 
-const pageTitle = 'array multi page hash';
+const pageTitle = 'array multi page aggregate';
 
 const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(

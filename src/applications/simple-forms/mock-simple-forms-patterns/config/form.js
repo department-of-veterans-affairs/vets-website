@@ -18,8 +18,8 @@ import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran'
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 import arraySinglePage from '../pages/mockArraySinglePage';
-import arrayMultiPageHashStart from '../pages/mockArrayMultiPageHashStart';
-import arrayMultiPageHashItem from '../pages/mockArrayMultiPageHashItem';
+import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
+import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
 import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
@@ -193,29 +193,29 @@ const formConfig = {
         },
       },
     },
-    arrayMultiPageHash: {
-      title: 'Array Multi-page Hash',
+    arrayMultiPageAggregate: {
+      title: 'Array Multi-Page Aggregate',
       pages: {
         multiPageStart: {
           title: 'Multiple Page Start Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page-hash',
-          uiSchema: arrayMultiPageHashStart.uiSchema,
-          schema: arrayMultiPageHashStart.schema,
+          path: 'array-multiple-page-aggregate',
+          uiSchema: arrayMultiPageAggregateStart.uiSchema,
+          schema: arrayMultiPageAggregateStart.schema,
           depends: includePage('arrayMulti'),
         },
         multiPageItem: {
           title: 'Multiple Page Details Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page-hash-details/:index',
+          path: 'array-multiple-page-aggregate-details/:index',
           showPagePerItem: true,
           arrayPath: 'exampleArrayData',
-          uiSchema: arrayMultiPageHashItem.uiSchema,
-          schema: arrayMultiPageHashItem.schema,
+          uiSchema: arrayMultiPageAggregateItem.uiSchema,
+          schema: arrayMultiPageAggregateItem.schema,
           depends: includePage('arrayMulti'),
         },
       },
     },
     arrayMultiPageBuilder: {
-      title: 'Array Multi-page Builder',
+      title: 'Array Multi-Page Builder',
       pages: {
         multiPageBuilderStart: {
           title: 'Array with multiple page builder summary', // for review page (has to be more than one word)

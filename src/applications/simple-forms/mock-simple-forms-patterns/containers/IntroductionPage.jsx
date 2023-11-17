@@ -70,13 +70,13 @@ class IntroductionPage extends React.Component {
               <Link to="/array-single-page">Array - single page</Link>
             </li>
             <li>
-              <Link to="/array-multiple-page-hash">
-                Array - multiple page - hash
+              <Link to="/array-multiple-page-aggregate">
+                Array - multiple page - aggregate pattern
               </Link>
             </li>
             <li>
               <Link to="/array-multiple-page-builder-summary">
-                Array - multiple page - builder
+                Array - multiple page - builder pattern
               </Link>
             </li>
           </ul>
