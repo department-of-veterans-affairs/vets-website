@@ -100,7 +100,7 @@ const DependentInformation = props => {
       showModal(false);
       document
         .getElementById('hca-modal-cancel')
-        .shadowRoot.children[0].focus();
+        .shadowRoot?.children[0]?.focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
