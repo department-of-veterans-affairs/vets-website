@@ -166,7 +166,7 @@ describe('526EZ keyboard only navigation', () => {
       // these particular tests again.
       // cy.tabToElement('.schemaform-sip-save-link');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Details > B. Contact Information
       // ===========================================
@@ -227,7 +227,7 @@ describe('526EZ keyboard only navigation', () => {
       // 6. Can edit contact information stored on profile page
       cy.tabToElement('[href="/profile/contact-information"]');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Details > C. Housing Situation
       // =========================================
@@ -238,7 +238,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.tabToElement('[type="radio"]');
       cy.findOption('no');
       cy.realPress('Space');
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Details > D. Alternative Names
       // =========================================
@@ -274,7 +274,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.tabToElementAndPressSpace('.edit', false);
       cy.tabToElement('[aria-label="Update name"]');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Details > E. Military History (if not in Reserve National Guard)
       // ===========================================================================
@@ -327,7 +327,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.chooseSelectOptionByTyping('Navy');
       cy.tabToElementAndPressSpace('[type="button"]');
 
-      // For some reason using `cy.tabToContinueForm` here doesn't work. It
+      // For some reason using `cy.tabToContinueFormSimulatedEnter` here doesn't work. It
       // instead will skip ahead to the following page.
       cy.tabToElementAndPressSpace('button[type="submit"]');
 
@@ -351,7 +351,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.findByText('Save');
       cy.realPress('Enter');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Information > G. Reserve National Guard Info
       // =======================================================
@@ -381,7 +381,7 @@ describe('526EZ keyboard only navigation', () => {
       );
       cy.typeInIfDataExists(`${idRoot}unitName`, 'CLR 45');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Information > H. Federal Orders
       // ==========================================
@@ -394,7 +394,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.findOption('N');
       cy.realPress('Space');
 
-      // For some reason using `cy.tabToContinueForm` here doesn't work. It
+      // For some reason using `cy.tabToContinueFormSimulatedEnter` here doesn't work. It
       // instead will skip ahead to the following page.
       cy.tabToElementAndPressSpace('button[type="submit"]');
 
@@ -417,7 +417,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.tabToElement('[type="radio"]', false);
       cy.findOption('N');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Information > J. Retirement Pay
       // ==========================================
@@ -435,7 +435,7 @@ describe('526EZ keyboard only navigation', () => {
       cy.tabToElement('[type="radio"]', false);
       cy.findOption('N');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // I. Veteran Information > K. Training Pay
       // ========================================
@@ -448,7 +448,7 @@ describe('526EZ keyboard only navigation', () => {
 
       cy.findOption('N');
 
-      cy.tabToContinueForm();
+      cy.tabToContinueFormSimulatedEnter();
 
       // II. Disabilities
       cy.url().should('include', disabilitiesPages.addDisabilities.path);

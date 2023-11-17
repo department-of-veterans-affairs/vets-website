@@ -155,6 +155,13 @@ Cypress.Commands.add('tabToStartForm', () => {
 // Target & use the "Continue" button on a form page
 Cypress.Commands.add('tabToContinueForm', () => {
   cy.tabToElement('button[type="submit"]');
+  cy.realPress('Space');
+});
+
+// Target & use the "Continue" button on a form page wit a simulated {enter}
+// press
+Cypress.Commands.add('tabToContinueFormSimulatedEnter', () => {
+  cy.tabToElement('button[type="submit"]');
   cy.get(':focus').type('{enter}');
 });
 
