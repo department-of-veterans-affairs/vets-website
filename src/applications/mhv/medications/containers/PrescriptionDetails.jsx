@@ -141,7 +141,7 @@ const PrescriptionDetails = () => {
         'medications',
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
         pdfData(allergiesList),
       ).then(() => {
         setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
@@ -190,12 +190,15 @@ const PrescriptionDetails = () => {
     return (
       <>
         {prescription.dispensedDate ||
-        prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ? (
+        prescription.rxRfRecords?.[0]?.[1].find(
+          record => record.dispensedDate,
+        ) ? (
           <span>
             Last filled on{' '}
             {dateFormat(
-              prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ||
-                prescription.dispensedDate,
+              prescription.rxRfRecords?.[0]?.[1]?.find(
+                record => record.dispensedDate,
+              )?.dispensedDate || prescription.dispensedDate,
               'MMMM D, YYYY',
             )}
           </span>
