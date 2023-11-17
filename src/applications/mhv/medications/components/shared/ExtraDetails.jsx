@@ -50,6 +50,13 @@ const ExtraDetails = rx => {
           updates.
         </p>
       )}
+      {dispStatus === dispStatusObj.activeParked && (
+        <div>
+          <p className="vads-u-margin-y--0" data-testid="VA-prescription">
+            You can request this prescription when you need it.
+          </p>
+        </div>
+      )}
       {dispStatus === dispStatusObj.expired && (
         <div>
           <p className="vads-u-margin-y--0" data-testid="expired">
