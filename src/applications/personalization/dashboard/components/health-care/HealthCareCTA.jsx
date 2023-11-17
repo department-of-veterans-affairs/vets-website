@@ -43,24 +43,25 @@ const HealthCareCTA = ({
           }
         />
       )}
+      {!isLOA1 &&
+        noCerner && (
+          <IconCTALink
+            text="Visit My HealtheVet on VA.gov"
+            icon="briefcase-medical"
+            href="/my-health"
+            testId="visit-mhv-on-va-gov"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Visit MHV on Va.gov',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        )}
       {isVAPatient &&
         !isLOA1 && (
           <>
-            {noCerner && (
-              <IconCTALink
-                text="Visit My HealtheVet on VA.gov"
-                icon="briefcase-medical"
-                href="/my-health"
-                testId="visit-mhv-on-va-gov"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'Visit MHV on Va.gov',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-              />
-            )}
             <IconCTALink
               text="Go to your inbox"
               icon="comments"
