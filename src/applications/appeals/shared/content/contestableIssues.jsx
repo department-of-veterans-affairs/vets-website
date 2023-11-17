@@ -8,7 +8,7 @@ import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { MAX_LENGTH } from '../constants';
 
-import { errorMessages } from './errorMessages';
+import errorMessages from './errorMessages';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in

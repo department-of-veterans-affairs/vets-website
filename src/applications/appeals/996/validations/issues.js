@@ -1,4 +1,4 @@
-import { errorMessages } from '../../shared/content/errorMessages';
+import { errorMessages } from '../constants';
 import { MAX_LENGTH } from '../../shared/constants';
 
 export const maxNameLength = (error, data) => {
