@@ -60,13 +60,13 @@ const LandingPage = () => {
             </p>
           </section>
           <section>
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--4 vads-u-border-left--7px vads-u-border-color vads-u-border-color--primary-alt-dark">
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
               <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                Manage your medications now
+                Go to your medications now
               </h2>
               <p className="vads-u-margin-y--3">
-                Refill and track your VA prescriptions. And review all
-                medications in your VA medical records.
+                Refill and track your VA prescriptions. And review your
+                medications list.
               </p>
               <a
                 className="vads-c-action-link--green vads-u-margin--0"

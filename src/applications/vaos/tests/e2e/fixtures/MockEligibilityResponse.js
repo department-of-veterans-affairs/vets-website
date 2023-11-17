@@ -2,21 +2,22 @@
  * Mock eligibility class.
  *
  * @export
- * @class MockEligibility
+ * @class MockEligibilityResponse
  */
-export class MockEligibility {
+export default class MockEligibilityResponse {
   static PATIENT_HISTORY_INSUFFICIENT = 'patient-history-insufficient';
 
   static FACILITY_REQUEST_LIMIT_EXCEEDED = 'facility-request-limit-exceeded';
 
   /**
-   * Creates an instance of MockEligibility.
+   * Creates an instance of MockEligibilityResponse.
+   *
    * @param {Object} arguments - Arguments used to determine what type of mock eligibility response object to create.
    * @param {string} facilityId - Facility id.
    * @param {String} typeOfCare - Type of care.
    * @param {Boolean} [isEligible=true]  - Flag to determine eligibility or not.
    * @param {string} ineligibilityReason - Ineligibility reason.
-   * @memberof MockEligibility
+   * @memberof MockEligibilityResponse
    */
   constructor({
     facilityId,
@@ -26,7 +27,7 @@ export class MockEligibility {
     ineligibilityReason,
   }) {
     this.id = facilityId.toString();
-    this.type = 'MockEligibility';
+    this.type = 'MockEligibilityResponse';
     this.attributes = {
       clinicalServiceId,
       eligible: isEligible,
@@ -51,16 +52,16 @@ export class MockEligibility {
    * @static
    * @param {Object} arguments - Method arguments
    * @param {string} arguments.type - Appointment scheduling type: 'direct' or 'request'.
-   * @returns Instance of MockEligibility
-   * @memberof MockEligibility
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
    */
   static createPatientHistoryInsufficientResponse({ type } = {}) {
-    return new MockEligibility({
+    return new MockEligibilityResponse({
       facilityId: '983',
       typeOfCare: 'primaryCare',
       type,
       isEligible: true,
-      ineligibilityReason: MockEligibility.PATIENT_HISTORY_INSUFFICIENT,
+      ineligibilityReason: MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
     });
   }
 
@@ -70,16 +71,17 @@ export class MockEligibility {
    * @static
    * @param {Object} arguments - Method arguments
    * @param {string} arguments.type - Appointment scheduling type: 'direct' or 'request'.
-   * @returns Instance of MockEligibility
-   * @memberof MockEligibility
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
    */
   static createFacilityRequestLimitExceededResponse({ type } = {}) {
-    return new MockEligibility({
+    return new MockEligibilityResponse({
       facilityId: '983',
       typeOfCare: 'primaryCare',
       type,
       isEligible: true,
-      ineligibilityReason: MockEligibility.FACILITY_REQUEST_LIMIT_EXCEEDED,
+      ineligibilityReason:
+        MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
     });
   }
 
