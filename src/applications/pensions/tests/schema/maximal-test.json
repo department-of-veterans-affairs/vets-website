@@ -48,6 +48,12 @@
     "socialSecurityDisability": false,
     "medicalCondition": false,
     "nursingHome": false,
+    "treatmentHistory": true,
+    "medicalCenters": [
+      {
+        "medicalCenter": "Dallas Fort Worth VA Medical Center"
+      }
+    ],
     "disabilities": [
       {
         "name": "Back pain",
