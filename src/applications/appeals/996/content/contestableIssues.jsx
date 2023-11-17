@@ -67,7 +67,7 @@ const disabilitiesList = (
 
 export const disabilitiesExplanation = (
   <va-additional-info
-    trigger="Don’t see the issue you’re looking for?"
+    trigger="Why isn’t my issue listed here?"
     class="vads-u-margin-top--4"
   >
     {disabilitiesList}
