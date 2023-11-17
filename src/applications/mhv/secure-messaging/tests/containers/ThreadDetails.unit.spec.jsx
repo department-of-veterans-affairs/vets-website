@@ -15,7 +15,6 @@ import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.j
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
 import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
-import { messageHistory } from '../fixtures/message-history-mock-reducer.json';
 import { inputVaTextInput } from '../../util/testUtils';
 import {
   threadsDateFormat,
@@ -136,25 +135,6 @@ describe('Thread Details container', () => {
 
     expect(screen.queryByText('1 Message in this conversation')).to.exist;
     expect(document.querySelector('.older-messages')).to.not.be.null;
-  });
-
-  it.skip('handles loadMoreMessages and setViewCount dispatch', () => {
-    const state = {
-      sm: {
-        triageTeams: {
-          triageTeams: recipients,
-        },
-        messageDetails: {
-          message: messageDetails.message,
-          messageHistory,
-          threadViewCount: 5,
-        },
-      },
-    };
-
-    const screen = setup(state);
-    const load5MoreMessages = screen.getByLabelText('Load 5 more messages');
-    fireEvent.click(load5MoreMessages);
   });
 
   it('with one draft message renders Edit Draft', async () => {
