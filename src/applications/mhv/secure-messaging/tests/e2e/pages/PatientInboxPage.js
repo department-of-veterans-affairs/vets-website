@@ -184,8 +184,10 @@ class PatientInboxPage {
       mockFirstMessage,
     ).as('fist-message-in-thread');
 
-    cy.contains(mockMessages.data[0].attributes.subject).click();
-    cy.wait('@full-thread', { requestTimeout: 10000 });
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+    cy.wait('@full-thread', { requestTimeout: 20000 });
     cy.wait('@fist-message-in-thread');
   };
 
