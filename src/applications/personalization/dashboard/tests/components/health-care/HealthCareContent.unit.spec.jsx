@@ -41,6 +41,22 @@ describe('<UnconnectedHealthCareContent />', () => {
     tree.getByTestId('cerner-widget');
   });
 
+  it('should not render the Cerner widget if the flag is on', () => {
+    const tree = renderWithStoreAndRouter(
+      <UnconnectedHealthCareContent facilityNames={['do', 're', 'mi']} />,
+      {
+        initialState: {
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+          },
+        },
+      },
+    );
+
+    expect(tree.queryByTestId('cerner-widget')).to.not.exist;
+    tree.getByTestId('visit-mhv-on-va-gov');
+  });
+
   it('should render the HealthcareError', () => {
     // delete instances of Toggler when errors are launched
     const initialErrorState = {
@@ -77,13 +93,20 @@ describe('<UnconnectedHealthCareContent />', () => {
   });
 
   context('should render the HealthCareCTA', () => {
-    it('but show only Apply for VA health care link for a non-patient', () => {
+    it('but show only Apply for VA health care and Visit MHV links for a non-patient', () => {
       const tree = renderWithStoreAndRouter(
-        <UnconnectedHealthCareContent isVAPatient={false} />,
-        { initialState },
+        <UnconnectedHealthCareContent isVAPatient={false} isLOA1={false} />,
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+            },
+          },
+        },
       );
 
-      tree.getAllByTestId('apply-va-healthcare-link-from-cta');
+      tree.getByTestId('apply-va-healthcare-link-from-cta');
+      tree.getByTestId('visit-mhv-on-va-gov');
     });
 
     it("when a patient has appointments and doesn't have an appointment error", () => {
@@ -98,10 +121,17 @@ describe('<UnconnectedHealthCareContent />', () => {
           shouldFetchUnreadMessages
           unreadMessagesCount={2}
         />,
-        { initialState },
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+            },
+          },
+        },
       );
 
-      tree.getByText('Popular actions for Health Care');
+      tree.getByText('Popular actions for Health Care', { exact: false });
+      tree.getByTestId('visit-mhv-on-va-gov');
       expect(
         tree.getByRole('link', {
           name: /schedule and manage your appointments/i,

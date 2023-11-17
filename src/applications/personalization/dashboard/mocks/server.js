@@ -22,6 +22,7 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    authExpVbaDowntimeMessage: true,
     myVaEnableNotificationComponent: true,
     myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
@@ -34,7 +35,7 @@ const responses = {
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,
     vaOnlineSchedulingStaticLandingPage: true,
   }),
-  'GET /v0/user': user.cernerUser,
+  'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
