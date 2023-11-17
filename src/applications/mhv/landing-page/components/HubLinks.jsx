@@ -7,14 +7,16 @@ const HubSection = ({ title, links }) => {
     <li key={`${href}--${index}`}>
       <va-link
         class="mhv-c-link"
-        disable-analytics
+        disable-analytics={{
+          value: 'false',
+        }}
         href={href}
         text={text}
         onClick={() =>
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-title': text,
-            'links-list-group': title,
+            'links-list-header': text,
+            'links-list-section-header': title,
           })
         }
       />
