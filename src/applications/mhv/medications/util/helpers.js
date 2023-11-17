@@ -10,7 +10,9 @@ import { imageRootUri } from './constants';
  */
 export const dateFormat = (timestamp, format = null) => {
   if (timestamp) {
-    return moment(timestamp).format(format || 'MMMM D, YYYY');
+    return moment
+      .tz(timestamp, 'America/New_York')
+      .format(format || 'MMMM D, YYYY');
   }
   return 'None noted';
 };
