@@ -190,12 +190,15 @@ const PrescriptionDetails = () => {
     return (
       <>
         {prescription.dispensedDate ||
-        prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ? (
+        prescription.rxRfRecords?.[0]?.[1].find(
+          record => record.dispensedDate,
+        ) ? (
           <span>
             Last filled on{' '}
             {dateFormat(
-              prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ||
-                prescription.dispensedDate,
+              prescription.rxRfRecords?.[0]?.[1]?.find(
+                record => record.dispensedDate,
+              )?.dispensedDate || prescription.dispensedDate,
               'MMMM D, YYYY',
             )}
           </span>

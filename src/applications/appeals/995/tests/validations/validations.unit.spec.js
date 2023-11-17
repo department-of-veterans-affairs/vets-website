@@ -1,15 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  checkValidations,
-  requireRatedDisability,
-  missingPrimaryPhone,
-} from '../../validations';
+import { checkValidations, missingPrimaryPhone } from '../../validations';
 import { missingIssueName } from '../../validations/issues';
 import { errorMessages, PRIMARY_PHONE } from '../../constants';
-
-import { SELECTED } from '../../../shared/constants';
 
 describe('checkValidations', () => {
   it('should return error messages', () => {
@@ -19,19 +13,6 @@ describe('checkValidations', () => {
     expect(
       checkValidations([missingIssueName, missingIssueName], ''),
     ).to.deep.equal([errorMessages.missingIssue, errorMessages.missingIssue]);
-  });
-});
-
-describe('requireRatedDisability', () => {
-  it('should show an error if no disabilities are selected', () => {
-    const errors = { addError: sinon.spy() };
-    requireRatedDisability(errors, [{}, {}]);
-    expect(errors.addError.calledWith(errorMessages.contestedIssue)).to.be.true;
-  });
-  it('should not show an error if a disabilitiy is selected', () => {
-    const errors = { addError: sinon.spy() };
-    requireRatedDisability(errors, [{}, { [SELECTED]: true }]);
-    expect(errors.addError.notCalled).to.be.true;
   });
 });
 

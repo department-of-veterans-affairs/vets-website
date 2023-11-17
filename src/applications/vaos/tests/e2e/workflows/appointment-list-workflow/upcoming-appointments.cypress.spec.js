@@ -1,31 +1,23 @@
 /* eslint-disable no-plusplus */
-// Enable intelliSense for Cypress
-/// <reference types="cypress" />
-
+// @ts-check
 import moment from 'moment';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import {
-  mockAppointmentsApi,
-  mockFacilitiesApi,
+  mockAppointmentsGetApi,
   mockFeatureToggles,
   mockLoginApi,
   mockAppointmentUpdateApi,
   vaosSetup,
   mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
-import { MockAppointment } from '../../fixtures/MockAppointment';
-import {
-  APPOINTMENT_STATUS,
-  TYPE_OF_VISIT_ID,
-  VIDEO_TYPES,
-} from '../../../../utils/constants';
+import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 
 describe('VAOS upcoming appointment flow', () => {
   describe('When veteran has upcoming appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFacilitiesApi();
       mockFeatureToggles();
       mockLoginApi();
       mockVamcEhrApi();
@@ -33,82 +25,34 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display upcoming appointments list', () => {
       // Arrange
-      const vaAppt = new MockAppointment({
-        id: '1',
-        localStartTime: moment(),
-      });
-
-      const ccAppt = new MockAppointment({
-        id: '2',
-        kind: 'cc',
-        localStartTime: moment().add(1, 'day'),
-      });
-
-      const phoneAppt = new MockAppointment({
-        id: '3',
-        kind: TYPE_OF_VISIT_ID.phone,
-        localStartTime: moment().add(1, 'day'),
-      });
-
-      const atlasVideoAppt = new MockAppointment({
-        id: '4',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(2, 'day'),
-        atlas: {
-          confirmationCode: '7VBBCA',
-          address: {
-            streetAddress: '114 Dewey Ave',
-            city: 'Eureka',
-            state: 'MT',
-            zipCode: '59917',
-          },
-        },
-        vvsKind: VIDEO_TYPES.adhoc,
-      });
-
-      const clinicVideoAppt = new MockAppointment({
-        id: '5',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(2, 'day'),
-        vvsKind: VIDEO_TYPES.clinic,
-      });
-
-      const storeForwardVideoAppt = new MockAppointment({
-        id: '6',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(2, 'day'),
-        vvsKind: VIDEO_TYPES.storeForward,
-      });
-
-      const gfeVideoAppt = new MockAppointment({
-        id: '7',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(2, 'day'),
-        vvsKind: VIDEO_TYPES.mobile,
-        patientHasMobileGfe: true,
-      });
-
-      const mobileVideoAppt = new MockAppointment({
-        id: '8',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment()
-          .add(3, 'day')
-          .subtract(60, 'minutes'),
-        vvsKind: VIDEO_TYPES.mobile,
-      });
-
       const response = [
-        vaAppt,
-        ccAppt,
-        phoneAppt,
-        atlasVideoAppt,
-        clinicVideoAppt,
-        storeForwardVideoAppt,
-        gfeVideoAppt,
-        mobileVideoAppt,
+        MockAppointmentResponse.createVAResponses({ localStartTime: moment() }),
+        MockAppointmentResponse.createCCResponses({
+          localStartTime: moment().add(1, 'day'),
+        }),
+        MockAppointmentResponse.createPhoneResponses({
+          localStartTime: moment().add(1, 'day'),
+        }),
+        MockAppointmentResponse.createAtlasResponses({
+          localStartTime: moment().add(2, 'day'),
+        }),
+        MockAppointmentResponse.createClinicResponses({
+          localStartTime: moment().add(2, 'day'),
+        }),
+        MockAppointmentResponse.createStoreForwardResponses({
+          localStartTime: moment().add(2, 'day'),
+        }),
+        MockAppointmentResponse.createGfeResponses({
+          localStartTime: moment().add(2, 'day'),
+        }),
+        MockAppointmentResponse.createMobileResponses({
+          localStartTime: moment().add(3, 'day'),
+        }),
       ];
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({
+        response,
+      });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -122,12 +66,12 @@ describe('VAOS upcoming appointment flow', () => {
     it('should display upcoming appointment details for CC appointment', () => {
       // Arrange
       const today = moment();
-      const appt = new MockAppointment({
-        kind: 'cc',
-        localStartTime: today,
-      });
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({
+        response: MockAppointmentResponse.createCCResponses({
+          localStartTime: today,
+        }),
+      });
 
       // Act
       AppointmentListPageObject.visit()
@@ -145,13 +89,11 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display upcoming appointment details for VA video appointment', () => {
       // Arrange
-      const appt = new MockAppointment({
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment(),
-        vvsKind: VIDEO_TYPES.clinic,
+      mockAppointmentsGetApi({
+        response: MockAppointmentResponse.createClinicResponses({
+          localStartTime: moment(),
+        }),
       });
-
-      mockAppointmentsApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -165,23 +107,11 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display upcoming appointment details for Atlas video appointment ', () => {
       // Arrange
-      const appt = new MockAppointment({
-        id: '4',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(1, 'day'),
-        atlas: {
-          confirmationCode: '7VBBCA',
-          address: {
-            streetAddress: '114 Dewey Ave',
-            city: 'Eureka',
-            state: 'MT',
-            zipCode: '59917',
-          },
-        },
-        vvsKind: VIDEO_TYPES.adhoc,
+      mockAppointmentsGetApi({
+        response: MockAppointmentResponse.createAtlasResponses({
+          localStartTime: moment().add(1, 'day'),
+        }),
       });
-
-      mockAppointmentsApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -195,15 +125,11 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display upcoming appointment details for GFE video appointment.', () => {
       // Arrange
-      const appt = new MockAppointment({
-        id: '7',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(2, 'day'),
-        vvsKind: VIDEO_TYPES.mobile,
-        patientHasMobileGfe: true,
+      mockAppointmentsGetApi({
+        response: MockAppointmentResponse.createGfeResponses({
+          localStartTime: moment().add(2, 'day'),
+        }),
       });
-
-      mockAppointmentsApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -217,14 +143,11 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display upcoming appointment details for HOME video appointment ', () => {
       // Arrange
-      const appt = new MockAppointment({
-        id: '8',
-        kind: TYPE_OF_VISIT_ID.telehealth,
-        localStartTime: moment().add(32, 'minutes'),
-        vvsKind: VIDEO_TYPES.mobile,
+      mockAppointmentsGetApi({
+        response: MockAppointmentResponse.createMobileResponses({
+          localStartTime: moment().add(32, 'minutes'),
+        }),
       });
-
-      mockAppointmentsApi({ response: [appt] });
 
       // Act
       AppointmentListPageObject.visit()
@@ -238,7 +161,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it("should display warning when veteran doesn't have any appointments", () => {
       // Arrange
-      mockAppointmentsApi({ response: [] });
+      mockAppointmentsGetApi({ response: [] });
 
       // Act
       AppointmentListPageObject.visit().assertNoAppointments();
@@ -249,7 +172,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display generic error message', () => {
       // Arrange
-      mockAppointmentsApi({ response: [], responseCode: 400 });
+      mockAppointmentsGetApi({ response: [], responseCode: 400 });
 
       // Act
       AppointmentListPageObject.visit();
@@ -261,15 +184,15 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should alow veteran to cancel appointment', () => {
       // Arrange
-      const appt = new MockAppointment({
+      const response = new MockAppointmentResponse({
         cancellable: true,
         localStartTime: moment(),
       });
 
       const canceledAppt = {
-        ...appt,
+        ...response,
         attributes: {
-          ...appt.attributes,
+          ...response.attributes,
           status: 'cancelled',
           cancelationReason: {
             coding: [
@@ -281,7 +204,7 @@ describe('VAOS upcoming appointment flow', () => {
         },
       };
 
-      mockAppointmentsApi({ response: [appt] });
+      mockAppointmentsGetApi({ response: [response] });
       mockAppointmentUpdateApi({ response: canceledAppt });
 
       // Act
@@ -321,15 +244,13 @@ describe('VAOS upcoming appointment flow', () => {
       const response = [];
 
       for (let i = 1; i <= 2; i++) {
-        const appt = new MockAppointment({
+        const appt = new MockAppointmentResponse({
           id: i,
-          cancellable: false,
           localStartTime: moment(today).add(i, 'day'),
-          status: APPOINTMENT_STATUS.booked,
         });
         response.push(appt);
       }
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -362,7 +283,7 @@ describe('VAOS upcoming appointment flow', () => {
       const response = [];
 
       for (let i = 1; i <= 4; i++) {
-        const appt = new MockAppointment({
+        const appt = new MockAppointmentResponse({
           id: i,
           cancellable: false,
           localStartTime: i <= 2 ? today : tomorrow,
@@ -371,7 +292,7 @@ describe('VAOS upcoming appointment flow', () => {
         response.push(appt);
       }
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -403,7 +324,7 @@ describe('VAOS upcoming appointment flow', () => {
       const response = [];
 
       for (let i = 1; i <= 2; i++) {
-        const appt = new MockAppointment({
+        const appt = new MockAppointmentResponse({
           id: i,
           cancellable: false,
           localStartTime: today,
@@ -411,7 +332,7 @@ describe('VAOS upcoming appointment flow', () => {
         });
         response.push(appt);
       }
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({
@@ -436,7 +357,7 @@ describe('VAOS upcoming appointment flow', () => {
       const response = [];
 
       for (let i = 1; i <= 2; i++) {
-        const appt = new MockAppointment({
+        const appt = new MockAppointmentResponse({
           id: i,
           cancellable: false,
           localStartTime: today,
@@ -446,7 +367,7 @@ describe('VAOS upcoming appointment flow', () => {
       }
 
       const nextMonth = moment().add(1, 'month');
-      const appt = new MockAppointment({
+      const appt = new MockAppointmentResponse({
         id: '3',
         cancellable: false,
         localStartTime: nextMonth,
@@ -454,7 +375,7 @@ describe('VAOS upcoming appointment flow', () => {
       });
       response.push(appt);
 
-      mockAppointmentsApi({ response });
+      mockAppointmentsGetApi({ response });
 
       // Act
       AppointmentListPageObject.visit().assertAppointmentList({

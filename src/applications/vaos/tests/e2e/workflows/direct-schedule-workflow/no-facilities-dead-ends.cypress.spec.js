@@ -1,7 +1,7 @@
 // @ts-check
-import { MockUser } from '../../fixtures/MockUser';
+import MockUser from '../../fixtures/MockUser';
 import {
-  mockAppointmentsApi,
+  mockAppointmentsGetApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -11,13 +11,13 @@ import {
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import { MockFacility } from '../../fixtures/MockFacility';
+import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS direct schedule flow - No facility dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentsApi({ response: [] });
+    mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
@@ -28,7 +28,7 @@ describe('VAOS direct schedule flow - No facility dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        mockFacilitiesApi({ response: [new MockFacility()] });
+        mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to disable scheduling appointments for
         // primary care.
@@ -53,7 +53,7 @@ describe('VAOS direct schedule flow - No facility dead ends', () => {
           .assertWarningAlert({
             text: /We couldn.t find a VA facility/i,
           })
-          .assertNexButton({ enabled: false });
+          .assertNexButton({ isEnabled: false });
 
         // Assert
         cy.axeCheckBestPractice();
