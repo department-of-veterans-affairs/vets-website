@@ -21,6 +21,7 @@ export const processActionConnectFulfilled = ({
   baseURL,
   userFirstName,
   userUuid,
+  isMobile,
 }) => () => {
   const currentConversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   const options = {
@@ -31,6 +32,7 @@ export const processActionConnectFulfilled = ({
     userFirstName,
     userUuid,
     currentConversationId,
+    isMobile,
   };
   dispatch(startConversationActivity(options));
 
