@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
+import DowntimeNotification, {
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import environment from 'platform/utilities/environment';
@@ -139,9 +142,21 @@ function ClaimsStatusApp({
       ]}
       user={user}
     >
-      <AppContent featureFlagsLoading={featureFlagsLoading}>
-        {children}
-      </AppContent>
+      <DowntimeNotification
+        appTitle="Claim Status"
+        dependencies={[
+          externalServices.evss,
+          externalServices.global,
+          externalServices.mvi,
+          externalServices.vaProfile,
+          externalServices.vbms,
+        ]}
+        downClassName="row vads-u-margin-y--5"
+      >
+        <AppContent featureFlagsLoading={featureFlagsLoading}>
+          {children}
+        </AppContent>
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 }
