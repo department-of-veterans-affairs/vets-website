@@ -10,7 +10,7 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/utils/actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/user/profile/actions/hca';
 
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
