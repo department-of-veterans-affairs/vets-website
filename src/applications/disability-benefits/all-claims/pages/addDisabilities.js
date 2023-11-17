@@ -27,7 +27,7 @@ import {
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
-const uiSchemaBase = {
+export const uiSchemaBase = {
   newDisabilities: {
     'ui:title': 'Please tell us the new conditions you want to claim.',
     'ui:field': ArrayField,
@@ -42,7 +42,8 @@ const uiSchemaBase = {
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
-    items: null, // feature flag required, see getAddDisabilitiesUiSchemaItems()
+    // items: null, // feature flag required, see getAddDisabilitiesUiSchemaItems()
+    items: {}, // feature flag required, see getAddDisabilitiesUiSchemaItems()
   },
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
   'view:newDisabilityErrors': {
@@ -116,11 +117,11 @@ const getAddDisabilitiesUiSchemaItems = disabilitiesList => {
 };
 
 export const getUiSchema = disabilitiesList => {
-  const schema = uiSchemaBase;
-  schema.newDisabilities.items = getAddDisabilitiesUiSchemaItems(
+  const uiSchema = uiSchemaBase;
+  uiSchema.newDisabilities.items = getAddDisabilitiesUiSchemaItems(
     disabilitiesList,
   );
-  return schema;
+  return uiSchema;
 };
 
 export const schema = {
