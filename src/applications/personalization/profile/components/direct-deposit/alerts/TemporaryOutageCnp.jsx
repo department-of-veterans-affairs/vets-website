@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TemporaryOutage = () => (
+const TemporaryOutageCnp = () => (
   <div className="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--4">
     <va-alert
       close-btn-aria-label="Close notification"
@@ -22,4 +22,4 @@ const TemporaryOutage = () => (
   </div>
 );
 
-export default TemporaryOutage;
+export default TemporaryOutageCnp;

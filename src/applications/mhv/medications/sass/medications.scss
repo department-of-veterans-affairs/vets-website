@@ -214,3 +214,10 @@
   position: fixed;
   bottom: 20px;
 }
+
+.rx-fill-refill-button {
+  va-loading-indicator {
+    display: flex;
+    justify-content: left;
+  }
+}
