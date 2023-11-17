@@ -65,6 +65,11 @@ const HealthCareContent = ({
     ],
   );
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // noCerner will be true if toggle is on
+  const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
+
   const shouldShowOnOneColumn =
     !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
@@ -91,8 +96,6 @@ const HealthCareContent = ({
   };
 
   const HealthcareError = () => {
-    const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
     // status will be 'warning' if toggle is on
     const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
       ? 'warning'
@@ -136,7 +139,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (facilityNames?.length > 0) {
+  if (facilityNames?.length > 0 && !noCerner) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -162,6 +165,7 @@ const HealthCareContent = ({
           !isLOA1 && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
+            noCerner={noCerner}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
@@ -175,6 +179,7 @@ const HealthCareContent = ({
       {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
+            noCerner={noCerner}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
