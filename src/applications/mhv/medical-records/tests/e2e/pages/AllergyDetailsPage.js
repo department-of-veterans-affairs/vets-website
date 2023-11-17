@@ -6,7 +6,7 @@ class AllergyDetailsPage {
   };
 
   clickWhatToKnowAboutallergiesDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know before you print or download').click({
       force: true,
     });
   };
