@@ -141,7 +141,7 @@ const PrescriptionDetails = () => {
         'medications',
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
         pdfData(allergiesList),
       ).then(() => {
         setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
