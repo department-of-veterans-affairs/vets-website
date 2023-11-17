@@ -157,7 +157,6 @@ const SearchControls = props => {
             message-aria-describedby="Text input for organization or representative name"
             name="Organization or Representative Name"
             onChange={handleRepOrganizationChange}
-            // onBlur={handleRepOrganizationBlur}
             onInput={handleRepOrganizationChange}
             value={repOrganizationInputString}
             uswds

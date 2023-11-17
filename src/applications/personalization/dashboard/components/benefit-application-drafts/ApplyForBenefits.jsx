@@ -6,7 +6,6 @@ import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import recordEvent from '~/platform/monitoring/record-event';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
@@ -14,48 +13,6 @@ import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/use
 
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
-
-const AllBenefits = () => (
-  <div className="vads-u-margin-top--2" data-testid="dashboard-all-benefits">
-    <va-additional-info trigger="What benefits does VA offer?">
-      <p className="vads-u-font-weight--bold">
-        Explore VA.gov to learn about the benefits we offer.
-      </p>
-      <ul>
-        <li>
-          <a href="/health-care/">Health care</a>
-        </li>
-        <li>
-          <a href="/education/">Education and training</a>
-        </li>
-        <li>
-          <a href="/disability/">Disability compensation</a>
-        </li>
-        <li>
-          <a href="/careers-employment/">Careers &amp; employment</a>
-        </li>
-        <li>
-          <a href="/pension/">Pension</a>
-        </li>
-        <li>
-          <a href="/housing-assistance/">Housing assistance</a>
-        </li>
-        <li>
-          <a href="/burials-memorials/">Burials &amp; memorials</a>
-        </li>
-        <li>
-          <a href="/life-insurance/">Life insurance</a>
-        </li>
-        <li>
-          <a href="/service-member-benefits/">Service member benefits</a>
-        </li>
-        <li>
-          <a href="/family-member-benefits/">Family member benefits</a>
-        </li>
-      </ul>
-    </va-additional-info>
-  </div>
-);
 
 const BenefitsOfInterest = ({ children }) => {
   return (
@@ -87,11 +44,6 @@ const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
   return (
     <div data-testid="dashboard-section-apply-for-benefits">
       <h2>Apply for VA benefits</h2>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimental}>
-        <Toggler.Disabled>
-          <AllBenefits />
-        </Toggler.Disabled>
-      </Toggler>
       <ApplicationsInProgress />
       <BenefitsOfInterest>
         <>
