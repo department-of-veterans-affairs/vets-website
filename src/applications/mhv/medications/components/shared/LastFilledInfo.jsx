@@ -10,7 +10,8 @@ const LastFilledInfo = rx => {
   if (dispStatus === dispStatusObj.nonVA) {
     nonVA = true;
   } else if (
-    (dispensedDate || rxRfRecords?.[0]?.[1][0]?.dispensedDate) &&
+    (dispensedDate ||
+      rxRfRecords?.[0]?.[1]?.find(record => record.dispensedDate)) &&
     dispStatus !== dispStatusObj.transferred
   ) {
     showLastFilledDate = true;
@@ -27,7 +28,8 @@ const LastFilledInfo = rx => {
         <p data-testid="rx-last-filled-date">
           Last filled on{' '}
           {dateFormat(
-            rxRfRecords?.[0]?.[1][0]?.dispensedDate || dispensedDate,
+            rxRfRecords?.[0]?.[1]?.find(record => record.dispensedDate)
+              ?.dispensedDate || dispensedDate,
             'MMMM D, YYYY',
           )}
         </p>
