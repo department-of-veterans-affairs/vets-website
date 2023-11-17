@@ -92,24 +92,23 @@ const formConfig = {
         },
       },
     },
-    personalInformation: {
-      title: 'Personal Information',
+    vaInformation: {
+      title: 'VA Information',
       pages: {
         searchVAMedicalCenter: {
-          path: 'personal-info-1',
+          path: 'va-info-1',
           title: 'VA Medical Center',
           uiSchema: searchVAMedicalCenterPage.uiSchema,
           schema: searchVAMedicalCenterPage.schema,
         },
         vaEmployee: {
-          path: 'personal-info-2',
+          path: 'va-info-2',
           title: 'VA Employee',
-          subTitle: 'testing subTitle',
           uiSchema: vaEmployeePage.uiSchema,
           schema: vaEmployeePage.schema,
         },
         submitterContactInfo: {
-          path: 'personal-info-3',
+          path: 'va-info-3',
           title: "Submitter's Contact Information",
           uiSchema: submitterContactPage.uiSchema,
           schema: submitterContactPage.schema,
