@@ -81,7 +81,7 @@ const Prescriptions = props => {
           [
             {
               url: '/my-health/about-medications',
-              label: 'About Medications',
+              label: 'About medications',
             },
           ],
           {
