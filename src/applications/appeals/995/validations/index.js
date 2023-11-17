@@ -1,7 +1,5 @@
 import { errorMessages, PRIMARY_PHONE } from '../constants';
 
-import { validateRequireRatedDisability } from '../../shared/validations';
-
 /**
  * Check validations for Custom pages
  * @param {Function[]} validations - array of validation functions
@@ -22,10 +20,6 @@ export const checkValidations = (
     validation(errors, data, fullData, null, null, index, fullData),
   );
   return errors.errorMessages;
-};
-
-export const requireRatedDisability = (errors = {}, fieldData) => {
-  validateRequireRatedDisability(errors, fieldData, errorMessages);
 };
 
 export const missingPrimaryPhone = (error, _fieldData, formData) => {
