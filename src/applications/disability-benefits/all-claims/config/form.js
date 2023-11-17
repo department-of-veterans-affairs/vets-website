@@ -325,6 +325,7 @@ export const formConfigBase = {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
           depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          // uiSchema: addDisabilities.uiSchemaBase, // requires feature flag, see getFormConfig() below
           uiSchema: null, // requires feature flag, see getFormConfig() below
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
@@ -357,7 +358,7 @@ export const formConfigBase = {
           showPagePerItem: true,
           itemFilter: item => !isDisabilityPtsd(item.condition),
           arrayPath: 'newDisabilities',
-          uiSchema: null, // this part of form requires feature flag, see getFormConfig() below
+          // uiSchema: null, // this part of form requires feature flag, see getFormConfig() below
           schema: newDisabilityFollowUp.schema,
         },
 
@@ -779,15 +780,9 @@ export const formConfigBase = {
 
 export const getFormConfig = disabilityLabels => {
   const formConfig = formConfigBase;
-  // formConfig.chapters.disabilities.pages.addDisabilities = getAddDisabilitiesConfig(
-  //   disabilityLabels,
-  // );
   formConfig.chapters.disabilities.pages.addDisabilities.uiSchema = addDisabilities.getUiSchema(
     disabilityLabels,
   );
-  // formConfig.chapters.disabilities.pages.newDisabilityFollowUp = getNewDisabilityFollowUp(
-  //   disabilityLabels,
-  // );
   formConfig.chapters.disabilities.pages.addDisabilities.uiSchema = newDisabilityFollowUp.getUiSchema(
     disabilityLabels,
   );
