@@ -8,16 +8,11 @@ import {
   getIssueName,
   getSelected,
 } from '../../shared/utils/issues';
+import { missingIssueName } from '../../shared/validations/issues';
 
 export const maxIssues = (errors, data) => {
   if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
     errors.addError(maxSelectedErrorMessage);
-  }
-};
-
-export const missingIssueName = (errors, data) => {
-  if (!data) {
-    errors.addError(errorMessages.missingIssue);
   }
 };
 
