@@ -10,10 +10,7 @@ import { imageRootUri } from './constants';
  */
 export const dateFormat = (timestamp, format = null) => {
   if (timestamp) {
-    const timeZone = moment.tz.guess();
-    return moment
-      .tz(timestamp, timeZone)
-      .format(format || 'MMMM D, YYYY, h:mm a z');
+    return moment(timestamp).format(format || 'MMMM D, YYYY');
   }
   return 'None noted';
 };
