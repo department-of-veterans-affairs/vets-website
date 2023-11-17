@@ -1,4 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/10-7959C-schema.json';
+import get from 'platform/utilities/data/get';
 
 import {
   fullNameNoSuffixUI,
@@ -11,10 +12,15 @@ import {
   radioSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
+  yesNoUI,
+  yesNoSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import CoverageField from '../components/coverage/CoverageField';
 
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -115,6 +121,7 @@ const formConfig = {
           uiSchema: {
             beneficiaryGender: radioUI({
               title: 'Gender',
+              required: true,
               labels: {
                 male: 'Male',
                 female: 'Female',
@@ -125,6 +132,194 @@ const formConfig = {
             type: 'object',
             properties: {
               beneficiaryGender: radioSchema(['male', 'female']),
+            },
+          },
+        },
+      },
+    },
+    chapter2: {
+      title: 'Medicare Beneficiaries',
+      pages: {
+        page5: {
+          path: 'medicare-part-a',
+          title: 'Medicare Part A Information',
+          uiSchema: {
+            hasMedicarePartA: yesNoUI({
+              title: 'Do you have Medicare Part A?',
+            }),
+            partAEffectiveDate: {
+              ...currentOrPastDateUI(),
+              'ui:options': {
+                hideIf: formData => !get('hasMedicarePartA', formData),
+              },
+              'ui:required': formData => formData.hasMedicarePartA,
+            },
+            partACarrierName: {
+              'ui:title': 'Part A Carrier Name',
+              'ui:webComponentField': VaTextInputField,
+              'ui:options': {
+                hideIf: formData => !get('hasMedicarePartA', formData),
+              },
+              'ui:required': formData => formData.hasMedicarePartA,
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              hasMedicarePartA: yesNoSchema,
+              partAEffectiveDate: currentOrPastDateSchema,
+              partACarrierName: {
+                type: 'string',
+              },
+            },
+          },
+        },
+        page6: {
+          path: 'medicare-part-b',
+          title: 'Medicare Part B Information',
+          uiSchema: {
+            hasMedicarePartB: yesNoUI({
+              title: 'Do you have Medicare Part B?',
+            }),
+            partBEffectiveDate: {
+              ...currentOrPastDateUI(),
+              'ui:options': {
+                hideIf: formData => !get('hasMedicarePartB', formData),
+              },
+              'ui:required': formData => formData.hasMedicarePartB,
+            },
+            partBCarrierName: {
+              'ui:title': 'Part B Carrier Name',
+              'ui:webComponentField': VaTextInputField,
+              'ui:options': {
+                hideIf: formData => !get('hasMedicarePartB', formData),
+              },
+              'ui:required': formData => formData.hasMedicarePartB,
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              hasMedicarePartB: yesNoSchema,
+              partBEffectiveDate: currentOrPastDateSchema,
+              partBCarrierName: {
+                type: 'string',
+              },
+            },
+          },
+        },
+        page7: {
+          path: 'medicare-part-d',
+          title: 'Medicare Part D Information',
+          uiSchema: {
+            hasMedicarePartD: yesNoUI({
+              title: 'Do you have Medicare Part D?',
+            }),
+            partDEffectiveDate: {
+              ...currentOrPastDateUI(),
+              'ui:options': {
+                hideIf: formData => !get('hasMedicarePartD', formData),
+              },
+              'ui:required': formData => formData.hasMedicarePartD,
+            },
+            partDCarrierName: {
+              'ui:title': 'Part D Carrier Name',
+              'ui:webComponentField': VaTextInputField,
+              'ui:options': {
+                hideIf: formData => !get('hasMedicarePartD', formData),
+              },
+              'ui:required': formData => formData.hasMedicarePartD,
+            },
+            hasOtherHealthInsurance: yesNoUI({
+              required: true,
+              title: 'Do you have health insurance other than MEDICARE?',
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              hasMedicarePartD: yesNoSchema,
+              partDEffectiveDate: currentOrPastDateSchema,
+              partDCarrierName: {
+                type: 'string',
+              },
+              hasOtherHealthInsurance: yesNoSchema,
+            },
+          },
+        },
+        // Conditional - only go here if they have pt A or B
+        page8: {
+          path: 'medicare-coverage-details',
+          title: 'Medicare Coverage Details',
+          depends: form =>
+            get('hasMedicarePartA', form) || get('hasMedicarePartB', form),
+          uiSchema: {
+            medicareProvidesPharmacy: yesNoUI({
+              required: true,
+              title: 'Does your Medicare coverage provide pharmacy benefits?',
+            }),
+            hasMedicareAdvantagePlan: yesNoUI({
+              required: true,
+              title:
+                'Did you choose a Medicare Advantage Plan for your Medicare Coverage?',
+            }),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              medicareProvidesPharmacy: yesNoSchema,
+              hasMedicareAdvantagePlan: yesNoSchema,
+            },
+          },
+        },
+      },
+    },
+    chapter3: {
+      title: 'Other Health Insurance',
+      pages: {
+        // Conditional - go here if they DON'T have OHI
+        // TODO: is pt D required to get to this state?
+        page9: {
+          path: 'other-health-insurance',
+          title: 'Other Health Insurance',
+          depends: form => get('hasOtherHealthInsurance', form),
+          uiSchema: {
+            'ui:title': 'Other Coverages',
+            'ui:description':
+              'Provide all periods of OHI coverage since becoming CHAMPVA eligible and attach a copy of any active health insurance cards (front and back).',
+            coverages: {
+              'ui:options': {
+                itemName: 'Coverage',
+                viewField: CoverageField,
+                keepInPageOnReview: true,
+                useDlWrap: false,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one coverage listed.',
+              },
+              items: {
+                nameOfInsurance: {
+                  'ui:title': 'Name of Insurance',
+                  'ui:webComponentField': VaTextInputField,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              coverages: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    nameOfInsurance: { type: 'string' },
+                    // TODO: add more details about coverage
+                    // incl. the ability to upload ID card
+                  },
+                },
+              },
             },
           },
         },
