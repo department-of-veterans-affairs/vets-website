@@ -8,12 +8,12 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Identification information'),
-    veteranId: ssnOrVaFileNumberUI(),
+    citizenId: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      veteranId: ssnOrVaFileNumberSchema,
+      citizenId: ssnOrVaFileNumberSchema,
     },
   },
 };

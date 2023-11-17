@@ -10,14 +10,14 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Name and date of birth'),
-    veteranFullName: fullNameUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
+    citizenFullName: fullNameUI(),
+    citizenDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      veteranFullName: fullNameSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
+      citizenFullName: fullNameSchema,
+      citizenDateOfBirth: dateOfBirthSchema,
     },
   },
 };

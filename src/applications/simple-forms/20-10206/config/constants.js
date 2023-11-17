@@ -1,15 +1,13 @@
 export const PREPARER_TYPES = Object.freeze({
-  VETERAN: 'veteran',
-  DEPENDENT: 'dependent',
-  REP_VETERAN: 'veteranRep',
-  REP_DEPENDENT: 'dependentRep',
+  CITIZEN: 'citizen',
+  NON_CITIZEN: 'non-citizen',
+  THIRD_PARTY: 'rep-citizen',
 });
 export const PREPARER_TYPE_LABELS = Object.freeze({
-  [PREPARER_TYPES.VETERAN]: 'I’m a Veteran, and I intend to file a VA claim.',
-  [PREPARER_TYPES.DEPENDENT]:
-    'I’m the spouse or child of a Veteran, and I intend to file a VA claim.',
-  [PREPARER_TYPES.REP_VETERAN]:
-    'I’m an alternate signer, Veterans Service Officer, fiduciary, or third-party representative for a Veteran who intends to file a VA claim.',
-  [PREPARER_TYPES.REP_DEPENDENT]:
-    'I’m an alternate signer, Veterans Service Officer, fiduciary, or third-party representative for a Veteran’s spouse or child who intends to file a VA claim.',
+  [PREPARER_TYPES.CITIZEN]:
+    'I’m a US citizen requesting my own personal VA records',
+  [PREPARER_TYPES.NON_CITIZEN]:
+    'I’m a non-US citizen requesting my own personal VA records',
+  [PREPARER_TYPES.THIRD_PARTY]:
+    'I’m a third-party or power of attorney requesting personal VA records on behalf of someone else',
 });
