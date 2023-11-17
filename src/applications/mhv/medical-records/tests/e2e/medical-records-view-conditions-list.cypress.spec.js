@@ -4,12 +4,7 @@ describe('Medical Records View Immunizations', () => {
   it('Visits Medical Records View Immunization List', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    cy.visit('my-health/medical-records/vaccines');
-
-    // click on the vaccines link
-    cy.get('[href="/my-health/medical-records/vaccines"]')
-      .first()
-      .click();
+    cy.visit('my-health/medical-records/conditions');
 
     // Axe check
     cy.injectAxe();

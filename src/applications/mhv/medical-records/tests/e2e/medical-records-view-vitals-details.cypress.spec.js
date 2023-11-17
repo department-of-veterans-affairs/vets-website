@@ -1,16 +1,13 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import VitalsListPage from './pages/VitalsListPage';
 
-describe('Medical Records View Immunizations', () => {
-  it('Visits Medical Records View Immunization List', () => {
+describe('Medical Records View Vitals', () => {
+  it('Visits Medical Records View Vitals List', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    cy.visit('my-health/medical-records/vaccines');
+    cy.visit('my-health/medical-records/vitals');
 
-    // click on the vaccines link
-    cy.get('[href="/my-health/medical-records/vaccines"]')
-      .first()
-      .click();
-
+    VitalsListPage.clickVitalsDetailsLink(0);
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {
