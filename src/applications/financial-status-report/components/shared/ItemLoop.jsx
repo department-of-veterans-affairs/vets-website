@@ -399,11 +399,7 @@ const ItemLoop = ({
                     {item}
                   </span>
                 ))}
-                <span
-                  className="vads-u-border--0 vads-u-border-bottom--1px"
-                  width="85"
-                  aria-hidden="true"
-                >
+                <span className="vads-u-border--0 vads-u-border-bottom--1px">
                   {' '}
                 </span>
               </va-table-row>
