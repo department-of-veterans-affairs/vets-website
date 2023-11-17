@@ -1,32 +1,33 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
+
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
-import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
+import { FORMAT_YMD, FORMAT_READABLE } from '../constants';
 
-const VeteranInformation = ({ profile = {}, veteran = {} }) => {
-  const { ssnLastFour, vaFileLastFour } = veteran;
-  const { dob, gender, userFullName = {} } = profile;
+// separate each number so the screenreader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(
+    `●●●–●●–${number}`,
+    `ending with ${number.split('').join(' ')}`,
+  );
+};
+
+const VeteranInformation = ({ formData }) => {
+  const { ssnLastFour, vaFileLastFour } = formData?.veteran || {};
+  const { dob, gender, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
-  // called with undefined = today's date
+  // moment called with undefined = today's date
   const momentDob = moment(dob || null, FORMAT_YMD);
-
-  // separate each number so the screenreader reads "number ending with 1 2 3 4"
-  // instead of "number ending with 1,234"
-  const mask = value => {
-    const number = (value || '').toString().slice(-4);
-    return srSubstitute(
-      `●●●–●●–${number}`,
-      `ending with ${number.split('').join(' ')}`,
-    );
-  };
 
   return (
     <>
@@ -84,40 +85,29 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
           </span>
         </p>
       </div>
+
       <br role="presentation" />
+
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        please call Veterans Benefits Assistance toll free at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET.
+        you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
+        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        .
       </p>
     </>
   );
 };
 
 VeteranInformation.propTypes = {
-  profile: PropTypes.shape({
-    dob: PropTypes.string,
-    gender: PropTypes.string,
-    userFullName: PropTypes.shape({
-      first: PropTypes.string,
-      middle: PropTypes.string,
-      last: PropTypes.string,
-      suffix: PropTypes.string,
+  formData: PropTypes.shape({
+    veteran: PropTypes.shape({
+      ssnLastFour: PropTypes.string,
+      vaFileLastFour: PropTypes.string,
     }),
   }),
-  veteran: PropTypes.shape({
-    ssnLastFour: PropTypes.string,
-    vaFileLastFour: PropTypes.string,
-  }),
 };
 
-const mapStateToProps = state => {
-  const profile = selectProfile(state);
-  const veteran = state.form?.data.veteran;
-  return { profile, veteran };
-};
-
-export { VeteranInformation };
-
-export default connect(mapStateToProps)(VeteranInformation);
+export default VeteranInformation;
