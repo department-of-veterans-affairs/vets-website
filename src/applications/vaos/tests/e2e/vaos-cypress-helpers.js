@@ -562,14 +562,11 @@ export function mockEligibilityRequestApi({
   }
 }
 
-export function mockEligibilityCCApi({
-  typeOfCare = 'PrimaryCare',
-  isEligible: eligible = true,
-} = {}) {
-  cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
+export function mockEligibilityCCApi({ cceType, isEligible: eligible = true }) {
+  cy.intercept(`/vaos/v2/community_care/eligibility/${cceType}`, req => {
     req.reply({
       data: {
-        id: typeOfCare,
+        id: cceType,
         type: 'cc_eligibility',
         attributes: { eligible },
       },

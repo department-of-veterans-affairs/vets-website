@@ -24,10 +24,14 @@ import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
-import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
 import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
 import MockProviderResponse from '../../fixtures/MockProviderResponse';
 import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+
+const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
 describe('VAOS community care flow - Primary care', () => {
   beforeEach(() => {
@@ -51,7 +55,7 @@ describe('VAOS community care flow - Primary care', () => {
   describe('When one facility supports CC online scheduling', () => {
     beforeEach(() => {
       mockCCProvidersApi({ response: MockProviderResponse.createResponses() });
-      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockEligibilityCCApi({ cceType });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983'],
@@ -59,7 +63,7 @@ describe('VAOS community care flow - Primary care', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
-        typeOfCareId: 'primaryCare',
+        typeOfCareId,
         isDirect: true,
         isRequest: true,
       });
@@ -171,7 +175,7 @@ describe('VAOS community care flow - Primary care', () => {
   describe('When more than one facility supports CC online scheduling', () => {
     beforeEach(() => {
       mockCCProvidersApi({ response: MockProviderResponse.createResponses() });
-      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockEligibilityCCApi({ cceType });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
@@ -179,7 +183,7 @@ describe('VAOS community care flow - Primary care', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'primaryCare',
+        typeOfCareId,
         isDirect: true,
         isRequest: true,
       });
@@ -298,7 +302,7 @@ describe('VAOS community care flow - Primary care', () => {
 
   describe('When no providers within 60 miles', () => {
     beforeEach(() => {
-      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockEligibilityCCApi({ cceType });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
@@ -306,7 +310,7 @@ describe('VAOS community care flow - Primary care', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'primaryCare',
+        typeOfCareId,
         isDirect: true,
         isRequest: true,
       });
@@ -355,7 +359,7 @@ describe('VAOS community care flow - Primary care', () => {
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockCCProvidersApi({ response: [] });
-      mockEligibilityCCApi({ typeOfCare: 'PrimaryCare', isEligible: true });
+      mockEligibilityCCApi({ cceType });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
@@ -363,7 +367,7 @@ describe('VAOS community care flow - Primary care', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'primaryCare',
+        typeOfCareId,
         isDirect: true,
         isRequest: true,
       });

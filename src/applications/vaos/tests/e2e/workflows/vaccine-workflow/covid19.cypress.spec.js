@@ -348,7 +348,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
   });
 
-  describe('When user selects "Yes" on received dose screener page', () => {
+  describe('When veteran selects "Yes" on received dose screener page', () => {
     it('should display alert', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });

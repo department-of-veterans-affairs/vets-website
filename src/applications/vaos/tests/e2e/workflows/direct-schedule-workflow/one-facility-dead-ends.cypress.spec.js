@@ -17,6 +17,10 @@ import AppointmentListPageObject from '../../page-objects/AppointmentList/Appoin
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import { PRIMARY_CARE } from '../../../../utils/constants';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+
+const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
 describe('VAOS direct schedule flow - dead ends', () => {
   beforeEach(() => {
@@ -32,9 +36,9 @@ describe('VAOS direct schedule flow - dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-        const mockEligibility = new MockEligibilityResponse({
+        const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
-          typeOfCare: 'primaryCare',
+          typeOfCareId,
           type: 'direct',
           isEligible: true,
         });
@@ -43,7 +47,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           locationId: '983',
           response: [],
         });
-        mockEligibilityApi({ response: mockEligibility });
+        mockEligibilityApi({ response: mockEligibilityResponse });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -119,7 +123,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
-        const mockEligibility = new MockEligibilityResponse({
+        const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCare: 'primaryCare',
           type: 'request',
@@ -137,7 +141,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
             },
           ),
         });
-        mockEligibilityRequestApi({ response: mockEligibility });
+        mockEligibilityRequestApi({ response: mockEligibilityResponse });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to accept direct schedule appointments for

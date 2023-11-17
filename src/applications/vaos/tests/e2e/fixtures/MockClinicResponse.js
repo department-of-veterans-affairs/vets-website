@@ -5,7 +5,7 @@ export default class MockClinicResponse {
     this.type = 'MockClinic';
     this.attributes = {
       vistaSite: locationId,
-      id: '308',
+      id,
       serviceName: name,
       stationId: locationId,
       patientDirectScheduling: true,

@@ -1,23 +1,20 @@
 // @ts-check
 import moment from 'moment';
-import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import { APPOINTMENT_STATUS, PRIMARY_CARE } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import {
   mockAppointmentGetApi,
   mockAppointmentCreateApi,
   mockAppointmentsGetApi,
-  mockClinicsApi,
   mockEligibilityApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
-  mockSlotsApi,
   mockVamcEhrApi,
   vaosSetup,
+  mockEligibilityCCApi,
 } from '../../vaos-cypress-helpers';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
 import MockUser from '../../fixtures/MockUser';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
@@ -29,8 +26,13 @@ import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
 import ReviewPageObject from '../../page-objects/ReviewPageObject';
 import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
 import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import { getTypeOfCareById } from '../../../../utils/appointment';
 
-describe('VAOS direct schedule flow - Primary care', () => {
+const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
+const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+
+describe('VAOS request schedule flow - Primary care', () => {
   beforeEach(() => {
     vaosSetup();
 
@@ -49,11 +51,255 @@ describe('VAOS direct schedule flow - Primary care', () => {
     mockVamcEhrApi();
   });
 
-  describe('When more than one facility supports online scheduling', () => {
+  describe('When veteran is not CC eligible', () => {
+    describe('And one facility supports online scheduling', () => {
+      beforeEach(() => {
+        const mockEligibilityResponse = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: true,
+        });
+
+        mockFacilitiesApi({
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983'],
+          }),
+        });
+        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockEligibilityCCApi({ cceType, isEligible: false });
+        mockSchedulingConfigurationApi({
+          facilityIds: ['983'],
+          typeOfCareId,
+          isDirect: false,
+          isRequest: true,
+        });
+      });
+
+      describe('And veteran does have a home address', () => {
+        it('should submit form', () => {
+          // Arrange
+          const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+          // Act
+          cy.login(mockUser);
+
+          AppointmentListPageObject.visit().scheduleAppointment();
+
+          TypeOfCarePageObject.assertUrl()
+            .assertAddressAlert({ exist: false })
+            .selectTypeOfCare(/Primary care/i)
+            .clickNextButton();
+
+          VAFacilityPageObject.assertUrl()
+            .assertSingleLocation({ locationName: /Facility 983/i })
+            .clickNextButton();
+
+          DateTimeRequestPageObject.assertUrl()
+            .selectFirstAvailableDate()
+            .clickNextButton();
+
+          ReasonForAppointmentPageObject.assertUrl()
+            .selectReasonForAppointment()
+            .typeAdditionalText({ content: 'This is a test' })
+            .clickNextButton();
+
+          TypeOfVisitPageObject.assertUrl()
+            .selectVisitType('Office visit')
+            .clickNextButton();
+
+          ContactInfoPageObject.assertUrl()
+            .typeEmailAddress('veteran@va.gov')
+            .typePhoneNumber('5555555555')
+            .clickNextButton();
+
+          ReviewPageObject.assertUrl()
+            .assertHeading({ name: /Review your appointment details/ })
+            .assertText({
+              text: /Please review the information before submitting your request/i,
+            })
+            .clickRequestButton();
+
+          ConfirmationPageObject.assertUrl({ isDirect: false });
+
+          // Assert
+          cy.axeCheckBestPractice();
+        });
+      });
+
+      describe('And veteran does not have a home address', () => {
+        it('should submit form', () => {
+          // Arrange
+          const mockUser = new MockUser();
+
+          // Act
+          cy.login(mockUser);
+
+          AppointmentListPageObject.visit().scheduleAppointment();
+
+          TypeOfCarePageObject.assertUrl()
+            .assertAddressAlert({ exist: true })
+            .selectTypeOfCare(/Primary care/i)
+            .clickNextButton();
+
+          VAFacilityPageObject.assertUrl()
+            .assertSingleLocation({ locationName: /Facility 983/i })
+            .clickNextButton();
+
+          DateTimeRequestPageObject.assertUrl()
+            .selectFirstAvailableDate()
+            .clickNextButton();
+
+          ReasonForAppointmentPageObject.assertUrl()
+            .selectReasonForAppointment()
+            .typeAdditionalText({ content: 'This is a test' })
+            .clickNextButton();
+
+          TypeOfVisitPageObject.assertUrl()
+            .selectVisitType(/Office visit/i)
+            .clickNextButton();
+
+          ContactInfoPageObject.assertUrl()
+            .typeEmailAddress('veteran@va.gov')
+            .typePhoneNumber('5555555555')
+            .clickNextButton();
+
+          ReviewPageObject.assertUrl().clickRequestButton();
+
+          ConfirmationPageObject.assertUrl({ isDirect: false });
+
+          // Assert
+          cy.axeCheckBestPractice();
+        });
+      });
+    });
+
+    describe('And more than one facility supports online scheduling', () => {
+      beforeEach(() => {
+        const mockEligibilityResponse = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: true,
+        });
+
+        mockFacilitiesApi({
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983', '984'],
+          }),
+        });
+        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockEligibilityCCApi({ cceType, isEligible: false });
+        mockSchedulingConfigurationApi({
+          facilityIds: ['983', '984'],
+          typeOfCareId,
+          isDirect: false,
+          isRequest: true,
+        });
+      });
+
+      describe('And veteran does have a home address', () => {
+        it('should submit form', () => {
+          // Arrange
+          const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+          // Act
+          cy.login(mockUser);
+
+          AppointmentListPageObject.visit().scheduleAppointment();
+
+          TypeOfCarePageObject.assertUrl()
+            .assertAddressAlert({ exist: false })
+            .selectTypeOfCare(/Primary care/i)
+            .clickNextButton();
+
+          VAFacilityPageObject.assertUrl()
+            .selectLocation(/Facility 983/i)
+            .clickNextButton();
+
+          DateTimeRequestPageObject.assertUrl()
+            .selectFirstAvailableDate()
+            .clickNextButton();
+
+          ReasonForAppointmentPageObject.assertUrl()
+            .selectReasonForAppointment()
+            .typeAdditionalText({ content: 'This is a test' })
+            .clickNextButton();
+
+          TypeOfVisitPageObject.assertUrl()
+            .selectVisitType('Office visit')
+            .clickNextButton();
+
+          ContactInfoPageObject.assertUrl()
+            .typeEmailAddress('veteran@va.gov')
+            .typePhoneNumber('5555555555')
+            .clickNextButton();
+
+          ReviewPageObject.assertUrl()
+            .assertHeading({ name: /Review your appointment details/ })
+            .assertText({
+              text: /Please review the information before submitting your request/i,
+            })
+            .clickRequestButton();
+
+          ConfirmationPageObject.assertUrl({ isDirect: false });
+
+          // Assert
+          cy.axeCheckBestPractice();
+        });
+      });
+
+      describe('And veteran does not have a home address', () => {
+        it('should submit form', () => {
+          // Arrange
+          const mockUser = new MockUser();
+
+          // Act
+          cy.login(mockUser);
+
+          AppointmentListPageObject.visit().scheduleAppointment();
+
+          TypeOfCarePageObject.assertUrl()
+            .assertAddressAlert({ exist: true })
+            .selectTypeOfCare(/Primary care/i)
+            .clickNextButton();
+
+          VAFacilityPageObject.assertUrl()
+            .selectLocation(/Facility 983/i)
+            .clickNextButton();
+
+          DateTimeRequestPageObject.assertUrl()
+            .selectFirstAvailableDate()
+            .clickNextButton();
+
+          ReasonForAppointmentPageObject.assertUrl()
+            .selectReasonForAppointment()
+            .typeAdditionalText({ content: 'This is a test' })
+            .clickNextButton();
+
+          TypeOfVisitPageObject.assertUrl()
+            .selectVisitType(/Office visit/i)
+            .clickNextButton();
+
+          ContactInfoPageObject.assertUrl()
+            .typeEmailAddress('veteran@va.gov')
+            .typePhoneNumber('5555555555')
+            .clickNextButton();
+
+          ReviewPageObject.assertUrl().clickRequestButton();
+
+          ConfirmationPageObject.assertUrl({ isDirect: false });
+
+          // Assert
+          cy.axeCheckBestPractice();
+        });
+      });
+    });
+  });
+
+  describe('When veteran is CC eligible', () => {
     beforeEach(() => {
-      const mockEligibility = new MockEligibilityResponse({
+      const mockEligibilityResponse = new MockEligibilityResponse({
         facilityId: '983',
-        typeOfCare: 'primaryCare',
+        typeOfCareId,
         isEligible: true,
       });
 
@@ -62,31 +308,20 @@ describe('VAOS direct schedule flow - Primary care', () => {
           facilityIds: ['983', '984'],
         }),
       });
-      mockEligibilityApi({ response: mockEligibility });
+      mockEligibilityApi({ response: mockEligibilityResponse });
+      mockEligibilityCCApi({ cceType });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'primaryCare',
+        typeOfCareId,
         isDirect: false,
         isRequest: true,
       });
-      mockSlotsApi({
-        locationId: '983',
-        clinicId: '1',
-        response: MockSlotResponse.createResponses({
-          startTimes: [moment().add(1, 'month')],
-        }),
-      });
     });
 
-    describe('And veteran does have a home address', () => {
+    describe('And no clinics support direct schedule, clinic supports requests', () => {
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-
-        mockClinicsApi({
-          locationId: '983',
-          response: MockClinicResponse.createResponses({ count: 2 }),
-        });
 
         // Act
         cy.login(mockUser);
@@ -96,6 +331,10 @@ describe('VAOS direct schedule flow - Primary care', () => {
         TypeOfCarePageObject.assertUrl()
           .assertAddressAlert({ exist: false })
           .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        TypeOfFacilityPageObject.assertUrl()
+          .selectTypeOfFacility(/VA medical center or clinic/i)
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl()
@@ -126,57 +365,6 @@ describe('VAOS direct schedule flow - Primary care', () => {
             text: /Please review the information before submitting your request/i,
           })
           .clickRequestButton();
-
-        ConfirmationPageObject.assertUrl({ isDirect: false });
-
-        // Assert
-        cy.axeCheckBestPractice();
-      });
-    });
-
-    describe('And veteran does not have a home address', () => {
-      it('should submit form', () => {
-        // Arrange
-        const mockUser = new MockUser();
-
-        mockClinicsApi({
-          locationId: '983',
-          response: MockClinicResponse.createResponses({ count: 2 }),
-        });
-
-        // Act
-        cy.login(mockUser);
-
-        AppointmentListPageObject.visit().scheduleAppointment();
-
-        TypeOfCarePageObject.assertUrl()
-          .assertAddressAlert({ exist: true })
-          .selectTypeOfCare(/Primary care/i)
-          .clickNextButton();
-
-        VAFacilityPageObject.assertUrl()
-          .selectLocation(/Facility 983/i)
-          .clickNextButton();
-
-        DateTimeRequestPageObject.assertUrl()
-          .selectFirstAvailableDate()
-          .clickNextButton();
-
-        ReasonForAppointmentPageObject.assertUrl()
-          .selectReasonForAppointment()
-          .typeAdditionalText({ content: 'This is a test' })
-          .clickNextButton();
-
-        TypeOfVisitPageObject.assertUrl()
-          .selectVisitType(/Office visit/i)
-          .clickNextButton();
-
-        ContactInfoPageObject.assertUrl()
-          .typeEmailAddress('veteran@va.gov')
-          .typePhoneNumber('5555555555')
-          .clickNextButton();
-
-        ReviewPageObject.assertUrl().clickRequestButton();
 
         ConfirmationPageObject.assertUrl({ isDirect: false });
 
