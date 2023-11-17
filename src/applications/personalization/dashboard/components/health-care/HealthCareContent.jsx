@@ -71,7 +71,7 @@ const HealthCareContent = ({
   const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
 
   const shouldShowOnOneColumn =
-    !isVAPatient || !hasUpcomingAppointment || isLOA1 || noCerner;
+    !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -157,14 +157,12 @@ const HealthCareContent = ({
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment &&
-          !isLOA1 &&
-          !noCerner && <AppointmentsCard appointments={appointments} />}
-        {!isVAPatient && !isLOA1 && !noCerner && <NoHealthcareText />}
+          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
-          !isLOA1 &&
-          !noCerner && <NoUpcomingAppointmentsText />}
+          !isLOA1 && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
             noCerner={noCerner}
@@ -181,6 +179,7 @@ const HealthCareContent = ({
       {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
+            noCerner={noCerner}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
