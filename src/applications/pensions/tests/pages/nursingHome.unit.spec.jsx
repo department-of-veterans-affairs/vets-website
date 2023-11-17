@@ -3,9 +3,9 @@ import {
   testNumberOfWebComponentFields,
 } from '../../../simple-forms/shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
-import nursingHomeHistory from '../../pages/nursingHomeHistory';
+import nursingHome from '../../pages/nursingHome';
 
-const { schema, uiSchema } = nursingHomeHistory;
+const { schema, uiSchema } = nursingHome;
 
 describe('pension social security disability page', () => {
   const pageTitle = 'nursing home history';

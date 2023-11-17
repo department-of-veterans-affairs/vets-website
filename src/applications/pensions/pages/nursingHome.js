@@ -7,7 +7,7 @@ import {
 export default {
   uiSchema: {
     'ui:title': 'Nursing home information',
-    nursingHomeHistory: yesNoUI({
+    nursingHome: yesNoUI({
       title: 'Do you live in a nursing home?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
@@ -15,9 +15,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['nursingHomeHistory'],
+    required: ['nursingHome'],
     properties: {
-      nursingHomeHistory: yesNoSchema,
+      nursingHome: yesNoSchema,
     },
   },
 };

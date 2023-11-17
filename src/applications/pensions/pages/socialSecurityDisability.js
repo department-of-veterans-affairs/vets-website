@@ -8,7 +8,7 @@ import { MedicalEvidenceAlert } from '../components/FormAlerts';
 export default {
   uiSchema: {
     'ui:title': 'Social Security disability',
-    socialSecurityDisabilityHistory: yesNoUI({
+    socialSecurityDisability: yesNoUI({
       title: 'Do you currently receive Social Security disability payments?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
@@ -16,15 +16,15 @@ export default {
     'view:warningAlert': {
       'ui:description': MedicalEvidenceAlert,
       'ui:options': {
-        hideIf: formData => formData.socialSecurityDisabilityHistory !== false,
+        hideIf: formData => formData.socialSecurityDisability !== false,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['socialSecurityDisabilityHistory'],
+    required: ['socialSecurityDisability'],
     properties: {
-      socialSecurityDisabilityHistory: yesNoSchema,
+      socialSecurityDisability: yesNoSchema,
       'view:warningAlert': {
         type: 'object',
         properties: {},

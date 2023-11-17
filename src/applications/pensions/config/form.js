@@ -66,9 +66,9 @@ import applicantInformation from '../pages/applicantInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
-import socialSecurityDisabilityHistory from '../pages/socialSecurityDisabilityHistory';
-import medicalHistory from '../pages/medicalHistory';
-import nursingHomeHistory from '../pages/nursingHomeHistory';
+import socialSecurityDisability from '../pages/socialSecurityDisability';
+import medicalCondition from '../pages/medicalCondition';
+import nursingHome from '../pages/nursingHome';
 
 import {
   validateAfterMarriageDate,
@@ -270,27 +270,27 @@ const formConfig = {
     healthHistory: {
       title: 'Health and employment information',
       pages: {
-        socialSecurityDisabilityHistory: {
-          title: 'Medical care',
+        socialSecurityDisability: {
+          title: 'Social Security disability',
           path: 'medical/history/social-security-disability',
           depends: isUnder65,
-          uiSchema: socialSecurityDisabilityHistory.uiSchema,
-          schema: socialSecurityDisabilityHistory.schema,
+          uiSchema: socialSecurityDisability.uiSchema,
+          schema: socialSecurityDisability.schema,
         },
-        medicalHistory: {
+        medicalCondition: {
           title: 'Medical condition',
           path: 'medical/history/condition',
           depends: formData => {
-            return formData.socialSecurityDisabilityHistory !== true;
+            return formData.socialSecurityDisability !== true;
           },
-          uiSchema: medicalHistory.uiSchema,
-          schema: medicalHistory.schema,
+          uiSchema: medicalCondition.uiSchema,
+          schema: medicalCondition.schema,
         },
-        nursingHomeHistory: {
-          title: 'Nursing home',
+        nursingHome: {
+          title: 'Nursing home information',
           path: 'medical/history/nursing-home',
-          uiSchema: nursingHomeHistory.uiSchema,
-          schema: nursingHomeHistory.schema,
+          uiSchema: nursingHome.uiSchema,
+          schema: nursingHome.schema,
         },
       },
     },
