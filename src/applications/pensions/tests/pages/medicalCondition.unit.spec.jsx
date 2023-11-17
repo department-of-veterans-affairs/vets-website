@@ -7,8 +7,8 @@ import medicalCondition from '../../pages/medicalCondition';
 
 const { schema, uiSchema } = medicalCondition;
 
-describe('pension social security disability page', () => {
-  const pageTitle = 'health history';
+describe('pension medical condition page', () => {
+  const pageTitle = 'medical condition information';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,

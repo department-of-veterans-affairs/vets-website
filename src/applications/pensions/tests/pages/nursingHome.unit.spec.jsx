@@ -7,8 +7,8 @@ import nursingHome from '../../pages/nursingHome';
 
 const { schema, uiSchema } = nursingHome;
 
-describe('pension social security disability page', () => {
-  const pageTitle = 'nursing home history';
+describe('pension nursing home page', () => {
+  const pageTitle = 'nursing home information';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
