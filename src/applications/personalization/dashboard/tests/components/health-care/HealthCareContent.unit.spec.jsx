@@ -34,7 +34,10 @@ describe('<UnconnectedHealthCareContent />', () => {
 
   it('should render the Cerner widget', () => {
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent facilityNames={['do', 're', 'mi']} />,
+      <UnconnectedHealthCareContent
+        isCernerPatient
+        facilityNames={['do', 're', 'mi']}
+      />,
       { initialState },
     );
 
@@ -43,7 +46,7 @@ describe('<UnconnectedHealthCareContent />', () => {
 
   it('should not render the Cerner widget if the flag is on', () => {
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent facilityNames={['do', 're', 'mi']} />,
+      <UnconnectedHealthCareContent isCerner />,
       {
         initialState: {
           featureToggles: {
