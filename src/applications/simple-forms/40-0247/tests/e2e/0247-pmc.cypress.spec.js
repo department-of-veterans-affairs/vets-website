@@ -152,7 +152,6 @@ const testConfig = createTestConfig(
       cy.intercept(formConfig.submitUrl, mockSubmit);
       cy.config('includeShadowDom', true);
     },
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
