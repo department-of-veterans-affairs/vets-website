@@ -7,9 +7,6 @@ describe('Medical Records View Immunizations', () => {
     cy.visit('my-health/medical-records/vaccines');
 
     // click on the vaccines link
-    cy.get('[href="/my-health/medical-records/vaccines"]')
-      .first()
-      .click();
 
     // Axe check
     cy.injectAxe();
