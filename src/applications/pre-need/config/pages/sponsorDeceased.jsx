@@ -12,13 +12,13 @@ export const uiSchema = !environment.isProduction()
   ? {
       application: {
         veteran: merge({}, veteranUI, {
-          isDeceased: {
-            'view:sponsorDeceasedDescription': {
-              'ui:description': sponsorDeceasedDescription,
-              'ui:options': {
-                displayEmptyObjectOnReview: true,
-              },
+          'view:sponsorDeceasedDescription': {
+            'ui:description': sponsorDeceasedDescription,
+            'ui:options': {
+              displayEmptyObjectOnReview: true,
             },
+          },
+          isDeceased: {
             'ui:title': 'Has the sponsor passed away?',
             'ui:widget': 'radio',
             'ui:options': {
@@ -50,7 +50,6 @@ export const uiSchema = !environment.isProduction()
       },
     };
 
-// prod flag for MBMS-47182
 export const schema = !environment.isProduction()
   ? {
       type: 'object',
