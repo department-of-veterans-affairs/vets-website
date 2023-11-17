@@ -6,10 +6,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
-import vetPersInfoPg from '../pages/veteranPersonalInfo';
-import vetIdInfoPg from '../pages/veteranIdentificationInfo';
-import vetAddressPg from '../pages/veteranAddress';
-import vetPhoneEmailPg from '../pages/veteranPhoneEmail';
+import citizenPersInfoPg from '../pages/citizenPersonalInfo';
+import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
+import citizenAddressPg from '../pages/citizenAddress';
+import citizenPhoneEmailPg from '../pages/citizenPhoneEmail';
 import { PREPARER_TYPES } from './constants';
 
 // mock-data import for local development
@@ -66,53 +66,53 @@ const formConfig = {
         },
       },
     },
-    veteranPersonalInformationChapter: {
+    citizenPersonalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        veteranPersonalInfoPage: {
+        citizenPersonalInfoPage: {
           depends: {
-            preparerType: PREPARER_TYPES.VETERAN,
+            preparerType: PREPARER_TYPES.CITIZEN,
           },
-          path: 'veteran-personal-information',
+          path: 'citizen-personal-information',
           title: 'Name and date of birth',
-          uiSchema: vetPersInfoPg.uiSchema,
-          schema: vetPersInfoPg.schema,
-          pageClass: 'veteran-personal-information',
+          uiSchema: citizenPersInfoPg.uiSchema,
+          schema: citizenPersInfoPg.schema,
+          pageClass: 'citizen-personal-information',
         },
-        veteranIdentificationInfoPage: {
+        citizenIdentificationInfoPage: {
           depends: {
-            preparerType: PREPARER_TYPES.VETERAN,
+            preparerType: PREPARER_TYPES.CITIZEN,
           },
-          path: 'veteran-identification-information',
+          path: 'citizen-identification-information',
           title: 'Identification information',
-          uiSchema: vetIdInfoPg.uiSchema,
-          schema: vetIdInfoPg.schema,
-          pageClass: 'veteran-identification-information',
+          uiSchema: citizenIdInfoPg.uiSchema,
+          schema: citizenIdInfoPg.schema,
+          pageClass: 'citizen-identification-information',
         },
       },
     },
-    veteranContactInformationChapter: {
+    citizenContactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        veteranAddressPage: {
+        citizenAddressPage: {
           depends: {
-            preparerType: PREPARER_TYPES.VETERAN,
+            preparerType: PREPARER_TYPES.CITIZEN,
           },
-          path: 'veteran-contact-information',
+          path: 'citizen-contact-information',
           title: 'Mailing address',
-          uiSchema: vetAddressPg.uiSchema,
-          schema: vetAddressPg.schema,
-          pageClass: 'veteran-address',
+          uiSchema: citizenAddressPg.uiSchema,
+          schema: citizenAddressPg.schema,
+          pageClass: 'citizen-address',
         },
-        veteranPhoneEmailPage: {
+        citizenPhoneEmailPage: {
           depends: {
-            preparerType: PREPARER_TYPES.VETERAN,
+            preparerType: PREPARER_TYPES.CITIZEN,
           },
-          path: 'veteran-phone-email',
+          path: 'citizen-phone-email',
           title: 'Phone and email address',
-          uiSchema: vetPhoneEmailPg.uiSchema,
-          schema: vetPhoneEmailPg.schema,
-          pageClass: 'veteran-phone-email',
+          uiSchema: citizenPhoneEmailPg.uiSchema,
+          schema: citizenPhoneEmailPg.schema,
+          pageClass: 'citizen-phone-email',
         },
       },
     },
