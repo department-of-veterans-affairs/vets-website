@@ -11,9 +11,11 @@ import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
+  const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -36,6 +38,27 @@ const RadiologyDetails = props => {
 
   const download = () => {
     GenerateRadiologyPdf(record, runningUnitTest);
+  };
+
+  const generateRadioloyTxt = async () => {
+    const content = `\n
+${record.name}\n
+Date entered: ${record.date}\n
+_____________________________________________________\n\n
+    Reason for test: ${record.reason} \n
+    Clinical history: ${record.clinicalHistory} \n
+    Ordered by: ${record.orderedBy} \n
+    Order location: ${record.orderingLocation} \n
+    Imaging location: ${record.imagingLocation} \n
+    Imaging provider: ${record.imagingProvider} \n;
+_____________________________________________________\n\n
+Results\n
+${record.results}`;
+
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
+    );
   };
 
   return (
@@ -61,6 +84,7 @@ const RadiologyDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={download}
+          downloadTxt={generateRadioloyTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />

@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import DetailsVA from '../DetailsVA';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 
@@ -29,11 +28,7 @@ const appointmentData = {
 const facilityData = new Facility();
 
 describe('DetailsVA component', () => {
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink]: true,
-    },
-  };
+  const initialState = {};
 
   it('should not display type of care header for upcoming C&P appointments', async () => {
     const appointment = {

@@ -151,13 +151,12 @@ const SearchControls = props => {
             hint={null}
             label={
               representativeType === 'Veteran Service Organization (VSO)'
-                ? 'Organization Name'
-                : 'Representative Name'
+                ? 'Organization name'
+                : 'Representative name'
             }
             message-aria-describedby="Text input for organization or representative name"
             name="Organization or Representative Name"
             onChange={handleRepOrganizationChange}
-            // onBlur={handleRepOrganizationBlur}
             onInput={handleRepOrganizationChange}
             value={repOrganizationInputString}
             uswds

@@ -46,7 +46,7 @@ const PrescriptionDetails = () => {
           [
             {
               url: '/my-health/about-medications',
-              label: 'About Medications',
+              label: 'About medications',
             },
             {
               url: '/my-health/medications/',
@@ -71,7 +71,7 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(prescription.prescriptionName);
+        updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
       }
     },
     [prescription],
@@ -189,7 +189,8 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate ? (
+        {prescription.dispensedDate ||
+        prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ? (
           <span>
             Last filled on{' '}
             {dateFormat(

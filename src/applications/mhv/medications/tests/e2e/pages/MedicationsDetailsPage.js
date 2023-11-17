@@ -8,7 +8,7 @@ class MedicationsDetailsPage {
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know before you print or download').click({
       force: true,
     });
   };
@@ -18,7 +18,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsNumber = PrescriptionsNumber => {
-    cy.get('[data-testid="prescription-number"]').should(
+    cy.get('p[data-testid="prescription-number"]').should(
       'have.text',
       PrescriptionsNumber,
     );
@@ -79,7 +79,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid ="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -105,7 +105,7 @@ class MedicationsDetailsPage {
   };
 
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.contains('About Medications')
+    cy.contains('About medications')
       .should('be.visible')
       .click({ force: true });
   };
@@ -124,7 +124,7 @@ class MedicationsDetailsPage {
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('have.text', 'Download your medication details as a PDF')
+      .should('have.text', 'Download this page as a PDF')
       .should('be.enabled');
   };
 
