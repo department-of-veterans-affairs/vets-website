@@ -94,7 +94,7 @@ const MilitaryBaseInfo = () => (
 // const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
 
 const getOldFormDataPath = (path, index) => {
-  const indexToSlice = index != null ? path.indexOf(index) + 1 : 0;
+  const indexToSlice = index !== null ? path.indexOf(index) + 1 : 0;
   return path.slice(indexToSlice);
 };
 
@@ -107,7 +107,7 @@ const savedAddress = {
 
 const getAddressPath = (path, index) => {
   const addressPath = [...path].shift();
-  return index !== null ? [addressPath, index] : addressPath;
+  return index != null ? [addressPath, index] : addressPath;
 };
 
 /**
