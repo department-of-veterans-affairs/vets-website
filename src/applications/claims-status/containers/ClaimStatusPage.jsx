@@ -191,7 +191,7 @@ class ClaimStatusPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.tab--current');
+      setFocus('#tabPanelStatus');
     }
   }
 

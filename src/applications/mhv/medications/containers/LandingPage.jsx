@@ -54,7 +54,7 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1 data-testid="landing-page-heading">About medications</h1>
-            <p className="vads-u-font-size--lg">
+            <p className="vads-u-font-family--serif">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
@@ -141,7 +141,7 @@ const LandingPage = () => {
                         than 180 days.{' '}
                       </strong>
                       To find these older prescriptions, go to your VA Blue
-                      Button report on the My HealthVet website{' '}
+                      Button report on the My HealthVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
@@ -149,7 +149,7 @@ const LandingPage = () => {
                         )}
                         rel="noreferrer"
                       >
-                        Go to VA Blue Button® on the My HealtheVet website
+                        Go to VA Blue Button&reg; on the My HealtheVet website
                       </a>
                     </li>
                     <li>
@@ -320,6 +320,7 @@ const LandingPage = () => {
                     Send a secure message to your VA care team.
                   </p>
                   <a
+                    className="vads-u-margin-bottom--1 vads-u-display--block"
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
                       'secure-messaging',

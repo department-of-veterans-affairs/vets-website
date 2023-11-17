@@ -3,34 +3,29 @@ import { getAPI, resolveParamsWithUrl } from '../config';
 
 class RepresentativeFinderApi {
   /**
-   * Sends the request to vets-api to query which locations exist within the
-   * given bounding box's area and optionally cenetered on the given address.
-   *
-   * Allows for filtering on representative type.
-   *
-   * @param {string=} address The address associated with the bounding box's center
-   * @param {number[]} bounds Array defining the bounding box of the search area
-   * @param {string} representativeType What kind of location? (i.e. facilityType or Provider)
-   * @param {number} page Which page of results to start with?
+
    * @returns {Promise} Promise object
    */
-  static searchWithBounds(
+  static searchByCoordinates(
     address = null,
-    bounds,
-    representativeType,
+    lat,
+    long,
+    name,
     page,
-    center,
-    radius,
+    /* eslint-disable camelcase */
+    per_page,
+    sort,
+    type,
   ) {
-    const reduxStore = require('../app-entry');
     const { params, url } = resolveParamsWithUrl({
       address,
-      representativeType,
+      lat,
+      long,
+      name,
       page,
-      bounds,
-      center,
-      radius,
-      reduxStore,
+      per_page,
+      sort,
+      type,
     });
 
     const api = getAPI();

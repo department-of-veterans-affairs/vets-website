@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const RepTypeSelector = ({ onChange }) => {
+const RepTypeSelector = ({ onChange, representativeType }) => {
   const handleRadioButtonSelect = event => {
     onChange({ representativeType: event.detail.value });
   };
@@ -9,7 +10,7 @@ const RepTypeSelector = ({ onChange }) => {
   return (
     <>
       <div className="vads-u-margin-top--3">
-        <va-radio
+        <VaRadio
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
@@ -17,21 +18,32 @@ const RepTypeSelector = ({ onChange }) => {
           required
           label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
-          uswds
         >
           <va-radio-option
             label="Veteran Service Organization (VSO)"
-            name="VSO"
-            value="Veteran Service Organization (VSO)"
-            checked
+            name="group"
+            value="organization"
+            checked={representativeType === 'organization'}
+            radioOptionSelected={handleRadioButtonSelect}
+            vaValueChange={handleRadioButtonSelect}
           />
-          <va-radio-option label="Attorney" name="Attorney" value="Attorney" />
+          <va-radio-option
+            label="Attorney"
+            name="group"
+            value="attorney"
+            checked={representativeType === 'attorney'}
+            radioOptionSelected={handleRadioButtonSelect}
+            vaValueChange={handleRadioButtonSelect}
+          />
           <va-radio-option
             label="Claims Agent"
-            name="Claims Agent"
-            value="Claims Agent"
+            name="group"
+            value="claim_agents"
+            checked={representativeType === 'claim_agents'}
+            radioOptionSelected={handleRadioButtonSelect}
+            vaValueChange={handleRadioButtonSelect}
           />
-        </va-radio>
+        </VaRadio>
 
         <div style={{ marginTop: '2em' }}>
           <va-accordion
