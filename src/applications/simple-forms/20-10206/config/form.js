@@ -11,6 +11,7 @@ import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import addressPg from '../pages/address';
 import phoneEmailPg from '../pages/phoneEmail';
+import recordSelectionsPg from '../pages/recordSelections';
 import { PREPARER_TYPES } from './constants';
 
 // mock-data import for local development
@@ -116,6 +117,18 @@ const formConfig = {
           uiSchema: phoneEmailPg.uiSchema,
           schema: phoneEmailPg.schema,
           pageClass: 'phone-email',
+        },
+      },
+    },
+    recordsChapter: {
+      title: 'Records',
+      pages: {
+        recordSelectionsPage: {
+          path: 'record-selections',
+          title: 'Select at least one record',
+          uiSchema: recordSelectionsPg.uiSchema,
+          schema: recordSelectionsPg.schema,
+          pageClass: 'record-selections',
         },
       },
     },

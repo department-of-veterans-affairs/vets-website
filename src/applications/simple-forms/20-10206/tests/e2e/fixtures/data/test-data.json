@@ -21,6 +21,9 @@
       "postalCode": "12345",
       "country": "USA"
     },
-    "homePhone": "5555555555"
+    "homePhone": "5555555555",
+    "recordSelections": {
+      "dd214": true
+    }
   }
 }
