@@ -35,13 +35,14 @@ const PreCheckInSuccessAlert = () => {
   }
 
   return (
-    <section data-testid="pre-check-in-success-alert">
+    <section>
       <VaAlert
         close-btn-aria-label="Close notification"
         closeable
         status="success"
         visible={showPreCheckInSuccess !== false}
         onCloseEvent={hideAlert}
+        data-testid="pre-check-in-success-alert"
       >
         <h2 slot="headline">{t('your-information-is-up-to-date')}</h2>
         <p data-testid="success-message" className="vads-u-margin-y--0">
