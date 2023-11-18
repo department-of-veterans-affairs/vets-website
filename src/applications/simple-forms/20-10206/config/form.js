@@ -48,6 +48,7 @@ const formConfig = {
   },
   title: 'Request personal records',
   defaultDefinitions: {},
+  v3SegmentedProgressBar: true,
   chapters: {
     preparerTypeChapter: {
       title: 'Your identity',
