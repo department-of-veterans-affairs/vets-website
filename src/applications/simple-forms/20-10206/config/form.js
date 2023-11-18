@@ -10,7 +10,7 @@ import persInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import addressPg from '../pages/address';
-import citizenPhoneEmailPg from '../pages/citizenPhoneEmail';
+import phoneEmailPg from '../pages/phoneEmail';
 import { PREPARER_TYPES } from './constants';
 
 // mock-data import for local development
@@ -109,15 +109,12 @@ const formConfig = {
           schema: addressPg.schema,
           pageClass: 'address',
         },
-        citizenPhoneEmailPage: {
-          depends: {
-            preparerType: PREPARER_TYPES.CITIZEN,
-          },
-          path: 'citizen-phone-email',
+        phoneEmailPage: {
+          path: 'phone-email',
           title: 'Phone and email address',
-          uiSchema: citizenPhoneEmailPg.uiSchema,
-          schema: citizenPhoneEmailPg.schema,
-          pageClass: 'citizen-phone-email',
+          uiSchema: phoneEmailPg.uiSchema,
+          schema: phoneEmailPg.schema,
+          pageClass: 'phone-email',
         },
       },
     },
