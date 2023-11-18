@@ -1,11 +1,13 @@
 {
   "data": {
+    "preparerType": "citizen",
     "fullName": {
       "first": "John",
       "middle": "",
       "last": "Veteran"
     },
     "dateOfBirth": "2000-01-01",
+    "placeOfBirth": "Anytown, CA",
     "citizenId": {
       "ssn": "333221111"
     },
