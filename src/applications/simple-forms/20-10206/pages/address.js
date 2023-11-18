@@ -8,7 +8,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI(
-      'Mailing address',
+      'Your mailing address',
       "We'll send any important information about your application to this address.",
     ),
     address: addressUI({
