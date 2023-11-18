@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
-import citizenPersInfoPg from '../pages/citizonPersonalInfo';
+import citizenPersInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import citizenAddressPg from '../pages/citizenAddress';
