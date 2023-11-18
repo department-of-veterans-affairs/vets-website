@@ -12,7 +12,7 @@
     "nonCitizenId": {
       "arn": "123456789"
     },
-    "citizenAddress": {
+    "address": {
       "street": "1234 Main St",
       "city": "Anytown",
       "state": "CA",

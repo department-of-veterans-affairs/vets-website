@@ -11,7 +11,7 @@ export default {
       'Mailing address',
       "We'll send any important information about your application to this address.",
     ),
-    citizenAddress: addressUI({
+    address: addressUI({
       required: {
         street2: false,
       },
@@ -20,8 +20,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      citizenAddress: addressSchema(),
+      address: addressSchema(),
     },
-    required: ['citizenAddress'],
+    required: ['address'],
   },
 };
