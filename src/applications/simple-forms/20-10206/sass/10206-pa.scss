@@ -7,10 +7,11 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 // titleUI > H3s
-.form-panel.veteran-personal-information,
-.form-panel.veteran-identification-information,
-.form-panel.veteran-address,
-.form-panel.veteran-phone-email {
+.form-panel.personal-information,
+.form-panel.citizen-identification-information,
+.form-panel.non-citizen-identification-information,
+.form-panel.citizen-address,
+.form-panel.citizen-phone-email {
   legend > h3 {
     margin-bottom: 0 !important;
   }

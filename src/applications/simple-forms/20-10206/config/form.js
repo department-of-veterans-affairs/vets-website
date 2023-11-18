@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
-import citizenPersInfoPg from '../pages/personalInfo';
+import persInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import citizenAddressPg from '../pages/citizenAddress';
@@ -67,18 +67,15 @@ const formConfig = {
         },
       },
     },
-    citizenPersonalInformationChapter: {
+    personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        citizenPersonalInfoPage: {
-          depends: {
-            preparerType: PREPARER_TYPES.CITIZEN,
-          },
-          path: 'citizen-personal-information',
+        personalInfoPage: {
+          path: 'personal-information',
           title: 'Name and date of birth',
-          uiSchema: citizenPersInfoPg.uiSchema,
-          schema: citizenPersInfoPg.schema,
-          pageClass: 'citizen-personal-information',
+          uiSchema: persInfoPg.uiSchema,
+          schema: persInfoPg.schema,
+          pageClass: 'personal-information',
         },
         citizenIdentificationInfoPage: {
           depends: {

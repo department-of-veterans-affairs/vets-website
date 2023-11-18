@@ -1,13 +1,16 @@
 {
   "data": {
-    "citizenFullName": {
+    "fullName": {
       "first": "John",
       "middle": "",
       "last": "Veteran"
     },
-    "citizenDateOfBirth": "2000-01-01",
+    "dateOfBirth": "2000-01-01",
     "citizenId": {
       "ssn": "333221111"
+    },
+    "nonCitizenId": {
+      "arn": "123456789"
     },
     "citizenAddress": {
       "street": "1234 Main St",
