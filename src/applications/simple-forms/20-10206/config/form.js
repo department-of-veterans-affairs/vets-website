@@ -6,8 +6,9 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
-import citizenPersInfoPg from '../pages/citizenPersonalInfo';
+import citizenPersInfoPg from '../pages/citizonPersonalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
+import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import citizenAddressPg from '../pages/citizenAddress';
 import citizenPhoneEmailPg from '../pages/citizenPhoneEmail';
 import { PREPARER_TYPES } from './constants';
@@ -87,6 +88,16 @@ const formConfig = {
           title: 'Identification information',
           uiSchema: citizenIdInfoPg.uiSchema,
           schema: citizenIdInfoPg.schema,
+          pageClass: 'citizen-identification-information',
+        },
+        nonCitizenIdentificationInfoPage: {
+          depends: {
+            preparerType: PREPARER_TYPES.NON_CITIZEN,
+          },
+          path: 'non-citizen-identification-information',
+          title: 'Identification information',
+          uiSchema: nonCitizenIdInfoPg.uiSchema,
+          schema: nonCitizenIdInfoPg.schema,
           pageClass: 'citizen-identification-information',
         },
       },
