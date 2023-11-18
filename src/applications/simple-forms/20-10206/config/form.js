@@ -9,7 +9,7 @@ import preparerTypePg from '../pages/preparerType';
 import persInfoPg from '../pages/personalInfo';
 import citizenIdInfoPg from '../pages/citizenIdentificationInfo';
 import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
-import citizenAddressPg from '../pages/citizenAddress';
+import addressPg from '../pages/address';
 import citizenPhoneEmailPg from '../pages/citizenPhoneEmail';
 import { PREPARER_TYPES } from './constants';
 
@@ -99,18 +99,15 @@ const formConfig = {
         },
       },
     },
-    citizenContactInformationChapter: {
+    contactInformationChapter: {
       title: 'Your contact information',
       pages: {
-        citizenAddressPage: {
-          depends: {
-            preparerType: PREPARER_TYPES.CITIZEN,
-          },
-          path: 'citizen-contact-information',
+        addressPage: {
+          path: 'contact-information',
           title: 'Mailing address',
-          uiSchema: citizenAddressPg.uiSchema,
-          schema: citizenAddressPg.schema,
-          pageClass: 'citizen-address',
+          uiSchema: addressPg.uiSchema,
+          schema: addressPg.schema,
+          pageClass: 'address',
         },
         citizenPhoneEmailPage: {
           depends: {
