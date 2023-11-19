@@ -226,7 +226,7 @@ export const ATTACHMENT_KEYS = [
 
 // !!! fix this
 export const LOWERED_DISABILITY_DESCRIPTIONS = Object.values(
-  getDisabilityLabels(),
+  getDisabilityLabels(true),
 ).map(v => v.toLowerCase());
 
 export const PTSD_TYPES_TO_FORMS = {

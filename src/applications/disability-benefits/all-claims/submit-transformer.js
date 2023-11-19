@@ -112,7 +112,7 @@ export function transform(formConfig, form) {
     }
 
     const flippedDisabilityLabels = {};
-    Object.entries(getDisabilityLabels()).forEach(([code, description]) => {
+    Object.entries(getDisabilityLabels(true)).forEach(([code, description]) => {
       flippedDisabilityLabels[description?.toLowerCase()] = code;
     });
 

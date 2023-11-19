@@ -15,7 +15,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import getFormConfig from './config/form';
+import { getFormConfig } from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
 import {

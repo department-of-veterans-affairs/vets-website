@@ -48,7 +48,7 @@ export const getUiSchema = disabilityLabels => {
         autoSuggestTitle,
         () =>
           Promise.resolve(
-            Object.entries(getDisabilityLabels()).map(([key, value]) => ({
+            Object.entries(getDisabilityLabels(true)).map(([key, value]) => ({
               id: key,
               label: value,
             })),

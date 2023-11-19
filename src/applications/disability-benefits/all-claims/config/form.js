@@ -128,10 +128,9 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
-import { get } from 'lodash';
 
 // base config to be used w/ parameterized getFormConfig()
-const formConfigBase = {
+export const formConfigBase = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
@@ -746,7 +745,7 @@ const getAddDisabilitiesConfig = disabilityLabels => {
   };
 };
 
-const getFormConfig = disabilityLabels => {
+export const getFormConfig = disabilityLabels => {
   const formConfig = formConfigBase;
   formConfig.chapters.disabilities.pages.addDisabilities = getAddDisabilitiesConfig(
     disabilityLabels,
@@ -754,5 +753,3 @@ const getFormConfig = disabilityLabels => {
 
   return formConfig;
 };
-
-export default getFormConfig;

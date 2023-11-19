@@ -14,7 +14,7 @@ import {
 import Wizard from 'applications/static-pages/wizard';
 
 import pages from '../../wizard/pages';
-import formConfig from '../config/form';
+import { formConfigBase } from '../config/form';
 import { getPageTitle, wrapWithBreadcrumb } from '../utils';
 import {
   SAVED_SEPARATION_DATE,
@@ -40,6 +40,7 @@ const WizardContainer = () => {
     sessionStorage.removeItem(WIZARD_STATUS);
   }
   const title = getPageTitle();
+  const formConfig = formConfigBase;
   return wrapWithBreadcrumb(
     title,
     <div className="row">

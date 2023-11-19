@@ -108,7 +108,7 @@ export const uiSchema = {
             formData.newDisabilities[index]?.cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
-            labels: getDisabilityLabels(),
+            labels: getDisabilityLabels(true),
             updateSchema: (formData, primarySchema, primaryUISchema, index) => {
               const disabilitiesList = getDisabilitiesList(formData, index);
               if (!disabilitiesList.length) {

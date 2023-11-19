@@ -1,3 +1,4 @@
+import disabilityLabelsFull from './disabilityLabelsFull';
 import disabilityLabelsReduced from './disabilityLabelsReduced';
 
 export const getDisabilityLabels = isReducedContentionList => {

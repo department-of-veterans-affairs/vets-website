@@ -1,4 +1,4 @@
-import formConfig from '../config/form';
+import { formConfigBase } from '../config/form';
 import formConfig8940 from '../config/8940';
 import formConfig4192 from '../config/4192';
 import { SHOW_8940_4192 } from '../constants';
@@ -14,6 +14,7 @@ import { SHOW_8940_4192 } from '../constants';
  */
 export default function redirectToxicExposure(savedData) {
   const { returnUrl } = savedData.metadata;
+  const formConfig = formConfigBase;
   let afterTEUrls = [];
 
   // add remaining, subsequent url's from disabilities chapter
