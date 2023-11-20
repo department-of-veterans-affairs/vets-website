@@ -11,30 +11,37 @@ import { fetchRepresentatives } from '../representatives/fetchRepresentatives';
  *
  * @param {{bounds: number[], facilityType: string, serviceType: string, page: number, apiVersion: number}}
  */
-export const searchWithBounds = ({
-  bounds,
-  representativeType,
-  page = 1,
-  center,
-  radius,
+export const searchWithInput = ({
+  address,
+  lat,
+  long,
+  name,
+  page,
+  /* eslint-disable camelcase */
+  per_page,
+  sort,
+  type,
 }) => {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
         currentPage: page,
-        searchBoundsInProgress: true,
+        searchWithInputInProgress: true,
       },
     });
 
     fetchRepresentatives(
-      null,
-      bounds,
-      representativeType,
+      address,
+      lat,
+      long,
+      name,
       page,
+      /* eslint-disable camelcase */
+      per_page,
+      sort,
+      type,
       dispatch,
-      center,
-      radius,
     );
   };
 };
