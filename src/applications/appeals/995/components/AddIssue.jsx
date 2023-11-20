@@ -9,23 +9,20 @@ import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { checkValidations } from '../validations';
-import {
-  uniqueIssue,
-  missingIssueName,
-  maxNameLength,
-} from '../validations/issues';
+import { maxNameLength } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
 
 import {
   CONTESTABLE_ISSUES_PATH,
-  LAST_ISSUE,
   MAX_LENGTH,
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
 import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
+import { setStorage } from '../../shared/utils/addIssue';
+import { checkValidations } from '../../shared/validations';
+import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -40,13 +37,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
   if (Number.isNaN(index) || index < contestedIssues.length) {
     index = allIssues.length;
   }
-  const setStorage = (type, value = '') => {
-    // set session storage of edited item. This enables focusing on the item
-    // upon return to the eligible issues page (a11y); when -1 is set, the add
-    // a new issue action link will be focused
-    window.sessionStorage.setItem(LAST_ISSUE, value || `${index},${type}`);
-    window.sessionStorage.removeItem(REVIEW_ISSUES);
-  };
+
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
 
@@ -144,7 +135,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
         'button-click-label': 'Cancel',
         'button-background-color': 'white',
       });
-      setStorage('cancel', addOrEdit === 'add' ? -1 : '');
+      setStorage(index, 'cancel', addOrEdit === 'add' ? -1 : '');
       goToPath(returnPath);
     },
     onUpdate: event => {
@@ -155,7 +146,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
         'button-click-label': 'Add issue',
         'button-background-color': 'blue',
       });
-      setStorage('updated');
+      setStorage(index, 'updated');
       addOrUpdateIssue();
     },
   };

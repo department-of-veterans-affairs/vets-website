@@ -11,6 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import getData from '../fixtures/mocks/mockStore';
 
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
@@ -22,41 +23,6 @@ import pow from '../../pages/pow';
 const definitions = formConfig.defaultDefinitions;
 
 const { schema, uiSchema } = pow;
-
-const getData = ({
-  loggedIn = true,
-  savedForms = [],
-  formData = {},
-  contestableIssues = { status: '' },
-  routerPush = () => {},
-} = {}) => ({
-  props: {
-    loggedIn,
-    location: {},
-    router: { push: routerPush },
-  },
-  data: {
-    user: {
-      login: {
-        currentlyLoggedIn: loggedIn,
-      },
-      profile: {
-        savedForms,
-        prefillsAvailable: [],
-        verified: true,
-      },
-    },
-    form: {
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
-      data: formData,
-    },
-    contestableIssues,
-  },
-});
 
 describe('web component tests', () => {
   const pageTitle = 'military history';

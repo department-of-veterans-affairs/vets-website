@@ -38,6 +38,7 @@ const HealthCareContent = ({
   hasAppointmentsError,
   isVAPatient,
   isLOA1,
+  isCernerPatient,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -139,7 +140,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (facilityNames?.length > 0 && !noCerner) {
+  if (isCernerPatient && facilityNames?.length > 0 && !noCerner) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -162,7 +163,8 @@ const HealthCareContent = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
-          !isLOA1 && <NoUpcomingAppointmentsText />}
+          !isLOA1 &&
+          !isCernerPatient && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
             noCerner={noCerner}
