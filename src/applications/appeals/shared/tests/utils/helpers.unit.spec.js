@@ -1,6 +1,13 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
-import { isEmptyObject, getItemSchema } from '../../utils/helpers';
+import {
+  isEmptyObject,
+  getItemSchema,
+  recordButtonClick,
+  recordModalVisible,
+  recordRadioChange,
+} from '../../utils/helpers';
 
 describe('isEmptyObject', () => {
   it('should return true for an empty object', () => {
@@ -30,5 +37,54 @@ describe('getItemSchema', () => {
   });
   it('should return additionalItems', () => {
     expect(getItemSchema(schema, 3)).to.deep.equal({ b: 1 });
+  });
+});
+
+describe('recordButtonClick', () => {
+  it('should record button clicks', () => {
+    const recordSpy = sinon.spy();
+    recordButtonClick('type', 'label', 'color', recordSpy);
+    expect(
+      recordSpy.calledWith({
+        event: 'cta-button-click',
+        'button-type': 'type',
+        'button-click-label': 'label',
+        'button-background-color': 'color',
+      }),
+    ).to.be.true;
+  });
+});
+
+describe('recordModalVisible', () => {
+  it('should record button clicks', () => {
+    const recordSpy = sinon.spy();
+    recordModalVisible('type', 'heading', 'key', 'reason', recordSpy);
+    expect(
+      recordSpy.calledWith({
+        event: 'visible-alert-box',
+        'alert-box-type': 'type',
+        'alert-box-heading': 'heading',
+        'error-key': 'key',
+        'alert-box-full-width': false,
+        'alert-box-background-only': false,
+        'alert-box-closeable': false,
+        'reason-for-alert': 'reason',
+      }),
+    ).to.be.true;
+  });
+});
+
+describe('recordRadioChange', () => {
+  it('should record button clicks', () => {
+    const recordSpy = sinon.spy();
+    recordRadioChange('title', 'label', 'required', recordSpy);
+    expect(
+      recordSpy.calledWith({
+        event: 'int-radio-button-option-click',
+        'radio-button-label': 'title',
+        'radio-button-optionLabel': 'label',
+        'radio-button-required': 'required',
+      }),
+    ).to.be.true;
   });
 });

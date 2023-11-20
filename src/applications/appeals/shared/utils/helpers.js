@@ -34,8 +34,8 @@ export const returnPhoneObject = phone => {
   return result;
 };
 
-export const recordButtonClick = (type, label, color) => {
-  recordEvent({
+export const recordButtonClick = (type, label, color, record = recordEvent) => {
+  record({
     event: 'cta-button-click',
     'button-type': type,
     'button-click-label': label,
@@ -43,8 +43,14 @@ export const recordButtonClick = (type, label, color) => {
   });
 };
 
-export const recordModalVisible = (type, heading, key, reason) => {
-  recordEvent({
+export const recordModalVisible = (
+  type,
+  heading,
+  key,
+  reason,
+  record = recordEvent,
+) => {
+  record({
     event: 'visible-alert-box',
     'alert-box-type': type,
     'alert-box-heading': heading,
@@ -56,8 +62,13 @@ export const recordModalVisible = (type, heading, key, reason) => {
   });
 };
 
-export const recordRadioChange = (title, label, required) => {
-  recordEvent({
+export const recordRadioChange = (
+  title,
+  label,
+  required,
+  record = recordEvent,
+) => {
+  record({
     event: 'int-radio-button-option-click',
     'radio-button-label': title,
     'radio-button-optionLabel': label,
