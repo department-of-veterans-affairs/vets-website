@@ -46,7 +46,7 @@ describe('Declined', () => {
     );
 
     expect($('h1', container).textContent).to.eql('We’ve signed you out');
-    expect($('va-button[text="Sign in"]', container).text).to.not.be.null;
+    expect($('va-button[text="Sign in"]', container)).to.not.be.null;
   });
 
   context('sign in button clicked', () => {
