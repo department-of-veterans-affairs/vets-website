@@ -2,7 +2,6 @@ import {
   FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
-  SORT_TYPE_UPDATED,
 } from '../utils/actionTypes';
 
 const INITIAL_STATE = {
@@ -11,7 +10,6 @@ const INITIAL_STATE = {
   results: [],
   sortedSearchResults: [],
   selectedResult: null,
-  sortType: 'DISTANCE_ASC',
   pagination: {},
 };
 
@@ -24,11 +22,6 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         results: action.payload.data,
         pagination: action.payload.meta.pagination,
         resultTime: action.payload.meta.resultTime,
-      };
-    case SORT_TYPE_UPDATED:
-      return {
-        ...state,
-        ...action.payload,
       };
     case SEARCH_FAILED:
       if (action.error) {

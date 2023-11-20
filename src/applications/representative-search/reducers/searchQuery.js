@@ -1,6 +1,7 @@
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
+  SORT_TYPE_UPDATED,
   SEARCH_QUERY_UPDATED,
   FETCH_REPRESENTATIVES,
   GEOCODE_STARTED,
@@ -17,14 +18,14 @@ export const INITIAL_STATE = {
   locationQueryString: '',
   repOrganizationQueryString: '',
   representativeType: 'organization',
+  sortType: 'distance_asc',
   position: {
     latitude: 40.17887331434698,
     longitude: -99.27246093750001,
   },
-  bounds: [-77.53653, 38.3976763, -76.53653, 39.3976763],
   currentPage: 1,
   inProgress: false,
-  searchBoundsInProgress: false,
+  searchWithInputInProgress: false,
   geocodeInProgress: false,
   geocodeResults: [],
   isErrorEmptyInput: false,
@@ -50,7 +51,6 @@ export const validateForm = (oldState, payload) => {
       newState.repOrganizationInputString,
     representativeTypeChanged:
       oldState.representativeType !== newState.representativeType,
-    serviceTypeChanged: oldState.serviceType !== newState.serviceType,
   };
 };
 
@@ -69,7 +69,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...action.payload,
         error: false,
         inProgress: false,
-        searchBoundsInProgress: false,
+        searchWithInputInProgress: false,
         ...validateForm(state, action.payload),
       };
     case SEARCH_FAILED:
@@ -77,7 +77,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: true,
         inProgress: false,
-        searchBoundsInProgress: false,
+        searchWithInputInProgress: false,
+      };
+    case SORT_TYPE_UPDATED:
+      return {
+        ...state,
+        ...action.payload,
       };
     case SEARCH_QUERY_UPDATED:
       return {
