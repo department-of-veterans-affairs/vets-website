@@ -1,0 +1,21 @@
+import React from 'react';
+
+const Welcome = ({ name }) => {
+  const headingContent = name ? `Welcome, ${name}` : 'Welcome';
+
+  return (
+    <div className="vads-u-display--flex vads-u-justify-content--flex-start vads-u-border-color--gray-lightest vads-u-border-bottom--2px vads-u-margin-bottom--4">
+      <div>
+        <h2 className="vads-u-font-size--h4 medium-screen:vads-u-font-size--h3 vads-u-margin-top--0">
+          {headingContent}
+        </h2>
+      </div>
+      <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg">
+        <i className="fas fa-user-circle vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5" />
+        <va-link href="/profile" text="Profile" />
+      </div>
+    </div>
+  );
+};
+
+export default Welcome;

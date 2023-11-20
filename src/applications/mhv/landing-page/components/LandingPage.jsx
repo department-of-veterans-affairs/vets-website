@@ -6,6 +6,7 @@ import NoHealthAlert from './NoHealthAlert';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
+import Welcome from './Welcome';
 import { hasHealthData } from '../selectors';
 
 const LandingPage = ({ data = null }) => {
@@ -15,11 +16,12 @@ const LandingPage = ({ data = null }) => {
 
   return (
     <div
-      className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
+      className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--9"
       data-testid="landing-page-container"
     >
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <HeaderLayout />
+        <Welcome />
         {showCards ? <CardLayout data={cards} /> : <NoHealthAlert />}
       </div>
       <HubLinks hubs={hubs} />
@@ -31,7 +33,5 @@ const LandingPage = ({ data = null }) => {
 LandingPage.propTypes = {
   data: PropTypes.object,
 };
-
-// LandingPage.
 
 export default LandingPage;
