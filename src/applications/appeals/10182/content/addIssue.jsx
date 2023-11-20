@@ -7,7 +7,6 @@ const hintText =
 
 export const issueErrorMessages = {
   missingIssue: 'You must add an issue',
-  uniqueIssue: 'You must enter an issue you haven’t already entered',
   maxLength: `You can enter a maximum of ${
     MAX_LENGTH.NOD_ISSUE_NAME
   } characters`,

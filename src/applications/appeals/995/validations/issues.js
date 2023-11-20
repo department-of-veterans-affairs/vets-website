@@ -8,30 +8,11 @@ import {
   getIssueName,
   getSelected,
 } from '../../shared/utils/issues';
-import { addUniqueIssueErrorMessage } from '../../shared/validations/issues';
-
-// Alert Veteran to duplicates based on name & decision date
-export const uniqueIssue = (
-  errors,
-  _fieldData,
-  formData,
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData,
-) => {
-  addUniqueIssueErrorMessage(errors, formData, appStateData, errorMessages);
-};
+import { missingIssueName } from '../../shared/validations/issues';
 
 export const maxIssues = (errors, data) => {
   if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
     errors.addError(maxSelectedErrorMessage);
-  }
-};
-
-export const missingIssueName = (errors, data) => {
-  if (!data) {
-    errors.addError(errorMessages.missingIssue);
   }
 };
 

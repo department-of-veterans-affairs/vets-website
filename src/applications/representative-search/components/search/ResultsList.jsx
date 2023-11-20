@@ -21,14 +21,11 @@ const ResultsList = props => {
 
   const {
     inProgress,
-    // locationInputString,
     searchResults,
     // searchError,
     // pagination,
     // currentQuery,
     query,
-    // sortedSearchResults,
-    // sortSearchResults,
     onUpdateSortType,
     sortType,
   } = props;
@@ -50,7 +47,7 @@ const ResultsList = props => {
   // const enrichedResultsData = searchResults.map(result => ({
   //   ...result,
   //   resultItem: true,
-  //   locationInputString,
+  //   locationQueryString,
   //   currentPage,
   // }));
 
@@ -114,7 +111,7 @@ const ResultsList = props => {
   // const resultsData = searchResults?.map(result => ({
   //   ...result,
   //   resultItem: true,
-  //   locationInputString,
+  //   locationQueryString,
   //   currentPage,
   // }));
 
@@ -154,7 +151,6 @@ ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
   inProgress: PropTypes.bool,
-  locationInputString: PropTypes.string,
   pagination: PropTypes.object,
   query: PropTypes.object,
   representativeTypeName: PropTypes.string,
@@ -179,7 +175,7 @@ function mapStateToProps(state) {
     representativeType,
     inProgress,
     position,
-    locationInputString,
+    locationQueryString,
   } = state.searchQuery;
 
   const representativeTypeName = representativeTypes[representativeType];
@@ -193,7 +189,7 @@ function mapStateToProps(state) {
     searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
-    locationInputString,
+    locationQueryString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
   };

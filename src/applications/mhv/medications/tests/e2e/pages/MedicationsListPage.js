@@ -37,7 +37,7 @@ class MedicationsListPage {
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know before you print or download').click({
       force: true,
     });
   };
@@ -120,11 +120,10 @@ class MedicationsListPage {
         parkedRx.data.id
       } > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
-    cy.get(
-      ':nth-child(5) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    )
+
+    cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
-      .and('have.text', 'Not filled yet');
+      .and('have.text', 'Active: Parked');
   };
 
   verifyInformationBasedOnStatusActiveOnHold = () => {

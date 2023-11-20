@@ -1,5 +1,4 @@
 import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
-import { distBetween } from '../../utils/representativeDistance';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -15,42 +14,32 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
  */
 export const fetchRepresentatives = async (
   address = null,
-  bounds,
-  representativeType,
+  lat,
+  long,
+  name,
   page,
+  /* eslint-disable camelcase */
+  per_page,
   dispatch,
-  center,
-  radius,
+  sort,
+  type,
 ) => {
   let data = {};
 
   try {
-    const dataList = await RepresentativeFinderApi.searchWithBounds(
+    const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,
-      bounds,
-      representativeType,
+      lat,
+      long,
+      name,
       page,
-      center,
-      radius,
+      per_page,
+      sort,
+      type,
     );
     data = { ...dataList };
     if (dataList.data) {
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      return dataList.data;
     }
 
     if (data.errors) {
@@ -61,4 +50,6 @@ export const fetchRepresentatives = async (
   } catch (error) {
     dispatch({ type: SEARCH_FAILED, error: error.message });
   }
+
+  return null;
 };
