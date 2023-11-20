@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,12 @@ import {
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -98,13 +102,32 @@ const Vaccines = props => {
       });
     });
 
-    const pdfName = `VA-Vaccines-list-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
+  };
+
+  const generateVaccinesTxt = async () => {
+    const content = `
+    Vaccines\n 
+    For a list of your allergies and reactions (including any reactions to
+    vaccines), go to your allergy records. \n
+    If you have Vaccines that are missing from this list, tell your care
+    team at your next appointment. \n
+    
+    Showing ${vaccines.length} from newest to oldest. \n
+    ${vaccines.map(
+      entry => `_____________________________________________________ \n
+      ${entry.name} \n 
+      \t Date received: ${entry.date} \n
+      \t Location: ${entry.location} \n
+      \t Reaction: ${processList(entry.reactions)} \n
+      \t Provider notes: ${processList(entry.notes)} \n`,
+    )}`;
+
+    const fileName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -144,6 +167,7 @@ const Vaccines = props => {
         list
         download={generateVaccinesPdf}
         allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateVaccinesTxt}
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}

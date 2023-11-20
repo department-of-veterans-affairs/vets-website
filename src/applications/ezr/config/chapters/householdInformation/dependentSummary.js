@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { yesNoSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import { DEPENDENT_VIEW_FIELDS } from '../../../utils/constants';
 
@@ -9,7 +9,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [DEPENDENT_VIEW_FIELDS.report]: yesNoSchema,
+      [DEPENDENT_VIEW_FIELDS.add]: yesNoSchema,
       dependents: {
         ...dependents,
         default: [],

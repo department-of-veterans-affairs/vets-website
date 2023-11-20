@@ -3,6 +3,7 @@ import {
   getDataToSet,
   getSearchAction,
   getSearchIndex,
+  getDefaultState,
 } from '../../../../utils/helpers/listloop-pattern';
 
 describe('ezr list-loop pattern helpers', () => {
@@ -14,7 +15,7 @@ describe('ezr list-loop pattern helpers', () => {
         beforeIndex: listRef.slice(0, searchIndex),
         afterIndex: listRef.slice(searchIndex + 1),
       },
-      datakey: 'dependents',
+      dataKey: 'dependents',
       localData: { name: 'Liz' },
       listRef,
       viewFields: {
@@ -30,6 +31,8 @@ describe('ezr list-loop pattern helpers', () => {
       },
       populated: {
         dependents: [{ name: 'John' }, { name: 'Liz' }, { name: 'Mary' }],
+        [defaultProps.viewFields.add]: null,
+        [defaultProps.viewFields.skip]: true,
       },
     };
 
@@ -149,6 +152,71 @@ describe('ezr list-loop pattern helpers', () => {
         const params = new URLSearchParams('index=1');
         const arrayToParse = [1, 2];
         expect(getSearchIndex(params, arrayToParse)).to.equal(1);
+      });
+    });
+  });
+
+  context('when `getDefaultState` executes', () => {
+    const defaultProps = {
+      defaultData: { data: {}, page: 'basic-info' },
+      dataToSearch: [],
+      name: 'ITEM',
+    };
+    const expectedResults = {
+      blank: defaultProps.defaultData,
+      populated: { data: { name: 'Mary' }, page: 'basic-info' },
+    };
+
+    context('when the `searchAction` & `searchIndex` props are omitted', () => {
+      it('should return the default data', () => {
+        expect(JSON.stringify(getDefaultState(defaultProps))).to.equal(
+          JSON.stringify(expectedResults.blank),
+        );
+      });
+    });
+
+    context('when there is no data record for the search index', () => {
+      it('should return the default data', () => {
+        const props = {
+          ...defaultProps,
+          searchIndex: 0,
+          searchAction: { mode: 'add' },
+        };
+        expect(JSON.stringify(getDefaultState(props))).to.equal(
+          JSON.stringify(expectedResults.blank),
+        );
+      });
+    });
+
+    context('when there is a data record for the search index', () => {
+      it('should return the found data record', () => {
+        const props = {
+          ...defaultProps,
+          dataToSearch: [{ name: 'Mary' }],
+          searchIndex: 0,
+          searchAction: { mode: 'add' },
+        };
+        expect(JSON.stringify(getDefaultState(props))).to.equal(
+          JSON.stringify(expectedResults.populated),
+        );
+        expect(window.sessionStorage.getItem(props.name)).to.be.null;
+      });
+    });
+
+    context('when the search action is set to `edit`', () => {
+      it('should return the found data record', () => {
+        const props = {
+          ...defaultProps,
+          dataToSearch: [{ name: 'Mary' }],
+          searchIndex: 0,
+          searchAction: { mode: 'edit' },
+        };
+        expect(JSON.stringify(getDefaultState(props))).to.equal(
+          JSON.stringify(expectedResults.populated),
+        );
+        expect(window.sessionStorage.getItem(props.name)).to.equal(
+          props.searchIndex.toString(),
+        );
       });
     });
   });

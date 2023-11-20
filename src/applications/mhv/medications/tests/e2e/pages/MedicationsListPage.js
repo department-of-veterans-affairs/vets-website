@@ -3,6 +3,7 @@ import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -36,7 +37,7 @@ class MedicationsListPage {
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know before you print or download').click({
       force: true,
     });
   };
@@ -114,14 +115,15 @@ class MedicationsListPage {
   };
 
   verifyInformationBasedOnStatusActiveParked = () => {
-    cy.get(`[aria-describedby="card-header-${parkedRx.data.id}"]`).should(
-      'be.visible',
-    );
     cy.get(
-      ':nth-child(5) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    )
+      `#card-header-${
+        parkedRx.data.id
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('be.visible');
+
+    cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
-      .and('have.text', 'Not filled yet');
+      .and('have.text', 'Active: Parked');
   };
 
   verifyInformationBasedOnStatusActiveOnHold = () => {
@@ -181,6 +183,10 @@ class MedicationsListPage {
     cy.get(
       ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
     ).should('have.text', 'Not filled yet');
+    cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)').should(
+      'contain',
+      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
+    );
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {
@@ -190,6 +196,14 @@ class MedicationsListPage {
         'have.text',
         'We got your request on October 4, 2023. Check back for updates.',
       );
+  };
+
+  verifyNonVAPrescriptionNameOnListPage = () => {
+    cy.get(
+      `#card-header-${
+        nonVARx.data.id
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 }
 export default MedicationsListPage;

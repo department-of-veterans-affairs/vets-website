@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -100,13 +104,23 @@ const VaccineDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Vaccines-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
+  };
+
+  const generateVaccineTxt = async () => {
+    const content = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Location: ${record.location} \n
+    \t Reaction: ${processList(record.reactions)} \n
+    \t Provider notes: ${processList(record.notes)} \n`;
+
+    const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const content = () => {
@@ -150,6 +164,7 @@ const VaccineDetails = props => {
           <PrintDownload
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           <div className="detail-block max-80">

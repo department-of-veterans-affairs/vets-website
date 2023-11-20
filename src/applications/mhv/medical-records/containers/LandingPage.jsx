@@ -7,6 +7,7 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { openCrisisModal, updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
+import { createSession } from '../api/MrApi';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      // Create the user's MHV session when they arrive at the MR landing page
+      createSession();
       dispatch(
         setBreadcrumbs([], {
           url: '/my-health/medical-records',
@@ -271,7 +274,7 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go to VA Blue Button on the My HealtheVet website
+                  Go to VA Blue Button&reg; on the My HealtheVet website
                 </a>
               </p>
             </va-accordion-item>
@@ -445,7 +448,7 @@ const LandingPage = () => {
                 <span className="vads-u-font-weight--bold">
                   To find health information you entered yourself,
                 </span>{' '}
-                go to VA Blue Button on the My HealtheVet website.
+                go to VA Blue Button&reg; on the My HealtheVet website.
               </p>
               <p>
                 <a
@@ -455,7 +458,7 @@ const LandingPage = () => {
                   )}
                   rel="noreferrer"
                 >
-                  Go to VA Blue Button on the My HealtheVet website
+                  Go to VA Blue Button&reg; on the My HealtheVet website
                 </a>
               </p>
               <p>
