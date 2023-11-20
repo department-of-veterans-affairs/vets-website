@@ -39,11 +39,12 @@ const AddressValidationRadio = props => {
 
   useEffect(() => {
     // TODO: Add apiRequest to get data from api when available
-    if (candidateAddresses) {
+    if (candidateAddresses.length > 0) {
       setApiData(candidateAddresses);
       handleValueChange(candidateAddresses[0], '0');
     } else {
-      hasError(true);
+      // change when api it added
+      hasError(false);
     }
     focusElement('#address-validation-alert-heading');
   }, []);
