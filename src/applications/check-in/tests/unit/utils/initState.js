@@ -44,6 +44,7 @@ const createStore = ({
   error = null,
   seeStaffMessage = null,
   token = 'some-token',
+  additionalContext = {},
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -52,6 +53,7 @@ const createStore = ({
       app,
       context: {
         token,
+        ...additionalContext,
       },
       form: {
         pages: formPages,
