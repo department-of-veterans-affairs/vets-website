@@ -36,6 +36,7 @@ const FolderThreadListView = props => {
   const { threadList, threadSort, isLoading } = useSelector(
     state => state.sm.threads,
   );
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const {
     searchFolder,
@@ -153,11 +154,13 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      if (folder !== undefined) {
-        focusElement(document.querySelector('h1'));
-      }
+      const alertSelector =
+        alertList?.length > 0
+          ? 'va-alert'
+          : folder !== undefined && alertList?.length === 0 && 'h1';
+      focusElement(document.querySelector(alertSelector));
     },
-    [folder],
+    [alertList, folder],
   );
 
   useInterval(() => {
@@ -263,7 +266,7 @@ const FolderThreadListView = props => {
   return (
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
-        <AlertBackgroundBox closeable />
+        <AlertBackgroundBox closeable alertList={alertList} />
         {folder?.folderId === undefined && <LoadingIndicator />}
         {folder?.folderId !== undefined && (
           <>
