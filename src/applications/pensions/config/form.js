@@ -69,6 +69,8 @@ import pow from '../pages/pow';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
 import medicalCondition from '../pages/medicalCondition';
 import nursingHome from '../pages/nursingHome';
+import treatmentHistory from '../pages/treatmentHistory';
+import medicalCenters from '../pages/medicalCenters';
 
 import {
   validateAfterMarriageDate,
@@ -291,6 +293,21 @@ const formConfig = {
           path: 'medical/history/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+        treatmentHistory: {
+          title: 'Treatment from a VA medical center',
+          path: 'medical/history/treatment',
+          uiSchema: treatmentHistory.uiSchema,
+          schema: treatmentHistory.schema,
+        },
+        medicalCenters: {
+          title: 'VA medical centers',
+          path: 'medical/history/treatment/medical-centers',
+          depends: formData => {
+            return formData.treatmentHistory !== false;
+          },
+          uiSchema: medicalCenters.uiSchema,
+          schema: medicalCenters.schema,
         },
       },
     },
