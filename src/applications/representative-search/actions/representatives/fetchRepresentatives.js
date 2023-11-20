@@ -1,4 +1,8 @@
-import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
+import {
+  FETCH_REPRESENTATIVES,
+  SEARCH_FAILED,
+  SEARCH_COMPLETE,
+} from '../../utils/actionTypes';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -39,6 +43,7 @@ export const fetchRepresentatives = async (
     );
     data = { ...dataList };
     if (dataList.data) {
+      dispatch({ type: SEARCH_COMPLETE, payload: data });
       return dataList.data;
     }
 
