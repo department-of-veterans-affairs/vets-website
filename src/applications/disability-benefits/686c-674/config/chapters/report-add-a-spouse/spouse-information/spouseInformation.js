@@ -20,19 +20,28 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
         'ui:title': 'Spouse’s first name',
-        'ui:errorMessages': { required: 'Enter a first name' },
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       middle: {
         'ui:title': 'Spouse’s middle name',
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:errorMessages': {
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
         'ui:title': 'Spouse’s last name',
-        'ui:errorMessages': { required: 'Enter a last name' },
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       suffix: {
         'ui:title': 'Spouse’s suffix',
