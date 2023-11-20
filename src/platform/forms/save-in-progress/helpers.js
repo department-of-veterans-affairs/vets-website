@@ -32,10 +32,11 @@ export function createRoutesWithSaveInProgress(formConfigBase) {
 
     // rewrite page component
     if (!protectedRoutes.has(route.path)) {
+      // wherever this code is called, it needs uiSchema
       newRoute = {
         ...route,
         component: RoutedSavablePage,
-        formConfigBase,
+        formConfigBase, // <-----------
       };
       newRoutes[index] = newRoute;
     }
