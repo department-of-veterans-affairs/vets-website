@@ -3,11 +3,49 @@ import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
 import {
+  selectionRequired,
   uniqueIssue,
   missingIssueName,
   maxIssues,
 } from '../../validations/issues';
 import { SELECTED, MAX_LENGTH } from '../../constants';
+
+describe('selectionRequired', () => {
+  const _ = null;
+  const getData = (selectContested = false, selectAdditional = false) => ({
+    contestedIssues: [
+      {
+        attributes: {
+          ratingIssueSubjectText: 'test',
+          approxDecisionDate: '2021-01-01',
+        },
+        [SELECTED]: selectContested,
+      },
+    ],
+    additionalIssues: [
+      {
+        issue: 'test 2',
+        decisionDate: '2021-01-01',
+        [SELECTED]: selectAdditional,
+      },
+    ],
+  });
+  it('should show an error when no issues are selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData());
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show not show an error when a contested issue is selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData(true));
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show not show an error when an additional issue is selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData(false, true));
+    expect(errors.addError.called).to.be.false;
+  });
+});
 
 describe('uniqueIssue', () => {
   const _ = null;
