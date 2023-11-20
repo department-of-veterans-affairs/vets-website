@@ -1,14 +1,16 @@
 import {
-  FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
+  SEARCH_COMPLETE,
+  FETCH_REPRESENTATIVES,
 } from '../utils/actionTypes';
+
+import mockRepresentativeData from '../constants/mock-representative-data.json';
 
 const INITIAL_STATE = {
   // loading: true, // app starts in loading state
   // error: null,
-  results: [],
-  sortedSearchResults: [],
+  searchResults: [],
   selectedResult: null,
   pagination: {},
 };
@@ -19,7 +21,15 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: null,
-        results: action.payload.data,
+        searchResults: action.payload.data,
+        pagination: action.payload.meta.pagination,
+        resultTime: action.payload.meta.resultTime,
+      };
+    case SEARCH_COMPLETE:
+      return {
+        ...state,
+        error: null,
+        searchResults: mockRepresentativeData,
         pagination: action.payload.meta.pagination,
         resultTime: action.payload.meta.resultTime,
       };
