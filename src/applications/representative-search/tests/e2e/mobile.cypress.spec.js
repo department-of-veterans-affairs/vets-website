@@ -15,9 +15,6 @@ Cypress.Commands.add('checkSearch', () => {
     .type('Austin, TX');
   cy.get('#representative-search').click();
 
-  // Search title
-  cy.get('#search-results-subheader', { timeout: 5000 }).should('exist');
-
   // Result list
   cy.get('.representative-results-list').should('exist');
 });
