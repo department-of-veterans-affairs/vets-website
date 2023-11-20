@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -62,18 +63,22 @@ const ResultsList = props => {
           className="representative-results-list"
           style={{ marginBottom: 25 }}
         >
-          {searchResults?.map((result, index) => {
+          {searchResults.data?.map((result, index) => {
             return (
               <>
                 <hr />
                 <SearchResult
-                  organization={result.organization}
+                  organization={result.attributes.full_name}
                   key={result.id}
                   type={result.type}
-                  addressLine1={result.addressLine1}
-                  addressLine2={result.addressLine2}
-                  phone={result.phone}
-                  distance={result.distance}
+                  addressLine1={result.attributes.address_line_1}
+                  addressLine2={result.attributes.address_line_2}
+                  addressLine3={result.attributes.address_line_3}
+                  city={result.attributes.city}
+                  state={result.attributes.state_code}
+                  zipCode={result.attributes.zip_code}
+                  phone={result.attributes.phone}
+                  distance={result.attributes.distance}
                   representative={result}
                   query={sQuery}
                   index={index}
@@ -85,6 +90,10 @@ const ResultsList = props => {
       </>
     );
   };
+
+  useEffect(() => {
+    focusElement('#search-results-subheader');
+  }, []);
 
   // const currentPage = pagination ? pagination.currentPage : 1;
 
@@ -127,22 +136,24 @@ const ResultsList = props => {
 
   return (
     <>
-      {' '}
-      <label htmlFor="sort-by-dropdown">Sort by</label>
-      <select
-        id="representative-sorting-dropdown"
-        aria-label="Sort"
-        ref={sortTypeRef}
-        value={sortType}
-        title="Sort by:"
-        // className="bor-rad"
-        onChange={handleSortTypeChange}
-        style={{ fontWeight: 'bold' }}
-      >
-        {' '}
-        {options}{' '}
-      </select>
-      <div>{renderResultItems(query)}</div>
+      {searchResults?.data?.length && (
+        <>
+          <label htmlFor="sort-by-dropdown">Sort by</label>
+          <select
+            id="representative-sorting-dropdown"
+            aria-label="Sort"
+            ref={sortTypeRef}
+            value={sortType}
+            title="Sort by:"
+            onChange={handleSortTypeChange}
+            style={{ fontWeight: 'bold' }}
+          >
+            {' '}
+            {options}{' '}
+          </select>
+          <div>{renderResultItems(query)}</div>
+        </>
+      )}
     </>
   );
 };
