@@ -66,6 +66,11 @@ import applicantInformation from '../pages/applicantInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
+import socialSecurityDisability from '../pages/socialSecurityDisability';
+import medicalCondition from '../pages/medicalCondition';
+import nursingHome from '../pages/nursingHome';
+import treatmentHistory from '../pages/treatmentHistory';
+import medicalCenters from '../pages/medicalCenters';
 
 import {
   validateAfterMarriageDate,
@@ -261,6 +266,48 @@ const formConfig = {
           title: 'POW status',
           uiSchema: pow.uiSchema,
           schema: pow.schema,
+        },
+      },
+    },
+    healthHistory: {
+      title: 'Health and employment information',
+      pages: {
+        socialSecurityDisability: {
+          title: 'Social Security disability',
+          path: 'medical/history/social-security-disability',
+          depends: isUnder65,
+          uiSchema: socialSecurityDisability.uiSchema,
+          schema: socialSecurityDisability.schema,
+        },
+        medicalCondition: {
+          title: 'Medical condition',
+          path: 'medical/history/condition',
+          depends: formData => {
+            return formData.socialSecurityDisability !== true;
+          },
+          uiSchema: medicalCondition.uiSchema,
+          schema: medicalCondition.schema,
+        },
+        nursingHome: {
+          title: 'Nursing home information',
+          path: 'medical/history/nursing-home',
+          uiSchema: nursingHome.uiSchema,
+          schema: nursingHome.schema,
+        },
+        treatmentHistory: {
+          title: 'Treatment from a VA medical center',
+          path: 'medical/history/treatment',
+          uiSchema: treatmentHistory.uiSchema,
+          schema: treatmentHistory.schema,
+        },
+        medicalCenters: {
+          title: 'VA medical centers',
+          path: 'medical/history/treatment/medical-centers',
+          depends: formData => {
+            return formData.treatmentHistory !== false;
+          },
+          uiSchema: medicalCenters.uiSchema,
+          schema: medicalCenters.schema,
         },
       },
     },
