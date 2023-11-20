@@ -46,11 +46,14 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsExpirationDate = () => {
-    cy.get('[data-testid="expiration-date"]').should(
-      'have.text',
-      'April 13, 2024',
-    );
+  // verifyPrescriptionsExpirationDate = () => {
+  //   cy.get('[data-testid="expiration-date"]').should(
+  //     'have.text',
+  //     'April 13, 2024',
+  //   );
+  // };
+  verifyPrescriptionsExpirationDate = expDate => {
+    cy.get('[data-testid="expiration-date"]').should('have.text', expDate);
   };
 
   verifyPrescriptionsOrderedDate = () => {

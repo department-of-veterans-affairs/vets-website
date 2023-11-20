@@ -13,7 +13,9 @@ describe('verify navigation to medication details Page Date Field', () => {
 
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    detailsPage.verifyPrescriptionsExpirationDate();
+    detailsPage.verifyPrescriptionsExpirationDate(
+      mockPrescriptionDetails.data.attributes.expirationDate,
+    );
     detailsPage.verifyPrescriptionsOrderedDate();
 
     cy.injectAxe();
