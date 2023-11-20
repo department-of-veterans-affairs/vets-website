@@ -10,6 +10,7 @@ import Notification from './Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimsUnavailable from './ClaimsUnavailable';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
+import { setFocus } from '../utils/page';
 
 const MAX_CONTENTIONS = 3;
 
@@ -31,7 +32,7 @@ const showAdditionalContentions = () => {
   document.getElementsByClassName(
     'view-more-contentions-btn',
   )[0].style.display = 'none';
-  document.getElementsByClassName('claim-contentions-header')[0].focus();
+  setFocus('.claim-contentions-header');
 };
 
 export default function ClaimDetailLayout(props) {
@@ -92,10 +93,7 @@ export default function ClaimDetailLayout(props) {
         <h1 className="claim-title">{claimTitle}</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions medium-screen:vads-l-col--8">
-          <h2
-            className="claim-contentions-header vads-u-font-size--h4"
-            tabIndex="-1"
-          >
+          <h2 className="claim-contentions-header vads-u-font-size--h4">
             What you’ve claimed
           </h2>
           <span className="claim-contentions-list">{contentionsText}</span>
