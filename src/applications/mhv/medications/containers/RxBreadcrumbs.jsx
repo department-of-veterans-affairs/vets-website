@@ -18,7 +18,7 @@ const RxBreadcrumbs = () => {
     <>
       {allCrumbs.length > 0 &&
         allCrumbs[0]?.url && (
-          <div>
+          <div className="no-print">
             <VaBreadcrumbs
               label="Breadcrumb"
               className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
