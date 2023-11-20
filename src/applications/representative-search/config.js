@@ -55,8 +55,8 @@ export const resolveParamsWithUrl = ({
 
   const params = [
     address ? `address=${address}` : null,
-    lat?.length > 0 ? `latitude=${lat}` : null,
-    long?.length > 0 ? `longitude=${long}` : null,
+    lat ? `lat=${lat}` : null,
+    long ? `long=${long}` : null,
     name ? `name=${name}` : null,
     `page=${page}`,
     `per_page=${perPage}`,
