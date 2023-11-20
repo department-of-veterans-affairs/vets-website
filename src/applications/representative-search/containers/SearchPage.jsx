@@ -25,8 +25,6 @@ import {
   geolocateUser,
   geocodeUserAddress,
   clearGeocodeError,
-  mockSearch,
-  mockSearchPage2,
 } from '../actions';
 
 const SearchPage = props => {
@@ -112,8 +110,6 @@ const SearchPage = props => {
         });
         setIsSearching(false);
       }
-
-      // props.mockSearch();
     }
   };
 
@@ -154,22 +150,7 @@ const SearchPage = props => {
     const { page } = e.detail;
     focusElement('#search-results-subheader');
 
-    if (page === 1) {
-      props.mockSearch();
-    } else {
-      props.mockSearchPage2();
-    }
-    // const { currentQuery } = props;
-    // const coords = currentQuery.position;
-    // const { radius } = currentQuery;
-    // const center = [coords.latitude, coords.longitude];
-    // props.searchWithBounds({
-    //   bounds: currentQuery.bounds,
-    //   representativeType: currentQuery.representativeType,
-    //   page,
-    //   center,
-    //   radius,
-    // });
+    props.updateSearchQuery({ page });
   };
 
   const renderBreadcrumbs = () => {
@@ -223,6 +204,7 @@ const SearchPage = props => {
         <ResultsList
           // updateUrlParams={updateUrlParams}
           query={currentQuery}
+          inProgress={currentQuery.inProgress}
           searchResults={searchResults}
           sortType={props.sortType}
           onUpdateSortType={props.updateSortType}
@@ -230,7 +212,7 @@ const SearchPage = props => {
       );
     };
 
-    if (currentQuery.inProgress) {
+    if (isSearching) {
       return (
         <div>
           <va-loading-indicator message="Search in progress" />
@@ -241,26 +223,25 @@ const SearchPage = props => {
     return (
       <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
-          {/* {!searchError && ( */}
-
-          {/* )} */}
-          {searchError && <p />}
-        </div>
-        <div>
-          {searchResults ? (
-            <>
-              {' '}
-              <SearchResultsHeader
-                searchResults={props.searchResults}
-                representativeType={currentQuery.representativeType}
-                userLocation={currentQuery.locationQueryString}
-                context={queryContext}
-                inProgress={currentQuery.inProgress}
-                pagination={props.pagination}
-              />{' '}
-              {resultsList()}
-            </>
-          ) : null}
+          {searchError && (
+            <div>We’re sorry, something went wrong on our end.</div>
+          )}
+          {!searchError &&
+            !currentQuery.inProgress &&
+            !isSearching && (
+              <>
+                {' '}
+                <SearchResultsHeader
+                  searchResults={props.searchResults}
+                  representativeType={currentQuery.representativeType}
+                  userLocation={currentQuery.locationQueryString}
+                  context={queryContext}
+                  inProgress={currentQuery.inProgress}
+                  pagination={props.pagination}
+                />{' '}
+                {resultsList()}
+              </>
+            )}
         </div>
         {paginationWrapper()}
       </div>
@@ -315,8 +296,6 @@ SearchPage.propTypes = {
   currentQuery: PropTypes.object.isRequired,
   geolocateUser: PropTypes.func.isRequired,
   searchWithBounds: PropTypes.func.isRequired,
-  mockSearch: PropTypes.func,
-  mockSearchPage2: PropTypes.func,
   searchResults: PropTypes.array.isRequired,
   sortType: PropTypes.string.isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
@@ -352,8 +331,6 @@ const mapDispatchToProps = {
   updateSortType,
   clearSearchResults,
   clearSearchText,
-  mockSearch,
-  mockSearchPage2,
 };
 
 export default connect(
