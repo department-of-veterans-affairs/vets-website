@@ -1,13 +1,29 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions';
+import { selectEnrollmentStatus } from '../../../utils/selectors';
 import EnrollmentStatusWarning from './Warning';
 import EnrollmentStatusFAQ from './FAQ';
 
 const EnrollmentStatus = props => {
-  const { route, enrollmentStatus, getEnrollmentStatus } = props;
+  const {
+    applicationDate,
+    enrollmentDate,
+    enrollmentStatus,
+    preferredFacility,
+  } = useSelector(selectEnrollmentStatus);
+  const { route, getEnrollmentStatus } = props;
+
+  const alertProps = {
+    applicationDate,
+    enrollmentDate,
+    enrollmentStatus,
+    preferredFacility,
+  };
+
+  const faqProps = { enrollmentStatus, route };
 
   useEffect(() => {
     getEnrollmentStatus();
@@ -16,39 +32,22 @@ const EnrollmentStatus = props => {
 
   return enrollmentStatus ? (
     <>
-      <EnrollmentStatusWarning {...props} />
-      <EnrollmentStatusFAQ enrollmentStatus={enrollmentStatus} route={route} />
+      <EnrollmentStatusWarning {...alertProps} />
+      <EnrollmentStatusFAQ {...faqProps} />
     </>
   ) : null;
 };
 
 EnrollmentStatus.propTypes = {
-  enrollmentStatus: PropTypes.string,
   getEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
-};
-
-const mapStateToProps = state => {
-  const {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  } = state.hcaEnrollmentStatus;
-  return {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  };
 };
 
 const mapDispatchToProps = {
   getEnrollmentStatus: getEnrollmentStatusAction,
 };
 
-export { EnrollmentStatus };
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(EnrollmentStatus);

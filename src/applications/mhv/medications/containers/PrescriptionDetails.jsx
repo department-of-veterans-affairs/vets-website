@@ -39,6 +39,11 @@ const PrescriptionDetails = () => {
   );
   const dispatch = useDispatch();
 
+  const prescriptionHeader =
+    prescription?.dispStatus === 'Active: Non-VA'
+      ? prescription?.orderableItem
+      : prescription?.prescriptionName;
+
   useEffect(() => {
     if (prescription) {
       dispatch(
@@ -57,10 +62,7 @@ const PrescriptionDetails = () => {
             url: `/my-health/medications/prescription/${
               prescription.prescriptionId
             }`,
-            label:
-              prescription.dispStatus === 'Active: Non-VA'
-                ? prescription.orderableItem
-                : prescription.prescriptionName,
+            label: prescriptionHeader,
           },
         ),
       );
@@ -108,7 +110,7 @@ const PrescriptionDetails = () => {
           'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.',
         results: [
           {
-            header: prescription?.prescriptionName,
+            header: prescriptionHeader,
             list: prescriptionPdfList,
           },
           {
@@ -127,7 +129,7 @@ const PrescriptionDetails = () => {
         ],
       };
     },
-    [userName, dob, prescription, prescriptionPdfList],
+    [userName, dob, prescription, prescriptionPdfList, prescriptionHeader],
   );
 
   const handleDownloadPDF = async () => {
@@ -239,9 +241,7 @@ const PrescriptionDetails = () => {
             className="vads-u-margin-bottom--0"
             id="prescription-name"
           >
-            {prescription.dispStatus === 'Active: Non-VA'
-              ? prescription.orderableItem
-              : prescription.prescriptionName}
+            {prescriptionHeader}
           </h1>
           <p
             id="last-filled"

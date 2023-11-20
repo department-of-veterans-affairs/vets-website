@@ -14,7 +14,6 @@ import debounce from 'platform/utilities/data/debounce';
 import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 import { content } from '../content/evidenceVaRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
-import { checkValidations } from '../validations';
 import {
   validateVaLocation,
   validateVaIssues,
@@ -26,6 +25,7 @@ import {
 import { focusEvidence } from '../utils/focus';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
