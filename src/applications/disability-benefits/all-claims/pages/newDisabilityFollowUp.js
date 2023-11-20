@@ -108,6 +108,7 @@ export const uiSchemaBase = {
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
             labels: null, // feature flag required, see getAddDisabilitiesUiSchema() below
+            // labels: [], // feature flag required, see getAddDisabilitiesUiSchema() below
             updateSchema: (formData, primarySchema, primaryUISchema, index) => {
               const disabilitiesList = getDisabilitiesList(formData, index);
               if (!disabilitiesList.length) {
@@ -211,7 +212,7 @@ export const uiSchemaBase = {
 
 export const getUiSchema = disabilityLabels => {
   const uiSchema = uiSchemaBase;
-  uiSchema.newDisabilities['view:secondaryFollowUp'].causedByDisability[
+  uiSchema.newDisabilities.items['view:secondaryFollowUp'].causedByDisability[
     'ui:options'
   ].labels = disabilityLabels;
   return uiSchema;
