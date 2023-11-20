@@ -14,6 +14,7 @@ import CreateFolderModal from '../components/Modals/CreateFolderModal';
 const Folders = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const alertVisible = useSelector(state => state.sm.alerts?.alertVisible);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -39,11 +40,15 @@ const Folders = () => {
   useEffect(
     () => {
       if (!isModalVisible) {
-        focusElement(document.querySelector('h1'));
+        const alertSelector =
+          folders !== undefined && !alertVisible
+            ? 'h1'
+            : alertVisible && 'va-alert';
+        focusElement(document.querySelector(alertSelector));
         updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
       }
     },
-    [isModalVisible],
+    [alertVisible, folders, isModalVisible],
   );
 
   const openNewModal = () => {

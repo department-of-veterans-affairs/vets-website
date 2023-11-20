@@ -6,15 +6,15 @@
  * They can be displayed as a list in one alert box, or as multiple alert boxes.
  */
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 
 const AlertBackgroundBox = props => {
-  const { alertList } = props;
   const dispatch = useDispatch();
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState(null);
   const alertRef = useRef();
 
@@ -76,7 +76,6 @@ const AlertBackgroundBox = props => {
 };
 
 AlertBackgroundBox.propTypes = {
-  alertList: PropTypes.array,
   closeable: PropTypes.bool,
   noIcon: PropTypes.bool,
 };
