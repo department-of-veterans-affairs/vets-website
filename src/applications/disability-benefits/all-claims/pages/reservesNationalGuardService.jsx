@@ -1,5 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import {
+  validateDate,
+  validateDateRange,
+} from '@department-of-veterans-affairs/platform-forms-system/validation';
+import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { ReservesGuardDescription } from '../utils';
 
 const {
@@ -12,11 +16,33 @@ export const uiSchema = {
   'ui:description': ReservesGuardDescription,
   serviceInformation: {
     reservesNationalGuardService: {
-      obligationTermOfServiceDateRange: dateRangeUI(
-        'Obligation start date',
-        'Obligation end date',
-        'End date must be after start date',
-      ),
+      obligationTermOfServiceDateRange: {
+        'ui:validations': [validateDateRange],
+        'ui:errorMessages': {
+          pattern: 'End date must be after start date',
+          required: 'Please enter a date',
+        },
+        from: {
+          'ui:title': 'Obligation start date',
+          'ui:widget': 'date',
+          'ui:webComponentField': VaMemorableDateField,
+          'ui:validations': [validateDate],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid date',
+            required: 'Please enter a date',
+          },
+        },
+        to: {
+          'ui:title': 'Obligation end date',
+          'ui:widget': 'date',
+          'ui:webComponentField': VaMemorableDateField,
+          'ui:validations': [validateDate],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid date',
+            required: 'Please enter a date',
+          },
+        },
+      },
       unitName: {
         'ui:title': 'Unit name',
       },
