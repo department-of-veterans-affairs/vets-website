@@ -140,6 +140,7 @@ const SearchPage = props => {
 
     if (!isEmpty(location.query)) {
       props.updateSearchQuery({
+        id: Date.now(),
         locationQueryString: location.query.address,
         locationInputString: location.query.address,
         repOrganizationQueryString: location.query.name,
@@ -153,7 +154,7 @@ const SearchPage = props => {
         locationQueryString: location.query.address,
         // context: location.query.context,
       });
-      // setIsSearching(true);
+      setIsSearching(true);
     }
   };
 
@@ -272,10 +273,16 @@ const SearchPage = props => {
   };
 
   useEffect(() => {
-    // Scroll to the top of the page
     window.scrollTo(0, 0);
     searchWithUrl();
   }, []);
+
+  useEffect(
+    () => {
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.id],
+  );
 
   // useEffect(
   //   () => {
