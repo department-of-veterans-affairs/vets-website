@@ -1,6 +1,7 @@
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
+  SEARCH_COMPLETE,
   SORT_TYPE_UPDATED,
   SEARCH_QUERY_UPDATED,
   FETCH_REPRESENTATIVES,
@@ -62,6 +63,13 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...action.payload,
         error: false,
         inProgress: true,
+      };
+    case SEARCH_COMPLETE:
+      return {
+        ...state,
+        ...action.payload,
+        error: false,
+        inProgress: false,
       };
     case FETCH_REPRESENTATIVES:
       return {
