@@ -220,7 +220,6 @@ describe('validateForm function', () => {
     };
     const payload = {
       locationInputString: 'new string',
-      facilityType: '',
     };
     const result = validateForm(oldState, payload);
     expect(result.locationChanged).to.eql(true);
