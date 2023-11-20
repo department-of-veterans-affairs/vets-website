@@ -54,19 +54,19 @@ const LandingPage = () => {
         <div className="main-content">
           <section>
             <h1 data-testid="landing-page-heading">About medications</h1>
-            <p className="vads-u-font-size--lg">
+            <p className="vads-u-font-family--serif">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
           </section>
           <section>
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--4 vads-u-border-left--7px vads-u-border-color vads-u-border-color--primary-alt-dark">
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
               <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                Manage your medications now
+                Go to your medications now
               </h2>
               <p className="vads-u-margin-y--3">
-                Refill and track your VA prescriptions. And review all
-                medications in your VA medical records.
+                Refill and track your VA prescriptions. And review your
+                medications list.
               </p>
               <a
                 className="vads-c-action-link--green vads-u-margin--0"
@@ -141,7 +141,7 @@ const LandingPage = () => {
                         than 180 days.{' '}
                       </strong>
                       To find these older prescriptions, go to your VA Blue
-                      Button report on the My HealthVet website{' '}
+                      Button report on the My HealthVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
@@ -149,7 +149,7 @@ const LandingPage = () => {
                         )}
                         rel="noreferrer"
                       >
-                        Go to VA Blue Button® on the My HealtheVet website
+                        Go to VA Blue Button&reg; on the My HealtheVet website
                       </a>
                     </li>
                     <li>
@@ -320,6 +320,7 @@ const LandingPage = () => {
                     Send a secure message to your VA care team.
                   </p>
                   <a
+                    className="vads-u-margin-bottom--1 vads-u-display--block"
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
                       'secure-messaging',

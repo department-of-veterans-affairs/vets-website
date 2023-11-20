@@ -44,8 +44,11 @@ const MedicationsListCard = props => {
           <div
             id="status"
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+            data-testid="rxStatus"
           >
-            {rx.dispStatus}
+            {rx.dispStatus !== 'Active: Refill in Process'
+              ? rx.dispStatus
+              : 'Active: Refill in process'}
           </div>
         )}
         {rx && <ExtraDetails {...rx} />}

@@ -19,9 +19,7 @@ describe('<TabItem>', () => {
       />,
     );
 
-    expect(tree.subTree('IndexLink').props['aria-controls']).to.equal(
-      'tabPanelTitle',
-    );
+    expect(tree.subTree('IndexLink').props['aria-current']).to.equal('page');
     expect(tree.subTree('IndexLink').props.to).to.equal(
       'appeals/1234567/status',
     );
@@ -38,9 +36,7 @@ describe('<TabItem>', () => {
       />,
     );
 
-    expect(tree.subTree('IndexLink').props['aria-controls']).to.equal(
-      'tabPanelTitleHere',
-    );
+    expect(tree.subTree('IndexLink').props['aria-current']).to.equal('page');
     expect(tree.subTree('IndexLink').props.id).to.equal('tabTitleHere');
     expect(tree.subTree('IndexLink').props.to).to.equal(
       'appeals/1234567/status',
