@@ -1,3 +1,5 @@
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 // Simple one level deep check
 export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
@@ -30,4 +32,13 @@ export const returnPhoneObject = phone => {
     result.phoneNumber = phone.slice(-7);
   }
   return result;
+};
+
+export const recordButtonClick = (type, label, color) => {
+  recordEvent({
+    event: 'cta-button-click',
+    'button-type': type,
+    'button-click-label': label,
+    'button-background-color': color,
+  });
 };

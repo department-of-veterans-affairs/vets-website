@@ -7,7 +7,6 @@ import {
 
 import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { maxNameLength } from '../validations/issues';
 import { validateDate } from '../validations/date';
@@ -22,6 +21,7 @@ import {
 } from '../../shared/constants';
 import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 import { setStorage } from '../../shared/utils/addIssue';
+import { recordButtonClick } from '../../shared/utils/helpers';
 import { checkValidations } from '../../shared/validations';
 import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
 
@@ -129,23 +129,13 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
     },
     onCancel: event => {
       event.preventDefault();
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'secondary',
-        'button-click-label': 'Cancel',
-        'button-background-color': 'white',
-      });
+      recordButtonClick('secondary', 'Cancel', 'white');
       setStorage(index, 'cancel', addOrEdit === 'add' ? -1 : '');
       goToPath(returnPath);
     },
     onUpdate: event => {
       event.preventDefault();
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'primary',
-        'button-click-label': 'Add issue',
-        'button-background-color': 'blue',
-      });
+      recordButtonClick('primary', 'Add issue', 'blue');
       setStorage(index, 'updated');
       addOrUpdateIssue();
     },

@@ -8,7 +8,6 @@ import {
 
 import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
@@ -29,6 +28,7 @@ import { checkValidations } from '../../shared/validations';
 import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
 import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 import { setStorage } from '../../shared/utils/addIssue';
+import { recordButtonClick } from '../../shared/utils/helpers';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 
@@ -136,23 +136,13 @@ const AddIssue = props => {
     },
     onCancel: event => {
       event.preventDefault();
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'secondary',
-        'button-click-label': 'Cancel',
-        'button-background-color': 'white',
-      });
+      recordButtonClick('secondary', 'Cancel', 'white');
       setStorage(index, 'cancel', addOrEdit === 'add' ? -1 : '');
       goToPath(returnPath);
     },
     onUpdate: event => {
       event.preventDefault();
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'primary',
-        'button-click-label': 'Add issue',
-        'button-background-color': 'blue',
-      });
+      recordButtonClick('primary', 'Add issue', 'blue');
       setStorage(index, 'updated');
       addOrUpdateIssue();
     },
