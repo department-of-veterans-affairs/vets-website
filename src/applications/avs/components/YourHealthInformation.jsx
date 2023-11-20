@@ -11,7 +11,7 @@ import {
 import { APPOINTMENT_TYPES } from '../utils/constants';
 
 import ParagraphBlock from './ParagraphBlock';
-import SeparatedItemsBlock from './SeparatedItemsBlock';
+import ItemsBlock from './ItemsBlock';
 
 const getAppointments = (type, appointments) => {
   return appointments.filter(appointment => appointment.type === type.label);
@@ -138,6 +138,17 @@ const renderImmunization = immunization => {
   );
 };
 
+const renderProblem = problem => {
+  // cf. https://github.com/department-of-veterans-affairs/avs/blob/2af52456e924d8da21b5a8079ac0fb41e6498c63/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/PatientInfoThread.java#L100C87-L100C87
+  const problemName = problem.description.replace(/ \(.*\)$/, '');
+  return (
+    <p>
+      {problemName} <br />
+      Last updated: {formatDateLong(problem.lastUpdated)}
+    </p>
+  );
+};
+
 const renderAllergy = allergy => {
   return (
     <p>
@@ -222,22 +233,32 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
-      {/* TODO: add problem list */}
+
+      <ItemsBlock
+        heading="Problem list"
+        itemType="problems"
+        items={avs.problems}
+        renderItem={renderProblem}
+        showSeparators={false}
+      />
+
       <ParagraphBlock
         heading="Smoking status"
         content={avs.patientInfo?.smokingStatus}
       />
-      <SeparatedItemsBlock
+      <ItemsBlock
         heading="Immunizations"
         itemType="immunizations"
         items={avs.immunizations}
         renderItem={renderImmunization}
+        showSeparators
       />
-      <SeparatedItemsBlock
+      <ItemsBlock
         heading="Allergies and adverse drug reactions (signs / symptoms)"
         itemType="allergies-reactions"
         items={avs.allergiesReactions?.allergies}
         renderItem={renderAllergy}
+        showSeparators
       />
       {labResults(avs)}
     </div>

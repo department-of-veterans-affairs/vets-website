@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SeparatedItemsBlock = props => {
-  const { heading, intro, itemType, items, renderItem } = props;
+const ItemsBlock = props => {
+  const { heading, intro, itemType, items, renderItem, showSeparators } = props;
 
   if (!items || items.length === 0) {
     return null;
@@ -12,7 +12,7 @@ const SeparatedItemsBlock = props => {
     return (
       <div key={idx}>
         {renderItem(item)}
-        {items.length > 1 && <hr />}
+        {items.length > 1 && showSeparators && <hr />}
       </div>
     );
   });
@@ -26,12 +26,13 @@ const SeparatedItemsBlock = props => {
   );
 };
 
-export default SeparatedItemsBlock;
+export default ItemsBlock;
 
-SeparatedItemsBlock.propTypes = {
+ItemsBlock.propTypes = {
   heading: PropTypes.string,
   intro: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   itemType: PropTypes.string,
   items: PropTypes.array,
   renderItem: PropTypes.func,
+  showSeparators: PropTypes.bool,
 };
