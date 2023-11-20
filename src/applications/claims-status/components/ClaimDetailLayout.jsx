@@ -11,7 +11,7 @@ import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimsUnavailable from './ClaimsUnavailable';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
 
-const MAX_CONTENTIONS = 10;
+const MAX_CONTENTIONS = 3;
 
 const getBreadcrumbText = (currentTab, claimType) => {
   let joiner;
