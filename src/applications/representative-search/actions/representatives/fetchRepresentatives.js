@@ -13,16 +13,16 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
  * @param {number} api version number
  */
 export const fetchRepresentatives = async (
-  address = null,
+  address,
   lat,
   long,
   name,
   page,
   /* eslint-disable camelcase */
   per_page,
-  dispatch,
   sort,
   type,
+  dispatch,
 ) => {
   let data = {};
 
