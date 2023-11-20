@@ -44,7 +44,6 @@ const transformStatementData = data => {
 
 // Mock function for retrieving statements data
 const getStatementsMock = async dispatch => {
-  if (!USE_COPAY_MOCK_DATA) return;
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
 
   // Simulate network delay
