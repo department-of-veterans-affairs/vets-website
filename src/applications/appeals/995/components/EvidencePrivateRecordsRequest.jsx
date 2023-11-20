@@ -5,7 +5,6 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import {
   EVIDENCE_VA_PATH,
@@ -18,6 +17,7 @@ import {
   privateRecordsRequestTitle,
   privateRecordsRequestInfo,
 } from '../content/evidencePrivateRecordsRequest';
+import { recordRadioChange } from '../../shared/utils/helpers';
 
 /**
  * This page is needed to make the back button on this page to to the last
@@ -42,12 +42,7 @@ const EvidencePrivateRequest = ({
         [EVIDENCE_PRIVATE]: val,
       });
       setError(null);
-      recordEvent({
-        event: 'int-radio-button-option-click',
-        'radio-button-label': privateRecordsRequestTitle,
-        'radio-button-optionLabel': val ? 'Yes' : 'No',
-        'radio-button-required': true,
-      });
+      recordRadioChange(privateRecordsRequestTitle, val ? 'Yes' : 'No', true);
     },
     onGoBack: () => {
       if (data[EVIDENCE_VA]) {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { content } from '../../995/content/primaryPhone';
 
@@ -45,12 +44,6 @@ export const PrimaryPhone = ({
         setFormData(formData);
         // setFormData lags a little, so check updated data
         // checkErrors(formData);
-        recordEvent({
-          event: 'int-radio-button-option-click',
-          'radio-button-label': content.label,
-          'radio-button-optionLabel': content[`${value}Label`],
-          'radio-button-required': false,
-        });
       }
     },
   };

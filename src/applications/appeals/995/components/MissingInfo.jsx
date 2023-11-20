@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordModalVisible } from '../../shared/utils/helpers';
 
 const MissingInfo = ({ hasSsn, hasDob }) => {
   const hasSsnOrDob = [
@@ -10,16 +10,12 @@ const MissingInfo = ({ hasSsn, hasDob }) => {
   ].filter(Boolean);
   const missing = hasSsnOrDob.join(' and ');
 
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'warning',
-    'alert-box-heading': 'We’re missing some of your personal information',
-    'error-key': 'missing_ssn_or_dob',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': `Missing ${missing}`,
-  });
+  recordModalVisible(
+    'warning',
+    'We’re missing some of your personal information',
+    'missing_ssn_or_dob',
+    `Missing ${missing}`,
+  );
 
   return (
     <va-alert status="error">

@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordModalVisible } from '../utils/helpers';
 
 const NeedsToVerify = ({ pathname }) => {
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'continue',
-    'alert-box-heading':
-      'You’ll need to verify your identity to access more VA.gov tools and features',
-    'error-key': 'not_verified',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': `Not verified`,
-  });
+  recordModalVisible(
+    'continue',
+    'You’ll need to verify your identity to access more VA.gov tools and features',
+    'not_verified',
+    `Not verified`,
+  );
 
   return (
     <va-alert status="continue">

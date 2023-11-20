@@ -6,7 +6,8 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
+
+import { recordModalVisible } from '../../shared/utils/helpers';
 
 import {
   authorizationLabel,
@@ -27,17 +28,12 @@ const EvidencePrivateRecordsAuthorization = ({
   useEffect(
     () => {
       if (hasError) {
-        recordEvent({
-          event: 'visible-alert-box',
-          'alert-box-type': 'warning',
-          'alert-box-heading':
-            'Authorize your doctor to release your records or upload them yourself',
-          'error-key': 'not_authorizing_records_release',
-          'alert-box-full-width': false,
-          'alert-box-background-only': false,
-          'alert-box-closeable': false,
-          'reason-for-alert': 'Not authorizing records release',
-        });
+        recordModalVisible(
+          'warning',
+          'Authorize your doctor to release your records or upload them yourself',
+          'not_authorizing_records_release',
+          'Not authorizing records release',
+        );
       }
     },
     [hasError],

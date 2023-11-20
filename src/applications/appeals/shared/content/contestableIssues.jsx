@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { MAX_LENGTH } from '../constants';
+import { recordModalVisible } from '../utils/helpers';
 
 import errorMessages from './errorMessages';
 
@@ -80,16 +80,12 @@ export const NoIssuesLoadedAlert = () => {
     [wrapAlert],
   );
 
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'error',
-    'alert-box-heading': 'Sorry, we couldn’t find any eligible issues',
-    'error-key': 'missing_eligible_issues',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': 'Missing eligible issues',
-  });
+  recordModalVisible(
+    'error',
+    'Sorry, we couldn’t find any eligible issues',
+    'missing_eligible_issues',
+    'Missing eligible issues',
+  );
 
   return (
     <div ref={wrapAlert}>
@@ -128,16 +124,12 @@ export const NoneSelectedAlert = ({ count, headerLevel = 3, inReviewMode }) => {
     count === 0 ? 'add, and select,' : 'select'
   } an issue`;
 
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'error',
-    'alert-box-heading': title,
-    'error-key': 'no_issues_selected',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': 'Missing eligible issues',
-  });
+  recordModalVisible(
+    'error',
+    title,
+    'no_issues_selected',
+    'Missing eligible issues',
+  );
 
   return (
     <div ref={wrapAlert}>

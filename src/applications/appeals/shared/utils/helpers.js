@@ -42,3 +42,25 @@ export const recordButtonClick = (type, label, color) => {
     'button-background-color': color,
   });
 };
+
+export const recordModalVisible = (type, heading, key, reason) => {
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': type,
+    'alert-box-heading': heading,
+    'error-key': key,
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+    'reason-for-alert': reason,
+  });
+};
+
+export const recordRadioChange = (title, label, required) => {
+  recordEvent({
+    event: 'int-radio-button-option-click',
+    'radio-button-label': title,
+    'radio-button-optionLabel': label,
+    'radio-button-required': required,
+  });
+};

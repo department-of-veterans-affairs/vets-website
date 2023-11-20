@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { scrollTo, focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordModalVisible } from '../../shared/utils/helpers';
 
 const SubmissionError = ({ form }) => {
   const alertRef = useRef(null);
@@ -16,16 +16,12 @@ const SubmissionError = ({ form }) => {
     },
     [alertRef],
   );
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'error',
-    'alert-box-heading': 'Your decision review request didn’t go through',
-    'error-key': 'submission_failure',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': 'Submission failure',
-  });
+  recordModalVisible(
+    'error',
+    'Your decision review request didn’t go through',
+    'submission_failure',
+    'Submission failure',
+  );
 
   return (
     <va-alert
