@@ -139,11 +139,11 @@ const ConditionDetails = props => {
 ${record.name} \n
 Date entered: ${record.date} \n
 _____________________________________________________ \n
-    Provider: ${record.provider} \n
-    Provider Notes: ${processList(record.note)} \n
-    Status of health condition: ${record.active} \n
-    Location: ${record.facility} \n
-    SNOMED Clinical term: ${record.name} \n`;
+Provider: ${record.provider} \n
+Provider Notes: ${processList(record.note)} \n
+Status of health condition: ${record.active} \n
+Location: ${record.facility} \n
+SNOMED Clinical term: ${record.name} \n`;
 
     const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
