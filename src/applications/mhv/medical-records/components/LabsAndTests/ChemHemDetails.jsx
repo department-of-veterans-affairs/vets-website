@@ -11,7 +11,12 @@ import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../../util/helpers';
+import {
+  makePdf,
+  processList,
+  generateTextFile,
+  getNameDateAndTime,
+} from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -122,11 +127,39 @@ const ChemHemDetails = props => {
       })),
     };
 
-    makePdf(
-      'microbiology_report',
-      scaffold,
-      'Microbiology details',
-      runningUnitTest,
+    makePdf('chem/hem_report', scaffold, 'Chem/Hem details', runningUnitTest);
+  };
+
+  const generateChemHemTxt = async () => {
+    const content = `\n
+${record.name}\n
+Date entered: ${record.date}\n
+Record Details:\n
+_____________________________________________________\n\n
+Type of test: ${record.reason} \n
+Sample tested: ${record.clinicalHistory} \n
+Ordered by: ${record.orderedBy} \n
+Order location: ${record.orderingLocation} \n
+Collecting location: ${record.imagingLocation} \n
+Provider notes: ${processList(record.comments)} \n;
+_____________________________________________________\n\n
+Results: \n
+  ${record.results.map(
+    entry => `
+_____________________________________________________\n
+${entry.name}
+-----------------------------------------------------
+Result: ${entry.result}
+Standard range: ${entry.standardRange}
+Status: ${entry.status}
+Lab location: ${entry.labLocation}
+Interpretation: ${entry.interpretation}\n`,
+  )}
+)}`;
+
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
     );
   };
 
@@ -153,6 +186,7 @@ const ChemHemDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
