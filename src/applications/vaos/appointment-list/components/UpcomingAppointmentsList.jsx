@@ -152,7 +152,7 @@ export default function UpcomingAppointmentsList() {
                 'vads-u-margin-top--0': index === 0,
               })}
               id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-              data-cy="upcoming-appointment-list-header"
+              data-testid="appointment-list-header"
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
@@ -169,7 +169,7 @@ export default function UpcomingAppointmentsList() {
                   'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
                 },
               )}
-              data-cy="upcoming-appointment-list"
+              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
               {featureAppointmentList &&
@@ -234,6 +234,7 @@ export default function UpcomingAppointmentsList() {
               });
               dispatch(startNewAppointmentFlow());
             }}
+            level={2}
           />
         </div>
       )}

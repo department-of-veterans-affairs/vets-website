@@ -1,9 +1,13 @@
+/* eslint-disable no-param-reassign */
 import features from '../../../../utilities/tests/header-footer/mocks/features';
 import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
+import * as mockHeaderFooterData from '~/platform/landing-pages/header-footer-data.json';
 
-// IMPORTANT: These tests verify the accuracy of the VA.gov header against production (as of the time of writing this test)
-// and against header-footer-data.json, which is used to populate the header in local dev when content-build is not running.
-// It is important that both of these stay in parity with what is in production.
+const CATEGORY_NAME = 'Life insurance';
+const menuCategory = h.getMenuCategoryData(CATEGORY_NAME);
+const columnLinks = h.getColumnLinksForBHLinks(menuCategory);
+const columnHeadersForDesktop = h.getColumnHeadersForBH(menuCategory);
+
 describe('global header - benefit hubs - life insurance', () => {
   Cypress.config({
     includeShadowDom: true,
@@ -19,92 +23,59 @@ describe('global header - benefit hubs - life insurance', () => {
     cy.intercept('POST', 'https://www.google-analytics.com/*', {}).as(
       'analytics',
     );
+
+    // The header data is set in window.VetsGov.headerFooter with the data received
+    // from content-build. It's mocked here with header-footer-data.json
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        win.VetsGov = {};
+        win.VetsGov.headerFooter = mockHeaderFooterData;
+      },
+    });
   });
 
-  const lifeInsurance = '[data-e2e-id="vetnav-level2--life-insurance"]';
-  const viewAll = {
-    id: 'view-all-in-life-insurance',
-    href: '/life-insurance',
-    text: 'View all in life insurance',
-  };
+  describe('desktop menu', () => {
+    it('should correctly load the elements', () => {
+      cy.injectAxeThenAxeCheck();
 
-  // Headings and links were pulled from production on October 16, 2023.
-  // It should stay up-to-date and match header-footer-data.json
-  const headings = [
-    {
-      id: '#vetnav-column-one-header',
-      text: 'Get life insurance',
-    },
-    {
-      id: '#vetnav-column-two-header',
-      text: 'Manage your life insurance',
-    },
-  ];
+      const header = () => cy.get('.header');
 
-  const links = [
-    {
-      id: 'about-life-insurance-options',
-      href: '/life-insurance/options-eligibility',
-      text: 'About life insurance options',
-    },
-    {
-      id: 'benefits-for-totally-disabled-or-terminally-ill-policyholders',
-      href: '/life-insurance/totally-disabled-or-terminally-ill',
-      text: 'Benefits for totally disabled or terminally ill policyholders',
-    },
-    {
-      id: 'beneficiary-financial-counseling-and-online-will-preparation',
-      href: 'https://www.benefits.va.gov/insurance/bfcs.asp',
-      text: 'Beneficiary financial counseling and online will preparation',
-    },
-    {
-      id: 'access-your-policy-online',
-      href: '/life-insurance/manage-your-policy',
-      text: 'Access your policy online',
-    },
-    {
-      id: 'update-your-beneficiaries',
-      href: 'https://www.benefits.va.gov/INSURANCE/updatebene.asp',
-      text: 'Update your beneficiaries',
-    },
-    {
-      id: 'file-a-claim-for-insurance-benefits',
-      href: 'https://www.benefits.va.gov/INSURANCE/sglivgli.asp',
-      text: 'File a claim for insurance benefits',
-    },
-    {
-      id: 'check-your-appeal-status',
-      href: '/claim-or-appeal-status',
-      text: 'Check your appeal status',
-    },
-  ];
+      header()
+        .scrollIntoView()
+        .within(() => {
+          h.clickBenefitsAndHealthcareButton();
 
-  it('should correctly load the elements', () => {
-    cy.visit('/');
-    cy.injectAxeThenAxeCheck();
+          const viewAllSelector = '[data-e2e-id="view-all-in-life-insurance"]';
+          const lifeInsuranceButton =
+            '[data-e2e-id="vetnav-level2--life-insurance"]';
 
-    h.verifyElement('.header');
+          h.verifyMenuItemsForDesktop(
+            lifeInsuranceButton,
+            viewAllSelector,
+            columnLinks,
+            columnHeadersForDesktop,
+          );
+        });
+    });
+  });
 
-    const header = () => cy.get('.header');
+  describe('mobile menu', () => {
+    it('should correctly load the elements', () => {
+      cy.viewport(400, 1000);
+      cy.injectAxeThenAxeCheck();
 
-    header()
-      .scrollIntoView()
-      .within(() => {
-        const vaBenefitsAndHealthCareButton =
-          '[data-e2e-id="va-benefits-and-health-care-0"]';
+      h.clickMenuButton();
 
-        // VA Benefits and Health Care
-        h.verifyElement(vaBenefitsAndHealthCareButton);
-        h.clickButton(vaBenefitsAndHealthCareButton);
+      const headerNav = () => cy.get('#header-nav-items');
 
-        // -> Life insurance
-        h.verifyMenuItems(
-          lifeInsurance,
-          headings,
-          links,
-          viewAll,
-          'Life insurance',
-        );
+      headerNav().within(() => {
+        h.clickBenefitsAndHealthcareButtonMobile();
+
+        const lifeInsuranceButton = () =>
+          cy.get('.header-menu-item-button').eq(7);
+
+        h.verifyMenuItemsForMobile(lifeInsuranceButton, columnLinks);
       });
+    });
   });
 });

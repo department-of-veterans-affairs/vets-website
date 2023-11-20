@@ -10,8 +10,9 @@ import {
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
 import { getDate } from '../../utils/dates';
+import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -65,7 +66,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
     const elems = $$('va-text-input, va-memorable-date', container);
 
-    expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
+    expect(elems[0].error).to.contain(sharedErrorMessages.missingIssue);
     expect(elems[1].error).to.contain(issueErrorMessages.blankDecisionDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
@@ -155,7 +156,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(issueErrorMessages.uniqueIssue);
+    expect(textInput.error).to.contain(sharedErrorMessages.uniqueIssue);
   });
 
   it('should submit when everything is valid', () => {

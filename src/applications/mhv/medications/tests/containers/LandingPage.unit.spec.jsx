@@ -4,6 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import LandingPage from '../../containers/LandingPage';
+import { medicationsUrls } from '../../util/constants';
 
 describe('Medicaitons Landing page container', () => {
   const initialState = {
@@ -70,6 +71,7 @@ describe('App-level feature flag functionality', () => {
       reducers: reducer,
     };
   };
+
   it('feature flags are still loading', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
       <LandingPage />,
@@ -109,5 +111,34 @@ describe('App-level feature flag functionality', () => {
         'Learn how to manage your VA prescriptions and review your medications list.',
       ),
     );
+  });
+
+  it('should maintain login status', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: prescriptions,
+          },
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: true,
+        },
+      },
+      reducers: reducer,
+      path: '/',
+    });
+    expect(
+      screenFeatureToggle
+        .getByTestId('prescriptions-nav-link')
+        .getAttribute('href'),
+    ).to.equal(medicationsUrls.MEDICATIONS_URL);
   });
 });

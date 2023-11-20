@@ -1,3 +1,5 @@
+import rxTracking from '../fixtures/prescription-tracking-details.json';
+
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
     cy.contains(
@@ -6,7 +8,7 @@ class MedicationsDetailsPage {
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know before you print or download').click({
       force: true,
     });
   };
@@ -16,16 +18,16 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsNumber = PrescriptionsNumber => {
-    cy.get('[data-testid="prescription-number"]').should(
+    cy.get('p[data-testid="prescription-number"]').should(
       'have.text',
       PrescriptionsNumber,
     );
   };
 
-  verifyPrescriptionsName = prescriptionDetails => {
+  verifyPrescriptionsName = prescriptionName => {
     cy.get('[data-testid="prescription-name"]').should(
       'contain',
-      prescriptionDetails,
+      prescriptionName,
     );
   };
 
@@ -77,7 +79,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid ="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -103,7 +105,7 @@ class MedicationsDetailsPage {
   };
 
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.contains('About Medications')
+    cy.contains('About medications')
       .should('be.visible')
       .click({ force: true });
   };
@@ -122,8 +124,91 @@ class MedicationsDetailsPage {
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('have.text', 'Download your medication details as a PDF')
+      .should('have.text', 'Download this page as a PDF')
       .should('be.enabled');
+  };
+
+  verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
+    cy.get('[data-testid="refill-request-button"]').should('be.enabled');
+  };
+
+  clickWhatDoesThisStatusMeanDropDown = () => {
+    cy.get('[data-testid="status-dropdown"]').should('exist');
+    cy.get('[data-testid="status-dropdown"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyNonVAStatusDropDownDefinition = () => {
+    cy.get('[data-testid="nonVA-status-definition"] > :nth-child(1)').should(
+      'contain',
+      'this isn’t a prescription you filled through a VA pharmacy.',
+    );
+  };
+
+  verifyActiveStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="active-status-definition"]',
+    ).should('contain', 'This is a current prescription.');
+  };
+
+  verifyOnHoldStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="onHold-status-definition"]',
+    ).should('contain', 'We put a hold on this prescription.');
+  };
+
+  verifyParkedStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="parked-status-dropdown"]',
+    ).should(
+      'contain',
+      'we won’t send any shipments until you request to fill or refill it.',
+    );
+  };
+
+  verifyDiscontinuedStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
+    ).should('contain', 'You can’t refill this prescription.');
+  };
+
+  verifyExpiredStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="expired-status-definition"]',
+    ).should('contain', 'This prescription is too old to refill.');
+  };
+
+  verifyTransferredStatusDropDownDefinition = () => {
+    cy.get('[data-testid="status-dropdown"] > p').should(
+      'contain',
+      'We moved this prescription to our My VA Health portal.',
+    );
+  };
+
+  verifyUnknownStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="unknown-status-definition"]',
+    ).should('contain', 'There’s a problem with our system');
+  };
+
+  verifySubmittedStatusDropDownDefinition = () => {
+    cy.get(
+      '[data-testid="status-dropdown"] > [data-testid="submitted-status-definition"]',
+    ).should(
+      'contain',
+      'We got your request to fill or refill this prescription.',
+    );
+  };
+
+  verifyPrescriptionTrackingInformation = () => {
+    cy.get('[data-testid="track-package"]').should('be.visible');
+    // cy.get('[data-testid="tracking-number"]')
+    //   .should('contain', `${rxTracking.data.attributes.trackingList[0][0].tracking[0].trackingNumber}`);
+    cy.get('[data-testid="rx-name"]').should(
+      'contain',
+      `${rxTracking.data.attributes.prescriptionName}`,
+    );
   };
 }
 export default MedicationsDetailsPage;

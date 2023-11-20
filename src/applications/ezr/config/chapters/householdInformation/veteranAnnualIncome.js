@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -7,17 +7,19 @@ import {
 } from '../../../components/FormDescriptions/IncomeDescriptions';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
-const { monetaryValue } = ezrSchema.definitions;
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
+const {
+  veteranGrossIncome,
+  veteranNetIncome,
+  veteranOtherIncome,
+} = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      replaceStrValues(content['household-veteran-income-title'], lastYear),
+      replaceStrValues(content['household-veteran-income-title'], LAST_YEAR),
     ),
     'view:veteranGrossIncome': {
       'ui:title': content['household-income-gross-title'],
@@ -26,7 +28,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-veteran-income-gross-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -39,7 +41,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-veteran-income-net-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -52,7 +54,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-veteran-income-other-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -65,23 +67,17 @@ export default {
       'view:veteranGrossIncome': {
         type: 'object',
         required: ['veteranGrossIncome'],
-        properties: {
-          veteranGrossIncome: monetaryValue,
-        },
+        properties: { veteranGrossIncome },
       },
       'view:veteranNetIncome': {
         type: 'object',
         required: ['veteranNetIncome'],
-        properties: {
-          veteranNetIncome: monetaryValue,
-        },
+        properties: { veteranNetIncome },
       },
       'view:veteranOtherIncome': {
         type: 'object',
         required: ['veteranOtherIncome'],
-        properties: {
-          veteranOtherIncome: monetaryValue,
-        },
+        properties: { veteranOtherIncome },
       },
     },
   },

@@ -28,32 +28,32 @@ export const uiSchema = {
       'ui:title': 'Student’s earnings from all employment',
       'ui:required': formData => formData.studentDoesEarnIncome,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     annualSocialSecurityPayments: {
       'ui:title': 'Student’s annual Social Security payments',
       'ui:required': formData => formData.studentDoesEarnIncome,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     otherAnnuitiesIncome: {
       'ui:title': 'Student’s other annuities income',
       'ui:required': formData => formData.studentDoesEarnIncome,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     allOtherIncome: {
       'ui:title': 'All student’s other income',
       'ui:required': formData => formData.studentDoesEarnIncome,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
   },
@@ -79,32 +79,32 @@ export const uiSchema = {
       'ui:title': 'Student’s earnings from all employment',
       'ui:required': formData => formData.studentWillEarnIncomeNextYear,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     annualSocialSecurityPayments: {
       'ui:title': 'Student’s annual Social Security payments',
       'ui:required': formData => formData.studentWillEarnIncomeNextYear,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     otherAnnuitiesIncome: {
       'ui:title': 'Student’s other annuities income',
       'ui:required': formData => formData.studentWillEarnIncomeNextYear,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     allOtherIncome: {
       'ui:title': 'All student’s other income',
       'ui:required': formData => formData.studentWillEarnIncomeNextYear,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
   },

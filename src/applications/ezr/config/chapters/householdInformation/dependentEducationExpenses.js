@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   yesNoUI,
@@ -6,19 +6,20 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
-const { monetaryValue } = ezrSchema.definitions;
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
+const {
+  dependents: { items: dependent },
+} = ezrSchema.properties;
+const { dependentEducationExpenses } = dependent.properties;
 
 export default {
   uiSchema: {
     attendedSchoolLastYear: yesNoUI(
       replaceStrValues(
         content['household-dependent-attended-school-label'],
-        lastYear,
+        LAST_YEAR,
       ),
     ),
     dependentEducationExpenses: {
@@ -31,7 +32,7 @@ export default {
     required: ['dependentEducationExpenses'],
     properties: {
       attendedSchoolLastYear: yesNoSchema,
-      dependentEducationExpenses: monetaryValue,
+      dependentEducationExpenses,
     },
   },
 };

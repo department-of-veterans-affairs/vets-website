@@ -1,16 +1,12 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
 import {
   titleUI,
   descriptionUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import SpouseFinancialSupportDescription from '../../../components/FormDescriptions/SpouseFinancialSupportDescription';
 import { replaceStrValues } from '../../../utils/helpers/general';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
-
-const { provideSupportLastYear } = ezrSchema.properties;
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
 
 export default {
   uiSchema: {
@@ -18,7 +14,7 @@ export default {
     provideSupportLastYear: {
       'ui:title': replaceStrValues(
         content['household-spouse-support-label'],
-        lastYear,
+        LAST_YEAR,
       ),
       ...descriptionUI(SpouseFinancialSupportDescription, {
         hideOnReview: true,
@@ -29,7 +25,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      provideSupportLastYear,
+      provideSupportLastYear: yesNoSchema,
     },
   },
 };

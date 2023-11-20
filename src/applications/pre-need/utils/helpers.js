@@ -54,6 +54,46 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
+export const sponsorDetailsSubHeader = (
+  <div className="sponsorDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+  </div>
+);
+
+export const sponsorDemographicsSubHeader = (
+  <div className="sponsorDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+  </div>
+);
+
+export const sponsorDemographicsDescription = (
+  <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+);
+
+export const sponsorDeceasedSubheader = (
+  <div className="sponsorDeceasedSubheader">
+    <p>Has the sponsor died?</p>
+  </div>
+);
+
+export const sponsorDateOfDeathSubheader = (
+  <div className="sponsorDateOfDeathSubheader">
+    <p>Sponsor’s date of death</p>
+  </div>
+);
+
+export const sponsorMilitaryDetailsSubHeader = (
+  <div className="sponsorMilitaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+  </div>
+);
+
 export const militaryDetailsSubHeader = (
   <div className="militaryDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Military details</h3>
@@ -69,6 +109,43 @@ export const contactInfoDescription = (
     <p>
       You can also provide your email address to receive updates about new
       openings in VA national cemeteries or other burial benefits.
+    </p>
+  </va-additional-info>
+);
+
+export const applicantInformationDescription = (
+  <va-additional-info trigger="What if the applicant is not a service member or Veteran?">
+    <ul>
+      <>
+        <li>
+          A <strong>spouse</strong> is a person who is or was legally married to
+          a service member or Veteran. A <strong>surviving spouse</strong> is
+          someone who was legally married to the service member or Veteran at
+          the time of their death and includes a surviving spouse who remarried.
+        </li>
+        <li>
+          An <strong>unmarried adult child</strong> is an individual who became
+          physically or mentally disabled permanently and incapable of
+          self-support before the age of 21, or before 23 years of age if
+          pursuing a full-time course of instruction at an approved educational
+          institution.
+        </li>
+        <li>
+          For <strong>other</strong> applicants such as the parent of a service
+          member, we’ll ask questions about the service member (the sponsor) to
+          determine eligibility for burial in a VA national cemetery.
+        </li>
+      </>
+    </ul>
+  </va-additional-info>
+);
+
+export const applicantDetailsDescription = (
+  <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
+    <p>
+      If you’re filling out the form on behalf of someone else, you’ll need to
+      provide their details below. As the preparer, we’ll ask for your own
+      details later.
     </p>
   </va-additional-info>
 );
@@ -223,6 +300,10 @@ export function sponsorMailingAddressHasState(item) {
 
 export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === '1';
+}
+
+export function isSponsorDeceased(item) {
+  return get('application.veteran.isDeceased', item) === 'yes';
 }
 
 export function isSpouse(item) {
@@ -393,6 +474,9 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'First name' },
+  middle: { 'ui:title': 'Middle name' },
+  last: { 'ui:title': 'Last name' },
   maiden: { 'ui:title': 'Maiden name' },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
@@ -434,7 +518,7 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 export const veteranUI = {
   militaryServiceNumber: {
     'ui:title':
-      'Military Service number (if you have one that’s different than your Social Security number)',
+      'Military Service number (if it’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -449,11 +533,11 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
   },
   maritalStatus: {
-    'ui:title': 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -527,6 +611,8 @@ export const serviceRecordsUI = {
     viewField: ServicePeriodView,
     itemName: 'Service period',
     keepInPageOnReview: true,
+    useDlWrap: true,
+    generateIndividualItemHeaders: true,
   },
   items: {
     'ui:order': [
@@ -536,9 +622,6 @@ export const serviceRecordsUI = {
       'dischargeType',
       'nationalGuardState',
     ],
-    'ui:options': {
-      itemName: 'Service Period',
-    },
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,

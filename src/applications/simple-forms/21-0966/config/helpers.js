@@ -50,7 +50,7 @@ export const statementOfTruthFullNamePath = ({ formData } = {}) => {
   return 'survivingDependentFullName';
 };
 
-export const benefitSelectionStepperTitle = ({ formData } = {}) => {
+export const benefitSelectionChapterTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -64,21 +64,9 @@ export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const benefitSelectionTitle = ({ formData } = {}) => {
-  switch (formData?.preparerIdentification) {
-    case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependent:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartyVeteran:
-      return 'Select the benefits the Veteran intends to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartySurvivingDependent:
-      return 'Select the benefits the Claimant intends to file a claim for. Select all that apply';
-    default:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-  }
-};
-
-export const personalInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentPersonalInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -92,7 +80,9 @@ export const personalInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const contactInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentContactInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -104,6 +94,22 @@ export const contactInformationStepperTitle = ({ formData } = {}) => {
     default:
       return 'Your contact information';
   }
+};
+
+export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your personal information';
+  }
+
+  return 'Veteran’s personal information';
+};
+
+export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your contact information';
+  }
+
+  return 'Veteran’s contact information';
 };
 
 export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
@@ -174,8 +180,13 @@ export const getSuccessAlertText = (
   expirationDate,
 ) => {
   let benefitSelection = benefitSelections(data)[0];
-  if (benefitSelections(data).length > 1) {
-    benefitSelection = 'COMPENSATION_AND_PENSION';
+  const benefitSet = new Set(benefitSelections(data));
+  if (
+    benefitSet.size === 2 &&
+    benefitSet.has('compensation') &&
+    benefitSet.has('pension')
+  ) {
+    benefitSelection = 'compensationAndPension';
   }
 
   const benefitPhrase = benefitPhrases[benefitSelection];
@@ -216,8 +227,15 @@ export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
   let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
     alreadySubmittedIntents,
   )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
+  const benefitSet = new Set(
+    alreadySubmittedBenefitIntents(alreadySubmittedIntents),
+  );
+  if (
+    benefitSet.size === 2 &&
+    benefitSet.has('compensation') &&
+    benefitSet.has('pension')
+  ) {
+    alreadySubmittedIntent = 'compensationAndPension';
   }
 
   return `You’ve already submitted an intent to file for ${
@@ -240,11 +258,18 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
   let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
     alreadySubmittedIntents,
   )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
+  const benefitSet = new Set(
+    alreadySubmittedBenefitIntents(alreadySubmittedIntents),
+  );
+  if (
+    benefitSet.size === 2 &&
+    benefitSet.has('compensation') &&
+    benefitSet.has('pension')
+  ) {
     expirationDate = new Date(
       alreadySubmittedIntents.pension?.expirationDate,
     ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
+    alreadySubmittedIntent = 'compensationAndPension';
   } else {
     expirationDate = new Date(
       alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,

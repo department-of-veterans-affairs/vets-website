@@ -82,7 +82,7 @@ export const sanitizePath = to => {
 export const sanitizeCernerParams = path => {
   if (!path) return '/?authenticated=true';
   const [updatedPath] = decodeURIComponent(path).split('?');
-  return `${updatedPath}&authenticated=true`;
+  return `${updatedPath}?authenticated=true`;
 };
 
 export const generateReturnURL = returnUrl => {
@@ -104,6 +104,8 @@ export const createExternalApplicationUrl = () => {
 
   switch (application) {
     case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
+      URL = externalRedirectUrl;
+      break;
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
       break;
