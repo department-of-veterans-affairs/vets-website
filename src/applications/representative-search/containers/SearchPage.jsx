@@ -74,7 +74,18 @@ const SearchPage = props => {
     setIsSearching(true);
   };
 
+  useEffect(
+    () => {
+      if (props.currentQuery.geocodeError) {
+        setIsSearching(false);
+      }
+    },
+    [props.currentQuery.geocodeError],
+  );
+
   const handleSearchOnQueryChange = () => {
+    clearGeocodeError();
+
     if (isSearching) {
       const { currentQuery } = props;
       const {
@@ -224,7 +235,19 @@ const SearchPage = props => {
       <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
           {searchError && (
-            <div>We’re sorry, something went wrong on our end.</div>
+            <div className="vads-u-margin-y--3 representative-results-list">
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="error"
+                uswds
+                visible
+              >
+                <h2 slot="headline">Sorry, something went wrong on our end</h2>
+                <React.Fragment key=".1">
+                  <p className="vads-u-margin-y--0">Please try again soon.</p>
+                </React.Fragment>
+              </va-alert>
+            </div>
           )}
           {!searchError &&
             !currentQuery.inProgress &&
