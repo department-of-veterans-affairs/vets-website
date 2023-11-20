@@ -9,7 +9,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
 
   return (
     <>
-      <div className="vads-u-margin-top--3">
+      <div className="vads-u-margin-top--3 rep-type-radio-group">
         <VaRadio
           error={null}
           header-aria-describedby="Select your Representative type:"
