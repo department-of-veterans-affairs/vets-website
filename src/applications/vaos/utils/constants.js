@@ -80,6 +80,20 @@ export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
+export const PHARMACY_ID = '160';
+export const SOCIAL_WORK_ID = '125';
+export const AMPUTATION_ID = '211';
+export const AUDIOLOGY_ID = '203';
+export const MOVE_PROGRAM_ID = '372';
+export const FOOD_AND_NUTRITION_ID = '123';
+export const SLEEP_MEDICINE_ID = 'SLEEP';
+export const EYE_CARE_ID = 'EYE';
+export const CPAP_ID = '349';
+export const HOME_SLEEP_TESTING_ID = '143';
+export const OPTOMETRY_ID = '408';
+export const OPHTHALMOLOGY_ID = '407';
+export const AUDIOLOGY_ROUTINE_ID = 'CCAUDRTNE';
+export const AUDIOLOGY_HEARING_ID = 'CCAUDHEAR';
 
 export const TYPES_OF_CARE = [
   {
