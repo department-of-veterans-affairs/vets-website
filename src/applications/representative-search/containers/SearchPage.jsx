@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
@@ -19,6 +19,7 @@ import {
   clearSearchText,
   clearSearchResults,
   fetchRepresentatives,
+  searchWithInput,
   updateSearchQuery,
   updateSortType,
   geolocateUser,
@@ -30,22 +31,20 @@ import {
 
 const SearchPage = props => {
   const searchResultTitleRef = useRef(null);
-  // const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   const updateUrlParams = params => {
-    const { location, currentQuery, sortType } = props;
+    const { location, currentQuery } = props;
 
     const queryParams = {
       ...location.query,
       address: currentQuery.locationInputString,
-
-      latitude: props.currentQuery.position?.latitude,
-      longitude: props.currentQuery.position?.longitude,
-
+      latitude: currentQuery.position?.latitude,
+      longitude: currentQuery.position?.longitude,
       page: currentQuery.currentPage,
       /* eslint-disable camelcase */
       per_page: 10,
-      sort: sortType.toLowerCase(),
+      sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.repOrganizationInputString,
 
@@ -66,25 +65,64 @@ const SearchPage = props => {
       representativeType,
     } = currentQuery;
 
+    props.geocodeUserAddress(currentQuery);
+
     props.updateSearchQuery({
       locationQueryString: locationInputString,
       repOrganizationQueryString: repOrganizationInputString,
+      representativeType,
     });
 
-    props.geocodeUserAddress(currentQuery);
-
-    updateUrlParams({
-      address: locationInputString,
-      name: repOrganizationInputString || null,
-      type: representativeType,
-    });
-    // setIsSearching(true);
-
-    // TODO: useeffect for when results changes
-    focusElement('#search-results-subheader');
-
-    props.mockSearch();
+    setIsSearching(true);
   };
+
+  const handleSearchOnQueryChange = () => {
+    if (isSearching) {
+      const { currentQuery } = props;
+      const {
+        locationInputString,
+        repOrganizationInputString,
+        representativeType,
+        position,
+        sortType,
+      } = currentQuery;
+
+      const { latitude, longitude } = position;
+
+      updateUrlParams({
+        address: locationInputString,
+        name: repOrganizationInputString || null,
+        type: representativeType,
+      });
+      // setIsSearching(true);
+
+      // TODO: useeffect for when results changes
+      focusElement('#search-results-subheader');
+
+      if (!props.searchWithInputInProgress) {
+        props.searchWithInput({
+          address: locationInputString,
+          lat: latitude,
+          long: longitude,
+          name: repOrganizationInputString,
+          page: 1,
+          per_page: 10,
+          sort: sortType,
+          type: representativeType,
+        });
+        setIsSearching(false);
+      }
+
+      // props.mockSearch();
+    }
+  };
+
+  useEffect(
+    () => {
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.id],
+  );
 
   const searchWithUrl = () => {
     // Check for scenario when results are in the store
@@ -229,63 +267,6 @@ const SearchPage = props => {
     );
   };
 
-  // const searchCurrentArea = () => {
-  //   const { currentQuery } = props;
-  //   const {
-  //     searchArea,
-  //     // context,
-  //     // locationQueryString
-  //   } = currentQuery;
-  //   const coords = currentQuery.position;
-  //   const { radius } = currentQuery;
-  //   const center = [coords.latitude, coords.longitude];
-  //   if (searchArea) {
-  //     // updateUrlParams({
-  //     //   context,
-  //     //   locationQueryString,
-  //     // });
-  //     props.searchWithBounds({
-  //       bounds: props.currentQuery.bounds,
-  //       representativeType: props.currentQuery.representativeType,
-  //       page: props.currentQuery.currentPage,
-  //       center,
-  //       radius,
-  //     });
-  //   }
-  // };
-
-  // const handleSearchOnQueryChange = () => {
-  //   if (isSearching) {
-  //     // updateUrlParams({
-  //     //   context: props.currentQuery.context,
-  //     //   address: props.currentQuery.locationQueryString,
-  //     // });
-  //     const { currentQuery } = props;
-  //     const coords = currentQuery.position;
-  //     const { radius } = currentQuery;
-  //     const center = [coords.latitude, coords.longitude];
-  //     const resultsPage = currentQuery.currentPage;
-
-  //     if (!props.searchBoundsInProgress) {
-  //       props.searchWithBounds({
-  //         bounds: props.currentQuery.bounds,
-  //         representativeType: props.currentQuery.representativeType,
-  //         page: resultsPage,
-  //         center,
-  //         radius,
-  //       });
-  //       setIsSearching(false);
-  //     }
-  //   }
-  // };
-
-  // useEffect(
-  //   () => {
-  //     searchCurrentArea();
-  //   },
-  //   [props.currentQuery.searchArea],
-  // );
-
   useEffect(() => {
     // Scroll to the top of the page
     window.scrollTo(0, 0);
@@ -346,7 +327,7 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  searchBoundsInProgress: PropTypes.bool,
+  searchWithInputInProgress: PropTypes.bool,
   searchError: PropTypes.object,
 };
 
@@ -366,6 +347,7 @@ const mapDispatchToProps = {
   clearGeocodeError,
   geocodeUserAddress,
   fetchRepresentatives,
+  searchWithInput,
   updateSearchQuery,
   updateSortType,
   clearSearchResults,
