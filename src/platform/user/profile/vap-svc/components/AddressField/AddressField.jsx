@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
-
+/*
+ * Here is an example of where they use the vap-svc
+ */
 import {
   API_ROUTES,
   FIELD_NAMES,
