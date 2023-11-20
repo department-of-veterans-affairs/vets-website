@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/10206-foia.scss';
+import './sass/10206-pa.scss';
 
 import startApp from 'platform/startup';
 
