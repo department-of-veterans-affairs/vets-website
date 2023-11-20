@@ -141,5 +141,46 @@ describe('unified check-in experience', () => {
       );
       sandbox.assert.calledOnce(updateError);
     });
+    it('alert is visable on load', () => {
+      const mockstore = {
+        appointments: singleAppointment,
+        app: 'preCheckIn',
+      };
+      const useSendPreCheckInDataStub = sinon
+        .stub(useSendPreCheckInDataModule, 'useSendPreCheckInData')
+        .returns({
+          isLoading: false,
+        });
+      const screen = render(
+        <CheckInProvider store={mockstore}>
+          <PreCheckInSuccessAlert />
+        </CheckInProvider>,
+      );
+      expect(
+        screen.getByTestId('pre-check-in-success-alert'),
+      ).to.have.attribute('visible', 'true');
+      useSendPreCheckInDataStub.restore();
+    });
+    it('alert is hidden when value in context is false', () => {
+      const mockstore = {
+        appointments: singleAppointment,
+        app: 'preCheckIn',
+        additionalContext: { showPreCheckInSuccess: false },
+      };
+      const useSendPreCheckInDataStub = sinon
+        .stub(useSendPreCheckInDataModule, 'useSendPreCheckInData')
+        .returns({
+          isLoading: false,
+        });
+      const screen = render(
+        <CheckInProvider store={mockstore}>
+          <PreCheckInSuccessAlert />
+        </CheckInProvider>,
+      );
+      expect(
+        screen.getByTestId('pre-check-in-success-alert'),
+      ).to.have.attribute('visible', 'false');
+      useSendPreCheckInDataStub.restore();
+    });
   });
 });
