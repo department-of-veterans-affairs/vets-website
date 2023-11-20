@@ -5,8 +5,8 @@ import { render } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import authTypeVet from '../e2e/fixtures/data/authTypeVet.json';
@@ -15,12 +15,12 @@ const {
   defaultDefinitions,
   schema,
   uiSchema,
-} = formConfig.chapters.authorizerAddressChapter.pages.authAddrPage;
+} = formConfig.chapters.disclosureInfoChapter.pages.organizationAddressPage;
 
 const pageTitle = 'Organization’s address';
 
 const expectedNumberOfFields = 6;
-testNumberOfFields(
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -29,7 +29,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 4;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
@@ -48,10 +48,21 @@ describe(`${pageTitle} - custom-street2-label`, () => {
         uiSchema={uiSchema}
       />,
     );
-
-    expect(screen.queryAllByText('Street address line 2')).to.have.lengthOf(0);
-    expect(screen.queryAllByText('Apartment or unit number')).to.have.lengthOf(
-      1,
+    const countrySelect = screen.container.querySelector(
+      'va-select[name="root_organizationAddress_country"]',
     );
+    const countrySelectLabel = countrySelect.getAttribute('label');
+    const streetInput = screen.container.querySelector(
+      'va-text-input[name="root_organizationAddress_street"]',
+    );
+    const streetInputLabel = streetInput.getAttribute('label');
+    const street2Input = screen.container.querySelector(
+      'va-text-input[name="root_organizationAddress_street2"]',
+    );
+    const street2InputLabel = street2Input.getAttribute('label');
+
+    expect(countrySelectLabel).to.equal('Organization’s country');
+    expect(streetInputLabel).to.equal('Organization’s street address');
+    expect(street2InputLabel).to.equal('Apartment or unit number');
   });
 });

@@ -4,12 +4,16 @@ import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
-  const { dispStatus, orderedDate, dispensedDate } = rx;
+  const { dispStatus, orderedDate, dispensedDate, rxRfRecords } = rx;
   let nonVA = false;
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
     nonVA = true;
-  } else if (dispensedDate && dispStatus !== dispStatusObj.transferred) {
+  } else if (
+    (dispensedDate ||
+      rxRfRecords?.[0]?.[1]?.find(record => record.dispensedDate)) &&
+    dispStatus !== dispStatusObj.transferred
+  ) {
     showLastFilledDate = true;
   }
   return (
@@ -22,7 +26,12 @@ const LastFilledInfo = rx => {
         )}
       {showLastFilledDate && (
         <p data-testid="rx-last-filled-date">
-          Last filled on {dateFormat(dispensedDate, 'MMMM D, YYYY')}
+          Last filled on{' '}
+          {dateFormat(
+            rxRfRecords?.[0]?.[1]?.find(record => record.dispensedDate)
+              ?.dispensedDate || dispensedDate,
+            'MMMM D, YYYY',
+          )}
         </p>
       )}
       {!nonVA &&
@@ -38,6 +47,7 @@ LastFilledInfo.propTypes = {
     dispStatus: PropTypes.string,
     dispensedDate: PropTypes.string,
     orderedDate: PropTypes.string,
+    rxRfRecords: PropTypes.array,
   }),
 };
 

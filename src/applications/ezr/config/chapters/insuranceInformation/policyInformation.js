@@ -42,7 +42,9 @@ export default {
       insurancePolicyNumber: {
         'ui:title': content['insurance-policy-number-label'],
         'ui:webComponentField': VaTextInputField,
-        'ui:hint': content['insurance-policy-number-hint-text'],
+        'ui:options': {
+          hint: content['insurance-policy-number-hint-text'],
+        },
       },
       'view:or': {
         ...descriptionUI(InsurancePolicyOrDescription),
@@ -50,7 +52,9 @@ export default {
       insuranceGroupCode: {
         'ui:title': content['insurance-group-code-label'],
         'ui:webComponentField': VaTextInputField,
-        'ui:hint': content['insurance-group-code-hint-text'],
+        'ui:options': {
+          hint: content['insurance-group-code-hint-text'],
+        },
       },
     },
   },
@@ -64,8 +68,8 @@ export default {
         type: 'object',
         properties: {
           insurancePolicyNumber,
-          insuranceGroupCode,
           'view:or': VIEW_FIELD_SCHEMA,
+          insuranceGroupCode,
         },
       },
     },

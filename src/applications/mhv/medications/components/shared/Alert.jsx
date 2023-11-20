@@ -42,8 +42,8 @@ const Alert = props => {
             </h4>
             <strong>Note</strong>: This list doesn’t include older prescriptions
             that have been inactive for more than <strong>180 days</strong>. To
-            find these older prescriptions, go to your VA Blue Button report on
-            the My HealtheVet website.{' '}
+            find these older prescriptions, go to your VA Blue Button&reg;
+            report on the My HealtheVet website.{' '}
             <a href={mhvUrl(ssoe, 'va-blue-button')} rel="noreferrer">
               Go to VA Blue Button&reg; on the My HealtheVet website
             </a>

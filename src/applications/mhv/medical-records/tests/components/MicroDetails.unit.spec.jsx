@@ -17,6 +17,10 @@ describe('Microbiology details component', () => {
         labsAndTestsDetails: record,
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
@@ -61,6 +65,11 @@ describe('Microbiology details component', () => {
 
   it('should download a pdf', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen).to.exist;
   });
 });

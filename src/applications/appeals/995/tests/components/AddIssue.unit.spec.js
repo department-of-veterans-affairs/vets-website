@@ -17,6 +17,7 @@ import {
   MAX_LENGTH,
   MAX_YEARS_PAST,
 } from '../../../shared/constants';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -161,7 +162,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(errorMessages.uniqueIssue);
+    expect(textInput.error).to.contain(sharedErrorMessages.uniqueIssue);
   });
 
   it('should submit when everything is valid', () => {

@@ -1,8 +1,12 @@
-import RatedDisabilitiesApp from './containers/RatedDisabilitiesApp';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 
-const routes = {
-  path: '/',
-  component: RatedDisabilitiesApp,
-};
+import App from './containers/App';
+
+const routes = (
+  <Routes>
+    <Route path="/" element={<App />} />
+  </Routes>
+);
 
 export default routes;
