@@ -105,6 +105,7 @@ export default Object.freeze({
   manageDependents: 'dependents_management',
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
   mhvLandingPageEnabled: 'mhv_landing_page_enabled',
+  mhvLandingPageWelcome: 'mhv_landing_page_welcome',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
   mhvSecureMessagingToPhase1: 'mhv_secure_messaging_to_phase_1',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',

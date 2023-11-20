@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Welcome = ({ name }) => {
   const headingContent = name ? `Welcome, ${name}` : 'Welcome';
@@ -16,6 +17,10 @@ const Welcome = ({ name }) => {
       </div>
     </div>
   );
+};
+
+Welcome.propTypes = {
+  name: PropTypes.string,
 };
 
 export default Welcome;

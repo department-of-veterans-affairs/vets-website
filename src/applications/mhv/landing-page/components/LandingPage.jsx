@@ -7,12 +7,18 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import Welcome from './Welcome';
-import { hasHealthData } from '../selectors';
+import {
+  hasHealthData,
+  selectGreetingName,
+  welcomeEnabled,
+} from '../selectors';
 
 const LandingPage = ({ data = null }) => {
   const { cards = null, hubs } = data;
   // Show the cards only for those users with health data.
+  const name = useSelector(selectGreetingName);
   const showCards = useSelector(hasHealthData);
+  const showWelcome = useSelector(welcomeEnabled);
 
   return (
     <div
@@ -21,7 +27,7 @@ const LandingPage = ({ data = null }) => {
     >
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <HeaderLayout />
-        <Welcome />
+        {showWelcome && <Welcome name={name} />}
         {showCards ? <CardLayout data={cards} /> : <NoHealthAlert />}
       </div>
       <HubLinks hubs={hubs} />
