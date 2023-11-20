@@ -29,9 +29,9 @@ const MedicationsListCard = props => {
           id={`card-header-${rx.prescriptionId}`}
         >
           <Link
+            data-testid="medications-history-details-link"
             className="vads-u-margin-y--0p5 vads-u-font-size--h4 no-print"
             to={`/prescription/${rx.prescriptionId}`}
-            data-testid="medications-history-details-link"
           >
             {rx.dispStatus === 'Active: Non-VA'
               ? rx.orderableItem
@@ -40,7 +40,6 @@ const MedicationsListCard = props => {
           <p
             className="vads-u-margin-y--0p5 vads-u-font-size--h4 print-only"
             to={`/prescription/${rx.prescriptionId}`}
-            data-testid="medications-history-details-link"
           >
             {rx.dispStatus === 'Active: Non-VA'
               ? rx.orderableItem
