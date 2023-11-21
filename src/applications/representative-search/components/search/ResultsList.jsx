@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -18,16 +17,13 @@ import SearchResult from './SearchResult';
 
 const ResultsList = props => {
   const searchResultTitle = useRef();
-  const sortTypeRef = useRef();
 
   const {
     inProgress,
     searchResults,
-    // searchError,
     // pagination,
     // currentQuery,
     query,
-    onUpdateSortType,
     sortType,
   } = props;
 
@@ -40,17 +36,13 @@ const ResultsList = props => {
 
   // method for triggering sortResults when sortType updates
   const handleSortTypeChange = e => {
-    onUpdateSortType({ sortType: e.target.value });
+    props.updateSearchQuery({
+      id: Date.now(),
+      sortType: e.target.value,
+    });
   };
 
   // const currentPage = pagination ? pagination.currentPage : 1;
-
-  // const enrichedResultsData = searchResults.map(result => ({
-  //   ...result,
-  //   resultItem: true,
-  //   locationQueryString,
-  //   currentPage,
-  // }));
 
   const renderResultItems = (
     searchQuery,
@@ -91,43 +83,6 @@ const ResultsList = props => {
     );
   };
 
-  useEffect(() => {
-    focusElement('#search-results-subheader');
-  }, []);
-
-  // const currentPage = pagination ? pagination.currentPage : 1;
-
-  // if (searchError) {
-  //   if (searchError.type === 'mapBox') {
-  //     return (
-  //       <SearchResultMessage
-  //         representativeType={representativeTypeName}
-  //         resultRef={searchResultTitle}
-  //         message={Error.LOCATION}
-  //       />
-  //     );
-  //   }
-  //   return (
-  //     <SearchResultMessage
-  //       representativeType={representativeTypeName}
-  //       resultRef={searchResultTitle}
-  //       message={Error.DEFAULT}
-  //       error={searchError}
-  //     />
-  //   );
-  // }
-
-  // const resultsData = searchResults?.map(result => ({
-  //   ...result,
-  //   resultItem: true,
-  //   locationQueryString,
-  //   currentPage,
-  // }));
-
-  // if (resultsData.length > 0) {
-  //   recordSearchResultsEvents(props, resultsData);
-  // }
-
   const options = Object.keys(sortOptions).map(option => (
     <option key={option} value={option}>
       {sortOptions[option]}
@@ -142,7 +97,7 @@ const ResultsList = props => {
           <select
             id="representative-sorting-dropdown"
             aria-label="Sort"
-            ref={sortTypeRef}
+            // ref={sortTypeRef}
             value={sortType}
             title="Sort by:"
             onChange={handleSortTypeChange}
