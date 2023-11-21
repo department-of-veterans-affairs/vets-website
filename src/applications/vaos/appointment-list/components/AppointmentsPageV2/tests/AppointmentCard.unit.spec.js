@@ -92,12 +92,7 @@ describe('AppointmentCard component', () => {
   it('should render comment in AppointmentCard', async () => {
     const appointment = {
       ...appointmentData,
-      videoData: {
-        isVideo: true,
-        isAtlas: true,
-        extension: { patientHasMobileGfe: true },
-        kind: 'MOBILE_ANY',
-      },
+      videoData: true,
       vaos: {
         isPastAppointment: true,
       },
