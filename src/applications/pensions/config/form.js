@@ -72,6 +72,8 @@ import nursingHome from '../pages/nursingHome';
 import vaTreatmentHistory from '../pages/vaTreatmentHistory';
 import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateMedicalCentersSchemas from '../pages/medicalCenters';
+import currentEmployment from '../pages/currentEmployment';
+import generateEmployersSchemas from '../pages/employmentHistory';
 
 import {
   validateAfterMarriageDate,
@@ -134,6 +136,28 @@ const federalMedicalCenters = generateMedicalCentersSchemas(
   'Enter all federal medical facilities where you have received treatment within the last year',
   'Federal medical center',
   'Federal medical centers',
+);
+
+const currentEmployers = generateEmployersSchemas(
+  'currentEmployers',
+  'Current employment',
+  'Enter all your current jobs',
+  'What kind of work do you currently do?',
+  'How many hours per week do you work on average?',
+  'Job title',
+  'Current employers',
+);
+
+const previousEmployers = generateEmployersSchemas(
+  'previousEmployers',
+  'Previous employment',
+  'Enter all the previous jobs you held the last time you worked',
+  'What kind of work did you do?',
+  'How many hours per week did you work on average?',
+  'What was your job title?',
+  'Previous employers',
+  4,
+  true,
 );
 
 function isUnder65(formData) {
@@ -340,6 +364,31 @@ const formConfig = {
           },
           uiSchema: federalMedicalCenters.uiSchema,
           schema: federalMedicalCenters.schema,
+        },
+        currentEmployment: {
+          title: 'Current employment',
+          path: 'employment/current',
+          depends: isUnder65,
+          uiSchema: currentEmployment.uiSchema,
+          schema: currentEmployment.schema,
+        },
+        currentEmploymentHistory: {
+          title: 'Current employment',
+          path: 'employment/current/history',
+          depends: formData => {
+            return formData.currentEmployment !== false;
+          },
+          uiSchema: currentEmployers.uiSchema,
+          schema: currentEmployers.schema,
+        },
+        previousEmploymentHistory: {
+          title: 'Previous employment',
+          path: 'employment/previous/history',
+          depends: formData => {
+            return formData.currentEmployment !== true;
+          },
+          uiSchema: previousEmployers.uiSchema,
+          schema: previousEmployers.schema,
         },
       },
     },
