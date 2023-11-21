@@ -55,6 +55,11 @@ class LabsAndTestsListPage {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-2"]').should('be.visible');
   };
+
+  clickDownloadPDFFile = () => {
+    // should display a download text file button "Download list as a text file"
+    cy.get('[data-testid="printButton-1"]').click();
+  };
 }
 
 export default new LabsAndTestsListPage();
