@@ -7,19 +7,34 @@ const ResolutionComments = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { additionalData, selectedDebtsAndCopays = [] } = data;
+  const {
+    additionalData,
+    reviewNavigation = false,
+    selectedDebtsAndCopays = [],
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
 
   const [commentText, setCommentText] = useState(
     additionalData?.additionalComments || '',
   );
   const [error, setError] = useState(null);
+  const commentsRequired = selectedDebtsAndCopays.some(
+    debt => debt?.resolutionOption === 'waiver',
+  );
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   const onContinue = () => {
-    if (!commentText.length) {
+    if (!commentText.length && commentsRequired) {
       setError('Please provide a response');
     } else {
       setError(null);
@@ -36,7 +51,16 @@ const ResolutionComments = ({
   const onSubmit = event => {
     event.preventDefault();
     if (error) return;
-    goForward(data);
+
+    if (reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goForward(data);
+    }
   };
 
   return (
@@ -58,9 +82,7 @@ const ResolutionComments = ({
             }
             setCommentText(target.value);
           }}
-          required={selectedDebtsAndCopays.some(
-            debt => debt?.resolutionOption === 'waiver',
-          )}
+          required={commentsRequired}
           type="text"
           uswds
           value={commentText}
@@ -84,7 +106,7 @@ const ResolutionComments = ({
               iconLeft: '«',
             },
             {
-              label: 'Continue',
+              label: continueButtonText,
               onClick: onContinue,
               type: 'submit',
               iconRight: '»',
@@ -104,11 +126,13 @@ ResolutionComments.propTypes = {
     additionalData: PropTypes.shape({
       additionalComments: PropTypes.string,
     }),
+    reviewNavigation: PropTypes.bool,
     selectedDebtsAndCopays: PropTypes.arrayOf(
       PropTypes.shape({
         resolutionOption: PropTypes.string,
       }),
     ),
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
