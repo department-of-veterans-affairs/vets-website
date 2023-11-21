@@ -4,19 +4,19 @@
     "features": [
       {
         "name": "mhvLandingPageEnabled",
-        "value": false
+        "value": true
       },
       {
         "name": "mhv_landing_page_enabled",
-        "value": false
+        "value": true
       },
       {
         "name": "mhvLandingPagePersonalization",
-        "value": false
+        "value": true
       },
       {
         "name": "mhv_landing_page_personalization",
-        "value": false
+        "value": true
       }
     ]
   }
