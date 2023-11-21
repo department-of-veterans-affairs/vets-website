@@ -15,6 +15,7 @@ const MedicationsListSort = props => {
     <div className="medications-list-sort">
       <VaSelect
         id="sort-order-dropdown"
+        data-testid="sort-dropdown"
         label="Show medications in this order"
         name="sort-order"
         value={sortListOption}
@@ -34,6 +35,7 @@ const MedicationsListSort = props => {
         <button
           type="button"
           className="vads-u-line-height--4"
+          data-testid="sort-button"
           onClick={() => {
             sortRxList(sortListOption);
             history.push(`/1`);

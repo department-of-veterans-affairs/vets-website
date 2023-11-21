@@ -205,5 +205,32 @@ class MedicationsListPage {
       } > [data-testid="medications-history-details-link"]`,
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
+
+  selectSortAlphabeticallyByStatus = () => {
+    cy.get('[data-testid="sort-dropdown"]')
+      .find('#select')
+      .select('alphabeticallyByStatus', { force: true });
+  };
+
+  clickSortAlphabeticallyByStatus = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
+    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+  };
+
+  verifyPaginationDisplayedforSortAlphabeticallyByStatus = (
+    displayedStartNumber,
+    displayedEndNumber,
+    threadLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, alphabetically by status`,
+    );
+  };
 }
 export default MedicationsListPage;
