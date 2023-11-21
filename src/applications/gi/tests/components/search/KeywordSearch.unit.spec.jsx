@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import KeywordSearch from '../../../components/search/KeywordSearch';
 
@@ -90,5 +90,54 @@ describe('<KeywordSearch>', () => {
 
     expect(onSelection.called).to.be.false;
     tree.unmount();
+  });
+  it('should call onPressEnter if it exists', () => {
+    const onPressEnter = sinon.spy();
+    const wrapper = mount(
+      <KeywordSearch onPressEnter={onPressEnter} inputValue="test" />,
+    );
+    wrapper.find('input').simulate('keyup', { which: 13, keyCode: 13 });
+    expect(onPressEnter.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+  it('should call onSelection with inputValue if onPressEnter is not provided', () => {
+    const onSelection = sinon.spy();
+    const inputValue = 'test';
+    const wrapper = mount(
+      <KeywordSearch onSelection={onSelection} inputValue={inputValue} />,
+    );
+    wrapper.find('input').simulate('keyup', { which: 13, keyCode: 13 });
+    expect(onSelection.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+  it('should show required error if required and no inputValue', () => {
+    const wrapper = shallow(<KeywordSearch label required />);
+    expect(wrapper.find('span.form-required-span').text()).to.equal(
+      '(*Required)',
+    );
+    wrapper.unmount();
+  });
+  it('itemToString function returns correct value', () => {
+    const wrapper = shallow(<KeywordSearch label required />);
+    const item = 'testItem';
+    const result = wrapper.find('Downshift').prop('itemToString')(item);
+    expect(result).to.equal(item);
+    wrapper.unmount();
+  });
+  it('handles Enter key press correctly', () => {
+    const mockOnPressEnter = sinon.spy();
+    const mockOnUpdateAutocompleteSearchTerm = sinon.spy();
+    const wrapper = mount(
+      <KeywordSearch
+        onPressEnter={mockOnPressEnter}
+        onUpdateAutocompleteSearchTerm={mockOnUpdateAutocompleteSearchTerm}
+        onSelection={() => {}}
+        inputValue="test"
+      />,
+    );
+    const event = { keyCode: 13 };
+    wrapper.find('input').simulate('keyUp', event);
+    expect(mockOnPressEnter.calledOnce).to.be.true;
+    wrapper.unmount();
   });
 });

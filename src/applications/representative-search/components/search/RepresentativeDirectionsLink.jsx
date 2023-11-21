@@ -1,0 +1,33 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { buildAddressArray } from '../../utils/representativeAddress';
+
+function RepresentativeDirectionsLink({ representative, query }) {
+  let address = buildAddressArray(representative);
+
+  if (address.length !== 0) {
+    address = address.join(', ');
+  }
+
+  return (
+    <div className="vads-u-margin-bottom--1p5 representative-directions-link">
+      <a
+        href={`https://maps.google.com?saddr=${
+          query?.locationQueryString
+        }&daddr=${address}`}
+        rel="noopener noreferrer"
+      >
+        Get directions on Google Maps{' '}
+        <span className="sr-only">
+          {`to ${representative?.attributes?.full_name}`}
+        </span>
+      </a>
+    </div>
+  );
+}
+
+RepresentativeDirectionsLink.propTypes = {
+  location: PropTypes.object,
+};
+
+export default RepresentativeDirectionsLink;

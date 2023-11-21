@@ -27,7 +27,8 @@ export default function TermsOfUse() {
     redirectLocation.searchParams.get('terms_code')?.length > 1;
   const redirectUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
-    redirectLocation.searchParams.get('redirect_url');
+    redirectLocation.searchParams.get('redirect_url') ||
+    redirectLocation.searchParams.get('ssoeTarget');
 
   useEffect(
     () => {

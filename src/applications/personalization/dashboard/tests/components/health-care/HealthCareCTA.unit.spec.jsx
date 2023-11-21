@@ -47,6 +47,37 @@ describe('<HealthCareCTA />', () => {
       tree.getByTestId('get-medical-records-link-from-cta');
     });
 
+    it('should render a CTA link to MHV on VA.gov', () => {
+      const tree = renderWithStoreAndRouter(
+        <HealthCareCTA isVAPatient noCerner />,
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+            },
+          },
+        },
+      );
+
+      tree.getByTestId('visit-mhv-on-va-gov');
+      expect(tree.queryByText('Apply for VA health care')).to.be.null;
+      expect(tree.queryByTestId('apply-va-healthcare-link-from-cta')).to.be
+        .null;
+      tree.getByTestId('view-your-messages-link-from-cta');
+      tree.getByTestId('view-manage-appointments-link-from-cta');
+      expect(
+        tree.getByRole('link', {
+          name: /schedule and manage your appointments/i,
+          value: {
+            text: '/my-health/appointments',
+          },
+        }),
+      ).to.exist;
+      tree.getByTestId('refill-prescriptions-link-from-cta');
+      tree.getByTestId('request-travel-reimbursement-link-from-cta');
+      tree.getByTestId('get-medical-records-link-from-cta');
+    });
+
     context('renders "Go to your inbox" CTA', () => {
       it('when the unread message count is 0', () => {
         const tree = renderWithStoreAndRouter(

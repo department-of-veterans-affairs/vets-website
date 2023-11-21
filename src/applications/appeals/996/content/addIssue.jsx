@@ -7,7 +7,6 @@ const hintText =
 
 export const issueErrorMessages = {
   missingIssue: 'Please add the name of an issue',
-  uniqueIssue: 'Please enter a unique condition name',
   maxLength: `Please enter less than ${
     MAX_LENGTH.ISSUE_NAME
   } characters for this issue name`,

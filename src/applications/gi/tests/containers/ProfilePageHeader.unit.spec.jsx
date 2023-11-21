@@ -1,9 +1,61 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, fireEvent } from '@testing-library/react';
 import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
+
+const TEST_RATINGS = {
+  id: 562,
+  institutionId: 30036386,
+  q1Avg: '4.0',
+  q1Count: 5,
+  q2Avg: '3.0',
+  q2Count: 5,
+  q3Avg: '2.0',
+  q3Count: 5,
+  q4Avg: '2.8',
+  q4Count: 5,
+  q5Avg: '2.0',
+  q5Count: 5,
+  q7Avg: '3.0',
+  q7Count: 5,
+  q8Avg: '3.0',
+  q8Count: 5,
+  q9Avg: '3.0',
+  q9Count: 5,
+  q10Avg: '4.0',
+  q10Count: 5,
+  q11Avg: '3.2',
+  q11Count: 5,
+  q12Avg: '4.0',
+  q12Count: 5,
+  q13Avg: '3.0',
+  q13Count: 5,
+  q14Avg: '3.8',
+  q14Count: 5,
+  q15Avg: null,
+  q15Count: null,
+  q16Avg: null,
+  q16Count: null,
+  q17Avg: null,
+  q17Count: null,
+  q18Avg: null,
+  q18Count: null,
+  q19Avg: null,
+  q19Count: null,
+  q20Avg: null,
+  q20Count: null,
+  m1Avg: '2.8',
+  m2Avg: '3.3',
+  m3Avg: '3.6',
+  m4Avg: '3.4',
+  m5Avg: null,
+  m6Avg: null,
+  m7Avg: null,
+  overallAvg: '3.1',
+  institutionRatingCount: 5,
+};
 
 const TEST_INSTITUTION = {
   name: "AUSTIN'S BEAUTY COLLEGE INC",
@@ -25,6 +77,7 @@ const TEST_INSTITUTION = {
   highestDegree: 'Certificate',
   localeType: 'city',
   address1: 'PO BOX 1121',
+  lowerType: 'ojt',
   address2: null,
   address3: null,
   studentCount: 28,
@@ -336,6 +389,13 @@ const TEST_INSTITUTION = {
 };
 
 describe('<ProfilePageHeader>', () => {
+  beforeEach(() => {
+    global.window.buildType = true;
+  });
+  afterEach(() => {
+    global.window.buildType = false;
+  });
+
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(
       <ProfilePageHeader institution={TEST_INSTITUTION} />,
@@ -347,6 +407,136 @@ describe('<ProfilePageHeader>', () => {
     );
     await waitFor(() => {
       expect(screen).to.not.be.null;
+    });
+  });
+
+  it('should click on compare checkbox for Austins Beauty College', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+
+    const compareCheckBox = screen.getByRole('checkbox', {
+      name: "Compare AUSTIN'S BEAUTY COLLEGE INC undefined",
+    });
+    fireEvent.click(compareCheckBox);
+
+    await waitFor(() => {
+      expect(compareCheckBox).to.have.property('checked', true);
+    });
+  });
+
+  it('should click on compare checkbox for Austins Beauty College then unclick it', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+
+    const compareCheckBox = screen.getByRole('checkbox', {
+      name: "Compare AUSTIN'S BEAUTY COLLEGE INC undefined",
+    });
+    fireEvent.click(compareCheckBox);
+    fireEvent.click(compareCheckBox);
+
+    await waitFor(() => {
+      expect(compareCheckBox).to.have.property('checked', false);
+    });
+  });
+
+  it('should show OJT text', async () => {
+    const OJT_TEST_INSTITUTION = { ...TEST_INSTITUTION, type: 'OJT' };
+
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={OJT_TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const OJTText = screen.getByText(/On-the-job training/i);
+
+    await waitFor(() => {
+      expect(document.body.contains(OJTText)).to.be.true;
+    });
+  });
+
+  it('should have institution rating', async () => {
+    const RAITINGS_TEST_INSTITUTION = {
+      ...TEST_INSTITUTION,
+      institutionRating: TEST_RATINGS,
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={RAITINGS_TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const raitingsText = screen.getByText(/See 5 ratings by Veterans/i);
+
+    await waitFor(() => {
+      expect(document.body.contains(raitingsText)).to.be.true;
+    });
+  });
+
+  // test for vettec preferredProvider and if the institution has a program number
+  it('should render institution as a vettec preferredProvider', async () => {
+    const VETTEC_TEST_INSTITUTION = {
+      ...TEST_INSTITUTION,
+      programs: [{ phoneAreaCode: 405, phoneNumber: 1231231 }],
+      preferredProvider: true,
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={VETTEC_TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const vettecText = screen.getByText(/Preferred Provider/i);
+
+    await waitFor(() => {
+      expect(document.body.contains(vettecText)).to.be.true;
+    });
+  });
+  it('should render a div with class usa-grid vads-u-padding-y--1p5 vads-u-padding-x--2', async () => {
+    const VETTEC_TEST_INSTITUTION = {
+      ...TEST_INSTITUTION,
+      programs: [
+        {
+          phoneAreaCode: 405,
+          phoneNumber: 1231231,
+          providerWebsite: 'https://www.google.com',
+        },
+      ],
+      vetTecProvider: true,
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={VETTEC_TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const vettecText = screen.getByText('https://www.google.com');
+
+    await waitFor(() => {
+      expect(document.body.contains(vettecText)).to.be.true;
     });
   });
 });
