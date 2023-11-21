@@ -155,11 +155,11 @@ const SearchPage = props => {
 
   useEffect(
     () => {
-      if (props.currentQuery.successfulSearchCounter > 0) {
+      if (props.currentQuery.searchCounter > 0) {
         setIsDisplayingResults(true);
       }
     },
-    [props.currentQuery.successfulSearchCounter],
+    [props.currentQuery.searchCounter],
   );
 
   useEffect(
@@ -173,7 +173,7 @@ const SearchPage = props => {
 
   useEffect(
     () => {
-      if (!isSearching && props.currentQuery.successfulSearchCounter > 0) {
+      if (!isSearching && props.currentQuery.searchCounter > 0) {
         setIsSearching(true);
       }
     },
@@ -182,7 +182,7 @@ const SearchPage = props => {
 
   useEffect(
     () => {
-      if (props.currentQuery.successfulSearchCounter > 0) {
+      if (props.currentQuery.searchCounter > 0) {
         setIsSearching(true);
       }
       handleSearchOnQueryChange();
@@ -193,14 +193,14 @@ const SearchPage = props => {
   useEffect(
     () => {
       if (
-        props.currentQuery.successfulSearchCounter > 0 &&
+        props.currentQuery.searchCounter > 0 &&
         !props.currentQuery.geocodeError
       ) {
         window.scrollTo(0, 600);
         focusElement('#search-results-subheader');
       }
     },
-    [props.currentQuery.successfulSearchCounter],
+    [props.currentQuery.searchCounter],
   );
 
   useEffect(() => {
@@ -281,13 +281,6 @@ const SearchPage = props => {
       );
     }
 
-    // let notBusy =
-    //   !searchError &&
-    //   !currentQuery.geocodeError &&
-    //   !currentQuery.inProgress &&
-    //   !isSearching;
-    // let searchedAlready = currentQuery.successfulSearchCounter > 0;
-
     return (
       <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
@@ -312,7 +305,7 @@ const SearchPage = props => {
               <SearchResultsHeader
                 searchResults={props.searchResults}
                 queryParams={location.search}
-                searchCounter={currentQuery.successfulSearchCounter}
+                searchCounter={currentQuery.searchCounter}
                 inProgress={currentQuery.inProgress}
                 pagination={props.pagination}
               />{' '}

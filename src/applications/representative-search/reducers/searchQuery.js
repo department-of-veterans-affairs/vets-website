@@ -2,7 +2,6 @@ import {
   SEARCH_STARTED,
   SEARCH_FAILED,
   SEARCH_COMPLETE,
-  SORT_TYPE_UPDATED,
   SEARCH_QUERY_UPDATED,
   FETCH_REPRESENTATIVES,
   GEOCODE_STARTED,
@@ -34,6 +33,7 @@ export const INITIAL_STATE = {
   mapMoved: false,
   error: false,
   isValid: true,
+  searchCounter: 0,
 };
 
 export const validateForm = (oldState, payload) => {
@@ -70,6 +70,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...action.payload,
         error: false,
         inProgress: false,
+        searchCounter: state.searchCounter + 1,
       };
     case FETCH_REPRESENTATIVES:
       return {
@@ -86,11 +87,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: true,
         inProgress: false,
         searchWithInputInProgress: false,
-      };
-    case SORT_TYPE_UPDATED:
-      return {
-        ...state,
-        ...action.payload,
       };
     case SEARCH_QUERY_UPDATED:
       return {
