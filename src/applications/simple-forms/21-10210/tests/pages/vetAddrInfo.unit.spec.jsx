@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
@@ -23,7 +23,7 @@ const mockData = {
 };
 
 const expectedNumberOfFields = 6;
-testNumberOfFields(
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -33,7 +33,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 4;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

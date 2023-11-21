@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateCurrency } from '../../../utils/validation';
@@ -7,17 +7,19 @@ import {
   MedicalExpensesDescription,
 } from '../../../components/FormDescriptions/ExpensesDescriptions';
 import { replaceStrValues } from '../../../utils/helpers/general';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
-const { monetaryValue } = ezrSchema.definitions;
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
+const {
+  deductibleMedicalExpenses,
+  deductibleEducationExpenses,
+  deductibleFuneralExpenses,
+} = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      replaceStrValues(content['household-expenses-title'], lastYear),
+      replaceStrValues(content['household-expenses-title'], LAST_YEAR),
       content['household-expenses-description'],
     ),
     'view:deductibleMedicalExpenses': {
@@ -27,7 +29,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-expenses-medical-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -40,7 +42,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-expenses-education-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -53,7 +55,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-expenses-funeral-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -66,23 +68,17 @@ export default {
       'view:deductibleMedicalExpenses': {
         type: 'object',
         required: ['deductibleMedicalExpenses'],
-        properties: {
-          deductibleMedicalExpenses: monetaryValue,
-        },
+        properties: { deductibleMedicalExpenses },
       },
       'view:deductibleEducationExpenses': {
         type: 'object',
         required: ['deductibleEducationExpenses'],
-        properties: {
-          deductibleEducationExpenses: monetaryValue,
-        },
+        properties: { deductibleEducationExpenses },
       },
       'view:deductibleFuneralExpenses': {
         type: 'object',
         required: ['deductibleFuneralExpenses'],
-        properties: {
-          deductibleFuneralExpenses: monetaryValue,
-        },
+        properties: { deductibleFuneralExpenses },
       },
     },
   },

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,7 +10,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -22,6 +26,7 @@ import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
+import useAlerts from '../hooks/use-alerts';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -35,8 +40,7 @@ const AllergyDetails = props => {
   );
   const { allergyId } = useParams();
   const dispatch = useDispatch();
-  const alertList = useSelector(state => state.mr.alerts?.alertList);
-  const [activeAlert, setActiveAlert] = useState();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -70,24 +74,6 @@ const AllergyDetails = props => {
       }
     },
     [dispatch, allergy],
-  );
-
-  useEffect(
-    () => {
-      if (alertList?.length) {
-        const filteredSortedAlerts = alertList
-          .filter(alert => alert.isActive)
-          .sort((a, b) => {
-            // Sort chronologically descending.
-            return b.datestamp - a.datestamp;
-          });
-        if (filteredSortedAlerts.length > 0) {
-          // The activeAlert is the most recent alert marked as active.
-          setActiveAlert(filteredSortedAlerts[0]);
-        }
-      }
-    },
-    [alertList],
   );
 
   const generateAllergyPdf = async () => {
@@ -130,13 +116,23 @@ const AllergyDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Allergies-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
+  };
+
+  const generateAllergyTxt = async () => {
+    const content = `
+    ${allergy.name} \n
+    Date entered: ${allergy.date} \n
+    _____________________________________________________ \n
+    \t Signs and symptoms: ${allergy.reaction} \n
+    \t Type of Allergy: ${allergy.type} \n
+    \t Location: ${allergy.location} \n
+    \t Observed or historical: ${allergy.observedOrReported} \n
+    \t Provider notes: ${allergy.notes} \n`;
+
+    generateTextFile(content, 'Allergy');
   };
 
   const content = () => {
@@ -181,6 +177,7 @@ const AllergyDetails = props => {
             <PrintDownload
               download={generateAllergyPdf}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergyTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>

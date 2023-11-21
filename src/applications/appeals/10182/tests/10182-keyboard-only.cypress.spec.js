@@ -1,36 +1,26 @@
-import path from 'path';
-
 import formConfig from '../config/form';
-import { fixDecisionDates } from './nod.cypress.helpers';
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
-import mockVamc from './fixtures/mocks/vamc-ehr.json';
-import mockUser from './fixtures/mocks/user.json';
 
 import { CONTESTABLE_ISSUES_API } from '../constants';
+import mockData from './fixtures/data/maximal-test.json';
+
 import { CONTACT_INFO_PATH } from '../../shared/constants';
+import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
 // Skipping for now
 describe('Notice of Disagreement keyboard only navigation', () => {
-  before(() => {
-    cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test.json')).as(
-      'testData',
-    );
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
+  it('navigates through a maximal form', () => {
+    cypressSetup();
+
+    cy.wrap(mockData.data).as('testData');
 
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
     cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
     cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
-    cy.login(mockUser);
-  });
 
-  it('navigates through a maximal form', () => {
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
       cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
@@ -149,7 +139,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
       // Review & submit page
       cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('input[type="checkbox"]');
+      cy.tabToElement('va-checkbox');
       cy.realPress('Space');
       cy.tabToSubmitForm();
 

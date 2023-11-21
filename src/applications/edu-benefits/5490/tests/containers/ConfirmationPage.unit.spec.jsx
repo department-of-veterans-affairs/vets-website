@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ConfirmationPage } from '../../../5490/containers/ConfirmationPage';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {

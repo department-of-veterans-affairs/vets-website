@@ -27,6 +27,10 @@ describe('Vaccines list container with errors', () => {
         ],
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
@@ -53,6 +57,11 @@ describe('Vaccines list container with errors', () => {
 
   it('should download a pdf', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen).to.exist;
   });
 });

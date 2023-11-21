@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -7,17 +7,19 @@ import {
 } from '../../../components/FormDescriptions/IncomeDescriptions';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
-const { monetaryValue } = ezrSchema.definitions;
-
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
+const {
+  spouseGrossIncome,
+  spouseNetIncome,
+  spouseOtherIncome,
+} = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      replaceStrValues(content['household-spouse-income-title'], lastYear),
+      replaceStrValues(content['household-spouse-income-title'], LAST_YEAR),
     ),
     'view:spouseGrossIncome': {
       'ui:title': content['household-income-gross-title'],
@@ -26,7 +28,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-spouse-income-gross-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -39,7 +41,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-spouse-income-net-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -52,7 +54,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-spouse-income-other-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -65,23 +67,17 @@ export default {
       'view:spouseGrossIncome': {
         type: 'object',
         required: ['spouseGrossIncome'],
-        properties: {
-          spouseGrossIncome: monetaryValue,
-        },
+        properties: { spouseGrossIncome },
       },
       'view:spouseNetIncome': {
         type: 'object',
         required: ['spouseNetIncome'],
-        properties: {
-          spouseNetIncome: monetaryValue,
-        },
+        properties: { spouseNetIncome },
       },
       'view:spouseOtherIncome': {
         type: 'object',
         required: ['spouseOtherIncome'],
-        properties: {
-          spouseOtherIncome: monetaryValue,
-        },
+        properties: { spouseOtherIncome },
       },
     },
   },

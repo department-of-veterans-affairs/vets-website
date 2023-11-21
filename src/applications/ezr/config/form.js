@@ -2,13 +2,24 @@
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 
 // internal app imports
 import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
 import { SHARED_PATHS } from '../utils/constants';
-import { includeSpousalInformation } from '../utils/helpers/household';
+import {
+  includeSpousalInformation,
+  isMissingVeteranDob,
+  isMissingVeteranGender,
+  isSigiEnabled,
+  hasDifferentHomeAddress,
+  spouseDidNotCohabitateWithVeteran,
+  spouseAddressDoesNotMatchVeterans,
+  includeDependentInformation,
+  includeInsuranceInformation,
+  collectMedicareInformation,
+} from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -17,6 +28,7 @@ import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import GetFormHelp from '../components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
 
 // chapter 1 - Veteran Information
 import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
@@ -57,7 +69,7 @@ const {
 } = SHARED_PATHS;
 
 // declare schema definitions
-const { provider } = ezrSchema.definitions;
+const { date } = ezrSchema.definitions;
 
 // declare form config object
 const formConfig = {
@@ -68,7 +80,7 @@ const formConfig = {
   trackingPrefix: 'ezr-',
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/health_care_applications`,
+  submitUrl: `${environment.API_URL}/v0/form1010_ezrs`,
   transformForSubmit: submitTransformer,
   prefillEnabled: true,
   prefillTransformer,
@@ -105,8 +117,9 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
-  defaultDefinitions: { provider },
+  defaultDefinitions: { date },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
@@ -123,7 +136,7 @@ const formConfig = {
           path: 'veteran-information/date-of-birth',
           title: 'Veteran\u2019s date of birth',
           initialData: {},
-          depends: formData => !formData['view:userDob'],
+          depends: isMissingVeteranDob,
           uiSchema: veteranDateOfBirth.uiSchema,
           schema: veteranDateOfBirth.schema,
         },
@@ -131,7 +144,7 @@ const formConfig = {
           path: 'veteran-information/birth-sex',
           title: 'Veteran\u2019s sex assigned at birth',
           initialData: {},
-          depends: formData => !formData['view:userGender'],
+          depends: isMissingVeteranGender,
           uiSchema: veteranBirthSex.uiSchema,
           schema: veteranBirthSex.schema,
         },
@@ -139,7 +152,7 @@ const formConfig = {
           path: 'veteran-information/gender-identity',
           title: 'Veteran\u2019s gender identity',
           initialData: {},
-          depends: formData => !formData['view:isSigiEnabled'],
+          depends: isSigiEnabled,
           uiSchema: veteranGenderIdentity.uiSchema,
           schema: veteranGenderIdentity.schema,
         },
@@ -154,7 +167,7 @@ const formConfig = {
           path: 'veteran-information/home-address',
           title: 'Veteran\u2019s home address',
           initialData: {},
-          depends: formData => !formData['view:doesMailingMatchHomeAddress'],
+          depends: hasDifferentHomeAddress,
           uiSchema: veteranHomeAddress.uiSchema,
           schema: veteranHomeAddress.schema,
         },
@@ -181,7 +194,7 @@ const formConfig = {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
           initialData: {},
-          depends: formData => includeSpousalInformation(formData),
+          depends: includeSpousalInformation,
           uiSchema: spousePersonalInformation.uiSchema,
           schema: spousePersonalInformation.schema,
         },
@@ -189,15 +202,14 @@ const formConfig = {
           path: 'household-information/spouse-additional-information',
           title: 'Spouse\u2019s additional information',
           initialData: {},
-          depends: formData => includeSpousalInformation(formData),
+          depends: includeSpousalInformation,
           uiSchema: spouseAdditionalInformation.uiSchema,
           schema: spouseAdditionalInformation.schema,
         },
         spouseFinancialSupport: {
           path: 'household-information/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
-          depends: formData =>
-            includeSpousalInformation(formData) && !formData.cohabitedLastYear,
+          depends: spouseDidNotCohabitateWithVeteran,
           uiSchema: spouseFinancialSupport.uiSchema,
           schema: spouseFinancialSupport.schema,
         },
@@ -205,8 +217,7 @@ const formConfig = {
           path: 'household-information/spouse-contact-information',
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
-          depends: formData =>
-            includeSpousalInformation(formData) && !formData.sameAddress,
+          depends: spouseAddressDoesNotMatchVeterans,
           uiSchema: spouseContactInformation.uiSchema,
           schema: spouseContactInformation.schema,
         },
@@ -221,7 +232,7 @@ const formConfig = {
         dependentInformation: {
           path: DEPENDENT_PATHS.info,
           title: 'Dependent information',
-          depends: formData => !formData['view:skipDependentInfo'],
+          depends: includeDependentInformation,
           CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},
@@ -238,7 +249,7 @@ const formConfig = {
           path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
-          depends: formData => includeSpousalInformation(formData),
+          depends: includeSpousalInformation,
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
         },
@@ -272,7 +283,7 @@ const formConfig = {
           path: 'insurance-information/medicare-part-a-effective-date',
           title: 'Medicare Part A effective date',
           initialData: {},
-          depends: formData => formData.isEnrolledMedicarePartA,
+          depends: collectMedicareInformation,
           uiSchema: partAEffectiveDate.uiSchema,
           schema: partAEffectiveDate.schema,
         },
@@ -287,7 +298,7 @@ const formConfig = {
         insurancePolicyInformation: {
           path: INSURANCE_PATHS.info,
           title: 'Insurance policy information',
-          depends: formData => !formData['view:skipDependentInfo'],
+          depends: includeInsuranceInformation,
           CustomPage: InsurancePolicyInformationPage,
           CustomPageReview: null,
           uiSchema: {},

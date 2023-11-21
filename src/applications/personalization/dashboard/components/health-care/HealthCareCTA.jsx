@@ -22,6 +22,9 @@ const HealthCareCTA = ({
     ? '/my-health/appointments'
     : '/health-care/schedule-view-va-appointments/appointments';
 
+  // noCerner will be true if toggle is on
+  const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
+
   return (
     <>
       <h3 className="sr-only">Popular actions for Health Care</h3>
@@ -40,6 +43,22 @@ const HealthCareCTA = ({
           }
         />
       )}
+      {!isLOA1 &&
+        noCerner && (
+          <IconCTALink
+            text="Visit My HealtheVet on VA.gov"
+            icon="briefcase-medical"
+            href="/my-health"
+            testId="visit-mhv-on-va-gov"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Visit MHV on Va.gov',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        )}
       {isVAPatient &&
         !isLOA1 && (
           <>
@@ -47,7 +66,10 @@ const HealthCareCTA = ({
               text="Go to your inbox"
               icon="comments"
               dotIndicator={unreadMessagesCount > 0}
-              ariaLabel={unreadMessagesCount > 0 && 'Unread messages.'}
+              ariaLabel={
+                unreadMessagesCount > 0 &&
+                'You have unread messages. Go to your inbox.'
+              }
               href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
               testId="view-your-messages-link-from-cta"
               onClick={() =>

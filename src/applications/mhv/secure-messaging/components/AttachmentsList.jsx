@@ -43,7 +43,7 @@ const AttachmentsList = props => {
   );
 
   const removeAttachment = file => {
-    const newAttArr = attachments.filter(item => {
+    const newAttArr = attachments?.filter(item => {
       if (item.name !== file.name) {
         return true;
       }
@@ -65,7 +65,7 @@ const AttachmentsList = props => {
   };
   return (
     <div>
-      <div className="message-body-attachments-label vads-u-margin-bottom--1">
+      <div className="message-body-attachments-label vads-u-margin-bottom--1 vads-u-font-weight--bold">
         Attachments
       </div>
       {editingEnabled && <HowToAttachFiles />}
@@ -184,7 +184,7 @@ AttachmentsList.propTypes = {
   editingEnabled: PropTypes.bool,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
-  setNavigationError: PropTypes.bool,
+  setNavigationError: PropTypes.func,
 };
 
 export default AttachmentsList;

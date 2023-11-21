@@ -35,10 +35,20 @@ const countUnreadMessages = folders => {
 const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
+const resolveUnreadMessageAriaLabel = unreadMessageCount => {
+  let unreadMessageAriaLabel = null;
+  if (unreadMessageCount > 0) {
+    unreadMessageAriaLabel = 'You have unread messages. Go to your inbox.';
+  }
+  return unreadMessageAriaLabel;
+};
+
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
   unreadMessageCount = 0,
+  unreadMessageAriaLabel,
+  userHasHealthData = false,
 ) => {
   // Appointments section points to VAOS on va.gov
   const appointmentLinks = [
@@ -73,7 +83,7 @@ const resolveLandingPageLinks = (
           </span>
         ),
         toggle: null,
-        ariaLabel: 'You have unread messages. Go to your inbox.',
+        ariaLabel: unreadMessageAriaLabel,
       },
       {
         href: null,
@@ -120,7 +130,7 @@ const resolveLandingPageLinks = (
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
-        text: 'Download medical record (Blue Button)',
+        text: 'Download medical record (Blue Button®)',
         toggle: null,
       },
       {
@@ -147,7 +157,7 @@ const resolveLandingPageLinks = (
       toggle: null,
     },
     {
-      href: 'https://pay.gov/public/form/start/25987221',
+      href: '/manage-va-debt/summary/copay-balances',
       oldHref: null,
       text: 'Pay copay bills',
       toggle: null,
@@ -157,15 +167,15 @@ const resolveLandingPageLinks = (
   const medicalSuppliesLinks = [
     {
       href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      oldHref: null,
       text: 'Order hearing aid batteries and accessories',
-      toggle: null,
+    },
+    {
+      href: '/health-care/order-cpap-supplies/',
+      text: 'Order CPAP supplies',
     },
     {
       href: '/health-care/order-prosthetic-socks/',
-      oldHref: null,
       text: 'Order prosthetic socks',
-      toggle: null,
     },
   ];
 
@@ -243,27 +253,21 @@ const resolveLandingPageLinks = (
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Emergency Medical Care Coverage',
+        text: 'Pain? Try yoga',
         href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20221207-emergency-medical-care-coverage',
-        ),
+        oldHref: mhvUrl(false, 'ss20211012-pain-yoga-may-help'),
         toggle: null,
       },
       {
-        text: 'Exercise to Build Healthy Lungs',
+        text: 'Where are my labs and test results?',
         href: null,
-        oldHref: mhvUrl(authdWithSSOe, 'ss20181019-build-healthy-lungs'),
+        oldHref: mhvUrl(false, 'ss20180716-where-are-va-lab-test-results'),
         toggle: null,
       },
       {
-        text: 'PACT Act Special Enrollment Period',
+        text: 'Heart health with diabetes',
         href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20230428-pact-act-special-enrollment',
-        ),
+        oldHref: mhvUrl(false, 'ss20220415-diabetes-and-a-healthy-heart'),
         toggle: null,
       },
     ],
@@ -297,14 +301,14 @@ const resolveLandingPageLinks = (
       links: paymentsLinks,
     },
     {
-      title: 'Medical supplies and equipment',
+      title: 'Medical supplies',
       icon: 'deaf',
       links: medicalSuppliesLinks,
     },
   ];
   const hubs = [
     {
-      title: 'My VA health benefits',
+      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {
@@ -320,4 +324,9 @@ const resolveLandingPageLinks = (
   return { cards, hubs };
 };
 
-export { countUnreadMessages, resolveLandingPageLinks, resolveToggleLink };
+export {
+  countUnreadMessages,
+  resolveLandingPageLinks,
+  resolveToggleLink,
+  resolveUnreadMessageAriaLabel,
+};

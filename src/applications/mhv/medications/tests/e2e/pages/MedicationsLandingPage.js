@@ -36,7 +36,11 @@ class MedicationsLandingPage {
   };
 
   clickExpandAccordionsOnMedicationsLandingPage = () => {
-    cy.expandAccordions();
+    // cy.expandAccordions();
+    cy.get('[data-testid="more-ways-to-manage"]')
+      .shadow()
+      .find('[aria-label="Expand all accordions"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
@@ -67,6 +71,12 @@ class MedicationsLandingPage {
     cy.get('[data-testid="landing-page-heading"]')
       .should('be.visible')
       .and('contain', 'About medications');
+  };
+
+  verifyHowToManageNotificationsAccordionDropDown = () => {
+    cy.get('[data-testid="notifications"]').contains(
+      'You can sign up to get email notifications when we ship your prescriptions.',
+    );
   };
 
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {

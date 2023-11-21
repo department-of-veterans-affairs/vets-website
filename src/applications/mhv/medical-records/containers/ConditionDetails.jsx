@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -19,7 +23,14 @@ import {
   updatePageTitle,
   generatePdfScaffold,
 } from '../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  EMPTY_FIELD,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -33,6 +44,7 @@ const ConditionDetails = props => {
   );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -113,11 +125,7 @@ const ConditionDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Conditions-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Health condition details', runningUnitTest);
   };
@@ -126,7 +134,30 @@ const ConditionDetails = props => {
     generateConditionDetails();
   };
 
+  const generateConditionTxt = async () => {
+    const content = `
+    ${record.name} \n
+    Date entered: ${record.date} \n
+    _____________________________________________________ \n
+    \t Provider: ${record.provider} \n
+    \t Provider Notes: ${processList(record.note)} \n
+    \t Status of health condition: ${record.active} \n
+    \t Location: ${record.facility} \n
+    \t SNOMED Clinical term: ${record.name} \n`;
+
+    const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
+  };
+
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+      );
+    }
     if (record) {
       return (
         <>
@@ -157,6 +188,7 @@ const ConditionDetails = props => {
             <PrintDownload
               download={download}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateConditionTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>

@@ -4,17 +4,18 @@ import {
   isStreamlinedLongForm,
 } from './streamlinedDepends';
 import {
+  safeNumber,
   sumValues,
   dateFormatter,
   getFsrReason,
-  getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
   getAmountCanBePaidTowardDebt,
   mergeAdditionalComments,
   filterReduceByName,
 } from './helpers';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getMonthlyIncome } from './calculateIncome';
+import { getMonthlyExpenses, getAllExpenses } from './calculateExpenses';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -46,16 +47,7 @@ export const transform = (formConfig, form) => {
       dependents,
       veteranContactInformation: { address = {}, mobilePhone = {} } = {},
     },
-    expenses: {
-      creditCardBills = [],
-      expenseRecords = [],
-      food = 0,
-      rentOrMortgage = 0,
-    } = {},
-    otherExpenses = [],
-    utilityRecords,
     assets,
-    installmentContracts = [],
     additionalData,
     selectedDebtsAndCopays = [],
     realEstateRecords,
@@ -93,35 +85,21 @@ export const transform = (formConfig, form) => {
     form.data,
   );
 
-  // === expenses ===
-  // rent & mortgage expenses for box 18
-  const rentOrMortgageExpenses = expenseRecords.filter(
-    expense => expense.name === 'Rent' || expense.name === 'Mortgage payment',
-  ) || { amount: 0 };
+  // === Expenses ===
+  const totalMonthlyExpenses = getMonthlyExpenses(form.data);
 
-  // food expenses for box 19
-  const foodExpenses = otherExpenses?.find(expense =>
-    expense?.name?.includes('Food'),
-  ) || { amount: 0 };
+  // Extract the values from getMonthlyExpenses
+  const {
+    food,
+    rentOrMortgage,
+    utilities,
+    otherLivingExpenses,
+    filteredExpenses,
+    otherExpenses,
+    installmentContractsAndCreditCards,
+    expensesInstallmentContractsAndOtherDebts,
+  } = getAllExpenses(form.data);
 
-  // other living expenses box 21
-  // Including options from expoenseRecords (living expenses) w/o rent & mortgage
-  const filteredExpenses = [
-    ...otherExpenses?.filter(
-      expense => expense?.name?.toLowerCase().includes('food') === false,
-    ),
-    ...expenseRecords.filter(
-      expense =>
-        expense?.name !== 'Rent' && expense?.name !== 'Mortgage payment',
-    ),
-  ];
-
-  const installmentContractsAndCreditCards = [
-    ...installmentContracts,
-    ...creditCardBills,
-  ];
-
-  const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
@@ -250,29 +228,16 @@ export const transform = (formConfig, form) => {
       },
     ],
     expenses: {
-      rentOrMortgage: enhancedFSRActive
-        ? sumValues(rentOrMortgageExpenses, 'amount')
-        : rentOrMortgage,
-      food: enhancedFSRActive ? foodExpenses?.amount : food,
-      utilities: enhancedFSRActive
-        ? sumValues(utilityRecords, 'amount')
-        : sumValues(utilityRecords, 'monthlyUtilityAmount'),
-      otherLivingExpenses: {
-        name: enhancedFSRActive
-          ? filteredExpenses?.map(expense => expense.name).join(', ')
-          : otherExpenses?.map(expense => expense.name).join(', '),
-        amount: enhancedFSRActive
-          ? sumValues(filteredExpenses, 'amount')
-          : sumValues(otherExpenses, 'amount'),
-      },
-      expensesInstallmentContractsAndOtherDebts: sumValues(
-        installmentContractsAndCreditCards,
-        'amountDueMonthly',
-      ),
-      totalMonthlyExpenses: totMonthlyExpenses,
+      rentOrMortgage,
+      food,
+      utilities,
+      otherLivingExpenses,
+      expensesInstallmentContractsAndOtherDebts,
+      totalMonthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: totalMonthlyNetIncome - totMonthlyExpenses,
+      netMonthlyIncomeLessExpenses:
+        totalMonthlyNetIncome - totalMonthlyExpenses,
       amountCanBePaidTowardDebt,
     },
     assets: {

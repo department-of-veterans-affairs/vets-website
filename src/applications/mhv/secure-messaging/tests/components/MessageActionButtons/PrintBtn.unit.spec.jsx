@@ -37,25 +37,14 @@ describe('Print button', () => {
 
     const modal = screen.getByTestId('print-modal-popup');
     expect(modal).to.exist;
-    expect(modal).to.have.attribute('modaltitle', 'What do you want to print?');
+    expect(modal).to.have.attribute(
+      'modaltitle',
+      'Make sure you have all messages expanded',
+    );
     expect(modal).to.have.attribute('visible', 'true');
-    expect(modal).to.have.attribute('large', 'true');
     expect(document.querySelector('va-button[text="Print"]')).to.exist;
     expect(
       document.querySelector('va-button[text="Cancel"]'),
     ).to.have.attribute('secondary');
-
-    const printOneMessage = screen.getByTestId('radio-print-one-message');
-    expect(printOneMessage).to.have.attribute(
-      'label',
-      'Print only this message',
-    );
-
-    const printAllMessages = screen.getByTestId('radio-print-all-messages');
-    expect(printAllMessages).to.have.attribute(
-      'label',
-      'Print all messages in this conversation',
-    );
-    expect(printAllMessages).to.have.attribute('description', '(2 messages)');
   });
 });

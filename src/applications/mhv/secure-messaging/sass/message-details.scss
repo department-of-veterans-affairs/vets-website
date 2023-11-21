@@ -3,6 +3,12 @@
 .message-detail-container {
   overflow-wrap: break-word;
 
+  .reply-button-container {
+    @media (min-width: $small-screen) {
+      max-width: 225px;
+    }
+  }
+
   .message-detail-block {
     background-color: $color-white;
 
@@ -58,58 +64,6 @@
     }
   }
 
-  .message-action-buttons {
-    @media (max-width: $xsmall-screen) {
-      flex-direction: column;
-      button {
-        margin: 0;
-      }
-    }
-    list-style-type: none;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin: 0px;
-    padding: 0px;
-    @media (max-width: $xsmall-screen) {
-      li {
-        width: 100%;
-      }
-    }
-    button {
-      box-shadow: 2px $color-primary;
-      border-radius: 5px;
-      margin-right: 10px;
-      margin-left: 0;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      width: auto;
-      i {
-        width: 20px;
-        height: 20px;
-      }
-      @media (max-width: $xsmall-screen) {
-        margin-right: 0;
-        margin-left: 0;
-        display: inline-block;
-        width: 102%;
-      }
-    }
-    :first-child button {
-      margin-left: 0;
-    }
-    :last-child button {
-      margin-right: 0;
-    }
-  }
-  .reply-button-in-body {
-    padding: 1rem 10rem;
-    @media (max-width: $small-screen) {
-      padding: 1rem 2rem;
-      width: 102%;
-    }
-  }
   .message-count {
     font-weight: bold;
   }

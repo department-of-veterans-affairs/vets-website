@@ -102,11 +102,11 @@ describe('<VeteranBenefitSummaryLetter>', () => {
       <VeteranBenefitSummaryLetter {...props} />,
     );
     const serviceRows = tree
-      .dive(['#militaryServiceTable', 'tbody'])
-      .everySubTree('tr');
+      .dive(['#militaryServiceTable'])
+      .everySubTree('va-table-row');
 
     const text = tree.text();
-    expect(serviceRows.length).to.equal(doubleService.length);
+    expect(serviceRows.length).to.equal(doubleService.length + 1);
     expect(text).to.include('01/01/1965');
     expect(text).to.include('10/01/1972');
     expect(text).to.include('01/01/1974');
