@@ -3,18 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('evidenceTypes', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
+  } = formConfigBase.chapters.supportingEvidence.pages.evidenceTypes;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -30,7 +30,7 @@ describe('evidenceTypes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -51,7 +51,7 @@ describe('evidenceTypes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -72,7 +72,7 @@ describe('evidenceTypes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

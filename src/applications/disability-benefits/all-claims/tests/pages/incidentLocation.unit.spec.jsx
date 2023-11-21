@@ -3,16 +3,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
 import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+import { formConfigBase } from '../../config/form';
 
 describe('PTSD Incident location', () => {
-  const page = formConfig.chapters.disabilities.pages.incidentLocation0;
+  const page = formConfigBase.chapters.disabilities.pages.incidentLocation0;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
@@ -20,7 +20,7 @@ describe('PTSD Incident location', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
       />,
     );
 
@@ -35,7 +35,7 @@ describe('PTSD Incident location', () => {
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
       />,
     );
     fillData(form, 'select#root_incident0_incidentLocation_country', 'USA');
@@ -60,7 +60,7 @@ describe('PTSD Incident location', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
       />,
     );
 

@@ -2,18 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('526 adaptive benefits page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.adaptiveBenefits;
+  } = formConfigBase.chapters.disabilities.pages.adaptiveBenefits;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -27,7 +27,7 @@ describe('526 adaptive benefits page', () => {
   it('should show the double vehicle allowance alert', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

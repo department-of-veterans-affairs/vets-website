@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import moment from 'moment';
 import { IntroductionPage } from '../../components/IntroductionPage';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import {
   PAGE_TITLES,
   START_TEXT,
@@ -14,7 +14,7 @@ import {
 } from '../../constants';
 
 describe('<IntroductionPage/>', () => {
-  const { formId, prefillEnabled } = formConfig;
+  const { formId, prefillEnabled } = formConfigBase;
   const defaultProps = {
     formId,
     route: {

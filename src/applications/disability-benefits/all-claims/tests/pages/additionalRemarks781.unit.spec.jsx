@@ -3,18 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Additional Remarks 781', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.additionalRemarks781;
+  } = formConfigBase.chapters.disabilities.pages.additionalRemarks781;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={formConfigBase}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -31,7 +31,7 @@ describe('Additional Remarks 781', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={formConfigBase}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

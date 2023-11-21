@@ -9,7 +9,7 @@ import mapServiceBranches from '../../migrations/07-map-service-branches';
 import reorderHousingIllnessRemoveFdc from '../../migrations/08-paper-sync';
 import redirectToxicExposure from '../../migrations/09-redirect-toxic-exposure';
 
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH, SHOW_8940_4192 } from '../../constants';
 
 describe('526 v2 migrations', () => {
@@ -49,9 +49,9 @@ describe('526 v2 migrations', () => {
     });
     // Sanity check
     it('/claim-type should be a valid url', () => {
-      expect(formConfig.chapters.disabilities.pages.claimType.path).to.equal(
-        'claim-type',
-      );
+      expect(
+        formConfigBase.chapters.disabilities.pages.claimType.path,
+      ).to.equal('claim-type');
     });
   });
 

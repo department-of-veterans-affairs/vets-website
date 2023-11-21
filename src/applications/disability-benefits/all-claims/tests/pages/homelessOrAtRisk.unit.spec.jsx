@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 import {
   HOMELESSNESS_TYPES,
@@ -16,12 +16,12 @@ describe('Homeless or At Risk Info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.homelessOrAtRisk;
+  } = formConfigBase.chapters.veteranDetails.pages.homelessOrAtRisk;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -38,7 +38,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -60,7 +60,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -82,7 +82,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -104,7 +104,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -134,7 +134,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -164,7 +164,7 @@ describe('Homeless or At Risk Info', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

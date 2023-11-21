@@ -15,7 +15,7 @@ import {
   MILITARY_STATE_VALUES,
 } from 'applications/disability-benefits/all-claims/constants';
 import { commonReducer } from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import reducers from '../../reducers';
 
 // const NEXT_YEAR = moment()
@@ -35,13 +35,13 @@ describe('Disability benefits 526EZ contact information', () => {
     schema,
     uiSchema,
     updateFormData,
-  } = formConfig.chapters.veteranDetails.pages.contactInformation;
+  } = formConfigBase.chapters.veteranDetails.pages.contactInformation;
 
   it('renders contact information form', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {},
@@ -64,7 +64,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -89,7 +89,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -114,7 +114,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -143,7 +143,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -171,7 +171,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -204,7 +204,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -236,7 +236,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             mailingAddress: {
@@ -264,7 +264,7 @@ describe('Disability benefits 526EZ contact information', () => {
   // it('expands forwarding address fields when forwarding address checked', () => {
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={formConfigBase.defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         'view:hasForwardingAddress': true,
@@ -294,7 +294,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={formConfigBase.defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -336,7 +336,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={formConfigBase.defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -378,7 +378,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={formConfigBase.defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -420,7 +420,7 @@ describe('Disability benefits 526EZ contact information', () => {
   //   const onSubmit = sinon.spy();
   //   const form = mount(
   //     <DefinitionTester
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={formConfigBase.defaultDefinitions}
   //       schema={schema}
   //       data={{
   //         phoneAndEmail: {
@@ -464,7 +464,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {
@@ -504,7 +504,7 @@ describe('Disability benefits 526EZ contact information', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             phoneAndEmail: {

@@ -3,23 +3,24 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
 import {
   DefinitionTester,
   fillDate,
   fillData,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+import { formConfigBase } from '../../config/form';
 
 describe('781 Unit Assignment Details', () => {
-  const page = formConfig.chapters.disabilities.pages.incidentUnitAssignment0;
+  const page =
+    formConfigBase.chapters.disabilities.pages.incidentUnitAssignment0;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -33,7 +34,7 @@ describe('781 Unit Assignment Details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}
@@ -54,7 +55,7 @@ describe('781 Unit Assignment Details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         onSubmit={onSubmit}
         schema={schema}
         uiSchema={uiSchema}

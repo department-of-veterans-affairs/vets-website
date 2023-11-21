@@ -1,6 +1,6 @@
 import path from 'path';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import formConfig from '../config/form';
+import { formConfigBase } from '../config/form';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
@@ -128,7 +128,7 @@ describe.skip('526EZ keyboard only navigation', () => {
   it('navigate through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       let idRoot = '';
-      const { chapters } = formConfig;
+      const { chapters } = formConfigBase;
       const veteranDetailsPages = chapters.veteranDetails.pages;
       const disabilitiesPages = chapters.disabilities.pages;
       // Go to the introduction page and skip to just start the form

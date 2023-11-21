@@ -8,18 +8,18 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Federal orders info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.federalOrders;
+  } = formConfigBase.chapters.veteranDetails.pages.federalOrders;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -34,7 +34,7 @@ describe('Federal orders info', () => {
   it('should render activation fields', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -57,7 +57,7 @@ describe('Federal orders info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -76,7 +76,7 @@ describe('Federal orders info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -117,7 +117,7 @@ describe('Federal orders info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -160,7 +160,7 @@ describe('Federal orders info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

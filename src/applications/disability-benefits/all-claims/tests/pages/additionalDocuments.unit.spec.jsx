@@ -10,7 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
 
@@ -34,7 +34,8 @@ const validDocumentData = {
 };
 
 describe('526EZ document upload', () => {
-  const page = formConfig.chapters.supportingEvidence.pages.additionalDocuments;
+  const page =
+    formConfigBase.chapters.supportingEvidence.pages.additionalDocuments;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -43,7 +44,7 @@ describe('526EZ document upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{}}
           uiSchema={uiSchema}
@@ -63,7 +64,7 @@ describe('526EZ document upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{}}
           uiSchema={uiSchema}
@@ -86,7 +87,7 @@ describe('526EZ document upload', () => {
           arrayPath={arrayPath}
           onSubmit={onSubmit}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={invalidDocumentData}
           uiSchema={uiSchema}
@@ -109,7 +110,7 @@ describe('526EZ document upload', () => {
           arrayPath={arrayPath}
           onSubmit={onSubmit}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={validDocumentData}
           uiSchema={uiSchema}
@@ -129,7 +130,7 @@ describe('526EZ document upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={validDocumentData}
           uiSchema={uiSchema}
@@ -158,7 +159,7 @@ describe('526EZ document upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={validDocumentData}
           uiSchema={uiSchema}

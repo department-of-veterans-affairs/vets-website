@@ -7,10 +7,10 @@ import {
   DefinitionTester,
   fillDate,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('781 Incident Date', () => {
-  const page = formConfig.chapters.disabilities.pages.incidentDate0;
+  const page = formConfigBase.chapters.disabilities.pages.incidentDate0;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -18,7 +18,7 @@ describe('781 Incident Date', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{}}
         uiSchema={uiSchema}
@@ -36,7 +36,7 @@ describe('781 Incident Date', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -56,7 +56,7 @@ describe('781 Incident Date', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -76,7 +76,7 @@ describe('781 Incident Date', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         formData={{}}
         uiSchema={uiSchema}

@@ -8,18 +8,18 @@ import userEvent from '@testing-library/user-event';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { HasEvidenceLabel } from '../../content/evidenceTypesBDD';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('evidenceTypes', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.evidenceTypesBDD;
+  } = formConfigBase.chapters.supportingEvidence.pages.evidenceTypesBDD;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -35,7 +35,7 @@ describe('evidenceTypes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -57,7 +57,7 @@ describe('evidenceTypes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -78,7 +78,7 @@ describe('evidenceTypes', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -116,7 +116,7 @@ describe('evidenceTypes', () => {
     const screen = render(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           uiSchema={uiSchema}
           data={{}}

@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('781 / 781a Incident Support page', () => {
-  const page = formConfig.chapters.disabilities.pages.incidentSupport0;
+  const page = formConfigBase.chapters.disabilities.pages.incidentSupport0;
   const { schema, uiSchema } = page;
 
   it('should submit without validation errors', () => {

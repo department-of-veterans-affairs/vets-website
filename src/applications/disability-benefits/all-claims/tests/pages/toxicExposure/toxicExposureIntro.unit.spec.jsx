@@ -3,13 +3,13 @@ import { render } from '@testing-library/react';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import userEvent from '@testing-library/user-event';
-import formConfig from '../../../config/form';
+import { formConfigBase } from '../../../config/form';
 
 describe('Toxic Exposure Intro', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.toxicExposureIntro;
+  } = formConfigBase.chapters.disabilities.pages.toxicExposureIntro;
 
   it('should render intro page', () => {
     const screen = render(
