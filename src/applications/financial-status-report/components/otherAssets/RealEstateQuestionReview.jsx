@@ -4,12 +4,10 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import ReviewPageHeader from '../shared/ReviewPageHeader';
 
-const BankruptcyQuestionReview = ({ data, goToPath, title }) => {
+const RealEstateQuestionReview = ({ data, goToPath, title }) => {
   const dispatch = useDispatch();
-  const {
-    questions,
-    'view:reviewPageNavigationToggle': showReviewNavigation,
-  } = data;
+  const { assets, questions } = data;
+  const { monetaryAssets = [] } = assets;
 
   // set reviewNavigation to true to show the review page alert
   const onReviewClick = () => {
@@ -19,14 +17,14 @@ const BankruptcyQuestionReview = ({ data, goToPath, title }) => {
         reviewNavigation: true,
       }),
     );
-    goToPath('/bankruptcy-history');
+    goToPath('/monetary-asset-checklist');
   };
 
   return (
     <>
-      {showReviewNavigation ? (
-        <ReviewPageHeader title="bankruptcy history" goToPath={onReviewClick} />
-      ) : null}
+      {monetaryAssets.length > 0 ? null : (
+        <ReviewPageHeader title="household assets" goToPath={onReviewClick} />
+      )}
       <div className="form-review-panel-page">
         <div className="form-review-panel-page-header-row">
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
@@ -35,8 +33,8 @@ const BankruptcyQuestionReview = ({ data, goToPath, title }) => {
         </div>
         <dl className="review">
           <div className="review-row">
-            <dt>Have you ever declared bankruptcy?</dt>
-            <dd>{questions?.hasBeenAdjudicatedBankrupt ? 'Yes' : 'No'}</dd>
+            <dt>Do you currently own any property?</dt>
+            <dd>{questions?.hasRealEstate ? 'Yes' : 'No'}</dd>
           </div>
         </dl>
       </div>
@@ -44,15 +42,17 @@ const BankruptcyQuestionReview = ({ data, goToPath, title }) => {
   );
 };
 
-BankruptcyQuestionReview.propTypes = {
+RealEstateQuestionReview.propTypes = {
   data: PropTypes.shape({
+    assets: PropTypes.shape({
+      monetaryAssets: PropTypes.array,
+    }),
     questions: PropTypes.shape({
-      hasBeenAdjudicatedBankrupt: PropTypes.bool,
+      hasRealEstate: PropTypes.bool,
     }),
   }),
   goToPath: PropTypes.func,
   title: PropTypes.string,
-  'view:reviewPageNavigationToggle': PropTypes.bool,
 };
 
-export default BankruptcyQuestionReview;
+export default RealEstateQuestionReview;
