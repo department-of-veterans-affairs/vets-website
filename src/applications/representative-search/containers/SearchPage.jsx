@@ -30,6 +30,7 @@ import {
 const SearchPage = props => {
   const searchResultTitleRef = useRef(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
@@ -74,15 +75,6 @@ const SearchPage = props => {
     setIsSearching(true);
   };
 
-  useEffect(
-    () => {
-      if (props.currentQuery.geocodeError) {
-        setIsSearching(false);
-      }
-    },
-    [props.currentQuery.geocodeError],
-  );
-
   const handleSearchOnQueryChange = () => {
     clearGeocodeError();
 
@@ -102,11 +94,8 @@ const SearchPage = props => {
         address: locationInputString,
         name: repOrganizationInputString || null,
         type: representativeType,
+        sort: sortType,
       });
-      // setIsSearching(true);
-
-      // TODO: useeffect for when results changes
-      focusElement('#search-results-subheader');
 
       if (!props.searchWithInputInProgress) {
         props.searchWithInput({
@@ -119,26 +108,23 @@ const SearchPage = props => {
           sort: sortType,
           type: representativeType,
         });
+
         setIsSearching(false);
       }
     }
   };
-
-  useEffect(
-    () => {
-      handleSearchOnQueryChange();
-    },
-    [props.currentQuery.id],
-  );
 
   const searchWithUrl = () => {
     // Check for scenario when results are in the store
     if (!!props.location.search && props.results && props.results.length > 0) {
       return;
     }
+
     const { location } = props;
 
     if (!isEmpty(location.query)) {
+      setIsSearching(true);
+
       props.updateSearchQuery({
         id: Date.now(),
         locationQueryString: location.query.address,
@@ -146,6 +132,7 @@ const SearchPage = props => {
         repOrganizationQueryString: location.query.name,
         repOrganizationInputString: location.query.name,
         representativeType: location.query.type,
+        sortType: location.query.sort,
       });
     }
 
@@ -154,13 +141,76 @@ const SearchPage = props => {
         locationQueryString: location.query.address,
         // context: location.query.context,
       });
-      setIsSearching(true);
     }
   };
 
+  useEffect(
+    () => {
+      if (props.currentQuery.geocodeError) {
+        setIsSearching(false);
+      }
+    },
+    [props.currentQuery.geocodeError],
+  );
+
+  useEffect(
+    () => {
+      if (props.currentQuery.successfulSearchCounter > 0) {
+        setIsDisplayingResults(true);
+      }
+    },
+    [props.currentQuery.successfulSearchCounter],
+  );
+
+  useEffect(
+    () => {
+      if (isSearching) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [isSearching],
+  );
+
+  useEffect(
+    () => {
+      if (!isSearching && props.currentQuery.successfulSearchCounter > 0) {
+        setIsSearching(true);
+      }
+    },
+    [props.currentQuery.id],
+  );
+
+  useEffect(
+    () => {
+      if (props.currentQuery.successfulSearchCounter > 0) {
+        setIsSearching(true);
+      }
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.sortType],
+  );
+
+  useEffect(
+    () => {
+      if (
+        props.currentQuery.successfulSearchCounter > 0 &&
+        !props.currentQuery.geocodeError
+      ) {
+        window.scrollTo(0, 600);
+        focusElement('#search-results-subheader');
+      }
+    },
+    [props.currentQuery.successfulSearchCounter],
+  );
+
+  useEffect(() => {
+    // window.scrollTo(0, 0);
+    searchWithUrl();
+  }, []);
+
   const handlePageSelect = e => {
     const { page } = e.detail;
-    focusElement('#search-results-subheader');
+    focusElement('.search-results-subheader');
 
     props.updateSearchQuery({ page });
   };
@@ -194,7 +244,6 @@ const SearchPage = props => {
     // const currentPage = pagination ? pagination.currentPage : 1;
     // const totalPages = pagination ? pagination.totalPages : 1;
     // const { representativeType } = currentQuery;
-    const queryContext = currentQuery.context;
 
     const paginationWrapper = () => {
       const currentPage = pagination ? pagination.currentPage : 1;
@@ -232,6 +281,13 @@ const SearchPage = props => {
       );
     }
 
+    // let notBusy =
+    //   !searchError &&
+    //   !currentQuery.geocodeError &&
+    //   !currentQuery.inProgress &&
+    //   !isSearching;
+    // let searchedAlready = currentQuery.successfulSearchCounter > 0;
+
     return (
       <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
@@ -250,39 +306,24 @@ const SearchPage = props => {
               </va-alert>
             </div>
           )}
-          {!searchError &&
-            !currentQuery.inProgress &&
-            !isSearching && (
-              <>
-                {' '}
-                <SearchResultsHeader
-                  searchResults={props.searchResults}
-                  representativeType={currentQuery.representativeType}
-                  userLocation={currentQuery.locationQueryString}
-                  context={queryContext}
-                  inProgress={currentQuery.inProgress}
-                  pagination={props.pagination}
-                />{' '}
-                {resultsList()}
-              </>
-            )}
+
+          {isDisplayingResults && (
+            <>
+              <SearchResultsHeader
+                searchResults={props.searchResults}
+                queryParams={location.search}
+                searchCounter={currentQuery.successfulSearchCounter}
+                inProgress={currentQuery.inProgress}
+                pagination={props.pagination}
+              />{' '}
+              {resultsList()}
+            </>
+          )}
         </div>
         {paginationWrapper()}
       </div>
     );
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    searchWithUrl();
-  }, []);
-
-  useEffect(
-    () => {
-      handleSearchOnQueryChange();
-    },
-    [props.currentQuery.id],
-  );
 
   // useEffect(
   //   () => {
