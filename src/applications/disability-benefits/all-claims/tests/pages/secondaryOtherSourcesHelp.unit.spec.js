@@ -3,18 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Add secondary other sources of information help ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.secondaryOtherSourcesHelp0;
+  } = formConfigBase.chapters.disabilities.pages.secondaryOtherSourcesHelp0;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={formConfigBase}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -36,7 +36,7 @@ describe('Add secondary other sources of information help ', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={formConfigBase}
         schema={schema}
         uiSchema={uiSchema}
         data={{

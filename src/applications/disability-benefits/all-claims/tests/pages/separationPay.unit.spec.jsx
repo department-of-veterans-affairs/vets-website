@@ -3,14 +3,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Separation Pay', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.separationPay;
-  const { defaultDefinitions: definitions } = formConfig;
+  } = formConfigBase.chapters.veteranDetails.pages.separationPay;
+  const { defaultDefinitions: definitions } = formConfigBase;
 
   it('should render', () => {
     const form = mount(

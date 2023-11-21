@@ -3,14 +3,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Terminally Ill', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.veteranDetails.pages.terminallyIll;
-  const { defaultDefinitions: definitions } = formConfig;
+  } = formConfigBase.chapters.veteranDetails.pages.terminallyIll;
+  const { defaultDefinitions: definitions } = formConfigBase;
 
   it('should render', () => {
     const form = mount(

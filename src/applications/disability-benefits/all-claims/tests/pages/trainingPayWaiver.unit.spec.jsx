@@ -3,15 +3,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('trainingPayWaiver', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.trainingPayWaiver;
-  const { defaultDefinitions } = formConfig;
+  } = formConfigBase.chapters.additionalInformation.pages.trainingPayWaiver;
+  const { defaultDefinitions } = formConfigBase;
   it('should render', () => {
     const form = mount(
       <DefinitionTester

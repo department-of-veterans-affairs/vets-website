@@ -3,18 +3,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Unemployability Additional Information form', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityAdditionalInformation;
+  } = formConfigBase.chapters.disabilities.pages.unemployabilityAdditionalInformation;
 
   it('should render textarea', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={formConfigBase}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -31,7 +31,7 @@ describe('Unemployability Additional Information form', () => {
 
     const form = mount(
       <DefinitionTester
-        definitions={formConfig}
+        definitions={formConfigBase}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

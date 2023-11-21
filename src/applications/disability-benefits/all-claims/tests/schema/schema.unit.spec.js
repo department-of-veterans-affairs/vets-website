@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
-import formConfig from '../../config/form';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { formConfigBase } from '../../config/form';
 
 describe('526 all claims schema tests', () => {
   const v = new Validator();
@@ -21,7 +21,7 @@ describe('526 all claims schema tests', () => {
           '2020-01-01';
       }
       const submitData = JSON.parse(
-        formConfig.transformForSubmit(formConfig, contents),
+        formConfigBase.transformForSubmit(formConfigBase, contents),
       );
       const result = v.validate(submitData.form526, fullSchema);
 

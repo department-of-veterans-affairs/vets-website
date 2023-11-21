@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { expect } from 'chai';
 
-import formConfig from '../config/form';
+import { formConfigBase } from '../config/form';
 import { CHAR_LIMITS } from '../constants';
 
 import { transform } from '../submit-transformer';
@@ -45,7 +45,7 @@ describe('transform', () => {
           // eslint-disable-next-line no-console
           console.error(
             `Transformed ${fileName}:`,
-            transform(formConfig, rawData),
+            transform(formConfigBase, rawData),
           );
           throw new Error(`Could not find transformed data for ${fileName}`);
         }
@@ -56,7 +56,7 @@ describe('transform', () => {
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
 
-        expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
+        expect(JSON.parse(transform(formConfigBase, rawData))).to.deep.equal(
           transformedData,
         );
       });
@@ -114,7 +114,8 @@ describe('Test internal transform functions', () => {
       },
     };
     expect(
-      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
+      JSON.parse(transform(formConfigBase, form)).form526
+        .newPrimaryDisabilities,
     ).to.deep.equal([
       {
         cause: 'NEW',
