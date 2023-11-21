@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { fillPrescription } from '../../actions/prescriptions';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
@@ -20,8 +21,20 @@ const FillRefillButton = rx => {
 
   useEffect(
     () => {
-      if (success || error) {
+      if (success) {
         setIsLoading(false);
+        waitForRenderThenFocus(
+          `[id='fill-success-alert-${prescriptionId}']`,
+          document,
+          500,
+        );
+      } else if (error) {
+        setIsLoading(false);
+        waitForRenderThenFocus(
+          `[id='fill-error-alert-${prescriptionId}']`,
+          document,
+          500,
+        );
       }
     },
     [success, error],
@@ -31,7 +44,11 @@ const FillRefillButton = rx => {
     return (
       <div className="rx-fill-refill-button">
         {success && (
-          <va-alert status="success" setFocus aria-live="polite">
+          <va-alert
+            status="success"
+            id={`fill-success-alert-${prescriptionId}`}
+            aria-live="polite"
+          >
             <p className="vads-u-margin-y--0">
               We got your request to {`${dispensedDate ? 'refill' : 'fill'}`}{' '}
               this prescription.
@@ -44,7 +61,7 @@ const FillRefillButton = rx => {
               <va-alert
                 status="error"
                 setFocus
-                id="fill-error-alert"
+                id={`fill-error-alert-${prescriptionId}`}
                 aria-live="polite"
               >
                 <p className="vads-u-margin-y--0">
