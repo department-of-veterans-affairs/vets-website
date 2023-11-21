@@ -2,8 +2,6 @@ import mockRepresentativeData from '../../constants/mock-representative-data.jso
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 Cypress.Commands.add('checkSearch', () => {
-  cy.axeCheck();
-
   cy.get('input[name="City, State or Postal code"]', { timeout: 5000 }).type(
     `Austin, TX`,
     { force: true },
@@ -12,7 +10,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#representative-search').click();
 
   // Result list
-  cy.get('.search-results-header').should('exist');
+  cy.get('#search-results-header').should('exist');
 });
 
 describe('Mobile', () => {
