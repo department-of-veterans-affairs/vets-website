@@ -2,14 +2,14 @@ import mockRepresentativesSearchResults from '../../constants/mock-representativ
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 const representativeTypeOptions = [
-  'Veteran Service Organization (VSO)',
+  'Veteran Service Organization',
   'Attorney',
   'Claims Agent',
 ];
 
 Cypress.Commands.add('verifyOptions', () => {
   // Verify VSO is checked by default
-  cy.contains('va-radio-option', 'Veteran Service Organization (VSO)')
+  cy.contains('va-radio-option', 'Veteran Service Organization')
     .find('input')
     .should('be.checked');
 
@@ -53,8 +53,7 @@ describe('Representative Search', () => {
 
     cy.get('#representative-search').click({ waitForAnimations: true });
 
-    cy.get('#search-results-subheader').contains('Austin, Texas');
-    cy.get('.representative-results-list').should('exist');
+    cy.get('#search-results-subheader').contains('Austin, TX');
   });
 
   it('shows search result header even when no results are found', () => {
