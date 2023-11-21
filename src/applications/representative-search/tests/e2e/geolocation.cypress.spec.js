@@ -19,7 +19,7 @@ describe('User geolocation', () => {
     cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
 
     cy.visit('/get-help-from-accredited-representative/find-rep/');
-
+    cy.axeCheck();
     cy.mockGeolocation();
 
     cy.get('#street-city-state-zip').should('be.empty');
@@ -28,7 +28,6 @@ describe('User geolocation', () => {
     cy.get('.finding-your-location-loading').contains(
       'Finding your location...',
     );
-    cy.axeCheck();
 
     cy.waitUntil(() =>
       cy

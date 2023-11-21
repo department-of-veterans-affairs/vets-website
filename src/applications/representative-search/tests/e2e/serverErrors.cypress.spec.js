@@ -13,6 +13,10 @@ describe('Find a Representative error handling', () => {
   });
 
   it('should show an error if the API returns a non-200 response', () => {
+    cy.injectAxe();
+
+    cy.axeCheck();
+
     cy.get('#street-city-state-zip')
       .find('input[type="text"]')
       .type('Austin, TX');
@@ -23,7 +27,5 @@ describe('Find a Representative error handling', () => {
     cy.get('#search-results-title')
       .find('h2')
       .contains('something went wrong');
-
-    cy.axeCheck();
   });
 });

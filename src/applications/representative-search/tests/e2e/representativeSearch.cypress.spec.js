@@ -80,6 +80,7 @@ describe('Representative Search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    cy.injectAxe();
     cy.axeCheck();
     cy.get('#street-city-state-zip')
       .find('input[type="text"]')
