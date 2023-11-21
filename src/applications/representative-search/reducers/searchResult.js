@@ -2,12 +2,12 @@ import {
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
   SEARCH_COMPLETE,
+  FETCH_REPRESENTATIVES,
 } from '../utils/actionTypes';
 
 // import mockRepresentativeData from '../constants/mock-representative-data.json';
 
 const INITIAL_STATE = {
-  error: null,
   searchResults: [],
   selectedResult: null,
   pagination: {},
@@ -15,6 +15,7 @@ const INITIAL_STATE = {
 
 export const SearchResultReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case FETCH_REPRESENTATIVES:
     case SEARCH_COMPLETE:
       return {
         ...state,
@@ -37,3 +38,8 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+// export default {
+//   form: createSaveInProgressFormReducer(formConfig),
+//   // allSearchResults,
+// };
