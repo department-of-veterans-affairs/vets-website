@@ -151,7 +151,7 @@ describe('686 report a child has stopped attending school', () => {
     form.unmount();
   });
 
-  it('should submit a valid form without a suffix or middle name', () => {
+  it('should submit a valid form without a middle name', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

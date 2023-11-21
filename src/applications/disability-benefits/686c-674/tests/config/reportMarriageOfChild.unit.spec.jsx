@@ -1,13 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-import { changeDropdown } from 'platform/testing/unit/helpers';
-import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { render, waitFor, fireEvent } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+import { fillDataWithRtl } from '../../util';
 
 describe('686 report the marriage of a child', () => {
   const {
@@ -22,7 +19,7 @@ describe('686 report the marriage of a child', () => {
   };
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -30,13 +27,12 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
+    expect(container.querySelectorAll('input').length).to.equal(8);
   });
 
-  it('should not submit an empty form', () => {
+  it('should not submit an empty form', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -45,16 +41,21 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(5);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
   // empty last name
-  it('should not submit a form with an incomplete name', () => {
+  it('should not submit a form with an incomplete name', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -62,30 +63,36 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
-    const month = form.find('select#root_childMarriage_dateMarriedMonth');
-    const day = form.find('select#root_childMarriage_dateMarriedDay');
-    fillData(form, 'input#root_childMarriage_ssn', '123211234');
-    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
-    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
-    month.simulate('change', {
-      target: { value: '1' },
+    const inputs = {
+      'input#root_childMarriage_fullName_first': 'john',
+      'select#root_childMarriage_dateMarriedMonth': 1,
+      'select#root_childMarriage_dateMarriedDay': 1,
+      'input#root_childMarriage_dateMarriedYear': '2010',
+      'input#root_childMarriage_ssn': '123211234',
+      'select#root_childMarriage_birthDateMonth': 1,
+      'select#root_childMarriage_birthDateDay': 1,
+      'input#root_childMarriage_birthDateYear': '2010',
+    };
+
+    fillDataWithRtl({
+      container,
+      inputs,
     });
-    day.simulate('change', {
-      target: { value: '1' },
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
     });
-    fillData(form, 'input#root_childMarriage_dateMarriedYear', '2010');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
   });
 
   // empty date
-  it('should not submit a form without a date', () => {
+  it('should not submit a form without a date', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -94,21 +101,31 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
-    fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
-    fillData(form, 'input#root_childMarriage_ssn', '123211234');
-    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
-    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+
+    const inputs = {
+      'input#root_childMarriage_fullName_first': 'john',
+      'input#root_childMarriage_fullName_last': 'doe',
+      'input#root_childMarriage_dateMarriedYear': '2010',
+      'input#root_childMarriage_ssn': '123211234',
+      'select#root_childMarriage_birthDateMonth': 1,
+      'select#root_childMarriage_birthDateDay': 1,
+      'input#root_childMarriage_birthDateYear': '2010',
+    };
+
+    fillDataWithRtl({ container, inputs });
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
-  it('should submit a valid form without a suffix or middle name', () => {
+  it('should submit a valid form without a suffix or middle name', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -117,29 +134,37 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
-    fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
-    fillData(form, 'input#root_childMarriage_ssn', '123211234');
-    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
-    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
-    const month = form.find('select#root_childMarriage_dateMarriedMonth');
-    const day = form.find('select#root_childMarriage_dateMarriedDay');
-    month.simulate('change', {
-      target: { value: '1' },
+
+    const inputs = {
+      'input#root_childMarriage_fullName_first': 'john',
+      'input#root_childMarriage_fullName_last': 'doe',
+      'select#root_childMarriage_dateMarriedMonth': 1,
+      'select#root_childMarriage_dateMarriedDay': 1,
+      'input#root_childMarriage_dateMarriedYear': '2010',
+      'input#root_childMarriage_ssn': '123211234',
+      'select#root_childMarriage_birthDateMonth': 1,
+      'select#root_childMarriage_birthDateDay': 1,
+      'input#root_childMarriage_birthDateYear': '2010',
+    };
+
+    fillDataWithRtl({
+      container,
+      inputs,
     });
-    day.simulate('change', {
-      target: { value: '1' },
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
     });
-    fillData(form, 'input#root_childMarriage_dateMarriedYear', '2010');
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 
-  it('should submit a valid form with a suffix and middle name', () => {
+  it('should submit a valid form with a suffix and middle name', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -148,24 +173,32 @@ describe('686 report the marriage of a child', () => {
         data={formData}
       />,
     );
-    fillData(form, 'input#root_childMarriage_fullName_first', 'john');
-    fillData(form, 'input#root_childMarriage_fullName_middle', 'jeffrey');
-    fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
-    fillData(form, 'input#root_childMarriage_ssn', '123211234');
-    changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);
-    fillData(form, 'input#root_childMarriage_birthDateYear', '2010');
-    const month = form.find('select#root_childMarriage_dateMarriedMonth');
-    const day = form.find('select#root_childMarriage_dateMarriedDay');
-    month.simulate('change', {
-      target: { value: '1' },
+
+    const inputs = {
+      'input#root_childMarriage_fullName_first': 'john',
+      'input#root_childMarriage_fullName_middle': 'jeffrey',
+      'input#root_childMarriage_fullName_last': 'doe',
+      'select#root_childMarriage_dateMarriedMonth': 1,
+      'select#root_childMarriage_dateMarriedDay': 1,
+      'input#root_childMarriage_dateMarriedYear': '2010',
+      'input#root_childMarriage_ssn': '123211234',
+      'select#root_childMarriage_birthDateMonth': 1,
+      'select#root_childMarriage_birthDateDay': 1,
+      'input#root_childMarriage_birthDateYear': '2010',
+    };
+
+    fillDataWithRtl({
+      container,
+      inputs,
     });
-    day.simulate('change', {
-      target: { value: '1' },
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
     });
-    fillData(form, 'input#root_childMarriage_dateMarriedYear', '2010');
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 });

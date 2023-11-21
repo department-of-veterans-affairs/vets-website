@@ -1,14 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-import { changeDropdown } from 'platform/testing/unit/helpers';
-import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
+import { fillDataWithRtl } from '../../util';
 
 describe('686 add child - child information', () => {
   const {
@@ -23,7 +20,7 @@ describe('686 add child - child information', () => {
   };
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -31,14 +28,13 @@ describe('686 add child - child information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(2);
-    form.unmount();
+    expect(container.querySelectorAll('input').length).to.equal(5);
+    expect(container.querySelectorAll('select').length).to.equal(2);
   });
 
-  it('should not progress without the required fields', () => {
+  it('should not progress without the required fields', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -47,15 +43,20 @@ describe('686 add child - child information', () => {
         onSubmit={onSubmit}
       />,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(4);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
-  it('should progress with the required fields filled', () => {
+  it('should progress with the required fields filled', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -64,16 +65,25 @@ describe('686 add child - child information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_childrenToAdd_0_fullName_first', 'Bill');
-    fillData(form, 'input#root_childrenToAdd_0_fullName_last', 'Bob');
-    fillData(form, 'input#root_childrenToAdd_0_ssn', '555555551');
-    changeDropdown(form, 'select#root_childrenToAdd_0_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_childrenToAdd_0_birthDateDay', 1);
-    fillData(form, 'input#root_childrenToAdd_0_birthDateYear', '2002');
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const inputs = {
+      'input#root_childrenToAdd_0_fullName_first': 'Bill',
+      'input#root_childrenToAdd_0_fullName_last': 'Bob',
+      'input#root_childrenToAdd_0_ssn': '555555551',
+      'select#root_childrenToAdd_0_birthDateMonth': 1,
+      'select#root_childrenToAdd_0_birthDateDay': 1,
+      'input#root_childrenToAdd_0_birthDateYear': '2002',
+    };
+
+    fillDataWithRtl({ container, inputs });
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 });

@@ -1,16 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 
-import {
-  DefinitionTester,
-  fillData,
-  selectCheckbox,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import { changeDropdown } from 'platform/testing/unit/helpers';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
+import { fillDataWithRtl } from '../../util';
 
 describe('686 report dependent death', () => {
   const {
@@ -19,13 +14,11 @@ describe('686 report dependent death', () => {
   } = formConfig.chapters.deceasedDependents.pages.dependentInformation;
 
   const formData = {
-    'view:selectable686Options': {
-      reportDeath: true,
-    },
+    'view:selectable686Options': { reportDeath: true },
   };
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -33,14 +26,13 @@ describe('686 report dependent death', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
-    expect(form.find('select').length).to.equal(2);
-    form.unmount();
+    expect(container.querySelectorAll('input').length).to.eql(8);
+    expect(container.querySelectorAll('select').length).to.eql(2);
   });
 
-  it('should not submit an empty form', () => {
+  it('should not submit an empty form', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -49,57 +41,61 @@ describe('686 report dependent death', () => {
         data={formData}
       />,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.eql(5);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 
-  it('select spouse as dependentType', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        data={formData}
-      />,
-    );
-    selectRadio(form, 'root_deaths_0_dependentType', 'SPOUSE');
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
+  [
+    {
+      dependentType: 'SPOUSE',
+      target: '#root_deaths_0_dependentType_0',
+      expectedInputs: 8,
+    },
+    {
+      dependentType: 'DEPENDENT_PARENT',
+      target: '#root_deaths_0_dependentType_1',
+      expectedInputs: 8,
+    },
+    {
+      dependentType: 'CHILD',
+      target: '#root_deaths_0_dependentType_2',
+      expectedInputs: 13,
+    },
+  ].forEach(({ target, expectedInputs, dependentType }) => {
+    it(`select ${dependentType} as dependentType`, async () => {
+      const { container } = render(
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />,
+      );
+
+      fillDataWithRtl({
+        container,
+        inputs: target,
+        useUserEvent: true,
+      });
+
+      await waitFor(() => {
+        expect(container.querySelectorAll('input').length).to.equal(
+          expectedInputs,
+        );
+      });
+    });
   });
 
-  it('select dependent parent as dependentType', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        data={formData}
-      />,
-    );
-    selectRadio(form, 'root_deaths_0_dependentType', 'DEPENDENT_PARENT');
-    expect(form.find('input').length).to.equal(8);
-    form.unmount();
-  });
-
-  it('should expand child options if dependentType is child', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-        data={formData}
-      />,
-    );
-    selectRadio(form, 'root_deaths_0_dependentType', 'CHILD');
-    expect(form.find('input').length).to.equal(13);
-    form.unmount();
-  });
-
-  it('should submit a valid form with a dependent spouse', () => {
+  it('should submit a valid form with a dependent spouse', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -108,24 +104,37 @@ describe('686 report dependent death', () => {
         data={formData}
       />,
     );
-    // dependent type
-    selectRadio(form, 'root_deaths_0_dependentType', 'SPOUSE');
-    fillData(form, 'input#root_deaths_0_fullName_first', 'Billy');
-    fillData(form, 'input#root_deaths_0_fullName_last', 'Bob');
-    fillData(form, 'input#root_deaths_0_ssn', '123211234');
-    changeDropdown(form, 'select#root_deaths_0_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_deaths_0_birthDateDay', 1);
-    fillData(form, 'input#root_deaths_0_birthDateYear', '2010');
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    // change dependent type: SPOUSE
+    fillDataWithRtl({
+      container,
+      inputs: '#root_deaths_0_dependentType_0',
+      useUserEvent: true,
+    });
+    const inputs = {
+      'input#root_deaths_0_fullName_first': 'Billy',
+      'input#root_deaths_0_fullName_last': 'Bob',
+      'input#root_deaths_0_ssn': '123211234',
+      'select#root_deaths_0_birthDateMonth': 1,
+      'select#root_deaths_0_birthDateDay': 1,
+      'input#root_deaths_0_birthDateYear': '2010',
+    };
+
+    fillDataWithRtl({ container, inputs });
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 
-  it('should submit a valid form with a dependent child', () => {
+  it('should submit a valid form with a dependent child', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -134,24 +143,41 @@ describe('686 report dependent death', () => {
         data={formData}
       />,
     );
-    // dependent type
-    selectRadio(form, 'root_deaths_0_dependentType', 'CHILD');
-    selectCheckbox(form, 'root_deaths_0_childStatus_childUnder18', true);
-    fillData(form, 'input#root_deaths_0_fullName_first', 'Billy');
-    fillData(form, 'input#root_deaths_0_fullName_last', 'Bob');
-    fillData(form, 'input#root_deaths_0_ssn', '123211234');
-    changeDropdown(form, 'select#root_deaths_0_birthDateMonth', 1);
-    changeDropdown(form, 'select#root_deaths_0_birthDateDay', 1);
-    fillData(form, 'input#root_deaths_0_birthDateYear', '2010');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+
+    fillDataWithRtl({
+      container, // select dependent type: CHILD
+      inputs: '#root_deaths_0_dependentType_2',
+      useUserEvent: true,
+    });
+    fillDataWithRtl({
+      container, // checkbox child status: child under 18
+      inputs: '#root_deaths_0_childStatus_childUnder18',
+      useUserEvent: true,
+    });
+    const inputs = {
+      'input#root_deaths_0_fullName_first': 'Billy',
+      'input#root_deaths_0_fullName_last': 'Bob',
+      'input#root_deaths_0_ssn': '123211234',
+      'select#root_deaths_0_birthDateMonth': 1,
+      'select#root_deaths_0_birthDateDay': 1,
+      'input#root_deaths_0_birthDateYear': '2010',
+    };
+
+    fillDataWithRtl({ container, inputs });
+
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 
-  it('should not submit when child is selected without any subtypes', () => {
+  it('should not submit when child is selected without any subtypes', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -160,12 +186,20 @@ describe('686 report dependent death', () => {
         data={formData}
       />,
     );
-    // dependent type
-    selectRadio(form, 'root_deaths_0_dependentType', 'CHILD');
+    // dependent type CHILD
+    fillDataWithRtl({
+      container, // select dependent type: CHILD
+      inputs: '#root_deaths_0_dependentType_2',
+      useUserEvent: true,
+    });
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    const button = container.querySelector('button[type="submit"]');
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(container.querySelectorAll('.usa-input-error').length).to.equal(5);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });

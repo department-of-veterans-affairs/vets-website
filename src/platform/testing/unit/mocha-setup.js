@@ -190,5 +190,6 @@ export const mochaHooks = {
   },
   afterEach() {
     localStorage.clear();
+    sessionStorage.clear();
   },
 };
