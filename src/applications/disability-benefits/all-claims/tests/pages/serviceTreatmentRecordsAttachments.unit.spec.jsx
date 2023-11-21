@@ -6,20 +6,20 @@ import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('serviceTreatmentRecords', () => {
   const errorClass = '.usa-input-error-message';
   const {
     uiSchema,
     schema,
-  } = formConfig.chapters.supportingEvidence.pages.serviceTreatmentRecordsAttachments;
+  } = formConfigBase.chapters.supportingEvidence.pages.serviceTreatmentRecordsAttachments;
 
   it('should render', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{}}
@@ -40,7 +40,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{
@@ -65,7 +65,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{
@@ -91,7 +91,7 @@ describe('serviceTreatmentRecords', () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           uiSchema={uiSchema}
           schema={schema}
           data={{

@@ -4,19 +4,19 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('serviceTreatmentRecords', () => {
   const errorClass = '.usa-input-error-message';
   const {
     uiSchema,
     schema,
-  } = formConfig.chapters.supportingEvidence.pages.serviceTreatmentRecords;
+  } = formConfigBase.chapters.supportingEvidence.pages.serviceTreatmentRecords;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{}}
@@ -32,7 +32,7 @@ describe('serviceTreatmentRecords', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{
@@ -55,7 +55,7 @@ describe('serviceTreatmentRecords', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         uiSchema={uiSchema}
         schema={schema}
         data={{

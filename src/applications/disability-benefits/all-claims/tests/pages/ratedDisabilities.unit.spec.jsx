@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import initialData from '../initialData.js';
 import { NULL_CONDITION_STRING } from '../../constants.js';
 
@@ -12,7 +12,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.ratedDisabilities;
+  } = formConfigBase.chapters.disabilities.pages.ratedDisabilities;
 
   const store = {
     getState: () => ({
@@ -35,7 +35,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -53,7 +53,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -75,7 +75,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -92,7 +92,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -136,7 +136,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -173,7 +173,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={testData}
           uiSchema={uiSchema}

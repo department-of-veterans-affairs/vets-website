@@ -6,18 +6,18 @@ import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.additionalInformation.pages.paymentInformation;
+} = formConfigBase.chapters.additionalInformation.pages.paymentInformation;
 
 describe('526 -- paymentInformation', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         formData={{}}
         uiSchema={uiSchema}
@@ -40,7 +40,7 @@ describe('526 -- paymentInformation', () => {
       // The page's PaymentView is connected to the redux store
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             'view:bankAccount': {
@@ -67,7 +67,7 @@ describe('526 -- paymentInformation', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{
           'view:bankAccount': {
@@ -90,7 +90,7 @@ describe('526 -- paymentInformation', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}

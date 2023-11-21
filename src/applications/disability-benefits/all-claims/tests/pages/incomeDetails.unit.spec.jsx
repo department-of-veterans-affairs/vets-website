@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import initialData from '../initialData';
 
 describe('Income Details Questions', () => {
@@ -15,14 +15,14 @@ describe('Income Details Questions', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.incomeDetails;
+  } = formConfigBase.chapters.disabilities.pages.incomeDetails;
 
   it('should render income details form', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -41,7 +41,7 @@ describe('Income Details Questions', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -64,7 +64,7 @@ describe('Income Details Questions', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -86,7 +86,7 @@ describe('Income Details Questions', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}

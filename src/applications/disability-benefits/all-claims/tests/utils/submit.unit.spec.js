@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import _ from 'platform/utilities/data';
 
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import {
   transformRelatedDisabilities,
   stringifyRelatedDisabilities,
@@ -148,7 +148,7 @@ describe('getPtsdChangeText', () => {
   const ignoredFields = ['other', 'otherExplanation', 'noneApply'];
   it('should have mappings for all workBehaviorChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.workBehaviorChanges.schema
+      formConfigBase.chapters.disabilities.pages.workBehaviorChanges.schema
         .properties.workBehaviorChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))
@@ -159,7 +159,7 @@ describe('getPtsdChangeText', () => {
 
   it('should have mappings for all mentalHealthChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.mentalHealthChanges.schema
+      formConfigBase.chapters.disabilities.pages.mentalHealthChanges.schema
         .properties.mentalChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))
@@ -170,7 +170,7 @@ describe('getPtsdChangeText', () => {
 
   it('should have mappings for all physicalHealthChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.physicalHealthChanges.schema
+      formConfigBase.chapters.disabilities.pages.physicalHealthChanges.schema
         .properties.physicalChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))
@@ -181,7 +181,7 @@ describe('getPtsdChangeText', () => {
 
   it('should have mappings for all socialBehaviorChanges schema fields', () => {
     Object.keys(
-      formConfig.chapters.disabilities.pages.socialBehaviorChanges.schema
+      formConfigBase.chapters.disabilities.pages.socialBehaviorChanges.schema
         .properties.socialBehaviorChanges.properties,
     )
       .filter(key => !ignoredFields.includes(key))

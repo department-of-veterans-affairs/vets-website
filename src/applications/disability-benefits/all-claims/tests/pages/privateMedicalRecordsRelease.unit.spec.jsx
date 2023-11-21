@@ -8,7 +8,7 @@ import {
   fillData,
   fillDate,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import initialData from '../initialData.js';
 
 describe('Disability benefits 4142 provider medical records facility information', () => {
@@ -16,14 +16,14 @@ describe('Disability benefits 4142 provider medical records facility information
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
+  } = formConfigBase.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
 
   it('should render 4142 form', () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -43,7 +43,7 @@ describe('Disability benefits 4142 provider medical records facility information
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         formData={initialData}
@@ -102,7 +102,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         formData={initialData}
@@ -127,7 +127,7 @@ describe('Disability benefits 4142 provider medical records facility information
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{
           'view:limitedConsent': true,

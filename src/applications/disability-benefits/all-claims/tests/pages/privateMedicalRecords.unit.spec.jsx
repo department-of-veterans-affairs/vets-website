@@ -4,18 +4,18 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 
 describe('526 All Claims Private medical records', () => {
   const errorClass = '.usa-input-error-message';
   const page =
-    formConfig.chapters.supportingEvidence.pages.privateMedicalRecords;
+    formConfigBase.chapters.supportingEvidence.pages.privateMedicalRecords;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -31,7 +31,7 @@ describe('526 All Claims Private medical records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -55,7 +55,7 @@ describe('526 All Claims Private medical records', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

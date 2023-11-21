@@ -2,18 +2,18 @@ import React from 'react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('526 vaEmployee', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.vaEmployee;
+  } = formConfigBase.chapters.additionalInformation.pages.vaEmployee;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}

@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 
 describe('Summary of Evidence', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.supportingEvidence.pages.summaryOfEvidence;
+  } = formConfigBase.chapters.supportingEvidence.pages.summaryOfEvidence;
 
   const vaTreatmentFacilities = [
     { treatmentCenterName: 'Sommerset' },
@@ -53,7 +53,7 @@ describe('Summary of Evidence', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{}}
@@ -68,7 +68,7 @@ describe('Summary of Evidence', () => {
   it("should render 'no evidence' warning when 'no evidence' selected", () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -87,7 +87,7 @@ describe('Summary of Evidence', () => {
   it("should render 'no evidence' warning when 'no evidence' selected even if evidence present", () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -110,7 +110,7 @@ describe('Summary of Evidence', () => {
   it('should not render any evidence whose evidence type was not selected', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -136,7 +136,7 @@ describe('Summary of Evidence', () => {
   it('should render VA evidence list when VA evidence submitted', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -158,7 +158,7 @@ describe('Summary of Evidence', () => {
   it('should render private medical facility list when private facilities selected', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -185,7 +185,7 @@ describe('Summary of Evidence', () => {
   it('should render private evidence list when private evidence submitted', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -223,7 +223,7 @@ describe('Summary of Evidence', () => {
   it('should not render private medical facilities even if entered, when upload selected', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -248,7 +248,7 @@ describe('Summary of Evidence', () => {
   it('should not render private evidence uploads even if uploaded, when upload not selected', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -273,7 +273,7 @@ describe('Summary of Evidence', () => {
   it('should render lay evidence list when lay evidence submitted', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

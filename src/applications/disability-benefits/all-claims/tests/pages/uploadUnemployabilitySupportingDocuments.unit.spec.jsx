@@ -8,12 +8,12 @@ import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('8940 supporting documents upload', () => {
   const page =
-    formConfig.chapters.disabilities.pages
+    formConfigBase.chapters.disabilities.pages
       .uploadUnemployabilitySupportingDocuments;
   const { schema, uiSchema, arrayPath } = page;
 
@@ -23,7 +23,7 @@ describe('8940 supporting documents upload', () => {
         <DefinitionTester
           arrayPath={arrayPath}
           pagePerItemIndex={0}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             'view:unemployabilityUploadChoice': 'answerQuestions',
@@ -46,7 +46,7 @@ describe('8940 supporting documents upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             'view:unemployabilityUploadChoice': 'answerQuestions',
@@ -71,7 +71,7 @@ describe('8940 supporting documents upload', () => {
           arrayPath={arrayPath}
           pagePerItemIndex={0}
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={{
             unemployabilitySupportingDocuments: [

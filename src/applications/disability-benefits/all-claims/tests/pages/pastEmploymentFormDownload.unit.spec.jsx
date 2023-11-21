@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import { VA_FORM4192_URL } from '../../constants';
 
 describe('Disability benefits 4192 Download', () => {
@@ -13,7 +13,7 @@ describe('Disability benefits 4192 Download', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.pastEmploymentFormDownload;
+  } = formConfigBase.chapters.disabilities.pages.pastEmploymentFormDownload;
 
   it('renders 4192 form download', () => {
     const onSubmit = sinon.spy();
@@ -22,7 +22,7 @@ describe('Disability benefits 4192 Download', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}

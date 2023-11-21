@@ -9,7 +9,7 @@ import { combineReducers, createStore } from 'redux';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { commonReducer } from 'platform/startup/store';
 
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import initialData from '../initialData.js';
 import reducers from '../../reducers';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
@@ -25,7 +25,7 @@ describe('Select related disabilities for unemployability', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDisabilities;
+  } = formConfigBase.chapters.disabilities.pages.unemployabilityDisabilities;
 
   it('renders the rated disabilities selection field', () => {
     const disabilitiesLength =
@@ -33,7 +33,7 @@ describe('Select related disabilities for unemployability', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -53,7 +53,7 @@ describe('Select related disabilities for unemployability', () => {
       <Provider store={fakeStore}>
         <DefinitionTester
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -77,7 +77,7 @@ describe('Select related disabilities for unemployability', () => {
       <Provider store={fakeStore}>
         <DefinitionTester
           onSubmit={onSubmit}
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}
@@ -95,7 +95,7 @@ describe('Select related disabilities for unemployability', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
+          definitions={formConfigBase.defaultDefinitions}
           schema={schema}
           data={initialData}
           uiSchema={uiSchema}

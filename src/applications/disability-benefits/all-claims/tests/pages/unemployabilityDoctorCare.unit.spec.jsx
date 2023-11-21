@@ -7,7 +7,7 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import initialData from '../initialData.js';
 
 import { ERR_MSG_CSS_CLASS } from '../../constants';
@@ -16,12 +16,12 @@ describe("Doctor's care unemployability", () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.unemployabilityDoctorCare;
+  } = formConfigBase.chapters.disabilities.pages.unemployabilityDoctorCare;
 
   it("renders the add doctor's care", () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -40,7 +40,7 @@ describe("Doctor's care unemployability", () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={initialData}
         uiSchema={uiSchema}
@@ -107,7 +107,7 @@ describe("Doctor's care unemployability", () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,

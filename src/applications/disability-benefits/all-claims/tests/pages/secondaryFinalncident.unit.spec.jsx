@@ -2,16 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
 import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+import { formConfigBase } from '../../config/form';
 
 describe('781a last incident details', () => {
-  const page = formConfig.chapters.disabilities.pages.secondaryFinalIncident;
+  const page =
+    formConfigBase.chapters.disabilities.pages.secondaryFinalIncident;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -19,7 +20,7 @@ describe('781a last incident details', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{
           'view:selectablePtsdTypes': {
@@ -37,7 +38,7 @@ describe('781a last incident details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -60,7 +61,7 @@ describe('781a last incident details', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Disability benefits 4192', () => {
@@ -12,7 +12,7 @@ describe('Disability benefits 4192', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.disabilities.pages.pastEmploymentFormIntro;
+  } = formConfigBase.chapters.disabilities.pages.pastEmploymentFormIntro;
 
   it('renders 4192 form intro choices', () => {
     const onSubmit = sinon.spy();
@@ -21,7 +21,7 @@ describe('Disability benefits 4192', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}
@@ -39,7 +39,7 @@ describe('Disability benefits 4192', () => {
         arrayPath={arrayPath}
         pagePerItemIndex={0}
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{}}
         formData={{}}

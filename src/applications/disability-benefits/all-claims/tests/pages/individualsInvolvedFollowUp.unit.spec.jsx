@@ -2,19 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
 import {
   DefinitionTester,
   fillData,
   fillDate,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+import { formConfigBase } from '../../config/form';
 
 describe('781 individuals involved', () => {
   const page =
-    formConfig.chapters.disabilities.pages.individualsInvolvedFollowUp0;
+    formConfigBase.chapters.disabilities.pages.individualsInvolvedFollowUp0;
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
@@ -22,7 +22,7 @@ describe('781 individuals involved', () => {
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         data={{
           'view:selectablePtsdTypes': {
@@ -42,7 +42,7 @@ describe('781 individuals involved', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
@@ -65,7 +65,7 @@ describe('781 individuals involved', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{

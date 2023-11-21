@@ -4,18 +4,19 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { formConfigBase } from '../../config/form.js';
 import initialData from '../schema/initialData.js';
 
 describe('781 choice screen', () => {
-  const page = formConfig.chapters.disabilities.pages.ptsdWalkthroughChoice781;
+  const page =
+    formConfigBase.chapters.disabilities.pages.ptsdWalkthroughChoice781;
   const { schema, uiSchema } = page;
 
   it('should submit without validation errors', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         formData={{ initialData }}
         data={{

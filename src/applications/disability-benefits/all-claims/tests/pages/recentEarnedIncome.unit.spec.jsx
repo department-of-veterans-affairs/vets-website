@@ -8,17 +8,17 @@ import {
   fillData,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
-import formConfig from '../../config/form';
+import { formConfigBase } from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Recent earned income', () => {
-  const page = formConfig.chapters.disabilities.pages.recentEarnedIncome;
+  const page = formConfigBase.chapters.disabilities.pages.recentEarnedIncome;
   const { schema, uiSchema } = page;
 
   it('should render', () => {
     const form = mount(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -33,7 +33,7 @@ describe('Recent earned income', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -63,7 +63,7 @@ describe('Recent earned income', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
@@ -94,7 +94,7 @@ describe('Recent earned income', () => {
     const form = mount(
       <DefinitionTester
         onSubmit={onSubmit}
-        definitions={formConfig.defaultDefinitions}
+        definitions={formConfigBase.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
       />,
