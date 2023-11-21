@@ -1,4 +1,4 @@
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 
 // Simple one level deep check
 export const isEmptyObject = obj =>
