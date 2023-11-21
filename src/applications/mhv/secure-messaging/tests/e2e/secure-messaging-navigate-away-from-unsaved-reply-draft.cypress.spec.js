@@ -24,13 +24,7 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
     });
 
     cy.get(Locators.FOLDERS.INBOX).click();
-    PatientReplyPage.verifyModalMessageDisplay();
-    cy.get('[data-testid="reply-form"]')
-      .find('va-button')
-      .should('have.attr', 'text', 'Continue editing');
-    cy.get('[data-testid="reply-form"]')
-      .find('va-button[secondary]')
-      .should('have.attr', 'text', 'Delete draft');
+    PatientReplyPage.verifyModalMessageDisplayAndBuddontsCantSaveDraft();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
