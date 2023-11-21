@@ -62,9 +62,10 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.subTree('.claim-contentions').text()).to.contain(
       'Condition 1, Condition 2, Condition 3',
     );
+
     expect(
-      tree.subTree('.claim-contentions').subTree('Link').props.to,
-    ).to.equal('your-claims/5/details');
+      tree.subTree('.claim-contentions').subTree('va-button').props.text,
+    ).to.equal('Show full list');
   });
   it('should render not available if no contention list', () => {
     const claim = {
