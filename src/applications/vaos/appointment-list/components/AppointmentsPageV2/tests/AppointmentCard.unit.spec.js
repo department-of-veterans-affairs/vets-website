@@ -1,16 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
 import { focusElement } from 'platform/utilities/ui';
+// import { useHistory } from 'react-router-dom';
+// eslint-disable-next-line no-restricted-imports
+import { createMemoryHistory } from 'history';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import AppointmentCard from '../AppointmentCard';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 import { SPACE_BAR } from '../../../../utils/constants';
 import { getVAAppointmentLocationId } from '../../../../services/appointment';
-import { useHistory } from 'react-router-dom';
 
 const appointmentData = {
   start: '2024-07-19T12:00:00Z',
   comment: 'Medication Review',
+  id: '1234',
   vaos: {
     isPastAppointment: true,
   },
@@ -43,8 +46,6 @@ function handleKeyDown({ history, link, idClickable }) {
 
 describe('AppointmentCard component', () => {
   const initialState = { featureToggles: {} };
-  const history = useHistory();
-  const link = <a href="#">Test Link</a>;
 
   it('should render comment in AppointmentCard', async () => {
     const appointment = {
@@ -60,10 +61,55 @@ describe('AppointmentCard component', () => {
       },
     };
 
+    const history = createMemoryHistory();
+    // const history = useHistory();
+    history.push('/home');
+    const link = <a href="#">Test Link</a>;
     const facilityId = getVAAppointmentLocationId(appointment);
     const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
-    // const props = { appointment, facilityData };
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData[facilityId]}
+        link={link}
+        handleClick={() => handleClick({ history, link, idClickable })}
+        handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(
+      await wrapper.queryByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.null;
+  });
+
+  it('should render comment in AppointmentCard', async () => {
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isVideo: true,
+        isAtlas: true,
+        extension: { patientHasMobileGfe: true },
+        kind: 'MOBILE_ANY',
+      },
+      vaos: {
+        isPastAppointment: true,
+      },
+    };
+
+    const history = createMemoryHistory();
+    // const history = useHistory();
+    history.push('/home');
+    const link = <a href="#">Test Link</a>;
+    const facilityId = getVAAppointmentLocationId(appointment);
+    const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+
     const wrapper = renderWithStoreAndRouter(
       <AppointmentCard
         appointment={appointment}
