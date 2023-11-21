@@ -43,6 +43,8 @@ function handleKeyDown({ history, link, idClickable }) {
 
 describe('AppointmentCard component', () => {
   const initialState = { featureToggles: {} };
+  const history = useHistory();
+  const link = <a href="#">Test Link</a>;
 
   it('should render comment in AppointmentCard', async () => {
     const appointment = {
@@ -58,9 +60,7 @@ describe('AppointmentCard component', () => {
       },
     };
 
-    const history = useHistory();
     const facilityId = getVAAppointmentLocationId(appointment);
-    const link = <a href="#">Test Link</a>;
     const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
     // const props = { appointment, facilityData };
