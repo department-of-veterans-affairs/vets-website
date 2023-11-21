@@ -47,10 +47,15 @@ export function isValidVAFileNumber(value) {
 }
 
 export function isValidYear(value) {
-  const parsedValue = Number(value);
-  if (!parsedValue) return false;
+  return Number(value) >= minYear && Number(value) <= maxYear;
+}
 
-  return parsedValue >= minYear && parsedValue <= maxYear;
+export function isValidPartialDate(day, month, year) {
+  if (year && !isValidYear(year)) {
+    return false;
+  }
+
+  return true;
 }
 
 export function isValidDate(day, month, year) {
@@ -131,7 +136,7 @@ export function isValidPartialMonthYear(month, year) {
     return false;
   }
 
-  return isValidYear(year);
+  return isValidPartialDate(null, null, year);
 }
 
 export function isValidPartialMonthYearInPast(month, year) {

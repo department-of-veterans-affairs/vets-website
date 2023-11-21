@@ -155,6 +155,7 @@ export {
 export {
   isValidSSN,
   isValidYear,
+  isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrFutureDate,
   isValidCurrentOrPastYear,

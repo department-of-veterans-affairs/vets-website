@@ -19,6 +19,7 @@ import {
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
   isValidDate,
+  isValidPartialDate,
 } from './utilities/validations';
 
 /*
@@ -368,7 +369,7 @@ export function validateDate(
     errors.addError(
       `Please enter a year between ${customMinYear} and ${customMaxYear}`,
     );
-  } else if (!isValidYear(year)) {
+  } else if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid year');
   } else if (!isValidDate(day, month, year)) {
     errors.addError('Please provide a valid date');
