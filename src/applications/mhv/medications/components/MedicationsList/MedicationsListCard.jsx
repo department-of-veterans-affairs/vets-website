@@ -33,9 +33,8 @@ const MedicationsListCard = props => {
             className="vads-u-margin-y--0p5 vads-u-font-size--h4 no-print"
             to={`/prescription/${rx.prescriptionId}`}
           >
-            {rx.dispStatus === 'Active: Non-VA'
-              ? rx.orderableItem
-              : rx.prescriptionName}
+            {rx.prescriptionName ||
+              (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
           </Link>
           <p
             className="vads-u-margin-y--0p5 vads-u-font-size--h4 print-only"
