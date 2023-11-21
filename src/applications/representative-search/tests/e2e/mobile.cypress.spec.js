@@ -10,7 +10,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#representative-search').click();
 
   // Result list
-  cy.get('#search-results-header').should('exist');
+  cy.get('.representative-search-results-container').should('exist');
 });
 
 describe('Mobile', () => {
