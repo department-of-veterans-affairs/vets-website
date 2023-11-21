@@ -18,12 +18,42 @@ class LabsAndTestsListPage {
     });
   }
   */
-
+  /*
   clickLabsAndTestsDetailsLink = (_LabsAndTestsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_LabsAndTestsIndex)
       .click();
+  };
+*/
+  clickLabsAndTestsRadiologyLink = () => {
+    cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').should(
+      'be.visible',
+    );
+    cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').click({
+      force: true,
+    });
+  };
+
+  verifyPrintOrDownload = () => {
+    // should display a toggle menu button
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click({ force: true });
+  };
+
+  verifyPrintButton = () => {
+    // should display print button for a list "Print this list"
+    cy.get('[data-testid="printButton-0"]').should('be.visible');
+  };
+
+  verifyDownloadPDF = () => {
+    // should display a download pdf file button "Download PDF of this page"
+    cy.get('[data-testid="printButton-1"]').should('be.visible');
+  };
+
+  verifyDownloadTextFile = () => {
+    // should display a download text file button "Download list as a text file"
+    cy.get('[data-testid="printButton-2"]').should('be.visible');
   };
 }
 
