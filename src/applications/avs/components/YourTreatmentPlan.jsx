@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import MedicationTerms from './MedicationTerms';
 import OrdersBlock from './OrdersBlock';
 import { ORDER_TYPES } from '../utils/constants';
 
@@ -33,9 +34,12 @@ const YourTreatmentPlan = props => {
 
   const medsIntro = (
     <>
-      Note: this section <strong>only</strong> lists <strong>changes</strong> to
-      your medication regimen. Please see your complete medication list under My
-      Ongoing Care below.
+      <p>
+        Note: this section <strong>only</strong> lists <strong>changes</strong>{' '}
+        to your medication regimen. Please see your complete medication list
+        under My Ongoing Care below.
+      </p>
+      <MedicationTerms avs={avs} />
     </>
   );
 
