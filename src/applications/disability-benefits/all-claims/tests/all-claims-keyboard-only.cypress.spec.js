@@ -19,12 +19,13 @@ import {
   SHOW_8940_4192,
 } from '../constants';
 
+const MOCK_DATA_LOCATION = path.join(
+  __dirname,
+  'fixtures/data/maximal-test.json',
+);
+
 describe('526EZ keyboard only navigation', () => {
   before(() => {
-    cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test.json')).as(
-      'testData',
-    );
-
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
     window.sessionStorage.removeItem(FORM_STATUS_BDD);
@@ -62,7 +63,7 @@ describe('526EZ keyboard only navigation', () => {
       '',
     );
 
-    cy.get('@testData').then(data => {
+    cy.fixture(MOCK_DATA_LOCATION).then(data => {
       const sanitizedRatedDisabilities = (data.ratedDisabilities || []).map(
         ({ 'view:selected': _, ...obj }) => obj,
       );
@@ -128,7 +129,7 @@ describe('526EZ keyboard only navigation', () => {
   */
 
   it('navigate through a maximal form', () => {
-    cy.get('@testData').then(() => {
+    cy.fixture(MOCK_DATA_LOCATION).then(({ data }) => {
       let idRoot = '';
       const { chapters } = formConfig;
       const veteranDetailsPages = chapters.veteranDetails.pages;
@@ -175,22 +176,30 @@ describe('526EZ keyboard only navigation', () => {
       // Sections 1. and 2. here cause the github action test runner to time
       // out without returning any kind of failure log. Can't figure out why.
 
-      // // 1. Can update existing info
-      // cy.tabToElementAndPressSpace('.edit-button');
-      // // NOTE: Cypress quirk requires you to clear current input before typing
-      // // new input. IRL, this is not necessary.
-      // cy.tabToElement('#root_phoneAndEmail_primaryPhone');
-      // cy.typeInFocused('');
-      // cy.typeInFocused(data.phoneAndEmail.primaryPhone);
-      // cy.typeInIfDataExists(
-      // '#root_phoneAndEmail_emailAddress',
-      // data.phoneAndEmail.emailAddress,
-      // );
-      // cy.tabToElementAndPressSpace('.update-button');
+      // 1. Can update existing info
+      idRoot = '#root_phoneAndEmail_';
+      cy.get('.edit-button').focus();
+      cy.realPress('Enter');
+      // NOTE: Cypress quirk requires you to clear current input before typing
+      // new input. IRL, this is not necessary.
+      cy.tabToElement(`${idRoot}primaryPhone`);
+      cy.typeInFocused('');
+      cy.typeInFocused(data.phoneAndEmail.primaryPhone);
+      cy.typeInIfDataExists(
+        `${idRoot}emailAddress`,
+        data.phoneAndEmail.emailAddress,
+      );
+      cy.tabToElement('.update-button');
+      // cy.get(':focus').focus();
+      cy.realPress('Space');
 
-      // // 2. Can start editing but then cancel
-      // cy.tabToElementAndPressSpace('.edit-button');
-      // cy.tabToElementAndPressSpace('.cancel-button');
+      // 2. Can start editing but then cancel
+      cy.get('.edit-button')
+        .focus()
+        .realPress('Enter');
+      cy.tabToElement('.cancel-button');
+      // cy.get(':focus').focus();
+      cy.realPress('Space');
 
       // 3. Can indicate address on a military base outside of the US
       idRoot = '#root_mailingAddress_';
