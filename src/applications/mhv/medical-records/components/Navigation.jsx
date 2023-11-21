@@ -150,7 +150,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className="vads-u-flex--auto vads-u-padding-bottom--7 medium-screen:vads-u-padding-bottom--0 no-print">
+    <div className="vads-u-flex--auto vads-u-padding-bottom--3 medium-screen:vads-u-padding-bottom--0 no-print">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">

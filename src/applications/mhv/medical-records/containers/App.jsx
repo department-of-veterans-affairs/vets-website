@@ -7,6 +7,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
+import NavigationNew from '../components/NavigationNew';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
@@ -100,27 +101,29 @@ const App = ({ children }) => {
         className="vads-l-grid-container vads-u-padding-left--2"
       >
         <MrBreadcrumbs />
-        <div className="vads-l-grid-container vads-u-padding-left--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col">
-              <div
-                className="vads-u-display--flex
+        <div className="vads-l-grid-container vads-u-padding-x--0">
+          <div
+            className="vads-u-display--flex
                            vads-u-flex-direction--column
                            small-screen:vads-u-flex-direction--row"
-              >
-                {showSideNav && (
-                  <>
-                    <Navigation />
-                    <div className="vads-u-margin-right--4" />
-                  </>
+          >
+            {showSideNav && (
+              <>
+                <Navigation />
+                <div className="vads-u-margin-right--4" />
+              </>
+            )}
+            <div className="vads-l-grid-container vads-u-padding-x--0">
+              <div className="vads-l-row">
+                <div className="vads-l-col">
+                  <div className="">{children}</div>
+                </div>
+                {!showSideNav && (
+                  <div className="medium-screen:vads-l-col--4 no-print" />
                 )}
-                <div className="">{children}</div>
-                <va-back-to-top hidden={isHidden} />
               </div>
             </div>
-            {!showSideNav && (
-              <div className="medium-screen:vads-l-col--4 no-print" />
-            )}
+            <va-back-to-top hidden={isHidden} />
           </div>
         </div>
         <ScrollToTop />
