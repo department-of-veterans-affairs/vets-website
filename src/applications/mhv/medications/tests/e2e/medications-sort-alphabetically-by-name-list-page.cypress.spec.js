@@ -3,8 +3,8 @@ import mockRxPageOne from './fixtures/prescriptions.json';
 import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications List Page Sort Alphabetically By Status', () => {
-  it('visits Medications list Page Sort Alphabetically By Status', () => {
+describe('Medications List Page Sort Alphabetically By Name', () => {
+  it('visits Medications list Page Sort Alphabetically By Name', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     site.login();
@@ -35,9 +35,9 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    listPage.selectSortDropDownOption('Alphabetically by status');
-    listPage.clickSortAlphabeticallyByStatus();
-    listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
+    listPage.selectSortDropDownOption('Alphabetically by name');
+    listPage.clickSortAlphabeticallyByName();
+    listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
       1,
       20,
       listLength,
