@@ -29,6 +29,7 @@ import {
 } from '../util/pdfConfigs';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
@@ -66,6 +67,7 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
+      updatePageTitle('Medications | Veterans Affairs');
       const newUrl = `/my-health/medications/${currentPage}`;
       window.history.pushState(null, '', newUrl);
     },
@@ -94,7 +96,9 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
-      setLoading(true);
+      if (!paginatedPrescriptionsList) {
+        setLoading(true);
+      }
       dispatch(
         getPrescriptionsPaginatedSortedList(
           currentPage,
@@ -102,6 +106,8 @@ const Prescriptions = props => {
         ),
       ).then(() => setLoading(false));
     },
+    // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, currentPage, selectedSortOption],
   );
 

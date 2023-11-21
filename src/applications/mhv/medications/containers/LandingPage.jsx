@@ -7,6 +7,7 @@ import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { medicationsUrls } from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const LandingPage = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const LandingPage = () => {
     },
     state => state.featureToggles,
   );
+
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
@@ -31,16 +33,19 @@ const LandingPage = () => {
   const focusAndOpenAccordionRxRenew = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
-    manageMedicationsAccordionSection.current.scrollIntoView();
+    if (!featureTogglesLoading && appEnabled) {
+      manageMedicationsAccordionSection.current.scrollIntoView();
+    }
   };
 
   useEffect(
     () => {
+      updatePageTitle('About medications | Veterans Affairs');
       if (location.pathname.includes('/accordion-renew-rx')) {
         focusAndOpenAccordionRxRenew();
       }
     },
-    [location.pathname],
+    [location.pathname, featureTogglesLoading, appEnabled],
   );
 
   const content = () => {

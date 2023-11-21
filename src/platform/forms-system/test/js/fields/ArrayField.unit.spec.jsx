@@ -459,3 +459,67 @@ describe('Schemaform <ArrayField>', () => {
     expect(tree.subTree('button').props.disabled).to.be.true;
   });
 });
+
+describe('should handle generateIndividualItemHeaders boolean', () => {
+  let tree;
+  let errorSchema;
+  let onChange;
+  let onBlur;
+  beforeEach(() => {
+    const idSchema = {
+      $id: 'root_field',
+    };
+    const schema = {
+      type: 'array',
+      items: [],
+      maxItems: 2,
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f,
+        generateIndividualItemHeaders: true,
+      },
+    };
+    const formData = [{}, {}];
+    errorSchema = {};
+    onChange = sinon.spy();
+    onBlur = sinon.spy();
+    tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        errorSchema={errorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+        formContext={formContext}
+        requiredSchema={requiredSchema}
+      />,
+    );
+  });
+  it('add with generateIndividualItemHeaders true', () => {
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+
+    tree.getMountedInstance().handleAdd();
+    tree.getMountedInstance().handleAdd();
+    tree.getMountedInstance().handleEdit(0);
+
+    expect(tree.everySubTree('.vads-u-font-size--h5')[0].text()).to.equal(
+      'item',
+    );
+    expect(tree.everySubTree('.vads-u-font-size--h5')[1].text()).to.equal(
+      'New item',
+    );
+  });
+});

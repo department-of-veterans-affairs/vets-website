@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,7 +10,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -112,17 +116,13 @@ const AllergyDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Allergies-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
   };
 
   const generateAllergyTxt = async () => {
-    const product = `
+    const content = `
     ${allergy.name} \n
     Date entered: ${allergy.date} \n
     _____________________________________________________ \n
@@ -132,14 +132,7 @@ const AllergyDetails = props => {
     \t Observed or historical: ${allergy.observedOrReported} \n
     \t Provider notes: ${allergy.notes} \n`;
 
-    const blob = new Blob([product], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Allergy';
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    generateTextFile(content, 'Allergy');
   };
 
   const content = () => {

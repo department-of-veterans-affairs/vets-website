@@ -20,7 +20,7 @@ import { ROUTES } from '../../../constants';
 describe('PACT Act', () => {
   describe('1989 or earlier - Mixed responses (Results screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
-      cy.visit('/pact-act-wizard-test');
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

@@ -1,10 +1,12 @@
 import loggedInUser from './fixtures/mocks/loggedInUser.json';
-import features from './fixtures/mocks/features.json';
+import featuresDisabled from './fixtures/mocks/featuresDisabled.json';
+import featuresEnabled from './fixtures/mocks/featuresEnabled.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 
 const TEST_URL = '/pension/how-to-apply/';
 
-const setup = ({ authenticated } = {}) => {
+const setup = ({ authenticated, isEnabled = true } = {}) => {
+  const features = isEnabled ? featuresEnabled : featuresDisabled;
   cy.intercept('GET', '/v0/feature_toggles*', features);
   if (!authenticated) {
     cy.visit(TEST_URL);
@@ -15,7 +17,7 @@ const setup = ({ authenticated } = {}) => {
   cy.visit(TEST_URL);
 };
 
-describe('The Pension Widget - Not Authenticated', () => {
+describe('The Pension Apply Widget - Not Authenticated, Flipper Enabled', () => {
   beforeEach(() => {
     setup();
     cy.injectAxe();
@@ -26,9 +28,31 @@ describe('The Pension Widget - Not Authenticated', () => {
   });
 });
 
-describe('The Pension Widget - Authenticated', () => {
+describe('The Pension Apply Widget - Authenticated, Flipper Enabled', () => {
   beforeEach(() => {
     setup({ authenticated: true });
+    cy.injectAxe();
+  });
+
+  it('Accessibility check', () => {
+    cy.axeCheck();
+  });
+});
+
+describe('The Deactivated Pension Apply Widget - Not Authenticated, Flipper Disabled', () => {
+  beforeEach(() => {
+    setup({ isEnabled: false });
+    cy.injectAxe();
+  });
+
+  it('Accessibility check', () => {
+    cy.axeCheck();
+  });
+});
+
+describe('The Deactivated Pension Apply Widget - Authenticated, Flipper Disabled', () => {
+  beforeEach(() => {
+    setup({ authenticated: true, isEnabled: false });
     cy.injectAxe();
   });
 
