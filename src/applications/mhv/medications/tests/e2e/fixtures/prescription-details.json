@@ -1,26 +1,26 @@
 {
     "data": {
         "id": "22220410",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 22220410,
-                "prescriptionNumber": "3636930",
-                "prescriptionName": "ABACAVIR SULF 600/LAMIVUDINE 300MG TAB",
-                "refillStatus": "unknown",
-                "refillSubmitDate": null,
-                "refillDate": "2023-04-15T04:00:00.000Z",
-                "refillRemaining": 3,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2023-04-15T04:00:00.000Z",
-                "quantity": 30,
-                "expirationDate": "2024-04-15T04:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": true,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22220410"
-            }
+        "type": "prescriptions",
+        "attributes": {
+            "prescriptionId": 22220410,
+            "prescriptionNumber": "3636930",
+            "prescriptionName": "ABACAVIR SULF 600/LAMIVUDINE 300MG TAB",
+            "refillStatus": "unknown",
+            "refillSubmitDate": null,
+            "refillDate": "2023-04-15T04:00:00.000Z",
+            "refillRemaining": 3,
+            "facilityName": "SLC10 TEST LAB",
+            "orderedDate": "April 14, 2023",
+            "quantity": 30,
+            "expirationDate": "April 14, 2024",
+            "dispensedDate": null,
+            "stationNumber": "979",
+            "isRefillable": true,
+            "isTrackable": false
+        },
+        "links": {
+            "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22220410"
+        }
     }
 }

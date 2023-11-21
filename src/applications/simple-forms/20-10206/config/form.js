@@ -31,25 +31,25 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'pa-10206',
+  trackingPrefix: 'pa-10206-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10206',
   hideUnauthedStartLink: true,
 
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your personal records application (20-10206) is in progress.',
-    //   expired: 'Your saved personal records application (20-10206) has expired. If you want to apply for personal records, please start a new application.',
-    //   saved: 'Your personal records application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your personal records request (20-10206) is in progress.',
+      expired:
+        'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
+      saved: 'Your Personal records request has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for personal records.',
-    noAuth:
-      'Please sign in again to continue your application for personal records.',
+    notFound: 'Please start over to request personal records.',
+    noAuth: 'Please sign in again to continue your Personal records request.',
   },
   title: 'Request personal records',
   defaultDefinitions: {},

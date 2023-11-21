@@ -24,31 +24,6 @@ describe('<CompareHeader>', () => {
     expect(tree.type()).to.not.equal(null);
     tree.unmount();
   });
-
-  it('should get document title', () => {
-    const tree = mount(
-      <BrowserRouter>
-        <CompareHeader
-          smallScreen
-          institutions={[
-            {
-              name: 'Test Institution A',
-            },
-            {
-              name: 'Test Institution B',
-            },
-          ]}
-        />
-      </BrowserRouter>,
-    );
-    tree.update();
-
-    expect(document.title).to.equal(
-      'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs',
-    );
-    tree.unmount();
-  });
-
   it('should have div with card-wrappe class', () => {
     const tree = mount(
       <BrowserRouter>

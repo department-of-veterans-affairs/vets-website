@@ -9,12 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { checkValidations } from '../validations';
-import {
-  uniqueIssue,
-  missingIssueName,
-  maxNameLength,
-} from '../validations/issues';
+import { maxNameLength } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
 
@@ -26,6 +21,8 @@ import {
 } from '../../shared/constants';
 import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
 import { setStorage } from '../../shared/utils/addIssue';
+import { checkValidations } from '../../shared/validations';
+import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
