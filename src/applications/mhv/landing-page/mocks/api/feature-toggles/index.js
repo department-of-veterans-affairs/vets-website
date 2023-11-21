@@ -1,7 +1,7 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPageEnabled = true,
-    mhvLandingPageWelcome = true,
+    mhvLandingPagePersonalization = true,
   } = toggles;
 
   return {
@@ -13,8 +13,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvLandingPageEnabled,
         },
         {
-          name: 'mhv_landing_page_welcome',
-          value: mhvLandingPageWelcome,
+          name: 'mhv_landing_page_personalization',
+          value: mhvLandingPagePersonalization,
         },
       ],
     },
