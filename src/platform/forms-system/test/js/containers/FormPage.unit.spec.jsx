@@ -486,6 +486,34 @@ describe('Schemaform <FormPage>', () => {
     expect(setData.firstCall).to.eql(null);
   });
 
+  it('getArrayIndexedData and setArrayIndexedData should behave correctly', () => {
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+      />,
+    );
+
+    const formPage = tree.getMountedInstance();
+    const data = formPage.getArrayIndexedData();
+    expect(data).to.eql(undefined);
+
+    const newData = formPage.setArrayIndexedData({
+      name: 'bob',
+    });
+    expect(newData).to.eql({
+      arrayProp: [
+        {
+          name: 'bob',
+        },
+      ],
+    });
+  });
+
   it('should allow going to an array page with no data if allowPathWithNoItems is enabled', () => {
     const router = {
       push: sinon.spy(),
