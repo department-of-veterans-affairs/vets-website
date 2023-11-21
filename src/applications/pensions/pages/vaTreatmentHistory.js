@@ -7,7 +7,7 @@ import {
 export default {
   uiSchema: {
     'ui:title': 'Treatment from a VA medical center',
-    treatmentHistory: yesNoUI({
+    vaTreatmentHistory: yesNoUI({
       title: 'Have you received treatment from a VA medical center?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
@@ -15,9 +15,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['treatmentHistory'],
+    required: ['vaTreatmentHistory'],
     properties: {
-      treatmentHistory: yesNoSchema,
+      vaTreatmentHistory: yesNoSchema,
     },
   },
 };

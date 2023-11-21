@@ -48,10 +48,19 @@
     "socialSecurityDisability": false,
     "medicalCondition": false,
     "nursingHome": false,
-    "treatmentHistory": true,
-    "medicalCenters": [
+    "vaTreatmentHistory": true,
+    "vaMedicalCenters": [
       {
         "medicalCenter": "Dallas Fort Worth VA Medical Center"
+      }
+    ],
+    "federalTreatmentHistory": true,
+    "federalMedicalCenters": [
+      {
+        "medicalCenter": "Memphis Health Care"
+      },
+      {
+        "medicalCenter": "Nashville Health Care"
       }
     ],
     "disabilities": [
