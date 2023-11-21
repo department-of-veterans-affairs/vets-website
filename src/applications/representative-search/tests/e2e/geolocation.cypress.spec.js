@@ -19,6 +19,7 @@ describe('User geolocation', () => {
     cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
 
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    cy.injectAxe();
     cy.axeCheck();
     cy.mockGeolocation();
 

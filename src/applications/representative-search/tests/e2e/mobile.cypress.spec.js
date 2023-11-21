@@ -29,8 +29,8 @@ describe('Mobile', () => {
 
   it('should render in mobile layouts', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
-    cy.axeCheck();
     cy.injectAxe();
+    cy.axeCheck();
 
     // iPhone X
     cy.viewport(400, 812);
