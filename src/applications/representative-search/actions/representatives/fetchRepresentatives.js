@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import {
   FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
@@ -53,6 +54,11 @@ export const fetchRepresentatives = async (
       dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
     }
   } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage('Error fetching accredited representatives');
+    });
+
     dispatch({ type: SEARCH_FAILED, error: error.message });
   }
 
