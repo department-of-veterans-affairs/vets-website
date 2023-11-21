@@ -10,6 +10,7 @@ import { issueErrorMessages } from '../../content/addIssue';
 
 import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -154,7 +155,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(issueErrorMessages.uniqueIssue);
+    expect(textInput.error).to.contain(sharedErrorMessages.uniqueIssue);
   });
 
   it('should submit when everything is valid', () => {

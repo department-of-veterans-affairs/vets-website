@@ -29,14 +29,21 @@ const MedicationsListCard = props => {
           id={`card-header-${rx.prescriptionId}`}
         >
           <Link
-            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
-            to={`/prescription/${rx.prescriptionId}`}
             data-testid="medications-history-details-link"
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4 no-print"
+            to={`/prescription/${rx.prescriptionId}`}
+          >
+            {rx.prescriptionName ||
+              (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+          </Link>
+          <p
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4 print-only"
+            to={`/prescription/${rx.prescriptionId}`}
           >
             {rx.dispStatus === 'Active: Non-VA'
               ? rx.orderableItem
               : rx.prescriptionName}
-          </Link>
+          </p>
         </h3>
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
@@ -44,6 +51,7 @@ const MedicationsListCard = props => {
           <div
             id="status"
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
+            data-testid="rxStatus"
           >
             {rx.dispStatus !== 'Active: Refill in Process'
               ? rx.dispStatus

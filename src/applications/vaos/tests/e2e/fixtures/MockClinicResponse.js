@@ -1,11 +1,11 @@
 /* eslint-disable no-plusplus */
-export class MockClinicResponse {
+export default class MockClinicResponse {
   constructor({ id, name, locationId = '983' }) {
     this.id = id;
     this.type = 'MockClinic';
     this.attributes = {
       vistaSite: locationId,
-      id: '308',
+      id,
       serviceName: name,
       stationId: locationId,
       patientDirectScheduling: true,

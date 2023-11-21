@@ -613,6 +613,7 @@ export const serviceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
     generateIndividualItemHeaders: true,
+    useHeaderStyling: true,
   },
   items: {
     'ui:order': [
