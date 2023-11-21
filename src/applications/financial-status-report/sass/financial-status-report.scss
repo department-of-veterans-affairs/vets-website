@@ -46,8 +46,10 @@
 
 .item-loop-container {
   margin-top: 10px;
-  table {
+  va-table {
     table-layout: fixed;
+    width: 100%;
+    background-color: $color-gray-lightest;
   }
   .item-loop {
     padding: 15px 30px;
