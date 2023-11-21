@@ -140,6 +140,24 @@ class PatientReplyPage {
         );
     }
   };
+
+  verifyModalMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('h1')
+      .should('have.text', "We can't save this message yet");
+  };
+
+  verifyContnueButtonMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button')
+      .should('have.attr', 'text', 'Continue editing');
+  };
+
+  verifyDeleteButtonMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button[secondary]')
+      .should('have.attr', 'text', 'Delete draft');
+  };
 }
 
 export default new PatientReplyPage();
