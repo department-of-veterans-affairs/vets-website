@@ -282,6 +282,7 @@ const formConfig = {
         page9: {
           path: 'other-health-insurance',
           title: 'Other Health Insurance',
+          arrayPath: 'coverages',
           depends: form => get('hasOtherHealthInsurance', form),
           uiSchema: {
             'ui:title': 'Other Coverages',
@@ -289,7 +290,9 @@ const formConfig = {
               'Provide all periods of OHI coverage since becoming CHAMPVA eligible and attach a copy of any active health insurance cards (front and back).',
             coverages: {
               'ui:options': {
-                itemName: 'Coverage',
+                // itemName is what's displayed on the "add another" button
+                // itemName: (formData, index) =>
+                // 'ui:title': formData => formData.coverages[index]?.nameOfInsurance
                 viewField: CoverageField,
                 keepInPageOnReview: true,
                 useDlWrap: false,
@@ -317,6 +320,46 @@ const formConfig = {
                     nameOfInsurance: { type: 'string' },
                     // TODO: add more details about coverage
                     // incl. the ability to upload ID card
+                  },
+                },
+              },
+            },
+          },
+        },
+        page10: {
+          path: 'other-health-insurance/:index/effective-date',
+          depends: form => get('hasOtherHealthInsurance', form),
+          arrayPath: 'coverages',
+          showPagePerItem: true,
+          title: 'Page 10', // This only shows on the review page
+          uiSchema: {
+            'ui:title': 'OHI Effective Date',
+            'ui:description': 'Provide date OHI coverage became effective.',
+            coverages: {
+              'ui:options': {
+                itemName: 'Coverage',
+                viewField: CoverageField,
+                keepInPageOnReview: true,
+                useDlWrap: false,
+              },
+              items: {
+                ohiEffectiveDate: {
+                  ...currentOrPastDateUI(),
+                  'ui:required': () => true,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              coverages: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    ohiEffectiveDate: { type: 'string' },
                   },
                 },
               },
