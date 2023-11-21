@@ -4,6 +4,7 @@ import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
+import prescription from '../fixtures/prescription-details.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -204,6 +205,46 @@ class MedicationsListPage {
         nonVARx.data.id
       } > [data-testid="medications-history-details-link"]`,
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
+  };
+
+  clickRefillButton = () => {
+    cy.intercept(
+      'PATCH',
+      '/my_health/v1/prescriptions/22220410/refill',
+      prescription,
+    );
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).should('be.enabled');
+
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).click({ waitForAnimations: true });
+  };
+
+  verifySuccessMessageAfterRefillRequest = () => {
+    cy.get('[data-testid="success-message"]').should(
+      'contain',
+      'We got your request to fill this prescription.',
+    );
+    // .and('have.focus');
+  };
+
+  clickRefillButtonForVerifyingError = () => {
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).should('be.enabled');
+
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).click({ waitForAnimations: true });
+  };
+
+  verifyInlineErrorMessageForRefillRequest = () => {
+    cy.get('[data-testid="error-alert"]').should(
+      'contain',
+      'We didn’t get your request. Try again',
+    );
   };
 }
 export default MedicationsListPage;
