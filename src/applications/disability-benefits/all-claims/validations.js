@@ -412,7 +412,7 @@ export const validateDisabilityName = (
   _schema,
   _uiSchema,
   _index,
-  appStateData,
+  appStateData = { isRevisedDisabilityList: false },
 ) => {
   // We're using a validator for length instead of adding a maxLength schema
   // property because the validator is only applied conditionally - when a user
