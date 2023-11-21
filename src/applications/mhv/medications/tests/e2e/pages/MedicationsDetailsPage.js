@@ -98,7 +98,7 @@ class MedicationsDetailsPage {
     cy.get(
       `#card-header-${
         prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      } > .no-print`,
     ).should('be.visible');
     cy.get(
       `#card-header-${
