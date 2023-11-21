@@ -7,7 +7,6 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
-import NavigationNew from '../components/NavigationNew';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
