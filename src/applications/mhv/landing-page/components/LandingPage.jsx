@@ -13,16 +13,15 @@ import {
   welcomeEnabled,
 } from '../selectors';
 
-const LandingPage = ({ data = null }) => {
-  const { cards = null, hubs } = data;
-  // Show the cards only for those users with health data.
+const LandingPage = ({ data = {} }) => {
+  const { cards = [], hubs = [] } = data;
   const name = useSelector(selectGreetingName);
   const showCards = useSelector(hasHealthData);
   const showWelcome = useSelector(welcomeEnabled);
 
   return (
     <div
-      className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--9"
+      className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
       data-testid="landing-page-container"
     >
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">

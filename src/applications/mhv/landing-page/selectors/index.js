@@ -13,7 +13,7 @@ const selectVamcEhrData = state =>
   selectDrupalStaticData(state)?.vamcEhrData || {};
 
 const selectGreetingName = state =>
-  state?.profile?.userFullName?.first || state?.profile?.email;
+  state?.user?.profile?.userFullName?.first || state?.user?.profile?.email;
 
 export {
   hasHealthData,
