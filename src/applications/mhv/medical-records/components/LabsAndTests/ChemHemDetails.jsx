@@ -141,9 +141,9 @@ Sample tested: ${record.clinicalHistory} \n
 Ordered by: ${record.orderedBy} \n
 Order location: ${record.orderingLocation} \n
 Collecting location: ${record.imagingLocation} \n
-Provider notes: ${processList(record.comments)} \n;
+Provider notes: ${processList(record.comments)} \n
 _____________________________________________________\n\n
-Results: \n
+Results:
 ${record.results.map(
       entry => `
 _____________________________________________________\n
@@ -153,7 +153,7 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab location: ${entry.labLocation}
-Interpretation: ${entry.interpretation}\n,`,
+Interpretation: ${entry.interpretation}\n`,
     )}`;
 
     generateTextFile(
