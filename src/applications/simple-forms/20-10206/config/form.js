@@ -1,4 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import footerContent from 'platform/forms/components/FormFooter';
+import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
 // we're NOT using JSON Schema for this form, so we don't need to import it
@@ -33,6 +35,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10206',
+  hideUnauthedStartLink: true,
+
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your personal records application (20-10206) is in progress.',
@@ -133,6 +137,17 @@ const formConfig = {
       },
     },
   },
+  customText: {
+    appSavedSuccessfullyMessage: 'Your request has been saved.',
+    startNewAppButtonText: 'Start a new request',
+    continueAppButtonText: 'Continue your request',
+    finishAppLaterMessage: 'Finish this request later',
+    appType: 'request',
+    appAction: 'requesting your personal records',
+    submitButtonText: 'Submit request',
+  },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;
