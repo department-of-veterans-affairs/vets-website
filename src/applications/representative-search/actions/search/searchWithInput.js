@@ -5,36 +5,39 @@ import { SEARCH_STARTED } from '../../utils/actionTypes';
 import { fetchRepresentatives } from '../representatives/fetchRepresentatives';
 
 /**
- * Find which locations exist within the given bounding box's area.
- *
- * Allows for filtering on location types and services provided.
- *
- * @param {{bounds: number[], facilityType: string, serviceType: string, page: number, apiVersion: number}}
+ * @param {{address: string, lat: number, long: number, name: string, page: number, per_page: number, sort: string}}
  */
-export const searchWithBounds = ({
-  bounds,
-  representativeType,
-  page = 1,
-  center,
-  radius,
+
+/* eslint-disable camelcase */
+export const searchWithInput = ({
+  address,
+  lat,
+  long,
+  name,
+  page,
+  per_page,
+  sort,
+  type,
 }) => {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
         currentPage: page,
-        searchBoundsInProgress: true,
+        searchWithInputInProgress: true,
       },
     });
 
     fetchRepresentatives(
-      null,
-      bounds,
-      representativeType,
+      address,
+      lat,
+      long,
+      name,
       page,
+      per_page,
+      sort,
+      type,
       dispatch,
-      center,
-      radius,
     );
   };
 };
