@@ -347,6 +347,7 @@ export default class ArrayField extends React.Component {
                 id={`${idSchema.$id}__title`}
                 title={title}
                 formContext={formContext}
+                useHeaderStyling={uiOptions.useHeaderStyling}
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}
