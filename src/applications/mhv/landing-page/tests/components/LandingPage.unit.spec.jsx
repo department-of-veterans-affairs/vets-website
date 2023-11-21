@@ -6,13 +6,11 @@ import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-
 import LandingPage from '../../components/LandingPage';
 
 const stateFn = ({
-  featureTogglesLoading = false,
-  mhv_landing_page_welcome = false,
+  mhv_landing_page_personalization = false,
   facilities = [{ facilityId: 983, isCerner: false }],
 } = {}) => ({
   featureToggles: {
-    loading: featureTogglesLoading,
-    mhv_landing_page_welcome,
+    mhv_landing_page_personalization,
   },
   user: {
     profile: {
@@ -34,7 +32,7 @@ describe('LandingPage component', () => {
   });
 
   it('shows the Welcome component, when enabled', () => {
-    const initialState = stateFn({ mhv_landing_page_welcome: true });
+    const initialState = stateFn({ mhv_landing_page_personalization: true });
     const { getByText } = setup({ initialState });
     getByText('Welcome, Sam');
   });

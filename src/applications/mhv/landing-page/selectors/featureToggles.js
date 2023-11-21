@@ -11,10 +11,10 @@ export const isLandingPageEnabled = state => {
 };
 
 /**
- * Determines if the Landing Page Welcome component is enabled.
+ * Determines if the Landing Page Personalization changes are enabled.
  * @param {Object} state Current redux state.
  * @returns {Boolean}
  */
-export const welcomeEnabled = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPageWelcome];
+export const personalizationEnabled = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPagePersonalization];
 };
