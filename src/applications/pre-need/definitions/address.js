@@ -286,6 +286,7 @@ export function uiSchema(
     'ui:title': label,
     'ui:validations': [validateAddress],
     'ui:options': {
+      useHeaderStyling: true,
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
 

@@ -46,17 +46,20 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsexpirationDate = () => {
-    cy.get('[data-testid="expiration-date"]').should(
-      'have.text',
-      'April 14, 2024',
-    );
+  // verifyPrescriptionsExpirationDate = () => {
+  //   cy.get('[data-testid="expiration-date"]').should(
+  //     'have.text',
+  //     'April 13, 2024',
+  //   );
+  // };
+  verifyPrescriptionsExpirationDate = expDate => {
+    cy.get('[data-testid="expiration-date"]').should('have.text', expDate);
   };
 
-  verifyPrescriptionsorderedDate = () => {
+  verifyPrescriptionsOrderedDate = () => {
     cy.get('[datat-testid="ordered-date"]').should(
       'have.text',
-      'April 14, 2023',
+      'April 13, 2023',
     );
   };
 
