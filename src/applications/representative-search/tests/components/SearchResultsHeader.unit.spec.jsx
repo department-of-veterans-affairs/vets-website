@@ -152,7 +152,7 @@ describe('SearchResultsHeader', () => {
     let wrapper = shallow(
       <SearchResultsHeader
         results={[testDataRepresentative]}
-        representativeType={RepresentativeType.CLAIMS_AGENT}
+        representativeType={RepresentativeType.CLAIM_AGENTS}
         context="new jersey"
         pagination={{ totalEntries: 5 }}
       />,
@@ -160,7 +160,7 @@ describe('SearchResultsHeader', () => {
     wrapper = shallow(
       <SearchResultsHeader
         results={[testDataRepresentative]}
-        representativeType={RepresentativeType.CLAIMS_AGENT}
+        representativeType={RepresentativeType.CLAIM_AGENTS}
         context="new york"
         pagination={{ totalEntries: 5 }}
       />,
