@@ -17,6 +17,17 @@ import touData from '../touData';
 
 const touUpdatedDate = `September 2023`;
 
+const redirectUserToErrorPage = () => {
+  setTimeout(() => {
+    window.history.pushState(
+      {},
+      '',
+      '/auth/login/callback/?auth=fail&code=110',
+    );
+    window.history.go();
+  }, 3000);
+};
+
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -25,14 +36,15 @@ export default function TermsOfUse() {
   const redirectLocation = new URL(window.location);
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
+  const ssoeTarget = redirectLocation.searchParams.get('ssoeTarget');
   const redirectUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
     redirectLocation.searchParams.get('redirect_url') ||
-    redirectLocation.searchParams.get('ssoeTarget');
+    ssoeTarget;
 
   useEffect(
     () => {
-      if (!termsCodeExists) {
+      if (!termsCodeExists && !ssoeTarget) {
         apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
           const [{ code, title }] = response.errors;
           if (code === '401' || title?.includes('Not authorized')) {
@@ -48,8 +60,31 @@ export default function TermsOfUse() {
         );
       }
     },
-    [termsCodeExists, redirectUrl],
+    [termsCodeExists, redirectUrl, ssoeTarget],
   );
+
+  // useEffect(
+  //   () => {
+  //     if (ssoeTarget && ssoeTarget?.includes(`patientportal.myhealth.va.gov`)) {
+  //       apiRequest(`/terms_of_use_agreements/update_provisioning`, {
+  //         method: 'PUT',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         credentials: 'include',
+  //       })
+  //         .then(response => {
+  //           if (response?.provisioned) {
+  //             window.location = parseRedirectUrl(
+  //               decodeURIComponent(ssoeTarget),
+  //             );
+  //           }
+  //         })
+  //         .catch(() => {
+  //           redirectUserToErrorPage();
+  //         });
+  //     }
+  //   },
+  //   [ssoeTarget],
+  // );
 
   const handleTouClick = async type => {
     const termsCode = termsCodeExists
@@ -69,6 +104,29 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
+          if (
+            ssoeTarget &&
+            ssoeTarget?.includes(`patientportal.myhealth.va.gov`)
+          ) {
+            try {
+              const nextResponse = await apiRequest(
+                `/terms_of_use_agreements/update_provisioning`,
+                {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'application/json' },
+                  credentials: 'include',
+                },
+              );
+
+              if (nextResponse?.provisioned) {
+                window.location = parseRedirectUrl(
+                  decodeURIComponent(ssoeTarget),
+                );
+              }
+            } catch {
+              redirectUserToErrorPage();
+            }
+          }
           window.location = encodeURI(parseRedirectUrl(redirectUrl));
         }
 
