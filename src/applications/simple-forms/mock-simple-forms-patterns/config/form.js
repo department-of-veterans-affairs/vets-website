@@ -18,8 +18,11 @@ import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran'
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 import arraySinglePage from '../pages/mockArraySinglePage';
-import arrayMultiplePageStart from '../pages/mockArrayMultiplePageStart';
-import arrayMultiplePageItem from '../pages/mockArrayMultiplePageItem';
+import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
+import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
+import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
+import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
 
 // helps for dev testing and e2e
 const INCLUDE_PAGE = {
@@ -190,24 +193,68 @@ const formConfig = {
         },
       },
     },
-    arrayMultiplePage: {
-      title: 'Array Multiple Pages',
+    arrayMultiPageAggregate: {
+      title: 'Array Multi-Page Aggregate',
       pages: {
-        multiplePageStart: {
+        multiPageStart: {
           title: 'Multiple Page Start Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page',
-          uiSchema: arrayMultiplePageStart.uiSchema,
-          schema: arrayMultiplePageStart.schema,
+          path: 'array-multiple-page-aggregate',
+          uiSchema: arrayMultiPageAggregateStart.uiSchema,
+          schema: arrayMultiPageAggregateStart.schema,
           depends: includePage('arrayMulti'),
         },
-        multiplePageItem: {
-          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page/:index',
+        multiPageItem: {
+          title: 'Multiple Page Details Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page-aggregate-details/:index',
           showPagePerItem: true,
           arrayPath: 'exampleArrayData',
-          uiSchema: arrayMultiplePageItem.uiSchema,
-          schema: arrayMultiplePageItem.schema,
+          uiSchema: arrayMultiPageAggregateItem.uiSchema,
+          schema: arrayMultiPageAggregateItem.schema,
           depends: includePage('arrayMulti'),
+        },
+      },
+    },
+    arrayMultiPageBuilder: {
+      title: 'Array Multi-Page Builder',
+      pages: {
+        multiPageBuilderStart: {
+          title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
+          path: 'array-multiple-page-builder-summary',
+          uiSchema: arrayMultiPageBuilderSummary.uiSchema,
+          schema: arrayMultiPageBuilderSummary.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.hasEmployment) {
+              const index = formData.employers ? formData.employers.length : 0;
+              goPath(`/array-multiple-page-builder-item-page-1/${index}`);
+            } else {
+              goPath('/review-and-submit');
+            }
+          },
+        },
+        multiPageBuilderStepOne: {
+          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page-builder-item-page-1/:index',
+          showPagePerItem: true,
+          allowPathWithNoItems: true,
+          arrayPath: 'employers',
+          uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
+          schema: arrayMultiPageBuilderItemPage1.schema,
+          depends: formData =>
+            formData.hasEmployment || formData.employers?.length > 0,
+        },
+        multiPageBuilderStepTwo: {
+          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page-builder-item-page-2/:index',
+          showPagePerItem: true,
+          allowPathWithNoItems: true,
+          arrayPath: 'employers',
+          uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
+          schema: arrayMultiPageBuilderItemPage2.schema,
+          depends: formData =>
+            formData.hasEmployment || formData.employers?.length > 0,
+          onNavForward: ({ goPath }) => {
+            goPath('/array-multiple-page-builder-summary');
+          },
         },
       },
     },
