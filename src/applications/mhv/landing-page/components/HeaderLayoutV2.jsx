@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HeaderLayout = () => {
+const HeaderLayoutV2 = () => {
   return (
     <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
       <div className="vads-l-col medium-screen:vads-l-col--8">
@@ -25,4 +25,4 @@ const HeaderLayout = () => {
   );
 };
 
-export default HeaderLayout;
+export default HeaderLayoutV2;
