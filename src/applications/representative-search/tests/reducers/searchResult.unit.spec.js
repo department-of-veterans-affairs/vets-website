@@ -27,7 +27,7 @@ describe('representatives reducer', () => {
       },
     });
 
-    expect(state.results.length).to.eql(2);
+    expect(state.searchResults.length).to.eql(2);
     expect(state.pagination.currentPage).to.eql(1);
   });
 
@@ -100,19 +100,25 @@ describe('representatives reducer', () => {
       },
     });
 
-    expect(state.results.length).to.eql(1);
-    expect(state.results[0].attributes.name).to.eql('Test representative');
-    expect(state.results[0].attributes.representativeType).to.eql(
+    expect(state.searchResults.length).to.eql(1);
+    expect(state.searchResults[0].attributes.name).to.eql(
+      'Test representative',
+    );
+    expect(state.searchResults[0].attributes.representativeType).to.eql(
       'Test rep type',
     );
-    expect(state.results[0].attributes.lat).to.eql(40.7365270700001);
-    expect(state.results[0].attributes.long).to.eql(-73.97761421);
-    expect(state.results[0].attributes.address.physical.zip).to.eql('10010');
-    expect(state.results[0].attributes.address.physical.city).to.eql(
+    expect(state.searchResults[0].attributes.lat).to.eql(40.7365270700001);
+    expect(state.searchResults[0].attributes.long).to.eql(-73.97761421);
+    expect(state.searchResults[0].attributes.address.physical.zip).to.eql(
+      '10010',
+    );
+    expect(state.searchResults[0].attributes.address.physical.city).to.eql(
       'New York',
     );
-    expect(state.results[0].attributes.address.physical.state).to.eql('NY');
-    expect(state.results[0].attributes.address.physical.address1).to.eql(
+    expect(state.searchResults[0].attributes.address.physical.state).to.eql(
+      'NY',
+    );
+    expect(state.searchResults[0].attributes.address.physical.address1).to.eql(
       '123 East 33rd Street',
     );
     expect(state.pagination.currentPage).to.eql(1);
