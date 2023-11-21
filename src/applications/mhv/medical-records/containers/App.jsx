@@ -108,7 +108,7 @@ const App = ({ children }) => {
           >
             {showSideNav && (
               <>
-                <Navigation />
+                <Navigation data-testid="mhv-mr-navigation" />
                 <div className="vads-u-margin-right--4" />
               </>
             )}
