@@ -62,7 +62,6 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   preparerAddressHasState,
-  applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
   isSponsorDeceased,
 } from '../utils/helpers';
@@ -528,25 +527,11 @@ const formConfig = {
           uiSchema: {
             application: {
               claimant: {
-                address: merge(
-                  {},
-                  address.uiSchema('Applicant’s mailing address'),
-                  {
-                    street: {
-                      'ui:title': 'Street address',
-                    },
-                    street2: {
-                      'ui:title': 'Street address line 2',
-                    },
-                    state: {
-                      'ui:title': applicantMailingAddressStateTitleWrapper,
-                      'ui:options': {
-                        hideIf: formData =>
-                          !applicantsMailingAddressHasState(formData),
-                      },
-                    },
-                  },
-                ),
+                address: {
+                  'ui:title': 'Hello Bozo, put in your address',
+                  'ui:description': 'Idk man',
+                  'ui:field': currentOrPastDateUI('date'),
+                },
                 'view:applicantContactInfoSubheader': {
                   'ui:description': applicantContactInfoSubheader,
                   'ui:options': {
