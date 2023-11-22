@@ -4,6 +4,7 @@ import {
   mockAppointmentsGetApi,
   mockClinicsApi,
   mockEligibilityApi,
+  mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
   mockFacilitiesApi,
@@ -20,6 +21,7 @@ import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 import { PRIMARY_CARE } from '../../../../utils/constants';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 
+const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
 describe('VAOS direct schedule flow - dead ends', () => {
@@ -48,6 +50,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           response: [],
         });
         mockEligibilityApi({ response: mockEligibilityResponse });
+        mockEligibilityCCApi({ cceType, isEligible: false });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -82,6 +85,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
+        mockEligibilityCCApi({ cceType, isEligible: false });
         mockEligibilityRequestApi({
           response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
             {
@@ -134,6 +138,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
           locationId: '983',
           response: [],
         });
+        mockEligibilityCCApi({ cceType, isEligible: false });
         mockEligibilityDirectApi({
           response: MockEligibilityResponse.createPatientHistoryInsufficientResponse(
             {
@@ -179,6 +184,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
+        mockEligibilityCCApi({ cceType, isEligible: false });
         mockEligibilityRequestApi({
           response: MockEligibilityResponse.createFacilityRequestLimitExceededResponse(
             {

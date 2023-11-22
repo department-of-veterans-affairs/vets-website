@@ -2,6 +2,7 @@
 import MockUser from '../../fixtures/MockUser';
 import {
   mockAppointmentsGetApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -12,6 +13,10 @@ import AppointmentListPageObject from '../../page-objects/AppointmentList/Appoin
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { PRIMARY_CARE } from '../../../../utils/constants';
+
+const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 
 describe('VAOS direct schedule flow - No facility dead ends', () => {
   beforeEach(() => {
@@ -28,6 +33,7 @@ describe('VAOS direct schedule flow - No facility dead ends', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
+        mockEligibilityCCApi({ cceType, isEligible: false });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
 
         // Configure facility 983 to disable scheduling appointments for
