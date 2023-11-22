@@ -91,7 +91,7 @@ describe('AppointmentCard component', () => {
       ...appointmentData,
       videoData: {
         isAtlas: false,
-        kind: 'clinic/storeFoward',
+        kind: 'clinic',
       },
       vaos: {
         isPastAppointment: true,
