@@ -20,11 +20,13 @@ const SearchControls = props => {
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
+    geocodeError,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
-  const showError = isErrorEmptyInput && !geolocationInProgress;
+  const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
+  const showGeolocationError = geocodeError && !geolocationInProgress;
 
   const handleSearchButtonClick = e => {
     e.preventDefault();
@@ -59,6 +61,7 @@ const SearchControls = props => {
         ? e.target.value.trim()
         : e.target.value,
     });
+    clearGeocodeError();
   };
   const handleRepOrganizationChange = e => {
     onChange({
@@ -95,24 +98,10 @@ const SearchControls = props => {
             Search for a representative
           </h3>
           <div className="location-input-container">
-            <va-text-input
-              error={
-                showError
-                  ? 'Please fill in a city, state or postal code.'
-                  : null
-              }
-              hint={null}
-              label="City, State or Postal code"
-              message-aria-describedby="Text input for location"
-              name="City, State or Postal code"
-              onInput={handleLocationChange}
-              value={locationInputString}
-              uswds
-              required
-            />
             <div
               className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error': showError,
+                'use-my-location-button-container-error':
+                  showEmptyError || showGeolocationError,
               })}
             >
               {geolocationInProgress ? (
@@ -140,6 +129,26 @@ const SearchControls = props => {
                 </button>
               )}
             </div>
+            <va-text-input
+              error={(() => {
+                if (showEmptyError) {
+                  return 'Please fill in a city, state or postal code.';
+                }
+                if (showGeolocationError) {
+                  return 'Please enter a valid location.';
+                }
+                return null;
+              })()}
+              hint={null}
+              id="street-city-state-zip"
+              label="City, State or Postal code"
+              message-aria-describedby="Text input for location"
+              name="City, State or Postal code"
+              onInput={handleLocationChange}
+              value={locationInputString}
+              uswds
+              required
+            />
           </div>
 
           <RepTypeSelector
