@@ -3,30 +3,8 @@ import PropTypes from 'prop-types';
 
 import MedicationTerms from './MedicationTerms';
 import OrdersBlock from './OrdersBlock';
+import ParagraphBlock from './ParagraphBlock';
 import { ORDER_TYPES } from '../utils/constants';
-
-const patientInstructions = avs => {
-  if (avs.patientInstructions) {
-    return (
-      <div>
-        <h4>Other instructions</h4>
-        {/* eslint-disable react/no-danger */}
-        {/*
-            We're choosing to trust the HTML coming from AVS since it is explicitly
-            added there and will give us the highest fidelity with the printed AVS.
-            cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/DelimitedNoteContentThread.java
-        */}
-        <p
-          data-testid="patient-instructions"
-          dangerouslySetInnerHTML={{ __html: avs.patientInstructions }}
-        />
-        {/* eslint-enable react/no-danger */}
-      </div>
-    );
-  }
-
-  return null;
-};
 
 const YourTreatmentPlan = props => {
   const { avs } = props;
@@ -83,7 +61,12 @@ const YourTreatmentPlan = props => {
         type={ORDER_TYPES.OTHER}
       />
       {/* TODO: add health reminders. */}
-      {patientInstructions(avs)}
+      <ParagraphBlock
+        heading="Other instructions"
+        headingLevel={4}
+        content={avs.patientInstructions}
+        htmlContent
+      />
     </div>
   );
 };
