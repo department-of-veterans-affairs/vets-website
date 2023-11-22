@@ -116,6 +116,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             inputmode="decimal"
             label="Other monthly income amount?"
             min={0}
+            max={12000}
             name="add-other-income-amount"
             onInput={handlers.onAssetAmountChange}
             required

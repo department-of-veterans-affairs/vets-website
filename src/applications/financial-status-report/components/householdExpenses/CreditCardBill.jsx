@@ -210,6 +210,8 @@ const CreditCardBill = props => {
             hint={null}
             currency
             required
+            min={0}
+            max={100000}
             inputmode="numeric"
             label="Unpaid balance"
             name="unpaidBalance"
@@ -225,6 +227,8 @@ const CreditCardBill = props => {
             required
             currency
             inputmode="numeric"
+            min={0}
+            max={100000}
             label="Minimum monthly payment amount"
             name="amountDueMonthly"
             id="amountDueMonthly"

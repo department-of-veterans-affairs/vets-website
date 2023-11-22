@@ -117,6 +117,7 @@ const ResolutionAmount = ({ formContext }) => {
             : content.debtCompromise.label
         }
         min={0}
+        max={50000}
         name="resolution-amount"
         onInput={onAmountChange}
         required

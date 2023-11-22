@@ -24,6 +24,8 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const MAXIMUM_RESALE_VALUE = 1000000;
+
   // if we have vehicles and plan to edit, we need to get it from the automobiles
   const specificRecord = automobiles ? automobiles[index] : defaultRecord[0];
 
@@ -42,9 +44,11 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     ? 'Please enter a vehicle model'
     : null;
   const yearError = !vehicleRecord.year ? 'Please enter a valid year' : null;
-  const resaleValueError = !vehicleRecord.resaleValue
-    ? 'Please enter the estimated value'
-    : null;
+  const resaleValueError =
+    !vehicleRecord.resaleValue ||
+    vehicleRecord.resaleValue > MAXIMUM_RESALE_VALUE
+      ? 'Please enter an estimated value less than $1,000,000'
+      : null;
 
   const handleChange = (key, value) => {
     setVehicleRecord({
@@ -219,6 +223,8 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             onInput={handleVehicleEstValueChange}
             value={vehicleRecord.resaleValue}
+            min={0}
+            max={1000000}
           />
         </div>
         <va-additional-info

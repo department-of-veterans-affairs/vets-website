@@ -291,6 +291,8 @@ const InstallmentContract = props => {
             label="Unpaid balance"
             name="unpaidBalance"
             id="unpaidBalance"
+            min={0}
+            max={1000000}
             onInput={handleUnpaidBalanceChange}
             value={contractRecord.unpaidBalance}
           />
@@ -305,6 +307,8 @@ const InstallmentContract = props => {
             label="Minimum monthly payment amount"
             name="amountDueMonthly"
             id="amountDueMonthly"
+            min={0}
+            max={1000000}
             onInput={handleAmountDueMonthlyChange}
             value={contractRecord.amountDueMonthly}
           />

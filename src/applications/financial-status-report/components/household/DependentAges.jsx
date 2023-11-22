@@ -151,9 +151,11 @@ const DependentAges = ({
       const { value } = event.target;
       const newErrors = [...errors];
       if (!value) {
-        newErrors[i] = 'Please enter your dependent(s) age.';
+        newErrors[i] = 'Please enter your dependent(s) age';
       } else if (!isNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
+      } else if (value < 0 || value > 150) {
+        newErrors[i] = 'Please enter a value between 0 and 150';
       } else {
         newErrors[i] = null;
       }
@@ -184,6 +186,8 @@ const DependentAges = ({
         error={errors[i]}
         inputMode="numeric"
         required
+        min={0}
+        max={150}
       />
     </div>
   );
