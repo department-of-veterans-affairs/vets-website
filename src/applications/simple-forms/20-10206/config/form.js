@@ -15,6 +15,7 @@ import addressPg from '../pages/address';
 import phoneEmailPg from '../pages/phoneEmail';
 import recordSelectionsPg from '../pages/recordSelections';
 import disExamDetailsPg from '../pages/disabilityExamDetails';
+import finRecDetailsPg from '../pages/financialRecordDetails';
 import { PREPARER_TYPES, RECORD_TYPES } from './constants';
 
 // mock-data import for local development
@@ -151,6 +152,23 @@ const formConfig = {
           uiSchema: disExamDetailsPg.uiSchema,
           schema: disExamDetailsPg.schema,
           pageClass: 'disability-exam-details',
+        },
+      },
+    },
+    financialRecordDetailsChapter: {
+      title: 'Financial record details',
+      pages: {
+        financialRecordDetailsPage: {
+          depends: {
+            recordSelections: {
+              [RECORD_TYPES.FINANCIAL]: true,
+            },
+          },
+          path: 'financial-record-details',
+          title: 'Financial record details',
+          uiSchema: finRecDetailsPg.uiSchema,
+          schema: finRecDetailsPg.schema,
+          pageClass: 'financial-record-details',
         },
       },
     },

@@ -24,7 +24,8 @@
     "homePhone": "5555555555",
     "recordSelections": {
       "dd214": true,
-      "disability-exams": true
+      "disability-exams": true,
+      "financial": true
     },
     "disabilityExams": [
       {
