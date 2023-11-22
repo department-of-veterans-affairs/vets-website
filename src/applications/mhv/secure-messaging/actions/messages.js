@@ -13,7 +13,7 @@ import { getLastSentMessage, isOlderThan } from '../util/helpers';
 
 export const oldMessageAlert = sentDate => dispatch => {
   dispatch({
-    type: Actions.Message.CANNOT_REPLY_ALERT,
+    type: Actions.Thread.CANNOT_REPLY_ALERT,
     payload: isOlderThan(sentDate, 45),
   });
 };
@@ -32,16 +32,20 @@ export const clearMessage = () => async dispatch => {
  */
 export const markMessageAsReadInThread = (
   messageId,
-  isDraftThread,
+  // isDraftThread,
 ) => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
+    // dispatch({
+    //   type: isDraftThread
+    //     ? Actions.Draft.GET_IN_THREAD
+    //     : Actions.Message.GET_IN_THREAD,
+    //   response,
+    // });
     dispatch({
-      type: isDraftThread
-        ? Actions.Draft.GET_IN_THREAD
-        : Actions.Message.GET_IN_THREAD,
+      type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
   }
@@ -75,7 +79,11 @@ export const retrieveMessageThread = (
         .sentDate;
       dispatch(oldMessageAlert(lastSentDate));
 
-      const isDraft = response.data[0].attributes.draftDate !== null;
+      // const isDraft = response.data[0].attributes.draftDate !== null;
+      const drafts = response.data.filter(m => m.attributes.draftDate !== null);
+      const messages = response.data.filter(
+        m => m.attributes.sentDate !== null,
+      );
       const replyToName =
         response.data
           .find(
@@ -92,25 +100,44 @@ export const retrieveMessageThread = (
           ?.attributes.folderId.toString() ||
         response.data[0].attributes.folderId;
 
+      if (drafts?.length) {
+        drafts[0].atributes = { ...msgResponse.data.attributes };
+      }
+
       dispatch({
-        type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
-        response: {
-          data: {
-            replyToName,
-            threadFolderId,
-            replyToMessageId: msgResponse.data.attributes.messageId,
-            attributes: {
-              ...response.data[0].attributes,
-              ...msgResponse.data.attributes,
-            },
-          },
-          included: msgResponse.included,
+        type: Actions.Thread.GET_THREAD,
+        payload: {
+          replyToName,
+          threadFolderId,
+          replyToMessageId: msgResponse.data.attributes.messageId,
+          drafts: drafts.map(m => m.attributes),
+          messages: messages.map(m => m.attributes),
         },
       });
-      dispatch({
-        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
-        response: { data: response.data.slice(1, response.data.length) },
-      });
+      // dispatch({
+      //   type: Actions.Thread.GET_THREAD_MESSAGES,
+      //   payload: response.data.filter(m => m.attributes.sentDate !== null),
+      // });
+
+      // dispatch({
+      //   type: drafts?.length ? Actions.Draft.GET : Actions.Message.GET,
+      //   response: {
+      //     data: {
+      //       replyToName,
+      //       threadFolderId,
+      //       replyToMessageId: msgResponse.data.attributes.messageId,
+      //       attributes: {
+      //         ...response.data[0].attributes,
+      //         ...msgResponse.data.attributes,
+      //       },
+      //     },
+      //     included: msgResponse.included,
+      //   },
+      // });
+      // dispatch({
+      //   type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
+      //   response: { data: response.data.slice(1, response.data.length) },
+      // });
     }
   } catch (e) {
     const errorMessage =
