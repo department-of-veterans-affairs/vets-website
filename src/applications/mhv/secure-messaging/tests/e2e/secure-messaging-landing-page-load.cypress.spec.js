@@ -24,11 +24,22 @@ describe('SM main page', () => {
     SecureMessagingLandingPage.verifyHeader();
   });
 
-  it('verify paragraphs', () => {
-    cy.get('h2[class="vads-u-margin-top--1"]').should('be.visible');
-    cy.get('.secure-messaging-faq > .vads-u-margin-top--1').should(
-      'be.visible',
-    );
+  it('verify welcome messages', () => {
+    cy.get('.welcome-message')
+      .should('be.visible')
+      .and('contain.text', 'What to know as you try out this tool');
+    cy.get('.secure-messaging-faq')
+      .should('be.visible')
+      .and('contain.text', 'Questions about using messages');
+  });
+
+  it('verify faq accordions', () => {
+    cy.get('[data-testid="faq-accordion-item"]').each(el => {
+      cy.wrap(el)
+        .should('be.visible')
+        .click({ waitForAnimations: true });
+      cy.wrap(el).should('have.attr', 'open');
+    });
   });
 
   it('verify the new message link', () => {
