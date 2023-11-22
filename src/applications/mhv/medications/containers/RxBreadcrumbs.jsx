@@ -24,9 +24,9 @@ const RxBreadcrumbs = () => {
               className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
             >
               {allCrumbs.map((crumb, idx) => (
-                <a href={crumb.url} key={idx}>
-                  {crumb.label}
-                </a>
+                <li key={idx}>
+                  <a href={crumb.url}>{crumb.label}</a>
+                </li>
               ))}
             </VaBreadcrumbs>
           </div>
