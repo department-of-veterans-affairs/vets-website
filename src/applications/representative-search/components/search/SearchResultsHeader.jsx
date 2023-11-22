@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 /* eslint-disable camelcase */
 
 export const SearchResultsHeader = props => {
-  const { searchResults, inProgress, pagination, context } = props;
+  const { searchResults, pagination, query } = props;
 
+  const { inProgress, context, representativeType } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
 
   const noResultsFound = !searchResults || !searchResults.length;
@@ -20,12 +21,6 @@ export const SearchResultsHeader = props => {
     attorney: 'Attornies',
     claim_agents: 'Claim Agents',
   };
-
-  const urlParams = new URLSearchParams(location.search);
-
-  const address = urlParams.get('address');
-  const repOrgName = urlParams.get('name');
-  const representativeType = repFormat[urlParams.get('type')];
 
   const handleNumberOfResults = () => {
     if (noResultsFound) {
@@ -59,22 +54,19 @@ export const SearchResultsHeader = props => {
       >
         {handleNumberOfResults()} for
         {` `}
-        <b>
-          {representativeType}
-          {` `}
-        </b>
-        {repOrgName && (
+        <b>{repFormat[representativeType]}</b>
+        {context.repOrgName && (
           <>
-            matching <b>"{repOrgName}"</b>
+            matching <b>"{context.repOrgName}"</b>
           </>
         )}
-        {address && (
+        {context.location && (
           <>
             &nbsp;within 50 miles of &quot;
-            <b>{address}</b>
+            <b>{context.location}</b>
             &quot;
           </>
-        )}{' '}
+        )}
       </h2>
     </div>
   );
