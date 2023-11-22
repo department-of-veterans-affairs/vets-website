@@ -14,7 +14,8 @@ import nonCitizenIdInfoPg from '../pages/nonCitizenIdentificationInfo';
 import addressPg from '../pages/address';
 import phoneEmailPg from '../pages/phoneEmail';
 import recordSelectionsPg from '../pages/recordSelections';
-import { PREPARER_TYPES } from './constants';
+import disExamDetailsPg from '../pages/disabilityExamDetails';
+import { PREPARER_TYPES, RECORD_TYPES } from './constants';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -133,6 +134,23 @@ const formConfig = {
           uiSchema: recordSelectionsPg.uiSchema,
           schema: recordSelectionsPg.schema,
           pageClass: 'record-selections',
+        },
+      },
+    },
+    disabilityExamDetailsChapter: {
+      title: 'Disability exam details',
+      pages: {
+        disabilityExamDetailsPage: {
+          depends: {
+            recordSelections: {
+              [RECORD_TYPES.DISABILITY_EXAMS]: true,
+            },
+          },
+          path: 'disability-exam-details',
+          title: 'Disability exam details',
+          uiSchema: disExamDetailsPg.uiSchema,
+          schema: disExamDetailsPg.schema,
+          pageClass: 'disability-exam-details',
         },
       },
     },

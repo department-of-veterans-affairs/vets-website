@@ -4,7 +4,7 @@
     "fullName": {
       "first": "John",
       "middle": "",
-      "last": "Veteran"
+      "last": "Preparer"
     },
     "dateOfBirth": "2000-01-01",
     "placeOfBirth": "Anytown, CA",
@@ -23,7 +23,13 @@
     },
     "homePhone": "5555555555",
     "recordSelections": {
-      "dd214": true
-    }
+      "dd214": true,
+      "disability-exams": true
+    },
+    "disabilityExams": [
+      {
+        "disabilityExamDate": "2019-01-01"
+      }
+    ]
   }
 }
