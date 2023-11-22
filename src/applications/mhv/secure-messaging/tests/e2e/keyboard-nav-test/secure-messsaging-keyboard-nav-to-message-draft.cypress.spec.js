@@ -31,5 +31,6 @@ describe('Secure Messaging Delete Draft', () => {
     });
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
     cy.get('va-alert').should('have.text', Alerts.Message.DELETE_DRAFT_SUCCESS);
+    cy.get('.va-alert').should('contain', 'Draft was successfully deleted.');
   });
 });

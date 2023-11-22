@@ -22,6 +22,10 @@ describe('Secure Messaging Compose', () => {
       .getMessageBodyField()
       .type(`${requestBody.body}`, { force: true });
     composePage.sendMessage(requestBody);
+    cy.get('.va-alert').should(
+      'contain',
+      'Secure message was successfully sent.',
+    );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

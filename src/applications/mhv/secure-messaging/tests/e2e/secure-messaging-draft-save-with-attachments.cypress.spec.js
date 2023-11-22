@@ -33,6 +33,11 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       'contain',
       'If you save this message as a draft',
     );
+    cy.get('.va-alert').should(
+      'contain',
+      'Secure message was successfully sent.',
+    );
+
     cy.wait('@autosaveResponse');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -42,5 +42,9 @@ describe('Start a new message With Attacments and Errors', () => {
       .getMessageBodyField()
       .type('Test message body', { force: true, waitforanimations: true });
     composePage.sendMessage();
+    cy.get('.va-alert').should(
+      'contain',
+      'Secure message was successfully sent.',
+    );
   });
 });

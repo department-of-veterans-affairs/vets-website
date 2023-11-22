@@ -28,5 +28,9 @@ describe('Secure Messaging Compose', () => {
       .getMessageBodyField()
       .type('Test message body', { force: true });
     composePage.pushSendMessageWithKeyboardPress();
+    cy.get('.va-alert').should(
+      'contain',
+      'Secure message was successfully sent.',
+    );
   });
 });
