@@ -1,5 +1,6 @@
 import featureToggles from '../../../mocks/api/feature-toggles';
 import userData from '../../../mocks/api/user';
+import vamcEhr from '../../fixtures/vamc-ehr.json';
 import {
   allFoldersWithUnreadMessages,
   oneFolderWithNoUnreadMessages,
@@ -8,15 +9,17 @@ import {
 class ApiInitializer {
   initializeFeatureToggle = {
     withAppDisabled: () => {
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: false,
         }),
-      ).as('featureToggles');
+      );
     },
     withCurrentFeatures: () => {
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -24,7 +27,7 @@ class ApiInitializer {
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: false,
         }),
-      ).as('featureToggles');
+      );
     },
     withAllFeatures: () => {
       cy.intercept(
@@ -34,7 +37,7 @@ class ApiInitializer {
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: true,
         }),
-      ).as('featureToggles');
+      );
     },
   };
 
@@ -44,14 +47,14 @@ class ApiInitializer {
         'GET',
         '/my_health/v1/messaging/folders*',
         allFoldersWithUnreadMessages,
-      ).as('messages');
+      );
     },
     withNoUnreadMessages: () => {
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders*',
         oneFolderWithNoUnreadMessages,
-      ).as('messages');
+      );
     },
   };
 
