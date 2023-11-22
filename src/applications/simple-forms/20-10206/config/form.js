@@ -17,6 +17,7 @@ import recordSelectionsPg from '../pages/recordSelections';
 import disExamDetailsPg from '../pages/disabilityExamDetails';
 import finRecDetailsPg from '../pages/financialRecordDetails';
 import lifeInsBenefitDetailsPg from '../pages/lifeInsuranceBenefitDetails';
+import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import { PREPARER_TYPES, RECORD_TYPES } from './constants';
 
 // mock-data import for local development
@@ -187,6 +188,23 @@ const formConfig = {
           uiSchema: lifeInsBenefitDetailsPg.uiSchema,
           schema: lifeInsBenefitDetailsPg.schema,
           pageClass: 'life-insurance-benefit-details',
+        },
+      },
+    },
+    otherCompensationAndPensionDetailsChapter: {
+      title: 'Compensation and pension details',
+      pages: {
+        otherCompensationAndPensionDetailsPage: {
+          depends: {
+            recordSelections: {
+              [RECORD_TYPES.OTHER_COMP_PEN]: true,
+            },
+          },
+          path: 'other-compensation-and-pension-details',
+          title: 'Other compensation and pension record details',
+          uiSchema: otherCompPenDetailsPg.uiSchema,
+          schema: otherCompPenDetailsPg.schema,
+          pageClass: 'other-compensation-and-pension-details',
         },
       },
     },

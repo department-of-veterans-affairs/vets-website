@@ -26,12 +26,14 @@
       "dd214": true,
       "disability-exams": true,
       "financial": true,
-      "life-ins": true
+      "life-ins": true,
+      "other-comp-pen": true
     },
     "disabilityExams": [
       {
         "disabilityExamDate": "2019-01-01"
       }
-    ]
+    ],
+    "otherCompAndPenDetails": "asdf"
   }
 }
