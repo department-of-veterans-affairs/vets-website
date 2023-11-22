@@ -20,7 +20,7 @@ export const focusIssue = (_index, root, value) => {
       focusElement('.add-new-issue', null, root);
     } else if (id) {
       const card = $(`#issue-${id}`, root);
-      scrollTo(card);
+      scrollTo(`issue-${id}`);
       if (type === 'remove-cancel') {
         const remove = $('.remove-issue', card)?.shadowRoot;
         waitForRenderThenFocus('button', remove);
@@ -30,7 +30,7 @@ export const focusIssue = (_index, root, value) => {
         focusElement('.edit-issue-link', null, card);
       }
     } else {
-      scrollToTop('h3');
+      scrollTo('h3');
       focusElement('h3');
     }
   });
