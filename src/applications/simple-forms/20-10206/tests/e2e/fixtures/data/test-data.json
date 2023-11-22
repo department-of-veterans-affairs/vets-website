@@ -27,13 +27,15 @@
       "disability-exams": true,
       "financial": true,
       "life-ins": true,
-      "other-comp-pen": true
+      "other-comp-pen": true,
+      "other": true
     },
     "disabilityExams": [
       {
         "disabilityExamDate": "2019-01-01"
       }
     ],
-    "otherCompAndPenDetails": "asdf"
+    "otherCompAndPenDetails": "asdf",
+    "otherBenefitDetails": "asdf"
   }
 }
