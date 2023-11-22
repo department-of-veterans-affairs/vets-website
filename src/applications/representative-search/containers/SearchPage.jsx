@@ -97,7 +97,7 @@ const SearchPage = props => {
   const handleSearchOnQueryChange = () => {
     const { currentQuery } = props;
     const {
-      locationInputString,
+      context,
       repOrganizationInputString,
       representativeType,
       position,
@@ -108,7 +108,7 @@ const SearchPage = props => {
     const { latitude, longitude } = position;
 
     updateUrlParams({
-      address: locationInputString,
+      address: context.location,
       name: repOrganizationInputString || null,
       lat: latitude,
       long: longitude,
@@ -119,7 +119,7 @@ const SearchPage = props => {
 
     if (!props.searchWithInputInProgress) {
       props.searchWithInput({
-        address: locationInputString,
+        address: currentQuery.context.location,
         lat: latitude,
         long: longitude,
         name: repOrganizationInputString,
