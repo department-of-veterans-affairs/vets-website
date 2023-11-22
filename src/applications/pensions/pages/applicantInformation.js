@@ -22,11 +22,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: [
-      'veteranFullName',
-      'veteranSocialSecurityNumber',
-      'veteranDateOfBirth',
-    ],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
       'view:warningAlert': {
         type: 'object',
