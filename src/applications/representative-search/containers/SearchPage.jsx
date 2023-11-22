@@ -144,6 +144,13 @@ const SearchPage = props => {
     }
   };
 
+  const handlePageSelect = e => {
+    const { page } = e.detail;
+    focusElement('.search-results-subheader');
+
+    props.updateSearchQuery({ id: Date.now(), page });
+  };
+
   useEffect(
     () => {
       if (props.currentQuery.geocodeError) {
@@ -207,13 +214,6 @@ const SearchPage = props => {
     // window.scrollTo(0, 0);
     searchWithUrl();
   }, []);
-
-  const handlePageSelect = e => {
-    const { page } = e.detail;
-    focusElement('.search-results-subheader');
-
-    props.updateSearchQuery({ page });
-  };
 
   const renderBreadcrumbs = () => {
     return [
