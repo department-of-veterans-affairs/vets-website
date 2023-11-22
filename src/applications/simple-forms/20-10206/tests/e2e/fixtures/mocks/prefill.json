@@ -1,0 +1,16 @@
+{
+  "formData": {
+    "fullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Preparer"
+    },
+    "dateOfBirth": "2000-01-01",
+    "placeOfBirth": "Anytown, CA"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/personal-information"
+  }
+}
