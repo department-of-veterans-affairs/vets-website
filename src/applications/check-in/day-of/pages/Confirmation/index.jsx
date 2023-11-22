@@ -1,14 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
+import { api } from '../../../api';
 import CheckInConfirmation from './CheckInConfirmation';
 import { triggerRefresh } from '../../../actions/day-of';
-import { makeSelectVeteranData } from '../../../selectors';
+import {
+  makeSelectVeteranData,
+  makeSelectCurrentContext,
+} from '../../../selectors';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import useSendDemographicsFlags from '../../../hooks/useSendDemographicsFlags';
 import { URLS } from '../../../utils/navigation';
 import { findAppointment } from '../../../utils/appointment';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 const Confirmation = props => {
   const dispatch = useDispatch();
@@ -20,24 +27,25 @@ const Confirmation = props => {
   );
   const { router } = props;
   const { jumpToPage } = useFormRouting(router);
+  const { updateError } = useUpdateError();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const [isCheckInLoading, setIsCheckInLoading] = useState(true);
   const [appointment, setAppointment] = useState(null);
+  const { t } = useTranslation();
 
   const { appointments } = useSelector(selectVeteranData);
 
-  const { appointmentId } = router.params;
   const {
-    getShouldSendDemographicsFlags,
-    setShouldSendDemographicsFlags,
-  } = useStorage(false);
+    demographicsFlagsSent,
+    demographicsFlagsEmpty,
+  } = useSendDemographicsFlags();
 
-  useEffect(
-    () => {
-      if (getShouldSendDemographicsFlags(window))
-        setShouldSendDemographicsFlags(window, false);
-    },
-    [getShouldSendDemographicsFlags, setShouldSendDemographicsFlags],
-  );
+  const { appointmentId } = router.params;
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
+  const { setCheckinComplete } = useStorage(false);
 
   useEffect(
     () => {
@@ -51,12 +59,58 @@ const Confirmation = props => {
           return;
         }
       }
-      // Go back to complete page if no activeAppointment or not in list.
-      triggerRefresh();
-      jumpToPage(URLS.DETAILS);
+      // Go back to appointments page if no activeAppointment or not in list.
+      jumpToPage(URLS.APPOINTMENTS);
     },
     [appointmentId, appointments, jumpToPage],
   );
+
+  useEffect(
+    () => {
+      async function sendCheckInData() {
+        try {
+          const json = await api.v2.postCheckInData({
+            uuid: token,
+            appointmentIen: appointment.appointmentIen,
+            facilityId: appointment.facilityId,
+          });
+          const { status } = json;
+          if (status === 200) {
+            setCheckinComplete(window, true);
+            setIsCheckInLoading(false);
+          } else {
+            updateError('check-in-post-error');
+          }
+        } catch (error) {
+          updateError('error-completing-check-in');
+        }
+      }
+      if (appointment && (demographicsFlagsSent || demographicsFlagsEmpty)) {
+        sendCheckInData();
+      }
+    },
+    [
+      appointment,
+      demographicsFlagsSent,
+      demographicsFlagsEmpty,
+      updateError,
+      jumpToPage,
+      token,
+      setCheckinComplete,
+    ],
+  );
+
+  if (isCheckInLoading) {
+    window.scrollTo(0, 0);
+    return (
+      <div>
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={t('loading')}
+        />
+      </div>
+    );
+  }
 
   return (
     <>
