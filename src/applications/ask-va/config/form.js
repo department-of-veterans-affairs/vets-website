@@ -115,6 +115,19 @@ const formConfig = {
           title: 'Veteran Address Confirmation',
           uiSchema: veteranAddressConfirmationPage.uiSchema,
           schema: veteranAddressConfirmationPage.schema,
+          onContinue: form => {
+            const selectedAddress = JSON.parse(form.addressConfirmation);
+            const formData = form;
+            formData.address = {
+              city: selectedAddress.city,
+              country: selectedAddress.country,
+              postalCode: selectedAddress.postalCode,
+              state: selectedAddress.state,
+              province: selectedAddress.province,
+              street: selectedAddress.street,
+              street2: selectedAddress.street2,
+            };
+          },
         },
       },
     },

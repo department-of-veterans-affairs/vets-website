@@ -6,6 +6,7 @@ import {
   SEARCH_QUERY_UPDATED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  SEARCH_FAILED,
 } from '../../utils/actionTypes';
 
 const mbxClient = mbxGeo(mapboxClient);
@@ -72,6 +73,7 @@ export const geocodeUserAddress = query => {
       })
       .catch(_ => {
         dispatch({ type: GEOCODE_FAILED });
+        dispatch({ type: SEARCH_FAILED });
       });
   };
 };
