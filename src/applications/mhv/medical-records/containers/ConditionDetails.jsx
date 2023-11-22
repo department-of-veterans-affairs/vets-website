@@ -31,6 +31,7 @@ import {
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import DateSubheading from '../components/shared/DateSubheading';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -169,22 +170,13 @@ const ConditionDetails = props => {
           >
             {record.name.split(' (')[0]}
           </h1>
+          <DateSubheading
+            date={record.date}
+            id="condition-date"
+            label="Date entered"
+          />
+
           <div className="condition-subheader vads-u-margin-bottom--3">
-            <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
-                id="condition-date"
-              >
-                Date entered:{' '}
-                <span
-                  className="vads-u-font-weight--normal"
-                  data-dd-privacy="mask"
-                  data-testid="header-time"
-                >
-                  {record.date}
-                </span>
-              </h2>
-            </div>
             <PrintDownload
               download={download}
               allowTxtDownloads={allowTxtDownloads}
@@ -219,12 +211,13 @@ const ConditionDetails = props => {
     }
 
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

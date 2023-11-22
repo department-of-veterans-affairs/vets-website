@@ -28,6 +28,7 @@ import {
   generatePdfScaffold,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -136,16 +137,31 @@ const Vaccines = props => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
+    if (vaccines?.length === 0) {
+      return <NoRecordsMessage type="vaccines" />;
+    }
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type={recordType.VACCINES} />;
+      return (
+        <>
+          <PrintDownload
+            list
+            download={generateVaccinesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccinesTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <RecordList records={vaccines} type={recordType.VACCINES} />
+        </>
+      );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 
@@ -163,13 +179,6 @@ const Vaccines = props => {
       >
         Go to your allergy records
       </Link>
-      <PrintDownload
-        list
-        download={generateVaccinesPdf}
-        allowTxtDownloads={allowTxtDownloads}
-        downloadTxt={generateVaccinesTxt}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );

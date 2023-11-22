@@ -18,6 +18,7 @@ import {
 } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -133,16 +134,16 @@ ${record.name}\n
 Date: ${record.date}\n
 _____________________________________________________\n\n
 Details about this test\n
-    Sample tested: ${record.sampleTested}\n
-    Sample from: ${record.sampleFrom}\n
-    Ordered by: ${record.orderedBy}\n
-    Ordering location: ${record.orderingLocation}\n
-    Collecting location: ${record.collectingLocation}\n
-    Lab location: ${record.labLocation}\n
-    Date completed: ${record.date}\n
+Sample tested: ${record.sampleTested}\n
+Sample from: ${record.sampleFrom}\n
+Ordered by: ${record.orderedBy}\n
+Ordering location: ${record.orderingLocation}\n
+Collecting location: ${record.collectingLocation}\n
+Lab location: ${record.labLocation}\n
+Date completed: ${record.date}\n
 _____________________________________________________\n\n
 Results\n
-    ${record.results}`;
+${record.results}`;
 
     generateTextFile(
       content,
@@ -156,15 +157,8 @@ Results\n
       <h1 className="vads-u-margin-bottom--0" aria-describedby="microbio-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="microbio-date"
-        >
-          Date:{' '}
-          <span className="vads-u-font-weight--normal">{record.date}</span>
-        </h2>
-      </div>
+      <DateSubheading date={record.date} id="microbio-date" />
+
       <div className="no-print">
         <PrintDownload
           download={generateMicrobiologyPdf}

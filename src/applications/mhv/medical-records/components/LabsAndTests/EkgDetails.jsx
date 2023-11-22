@@ -15,6 +15,7 @@ import {
 } from '../../util/helpers';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -116,20 +117,8 @@ const EkgDetails = props => {
       <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="ekg-date"
-        >
-          Date:{' '}
-          <span
-            className="vads-u-font-weight--normal"
-            data-testid="header-time"
-          >
-            {formattedDate}
-          </span>
-        </h2>
-      </div>
+      <DateSubheading date={formattedDate} id="ekg-date" />
+
       <div className="electrocardiogram-buttons no-print">
         <PrintDownload
           download={generateEkgDetails}

@@ -18,6 +18,7 @@ import {
   generatePdfScaffold,
 } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -101,15 +102,8 @@ const PathologyDetails = props => {
       <h1 className="vads-u-margin-bottom--0" aria-describedby="pathology-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="pathology-date"
-        >
-          Date:{' '}
-          <span className="vads-u-font-weight--normal">{record.date}</span>
-        </h2>
-      </div>
+      <DateSubheading date={record.date} id="pathology-date" />
+
       <div className="no-print">
         <PrintDownload
           download={generatePathologyPdf}

@@ -12,6 +12,7 @@ import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
+import DateSubheading from '../shared/DateSubheading';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -67,20 +68,8 @@ ${record.results}`;
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="radiology-date"
-        >
-          Date:{' '}
-          <span
-            className="vads-u-font-weight--normal"
-            data-testid="header-time"
-          >
-            {record.date}
-          </span>
-        </h2>
-      </div>
+      <DateSubheading date={record.date} id="radiology-date" />
+
       <div className="no-print">
         <PrintDownload
           download={download}
