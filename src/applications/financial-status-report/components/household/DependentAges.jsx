@@ -21,6 +21,8 @@ const DependentAges = ({
   const {
     questions: { hasDependents } = {},
     personalData: { dependents = [] } = {},
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
 
   const [stateDependents, setStateDependents] = useState(dependents);
@@ -29,6 +31,12 @@ const DependentAges = ({
   );
   const [isEditing, setIsEditing] = useState(!isReviewMode);
   const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   useEffect(
     () => {
@@ -112,6 +120,16 @@ const DependentAges = ({
 
     if (isReviewMode) {
       return setIsEditing(false);
+    }
+
+    if (reviewNavigation && showReviewNavigation) {
+      dispatch(
+        setData({
+          ...formData,
+          reviewNavigation: false,
+        }),
+      );
+      return goToPath('/review-and-submit');
     }
 
     return formData['view:streamlinedWaiver']
@@ -256,7 +274,7 @@ const DependentAges = ({
                   iconLeft: '«',
                 },
                 {
-                  label: 'Continue',
+                  label: continueButtonText,
                   type: 'submit',
                   iconRight: '»',
                 },
