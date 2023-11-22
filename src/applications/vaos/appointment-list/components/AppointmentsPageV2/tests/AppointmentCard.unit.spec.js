@@ -47,14 +47,11 @@ function handleKeyDown({ history, link, idClickable }) {
 describe('AppointmentCard component', () => {
   const initialState = { featureToggles: {} };
 
-  it('should render comment in AppointmentCard', async () => {
+  it('test isAtlas true AppointmentCard', async () => {
     const appointment = {
       ...appointmentData,
       videoData: {
-        isVideo: true,
-        isAtlas: false,
-        extension: { patientHasMobileGfe: true },
-        kind: 'MOBILE_ANY',
+        isAtlas: true,
       },
       vaos: {
         isPastAppointment: true,
@@ -89,10 +86,13 @@ describe('AppointmentCard component', () => {
     ).to.be.null;
   });
 
-  it('should render comment in AppointmentCard', async () => {
+  it('isAtlas false in AppointmentCard', async () => {
     const appointment = {
       ...appointmentData,
-      videoData: true,
+      videoData: {
+        isAtlas: false,
+        kind: 'clinic/storeFoward',
+      },
       vaos: {
         isPastAppointment: true,
       },
