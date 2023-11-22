@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
-
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
@@ -278,10 +277,7 @@ const SearchPage = props => {
               <>
                 <SearchResultsHeader
                   searchResults={props.searchResults}
-                  queryParams={location.search}
-                  searchCounter={currentQuery.searchCounter}
-                  context={currentQuery.context}
-                  inProgress={currentQuery.inProgress}
+                  query={currentQuery}
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}
