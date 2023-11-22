@@ -207,6 +207,48 @@ class MedicationsListPage {
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
+  clickRefillButton = () => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/${
+        prescription.data.attributes.prescriptionId
+      }/refill`,
+      prescription,
+    );
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).should('be.enabled');
+
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).click({ waitForAnimations: true });
+  };
+
+  verifySuccessMessageAfterRefillRequest = () => {
+    cy.get('[data-testid="success-message"]').should(
+      'contain',
+      'We got your request to fill this prescription.',
+    );
+    // .and('have.focus');
+  };
+
+  clickRefillButtonForVerifyingError = () => {
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).should('be.enabled');
+
+    cy.get(
+      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+    ).click({ waitForAnimations: true });
+  };
+
+  verifyInlineErrorMessageForRefillRequest = () => {
+    cy.get('[data-testid="error-alert"]').should(
+      'contain',
+      'We didn’t get your request. Try again',
+    );
+  };
+
   selectSortDropDownOption = text => {
     cy.get('[data-testid="sort-dropdown"]')
       .find('#select')
@@ -252,7 +294,6 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should(
       'have.text',
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
-
     );
   };
 }
