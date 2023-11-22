@@ -729,32 +729,6 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              if (USE_MOCKS) {
-                dispatch({ type: DONE_UPLOADING });
-                dispatch(
-                  setNotification({
-                    title: 'We have your evidence',
-                    body: (
-                      <span>
-                        Thank you for sending us{' '}
-                        {trackedItem
-                          ? trackedItem.displayName
-                          : 'additional evidence'}
-                        . We will associate it with your record in a matter of
-                        days. If the submitted evidence impacts the status of
-                        your claim, then you will see that change within 30 days
-                        of submission.
-                        <br />
-                        Note: It may take a few minutes for your uploaded file
-                        to show here. If you don’t see your file, please try
-                        refreshing the page.
-                      </span>
-                    ),
-                  }),
-                );
-                return;
-              }
-
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',
