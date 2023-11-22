@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 /* eslint-disable camelcase */
 
 export const SearchResultsHeader = props => {
-  const { searchResults, searchCounter, inProgress, pagination } = props;
+  const { searchResults, inProgress, pagination, context } = props;
 
   const { totalEntries, currentPage, totalPages } = pagination;
 
   const noResultsFound = !searchResults || !searchResults.length;
 
-  if (inProgress || searchCounter === 0) {
+  if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
   }
 
