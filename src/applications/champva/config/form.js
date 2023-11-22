@@ -2,27 +2,31 @@
 import get from 'platform/utilities/data/get';
 
 import {
-  fullNameSchema,
-  fullNameUI,
+  // fullNameSchema,
+  // fullNameUI,
+  fullNameNoSuffixSchema,
+  fullNameNoSuffixUI,
   ssnSchema,
   ssnUI,
   vaFileNumberSchema,
   vaFileNumberUI,
   addressSchema,
   addressUI,
-  phoneSchema,
-  phoneUI,
+  // phoneSchema,
+  // phoneUI,
   dateOfBirthSchema,
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
+  currentOrPastDateSchema,
+  currentOrPastDateUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
-import ApplicantField from '../components/applicant/ApplicantField';
+// import ApplicantField from '../components/applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.properties;
@@ -40,6 +44,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '10-10D',
+  v3SegmentedProgressBar: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
@@ -64,19 +69,19 @@ const formConfig = {
           path: 'sponsor-name',
           title: 'Sponsor Name',
           uiSchema: {
-            veteransFullName: fullNameUI(),
+            veteransFullName: fullNameNoSuffixUI(),
           },
           schema: {
             type: 'object',
             properties: {
-              veteransFullName: fullNameSchema,
+              veteransFullName: fullNameNoSuffixSchema,
             },
           },
         },
       },
     },
     sponsorSSN: {
-      title: 'Sponsor SSN and VA File Number',
+      title: 'Sponsor SSN',
       pages: {
         page2: {
           path: 'sponsor-ssn',
@@ -92,6 +97,11 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    sponsorVaFileNumber: {
+      title: 'Sponsor VA File Number',
+      pages: {
         page3: {
           path: 'va-file-number',
           title: 'VA File Number',
@@ -131,25 +141,25 @@ const formConfig = {
         },
       },
     },
-    sponsorPhone: {
-      title: 'Sponsor Phone',
-      pages: {
-        page5: {
-          path: 'sponsor-phone-number',
-          title: 'Sponsor Phone Number',
-          uiSchema: {
-            sponsorPhone: phoneUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['sponsorPhone'],
-            properties: {
-              sponsorPhone: phoneSchema,
-            },
-          },
-        },
-      },
-    },
+    // sponsorPhone: {
+    //   title: 'Sponsor Phone',
+    //   pages: {
+    //     page5: {
+    //       path: 'sponsor-phone-number',
+    //       title: 'Sponsor Phone Number',
+    //       uiSchema: {
+    //         sponsorPhone: phoneUI(),
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         required: ['sponsorPhone'],
+    //         properties: {
+    //           sponsorPhone: phoneSchema,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     sponsorDateOfBirthAndDeath: {
       title: 'Sponsor Date of Birth',
       pages: {
@@ -193,6 +203,25 @@ const formConfig = {
         },
       },
     },
+    sponsorDateOfMarriage: {
+      title: 'Sponsor Date of Marriage',
+      pages: {
+        page7: {
+          path: 'sponsor-dom',
+          title: 'Sponsor Date of Marriage',
+          schema: {
+            type: 'object',
+            properties: {
+              sponsorDOM: currentOrPastDateSchema,
+            },
+          },
+          uiSchema: {
+            sponsorDOM: currentOrPastDateUI(),
+          },
+        },
+      },
+    },
+    /*
     chapter2: {
       title: 'Applicant Information',
       pages: {
@@ -237,6 +266,7 @@ const formConfig = {
         },
       },
     },
+    */
   },
 };
 
