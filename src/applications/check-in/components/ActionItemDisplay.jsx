@@ -35,7 +35,7 @@ const ActionItemDisplay = props => {
     dispatch(
       setForm({
         data: {
-          activeAppointmenId: appointmentId,
+          activeAppointmentId: appointmentId,
         },
       }),
     );
