@@ -10,7 +10,7 @@ import { updatePageTitle } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 
-const MessageDetailBlock = props => {
+const MessageThreadHeader = props => {
   const { message, cannotReply } = props;
   const { threadId, messageId, category, subject, sentDate } = message;
 
@@ -72,19 +72,21 @@ const MessageDetailBlock = props => {
         </h1>
         <CannotReplyAlert visible={cannotReply} />
       </header>
-      <MessageActionButtons
-        threadId={threadId}
-        hideReplyButton={cannotReply}
-        handleReplyButton={handleReplyButton}
-      />
+      {threadId && (
+        <MessageActionButtons
+          threadId={threadId}
+          hideReplyButton={cannotReply}
+          handleReplyButton={handleReplyButton}
+        />
+      )}
     </div>
   );
 };
 
-MessageDetailBlock.propTypes = {
+MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
   message: PropTypes.object,
   onReply: PropTypes.func,
 };
 
-export default MessageDetailBlock;
+export default MessageThreadHeader;
