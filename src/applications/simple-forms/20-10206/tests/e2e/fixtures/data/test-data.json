@@ -25,7 +25,8 @@
     "recordSelections": {
       "dd214": true,
       "disability-exams": true,
-      "financial": true
+      "financial": true,
+      "life-ins": true
     },
     "disabilityExams": [
       {

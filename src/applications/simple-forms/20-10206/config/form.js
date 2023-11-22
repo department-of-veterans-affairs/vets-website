@@ -16,6 +16,7 @@ import phoneEmailPg from '../pages/phoneEmail';
 import recordSelectionsPg from '../pages/recordSelections';
 import disExamDetailsPg from '../pages/disabilityExamDetails';
 import finRecDetailsPg from '../pages/financialRecordDetails';
+import lifeInsBenefitDetailsPg from '../pages/lifeInsuranceBenefitDetails';
 import { PREPARER_TYPES, RECORD_TYPES } from './constants';
 
 // mock-data import for local development
@@ -169,6 +170,23 @@ const formConfig = {
           uiSchema: finRecDetailsPg.uiSchema,
           schema: finRecDetailsPg.schema,
           pageClass: 'financial-record-details',
+        },
+      },
+    },
+    lifeInsuranceBenefitDetailsChapter: {
+      title: 'Life insurance benefit details',
+      pages: {
+        lifeInsuranceBenefitDetailsPage: {
+          depends: {
+            recordSelections: {
+              [RECORD_TYPES.LIFE_INS]: true,
+            },
+          },
+          path: 'life-insurance-benefit-details',
+          title: 'Life insurance benefit details',
+          uiSchema: lifeInsBenefitDetailsPg.uiSchema,
+          schema: lifeInsBenefitDetailsPg.schema,
+          pageClass: 'life-insurance-benefit-details',
         },
       },
     },
