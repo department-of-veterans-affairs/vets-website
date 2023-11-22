@@ -35,7 +35,7 @@ describe('search query reducer', () => {
         representativeType: 'test',
         inProgress: true,
         error: true,
-        searchBoundsInProgress: true,
+        searchWithInputInProgress: true,
       },
       {
         type: FETCH_REPRESENTATIVES,
@@ -45,7 +45,7 @@ describe('search query reducer', () => {
     expect(state.error).to.eql(false);
     expect(state.isValid).to.eql(true);
     expect(state.inProgress).to.eql(false);
-    expect(state.searchBoundsInProgress).to.eql(false);
+    expect(state.searchWithInputInProgress).to.eql(false);
   });
 
   it('should handle search failed', () => {
@@ -62,7 +62,7 @@ describe('search query reducer', () => {
 
     expect(state.error).to.eql(true);
     expect(state.inProgress).to.eql(false);
-    expect(state.searchBoundsInProgress).to.eql(false);
+    expect(state.searchWithInputInProgress).to.eql(false);
   });
 
   it('should handle search query updated', () => {
@@ -220,7 +220,6 @@ describe('validateForm function', () => {
     };
     const payload = {
       locationInputString: 'new string',
-      facilityType: '',
     };
     const result = validateForm(oldState, payload);
     expect(result.locationChanged).to.eql(true);
