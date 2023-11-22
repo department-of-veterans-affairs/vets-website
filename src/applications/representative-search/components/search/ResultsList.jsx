@@ -17,16 +17,13 @@ import SearchResult from './SearchResult';
 
 const ResultsList = props => {
   const searchResultTitle = useRef();
-  const sortTypeRef = useRef();
 
   const {
     inProgress,
     searchResults,
-    // searchError,
     // pagination,
     // currentQuery,
     query,
-    onUpdateSortType,
     sortType,
   } = props;
 
@@ -39,17 +36,13 @@ const ResultsList = props => {
 
   // method for triggering sortResults when sortType updates
   const handleSortTypeChange = e => {
-    onUpdateSortType({ sortType: e.target.value });
+    props.updateSearchQuery({
+      id: Date.now(),
+      sortType: e.target.value,
+    });
   };
 
   // const currentPage = pagination ? pagination.currentPage : 1;
-
-  // const enrichedResultsData = searchResults.map(result => ({
-  //   ...result,
-  //   resultItem: true,
-  //   locationQueryString,
-  //   currentPage,
-  // }));
 
   const renderResultItems = (
     searchQuery,
@@ -62,18 +55,22 @@ const ResultsList = props => {
           className="representative-results-list"
           style={{ marginBottom: 25 }}
         >
-          {searchResults?.map((result, index) => {
+          {searchResults.data?.map((result, index) => {
             return (
               <>
                 <hr />
                 <SearchResult
-                  organization={result.organization}
+                  organization={result.attributes.full_name}
                   key={result.id}
                   type={result.type}
-                  addressLine1={result.addressLine1}
-                  addressLine2={result.addressLine2}
-                  phone={result.phone}
-                  distance={result.distance}
+                  addressLine1={result.attributes.address_line_1}
+                  addressLine2={result.attributes.address_line_2}
+                  addressLine3={result.attributes.address_line_3}
+                  city={result.attributes.city}
+                  state={result.attributes.state_code}
+                  zipCode={result.attributes.zip_code}
+                  phone={result.attributes.phone}
+                  distance={result.attributes.distance}
                   representative={result}
                   query={sQuery}
                   index={index}
@@ -86,39 +83,6 @@ const ResultsList = props => {
     );
   };
 
-  // const currentPage = pagination ? pagination.currentPage : 1;
-
-  // if (searchError) {
-  //   if (searchError.type === 'mapBox') {
-  //     return (
-  //       <SearchResultMessage
-  //         representativeType={representativeTypeName}
-  //         resultRef={searchResultTitle}
-  //         message={Error.LOCATION}
-  //       />
-  //     );
-  //   }
-  //   return (
-  //     <SearchResultMessage
-  //       representativeType={representativeTypeName}
-  //       resultRef={searchResultTitle}
-  //       message={Error.DEFAULT}
-  //       error={searchError}
-  //     />
-  //   );
-  // }
-
-  // const resultsData = searchResults?.map(result => ({
-  //   ...result,
-  //   resultItem: true,
-  //   locationQueryString,
-  //   currentPage,
-  // }));
-
-  // if (resultsData.length > 0) {
-  //   recordSearchResultsEvents(props, resultsData);
-  // }
-
   const options = Object.keys(sortOptions).map(option => (
     <option key={option} value={option}>
       {sortOptions[option]}
@@ -127,22 +91,24 @@ const ResultsList = props => {
 
   return (
     <>
-      {' '}
-      <label htmlFor="sort-by-dropdown">Sort by</label>
-      <select
-        id="representative-sorting-dropdown"
-        aria-label="Sort"
-        ref={sortTypeRef}
-        value={sortType}
-        title="Sort by:"
-        // className="bor-rad"
-        onChange={handleSortTypeChange}
-        style={{ fontWeight: 'bold' }}
-      >
-        {' '}
-        {options}{' '}
-      </select>
-      <div>{renderResultItems(query)}</div>
+      {searchResults?.data?.length && (
+        <>
+          <label htmlFor="sort-by-dropdown">Sort by</label>
+          <select
+            id="representative-sorting-dropdown"
+            aria-label="Sort"
+            // ref={sortTypeRef}
+            value={sortType}
+            title="Sort by:"
+            onChange={handleSortTypeChange}
+            style={{ fontWeight: 'bold' }}
+          >
+            {' '}
+            {options}{' '}
+          </select>
+          <div>{renderResultItems(query)}</div>
+        </>
+      )}
     </>
   );
 };
