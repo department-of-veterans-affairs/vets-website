@@ -21,6 +21,8 @@ describe('Accessibility', () => {
     cy.axeCheck();
 
     // Verify focused on input location
+    cy.get('#representative-search-controls').trigger('mousedown');
+    cy.tab();
     cy.get('input[name="City, State or Postal code"]').focused();
     // Tab
     cy.get('input[name="City, State or Postal code"]').focus();
