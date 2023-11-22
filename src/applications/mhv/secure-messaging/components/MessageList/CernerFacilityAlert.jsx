@@ -1,40 +1,30 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { getFacilitiesByIds } from '../../api/facilitiesApi';
+import { useSelector } from 'react-redux';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { getCernerURL } from 'platform/utilities/cerner';
 
-const CernerFacilityAlert = props => {
-  const { cernerFacilities } = props;
-  const [facilities, setFacilities] = useState([]);
+const CernerFacilityAlert = () => {
+  const cernerFacilities = useSelector(
+    state => state.sm.facilities.cernerFacilities,
+  );
 
-  const getFacilities = async ids => {
-    return getFacilitiesByIds(ids);
-  };
-
-  useEffect(
-    () => {
-      if (cernerFacilities?.length > 0) {
-        const ids = cernerFacilities.map(
-          facility => `vha_${facility.facilityId}`,
-        );
-        getFacilities(ids).then(response => {
-          setFacilities(response.data);
-        });
-      }
-    },
-    [cernerFacilities],
+  const ehrDataByVhaId = useSelector(
+    state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
   );
 
   const cernerFacilitiesNames = useMemo(
     () => {
-      return facilities?.map(facility => facility.attributes.name);
+      return cernerFacilities?.map(facility =>
+        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.uniqueId),
+      );
     },
-    [facilities],
+    [cernerFacilities, ehrDataByVhaId],
   );
 
   return (
     <>
-      {facilities?.length > 0 && (
+      {cernerFacilities?.length > 0 && (
         <va-alert
           className="vads-u-margin-bottom--2"
           status="warning"
@@ -65,12 +55,13 @@ const CernerFacilityAlert = props => {
                 <strong>{cernerFacilitiesNames[0]}</strong> go to My VA Health.
               </p>
             )}
-            <Link
+
+            <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
-              to="/" // TODO: What is the correct path to My VA Health?
+              href={getCernerURL('/pages/messaging/inbox', true)}
             >
               Go to My VA Health
-            </Link>
+            </a>
 
             <va-additional-info
               trigger="Having trouble opening My VA Health?"

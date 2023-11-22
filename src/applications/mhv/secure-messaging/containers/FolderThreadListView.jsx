@@ -44,65 +44,6 @@ const FolderThreadListView = props => {
     keyword,
     query,
   } = useSelector(state => state.sm.search);
-  // const facilities = useSelector(state => state.user.profile?.facilities);
-  const facilities = [
-    {
-      facilityId: '983',
-      isCerner: false,
-    },
-    {
-      facilityId: '668',
-      isCerner: true,
-    },
-    {
-      facilityId: '984',
-      isCerner: false,
-    },
-    {
-      facilityId: '987',
-      isCerner: false,
-    },
-    {
-      facilityId: '463',
-      isCerner: true,
-    },
-    {
-      facilityId: '583',
-      isCerner: true,
-    },
-    {
-      facilityId: '531',
-      isCerner: true,
-    },
-    {
-      facilityId: '660',
-      isCerner: false,
-    },
-    {
-      facilityId: '687',
-      isCerner: true,
-    },
-    {
-      facilityId: '668',
-      isCerner: true,
-    },
-    {
-      facilityId: '607',
-      isCerner: false,
-    },
-    {
-      facilityId: '636',
-      isCerner: false,
-    },
-    {
-      facilityId: '662',
-      isCerner: false,
-    },
-    {
-      facilityId: '589',
-      isCerner: false,
-    },
-  ];
 
   const location = useLocation();
   const params = useParams();
@@ -328,7 +269,6 @@ const FolderThreadListView = props => {
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader
-              facilities={facilities}
               folder={folder}
               threadCount={threadList?.length}
               searchProps={{ searchResults, awaitingResults, keyword, query }}

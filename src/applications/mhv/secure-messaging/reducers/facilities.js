@@ -7,17 +7,17 @@ const initialState = {
 
 export const facilitiesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.Facilities.GET:
+    case Actions.Facilities.GET_FACILITIES:
       return {
         ...state,
-        facilities: action.response.data.map(facility => {
+        facilities: action.payload.data.map(facility => {
           return facility.attributes;
         }),
       };
     case Actions.Facilities.GET_CERNER_FACILITIES:
       return {
         ...state,
-        cernerFacilities: action.response.data.map(facility => {
+        cernerFacilities: action.payload.map(facility => {
           return facility.attributes;
         }),
       };
