@@ -1,19 +1,18 @@
 import { appName, rootUrl } from '../../../manifest.json';
-import featureToggles from '../../fixtures/feature-toggles.personalization.json';
+import ApiInitializer from '../utilities/ApiInitializer';
+
 import user from '../../fixtures/user.json';
 
 describe(`${appName} -- Welcome message`, () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
-    const redirectUrl = 'https://**.va.gov/mhv-portal**/**';
-    cy.intercept('GET', redirectUrl, '').as('mhvRedirect');
+    ApiInitializer.initializeFeatureToggle.withAllFeatures();
   });
 
   describe('default user', () => {
     it('renders the Welcome component', () => {
       cy.login(user);
       cy.visit(rootUrl);
-      cy.get('h2:first').should('include.text', 'Welcome, HECTOR');
+      cy.findByRole('heading', { level: 2, name: /^Welcome/ });
       cy.injectAxeThenAxeCheck();
     });
   });

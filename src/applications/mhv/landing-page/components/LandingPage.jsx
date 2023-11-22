@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import CardLayout from './CardLayout';
 import NoHealthAlert from './NoHealthAlert';
+import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
-import HeaderLayoutV2 from './HeaderLayoutV2';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import Welcome from './Welcome';
@@ -26,10 +26,10 @@ const LandingPage = ({ data = {} }) => {
       data-testid="landing-page-container"
     >
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-        {!showPersonalization && <HeaderLayout />}
+        {!showPersonalization && <HeaderLayoutV1 />}
         {showPersonalization && (
           <>
-            <HeaderLayoutV2 />
+            <HeaderLayout />
             <Welcome name={name} />
           </>
         )}
