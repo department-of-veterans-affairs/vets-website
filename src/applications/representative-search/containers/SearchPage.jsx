@@ -30,6 +30,7 @@ import {
 const SearchPage = props => {
   const searchResultTitleRef = useRef(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
   const updateUrlParams = params => {
@@ -38,8 +39,8 @@ const SearchPage = props => {
     const queryParams = {
       ...location.query,
       address: currentQuery.locationInputString,
-      latitude: currentQuery.position?.latitude,
-      longitude: currentQuery.position?.longitude,
+      lat: currentQuery.position?.latitude,
+      long: currentQuery.position?.longitude,
       page: currentQuery.currentPage,
       /* eslint-disable camelcase */
       per_page: 10,
@@ -57,64 +58,12 @@ const SearchPage = props => {
   };
 
   const handleSearch = async () => {
-    const { currentQuery } = props;
-    const {
-      locationInputString,
-      repOrganizationInputString,
-      representativeType,
-    } = currentQuery;
-
-    props.geocodeUserAddress(currentQuery);
-
-    props.updateSearchQuery({
-      locationQueryString: locationInputString,
-      repOrganizationQueryString: repOrganizationInputString,
-      representativeType,
-    });
-
-    setIsSearching(true);
-  };
-
-  const handleSearchOnQueryChange = () => {
     clearGeocodeError();
-
-    if (isSearching) {
-      const { currentQuery } = props;
-      const {
-        locationInputString,
-        repOrganizationInputString,
-        representativeType,
-        position,
-        sortType,
-      } = currentQuery;
-
-      const { latitude, longitude } = position;
-
-      updateUrlParams({
-        address: locationInputString,
-        name: repOrganizationInputString || null,
-        type: representativeType,
-        sort: sortType,
-      });
-
-      if (!props.searchWithInputInProgress) {
-        props.searchWithInput({
-          address: locationInputString,
-          lat: latitude,
-          long: longitude,
-          name: repOrganizationInputString,
-          page: 1,
-          per_page: 10,
-          sort: sortType,
-          type: representativeType,
-        });
-
-        setIsSearching(false);
-      }
-    }
+    setIsSearching(true);
+    props.geocodeUserAddress(props.currentQuery);
   };
 
-  const searchWithUrl = () => {
+  const handleSearchViaUrl = () => {
     // Check for scenario when results are in the store
     if (!!props.location.search && props.results && props.results.length > 0) {
       return;
@@ -127,61 +76,77 @@ const SearchPage = props => {
 
       props.updateSearchQuery({
         id: Date.now(),
+        context: {
+          location: location.query.address,
+          repOrgName: location.query.name,
+        },
         locationQueryString: location.query.address,
         locationInputString: location.query.address,
+        position: {
+          latitude: location.query.lat,
+          longitude: location.query.long,
+        },
         repOrganizationQueryString: location.query.name,
         repOrganizationInputString: location.query.name,
         representativeType: location.query.type,
         sortType: location.query.sort,
       });
     }
+  };
 
-    if (location.query.address) {
-      props.updateSearchQuery({
-        locationQueryString: location.query.address,
-        // context: location.query.context,
+  const handleSearchOnQueryChange = () => {
+    const { currentQuery } = props;
+    const {
+      locationInputString,
+      repOrganizationInputString,
+      representativeType,
+      position,
+      sortType,
+      page,
+    } = currentQuery;
+
+    const { latitude, longitude } = position;
+
+    updateUrlParams({
+      address: locationInputString,
+      name: repOrganizationInputString || null,
+      lat: latitude,
+      long: longitude,
+      type: representativeType,
+      page,
+      sort: sortType,
+    });
+
+    if (!props.searchWithInputInProgress) {
+      props.searchWithInput({
+        address: locationInputString,
+        lat: latitude,
+        long: longitude,
+        name: repOrganizationInputString,
+        page: 1,
+        per_page: 10,
+        sort: sortType,
+        type: representativeType,
       });
+
+      setIsSearching(false);
     }
   };
 
   const handlePageSelect = e => {
     const { page } = e.detail;
     focusElement('.search-results-subheader');
-
+    setIsSearching(true);
     props.updateSearchQuery({ id: Date.now(), page });
   };
 
+  // Query updated successfully
   useEffect(
     () => {
-      if (props.currentQuery.geocodeError) {
-        setIsSearching(false);
-      }
-    },
-    [props.currentQuery.geocodeError],
-  );
-
-  useEffect(
-    () => {
-      if (props.currentQuery.searchCounter > 0) {
-        setIsDisplayingResults(true);
-      }
-    },
-    [props.currentQuery.searchCounter],
-  );
-
-  useEffect(
-    () => {
-      if (isSearching) {
+      if (isSearching && !props.currentQuery.geocodeError) {
         handleSearchOnQueryChange();
-      }
-    },
-    [isSearching],
-  );
-
-  useEffect(
-    () => {
-      if (!isSearching && props.currentQuery.searchCounter > 0) {
-        setIsSearching(true);
+        setIsLoading(true);
+        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.id],
@@ -189,30 +154,38 @@ const SearchPage = props => {
 
   useEffect(
     () => {
-      if (props.currentQuery.searchCounter > 0) {
-        setIsSearching(true);
+      if (isSearching && props.currentQuery.geocodeError) {
+        setIsSearching(false);
       }
-      handleSearchOnQueryChange();
     },
-    [props.currentQuery.sortType],
+    [props.currentQuery.geocodeError],
   );
 
+  // search complete
   useEffect(
     () => {
-      if (
-        props.currentQuery.searchCounter > 0 &&
-        !props.currentQuery.geocodeError
-      ) {
-        window.scrollTo(0, 600);
-        focusElement('#search-results-subheader');
+      if (props.currentQuery.searchCounter > 0) {
+        setIsSearching(false);
+        setIsLoading(false);
+        setIsDisplayingResults(true);
       }
     },
     [props.currentQuery.searchCounter],
   );
 
+  // jump to results
+  useEffect(
+    () => {
+      if (isDisplayingResults) {
+        window.scrollTo(0, 600);
+        focusElement('#search-results-subheader');
+      }
+    },
+    [isDisplayingResults],
+  );
+
   useEffect(() => {
-    // window.scrollTo(0, 0);
-    searchWithUrl();
+    handleSearchViaUrl();
   }, []);
 
   const renderBreadcrumbs = () => {
@@ -273,7 +246,7 @@ const SearchPage = props => {
       );
     };
 
-    if (isSearching) {
+    if (isLoading && !searchError) {
       return (
         <div>
           <va-loading-indicator message="Search in progress" />
@@ -300,32 +273,25 @@ const SearchPage = props => {
             </div>
           )}
 
-          {isDisplayingResults && (
-            <>
-              <SearchResultsHeader
-                searchResults={props.searchResults}
-                queryParams={location.search}
-                searchCounter={currentQuery.searchCounter}
-                inProgress={currentQuery.inProgress}
-                pagination={props.pagination}
-              />{' '}
-              {resultsList()}
-            </>
-          )}
+          {isDisplayingResults &&
+            !searchError && (
+              <>
+                <SearchResultsHeader
+                  searchResults={props.searchResults}
+                  queryParams={location.search}
+                  searchCounter={currentQuery.searchCounter}
+                  context={currentQuery.context}
+                  inProgress={currentQuery.inProgress}
+                  pagination={props.pagination}
+                />{' '}
+                {resultsList()}
+              </>
+            )}
         </div>
         {paginationWrapper()}
       </div>
     );
   };
-
-  // useEffect(
-  //   () => {
-  //     if (searchResultTitleRef.current && props.resultTime) {
-  //       setFocus(searchResultTitleRef.current);
-  //     }
-  //   },
-  //   [props.resultTime],
-  // );
 
   return (
     <>
