@@ -29,7 +29,7 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.getByTestId('other-orders').children[1]).to.contain.text(
       'PACT ALERT BRAVO\nConcern:',
     );
-    expect(screen.getByTestId('patient-instructions')).to.contain.text(
+    expect(screen.getByTestId('other-instructions')).to.contain.text(
       'Recommend acetaminophen 500 mg',
     );
   });
@@ -45,6 +45,6 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.queryByTestId('lab-tests')).to.not.exist;
     expect(screen.queryByTestId('medications')).to.not.exist;
     expect(screen.queryByTestId('other-orders')).to.not.exist;
-    expect(screen.queryByTestId('patient-instructions')).to.not.exist;
+    expect(screen.queryByTestId('other-instructions')).to.not.exist;
   });
 });
