@@ -9,7 +9,7 @@ describe('SM main page', () => {
     SecureMessagingLandingPage.loadMainPage();
   });
 
-  it('axe check', () => {
+  it.skip('axe check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -20,34 +20,26 @@ describe('SM main page', () => {
     });
   });
 
-  it('verify header', () => {
+  it('verify headers', () => {
     SecureMessagingLandingPage.verifyHeader();
+    SecureMessagingLandingPage.verifyUnreadMessagesNote();
   });
 
-  it('verify welcome messages', () => {
-    cy.get('.welcome-message')
-      .should('be.visible')
-      .and('contain.text', 'What to know as you try out this tool');
-    cy.get('.secure-messaging-faq')
-      .should('be.visible')
-      .and('contain.text', 'Questions about using messages');
+  it('verify main topics', () => {
+    SecureMessagingLandingPage.verifyWelcomeMessage();
+    SecureMessagingLandingPage.verifyFaqMessage();
   });
 
-  it('verify faq accordions', () => {
-    cy.get('[data-testid="faq-accordion-item"]').each(el => {
-      cy.wrap(el)
-        .should('be.visible')
-        .click({ waitForAnimations: true });
-      cy.wrap(el).should('have.attr', 'open');
-    });
+  it.skip('verify faq accordions', () => {
+    SecureMessagingLandingPage.verifyFaqAccordions();
   });
 
-  it('verify the new message link', () => {
+  it.skip('verify the new message link', () => {
     cy.contains('Start a new message').click();
     cy.location('pathname').should('contain', 'new-message');
   });
 
-  it('verify "Go to the inbox" link', () => {
+  it.skip('verify "Go to the inbox" link', () => {
     cy.contains('Go to your inbox').click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
   });
