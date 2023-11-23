@@ -9,7 +9,7 @@ describe('SM main page', () => {
     SecureMessagingLandingPage.loadMainPage();
   });
 
-  it.skip('axe check', () => {
+  it('axe check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -30,16 +30,16 @@ describe('SM main page', () => {
     SecureMessagingLandingPage.verifyFaqMessage();
   });
 
-  it.skip('verify faq accordions', () => {
+  it('verify faq accordions', () => {
     SecureMessagingLandingPage.verifyFaqAccordions();
   });
 
-  it.skip('verify the new message link', () => {
+  it('verify the new message link', () => {
     cy.contains('Start a new message').click();
     cy.location('pathname').should('contain', 'new-message');
   });
 
-  it.skip('verify "Go to the inbox" link', () => {
+  it('verify "Go to the inbox" link', () => {
     cy.contains('Go to your inbox').click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
   });
