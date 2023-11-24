@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD } from '../util/constants';
@@ -15,8 +16,21 @@ const initialState = {
   vaccineDetails: undefined,
 };
 
+/**
+ * Extracts the location name from a vaccine object.
+ *
+ * @param {object} vaccine - The vaccine object containing location information.
+ * @returns {string} - The location name or an empty field if not found.
+ */
 export const extractLocation = vaccine => {
-  if (isArrayAndHasItems(vaccine.location && vaccine.location.reference)) {
+  // Check if the vaccine object contains valid location and contained resource data
+  if (
+    vaccine.location &&
+    vaccine.location.reference &&
+    vaccine.contained &&
+    isArrayAndHasItems(vaccine.contained)
+  ) {
+    // Extract the reference ID from the location field
     const refId = vaccine.location.reference;
     const location = extractContainedResource(vaccine, refId);
     return location?.name || EMPTY_FIELD;
@@ -24,14 +38,42 @@ export const extractLocation = vaccine => {
   return EMPTY_FIELD;
 };
 
+/**
+ * Extracts the observation code text from a vaccine object.
+ *
+ * @param {object} vaccine - The vaccine object containing observation information.
+ * @returns {string} - The observation code text or an empty field if not found.
+ */
 export const extractReaction = vaccine => {
-  if (
-    isArrayAndHasItems(vaccine.reaction) &&
-    isArrayAndHasItems(vaccine.reaction[0]?.detail?.display)
-  ) {
-    const refId = vaccine.reaction[0].detail.display;
-    const reaction = extractContainedResource(vaccine, refId);
-    return reaction?.name || EMPTY_FIELD;
+  if (isArrayAndHasItems(vaccine.contained)) {
+    const observation = vaccine.contained.find(
+      item => item.resourceType === 'Observation',
+    );
+    // Check if the observation object and its code.text property exist
+    if (observation && observation.code && observation.code.text) {
+      // Extract and log the observation code text
+      const reaction = observation.code.text;
+      console.log('Observation Code Text: ', reaction);
+
+      return reaction || EMPTY_FIELD;
+    }
+  }
+  return EMPTY_FIELD;
+};
+
+/**
+ * Extracts the note text from a vaccine object.
+ *
+ * @param {object} vaccine - The vaccine object containing note information.
+ * @returns {string} - The note text or an empty field if not found.
+ */
+export const extractNote = vaccine => {
+  // Check if the vaccine object contains valid note data
+  if (isArrayAndHasItems(vaccine.note)) {
+    const notes = vaccine.note.map(noteObj => noteObj.text);
+    if (notes.length > 0) {
+      return notes;
+    }
   }
   return EMPTY_FIELD;
 };
@@ -51,39 +93,14 @@ export const convertVaccine = vaccine => {
     date: vaccine.occurrenceDateTime
       ? formatDateLong(vaccine.occurrenceDateTime)
       : EMPTY_FIELD,
-    location: vaccine.location?.display || EMPTY_FIELD,
-    // location: extractLocation(vaccine),
+    // location: vaccine.location?.display || EMPTY_FIELD,
+    location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
-    reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
-    notes:
-      (isArrayAndHasItems(vaccine.note) &&
-        vaccine.note.map(note => note.text)) ||
-      [],
+    // reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
+    reaction: extractReaction(vaccine),
+    notes: extractNote(vaccine),
   };
 };
-
-// export const convertVaccine = vaccine => {
-//   const refId = vaccine.performer[0].extension[0].valueReference?.reference;
-//   const location = extractContainedResource(vaccine, refId);
-
-//   if (typeof vaccine === 'undefined' || vaccine === null) {
-//     return null;
-//   }
-//   return {
-//     id: vaccine.id,
-//     name: vaccine.vaccineCode?.text,
-//     date: vaccine.occurrenceDateTime
-//       ? formatDateLong(vaccine.occurrenceDateTime)
-//       : EMPTY_FIELD,
-//     location: vaccine.location?.display || EMPTY_FIELD,
-//     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
-//     reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
-//     notes:
-//       (isArrayAndHasItems(vaccine.note) &&
-//         vaccine.note.map(note => note.text)) ||
-//       [],
-//   };
-// };
 
 export const vaccineReducer = (state = initialState, action) => {
   switch (action.type) {
