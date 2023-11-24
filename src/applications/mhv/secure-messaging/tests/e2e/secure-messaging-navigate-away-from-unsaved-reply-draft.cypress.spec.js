@@ -6,8 +6,8 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
-describe('Secure Messaging Reply', () => {
-  it('Axe Check Message Reply', () => {
+describe('Secure Messaging navigate away from unsaved draft', () => {
+  it(' Check navigatation away from unsaved draft', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
@@ -24,18 +24,7 @@ describe('Secure Messaging Reply', () => {
     });
 
     cy.get(Locators.FOLDERS.INBOX).click();
-    // this test is temporarily commented-out because this functionality
-    // has been removed from the frontend. The modal design needs revision by design/ucd
-    // and will be reintroduced later
-    // cy.get('[data-testid="reply-form"]')
-    //   .find('h1')
-    //   .should('have.text', "We can't save this message yet");
-    // cy.get('[data-testid="reply-form"]')
-    //   .find('va-button')
-    //   .should('have.attr', 'text', 'Continue editing');
-    // cy.get('[data-testid="reply-form"]')
-    //   .find('va-button[secondary]')
-    //   .should('have.attr', 'text', 'Delete draft');
+    PatientReplyPage.verifyModalMessageDisplayAndBuddontsCantSaveDraft();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
