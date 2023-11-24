@@ -13,6 +13,7 @@ const DashboardUnreadMessages = props => {
         inbox !== undefined && (
           <h2
             data-dd-privacy="mask"
+            data-testid="unread-messages"
             className="vads-u-font-size--h3"
             slot="headline"
           >

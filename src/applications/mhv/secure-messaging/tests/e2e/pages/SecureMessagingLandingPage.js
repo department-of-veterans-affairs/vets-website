@@ -38,7 +38,7 @@ class SecureMessagingLandingPage {
   };
 
   verifyUnreadMessagesNote = (text = 'unread messages in your inbox') => {
-    cy.get('.vads-u-font-size--h3')
+    cy.get('[data-testid="unread-messages"]')
       .should('be.visible')
       .and('include.text', `${text}`);
   };
