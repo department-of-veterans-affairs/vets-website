@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
   dateFormat,
@@ -9,9 +10,21 @@ import AttachmentsList from '../AttachmentsList';
 import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
+import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyDraftItem = props => {
-  const { draft, cannotReply, editMode, signature, toggleEditHandler } = props;
+  const {
+    draft,
+    cannotReply,
+    editMode,
+    signature,
+    draftsCount,
+    draftsequence,
+    replyMessage,
+    replyToName,
+    saveDraftHandler,
+    toggleEditHandler,
+  } = props;
   const [attachments, setAttachments] = useState([]);
   const [userSaved] = useState(false);
   //   const [userSaved, setUserSaved] = useState(false);
@@ -21,11 +34,16 @@ const ReplyDraftItem = props => {
     },
     [signature],
   );
+
   return (
     <>
       <HorizontalRule />
-      <h3>Draft 3</h3>
-      <p>Started {dateFormat(draft.draftDate)}</p>
+      {draftsCount > 1 && (
+        <>
+          <h3>Draft {draftsequence}</h3>
+          <p>Started {dateFormat(draft.draftDate)}</p>
+        </>
+      )}
       {editMode ? (
         <>
           <span
@@ -40,26 +58,36 @@ const ReplyDraftItem = props => {
             <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
               {`(Draft) `}
             </span>
-            {`To: ${draft?.replyToName || draft?.senderName}\n(Team: ${
-              draft.triageGroupName
-            })`}
+            {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
+              replyMessage.triageGroupName})`}
             <br />
           </span>
-          <va-textarea
-            data-dd-privacy="mask"
-            label="Message"
-            required
-            id="reply-message-body"
-            name="reply-message-body"
-            className="message-body"
-            data-testid="message-body-field"
-            // onInput={messageBodyHandler}
-            value={draft.messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
-            // error={bodyError}
-            onFocus={e => {
-              setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
-            }}
-          />
+          {cannotReply ? (
+            <section
+              aria-label="Message body."
+              className="vads-u-margin-top--1 old-reply-message-body"
+            >
+              <h3 className="sr-only">Message body.</h3>
+              <MessageThreadBody text={draft.messageBody} />
+            </section>
+          ) : (
+            <va-textarea
+              data-dd-privacy="mask"
+              label="Message"
+              required
+              id="reply-message-body"
+              name="reply-message-body"
+              className="message-body"
+              data-testid="message-body-field"
+              // onInput={messageBodyHandler}
+              value={draft?.messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
+              // error={bodyError}
+              onFocus={e => {
+                setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
+              }}
+            />
+          )}
+
           {!cannotReply && (
             <section className="attachments-section vads-u-margin-top--2">
               <AttachmentsList
@@ -79,8 +107,8 @@ const ReplyDraftItem = props => {
           <DraftSavedInfo userSaved={userSaved} />
           <ComposeFormActionButtons
             // onSend={sendMessageHandler}
-            // onSaveDraft={(type, e) => saveDraftHandler(type, e)}
-            draftId={draft.messageId}
+            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            draftId={draft?.messageId}
             // setNavigationError={setNavigationError}
             cannotReply={cannotReply}
           />
@@ -94,11 +122,24 @@ const ReplyDraftItem = props => {
             onClick={() => {
               toggleEditHandler(draft.messageId);
             }}
-          />{' '}
+          />
         </>
       )}
     </>
   );
+};
+
+ReplyDraftItem.propTypes = {
+  cannotReply: PropTypes.bool,
+  draft: PropTypes.object,
+  draftsCount: PropTypes.number,
+  draftsequence: PropTypes.number,
+  editMode: PropTypes.bool,
+  replyMessage: PropTypes.object,
+  replyToName: PropTypes.string,
+  saveDraftHandler: PropTypes.func,
+  signature: PropTypes.object,
+  toggleEditHandler: PropTypes.func,
 };
 
 export default ReplyDraftItem;

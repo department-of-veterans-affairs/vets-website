@@ -115,7 +115,7 @@ const MessageThread = props => {
   );
 
   const setViewCount = count => {
-    dispatch({ type: Actions.Message.SET_THREAD_VIEW_COUNT, payload: count });
+    dispatch({ type: Actions.Thread.SET_THREAD_VIEW_COUNT, payload: count });
   };
 
   const handleLoadMoreMessages = () => {

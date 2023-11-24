@@ -7,7 +7,7 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
-import { PrintMessageOptions } from '../util/constants';
+// import { PrintMessageOptions } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
 const MessageReply = () => {
@@ -15,8 +15,11 @@ const MessageReply = () => {
   const { replyId } = useParams();
   const { error } = useSelector(state => state.sm.draftDetails);
   const replyMessage = useSelector(state => state.sm.messageDetails.message);
-  const { messageHistory, printOption, threadViewCount } = useSelector(
-    state => state.sm.messageDetails,
+  // const { messageHistory, printOption, threadViewCount } = useSelector(
+  //   state => state.sm.messageDetails,
+  // );
+  const { messages, threadViewCount } = useSelector(
+    state => state.sm.threadDetails,
   );
   const [acknowledged, setAcknowledged] = useState(false);
 
@@ -36,7 +39,7 @@ const MessageReply = () => {
   );
 
   const content = () => {
-    if (replyMessage === undefined) {
+    if (messages[0] === undefined) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -55,19 +58,19 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm draftToEdit={null} replyMessage={replyMessage} />;
+    return <ReplyForm draftToEdit={null} replyMessage={messages[0]} />;
   };
 
   const thread = () => {
-    const newHistory = [replyMessage];
-    if (messageHistory?.length) {
-      newHistory.push(...messageHistory);
-    }
+    // const newHistory = [replyMessage];
+    // if (messageHistory?.length) {
+    //   newHistory.push(...messageHistory);
+    // }
     return (
       <>
         <MessageThread
-          messageHistory={newHistory}
-          isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+          messageHistory={messages}
+          // isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
           viewCount={threadViewCount}
         />
       </>
@@ -89,7 +92,7 @@ const MessageReply = () => {
             <AlertBackgroundBox closeable />
 
             {content()}
-            {replyMessage && thread()}
+            {messages?.length && thread()}
           </div>
         </>
       )}
