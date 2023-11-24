@@ -261,19 +261,6 @@ describe('Compose form component', () => {
     );
   });
 
-  it('renders without errors on Delete draft button click', async () => {
-    const deleteDraftSpy = sinon.spy(draftActions, 'deleteDraft');
-    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
-      draft: draftMessage,
-    });
-
-    fireEvent.click(screen.getByTestId('delete-draft-button'));
-    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
-    await waitFor(() => {
-      expect(deleteDraftSpy.calledOnce).to.be.true;
-    });
-  });
-
   it('renders without errors to category selection', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,

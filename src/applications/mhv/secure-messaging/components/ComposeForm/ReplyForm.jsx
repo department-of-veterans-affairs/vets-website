@@ -52,6 +52,7 @@ const ReplyForm = props => {
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -246,7 +247,11 @@ const ReplyForm = props => {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError(null);
+          setNavigationError({
+            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+            confirmButtonText: 'Continue editing',
+            cancelButtonText: 'Delete draft',
+          });
         }
       }
 
@@ -320,7 +325,7 @@ const ReplyForm = props => {
         });
       }
     },
-    [draft, messageBody],
+    [deleteButtonClicked, draft, messageBody],
   );
 
   useEffect(
@@ -418,6 +423,7 @@ const ReplyForm = props => {
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+                data-testid="message-reply-to"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
                 data-dd-privacy="mask"
               >
@@ -490,6 +496,8 @@ const ReplyForm = props => {
                 draftId={newDraftId}
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
+                setDeleteButtonClicked={setDeleteButtonClicked}
+                messageBody={messageBody}
               />
             </div>
           </form>
