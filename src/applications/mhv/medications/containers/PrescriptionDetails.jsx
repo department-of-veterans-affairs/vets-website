@@ -76,7 +76,7 @@ const PrescriptionDetails = () => {
         focusElement(document.querySelector('h1'));
         updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
       } else {
-        // window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
       }
     },
     [prescription],
