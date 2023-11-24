@@ -52,14 +52,13 @@ describe('Attachments List component', () => {
       }),
     );
 
-    await waitFor(() => {
-      const successAlert = screen.findByTestId('file-attached-success-alert');
-      expect(successAlert).to.exist;
-    });
+    expect(screen.findByTestId('file-attached-success-alert')).to.exist;
+    expect(screen.findByTestId('close-success-alert-button')).to.exist;
 
-    await waitFor(() => {
+    waitFor(() => {
       fireEvent.click(screen.getByTestId('close-success-alert-button'));
     });
+
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
   });
 
@@ -97,7 +96,7 @@ describe('Attachments List component', () => {
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
   });
 
-  it.skip('removes file-attached alert when attach-additional-file button is clicked', async () => {
+  it('removes file-attached alert when attach-additional-file button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     const file = new File(['(⌐□_□)'], 'test2.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
@@ -110,10 +109,7 @@ describe('Attachments List component', () => {
       }),
     );
 
-    const successAlert = await screen.findByTestId(
-      'file-attached-success-alert',
-    );
-    expect(successAlert).to.exist;
+    expect(screen.findByTestId('file-attached-success-alert')).to.exist;
 
     const attachFileButton = await screen.getByTestId('attach-file-button');
 
@@ -122,7 +118,7 @@ describe('Attachments List component', () => {
       'Attach additional file',
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(attachFileButton);
     });
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;

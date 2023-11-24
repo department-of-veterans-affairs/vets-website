@@ -44,11 +44,9 @@ const AttachmentsList = props => {
   useEffect(
     () => {
       if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
-        setTimeout(() => {
-          setFocusedElement(
-            document.querySelector('#close-success-alert-button'),
-          );
-        }, 200);
+        setFocusedElement(
+          document.querySelector('#close-success-alert-button'),
+        );
       }
     },
     [attachFileSuccess, attachments],
@@ -118,11 +116,10 @@ const AttachmentsList = props => {
         attachments.length > 0 && (
           <VaAlert
             aria-live="polite"
+            aria-label="file successfully attached"
             ref={attachFileAlertRef}
             background-only
             className="file-attached-success vads-u-margin-top--2"
-            // closeable
-            // close-btn-aria-label="Close notification"
             data-testid="file-attached-success-alert"
             disable-analytics
             full-width="false"
@@ -147,6 +144,7 @@ const AttachmentsList = props => {
                 style={{ fontSize: '2.4rem' }}
                 alt="Close notification icon"
                 aria-hidden="true"
+                role="presentation"
               />
             </button>
           </VaAlert>
@@ -169,9 +167,7 @@ const AttachmentsList = props => {
                         ? null
                         : `${file.name}, ${getSize(
                             file.size || file.attachmentSize,
-                          )}, file successfully attached. Button available: Remove ${
-                            file.name
-                          }`
+                          )}, button available: Remove ${file.name}`
                     }
                   >
                     <i
@@ -266,6 +262,7 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
+  attachedFileInfo: PropTypes.object,
   attachments: PropTypes.array,
   editingEnabled: PropTypes.bool,
   setAttachFileSuccess: PropTypes.func,
