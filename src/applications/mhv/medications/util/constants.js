@@ -45,10 +45,10 @@ export const pdfStatusDefinitions = {
   ],
   activeParked: [
     {
-      value: `Your VA provider prescribed this medication or supply to you. But we won’t send any shipments until you request to fill or refill it.\n`,
+      value: `Your VA provider prescribed this medication or supply to you. But we won’t send any shipments until you request to fill or refill it.`,
     },
     {
-      value: `We may use this status for either of these reasons:\n`,
+      value: `We may use this status for either of these reasons:`,
     },
     {
       value: [
@@ -62,10 +62,10 @@ export const pdfStatusDefinitions = {
   ],
   hold: [
     {
-      value: `We put a hold on this prescription. You can’t request a refill until we remove the hold.\n`,
+      value: `We put a hold on this prescription. You can’t request a refill until we remove the hold.`,
     },
     {
-      value: `We may use this status for either of these reasons:\n`,
+      value: `We may use this status for either of these reasons:`,
     },
     {
       value: [
@@ -84,7 +84,7 @@ export const pdfStatusDefinitions = {
   ],
   discontinued: [
     {
-      value: `You can’t refill this prescription. We may use this status for either of these reasons:\n`,
+      value: `You can’t refill this prescription. We may use this status for either of these reasons:`,
     },
     {
       value: [
@@ -98,7 +98,7 @@ export const pdfStatusDefinitions = {
   ],
   submitted: [
     {
-      value: `We got your request to fill or refill this prescription. We’ll update the status when we process your request.\n`,
+      value: `We got your request to fill or refill this prescription. We’ll update the status when we process your request.`,
     },
     {
       value: `Check back for updates. If we don’t update the status within 3 days after your request, call your VA pharmacy.`,
@@ -106,13 +106,13 @@ export const pdfStatusDefinitions = {
   ],
   expired: [
     {
-      value: `This prescription is too old to refill.\n`,
+      value: `This prescription is too old to refill.`,
     },
     {
-      value: `An expired prescription doesn’t mean the medication itself is expired.\n`,
+      value: `An expired prescription doesn’t mean the medication itself is expired.`,
     },
     {
-      value: `Check the prescription label for the expiration date of the medication.\n`,
+      value: `Check the prescription label for the expiration date of the medication.`,
     },
     {
       value: `If you need more of this prescription, request a renewal.`,
@@ -127,7 +127,7 @@ export const pdfStatusDefinitions = {
 
 export const pdfDefaultStatusDefinition = [
   {
-    value: `There’s a problem with our system. You can’t manage this prescription online right now.\n`,
+    value: `There’s a problem with our system. You can’t manage this prescription online right now.`,
   },
   {
     value: `If you need this prescription now, call your VA pharmacy.`,
