@@ -129,7 +129,7 @@ describe('VAOS direct schedule flow - dead ends', () => {
 
         const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
-          typeOfCare: 'primaryCare',
+          typeOfCareId: 'primaryCare',
           type: 'request',
           isEligible: false,
         });
