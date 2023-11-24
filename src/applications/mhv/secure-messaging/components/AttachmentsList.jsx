@@ -262,7 +262,6 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
-  attachedFileInfo: PropTypes.object,
   attachments: PropTypes.array,
   editingEnabled: PropTypes.bool,
   setAttachFileSuccess: PropTypes.func,
