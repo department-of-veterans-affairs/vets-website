@@ -55,7 +55,7 @@ export const extractReaction = vaccine => {
       const reaction = observation.code.text;
       console.log('Observation Code Text: ', reaction);
 
-      return reaction || EMPTY_FIELD;
+      return reaction;
     }
   }
   return EMPTY_FIELD;
@@ -93,10 +93,8 @@ export const convertVaccine = vaccine => {
     date: vaccine.occurrenceDateTime
       ? formatDateLong(vaccine.occurrenceDateTime)
       : EMPTY_FIELD,
-    // location: vaccine.location?.display || EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
-    // reactions: vaccine.reaction?.map(item => item.detail?.display) || [],
     reaction: extractReaction(vaccine),
     notes: extractNote(vaccine),
   };
