@@ -1,0 +1,10 @@
+{
+  "formData": {
+    "preparerType": "citizen"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/preparer-type"
+  }
+}

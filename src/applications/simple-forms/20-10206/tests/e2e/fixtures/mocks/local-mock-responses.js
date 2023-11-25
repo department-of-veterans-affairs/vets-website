@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 // use this file to mock api responses for local development
 // yarn mock-api --responses ./src/applications/simple-forms/21-0845/tests/e2e/fixtures/mocks/local-mock-responses.js
-const mockInProgressForms = require('./in-progress-forms.json');
-const mockPrefill = require('./prefill.json');
+const mockSipPut = require('./sipPut.json');
+const mockSipGet = require('./sipGet.json');
 const mockSubmit = require('../../../../../shared/tests/e2e/fixtures/mocks/application-submit.json');
 
 const responses = {
@@ -14,13 +14,13 @@ const responses = {
             service_name: 'idme',
           },
           email: 'fake@fake.com',
-          loa: { current: 3 },
+          loa: { current: 2 },
           first_name: 'John',
           middle_name: 'E',
           last_name: 'Veteran',
           gender: 'F',
           birth_date: '1985-01-01',
-          verified: true,
+          verified: false,
         },
         veteran_status: {
           status: 'OK',
@@ -117,8 +117,8 @@ const responses = {
     },
   },
 
-  'GET /v0/in_progress_forms/20-10206': mockPrefill,
-  'PUT /v0/in_progress_forms/20-10206': mockInProgressForms,
+  'GET /v0/in_progress_forms/20-10206': mockSipGet,
+  'PUT /v0/in_progress_forms/20-10206': mockSipPut,
 
   'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };

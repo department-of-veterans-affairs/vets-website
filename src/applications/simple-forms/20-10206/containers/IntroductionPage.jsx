@@ -63,7 +63,7 @@ const childContent = (
     <p>
       If you’re looking for your own records, you have the option to sign in to
       your account to complete and submit the request online. Your
-      identification will need to be verified, so we encourage you to use a
+      identification will need to be verified, so we encourage you to use a{' '}
       <strong>Login.gov</strong> or <strong>ID.me</strong> account.
     </p>
     <p>
