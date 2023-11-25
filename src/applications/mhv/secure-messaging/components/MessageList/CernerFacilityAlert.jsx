@@ -31,6 +31,7 @@ const CernerFacilityAlert = () => {
           background-only
           close-btn-aria-label="Close notification"
           visible
+          data-testid="cerner-facilities-alert"
         >
           <h2 className="vads-u-font-size--md">
             Make sure you’re in the right health portal
@@ -50,7 +51,7 @@ const CernerFacilityAlert = () => {
               </>
             )}
             {cernerFacilitiesNames?.length === 1 && (
-              <p>
+              <p data-testId="single-cerner-facility-text">
                 To manage appointments at{' '}
                 <strong>{cernerFacilitiesNames[0]}</strong> go to My VA Health.
               </p>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -28,13 +28,18 @@ const App = () => {
     state => state.featureToggles,
   );
 
+  const userFacilities = useMemo(
+    () => getAllFacilities(user.profile.facilities),
+    [user.profile.facilities],
+  );
+
   useEffect(
     () => {
       if (user.login.currentlyLoggedIn) {
-        dispatch(getAllFacilities(user.profile.facilities));
+        dispatch(userFacilities);
       }
     },
-    [user],
+    [userFacilities, user.login.currentlyLoggedIn, dispatch],
   );
 
   const datadogRumConfig = {

@@ -19,6 +19,7 @@ import {
   DefaultFolders as Folders,
   Paths,
 } from '../../../util/constants';
+import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
 const searchProps = { searchResults: [], awaitingResults: false };
 
@@ -31,6 +32,7 @@ describe('Folder Header component', () => {
       },
       messageDetails: { message: messageResponse },
     },
+    drupalStaticData,
   };
   const initialPath = `/folders/${customFolder.folderId}`;
   const initialThreadCount = threadList.length;
