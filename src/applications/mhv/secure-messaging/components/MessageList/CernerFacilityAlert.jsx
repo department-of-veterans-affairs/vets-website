@@ -53,7 +53,7 @@ const CernerFacilityAlert = () => {
             {cernerFacilitiesNames?.length === 1 && (
               <p data-testId="single-cerner-facility-text">
                 To manage appointments at{' '}
-                <strong>{cernerFacilitiesNames[0]}</strong> go to My VA Health.
+                <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
               </p>
             )}
 
