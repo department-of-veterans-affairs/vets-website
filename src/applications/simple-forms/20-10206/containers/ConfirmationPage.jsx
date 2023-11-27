@@ -14,7 +14,7 @@ export const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.attributes.confirmationNumber;
+  const confirmationNumber = submission.response?.confirmationNumber;
 
   return (
     <ConfirmationPageView
