@@ -11,8 +11,8 @@ describe('Medical Records Health PathologyListPage', () => {
 
   it('Pathology ListPage Toggle Menu button Print or download ', () => {
     // Given Navigate to Pathology ListPage
-    cy.visit('my-health/medical-records/labs-and-tests');
-    PathologyListPage.clickPathologyDetailsLink(0);
+
+    PathologyListPage.clickPathologyDetailsLink(9);
 
     // should display a toggle menu button
     PathologyListPage.verifyPrintOrDownload();
@@ -24,7 +24,7 @@ describe('Medical Records Health PathologyListPage', () => {
     PathologyListPage.verifyDownloadPDF();
 
     // should display a download text file button "Download list as a text file"
-    // PathologyListPage.verifyDownloadTextFile();
+    PathologyListPage.verifyDownloadTextFile();
 
     // PathologyListPage.clickDownloadPDFFile();
     // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);

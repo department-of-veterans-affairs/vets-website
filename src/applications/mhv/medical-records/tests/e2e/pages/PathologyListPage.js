@@ -18,11 +18,17 @@ class PathologyListPage {
   };
 */
 
-  clickPathologyDetailsLink = (_PathologyIndex = 0) => {
+  clickPathologyDetailsLink = (_PathologyIndex = 9) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_PathologyIndex)
       .click();
+    //* [@id="labs-and-tests"]/div/div[1]/div[9]/a/strong
+  };
+
+  verifyPrintOrDownload = () => {
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click();
   };
 
   verifyPrintButton = () => {
