@@ -51,11 +51,16 @@ export function isValidYear(value) {
 }
 
 export function isValidPartialDate(day, month, year) {
-  return !(year && !isValidYear(year));
+  if (year && !isValidYear(year)) {
+    return false;
+  }
+
+  return true;
 }
 
 export function isValidDate(day, month, year) {
-  return moment({ day, month: parseInt(month, 10) - 1, year }).isValid();
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+  return momentDate.isValid();
 }
 
 export function isValidCurrentOrPastDate(day, month, year) {
