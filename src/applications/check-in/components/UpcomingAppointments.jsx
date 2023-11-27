@@ -78,7 +78,7 @@ const UpcomingAppointments = props => {
       />
     );
   }
-  
+
   return (
     <section data-testid="upcoming-appointments">
       <h2 data-testid="upcoming-appointments-header">
