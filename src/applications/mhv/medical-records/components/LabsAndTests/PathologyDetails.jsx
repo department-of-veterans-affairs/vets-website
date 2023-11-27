@@ -76,24 +76,18 @@ const PathologyDetails = props => {
 
   const generatePathologyTxt = async () => {
     const content = `
-    ${record.name} \n
-    Details about this test: \n
-    _____________________________________________________ \n
-    Sample tested: ${record.sampleTested} \n
-    Lab location: ${record.labLocation} \n
-    Date completed: ${record.date} \n
-    Results: \n
-    ${record.results} \n`;
+${record.name} \n
+Details about this test: \n
+_____________________________________________________ \n
+Sample tested: ${record.sampleTested} \n
+Lab location: ${record.labLocation} \n
+Date completed: ${record.date} \n
+Results: \n
+${record.results} \n`;
 
     const fileName = `VA-Pathology-details-${getNameDateAndTime(user)}`;
 
-    generateTextFile(
-      content
-        .split('\n')
-        .map(line => line.trim())
-        .join('\n'),
-      fileName,
-    );
+    generateTextFile(content, fileName);
   };
 
   return (

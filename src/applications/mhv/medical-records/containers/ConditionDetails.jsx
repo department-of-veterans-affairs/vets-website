@@ -137,14 +137,14 @@ const ConditionDetails = props => {
 
   const generateConditionTxt = async () => {
     const content = `
-    ${record.name} \n
-    Date entered: ${record.date} \n
-    _____________________________________________________ \n
-    \t Provider: ${record.provider} \n
-    \t Provider Notes: ${processList(record.note)} \n
-    \t Status of health condition: ${record.active} \n
-    \t Location: ${record.facility} \n
-    \t SNOMED Clinical term: ${record.name} \n`;
+${record.name} \n
+Date entered: ${record.date} \n
+_____________________________________________________ \n
+Provider: ${record.provider} \n
+Provider Notes: ${processList(record.note)} \n
+Status of health condition: ${record.active} \n
+Location: ${record.facility} \n
+SNOMED Clinical term: ${record.name} \n`;
 
     const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 

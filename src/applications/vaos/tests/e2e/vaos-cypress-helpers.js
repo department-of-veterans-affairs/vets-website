@@ -41,7 +41,7 @@ export function mockFeatureToggles(toggles = {}) {
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  */
 export function mockCCProvidersApi({
@@ -74,7 +74,7 @@ export function mockCCProvidersApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -110,7 +110,7 @@ export function mockAppointmentGetApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -148,7 +148,7 @@ export function mockAppointmentUpdateApi({
  *
  * @export
  * @param {Object} arguments
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -186,7 +186,7 @@ export function mockAppointmentCreateApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -232,7 +232,7 @@ export function mockAppointmentsGetApi({
  * @export
  * @param {Object} arguments - Function arguments.
  * @param {String} arguments.id - The facility id.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -272,7 +272,7 @@ export function mockFacilityApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -383,7 +383,7 @@ export function mockSchedulingConfigurationApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -409,7 +409,13 @@ export function mockEligibilityApi({
         }
 
         req.reply({
-          data,
+          data: {
+            ...data,
+            attributes: {
+              ...data.attributes,
+              type: data.attributes?.type || req.query.type,
+            },
+          },
         });
       },
     ).as('v2:get:eligibility');
@@ -423,7 +429,7 @@ export function mockEligibilityApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -463,7 +469,7 @@ export function mockEligibilityDirectApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -529,7 +535,7 @@ export function mockEligibilityCCApi({ cceType, isEligible: eligible = true }) {
  * @export
  * @param {Object} arguments - Function arguments.
  * @param {String} arguments.locationId - Location id.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
  * @param {number} [arguments.version=2] - Api version number.
  */
@@ -571,7 +577,7 @@ export function mockClinicsApi({
  * @param {Object} arguments - Function arguments.
  * @param {string} arguments.locationId - Location/facility id. The mocked facility id should be used here.
  * @param {string} arguments.clinicId - Clinic id. The mocked clinic id should be used.
- * @param {Object} arguments.response - The response to return from the mock api call.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode = 200] - The response code to return from the mock api call.
  * @param {number} [arguments.version = 2] - Api version number.
  */
