@@ -34,12 +34,21 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'pa-10206-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'fullName',
+      checkboxLabel:
+        'I confirm that the information above is correct and true to the best of my knowledge and belief.',
+    },
+  },
   formId: '20-10206',
   hideUnauthedStartLink: true,
 
@@ -58,7 +67,12 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your Personal records request.',
   },
   title: 'Request personal records',
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    privacyAgreementAccepted: {
+      type: 'boolean',
+      enum: [true],
+    },
+  },
   v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
