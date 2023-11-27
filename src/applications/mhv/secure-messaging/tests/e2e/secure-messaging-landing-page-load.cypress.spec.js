@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('SM main page', () => {
   beforeEach(() => {
@@ -34,13 +34,13 @@ describe('SM main page', () => {
     SecureMessagingLandingPage.verifyFaqAccordions();
   });
 
-  it('verify the new message link', () => {
-    cy.contains('Start a new message').click();
+  it('verify "Start a new message" link', () => {
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     cy.location('pathname').should('contain', 'new-message');
   });
 
   it('verify "Go to the inbox" link', () => {
-    cy.contains('Go to your inbox').click({ force: true });
+    cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
   });
 });
@@ -51,7 +51,7 @@ describe('SM main page without API calls', () => {
     site.login();
     cy.visit('my-health/secure-messages/');
 
-    cy.get('[data-testid="inbox-link"]').should('be.visible');
-    cy.get('[data-testid="compose-message-link"]').should('be.visible');
+    cy.get(Locators.LINKS.GO_TO_INBOX).should('be.visible');
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
   });
 });
