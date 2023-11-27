@@ -63,11 +63,12 @@ describe('Vaccines details container', () => {
   });
 
   it('displays the location', () => {
-    const location = screen.getByText(EMPTY_FIELD, {
-      exact: true,
-      selector: 'p',
-    });
-    expect(location).to.exist;
+    expect(
+      screen.getByText('ADTP BURNETT', {
+        exact: true,
+        selector: 'p',
+      }),
+    ).to.exist;
   });
 
   it('should download a pdf', () => {
