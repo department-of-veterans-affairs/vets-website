@@ -33,5 +33,6 @@ describe('Secure Messaging Reply', () => {
     });
     PatientReplyPage.sendReplyMessageDetails(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
+    PatientReplyPage.verifySendMessageConfirmationHasFocus();
   });
 });
