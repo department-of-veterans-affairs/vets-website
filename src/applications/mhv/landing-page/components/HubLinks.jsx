@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const HubSection = ({ title, links }) => {
-  const listItems = links.map((l, index) => (
-    <li key={`${l.href}--${index}`}>
-      <a className="mhv-c-link" href={l.href}>
-        {l.text}
-      </a>
+  const listItems = links.map(({ href, text }, index) => (
+    <li key={`${href}--${index}`}>
+      <va-link
+        class="mhv-c-link"
+        disable-analytics
+        href={href}
+        text={text}
+        onClick={() =>
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-title': text,
+            'links-list-group': title,
+          })
+        }
+      />
     </li>
   ));
   return (
