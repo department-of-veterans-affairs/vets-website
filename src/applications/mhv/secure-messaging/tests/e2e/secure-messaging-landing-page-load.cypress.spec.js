@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe.skip('SM main page', () => {
+describe('SM main page', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
