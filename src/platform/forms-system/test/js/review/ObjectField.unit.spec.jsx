@@ -2,7 +2,6 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import ObjectField from '../../../src/js/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
@@ -693,7 +692,6 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -736,6 +734,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
     const review = document.querySelector('dl.review');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -775,7 +774,6 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -816,8 +814,8 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 

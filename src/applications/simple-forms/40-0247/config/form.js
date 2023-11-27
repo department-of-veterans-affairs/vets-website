@@ -59,7 +59,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to request a certificate.',
     noAuth: 'Please sign in again to continue your request for certificate.',

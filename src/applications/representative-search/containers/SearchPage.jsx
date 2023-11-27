@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-// import appendQuery from 'append-query';
-// import { browserHistory } from 'react-router';
+import { isEmpty } from 'lodash';
+import appendQuery from 'append-query';
+import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/search/SearchResultsHeader';
 import ResultsList from '../components/search/ResultsList';
@@ -19,71 +19,200 @@ import {
   clearSearchText,
   clearSearchResults,
   fetchRepresentatives,
+  searchWithInput,
   updateSearchQuery,
   updateSortType,
   geolocateUser,
+  geocodeUserAddress,
   clearGeocodeError,
-  mockSearch,
-  mockSearchPage2,
 } from '../actions';
 
 const SearchPage = props => {
   const searchResultTitleRef = useRef(null);
-  // const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
-  // const updateUrlParams = params => {
-  //   const { location, currentQuery } = props;
-  //   const queryParams = {
-  //     ...location.query,
-  //     page: currentQuery.currentPage,
-  //     address: currentQuery.locationInputString,
-  //     representativeType: currentQuery.representativeType,
-  //     latitude: props.currentQuery.position?.latitude,
-  //     longitude: props.currentQuery.position?.longitude,
-  //     radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
-  //     bounds: props.currentQuery.bounds,
-  //     ...params,
-  //   };
-  //   const queryStringObj = appendQuery(
-  //     `/find-representatives${location.pathname}`,
-  //     queryParams,
-  //   );
-  //   browserHistory.push(queryStringObj);
-  // };
+  const updateUrlParams = params => {
+    const { location, currentQuery } = props;
+
+    const queryParams = {
+      ...location.query,
+      address: currentQuery.locationInputString,
+      latitude: currentQuery.position?.latitude,
+      longitude: currentQuery.position?.longitude,
+      page: currentQuery.currentPage,
+      /* eslint-disable camelcase */
+      per_page: 10,
+      sort: currentQuery.sortType.toLowerCase(),
+      type: currentQuery.representativeType,
+      name: currentQuery.repOrganizationInputString,
+
+      ...params,
+    };
+    const queryStringObj = appendQuery(
+      `/get-help-from-accredited-representative/find-rep${location.pathname}`,
+      queryParams,
+    );
+    browserHistory.push(queryStringObj);
+  };
 
   const handleSearch = async () => {
-    // const { currentQuery } = props;
-    // const { locationInputString } = currentQuery;
+    const { currentQuery } = props;
+    const {
+      locationInputString,
+      repOrganizationInputString,
+      representativeType,
+    } = currentQuery;
 
-    // updateUrlParams({
-    //   address: locationInputString,
-    // });
-    // setIsSearching(true);
-    focusElement('#search-results-subheader');
+    props.geocodeUserAddress(currentQuery);
 
-    props.mockSearch();
+    props.updateSearchQuery({
+      locationQueryString: locationInputString,
+      repOrganizationQueryString: repOrganizationInputString,
+      representativeType,
+    });
+
+    setIsSearching(true);
   };
+
+  const handleSearchOnQueryChange = () => {
+    clearGeocodeError();
+
+    if (isSearching) {
+      const { currentQuery } = props;
+      const {
+        locationInputString,
+        repOrganizationInputString,
+        representativeType,
+        position,
+        sortType,
+      } = currentQuery;
+
+      const { latitude, longitude } = position;
+
+      updateUrlParams({
+        address: locationInputString,
+        name: repOrganizationInputString || null,
+        type: representativeType,
+        sort: sortType,
+      });
+
+      if (!props.searchWithInputInProgress) {
+        props.searchWithInput({
+          address: locationInputString,
+          lat: latitude,
+          long: longitude,
+          name: repOrganizationInputString,
+          page: 1,
+          per_page: 10,
+          sort: sortType,
+          type: representativeType,
+        });
+
+        setIsSearching(false);
+      }
+    }
+  };
+
+  const searchWithUrl = () => {
+    // Check for scenario when results are in the store
+    if (!!props.location.search && props.results && props.results.length > 0) {
+      return;
+    }
+
+    const { location } = props;
+
+    if (!isEmpty(location.query)) {
+      setIsSearching(true);
+
+      props.updateSearchQuery({
+        id: Date.now(),
+        locationQueryString: location.query.address,
+        locationInputString: location.query.address,
+        repOrganizationQueryString: location.query.name,
+        repOrganizationInputString: location.query.name,
+        representativeType: location.query.type,
+        sortType: location.query.sort,
+      });
+    }
+
+    if (location.query.address) {
+      props.updateSearchQuery({
+        locationQueryString: location.query.address,
+        // context: location.query.context,
+      });
+    }
+  };
+
+  useEffect(
+    () => {
+      if (props.currentQuery.geocodeError) {
+        setIsSearching(false);
+      }
+    },
+    [props.currentQuery.geocodeError],
+  );
+
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        setIsDisplayingResults(true);
+      }
+    },
+    [props.currentQuery.searchCounter],
+  );
+
+  useEffect(
+    () => {
+      if (isSearching) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [isSearching],
+  );
+
+  useEffect(
+    () => {
+      if (!isSearching && props.currentQuery.searchCounter > 0) {
+        setIsSearching(true);
+      }
+    },
+    [props.currentQuery.id],
+  );
+
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        setIsSearching(true);
+      }
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.sortType],
+  );
+
+  useEffect(
+    () => {
+      if (
+        props.currentQuery.searchCounter > 0 &&
+        !props.currentQuery.geocodeError
+      ) {
+        window.scrollTo(0, 600);
+        focusElement('#search-results-subheader');
+      }
+    },
+    [props.currentQuery.searchCounter],
+  );
+
+  useEffect(() => {
+    // window.scrollTo(0, 0);
+    searchWithUrl();
+  }, []);
 
   const handlePageSelect = e => {
     const { page } = e.detail;
-    focusElement('#search-results-subheader');
+    focusElement('.search-results-subheader');
 
-    if (page === 1) {
-      props.mockSearch();
-    } else {
-      props.mockSearchPage2();
-    }
-    // const { currentQuery } = props;
-    // const coords = currentQuery.position;
-    // const { radius } = currentQuery;
-    // const center = [coords.latitude, coords.longitude];
-    // props.searchWithBounds({
-    //   bounds: currentQuery.bounds,
-    //   representativeType: currentQuery.representativeType,
-    //   page,
-    //   center,
-    //   radius,
-    // });
+    props.updateSearchQuery({ page });
   };
 
   const renderBreadcrumbs = () => {
@@ -115,7 +244,6 @@ const SearchPage = props => {
     // const currentPage = pagination ? pagination.currentPage : 1;
     // const totalPages = pagination ? pagination.totalPages : 1;
     // const { representativeType } = currentQuery;
-    const queryContext = currentQuery.context;
 
     const paginationWrapper = () => {
       const currentPage = pagination ? pagination.currentPage : 1;
@@ -137,6 +265,7 @@ const SearchPage = props => {
         <ResultsList
           // updateUrlParams={updateUrlParams}
           query={currentQuery}
+          inProgress={currentQuery.inProgress}
           searchResults={searchResults}
           sortType={props.sortType}
           onUpdateSortType={props.updateSortType}
@@ -144,7 +273,7 @@ const SearchPage = props => {
       );
     };
 
-    if (currentQuery.inProgress) {
+    if (isSearching) {
       return (
         <div>
           <va-loading-indicator message="Search in progress" />
@@ -155,93 +284,39 @@ const SearchPage = props => {
     return (
       <div className="representative-search-results-container">
         <div id="search-results-title" ref={searchResultTitleRef}>
-          {/* {!searchError && ( */}
+          {searchError && (
+            <div className="vads-u-margin-y--3 representative-results-list">
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="error"
+                uswds
+                visible
+              >
+                <h2 slot="headline">Sorry, something went wrong on our end</h2>
+                <React.Fragment key=".1">
+                  <p className="vads-u-margin-y--0">Please try again soon.</p>
+                </React.Fragment>
+              </va-alert>
+            </div>
+          )}
 
-          {/* )} */}
-          {searchError && <p />}
-        </div>
-        <div>
-          {searchResults ? (
+          {isDisplayingResults && (
             <>
-              {' '}
               <SearchResultsHeader
                 searchResults={props.searchResults}
-                representativeType={currentQuery.representativeType}
-                userLocation={currentQuery.locationInputString}
-                context={queryContext}
+                queryParams={location.search}
+                searchCounter={currentQuery.searchCounter}
                 inProgress={currentQuery.inProgress}
                 pagination={props.pagination}
               />{' '}
               {resultsList()}
             </>
-          ) : null}
+          )}
         </div>
         {paginationWrapper()}
       </div>
     );
   };
-
-  // const searchCurrentArea = () => {
-  //   const { currentQuery } = props;
-  //   const {
-  //     searchArea,
-  //     // context,
-  //     // locationInputString
-  //   } = currentQuery;
-  //   const coords = currentQuery.position;
-  //   const { radius } = currentQuery;
-  //   const center = [coords.latitude, coords.longitude];
-  //   if (searchArea) {
-  //     // updateUrlParams({
-  //     //   context,
-  //     //   locationInputString,
-  //     // });
-  //     props.searchWithBounds({
-  //       bounds: props.currentQuery.bounds,
-  //       representativeType: props.currentQuery.representativeType,
-  //       page: props.currentQuery.currentPage,
-  //       center,
-  //       radius,
-  //     });
-  //   }
-  // };
-
-  // const handleSearchOnQueryChange = () => {
-  //   if (isSearching) {
-  //     // updateUrlParams({
-  //     //   context: props.currentQuery.context,
-  //     //   address: props.currentQuery.locationInputString,
-  //     // });
-  //     const { currentQuery } = props;
-  //     const coords = currentQuery.position;
-  //     const { radius } = currentQuery;
-  //     const center = [coords.latitude, coords.longitude];
-  //     const resultsPage = currentQuery.currentPage;
-
-  //     if (!props.searchBoundsInProgress) {
-  //       props.searchWithBounds({
-  //         bounds: props.currentQuery.bounds,
-  //         representativeType: props.currentQuery.representativeType,
-  //         page: resultsPage,
-  //         center,
-  //         radius,
-  //       });
-  //       setIsSearching(false);
-  //     }
-  //   }
-  // };
-
-  // useEffect(
-  //   () => {
-  //     searchCurrentArea();
-  //   },
-  //   [props.currentQuery.searchArea],
-  // );
-
-  useEffect(() => {
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
-  }, []);
 
   // useEffect(
   //   () => {
@@ -285,8 +360,6 @@ SearchPage.propTypes = {
   currentQuery: PropTypes.object.isRequired,
   geolocateUser: PropTypes.func.isRequired,
   searchWithBounds: PropTypes.func.isRequired,
-  mockSearch: PropTypes.func,
-  mockSearchPage2: PropTypes.func,
   searchResults: PropTypes.array.isRequired,
   sortType: PropTypes.string.isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
@@ -297,7 +370,7 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  searchBoundsInProgress: PropTypes.bool,
+  searchWithInputInProgress: PropTypes.bool,
   searchError: PropTypes.object,
 };
 
@@ -315,13 +388,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   geolocateUser,
   clearGeocodeError,
+  geocodeUserAddress,
   fetchRepresentatives,
+  searchWithInput,
   updateSearchQuery,
   updateSortType,
   clearSearchResults,
   clearSearchText,
-  mockSearch,
-  mockSearchPage2,
 };
 
 export default connect(

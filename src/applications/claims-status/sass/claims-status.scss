@@ -4,7 +4,6 @@
 // TODO: Determine if we are actually using any of these
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
 .claim-list {
   margin-bottom: 2em;
@@ -458,24 +457,6 @@
   }
 }
 
-.claims-status-tabs {
-  display: flex;
-}
-
-.claims-status-tabs-item {
-  @media (max-width: $small-screen) {
-    flex: 1 1 0px;
-    text-align: center;
-  }
-  > .va-tab-trigger {
-    @media (max-width: $small-screen) {
-      display: inline-block;
-      height: 100%;
-      width: 100%;
-    }
-  }
-}
-
 h1:focus {
   outline: none;
 }
@@ -837,17 +818,6 @@ h1:focus {
 
   .usa-alert-text {
     margin-top: 1em;
-  }
-}
-
-.appeals-tabs-item {
-  flex: 1 1 0px;
-  text-align: center;
-
-  > .va-tab-trigger {
-    display: inline-block;
-    height: 100%;
-    width: 100%;
   }
 }
 
@@ -1446,5 +1416,82 @@ $marker-text-width: 9rem;
     margin-left: 0.8rem;
     margin-right: 0;
     vertical-align: middle;
+  }
+}
+
+.tabs {
+  list-style: none;
+  margin-bottom: -1px;
+  margin-left: -10px;
+  padding: 0;
+
+  & > li {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
+.tab {
+  padding: 0.5em 1.5rem;
+  display: inline-block;
+  font-size: 20px;
+  text-decoration: none;
+  color: $color-base !important;
+
+  &:hover {
+    text-decoration: none;
+    position: relative;
+
+    & > span::after {
+      background-color: $color-blue;
+      border-radius: 0;
+      content: "";
+      display: block;
+      position: absolute;
+      height: 6px;
+      left: 1rem;
+      right: 1rem;
+      bottom: 0;
+    }
+  }
+}
+
+.tab--current {
+  font-weight: bold;
+  position: relative;
+  // Lowering the padding to account for the font-weight: bold above
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+
+  & > span::after {
+    background-color: $color-blue;
+    border-radius: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    height: 6px;
+    left: 1rem;
+    right: 1rem;
+    bottom: 0;
+  }
+}
+
+.tab-content {
+  border-top: 1px solid $color-gray-lighter;
+}
+
+.tab-panel:focus {
+  outline: none;
+}
+
+#downtime-app > va-alert {
+  margin: 48px auto;
+  max-width: 62.5em;
+}
+
+@media (max-width: $large-screen) {
+  #downtime-app > va-alert {
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }

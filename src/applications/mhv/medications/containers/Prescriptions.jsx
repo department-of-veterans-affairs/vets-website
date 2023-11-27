@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
@@ -29,9 +29,12 @@ import {
 } from '../util/pdfConfigs';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
+import { updatePageTitle } from '../../shared/util/helpers';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
+  const location = useLocation();
+  const history = useHistory();
   const { page } = useParams();
   const dispatch = useDispatch();
   const paginatedPrescriptionsList = useSelector(
@@ -52,7 +55,6 @@ const Prescriptions = props => {
   );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
-  const [currentPage, setCurrentPage] = useState(page ?? 1);
   const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
     PDF_GENERATE_STATUS.NotStarted,
   );
@@ -66,20 +68,12 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
-      const newUrl = `/my-health/medications/${currentPage}`;
-      window.history.pushState(null, '', newUrl);
-    },
-    [currentPage],
-  );
-
-  useEffect(
-    () => {
       dispatch(
         setBreadcrumbs(
           [
             {
               url: '/my-health/about-medications',
-              label: 'About Medications',
+              label: 'About medications',
             },
           ],
           {
@@ -97,16 +91,18 @@ const Prescriptions = props => {
       if (!paginatedPrescriptionsList) {
         setLoading(true);
       }
+      if (!page) history.replace('/1');
       dispatch(
         getPrescriptionsPaginatedSortedList(
-          currentPage,
+          page ?? 1,
           rxListSortingOptions[selectedSortOption].API_ENDPOINT,
         ),
       ).then(() => setLoading(false));
+      updatePageTitle('Medications | Veterans Affairs');
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, currentPage, selectedSortOption],
+    [dispatch, location.pathname, selectedSortOption],
   );
 
   useEffect(
@@ -286,7 +282,6 @@ const Prescriptions = props => {
               <MedicationsList
                 rxList={paginatedPrescriptionsList}
                 pagination={pagination}
-                setCurrentPage={setCurrentPage}
                 selectedSortOption={selectedSortOption}
               />
             </div>

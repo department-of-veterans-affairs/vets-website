@@ -12,6 +12,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
 
 const { vaFileNumber } = fullSchemaPensions.properties;
 
@@ -19,6 +20,9 @@ const { vaFileNumber } = fullSchemaPensions.properties;
 export default {
   uiSchema: {
     'ui:description': applicantDescription,
+    'view:warningAlert': {
+      'ui:description': UnauthenticatedWarningAlert,
+    },
     veteranFullName: fullNameUI(),
     veteranSocialSecurityNumber: ssnUI(),
     vaClaimsHistory: yesNoUI({
@@ -48,6 +52,10 @@ export default {
       'veteranDateOfBirth',
     ],
     properties: {
+      'view:warningAlert': {
+        type: 'object',
+        properties: {},
+      },
       veteranFullName: fullNameSchema,
       veteranSocialSecurityNumber: ssnSchema,
       vaClaimsHistory: yesNoSchema,

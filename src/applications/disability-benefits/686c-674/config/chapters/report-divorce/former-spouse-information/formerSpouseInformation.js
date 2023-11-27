@@ -23,7 +23,10 @@ export const uiSchema = {
       'ui:validations': [validateName],
       first: {
         'ui:title': 'Former spouse’s first name',
-        'ui:errorMessages': { required: 'Enter a first name' },
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
@@ -32,10 +35,16 @@ export const uiSchema = {
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:errorMessages': {
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       last: {
         'ui:title': 'Former spouse’s last name',
-        'ui:errorMessages': { required: 'Enter a last name' },
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },

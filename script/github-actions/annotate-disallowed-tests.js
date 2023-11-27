@@ -8,7 +8,7 @@ const path = require('path');
 const mergeCheckType = (function() {
   switch (process.env.TEST_TYPE) {
     case 'unit_test':
-      return 'Unit Test';
+      return 'Unit';
     case 'e2e':
       return 'E2E';
     default:
@@ -53,11 +53,11 @@ if (TESTS_BLOCKING_MERGE.length > 0) {
       path: spec,
       start_line: 1,
       end_line: 1,
-      title: `${mergeCheckType} Allow List Merge Blocked`,
+      title: `${mergeCheckType} Test Stability Allow List Merge Blocked`,
       message: `*MERGE BLOCK NOTICE* This PR contains changes related to this test spec which has been disabled for flakiness.
                 \n As of Nov 6th, 2023, merging is blocked for PRs in products that have flaky Unit/E2E tests associated with them.
                 \n Please resolve these tests to remove this blocker.
-                \n More information is available at: https://depo-platform-documentation.scrollhelp.site/developer-docs/test-stability-review.`,
+                \n More information is available at: https://depo-platform-documentation.scrollhelp.site/developer-docs/test-stability-review`,
       annotation_level: 'failure',
     };
   });

@@ -64,17 +64,7 @@ describe('Pre-need sponsor details', () => {
     fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
-    /*
-    selectRadio(form, 'root_application_veteran_gender', 'Female');
-    selectCheckbox(
-      form,
-      'root_application_veteran_race_isSpanishHispanicLatino',
-      true,
-    );
-    selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
-    fillData(form, 'select#root_application_veteran_militaryStatus', 'A');
-    selectRadio(form, 'root_application_veteran_isDeceased', 'no');
-    */
+
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
