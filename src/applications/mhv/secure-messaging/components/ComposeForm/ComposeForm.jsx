@@ -351,8 +351,9 @@ const ComposeForm = props => {
         setUnsavedNavigationError(null);
       } else {
         if (
-          (editPopulatedForm && !deleteButtonClicked) ||
-          (editPopulatedForm && formPopulated && !deleteButtonClicked)
+          editPopulatedForm &&
+          !checkMessageValidity() &&
+          (!deleteButtonClicked || (formPopulated && !deleteButtonClicked))
         ) {
           setUnsavedNavigationError(
             ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
@@ -373,7 +374,12 @@ const ComposeForm = props => {
     [
       attachments,
       category,
+      checkMessageValidity,
       deleteButtonClicked,
+      draft?.category,
+      draft?.messageBody,
+      draft?.recipientId,
+      draft?.subject,
       formPopulated,
       messageBody,
       selectedRecipient,
