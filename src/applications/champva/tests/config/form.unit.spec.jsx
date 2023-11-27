@@ -1,4 +1,5 @@
-// TODO: update this path when we move into the simple-forms directory
+// TODO: update this import path when we move into the simple-forms directory
+import sinon from 'sinon';
 import { testNumberOfWebComponentFields } from '../../../simple-forms/shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
@@ -31,3 +32,12 @@ testNumberOfWebComponentFields(
   'sponsor date of birth and death',
   { sponsorIsDeceased: true }, // Data
 );
+
+describe('submit property of formConfig', () => {
+  it('should be a promise', () => {
+    const goToPathSpy = sinon.spy(formConfig.submit);
+    formConfig.submit().then(() => {
+      expect(goToPathSpy.called).to.be.true;
+    });
+  });
+});
