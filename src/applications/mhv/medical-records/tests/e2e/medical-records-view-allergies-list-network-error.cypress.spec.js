@@ -3,7 +3,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import allergies from './fixtures/allergies.json';
 
 describe('Medical Records View Allergies', () => {
-  it('Visits Medical Records View Allergies List', () => {
+  it('Visits Medical Records View Allergies List Network Errors', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records');
