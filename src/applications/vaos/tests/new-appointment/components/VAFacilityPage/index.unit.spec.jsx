@@ -1373,7 +1373,7 @@ describe('VAOS <VAFacilityPage>', () => {
         within(cernerSiteLabel)
           .getByRole('link', { name: /My VA Health/ })
           .getAttribute('href'),
-      ).to.contain('pages/scheduling/upcoming');
+      ).to.contain('pages%2Fscheduling%2Fupcoming');
 
       // Make sure Cerner facilities show up only once
       expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
