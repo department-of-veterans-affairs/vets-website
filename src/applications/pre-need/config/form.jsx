@@ -14,7 +14,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import emailUI from '../definitions/email';
+// import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
@@ -42,7 +42,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import phoneUI from '../components/Phone';
+// import phoneUI from '../components/Phone';
 import preparerPhoneUI from '../components/PreparerPhone';
 import { validateSponsorDeathDate } from '../validation';
 
@@ -72,9 +72,10 @@ import {
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
 import PreparerRadioWidget from '../components/PreparerRadioWidget';
+import ContactInfo from './pages/ContactInfo';
 
 const {
-  claimant,
+  // claimant,
   veteran,
   applicant,
   preneedAttachments,
@@ -115,10 +116,11 @@ export const sponsorMailingAddressStateTitleWrapper = (
 
 export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 
+/*
 const applicantContactInfoSubheader = (
   <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
 );
-
+*/
 function ApplicantContactInfoDescription() {
   const data = useSelector(state => state.form.data || {});
   return isVeteran(data)
@@ -524,58 +526,10 @@ const formConfig = {
         applicantContactInformation: {
           title: 'Applicant’s contact information',
           path: 'applicant-contact-information',
-          uiSchema: {
-            application: {
-              claimant: {
-                address: {
-                  'ui:title': 'Hello Bozo, put in your address',
-                  'ui:description': 'Idk man',
-                  'ui:field': currentOrPastDateUI('date'),
-                },
-                'view:applicantContactInfoSubheader': {
-                  'ui:description': applicantContactInfoSubheader,
-                  'ui:options': {
-                    displayEmptyObjectOnReview: true,
-                  },
-                },
-                phoneNumber: phoneUI('Phone number'),
-                email: emailUI(),
-                'view:contactInfoDescription': {
-                  'ui:description': applicantContactInfoWrapper,
-                  'ui:options': {
-                    displayEmptyObjectOnReview: true,
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  claimant: {
-                    type: 'object',
-                    required: ['email', 'phoneNumber'],
-                    properties: {
-                      address: address.schema(fullSchemaPreNeed, true),
-                      'view:applicantContactInfoSubheader': {
-                        type: 'object',
-                        properties: {},
-                      },
-                      phoneNumber: claimant.properties.phoneNumber,
-                      email: claimant.properties.email,
-                      'view:contactInfoDescription': {
-                        type: 'object',
-                        properties: {},
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+          CustomPage: ContactInfo,
+          CustomPageReview: ContactInfo,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         sponsorMailingAddress: {
           title: 'Sponsor’s mailing address',
