@@ -10,9 +10,9 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.contactInformation.pages.veteransAddress;
+} = formConfig.chapters.contactInformation.pages.yourAddress;
 
-describe('submitterContactPage', () => {
+describe('yourAddressPage', () => {
   it('should render', () => {
     const { container } = render(
       <DefinitionTester
@@ -24,6 +24,7 @@ describe('submitterContactPage', () => {
       />,
     );
 
-    expect($('h3', container).textContent).to.eq('Veteran Contact Information');
+    expect($('h3', container).textContent).to.eq('Your Address');
+    // expect($$('label', container)).to.contain(['Street address', 'City']);
   });
 });
