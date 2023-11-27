@@ -180,6 +180,20 @@ export const spouseContribution = (
   </span>
 );
 
+export const specialMonthlyPensionDescription = (
+  <section>
+    <p>
+      If you have certain health needs or disabilities, you may be eligible for
+      additional pension. We call this special monthly pension (SMP).
+    </p>
+    <p>
+      You may be eligible for SMP if you need the regular assistance of another
+      person, have severe visual impairment, or are generally confined to your
+      immediate premises.
+    </p>
+  </section>
+);
+
 export function fileHelp({ formData }) {
   const hasSchoolChild = (formData.dependents || []).some(
     child => child.attendingCollege,
