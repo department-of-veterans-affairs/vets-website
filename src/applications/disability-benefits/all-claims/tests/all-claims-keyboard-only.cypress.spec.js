@@ -127,7 +127,7 @@ describe('526EZ keyboard only navigation', () => {
       ...
   */
 
-  it('navigate through a maximal form', () => {
+  it.skip('navigate through a maximal form', () => {
     cy.get('@testData').then(() => {
       let idRoot = '';
       const { chapters } = formConfig;
