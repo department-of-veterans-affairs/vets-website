@@ -2,7 +2,7 @@
 // import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
 
 import manifest from '../manifest.json';
-import { requiredForSubtopicPage } from '../constants';
+import { requiredForSubtopicPage, CHAPTER_3, CHAPTER_4 } from '../constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -17,12 +17,22 @@ import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // Personal Information
 import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
-import vaEmployeePage from './chapters/personalInformation/vaEmployee';
-import submitterContactPage from './chapters/personalInformation/submitterContact';
+import whoHasAQuestionPage from './chapters/personalInformation/whoHasAQuestion';
+import areYouTheVeteranPage from './chapters/personalInformation/areYouTheVeteran';
+import areYouTheDependentPage from './chapters/personalInformation/areYouTheDependent';
+import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
+import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
+import deathDatePage from './chapters/personalInformation/deathDate';
 
 // Contact Information
-import veteransAddressPage from './chapters/contactInformation/veteransAddress';
-import veteranAddressConfirmationPage from './chapters/contactInformation/veteranAddressConfirmation';
+import aboutTheVeteranPage from './chapters/contactInformation/aboutTheVeteran';
+import veteransAddressZipPage from './chapters/contactInformation/veteranAddressZip';
+import aboutYourselfPage from './chapters/contactInformation/aboutYourself';
+import yourPhoneAndEmailPage from './chapters/contactInformation/yourPhoneAndEmail';
+import yourCountryPage from './chapters/contactInformation/yourCountry';
+import yourAddressPage from './chapters/contactInformation/yourAddress';
+// import veteransAddressPage from './chapters/contactInformation/veteransAddress';
+import addressConfirmationPage from './chapters/contactInformation/addressConfirmation';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -93,42 +103,97 @@ const formConfig = {
       },
     },
     vaInformation: {
-      title: 'VA Information',
+      title: CHAPTER_3.CHAPTER_TITLE,
       pages: {
         searchVAMedicalCenter: {
-          path: 'va-info-1',
-          title: 'VA Medical Center',
+          path: CHAPTER_3.PAGE_1.PATH,
+          title: CHAPTER_3.PAGE_1.TITLE,
           uiSchema: searchVAMedicalCenterPage.uiSchema,
           schema: searchVAMedicalCenterPage.schema,
         },
-        vaEmployee: {
-          path: 'va-info-2',
-          title: 'VA Employee',
-          uiSchema: vaEmployeePage.uiSchema,
-          schema: vaEmployeePage.schema,
+        whoHasAQuestion: {
+          path: CHAPTER_3.PAGE_2.PATH,
+          title: CHAPTER_3.PAGE_2.TITLE,
+          uiSchema: whoHasAQuestionPage.uiSchema,
+          schema: whoHasAQuestionPage.schema,
         },
-        submitterContactInfo: {
-          path: 'va-info-3',
-          title: "Submitter's Contact Information",
-          uiSchema: submitterContactPage.uiSchema,
-          schema: submitterContactPage.schema,
+        areYouTheVeteran: {
+          path: CHAPTER_3.PAGE_3.PATH,
+          title: CHAPTER_3.PAGE_3.TITLE,
+          uiSchema: areYouTheVeteranPage.uiSchema,
+          schema: areYouTheVeteranPage.schema,
+        },
+        areYouTheDependent: {
+          path: CHAPTER_3.PAGE_4.PATH,
+          title: CHAPTER_3.PAGE_4.TITLE,
+          uiSchema: areYouTheDependentPage.uiSchema,
+          schema: areYouTheDependentPage.schema,
+        },
+        relationshipToVeteran: {
+          path: CHAPTER_3.PAGE_5.PATH,
+          title: CHAPTER_3.PAGE_5.TITLE,
+          uiSchema: relationshipToVeteranPage.uiSchema,
+          schema: relationshipToVeteranPage.schema,
+        },
+        veteranDeceased: {
+          path: CHAPTER_3.PAGE_6.PATH,
+          title: CHAPTER_3.PAGE_6.TITLE,
+          uiSchema: isTheVeteranDeceasedPage.uiSchema,
+          schema: isTheVeteranDeceasedPage.schema,
+        },
+        dateOfDeath: {
+          path: CHAPTER_3.PAGE_7.PATH,
+          title: CHAPTER_3.PAGE_7.TITLE,
+          uiSchema: deathDatePage.uiSchema,
+          schema: deathDatePage.schema,
         },
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: CHAPTER_4.CHAPTER_TITLE,
       pages: {
-        veteransAddress: {
-          path: 'contact-info-1',
-          title: 'Veteran Address',
-          uiSchema: veteransAddressPage.uiSchema,
-          schema: veteransAddressPage.schema,
+        aboutTheVeteran: {
+          path: CHAPTER_4.PAGE_1.PATH,
+          title: CHAPTER_4.PAGE_1.TITLE,
+          uiSchema: aboutTheVeteranPage.uiSchema,
+          schema: aboutTheVeteranPage.schema,
         },
-        veteranAddressConfirmation: {
-          path: 'contact-info-2',
-          title: 'Veteran Address Confirmation',
-          uiSchema: veteranAddressConfirmationPage.uiSchema,
-          schema: veteranAddressConfirmationPage.schema,
+        veteransAddressZip: {
+          path: CHAPTER_4.PAGE_2.PATH,
+          title: CHAPTER_4.PAGE_2.TITLE,
+          uiSchema: veteransAddressZipPage.uiSchema,
+          schema: veteransAddressZipPage.schema,
+        },
+        aboutYourself: {
+          path: CHAPTER_4.PAGE_3.PATH,
+          title: CHAPTER_4.PAGE_3.TITLE,
+          uiSchema: aboutYourselfPage.uiSchema,
+          schema: aboutYourselfPage.schema,
+        },
+        yourPhoneAndEmail: {
+          path: CHAPTER_4.PAGE_4.PATH,
+          title: CHAPTER_4.PAGE_4.TITLE,
+          uiSchema: yourPhoneAndEmailPage.uiSchema,
+          schema: yourPhoneAndEmailPage.schema,
+        },
+        yourCountry: {
+          path: CHAPTER_4.PAGE_5.PATH,
+          title: CHAPTER_4.PAGE_5.TITLE,
+          uiSchema: yourCountryPage.uiSchema,
+          schema: yourCountryPage.schema,
+        },
+        yourAddress: {
+          path: CHAPTER_4.PAGE_6.PATH,
+          title: CHAPTER_4.PAGE_6.TITLE,
+          uiSchema: yourAddressPage.uiSchema,
+          schema: yourAddressPage.schema,
+        },
+        yourAddressConfirmation: {
+          path: CHAPTER_4.PAGE_7.PATH,
+          title: CHAPTER_4.PAGE_7.TITLE,
+          uiSchema: addressConfirmationPage.uiSchema,
+          schema: addressConfirmationPage.schema,
+          depends: form => !form.onBaseOutsideUS,
         },
       },
     },
