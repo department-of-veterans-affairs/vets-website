@@ -3,7 +3,7 @@ function getDestinationDomain(href) {
 
   const { hostname } = url;
 
-  if (hostname.includes('va.gov')) {
+  if (hostname.includes('vagov')) {
     return 'va.gov';
   }
   if (hostname.includes('mhvnp')) {
