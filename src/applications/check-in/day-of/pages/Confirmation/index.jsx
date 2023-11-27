@@ -12,7 +12,7 @@ import {
 } from '../../../selectors';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import useSendDemographicsFlags from '../../../hooks/useSendDemographicsFlags';
+import { useSendDemographicsFlags } from '../../../hooks/useSendDemographicsFlags';
 import { URLS } from '../../../utils/navigation';
 import { findAppointment } from '../../../utils/appointment';
 import { useUpdateError } from '../../../hooks/useUpdateError';
@@ -35,17 +35,14 @@ const Confirmation = props => {
 
   const { appointments } = useSelector(selectVeteranData);
 
-  const {
-    demographicsFlagsSent,
-    demographicsFlagsEmpty,
-  } = useSendDemographicsFlags();
+  const { demographicsFlagsEmpty, isComplete } = useSendDemographicsFlags();
 
   const { appointmentId } = router.params;
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const { setCheckinComplete } = useStorage(false);
+  const { setCheckinComplete, getCheckinComplete } = useStorage(false);
 
   useEffect(
     () => {
@@ -85,17 +82,24 @@ const Confirmation = props => {
           updateError('error-completing-check-in');
         }
       }
-      if (appointment && (demographicsFlagsSent || demographicsFlagsEmpty)) {
+      if (
+        appointment &&
+        !getCheckinComplete(window) &&
+        (isComplete || demographicsFlagsEmpty)
+      ) {
         sendCheckInData();
+      } else if (appointment && getCheckinComplete(window)) {
+        setIsCheckInLoading(false);
       }
     },
     [
+      isComplete,
       appointment,
-      demographicsFlagsSent,
       demographicsFlagsEmpty,
       updateError,
       jumpToPage,
       token,
+      getCheckinComplete,
       setCheckinComplete,
     ],
   );
