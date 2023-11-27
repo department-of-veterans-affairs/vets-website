@@ -70,7 +70,7 @@ const Vaccines = props => {
     const title = 'Vaccines';
     const subject = 'VA Medical Record';
     const preface =
-      'Your VA Vaccines list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.';
+      'This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records.';
     const pdfData = generatePdfScaffold(user, title, subject, preface);
     pdfData.results = { items: [] };
 
@@ -87,11 +87,6 @@ const Vaccines = props => {
             title: 'Location',
             value: item.location,
             inline: true,
-          },
-          {
-            title: 'Reaction',
-            value: processList(item.reactions),
-            inline: !item.reactions.length,
           },
           {
             title: 'Provider notes',
@@ -153,16 +148,17 @@ const Vaccines = props => {
     <div id="vaccines">
       <PrintHeader />
       <h1 className="page-title">Vaccines</h1>
+      <p>Review vaccines (immunizations) in your VA medical records.</p>
       <p>
         For a list of your allergies and reactions (including any reactions to
         vaccines), go to your allergy records.
+        <Link
+          to="/allergies"
+          className="vads-u-display--block vads-u-margin-bottom--3 no-print"
+        >
+          Go to your allergy records
+        </Link>
       </p>
-      <Link
-        to="/allergies"
-        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
-      >
-        Go to your allergy records
-      </Link>
       <PrintDownload
         list
         download={generateVaccinesPdf}

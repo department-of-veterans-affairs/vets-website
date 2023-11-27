@@ -23,7 +23,6 @@ const VaccinesListItem = props => {
           {record.name}
         </Link>
       </h3>
-
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
         data-dd-privacy="mask"
@@ -31,27 +30,44 @@ const VaccinesListItem = props => {
       >
         {record.name}
       </h3>
-
-      <div className="fields">
+      <div>
         <div>
-          <span className="field-label">Date received:</span>{' '}
-          <span data-dd-privacy="mask">{formattedDate}</span>
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Date received:
+          </span>{' '}
+          <span className="vads-u-display--inline" data-dd-privacy="mask">
+            {formattedDate}
+          </span>
         </div>
         <div className="print-only">
-          <span className="field-label">Manufacturer</span>{' '}
-          <span data-dd-privacy="mask">{record.manufacturer}</span>
-        </div>
-        <div className="location-collapsed vads-u-line-height--3">
-          <span className="field-label">Location:</span>{' '}
-          <span data-dd-privacy="mask">{record.location}</span>
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Manufacturer:
+          </span>{' '}
+          <span className="vads-u-display--inline" data-dd-privacy="mask">
+            {record.manufacturer}
+          </span>
         </div>
         <div className="print-only">
-          <span className="field-label">Reaction:</span>{' '}
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Location:
+          </span>{' '}
+          <span className="vads-u-display--inline" data-dd-privacy="mask">
+            {record.location}
+          </span>
+        </div>
+        <div className="print-only">
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Reaction:
+          </span>{' '}
           <ItemList list={record.reactions} />
         </div>
         <div className="print-only">
-          <span className="field-label">Provider notes:</span>{' '}
-          <ItemList list={record.notes} />
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Provider notes:
+          </span>{' '}
+          <span className="vads-u-display--inline" data-dd-privacy="mask">
+            {record.notes}
+          </span>
         </div>
       </div>
     </div>
