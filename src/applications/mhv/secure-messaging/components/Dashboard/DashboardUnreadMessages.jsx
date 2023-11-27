@@ -35,6 +35,7 @@ const DashboardUnreadMessages = props => {
       <div className="vads-u-margin-top--1p5">
         <Link
           className="vads-c-action-link--blue vads-u-margin-top--1"
+          data-testid="inbox-link"
           text="Go to your inbox"
           to={Paths.INBOX}
         >
