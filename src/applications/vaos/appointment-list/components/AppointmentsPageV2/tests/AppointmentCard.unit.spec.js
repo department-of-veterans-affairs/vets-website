@@ -1,20 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
-import { focusElement } from 'platform/utilities/ui';
-// import { useHistory } from 'react-router-dom';
-// eslint-disable-next-line no-restricted-imports
-import { createMemoryHistory } from 'history';
+
+import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import AppointmentCard from '../AppointmentCard';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
-import { SPACE_BAR } from '../../../../utils/constants';
-import { getVAAppointmentLocationId } from '../../../../services/appointment';
 
 const appointmentData = {
   start: '2024-07-19T12:00:00Z',
   comment: 'Medication Review',
   id: '1234',
   vaos: {
+    isVideo: true,
     isPastAppointment: true,
   },
   location: {
@@ -26,103 +23,124 @@ const appointmentData = {
 };
 
 const facilityData = new Facility();
-function handleClick({ history, link, idClickable }) {
-  return () => {
-    if (!window.getSelection().toString()) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
-function handleKeyDown({ history, link, idClickable }) {
-  return event => {
-    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
 describe('AppointmentCard component', () => {
-  const initialState = { featureToggles: {} };
+  const initialState = {
+    featureToggles: {
+      featureStatusImprovement: true,
+    },
+  };
 
-  it('test isAtlas true AppointmentCard', async () => {
+  it('should return at an ATLAS location as VideoAppointmentDescription', async () => {
     const appointment = {
       ...appointmentData,
       videoData: {
         isAtlas: true,
       },
-      vaos: {
-        isPastAppointment: true,
-      },
     };
 
-    const history = createMemoryHistory();
-    // const history = useHistory();
-    history.push('/home');
-    const link = <a href="#">Test Link</a>;
-    const facilityId = getVAAppointmentLocationId(appointment);
-    const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
 
     const wrapper = renderWithStoreAndRouter(
       <AppointmentCard
         appointment={appointment}
-        facility={facilityData[facilityId]}
-        link={link}
-        handleClick={() => handleClick({ history, link, idClickable })}
-        handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
       />,
       {
         initialState,
       },
     );
 
-    expect(
-      await wrapper.queryByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.null;
+    expect(await wrapper.findByText(/VA Video Connect at an ATLAS location/i))
+      .to.exist;
   });
 
-  it('isAtlas false in AppointmentCard', async () => {
+  it('should return at a VA location as VideoAppointmentDescription', async () => {
     const appointment = {
       ...appointmentData,
       videoData: {
         isAtlas: false,
-        kind: 'clinic',
-      },
-      vaos: {
-        isPastAppointment: true,
+        kind: 'CLINIC_BASED',
       },
     };
 
-    const history = createMemoryHistory();
-    // const history = useHistory();
-    history.push('/home');
-    const link = <a href="#">Test Link</a>;
-    const facilityId = getVAAppointmentLocationId(appointment);
-    const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
 
     const wrapper = renderWithStoreAndRouter(
       <AppointmentCard
         appointment={appointment}
-        facility={facilityData[facilityId]}
-        link={link}
-        handleClick={() => handleClick({ history, link, idClickable })}
-        handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
       />,
       {
         initialState,
       },
     );
 
-    expect(
-      await wrapper.queryByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.null;
+    expect(await wrapper.findByText(/VA Video Connect at a VA location/i)).to
+      .exist;
+  });
+  it('should return using a VA device as VideoAppointmentDescription', async () => {
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isAtlas: false,
+        kind: 'MOBILE_ANY',
+        extension: {
+          patientHasMobileGfe: true,
+        },
+      },
+    };
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(await wrapper.findByText(/VA Video Connect using a VA device/i)).to
+      .exist;
+  });
+  it('should return at home as VideoAppointmentDescription', async () => {
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isAtlas: false,
+        kind: 'MOBILE_ANY',
+        extension: {
+          patientHasMobileGfe: false,
+        },
+      },
+    };
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(await wrapper.findByText(/VA Video Connect at home/i)).to.exist;
   });
 });
