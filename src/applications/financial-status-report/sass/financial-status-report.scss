@@ -46,8 +46,10 @@
 
 .item-loop-container {
   margin-top: 10px;
-  table {
+  va-table {
     table-layout: fixed;
+    width: 100%;
+    background-color: $color-gray-lightest;
   }
   .item-loop {
     padding: 15px 30px;
@@ -354,3 +356,12 @@
 
 @include hide-button("button.edit-page");
 @include hide-button(".edit-btn.primary-outline");
+
+.review-header {
+  border-bottom: 1px solid $color-gray-light;
+}
+
+.review-top-bottom-borders {
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+}

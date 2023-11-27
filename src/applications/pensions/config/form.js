@@ -5,7 +5,6 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { isFullDate } from 'platform/forms/validations';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
@@ -15,7 +14,6 @@ import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fullNameUI from 'platform/forms/definitions/fullName';
@@ -36,8 +34,6 @@ import {
   isMarried,
   uploadMessage,
   dependentsMinItem,
-  wartimeWarning,
-  servedDuringWartime,
   disabilityDocs,
   schoolAttendanceWarning,
   marriageWarning,
@@ -58,7 +54,6 @@ import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DependentField from '../components/DependentField';
 import EmploymentField from '../components/EmploymentField';
-import ServicePeriodView from '../components/ServicePeriodView';
 import ErrorText from '../components/ErrorText';
 import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
@@ -68,9 +63,17 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from '../pages/applicantInformation';
+import servicePeriods from '../pages/servicePeriods';
+import generalHistory from '../pages/generalHistory';
+import pow from '../pages/pow';
+import socialSecurityDisability from '../pages/socialSecurityDisability';
+import medicalCondition from '../pages/medicalCondition';
+import nursingHome from '../pages/nursingHome';
+import vaTreatmentHistory from '../pages/vaTreatmentHistory';
+import federalTreatmentHistory from '../pages/federalTreatmentHistory';
+import generateMedicalCentersSchemas from '../pages/medicalCenters';
 
 import {
-  validateServiceBirthDates,
   validateAfterMarriageDate,
   validateCentralMailPostalCode,
 } from '../validation';
@@ -79,15 +82,8 @@ import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 const {
-  nationalGuardActivation,
-  nationalGuard,
   disabilities,
-  previousNames,
-  combatSince911,
   jobs,
-  placeOfSeparation,
-  powDateRange,
-  severancePay,
   spouseDateOfBirth,
   spouseSocialSecurityNumber,
   spouseVaFileNumber,
@@ -123,6 +119,22 @@ const {
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
+
+const vaMedicalCenters = generateMedicalCentersSchemas(
+  'vaMedicalCenters',
+  'VA medical centers',
+  'Enter all VA medical centers where you have received treatment',
+  'VA medical center',
+  'VA medical centers',
+);
+
+const federalMedicalCenters = generateMedicalCentersSchemas(
+  'federalMedicalCenters',
+  'Federal medical facilities',
+  'Enter all federal medical facilities where you have received treatment within the last year',
+  'Federal medical center',
+  'Federal medical centers',
+);
 
 function isUnder65(formData) {
   return moment()
@@ -257,247 +269,77 @@ const formConfig = {
         servicePeriods: {
           path: 'military/history',
           title: 'Service periods',
-          uiSchema: {
-            'ui:title': 'Service periods',
-            servicePeriods: {
-              'ui:options': {
-                itemName: 'Service Period',
-                viewField: ServicePeriodView,
-                reviewTitle: 'Service periods',
-              },
-              items: {
-                serviceBranch: {
-                  'ui:title': 'Branch of service',
-                },
-                activeServiceDateRange: dateRangeUI(
-                  'Service start date',
-                  'Service end date',
-                  'Date entered service must be before date left service',
-                ),
-                'ui:validations': [validateServiceBirthDates],
-              },
-            },
-            'view:wartimeWarning': (() => {
-              const hideWartimeWarning = createSelector(
-                form => form.servicePeriods,
-                periods => {
-                  const completePeriods = (periods || []).filter(
-                    period =>
-                      period.activeServiceDateRange &&
-                      isFullDate(period.activeServiceDateRange.to) &&
-                      isFullDate(period.activeServiceDateRange.from),
-                  );
-                  if (!completePeriods.length) {
-                    return true;
-                  }
-                  return completePeriods.some(period =>
-                    servedDuringWartime(period.activeServiceDateRange),
-                  );
-                },
-              );
-
-              return {
-                'ui:description': wartimeWarning,
-                'ui:options': {
-                  hideIf: hideWartimeWarning,
-                },
-              };
-            })(),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              servicePeriods: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['serviceBranch', 'activeServiceDateRange'],
-                  properties: {
-                    serviceBranch: {
-                      type: 'string',
-                    },
-                    activeServiceDateRange: {
-                      ...dateRange,
-                      required: ['from', 'to'],
-                    },
-                  },
-                },
-              },
-              'view:wartimeWarning': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: servicePeriods.uiSchema,
+          schema: servicePeriods.schema,
         },
         general: {
           path: 'military/general',
           title: 'General history',
-          uiSchema: {
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo',
-            },
-            previousNames: {
-              'ui:options': {
-                itemName: 'Name',
-                expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField,
-                reviewTitle: 'Previous names',
-              },
-              items: fullNameUI,
-            },
-            placeOfSeparation: {
-              'ui:title':
-                'Place of last or anticipated separation (city and state or foreign country)',
-            },
-            combatSince911: (() => {
-              const rangeExcludes911 = createSelector(
-                form => form.servicePeriods,
-                periods =>
-                  (periods || []).every(
-                    period =>
-                      !period.activeServiceDateRange ||
-                      !isFullDate(period.activeServiceDateRange.to) ||
-                      !moment('2001-09-11').isBefore(
-                        period.activeServiceDateRange.to,
-                      ),
-                  ),
-              );
-
-              return {
-                'ui:title': 'Did you serve in a combat zone after 9/11/2001?',
-                'ui:widget': 'yesNo',
-                'ui:required': formData => !rangeExcludes911(formData),
-                'ui:options': {
-                  hideIf: rangeExcludes911,
-                },
-              };
-            })(),
-          },
-          schema: {
-            type: 'object',
-            required: ['view:serveUnderOtherNames'],
-            properties: {
-              'view:serveUnderOtherNames': {
-                type: 'boolean',
-              },
-              previousNames: {
-                ...previousNames,
-                minItems: 1,
-              },
-              placeOfSeparation,
-              combatSince911,
-            },
-          },
+          uiSchema: generalHistory.uiSchema,
+          schema: generalHistory.schema,
         },
-        reserveAndNationalGuard: {
-          path: 'military/reserve-national-guard',
-          title: 'Reserve and National Guard',
-          uiSchema: {
-            'ui:title': 'Reserve and National Guard',
-            nationalGuardActivation: {
-              'ui:title':
-                'Are you currently on federal active duty in the National Guard?',
-              'ui:widget': 'yesNo',
-            },
-            nationalGuard: {
-              'ui:options': {
-                expandUnder: 'nationalGuardActivation',
-              },
-              name: {
-                'ui:title': 'Name of Reserve/National Guard unit',
-                'ui:required': form => form.nationalGuardActivation === true,
-              },
-              address: merge(
-                {},
-                address.uiSchema('Unit address', false, false, true),
-                {
-                  state: {
-                    'ui:required': form =>
-                      form.nationalGuardActivation === true,
-                  },
-                },
-              ),
-              phone: phoneUI('Unit phone number'),
-              date: currentOrPastDateUI('Service activation date'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['nationalGuardActivation'],
-            properties: {
-              nationalGuardActivation,
-              nationalGuard: set(
-                'properties.address',
-                address.schema(fullSchemaPensions),
-                nationalGuard,
-              ),
-            },
-          },
+        pow: {
+          path: 'military/pow',
+          title: 'POW status',
+          uiSchema: pow.uiSchema,
+          schema: pow.schema,
         },
-        powAndSeverance: {
-          path: 'military/pow-severance',
-          title: 'POW status & severance pay',
-          uiSchema: {
-            'ui:title': 'POW Status & Severance Pay',
-            'ui:order': [
-              'view:powStatus',
-              'powDateRange',
-              'view:receivedSeverancePay',
-              'severancePay',
-            ],
-            'view:powStatus': {
-              'ui:title': 'Have you ever been a POW?',
-              'ui:widget': 'yesNo',
-            },
-            powDateRange: set(
-              'ui:options.expandUnder',
-              'view:powStatus',
-              dateRangeUI(
-                'Start of confinement',
-                'End of confinement',
-                'Confinement start date must be before end date',
-              ),
-            ),
-            'view:receivedSeverancePay': {
-              'ui:title':
-                'Have you received any type of severance or separation pay?',
-              'ui:widget': 'yesNo',
-            },
-            severancePay: {
-              'ui:order': ['type', 'amount'],
-              'ui:options': {
-                expandUnder: 'view:receivedSeverancePay',
-              },
-              amount: currencyUI('Amount'),
-              type: {
-                'ui:title': 'Pay Type',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    PDRL: 'Permanent Disability Retirement List (PDRL)',
-                    TDRL: 'Temporary Disability Retirement List (TDRL)',
-                  },
-                },
-              },
-            },
+      },
+    },
+    healthHistory: {
+      title: 'Health and employment information',
+      pages: {
+        socialSecurityDisability: {
+          title: 'Social Security disability',
+          path: 'medical/history/social-security-disability',
+          depends: isUnder65,
+          uiSchema: socialSecurityDisability.uiSchema,
+          schema: socialSecurityDisability.schema,
+        },
+        medicalCondition: {
+          title: 'Medical condition',
+          path: 'medical/history/condition',
+          depends: formData => {
+            return formData.socialSecurityDisability !== true;
           },
-          schema: {
-            type: 'object',
-            required: ['view:powStatus', 'view:receivedSeverancePay'],
-            properties: {
-              'view:powStatus': {
-                type: 'boolean',
-              },
-              powDateRange,
-              'view:receivedSeverancePay': {
-                type: 'boolean',
-              },
-              severancePay,
-            },
+          uiSchema: medicalCondition.uiSchema,
+          schema: medicalCondition.schema,
+        },
+        nursingHome: {
+          title: 'Nursing home information',
+          path: 'medical/history/nursing-home',
+          uiSchema: nursingHome.uiSchema,
+          schema: nursingHome.schema,
+        },
+        vaTreatmentHistory: {
+          title: 'Treatment from a VA medical center',
+          path: 'medical/history/va-treatment',
+          uiSchema: vaTreatmentHistory.uiSchema,
+          schema: vaTreatmentHistory.schema,
+        },
+        vaMedicalCenters: {
+          title: 'VA medical centers',
+          path: 'medical/history/va-treatment/medical-centers',
+          depends: formData => {
+            return formData.vaTreatmentHistory !== false;
           },
+          uiSchema: vaMedicalCenters.uiSchema,
+          schema: vaMedicalCenters.schema,
+        },
+        federalTreatmentHistory: {
+          title: 'Treatment from federal medical facilities',
+          path: 'medical/history/federal-treatment',
+          uiSchema: federalTreatmentHistory.uiSchema,
+          schema: federalTreatmentHistory.schema,
+        },
+        federalMedicalCenters: {
+          title: 'Federal medical facilities',
+          path: 'medical/history/federal-treatment/medical-centers',
+          depends: formData => {
+            return formData.federalTreatmentHistory !== false;
+          },
+          uiSchema: federalMedicalCenters.uiSchema,
+          schema: federalMedicalCenters.schema,
         },
       },
     },

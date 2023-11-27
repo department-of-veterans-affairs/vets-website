@@ -4,6 +4,8 @@ import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
 // import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
+/* eslint-disable camelcase */
+
 const apiSettings = {
   credentials: 'include',
   headers: {
@@ -17,18 +19,17 @@ const apiSettings = {
 };
 
 export const sortOptions = {
-  DISTANCE_CLOSEST_TO_FARTHEST: 'Distance (closest to farthest)',
-  DISTANCE_FARTHEST_TO_CLOSEST: 'Distance (farthest to closest)',
-  FIRST_NAME_ALPHABETICAL_A_TO_Z: 'First Name (A - Z)',
-  FIRST_NAME_ALPHABETICAL_Z_TO_A: 'First Name (Z - A)',
-  LAST_NAME_ALPHABETICAL_A_TO_Z: 'Last Name (A - Z)',
-  LAST_NAME_ALPHABETICAL_Z_TO_A: 'Last Name (Z - A)',
+  distance_asc: 'Distance (closest to farthest)',
+  distance_desc: 'Distance (farthest to closest)',
+  name_asc: 'Name (A - Z)',
+  name_desc: 'Name (Z - A)',
 };
 
 const railsEngineApi = {
-  baseUrl: `${environment.API_URL}/facilities_api/v1`,
-  url: `${environment.API_URL}/facilities_api/v1/va`,
-  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  baseUrl: `${
+    environment.API_URL
+  }/services/veteran/v0/accredited_representatives`,
+  url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
 
@@ -40,41 +41,32 @@ export const getAPI = () => railsEngineApi;
  */
 export const resolveParamsWithUrl = ({
   address,
-  representativeType,
-  page,
-  bounds,
-  center,
-  radius,
-  // store,
+  lat,
+  long,
+  name,
+  page = 1,
+  perPage = 10,
+  sort,
+  type = 'organization',
 }) => {
   const api = getAPI();
 
   const { url } = api;
-  let roundRadius;
-  const perPage = 10;
 
-  if (radius) roundRadius = Math.max(1, radius.toFixed());
-
-  const locationParams = [
+  const params = [
     address ? `address=${address}` : null,
-    ...bounds.map(c => `bbox[]=${c}`),
-    center && center.length > 0 ? `latitude=${center[0]}` : null,
-    center && center.length > 0 ? `longitude=${center[1]}` : null,
+    lat ? `lat=${lat}` : null,
+    long ? `long=${long}` : null,
+    name ? `name=${name}` : null,
+    `page=${page}`,
+    `per_page=${perPage}`,
+    `sort=${sort}`,
+    type ? `type=${type}` : null,
   ];
-
-  const representativeParams = representativeType
-    ? `type=${representativeType}`
-    : null;
 
   return {
     url,
-    params: compact([
-      representativeParams,
-      `page=${page}`,
-      `per_page=${perPage}`,
-      roundRadius ? `radius=${roundRadius}` : null,
-      ...locationParams,
-    ]).join('&'),
+    params: compact([...params]).join('&'),
   };
 };
 // Please use sentence case for all of these
@@ -83,12 +75,12 @@ export const resolveParamsWithUrl = ({
 export const representativeTypes = {
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims Agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims Agent',
 };

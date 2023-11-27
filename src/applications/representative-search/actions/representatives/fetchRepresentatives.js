@@ -1,5 +1,9 @@
-import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
-import { distBetween } from '../../utils/representativeDistance';
+import * as Sentry from '@sentry/browser';
+import {
+  FETCH_REPRESENTATIVES,
+  SEARCH_FAILED,
+  SEARCH_COMPLETE,
+} from '../../utils/actionTypes';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -14,43 +18,34 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
  * @param {number} api version number
  */
 export const fetchRepresentatives = async (
-  address = null,
-  bounds,
-  representativeType,
+  address,
+  lat,
+  long,
+  name,
   page,
+  /* eslint-disable camelcase */
+  per_page,
+  sort,
+  type,
   dispatch,
-  center,
-  radius,
 ) => {
   let data = {};
 
   try {
-    const dataList = await RepresentativeFinderApi.searchWithBounds(
+    const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,
-      bounds,
-      representativeType,
+      lat,
+      long,
+      name,
       page,
-      center,
-      radius,
+      per_page,
+      sort,
+      type,
     );
     data = { ...dataList };
     if (dataList.data) {
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      dispatch({ type: SEARCH_COMPLETE, payload: data });
+      return dataList.data;
     }
 
     if (data.errors) {
@@ -59,6 +54,13 @@ export const fetchRepresentatives = async (
       dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
     }
   } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage('Error fetching accredited representatives');
+    });
+
     dispatch({ type: SEARCH_FAILED, error: error.message });
   }
+
+  return null;
 };

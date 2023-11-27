@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
-import autocompleteReducer from '../../reducers/autocomplete';
+import autocompleteReducer, {
+  buildSuggestions,
+} from '../../reducers/autocomplete';
 
 const initialState = {
   inProgress: false,
@@ -80,12 +82,22 @@ describe('autocomplete reducer', () => {
     expect(newState.location).to.equal('Los Angeles');
   });
 
-  it('should handle  UPDATE_AUTOCOMPLETE_NAME', () => {
+  it('should handle UPDATE_AUTOCOMPLETE_NAME', () => {
     const action = {
       type: 'UPDATE_AUTOCOMPLETE_NAME',
       payload: 'SF State',
     };
     const newState = autocompleteReducer(initialState, action);
     expect(newState.name).to.equal('SF State');
+  });
+  it('adds searchTerm to the beginning of the mapped suggestions if it is not the first suggestion', () => {
+    const mockMapper = suggestion => ({ label: suggestion.toUpperCase() });
+
+    const suggestions = ['one', 'two', 'three'];
+    const searchTerm = 'zero';
+    const mapped = buildSuggestions(suggestions, mockMapper, searchTerm);
+
+    expect(mapped[0]).to.deep.equal({ label: searchTerm });
+    expect(mapped[1]).to.deep.equal({ label: 'ONE' });
   });
 });

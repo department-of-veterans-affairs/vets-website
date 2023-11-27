@@ -20,11 +20,13 @@ const SearchControls = props => {
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
+    geocodeError,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
 
-  const showError = isErrorEmptyInput && !geolocationInProgress;
+  const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
+  const showGeolocationError = geocodeError && !geolocationInProgress;
 
   const handleSearchButtonClick = e => {
     e.preventDefault();
@@ -59,6 +61,7 @@ const SearchControls = props => {
         ? e.target.value.trim()
         : e.target.value,
     });
+    clearGeocodeError();
   };
   const handleRepOrganizationChange = e => {
     onChange({
@@ -96,12 +99,18 @@ const SearchControls = props => {
           </h3>
           <div className="location-input-container">
             <va-text-input
-              error={
-                showError
-                  ? 'Please fill in a city, state or postal code.'
-                  : null
-              }
+              style={{ order: 1 }}
+              error={(() => {
+                if (showEmptyError) {
+                  return 'Please fill in a city, state or postal code.';
+                }
+                if (showGeolocationError) {
+                  return 'Please enter a valid location.';
+                }
+                return null;
+              })()}
               hint={null}
+              id="street-city-state-zip"
               label="City, State or Postal code"
               message-aria-describedby="Text input for location"
               name="City, State or Postal code"
@@ -112,11 +121,15 @@ const SearchControls = props => {
             />
             <div
               className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error': showError,
+                'use-my-location-button-container-error':
+                  showEmptyError || showGeolocationError,
               })}
             >
               {geolocationInProgress ? (
-                <div className="finding-your-location-loading">
+                <div
+                  className="finding-your-location-loading"
+                  style={{ order: 2 }}
+                >
                   <i
                     className="fa fa-spinner fa-spin use-my-location-icon"
                     aria-hidden="true"
@@ -130,6 +143,7 @@ const SearchControls = props => {
                   type="button"
                   className="use-my-location-button"
                   aria-label="Use my location"
+                  style={{ order: 2 }}
                 >
                   <i
                     className="use-my-location-icon"
@@ -157,7 +171,6 @@ const SearchControls = props => {
             message-aria-describedby="Text input for organization or representative name"
             name="Organization or Representative Name"
             onChange={handleRepOrganizationChange}
-            // onBlur={handleRepOrganizationBlur}
             onInput={handleRepOrganizationChange}
             value={repOrganizationInputString}
             uswds
