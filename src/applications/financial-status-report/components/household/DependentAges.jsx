@@ -25,6 +25,8 @@ const DependentAges = ({
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
 
+  const MAXIMUM_DEPENDENT_AGE = 150;
+
   const [stateDependents, setStateDependents] = useState(dependents);
   const [errors, setErrors] = useState(
     Array(stateDependents.length).fill(null),
@@ -154,7 +156,7 @@ const DependentAges = ({
         newErrors[i] = 'Please enter your dependent(s) age';
       } else if (!isNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
-      } else if (value < 0 || value > 150) {
+      } else if (value < 0 || value > MAXIMUM_DEPENDENT_AGE) {
         newErrors[i] = 'Please enter a value between 0 and 150';
       } else {
         newErrors[i] = null;
@@ -187,7 +189,7 @@ const DependentAges = ({
         inputMode="numeric"
         required
         min={0}
-        max={150}
+        max={MAXIMUM_DEPENDENT_AGE}
       />
     </div>
   );

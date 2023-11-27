@@ -24,6 +24,8 @@ const DependentCount = ({
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
 
+  const MAXIMUM_DEPENDENT_COUNT = 25;
+
   const [error, setError] = useState(null);
   const [dependents, setDependents] = useState(hasDependents);
 
@@ -110,7 +112,7 @@ const DependentCount = ({
               focusElement('va-number-input');
             }
 
-            if (dependents > 25 || dependents < 0) {
+            if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
               setError(
                 'Please enter a value greater than or equal to 0 and less than 25',
               );
@@ -125,7 +127,7 @@ const DependentCount = ({
           className="no-wrap input-size-2"
           required
           min={0}
-          max={25}
+          max={MAXIMUM_DEPENDENT_COUNT}
         />
         <DependentExplainer />
       </fieldset>

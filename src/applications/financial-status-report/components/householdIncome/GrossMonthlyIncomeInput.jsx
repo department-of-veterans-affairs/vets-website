@@ -151,7 +151,7 @@ const GrossMonthlyIncomeInput = props => {
         value={grossMonthlyIncome.value}
         required
         min={0}
-        max={12000}
+        max={MAXIMUM_GROSS_MONTHLY_INCOME}
         width="md"
         error={error}
       />

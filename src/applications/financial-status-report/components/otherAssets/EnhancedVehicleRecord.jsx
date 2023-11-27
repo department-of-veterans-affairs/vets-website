@@ -94,6 +94,10 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     setVehicleModelIsDirty(true);
     setEstValueIsDirty(true);
 
+    if (resaleValueError) {
+      return;
+    }
+
     if (
       vehicleRecord.make &&
       vehicleRecord.model &&
@@ -224,7 +228,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             onInput={handleVehicleEstValueChange}
             value={vehicleRecord.resaleValue}
             min={0}
-            max={1000000}
+            max={MAXIMUM_RESALE_VALUE}
           />
         </div>
         <va-additional-info
