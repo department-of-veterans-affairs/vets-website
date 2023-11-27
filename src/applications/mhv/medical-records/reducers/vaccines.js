@@ -52,10 +52,9 @@ export const extractReaction = vaccine => {
     // Check if the observation object and its code.text property exist
     if (observation && observation.code && observation.code.text) {
       // Extract and log the observation code text
-      const reaction = observation.code.text;
-      console.log('Observation Code Text: ', reaction);
+      const reactions = observation.code.text;
 
-      return reaction;
+      return reactions || EMPTY_FIELD;
     }
   }
   return EMPTY_FIELD;
@@ -95,7 +94,7 @@ export const convertVaccine = vaccine => {
       : EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
-    reaction: extractReaction(vaccine),
+    reactions: extractReaction(vaccine),
     notes: extractNote(vaccine),
   };
 };
