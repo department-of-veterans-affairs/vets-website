@@ -3,7 +3,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import { CHAPTER_3 } from '../../../constants';
 
 const question = (
-  <h4 className="vads-u-display--inline"> {CHAPTER_3.PAGE_7.QUESTION_1} </h4>
+  <h4 className="vads-u-display--inline">{CHAPTER_3.PAGE_7.QUESTION_1}</h4>
 );
 
 const deathDatePage = {

@@ -197,7 +197,7 @@ export const personalInformationUiSchemas = {
     },
     ssn: merge(ssnUI, { 'ui:options': { widgetClassNames: null } }),
     serviceNumber: {
-      'ui:title': 'Service Number',
+      'ui:title': 'Service number',
       'ui:errorMessages': {
         pattern:
           'Veteran service number must start with 0, 1, or 2 letters followed by 5 to 8 digits',

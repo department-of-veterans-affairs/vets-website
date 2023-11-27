@@ -4,8 +4,7 @@ import { CHAPTER_3, yesNoOptions } from '../../../constants';
 
 const question = (
   <h4 className="vads-u-margin-bottom--1 vads-u-display--inline">
-    {' '}
-    {CHAPTER_3.PAGE_6.QUESTION_1}{' '}
+    {CHAPTER_3.PAGE_6.QUESTION_1}
   </h4>
 );
 

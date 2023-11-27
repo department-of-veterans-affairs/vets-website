@@ -13,8 +13,7 @@ const whoHasAQuestionPage = {
   uiSchema: {
     'ui:description': (
       <h4 className="vads-u-margin-bottom--1p5">
-        {' '}
-        {CHAPTER_3.PAGE_2.PAGE_DESCRIPTION}{' '}
+        {CHAPTER_3.PAGE_2.PAGE_DESCRIPTION}
       </h4>
     ),
     isVAEmployee: radioUI({
