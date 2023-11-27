@@ -9,7 +9,7 @@ const verifyLink = data => {
   const wrapper = shallow(
     <RepresentativeDirectionsLink
       representative={data}
-      query={{ locationQueryString: 'my house' }}
+      query={{ context: { location: 'my house' } }}
     />,
   );
 

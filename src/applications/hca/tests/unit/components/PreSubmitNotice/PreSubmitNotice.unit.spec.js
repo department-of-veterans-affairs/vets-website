@@ -13,9 +13,6 @@ describe('hca <PreSubmitNotice>', () => {
       preSubmitInfo: {
         required: true,
         field: 'privacyAgreementAccepted',
-        error: 'You must accept the agreement before continuing.',
-        label:
-          'I confirm that I agree to the statements listed here. The information is true and correct to the best of my knowledge and belief. I\u2019ve read and accept the privacy policy.',
       },
       showError,
       onSectionComplete: sinon.spy(),
@@ -40,10 +37,10 @@ describe('hca <PreSubmitNotice>', () => {
         </Provider>,
       );
       const {
-        preSubmitInfo: { required, field },
+        preSubmitInfo: { required },
       } = props;
       const selectors = {
-        checkbox: container.querySelector(`[name="${field}"]`),
+        checkbox: container.querySelector('va-checkbox'),
         benefits: container.querySelector('va-additional-info'),
         statements: container.querySelectorAll(
           'li',
@@ -67,11 +64,8 @@ describe('hca <PreSubmitNotice>', () => {
           <PreSubmitNotice {...props} />
         </Provider>,
       );
-      const {
-        preSubmitInfo: { field, error },
-      } = props;
-      const selector = container.querySelector(`[name="${field}"]`);
-      expect(selector).to.not.have.attribute('error', error);
+      const selector = container.querySelector('va-checkbox');
+      expect(selector).to.not.have.attr('error');
     });
 
     it('should not render error message if submission status is pending', () => {
@@ -84,27 +78,23 @@ describe('hca <PreSubmitNotice>', () => {
           <PreSubmitNotice {...props} />
         </Provider>,
       );
-      const {
-        preSubmitInfo: { field, error },
-      } = props;
-      const selector = container.querySelector(`[name="${field}"]`);
-      expect(selector).to.not.have.attribute('error', error);
+      const selector = container.querySelector('va-checkbox');
+      expect(selector).to.not.have.attr('error');
     });
   });
 
   context('when an error occurs', () => {
-    it('should render error message if data value is `false` and `showError` is `true`', () => {
+    it('should render error message if data value is `false` and `showError` is `true`', async () => {
       const { mockStore, props } = getData({ showError: true });
       const { container } = render(
         <Provider store={mockStore}>
           <PreSubmitNotice {...props} />
         </Provider>,
       );
-      const {
-        preSubmitInfo: { field, error },
-      } = props;
-      const selector = container.querySelector(`[name="${field}"]`);
-      expect(selector).to.have.attribute('error', error);
+      const selector = container.querySelector('va-checkbox');
+      await waitFor(() => {
+        expect(selector).to.have.attr('error');
+      });
     });
   });
 
