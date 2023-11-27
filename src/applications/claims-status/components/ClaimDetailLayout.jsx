@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -9,10 +9,8 @@ import AddingDetails from './AddingDetails';
 import Notification from './Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimsUnavailable from './ClaimsUnavailable';
+import ClaimsContentionList from './ClaimsContentionList';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
-import { setFocus } from '../utils/page';
-
-const MAX_CONTENTIONS = 3;
 
 const getBreadcrumbText = (currentTab, claimType) => {
   let joiner;
@@ -23,16 +21,6 @@ const getBreadcrumbText = (currentTab, claimType) => {
   }
 
   return `${currentTab} ${joiner} your ${claimType} claim`;
-};
-
-const showAdditionalContentions = () => {
-  document.getElementsByClassName('ellipsis')[0].style.display = 'none';
-  document.getElementsByClassName('additional-contentions')[0].style.display =
-    'inline';
-  document.getElementsByClassName(
-    'view-more-contentions-btn',
-  )[0].style.display = 'none';
-  setFocus('.claim-contentions-header');
 };
 
 export default function ClaimDetailLayout(props) {
@@ -47,8 +35,8 @@ export default function ClaimDetailLayout(props) {
   } = props;
   const tabs = ['Status', 'Files', 'Details'];
   const claimsPath = `your-claims/${id}`;
-
   const claimType = getClaimType(claim).toLowerCase();
+  const contentionsHeader = useRef(null);
 
   let bodyContent;
   let headingContent;
@@ -62,23 +50,7 @@ export default function ClaimDetailLayout(props) {
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
     const { closeDate, contentions, status } = claim.attributes || {};
-
-    const hasContentions = contentions && contentions.length;
     const isOpen = status !== 'COMPLETE' && closeDate === null;
-
-    const contentionsText = hasContentions
-      ? contentions
-          .slice(0, MAX_CONTENTIONS)
-          .map(cond => cond.name)
-          .join(', ')
-      : 'Not available';
-
-    const additionalContentionsText = hasContentions
-      ? contentions
-          .slice(MAX_CONTENTIONS, contentions.length)
-          .map(cond => cond.name)
-          .join(', ')
-      : false;
 
     headingContent = (
       <>
@@ -93,29 +65,16 @@ export default function ClaimDetailLayout(props) {
         <h1 className="claim-title">{claimTitle}</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions medium-screen:vads-l-col--8">
-          <h2 className="claim-contentions-header vads-u-font-size--h4">
+          <h2
+            className="claim-contentions-header vads-u-font-size--h4"
+            ref={contentionsHeader}
+          >
             What you’ve claimed
           </h2>
-          <span className="claim-contentions-list">{contentionsText}</span>
-          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
-            <>
-              <span className="ellipsis">&hellip;</span>
-              <span className="additional-contentions">
-                , {additionalContentionsText}
-              </span>
-              <span>
-                <br />
-                <va-button
-                  class="view-more-contentions-btn"
-                  onClick={() => {
-                    showAdditionalContentions();
-                  }}
-                  secondary
-                  text="Show full list"
-                />
-              </span>
-            </>
-          ) : null}
+          <ClaimsContentionList
+            contentions={contentions}
+            contentionsHeader={contentionsHeader}
+          />
         </div>
       </>
     );
