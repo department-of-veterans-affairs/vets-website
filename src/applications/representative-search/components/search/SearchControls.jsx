@@ -98,38 +98,8 @@ const SearchControls = props => {
             Search for a representative
           </h3>
           <div className="location-input-container">
-            <div
-              className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error':
-                  showEmptyError || showGeolocationError,
-              })}
-            >
-              {geolocationInProgress ? (
-                <div className="finding-your-location-loading">
-                  <i
-                    className="fa fa-spinner fa-spin use-my-location-icon"
-                    aria-hidden="true"
-                    role="presentation"
-                  />
-                  <span aria-live="assertive"> Finding your location...</span>
-                </div>
-              ) : (
-                <button
-                  onClick={handleGeolocationButtonClick}
-                  type="button"
-                  className="use-my-location-button"
-                  aria-label="Use my location"
-                >
-                  <i
-                    className="use-my-location-icon"
-                    aria-hidden="true"
-                    role="presentation"
-                  />
-                  <div className="button-text">Use my location</div>
-                </button>
-              )}
-            </div>
             <va-text-input
+              style={{ order: 1 }}
               error={(() => {
                 if (showEmptyError) {
                   return 'Please fill in a city, state or postal code.';
@@ -149,6 +119,41 @@ const SearchControls = props => {
               uswds
               required
             />
+            <div
+              className={classNames('use-my-location-button-container', {
+                'use-my-location-button-container-error':
+                  showEmptyError || showGeolocationError,
+              })}
+            >
+              {geolocationInProgress ? (
+                <div
+                  className="finding-your-location-loading"
+                  style={{ order: 2 }}
+                >
+                  <i
+                    className="fa fa-spinner fa-spin use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <span aria-live="assertive"> Finding your location...</span>
+                </div>
+              ) : (
+                <button
+                  onClick={handleGeolocationButtonClick}
+                  type="button"
+                  className="use-my-location-button"
+                  aria-label="Use my location"
+                  style={{ order: 2 }}
+                >
+                  <i
+                    className="use-my-location-icon"
+                    aria-hidden="true"
+                    role="presentation"
+                  />
+                  <div className="button-text">Use my location</div>
+                </button>
+              )}
+            </div>
           </div>
 
           <RepTypeSelector
