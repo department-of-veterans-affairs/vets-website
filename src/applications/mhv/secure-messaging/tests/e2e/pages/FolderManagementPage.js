@@ -151,7 +151,7 @@ class FolderManagementPage {
   };
 
   verifyDeleteSuccessMessageHasFocus = () => {
-    this.folderConfirmation().should('have.focus');
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
@@ -169,7 +169,7 @@ class FolderManagementPage {
   };
 
   verifyCreateFolderSucessMessageHasFocus = () => {
-    this.folderConfirmation().should('have.focus');
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   selectFolderfromModal = () => {
