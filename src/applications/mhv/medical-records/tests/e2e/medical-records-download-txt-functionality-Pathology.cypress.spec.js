@@ -1,5 +1,5 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import PathologyListPage from './pages/PathologyListPage';
+import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 
 describe('Medical Records Health PathologyListPage', () => {
   const site = new MedicalRecordsSite();
@@ -12,19 +12,19 @@ describe('Medical Records Health PathologyListPage', () => {
   it('Pathology ListPage Toggle Menu button Print or download ', () => {
     // Given Navigate to Pathology ListPage
 
-    PathologyListPage.clickPathologyDetailsLink(9);
+    LabsAndTestsListPage.clickPathologyDetailsLink(9);
 
     // should display a toggle menu button
-    PathologyListPage.verifyPrintOrDownload();
+    LabsAndTestsListPage.verifyPrintOrDownload();
 
     // should display print button for a list "Print this list"
-    PathologyListPage.verifyPrintButton();
+    LabsAndTestsListPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    PathologyListPage.verifyDownloadPDF();
+    LabsAndTestsListPage.verifyDownloadPDF();
 
     // should display a download text file button "Download list as a text file"
-    PathologyListPage.verifyDownloadTextFile();
+    LabsAndTestsListPage.verifyDownloadTextFile();
 
     // PathologyListPage.clickDownloadPDFFile();
     // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
