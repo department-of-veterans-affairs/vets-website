@@ -29,6 +29,7 @@ const PrescriptionDetails = () => {
   );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
+  const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const dob = useSelector(state => state.user.profile.dob);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
@@ -46,7 +47,7 @@ const PrescriptionDetails = () => {
       : '');
 
   useEffect(() => {
-    if (prescription) {
+    if (crumbs.length === 0 && prescription) {
       dispatch(
         setBreadcrumbs(
           [
@@ -55,7 +56,7 @@ const PrescriptionDetails = () => {
               label: 'About medications',
             },
             {
-              url: '/my-health/medications/',
+              url: '/my-health/medications/1',
               label: 'Medications',
             },
           ],

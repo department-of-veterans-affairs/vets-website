@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -15,6 +15,7 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
+  const [scrollPositionY, setScrollPositionY] = useState(null);
   const scrollLocation = useRef();
   const goToPrevious = () => {
     scrollLocation.current?.scrollIntoView();
@@ -28,6 +29,17 @@ const MedicationsList = props => {
     },
     [prescriptionId],
   );
+
+  useEffect(
+    () => {
+      const listener = window.addEventListener('nav-from-breadcrumb', () => {
+        if (scrollPositionY) window.scrollTo(0, parseInt(scrollPositionY, 10));
+      });
+      return () => window.removeEventListener('nav-from-breadcrumb', listener);
+    },
+    [scrollPositionY],
+  );
+
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
@@ -70,10 +82,17 @@ const MedicationsList = props => {
             (rx, idx) =>
               rx.prescriptionId === prescriptionId ? (
                 <div ref={scrollLocation} key={idx}>
-                  <MedicationsListCard rx={rx} />
+                  <MedicationsListCard
+                    rx={rx}
+                    setScrollPositionY={setScrollPositionY}
+                  />
                 </div>
               ) : (
-                <MedicationsListCard key={idx} rx={rx} />
+                <MedicationsListCard
+                  key={idx}
+                  rx={rx}
+                  setScrollPositionY={setScrollPositionY}
+                />
               ),
           )}
       </div>

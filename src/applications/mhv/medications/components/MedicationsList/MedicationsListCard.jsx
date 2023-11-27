@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
+import { setBreadcrumbs } from '../../actions/breadcrumbs';
 
 const MedicationsListCard = props => {
-  const { rx } = props;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { rx, setScrollPositionY } = props;
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -19,7 +23,29 @@ const MedicationsListCard = props => {
     }
     return <p>{rx.refillRemaining} refills left</p>;
   };
-
+  const handleLinkClick = () => {
+    setScrollPositionY(window.scrollY);
+    dispatch(
+      setBreadcrumbs(
+        [
+          {
+            url: '/my-health/about-medications',
+            label: 'About medications',
+          },
+          {
+            url: `/my-health/medications${location.pathname}`,
+            label: 'Medications',
+          },
+        ],
+        {
+          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
+          label:
+            rx?.prescriptionName ||
+            (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),
+        },
+      ),
+    );
+  };
   return (
     <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
       <div className="rx-card-detials vads-u-padding--2">
@@ -32,6 +58,7 @@ const MedicationsListCard = props => {
             data-testid="medications-history-details-link"
             className="vads-u-margin-y--0p5 vads-u-font-size--h4 no-print"
             to={`/prescription/${rx.prescriptionId}`}
+            onClick={handleLinkClick}
           >
             {rx.prescriptionName ||
               (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
@@ -69,4 +96,5 @@ export default MedicationsListCard;
 
 MedicationsListCard.propTypes = {
   rx: PropTypes.object,
+  setScrollPositionY: PropTypes.func,
 };
