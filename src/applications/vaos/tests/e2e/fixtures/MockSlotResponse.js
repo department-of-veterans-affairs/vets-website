@@ -15,8 +15,8 @@ export default class MockSlotResponse {
    * Creates an instance of MockSlotResponse.
    *
    * @param {Object} arguments
-   * @param {String} id
-   * @param {Moment} start - Open slot start date and time.
+   * @param {String} arguments.id
+   * @param {Moment} arguments.start - Open slot start date and time.
    * @memberof MockSlotResponse
    */
   constructor({ id, start }) {
