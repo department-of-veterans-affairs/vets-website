@@ -15,7 +15,6 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
@@ -63,6 +62,8 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from '../pages/applicantInformation';
+import mailingAddress from '../pages/mailingAddress';
+import contactInformation from '../pages/contactInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
@@ -74,10 +75,7 @@ import vaTreatmentHistory from '../pages/vaTreatmentHistory';
 import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateMedicalCentersSchemas from '../pages/medicalCenters';
 
-import {
-  validateAfterMarriageDate,
-  validateCentralMailPostalCode,
-} from '../validation';
+import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
@@ -93,11 +91,6 @@ const {
   spouseIsVeteran,
   monthlySpousePayment,
   dependents,
-  email,
-  altEmail,
-  dayPhone,
-  nightPhone,
-  mobilePhone,
   vamcTreatmentCenters,
   noRapidProcessing,
 } = fullSchemaPensions.properties;
@@ -261,6 +254,18 @@ const formConfig = {
           title: 'Applicant information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
+        },
+        mailingAddress: {
+          title: 'Mailing address',
+          path: 'applicant/mail-address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'applicant/contact',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
       },
     },
@@ -1576,39 +1581,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-            },
-          },
-        },
-        contactInformation: {
-          title: 'Contact information',
-          path: 'additional-information/contact',
-          uiSchema: {
-            'ui:title': 'Contact information',
-            veteranAddress: set(
-              'ui:validations[1]',
-              validateCentralMailPostalCode,
-              address.uiSchema('Mailing address'),
-            ),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            dayPhone: phoneUI('Daytime phone'),
-            nightPhone: phoneUI('Evening phone'),
-            mobilePhone: phoneUI('Mobile phone'),
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranAddress'],
-            properties: {
-              veteranAddress: address.schema(fullSchemaPensions, true),
-              email,
-              altEmail,
-              dayPhone,
-              nightPhone,
-              mobilePhone,
             },
           },
         },
