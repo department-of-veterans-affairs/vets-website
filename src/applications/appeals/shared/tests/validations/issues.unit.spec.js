@@ -1,10 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { uniqueIssue, missingIssueName } from '../../validations/issues';
+import {
+  uniqueIssue,
+  missingIssueName,
+  selectionRequired,
+} from '../../validations/issues';
+import { SELECTED } from '../../constants';
+
+const _ = null;
 
 describe('uniqueIssue', () => {
-  const _ = null;
   const contestedIssues = [
     {
       attributes: {
@@ -64,6 +70,42 @@ describe('missingIssueName', () => {
   it('should show an error when a name is missing', () => {
     const errors = { addError: sinon.spy() };
     missingIssueName(errors, 'test');
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('selectionRequired', () => {
+  const getData = (selectContested = false, selectAdditional = false) => ({
+    contestedIssues: [
+      {
+        attributes: {
+          ratingIssueSubjectText: 'test',
+          approxDecisionDate: '2021-01-01',
+        },
+        [SELECTED]: selectContested,
+      },
+    ],
+    additionalIssues: [
+      {
+        issue: 'test 2',
+        decisionDate: '2021-01-01',
+        [SELECTED]: selectAdditional,
+      },
+    ],
+  });
+  it('should show an error when no issues are selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData());
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show not show an error when a contestable issue is selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData(true));
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show not show an error when an additional issue is selected', () => {
+    const errors = { addError: sinon.spy() };
+    selectionRequired(errors, _, getData(false, true));
     expect(errors.addError.called).to.be.false;
   });
 });
