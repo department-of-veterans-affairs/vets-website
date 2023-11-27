@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generateTextFile,
   getNameDateAndTime,
@@ -25,9 +26,15 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -109,12 +116,16 @@ const VaccineDetails = props => {
 
   const generateVaccineTxt = async () => {
     const content = `
-    ${record.name} \n
-    Date entered: ${record.date} \n
-    _____________________________________________________ \n
-    \t Location: ${record.location} \n
-    \t Reaction: ${processList(record.reactions)} \n
-    \t Provider notes: ${processList(record.notes)} \n`;
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+Location: ${record.location}\n
+Reaction: ${processList(record.reactions)}\n
+Provider notes: ${processList(record.notes)}\n`;
 
     const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
 

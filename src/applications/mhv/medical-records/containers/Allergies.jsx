@@ -28,6 +28,7 @@ import {
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { txtLine } from '../../shared/util/constants';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -125,7 +126,7 @@ const Allergies = props => {
     Showing ${allergies.length} from newest to oldest. \n
     ${allergies.map(
       entry =>
-        `_____________________________________________________ \n
+        `${txtLine} \n
       ${entry.name} \n
       \t Date entered: ${entry.date} \n
       \t Signs and symptoms: ${entry.reaction} \n

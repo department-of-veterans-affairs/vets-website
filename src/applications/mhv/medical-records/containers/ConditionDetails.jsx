@@ -32,6 +32,7 @@ import {
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
+import { txtLine } from '../../shared/util/constants';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -139,7 +140,7 @@ const ConditionDetails = props => {
     const content = `
 ${record.name} \n
 Date entered: ${record.date} \n
-_____________________________________________________ \n
+${txtLine} \n
 Provider: ${record.provider} \n
 Provider Notes: ${processList(record.note)} \n
 Status of health condition: ${record.active} \n

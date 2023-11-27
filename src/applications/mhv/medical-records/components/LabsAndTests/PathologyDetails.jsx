@@ -19,6 +19,7 @@ import {
 } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
+import { txtLine } from '../../../shared/util/constants';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -78,7 +79,7 @@ const PathologyDetails = props => {
     const content = `
 ${record.name} \n
 Details about this test: \n
-_____________________________________________________ \n
+${txtLine} \n
 Sample tested: ${record.sampleTested} \n
 Lab location: ${record.labLocation} \n
 Date completed: ${record.date} \n

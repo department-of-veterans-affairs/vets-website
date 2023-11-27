@@ -28,6 +28,7 @@ import {
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
+import { txtLine } from '../../shared/util/constants';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -126,7 +127,7 @@ const AllergyDetails = props => {
     const content = `
     ${allergy.name} \n
     Date entered: ${allergy.date} \n
-    _____________________________________________________ \n
+    ${txtLine} \n
     \t Signs and symptoms: ${allergy.reaction} \n
     \t Type of Allergy: ${allergy.type} \n
     \t Location: ${allergy.location} \n
