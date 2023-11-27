@@ -1,4 +1,9 @@
-import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
+import * as Sentry from '@sentry/browser';
+import {
+  FETCH_REPRESENTATIVES,
+  SEARCH_FAILED,
+  SEARCH_COMPLETE,
+} from '../../utils/actionTypes';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -13,16 +18,16 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
  * @param {number} api version number
  */
 export const fetchRepresentatives = async (
-  address = null,
+  address,
   lat,
   long,
   name,
   page,
   /* eslint-disable camelcase */
   per_page,
-  dispatch,
   sort,
   type,
+  dispatch,
 ) => {
   let data = {};
 
@@ -39,6 +44,7 @@ export const fetchRepresentatives = async (
     );
     data = { ...dataList };
     if (dataList.data) {
+      dispatch({ type: SEARCH_COMPLETE, payload: data });
       return dataList.data;
     }
 
@@ -48,6 +54,11 @@ export const fetchRepresentatives = async (
       dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
     }
   } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage('Error fetching accredited representatives');
+    });
+
     dispatch({ type: SEARCH_FAILED, error: error.message });
   }
 

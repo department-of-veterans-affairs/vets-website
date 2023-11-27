@@ -151,10 +151,6 @@ describe('686 report the marriage of a child', () => {
     fillData(form, 'input#root_childMarriage_fullName_first', 'john');
     fillData(form, 'input#root_childMarriage_fullName_middle', 'jeffrey');
     fillData(form, 'input#root_childMarriage_fullName_last', 'doe');
-    const suffix = form.find('select#root_childMarriage_fullName_suffix');
-    suffix.simulate('change', {
-      target: { value: 'II' },
-    });
     fillData(form, 'input#root_childMarriage_ssn', '123211234');
     changeDropdown(form, 'select#root_childMarriage_birthDateMonth', 1);
     changeDropdown(form, 'select#root_childMarriage_birthDateDay', 1);

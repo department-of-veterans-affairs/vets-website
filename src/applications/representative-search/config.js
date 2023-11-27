@@ -4,6 +4,8 @@ import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
 // import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
+/* eslint-disable camelcase */
+
 const apiSettings = {
   credentials: 'include',
   headers: {
@@ -17,12 +19,10 @@ const apiSettings = {
 };
 
 export const sortOptions = {
-  DISTANCE_ASC: 'Distance (closest to farthest)',
-  DISTANCE_DESC: 'Distance (farthest to closest)',
-  FIRST_NAME_ASC: 'First Name (A - Z)',
-  FIRST_NAME_DESC: 'First Name (Z - A)',
-  LAST_NAME_ASC: 'Last Name (A - Z)',
-  LAST_NAME_DESC: 'Last Name (Z - A)',
+  distance_asc: 'Distance (closest to farthest)',
+  distance_desc: 'Distance (farthest to closest)',
+  name_asc: 'Name (A - Z)',
+  name_desc: 'Name (Z - A)',
 };
 
 const railsEngineApi = {
@@ -55,8 +55,8 @@ export const resolveParamsWithUrl = ({
 
   const params = [
     address ? `address=${address}` : null,
-    lat?.length > 0 ? `latitude=${lat}` : null,
-    long?.length > 0 ? `longitude=${long}` : null,
+    lat ? `lat=${lat}` : null,
+    long ? `long=${long}` : null,
     name ? `name=${name}` : null,
     `page=${page}`,
     `per_page=${perPage}`,
@@ -75,12 +75,12 @@ export const resolveParamsWithUrl = ({
 export const representativeTypes = {
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims Agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims Agent',
 };
