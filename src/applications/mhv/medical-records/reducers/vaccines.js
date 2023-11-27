@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD } from '../util/constants';
