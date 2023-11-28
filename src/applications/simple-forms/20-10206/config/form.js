@@ -256,8 +256,8 @@ const formConfig = {
       pages: {
         otherBenefitDetailsPage: {
           depends: {
+            'view:userIdVerified': true,
             recordSelections: {
-              'view:userIdVerified': true,
               [RECORD_TYPES.OTHER]: true,
             },
           },
