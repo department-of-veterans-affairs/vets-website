@@ -10,7 +10,7 @@ const ReplyDrafts = props => {
     drafts,
     replyMessage,
     replyToName,
-    saveDraftHandler,
+    isSaving,
   } = props;
   const [edittedMessage, setEdittedMessage] = useState(drafts[0]?.messageId); // [editMode, setEditMode
   // const toggleEditHandler = () => {
@@ -31,7 +31,6 @@ const ReplyDrafts = props => {
           // cannotReply={cannotReply}
           replyMessage={replyMessage}
           replyToName={replyToName}
-          saveDraftHandler={saveDraftHandler}
           toggleEditHandler={messageId => {
             setEdittedMessage(messageId);
           }}
@@ -43,16 +42,16 @@ const ReplyDrafts = props => {
           return (
             <ReplyDraftItem
               key={draft?.messageId}
+              // cannotReply={true}
+              cannotReply={cannotReply}
               draft={draft}
               draftsCount={drafts?.length}
               draftsequence={drafts.length - i}
-              signature={signature}
               editMode={edittedMessage === draft?.messageId}
-              // cannotReply={true}
-              cannotReply={cannotReply}
+              isSaving={isSaving}
               replyMessage={replyMessage}
               replyToName={replyToName}
-              saveDraftHandler={saveDraftHandler}
+              signature={signature}
               toggleEditHandler={messageId => {
                 setEdittedMessage(messageId);
               }}

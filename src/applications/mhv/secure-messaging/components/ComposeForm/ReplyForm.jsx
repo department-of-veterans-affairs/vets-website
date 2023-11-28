@@ -1,94 +1,111 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import { useHistory } from 'react-router-dom';
+// import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FileInput from './FileInput';
-import AttachmentsList from '../AttachmentsList';
-import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
-import DraftSavedInfo from './DraftSavedInfo';
-import useDebounce from '../../hooks/use-debounce';
-import ComposeFormActionButtons from './ComposeFormActionButtons';
-import { sendReply } from '../../actions/messages';
+// import FileInput from './FileInput';
+// import AttachmentsList from '../AttachmentsList';
+import { clearDraft } from '../../actions/draftDetails';
+// import DraftSavedInfo from './DraftSavedInfo';
+// import useDebounce from '../../hooks/use-debounce';
+// import ComposeFormActionButtons from './ComposeFormActionButtons';
+// import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
-import {
-  messageSignatureFormatter,
-  navigateToFolderByFolderId,
-  setCaretToPos,
-} from '../../util/helpers';
-import RouteLeavingGuard from '../shared/RouteLeavingGuard';
-import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
-import MessageThreadBody from '../MessageThread/MessageThreadBody';
+// import {
+//   messageSignatureFormatter,
+//   navigateToFolderByFolderId,
+//   setCaretToPos,
+// } from '../../util/helpers';
+// import RouteLeavingGuard from '../shared/RouteLeavingGuard';
+// import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
+// import MessageThreadBody from '../MessageThread/MessageThreadBody';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import ReplyDrafts from './ReplyDrafts';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReply, header } = props;
+  const {
+    // draftToEdit,
+    drafts,
+    replyMessage,
+    cannotReply,
+    header,
+    // replyToMessageId,
+  } = props;
   const dispatch = useDispatch();
-  const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [
+    lastFocusableElement,
+    // setLastFocusableElement
+  ] = useState(null);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
 
-  const defaultRecipientsList = [{ id: 0, name: ' ' }];
-  const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
-  const [selectedRecipient, setSelectedRecipient] = useState(
-    defaultRecipientsList[0].id,
-  );
+  // const defaultRecipientsList = [{ id: 0, name: ' ' }];
+  // const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
+  // const [selectedRecipient, setSelectedRecipient] = useState(
+  //   defaultRecipientsList[0].id,
+  // );
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
-  const [messageBody, setMessageBody] = useState('');
-  const [attachments, setAttachments] = useState([]);
-  const [formPopulated, setFormPopulated] = useState(false);
-  const [fieldsString, setFieldsString] = useState('');
-  const [bodyError, setBodyError] = useState('');
-  const [sendMessageFlag, setSendMessageFlag] = useState(false);
-  const [newDraftId, setNewDraftId] = useState(
-    draftToEdit ? draftToEdit.messageId : null,
-  );
-  const [navigationError, setNavigationError] = useState(null);
-  const [saveError, setSaveError] = useState(null);
-  const [messageInvalid, setMessageInvalid] = useState(false);
-  const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
-  const [modalVisible, updateModalVisible] = useState(false);
+  const [
+    // messageBody,
+    setMessageBody,
+  ] = useState('');
+  // const [attachments, setAttachments] = useState([]);
+  // const [formPopulated, setFormPopulated] = useState(false);
+  // const [fieldsString, setFieldsString] = useState('');
+  // const [bodyError, setBodyError] = useState('');
+  // const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  // const [newDraftId, setNewDraftId] = useState(
+  //   draftToEdit ? draftToEdit.messageId : null,
+  // );
+  // const [navigationError, setNavigationError] = useState(null);
+  // const [saveError, setSaveError] = useState(null);
+  const [
+    messageInvalid,
+    // setMessageInvalid
+  ] = useState(false);
+  // const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
+  // const [modalVisible, updateModalVisible] = useState(false);
 
-  const draftDetails = useSelector(state => state.sm.draftDetails);
-  const folderId = useSelector(state => state.sm.folders.folder?.folderId);
-  const { isSaving } = draftDetails;
-  const signature = useSelector(state => state.sm.preferences.signature);
+  // const draftDetails = useSelector(state => state.sm.draftDetails);
+  const { replyToName, isSaving } = useSelector(
+    state => state.sm.threadDetails,
+  );
+  // const folderId = useSelector(state => state.sm.folders.folder?.folderId);
+  // const { isSaving } = draftDetails;
+  // const signature = useSelector(state => state.sm.preferences.signature);
 
   // sendReply call requires an id for the message being replied to
   // if a thread contains a saved draft, sendReply call will use the draft's id in params and in body
   // otherwise it will be an id of a message being replied to
-  const replyToMessageId = draftDetails.replyToMessageId
-    ? draftDetails.replyToMessageId
-    : replyMessage.messageId;
-  const history = useHistory();
-  const [draft, setDraft] = useState(null);
+  // const replyToMessageId = replyMessage.messageId;
+  // const history = useHistory();
+  // const [draft, setDraft] = useState(null);
 
-  const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
+  // const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
 
-  const formattededSignature = useMemo(
-    () => {
-      return messageSignatureFormatter(signature);
-    },
-    [signature],
-  );
+  // const formattededSignature = useMemo(
+  //   () => {
+  //     return messageSignatureFormatter(signature);
+  //   },
+  //   [signature],
+  // );
 
   useEffect(
     () => {
-      if (replyMessage && !draftToEdit) {
-        setSelectedRecipient(replyMessage.senderId);
-        setSubject(replyMessage.subject);
-        setMessageBody('');
-        setCategory(replyMessage.category);
-      }
-      if (draftToEdit) {
-        setDraft(draftToEdit);
-      }
+      // if (replyMessage && !draftToEdit) {
+      // setSelectedRecipient(replyMessage.senderId);
+      setSubject(replyMessage.subject);
+      setMessageBody('');
+      setCategory(replyMessage.category);
+      // }
+      // if (drafts?.length > 0) {
+      //   setDraft(drafts);
+      // }
     },
-    [replyMessage, draftToEdit],
+    [replyMessage],
   );
 
   useEffect(
@@ -118,86 +135,86 @@ const ReplyForm = props => {
     [alertStatus],
   );
 
-  useEffect(
-    () => {
-      if (sendMessageFlag && isSaving !== true) {
-        const messageData = {
-          category,
-          body: messageBody,
-          subject,
-        };
-        if (draft && replyToMessageId) {
-          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
-        }
-        messageData[`${'recipient_id'}`] = selectedRecipient;
-        setIsAutosave(false);
+  // useEffect(
+  //   () => {
+  //     if (sendMessageFlag && isSaving !== true) {
+  //       const messageData = {
+  //         category,
+  //         body: messageBody,
+  //         subject,
+  //       };
+  //       if (draft && replyToMessageId) {
+  //         messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
+  //       }
+  //       messageData[`${'recipient_id'}`] = selectedRecipient;
+  //       setIsAutosave(false);
 
-        let sendData;
+  //       let sendData;
 
-        if (attachments.length > 0) {
-          sendData = new FormData();
-          sendData.append('message', JSON.stringify(messageData));
-          attachments.map(upload => sendData.append('uploads[]', upload));
-        } else {
-          sendData = JSON.stringify(messageData);
-        }
+  //       if (attachments.length > 0) {
+  //         sendData = new FormData();
+  //         sendData.append('message', JSON.stringify(messageData));
+  //         attachments.map(upload => sendData.append('uploads[]', upload));
+  //       } else {
+  //         sendData = JSON.stringify(messageData);
+  //       }
 
-        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
-          .then(() => {
-            navigateToFolderByFolderId(
-              draftToEdit?.threadFolderId
-                ? draftToEdit?.threadFolderId
-                : folderId,
-              history,
-            );
-          })
-          .catch(() => {
-            setSendMessageFlag(false);
-            setIsAutosave(true);
-          });
-      }
-    },
-    [sendMessageFlag, isSaving],
-  );
+  //       dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+  //         .then(() => {
+  //           navigateToFolderByFolderId(
+  //             draftToEdit?.threadFolderId
+  //               ? draftToEdit?.threadFolderId
+  //               : folderId,
+  //             history,
+  //           );
+  //         })
+  //         .catch(() => {
+  //           setSendMessageFlag(false);
+  //           setIsAutosave(true);
+  //         });
+  //     }
+  //   },
+  //   [sendMessageFlag, isSaving],
+  // );
 
-  const recipientExists = recipientId => {
-    return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
-  };
+  // const recipientExists = recipientId => {
+  //   return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
+  // };
 
-  const populateForm = () => {
-    if (!recipientExists(draft.recipientId)) {
-      const newRecipient = {
-        id: draft.recipientId,
-        name: draft.recipientName,
-      };
-      setRecipientsList(prevRecipientsList => [
-        ...prevRecipientsList,
-        newRecipient,
-      ]);
-      setSelectedRecipient(newRecipient.id);
-    }
-    setCategory(draft.category);
-    setSubject(draft.subject);
-    setMessageBody(draft.body);
-    setFormPopulated(true);
-    setFieldsString(
-      JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
-      }),
-    );
-  };
+  // const populateForm = () => {
+  //   if (!recipientExists(draft.recipientId)) {
+  //     const newRecipient = {
+  //       id: draft.recipientId,
+  //       name: draft.recipientName,
+  //     };
+  //     setRecipientsList(prevRecipientsList => [
+  //       ...prevRecipientsList,
+  //       newRecipient,
+  //     ]);
+  //     setSelectedRecipient(newRecipient.id);
+  //   }
+  //   setCategory(draft.category);
+  //   setSubject(draft.subject);
+  //   setMessageBody(draft.body);
+  //   setFormPopulated(true);
+  //   setFieldsString(
+  //     JSON.stringify({
+  //       rec: draft.recipientId,
+  //       cat: draft.category,
+  //       sub: draft.subject,
+  //       bod: draft.body,
+  //     }),
+  //   );
+  // };
 
-  useEffect(
-    () => {
-      if (draft && !formPopulated) {
-        populateForm();
-      }
-    },
-    [draft],
-  );
+  // useEffect(
+  //   () => {
+  //     if (draft && !formPopulated) {
+  //       populateForm();
+  //     }
+  //   },
+  //   [draft],
+  // );
 
   const messageTitle = useMemo(
     () => {
@@ -208,167 +225,167 @@ const ReplyForm = props => {
     [category, subject],
   );
 
-  const checkMessageValidity = useCallback(
-    () => {
-      let messageValid = true;
-      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-        messageValid = false;
-      }
-      setMessageInvalid(!messageValid);
-      return messageValid;
-    },
-    [messageBody],
-  );
+  // const checkMessageValidity = useCallback(
+  //   () => {
+  //     let messageValid = true;
+  //     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+  //       setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+  //       messageValid = false;
+  //     }
+  //     setMessageInvalid(!messageValid);
+  //     return messageValid;
+  //   },
+  //   [messageBody],
+  // );
 
-  const sendMessageHandler = useCallback(
-    async e => {
-      await setMessageInvalid(false);
-      if (checkMessageValidity()) {
-        setSendMessageFlag(true);
-        setNavigationError(null);
-        setLastFocusableElement(e.target);
-      }
-    },
-    [checkMessageValidity],
-  );
+  // const sendMessageHandler = useCallback(
+  //   async e => {
+  //     await setMessageInvalid(false);
+  //     if (checkMessageValidity()) {
+  //       setSendMessageFlag(true);
+  //       setNavigationError(null);
+  //       setLastFocusableElement(e.target);
+  //     }
+  //   },
+  //   [checkMessageValidity],
+  // );
 
   // On Save
-  const saveDraftHandler = useCallback(
-    async (type, e) => {
-      if (type === 'manual') {
-        await setMessageInvalid(false);
-        if (checkMessageValidity()) {
-          setLastFocusableElement(e.target);
-          setNavigationError(null);
-        }
-        if (attachments.length) {
-          setSaveError(
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-          );
-          setNavigationError(null);
-        }
-      }
+  // const saveDraftHandler = useCallback(
+  //   async (type, e) => {
+  //     if (type === 'manual') {
+  //       await setMessageInvalid(false);
+  //       if (checkMessageValidity()) {
+  //         setLastFocusableElement(e.target);
+  //         setNavigationError(null);
+  //       }
+  //       if (attachments.length) {
+  //         setSaveError(
+  //           ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+  //         );
+  //         setNavigationError(null);
+  //       }
+  //     }
 
-      const draftId = draft && draft.messageId;
-      const newFieldsString = JSON.stringify({
-        rec: selectedRecipient,
-        cat: category,
-        sub: subject,
-        bod: debouncedMessageBody || messageBody,
-      });
+  //     const draftId = draft && draft.messageId;
+  //     const newFieldsString = JSON.stringify({
+  //       rec: selectedRecipient,
+  //       cat: category,
+  //       sub: subject,
+  //       bod: debouncedMessageBody || messageBody,
+  //     });
 
-      if (type === 'auto' && newFieldsString === fieldsString) {
-        return;
-      }
+  //     if (type === 'auto' && newFieldsString === fieldsString) {
+  //       return;
+  //     }
 
-      setFieldsString(newFieldsString);
+  //     setFieldsString(newFieldsString);
 
-      const formData = {
-        recipientId: selectedRecipient,
-        category,
-        subject,
-        body: messageBody,
-      };
+  //     const formData = {
+  //       recipientId: selectedRecipient,
+  //       category,
+  //       subject,
+  //       body: messageBody,
+  //     };
 
-      if (checkMessageValidity()) {
-        if (!draftId) {
-          dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-            newDraft => {
-              setDraft(newDraft);
-              setNewDraftId(newDraft.messageId);
-            },
-          );
-        } else {
-          dispatch(
-            saveReplyDraft(replyMessage.messageId, formData, type, draftId),
-          );
-        }
-      }
+  //     if (checkMessageValidity()) {
+  //       if (!draftId) {
+  //         dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+  //           newDraft => {
+  //             setDraft(newDraft);
+  //             setNewDraftId(newDraft.messageId);
+  //           },
+  //         );
+  //       } else {
+  //         dispatch(
+  //           saveReplyDraft(replyMessage.messageId, formData, type, draftId),
+  //         );
+  //       }
+  //     }
 
-      if (!attachments.length) setNavigationError(null);
-    },
-    [
-      attachments.length,
-      category,
-      checkMessageValidity,
-      debouncedMessageBody,
-      dispatch,
-      draft,
-      fieldsString,
-      messageBody,
-      replyMessage.messageId,
-      selectedRecipient,
-      subject,
-    ],
-  );
+  //     if (!attachments.length) setNavigationError(null);
+  //   },
+  //   [
+  //     attachments.length,
+  //     category,
+  //     checkMessageValidity,
+  //     debouncedMessageBody,
+  //     dispatch,
+  //     draft,
+  //     fieldsString,
+  //     messageBody,
+  //     replyMessage.messageId,
+  //     selectedRecipient,
+  //     subject,
+  //   ],
+  // );
 
-  // Before Save
-  useEffect(
-    () => {
-      const draftBody = draft && draft.body;
-      if (
-        messageBody === draftBody ||
-        (messageBody === '' && draftBody === null)
-      ) {
-        setNavigationError(null);
-      } else if (messageBody !== draftBody) {
-        setNavigationError({
-          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-          confirmButtonText: 'Continue editing',
-          cancelButtonText: 'Delete draft',
-        });
-      }
-    },
-    [draft, messageBody],
-  );
+  // // Before Save
+  // useEffect(
+  //   () => {
+  //     const draftBody = draft && draft.body;
+  //     if (
+  //       messageBody === draftBody ||
+  //       (messageBody === '' && draftBody === null)
+  //     ) {
+  //       setNavigationError(null);
+  //     } else if (messageBody !== draftBody) {
+  //       setNavigationError({
+  //         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+  //         confirmButtonText: 'Continue editing',
+  //         cancelButtonText: 'Delete draft',
+  //       });
+  //     }
+  //   },
+  //   [draft, messageBody],
+  // );
 
-  useEffect(
-    () => {
-      if (debouncedMessageBody && isAutosave && !cannotReply && !modalVisible) {
-        saveDraftHandler('auto');
-      }
-    },
-    [
-      cannotReply,
-      debouncedMessageBody,
-      isAutosave,
-      modalVisible,
-      saveDraftHandler,
-    ],
-  );
+  // useEffect(
+  //   () => {
+  //     if (debouncedMessageBody && isAutosave && !cannotReply && !modalVisible) {
+  //       saveDraftHandler('auto');
+  //     }
+  //   },
+  //   [
+  //     cannotReply,
+  //     debouncedMessageBody,
+  //     isAutosave,
+  //     modalVisible,
+  //     saveDraftHandler,
+  //   ],
+  // );
 
-  const messageBodyHandler = e => {
-    setMessageBody(e.target.value);
-    if (e.target.value) setBodyError('');
-  };
+  // const messageBodyHandler = e => {
+  //   setMessageBody(e.target.value);
+  //   if (e.target.value) setBodyError('');
+  // };
 
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
+  // if (!sendMessageFlag && !navigationError && attachments.length) {
+  //   setNavigationError({
+  //     ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+  //     confirmButtonText: 'Continue editing',
+  //     cancelButtonText: 'OK',
+  //   });
+  // }
 
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (messageBody !== (draft ? draft.body : '')) {
-        e.returnValue = '';
-      }
-    },
-    [draft, messageBody],
-  );
+  // const beforeUnloadHandler = useCallback(
+  //   e => {
+  //     if (messageBody !== (draft ? draft.body : '')) {
+  //       e.returnValue = '';
+  //     }
+  //   },
+  //   [draft, messageBody],
+  // );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  // useEffect(
+  //   () => {
+  //     window.addEventListener('beforeunload', beforeUnloadHandler);
+  //     return () => {
+  //       window.removeEventListener('beforeunload', beforeUnloadHandler);
+  //     };
+  //   },
+  //   [beforeUnloadHandler],
+  // );
 
   return (
     replyMessage && (
@@ -383,9 +400,9 @@ const ReplyForm = props => {
           <form
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
-            onSubmit={sendMessageHandler}
+            // onSubmit={sendMessageHandler}
           >
-            {saveError && (
+            {/* {saveError && (
               <VaModal
                 modalTitle={saveError.title}
                 onPrimaryButtonClick={() => setSaveError(null)}
@@ -397,8 +414,8 @@ const ReplyForm = props => {
                 <p>{saveError.p1}</p>
                 {saveError.p2 && <p>{saveError.p2}</p>}
               </VaModal>
-            )}
-            <RouteLeavingGuard
+            )} */}
+            {/* <RouteLeavingGuard
               when={!!navigationError}
               modalVisible={modalVisible}
               updateModalVisible={updateModalVisible}
@@ -413,10 +430,19 @@ const ReplyForm = props => {
               p2={navigationError?.p2}
               confirmButtonText={navigationError?.confirmButtonText}
               cancelButtonText={navigationError?.cancelButtonText}
-            />
+            /> */}
             {!cannotReply && <EmergencyNote dropDownFlag />}
-            <ReplyDrafts cannotReply={cannotReply} />
-            <div>
+
+            <ReplyDrafts
+              drafts={drafts}
+              cannotReply={cannotReply}
+              isSaving={isSaving}
+              // saveDraftHandler={saveDraftHandler}
+              replyToName={replyToName}
+              replyMessage={replyMessage}
+            />
+
+            {/* <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
@@ -489,7 +515,7 @@ const ReplyForm = props => {
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
               />
-            </div>
+            </div> */}
           </form>
         </section>
       </>

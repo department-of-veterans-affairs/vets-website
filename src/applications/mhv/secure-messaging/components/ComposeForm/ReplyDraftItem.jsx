@@ -1,9 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
   dateFormat,
   messageSignatureFormatter,
+  navigateToFolderByFolderId,
   setCaretToPos,
 } from '../../util/helpers';
 import AttachmentsList from '../AttachmentsList';
@@ -11,23 +14,71 @@ import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
+import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
+import useDebounce from '../../hooks/use-debounce';
+import { saveReplyDraft } from '../../actions/draftDetails';
+import RouteLeavingGuard from '../shared/RouteLeavingGuard';
+import { sendReply } from '../../actions/messages';
 
 const ReplyDraftItem = props => {
   const {
     draft,
     cannotReply,
     editMode,
+    isSaving,
     signature,
     draftsCount,
     draftsequence,
     replyMessage,
     replyToName,
-    saveDraftHandler,
     toggleEditHandler,
   } = props;
-  const [attachments, setAttachments] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const folderId = useSelector(state => state.sm.folders.folder?.folderId);
+
   const [userSaved] = useState(false);
-  //   const [userSaved, setUserSaved] = useState(false);
+  // const defaultRecipientsList = [{ id: 0, name: ' ' }];
+  const [
+    // newDraftId,
+    setNewDraftId,
+  ] = useState(draft ? draft.messageId : null);
+  const [
+    // editedDraft,
+    setEditedDraft,
+  ] = useState(null);
+  const replyToMessageId = replyMessage.messageId;
+  // const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
+  const [category, setCategory] = useState(null);
+  const [subject, setSubject] = useState('');
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [formPopulated, setFormPopulated] = useState(false);
+  const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [fieldsString, setFieldsString] = useState('');
+  const [
+    // bodyError,
+    setBodyError,
+  ] = useState('');
+  const [messageBody, setMessageBody] = useState('');
+  const [
+    // messageInvalid,
+    setMessageInvalid,
+  ] = useState(false);
+  const [attachments, setAttachments] = useState([]);
+  const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
+  const [navigationError, setNavigationError] = useState(null);
+  const [
+    // saveError,
+    setSaveError,
+  ] = useState(null);
+  const [
+    // lastFocusableElement,
+    setLastFocusableElement,
+  ] = useState(null);
+  const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
+  const [modalVisible, setModalVisible] = useState(false);
+
   const formattededSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
@@ -35,8 +86,291 @@ const ReplyDraftItem = props => {
     [signature],
   );
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (messageBody !== (draft ? draft.body : '')) {
+        e.returnValue = '';
+      }
+    },
+    [draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
+  const checkMessageValidity = useCallback(
+    () => {
+      let messageValid = true;
+      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+        messageValid = false;
+      }
+      setMessageInvalid(!messageValid);
+      return messageValid;
+    },
+    [messageBody],
+  );
+
+  const messageBodyHandler = e => {
+    setMessageBody(e.target.value);
+    if (e.target.value) setBodyError('');
+  };
+
+  if (!sendMessageFlag && !navigationError && attachments.length) {
+    setNavigationError({
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+      confirmButtonText: 'Continue editing',
+      cancelButtonText: 'OK',
+    });
+  }
+
+  // On Save
+  const saveDraftHandler = useCallback(
+    async (type, e) => {
+      if (type === 'manual') {
+        await setMessageInvalid(false);
+        if (checkMessageValidity()) {
+          setLastFocusableElement(e.target);
+          setNavigationError(null);
+        }
+        if (attachments.length) {
+          setSaveError(
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          );
+          setNavigationError(null);
+        }
+      }
+
+      const draftId = draft && draft.messageId;
+      const newFieldsString = JSON.stringify({
+        rec: selectedRecipient,
+        cat: category,
+        sub: subject,
+        bod: debouncedMessageBody || messageBody,
+      });
+
+      if (type === 'auto' && newFieldsString === fieldsString) {
+        return;
+      }
+
+      setFieldsString(newFieldsString);
+
+      const formData = {
+        recipientId: selectedRecipient,
+        category,
+        subject,
+        body: messageBody,
+      };
+
+      if (checkMessageValidity()) {
+        if (!draftId) {
+          dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+            newDraft => {
+              setEditedDraft(newDraft);
+              setNewDraftId(newDraft.messageId);
+            },
+          );
+        } else {
+          dispatch(
+            saveReplyDraft(replyMessage.messageId, formData, type, draftId),
+          );
+        }
+      }
+
+      if (!attachments.length) setNavigationError(null);
+    },
+    [
+      attachments.length,
+      category,
+      checkMessageValidity,
+      debouncedMessageBody,
+      dispatch,
+      draft,
+      fieldsString,
+      messageBody,
+      replyMessage.messageId,
+      selectedRecipient,
+      subject,
+    ],
+  );
+
+  // Before Save
+  useEffect(
+    () => {
+      const draftBody = draft && draft.body;
+      if (
+        messageBody === draftBody ||
+        (messageBody === '' && draftBody === null)
+      ) {
+        setNavigationError(null);
+      } else if (messageBody !== draftBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
+      }
+    },
+    [draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      if (replyMessage && !draft) {
+        setSelectedRecipient(replyMessage.senderId);
+        setSubject(replyMessage.subject);
+        setMessageBody('');
+        setCategory(replyMessage.category);
+      }
+      if (draft) {
+        setEditedDraft(draft);
+      }
+    },
+    [replyMessage, draft],
+  );
+
+  useEffect(
+    () => {
+      if (
+        editMode &&
+        debouncedMessageBody &&
+        isAutosave &&
+        !cannotReply &&
+        !modalVisible
+      ) {
+        saveDraftHandler('auto');
+      }
+    },
+    [
+      cannotReply,
+      debouncedMessageBody,
+      isAutosave,
+      modalVisible,
+      saveDraftHandler,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (sendMessageFlag && isSaving !== true) {
+        const messageData = {
+          category,
+          body: messageBody,
+          subject,
+        };
+        if (draft && replyToMessageId) {
+          messageData[`${'draft_id'}`] = replyToMessageId; // if replying to a thread that has a saved draft, set a draft_id field in a request body
+        }
+        messageData[`${'recipient_id'}`] = selectedRecipient;
+        setIsAutosave(false);
+
+        let sendData;
+
+        if (attachments.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+        } else {
+          sendData = JSON.stringify(messageData);
+        }
+
+        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+          .then(() => {
+            navigateToFolderByFolderId(
+              draft?.threadFolderId ? draft?.threadFolderId : folderId,
+              history,
+            );
+          })
+          .catch(() => {
+            setSendMessageFlag(false);
+            setIsAutosave(true);
+          });
+      }
+    },
+    [sendMessageFlag, isSaving],
+  );
+
+  const populateForm = () => {
+    // if (!recipientExists(draft.recipientId)) {
+    //   const newRecipient = {
+    //     id: draft.recipientId,
+    //     name: draft.recipientName,
+    //   };
+    //   setRecipientsList(prevRecipientsList => [
+    //     ...prevRecipientsList,
+    //     newRecipient,
+    //   ]);
+    // }
+    setSelectedRecipient(draft?.recipientId);
+    setCategory(draft.category);
+    setSubject(draft.subject);
+    setMessageBody(draft.body);
+    setFormPopulated(true);
+    setFieldsString(
+      JSON.stringify({
+        rec: draft.recipientId,
+        cat: draft.category,
+        sub: draft.subject,
+        bod: draft.body,
+      }),
+    );
+  };
+
+  useEffect(
+    () => {
+      if (draft && !formPopulated) {
+        populateForm();
+      }
+    },
+    [draft, formPopulated],
+  );
+
+  if (!sendMessageFlag && !navigationError && attachments.length) {
+    setNavigationError({
+      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+      confirmButtonText: 'Continue editing',
+      cancelButtonText: 'OK',
+    });
+  }
+
   return (
     <>
+      {/* {saveError && (
+        <VaModal
+          modalTitle={saveError.title}
+          onPrimaryButtonClick={() => setSaveError(null)}
+          onCloseEvent={() => setSaveError(null)}
+          primaryButtonText="Continue editing"
+          status="warning"
+          visible
+        >
+          <p>{saveError.p1}</p>
+          {saveError.p2 && <p>{saveError.p2}</p>}
+        </VaModal>
+      )} */}
+      <RouteLeavingGuard
+        when={!!navigationError}
+        modalVisible={modalVisible}
+        updateModalVisible={setModalVisible}
+        navigate={path => {
+          history.push(path);
+        }}
+        shouldBlockNavigation={() => {
+          return !!navigationError;
+        }}
+        title={navigationError?.title}
+        p1={navigationError?.p1}
+        p2={navigationError?.p2}
+        confirmButtonText={navigationError?.confirmButtonText}
+        cancelButtonText={navigationError?.cancelButtonText}
+      />
       <HorizontalRule />
       {draftsCount > 1 && (
         <>
@@ -68,7 +402,7 @@ const ReplyDraftItem = props => {
               className="vads-u-margin-top--1 old-reply-message-body"
             >
               <h3 className="sr-only">Message body.</h3>
-              <MessageThreadBody text={draft.messageBody} />
+              <MessageThreadBody text={draft.body} />
             </section>
           ) : (
             <va-textarea
@@ -79,8 +413,8 @@ const ReplyDraftItem = props => {
               name="reply-message-body"
               className="message-body"
               data-testid="message-body-field"
-              // onInput={messageBodyHandler}
-              value={draft?.messageBody || formattededSignature} // populate with the signature, unless there is a saved draft
+              onInput={messageBodyHandler}
+              value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
               // error={bodyError}
               onFocus={e => {
                 setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
@@ -93,7 +427,7 @@ const ReplyDraftItem = props => {
               <AttachmentsList
                 attachments={attachments}
                 setAttachments={setAttachments}
-                // setNavigationError={setNavigationError}
+                setNavigationError={setNavigationError}
                 editingEnabled
               />
 
@@ -109,13 +443,13 @@ const ReplyDraftItem = props => {
             // onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
-            // setNavigationError={setNavigationError}
+            setNavigationError={setNavigationError}
             cannotReply={cannotReply}
           />
         </>
       ) : (
         <>
-          <p className="vads-u-margin-top--2">{draft.messageBody}</p>
+          <p className="vads-u-margin-top--2">{draft.body}</p>
           <va-button
             secondary
             text="Edit draft"
@@ -137,7 +471,6 @@ ReplyDraftItem.propTypes = {
   editMode: PropTypes.bool,
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
-  saveDraftHandler: PropTypes.func,
   signature: PropTypes.object,
   toggleEditHandler: PropTypes.func,
 };

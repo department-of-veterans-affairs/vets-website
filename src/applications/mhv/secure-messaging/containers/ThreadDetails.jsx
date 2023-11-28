@@ -129,7 +129,8 @@ const ThreadDetails = props => {
       return (
         <div className="compose-container">
           <ReplyForm
-            draftToEdit={drafts[0]}
+            // draftToEdit={drafts[0]}
+            drafts={drafts}
             replyMessage={messages[0]}
             cannotReply={cannotReply}
             header={header}

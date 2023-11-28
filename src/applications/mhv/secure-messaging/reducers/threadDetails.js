@@ -27,6 +27,23 @@ export const threadDetailsReducer = (state = initialState, action) => {
         messages: updateMessageInThread(state.messages, action.response),
       };
     }
+    case Actions.Thread.UPDATE_DRAFT_IN_THREAD: {
+      return {
+        ...state,
+        drafts: state.drafts.map(d => {
+          if (d.messageId === action.payload.messageId) {
+            return { ...d, ...action.payload };
+          }
+          return d;
+        }),
+      };
+    }
+    case Actions.Thread.DRAFT_SAVE_STARTED:
+      return {
+        ...state,
+        isSaving: true,
+        saveError: null,
+      };
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };
     }

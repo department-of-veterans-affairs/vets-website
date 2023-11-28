@@ -101,7 +101,21 @@ export const retrieveMessageThread = (
         response.data[0].attributes.folderId;
 
       if (drafts?.length) {
-        drafts[0].atributes = { ...msgResponse.data.attributes };
+        // drafts[0].attributes = { ...msgResponse.data.attributes };
+        drafts.map(m => {
+          if (
+            m.attributes.messageId === msgResponse.data.attributes.messageId
+          ) {
+            return { ...m, ...msgResponse.data.attributes };
+          }
+          return m;
+        });
+        drafts.sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+
+          return dateA - dateB;
+        });
       }
 
       dispatch({

@@ -44,8 +44,7 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
     'secure-messaging-save-draft': type,
     'secure-messaging-save-draft-id': id,
   });
-  if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
-  else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+  dispatch({ type: Actions.Thread.DRAFT_SAVE_STARTED });
 
   const response = await sendSaveDraft(messageData, id);
   if (response.data) {
@@ -87,8 +86,7 @@ export const saveReplyDraft = (
     'secure-messaging-save-draft-id': id,
   });
 
-  if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
-  else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+  dispatch({ type: Actions.Thread.DRAFT_SAVE_STARTED });
 
   const response = await sendReplyDraft(replyToId, messageData, id);
   if (response.data) {
@@ -102,6 +100,10 @@ export const saveReplyDraft = (
     dispatch({
       type: Actions.Draft.UPDATE_SUCCEEDED,
       response: messageData,
+    });
+    dispatch({
+      type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
+      payload: { messageId: id, ...messageData },
     });
   }
   if (response.errors) {
