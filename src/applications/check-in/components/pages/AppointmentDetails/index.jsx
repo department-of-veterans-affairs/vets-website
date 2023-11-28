@@ -30,10 +30,11 @@ const AppointmentDetails = props => {
   const { t } = useTranslation();
   const { goToPreviousPage, jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const { appointments } = useSelector(selectVeteranData);
+  const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const [appointment, setAppointment] = useState({});
+  const [isUpcoming, setIsUpcoming] = useState(false);
 
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
@@ -54,11 +55,20 @@ const AppointmentDetails = props => {
           setAppointment(activeAppointmentDetails);
           return;
         }
+        const activeUpcomingAppointmentDetails = findAppointment(
+          appointmentId,
+          upcomingAppointments,
+        );
+        if (activeUpcomingAppointmentDetails) {
+          setIsUpcoming(true);
+          setAppointment(activeUpcomingAppointmentDetails);
+          return;
+        }
       }
-      // Go back to complete page if no activeAppointment or not in list.
-      jumpToPage('complete');
+      // Go back to appointments page if no activeAppointment or not in list.
+      jumpToPage('appointments');
     },
-    [appointmentId, appointments, jumpToPage],
+    [appointmentId, appointments, upcomingAppointments, jumpToPage],
   );
 
   const handlePhoneNumberClick = () => {
@@ -121,12 +131,16 @@ const AppointmentDetails = props => {
                     : t('in-person-appointment')
                 }`}
               </h1>
-              {app === APP_NAMES.PRE_CHECK_IN ? (
-                preCheckInSubTitle
-              ) : (
-                <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
-                  <AppointmentMessage appointment={appointment} />
-                </div>
+              {!isUpcoming && (
+                <>
+                  {app === APP_NAMES.PRE_CHECK_IN ? (
+                    preCheckInSubTitle
+                  ) : (
+                    <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
+                      <AppointmentMessage appointment={appointment} />
+                    </div>
+                  )}
+                </>
               )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
@@ -195,15 +209,16 @@ const AppointmentDetails = props => {
                   </div>
                 </div>
               )}
-              {app === APP_NAMES.CHECK_IN && (
-                <div className="vads-u-margin-top--2">
-                  <AppointmentAction
-                    appointment={appointment}
-                    router={router}
-                    event="check-in-clicked-VAOS-design"
-                  />
-                </div>
-              )}
+              {app === APP_NAMES.CHECK_IN &&
+                !isUpcoming && (
+                  <div className="vads-u-margin-top--2">
+                    <AppointmentAction
+                      appointment={appointment}
+                      router={router}
+                      event="check-in-clicked-VAOS-design"
+                    />
+                  </div>
+                )}
             </div>
           </Wrapper>
         </>
