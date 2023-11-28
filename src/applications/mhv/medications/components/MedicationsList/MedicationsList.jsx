@@ -5,7 +5,10 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
-import { rxListSortingOptions } from '../../util/constants';
+import {
+  rxListSortingOptions,
+  BREADCRUMB_NAVIGATION_EVENT,
+} from '../../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
@@ -32,10 +35,15 @@ const MedicationsList = props => {
 
   useEffect(
     () => {
-      const listener = window.addEventListener('nav-from-breadcrumb', () => {
-        if (scrollPositionY) window.scrollTo(0, parseInt(scrollPositionY, 10));
-      });
-      return () => window.removeEventListener('nav-from-breadcrumb', listener);
+      const listener = window.addEventListener(
+        BREADCRUMB_NAVIGATION_EVENT,
+        () => {
+          if (scrollPositionY)
+            window.scrollTo(0, parseInt(scrollPositionY, 10));
+        },
+      );
+      return () =>
+        window.removeEventListener(BREADCRUMB_NAVIGATION_EVENT, listener);
     },
     [scrollPositionY],
   );

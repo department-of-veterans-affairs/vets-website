@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { Link } from 'react-router-dom';
-import { medicationsUrls } from '../util/constants';
+import {
+  medicationsUrls,
+  BREADCRUMB_NAVIGATION_EVENT,
+} from '../util/constants';
 
 const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1 
 small-screen:vads-u-margin-left--neg1 
@@ -11,18 +14,18 @@ medium-screen:vads-u-margin-left--neg2
 small-desktop-screen:vads-u-margin-left--neg2
 large-screen:vads-u-margin-left--0 `;
 
+const getLinkUrl = crumb => {
+  return crumb.url === medicationsUrls.MEDICATIONS_URL
+    ? medicationsUrls.MEDICATIONS_URL
+    : crumb.url.replace(medicationsUrls.MEDICATIONS_URL, '');
+};
+
 const RxBreadcrumbs = () => {
   const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const currentPath = useSelector(state => state.rx.breadcrumbs.location);
   const allCrumbs = [...crumbs, currentPath];
-  const getLinkUrl = crumb => {
-    return crumb.url === medicationsUrls.MEDICATIONS_URL
-      ? medicationsUrls.MEDICATIONS_URL
-      : crumb.url.replace(medicationsUrls.MEDICATIONS_URL, '');
-  };
   const handleLinkClick = () => {
-    const event = new CustomEvent('nav-from-breadcrumb');
-    window.dispatchEvent(event);
+    window.dispatchEvent(new CustomEvent(BREADCRUMB_NAVIGATION_EVENT));
   };
   return (
     <>
@@ -35,8 +38,7 @@ const RxBreadcrumbs = () => {
             >
               {allCrumbs.map((crumb, idx) => (
                 <li key={idx}>
-                  {/* Assign <a> tag only when navigating outside of our app's router */}
-                  {crumb.url === medicationsUrls.MEDICATIONS_ABOUT ? (
+                  {crumb.url === medicationsUrls.MEDICATIONS_ABOUT ? ( // Assign <a> tag for link outside app's router
                     <a href={crumb.url}>{crumb.label}</a>
                   ) : (
                     <Link onClick={handleLinkClick} to={getLinkUrl(crumb)}>

@@ -20,6 +20,8 @@ export const medicationsUrls = {
   MEDICATIONS_ABOUT: '/my-health/about-medications',
 };
 
+export const BREADCRUMB_NAVIGATION_EVENT = 'mhv-rx-nav-from-breadcrumb';
+
 export const dispStatusForRefillsLeft = [
   'Active',
   'Active: Parked',
