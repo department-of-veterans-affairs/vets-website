@@ -38,10 +38,6 @@ describe('Start a new message With Attacments and Errors', () => {
     composePage.sendMessage();
 
     composePage.verifySendMessageConfirmationMessageText();
-
-    cy.get('.va-alert').should(
-      'contain',
-      'Secure message was successfully sent.',
-    );
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

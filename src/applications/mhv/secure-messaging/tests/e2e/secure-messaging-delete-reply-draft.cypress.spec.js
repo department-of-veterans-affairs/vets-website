@@ -39,7 +39,7 @@ describe('Secure Messaging Delete Reply Draft', () => {
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteDraft(messageDetails);
     draftsPage.verifyDeleteConfirmationMessage();
-    cy.get('.va-alert').should('contain', 'Draft was successfully deleted.');
+    draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -68,10 +68,8 @@ describe('Secure Messaging Reply', () => {
       messageDetails.data.attributes.subject,
       `\n\n\nName\nTitleTest${testMessageBody}`,
     );
-    cy.get('.va-alert').should(
-      'contain',
-      'Secure message was successfully sent.',
-    );
+    PatientReplyPage.verifySendMessageConfirmationMessageText();
+    PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

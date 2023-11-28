@@ -403,6 +403,10 @@ class PatientMessageDraftsPage {
     cy.wait('@draftFolder');
     cy.wait('@draftFolderMessages');
   };
+
+  verifyDraftMessageBannerTextHasFocus = () => {
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  };
 }
 
 export default PatientMessageDraftsPage;

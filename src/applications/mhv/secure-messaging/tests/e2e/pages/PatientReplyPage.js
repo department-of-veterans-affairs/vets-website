@@ -115,6 +115,10 @@ class PatientReplyPage {
     );
   };
 
+  verifySendMessageConfirmationMessageHasFocus = () => {
+    cy.focused().should('contain.text', 'Secure message was successfully sent');
+  };
+
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {

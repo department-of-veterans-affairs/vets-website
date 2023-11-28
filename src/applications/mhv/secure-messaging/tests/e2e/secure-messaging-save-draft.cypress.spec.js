@@ -47,9 +47,7 @@ describe('Secure Messaging Save Draft', () => {
     };
     composePage.saveDraft(mockDraftResponseUpdated);
     composePage.sendDraft(mockDraftResponseUpdated);
-    cy.get('.va-alert').should(
-      'contain',
-      'Secure message was successfully sent.',
-    );
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

@@ -33,9 +33,6 @@ describe('Secure Messaging Reply', () => {
     });
     PatientReplyPage.sendReplyMessageDetails(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
-    cy.get('.va-alert').should(
-      'contain',
-      'Secure message was successfully sent.',
-    );
+    PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
   });
 });
