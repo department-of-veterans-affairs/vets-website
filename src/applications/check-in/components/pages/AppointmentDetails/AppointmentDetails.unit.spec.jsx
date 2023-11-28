@@ -12,6 +12,23 @@ import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 
 describe('check-in experience', () => {
   describe('shared components', () => {
+    const upcomingAppointments = [...multipleAppointments];
+    upcomingAppointments[0] = {
+      ...upcomingAppointments[0],
+      kind: 'clinic',
+      appointmentIen: 2222,
+      doctorName: 'test doc',
+      stationNo: '0001',
+      clinicIen: '0001',
+    };
+    upcomingAppointments[1] = {
+      ...upcomingAppointments[1],
+      kind: 'clinic',
+      appointmentIen: 9999,
+      doctorName: 'test doc',
+      stationNo: '9999',
+      clinicIen: '9999',
+    };
     const initAppointments = [...multipleAppointments, ...singleAppointment];
     const now = format(new Date(), "yyyy-LL-dd'T'HH:mm:ss");
     initAppointments[0] = {
@@ -68,6 +85,7 @@ describe('check-in experience', () => {
     const dayOfCheckInStore = {
       app: 'dayOf',
       appointments: initAppointments,
+      upcomingAppointments,
     };
     const appointmentOneRoute = {
       currentPage: '/appointment',
@@ -91,6 +109,18 @@ describe('check-in experience', () => {
       currentPage: '/appointment',
       params: {
         appointmentId: '4444-0001',
+      },
+    };
+    const upcomingAppointmentOneRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '2222-0001',
+      },
+    };
+    const upcomingAppointmentTwoRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '9999-9999',
       },
     };
     describe('AppointmentDetails', () => {
@@ -288,6 +318,32 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(getByTestId('appointment-action-message')).to.exist;
+          expect(queryByTestId('check-in-button')).to.not.exist;
+        });
+      });
+      describe('Upcoming appointment', () => {
+        it('Renders the check-in button and message for appointment in both arrays', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={dayOfCheckInStore}
+              router={upcomingAppointmentOneRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('appointment-action-message')).to.exist;
+          expect(getByTestId('check-in-button')).to.exist;
+        });
+        it('Does not show the check-in button and message for appointment only in upcoming', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={dayOfCheckInStore}
+              router={upcomingAppointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('appointment-action-message')).to.not.exist;
           expect(queryByTestId('check-in-button')).to.not.exist;
         });
       });
