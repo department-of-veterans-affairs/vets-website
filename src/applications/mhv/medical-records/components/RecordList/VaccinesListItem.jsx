@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
-import ItemList from '../shared/ItemList';
+// import ItemList from '../shared/ItemList';
 
 const VaccinesListItem = props => {
   const { record } = props;
