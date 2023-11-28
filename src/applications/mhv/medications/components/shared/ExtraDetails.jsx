@@ -7,6 +7,12 @@ import CallPharmacyPhone from './CallPharmacyPhone';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
+const getRefillDate = rx => {
+  if (new Date(rx.refillDate) > new Date()) {
+    return dateFormat(rx.refillDate, 'MMMM D, YYYY');
+  }
+  return dateFormat(rx.dispensedDate ?? rx.refillDate, 'MMMM D, YYYY');
+};
 const ExtraDetails = rx => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
@@ -31,8 +37,7 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
           <p data-testid="rx-refillinprocess-info">
-            Refill in process. We expect to fill it on{' '}
-            {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            Refill in process. We expect to fill it on {getRefillDate(rx)}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
