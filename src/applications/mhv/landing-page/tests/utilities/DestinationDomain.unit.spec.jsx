@@ -10,23 +10,23 @@ describe('getDestinationDomain', () => {
     };
   });
 
-  it('returns va.gov for URLs containing va.gov', () => {
-    const url = 'https://www.example.va.gov/page';
-    expect(getDestinationDomain(url)).to.equal('va.gov');
+  it('returns the hostname for a full URL', () => {
+    const url = 'https://www.example.com/page';
+    expect(getDestinationDomain(url)).to.equal('www.example.com');
   });
 
-  it('returns mhvnp for URLs containing mhvnp', () => {
-    const url = 'https://www.example.mhvnp.com/page';
-    expect(getDestinationDomain(url)).to.equal('mhvnp');
-  });
-
-  it('returns hostname for URLs not containing va.gov or mhvnp', () => {
-    const url = 'https://www.othersite.com';
-    expect(getDestinationDomain(url)).to.equal('www.othersite.com');
+  it('returns the hostname for a URL with a different domain', () => {
+    const url = 'https://www.anotherdomain.com/page';
+    expect(getDestinationDomain(url)).to.equal('www.anotherdomain.com');
   });
 
   it('resolves relative URLs based on document.location.href', () => {
     const relativeUrl = '/local/page';
     expect(getDestinationDomain(relativeUrl)).to.equal('www.currentsite.com');
+  });
+
+  it('returns an empty string for invalid URLs', () => {
+    const invalidUrl = 'invalid-url';
+    expect(getDestinationDomain(invalidUrl)).to.equal('');
   });
 });
