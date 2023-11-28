@@ -135,9 +135,7 @@ const AppointmentDetails = props => {
                     : t('in-person-appointment')
                 }`}
               </h1>
-              {isUpcoming ? (
-                ''
-              ) : (
+              {!isUpcoming && (
                 <>
                   {app === APP_NAMES.PRE_CHECK_IN ? (
                     preCheckInSubTitle
