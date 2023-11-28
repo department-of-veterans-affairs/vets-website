@@ -28,7 +28,6 @@ const MedicationsList = props => {
     },
     [prescriptionId],
   );
-
   const displaynumberOfPrescriptionsSelector =
     "[data-testid='page-total-info']";
 
