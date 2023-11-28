@@ -88,7 +88,6 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
-      window.scrollTo(0, 0);
       setLoading(true);
       if (!page) history.replace('/1');
       dispatch(
