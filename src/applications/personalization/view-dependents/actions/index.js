@@ -1,12 +1,14 @@
-import recordEvent from 'platform/monitoring/record-event';
-import { getData } from '../util';
+import recordEvent from '~/platform/monitoring/record-event';
+import { fetchDataAttrsFromApi } from '~/platform/user/profile/utilities';
 
 export const FETCH_ALL_DEPENDENTS_SUCCESS = 'FETCH_ALL_DEPENDENTS_SUCCESS';
 export const FETCH_ALL_DEPENDENTS_FAILED = 'FETCH_ALL_DEPENDENTS_FAILED';
 
 export function fetchAllDependents() {
   return async dispatch => {
-    const response = await getData('/dependents_applications/show');
+    const response = await fetchDataAttrsFromApi(
+      '/dependents_applications/show',
+    );
 
     if (response.errors) {
       recordEvent({

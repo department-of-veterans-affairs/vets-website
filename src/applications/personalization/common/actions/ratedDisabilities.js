@@ -1,16 +1,7 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import { isClientError, isServerError } from '../helpers';
-
-async function getData(apiRoute, options) {
-  try {
-    const response = await apiRequest(apiRoute, options);
-    return response.data.attributes;
-  } catch (error) {
-    return error;
-  }
-}
+import { fetchDataAttrsFromApi } from '~/platform/user/profile/utilities';
 
 function getResponseError(response) {
   if (response.errors?.length) {
@@ -40,7 +31,9 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
     dispatch({
       type: FETCH_TOTAL_RATING_STARTED,
     });
-    const response = await getData('/disability_compensation_form/rating_info');
+    const response = await fetchDataAttrsFromApi(
+      '/disability_compensation_form/rating_info',
+    );
     const source = response?.sourceSystem;
     const sourceString = source ? ` - ${source}` : '';
     const apiName = `GET disability rating${sourceString}`;

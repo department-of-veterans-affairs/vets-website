@@ -2,103 +2,56 @@ import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 import capitalize from 'lodash/capitalize';
 import recordAnalyticsEvent from '~/platform/monitoring/record-event';
-import { API_STATUS } from '../constants';
 
-export class DirectDepositClient {
-  #PPIU_ENDPOINT = '/ppiu/payment_information';
+export const LH_CNP_ENDPOINT =
+  '/profile/direct_deposits/disability_compensations';
 
-  #LH_ENDPOINT = '/profile/direct_deposits/disability_compensations';
+// generates the options object for the fetch call
+// since the api is expecting a different format for the request body
+// than what the data from the form fields looks like
+export const generateApiRequestOptions = fields => {
+  return {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify({
+      accountType: fields.accountType,
+      accountNumber: fields.accountNumber,
+      routingNumber: fields.financialInstitutionRoutingNumber,
+    }),
+    mode: 'cors',
+  };
+};
 
-  constructor({
-    useLighthouseDirectDepositEndpoint = false,
-    recordEvent = recordAnalyticsEvent,
-  } = {}) {
-    this.useLighthouseEndpoint = useLighthouseDirectDepositEndpoint;
-    this.recordAnalyticsEvent = recordEvent;
-  }
+// formats the response in a way that is consistent with the legacy PPIU endpoint
+// and also is consistent with the way the data is used in the form UI fields
+export const formatDirectDepositResponse = response => {
+  const result = cloneDeep(response);
 
-  get endpoint() {
-    return this.useLighthouseEndpoint ? this.#LH_ENDPOINT : this.#PPIU_ENDPOINT;
-  }
+  set(result, 'paymentAccount', {
+    financialInstitutionName: result?.paymentAccount?.name,
+    financialInstitutionRoutingNumber: response?.paymentAccount?.routingNumber,
+    accountNumber: response?.paymentAccount?.accountNumber,
+    accountType: capitalize(response?.paymentAccount?.accountType) || undefined,
+  });
 
-  formatDirectDepositResponseFromLighthouse = response => {
-    const result = cloneDeep(response);
+  return result;
+};
 
-    set(result, 'paymentAccount', {
-      financialInstitutionName: result?.paymentAccount?.name,
-      financialInstitutionRoutingNumber:
-        response?.paymentAccount?.routingNumber,
-      accountNumber: response?.paymentAccount?.accountNumber,
-      accountType:
-        capitalize(response?.paymentAccount?.accountType) || undefined,
-    });
-
-    return result;
+export const recordCNPEvent = (
+  { status, method, extraProperties = {} },
+  recordEvent = recordAnalyticsEvent,
+) => {
+  // only add the error-key property if it exists on extraProperties
+  const payload = {
+    event: 'api_call',
+    'api-name': `${method} ${LH_CNP_ENDPOINT}`,
+    'api-status': status,
+    ...(extraProperties?.['error-key'] && {
+      'error-key': extraProperties['error-key'],
+    }),
   };
 
-  generateApiRequestOptions(fields) {
-    // The PPIU endpoint REQUIRES a financialInstitutionName field, but the
-    // Lighthouse endpoint does not. We set a dummy value here
-    // to avoid 500 errors from vets-api
-    set(fields, 'financialInstitutionName', 'Hidden form field');
-
-    const options = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'PUT',
-      body: JSON.stringify(fields),
-      mode: 'cors',
-    };
-
-    if (this.useLighthouseEndpoint) {
-      options.body = JSON.stringify({
-        accountType: fields.accountType,
-        accountNumber: fields.accountNumber,
-        routingNumber: fields.financialInstitutionRoutingNumber,
-      });
-    }
-
-    return options;
-  }
-
-  recordLighthouseEvent({ method, status, errorKey = '' }) {
-    const payload = {
-      event: 'api_call',
-      'api-name': `${method} ${this.endpoint}`,
-      'api-status': status,
-    };
-
-    if (errorKey) {
-      payload['error-key'] = errorKey;
-    }
-
-    this.recordAnalyticsEvent(payload);
-  }
-
-  recordPPIUEvent({ status, method, extraProperties }) {
-    const result =
-      status === API_STATUS.SUCCESSFUL && method === 'GET'
-        ? 'retrieved'
-        : status.toLowerCase();
-
-    const payload = {
-      event: `profile-${method.toLowerCase()}-cnp-direct-deposit-${result}`,
-      ...extraProperties,
-    };
-
-    this.recordAnalyticsEvent(payload);
-  }
-
-  recordCNPEvent({ status, method = 'GET', extraProperties = {} }) {
-    if (this.useLighthouseEndpoint) {
-      this.recordLighthouseEvent({
-        method,
-        status,
-        errorKey: extraProperties?.['error-key'],
-      });
-      return;
-    }
-    this.recordPPIUEvent({ status, method, extraProperties });
-  }
-}
+  recordEvent(payload);
+};

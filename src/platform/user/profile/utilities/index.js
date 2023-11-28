@@ -1,9 +1,9 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import localStorage from 'platform/utilities/storage/localStorage';
-import { apiRequest } from 'platform/utilities/api';
-import { ssoKeepAliveSession } from 'platform/utilities/sso';
-import { removeInfoToken } from 'platform/utilities/oauth/utilities';
+import { apiRequest } from '../../../utilities/api';
+import { ssoKeepAliveSession } from '../../../utilities/sso';
+import { removeInfoToken } from '../../../utilities/oauth/utilities';
+import localStorage from '../../../utilities/storage/localStorage';
 import {
   setSentryLoginType,
   clearSentryLoginType,
@@ -161,7 +161,16 @@ export function teardownProfileSession() {
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 
-export async function getData(apiRoute, options) {
+/**
+ * Fetch data from an API endpoint and return in a standard way since most endpoints will
+ * respond with `data.attributes` when successful and `data.errors` when errors are returned from the API
+ * thrown errors from apiRequest will be caught and returned as well
+ *
+ * @param {string} apiRoute - The API route to fetch data from - e.g. '/profile/full_name'
+ * @param {Object=} options - [Options for the API request](https://developer.mozilla.org/en-US/docs/Web/API/fetch#options)
+ * @returns {(Object|Error)} api data attributes or error
+ */
+export async function fetchDataAttrsFromApi(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);
     return response.data.attributes;

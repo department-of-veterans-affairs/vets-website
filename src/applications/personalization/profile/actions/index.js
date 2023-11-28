@@ -1,6 +1,6 @@
 import recordEvent from '~/platform/monitoring/record-event';
-import { getData } from '../util';
 import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
+import { fetchDataAttrsFromApi } from '~/platform/user/profile/utilities';
 
 export * from './personalInformation';
 export { fetchProfileContacts } from './contacts';
@@ -39,7 +39,7 @@ const captureMilitaryInfoErrorResponse = ({ error, apiEventName }) => {
 export function fetchHero() {
   return async dispatch => {
     dispatch({ type: FETCH_HERO });
-    const response = await getData('/profile/full_name');
+    const response = await fetchDataAttrsFromApi('/profile/full_name');
 
     if (response.errors || response.error) {
       dispatch({ type: FETCH_HERO_FAILED, hero: { errors: response } });
@@ -66,7 +66,7 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
         }),
       );
 
-      const response = await getData(baseUrl);
+      const response = await fetchDataAttrsFromApi(baseUrl);
 
       if (response.errors || response.error) {
         const error = response.error || response.errors;

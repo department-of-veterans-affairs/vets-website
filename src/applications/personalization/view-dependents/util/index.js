@@ -1,20 +1,10 @@
-import { apiRequest } from 'platform/utilities/api';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 
 export const PAGE_TITLE = 'Your VA dependents';
 export const TITLE_SUFFIX = ' | Veteran Affairs';
-
-export async function getData(apiRoute, options) {
-  try {
-    const response = await apiRequest(apiRoute, options);
-    return response.data.attributes;
-  } catch (error) {
-    return error;
-  }
-}
 
 export function splitPersons(persons) {
   const dependentsOnAward = [];

@@ -66,6 +66,12 @@ const isEligible = _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
   routingNumber: null,
 });
 
+const isNotEligible = _.set(
+  _.cloneDeep(isEligible),
+  'data.attributes.controlInformation.canUpdateDirectDeposit',
+  false,
+);
+
 // used as the base for other errors via createError
 const unspecifiedError = {
   errors: [
@@ -139,6 +145,7 @@ module.exports = {
   isFiduciary,
   isNotCompetent,
   isEligible,
+  isNotEligible,
   updates: {
     success: _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
       name: 'TEST UPDATE SUCCESS - DISABILITY COMPENSATIONS',

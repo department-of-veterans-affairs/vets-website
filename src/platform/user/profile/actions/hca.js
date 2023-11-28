@@ -2,7 +2,11 @@ import appendQuery from 'append-query';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
-import { getData, isServerError, isClientError } from '../utilities';
+import {
+  fetchDataAttrsFromApi,
+  isServerError,
+  isClientError,
+} from '../utilities';
 import {
   DISABILITY_PREFIX,
   DISABILITY_RATING_ACTIONS,
@@ -262,7 +266,9 @@ export function fetchTotalDisabilityRating() {
   } = DISABILITY_RATING_ACTIONS;
   return async dispatch => {
     dispatch({ type: FETCH_TOTAL_RATING_STARTED });
-    const response = await getData('/health_care_applications/rating_info');
+    const response = await fetchDataAttrsFromApi(
+      '/health_care_applications/rating_info',
+    );
     const error = getResponseError(response);
 
     if (error) {

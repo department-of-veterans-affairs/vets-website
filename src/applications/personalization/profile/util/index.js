@@ -1,6 +1,5 @@
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import cloneDeep from 'lodash/cloneDeep';
-import { apiRequest } from '~/platform/utilities/api';
 
 export * from './analytics';
 
@@ -24,69 +23,7 @@ export const LIGHTHOUSE_ERROR_KEYS = {
 
 const OTHER_ERROR_GA_KEY = 'other-error';
 
-// possible values for the `key` property on error messages we get from the server
-// these are for the ppiu/payment_information endpoint
-// along with the GA event key for the corresponding error
-export const PPIU_ERROR_MAP = {
-  ACCOUNT_FLAGGED_FOR_FRAUD: {
-    RESPONSE_KEY: 'cnp.payment.flashes.on.record.message',
-    GA_KEY: 'account-flagged-for-fraud-error',
-  },
-  GENERIC_ERROR: {
-    RESPONSE_KEY: 'cnp.payment.generic.error.message',
-    GA_KEY: OTHER_ERROR_GA_KEY,
-  },
-  INVALID_ROUTING_NUMBER: {
-    RESPONSE_KEY: 'payment.accountRoutingNumber.invalidCheckSum',
-    GA_KEY: 'invalid-routing-number-error',
-  },
-  PAYMENT_RESTRICTIONS_PRESENT: {
-    RESPONSE_KEY: 'payment.restriction.indicators.present',
-    GA_KEY: 'payment-restriction-indicators-error',
-  },
-  ROUTING_NUMBER_FLAGGED_FOR_FRAUD: {
-    RESPONSE_KEY: 'cnp.payment.routing.number.fraud.message',
-    GA_KEY: 'routing-number-flagged-for-fraud-error',
-  },
-  BAD_ADDRESS: {
-    GA_KEY: 'mailing-address-error',
-  },
-  BAD_HOME_PHONE: {
-    GA_KEY: 'home-phone-error',
-  },
-  BAD_WORK_PHONE: {
-    GA_KEY: 'work-phone-error',
-  },
-};
-
-export async function getData(apiRoute, options) {
-  try {
-    const response = await apiRequest(apiRoute, options);
-    return response.data.attributes;
-  } catch (error) {
-    return { error };
-  }
-}
-
-// used for legacy, remove once moved to lighthouse endpoint
-const hasPPIUErrorText = (errors, errorKey, errorText) => {
-  return errors.some(err =>
-    err.meta?.messages?.some(
-      message =>
-        message.key === errorKey &&
-        message.text?.toLowerCase().includes(errorText.toLowerCase()),
-    ),
-  );
-};
-
-// used for legacy, remove once moved to lighthouse endpoint
-const hasPPIUErrorKey = (errors, errorKey) => {
-  return errors.some(err =>
-    err.meta?.messages?.some(message => message.key === errorKey),
-  );
-};
-
-const hasLighthouseErrorText = (errors, errorKey, errorText) => {
+const hasErrorText = (errors, errorKey, errorText) => {
   return errors.some(
     err =>
       err?.code === errorKey &&
@@ -94,20 +31,15 @@ const hasLighthouseErrorText = (errors, errorKey, errorText) => {
   );
 };
 
-const hasLighthouseErrorKey = (errors, errorKey) => {
+const hasErrorKey = (errors, errorKey) => {
   return errors.some(err => err?.code === errorKey);
 };
 
 const hasErrorMessage = (errors, errorKey, errorText) => {
   if (errorText) {
-    return (
-      hasPPIUErrorText(errors, errorKey, errorText) ||
-      hasLighthouseErrorText(errors, errorKey, errorText)
-    );
+    return hasErrorText(errors, errorKey, errorText);
   }
-  return (
-    hasPPIUErrorKey(errors, errorKey) || hasLighthouseErrorKey(errors, errorKey)
-  );
+  return hasErrorKey(errors, errorKey);
 };
 
 export const hasErrorCombos = ({
@@ -128,26 +60,19 @@ export const hasErrorCombos = ({
 export const hasAccountFlaggedError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [
-      PPIU_ERROR_MAP.ACCOUNT_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
-      LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD,
-    ],
+    errorKeys: [LIGHTHOUSE_ERROR_KEYS.ACCOUNT_FLAGGED_FOR_FRAUD],
   });
 
 export const hasRoutingNumberFlaggedError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [
-      PPIU_ERROR_MAP.ROUTING_NUMBER_FLAGGED_FOR_FRAUD.RESPONSE_KEY,
-      LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD,
-    ],
+    errorKeys: [LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_FLAGGED_FOR_FRAUD],
   });
 
 export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      PPIU_ERROR_MAP.INVALID_ROUTING_NUMBER.RESPONSE_KEY,
       LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID_CHECKSUM,
       LIGHTHOUSE_ERROR_KEYS.ROUTING_NUMBER_INVALID,
     ],
@@ -155,7 +80,6 @@ export const hasInvalidRoutingNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -166,7 +90,6 @@ export const hasInvalidAddressError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -177,7 +100,6 @@ export const hasInvalidHomePhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -195,7 +117,6 @@ export const hasInvalidWorkPhoneNumberError = errors =>
   hasErrorCombos({
     errors,
     errorKeys: [
-      PPIU_ERROR_MAP.GENERIC_ERROR.RESPONSE_KEY,
       LIGHTHOUSE_ERROR_KEYS.UNSPECIFIED_ERROR,
       LIGHTHOUSE_ERROR_KEYS.GENERIC_ERROR,
     ],
@@ -212,10 +133,7 @@ export const hasInvalidWorkPhoneNumberError = errors =>
 export const hasPaymentRestrictionIndicatorsError = errors =>
   hasErrorCombos({
     errors,
-    errorKeys: [
-      PPIU_ERROR_MAP.PAYMENT_RESTRICTIONS_PRESENT.RESPONSE_KEY,
-      LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT,
-    ],
+    errorKeys: [LIGHTHOUSE_ERROR_KEYS.PAYMENT_RESTRICTIONS_PRESENT],
   });
 
 export const cnpDirectDepositBankInfo = apiData => {
@@ -226,17 +144,8 @@ export const eduDirectDepositAccountNumber = apiData => {
   return apiData?.accountNumber;
 };
 
-const cnpDirectDepositAddressInfo = apiData => {
-  return apiData?.paymentAddress;
-};
-
 export const isEligibleForCNPDirectDeposit = apiData => {
-  const addressData = cnpDirectDepositAddressInfo(apiData) ?? {};
-  return !!(
-    addressData.addressOne &&
-    addressData.city &&
-    addressData.stateCode
-  );
+  return !!apiData?.controlInformation?.canUpdateDirectDeposit;
 };
 
 export const isSignedUpForCNPDirectDeposit = apiData =>
@@ -251,38 +160,6 @@ const getLighthouseErrorCode = (errors = []) => {
   return `${error?.code || OTHER_ERROR_GA_KEY} | ${error?.detail || ''}`;
 };
 
-const getPPIUErrorCode = (errors = []) => {
-  if (hasAccountFlaggedError(errors)) {
-    return PPIU_ERROR_MAP.ACCOUNT_FLAGGED_FOR_FRAUD.GA_KEY;
-  }
-
-  if (hasRoutingNumberFlaggedError(errors)) {
-    return PPIU_ERROR_MAP.ROUTING_NUMBER_FLAGGED_FOR_FRAUD.GA_KEY;
-  }
-
-  if (hasInvalidRoutingNumberError(errors)) {
-    return PPIU_ERROR_MAP.INVALID_ROUTING_NUMBER.GA_KEY;
-  }
-
-  if (hasInvalidAddressError(errors)) {
-    return PPIU_ERROR_MAP.BAD_ADDRESS.GA_KEY;
-  }
-
-  if (hasInvalidHomePhoneNumberError(errors)) {
-    return PPIU_ERROR_MAP.BAD_HOME_PHONE.GA_KEY;
-  }
-
-  if (hasInvalidWorkPhoneNumberError(errors)) {
-    return PPIU_ERROR_MAP.BAD_WORK_PHONE.GA_KEY;
-  }
-
-  if (hasPaymentRestrictionIndicatorsError(errors)) {
-    return PPIU_ERROR_MAP.PAYMENT_RESTRICTIONS_PRESENT.GA_KEY;
-  }
-
-  return PPIU_ERROR_MAP.GENERIC_ERROR.GA_KEY;
-};
-
 // Helper that creates and returns an object to pass to the recordEvent()
 // function when an error occurs while trying to save/update a user's direct
 // deposit for compensation and pension payment information. The value of the
@@ -290,11 +167,8 @@ const getPPIUErrorCode = (errors = []) => {
 export const createCNPDirectDepositAnalyticsDataObject = ({
   errors = [],
   isEnrolling = false,
-  useLighthouseDirectDepositEndpoint = false,
 } = {}) => {
-  const errorCode = useLighthouseDirectDepositEndpoint
-    ? getLighthouseErrorCode(errors)
-    : getPPIUErrorCode(errors);
+  const errorCode = getLighthouseErrorCode(errors);
 
   return cloneDeep({
     event: 'profile-edit-failure',
