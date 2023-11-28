@@ -95,7 +95,7 @@ const SearchControls = props => {
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h3 className="vads-u-margin-bottom--0">
-            Search for a representative
+            Search for an accredited representative
           </h3>
           <div className="location-input-container">
             <va-text-input
@@ -111,9 +111,9 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, State or Postal code"
+              label="City, state or postal code"
               message-aria-describedby="Text input for location"
-              name="City, State or Postal code"
+              name="City, state or postal code"
               onInput={handleLocationChange}
               value={locationInputString}
               uswds
@@ -166,10 +166,10 @@ const SearchControls = props => {
             label={
               representativeType === 'Veteran Service Organization (VSO)'
                 ? 'Organization name'
-                : 'Representative name'
+                : 'Accredited representative name'
             }
             message-aria-describedby="Text input for organization or representative name"
-            name="Organization or Representative Name"
+            name="Organization or Accredited Representative Name"
             onChange={handleRepOrganizationChange}
             onInput={handleRepOrganizationChange}
             value={repOrganizationInputString}
