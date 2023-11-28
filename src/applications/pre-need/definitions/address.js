@@ -59,9 +59,6 @@ function validateAddress(errors, address, formData, currentSchema) {
   ) {
     errors.state.addError('Please select a state or province');
   }
-  errors.state.addError(
-    'Please enter a state or province, or remove other address information.',
-  );
 
   validatePostalCodes(errors, address);
   if (currentSchema.required.length) {
