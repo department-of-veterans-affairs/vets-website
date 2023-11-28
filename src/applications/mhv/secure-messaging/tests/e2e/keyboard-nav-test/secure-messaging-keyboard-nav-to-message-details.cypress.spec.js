@@ -26,7 +26,7 @@ describe('Navigate to Message Details ', () => {
     cy.realPress('Tab');
     cy.get('button:contains("Trash")').should('have.focus');
     cy.get('.va-alert').should('contain', 'Draft was successfully deleted.');
-
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
