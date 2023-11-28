@@ -160,15 +160,14 @@ const SearchControls = props => {
             representativeType={representativeType}
             onChange={onChange}
           />
-
           <va-text-input
             hint={null}
             label={
-              representativeType === 'Veteran Service Organization (VSO)'
+              representativeType === 'organization'
                 ? 'Organization name'
                 : 'Accredited representative name'
             }
-            message-aria-describedby="Text input for organization or representative name"
+            message-aria-describedby="Text input for organization or Accredited representative name"
             name="Organization or Accredited Representative Name"
             onChange={handleRepOrganizationChange}
             onInput={handleRepOrganizationChange}

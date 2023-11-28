@@ -1,10 +1,11 @@
 import mockRepresentativesSearchResults from '../../constants/mock-representative-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 const representativeTypeOptions = [
   'Veteran Service Organization',
   'Attorney',
-  'Claims Agent',
+  'Claims agent',
 ];
 
 Cypress.Commands.add('verifyOptions', () => {
@@ -41,6 +42,7 @@ describe('Representative Search', () => {
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
 
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
 
     cy.injectAxe();
     cy.axeCheck();
@@ -58,12 +60,14 @@ describe('Representative Search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
     cy.intercept('GET', '/services/veteran/v0/accredited_representatives?**', {
       data: [],
       meta: { pagination: { totalEntries: 0 } },
     }).as('searchFacilities');
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
     cy.injectAxe();
     cy.axeCheck();
 
@@ -80,6 +84,7 @@ describe('Representative Search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
     cy.injectAxe();
     cy.axeCheck();
     cy.get('#street-city-state-zip')
