@@ -1,16 +1,9 @@
 function getDestinationDomain(href) {
-  const url = new URL(href, document.location.href);
-
-  const { hostname } = url;
-
-  if (hostname.includes('vagov')) {
-    return 'va.gov';
+  try {
+    return new URL(href, document.location.href).hostname;
+  } catch (e) {
+    return '';
   }
-  if (hostname.includes('mhvnp')) {
-    return 'mhvnp';
-  }
-
-  return hostname;
 }
 
 export { getDestinationDomain };

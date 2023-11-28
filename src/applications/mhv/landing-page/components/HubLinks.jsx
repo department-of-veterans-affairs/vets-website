@@ -9,7 +9,7 @@ const HubSection = ({ title, links }) => {
       <va-link
         class="mhv-c-link"
         disable-analytics={{
-          value: 'false',
+          value: 'true',
         }}
         href={href}
         text={text}
