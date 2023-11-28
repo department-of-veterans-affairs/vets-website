@@ -4,13 +4,13 @@ import { render } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import AddIssue from '../../components/AddIssue';
+import AddContestableIssue from '../../components/AddContestableIssue';
 
-describe('<AddIssue>', () => {
+describe('<AddContestableIssue>', () => {
   it('should render', () => {
     const { container } = render(
       <div>
-        <AddIssue
+        <AddContestableIssue
           setFormData={() => {}}
           data={{}}
           goToPath={() => {}}
