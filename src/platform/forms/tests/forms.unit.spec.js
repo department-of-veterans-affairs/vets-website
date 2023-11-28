@@ -35,6 +35,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
+  VA_FORM_IDS.FORM_10_10D,
 ];
 
 const root = path.join(__dirname, '../../../');
