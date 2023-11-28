@@ -33,8 +33,8 @@ describe('LandingPage component', () => {
 
   it('shows the Welcome component, when enabled', () => {
     const initialState = stateFn({ mhv_landing_page_personalization: true });
-    const { getByText } = setup({ initialState });
-    getByText(/Welcome/);
+    const { getByRole } = setup({ initialState });
+    getByRole('heading', { level: 2, name: /Welcome/ });
   });
 
   it('shows an alert when user has no facilities (aka no health data)', () => {
