@@ -88,9 +88,8 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
-      if (!paginatedPrescriptionsList) {
-        setLoading(true);
-      }
+      window.scrollTo(0, 0);
+      setLoading(true);
       if (!page) history.replace('/1');
       dispatch(
         getPrescriptionsPaginatedSortedList(
