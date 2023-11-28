@@ -353,7 +353,7 @@ const ComposeForm = props => {
         if (
           editPopulatedForm &&
           !checkMessageValidity() &&
-          (!deleteButtonClicked || (formPopulated && !deleteButtonClicked))
+          !deleteButtonClicked
         ) {
           setUnsavedNavigationError(
             ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
