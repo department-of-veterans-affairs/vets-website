@@ -12,7 +12,7 @@ import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
-import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
+import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {

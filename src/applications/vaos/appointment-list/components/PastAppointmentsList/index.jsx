@@ -20,7 +20,7 @@ import {
   selectFeatureStatusImprovement,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
-import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
+import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {

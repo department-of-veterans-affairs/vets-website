@@ -6,9 +6,9 @@ import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import PastAppointmentsListV2, {
+import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,
-} from '../../../appointment-list/components/PastAppointmentsListV2';
+} from '../../../appointment-list/components/PastAppointmentsList';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import {
@@ -40,7 +40,7 @@ const testDates = () => {
   };
 };
 
-describe('VAOS <PastAppointmentsListV2> V2 api', () => {
+describe('VAOS <PastAppointmentsList> V2 api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -59,12 +59,9 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const { findByText } = renderWithStoreAndRouter(
-      <PastAppointmentsListV2 />,
-      {
-        initialState,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
+    });
 
     expect(await findByText(/Past 3 months/i)).to.exist;
   });
@@ -100,7 +97,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -158,7 +155,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -261,7 +258,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
     mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -309,7 +306,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -342,7 +339,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -382,7 +379,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -452,7 +449,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     const myInitialState = {
       ...initialState,
     };
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState: myInitialState,
     });
 

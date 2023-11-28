@@ -21,7 +21,7 @@ import {
   selectFeatureStatusImprovement,
   selectFeaturePrintList,
 } from '../../redux/selectors';
-import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
+import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {

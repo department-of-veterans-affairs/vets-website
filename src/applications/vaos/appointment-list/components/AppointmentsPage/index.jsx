@@ -13,7 +13,7 @@ import {
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
-import PastAppointmentsListV2 from '../PastAppointmentsListV2';
+import PastAppointmentsList from '../PastAppointmentsList';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
@@ -115,7 +115,7 @@ function getSpacing({ isPrintList, isPast, isPending }) {
   return `${names}`;
 }
 
-export default function AppointmentsPageV2() {
+export default function AppointmentsPage() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
@@ -246,7 +246,7 @@ export default function AppointmentsPageV2() {
           )}
         </Route>
         <Route path="/past">
-          <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
+          <PastAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/canceled">
           <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
