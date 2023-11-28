@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
   dateFormat,
@@ -19,6 +20,7 @@ import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { sendReply } from '../../actions/messages';
+import { focusOnErrorField } from '../../util/formHelpers';
 
 const ReplyDraftItem = props => {
   const {
@@ -31,6 +33,7 @@ const ReplyDraftItem = props => {
     draftsequence,
     replyMessage,
     replyToName,
+    setLastFocusableElement,
     toggleEditHandler,
   } = props;
   const dispatch = useDispatch();
@@ -38,16 +41,9 @@ const ReplyDraftItem = props => {
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
 
-  const [userSaved] = useState(false);
   // const defaultRecipientsList = [{ id: 0, name: ' ' }];
-  const [
-    // newDraftId,
-    setNewDraftId,
-  ] = useState(draft ? draft.messageId : null);
-  const [
-    // editedDraft,
-    setEditedDraft,
-  ] = useState(null);
+  // const [newDraftId, setNewDraftId] = useState(draft ? draft.messageId : null);
+  // const [editedDraft, setEditedDraft] = useState(null);
   const replyToMessageId = replyMessage.messageId;
   // const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [category, setCategory] = useState(null);
@@ -56,28 +52,17 @@ const ReplyDraftItem = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
-  const [
-    // bodyError,
-    setBodyError,
-  ] = useState('');
   const [messageBody, setMessageBody] = useState('');
-  const [
-    // messageInvalid,
-    setMessageInvalid,
-  ] = useState(false);
   const [attachments, setAttachments] = useState([]);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const [navigationError, setNavigationError] = useState(null);
-  const [
-    // saveError,
-    setSaveError,
-  ] = useState(null);
-  const [
-    // lastFocusableElement,
-    setLastFocusableElement,
-  ] = useState(null);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [bodyError, setBodyError] = useState('');
+  const [messageInvalid, setMessageInvalid] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+  // const [lastFocusableElement, setLastFocusableElement] = useState(null);
 
   const formattededSignature = useMemo(
     () => {
@@ -171,12 +156,13 @@ const ReplyDraftItem = props => {
 
       if (checkMessageValidity()) {
         if (!draftId) {
-          dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
-            newDraft => {
-              setEditedDraft(newDraft);
-              setNewDraftId(newDraft.messageId);
-            },
-          );
+          dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
+          // .then(
+          //   newDraft => {
+          //     setEditedDraft(newDraft);
+          //     setNewDraftId(newDraft.messageId);
+          //   },
+          // );
         } else {
           dispatch(
             saveReplyDraft(replyMessage.messageId, formData, type, draftId),
@@ -199,6 +185,18 @@ const ReplyDraftItem = props => {
       selectedRecipient,
       subject,
     ],
+  );
+
+  const sendMessageHandler = useCallback(
+    async e => {
+      await setMessageInvalid(false);
+      if (checkMessageValidity()) {
+        setSendMessageFlag(true);
+        setNavigationError(null);
+        setLastFocusableElement(e.target);
+      }
+    },
+    [checkMessageValidity, setLastFocusableElement],
   );
 
   // Before Save
@@ -229,9 +227,9 @@ const ReplyDraftItem = props => {
         setMessageBody('');
         setCategory(replyMessage.category);
       }
-      if (draft) {
-        setEditedDraft(draft);
-      }
+      // if (draft) {
+      //   setEditedDraft(draft);
+      // }
     },
     [replyMessage, draft],
   );
@@ -325,6 +323,15 @@ const ReplyDraftItem = props => {
 
   useEffect(
     () => {
+      if (messageInvalid) {
+        focusOnErrorField();
+      }
+    },
+    [messageInvalid],
+  );
+
+  useEffect(
+    () => {
       if (draft && !formPopulated) {
         populateForm();
       }
@@ -342,7 +349,7 @@ const ReplyDraftItem = props => {
 
   return (
     <>
-      {/* {saveError && (
+      {saveError && (
         <VaModal
           modalTitle={saveError.title}
           onPrimaryButtonClick={() => setSaveError(null)}
@@ -354,7 +361,7 @@ const ReplyDraftItem = props => {
           <p>{saveError.p1}</p>
           {saveError.p2 && <p>{saveError.p2}</p>}
         </VaModal>
-      )} */}
+      )}
       <RouteLeavingGuard
         when={!!navigationError}
         modalVisible={modalVisible}
@@ -415,7 +422,7 @@ const ReplyDraftItem = props => {
               data-testid="message-body-field"
               onInput={messageBodyHandler}
               value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
-              // error={bodyError}
+              error={bodyError}
               onFocus={e => {
                 setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
               }}
@@ -438,9 +445,9 @@ const ReplyDraftItem = props => {
             </section>
           )}
 
-          <DraftSavedInfo userSaved={userSaved} />
+          <DraftSavedInfo />
           <ComposeFormActionButtons
-            // onSend={sendMessageHandler}
+            onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
             setNavigationError={setNavigationError}
@@ -469,8 +476,10 @@ ReplyDraftItem.propTypes = {
   draftsCount: PropTypes.number,
   draftsequence: PropTypes.number,
   editMode: PropTypes.bool,
+  isSaving: PropTypes.bool,
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
+  setLastFocusableElement: PropTypes.func,
   signature: PropTypes.object,
   toggleEditHandler: PropTypes.func,
 };

@@ -18,7 +18,7 @@ const MessageReply = () => {
   // const { messageHistory, printOption, threadViewCount } = useSelector(
   //   state => state.sm.messageDetails,
   // );
-  const { messages, threadViewCount } = useSelector(
+  const { drafts, messages, threadViewCount } = useSelector(
     state => state.sm.threadDetails,
   );
   const [acknowledged, setAcknowledged] = useState(false);
@@ -58,7 +58,7 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm draftToEdit={null} replyMessage={messages[0]} />;
+    return <ReplyForm drafts={drafts} replyMessage={messages[0]} />;
   };
 
   const thread = () => {

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // import drafts from './draftsMocks.json';
+import { useDispatch } from 'react-redux';
 import ReplyDraftItem from './ReplyDraftItem';
+import { Actions } from '../../util/actionTypes';
 
 const ReplyDrafts = props => {
   const {
@@ -10,29 +12,33 @@ const ReplyDrafts = props => {
     drafts,
     replyMessage,
     replyToName,
+    setLastFocusableElement,
     isSaving,
   } = props;
-  const [edittedMessage, setEdittedMessage] = useState(drafts[0]?.messageId); // [editMode, setEditMode
-  // const toggleEditHandler = () => {
-  //   setEdittedMessage;
-  // };
+  const dispatch = useDispatch();
+  const [edittedMessage, setEdittedMessage] = useState(
+    drafts && drafts[0]?.messageId,
+  );
+  const toggleEditHandler = messageId => {
+    setEdittedMessage(messageId);
+    dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
+  };
 
   return (
     <div>
-      {drafts.length > 1 && <h2>{`${drafts.length} drafts`}</h2>}
-      {!drafts.length && (
+      {drafts && drafts.length > 1 && <h2>{`${drafts.length} drafts`}</h2>}
+      {!drafts?.length && (
         <ReplyDraftItem
-          // key={draft?.messageId}
-          // draft={draft}
-          // draftsequence={drafts.length - i}
           signature={signature}
           editMode
           // cannotReply={true}
-          // cannotReply={cannotReply}
+          cannotReply={cannotReply}
           replyMessage={replyMessage}
           replyToName={replyToName}
+          setLastFocusableElement={setLastFocusableElement}
           toggleEditHandler={messageId => {
             setEdittedMessage(messageId);
+            dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
           }}
         />
       )}
@@ -47,14 +53,15 @@ const ReplyDrafts = props => {
               draft={draft}
               draftsCount={drafts?.length}
               draftsequence={drafts.length - i}
-              editMode={edittedMessage === draft?.messageId}
+              editMode={
+                drafts.length === 1 || edittedMessage === draft?.messageId
+              }
               isSaving={isSaving}
               replyMessage={replyMessage}
               replyToName={replyToName}
+              setLastFocusableElement={setLastFocusableElement}
               signature={signature}
-              toggleEditHandler={messageId => {
-                setEdittedMessage(messageId);
-              }}
+              toggleEditHandler={toggleEditHandler}
             />
           );
         })}

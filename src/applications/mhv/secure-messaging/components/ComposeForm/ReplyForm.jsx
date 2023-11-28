@@ -12,7 +12,7 @@ import { clearDraft } from '../../actions/draftDetails';
 // import useDebounce from '../../hooks/use-debounce';
 // import ComposeFormActionButtons from './ComposeFormActionButtons';
 // import { sendReply } from '../../actions/messages';
-import { focusOnErrorField } from '../../util/formHelpers';
+// import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 // import {
 //   messageSignatureFormatter,
@@ -35,10 +35,7 @@ const ReplyForm = props => {
     // replyToMessageId,
   } = props;
   const dispatch = useDispatch();
-  const [
-    lastFocusableElement,
-    // setLastFocusableElement
-  ] = useState(null);
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
 
   // const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -48,10 +45,7 @@ const ReplyForm = props => {
   // );
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
-  const [
-    // messageBody,
-    setMessageBody,
-  ] = useState('');
+  // const [messageBody, setMessageBody] = useState('');
   // const [attachments, setAttachments] = useState([]);
   // const [formPopulated, setFormPopulated] = useState(false);
   // const [fieldsString, setFieldsString] = useState('');
@@ -62,10 +56,7 @@ const ReplyForm = props => {
   // );
   // const [navigationError, setNavigationError] = useState(null);
   // const [saveError, setSaveError] = useState(null);
-  const [
-    messageInvalid,
-    // setMessageInvalid
-  ] = useState(false);
+  // const [messageInvalid, setMessageInvalid] = useState(false);
   // const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   // const [modalVisible, updateModalVisible] = useState(false);
 
@@ -98,7 +89,7 @@ const ReplyForm = props => {
       // if (replyMessage && !draftToEdit) {
       // setSelectedRecipient(replyMessage.senderId);
       setSubject(replyMessage.subject);
-      setMessageBody('');
+      // setMessageBody('');
       setCategory(replyMessage.category);
       // }
       // if (drafts?.length > 0) {
@@ -117,14 +108,14 @@ const ReplyForm = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (messageInvalid) {
-        focusOnErrorField();
-      }
-    },
-    [messageInvalid],
-  );
+  // useEffect(
+  //   () => {
+  //     if (messageInvalid) {
+  //       focusOnErrorField();
+  //     }
+  //   },
+  //   [messageInvalid],
+  // );
 
   useEffect(
     () => {
@@ -440,6 +431,7 @@ const ReplyForm = props => {
               // saveDraftHandler={saveDraftHandler}
               replyToName={replyToName}
               replyMessage={replyMessage}
+              setLastFocusableElement={setLastFocusableElement}
             />
 
             {/* <div>

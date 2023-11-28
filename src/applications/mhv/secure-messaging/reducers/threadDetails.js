@@ -18,7 +18,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Thread.GET_THREAD:
       return {
-        ...state,
+        ...initialState,
         ...action.payload,
       };
     case Actions.Thread.GET_MESSAGE_IN_THREAD: {
@@ -36,6 +36,8 @@ export const threadDetailsReducer = (state = initialState, action) => {
           }
           return d;
         }),
+        isSaving: false,
+        lastSaveTime: Date.now(),
       };
     }
     case Actions.Thread.DRAFT_SAVE_STARTED:
@@ -43,6 +45,26 @@ export const threadDetailsReducer = (state = initialState, action) => {
         ...state,
         isSaving: true,
         saveError: null,
+      };
+    case Actions.Draft.CREATE_SUCCEEDED:
+      return {
+        ...state,
+        drafts: [action.response.data.attributes],
+        isSaving: false,
+        saveError: null,
+        lastSaveTime: Date.now(),
+      };
+    case Actions.Draft.SAVE_FAILED:
+      return {
+        ...state,
+        isSaving: false,
+        lastSaveTime: null,
+        saveError: { ...action.response },
+      };
+    case Actions.Thread.RESET_LAST_SAVE_TIME:
+      return {
+        ...state,
+        lastSaveTime: null,
       };
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };

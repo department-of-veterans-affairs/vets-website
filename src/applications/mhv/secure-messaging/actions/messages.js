@@ -124,7 +124,7 @@ export const retrieveMessageThread = (
           replyToName,
           threadFolderId,
           replyToMessageId: msgResponse.data.attributes.messageId,
-          drafts: drafts.map(m => m.attributes),
+          drafts: drafts ? drafts.map(m => m.attributes) : undefined,
           messages: messages.map(m => m.attributes),
         },
       });
