@@ -1,38 +1,36 @@
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-
-const {
-  email,
-  altEmail,
-  dayPhone,
-  nightPhone,
-  mobilePhone,
-} = fullSchemaPensions.properties;
+import {
+  emailSchema,
+  emailUI,
+  phoneSchema,
+  phoneUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Contact information',
-    email: {
-      'ui:title': 'Primary email',
+    'ui:title': 'Email address and phone number',
+    email: emailUI('Email'),
+    phone: phoneUI('Telephone number'),
+    mobilePhone: phoneUI('Mobile number'),
+    internationalPhone: {
+      'ui:title': 'International phone number',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--2',
+      },
     },
-    altEmail: {
-      'ui:title': 'Secondary email',
-    },
-    dayPhone: phoneUI('Daytime phone'),
-    nightPhone: phoneUI('Evening phone'),
-    mobilePhone: phoneUI('Mobile phone'),
   },
   schema: {
     type: 'object',
-    required: ['veteranAddress'],
+    required: ['email', 'mobilePhone'],
     properties: {
-      email,
-      altEmail,
-      dayPhone,
-      nightPhone,
-      mobilePhone,
+      email: emailSchema,
+      phone: phoneSchema,
+      mobilePhone: phoneSchema,
+      internationalPhone: {
+        type: 'string',
+      },
     },
   },
 };
