@@ -10,7 +10,7 @@ import { representativeTypes, sortOptions } from '../../config';
 // import { Error } from '../../constants';
 
 import { setFocus } from '../../utils/helpers';
-// import { recordSearchResultsEvents } from '../../utils/analytics';
+import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
 
 import SearchResult from './SearchResult';
@@ -30,6 +30,7 @@ const ResultsList = props => {
   useEffect(
     () => {
       setFocus(searchResultTitle.current);
+      recordSearchResultsEvents(searchResults, props);
     },
     [searchResults, inProgress, props.error],
   );
