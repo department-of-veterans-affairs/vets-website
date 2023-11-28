@@ -11,7 +11,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { getNameDateAndTime, macroCase, makePdf } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  macroCase,
+  makePdf,
+  generateTextFile,
+} from '../util/helpers';
 import {
   vitalTypeDisplayNames,
   pageTitles,
@@ -116,23 +121,24 @@ const VitalDetails = props => {
     const title = `Vitals`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
+    const record = records[0];
 
     scaffold.details = {
       items: [
         {
           title: 'Result',
-          value: records.measurement,
+          value: record.measurement,
           inline: true,
         },
         {
           title: 'Location',
-          value: records.location,
+          value: record.location,
           inline: true,
         },
         {
           title: 'Provider notes',
-          value: records.notes,
-          inline: !records.notes,
+          value: record.notes,
+          inline: !record.notes,
         },
       ],
     };
@@ -142,6 +148,18 @@ const VitalDetails = props => {
     makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
 
+  const generateVitalsTxt = async () => {
+    const vital = currentVitals[0];
+    const content = `\n
+${vital.name}\n
+Date: ${vital.date}\n
+_____________________________________________________\n\n
+Details about this test\n
+Result: ${vital.measurement}\n
+Location: ${vital.location}\n
+Provider Notes: ${vital.notes}\n`;
+    generateTextFile(content, `VA-Vitals-details-${getNameDateAndTime(user)}`);
+  };
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
@@ -154,6 +172,7 @@ const VitalDetails = props => {
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
             download={generateVitalsPdf}
+            downloadTxt={generateVitalsTxt}
             allowTxtDownloads={allowTxtDownloads}
           />
           <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
