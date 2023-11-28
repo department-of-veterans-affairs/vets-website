@@ -10,8 +10,8 @@ import {
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
-import { getDate } from '../../utils/dates';
 
+import { getDate } from '../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 /*
