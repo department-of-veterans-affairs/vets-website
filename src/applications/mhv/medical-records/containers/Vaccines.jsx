@@ -130,16 +130,44 @@ const Vaccines = props => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
-    if (vaccines?.length) {
-      return <RecordList records={vaccines} type={recordType.VACCINES} />;
+    if (vaccines?.length > 0) {
+      return (
+        <>
+          <PrintDownload
+            list
+            download={generateVaccinesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccinesTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <RecordList records={vaccines} type={recordType.VACCINES} />
+        </>
+      );
+    }
+    if (vaccines?.length === 0) {
+      return (
+        <div
+          className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+          data-testid="record-list-item"
+        >
+          <h2
+            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
+            data-testid="no-allergy-records"
+          >
+            There are no vaccines in your VA medical records.
+          </h2>
+        </div>
+      );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+        <va-loading-indicator
+          message="We’re loading your records. This could take up to a minute."
+          setFocus
+          data-testid="loading-indicator"
+          // class="loading-indicator"
+        />
+      </div>
     );
   };
 
@@ -155,13 +183,6 @@ const Vaccines = props => {
           Go to your allergy records
         </Link>
       </p>
-      <PrintDownload
-        list
-        download={generateVaccinesPdf}
-        allowTxtDownloads={allowTxtDownloads}
-        downloadTxt={generateVaccinesTxt}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );
