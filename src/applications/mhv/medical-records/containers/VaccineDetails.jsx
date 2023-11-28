@@ -119,7 +119,7 @@ const VaccineDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatName(user.userFullName)}\n
-${formatDateLong(user.dob)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
