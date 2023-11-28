@@ -10,19 +10,23 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function buildAddressArray(location, titleCaseText = false) {
-  if (location && location.attributes) {
+/* eslint-disable camelcase */
+export function buildAddressArray(representative, titleCaseText = false) {
+  if (representative && representative.attributes) {
     const {
-      address: { physical: address },
-    } = location.attributes;
+      address_line_1,
+      address_line_2,
+      address_line_3,
+      city,
+      state_code,
+      zip_code,
+    } = representative.attributes;
 
     return compact([
-      titleCaseText ? titleCase(address.address1) : address.address1,
-      titleCaseText ? titleCase(address.address2) : address.address2,
-      titleCaseText ? titleCase(address.address3) : address.address3,
-      `${titleCaseText ? titleCase(address.city) : address.city}, ${
-        address.state
-      } ${address.zip}`,
+      titleCaseText ? titleCase(address_line_1) : address_line_1,
+      titleCaseText ? titleCase(address_line_2) : address_line_2,
+      titleCaseText ? titleCase(address_line_3) : address_line_3,
+      `${titleCaseText ? titleCase(city) : city}, ${state_code} ${zip_code}`,
     ]);
   }
   return '';

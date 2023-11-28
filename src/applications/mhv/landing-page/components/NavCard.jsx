@@ -1,11 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const NavCard = ({ icon = null, title, links }) => {
-  const listItems = links.map(l => (
-    <li className="mhv-c-navlistitem" key={l.key || l.href}>
-      <a className="mhv-c-navlink" href={l.href} aria-label={l.ariaLabel}>
-        {l.text}
+  const listItems = links.map(({ ariaLabel, href, text }) => (
+    <li className="mhv-c-navlistitem" key={href}>
+      <a
+        className="mhv-c-navlink"
+        href={href}
+        aria-label={ariaLabel}
+        onClick={() =>
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-title': String(text) === text ? text : 'Inbox', // hack to handle 'the dot'
+            'links-list-header': title,
+          })
+        }
+      >
+        {text}
         <i aria-hidden="true" />
       </a>
     </li>

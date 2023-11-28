@@ -3,9 +3,9 @@
  */
 export const RepresentativeType = {
   NONE: '',
-  VETERAN_SERVICE_ORGANIZATION: 'vso',
+  VETERAN_SERVICE_ORGANIZATION: 'organization',
   ATTORNEY: 'attorney',
-  CLAIMS_AGENT: 'claims_agent',
+  CLAIM_AGENTS: 'claim_agents',
 };
 
 /**
@@ -15,7 +15,7 @@ export const RepresentativeType = {
 export const PinNames = {
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'vso',
   [RepresentativeType.ATTORNEY]: 'attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'claims_agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };
 
 /**

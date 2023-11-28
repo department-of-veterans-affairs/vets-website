@@ -4,11 +4,10 @@ import { clearSearchText } from './search/clearSearchText';
 import { fetchRepresentatives } from './representatives/fetchRepresentatives';
 import { genSearchAreaFromCenter } from './mapbox/genSearchAreaFromCenter';
 import { geolocateUser } from './mapbox/geoLocateUser';
-import { searchWithBounds } from './search/searchWithBounds';
+import { geocodeUserAddress } from './mapbox/geocodeUserAddress';
+import { searchWithInput } from './search/searchWithInput';
 import { updateSearchQuery } from './search/updateSearchQuery';
 import { updateSortType } from './search/updateSortType';
-import { mockSearch } from './search/mockSearch';
-import { mockSearchPage2 } from './search/mockSearchPage2';
 
 export { clearGeocodeError };
 export { clearSearchResults };
@@ -16,11 +15,10 @@ export { clearSearchText };
 export { fetchRepresentatives };
 export { genSearchAreaFromCenter };
 export { geolocateUser };
-export { searchWithBounds };
+export { geocodeUserAddress };
+export { searchWithInput };
 export { updateSearchQuery };
 export { updateSortType };
-export { mockSearch };
-export { mockSearchPage2 };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';

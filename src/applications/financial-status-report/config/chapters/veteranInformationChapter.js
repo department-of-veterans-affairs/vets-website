@@ -10,9 +10,7 @@ import {
 } from '../../pages';
 import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
 import VeteranInformationReview from '../../components/veteranInformation/VeteranInformationReview';
-import ContactInfo, {
-  customContactFocus,
-} from '../../components/contactInfo/ContactInfo';
+import ContactInfo from '../../components/contactInfo/ContactInfo';
 import ContactInfoReview from '../../components/contactInfo/ContactInfoReview';
 import {
   EditMobilePhone,
@@ -85,8 +83,6 @@ export default {
         CustomPageReview: ContactInfoReview,
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
-        // needs useCustomScrollAndFocus: true to work
-        scrollAndFocusTarget: customContactFocus,
         depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       editMobilePhone: {
