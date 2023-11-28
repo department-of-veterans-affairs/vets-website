@@ -22,6 +22,7 @@ const ThreadDetails = props => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const {
     message,
@@ -38,6 +39,8 @@ const ThreadDetails = props => {
   const [isMessage, setIsMessage] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
+  const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
+
   const [isLoaded, setIsLoaded] = useState(testing);
   const header = useRef();
 
@@ -98,9 +101,16 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      focusElement(header.current);
+      if (!isCreateNewModalVisible) {
+        const alertVisible = alertList[alertList?.length - 1];
+        const alertSelector =
+          folder !== undefined && !alertVisible?.isActive
+            ? 'h1'
+            : alertVisible?.isActive && 'va-alert';
+        focusElement(document.querySelector(alertSelector));
+      }
     },
-    [header.current],
+    [alertList, folder, isCreateNewModalVisible],
   );
 
   const content = () => {
@@ -144,7 +154,12 @@ const ThreadDetails = props => {
     if (isMessage) {
       return (
         <>
-          <MessageDetailBlock message={message} cannotReply={cannotReply} />
+          <MessageDetailBlock
+            message={message}
+            cannotReply={cannotReply}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+          />
           <MessageThread
             messageHistory={[message, ...messageHistory]}
             threadId={threadId}

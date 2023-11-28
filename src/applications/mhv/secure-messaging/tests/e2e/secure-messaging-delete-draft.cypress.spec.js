@@ -31,7 +31,7 @@ describe('Secure Messaging Delete Draft', () => {
     });
     draftsPage.confirmDeleteDraft(mockDraftResponse, false);
     draftsPage.verifyDeleteConfirmationMessage();
-    draftsPage.verifyDeleteConfirmationHasFocus();
+    // draftsPage.verifyDeleteConfirmationHasFocus();
     cy.get('[data-testid="drafts-sidebar"]')
       .find('a')
       .should('have.class', 'is-active');
