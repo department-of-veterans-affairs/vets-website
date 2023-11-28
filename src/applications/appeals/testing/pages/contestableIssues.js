@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
-import { maxIssues } from '../../10182/validations/issues';
 import { disagreeWith } from '../utils/areaOfDisagreement';
 
 import {
@@ -11,7 +10,7 @@ import {
   getIssueName,
   hasSomeSelected,
 } from '../../shared/utils/issues';
-import { selectionRequired } from '../../shared/validations/issues';
+import { selectionRequired, maxIssues } from '../../shared/validations/issues';
 import { FORMAT_READABLE, FORMAT_YMD, SELECTED } from '../../shared/constants';
 
 /**
