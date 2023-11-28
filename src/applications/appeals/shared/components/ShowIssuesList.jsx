@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDate } from '../../shared/utils/dates';
-import { FORMAT_READABLE } from '../../shared/constants';
+import { getDate } from '../utils/dates';
+import { FORMAT_READABLE } from '../constants';
 
 const ShowIssuesList = ({ issues }) => (
   <ul>
@@ -47,4 +47,4 @@ ShowIssuesList.propTypes = {
   }),
 };
 
-export { ShowIssuesList };
+export default ShowIssuesList;
