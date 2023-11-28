@@ -50,5 +50,7 @@ describe('Start a new message With Attacments and Errors', () => {
       .getMessageBodyField()
       .type('Test message body', { force: true, waitforanimations: true });
     composePage.sendMessage();
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

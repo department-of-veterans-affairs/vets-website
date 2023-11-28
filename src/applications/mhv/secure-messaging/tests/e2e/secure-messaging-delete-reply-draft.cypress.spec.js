@@ -40,6 +40,7 @@ describe('Secure Messaging Delete Reply Draft', () => {
     draftsPage.confirmDeleteDraft(messageDetails);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDeleteConfirmationHasFocus();
+    draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
