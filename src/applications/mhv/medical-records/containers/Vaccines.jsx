@@ -146,15 +146,12 @@ const Vaccines = props => {
   return (
     <div id="vaccines">
       <PrintHeader />
-      <h1 className="page-title">Vaccines</h1>
+      <h1 className="vads-u-margin--0">Vaccines</h1>
       <p>Review vaccines (immunizations) in your VA medical records.</p>
       <p>
         For a list of your allergies and reactions (including any reactions to
-        vaccines), go to your allergy records.
-        <Link
-          to="/allergies"
-          className="vads-u-display--block vads-u-margin-bottom--3 no-print"
-        >
+        vaccines), go to your allergy records.{' '}
+        <Link to="/allergies" className="no-print">
           Go to your allergy records
         </Link>
       </p>

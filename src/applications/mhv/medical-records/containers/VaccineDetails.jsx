@@ -150,14 +150,16 @@ const VaccineDetails = props => {
               className="vads-u-font-size--base vads-u-font-family--sans"
               id="vaccine-date"
             >
-              Date received:{' '}
-              <span
-                className="vads-u-font-weight--normal"
-                data-dd-privacy="mask"
-                data-testid="header-time"
-              >
-                {record.date}
-              </span>
+              <p className="vads-u-margin-top--1">
+                Date received:{' '}
+                <span
+                  className="vads-u-font-weight--normal"
+                  data-dd-privacy="mask"
+                  data-testid="header-time"
+                >
+                  {record.date}
+                </span>
+              </p>
             </h2>
           </div>
           <PrintDownload
@@ -166,16 +168,19 @@ const VaccineDetails = props => {
             downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <div className="detail-block max-80">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-light" />
+          <div>
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">{record.location}</p>
+            <p className="vads-u-margin-top--0" data-dd-privacy="mask">
+              {record.location}
+            </p>
             {/* <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
             <ItemList list={record.reactions} /> */}
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            <h2 className="vads-u-margin-top--2 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
               Provider notes
             </h2>
             <ItemList list={record.notes} />
