@@ -44,35 +44,39 @@ const DependentCount = ({
     if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
       setError('Please enter your dependent(s) information');
       focusElement('va-number-input');
-    } else if (dependents > 25 || dependents < 0) {
+      return;
+    }
+
+    if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
       setError(
         'Please enter a value greater than or equal to 0 and less than 25',
       );
       focusElement('va-number-input');
+      return;
+    }
+
+    setError(null);
+    if (dependents === '0') {
+      // clear dependent array if it was previously populated
+      setFormData({
+        ...data,
+        questions: {
+          ...data?.questions,
+          hasDependents: dependents,
+        },
+        personalData: {
+          ...data?.personalData,
+          dependents: [],
+        },
+      });
     } else {
-      setError(null);
-      if (dependents === '0') {
-        // clear dependent array if it was previously populated
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-          personalData: {
-            ...data?.personalData,
-            dependents: [],
-          },
-        });
-      } else {
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-        });
-      }
+      setFormData({
+        ...data,
+        questions: {
+          ...data?.questions,
+          hasDependents: dependents,
+        },
+      });
     }
   };
 

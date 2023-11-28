@@ -70,7 +70,11 @@ const SpousePayrollDeductionInputList = props => {
     e.preventDefault();
 
     const errorList = selectedDeductions
-      .filter(item => !isValidCurrency(item.amount))
+      .filter(
+        item =>
+          !isValidCurrency(item.amount) ||
+          item.amount > MAXIMUM_DEDUCTION_AMOUNT,
+      )
       .map(item => item.name);
 
     setErrors(errorList);
@@ -154,7 +158,7 @@ const SpousePayrollDeductionInputList = props => {
               onInput={onChange}
               required
               min={0}
-              max={40000}
+              max={MAXIMUM_DEDUCTION_AMOUNT}
               currency
               error={
                 errors.includes(deduction.name)

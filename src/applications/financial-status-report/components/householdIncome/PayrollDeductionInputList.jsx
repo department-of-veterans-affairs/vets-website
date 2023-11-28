@@ -69,7 +69,11 @@ const PayrollDeductionInputList = props => {
     e.preventDefault();
 
     const errorList = selectedDeductions
-      .filter(item => !isValidCurrency(item.amount))
+      .filter(
+        item =>
+          !isValidCurrency(item.amount) ||
+          item.amount > MAXIMUM_DEDUCTION_AMOUNT,
+      )
       .map(item => item.name);
 
     setErrors(errorList);
@@ -149,7 +153,7 @@ const PayrollDeductionInputList = props => {
               currency
               width="md"
               min={0}
-              max={40000}
+              max={MAXIMUM_DEDUCTION_AMOUNT}
               error={
                 errors.includes(deduction.name)
                   ? 'Please enter a valid dollar amount below $40,000'

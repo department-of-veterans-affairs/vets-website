@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isValidCurrency } from '../../utils/validations';
 
 const defaultRecord = {
   make: '',
@@ -46,7 +47,9 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
   const yearError = !vehicleRecord.year ? 'Please enter a valid year' : null;
   const resaleValueError =
     !vehicleRecord.resaleValue ||
-    vehicleRecord.resaleValue > MAXIMUM_RESALE_VALUE
+    !isValidCurrency(vehicleRecord.resaleValue) ||
+    (vehicleRecord.resaleValue > MAXIMUM_RESALE_VALUE ||
+      vehicleRecord.resaleValue < 0)
       ? 'Please enter an estimated value less than $1,000,000'
       : null;
 
