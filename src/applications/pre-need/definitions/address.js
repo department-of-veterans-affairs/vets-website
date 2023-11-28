@@ -67,7 +67,11 @@ function validateAddress(errors, address, formData, currentSchema) {
     typeof address.city !== 'undefined' &&
     typeof address.postalCode !== 'undefined';
 
-  if (hasAddressInfo && typeof address.state === 'undefined') {
+  if (
+    hasAddressInfo &&
+    typeof address.state === 'undefined' &&
+    environment.isProduction() // MBMS-50969 -- remove whole conditional block and const hasAddressInfo for PROD flag removal
+  ) {
     errors.state.addError(
       'Please enter a state or province, or remove other address information.',
     );
@@ -282,6 +286,7 @@ export function uiSchema(
     'ui:title': label,
     'ui:validations': [validateAddress],
     'ui:options': {
+      useHeaderStyling: true,
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
 

@@ -130,7 +130,7 @@ const resolveLandingPageLinks = (
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
-        text: 'Download medical record (Blue Button)',
+        text: 'Download medical record (Blue Button®)',
         toggle: null,
       },
       {

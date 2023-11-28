@@ -21,7 +21,6 @@ export const formatServiceName = service => {
       'Integrated Disability Evaluation System assistance (IDES)',
     )
     .trim();
-
   switch (lowerCaseService) {
     case 'eBenefits registration help':
       return benefitsServices.eBenefitsRegistrationAssistance;
@@ -33,6 +32,8 @@ export const formatServiceName = service => {
       return benefitsServices.PreDischargeClaimAssistance;
     case 'homeless help':
       return benefitsServices.HomelessAssistance;
+    case 'vocational rehabilitation and employment help':
+      return benefitsServices.VocationalRehabilitationAndEmploymentAssistance;
     default:
       return (
         lowerCaseService.charAt(0).toUpperCase() + lowerCaseService.slice(1)

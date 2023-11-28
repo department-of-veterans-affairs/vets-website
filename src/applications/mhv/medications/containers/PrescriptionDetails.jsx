@@ -39,6 +39,12 @@ const PrescriptionDetails = () => {
   );
   const dispatch = useDispatch();
 
+  const prescriptionHeader =
+    prescription?.prescriptionName ||
+    (prescription?.dispStatus === 'Active: Non-VA'
+      ? prescription?.orderableItem
+      : '');
+
   useEffect(() => {
     if (prescription) {
       dispatch(
@@ -46,7 +52,7 @@ const PrescriptionDetails = () => {
           [
             {
               url: '/my-health/about-medications',
-              label: 'About Medications',
+              label: 'About medications',
             },
             {
               url: '/my-health/medications/',
@@ -57,10 +63,7 @@ const PrescriptionDetails = () => {
             url: `/my-health/medications/prescription/${
               prescription.prescriptionId
             }`,
-            label:
-              prescription.dispStatus === 'Active: Non-VA'
-                ? prescription.orderableItem
-                : prescription.prescriptionName,
+            label: prescriptionHeader,
           },
         ),
       );
@@ -71,7 +74,9 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(prescription.prescriptionName);
+        updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
+      } else {
+        window.scrollTo(0, 0);
       }
     },
     [prescription],
@@ -108,7 +113,7 @@ const PrescriptionDetails = () => {
           'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.',
         results: [
           {
-            header: prescription?.prescriptionName,
+            header: prescriptionHeader,
             list: prescriptionPdfList,
           },
           {
@@ -127,7 +132,7 @@ const PrescriptionDetails = () => {
         ],
       };
     },
-    [userName, dob, prescription, prescriptionPdfList],
+    [userName, dob, prescription, prescriptionPdfList, prescriptionHeader],
   );
 
   const handleDownloadPDF = async () => {
@@ -141,7 +146,7 @@ const PrescriptionDetails = () => {
         'medications',
         `${nonVaPrescription ? 'Non-VA' : 'VA'}-medications-details-${
           userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
         pdfData(allergiesList),
       ).then(() => {
         setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
@@ -189,12 +194,16 @@ const PrescriptionDetails = () => {
     }
     return (
       <>
-        {prescription.dispensedDate ? (
+        {prescription.dispensedDate ||
+        prescription.rxRfRecords?.[0]?.[1].find(
+          record => record.dispensedDate,
+        ) ? (
           <span>
             Last filled on{' '}
             {dateFormat(
-              prescription.rxRfRecords?.[0]?.[1][0]?.dispensedDate ||
-                prescription.dispensedDate,
+              prescription.rxRfRecords?.[0]?.[1]?.find(
+                record => record.dispensedDate,
+              )?.dispensedDate || prescription.dispensedDate,
               'MMMM D, YYYY',
             )}
           </span>
@@ -235,9 +244,7 @@ const PrescriptionDetails = () => {
             className="vads-u-margin-bottom--0"
             id="prescription-name"
           >
-            {prescription.dispStatus === 'Active: Non-VA'
-              ? prescription.orderableItem
-              : prescription.prescriptionName}
+            {prescriptionHeader}
           </h1>
           <p
             id="last-filled"

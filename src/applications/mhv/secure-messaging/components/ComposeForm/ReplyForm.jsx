@@ -316,6 +316,12 @@ const ReplyForm = props => {
         (messageBody === '' && draftBody === null)
       ) {
         setNavigationError(null);
+      } else if (messageBody !== draftBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
       }
     },
     [deleteButtonClicked, draft, messageBody],
@@ -416,6 +422,7 @@ const ReplyForm = props => {
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+                data-testid="message-reply-to"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
                 data-dd-privacy="mask"
               >

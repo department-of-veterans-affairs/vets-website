@@ -7,6 +7,7 @@ import {
 } from '../../../components/FormDescriptions/IncomeDescriptions';
 import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
 const {
@@ -15,13 +16,10 @@ const {
   veteranOtherIncome,
 } = ezrSchema.properties;
 
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
-
 export default {
   uiSchema: {
     ...titleUI(
-      replaceStrValues(content['household-veteran-income-title'], lastYear),
+      replaceStrValues(content['household-veteran-income-title'], LAST_YEAR),
     ),
     'view:veteranGrossIncome': {
       'ui:title': content['household-income-gross-title'],
@@ -30,7 +28,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-veteran-income-gross-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -43,7 +41,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-veteran-income-net-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -56,7 +54,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-veteran-income-other-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
