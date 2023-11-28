@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { getDate } from '../../utils/dates';
+import { getDate } from '../../../shared/utils/dates';
 import { maxIssues, maxNameLength } from '../../validations/issues';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
