@@ -8,6 +8,7 @@ import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
 import { useStorage } from '../../hooks/useStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
+import { useGetUpcomingAppointmentsData } from '../../hooks/useGetUpcomingAppointmentsData';
 import { useUpdateError } from '../../hooks/useUpdateError';
 
 const ReloadWrapper = props => {
@@ -35,6 +36,13 @@ const ReloadWrapper = props => {
       app,
     },
   );
+  const {
+    upcomingAppointmentsDataError,
+    refreshUpcomingData,
+    isLoading: isUpcomingLoading,
+  } = useGetUpcomingAppointmentsData({
+    refreshNeeded: false,
+  });
   const [refreshData, setRefreshData] = useState(true);
 
   const sessionToken = getCurrentToken(window);
@@ -42,11 +50,11 @@ const ReloadWrapper = props => {
 
   useEffect(
     () => {
-      if (checkInDataError) {
+      if (checkInDataError || upcomingAppointmentsDataError) {
         updateError('reload-data-error');
       }
     },
-    [checkInDataError, updateError],
+    [checkInDataError, upcomingAppointmentsDataError, updateError],
   );
 
   useEffect(
@@ -63,6 +71,7 @@ const ReloadWrapper = props => {
             }),
           );
           refreshCheckInData();
+          refreshUpcomingData();
         } else {
           setRefreshData(false);
         }
@@ -75,6 +84,7 @@ const ReloadWrapper = props => {
       sessionToken,
       location,
       refreshCheckInData,
+      refreshUpcomingData,
       dispatch,
       getPermissions,
       progressState,
@@ -88,7 +98,7 @@ const ReloadWrapper = props => {
     [currentForm, setProgressState],
   );
 
-  if (refreshData || isLoading) {
+  if (refreshData || isLoading || isUpcomingLoading) {
     window.scrollTo(0, 0);
     return (
       <div>
