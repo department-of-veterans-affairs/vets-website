@@ -119,11 +119,13 @@ const Confirmation = props => {
   return (
     <>
       {appointment && (
-        <CheckInConfirmation
-          selectedAppointment={appointment}
-          triggerRefresh={refreshAppointments}
-          router={router}
-        />
+        <div data-testid="check-in-confirmation-component">
+          <CheckInConfirmation
+            selectedAppointment={appointment}
+            triggerRefresh={refreshAppointments}
+            router={router}
+          />
+        </div>
       )}
     </>
   );
