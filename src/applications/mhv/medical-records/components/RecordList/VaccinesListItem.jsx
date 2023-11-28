@@ -39,14 +39,14 @@ const VaccinesListItem = props => {
             {formattedDate}
           </span>
         </div>
-        <div className="print-only">
+        {/* <div className="print-only">
           <span className="vads-u-display--inline vads-u-font-weight--bold">
             Manufacturer:
           </span>{' '}
           <span className="vads-u-display--inline" data-dd-privacy="mask">
             {record.manufacturer}
           </span>
-        </div>
+        </div> */}
         <div className="print-only">
           <span className="vads-u-display--inline vads-u-font-weight--bold">
             Location:
@@ -55,12 +55,12 @@ const VaccinesListItem = props => {
             {record.location}
           </span>
         </div>
-        <div className="print-only">
+        {/* <div className="print-only">
           <span className="vads-u-display--inline vads-u-font-weight--bold">
             Reaction:
           </span>{' '}
           <ItemList list={record.reactions} />
-        </div>
+        </div> */}
         <div className="print-only">
           <span className="vads-u-display--inline vads-u-font-weight--bold">
             Provider notes:

@@ -116,7 +116,6 @@ const Vaccines = props => {
       ${entry.name} \n 
       \t Date received: ${entry.date} \n
       \t Location: ${entry.location} \n
-      \t Reaction: ${processList(entry.reactions)} \n
       \t Provider notes: ${processList(entry.notes)} \n`,
     )}`;
 
