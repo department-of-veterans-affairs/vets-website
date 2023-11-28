@@ -10,12 +10,3 @@
 .form-panel legend > h3 {
   margin-bottom: 0 !important;
 }
-
-// record-selections page
-.form-panel.record-selections {
-  va-checkbox-group[name="root_recordSelections"]
-    legend.usa-legend
-    > span.usa-label__required {
-    display: none !important;
-  }
-}
