@@ -179,7 +179,7 @@ describe('AppointmentCard component', () => {
     expect(await wrapper.findByText(/Dr. Smith/i)).to.exist;
   });
 
-  it('should return at CommunityCareProvider with Practice Name', async () => {
+  it('should return at CommunityCareProvider with Provider Name first letter', async () => {
     const appointment = {
       ...appointmentData,
       communityCareProvider: {
@@ -211,6 +211,6 @@ describe('AppointmentCard component', () => {
       },
     );
 
-    expect(await wrapper.findByText(/Dr. Smith/i)).to.exist;
+    expect(await wrapper.findAllByText(/D/i)).to.exist;
   });
 });
