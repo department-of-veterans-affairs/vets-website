@@ -21,6 +21,7 @@ import lifeInsBenefitDetailsPg from '../pages/lifeInsuranceBenefitDetails';
 import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import otherBenefitDetailsPg from '../pages/otherBenefitDetails';
 import { PREPARER_TYPES, RECORD_TYPES } from './constants';
+import transformForSubmit from './submit-transformer';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
@@ -51,7 +52,7 @@ const formConfig = {
   },
   formId: '20-10206',
   hideUnauthedStartLink: true,
-
+  transformForSubmit,
   saveInProgress: {
     messages: {
       inProgress: 'Your personal records request (20-10206) is in progress.',

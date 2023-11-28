@@ -35,7 +35,9 @@
         "disabilityExamDate": "2019-01-01"
       }
     ],
-    "otherCompAndPenDetails": "asdf",
-    "otherBenefitDetails": "asdf"
+    "otherCompAndPenDetails": "Other Comp&Pen details",
+    "financialRecordDetails": "Financial record details",
+    "lifeInsuranceBenefitDetails": "Life insurance details",
+    "otherBenefitDetails": "Other benefit details"
   }
 }

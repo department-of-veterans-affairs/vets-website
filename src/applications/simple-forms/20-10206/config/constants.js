@@ -1,7 +1,7 @@
 export const PREPARER_TYPES = Object.freeze({
   CITIZEN: 'citizen',
   NON_CITIZEN: 'non-citizen',
-  THIRD_PARTY: 'rep-citizen',
+  THIRD_PARTY: 'third-party',
 });
 export const PREPARER_TYPE_LABELS = Object.freeze({
   [PREPARER_TYPES.CITIZEN]:
