@@ -142,5 +142,6 @@ export const PreferredFacilityAPIUI = {
     'ui:options': {
       hideLabelText: true,
     },
+    'ui:required': () => true,
   },
 };

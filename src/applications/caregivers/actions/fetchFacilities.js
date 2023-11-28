@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities';
 import * as Sentry from '@sentry/browser';
 
 export const fetchFacilities = async (mapBoxResponse, request = null) => {
@@ -9,15 +9,16 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
   // Increase the area of the boundary to improve search results
   const adjustedBoundaryCoordinates = [
     // min X
-    mapBoxResponse[0] - 2,
+    mapBoxResponse[0] - 0.3,
     // min Y
-    mapBoxResponse[1] - 2,
+    mapBoxResponse[1] - 0.3,
     // max X
-    mapBoxResponse[2] + 2,
+    mapBoxResponse[2] + 0.3,
     // max Y
-    mapBoxResponse[3] + 2,
+    mapBoxResponse[3] + 0.3,
   ];
 
+  // TODO: Ask Heather to see if this API has been updated to v1 on their end. Maybe Facilities Team?
   const lightHouseRequestUrl = `${
     environment.API_URL
   }/v1/facilities/va?bbox%5B%5D=${adjustedBoundaryCoordinates[0]}%2C%20${
@@ -25,6 +26,11 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
   }%2C%20${adjustedBoundaryCoordinates[2]}%2C%20${
     adjustedBoundaryCoordinates[3]
   }&per_page=500`;
+
+  // Helper function to join address parts, filtering out null or undefined values
+  const joinAddressParts = (...parts) => {
+    return parts.filter(part => part != null).join(', ');
+  };
 
   // eslint-disable-next-line no-param-reassign
   request = request || apiRequest(`${lightHouseRequestUrl}`, {});
@@ -34,18 +40,27 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
       return response.data.map(facility => {
         const { physical } = facility.attributes.address;
 
-        // Update the physical address object to make it more digestible in the components
-        // eslint-disable-next-line no-param-reassign
-        facility.attributes.address.physical = {
+        // Create a new address object without modifying the original facility
+        const newPhysicalAddress = {
           address1: physical.address1,
-          address2: physical.address3
-            ? `${physical.address2}, ${physical.address3}`
-            : physical.address2,
-          address3: `${physical.city}, ${physical.state} ${physical.zip}`,
+          address2: joinAddressParts(physical.address2, physical.address3),
+          address3: joinAddressParts(
+            physical.city,
+            physical.state,
+            physical.zip,
+          ),
         };
 
+        // Return a new facility object with the updated address
         return {
           ...facility,
+          attributes: {
+            ...facility.attributes,
+            address: {
+              ...facility.attributes.address,
+              physical: newPhysicalAddress,
+            },
+          },
         };
       });
     })
