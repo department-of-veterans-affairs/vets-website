@@ -1,14 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
-import {
-  rxListSortingOptions,
-  BREADCRUMB_NAVIGATION_EVENT,
-} from '../../util/constants';
+import { rxListSortingOptions } from '../../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
@@ -18,7 +15,6 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
-  const [scrollPositionY, setScrollPositionY] = useState(null);
   const scrollLocation = useRef();
   const goToPrevious = () => {
     scrollLocation.current?.scrollIntoView();
@@ -31,21 +27,6 @@ const MedicationsList = props => {
       }
     },
     [prescriptionId],
-  );
-
-  useEffect(
-    () => {
-      const listener = window.addEventListener(
-        BREADCRUMB_NAVIGATION_EVENT,
-        () => {
-          if (scrollPositionY)
-            window.scrollTo(0, parseInt(scrollPositionY, 10));
-        },
-      );
-      return () =>
-        window.removeEventListener(BREADCRUMB_NAVIGATION_EVENT, listener);
-    },
-    [scrollPositionY],
   );
 
   const displaynumberOfPrescriptionsSelector =
@@ -90,17 +71,10 @@ const MedicationsList = props => {
             (rx, idx) =>
               rx.prescriptionId === prescriptionId ? (
                 <div ref={scrollLocation} key={idx}>
-                  <MedicationsListCard
-                    rx={rx}
-                    setScrollPositionY={setScrollPositionY}
-                  />
+                  <MedicationsListCard rx={rx} />
                 </div>
               ) : (
-                <MedicationsListCard
-                  key={idx}
-                  rx={rx}
-                  setScrollPositionY={setScrollPositionY}
-                />
+                <MedicationsListCard key={idx} rx={rx} />
               ),
           )}
       </div>

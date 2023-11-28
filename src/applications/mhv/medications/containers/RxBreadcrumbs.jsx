@@ -3,10 +3,7 @@ import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { Link } from 'react-router-dom';
-import {
-  medicationsUrls,
-  BREADCRUMB_NAVIGATION_EVENT,
-} from '../util/constants';
+import { medicationsUrls } from '../util/constants';
 
 const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1 
 small-screen:vads-u-margin-left--neg1 
@@ -24,9 +21,6 @@ const RxBreadcrumbs = () => {
   const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const currentPath = useSelector(state => state.rx.breadcrumbs.location);
   const allCrumbs = [...crumbs, currentPath];
-  const handleLinkClick = () => {
-    window.dispatchEvent(new CustomEvent(BREADCRUMB_NAVIGATION_EVENT));
-  };
   return (
     <>
       {allCrumbs.length > 0 &&
@@ -41,9 +35,7 @@ const RxBreadcrumbs = () => {
                   {crumb.url === medicationsUrls.MEDICATIONS_ABOUT ? ( // Assign <a> tag for link outside app's router
                     <a href={crumb.url}>{crumb.label}</a>
                   ) : (
-                    <Link onClick={handleLinkClick} to={getLinkUrl(crumb)}>
-                      {crumb.label}
-                    </Link>
+                    <Link to={getLinkUrl(crumb)}>{crumb.label}</Link>
                   )}
                 </li>
               ))}

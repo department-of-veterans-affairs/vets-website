@@ -11,7 +11,7 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 const MedicationsListCard = props => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { rx, setScrollPositionY } = props;
+  const { rx } = props;
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -24,7 +24,6 @@ const MedicationsListCard = props => {
     return <p>{rx.refillRemaining} refills left</p>;
   };
   const handleLinkClick = () => {
-    setScrollPositionY(window.scrollY);
     dispatch(
       setBreadcrumbs(
         [
@@ -96,5 +95,4 @@ export default MedicationsListCard;
 
 MedicationsListCard.propTypes = {
   rx: PropTypes.object,
-  setScrollPositionY: PropTypes.func,
 };
