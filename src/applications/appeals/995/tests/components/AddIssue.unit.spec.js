@@ -10,7 +10,7 @@ import {
 
 import AddIssue from '../../components/AddIssue';
 import { errorMessages } from '../../constants';
-import { getDate } from '../../utils/dates';
+import { getDate } from '../../../shared/utils/dates';
 
 import {
   LAST_ISSUE,

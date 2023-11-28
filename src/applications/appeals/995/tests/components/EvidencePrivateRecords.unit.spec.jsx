@@ -10,9 +10,10 @@ import {
 
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import { errorMessages, EVIDENCE_PRIVATE_PATH } from '../../constants';
-import { getDate } from '../../utils/dates';
 
+import { getDate } from '../../../shared/utils/dates';
 import { SELECTED } from '../../../shared/constants';
+
 /*
 | Data     | Forward     | Back               | Add another      |
 |----------|-------------|--------------------|------------------|
