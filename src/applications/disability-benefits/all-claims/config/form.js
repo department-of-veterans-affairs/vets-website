@@ -295,7 +295,7 @@ const formConfig = {
       },
     },
     disabilities: {
-      title: 'Disabilities', // this probably needs to change
+      title: 'Conditions', // this probably needs to change
       pages: {
         claimType: {
           title: 'Reason for claim',
