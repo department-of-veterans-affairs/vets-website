@@ -16,6 +16,12 @@ export default class SignInModal extends React.Component {
     }
   }
 
+  toggleModal(shouldShowModal) {
+    this.setState({
+      modalShouldShow: shouldShowModal,
+    });
+  }
+
   render() {
     return (
       <Modal

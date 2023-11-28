@@ -209,15 +209,21 @@ export class Main extends Component {
   };
 
   signInSignUp = () => {
-    if (this.props.shouldConfirmLeavingForm) {
-      this.props.toggleFormSignInModal(true);
-    } else {
-      // Make only one upfront request to get all backend statuses to prevent
-      // each identity dependency's warning banner from making duplicate
-      // requests when the sign-in modal renders.
-      this.props.getBackendStatuses();
-      this.props.toggleLoginModal(true, 'header');
-      this.appendOrRemoveParameter({});
+    const crisisLineModalIsOpen = document.querySelector(
+      '#modal-crisisline.va-overlay--open',
+    );
+
+    if (!crisisLineModalIsOpen) {
+      if (this.props.shouldConfirmLeavingForm) {
+        this.props.toggleFormSignInModal(true);
+      } else {
+        // Make only one upfront request to get all backend statuses to prevent
+        // each identity dependency's warning banner from making duplicate
+        // requests when the sign-in modal renders.
+        this.props.getBackendStatuses();
+        this.props.toggleLoginModal(true, 'header');
+        this.appendOrRemoveParameter({});
+      }
     }
   };
 
