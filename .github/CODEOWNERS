@@ -81,7 +81,7 @@ src/applications/static-pages/coe-access @department-of-veterans-affairs/benefit
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Disability Benefits Experience
-src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-disability-2
 
 # VSA Debt
 
