@@ -1479,3 +1479,19 @@ $marker-text-width: 9rem;
 .tab-content {
   border-top: 1px solid $color-gray-lighter;
 }
+
+.tab-panel:focus {
+  outline: none;
+}
+
+#downtime-app > va-alert {
+  margin: 48px auto;
+  max-width: 62.5em;
+}
+
+@media (max-width: $large-screen) {
+  #downtime-app > va-alert {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}

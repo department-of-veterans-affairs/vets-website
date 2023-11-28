@@ -8,7 +8,7 @@ class MedicationsDetailsPage {
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you download').click({
+    cy.contains('What to know before you print or download').click({
       force: true,
     });
   };
@@ -46,17 +46,20 @@ class MedicationsDetailsPage {
     );
   };
 
-  verifyPrescriptionsexpirationDate = () => {
-    cy.get('[data-testid="expiration-date"]').should(
-      'have.text',
-      'April 14, 2024',
-    );
+  // verifyPrescriptionsExpirationDate = () => {
+  //   cy.get('[data-testid="expiration-date"]').should(
+  //     'have.text',
+  //     'April 13, 2024',
+  //   );
+  // };
+  verifyPrescriptionsExpirationDate = expDate => {
+    cy.get('[data-testid="expiration-date"]').should('have.text', expDate);
   };
 
-  verifyPrescriptionsorderedDate = () => {
+  verifyPrescriptionsOrderedDate = () => {
     cy.get('[datat-testid="ordered-date"]').should(
       'have.text',
-      'April 14, 2023',
+      'April 13, 2023',
     );
   };
 
@@ -95,7 +98,7 @@ class MedicationsDetailsPage {
     cy.get(
       `#card-header-${
         prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      } > .no-print`,
     ).should('be.visible');
     cy.get(
       `#card-header-${
@@ -105,7 +108,7 @@ class MedicationsDetailsPage {
   };
 
   clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.contains('About Medications')
+    cy.contains('About medications')
       .should('be.visible')
       .click({ force: true });
   };
@@ -124,7 +127,7 @@ class MedicationsDetailsPage {
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('have.text', 'Download your medication details as a PDF')
+      .should('have.text', 'Download this page as a PDF')
       .should('be.enabled');
   };
 

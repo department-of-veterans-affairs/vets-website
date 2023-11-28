@@ -38,6 +38,7 @@ const HealthCareContent = ({
   hasAppointmentsError,
   isVAPatient,
   isLOA1,
+  isCernerPatient,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -71,7 +72,7 @@ const HealthCareContent = ({
   const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
 
   const shouldShowOnOneColumn =
-    !isVAPatient || !hasUpcomingAppointment || isLOA1 || noCerner;
+    !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -139,7 +140,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (facilityNames?.length > 0 && !noCerner) {
+  if (isCernerPatient && facilityNames?.length > 0 && !noCerner) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -157,14 +158,13 @@ const HealthCareContent = ({
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment &&
-          !isLOA1 &&
-          !noCerner && <AppointmentsCard appointments={appointments} />}
-        {!isVAPatient && !isLOA1 && !noCerner && <NoHealthcareText />}
+          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
           !isLOA1 &&
-          !noCerner && <NoUpcomingAppointmentsText />}
+          !isCernerPatient && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
             noCerner={noCerner}
@@ -181,6 +181,7 @@ const HealthCareContent = ({
       {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
+            noCerner={noCerner}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}

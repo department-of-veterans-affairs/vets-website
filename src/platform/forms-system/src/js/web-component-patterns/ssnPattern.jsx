@@ -7,7 +7,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
 const VA_FILE_NUMBER_DEFAULT_TITLE = 'VA file number';
-const SERVICE_NUMBER_DEFAULT_TITLE = 'Service number';
+const SERVICE_NUMBER_DEFAULT_TITLE = 'Military Service number';
 
 /**
  * Web component for Social Security number
