@@ -24,9 +24,6 @@ describe('Medications Details Page Breadcrumbs', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });
