@@ -109,6 +109,8 @@ export default Object.freeze({
   mhvSecureMessagingToPhase1: 'mhv_secure_messaging_to_phase_1',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
+  mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
+  mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',

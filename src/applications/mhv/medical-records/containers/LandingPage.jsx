@@ -31,15 +31,15 @@ const LandingPage = () => {
 
   return (
     <>
-      <section>
-        <h1 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Medical records
-        </h1>
-        <p className="va-introtext vads-u-margin-bottom--0">
-          Review, print, and download your VA medical records.
-        </p>
-      </section>
       <div>
+        <section>
+          <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+            Medical records
+          </h1>
+          <p className="va-introtext vads-u-margin-bottom--0">
+            Review, print, and download your VA medical records.
+          </p>
+        </section>
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
             Allergies and reactions
