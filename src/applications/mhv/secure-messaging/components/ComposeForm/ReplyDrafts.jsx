@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import drafts from './draftsMocks.json';
 import { useDispatch } from 'react-redux';
 import ReplyDraftItem from './ReplyDraftItem';
 import { Actions } from '../../util/actionTypes';

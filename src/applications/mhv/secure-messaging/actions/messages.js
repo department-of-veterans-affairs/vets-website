@@ -11,13 +11,6 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
 
-export const oldMessageAlert = sentDate => dispatch => {
-  dispatch({
-    type: Actions.Thread.CANNOT_REPLY_ALERT,
-    payload: isOlderThan(sentDate, 45),
-  });
-};
-
 export const clearMessageHistory = () => async dispatch => {
   dispatch({ type: Actions.Message.CLEAR_HISTORY });
 };
@@ -77,7 +70,6 @@ export const retrieveMessageThread = (
       // finding last sent message in a thread to check if it is not too old for replies
       const lastSentDate = getLastSentMessage(response.data)?.attributes
         .sentDate;
-      dispatch(oldMessageAlert(lastSentDate));
 
       // const isDraft = response.data[0].attributes.draftDate !== null;
       const drafts = response.data.filter(m => m.attributes.draftDate !== null);
@@ -123,6 +115,7 @@ export const retrieveMessageThread = (
         payload: {
           replyToName,
           threadFolderId,
+          cannotReply: isOlderThan(lastSentDate, 45),
           replyToMessageId: msgResponse.data.attributes.messageId,
           drafts: drafts ? drafts.map(m => m.attributes) : undefined,
           messages: messages.map(m => m.attributes),
