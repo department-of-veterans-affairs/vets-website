@@ -18,6 +18,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     formSubTitle:
       'Freedom of Information Act (FOIA) and Privacy Act (PA) Request (VA Form 20-10206)',
     authStartFormText: 'Start your request',
+    unauthStartText: 'Sign in to start your request',
     hideSipIntro: userLoggedIn && !userIdVerified,
   };
 
@@ -40,7 +41,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </p>
       <p>
         <a
-          href="https://www.va.gov/FOIA/index.asp"
+          href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -55,7 +56,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </p>
       <p>
         <a
-          href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
+          href="https://www.va.gov/FOIA/index.asp"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -66,9 +67,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <p>Or you can submit a PDF version of this form.</p>
       <h2>What type of information can I request?</h2>
       <p>You can request any of these kinds of personal records:</p>
-      <p className="vads-u-font-weight--bold">
+      <h3 className="vads-u-font-family--sans">
         Compensation and pension records
-      </p>
+      </h3>
       <ul>
         <li>
           Certificate of Release or Discharge from Active Duty (DD Form 214)
@@ -80,7 +81,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Service or military treatment</li>
         <li>Other compensation and pension records</li>
       </ul>
-      <p className="vads-u-font-weight--bold">Benefit records</p>
+      <h3 className="vads-u-font-family--sans">Benefit records</h3>
       <ul>
         <li>Education benefit</li>
         <li>Fiduciary services</li>
