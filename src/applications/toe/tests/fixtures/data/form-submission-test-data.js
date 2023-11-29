@@ -66,7 +66,6 @@ export const submissionForm = {
     },
   },
   reviewPageView: {
-    openChapters: [],
     viewedPages: {},
   },
   trackingPrefix: 'toe-',
