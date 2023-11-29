@@ -108,7 +108,6 @@ export {
   getFormData,
   getFormPages,
   getSubmission,
-  getReviewPageOpenChapters,
   getViewedPages,
 } from './src/js/state/selectors';
 
@@ -184,8 +183,6 @@ export { default as TextWidget } from './src/js/widgets/TextWidget';
 export { default as ArrayCountWidget } from './src/js/widgets/ArrayCountWidget';
 
 export {
-  closeReviewChapter,
-  openReviewChapter,
   setData,
   setEditMode,
   setSubmission,
