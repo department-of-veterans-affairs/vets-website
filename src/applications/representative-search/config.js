@@ -8,6 +8,7 @@ import manifest from './manifest.json';
 
 const apiSettings = {
   credentials: 'include',
+  mode: 'cors',
   headers: {
     'X-Key-Inflection': 'camel',
     'Sec-Fetch-Mode': 'cors',
