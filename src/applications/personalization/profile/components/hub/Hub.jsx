@@ -40,8 +40,7 @@ export const Hub = () => {
       <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
           heading="Personal information"
-          content="Review your legal name, date of birth, and disability rating. And
-              manage your preferred name and gender identity."
+          content="Legal name, date of birth, preferred name, gender identity, and disability rating"
         >
           <ProfileLink
             text="Manage your personal information"
@@ -51,7 +50,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Contact information"
-          content="Manage your addresses, phone numbers, and the email address we'll use to contact you."
+          content="Addresses, phone numbers, and email address"
         >
           <ProfileLink
             text="Manage your contact information"
@@ -74,7 +73,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Military information"
-          content="Review your military branches and dates of service."
+          content="Military branches and dates of service"
         >
           <>
             <ProfileLink
@@ -92,17 +91,22 @@ export const Hub = () => {
 
         <HubCard
           heading="Direct deposit information"
-          content="Manage direct deposit information for disability compensation, pension, and education benefits."
+          content="Direct deposit information for disability compensation, pension, and education benefits"
         >
           <ProfileLink
             text="Manage your direct deposit information"
             href={PROFILE_PATHS.DIRECT_DEPOSIT}
           />
+
+          <ProfileLink
+            text="View payment history"
+            href="/va-payment-history/payments/"
+          />
         </HubCard>
 
         <HubCard
           heading="Notification settings"
-          content="Manage the text and email notifications you get from VA."
+          content="Text and email notifications you get from VA"
         >
           <ProfileLink
             text="Manage notification settings"
@@ -112,7 +116,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Account security"
-          content="Review your sign-in and account information."
+          content="Sign-in and account information"
         >
           <>
             <ProfileLink
@@ -131,7 +135,7 @@ export const Hub = () => {
 
         <HubCard
           heading="Connected apps"
-          content="Manage the 3rd-party apps that have access to your VA.gov profile."
+          content="3rd-party apps that have access to your VA.gov profile"
         >
           <ProfileLink
             href={PROFILE_PATHS.CONNECTED_APPLICATIONS}
