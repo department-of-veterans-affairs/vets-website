@@ -112,7 +112,6 @@ export default Object.freeze({
   mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
   mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
-  mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
