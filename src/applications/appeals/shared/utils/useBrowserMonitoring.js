@@ -13,7 +13,8 @@ const defaultRumSettings = {
 
   // Default settings
   site: 'ddog-gov.com',
-  env: environment.vspEnvironment(), // 'vagovprod'
+  // see src/site/constants/vsp-environments.js for defaults
+  env: environment.vspEnvironment(), // 'production'
   sessionSampleRate: 100,
   sessionReplaySampleRate: 100,
   trackInteractions: true,

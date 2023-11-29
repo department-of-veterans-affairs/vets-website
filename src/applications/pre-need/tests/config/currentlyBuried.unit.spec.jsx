@@ -14,6 +14,11 @@ import formConfig from '../../config/form';
 const mockStore = configureMockStore();
 
 const payload = {
+  application: {
+    claimant: {
+      relationshipToVet: '1',
+    },
+  },
   claimant: {
     hasCurrentlyBuried: '1',
   },
@@ -111,6 +116,79 @@ describe('Pre-need burial benefits', () => {
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should change CurrentlyBuriedPersonsDescription to match veteran', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+    const div = form.find('.schemaform-block-header');
+    expect(div.text()).to.contain(
+      'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.',
+    );
+    form.unmount();
+  });
+
+  const sponsorPayload = {
+    claimant: {
+      hasCurrentlyBuried: '1',
+    },
+  };
+
+  const sponsorStore = mockStore({
+    form: {
+      data: sponsorPayload,
+    },
+  });
+
+  it('should change CurrentlyBuriedPersonsDescription to match sponsor', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={sponsorStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+    const div = form.find('.schemaform-block-header');
+    expect(div.text()).to.contain(
+      'Please provide the details of the person(s) currently buried in a VA national cemetery under the sponsor’s eligibility.',
+    );
+    form.unmount();
+  });
+
+  const emptyStore = mockStore({
+    form: {},
+  });
+
+  it('should change CurrentlyBuriedPersonsDescription to match sponsor', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={emptyStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+    const div = form.find('.schemaform-block-header');
+    expect(div.text()).to.contain(
+      'Please provide the details of the person(s) currently buried in a VA national cemetery under the sponsor’s eligibility.',
+    );
     form.unmount();
   });
 });

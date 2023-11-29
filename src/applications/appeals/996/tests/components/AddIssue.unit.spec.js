@@ -10,8 +10,9 @@ import {
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { getDate } from '../../utils/dates';
+
 import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 describe('<AddIssue>', () => {

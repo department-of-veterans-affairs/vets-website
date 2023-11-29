@@ -86,6 +86,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: true,
         inProgress: false,
+        searchCounter: state.searchCounter + 1,
         searchWithInputInProgress: false,
       };
     case SEARCH_QUERY_UPDATED:
