@@ -8,9 +8,7 @@ const HubSection = ({ title, links }) => {
     <li key={`${href}--${index}`}>
       <va-link
         class="mhv-c-link"
-        disable-analytics={{
-          value: 'true',
-        }}
+        disable-analytics
         href={href}
         text={text}
         onClick={() => {
