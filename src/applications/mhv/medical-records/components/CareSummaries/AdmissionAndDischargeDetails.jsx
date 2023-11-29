@@ -7,7 +7,11 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf } from '../../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -100,6 +104,27 @@ const AdmissionAndDischargeDetails = props => {
     );
   };
 
+  const generateCareNotesTxt = () => {
+    const content = `\n
+${record.name}\n
+Date: ${formatDateLong(record.date)}\n
+_____________________________________________________\n\n
+Details about this test\n
+Location: ${record.location}\n
+Admission date: ${record.startDate}\n
+Discharge date: ${record.endDate}\n
+Admitted by: ${record.admittingPhysician}\n
+Discharged by: ${record.dischargePhysician}\n
+_____________________________________________________\n\n
+Summary\n
+${record.summary}`;
+
+    generateTextFile(
+      content,
+      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+    );
+  };
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
@@ -135,6 +160,7 @@ const AdmissionAndDischargeDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />

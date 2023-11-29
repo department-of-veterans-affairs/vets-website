@@ -7,7 +7,11 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf } from '../../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -91,6 +95,25 @@ const ProgressNoteDetails = props => {
     );
   };
 
+  const generateCareNotesTxt = () => {
+    const content = `\n
+${record.name}\n
+Date: ${formatDateLong(record.date)}\n
+_____________________________________________________\n\n
+Details about this test\n
+Location: ${record.location}\n
+Signed by: ${record.physician}\n
+Last updated: ${record.dateUpdated}\n
+Date signed: ${record.dateSigned}\n
+_____________________________________________________\n\n
+Note\n
+${record.summary}`;
+    generateTextFile(
+      content,
+      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+    );
+  };
+
   const download = () => {
     generateCareNotesPDF();
   };
@@ -123,6 +146,7 @@ const ProgressNoteDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={download}
+          downloadTxt={generateCareNotesTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
