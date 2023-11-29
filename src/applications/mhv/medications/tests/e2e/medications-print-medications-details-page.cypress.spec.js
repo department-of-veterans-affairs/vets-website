@@ -18,9 +18,6 @@ describe('Navigate to Print DropDown on Details Page', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     detailsPage.clickPrintOrDownloadThisPageDropDownOnDetailsPage();
