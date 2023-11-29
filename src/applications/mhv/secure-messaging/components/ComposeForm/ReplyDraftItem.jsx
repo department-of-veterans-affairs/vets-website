@@ -44,7 +44,7 @@ const ReplyDraftItem = props => {
   // const defaultRecipientsList = [{ id: 0, name: ' ' }];
   // const [newDraftId, setNewDraftId] = useState(draft ? draft.messageId : null);
   // const [editedDraft, setEditedDraft] = useState(null);
-  const replyToMessageId = replyMessage.messageId;
+  const replyToMessageId = draft?.messageId || replyMessage.messageId;
   // const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');

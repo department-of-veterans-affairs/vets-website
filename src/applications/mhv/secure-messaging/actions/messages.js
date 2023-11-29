@@ -275,6 +275,11 @@ export const sendReply = (
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
+    } else if (
+      e.errors &&
+      e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
+    ) {
+      dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
     } else {
       dispatch(
         addAlert(
