@@ -139,4 +139,46 @@ describe('App', () => {
       );
     });
   });
+
+  describe('App-level feature flag functionality', () => {
+    it('feature flag set to false', () => {
+      const screen = renderWithStoreAndRouter(
+        <App>
+          <LandingPage />
+        </App>,
+        {
+          initialState: {
+            featureToggles: {
+              // eslint-disable-next-line camelcase
+              mhv_medical_records_display_sidenav: false,
+            },
+            ...initialState,
+          },
+          path: `/`,
+          reducers: reducer,
+        },
+      );
+      expect(screen.queryByTestId('mhv-mr-navigation')).to.be.null;
+    });
+
+    it('feature flag set to true', () => {
+      const screen = renderWithStoreAndRouter(
+        <App>
+          <LandingPage />
+        </App>,
+        {
+          initialState: {
+            featureToggles: {
+              // eslint-disable-next-line camelcase
+              mhv_medical_records_display_sidenav: true,
+            },
+            ...initialState,
+          },
+          reducers: reducer,
+          path: `/`,
+        },
+      );
+      expect(screen.queryByTestId('mhv-mr-navigation'));
+    });
+  });
 });
