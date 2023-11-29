@@ -5,10 +5,7 @@
  * @testrailinfo groupId 3026
  * @testrailinfo runName FF-e2e-Required
  */
-// Dependencies.
 import chunk from 'lodash/chunk';
-
-// Relative Imports
 import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
 import { sortTheResults } from '../../helpers';
 import stub from '../../constants/stub.json';
