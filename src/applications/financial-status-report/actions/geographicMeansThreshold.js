@@ -21,6 +21,7 @@ import {
   DISCRETIONARY_INCOME_PERCENTAGE,
 } from '../constants/gmtCalculationTypes';
 
+const isLocalhost = environment.isLocalhost();
 /**
  * Helper calculates and returns the income upper threshold, asset threshold, and discretionary income threshold
  * based on the given GMT value.
@@ -49,7 +50,6 @@ const calculateThresholds = gmtValue => {
  */
 
 const getDataUrl = (dependents, year, zipCode) => {
-  const isLocalhost = environment.isLocalhost();
   if (isLocalhost && USE_GEOGRAPHIC_MOCK_DATA) {
     return null; // Return mock data directly
   }
@@ -75,7 +75,7 @@ const getDataUrl = (dependents, year, zipCode) => {
 export const getGMT = async (dependents, year, zipCode) => {
   const dataUrl = getDataUrl(dependents, year, zipCode);
 
-  if (dataUrl === null) {
+  if (dataUrl === null && isLocalhost) {
     // Mock data scenario
     return Promise.resolve({
       gmtThreshold: MOCK_GMT_VALUE,

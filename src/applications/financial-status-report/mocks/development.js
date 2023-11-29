@@ -1,5 +1,5 @@
 // when USE_MOCK is true, the application will use the copay mock data below instead of live api data
-export const USE_COPAY_MOCK_DATA = false;
+export const USE_COPAY_MOCK_DATA = true;
 // when USE_GEOGRAPHIC_MOCK_DATA is true, the application will use the geographic mock data below instead of live api data
 export const USE_GEOGRAPHIC_MOCK_DATA = false;
 // this is the value that will be used for GMT calculations when USE_GEOGRAPHIC_MOCK_DATA is true
