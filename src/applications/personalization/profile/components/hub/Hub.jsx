@@ -39,7 +39,7 @@ export const Hub = () => {
       {/* ROW */}
       <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
-          heading="Personal information"
+          heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
           content="Legal name, date of birth, preferred name, gender identity, and disability rating"
         >
           <ProfileLink
@@ -49,7 +49,7 @@ export const Hub = () => {
         </HubCard>
 
         <HubCard
-          heading="Contact information"
+          heading={PROFILE_PATH_NAMES.CONTACT_INFORMATION}
           content="Addresses, phone numbers, and email address"
         >
           <ProfileLink
@@ -61,7 +61,7 @@ export const Hub = () => {
         {profileContactsEnabled && (
           <HubCard
             heading={PROFILE_PATH_NAMES.CONTACTS}
-            content="Review your medical emergency contact and next of kin contact information."
+            content="Medical emergency contact and next of kin contact information"
           >
             <ProfileLink
               className="small-screen--line-break-at-32-characters"
@@ -72,7 +72,7 @@ export const Hub = () => {
         )}
 
         <HubCard
-          heading="Military information"
+          heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
           content="Military branches and dates of service"
         >
           <>
@@ -90,7 +90,7 @@ export const Hub = () => {
         </HubCard>
 
         <HubCard
-          heading="Direct deposit information"
+          heading={PROFILE_PATH_NAMES.DIRECT_DEPOSIT}
           content="Direct deposit information for disability compensation, pension, and education benefits"
         >
           <ProfileLink
@@ -105,7 +105,7 @@ export const Hub = () => {
         </HubCard>
 
         <HubCard
-          heading="Notification settings"
+          heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}
           content="Text and email notifications you get from VA"
         >
           <ProfileLink
@@ -115,7 +115,7 @@ export const Hub = () => {
         </HubCard>
 
         <HubCard
-          heading="Account security"
+          heading={PROFILE_PATH_NAMES.ACCOUNT_SECURITY}
           content="Sign-in and account information"
         >
           <>
@@ -134,7 +134,7 @@ export const Hub = () => {
         </HubCard>
 
         <HubCard
-          heading="Connected apps"
+          heading={PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS}
           content="3rd-party apps that have access to your VA.gov profile"
         >
           <ProfileLink
