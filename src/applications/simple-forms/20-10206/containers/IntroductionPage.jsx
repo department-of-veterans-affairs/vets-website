@@ -17,7 +17,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     formTitle: 'Request personal records',
     formSubTitle:
       'Freedom of Information Act (FOIA) and Privacy Act (PA) Request (VA Form 20-10206)',
-    authStartFormText: 'Start filling out your request',
+    authStartFormText: 'Start your request',
     hideSipIntro: userLoggedIn && !userIdVerified,
   };
 
@@ -31,7 +31,8 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <p>
         If you want to request your records through this online form, you’ll
         need to sign in to your account. We’ll need to verify your identity, so
-        we encourage you to use a Login.gov or ID.me account.
+        we encourage you to use a <strong>Login.gov</strong> or{' '}
+        <strong>ID.me</strong> account.
       </p>
       <p>
         <strong>Note</strong>: You need to be a U.S. citizen or a legal
@@ -43,7 +44,22 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          submit a FOIA request (opens in new tab)
+          Learn more about verified accounts (opens in new tab)
+        </a>
+        .
+      </p>
+      <p>
+        If you’re a third-party representative or power of attorney requesting
+        records for someone else, you can’t submit this online form. You’ll need
+        to submit a FOIA request online using the Public Access Link (PAL).
+      </p>
+      <p>
+        <a
+          href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Submit a FOIA request online (opens in new tab)
         </a>
         .
       </p>
@@ -98,11 +114,11 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
             </p>
             <ul>
               <li>
-                If you’re a third-party representative (a family member or other
-                assigned person who is not a power of attorney, agent, or
-                fiduciary) requesting VA records for someone else, we must have
-                an authorization form on record (VA Form 21-0845) for us to
-                release their information.
+                <strong>If you’re a third-party representative</strong> (a
+                family member or other assigned person who is not a power of
+                attorney, agent, or fiduciary) requesting VA records for someone
+                else, we must have an authorization form on record (VA Form
+                21-0845) for us to release their information.
                 <a
                   href="https://www.va.gov/find-forms/about-form-21-22/"
                   target="_blank"
@@ -114,9 +130,10 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
                 </a>
               </li>
               <li className="vads-u-margin-top--2">
-                If you’re a power of attorney requesting VA records for someone
-                else, we must have an official record that you were appointed as
-                their representative (VA Form 21-22 or VA Form 21-22a).
+                <strong>If you’re a power of attorney</strong> requesting VA
+                records for someone else, we must have an official record that
+                you were appointed as their representative (VA Form 21-22 or VA
+                Form 21-22a).
                 <a
                   href="https://www.va.gov/find-forms/about-form-21-22/"
                   target="_blank"
