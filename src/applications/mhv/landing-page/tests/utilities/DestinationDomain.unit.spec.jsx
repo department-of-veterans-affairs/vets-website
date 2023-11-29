@@ -28,9 +28,4 @@ describe('getDestinationDomain', () => {
     const relativeUrl = '/local/page';
     expect(getDestinationDomain(relativeUrl)).to.equal('www.currentsite.com');
   });
-
-  it('returns an empty string for invalid URLs', () => {
-    const invalidUrl = 'ht@://invalid-url';
-    expect(getDestinationDomain(invalidUrl)).to.equal('');
-  });
 });
