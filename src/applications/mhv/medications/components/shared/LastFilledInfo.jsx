@@ -5,6 +5,7 @@ import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
   const { dispStatus, orderedDate, dispensedDate, rxRfRecords } = rx;
+  // testing code
   let nonVA = false;
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
@@ -21,7 +22,7 @@ const LastFilledInfo = rx => {
       {nonVA &&
         orderedDate && (
           <p data-testid="rx-last-filled-info">
-            Documented on {dateFormat(orderedDate, 'MMMM D, YYYY')}
+            Documented sdfsdfsdfs on {dateFormat(orderedDate, 'MMMM D, YYYY')}
           </p>
         )}
       {showLastFilledDate && (
