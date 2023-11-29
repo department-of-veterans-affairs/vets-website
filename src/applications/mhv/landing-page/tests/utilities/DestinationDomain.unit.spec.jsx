@@ -2,12 +2,16 @@ import { expect } from 'chai';
 import { getDestinationDomain } from '../../utilities';
 
 describe('getDestinationDomain', () => {
-  before(() => {
-    global.document = {
-      location: {
-        href: 'https://www.currentsite.com',
-      },
-    };
+  let oldLocation;
+
+  beforeEach(() => {
+    oldLocation = document.location.href;
+
+    global.dom.reconfigure({ url: 'https://www.currentsite.com' });
+  });
+
+  afterEach(() => {
+    global.dom.reconfigure({ url: oldLocation });
   });
 
   it('returns the hostname for a full URL', () => {
@@ -22,7 +26,7 @@ describe('getDestinationDomain', () => {
 
   it('resolves relative URLs based on document.location.href', () => {
     const relativeUrl = '/local/page';
-    expect(getDestinationDomain(relativeUrl)).to.equal('localhost');
+    expect(getDestinationDomain(relativeUrl)).to.equal('www.currentsite.com');
   });
 
   it('returns an empty string for invalid URLs', () => {
