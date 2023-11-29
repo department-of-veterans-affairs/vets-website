@@ -235,7 +235,7 @@ describe('focus on change', () => {
 
     const dom = findDOMNode(tree);
     global.document = dom;
-    const target = '.edit-btn';
+    const target = 'va-button[text="edit"]';
     const focused = sinon.stub(dom.querySelector(target), 'focus');
     focusOnChange('test', target);
 
