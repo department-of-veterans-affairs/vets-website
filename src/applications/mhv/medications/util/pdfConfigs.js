@@ -80,7 +80,9 @@ export const buildPrescriptionsPDFList = prescriptions => {
     if (rx?.prescriptionSource === 'NV') {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
-        header: rx.prescriptionName,
+        header:
+          rx.prescriptionName ||
+          (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : ''),
       };
     }
 

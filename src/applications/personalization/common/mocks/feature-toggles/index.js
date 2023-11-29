@@ -1,5 +1,6 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
+    authExpVbaDowntimeMessage = true,
     myVaEnableNotificationComponent = true,
     myVaHideNotificationsSection = true,
     myVaUseExperimental = true,
@@ -7,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     myVaUseExperimentalFullstack = true,
     myVaUseLighthouseClaims = true,
     myVaNotificationDotIndicator = true,
+    myVaRemoveCernerMessage = true,
     myVaUpdateErrorsWarnings = true,
     vaOnlineSchedulingBreadcrumbUrlUpdate = true,
     vaOnlineSchedulingStaticLandingPage = true,
@@ -16,6 +18,10 @@ const generateFeatureToggles = (toggles = {}) => {
     data: {
       type: 'feature_toggles',
       features: [
+        {
+          name: 'auth_exp_vba_downtime_message',
+          value: authExpVbaDowntimeMessage,
+        },
         {
           name: 'my_va_notification_component',
           value: myVaEnableNotificationComponent,
@@ -43,6 +49,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'my_va_notification_dot_indicator',
           value: myVaNotificationDotIndicator,
+        },
+        {
+          name: 'my_va_remove_cerner_message',
+          value: myVaRemoveCernerMessage,
         },
         {
           name: 'my_va_update_errors_warnings',

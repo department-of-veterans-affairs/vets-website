@@ -22,13 +22,15 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    authExpVbaDowntimeMessage: true,
     myVaEnableNotificationComponent: true,
-    myVaUseExperimental: true,
-    myVaUseExperimentalFrontend: false,
+    myVaUseExperimental: false,
+    myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
     myVaHideNotificationsSection: true,
     myVaNotificationDotIndicator: true,
+    myVaRemoveCernerMessage: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingBreadcrumbUrlUpdate: true,
     vaOnlineSchedulingStaticLandingPage: true,

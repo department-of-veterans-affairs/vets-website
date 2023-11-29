@@ -1,7 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { INSURANCE_VIEW_FIELDS } from '../../../utils/constants';
-
-const { providers } = ezrSchema.properties;
 
 export default {
   uiSchema: {},
@@ -10,8 +7,43 @@ export default {
     properties: {
       [INSURANCE_VIEW_FIELDS.add]: { type: 'boolean' },
       providers: {
-        ...providers,
         default: [],
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            insuranceName: {
+              type: 'string',
+              maxLength: 100,
+            },
+            insurancePolicyHolderName: {
+              type: 'string',
+              maxLength: 50,
+            },
+          },
+        },
+        anyOf: [
+          {
+            properties: {
+              insurancePolicyNumber: {
+                type: 'string',
+                maxLength: 30,
+                pattern: '^.*\\S.*',
+              },
+            },
+            required: ['insurancePolicyNumber'],
+          },
+          {
+            properties: {
+              insuranceGroupCode: {
+                type: 'string',
+                maxLength: 30,
+                pattern: '^.*\\S.*',
+              },
+            },
+            required: ['insuranceGroupCode'],
+          },
+        ],
       },
     },
   },

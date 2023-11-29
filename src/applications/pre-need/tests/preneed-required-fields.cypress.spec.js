@@ -20,7 +20,15 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Applicant Information Page
     preneedHelpers.validateProgressBar('1');
-    errorCheck(requiredHelpers.applicantInfoErrors);
+    errorCheck(requiredHelpers.applicantRelationshipToVetErrors);
+
+    cy.selectRadio(
+      'root_application_claimant_relationshipToVet',
+      testData.data.application.claimant.relationshipToVet,
+    );
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/applicant-relationship-to-vet');
+
     cy.fill(
       'input[name=root_application_claimant_name_first]',
       testData.data.application.claimant.name.first,
@@ -37,16 +45,13 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'root_application_claimant_dateOfBirth',
       testData.data.application.claimant.dateOfBirth,
     );
-    cy.selectRadio(
-      'root_application_claimant_relationshipToVet',
-      testData.data.application.claimant.relationshipToVet,
-    );
+
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/applicant-information');
+    cy.url().should('not.contain', '/applicant-details');
 
     // Veteran/Sponsor Information Page
     preneedHelpers.validateProgressBar('2');
-    errorCheck(requiredHelpers.veteranInfoErrors);
+    errorCheck(requiredHelpers.veteranDetailsErrors);
     cy.fill(
       'input[name=root_application_veteran_currentName_first]',
       testData.data.application.veteran.currentName.first,
@@ -59,6 +64,10 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'input[name="root_application_veteran_ssn"]',
       testData.data.application.veteran.ssn,
     );
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/sponsor-details');
+
+    errorCheck(requiredHelpers.veteranDemographicsErrors);
     cy.get(
       'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
     ).click();
@@ -70,15 +79,23 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
       'root_application_veteran_maritalStatus',
       testData.data.application.veteran.maritalStatus,
     );
-    cy.get('#root_application_veteran_militaryStatus').select(
-      testData.data.application.veteran.militaryStatus,
-    );
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/sponsor-demographics');
+
+    errorCheck(requiredHelpers.veteranDeceasedErrors);
     cy.selectRadio(
       'root_application_veteran_isDeceased',
       testData.data.application.veteran.isDeceased,
     );
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/veteran-information');
+    cy.url().should('not.contain', '/sponsor-demographics');
+
+    errorCheck(requiredHelpers.veteranMilitaryDetailsErrors);
+    cy.get('#root_application_veteran_militaryStatus').select(
+      testData.data.application.veteran.militaryStatus,
+    );
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/sponsor-military-details');
 
     // Military History Page
     preneedHelpers.validateProgressBar('3');

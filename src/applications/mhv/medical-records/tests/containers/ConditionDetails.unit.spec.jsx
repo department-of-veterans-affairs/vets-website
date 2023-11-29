@@ -12,10 +12,10 @@ import conditionWithFieldsMissing from '../fixtures/conditionWithFieldsMissing.j
 
 describe('Condition details container', () => {
   const initialState = {
-    mr: {
-      conditions: {
-        conditionDetails: convertCondition(condition),
-      },
+    mr: { conditions: { conditionDetails: convertCondition(condition) } },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
     },
     user,
   };
@@ -74,6 +74,11 @@ describe('Condition details container', () => {
 
   it('should download a pdf', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen).to.exist;
   });
 });

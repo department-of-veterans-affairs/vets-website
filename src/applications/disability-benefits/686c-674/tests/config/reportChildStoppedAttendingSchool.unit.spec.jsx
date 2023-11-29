@@ -236,12 +236,6 @@ describe('686 report a child has stopped attending school', () => {
       'input#root_childStoppedAttendingSchool_fullName_last',
       'doe',
     );
-    const suffix = form.find(
-      'select#root_childStoppedAttendingSchool_fullName_suffix',
-    );
-    suffix.simulate('change', {
-      target: { value: 'II' },
-    });
     fillData(form, 'input#root_childStoppedAttendingSchool_ssn', '123211234');
     changeDropdown(
       form,

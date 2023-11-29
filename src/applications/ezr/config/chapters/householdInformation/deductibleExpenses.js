@@ -7,6 +7,7 @@ import {
   MedicalExpensesDescription,
 } from '../../../components/FormDescriptions/ExpensesDescriptions';
 import { replaceStrValues } from '../../../utils/helpers/general';
+import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
 const {
@@ -15,13 +16,10 @@ const {
   deductibleFuneralExpenses,
 } = ezrSchema.properties;
 
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
-
 export default {
   uiSchema: {
     ...titleUI(
-      replaceStrValues(content['household-expenses-title'], lastYear),
+      replaceStrValues(content['household-expenses-title'], LAST_YEAR),
       content['household-expenses-description'],
     ),
     'view:deductibleMedicalExpenses': {
@@ -31,7 +29,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-expenses-medical-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -44,7 +42,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-expenses-education-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],
@@ -57,7 +55,7 @@ export default {
         ...currencyUI(
           replaceStrValues(
             content['household-expenses-funeral-label'],
-            lastYear,
+            LAST_YEAR,
           ),
         ),
         'ui:validations': [validateCurrency],

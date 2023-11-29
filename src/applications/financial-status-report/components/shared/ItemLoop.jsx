@@ -103,7 +103,7 @@ const InputSection = ({
         uiSchema['ui:options'].viewType === undefined,
     },
     {
-      'vads-u-border-bottom--1px vads-u-margin-top--0 vads-u-margin-bottom--0':
+      'vads-u-margin-top--0 vads-u-margin-bottom--0':
         uiSchema['ui:options'].viewType === 'table' && items?.length > 1,
     },
   );
@@ -130,7 +130,7 @@ const InputSection = ({
             onChange={value => handleChange(index, value)}
           />
           <div className="row small-collapse">
-            <div className="small-4 left columns button-group">
+            <div className="left columns button-group">
               <button
                 aria-label={`${buttonText} ${title}`}
                 className="float-left"
@@ -149,12 +149,10 @@ const InputSection = ({
                   Cancel
                 </button>
               )}
-            </div>
-            <div className="small-8 right columns">
               {showRemove && (
                 <button
                   aria-label={`Remove ${title}`}
-                  className="usa-button-secondary float-right"
+                  className="usa-button-secondary vads-u-margin-left--9"
                   onClick={() => handleRemove(index)}
                   type="button"
                 >
@@ -390,54 +388,54 @@ const ItemLoop = ({
       <div className="va-growable">
         <ScrollElement name={`topOfTable_${idSchema.$id}`} />
         {uiOptions.viewType === 'table' ? (
-          <table className="vads-u-font-family--sans vads-u-margin-top--3 vads-u-margin-bottom--0">
+          <va-table className="vads-u-margin-top--3 vads-u-margin-bottom--0">
             {showTable && (
-              <thead className="vads-u-border-bottom--1px">
-                <tr>
-                  {tableHeaders.map((item, i) => (
-                    <th key={i} className="vads-u-border--0">
-                      {item}
-                    </th>
-                  ))}
-                  <th
-                    className="vads-u-border--0"
-                    width="85"
-                    aria-hidden="true"
-                  />
-                </tr>
-              </thead>
+              <va-table-row slot="headers">
+                {tableHeaders.map((item, i) => (
+                  <span
+                    key={i}
+                    className="vads-u-border--0 vads-u-border-bottom--1px"
+                  >
+                    {item}
+                  </span>
+                ))}
+                <span className="vads-u-border--0 vads-u-border-bottom--1px">
+                  {' '}
+                </span>
+              </va-table-row>
             )}
-            <tbody>
-              {items.map((item, index) => {
-                const isEditing = editing[index];
 
-                return isReviewMode || isEditing ? (
-                  <tr key={index}>
-                    <td
-                      className="vads-u-border--0 vads-u-padding--0"
-                      colSpan="3"
-                    >
-                      <InputSection
-                        key={index}
-                        item={item}
-                        index={index}
-                        title={title}
-                        items={items}
-                        schema={schema}
-                        uiSchema={uiSchema}
-                        idSchema={idSchema}
-                        onBlur={onBlur}
-                        registry={registry}
-                        errorSchema={errorSchema}
-                        editing={editing}
-                        handleChange={handleChange}
-                        handleSave={handleSave}
-                        handleRemove={handleRemove}
-                        handleCancel={handleCancel}
-                      />
-                    </td>
-                  </tr>
-                ) : (
+            {items.map((item, index) => {
+              const isEditing = editing[index];
+
+              return isReviewMode || isEditing ? (
+                <va-table-row key={index}>
+                  <span className="vads-u-padding--0 vads-u-border--0">
+                    <InputSection
+                      key={index}
+                      item={item}
+                      index={index}
+                      title={title}
+                      items={items}
+                      schema={schema}
+                      uiSchema={uiSchema}
+                      idSchema={idSchema}
+                      onBlur={onBlur}
+                      registry={registry}
+                      errorSchema={errorSchema}
+                      editing={editing}
+                      handleChange={handleChange}
+                      handleSave={handleSave}
+                      handleRemove={handleRemove}
+                      handleCancel={handleCancel}
+                    />
+                  </span>
+                </va-table-row>
+              ) : (
+                <va-table-row
+                  key={index}
+                  style={{ backgroundColor: '#ffffff' }}
+                >
                   <ViewField
                     key={index}
                     formData={item}
@@ -445,10 +443,10 @@ const ItemLoop = ({
                     title={title}
                     onEdit={() => handleEdit(index)}
                   />
-                );
-              })}
-            </tbody>
-          </table>
+                </va-table-row>
+              );
+            })}
+          </va-table>
         ) : (
           items.map((item, index) => {
             const isEditing = editing[index];
