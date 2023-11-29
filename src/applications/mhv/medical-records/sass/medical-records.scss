@@ -95,9 +95,6 @@
       max-width: none;
     }
   }
-  .medical-records-navigation {
-    margin-right: 24px;
-  }
 }
 
 .page-description {
@@ -110,10 +107,6 @@
 @media (max-width: $small-screen) {
   .medical-records-container {
     flex-direction: column;
-    .medical-records-navigation {
-      margin-top: 24px;
-      margin-right: 0px;
-    }
   }
 }
 
