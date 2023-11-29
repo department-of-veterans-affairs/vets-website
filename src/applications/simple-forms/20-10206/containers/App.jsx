@@ -20,6 +20,8 @@ const App = props => {
   } = props;
 
   useEffect(
+    // add view-fields to formData to support
+    // conditional-pages based on User identity-verification
     () => {
       if (formData['view:userLoggedIn'] !== userLoggedIn) {
         setFormData({

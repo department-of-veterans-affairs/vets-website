@@ -14,13 +14,13 @@ const responses = {
             service_name: 'idme',
           },
           email: 'fake@fake.com',
-          loa: { current: 3 },
+          loa: { current: 3 }, // change to 2 to mock User not identity-verified
           first_name: 'John',
           middle_name: 'E',
           last_name: 'Veteran',
           gender: 'F',
           birth_date: '1985-01-01',
-          verified: true,
+          verified: true, // change to false to mock User not identity-verified
         },
         veteran_status: {
           status: 'OK',

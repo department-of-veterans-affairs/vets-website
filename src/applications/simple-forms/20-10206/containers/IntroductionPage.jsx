@@ -160,6 +160,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </div>
       {userLoggedIn &&
         !userIdVerified && (
+          /* If User's signed-in but not identity-verified [not LOA3] */
           <div className="id-not-verified-content vads-u-margin-top--4">
             <va-alert
               class="vads-u-margin-bottom--1"
