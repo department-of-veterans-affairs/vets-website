@@ -38,7 +38,6 @@
 .landing-page {
   h1 {
     color: $color-gray-dark;
-    margin: 0;
   }
   .medications-list-sort {
     display: flex;
@@ -54,10 +53,6 @@
     max-width: 500px;
     font-size: 1.6rem;
     font-weight: normal;
-  }
-  .pagination {
-    max-width: 500px;
-    border-top: 0px;
   }
   section {
     .feedback {
@@ -132,6 +127,11 @@
       }
     }
   }
+}
+
+.pagination {
+  max-width: 500px;
+  border-top: 0px;
 }
 
 @media print {
@@ -213,4 +213,11 @@
   width: 100%;
   position: fixed;
   bottom: 20px;
+}
+
+.rx-fill-refill-button {
+  va-loading-indicator {
+    display: flex;
+    justify-content: left;
+  }
 }
