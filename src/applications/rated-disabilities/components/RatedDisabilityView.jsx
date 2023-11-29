@@ -7,7 +7,7 @@ import { checkForDiscrepancies } from '../actions';
 import MVIError from './MVIError';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import OnThisPage from './OnThisPage';
-import RatedDisabilityList from './RatedDisabilityList';
+import RatedDisabilityList from './evss/RatedDisabilityList';
 
 const facilityLocatorUrl = getAppUrl('facilities');
 

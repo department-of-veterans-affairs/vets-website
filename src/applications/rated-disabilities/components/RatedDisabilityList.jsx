@@ -5,25 +5,6 @@ import moment from 'moment';
 
 import { isServerError } from '../util';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
-import SortSelect from './SortSelect';
-
-// Need to transform date string into a meaningful format and extract any special issues.
-const formalizeData = data => {
-  return data.map(d => {
-    // example effectiveDate: '2004-06-14T05:00:00.000+0000'
-    const effectiveDate = d.effectiveDate
-      ? moment(d.effectiveDate, 'YYYY-MM-DDThh:mm:ss.SSSZ')
-      : null;
-
-    return { ...d, effectiveDate };
-  });
-};
-
-const isServiceConnected = item => item.decisionText === 'Service Connected';
-
-const getServiceConnectedDisabilities = list => list.filter(isServiceConnected);
-const getNonServiceConnectedDisabilities = list =>
-  list.filter(item => !isServiceConnected(item));
 
 const noDisabilityRatingContent = errorCode => {
   let content;
@@ -78,94 +59,71 @@ const noDisabilityRatingContent = errorCode => {
   );
 };
 
-const RatedDisabilityList = ({
-  fetchRatedDisabilities,
-  ratedDisabilities,
-  sortToggle,
-}) => {
-  const [sortBy, setSortBy] = useState('effectiveDate.desc');
+const isServiceConnected = item => item.decision === 'Service Connected';
 
-  useEffect(
-    () => {
-      fetchRatedDisabilities();
-    },
-    [fetchRatedDisabilities],
+const getServiceConnectedRatings = ratings =>
+  ratings.filter(isServiceConnected);
+
+const getNonServiceConnectedRatings = ratings =>
+  ratings.filter(rating => !isServiceConnected(rating));
+
+const sortRatings = ratings =>
+  ratings.sort((a, b) => a.effectiveDate > b.effectiveDate);
+
+export default function RatedDisabilityList({ ratedDisabilities }) {
+  const serviceConnectedRatings = sortRatings(
+    getServiceConnectedRatings(ratedDisabilities),
+  );
+  const nonServiceConnectedRatings = sortRatings(
+    getNonServiceConnectedRatings(ratedDisabilities),
   );
 
-  const sortFunc = (a, b) => {
-    const [sortKey, direction] = sortBy.split('.');
+  console.log(serviceConnectedRatings, nonServiceConnectedRatings);
 
-    return direction === 'asc'
-      ? a[sortKey] - b[sortKey]
-      : b[sortKey] - a[sortKey];
-  };
-
-  if (!ratedDisabilities) {
-    return <va-loading-indicator message="Loading your information..." />;
-  }
-
-  if (
-    ratedDisabilities?.errors ||
-    ratedDisabilities?.ratedDisabilities.length === 0
-  ) {
-    // There are instances when a 200 response is received but evss sends an empty array.
-    // In this scenario errorCode is explicitly set to 404 to ensure a defined value is passed to noDisabilityRatingContent
-    const errorCode = ratedDisabilities?.errors?.[0]?.code || 404;
-    return (
-      <div className="usa-width-one-whole">
-        {noDisabilityRatingContent(errorCode)}
-      </div>
-    );
-  }
-
-  const serviceConnected = getServiceConnectedDisabilities(
-    ratedDisabilities?.ratedDisabilities,
-  );
-
-  const nonServiceConnected = getNonServiceConnectedDisabilities(
-    ratedDisabilities?.ratedDisabilities,
-  );
-
-  const formattedServiceConnected = formalizeData(serviceConnected).sort(
-    sortFunc,
-  );
-
-  const formattedNonServiceConnected = formalizeData(nonServiceConnected).sort(
-    sortFunc,
-  );
+  // NOTE: These are true for now to mimic the behavior of the EVSS implementation. It probably makes
+  // sense to not show the section if there are no ratings
+  const hasServiceConnectedRatings = true;
+  const hasNonServiceConnectedRatings = true;
 
   return (
-    <div>
-      {sortToggle && (
-        <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
-          <SortSelect onSelect={setSortBy} sortBy={sortBy} />
-        </div>
+    <>
+      {hasServiceConnectedRatings && (
+        <>
+          <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
+          <div>
+            {serviceConnectedRatings.map((rating, index) => (
+              <RatedDisabilityListItem ratedDisability={rating} key={index} />
+            ))}
+          </div>
+        </>
       )}
-      <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
-      <div className="vads-l-row vads-u-flex-direction--column">
-        {formattedServiceConnected.map((disability, index) => (
-          <RatedDisabilityListItem ratedDisability={disability} key={index} />
-        ))}
-      </div>
-      <h3 className="vads-u-margin-top--1p5">
-        Conditions VA determined aren’t service-connected
-      </h3>
-      <div className="vads-l-row vads-u-flex-direction--column">
-        {formattedNonServiceConnected.map((disability, index) => (
-          <RatedDisabilityListItem ratedDisability={disability} key={index} />
-        ))}
-      </div>
-    </div>
+      {hasNonServiceConnectedRatings && (
+        <>
+          <h3 className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
+            Conditions VA determined aren’t service-connected
+          </h3>
+          <div>
+            {nonServiceConnectedRatings.map((rating, index) => (
+              <RatedDisabilityListItem ratedDisability={rating} key={index} />
+            ))}
+          </div>
+        </>
+      )}
+    </>
   );
-};
+}
 
 RatedDisabilityList.propTypes = {
-  fetchRatedDisabilities: PropTypes.func.isRequired,
-  ratedDisabilities: PropTypes.shape({
-    errors: PropTypes.array,
-    ratedDisabilities: PropTypes.array,
-  }),
-  sortToggle: PropTypes.bool,
+  ratedDisabilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      decision: PropTypes.string,
+      diagnosticText: PropTypes.string,
+      diagnosticTypeCode: PropTypes.string,
+      diagnosticTypeName: PropTypes.string,
+      disabilityRatingId: PropTypes.string,
+      effectiveDate: PropTypes.string,
+      ratingEndDate: PropTypes.string,
+      ratingPercentage: PropTypes.number,
+    }),
+  ).isRequired,
 };
-
-export default RatedDisabilityList;

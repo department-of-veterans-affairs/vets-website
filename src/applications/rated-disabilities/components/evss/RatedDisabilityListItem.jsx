@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { buildDateFormatter } from '../util';
-
-const formatDate = buildDateFormatter('MMMM dd, yyyy');
-
 const getHeadingText = ratedDisability => {
-  const { diagnosticText, ratingPercentage } = ratedDisability;
+  const { name, ratingPercentage } = ratedDisability;
 
-  const headingParts = [diagnosticText];
+  const headingParts = [name];
   if (ratingPercentage !== null) {
     headingParts.unshift(`${ratingPercentage}% rating for`);
   }
@@ -26,7 +22,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
       {effectiveDate !== null && (
         <div className="vads-u-margin-top--2">
           <strong>Effective date:</strong>{' '}
-          {formatDate(effectiveDate)}
+          {effectiveDate.format('MMMM DD, YYYY')}
         </div>
       )}
     </va-card>
@@ -34,16 +30,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
 };
 
 RatedDisabilityListItem.propTypes = {
-  ratedDisability: PropTypes.shape({
-    decision: PropTypes.string,
-    diagnosticText: PropTypes.string,
-    diagnosticTypeCode: PropTypes.string,
-    diagnosticTypeName: PropTypes.string,
-    disabilityRatingId: PropTypes.string,
-    effectiveDate: PropTypes.string,
-    ratingEndDate: PropTypes.string,
-    ratingPercentage: PropTypes.number,
-  }).isRequired,
+  ratedDisability: PropTypes.object.isRequired,
 };
 
 export default RatedDisabilityListItem;
