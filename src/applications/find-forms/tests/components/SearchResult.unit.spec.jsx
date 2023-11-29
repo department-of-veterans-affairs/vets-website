@@ -1,10 +1,7 @@
-// Dependencies.
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import moment from 'moment';
-
-// Relative imports.
 import SearchResult, { deriveLatestIssue } from '../../components/SearchResult';
 import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../../constants';
 import FormTitle from '../../components/FormTitle';
@@ -17,6 +14,7 @@ describe('Find VA Forms <SearchResult />', () => {
     totalResultsPages: 1,
     currentPositionOnPage: 1,
   };
+
   const form = {
     id: '10-10CG',
     attributes: {
@@ -56,15 +54,18 @@ describe('Find VA Forms <SearchResult />', () => {
       validPdf: true,
     },
   };
+
   const formWithoutBenefitCats = {
     benefitCategories: [],
     vaFormAdministration: 'Veterans Health Administration',
   };
+
   const formWithFormTypeEmployment = {
     benefitCategories: [],
     vaFormAdministration: 'Veterans Health Administration',
     formType: 'employment',
   };
+
   const formWithFormTypeNonVa = {
     benefitCategories: [],
     vaFormAdministration: 'Veterans Health Administration',
@@ -75,7 +76,7 @@ describe('Find VA Forms <SearchResult />', () => {
     const tree = mount(
       <SearchResult form={form} formMetaInfo={formMetaInfo} />,
     );
-    // does parent contain child?
+
     expect(tree.contains(FormTitle));
     tree.unmount();
   });
