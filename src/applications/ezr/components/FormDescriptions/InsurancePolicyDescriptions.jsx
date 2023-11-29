@@ -1,9 +1,7 @@
 import React from 'react';
 
 export const InsurancePolicyOrDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-y--3 vads-u-color--base">
-    Or
-  </div>
+  <div className="vads-u-margin-y--3 vads-u-font-weight--bold">Or</div>
 );
 
 export const PolicyOrGroupDescription = (
