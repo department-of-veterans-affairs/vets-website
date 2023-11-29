@@ -1,5 +1,5 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
 
 export const fetchFacilities = async (mapBoxResponse, request = null) => {
