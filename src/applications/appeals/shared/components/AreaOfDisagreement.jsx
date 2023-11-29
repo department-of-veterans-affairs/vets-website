@@ -103,7 +103,7 @@ const AreaOfDisagreement = ({
     },
     updatePage: () => {
       waitForRenderThenFocus(
-        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form .edit-btn`,
+        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
       );
       updatePage();
     },

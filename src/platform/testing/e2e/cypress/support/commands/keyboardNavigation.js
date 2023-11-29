@@ -135,8 +135,7 @@ Cypress.Commands.add(
 // Target & use the "Start" form button on the Introduction page
 Cypress.Commands.add('tabToStartForm', () => {
   // Same button selector as tabToSubmitForm, or action link
-  const buttonSelector =
-    'va-button, button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green';
+  const buttonSelector = "a[href='#start']";
   cy.get(buttonSelector, { timeout: 10000 }).then(button => {
     if (button[0].tagName === 'VA-BUTTON') {
       cy.get('va-button')
@@ -159,10 +158,17 @@ Cypress.Commands.add('tabToContinueForm', () => {
   cy.realPress('Space');
 });
 
+// Target & use the "Continue" button on a form page wit a simulated {enter}
+// press
+Cypress.Commands.add('tabToContinueFormSimulatedEnter', () => {
+  cy.tabToElement('button[type="submit"]');
+  cy.get(':focus').type('{enter}');
+});
+
 // Target & use the "Back" form button on a form page
 Cypress.Commands.add('tabToGoBack', (forward = true) => {
   cy.tabToElement('#1-continueButton', forward);
-  cy.realPress('Space');
+  cy.get(':focus').type('{enter}');
 });
 
 // Target & use the "Submit" form button on the review & submit page

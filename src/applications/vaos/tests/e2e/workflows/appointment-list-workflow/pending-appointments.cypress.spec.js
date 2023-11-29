@@ -6,11 +6,11 @@ import PendingAppointmentListPageObject from '../../page-objects/AppointmentList
 import {
   vaosSetup,
   mockFeatureToggles,
-  mockLoginApi,
   mockAppointmentsGetApi,
   mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import MockUser from '../../fixtures/MockUser';
 
 describe('VAOS pending appointment flow', () => {
   describe('When veteran has pending appointments', () => {
@@ -18,7 +18,6 @@ describe('VAOS pending appointment flow', () => {
       vaosSetup();
 
       mockFeatureToggles();
-      mockLoginApi();
       mockVamcEhrApi();
     });
 
@@ -37,6 +36,8 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsGetApi({ response });
 
       // Act
+      cy.login(new MockUser());
+
       PendingAppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 5,
       });
@@ -58,6 +59,8 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsGetApi({ response: [appt] });
 
       // Act
+      cy.login(new MockUser());
+
       PendingAppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 1,
       });
@@ -75,6 +78,8 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsGetApi({ response: [] });
 
       // Arrange
+      cy.login(new MockUser());
+
       PendingAppointmentListPageObject.visit();
 
       // Assert
@@ -89,6 +94,8 @@ describe('VAOS pending appointment flow', () => {
       mockAppointmentsGetApi({ response: [], responseCode: 400 });
 
       // Act
+      cy.login(new MockUser());
+
       PendingAppointmentListPageObject.visit();
 
       // Assert

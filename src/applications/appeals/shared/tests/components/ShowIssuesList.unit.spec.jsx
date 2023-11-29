@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { ShowIssuesList } from '../../components/ShowIssuesList';
+import ShowIssuesList from '../../components/ShowIssuesList';
 
 // Already selected issues
 const issues = [
