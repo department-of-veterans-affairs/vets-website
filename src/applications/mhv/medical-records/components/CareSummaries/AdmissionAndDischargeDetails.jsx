@@ -107,9 +107,9 @@ const AdmissionAndDischargeDetails = props => {
   const generateCareNotesTxt = () => {
     const content = `\n
 ${record.name}\n
-Date: ${formatDateLong(record.date)}\n
+Admission and discharge summary\n
 _____________________________________________________\n\n
-Details about this test\n
+Details\n
 Location: ${record.location}\n
 Admission date: ${record.startDate}\n
 Discharge date: ${record.endDate}\n

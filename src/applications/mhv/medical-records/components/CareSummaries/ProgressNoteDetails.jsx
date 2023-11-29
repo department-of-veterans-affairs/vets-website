@@ -97,10 +97,9 @@ const ProgressNoteDetails = props => {
 
   const generateCareNotesTxt = () => {
     const content = `\n
-${record.name}\n
-Date: ${formatDateLong(record.date)}\n
-_____________________________________________________\n\n
-Details about this test\n
+Primary care progress note \n
+ _____________________________________________________\n\n
+Details
 Location: ${record.location}\n
 Signed by: ${record.physician}\n
 Last updated: ${record.dateUpdated}\n
