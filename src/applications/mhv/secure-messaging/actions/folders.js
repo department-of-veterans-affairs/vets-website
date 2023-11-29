@@ -44,13 +44,6 @@ export const getFolders = () => async dispatch => {
 };
 
 export const retrieveFolder = folderId => async dispatch => {
-  // const handleErrors = error => {
-  //   dispatch({
-  //     type: Actions.Folder.GET,
-  //     response: null,
-  //   });
-  //   dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', error?.detail));
-  // };
   await getFolder(folderId)
     .then(response => {
       if (response.data) {
