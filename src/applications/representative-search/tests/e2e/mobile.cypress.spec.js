@@ -16,7 +16,11 @@ Cypress.Commands.add('checkSearch', () => {
 
 describe('Mobile', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*');
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'find_a_representative', value: true }],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
       'GET',

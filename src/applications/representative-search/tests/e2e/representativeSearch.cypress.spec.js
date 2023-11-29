@@ -28,7 +28,11 @@ Cypress.Commands.add('verifyOptions', () => {
 
 describe('Representative Search', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'find_a_representative', value: true }],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.intercept(
