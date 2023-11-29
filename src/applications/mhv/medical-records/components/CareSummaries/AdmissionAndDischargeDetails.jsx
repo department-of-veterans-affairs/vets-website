@@ -106,7 +106,6 @@ const AdmissionAndDischargeDetails = props => {
 
   const generateCareNotesTxt = () => {
     const content = `\n
-${record.name}\n
 Admission and discharge summary\n
 _____________________________________________________\n\n
 Details\n
