@@ -114,6 +114,7 @@ const DependentCount = ({
             if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
               setError('Please enter your dependent(s) information');
               focusElement('va-number-input');
+              return;
             }
 
             if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
