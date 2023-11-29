@@ -22,7 +22,7 @@ const LastFilledInfo = rx => {
       {nonVA &&
         orderedDate && (
           <p data-testid="rx-last-filled-info">
-            Documented sdfsdfsdfs on {dateFormat(orderedDate, 'MMMM D, YYYY')}
+            Documented on {dateFormat(orderedDate, 'MMMM D, YYYY')}
           </p>
         )}
       {showLastFilledDate && (
