@@ -180,7 +180,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.realPress('Enter');
 
     cy.get('input[type="checkbox"]');
-    cy.repeatKey('Tab', 6);
+    cy.repeatKey('Tab', 7);
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
   });
 });

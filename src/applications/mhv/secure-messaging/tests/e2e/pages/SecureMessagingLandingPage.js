@@ -36,6 +36,33 @@ class SecureMessagingLandingPage {
       .should('be.visible')
       .and('have.text', `${text}`);
   };
+
+  verifyUnreadMessagesNote = (text = 'unread messages in your inbox') => {
+    cy.get('[data-testid="unread-messages"]')
+      .should('be.visible')
+      .and('include.text', `${text}`);
+  };
+
+  verifyWelcomeMessage = (text = 'What to know as you try out this tool') => {
+    cy.get('.welcome-message')
+      .should('be.visible')
+      .and('contain.text', `${text}`);
+  };
+
+  verifyFaqMessage = (text = 'Questions about using messages') => {
+    cy.get('.secure-messaging-faq')
+      .should('be.visible')
+      .and('contain.text', `${text}`);
+  };
+
+  verifyFaqAccordions = () => {
+    cy.get('[data-testid="faq-accordion-item"]').each(el => {
+      cy.wrap(el)
+        .should('be.visible')
+        .click({ waitForAnimations: true });
+      cy.wrap(el).should('have.attr', 'open');
+    });
+  };
 }
 
 export default new SecureMessagingLandingPage();
