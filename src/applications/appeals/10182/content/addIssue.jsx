@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { MAX_LENGTH } from '../../shared/constants';
 
 export const issueErrorMessages = {
@@ -18,13 +16,3 @@ export const issueErrorMessages = {
   newerDate:
     'You must add an issue with a decision date that’s less than 100 years old',
 };
-
-export const missingIssuesErrorMessageText =
-  'Add, and select, at least one issue, so we can process your request';
-
-export const missingIssuesErrorMessage = (
-  <span className="usa-input-error-message" role="alert">
-    <span className="sr-only">Error</span>
-    {missingIssuesErrorMessageText}
-  </span>
-);
