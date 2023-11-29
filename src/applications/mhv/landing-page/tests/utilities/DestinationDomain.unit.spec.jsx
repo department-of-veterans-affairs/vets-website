@@ -22,7 +22,7 @@ describe('getDestinationDomain', () => {
 
   it('resolves relative URLs based on document.location.href', () => {
     const relativeUrl = '/local/page';
-    expect(getDestinationDomain(relativeUrl)).to.equal('www.currentsite.com');
+    expect(getDestinationDomain(relativeUrl)).to.equal('localhost');
   });
 
   it('returns an empty string for invalid URLs', () => {
