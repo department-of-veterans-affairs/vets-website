@@ -10,13 +10,13 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import getData from '../fixtures/mocks/mockStore';
 
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from '../../../simple-forms/shared/tests/pages/pageTests.spec';
+} from './pageTests.spec';
 import formConfig from '../../config/form';
 import pow from '../../pages/pow';
 

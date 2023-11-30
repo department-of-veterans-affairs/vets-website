@@ -5,8 +5,8 @@ import {
   fullNameSchema,
   ssnOrVaFileNumberUI,
   ssnOrVaFileNumberSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import applicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
 
 /** @type {PageSchema} */

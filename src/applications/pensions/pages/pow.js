@@ -4,8 +4,8 @@ import set from 'platform/utilities/data/set';
 import {
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
 
 const { powDateRange } = fullSchemaPensions.properties;
 
