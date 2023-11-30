@@ -1,5 +1,6 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { inlineTitleUI } from '../../../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
@@ -17,7 +18,10 @@ const { grossIncome, netIncome, otherIncome } = dependent.properties;
 export default {
   uiSchema: {
     'view:grossIncome': {
-      'ui:title': content['household-income-gross-title'],
+      ...inlineTitleUI(
+        content['household-income-gross-title'],
+        content['household-income-gross-description'],
+      ),
       'ui:description': GrossIncomeDescription,
       grossIncome: {
         ...currencyUI(
@@ -30,8 +34,10 @@ export default {
       },
     },
     'view:netIncome': {
-      'ui:title': content['household-income-net-title'],
-      'ui:description': content['household-income-net-description'],
+      ...inlineTitleUI(
+        content['household-income-net-title'],
+        content['household-income-net-description'],
+      ),
       netIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -43,7 +49,10 @@ export default {
       },
     },
     'view:otherIncome': {
-      'ui:title': content['household-income-other-title'],
+      ...inlineTitleUI(
+        content['household-income-other-title'],
+        content['household-income-other-description'],
+      ),
       'ui:description': OtherIncomeDescription,
       otherIncome: {
         ...currencyUI(
