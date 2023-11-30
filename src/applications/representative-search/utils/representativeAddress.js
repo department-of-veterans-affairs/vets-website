@@ -14,19 +14,19 @@ export function titleCase(str) {
 export function buildAddressArray(representative, titleCaseText = false) {
   if (representative && representative.attributes) {
     const {
-      address_line_1,
-      address_line_2,
-      address_line_3,
+      addressLine1,
+      addressLine2,
+      addressLine3,
       city,
-      state_code,
-      zip_code,
+      stateCode,
+      zipCode,
     } = representative.attributes;
 
     return compact([
-      titleCaseText ? titleCase(address_line_1) : address_line_1,
-      titleCaseText ? titleCase(address_line_2) : address_line_2,
-      titleCaseText ? titleCase(address_line_3) : address_line_3,
-      `${titleCaseText ? titleCase(city) : city}, ${state_code} ${zip_code}`,
+      titleCaseText ? titleCase(addressLine1) : addressLine1,
+      titleCaseText ? titleCase(addressLine2) : addressLine2,
+      titleCaseText ? titleCase(addressLine3) : addressLine3,
+      `${titleCaseText ? titleCase(city) : city}, ${stateCode} ${zipCode}`,
     ]);
   }
   return '';
