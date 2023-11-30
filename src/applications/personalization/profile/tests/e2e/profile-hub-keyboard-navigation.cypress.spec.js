@@ -18,7 +18,7 @@ const PROFILE_HREFS = [
 ];
 
 describe('Profile - Hub page, Keyboard navigation', () => {
-  it('should allow tabing through all links on the page, in order', () => {
+  it('should allow tabbing through all links on the page, in order', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
