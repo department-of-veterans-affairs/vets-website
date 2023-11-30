@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import ItemList from '../shared/ItemList';
-import { EMPTY_FIELD } from '../../util/constants';
+// import ItemList from '../shared/ItemList';
 
 const VaccinesListItem = props => {
   const { record } = props;
@@ -27,53 +26,46 @@ const VaccinesListItem = props => {
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
         data-dd-privacy="mask"
-        aria-label={`${record.name} ${record.date}`}
       >
         {record.name}
       </h3>
-
-      {/* web view fields */}
-      <div className="no-print">
-        {record.date === EMPTY_FIELD && (
-          <span className="vads-u-display--inline">Date entered: </span>
-        )}
+      <div>
+        <span className="vads-u-display--inline vads-u-font-weight--bold">
+          Date received:
+        </span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.date}
         </span>
       </div>
-      <div className="no-print">
-        {record.location === EMPTY_FIELD && (
-          <span className="vads-u-display--inline">Location: </span>
-        )}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.location}
-        </span>
-      </div>
-
-      {/* print view fields */}
-      <div className="print-only">
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Date entered:
-        </span>{' '}
-        <ItemList list={record.date} />
-      </div>
+      {/* <div className="print-only">
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Manufacturer:
+          </span>{' '}
+          <span className="vads-u-display--inline" data-dd-privacy="mask">
+            {record.manufacturer}
+          </span>
+        </div> */}
       <div className="print-only">
         <span className="vads-u-display--inline vads-u-font-weight--bold">
           Location:
         </span>{' '}
-        <ItemList list={record.location} />
+        <span className="vads-u-display--inline" data-dd-privacy="mask">
+          {record.location}
+        </span>
       </div>
-      <div className="print-only">
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Reaction:
-        </span>{' '}
-        <ItemList list={record.reactions} />
-      </div>
+      {/* <div className="print-only">
+          <span className="vads-u-display--inline vads-u-font-weight--bold">
+            Reaction:
+          </span>{' '}
+          <ItemList list={record.reactions} />
+        </div> */}
       <div className="print-only">
         <span className="vads-u-display--inline vads-u-font-weight--bold">
           Provider notes:
         </span>{' '}
-        <ItemList list={record.notes} />
+        <span className="vads-u-display--inline" data-dd-privacy="mask">
+          {record.notes}
+        </span>
       </div>
     </div>
   );

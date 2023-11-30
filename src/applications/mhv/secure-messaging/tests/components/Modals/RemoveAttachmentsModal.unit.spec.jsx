@@ -16,8 +16,8 @@ describe('Remove Message Modal component', () => {
       'modal-title',
       `${Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}`,
     );
-    expect(modal).to.have.attribute('primary-button-text', 'Remove');
-    expect(modal).to.have.attribute('secondary-button-text', 'Cancel');
+    expect(screen.getByTestId('confirm-remove-attachment-button')).to.exist;
+    expect(screen.getByTestId('cancel-remove-attachment-button')).to.exist;
     expect(modal).to.have.attribute('status', 'warning');
   });
 });
