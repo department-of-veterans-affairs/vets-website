@@ -8,12 +8,15 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { AddIssue } from '../../components/AddIssue';
-import { issueErrorMessages } from '../../content/addIssue';
+import AddIssue from '../../components/AddIssue';
+import { getDate } from '../../utils/dates';
 
-import { LAST_ISSUE, MAX_LENGTH } from '../../../shared/constants';
-import { getDate } from '../../../shared/utils/dates';
-import sharedErrorMessages from '../../../shared/content/errorMessages';
+import { LAST_ISSUE, MAX_LENGTH, MAX_YEARS_PAST } from '../../constants';
+import sharedErrorMessages from '../../content/errorMessages';
+
+import { errorMessages } from '../../../995/constants';
+import { maxNameLength } from '../../../995/validations/issues';
+import { validateDate } from '../../../995/validations/date';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -32,6 +35,8 @@ describe('<AddIssue>', () => {
     goToPath = () => {},
     data = {},
     onReviewPage = false,
+    description = null,
+    validations = { maxNameLength, validateDate },
   } = {}) => {
     if (index !== null) {
       window.sessionStorage.setItem(LAST_ISSUE, index);
@@ -47,6 +52,8 @@ describe('<AddIssue>', () => {
           onReviewPage={onReviewPage}
           testingIndex={index}
           appStateData={data}
+          validations={validations}
+          description={description}
         />
       </div>
     );
@@ -58,8 +65,15 @@ describe('<AddIssue>', () => {
 
   it('should render', () => {
     const { container } = render(setup());
-    expect($('va-text-input')).to.exist;
+    expect($('h3', container)).to.exist;
+    expect($('va-text-input', container)).to.exist;
     expect($('va-memorable-date', container)).to.exist;
+  });
+  it('should render description', () => {
+    const page = setup({ description: <span id="test-span" /> });
+    const { container } = render(page);
+    expect($('h3', container)).to.exist;
+    expect($('#test-span', container)).to.exist;
   });
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();
@@ -67,8 +81,8 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
     const elems = $$('va-text-input, va-memorable-date', container);
 
-    expect(elems[0].error).to.contain(sharedErrorMessages.missingIssue);
-    expect(elems[1].error).to.contain(issueErrorMessages.blankDecisionDate);
+    expect(elems[0].error).to.contain(errorMessages.missingIssue);
+    expect(elems[1].error).to.contain(errorMessages.decisions.blankDate);
     expect(elems[1].invalidMonth).to.be.true;
     expect(elems[1].invalidDay).to.be.true;
     expect(elems[1].invalidYear).to.be.true;
@@ -93,7 +107,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(issueErrorMessages.maxLength);
+    expect(textInput.error).to.contain(errorMessages.maxLength);
   });
   it('should show error when issue date is not in range', () => {
     const decisionDate = getDate({ offset: { years: +200 } });
@@ -106,7 +120,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(issueErrorMessages.pastDate);
+    expect(date.error).to.eq(errorMessages.decisions.pastDate);
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
@@ -122,13 +136,13 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(issueErrorMessages.pastDate);
+    expect(date.error).to.contain(errorMessages.decisions.pastDate);
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
   });
-  it('should show an error when the issue date is > 1 year in the past', () => {
-    const decisionDate = getDate({ offset: { months: -13 } });
+  it('should show an error when the issue date is > 100 years in the past', () => {
+    const decisionDate = getDate({ offset: { years: -(MAX_YEARS_PAST + 1) } });
     const { container } = render(
       setup({
         data: { contestedIssues, additionalIssues: [{ decisionDate }] },
@@ -138,7 +152,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.contain(issueErrorMessages.newerDate);
+    expect(date.error).to.contain(errorMessages.decisions.newerDate);
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
