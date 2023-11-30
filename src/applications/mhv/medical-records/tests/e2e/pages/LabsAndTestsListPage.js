@@ -31,7 +31,16 @@ class LabsAndTestsListPage {
       .find('a')
       .eq(_PathologyIndex)
       .click();
-    //* [@id="labs-and-tests"]/div/div[1]/div[9]/a/strong
+  };
+
+  // Chemistry And Hematology Link
+  clickChemistryAndHematologyDetailsLink = (
+    _ChemistryAndHematologyIndex = 0,
+  ) => {
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(_ChemistryAndHematologyIndex)
+      .click();
   };
 
   verifyPrintOrDownload = () => {
