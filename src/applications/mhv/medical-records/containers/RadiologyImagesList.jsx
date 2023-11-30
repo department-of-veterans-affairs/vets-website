@@ -10,6 +10,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
+import DateSubheading from '../components/shared/DateSubheading';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
@@ -94,17 +95,7 @@ const RadiologyImagesList = () => {
           >
             Images: {labAndTestDetails.name}
           </h1>
-          <div className="time-header">
-            <h2
-              className="vads-u-font-size--base vads-u-font-family--sans"
-              id="radiology-date"
-            >
-              Date:{' '}
-              <span className="vads-u-font-weight--normal">
-                {formattedDate}
-              </span>
-            </h2>
-          </div>
+          <DateSubheading date={formattedDate} id="radiology-date" />
 
           <div className="no-print">
             <PrintDownload
