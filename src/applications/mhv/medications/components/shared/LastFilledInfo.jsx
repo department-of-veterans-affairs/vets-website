@@ -4,20 +4,17 @@ import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 
 const LastFilledInfo = rx => {
-  const { dispStatus, orderedDate, dispensedDate, rxRfRecords } = rx;
+  const { dispStatus, orderedDate, sortedDispensedDate } = rx;
   let nonVA = false;
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
     nonVA = true;
-  } else if (
-    (dispensedDate ||
-      rxRfRecords?.[0]?.[1]?.find(record => record.dispensedDate)) &&
-    dispStatus !== dispStatusObj.transferred
-  ) {
+  } else if (sortedDispensedDate) {
     showLastFilledDate = true;
   }
   return (
     <div>
+      {dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
       {nonVA &&
         orderedDate && (
           <p data-testid="rx-last-filled-info">
@@ -26,12 +23,7 @@ const LastFilledInfo = rx => {
         )}
       {showLastFilledDate && (
         <p data-testid="rx-last-filled-date">
-          Last filled on{' '}
-          {dateFormat(
-            rxRfRecords?.[0]?.[1]?.find(record => record.dispensedDate)
-              ?.dispensedDate || dispensedDate,
-            'MMMM D, YYYY',
-          )}
+          Last filled on {dateFormat(sortedDispensedDate, 'MMMM D, YYYY')}
         </p>
       )}
       {!nonVA &&
@@ -44,10 +36,9 @@ const LastFilledInfo = rx => {
 
 LastFilledInfo.propTypes = {
   rx: PropTypes.shape({
+    sortedDispensedDate: PropTypes.string,
     dispStatus: PropTypes.string,
-    dispensedDate: PropTypes.string,
     orderedDate: PropTypes.string,
-    rxRfRecords: PropTypes.array,
   }),
 };
 
