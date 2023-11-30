@@ -30,7 +30,7 @@ describe('Avs: Your Treatment Plan', () => {
       'PACT ALERT BRAVO\nConcern:',
     );
     expect(
-      screen.getByTestId('your-reminders').children[2].firstChild,
+      screen.getByTestId('health-reminders').children[2].firstChild,
     ).to.contain.text(
       'Hepatitis C risk Factor ScreeningWhen due: DUE NOWFrequency:  Due every 3 years for all ages.',
     );
@@ -51,7 +51,7 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.queryByTestId('lab-tests')).to.not.exist;
     expect(screen.queryByTestId('medications')).to.not.exist;
     expect(screen.queryByTestId('other-orders')).to.not.exist;
-    expect(screen.queryByTestId('your-reminders')).to.not.exist;
+    expect(screen.queryByTestId('health-reminders')).to.not.exist;
     expect(screen.queryByTestId('other-instructions')).to.not.exist;
   });
 });

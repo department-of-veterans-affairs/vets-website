@@ -74,9 +74,9 @@ const YourTreatmentPlan = props => {
         type={ORDER_TYPES.OTHER}
       />
       <ItemsBlock
-        heading="Your reminders"
+        heading="Health reminders"
         intro="The list below is your health reminders. These are health checks for prevention care (for example cancer screening) and checks on chronic conditions like diabetes. Your primary care provider and team will see this list in the computer and should discuss them with you."
-        itemType="your-reminders"
+        itemType="health-reminders"
         items={avs.clinicalReminders}
         renderItem={renderReminder}
         showSeparators
