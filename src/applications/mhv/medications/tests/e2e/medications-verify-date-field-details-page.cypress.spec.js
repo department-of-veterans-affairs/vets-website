@@ -22,9 +22,6 @@ describe('verify navigation to medication details Page Date Field', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });
