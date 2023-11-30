@@ -92,7 +92,7 @@ MessageDetailBlock.propTypes = {
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
-  setIsCreateNewModalVisible: PropTypes.bool,
+  setIsCreateNewModalVisible: PropTypes.func,
   onReply: PropTypes.func,
 };
 

@@ -78,7 +78,7 @@ MessageActionButtons.propTypes = {
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
-  setIsCreateNewModalVisible: PropTypes.bool,
+  setIsCreateNewModalVisible: PropTypes.func,
   threadId: PropTypes.number,
 };
 

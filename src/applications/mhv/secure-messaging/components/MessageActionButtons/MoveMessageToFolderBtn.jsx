@@ -200,8 +200,8 @@ const MoveMessageToFolderBtn = props => {
 
         {isCreateNewModalVisible && (
           <CreateFolderModal
-            isModalVisible={isCreateNewModalVisible}
-            setIsModalVisible={setIsCreateNewModalVisible}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             onConfirm={confirmCreateFolder}
             folders={updatedFoldersList}
           />
@@ -216,7 +216,7 @@ MoveMessageToFolderBtn.propTypes = {
   allFolders: PropTypes.array,
   isCreateNewModalVisible: PropTypes.bool,
   isVisible: PropTypes.bool,
-  setIsCreateNewModalVisible: PropTypes.bool,
+  setIsCreateNewModalVisible: PropTypes.func,
   threadId: PropTypes.number,
 };
 
