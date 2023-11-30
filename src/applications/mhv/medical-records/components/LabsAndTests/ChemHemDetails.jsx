@@ -144,8 +144,9 @@ Collecting location: ${record.imagingLocation} \n
 Provider notes: ${processList(record.comments)} \n
 _____________________________________________________\n\n
 Results:
-${record.results.map(
-      entry => `
+${record.results
+      .map(
+        entry => `
 _____________________________________________________\n
 ${entry.name}
 -----------------------------------------------------
@@ -154,7 +155,8 @@ Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab location: ${entry.labLocation}
 Interpretation: ${entry.interpretation}\n`,
-    )}`;
+      )
+      .join('')}`;
 
     generateTextFile(
       content,
