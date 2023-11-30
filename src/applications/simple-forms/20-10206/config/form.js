@@ -21,6 +21,7 @@ import lifeInsBenefitDetailsPg from '../pages/lifeInsuranceBenefitDetails';
 import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import otherBenefitDetailsPg from '../pages/otherBenefitDetails';
 import { PREPARER_TYPES, RECORD_TYPES } from './constants';
+import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 
 // mock-data import for local development
@@ -63,6 +64,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to request personal records.',
     noAuth: 'Please sign in again to continue your Personal records request.',

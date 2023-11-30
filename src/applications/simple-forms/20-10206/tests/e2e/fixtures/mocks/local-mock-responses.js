@@ -13,11 +13,11 @@ const responses = {
           sign_in: {
             service_name: 'idme',
           },
-          email: 'fake@fake.com',
+          email: 'john.preparer@example.com',
           loa: { current: 3 }, // change to 2 to mock User not identity-verified
           first_name: 'John',
-          middle_name: 'E',
-          last_name: 'Veteran',
+          middle_name: '',
+          last_name: 'Preparer',
           gender: 'F',
           birth_date: '1985-01-01',
           verified: true, // change to false to mock User not identity-verified
@@ -62,10 +62,10 @@ const responses = {
         ],
         va_profile: {
           status: 'OK',
-          birth_date: '19511118',
-          family_name: 'Veteran',
+          birth_date: '19850101',
+          family_name: 'Preparer',
           gender: 'M',
-          given_names: ['John', 'E'],
+          given_names: ['John', ''],
           active_status: 'active',
           facilities: [
             {
