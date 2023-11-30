@@ -16,9 +16,6 @@ describe('Medications Download PDF on List Page', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();
