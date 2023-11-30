@@ -67,13 +67,10 @@ export const extractReaction = vaccine => {
  */
 export const extractNote = vaccine => {
   // Check if the vaccine object contains valid note data
-  if (isArrayAndHasItems(vaccine.note)) {
-    const notes = vaccine.note.map(noteObj => noteObj.text);
-    if (notes.length > 0) {
-      return notes;
-    }
-  }
-  return EMPTY_FIELD;
+  return (
+    (isArrayAndHasItems(vaccine.note) && vaccine.note.map(note => note.text)) ||
+    []
+  );
 };
 
 /**
