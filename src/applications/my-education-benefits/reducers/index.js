@@ -11,6 +11,9 @@ import {
   FETCH_DIRECT_DEPOSIT_SUCCESS,
   FETCH_ELIGIBILITY_SUCCESS,
   FETCH_ELIGIBILITY_FAILURE,
+  FETCH_EXCLUSION_PERIODS,
+  FETCH_EXCLUSION_PERIODS_SUCCESS,
+  FETCH_EXCLUSION_PERIODS_FAILURE,
   ELIGIBILITY,
   FETCH_PERSONAL_INFORMATION,
   FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
@@ -27,6 +30,9 @@ const initialState = {
   form: {
     data: {},
   },
+  exclusionPeriods: null,
+  exclusionPeriodsLoading: false,
+  exclusionPeriodsError: null,
 };
 
 const handleDirectDepositApi = action => {
@@ -58,6 +64,26 @@ export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
     switch (action.type) {
+      case FETCH_EXCLUSION_PERIODS:
+        return {
+          ...state,
+          exclusionPeriodsLoading: true,
+          exclusionPeriodsError: null,
+        };
+      case FETCH_EXCLUSION_PERIODS_SUCCESS:
+        return {
+          ...state,
+          exclusionPeriodsLoading: false,
+          exclusionPeriods:
+            action?.response?.data?.attributes?.exclusion_periods || [],
+        };
+      case FETCH_EXCLUSION_PERIODS_FAILURE:
+        return {
+          ...state,
+          exclusionPeriodsLoading: false,
+          exclusionPeriodsError: action.errors,
+        };
+
       case FETCH_PERSONAL_INFORMATION:
         return {
           ...state,
@@ -112,11 +138,10 @@ export default {
           eligibility:
             filterEligibility(
               action?.response?.data?.attributes?.eligibility,
-            ).map(
-              benefit =>
-                benefit.veteranIsEligible === null
-                  ? `${benefit.chapter}null`
-                  : benefit.chapter,
+            ).map(benefit =>
+              benefit.veteranIsEligible === null
+                ? `${benefit.chapter}null`
+                : benefit.chapter,
             ) || [],
         };
 
