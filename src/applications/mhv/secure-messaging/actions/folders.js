@@ -9,18 +9,19 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
+const handleErrors = err => async dispatch => {
+  dispatch({
+    type: Actions.Alerts.ADD_ALERT,
+    payload: {
+      alertType: 'error',
+      header: err.title,
+      content: err.detail,
+      response: err,
+    },
+  });
+};
+
 export const getFolders = () => async dispatch => {
-  const handleErrors = err => {
-    dispatch({
-      type: Actions.Alerts.ADD_ALERT,
-      payload: {
-        alertType: 'error',
-        header: err.title,
-        content: err.detail,
-        response: err,
-      },
-    });
-  };
   try {
     const response = await getFolderList();
     if (response.data) {
@@ -31,22 +32,18 @@ export const getFolders = () => async dispatch => {
     }
     if (response.errors) {
       const err = response.errors[0];
-      handleErrors(err);
+      dispatch(handleErrors(err));
     }
   } catch (error) {
     const err = error.errors[0];
-    handleErrors(err);
+    dispatch(handleErrors(err));
+    dispatch({
+      type: Actions.Folder.GET_LIST_ERROR,
+    });
   }
 };
 
 export const retrieveFolder = folderId => async dispatch => {
-  const handleErrors = error => {
-    dispatch({
-      type: Actions.Folder.GET,
-      response: null,
-    });
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', error?.detail));
-  };
   await getFolder(folderId)
     .then(response => {
       if (response.data) {
@@ -62,10 +59,20 @@ export const retrieveFolder = folderId => async dispatch => {
           response,
         });
       }
-      if (response.errors) handleErrors(response.errors[0]);
+      if (response.errors) {
+        dispatch({
+          type: Actions.Folder.GET,
+          response: null,
+        });
+        dispatch(handleErrors(response.errors[0]));
+      }
     })
     .catch(error => {
-      handleErrors(error);
+      dispatch({
+        type: Actions.Folder.GET,
+        response: null,
+      });
+      dispatch(handleErrors(error.errors[0]));
     });
 };
 
