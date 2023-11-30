@@ -58,6 +58,7 @@ const ReplyDraftItem = props => {
   const [navigationError, setNavigationError] = useState(null);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const [bodyError, setBodyError] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
@@ -129,7 +130,11 @@ const ReplyDraftItem = props => {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError(null);
+          setNavigationError({
+            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+            confirmButtonText: 'Continue editing',
+            cancelButtonText: 'Delete draft',
+          });
         }
       }
 
@@ -216,7 +221,7 @@ const ReplyDraftItem = props => {
         });
       }
     },
-    [draft, messageBody],
+    [deleteButtonClicked, draft, messageBody],
   );
 
   useEffect(
@@ -452,6 +457,7 @@ const ReplyDraftItem = props => {
             draftId={draft?.messageId}
             setNavigationError={setNavigationError}
             cannotReply={cannotReply}
+            setDeleteButtonClicked={setDeleteButtonClicked}
           />
         </>
       ) : (
