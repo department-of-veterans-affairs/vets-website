@@ -98,8 +98,13 @@ export function isValidDateRange(fromDate, toDate, allowSameMonth = false) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
   }
+
   const momentStart = dateToMoment(fromDate);
   const momentEnd = dateToMoment(toDate);
+
+  if (!momentStart.isValid() || !momentEnd.isValid()) {
+    return false;
+  }
 
   return allowSameMonth
     ? momentStart.isSameOrBefore(momentEnd)
