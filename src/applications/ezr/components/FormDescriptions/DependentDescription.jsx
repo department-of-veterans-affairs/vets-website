@@ -11,7 +11,7 @@ export const DependentDescription = () => (
         <strong>Here’s who we consider to be a dependent:</strong>
       </p>
       <ul>
-        <li>A spouse (we recognize same-sex and common law marriages)</li>
+        <li>A spouse (we recognize same-sex and common-law marriages)</li>
         <li>An unmarried child (including adopted children or stepchildren)</li>
       </ul>
       <p>

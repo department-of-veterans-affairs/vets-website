@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import BurialsApp from '../BurialsApp';
 
-const pensionLocation = {
+const burialsLocation = {
   pathname: '/introduction',
   search: '',
   hash: '',
@@ -38,7 +38,7 @@ describe('BurialsApp', () => {
     const mockStore = store();
     const { container } = render(
       <Provider store={mockStore}>
-        <BurialsApp location={pensionLocation} />
+        <BurialsApp location={burialsLocation} />
       </Provider>,
     );
     expect($('va-loading-indicator', container)).to.exist;
@@ -48,7 +48,7 @@ describe('BurialsApp', () => {
     const mockStore = store({ loading: false, pensionFormEnabled: false });
     const { container } = render(
       <Provider store={mockStore}>
-        <BurialsApp location={pensionLocation} />
+        <BurialsApp location={burialsLocation} />
       </Provider>,
     );
     await waitFor(() => {
