@@ -10,7 +10,6 @@ const generateFeatureToggles = (toggles = {}) => {
     myVaNotificationDotIndicator = true,
     myVaRemoveCernerMessage = true,
     myVaUpdateErrorsWarnings = true,
-    vaOnlineSchedulingBreadcrumbUrlUpdate = true,
     vaOnlineSchedulingStaticLandingPage = true,
   } = toggles;
 
@@ -57,10 +56,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'my_va_update_errors_warnings',
           value: myVaUpdateErrorsWarnings,
-        },
-        {
-          name: 'va_online_scheduling_breadcrumb_url_update',
-          value: vaOnlineSchedulingBreadcrumbUrlUpdate,
         },
         {
           name: 'va_online_scheduling_static_landing_page',

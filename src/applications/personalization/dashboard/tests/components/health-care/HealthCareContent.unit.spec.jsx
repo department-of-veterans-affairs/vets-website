@@ -6,11 +6,8 @@ import { UnconnectedHealthCareContent } from '../../../components/health-care/He
 import { v2 } from '../../../mocks/appointments';
 
 describe('<UnconnectedHealthCareContent />', () => {
-  // delete instances of Toggler when new appts URL is launched
   const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
-    },
+    user: {},
   };
 
   it('should render', () => {
