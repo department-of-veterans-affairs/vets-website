@@ -2,7 +2,6 @@ import React from 'react';
 
 export default function NoRatings() {
   return (
-    <div className="vads-u-margin-y--5">
       <va-alert>
         <h3 slot="headline">
           We don’t have rated disabilities on file for you
@@ -19,6 +18,5 @@ export default function NoRatings() {
           />
         </div>
       </va-alert>
-    </div>
   );
 }

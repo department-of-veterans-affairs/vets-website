@@ -112,7 +112,11 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
 }
 
 export function getRatedDisabilities() {
-  return new Promise(resolve => {
+  return getData('/rated_disabilities');
+}
+
+export function getRatedDisabilities2() {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({
         id: '1012592956V095840',
@@ -175,6 +179,7 @@ export function getRatedDisabilities() {
           ],
         },
       });
+      // reject(Error());
     }, 2000); // simulate a delay of 2 seconds
   });
 }

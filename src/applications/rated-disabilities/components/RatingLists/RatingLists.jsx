@@ -6,15 +6,15 @@ import {
   getNonServiceConnectedRatings,
 } from './helpers';
 import NoRatings from './NoRatings';
-import Section from './List';
+import List from './List';
 
 export default function RatingLists({ ratings }) {
   const serviceConnectedRatings = getServiceConnectedRatings(ratings);
   const nonServiceConnectedRatings = getNonServiceConnectedRatings(ratings);
 
-  // NOTE: These are true for now to mimic the behavior of the EVSS implementation. It probably makes
-  // sense to not show the section if there are no ratings
   const hasRatings = ratings.length !== 0;
+  // NOTE: These are true for now to mimic the behavior of the EVSS implementation. It
+  // probably makes sense to not show the section if there are no ratings
   const hasServiceConnectedRatings = true;
   const hasNonServiceConnectedRatings = true;
 
@@ -27,7 +27,7 @@ export default function RatingLists({ ratings }) {
       {hasServiceConnectedRatings && (
         <>
           <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
-          <Section ratings={serviceConnectedRatings} />
+          <List ratings={serviceConnectedRatings} />
         </>
       )}
       {hasNonServiceConnectedRatings && (
@@ -35,7 +35,7 @@ export default function RatingLists({ ratings }) {
           <h3 className="vads-u-margin-y--2 vads-u-margin-top--3">
             Conditions VA determined aren’t service-connected
           </h3>
-          <Section ratings={nonServiceConnectedRatings} />
+          <List ratings={nonServiceConnectedRatings} />
         </>
       )}
     </>

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 
 import { checkForDiscrepancies } from '../actions';
+import NeedHelp from './NeedHelp';
 import MVIError from './MVIError';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import OnThisPage from './OnThisPage';
@@ -71,13 +72,7 @@ const RatedDisabilityView = ({
           <a href="/disability/about-disability-ratings/">
             About VA disability ratings
           </a>
-          <h3 className="vads-u-margin-top--3 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-            Need help?
-          </h3>
-          <p className="vads-u-padding-bottom--3">
-            You can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m. ET.
-          </p>
+          <NeedHelp />
         </div>
       );
     } else {
