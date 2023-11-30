@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../simple-forms/shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import mailingAddress from '../../pages/mailingAddress';
@@ -10,7 +10,7 @@ const { schema, uiSchema } = mailingAddress;
 describe('pension mailing address page', () => {
   const pageTitle = 'mailing address';
   const expectedNumberOfFields = 6;
-  testNumberOfFields(
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -19,7 +19,7 @@ describe('pension mailing address page', () => {
   );
 
   const expectedNumberOfErrors = 4;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
