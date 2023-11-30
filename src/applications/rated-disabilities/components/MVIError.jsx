@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/exports';
+
+const facilityLocatorUrl = getAppUrl('facilities');
+
 export default function MVIError() {
   return (
     <va-alert status="warning">
