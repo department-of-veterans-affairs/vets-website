@@ -2,15 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-// import DelayedRender from 'platform/utilities/ui/DelayedRender';
-// import DelayedRender from '@department-of-veterans-affairs/platform-utilities/ui/DelayedRender';
+// import mockData from '../../constants/mock-representative-data.json';
+
 import { representativeTypes, sortOptions } from '../../config';
-// import { Error } from '../../constants';
 
 import { setFocus } from '../../utils/helpers';
-// import { recordSearchResultsEvents } from '../../utils/analytics';
+import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
 
 import SearchResult from './SearchResult';
@@ -30,6 +28,7 @@ const ResultsList = props => {
   useEffect(
     () => {
       setFocus(searchResultTitle.current);
+      recordSearchResultsEvents(searchResults, props);
     },
     [searchResults, inProgress, props.error],
   );
@@ -60,15 +59,17 @@ const ResultsList = props => {
               <>
                 <hr />
                 <SearchResult
-                  organization={result.attributes.full_name}
+                  organization={
+                    result.attributes.fullName || result.attributes.name
+                  }
                   key={result.id}
                   type={result.type}
-                  addressLine1={result.attributes.address_line_1}
-                  addressLine2={result.attributes.address_line_2}
-                  addressLine3={result.attributes.address_line_3}
+                  addressLine1={result.attributes.addressLine1}
+                  addressLine2={result.attributes.addressLine2}
+                  addressLine3={result.attributes.addressLine3}
                   city={result.attributes.city}
-                  state={result.attributes.state_code}
-                  zipCode={result.attributes.zip_code}
+                  state={result.attributes.stateCode}
+                  zipCode={result.attributes.zipCode}
                   phone={result.attributes.phone}
                   distance={result.attributes.distance}
                   representative={result}
