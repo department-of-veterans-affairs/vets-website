@@ -20,6 +20,7 @@ const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
+    vaOnlineSchedulingStatusImprovement: true,
   },
 };
 
@@ -111,7 +112,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
-      'Below is your list of appointment requests that haven’t been scheduled yet.',
+      'Your appointment requests that haven’t been scheduled yet.',
     );
   });
 
@@ -174,7 +175,7 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
     expect(screen.baseElement).to.contain.text('Community care');
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
-      'Below is your list of appointment requests that haven’t been scheduled yet.',
+      'Your appointment requests that haven’t been scheduled yet.',
     );
   });
 
