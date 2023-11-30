@@ -61,15 +61,9 @@
         "cohabitedLastYear": false,
         "receivedSupportLastYear": true,
         "view:dependentIncome": true,
-        "view:grossIncome": {
-          "grossIncome": 23424
-        },
-        "view:netIncome": {
-          "netIncome": 23424
-        },
-        "view:otherIncome": {
-          "otherIncome": 23424
-        }
+        "grossIncome": 23424,
+        "netIncome": 23424,
+        "otherIncome": 23424
       }
     ],
     "view:addInsurancePolicy": false,
