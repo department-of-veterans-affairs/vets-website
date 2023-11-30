@@ -51,16 +51,19 @@ export const EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
 export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
   'EDU_PAYMENT_INFORMATION_SAVE_FAILED';
 
-export function fetchCNPPaymentInformation({ captureCNPError = captureError }) {
+export function fetchCNPPaymentInformation({
+  captureCNPError = captureError,
+  recordEvent = recordAnalyticsEvent,
+}) {
   return async dispatch => {
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
-    recordCNPEvent({ status: API_STATUS.STARTED });
+    recordCNPEvent({ status: API_STATUS.STARTED }, recordEvent);
 
     const response = await fetchDataAttrsFromApi(LH_CNP_ENDPOINT);
 
     if (response.error) {
-      recordCNPEvent({ status: API_STATUS.FAILED });
+      recordCNPEvent({ status: API_STATUS.FAILED }, recordEvent);
 
       captureCNPError(response, {
         eventName: 'cnp-get-direct-deposit-failed',
@@ -73,22 +76,25 @@ export function fetchCNPPaymentInformation({ captureCNPError = captureError }) {
     } else {
       const formattedResponse = formatDirectDepositResponse(response);
 
-      recordCNPEvent({
-        status: API_STATUS.SUCCESSFUL,
-        extraProperties: {
-          // The API might report an empty payment address for some folks who are
-          // already enrolled in direct deposit. But we want to make sure we
-          // always treat those who are signed up as being eligible. Therefore
-          // we'll check to see if they either have a payment address _or_ are
-          // already signed up for direct deposit here:
-          'direct-deposit-setup-eligible':
-            isEligibleForCNPDirectDeposit(formattedResponse) ||
-            isSignedUpForCNPDirectDeposit(formattedResponse),
-          'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
-            formattedResponse,
-          ),
+      recordCNPEvent(
+        {
+          status: API_STATUS.SUCCESSFUL,
+          extraProperties: {
+            // The API might report an empty payment address for some folks who are
+            // already enrolled in direct deposit. But we want to make sure we
+            // always treat those who are signed up as being eligible. Therefore
+            // we'll check to see if they either have a payment address _or_ are
+            // already signed up for direct deposit here:
+            'direct-deposit-setup-eligible':
+              isEligibleForCNPDirectDeposit(formattedResponse) ||
+              isSignedUpForCNPDirectDeposit(formattedResponse),
+            'direct-deposit-setup-complete': isSignedUpForCNPDirectDeposit(
+              formattedResponse,
+            ),
+          },
         },
-      });
+        recordEvent,
+      );
 
       dispatch({
         type: CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
@@ -102,16 +108,20 @@ export function saveCNPPaymentInformation({
   fields,
   isEnrollingInDirectDeposit = false,
   captureCNPError = captureError,
+  recordEvent = recordAnalyticsEvent,
 }) {
   return async dispatch => {
     dispatch({ type: CNP_PAYMENT_INFORMATION_SAVE_STARTED });
 
     const apiRequestOptions = generateApiRequestOptions(fields);
 
-    recordCNPEvent({
-      status: API_STATUS.STARTED,
-      method: apiRequestOptions.method,
-    });
+    recordCNPEvent(
+      {
+        status: API_STATUS.STARTED,
+        method: apiRequestOptions.method,
+      },
+      recordEvent,
+    );
 
     const response = await fetchDataAttrsFromApi(
       LH_CNP_ENDPOINT,
@@ -119,18 +129,27 @@ export function saveCNPPaymentInformation({
     );
 
     if (response.error || response.errors) {
-      // TODO: if there is a response.errors shouldn't we be using that instead of []?
-      const errors = response.error?.errors || [];
+      // returned when the fetch call fails client side
+      const clientErrors = response?.error?.errors;
+
+      // returned when the fetch call fails server side
+      const serverErrors = response?.errors;
+
+      const errors = clientErrors || serverErrors;
+
       const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
         isEnrolling: isEnrollingInDirectDeposit,
       });
 
-      recordCNPEvent({
-        status: API_STATUS.FAILED,
-        method: apiRequestOptions.method,
-        extraProperties: analyticsData,
-      });
+      recordCNPEvent(
+        {
+          status: API_STATUS.FAILED,
+          method: apiRequestOptions.method,
+          extraProperties: analyticsData,
+        },
+        recordEvent,
+      );
 
       captureCNPError(response, {
         eventName: 'cnp-put-direct-deposit-failed',
@@ -141,14 +160,17 @@ export function saveCNPPaymentInformation({
         response,
       });
     } else {
-      recordCNPEvent({
-        status: API_STATUS.SUCCESSFUL,
-        method: apiRequestOptions.method,
-        extraProperties: {
-          event: 'profile-transaction',
-          'profile-section': `cnp-direct-deposit-information`,
+      recordCNPEvent(
+        {
+          status: API_STATUS.SUCCESSFUL,
+          method: apiRequestOptions.method,
+          extraProperties: {
+            event: 'profile-transaction',
+            'profile-section': `cnp-direct-deposit-information`,
+          },
         },
-      });
+        recordEvent,
+      );
 
       const formattedResponse = formatDirectDepositResponse(response);
 
