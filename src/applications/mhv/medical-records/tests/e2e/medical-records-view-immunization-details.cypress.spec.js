@@ -7,6 +7,8 @@ describe('Medical Records View Immunizations', () => {
     site.login();
     cy.visit('my-health/medical-records/vaccines');
 
+    ImmunizationsListPage.clickGotoImmunizationsLink();
+    cy.visit('my-health/medical-records/vaccines');
     ImmunizationsListPage.clickImmunizationsDetailsLink(0);
     // Axe check
     cy.injectAxe();

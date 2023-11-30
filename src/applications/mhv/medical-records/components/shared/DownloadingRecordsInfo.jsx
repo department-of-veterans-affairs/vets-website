@@ -10,8 +10,8 @@ const DownloadingRecordsInfo = props => {
         <span className="vads-u-font-weight--bold">
           If you’re on a public or shared computer,
         </span>{' '}
-        remember that downloading saves a copy of your records to the computer
-        you’re now using.
+        remember that downloading will save a copy of your records to the
+        computer.
       </>
     );
   };

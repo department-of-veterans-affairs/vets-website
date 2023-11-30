@@ -22,8 +22,8 @@ describe('Vaccines list container', () => {
       mhv_medical_records_allow_txt_downloads: true,
     },
   };
-
   let screen;
+
   beforeEach(() => {
     screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
       initialState,
@@ -112,11 +112,18 @@ describe('Vaccines list container with errors', async () => {
     });
   });
 
-  await waitFor(() => {
-    expect(
-      screen.getByText('We can’t access your vaccine records right now', {
-        exact: false,
-      }),
-    ).to.exist;
+  it('displays an error message', async () => {
+    await waitFor(() => {
+      expect(
+        screen.getByText('We can’t access your vaccine records right now', {
+          exact: false,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('does not display a print button', () => {
+    const printButton = screen.queryByTestId('print-records-button');
+    expect(printButton).to.be.null;
   });
 });
