@@ -3,22 +3,11 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
-import { focusElement } from 'platform/utilities/ui';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
-import {
-  FETCH_STATUS,
-  GA_PREFIX,
-  APPOINTMENT_TYPES,
-  SPACE_BAR,
-} from '../../../utils/constants';
-import {
-  getLink,
-  getVAAppointmentLocationId,
-  groupAppointmentByDay,
-} from '../../../services/appointment';
-import AppointmentListItem from '../AppointmentsPageV2/AppointmentListItem';
+import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
+import { groupAppointmentByDay } from '../../../services/appointment';
 import NoAppointments from '../NoAppointments';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -28,31 +17,11 @@ import {
   startNewAppointmentFlow,
 } from '../../redux/actions';
 import {
-  selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
-import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
-import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
+import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
-
-function handleClick({ history, link, idClickable }) {
-  return () => {
-    if (!window.getSelection().toString()) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
-function handleKeyDown({ history, link, idClickable }) {
-  return event => {
-    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -134,13 +103,10 @@ export default function PastAppointmentsListNew() {
     showScheduleButton,
     pastAppointmentsByMonth,
     pastStatus,
-    facilityData,
     pastSelectedIndex,
     hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
+
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -260,9 +226,7 @@ export default function PastAppointmentsListNew() {
         const monthDate = moment(key, 'YYYY-MM');
 
         let hashTable = pastAppointmentsByMonth;
-        if (featureAppointmentList) {
-          hashTable = groupAppointmentByDay(hashTable[key]);
-        }
+        hashTable = groupAppointmentByDay(hashTable[key]);
 
         return (
           <React.Fragment key={key}>
@@ -283,60 +247,18 @@ export default function PastAppointmentsListNew() {
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
                 'vads-u-margin-bottom--4',
-                {
-                  'vads-u-border-bottom--1px': featureAppointmentList,
-                  'vads-u-border-color--gray-medium': featureAppointmentList,
-                },
+                'vads-u-border-bottom--1px',
+                'vads-u-border-color--gray-medium',
               )}
               data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
-              {featureAppointmentList &&
-                UpcomingAppointmentLayout({
-                  featureStatusImprovement,
-                  featureBreadcrumbUrlUpdate,
-                  hashTable,
-                  history,
-                })}
-
-              {!featureAppointmentList &&
-                hashTable[key].map((appt, index) => {
-                  const facilityId = getVAAppointmentLocationId(appt);
-                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
-                  const link = getLink({
-                    featureBreadcrumbUrlUpdate,
-                    featureStatusImprovement,
-                    appointment: appt,
-                  });
-
-                  if (
-                    appt.vaos.appointmentType ===
-                      APPOINTMENT_TYPES.vaAppointment ||
-                    appt.vaos.appointmentType ===
-                      APPOINTMENT_TYPES.ccAppointment
-                  ) {
-                    return (
-                      <AppointmentListItem
-                        key={index}
-                        id={appt.id}
-                        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
-                      >
-                        <AppointmentCard
-                          appointment={appt}
-                          facility={facilityData[facilityId]}
-                          link={link}
-                          handleClick={() =>
-                            handleClick({ history, link, idClickable })
-                          }
-                          handleKeyDown={() =>
-                            handleKeyDown({ history, link, idClickable })
-                          }
-                        />
-                      </AppointmentListItem>
-                    );
-                  }
-                  return null;
-                })}
+              {UpcomingAppointmentLayout({
+                featureStatusImprovement,
+                featureBreadcrumbUrlUpdate,
+                hashTable,
+                history,
+              })}
             </ul>
           </React.Fragment>
         );

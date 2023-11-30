@@ -23,7 +23,6 @@ import {
   isVAPhoneAppointment,
 } from '../../../services/appointment';
 import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
-import { Label } from './Label';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import ListItem from './ListItem';
 import AppointmentRow from './AppointmentRow';
@@ -165,7 +164,6 @@ export default function AppointmentListItemGroup({ data }) {
                 'vads-l-col vads-u-margin-left--1 vads-u-padding-y--1p5',
               )}
             >
-              <Label label="Canceled" />
               {index === 0 && (
                 <>
                   <h3

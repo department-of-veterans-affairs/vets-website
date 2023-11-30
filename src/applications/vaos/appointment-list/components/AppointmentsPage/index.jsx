@@ -8,13 +8,12 @@ import DowntimeNotification, {
 import PropTypes from 'prop-types';
 import {
   selectFeatureStatusImprovement,
-  selectFeatureAppointmentList,
   selectFeaturePrintList,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
-import PastAppointmentsListV2 from '../PastAppointmentsListV2';
+import PastAppointmentsList from '../PastAppointmentsList';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
@@ -116,14 +115,11 @@ function getSpacing({ isPrintList, isPast, isPending }) {
   return `${names}`;
 }
 
-export default function AppointmentsPageV2() {
+export default function AppointmentsPage() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
 
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -197,11 +193,8 @@ export default function AppointmentsPageV2() {
 
   const history = useHistory();
 
-  let paragraphText =
-    'Below is your list of appointment requests that haven’t been scheduled yet.';
-  if (featureAppointmentList) {
-    paragraphText = 'These appointment requests haven’t been scheduled yet.';
-  } else if (featureStatusImprovement) {
+  let paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  if (featureStatusImprovement) {
     paragraphText =
       'Your appointment requests that haven’t been scheduled yet.';
   }
@@ -253,7 +246,7 @@ export default function AppointmentsPageV2() {
           )}
         </Route>
         <Route path="/past">
-          <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
+          <PastAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/canceled">
           <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
