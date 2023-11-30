@@ -31,6 +31,10 @@ class MedicationsDetailsPage {
     );
   };
 
+  verifyPrescriptionNameIsFocusedAfterLoading = () => {
+    cy.get('[data-testid="prescription-name"]').should('have.focus');
+  };
+
   verifyPrescriptionsStatus = PrescriptionsStatus => {
     cy.get('[data-testid="status"]').should(
       'have.text',

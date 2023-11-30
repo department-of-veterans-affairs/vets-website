@@ -19,7 +19,6 @@ describe('Medications Details Page Breadcrumbs', () => {
     listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
     detailsPage.clickMedicationsLandingPageBreadcrumbsOnListPage();
     landingPage.verifyNavigationToLandingPageAfterClickingBreadcrumb();
-
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
