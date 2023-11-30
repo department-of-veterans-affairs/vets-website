@@ -17,9 +17,6 @@ describe('Medications Details Page Active Submmitted Status DropDown', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();
@@ -29,9 +26,6 @@ describe('Medications Details Page Active Submmitted Status DropDown', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

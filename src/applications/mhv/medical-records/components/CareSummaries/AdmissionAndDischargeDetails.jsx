@@ -13,6 +13,7 @@ import {
   updatePageTitle,
 } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -100,6 +101,11 @@ const AdmissionAndDischargeDetails = props => {
     );
   };
 
+  const dates =
+    record.startDate &&
+    record.endDate &&
+    `${record.startDate} to ${record.endDate}`;
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
@@ -110,23 +116,11 @@ const AdmissionAndDischargeDetails = props => {
         {record.name}
       </h1>
 
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="admission-discharge-date"
-        >
-          Dates:{' '}
-          {record.startDate &&
-            record.endDate && (
-              <span
-                className="vads-u-font-weight--normal"
-                data-testid="header-times"
-              >
-                {record.startDate} to {record.endDate}
-              </span>
-            )}
-        </h2>
-      </div>
+      <DateSubheading
+        date={dates}
+        label="Dates"
+        id="admission-discharge-date"
+      />
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility
