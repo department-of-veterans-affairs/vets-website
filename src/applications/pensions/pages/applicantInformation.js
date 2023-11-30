@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -13,8 +15,34 @@ import {
 import applicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
 
+export function isOver65(formData) {
+  const veteranDateOfBirth = moment(
+    formData.veteranDateOfBirth,
+    'YYYY-MM-DD',
+    true,
+  );
+
+  if (!veteranDateOfBirth.isValid()) return undefined;
+
+  return moment()
+    .startOf('day')
+    .subtract(65, 'years')
+    .isSameOrAfter(veteranDateOfBirth);
+}
+
+export function setDefaultIsOver65(oldData, newData) {
+  if (oldData.veteranDateOfBirth !== newData.veteranDateOfBirth) {
+    return {
+      ...newData,
+      isOver65: isOver65(newData),
+    };
+  }
+  return newData;
+}
+
 /** @type {PageSchema} */
 export default {
+  updateFormData: setDefaultIsOver65,
   uiSchema: {
     'ui:description': applicantDescription,
     'view:warningAlert': {
