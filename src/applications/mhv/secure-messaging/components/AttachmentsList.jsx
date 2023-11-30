@@ -44,12 +44,14 @@ const AttachmentsList = props => {
   useEffect(
     () => {
       if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
-        setFocusedElement(
-          document.querySelector('#close-success-alert-button'),
-        );
+        setTimeout(() => {
+          setFocusedElement(
+            document.querySelector('#close-success-alert-button'),
+          );
+        }, 300);
       }
     },
-    [attachFileSuccess, attachments],
+    [attachFileSuccess, attachments, attachFileAlertRef],
   );
 
   useEffect(

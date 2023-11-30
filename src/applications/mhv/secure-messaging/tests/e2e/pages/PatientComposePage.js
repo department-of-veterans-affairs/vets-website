@@ -113,7 +113,7 @@ class PatientComposePage {
 
   verifyFocusonMessageAttachment = () => {
     cy.get('[data-testid="close-success-alert-button"]')
-      .eq(0)
+      .should('be.visible')
       .should('have.focus');
   };
 
