@@ -9,25 +9,28 @@ import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { maxNameLength } from '../validations/issues';
-import { validateDate } from '../validations/date';
 import { content } from '../content/addIssue';
 
 import {
   CONTESTABLE_ISSUES_PATH,
+  REVIEW_AND_SUBMIT,
   MAX_LENGTH,
   REVIEW_ISSUES,
   SELECTED,
-} from '../../shared/constants';
-import { calculateIndexOffset, getSelected } from '../../shared/utils/issues';
-import { setStorage } from '../../shared/utils/addIssue';
-import { checkValidations } from '../../shared/validations';
-import { uniqueIssue, missingIssueName } from '../../shared/validations/issues';
+} from '../constants';
+import { calculateIndexOffset, getSelected } from '../utils/issues';
+import { setStorage } from '../utils/addIssue';
+import { checkValidations } from '../validations';
+import { uniqueIssue, missingIssueName } from '../validations/issues';
 
-const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
-const REVIEW_AND_SUBMIT = '/review-and-submit';
-
-const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
+const AddIssue = ({
+  validations,
+  description,
+  data,
+  goToPath,
+  setFormData,
+  testingIndex,
+}) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};
   const allIssues = contestedIssues.concat(additionalIssues);
 
@@ -44,10 +47,16 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
   const addOrEdit = currentData.issue ? 'edit' : 'add';
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_ISSUES) === 'true';
-  const returnPath = onReviewPage ? REVIEW_AND_SUBMIT : ISSUES_PAGE;
+  const returnPath = onReviewPage
+    ? REVIEW_AND_SUBMIT
+    : `/${CONTESTABLE_ISSUES_PATH}`;
 
-  const nameValidations = [missingIssueName, maxNameLength, uniqueIssue];
-  const dateValidations = [validateDate];
+  const nameValidations = [
+    missingIssueName,
+    validations.maxNameLength,
+    uniqueIssue,
+  ];
+  const dateValidations = [validations.validateDate];
   const uniqueValidations = [uniqueIssue];
 
   const [issueName, setIssueName] = useState(currentData.issue || '');
@@ -161,7 +170,7 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
         >
           <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
-        {content.description}
+        {description}
         <VaTextInput
           id="issue-name"
           name="issue-name"
@@ -215,9 +224,14 @@ const AddIssue = ({ data, goToPath, setFormData, testingIndex }) => {
 
 AddIssue.propTypes = {
   data: PropTypes.shape({}),
+  description: PropTypes.any,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
+  validations: PropTypes.shape({
+    maxNameLength: PropTypes.func,
+    validateDate: PropTypes.func,
+  }),
   onReviewPage: PropTypes.bool,
 };
 
