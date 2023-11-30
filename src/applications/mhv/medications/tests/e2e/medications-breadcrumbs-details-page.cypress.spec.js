@@ -17,14 +17,10 @@ describe('Medications Details Page Breadcrumbs', () => {
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     detailsPage.clickMedicationsBreadcrumbsOnDetailsPage();
     landingPage.verifyNavigationToLandingPageAfterClickingBreadcrumb();
-    // listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

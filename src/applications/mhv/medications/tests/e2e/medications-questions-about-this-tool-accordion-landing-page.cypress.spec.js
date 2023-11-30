@@ -19,9 +19,6 @@ describe('Medications Landing Page', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });
