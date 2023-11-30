@@ -14,7 +14,6 @@ const LastFilledInfo = rx => {
   }
   return (
     <div>
-      {dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
       {nonVA &&
         orderedDate && (
           <p data-testid="rx-last-filled-info">
