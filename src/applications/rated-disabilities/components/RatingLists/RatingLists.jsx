@@ -6,9 +6,9 @@ import {
   getNonServiceConnectedRatings,
 } from './helpers';
 import NoRatings from './NoRatings';
-import Section from './Section';
+import Section from './List';
 
-export default function RatingList({ ratings }) {
+export default function RatingLists({ ratings }) {
   const serviceConnectedRatings = getServiceConnectedRatings(ratings);
   const nonServiceConnectedRatings = getNonServiceConnectedRatings(ratings);
 
@@ -42,7 +42,7 @@ export default function RatingList({ ratings }) {
   );
 }
 
-RatingList.propTypes = {
+RatingLists.propTypes = {
   ratings: PropTypes.arrayOf(
     PropTypes.shape({
       decision: PropTypes.string,

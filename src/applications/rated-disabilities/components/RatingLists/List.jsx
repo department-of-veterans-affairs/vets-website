@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ListItem from './ListItem';
 
-export default function Section({ ratings }) {
+export default function List({ ratings }) {
   return (
     <>
       {ratings.map((rating, index) => (
@@ -13,7 +13,7 @@ export default function Section({ ratings }) {
   );
 }
 
-Section.propTypes = {
+List.propTypes = {
   ratings: PropTypes.arrayOf(
     PropTypes.shape({
       decision: PropTypes.string,

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { getRatedDisabilities } from '../actions';
+import CombinedRating from '../components/CombinedRating';
 import OnThisPage from '../components/OnThisPage';
-import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
-import RatingList from '../components/RatingList';
+import RatingList from '../components/RatingLists';
 
 const loadingIndicator = (
   <va-loading-indicator message="Loading your rating information..." />
@@ -35,11 +35,7 @@ export default function AppContent() {
               <h2 id="combined-rating" className="vads-u-margin-y--1p5">
                 Your combined disability rating
               </h2>
-              <TotalRatedDisabilities
-                totalDisabilityRating={combinedDisabilityRating}
-                loading={false}
-                error={null}
-              />
+              <CombinedRating combinedRating={combinedDisabilityRating} />
               <h2 id="individual-ratings" className="vads-u-margin-y--2">
                 Your individual ratings
               </h2>

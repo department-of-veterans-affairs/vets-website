@@ -16,7 +16,7 @@ const getHeadingText = ratedDisability => {
   return headingParts.join(' ');
 };
 
-const RatedDisabilityListItem = ({ ratedDisability }) => {
+const ListItem = ({ ratedDisability }) => {
   const { effectiveDate } = ratedDisability;
   const headingText = getHeadingText(ratedDisability);
 
@@ -32,7 +32,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
   );
 };
 
-RatedDisabilityListItem.propTypes = {
+ListItem.propTypes = {
   ratedDisability: PropTypes.shape({
     decision: PropTypes.string,
     diagnosticText: PropTypes.string,
@@ -45,4 +45,4 @@ RatedDisabilityListItem.propTypes = {
   }).isRequired,
 };
 
-export default RatedDisabilityListItem;
+export default ListItem;

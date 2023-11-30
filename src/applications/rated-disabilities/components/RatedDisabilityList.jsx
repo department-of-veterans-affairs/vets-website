@@ -3,9 +3,9 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { isServerError } from '../../util';
+import { isServerError } from '../util';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
-import SortSelect from '../SortSelect';
+import SortSelect from './SortSelect';
 
 // Need to transform date string into a meaningful format and extract any special issues.
 const formalizeData = data => {

@@ -6,7 +6,7 @@ import { checkForDiscrepancies } from '../actions';
 import MVIError from './MVIError';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import OnThisPage from './OnThisPage';
-import RatedDisabilityList from './evss/RatedDisabilityList';
+import RatedDisabilityList from './RatedDisabilityList';
 
 const RatedDisabilityView = ({
   detectDiscrepancies,
