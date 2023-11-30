@@ -13,14 +13,14 @@ describe('vaccine reducer', () => {
 });
 
 describe('extractNote function', () => {
-  it('should return None noted when vaccine has no notes', () => {
+  it('should return empty list when vaccine has no notes', () => {
     const vaccine = {
       note: [],
     };
 
     const result = extractNote(vaccine);
 
-    expect(result).to.eq('None noted');
+    expect(result).to.deep.equal([]);
   });
 
   it('should return an array of notes when vaccine has valid notes', () => {
