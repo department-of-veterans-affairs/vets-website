@@ -12,11 +12,6 @@
 @import "./radiology-images";
 @import "./settings";
 
-// Your custom sass
-.loading-indicator {
-  margin: 200px auto;
-}
-
 .link-button,
 .link-button:hover,
 .link-button:active {
@@ -37,7 +32,7 @@
 @media print {
   .no-print,
   .no-print * {
-    visibility: hidden;
+    visibility: hidden !important;
     display: none !important;
     margin: 0px !important;
     padding: 0px !important;
@@ -73,7 +68,7 @@
   .print-only,
   .print-only * {
     visibility: hidden;
-    display: none;
+    display: none !important;
     margin: 0px !important;
     padding: 0px !important;
   }
@@ -108,6 +103,10 @@
   .medical-records-container {
     flex-direction: column;
   }
+}
+
+.time-header {
+  margin-bottom: 24px;
 }
 
 @media print {
