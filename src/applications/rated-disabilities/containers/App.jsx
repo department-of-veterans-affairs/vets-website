@@ -20,17 +20,13 @@ import {
 } from '../selectors';
 
 const App = props => {
-  const {
-    featureFlagsLoading,
-    ratedDisabilities,
-  } = props.ratedDisabilities;
-
-  console.log(props.useLighthouse);
+  const { featureFlagsLoading, ratedDisabilities } = props.ratedDisabilities;
 
   return (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={props.user}
+      verify
     >
       <DowntimeNotification
         appTitle="Rated Disabilities"
@@ -73,10 +69,10 @@ App.propTypes = {
   ratedDisabilities: PropTypes.object,
   sortToggle: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  user: PropTypes.object,
   // START lighthouse_migration
   useLighthouse: PropTypes.bool,
   // END lighthouse_migration
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { getRatedDisabilities } from '../actions';
 import OnThisPage from '../components/OnThisPage';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
-import RatedDisabilityList from '../components/RatedDisabilityList';
+import RatingList from '../components/RatingList';
 
 const loadingIndicator = (
   <va-loading-indicator message="Loading your rating information..." />
@@ -21,7 +20,7 @@ export default function AppContent() {
     });
   }, []);
 
-  const { individualRatings } = data.attributes || {};
+  const { combinedDisabilityRating, individualRatings } = data.attributes || {};
 
   const hasRatedDisabilities = individualRatings?.length > 0;
 
@@ -37,14 +36,14 @@ export default function AppContent() {
                 Your combined disability rating
               </h2>
               <TotalRatedDisabilities
-                totalDisabilityRating={100}
+                totalDisabilityRating={combinedDisabilityRating}
                 loading={false}
                 error={null}
               />
               <h2 id="individual-ratings" className="vads-u-margin-y--2">
                 Your individual ratings
               </h2>
-              <RatedDisabilityList ratedDisabilities={individualRatings} />
+              <RatingList ratings={individualRatings} />
             </>
           ) : (
             loadingIndicator
@@ -54,5 +53,3 @@ export default function AppContent() {
     </div>
   );
 }
-
-AppContent.propTypes = {};

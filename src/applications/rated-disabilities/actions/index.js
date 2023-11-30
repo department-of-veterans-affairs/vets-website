@@ -118,7 +118,7 @@ export function getRatedDisabilities() {
         id: '1012592956V095840',
         type: 'disability_ratings',
         attributes: {
-          combinedDisabilityRating: 100,
+          combinedDisabilityRating: 80,
           combinedEffectiveDate: '2019-01-01',
           legalEffectiveDate: '2018-12-31',
           individualRatings: [
