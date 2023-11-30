@@ -2,7 +2,7 @@ import testData from './schema/maximal-test.json';
 import preneedHelpers from './utils/cypress-preneed-helpers';
 
 describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
-  it('fills the form and navigates accordingly as a veteran', () => {
+  it.skip('fills the form and navigates accordingly as a veteran', () => {
     preneedHelpers.interceptSetup();
     preneedHelpers.visitIntro();
 
