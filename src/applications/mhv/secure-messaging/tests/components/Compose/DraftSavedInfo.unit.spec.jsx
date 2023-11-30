@@ -18,7 +18,6 @@ describe('DraftSavedInfo component', () => {
   };
 
   const intialProps = {
-    userSaved: true,
     attachments: undefined,
   };
 

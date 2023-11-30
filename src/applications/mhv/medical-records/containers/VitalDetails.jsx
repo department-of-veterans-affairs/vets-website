@@ -11,7 +11,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { macroCase, makePdf } from '../util/helpers';
+import { getNameDateAndTime, macroCase, makePdf } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
   pageTitles,
@@ -137,11 +137,7 @@ const VitalDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Vital-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vital-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
@@ -235,12 +231,13 @@ const VitalDetails = props => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

@@ -2,14 +2,36 @@ import React from 'react';
 
 import moment from 'moment';
 
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  getScrollOptions,
+  focusElement,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+
+export function trackNoAuthStartLinkClick() {
+  recordEvent({ event: 'no-login-start-form' });
+}
 
 export function getInitialData({ mockData, environment }) {
   return !!mockData && environment.isLocalhost() && !window.Cypress
     ? mockData
     : undefined;
 }
+
+export const pageFocusScroll = () => {
+  const focusSelector =
+    'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+  const scrollToName = 'v3SementedProgressBar';
+  return () => {
+    waitForRenderThenFocus(focusSelector);
+    setTimeout(() => {
+      scrollTo(scrollToName, getScrollOptions({ offset: 0 }));
+    }, 100);
+  };
+};
 
 export const supportingDocsDescription = (
   <>
@@ -19,22 +41,13 @@ export const supportingDocsDescription = (
       documents if they’re available.
     </p>
     <p className="hideOnReviewPage">
-      To be eligible for a Presidential Memorial Certificate, the deceased
-      Veteran or Reservist must meet eligibility requirements for burial in a VA
-      national cemetery.
-    </p>
-    <p className="hideOnReviewPage">
-      Not sure if the Veteran or Reservist is eligible?
-    </p>
-    <p className="hideOnReviewPage">
-      <a href="/burials-memorials/eligibility/">
-        Check eligibility requirements for burial in a VA national cemetary
-        (opens in new tab)
-      </a>
-    </p>
-    <p className="vads-u-margin-bottom--4 hideOnReviewPage">
       We prefer that you upload the Veteran’s or Reservist’s DD214.
     </p>
+    <p className="hideOnReviewPage">Guidelines for uploading a file:</p>
+    <ul className="hideOnReviewPage">
+      <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
+      <li>Your file should be no larger than 20MB</li>
+    </ul>
   </>
 );
 

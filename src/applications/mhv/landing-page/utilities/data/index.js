@@ -130,7 +130,7 @@ const resolveLandingPageLinks = (
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
-        text: 'Download medical record (Blue Button)',
+        text: 'Download medical record (Blue Button®)',
         toggle: null,
       },
       {
@@ -167,15 +167,15 @@ const resolveLandingPageLinks = (
   const medicalSuppliesLinks = [
     {
       href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      oldHref: null,
       text: 'Order hearing aid batteries and accessories',
-      toggle: null,
+    },
+    {
+      href: '/health-care/order-cpap-supplies/',
+      text: 'Order CPAP supplies',
     },
     {
       href: '/health-care/order-prosthetic-socks/',
-      oldHref: null,
       text: 'Order prosthetic socks',
-      toggle: null,
     },
   ];
 
@@ -301,7 +301,7 @@ const resolveLandingPageLinks = (
       links: paymentsLinks,
     },
     {
-      title: 'Medical supplies and equipment',
+      title: 'Medical supplies',
       icon: 'deaf',
       links: medicalSuppliesLinks,
     },

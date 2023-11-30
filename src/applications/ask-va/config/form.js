@@ -20,6 +20,7 @@ import submitterContactPage from './chapters/submitterInformation/submitterConta
 
 // Contact Information
 import veteransAddressPage from './chapters/contactInformation/veteransAddress';
+import veteranAddressConfirmationPage from './chapters/contactInformation/veteranAddressConfirmation';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -108,6 +109,25 @@ const formConfig = {
           title: 'Veteran Address',
           uiSchema: veteransAddressPage.uiSchema,
           schema: veteransAddressPage.schema,
+        },
+        veteranAddressConfirmation: {
+          path: 'contact-info-2',
+          title: 'Veteran Address Confirmation',
+          uiSchema: veteranAddressConfirmationPage.uiSchema,
+          schema: veteranAddressConfirmationPage.schema,
+          onContinue: form => {
+            const selectedAddress = JSON.parse(form.addressConfirmation);
+            const formData = form;
+            formData.address = {
+              city: selectedAddress.city,
+              country: selectedAddress.country,
+              postalCode: selectedAddress.postalCode,
+              state: selectedAddress.state,
+              province: selectedAddress.province,
+              street: selectedAddress.street,
+              street2: selectedAddress.street2,
+            };
+          },
         },
       },
     },

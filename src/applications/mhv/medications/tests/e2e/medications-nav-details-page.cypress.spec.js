@@ -31,14 +31,12 @@ describe('verify navigation to medication details Page', () => {
     detailsPage.verifyPrescriptionsRefillsRemaining(
       mockPrescriptionDetails.data.attributes.refillRemaining,
     );
+    detailsPage.verifyPrescriptionNameIsFocusedAfterLoading();
 
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

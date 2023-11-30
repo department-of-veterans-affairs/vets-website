@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -27,6 +31,8 @@ import {
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import DateSubheading from '../components/shared/DateSubheading';
+import { txtLine } from '../../shared/util/constants';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -121,17 +127,29 @@ const ConditionDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Conditions-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Health condition details', runningUnitTest);
   };
 
   const download = () => {
     generateConditionDetails();
+  };
+
+  const generateConditionTxt = async () => {
+    const content = `
+${record.name} \n
+Date entered: ${record.date} \n
+${txtLine} \n
+Provider: ${record.provider} \n
+Provider Notes: ${processList(record.note)} \n
+Status of health condition: ${record.active} \n
+Location: ${record.facility} \n
+SNOMED Clinical term: ${record.name} \n`;
+
+    const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -153,25 +171,17 @@ const ConditionDetails = props => {
           >
             {record.name.split(' (')[0]}
           </h1>
+          <DateSubheading
+            date={record.date}
+            id="condition-date"
+            label="Date entered"
+          />
+
           <div className="condition-subheader vads-u-margin-bottom--3">
-            <div className="time-header">
-              <h2
-                className="vads-u-font-size--base vads-u-font-family--sans"
-                id="condition-date"
-              >
-                Date entered:{' '}
-                <span
-                  className="vads-u-font-weight--normal"
-                  data-dd-privacy="mask"
-                  data-testid="header-time"
-                >
-                  {record.date}
-                </span>
-              </h2>
-            </div>
             <PrintDownload
               download={download}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateConditionTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
@@ -202,12 +212,13 @@ const ConditionDetails = props => {
     }
 
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

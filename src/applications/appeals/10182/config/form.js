@@ -14,7 +14,7 @@ import { onFormLoaded } from '../utils/redirect';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 
 import {
   canUploadEvidence,
@@ -66,10 +66,10 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vaProfile,
-      services.bgs,
-      services.mvi,
-      services.appeals,
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
     ],
   },
 
@@ -165,7 +165,7 @@ const formConfig = {
           depends: () => false, // accessed from contestableIssues page
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,

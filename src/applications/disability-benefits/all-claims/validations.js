@@ -8,7 +8,6 @@ import {
   pathWithIndex,
   hasClaimedConditions,
   isClaimingIncrease,
-  hasRatedDisabilities,
   claimingRated,
   showSeparationLocation,
   sippableId,
@@ -22,11 +21,26 @@ import {
   RESERVE_GUARD_TYPES,
 } from './constants';
 
+/**
+ * Checks if the user has received military retirement pay
+ * @param {Object} data - Form data
+ * @returns true if the user has received military retired pay, false otherwise
+ */
 export const hasMilitaryRetiredPay = data =>
   _.get('view:hasMilitaryRetiredPay', data, false);
 
+/**
+ * Checks if the user expects to receive training pay
+ * @param {Object} data - Form data
+ * @returns true if the user expects to receive training pay, false otherwise
+ */
 export const hasTrainingPay = data => _.get('view:hasTrainingPay', data, false);
 
+/**
+ * Checks if a zip code is in a valid 5 or 9 digit format
+ * @param {string} value - Zip code
+ * @returns true if the zip code is in a valid format, false otherwise
+ */
 export function isValidZIP(value) {
   if (value !== null) {
     return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
@@ -34,6 +48,11 @@ export function isValidZIP(value) {
   return true;
 }
 
+/**
+ * Validates a given zip code. Add error message if invalid.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} zip - Zip code
+ */
 export function validateZIP(errors, zip) {
   if (zip && !isValidZIP(zip)) {
     errors.addError(
@@ -42,6 +61,17 @@ export function validateZIP(errors, zip) {
   }
 }
 
+/**
+ * Contact info validation. If using a military state, validates for military
+ * city. Adds error message if the city is invalid.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} city - City or APO/FPO/DPO
+ * @param {Object} formData - Full formData for the form
+ * @param {Object} schema - Schema for the form
+ * @param {Object} messages - Validation error messages
+ * @param {Object} options - Validation options
+ * @param {number} arrayIndex - If using an array, includes the index of the page
+ */
 export function validateMilitaryCity(
   errors,
   city,
@@ -66,6 +96,17 @@ export function validateMilitaryCity(
   }
 }
 
+/**
+ * Contact info validation. If using military city, validates for appropriate
+ * military state. Adds error message if the state is invalid.
+ * @param {Object} errors - Validation errors
+ * @param {string} state - State code
+ * @param {Object} formData - Full formData for the form
+ * @param {Object} schema - Schema for the form
+ * @param {Object} messages - Validation error messages
+ * @param {Object} options - Validation options
+ * @param {number} arrayIndex - If using an array, includes the index of the page
+ */
 export function validateMilitaryState(
   errors,
   state,
@@ -90,6 +131,16 @@ export function validateMilitaryState(
   }
 }
 
+/**
+ * VA treatment facility validation. If using a military state, validates for
+ * military city. Adds error message if city is invalid.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} city - City or APO/FPO/DPO
+ * @param {Object} formData - Full formData for the form
+ * @param {Object} schema - Schema for the form
+ * @param {Object} messages - Validation error messages
+ * @param {number} index - If using an array, includes the index of the page
+ */
 export function validateMilitaryTreatmentCity(
   errors,
   city,
@@ -113,6 +164,16 @@ export function validateMilitaryTreatmentCity(
   }
 }
 
+/**
+ * VA treatment facility validation. If using military city, validates for
+ * appropriate military state. Adds error message if invalid state.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} state - State code
+ * @param {Object} formData - Full formData for the form
+ * @param {Object} schema - Schema for the form
+ * @param {Object} messages - Validation error messages
+ * @param {Object} index - If using an array, includes the index of the page
+ */
 export function validateMilitaryTreatmentState(
   errors,
   state,
@@ -135,6 +196,19 @@ export function validateMilitaryTreatmentState(
     errors.addError('State must be AA, AE, or AP when using a military city');
   }
 }
+
+/**
+ * Validate that at least one type of evidence is selected. Adds error message
+ * if no evidence types are selected.
+ *
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema. Boolean group
+ * @param {Object} formData - Full formData for the form
+ * @param {Object} schema - Schema for the form
+ * @param {Object} messages - Validation error messages
+ * @param {Object} options - Validation options
+ * @param {number} index - If using an array, includes the index of the page
+ */
 export const validateIfHasEvidence = (
   errors,
   fieldData,
@@ -151,6 +225,11 @@ export const validateIfHasEvidence = (
 };
 
 // Need the Lambda to pass the disability list type, so only 1 disability list has the error message.
+/**
+ * Validates at least one disability is selected. Adds an error message if no
+ * disabilities are selected.
+ * @param {string} disabilityList - The type of list, 'rated' or 'new'
+ */
 export const oneDisabilityRequired = disabilityList => (
   errors,
   state,
@@ -180,6 +259,12 @@ export const isInFuture = (err, fieldData) => {
   }
 };
 
+/**
+ * Validates anticipated separation date. Adds error if date is not in the
+ * future or if date is more than 180 days in the future.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} fieldData - The data associated with the current schema. Expected separation date
+ */
 export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const enteredDate = moment(fieldData);
   const in180Days = moment().add(180, 'days');
@@ -194,6 +279,13 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
   }
 };
 
+/**
+ * Validation for Release from Active Duty date and Activation date. Adds an
+ * error if expected separation date is not after activation date.
+ *
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {Object} pageData - The data associated with the current schema
+ */
 export const title10BeforeRad = (errors, pageData) => {
   const { anticipatedSeparationDate, title10ActivationDate } =
     pageData?.reservesNationalGuardService?.title10Activation || {};
@@ -208,6 +300,12 @@ export const title10BeforeRad = (errors, pageData) => {
   }
 };
 
+/**
+ * Validates the given year is in a valid format. Adds an error if invalid
+ * format numeric format or is in the future.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {string} fieldData - The data associated with the current schema. Year.
+ */
 export const isValidYear = (err, fieldData) => {
   const parsedInt = Number.parseInt(fieldData, 10);
 
@@ -220,6 +318,14 @@ export const isValidYear = (err, fieldData) => {
   }
 };
 
+/**
+ * Verifies treatment start date is within service periods. Adds an error if
+ * the start date is not after the start of the earliest service period.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {string} fieldData - The data associated with the current schema. Date
+ * first visited the facility.
+ * @param {Object} formData - Full formData for the form
+ */
 export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
@@ -245,17 +351,17 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
   }
 }
 
-// Doesn't require a complete date; just month and year
-export const hasMonthYear = (err, fieldData) => {
-  if (!fieldData) return;
-
-  const [year, month] = fieldData.split('-');
-
-  if (year === 'XXXX' || month === 'XX') {
-    err.addError('Please provide both month and year');
-  }
-};
-
+/**
+ * Verifies the given dates are within service periods. Adds error if the dates
+ * are not within a service period.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema. Dates of confinement.
+ * @param {Object} formData - Full formData for the form
+ * @param {Object} _schema - Schema for the form
+ * @param {Object} _uiSchema - UI Schema object
+ * @param {number} _index - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector. Service information.
+ */
 export const isWithinServicePeriod = (
   errors,
   fieldData,
@@ -289,6 +395,16 @@ export const isWithinServicePeriod = (
 export const missingConditionMessage =
   'Please enter a condition or select one from the suggested list';
 
+/**
+ * Validates a given disability name for length and duplication.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema. Disability name.
+ * @param {Object} _formData - Full formData for the form
+ * @param {Object} _schema - Schema for the form
+ * @param {Object} _uiSchema - The UI Schema object
+ * @param {number} _index - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
+ */
 export const validateDisabilityName = (
   err,
   fieldData = '',
@@ -335,6 +451,13 @@ export const validateDisabilityName = (
   }
 };
 
+/**
+ * Validates that a disability has been selected. Adds an error if appropriate disability
+ * has not been chosen for the claim type.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema. New conditions.
+ * @param {Object} formData - Full formData for the form
+ */
 export const requireDisability = (err, fieldData, formData) => {
   if (!hasClaimedConditions(formData)) {
     // The actual validation error is displayed as an alert field. The message
@@ -343,6 +466,13 @@ export const requireDisability = (err, fieldData, formData) => {
   }
 };
 
+/**
+ * Validation to enforce a max number of new disabilities. Adds an error when
+ * user attempts to add more than 100 new disabilities.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema.
+ * @param {Object} formData - Full formData for the form
+ */
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
     err.addError(
@@ -353,6 +483,9 @@ export const limitNewDisabilities = (err, fieldData, formData) => {
 
 /**
  * Requires a rated disability to be entered if the increase only path has been selected.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema. Rated disabilities.
+ * @param {Object} formData - Full formData for the form
  */
 export const requireRatedDisability = (err, fieldData, formData) => {
   if (isClaimingIncrease(formData) && !claimingRated(formData)) {
@@ -363,32 +496,31 @@ export const requireRatedDisability = (err, fieldData, formData) => {
 };
 
 /**
- * Require "yes" for "do you want to add new conditions" if no rated conditions
- *  have been selected.
+ * Validates the separation location matches one of the auto suggested
+ * locations. Adds an error if the location is not in the list.
+ * @param {Object} err - Errors object from rjsf, which includes an addError method
+ * @param {Object} fieldData - The data associated with the current schema. Separation location.
+ * @param {Object} formData - Full formData for the form
  */
-export const requireNewDisability = (err, fieldData, formData) => {
-  if (!claimingRated(formData) && !fieldData) {
-    const message = hasRatedDisabilities(formData)
-      ? 'No rated disability selected. Please add a new one'
-      : 'We didn’t find any existing rated disabilities. Please choose to add a new one';
-    // The actual validation error is displayed as an alert field. The message
-    // here will be shown on the review page
-    err.addError(message);
-  }
-};
-
 export const requireSeparationLocation = (err, fieldData, formData) => {
   if (showSeparationLocation(formData) && !fieldData?.id) {
     err.addError('Please select a separation location from the suggestions');
   }
 };
 
+/**
 // Originally used the function from platform/forms-system/src/js/validation.js,
 // but we need to ignore conditions that have been removed from the new
 // disabilities array; the form data for treatedDisabilityNames doesn't remove
 // previous entries and they may still be true - see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/15368
 // the schema name is not altered, only the form data from SiPs
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {Object} userGroup
+ * @param {Object} form - Full formData for the form
+ * @param {Object} schema - Schema for the form
+ * @param {Object} errorMessages - Error messages for the schema
+ */
 export function validateBooleanGroup(
   errors,
   userGroup,
@@ -410,6 +542,17 @@ export function validateBooleanGroup(
 }
 
 /* Military history validations */
+/**
+ * Validates the Active Start date against DOB. Adds an error if minimum age is
+ * not met.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} dateString - Active service start date
+ * @param {Object} _formData - Full formData for the form
+ * @param {Object} _schema - Schema for the form
+ * @param {Object} _uiSchema - The UI Schema object
+ * @param {number} _currentIndex - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
+ */
 export const validateAge = (
   errors,
   dateString,
@@ -428,6 +571,17 @@ export const validateAge = (
 // NOAA & Public Health Service are considered to be active duty
 const reservesList = Object.values(RESERVE_GUARD_TYPES);
 
+/**
+ * Validates Separation date for format, past, and future dates. Adds error if
+ * date is invalid.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} dateString - Active serviced end date
+ * @param {Object} _formData - Full formData for the form
+ * @param {Object} _schema - Schema for the form
+ * @param {Object} _uiSchema - The UI Schema object
+ * @param {number} currentIndex - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
+ */
 export const validateSeparationDate = (
   errors,
   dateString,
@@ -459,6 +613,17 @@ export const validateSeparationDate = (
   }
 };
 
+/**
+ * Validates service periods for reserve or national guard. Adds an error if
+ * activation date is not after earliest reserve/guard start date.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} dateString - Activation date (fieldData)
+ * @param {Object} _formData - Full formData for the form
+ * @param {Object} _schema - Schema for the form
+ * @param {Object} _uiSchema - The UI Schema object
+ * @param {number} _index - If using an array, includes the index of the page
+ * @param {Object} appStateData - Data from appStateSelector
+ */
 export const validateTitle10StartDate = (
   errors,
   dateString,

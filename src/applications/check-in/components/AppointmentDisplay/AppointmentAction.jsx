@@ -6,6 +6,7 @@ import { parseISO } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
 import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -15,12 +16,27 @@ import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 import { useStorage } from '../../hooks/useStorage';
 import { getAppointmentId } from '../../utils/appointment';
+import { isInPilot } from '../../utils/pilotFeatures';
+import { useTravelPayFlags } from '../../hooks/useTravelPayFlags';
 
 const AppointmentAction = props => {
   const { appointment, router, event } = props;
 
+  const isTravelReimbursementInPilot = isInPilot({
+    appointment,
+    pilotFeature: 'fileTravelClaim',
+  });
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled } = featureToggles;
+  const { travelPayEligible } = useTravelPayFlags(appointment);
+
+  const isTravelEnabled =
+    isTravelReimbursementEnabled && isTravelReimbursementInPilot;
+  const travelSubmitted = travelPayEligible || false; // The hook returns undefined so coercing to false
+
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
+  const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   const { setCheckinComplete } = useStorage(false);
 
@@ -38,7 +54,9 @@ const AppointmentAction = props => {
         const json = await api.v2.postCheckInData({
           uuid: token,
           appointmentIen: appointment.appointmentIen,
-          facilityId: appointment.facilityId,
+          setECheckinStartedCalled,
+          isTravelEnabled,
+          travelSubmitted,
         });
         const { status } = json;
         if (status === 200) {
@@ -51,7 +69,17 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
+    [
+      appointment,
+      updateError,
+      jumpToPage,
+      token,
+      event,
+      setCheckinComplete,
+      setECheckinStartedCalled,
+      isTravelEnabled,
+      travelSubmitted,
+    ],
   );
   if (
     appointment.eligibility &&

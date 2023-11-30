@@ -107,6 +107,38 @@ dl.review {
   }
   border-bottom: 1px solid $color-gray-light;
 }
+// MBMS-51921 remove this and update dl.review when the prod flag removal story is ready
+dl.review-auto-margin {
+  margin: 16px auto;
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-top: 1px solid $color-gray-light;
+    padding: 1.5rem;
+    padding-left: 0;
+    > dd {
+      font-weight: bold;
+      text-align: right;
+    }
+    > dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    @media (min-width: $small-screen) {
+      flex-direction: row;
+      > dd {
+        padding-left: 5px;
+        min-width: 100px;
+      }
+      > dt {
+        max-width: 60%;
+        min-width: 40%;
+      }
+    }
+  }
+  border-bottom: 1px solid $color-gray-light;
+}
 
 form.rjsf {
   max-width: 100%;
@@ -494,35 +526,6 @@ legend.schemaform-label.schemaform-file-label {
 .form-review-panel .accordion-header > button.usa-button-unstyled {
   padding: 2.5rem 4.5rem 2.5rem 2.5rem;
   line-height: 2.2rem;
-}
-
-.schemaform-review-chapter-error {
-  .schemaform-chapter-accordion-header {
-    position: relative;
-    margin-bottom: 0;
-    border-bottom: 0.5rem solid var(--color-secondary-lightest);
-    > button.usa-button-unstyled {
-      padding-left: 5rem;
-      background-color: $color-secondary-lightest;
-    }
-    .schemaform-review-chapter-error-icon {
-      position: absolute;
-      top: calc(50% - 0.6em);
-      left: 1.5rem;
-      display: block;
-      background-image: url("~uswds/dist/img/alerts/error.png");
-      background-image: url("~uswds/dist/img/alerts/error.svg");
-      width: 2em;
-      height: 1.2em;
-      background-size: 1.8em;
-      margin-right: 1em;
-    }
-  }
-  .schemaform-chapter-accordion-content {
-    border-right-color: $color-secondary-lightest;
-    border-left-color: $color-secondary-lightest;
-    border-bottom-color: $color-secondary-lightest;
-  }
 }
 
 #content .panel.saved-success-container {
