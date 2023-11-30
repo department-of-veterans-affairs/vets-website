@@ -4,6 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -26,8 +27,15 @@ import {
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -98,22 +106,27 @@ const Vaccines = props => {
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
+  const generateVaccineListItemTxt = item => {
+    return `
+${txtLine}\n\n
+${item.name}\n
+Date received: ${item.date}\n
+Location: ${item.location}\n
+Reaction: ${processList(item.reactions)}\n
+Provider notes: ${processList(item.notes)}\n`;
+  };
+
   const generateVaccinesTxt = async () => {
     const content = `
-    Vaccines\n 
-    For a list of your allergies and reactions (including any reactions to
-    vaccines), go to your allergy records. \n
-    If you have Vaccines that are missing from this list, tell your care
-    team at your next appointment. \n
-    
-    Showing ${vaccines.length} from newest to oldest. \n
-    ${vaccines.map(
-      entry => `_____________________________________________________ \n
-      ${entry.name} \n 
-      \t Date received: ${entry.date} \n
-      \t Location: ${entry.location} \n
-      \t Provider notes: ${processList(entry.notes)} \n`,
-    )}`;
+${crisisLineHeader}\n\n
+Vaccines\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
+For complete records of your allergies and reactions to vaccines, review your allergy records.\n
+Showing ${vaccines.length} records from newest to oldest
+${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
 
     const fileName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
 
@@ -126,7 +139,10 @@ const Vaccines = props => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
-    if (vaccines?.length > 0) {
+    if (vaccines?.length === 0) {
+      return <NoRecordsMessage type="vaccines" />;
+    }
+    if (vaccines?.length) {
       return (
         <>
           <PrintDownload
@@ -140,28 +156,12 @@ const Vaccines = props => {
         </>
       );
     }
-    if (vaccines?.length === 0) {
-      return (
-        <div
-          className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
-          data-testid="record-list-item"
-        >
-          <h2
-            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
-            data-testid="no-allergy-records"
-          >
-            There are no vaccines in your VA medical records.
-          </h2>
-        </div>
-      );
-    }
     return (
-      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+      <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="We’re loading your records. This could take up to a minute."
           setFocus
           data-testid="loading-indicator"
-          // class="loading-indicator"
         />
       </div>
     );
@@ -172,7 +172,7 @@ const Vaccines = props => {
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
       <p>Review vaccines (immunizations) in your VA medical records.</p>
-      <p>
+      <p className="vads-u-margin-bottom--4">
         For a list of your allergies and reactions (including any reactions to
         vaccines), go to your allergy records.{' '}
         <Link to="/allergies" className="no-print">

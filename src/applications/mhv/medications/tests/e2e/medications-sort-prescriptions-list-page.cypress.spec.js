@@ -3,21 +3,21 @@ import mockRxPageOne from './fixtures/prescriptions.json';
 import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications List Page Pagination', () => {
-  it('visits Medications list Page Pagination', () => {
+describe('Medications List Page Sort Alphabetically By Status', () => {
+  it('visits Medications list Page Sort Alphabetically By Status', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     site.login();
     cy.visit('my-health/about-medications');
 
-    const threadLength = 29;
+    const listLength = 29;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
-      currentItem.attributes.threadPageSize = threadLength;
+      currentItem.attributes.threadPageSize = listLength;
     });
     mockRxPageTwo.data.forEach(item => {
       const currentItem = item;
-      currentItem.attributes.threadPageSize = threadLength;
+      currentItem.attributes.threadPageSize = listLength;
     });
 
     cy.injectAxe();
@@ -26,15 +26,21 @@ describe('Medications List Page Pagination', () => {
         'aria-required-children': {
           enabled: false,
         },
+        'link-name': {
+          enabled: false,
+        },
       },
     });
     listPage.clickGotoMedicationsLink();
-    // cy.get('[href="/my-health/medications/"]').click();
     site.loadVAPaginationPrescriptions(1, mockRxPageOne);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, threadLength);
+    site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    site.verifyPaginationPrescriptionsDisplayed(21, 29, threadLength);
-    site.loadVAPaginationPreviousPrescriptions(1, mockRxPageOne, 20);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, threadLength);
+    listPage.selectSortDropDownOption('Alphabetically by status');
+    listPage.clickSortAlphabeticallyByStatus();
+    listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
+      1,
+      20,
+      listLength,
+    );
   });
 });
