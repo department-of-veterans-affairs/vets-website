@@ -243,7 +243,7 @@ export class Main extends Component {
         />
         <SignInModal
           onClose={this.closeLoginModal}
-          visible={this.props.showLoginModal}
+          visible={this.props.showLoginModal && this.props.canShowLoginModal}
           useSiS={this.props.useSignInService}
         />
         {mhvTransition &&
@@ -325,6 +325,7 @@ Main.propTypes = {
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
   authenticatedWithOAuth: PropTypes.bool,
+  canShowLoginModal: PropTypes.bool,
   canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
   isHeaderV2: PropTypes.bool,

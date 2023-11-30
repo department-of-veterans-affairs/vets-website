@@ -9,10 +9,17 @@ import { addOverlayTriggers } from '../../../legacy/menu';
 
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [canShowLoginModal, setCanShowLoginModal] = useState(true);
 
   useEffect(() => {
     addFocusBehaviorToCrisisLineModal();
     addOverlayTriggers();
+
+    const crisisLineModalIsOpen = document.querySelector(
+      '#modal-crisisline.va-overlay--open',
+    )?.length;
+
+    setCanShowLoginModal(!crisisLineModalIsOpen);
   }, []);
 
   return (
@@ -20,7 +27,9 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
       <OfficialGovtWebsite />
       <VeteranCrisisLine id="header-crisis-line" />
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
+        this is being shown
         <LogoRow
+          canShowLoginModal={canShowLoginModal}
           isMenuOpen={isMenuOpen}
           showNavLogin={showNavLogin}
           setIsMenuOpen={setIsMenuOpen}

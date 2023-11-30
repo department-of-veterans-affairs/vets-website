@@ -27,6 +27,7 @@ class SearchHelpSignIn extends Component {
 
   componentDidMount() {
     this.showHomepageCreateAccountBlock();
+    console.log('component is mounted');
   }
 
   componentDidUpdate(prevProps) {
@@ -40,6 +41,7 @@ class SearchHelpSignIn extends Component {
   }
 
   handleSignInSignUp = e => {
+    console.log('button is clicked');
     e.preventDefault();
     this.props.onSignInSignUp();
     recordEvent({
@@ -150,7 +152,7 @@ class SearchHelpSignIn extends Component {
             })
           }
         >
-          {this.renderSignInContent()}
+          {this.renderSignInContent()} hey
         </div>
       </div>
     );

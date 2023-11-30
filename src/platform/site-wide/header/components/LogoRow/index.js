@@ -7,6 +7,7 @@ import UserNav from '../../../user-nav/containers/Main';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
 export const LogoRow = ({
+  canShowLoginModal,
   isMenuOpen,
   setIsMenuOpen,
   showNavLogin = true,
@@ -18,6 +19,7 @@ export const LogoRow = ({
     setIsMenuOpen(!isMenuOpen);
   };
 
+  console.log('canShowLoginModal: ', canShowLoginModal);
   return (
     <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
       <a
@@ -29,7 +31,11 @@ export const LogoRow = ({
         <Logo />
       </a>
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
-        <UserNav isHeaderV2 showNavLogin={showNavLogin} />
+        <UserNav
+          isHeaderV2
+          showNavLogin={showNavLogin}
+          canShowLoginModal={canShowLoginModal}
+        />
         {showNavLogin && (
           <button
             aria-controls="header-nav-items"
@@ -61,6 +67,7 @@ export const LogoRow = ({
 };
 
 LogoRow.propTypes = {
+  canShowLoginModal: PropTypes.bool.isRequired,
   isMenuOpen: PropTypes.bool.isRequired,
   setIsMenuOpen: PropTypes.func.isRequired,
   showNavLogin: PropTypes.bool,
