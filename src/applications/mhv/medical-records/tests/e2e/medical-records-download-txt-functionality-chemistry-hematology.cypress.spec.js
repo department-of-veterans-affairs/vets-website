@@ -12,7 +12,7 @@ describe('Medical Records Health Chemistry And Hematology', () => {
   it('Chemistry And Hematology  ListPage Toggle Menu button Print or download ', () => {
     // Given Navigate to Chemistry And Hematology ListPage
 
-    LabsAndTestsListPage.clickChemistryAndHematologyDetailsLink(0);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0);
 
     // should display a toggle menu button
     LabsAndTestsListPage.verifyPrintOrDownload();

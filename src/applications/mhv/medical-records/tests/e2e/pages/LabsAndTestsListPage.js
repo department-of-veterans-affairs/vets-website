@@ -26,20 +26,10 @@ class LabsAndTestsListPage {
       .click();
   };
 
-  clickPathologyDetailsLink = (_PathologyIndex = 9) => {
+  clickLabsAndTestsDetailsLink = (_PathologyIndex = 9) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_PathologyIndex)
-      .click();
-  };
-
-  // Chemistry And Hematology Link
-  clickChemistryAndHematologyDetailsLink = (
-    _ChemistryAndHematologyIndex = 0,
-  ) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(_ChemistryAndHematologyIndex)
       .click();
   };
 

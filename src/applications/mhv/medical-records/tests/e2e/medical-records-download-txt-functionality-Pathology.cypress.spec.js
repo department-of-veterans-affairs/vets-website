@@ -12,7 +12,7 @@ describe('Medical Records Health PathologyListPage', () => {
   it('Pathology ListPage Toggle Menu button Print or download ', () => {
     // Given Navigate to Pathology ListPage
 
-    LabsAndTestsListPage.clickPathologyDetailsLink(9);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(9);
 
     // should display a toggle menu button
     LabsAndTestsListPage.verifyPrintOrDownload();
