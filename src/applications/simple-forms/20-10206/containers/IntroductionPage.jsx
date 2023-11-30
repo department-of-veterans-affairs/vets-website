@@ -28,16 +28,12 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         Use this form to access personal military, compensation, pension, or
         benefit records.
       </p>
-      <h2>What to know before submitting your request</h2>
+      <h2>What to know before filling out this form</h2>
       <p>
         If you want to request your records through this online form, you’ll
         need to sign in to your account. We’ll need to verify your identity, so
         we encourage you to use a <strong>Login.gov</strong> or{' '}
         <strong>ID.me</strong> account.
-      </p>
-      <p>
-        <strong>Note</strong>: You need to be a U.S. citizen or a legal
-        permanent resident to access your records under the Privacy Act (PA).
       </p>
       <p>
         <a
@@ -48,6 +44,10 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
           Learn more about verified accounts (opens in new tab)
         </a>
         .
+      </p>
+      <p>
+        <strong>Note:</strong> You need to be a U.S. citizen or a legal
+        permanent resident to access your records under the Privacy Act (PA).
       </p>
       <p>
         If you’re a third-party representative or power of attorney requesting
@@ -65,11 +65,11 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         .
       </p>
       <p>Or you can submit a PDF version of this form.</p>
-      <h2>What type of information can I request?</h2>
+      <h2>Type of information you can request</h2>
       <p>You can request any of these kinds of personal records:</p>
-      <h3 className="vads-u-font-family--sans">
-        Compensation and pension records
-      </h3>
+      <p>
+        <strong>Compensation and pension records</strong>
+      </p>
       <ul>
         <li>
           Certificate of Release or Discharge from Active Duty (DD Form 214)
@@ -81,7 +81,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Service or military treatment</li>
         <li>Other compensation and pension records</li>
       </ul>
-      <h3 className="vads-u-font-family--sans">Benefit records</h3>
+      <p>
+        <strong>Benefit records</strong>
+      </p>
       <ul>
         <li>Education benefit</li>
         <li>Fiduciary services</li>
@@ -121,13 +123,13 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
                 else, we must have an authorization form on record (VA Form
                 21-0845) for us to release their information.
                 <a
-                  href="https://www.va.gov/find-forms/about-form-21-22/"
+                  href="https://www.va.gov/find-forms/about-form-21-0845/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="vads-u-display--block vads-u-margin-top--2"
                 >
-                  Go to VA Form 21-22 Appointment of Veterans Service
-                  Organization as Claimant’s Representative (opens in new tab)
+                  Go to VA Form 21-0845 Authorization to Disclose Personal
+                  Information to a Third-Party (opens in new tab)
                 </a>
               </li>
               <li className="vads-u-margin-top--2">
@@ -159,8 +161,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         </va-additional-info>
       </div>
       {userLoggedIn &&
-        !userIdVerified && (
-          /* If User's signed-in but not identity-verified [not LOA3] */
+      !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
             <va-alert
               class="vads-u-margin-bottom--1"

@@ -12,10 +12,13 @@ const dateUiTitle = 'When was your exam?';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Disability exam details'),
+    ...titleUI(
+      'Disability exam details',
+      'You requested access to your disability examinations (C&P exams). Any extra information you can share will help us find your records.',
+    ),
     disabilityExams: {
       'ui:options': {
-        itemName: 'Disability exam',
+        itemName: 'exam',
         viewField: DisabilityExamDate,
         keepInPageOnReview: true,
         customTitle: ' ',
@@ -34,7 +37,7 @@ export default {
             required: 'Please enter your exam date',
           },
           'ui:options': {
-            hint: 'It’s okay to estimate.',
+            hint: 'It’s OK to estimate.',
             invalidDay: false,
           },
           'ui:reviewField': ({ children }) => (
@@ -71,7 +74,6 @@ export default {
           properties: {
             disabilityExamDate: commonDefinitions.date,
           },
-          required: ['disabilityExamDate'],
         },
       },
     },

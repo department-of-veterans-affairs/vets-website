@@ -110,7 +110,7 @@ const formConfig = {
       },
     },
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Your name and date of birth',
       pages: {
         personalInfoPage: {
           path: 'personal-information',
@@ -238,7 +238,7 @@ const formConfig = {
       },
     },
     otherCompensationAndPensionDetailsChapter: {
-      title: 'Compensation and pension details',
+      title: 'Compensation and/or pension details',
       pages: {
         otherCompensationAndPensionDetailsPage: {
           depends: {
