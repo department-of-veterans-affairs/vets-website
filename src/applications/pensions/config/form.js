@@ -17,7 +17,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -25,7 +24,6 @@ import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFul
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import {
-  employmentDescription,
   getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
   spouseContribution,
@@ -48,12 +46,9 @@ import {
   dependentExpectedIncomeDescription,
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
-import DisabilityField from '../components/DisabilityField';
-import MedicalCenterField from '../components/MedicalCenterField';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DependentField from '../components/DependentField';
-import EmploymentField from '../components/EmploymentField';
 import ErrorText from '../components/ErrorText';
 import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
@@ -73,6 +68,8 @@ import specialMonthlyPension from '../pages/specialMonthlyPension';
 import vaTreatmentHistory from '../pages/vaTreatmentHistory';
 import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateMedicalCentersSchemas from '../pages/medicalCenters';
+import currentEmployment from '../pages/currentEmployment';
+import generateEmployersSchemas from '../pages/employmentHistory';
 
 import {
   validateAfterMarriageDate,
@@ -83,8 +80,6 @@ import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 const {
-  disabilities,
-  jobs,
   spouseDateOfBirth,
   spouseSocialSecurityNumber,
   spouseVaFileNumber,
@@ -98,7 +93,6 @@ const {
   dayPhone,
   nightPhone,
   mobilePhone,
-  vamcTreatmentCenters,
   noRapidProcessing,
 } = fullSchemaPensions.properties;
 
@@ -135,6 +129,28 @@ const federalMedicalCenters = generateMedicalCentersSchemas(
   'Enter all federal medical facilities where you have received treatment within the last year',
   'Federal medical center',
   'Federal medical centers',
+);
+
+const currentEmployers = generateEmployersSchemas(
+  'currentEmployers',
+  'Current employment',
+  'Enter all your current jobs',
+  'What kind of work do you currently do?',
+  'How many hours per week do you work on average?',
+  'Job title',
+  'Current employers',
+);
+
+const previousEmployers = generateEmployersSchemas(
+  'previousEmployers',
+  'Previous employment',
+  'Enter all the previous jobs you held the last time you worked',
+  'What kind of work did you do?',
+  'How many hours per week did you work on average?',
+  'What was your job title?',
+  'Previous employers',
+  4,
+  true,
 );
 
 function isUnder65(formData) {
@@ -348,148 +364,30 @@ const formConfig = {
           uiSchema: federalMedicalCenters.uiSchema,
           schema: federalMedicalCenters.schema,
         },
-      },
-    },
-    workHistory: {
-      title: 'Work history',
-      pages: {
-        disabilityHistory: {
-          title: 'Disability history',
-          path: 'disability/history',
+        currentEmployment: {
+          title: 'Current employment',
+          path: 'employment/current',
           depends: isUnder65,
-          uiSchema: {
-            disabilities: {
-              'ui:title': 'What disabilities prevent you from working?',
-              'ui:order': ['name', 'disabilityStartDate'],
-              'ui:options': {
-                viewField: DisabilityField,
-                reviewTitle: 'Disability history',
-                itemName: 'Disability',
-              },
-              'ui:errorMessages': {
-                minItems: 'Please add at least one disability.',
-              },
-              items: {
-                name: {
-                  'ui:title': 'Disability',
-                },
-                disabilityStartDate: currentOrPastDateUI(
-                  'Date disability began',
-                ),
-              },
-            },
-            'view:hasVisitedVAMC': {
-              'ui:title':
-                'Have you been treated at a VA medical center for the above disability?',
-              'ui:widget': 'yesNo',
-            },
-            vamcTreatmentCenters: {
-              'ui:description':
-                'Please enter all VA medical centers where you have received treatment',
-              'ui:options': {
-                viewField: MedicalCenterField,
-                itemName: 'Medical Center',
-                expandUnder: 'view:hasVisitedVAMC',
-              },
-              items: {
-                location: {
-                  'ui:title':
-                    'Name and location (city, state) of VA medical center',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['disabilities', 'view:hasVisitedVAMC'],
-            properties: {
-              disabilities: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['name', 'disabilityStartDate'],
-                  properties: disabilities.items.properties,
-                },
-              },
-              'view:hasVisitedVAMC': {
-                type: 'boolean',
-              },
-              vamcTreatmentCenters: {
-                ...vamcTreatmentCenters,
-                minItems: 1,
-              },
-            },
-          },
+          uiSchema: currentEmployment.uiSchema,
+          schema: currentEmployment.schema,
         },
-        employmentHistory: {
-          title: 'Employment history',
-          path: 'employment/history',
-          depends: isUnder65,
-          uiSchema: {
-            'view:workedBeforeDisabled': {
-              'ui:title':
-                'Have you had a job (including being self-employed) from 1 year before you became disabled to now?',
-              'ui:widget': 'yesNo',
-            },
-            'view:history': {
-              'ui:options': {
-                expandUnder: 'view:workedBeforeDisabled',
-              },
-              'ui:description': employmentDescription,
-              jobs: {
-                'ui:options': {
-                  viewField: EmploymentField,
-                },
-                items: {
-                  employer: {
-                    'ui:title': 'Name of employer',
-                  },
-                  address: address.uiSchema('Address of employer'),
-                  jobTitle: {
-                    'ui:title': 'Job title',
-                  },
-                  dateRange: dateRangeUI(),
-                  daysMissed: {
-                    'ui:title': 'How many days lost to disability',
-                  },
-                  annualEarnings: currencyUI('Total annual earnings'),
-                },
-              },
-            },
+        currentEmploymentHistory: {
+          title: 'Current employment',
+          path: 'employment/current/history',
+          depends: formData => {
+            return formData.currentEmployment !== false;
           },
-          schema: {
-            type: 'object',
-            required: ['view:workedBeforeDisabled'],
-            properties: {
-              'view:workedBeforeDisabled': { type: 'boolean' },
-              'view:history': {
-                type: 'object',
-                properties: {
-                  jobs: {
-                    type: 'array',
-                    minItems: 1,
-                    items: {
-                      type: 'object',
-                      required: [
-                        'address',
-                        'employer',
-                        'jobTitle',
-                        'dateRange',
-                        'daysMissed',
-                        'annualEarnings',
-                      ],
-                      properties: {
-                        ...jobs.items.properties,
-                        address: address.schema(fullSchemaPensions, true),
-                        dateRange: set('required', ['to', 'from'], dateRange),
-                      },
-                    },
-                  },
-                },
-              },
-            },
+          uiSchema: currentEmployers.uiSchema,
+          schema: currentEmployers.schema,
+        },
+        previousEmploymentHistory: {
+          title: 'Previous employment',
+          path: 'employment/previous/history',
+          depends: formData => {
+            return formData.currentEmployment !== true;
           },
+          uiSchema: previousEmployers.uiSchema,
+          schema: previousEmployers.schema,
         },
       },
     },
