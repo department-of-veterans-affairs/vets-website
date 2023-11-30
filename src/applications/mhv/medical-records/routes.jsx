@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import HealthConditions from './containers/HealthConditions';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
@@ -31,6 +33,21 @@ const routes = (
       <Route exact path="/allergies/:allergyId" key="AllergyDetails">
         <AllergyDetails />
       </Route>
+      <FeatureFlagRoute
+        exact
+        path="/vaccines"
+        key="Vaccines"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <Vaccines />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        path="/vaccines/:vaccineId"
+        key="Vaccine"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <VaccineDetails />
+      </FeatureFlagRoute>
       <Route exact path="/conditions" key="Health Conditions">
         <HealthConditions />
       </Route>
@@ -72,12 +89,6 @@ const routes = (
         key="CareSummaryAndNotesDetails"
       >
         <CareSummariesDetails />
-      </Route>
-      <Route exact path="/vaccines" key="Vaccines">
-        <Vaccines />
-      </Route>
-      <Route path="/vaccines/:vaccineId" key="Vaccine">
-        <VaccineDetails />
       </Route>
       <Route exact path="/vitals" key="Vitals">
         <Vitals />
