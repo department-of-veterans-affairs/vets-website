@@ -2,7 +2,7 @@ import React from 'react';
 
 export const VeteranAddressDescription = () => (
   <div className="vads-u-margin-bottom--4">
-    <h3 className="vads-u-font-size--h4">Mailing Address</h3>
+    <h3>Mailing Address</h3>
     <p>
       We’ll send any important information about your application to this
       address.
