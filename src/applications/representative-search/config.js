@@ -35,6 +35,8 @@ const railsEngineApi = {
   settings: apiSettings,
 };
 
+export const useMockData = false;
+
 export const getAPI = () => railsEngineApi;
 
 /**
