@@ -1,5 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -129,6 +130,26 @@ describe('Folder Thread List View container', () => {
     expect(folderDescription).to.exist;
     expect(folderDescription).to.have.text(DefaultFolders.DELETED.desc);
     expect(screen.queryByText('Start a new message')).to.not.exist;
+  });
+
+  it('validate alert banner is displayed when folder call responds with an error', async () => {
+    const res = {
+      errors: [
+        {
+          title: 'Service unavailable',
+          detail: 'Backend Service Outage',
+          code: '503',
+          status: '503',
+        },
+      ],
+    };
+    mockFetch(res, false);
+    const screen = setup({ sm: {} });
+
+    await waitFor(() => {
+      expect(screen.getByText(res.errors[0].detail)).to.exist;
+    });
+    expect(document.querySelector('h1')).to.not.exist;
   });
 
   describe(`verifies page title tag for 'Custom Folder' FolderThreadListView page`, () => {
