@@ -64,12 +64,13 @@ const LabsAndTests = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 
