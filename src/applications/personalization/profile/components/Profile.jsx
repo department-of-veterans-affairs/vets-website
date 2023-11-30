@@ -76,9 +76,7 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint: true,
-      });
+      fetchCNPPaymentInformation({});
     }
 
     if (shouldFetchTotalDisabilityRating) {
@@ -120,9 +118,7 @@ class Profile extends Component {
       shouldFetchCNPDirectDepositInformation &&
       !prevProps.shouldFetchCNPDirectDepositInformation
     ) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint: true,
-      });
+      fetchCNPPaymentInformation({});
     }
 
     if (

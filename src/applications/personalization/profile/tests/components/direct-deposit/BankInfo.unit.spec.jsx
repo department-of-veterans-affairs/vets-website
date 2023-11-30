@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
+import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
 import BankInfo from '@@profile/components/direct-deposit/BankInfo';
@@ -110,7 +111,11 @@ describe('DirectDepositCNP', () => {
 
   const ui = (
     <MemoryRouter>
-      <BankInfo type={benefitTypes.CNP} setFormIsDirty={() => {}} />
+      <BankInfo
+        type={benefitTypes.CNP}
+        setFormIsDirty={() => {}}
+        setViewingPayments={() => {}}
+      />
     </MemoryRouter>
   );
 
@@ -136,6 +141,20 @@ describe('DirectDepositCNP', () => {
     beforeEach(() => {
       initialState = createBasicInitialState();
       initialState.vaProfile.cnpPaymentInformation.paymentAccount = emptyPaymentAccount;
+      initialState.vaProfile.cnpPaymentInformation.controlInformation = {
+        canUpdateDirectDeposit: true,
+        isCorpAvailable: true,
+        isCorpRecFound: true,
+        hasNoBdnPayments: true,
+        hasIdentity: true,
+        hasIndex: true,
+        isCompetent: true,
+        hasMailingAddress: true,
+        hasNoFiduciaryAssigned: true,
+        isNotDeceased: true,
+        hasPaymentAddress: true,
+      };
+
       view = renderWithProfileReducers(ui, {
         initialState,
       });
@@ -178,11 +197,24 @@ describe('DirectDepositCNP', () => {
       );
 
       // and the bank info from the mocked call should be shown
-      expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
-        .to.exist;
-      expect(view.getByText(mocks.newPaymentAccount.accountNumber)).to.exist;
       expect(
-        view.getByText(mocks.newPaymentAccount.accountType, { exact: false }),
+        view.getByText(
+          mockDisabilityCompensation.updates.success.data.attributes
+            .paymentAccount.name,
+        ),
+      ).to.exist;
+      expect(
+        view.getByText(
+          mockDisabilityCompensation.updates.success.data.attributes
+            .paymentAccount.accountNumber,
+        ),
+      ).to.exist;
+      expect(
+        view.getByText(
+          mockDisabilityCompensation.updates.success.data.attributes
+            .paymentAccount.accountType,
+          { exact: false },
+        ),
       ).to.exist;
     });
   });
@@ -214,11 +246,24 @@ describe('DirectDepositCNP', () => {
       );
 
       // and the bank info from the mocked call should be shown
-      expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
-        .to.exist;
-      expect(view.getByText(mocks.newPaymentAccount.accountNumber)).to.exist;
       expect(
-        view.getByText(mocks.newPaymentAccount.accountType, { exact: false }),
+        view.getByText(
+          mockDisabilityCompensation.updates.success.data.attributes
+            .paymentAccount.name,
+        ),
+      ).to.exist;
+      expect(
+        view.getByText(
+          mockDisabilityCompensation.updates.success.data.attributes
+            .paymentAccount.accountNumber,
+        ),
+      ).to.exist;
+      expect(
+        view.getByText(
+          mockDisabilityCompensation.updates.success.data.attributes
+            .paymentAccount.accountType,
+          { exact: false },
+        ),
       ).to.exist;
     });
     it('should handle a failed attempt to update bank info', async () => {
@@ -230,9 +275,7 @@ describe('DirectDepositCNP', () => {
 
       // wait for the error to appear
       expect(
-        await view.findByText(
-          /we couldn’t update your direct deposit bank information/i,
-        ),
+        await view.findByText(/we couldn’t update your payment information/i),
       ).to.exist;
 
       // does not show save succeeded alert
