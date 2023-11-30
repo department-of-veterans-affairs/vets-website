@@ -76,10 +76,10 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      // Get first details struct.
-      const { tag } = content.items[76];
+      // Get prescription number
+      const { tag } = content.items[92];
       expect(tag).to.equal('P');
-      const text = content.items[80].str;
+      const text = content.items[96].str;
       expect(text).to.equal(data.results[0].list[0].sections[0].items[5].value);
     });
 
