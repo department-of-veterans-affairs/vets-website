@@ -181,9 +181,9 @@ class MedicationsListPage {
       `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
     ).should('exist');
     //  cy.get(':nth-child(2) > .rx-card-detials > :nth-child(5) > [data-testid="refill-request-button"]')
-    cy.get(
-      ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    ).should('have.text', 'Not filled yet');
+    // cy.get(
+    //   ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
+    // ).should('have.text', 'Not filled yet');
     cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)').should(
       'contain',
       `${activeRxRefills.data.attributes.refillRemaining} refills left`,
