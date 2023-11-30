@@ -202,16 +202,14 @@ class PatientMessageDraftsPage {
   };
 
   verifyDeleteConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
+    cy.get('[close-btn-aria-label="Close notification"]').should(
       'have.text',
       `${Alerts.Message.DELETE_DRAFT_SUCCESS}`,
     );
   };
 
   verifyDeleteConfirmationHasFocus = () => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
-      'have.focus',
-    );
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
