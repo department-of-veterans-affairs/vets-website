@@ -1,17 +1,16 @@
-/* eslint-disable no-plusplus */
 // @ts-check
 import moment from 'moment';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import {
   mockAppointmentsGetApi,
   mockFeatureToggles,
-  mockLoginApi,
   mockAppointmentUpdateApi,
   vaosSetup,
   mockVamcEhrApi,
 } from '../../vaos-cypress-helpers';
 import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
 import { APPOINTMENT_STATUS } from '../../../../utils/constants';
+import MockUser from '../../fixtures/MockUser';
 
 describe('VAOS upcoming appointment flow', () => {
   describe('When veteran has upcoming appointments', () => {
@@ -19,7 +18,6 @@ describe('VAOS upcoming appointment flow', () => {
       vaosSetup();
 
       mockFeatureToggles();
-      mockLoginApi();
       mockVamcEhrApi();
     });
 
@@ -55,6 +53,8 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 8,
       });
@@ -74,6 +74,8 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
@@ -96,6 +98,8 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
@@ -114,6 +118,8 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
@@ -132,6 +138,8 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
@@ -150,6 +158,8 @@ describe('VAOS upcoming appointment flow', () => {
       });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
@@ -161,6 +171,8 @@ describe('VAOS upcoming appointment flow', () => {
 
     it("should display warning when veteran doesn't have any appointments", () => {
       // Arrange
+      cy.login(new MockUser());
+
       mockAppointmentsGetApi({ response: [] });
 
       // Act
@@ -175,6 +187,8 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({ response: [], responseCode: 400 });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit();
 
       // Assert
@@ -208,6 +222,8 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentUpdateApi({ response: canceledAppt });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
@@ -243,7 +259,7 @@ describe('VAOS upcoming appointment flow', () => {
       const today = moment();
       const response = [];
 
-      for (let i = 1; i <= 2; i++) {
+      for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
           localStartTime: moment(today).add(i, 'day'),
@@ -253,6 +269,8 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({ response });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 2,
       });
@@ -282,7 +300,7 @@ describe('VAOS upcoming appointment flow', () => {
       const tomorrow = moment().add(1, 'day');
       const response = [];
 
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 4; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
           cancellable: false,
@@ -295,6 +313,8 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({ response });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 4,
       });
@@ -323,7 +343,7 @@ describe('VAOS upcoming appointment flow', () => {
       const today = moment();
       const response = [];
 
-      for (let i = 1; i <= 2; i++) {
+      for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
           cancellable: false,
@@ -335,6 +355,8 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({ response });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 2,
       });
@@ -356,7 +378,7 @@ describe('VAOS upcoming appointment flow', () => {
       const today = moment();
       const response = [];
 
-      for (let i = 1; i <= 2; i++) {
+      for (let i = 1; i <= 2; i += 1) {
         const appt = new MockAppointmentResponse({
           id: i,
           cancellable: false,
@@ -378,6 +400,8 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({ response });
 
       // Act
+      cy.login(new MockUser());
+
       AppointmentListPageObject.visit().assertAppointmentList({
         numberOfAppointments: 3,
       });

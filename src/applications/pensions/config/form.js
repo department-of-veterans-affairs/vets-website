@@ -69,8 +69,10 @@ import pow from '../pages/pow';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
 import medicalCondition from '../pages/medicalCondition';
 import nursingHome from '../pages/nursingHome';
-import treatmentHistory from '../pages/treatmentHistory';
-import medicalCenters from '../pages/medicalCenters';
+import specialMonthlyPension from '../pages/specialMonthlyPension';
+import vaTreatmentHistory from '../pages/vaTreatmentHistory';
+import federalTreatmentHistory from '../pages/federalTreatmentHistory';
+import generateMedicalCentersSchemas from '../pages/medicalCenters';
 
 import {
   validateAfterMarriageDate,
@@ -118,6 +120,22 @@ const {
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
+
+const vaMedicalCenters = generateMedicalCentersSchemas(
+  'vaMedicalCenters',
+  'VA medical centers',
+  'Enter all VA medical centers where you have received treatment',
+  'VA medical center',
+  'VA medical centers',
+);
+
+const federalMedicalCenters = generateMedicalCentersSchemas(
+  'federalMedicalCenters',
+  'Federal medical facilities',
+  'Enter all federal medical facilities where you have received treatment within the last year',
+  'Federal medical center',
+  'Federal medical centers',
+);
 
 function isUnder65(formData) {
   return moment()
@@ -294,20 +312,41 @@ const formConfig = {
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
         },
-        treatmentHistory: {
-          title: 'Treatment from a VA medical center',
-          path: 'medical/history/treatment',
-          uiSchema: treatmentHistory.uiSchema,
-          schema: treatmentHistory.schema,
+        specialMonthlyPension: {
+          title: 'Special monthly pension',
+          path: 'medical/history/monthly-pension',
+          uiSchema: specialMonthlyPension.uiSchema,
+          schema: specialMonthlyPension.schema,
         },
-        medicalCenters: {
+        vaTreatmentHistory: {
+          title: 'Treatment from a VA medical center',
+          path: 'medical/history/va-treatment',
+          uiSchema: vaTreatmentHistory.uiSchema,
+          schema: vaTreatmentHistory.schema,
+        },
+        vaMedicalCenters: {
           title: 'VA medical centers',
-          path: 'medical/history/treatment/medical-centers',
+          path: 'medical/history/va-treatment/medical-centers',
           depends: formData => {
-            return formData.treatmentHistory !== false;
+            return formData.vaTreatmentHistory !== false;
           },
-          uiSchema: medicalCenters.uiSchema,
-          schema: medicalCenters.schema,
+          uiSchema: vaMedicalCenters.uiSchema,
+          schema: vaMedicalCenters.schema,
+        },
+        federalTreatmentHistory: {
+          title: 'Treatment from federal medical facilities',
+          path: 'medical/history/federal-treatment',
+          uiSchema: federalTreatmentHistory.uiSchema,
+          schema: federalTreatmentHistory.schema,
+        },
+        federalMedicalCenters: {
+          title: 'Federal medical facilities',
+          path: 'medical/history/federal-treatment/medical-centers',
+          depends: formData => {
+            return formData.federalTreatmentHistory !== false;
+          },
+          uiSchema: federalMedicalCenters.uiSchema,
+          schema: federalMedicalCenters.schema,
         },
       },
     },

@@ -437,6 +437,7 @@ const ReplyForm = props => {
             {/* <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+                data-testid="message-reply-to"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
                 data-dd-privacy="mask"
               >
@@ -506,6 +507,8 @@ const ReplyForm = props => {
                 draftId={newDraftId}
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
+                setDeleteButtonClicked={setDeleteButtonClicked}
+                messageBody={messageBody}
               />
             </div> */}
           </form>

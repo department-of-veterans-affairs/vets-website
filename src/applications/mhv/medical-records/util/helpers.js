@@ -92,8 +92,10 @@ export const getObservationValueWithUnits = observation => {
  * @returns {String} array of strings, separated by a comma
  */
 export const processList = list => {
-  if (list?.length > 1) return list.join('. ');
-  if (list?.length === 1) return list.toString();
+  if (Array.isArray(list)) {
+    if (list?.length > 1) return list.join('. ');
+    if (list?.length === 1) return list.toString();
+  }
   return EMPTY_FIELD;
 };
 
