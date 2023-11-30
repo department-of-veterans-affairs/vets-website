@@ -210,7 +210,9 @@ class MedicationsListPage {
   clickRefillButton = () => {
     cy.intercept(
       'PATCH',
-      '/my_health/v1/prescriptions/22220410/refill',
+      `/my_health/v1/prescriptions/${
+        prescription.data.attributes.prescriptionId
+      }/refill`,
       prescription,
     );
     cy.get(
@@ -244,6 +246,54 @@ class MedicationsListPage {
     cy.get('[data-testid="error-alert"]').should(
       'contain',
       'We didn’t get your request. Try again',
+    );
+  };
+
+  selectSortDropDownOption = text => {
+    cy.get('[data-testid="sort-dropdown"]')
+      .find('#select')
+      .select(text, { force: true });
+  };
+
+  clickSortAlphabeticallyByStatus = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
+    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+  };
+
+  verifyPaginationDisplayedforSortAlphabeticallyByStatus = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
+    );
+  };
+
+  clickSortAlphabeticallyByName = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    );
+    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+  };
+
+  verifyPaginationDisplayedforSortAlphabeticallyByName = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
     );
   };
 }
