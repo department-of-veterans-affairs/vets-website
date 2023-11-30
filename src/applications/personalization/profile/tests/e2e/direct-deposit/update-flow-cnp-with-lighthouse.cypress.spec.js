@@ -177,7 +177,7 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
 
     testFailure(
       'flagged-account-error',
-      mockDisabilityCompensation.updates.errors.accoundNumberFlagged,
+      mockDisabilityCompensation.updates.errors.accountNumberFlagged,
     );
 
     testFailure(
