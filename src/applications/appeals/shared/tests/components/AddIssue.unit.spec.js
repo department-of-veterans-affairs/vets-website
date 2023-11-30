@@ -9,15 +9,14 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import AddIssue from '../../components/AddIssue';
-import { errorMessages } from '../../constants';
 import { getDate } from '../../utils/dates';
 
-import {
-  LAST_ISSUE,
-  MAX_LENGTH,
-  MAX_YEARS_PAST,
-} from '../../../shared/constants';
-import sharedErrorMessages from '../../../shared/content/errorMessages';
+import { LAST_ISSUE, MAX_LENGTH, MAX_YEARS_PAST } from '../../constants';
+import sharedErrorMessages from '../../content/errorMessages';
+
+import { errorMessages } from '../../../995/constants';
+import { maxNameLength } from '../../../995/validations/issues';
+import { validateDate } from '../../../995/validations/date';
 
 describe('<AddIssue>', () => {
   const validDate = getDate({ offset: { months: -2 } });
@@ -36,6 +35,8 @@ describe('<AddIssue>', () => {
     goToPath = () => {},
     data = {},
     onReviewPage = false,
+    description = null,
+    validations = { maxNameLength, validateDate },
   } = {}) => {
     if (index !== null) {
       window.sessionStorage.setItem(LAST_ISSUE, index);
@@ -51,6 +52,8 @@ describe('<AddIssue>', () => {
           onReviewPage={onReviewPage}
           testingIndex={index}
           appStateData={data}
+          validations={validations}
+          description={description}
         />
       </div>
     );
@@ -65,6 +68,12 @@ describe('<AddIssue>', () => {
     expect($('h3', container)).to.exist;
     expect($('va-text-input', container)).to.exist;
     expect($('va-memorable-date', container)).to.exist;
+  });
+  it('should render description', () => {
+    const page = setup({ description: <span id="test-span" /> });
+    const { container } = render(page);
+    expect($('h3', container)).to.exist;
+    expect($('#test-span', container)).to.exist;
   });
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();

@@ -27,6 +27,8 @@ import {
   generatePdfScaffold,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { txtLine } from '../../shared/util/constants';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -124,7 +126,7 @@ const Allergies = props => {
     Showing ${allergies.length} from newest to oldest. \n
     ${allergies.map(
       entry =>
-        `_____________________________________________________ \n
+        `${txtLine} \n
       ${entry.name} \n
       \t Date entered: ${entry.date} \n
       \t Signs and symptoms: ${entry.reaction} \n
@@ -143,7 +145,10 @@ const Allergies = props => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
     }
-    if (allergies?.length > 0) {
+    if (allergies?.length === 0) {
+      return <NoRecordsMessage type="allergies or reactions" />;
+    }
+    if (allergies?.length) {
       return (
         <>
           <PrintDownload
@@ -157,28 +162,12 @@ const Allergies = props => {
         </>
       );
     }
-    if (allergies?.length === 0) {
-      return (
-        <div
-          className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
-          data-testid="record-list-item"
-        >
-          <h2
-            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
-            data-testid="no-allergy-records"
-          >
-            There are no allergies or reactions in your VA medical records.
-          </h2>
-        </div>
-      );
-    }
     return (
-      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+      <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="We’re loading your records. This could take up to a minute."
           setFocus
           data-testid="loading-indicator"
-          // class="loading-indicator"
         />
       </div>
     );

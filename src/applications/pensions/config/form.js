@@ -64,6 +64,7 @@ import pow from '../pages/pow';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
 import medicalCondition from '../pages/medicalCondition';
 import nursingHome from '../pages/nursingHome';
+import specialMonthlyPension from '../pages/specialMonthlyPension';
 import vaTreatmentHistory from '../pages/vaTreatmentHistory';
 import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateMedicalCentersSchemas from '../pages/medicalCenters';
@@ -326,6 +327,12 @@ const formConfig = {
           path: 'medical/history/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+        specialMonthlyPension: {
+          title: 'Special monthly pension',
+          path: 'medical/history/monthly-pension',
+          uiSchema: specialMonthlyPension.uiSchema,
+          schema: specialMonthlyPension.schema,
         },
         vaTreatmentHistory: {
           title: 'Treatment from a VA medical center',

@@ -20,13 +20,9 @@ describe('Accessibility', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Verify Use My Location is first in tab order
+    // Verify focused on input location
     cy.get('#representative-search-controls').trigger('mousedown');
     cy.tab();
-    cy.get('button.use-my-location-button').focused();
-    cy.tab();
-
-    // Verify focused on input location
     cy.get('input[name="City, State or Postal code"]').focused();
     // Tab
     cy.get('input[name="City, State or Postal code"]').focus();
