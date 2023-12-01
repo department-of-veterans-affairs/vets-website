@@ -1,6 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
 import get from 'platform/utilities/data/get';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import {
   fullNameNoSuffixSchema,
@@ -148,25 +147,25 @@ const formConfig = {
         },
       },
     },
-    // sponsorPhone: {
-    //   title: 'Sponsor Phone',
-    //   pages: {
-    //     page5: {
-    //       path: 'sponsor-phone-number',
-    //       title: 'Sponsor Phone Number',
-    //       uiSchema: {
-    //         sponsorPhone: phoneUI(),
-    //       },
-    //       schema: {
-    //         type: 'object',
-    //         required: ['sponsorPhone'],
-    //         properties: {
-    //           sponsorPhone: phoneSchema,
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    sponsorPhone: {
+      title: 'Sponsor Phone',
+      pages: {
+        page5: {
+          path: 'sponsor-phone-number',
+          title: 'Sponsor Phone Number',
+          uiSchema: {
+            sponsorPhone: phoneUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorPhone'],
+            properties: {
+              sponsorPhone: phoneSchema,
+            },
+          },
+        },
+      },
+    },
     sponsorDateOfBirthAndDeath: {
       title: 'Sponsor Date of Birth',
       pages: {
@@ -235,7 +234,6 @@ const formConfig = {
           path: 'applicant-information',
           arrayPath: 'applicants',
           uiSchema: {
-            'ui:title': 'Applicant Information?',
             applicants: {
               'ui:options': {
                 viewField: ApplicantField,
@@ -245,7 +243,9 @@ const formConfig = {
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
               },
-              items: fullNameNoSuffixUI(),
+              items: {
+                applicantName: fullNameNoSuffixUI(),
+              },
             },
           },
           schema: {
@@ -422,9 +422,9 @@ const formConfig = {
           path: 'applicant-information/:index/additional-info',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: 'Applicant Health Insureance and Relationship',
+          title: 'Applicant Health Insurance and Relationship',
           uiSchema: {
-            'ui:title': 'Applicant Health Insureance and Relationship',
+            'ui:title': 'Applicant Health Insurance and Relationship',
             applicants: {
               'ui:options': {
                 viewField: ApplicantField, // TODO: do we need this for each page?
@@ -451,8 +451,7 @@ const formConfig = {
                   },
                 }),
                 applicantRelationshipToSponsor: {
-                  'ui:title': 'Relationship to Sponsor (i.e., spouse, child)',
-                  'ui:webComponentField': VaTextInputField,
+                  ...relationshipToVeteranUI('Sponsor'),
                   'ui:required': () => true,
                 },
               },
@@ -469,7 +468,7 @@ const formConfig = {
                   properties: {
                     applicantEnrolledInMedicare: radioSchema(['yes', 'no']),
                     applicantEnrolledInOHI: radioSchema(['yes', 'no']),
-                    applicantRelationshipToSponsor: { type: 'string' },
+                    applicantRelationshipToSponsor: relationshipToVeteranSchema,
                   },
                 },
               },
@@ -493,7 +492,10 @@ const formConfig = {
               },
               'ui:required': formData => formData.verifyCertifier,
             },
-            dateOfCertification: currentOrPastDateUI(),
+            dateOfCertification: {
+              ...currentOrPastDateUI(),
+              'ui:required': formData => formData.verifyCertifier,
+            },
             verifyCertifier: {
               ...yesNoUI({
                 title: 'Are you signing on behalf of applicant(s)?',
@@ -531,6 +533,7 @@ const formConfig = {
             properties: {
               signature: yesNoSchema,
               certifierName: fullNameNoSuffixSchema,
+              dateOfCertification: currentOrPastDateSchema,
               verifyCertifier: yesNoSchema,
               certifierRelationship: relationshipToVeteranSchema,
               certifierAddress: addressSchema(),
