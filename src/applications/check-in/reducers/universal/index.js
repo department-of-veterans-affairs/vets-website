@@ -7,7 +7,13 @@ const setErrorHandler = (state, action) => {
 };
 
 const setFormHandler = (state, action) => {
-  return { ...state, ...action.payload };
+  return {
+    ...state,
+    form: {
+      ...state.form,
+      ...action.payload,
+    },
+  };
 };
 
 const receivedUpcomingAppointmentsHandler = (state, action) => {

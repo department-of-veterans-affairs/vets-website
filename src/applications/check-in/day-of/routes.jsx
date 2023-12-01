@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
 import AppointmentsPage from '../components/pages/Appointments';
 import Demographics from './pages/Demographics';
@@ -46,7 +45,6 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
-    reloadable: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
@@ -69,15 +67,6 @@ const routes = [
   {
     path: URLS.EMERGENCY_CONTACT,
     component: EmergencyContact,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-    reloadable: true,
-  },
-  {
-    path: URLS.DETAILS,
-    component: CheckIn,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,
