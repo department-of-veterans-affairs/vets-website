@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
 import OrdersBlock from './OrdersBlock';
 import ParagraphBlock from './ParagraphBlock';
@@ -20,6 +21,18 @@ const YourTreatmentPlan = props => {
       <MedicationTerms avs={avs} />
     </>
   );
+
+  const renderReminder = reminder => {
+    return (
+      <p>
+        {reminder.name}
+        <br />
+        When due: {reminder.whenDue}
+        <br />
+        Frequency: {reminder.frequency}
+      </p>
+    );
+  };
 
   return (
     <div>
@@ -60,7 +73,14 @@ const YourTreatmentPlan = props => {
         orders={orders}
         type={ORDER_TYPES.OTHER}
       />
-      {/* TODO: add health reminders. */}
+      <ItemsBlock
+        heading="Health reminders"
+        intro="The list below is your health reminders. These are health checks for prevention care (for example cancer screening) and checks on chronic conditions like diabetes. Your primary care provider and team will see this list in the computer and should discuss them with you."
+        itemType="health-reminders"
+        items={avs.clinicalReminders}
+        renderItem={renderReminder}
+        showSeparators
+      />
       <ParagraphBlock
         heading="Other instructions"
         headingLevel={4}
