@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { DirectDepositClient } from '@@profile/util/direct-deposit';
+import {
+  generateApiRequestOptions,
+  formatDirectDepositResponse,
+  recordCNPEvent,
+} from '@@profile/util/direct-deposit';
 import { API_STATUS } from '../../constants';
 
 describe('DirectDepositClient', () => {
@@ -11,69 +15,11 @@ describe('DirectDepositClient', () => {
     financialInstitutionRoutingNumber: '987654321',
   };
 
-  describe('ppiu legacy client', () => {
-    let legacyClient;
-    let legacyRecordEventSpy;
-    beforeEach(() => {
-      legacyRecordEventSpy = sinon.spy();
-      legacyClient = new DirectDepositClient({
-        recordEvent: legacyRecordEventSpy,
-      });
-    });
-
-    it('returns the correct endpoint', () => {
-      expect(legacyClient.endpoint).to.equal('/ppiu/payment_information');
-    });
-
+  describe('direct deposit utilities', () => {
     it('generates the correct request options', () => {
-      const legacyOptions = legacyClient.generateApiRequestOptions(fields);
+      const requestOptions = generateApiRequestOptions(fields);
 
-      // IMPORTANT: The PPIU endpoint REQUIRES a financialInstitutionName field,
-      // it doesn't matter what the value is, but it must be present.
-      expect(legacyOptions.body).to.equal(
-        JSON.stringify({
-          ...fields,
-          financialInstitutionName: 'Hidden form field',
-        }),
-      );
-    });
-
-    it('records legacy analytics event', () => {
-      legacyClient.recordCNPEvent({
-        status: API_STATUS.STARTED,
-        method: 'GET',
-      });
-
-      expect(legacyRecordEventSpy.firstCall.args[0]).to.deep.equal({
-        event: 'profile-get-cnp-direct-deposit-started',
-      });
-    });
-  });
-
-  describe('lighthouse client', () => {
-    let lighthouseClient;
-    let lighthouseRecordEventSpy;
-
-    beforeEach(() => {
-      lighthouseRecordEventSpy = sinon.spy();
-      lighthouseClient = new DirectDepositClient({
-        useLighthouseDirectDepositEndpoint: true,
-        recordEvent: lighthouseRecordEventSpy,
-      });
-    });
-
-    it('returns the correct endpoint', () => {
-      expect(lighthouseClient.endpoint).to.equal(
-        '/profile/direct_deposits/disability_compensations',
-      );
-    });
-
-    it('generates the correct request options', () => {
-      const lighthouseOptions = lighthouseClient.generateApiRequestOptions(
-        fields,
-      );
-
-      expect(lighthouseOptions.body).to.equal(
+      expect(requestOptions.body).to.equal(
         JSON.stringify({
           accountType: fields.accountType,
           accountNumber: fields.accountNumber,
@@ -92,9 +38,7 @@ describe('DirectDepositClient', () => {
         },
       };
 
-      const formattedResponse = lighthouseClient.formatDirectDepositResponseFromLighthouse(
-        response,
-      );
+      const formattedResponse = formatDirectDepositResponse(response);
 
       expect(formattedResponse).to.deep.equal({
         paymentAccount: {
@@ -116,22 +60,24 @@ describe('DirectDepositClient', () => {
         },
       };
 
-      const formattedResponse = lighthouseClient.formatDirectDepositResponseFromLighthouse(
-        {},
-      );
+      const formattedResponse = formatDirectDepositResponse({});
 
       expect(formattedResponse).to.deep.equal(response);
     });
 
     it('records lighthouse analytics event', () => {
+      const lighthouseRecordEventSpy = sinon.spy();
       const errorMessage = 'test-error-message';
-      lighthouseClient.recordCNPEvent({
-        status: API_STATUS.FAILED,
-        method: 'PUT',
-        extraProperties: {
-          'error-key': errorMessage,
+      recordCNPEvent(
+        {
+          status: API_STATUS.FAILED,
+          method: 'PUT',
+          extraProperties: {
+            'error-key': errorMessage,
+          },
         },
-      });
+        lighthouseRecordEventSpy,
+      );
 
       expect(lighthouseRecordEventSpy.firstCall.args[0]).to.deep.equal({
         event: 'api_call',
@@ -142,10 +88,14 @@ describe('DirectDepositClient', () => {
     });
 
     it('records lighthouse analytics event without error', () => {
-      lighthouseClient.recordCNPEvent({
-        status: API_STATUS.SUCCESSFUL,
-        method: 'PUT',
-      });
+      const lighthouseRecordEventSpy = sinon.spy();
+      recordCNPEvent(
+        {
+          status: API_STATUS.SUCCESSFUL,
+          method: 'PUT',
+        },
+        lighthouseRecordEventSpy,
+      );
 
       expect(lighthouseRecordEventSpy.firstCall.args[0]).to.deep.equal({
         event: 'api_call',
