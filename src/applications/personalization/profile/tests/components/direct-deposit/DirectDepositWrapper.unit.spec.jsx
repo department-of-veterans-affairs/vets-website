@@ -16,15 +16,17 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       serviceType = CSP_IDS.ID_ME,
       cpnErrors,
       controlInformation = {
-        canUpdateAddress: true,
-        corpAvailIndicator: true,
-        corpRecFoundIndicator: true,
-        hasNoBdnPaymentsIndicator: true,
-        identityIndicator: true,
-        isCompetentIndicator: true,
-        indexIndicator: true,
-        noFiduciaryAssignedIndicator: true,
-        notDeceasedIndicator: true,
+        canUpdateDirectDeposit: true,
+        isCorpAvailable: true,
+        isCorpRecFound: true,
+        hasNoBdnPayments: true,
+        hasIdentity: true,
+        hasIndex: true,
+        isCompetent: true,
+        hasMailingAddress: true,
+        hasNoFiduciaryAssigned: true,
+        isNotDeceased: true,
+        hasPaymentAddress: true,
       },
     } = {}) => {
       const middleware = [];
@@ -151,7 +153,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          notDeceasedIndicator: false,
+          isNotDeceased: false,
         },
       });
 
@@ -169,7 +171,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          noFiduciaryAssignedIndicator: false,
+          hasNoFiduciaryAssigned: false,
         },
       });
 
@@ -187,7 +189,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({
         controlInformation: {
-          isCompetentIndicator: false,
+          isCompetent: false,
         },
       });
 

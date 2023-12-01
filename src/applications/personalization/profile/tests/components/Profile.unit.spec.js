@@ -289,8 +289,6 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
-      'useLighthouseDirectDepositEndpoint',
-      'togglesLoaded',
       'profileToggles',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
