@@ -9,7 +9,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
-import AppContent from '../components/AppContent';
+import FeatureFlagsLoaded from '../components/FeatureFlagsLoaded';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 import {
   isLoadingFeatures,
@@ -35,7 +35,7 @@ const App = props => {
           externalServices.vbms,
         ]}
       >
-        <AppContent featureFlagsLoading={featureFlagsLoading}>
+        <FeatureFlagsLoaded featureFlagsLoading={featureFlagsLoading}>
           <RatedDisabilityView
             detectDiscrepancies={props.detectDiscrepancies}
             error={props.error}
@@ -47,7 +47,7 @@ const App = props => {
             totalDisabilityRating={props.totalDisabilityRating}
             user={props.user}
           />
-        </AppContent>
+        </FeatureFlagsLoaded>
       </DowntimeNotification>
     </RequiredLoginView>
   );
