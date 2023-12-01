@@ -23,7 +23,11 @@ const ItemList = props => {
     );
   }
   if (list?.length === 1) {
-    return <span data-dd-privacy="mask">{list[0]}</span>;
+    return (
+      <span data-testid="list-item" data-dd-privacy="mask">
+        {list[0]}
+      </span>
+    );
   }
   return <p className="vads-u-margin-top--0">None noted</p>;
 };
