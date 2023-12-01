@@ -151,6 +151,7 @@ Provider notes: ${processList(record.notes)}\n`;
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
             data-dd-privacy="mask"
+            data-testid="vaccine-name"
           >
             Vaccines: {record.name}
           </h1>
@@ -170,7 +171,11 @@ Provider notes: ${processList(record.notes)}\n`;
             <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p className="vads-u-margin-top--0" data-dd-privacy="mask">
+            <p
+              className="vads-u-margin-top--0"
+              data-dd-privacy="mask"
+              data-testid="vaccine-location"
+            >
               {record.location}
             </p>
             {/* <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
