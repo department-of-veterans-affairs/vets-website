@@ -13,10 +13,8 @@ export default function RatingLists({ ratings }) {
   const nonServiceConnectedRatings = getNonServiceConnectedRatings(ratings);
 
   const hasRatings = ratings.length !== 0;
-  // NOTE: These are true for now to mimic the behavior of the EVSS implementation. It
-  // probably makes sense to not show the section if there are no ratings
-  const hasServiceConnectedRatings = true;
-  const hasNonServiceConnectedRatings = true;
+  const hasServiceConnectedRatings = serviceConnectedRatings.length !== 0;
+  const hasNonServiceConnectedRatings = nonServiceConnectedRatings.length !== 0;
 
   if (!hasRatings) {
     return <NoRatings />;

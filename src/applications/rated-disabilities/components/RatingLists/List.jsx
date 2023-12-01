@@ -5,11 +5,11 @@ import ListItem from './ListItem';
 
 export default function List({ ratings }) {
   return (
-    <>
+    <div className="rating-list">
       {ratings.map((rating, index) => (
         <ListItem ratedDisability={rating} key={index} />
       ))}
-    </>
+    </div>
   );
 }
 
