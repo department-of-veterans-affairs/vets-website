@@ -28,7 +28,7 @@ const ResultsSet1Page1 = () => {
       </p>
       <p>
         Based on where you told us you served, we think you may have had
-        exposure to a toxic substance. We call this a "presumption of exposure."
+        exposure to a toxic substance. We call this a “presumption of exposure.”
       </p>
       <h2>Presumptive exposure locations we think may apply to you</h2>
       <p>
@@ -39,7 +39,7 @@ const ResultsSet1Page1 = () => {
         <li>Arabian Sea</li>
         <li>Gulf of Aden</li>
         <li>Gulf of Oman</li>
-        <li>Neutral zone between Iraq/Saudi Arabia</li>
+        <li>The neutral zone on the border between Iraq and Saudi Arabia</li>
         <li>Persian Gulf</li>
         <li>Red Sea</li>
       </ul>
@@ -61,7 +61,7 @@ const ResultsSet1Page1 = () => {
         className="vads-c-action-link--green"
         to={ROUTES.RESULTS_SET_1_PAGE_2}
       >
-        Learn what to do next
+        Learn more about presumptive conditions and what to do next
       </Link>
     </>
   );
