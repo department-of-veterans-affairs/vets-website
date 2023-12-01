@@ -218,6 +218,35 @@ const labResults = avs => {
   return null;
 };
 
+const getMyMedications = avs => {
+  const combined = avs.vaMedications;
+  combined.push(...avs.nonvaMedications);
+  return combined;
+};
+
+const renderMedication = medication => {
+  return (
+    <p>
+      {medication.name}
+      <br />
+      {medication.sig}
+      {medication.description && (
+        <>
+          <br />
+          Description: {medication.description}
+        </>
+      )}
+      <br />
+      Rx #: {medication.rxNumber}
+      <br />
+      Notes: {medication.comment}
+      <br />
+      <br />
+      Facility: {medication.stationName}
+    </p>
+  );
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -258,6 +287,13 @@ const YourHealthInformation = props => {
         itemType="allergies-reactions"
         items={avs.allergiesReactions?.allergies}
         renderItem={renderAllergy}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="My medications"
+        itemType="my-medications"
+        items={getMyMedications(avs)}
+        renderItem={renderMedication}
         showSeparators
       />
       {labResults(avs)}
