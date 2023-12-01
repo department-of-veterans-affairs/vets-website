@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { errorMessages } from '../../constants';
-import { getDate } from '../../utils/dates';
 
 import {
   validateVaLocation,
@@ -27,6 +26,7 @@ import {
 } from '../../validations/evidence';
 
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {

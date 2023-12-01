@@ -14,9 +14,6 @@ describe('Medications List Page DropDown', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();

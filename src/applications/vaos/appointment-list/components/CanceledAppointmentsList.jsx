@@ -21,11 +21,11 @@ import {
   getLink,
   getVAAppointmentLocationId,
 } from '../../services/appointment';
-import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
+import AppointmentListItem from './AppointmentsPage/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
+import AppointmentCard from './AppointmentsPage/AppointmentCard';
 import {
   selectFeatureStatusImprovement,
   selectFeatureBreadcrumbUrlUpdate,

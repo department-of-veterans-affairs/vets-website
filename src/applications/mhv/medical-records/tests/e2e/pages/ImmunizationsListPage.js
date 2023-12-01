@@ -1,9 +1,9 @@
 // import defaultImmunizations from '../fixtures/Immunizations.json';
+import defaultImmunizations from '../../fixtures/vaccines.json';
 
 class ImmunizationsListPage {
-  /*
   clickGotoImmunizationsLink = (
-   /* Immunizations = defaultImmunizations,
+    Immunizations = defaultImmunizations,
     waitForImmunizations = false,
   ) => {
     cy.intercept(
@@ -11,13 +11,11 @@ class ImmunizationsListPage {
       '/my_health/v1/medical_records/vaccines',
       Immunizations,
     ).as('ImmunizationsList');
-    cy.get('[href="/my-health/medical-records/vaccines"]').click();
+    // cy.get('[href="/my-health/medical-records/vaccines"]').click();
     if (waitForImmunizations) {
       cy.wait('@ImmunizationsList');
     }
-  });
-}
-*/
+  };
 
   clickImmunizationsDetailsLink = (_ImmunizationsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
@@ -26,4 +24,5 @@ class ImmunizationsListPage {
       .click();
   };
 }
+
 export default new ImmunizationsListPage();

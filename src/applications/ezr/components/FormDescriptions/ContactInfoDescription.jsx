@@ -8,7 +8,7 @@ const ContactInfoDescription = (
       application. If you don’t add this information, we’ll use your address to
       contact you by mail.
     </p>
-    <p>
+    <p className="vads-u-margin-bottom--0">
       <strong>Note:</strong> We’ll always mail you a copy of our decision on
       your application for your records.
     </p>

@@ -46,12 +46,13 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
 );
 
 FormTitle.propTypes = {
-  currentPosition: PropTypes.number,
   id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  currentPosition: PropTypes.number,
+  formName: PropTypes.string,
   formUrl: PropTypes.string,
   lang: PropTypes.string,
   recordGAEvent: PropTypes.func,
-  title: PropTypes.string.isRequired,
   showPDFInfoVersionTwo: PropTypes.bool,
 };
 

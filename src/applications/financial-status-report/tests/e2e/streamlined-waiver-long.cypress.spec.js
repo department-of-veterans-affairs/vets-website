@@ -155,7 +155,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.accordion-header').should('have.length', 4);
+          cy.get('va-accordion-item').should('have.length', 4);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')

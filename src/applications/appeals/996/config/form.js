@@ -12,7 +12,7 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -139,7 +139,7 @@ const formConfig = {
           depends: () => false,
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,

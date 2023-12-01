@@ -38,11 +38,11 @@ function clickContinue() {
 
 // Visits the pre-need intro page, validates the title, clicks start application
 function visitIntro() {
-  cy.visit('/burials-and-memorials/pre-need/form-10007-apply-for-eligibility');
+  cy.visit('/burials-and-memorials/pre-need-integration/introduction');
   cy.get('body').should('be.visible');
   cy.title().should(
     'contain',
-    'Apply online for pre-need determination of eligibility in a VA National Cemetery | Veterans Affairs',
+    '40-10007 Burial pre-need eligibility determination | Veterans Affairs',
   );
   cy.get('.schemaform-title', { timeout: Timeouts.slow }).should('be.visible');
   cy.injectAxeThenAxeCheck();

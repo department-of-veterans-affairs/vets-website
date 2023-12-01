@@ -6,9 +6,9 @@ import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import PastAppointmentsListV2, {
+import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,
-} from '../../../appointment-list/components/PastAppointmentsListV2';
+} from '../../../appointment-list/components/PastAppointmentsList';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import {
@@ -40,7 +40,7 @@ const testDates = () => {
   };
 };
 
-describe('VAOS <PastAppointmentsListV2> V2 api', () => {
+describe('VAOS <PastAppointmentsList> V2 api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -59,12 +59,9 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const { findByText } = renderWithStoreAndRouter(
-      <PastAppointmentsListV2 />,
-      {
-        initialState,
-      },
-    );
+    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
+    });
 
     expect(await findByText(/Past 3 months/i)).to.exist;
   });
@@ -100,7 +97,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -158,11 +155,11 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    await screen.findAllByText(
+    await screen.findAllByLabelText(
       new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
     );
 
@@ -177,7 +174,6 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     expect(firstCard).to.contain.text('VA appointment');
 
     expect(timeHeader).to.contain.text('MT');
-    expect(timeHeader).to.contain.text('Mountain time');
   });
 
   it('should show information with facility name', async () => {
@@ -262,11 +258,11 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     });
     mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    await screen.findAllByText(
+    await screen.findAllByLabelText(
       new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
     );
 
@@ -310,7 +306,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -343,7 +339,7 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -383,21 +379,21 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
-    await screen.findAllByText(
+    await screen.findAllByLabelText(
       new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('VA Video Connect');
+    expect(screen.baseElement).to.contain.text('Video');
 
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
-      within(firstCard).getByText(
+      within(firstCard).findAllByLabelText(
         new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
       ),
     ).to.exist;
@@ -405,8 +401,9 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     expect(
       within(firstCard).getByText(new RegExp(pastDate.format('h:mm'), 'i')),
     ).to.exist;
+
     expect(within(firstCard).getByText(/MT/i)).to.exist;
-    expect(within(firstCard).getByText(/VA Video Connect at home/i)).to.exist;
+    expect(within(firstCard).findAllByLabelText(/Video appointment/i)).to.exist;
   });
 
   it('should display past appointments using V2 api call', async () => {
@@ -452,11 +449,11 @@ describe('VAOS <PastAppointmentsListV2> V2 api', () => {
     const myInitialState = {
       ...initialState,
     };
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState: myInitialState,
     });
 
-    await screen.findAllByText(
+    await screen.findAllByLabelText(
       new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
     );
 

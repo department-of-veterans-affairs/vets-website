@@ -15,9 +15,6 @@ describe('Medical Records View Conditions', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

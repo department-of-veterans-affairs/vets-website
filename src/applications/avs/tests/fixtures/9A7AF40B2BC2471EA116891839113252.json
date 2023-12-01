@@ -1404,6 +1404,29 @@
           }
         ]
       },
+      "clinicalReminders": [
+        {
+          "ien": "500047",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Hepatitis C risk Factor Screening",
+          "frequency": " Due every 3 years for all ages."
+        },
+        {
+          "ien": "500062",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Primary Care Depression Screening",
+          "frequency": " Due every 1 year for all ages."
+        },
+        {
+          "ien": "55",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Suicide Hotline",
+          "frequency": " Due every 1 year for all ages."
+        }
+      ],
       "pharmacyTerms": [
         {
           "type": "status",

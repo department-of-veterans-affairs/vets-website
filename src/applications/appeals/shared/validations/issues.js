@@ -1,6 +1,7 @@
-import { hasDuplicates, hasSomeSelected } from '../utils/issues';
+import { getSelected, hasDuplicates, hasSomeSelected } from '../utils/issues';
 import { noneSelected } from '../content/contestableIssues';
 import errorMessages from '../content/errorMessages';
+import { MAX_LENGTH } from '../constants';
 
 export const selectionRequired = (
   errors,
@@ -38,5 +39,11 @@ export const uniqueIssue = (
 export const missingIssueName = (errors, data) => {
   if (!data) {
     errors.addError(errorMessages.missingIssue);
+  }
+};
+
+export const maxIssues = (error, data) => {
+  if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
+    error.addError(errorMessages.maxSelected);
   }
 };

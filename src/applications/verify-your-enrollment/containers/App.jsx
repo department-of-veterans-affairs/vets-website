@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 
 export default function App({ children }) {
-  return <div>{children}</div>;
+  return (
+    <EnrollmentVerificationPageWrapper>
+      {children}
+    </EnrollmentVerificationPageWrapper>
+  );
 }
 
 App.propTypes = {

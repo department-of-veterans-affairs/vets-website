@@ -1,28 +1,21 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   fetchPendingAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
 import { getRequestedAppointmentListInfo } from '../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
-import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  selectFeatureAppointmentList,
-  selectFeatureStatusImprovement,
-} from '../../redux/selectors';
-import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {
-    facilityData,
     pendingAppointments,
     pendingStatus,
     showScheduleButton,
@@ -32,9 +25,6 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
   );
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
-  );
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
   );
 
   const dispatch = useDispatch();
@@ -78,11 +68,8 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
     );
   }
   let paragraphText =
-    'Below is your list of appointment requests that haven’t been scheduled yet.';
-  if (featureAppointmentList) {
-    paragraphText =
-      'Appointments that you request will show here until staff review and schedule them.';
-  } else if (featureStatusImprovement) {
+    'Appointments that you request will show here until staff review and schedule them.';
+  if (featureStatusImprovement) {
     paragraphText =
       'Your appointment requests that haven’t been scheduled yet.';
   }
@@ -102,18 +89,8 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
             data-cy="requested-appointment-list"
           >
             {pendingAppointments.map((appt, index) => {
-              if (featureAppointmentList) {
-                return (
-                  <RequestAppointmentLayout key={index} appointment={appt} />
-                );
-              }
-
               return (
-                <RequestListItem
-                  key={index}
-                  appointment={appt}
-                  facility={facilityData[getVAAppointmentLocationId(appt)]}
-                />
+                <RequestAppointmentLayout key={index} appointment={appt} />
               );
             })}
           </ul>

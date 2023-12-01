@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import {
   getAddress,
   getConferenceTime,
@@ -9,6 +8,7 @@ import {
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 import {
   addIncludedIssues,
   createIssueName,

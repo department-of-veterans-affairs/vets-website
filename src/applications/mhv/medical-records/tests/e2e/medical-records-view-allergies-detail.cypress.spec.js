@@ -31,9 +31,6 @@ describe('Medical Records View Allergies', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

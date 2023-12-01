@@ -83,7 +83,7 @@ describe('Admission and discharge summary details component with no dates', () =
 
   it('should not display the formatted date if startDate or endDate is missing', () => {
     waitFor(() => {
-      expect(screen.queryByTestId('header-times').innerHTML).to.contain(
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         'None noted',
       );
     });

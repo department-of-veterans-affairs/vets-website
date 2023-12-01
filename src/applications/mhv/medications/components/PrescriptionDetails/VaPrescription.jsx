@@ -142,7 +142,10 @@ const VaPrescription = prescription => {
                   </h4>
                   <div className="no-print">
                     {entry.cmopNdcNumber ? (
-                      <va-additional-info trigger="Review image">
+                      <va-additional-info
+                        trigger="Review image"
+                        data-testid="review-rx-image"
+                      >
                         <img
                           src={getImageUri(entry.cmopNdcNumber)}
                           alt={entry.prescriptionName}

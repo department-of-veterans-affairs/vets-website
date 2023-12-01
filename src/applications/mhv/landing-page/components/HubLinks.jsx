@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { getDestinationDomain } from '../utilities';
 
 const HubSection = ({ title, links }) => {
   const listItems = links.map(({ href, text }, index) => (
@@ -10,13 +11,15 @@ const HubSection = ({ title, links }) => {
         disable-analytics
         href={href}
         text={text}
-        onClick={() =>
+        onClick={() => {
+          const destinationDomain = getDestinationDomain(href);
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-title': text,
-            'links-list-group': title,
-          })
-        }
+            'links-list-header': text,
+            'links-list-section-header': title,
+            'destination-domain': destinationDomain,
+          });
+        }}
       />
     </li>
   ));

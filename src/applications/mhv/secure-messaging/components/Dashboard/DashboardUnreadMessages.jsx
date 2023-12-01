@@ -13,6 +13,7 @@ const DashboardUnreadMessages = props => {
         inbox !== undefined && (
           <h2
             data-dd-privacy="mask"
+            data-testid="unread-messages"
             className="vads-u-font-size--h3"
             slot="headline"
           >
@@ -29,28 +30,27 @@ const DashboardUnreadMessages = props => {
   );
 
   return (
-    inbox !== undefined && (
-      <va-alert status="info" visible>
-        {unreadCountHeader}
-        <div className="vads-u-margin-top--1p5">
-          <Link
-            className="vads-c-action-link--blue vads-u-margin-top--1"
-            text="Go to your inbox"
-            to={Paths.INBOX}
-          >
-            Go to your inbox
-          </Link>
-          <HorizontalRule />
-          <Link
-            data-testid="compose-message-link"
-            className="vads-c-action-link--blue"
-            to={Paths.COMPOSE}
-          >
-            Start a new message
-          </Link>
-        </div>
-      </va-alert>
-    )
+    <va-alert status="info" visible>
+      {unreadCountHeader}
+      <div className="vads-u-margin-top--1p5">
+        <Link
+          className="vads-c-action-link--blue vads-u-margin-top--1"
+          data-testid="inbox-link"
+          text="Go to your inbox"
+          to={Paths.INBOX}
+        >
+          Go to your inbox
+        </Link>
+        <HorizontalRule />
+        <Link
+          data-testid="compose-message-link"
+          className="vads-c-action-link--blue"
+          to={Paths.COMPOSE}
+        >
+          Start a new message
+        </Link>
+      </div>
+    </va-alert>
   );
 };
 

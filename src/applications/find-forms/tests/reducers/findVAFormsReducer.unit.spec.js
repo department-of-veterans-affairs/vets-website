@@ -1,61 +1,250 @@
-// Dependencies.
 import { expect } from 'chai';
-// Relative imports.
 import {
+  FAF_OPTION_CLOSEST_MATCH,
   FETCH_FORMS,
+  FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
-  INITIAL_SORT_STATE,
+  UPDATE_HOW_TO_SORT,
+  UPDATE_PAGINATION,
+  UPDATE_RESULTS,
 } from '../../constants';
-import findVAFormsReducer from '../../reducers/findVAFormsReducer';
+import findVAFormsReducer, {
+  initialState,
+} from '../../reducers/findVAFormsReducer';
 
 describe('Find VA Forms reducer: findVAFormsReducer', () => {
-  it('returns the default state', () => {
-    const emptyAction = {};
-    const result = findVAFormsReducer(undefined, emptyAction);
+  it('returns the default state when no action is given', () => {
+    expect(findVAFormsReducer(initialState, { type: 'TEST' })).to.be.deep.equal(
+      initialState,
+    );
+  });
 
-    expect(result).to.be.deep.equal({
-      error: '',
-      fetching: false,
-      page: 1,
-      query: '',
-      results: null,
-      sortByPropertyName: INITIAL_SORT_STATE,
-      hasOnlyRetiredForms: false,
-      closestMatchSearchResults: null,
-      startIndex: 0,
+  describe('FETCH_FORMS', () => {
+    it('returns the correct state', () => {
+      expect(
+        findVAFormsReducer(initialState, {
+          type: FETCH_FORMS,
+          query: 'testing',
+        }),
+      ).to.be.deep.equal({
+        ...initialState,
+        fetching: true,
+        query: 'testing',
+      });
     });
   });
 
-  it('fetches forms', () => {
-    const action = { type: FETCH_FORMS, query: 'testing' };
-    const state = findVAFormsReducer(undefined, action);
+  describe('FETCH_FORMS_FAILURE', () => {
+    it('returns the correct state', () => {
+      const error = 'service failed';
 
-    expect(state).to.be.deep.equal({
-      error: '',
-      fetching: true,
-      page: 1,
-      query: 'testing',
-      results: null,
-      sortByPropertyName: INITIAL_SORT_STATE,
-      hasOnlyRetiredForms: false,
-      closestMatchSearchResults: null,
-      startIndex: 0,
+      expect(
+        findVAFormsReducer(
+          {
+            ...initialState,
+            fetching: true,
+          },
+          {
+            type: FETCH_FORMS_FAILURE,
+            error,
+          },
+        ),
+      ).to.be.deep.equal({
+        ...initialState,
+        error,
+      });
     });
   });
 
-  it('receives forms', () => {
-    const initialState = {
-      fetching: true,
-      results: null,
-    };
-    const action = {
-      type: FETCH_FORMS_SUCCESS,
-      results: [],
-      hasOnlyRetiredForms: false,
-    };
-    const state = findVAFormsReducer(initialState, action);
+  describe('FETCH_FORMS_SUCCESS', () => {
+    it('returns the correct state when Closest Match is used', () => {
+      const results = [
+        {
+          attributes: {
+            formName: 'test1',
+          },
+        },
+        {
+          attributes: {
+            formName: 'test2',
+          },
+        },
+        {
+          attributes: {
+            formName: 'test2',
+          },
+        },
+      ];
 
-    expect(state.fetching).to.be.false;
-    expect(state.results).to.be.instanceOf(Array);
+      expect(
+        findVAFormsReducer(
+          {
+            ...initialState,
+            fetching: true,
+          },
+          {
+            type: FETCH_FORMS_SUCCESS,
+            results,
+            hasOnlyRetiredForms: false,
+            sortByPropertyName: FAF_OPTION_CLOSEST_MATCH,
+          },
+        ),
+      ).to.be.deep.equal({
+        ...initialState,
+        closestMatchSearchResults: results,
+        results,
+      });
+    });
+
+    it('returns the correct state when Closest Match is not used', () => {
+      const results = [
+        {
+          attributes: {
+            formName: 'cantaloupe',
+          },
+        },
+        {
+          attributes: {
+            formName: 'apple',
+          },
+        },
+        {
+          attributes: {
+            formName: 'banana',
+          },
+        },
+      ];
+
+      expect(
+        findVAFormsReducer(
+          {
+            ...initialState,
+            fetching: true,
+            sortByPropertyName: 'ALPHA_DESCENDING',
+          },
+          {
+            type: FETCH_FORMS_SUCCESS,
+            results,
+            closestMatchSearchResults: results,
+            hasOnlyRetiredForms: false,
+          },
+        ),
+      ).to.be.deep.equal({
+        ...initialState,
+        closestMatchSearchResults: results,
+        sortByPropertyName: 'ALPHA_DESCENDING',
+        results,
+      });
+    });
+  });
+
+  describe('UPDATE_HOW_TO_SORT', () => {
+    it('returns the correct state', () => {
+      const sort = 'test';
+
+      expect(
+        findVAFormsReducer(initialState, {
+          type: UPDATE_HOW_TO_SORT,
+          sortByPropertyName: sort,
+        }),
+      ).to.be.deep.equal({
+        ...initialState,
+        sortByPropertyName: sort,
+      });
+    });
+  });
+
+  describe('UPDATE_RESULTS', () => {
+    it('returns the correct state when Closest Match is used', () => {
+      const results = [
+        {
+          attributes: {
+            formName: 'test1',
+          },
+        },
+        {
+          attributes: {
+            formName: 'test2',
+          },
+        },
+        {
+          attributes: {
+            formName: 'test3',
+          },
+        },
+      ];
+
+      expect(
+        findVAFormsReducer(
+          {
+            ...initialState,
+            sortByPropertyName: FAF_OPTION_CLOSEST_MATCH,
+            closestMatchSearchResults: results,
+          },
+          {
+            type: UPDATE_RESULTS,
+            results,
+          },
+        ),
+      ).to.be.deep.equal({
+        ...initialState,
+        results,
+        closestMatchSearchResults: results,
+      });
+    });
+
+    it('returns the correct state when Closest Match is not used', () => {
+      const results = [
+        {
+          attributes: {
+            formName: 'cantaloupe',
+          },
+        },
+        {
+          attributes: {
+            formName: 'apple',
+          },
+        },
+        {
+          attributes: {
+            formName: 'banana',
+          },
+        },
+      ];
+
+      expect(
+        findVAFormsReducer(
+          {
+            ...initialState,
+            sortByPropertyName: 'ALPHA_DESCENDING',
+          },
+          {
+            type: UPDATE_RESULTS,
+            results,
+            closestMatchSearchResults: results,
+          },
+        ),
+      ).to.be.deep.equal({
+        ...initialState,
+        sortByPropertyName: 'ALPHA_DESCENDING',
+        results,
+      });
+    });
+  });
+
+  describe('UPDATE_PAGINATION', () => {
+    it('returns the correct state when UPDATE_PAGINATION is given', () => {
+      expect(
+        findVAFormsReducer(initialState, {
+          type: UPDATE_PAGINATION,
+          page: 2,
+          startIndex: 2,
+        }),
+      ).to.be.deep.equal({
+        ...initialState,
+        page: 2,
+        startIndex: 2,
+      });
+    });
   });
 });

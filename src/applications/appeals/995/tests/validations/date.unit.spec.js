@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
 import { errorMessages } from '../../constants';
 
+import { getDate } from '../../../shared/utils/dates';
 import { MAX_YEARS_PAST } from '../../../shared/constants';
 
 describe('validateDate & isValidDate', () => {

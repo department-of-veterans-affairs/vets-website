@@ -51,6 +51,7 @@ const ReplyForm = props => {
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, updateModalVisible] = useState(false);
+  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
@@ -476,11 +477,14 @@ const ReplyForm = props => {
                     setAttachments={setAttachments}
                     setNavigationError={setNavigationError}
                     editingEnabled
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
                   />
 
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
                   />
                 </section>
               )}

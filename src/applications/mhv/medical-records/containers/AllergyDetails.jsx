@@ -27,6 +27,8 @@ import {
   updatePageTitle,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import DateSubheading from '../components/shared/DateSubheading';
+import { txtLine } from '../../shared/util/constants';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -125,7 +127,7 @@ const AllergyDetails = props => {
     const content = `
     ${allergy.name} \n
     Date entered: ${allergy.date} \n
-    _____________________________________________________ \n
+    ${txtLine} \n
     \t Signs and symptoms: ${allergy.reaction} \n
     \t Type of Allergy: ${allergy.type} \n
     \t Location: ${allergy.location} \n
@@ -158,22 +160,13 @@ const AllergyDetails = props => {
             Allergies and reactions:{' '}
             <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
+          <DateSubheading
+            date={allergy.date}
+            label="Date entered"
+            id="allergy-date"
+          />
+
           <div className="condition-subheader vads-u-margin-bottom--4">
-            <div className="time-header">
-              <p
-                className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--bold"
-                id="allergy-date"
-              >
-                Date entered:{' '}
-                <span
-                  className="vads-u-font-weight--normal"
-                  data-dd-privacy="mask"
-                  data-testid="header-time"
-                >
-                  {allergy.date}
-                </span>
-              </p>
-            </div>
             <PrintDownload
               download={generateAllergyPdf}
               allowTxtDownloads={allowTxtDownloads}
@@ -218,14 +211,13 @@ const AllergyDetails = props => {
       );
     }
     return (
-      <>
+      <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
           setFocus
           data-testid="loading-indicator"
-          class="loading-indicator"
         />
-      </>
+      </div>
     );
   };
 

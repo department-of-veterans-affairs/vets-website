@@ -11,7 +11,7 @@ import {
   renderWithStoreAndRouter,
   getTestDate,
 } from '../../../mocks/setup';
-import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
+import AppointmentsPage from '../../../../appointment-list/components/AppointmentsPage';
 import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
@@ -31,7 +31,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
+describe('VAOS <AppointmentsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -56,7 +56,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       user: userState,
     };
     mockPastAppointmentInfo({});
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
     });
 
@@ -161,7 +161,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
     );
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       store,
     });
 
@@ -174,7 +174,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
   });
 
   it('start scheduling button should open new appointment flow', async () => {
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: {
         ...initialState,
         user: userState,
@@ -208,7 +208,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({});
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -285,7 +285,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -366,7 +366,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({ va: [appointment] });
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -439,7 +439,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({});
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 

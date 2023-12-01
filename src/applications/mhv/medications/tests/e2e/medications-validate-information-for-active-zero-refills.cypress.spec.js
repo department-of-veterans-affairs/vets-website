@@ -14,9 +14,6 @@ describe('Medications List Page Information based on Medication Status', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();

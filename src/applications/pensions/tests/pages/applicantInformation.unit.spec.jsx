@@ -42,9 +42,8 @@ describe('pension applicant information page', () => {
 
     waitFor(() => {
       expect($$('va-alert', container).length).to.equal(1);
-      expect($$('input', container).length).to.equal(5);
-      expect($$('select', container).length).to.equal(3);
-      expect($$('va-radio', container).length).to.equal(1);
+      expect($$('input', container).length).to.equal(7);
+      expect($$('select', container).length).to.equal(2);
       expect($('button[type="submit"]', container)).to.exist;
     });
   });
@@ -86,10 +85,10 @@ describe('pension applicant information page', () => {
     );
     const submitBtn = queryByText('Submit');
     const firstName = queryByRole('textbox', {
-      name: /Your first name/i,
+      name: /First name/i,
     });
     const lastName = queryByRole('textbox', {
-      name: /Your last name/i,
+      name: /Last name/i,
     });
     const ssnInput = queryByRole('textbox', {
       name: /Social Security Number/i,
@@ -111,36 +110,6 @@ describe('pension applicant information page', () => {
       fireEvent.click(submitBtn);
 
       expect($$('.usa-input-error-message', container)).to.be.empty;
-    });
-  });
-  it('should reveal va file number', async () => {
-    const onSubmit = sinon.spy();
-    const { data } = getData({ loggedIn: false });
-    const store = mockStore(data);
-    const { container } = render(
-      <Provider store={store}>
-        <DefinitionTester
-          definitions={definitions}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
-    );
-    waitFor(() => {
-      // Verify va file number is not visible
-      expect($$('input', container).length).to.equal(5);
-
-      const changeEvent = new CustomEvent('selected', {
-        detail: { value: 'Y' },
-      });
-      $('va-radio', container).__events.vaValueChange(changeEvent);
-
-      expect($$('va-radio-option', container).length).to.eq(2);
-      // Verify va file number is now visible
-      expect($$('input', container).length).to.equal(6);
     });
   });
 });

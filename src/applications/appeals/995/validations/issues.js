@@ -1,7 +1,6 @@
 import { errorMessages } from '../constants';
 import { validateDate } from './date';
 
-import { maxSelectedErrorMessage } from '../../shared/content/contestableIssues';
 import { MAX_LENGTH } from '../../shared/constants';
 import {
   getIssueDate,
@@ -9,12 +8,6 @@ import {
   getSelected,
 } from '../../shared/utils/issues';
 import { missingIssueName } from '../../shared/validations/issues';
-
-export const maxIssues = (errors, data) => {
-  if (getSelected(data).length > MAX_LENGTH.SELECTIONS) {
-    errors.addError(maxSelectedErrorMessage);
-  }
-};
 
 export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {

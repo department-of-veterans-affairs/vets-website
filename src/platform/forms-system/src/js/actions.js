@@ -13,24 +13,7 @@ export const SET_VIEWED_PAGES = 'SET_VIEWED_PAGES';
 export const SET_PRE_SUBMIT = 'SET_PRE_SUBMIT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
-export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
-export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
-
-export function closeReviewChapter(closedChapter, pageKeys = []) {
-  return {
-    type: CLOSE_REVIEW_CHAPTER,
-    closedChapter,
-    pageKeys,
-  };
-}
-
-export function openReviewChapter(openedChapter) {
-  return {
-    type: OPEN_REVIEW_CHAPTER,
-    openedChapter,
-  };
-}
 
 export function setData(data) {
   return {

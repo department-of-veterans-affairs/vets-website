@@ -31,6 +31,10 @@ class MedicationsDetailsPage {
     );
   };
 
+  verifyPrescriptionNameIsFocusedAfterLoading = () => {
+    cy.get('[data-testid="prescription-name"]').should('have.focus');
+  };
+
   verifyPrescriptionsStatus = PrescriptionsStatus => {
     cy.get('[data-testid="status"]').should(
       'have.text',
@@ -107,10 +111,20 @@ class MedicationsDetailsPage {
     ).click({ waitForAnimations: true });
   };
 
-  clickMedicationsBreadcrumbsOnDetailsPage = () => {
-    cy.contains('About medications')
-      .should('be.visible')
-      .click({ force: true });
+  clickMedicationsLandingPageBreadcrumbsOnListPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(1) > a').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(1) > a').click({
+      force: true,
+    });
+  };
+
+  clickMedicationsListPageBreadcrumbsOnDetailsPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
+    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').click({
+      waitForAnimations: true,
+    });
   };
 
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
@@ -212,6 +226,17 @@ class MedicationsDetailsPage {
       'contain',
       `${rxTracking.data.attributes.prescriptionName}`,
     );
+  };
+
+  clickReviewImageDropDownOnDetailsPage = () => {
+    cy.get('[data-testid="review-rx-image"]').should('exist');
+    cy.get('[data-testid="review-rx-image"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyMedicationImageVisibleOnDetailsPage = () => {
+    cy.get('[data-testid="review-rx-image"] > img').should('be.visible');
   };
 }
 export default MedicationsDetailsPage;

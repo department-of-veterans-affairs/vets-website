@@ -1,8 +1,9 @@
 import mockRepresentativeData from '../../constants/mock-representative-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 Cypress.Commands.add('checkSearch', () => {
-  cy.get('input[name="City, State or Postal code"]', { timeout: 5000 }).type(
+  cy.get('input[name="City, state or postal code"]', { timeout: 5000 }).type(
     `Austin, TX`,
     { force: true },
   );
@@ -15,7 +16,11 @@ Cypress.Commands.add('checkSearch', () => {
 
 describe('Mobile', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'find_a_representative', value: true }],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
       'GET',
@@ -27,6 +32,7 @@ describe('Mobile', () => {
 
   it('should render in mobile layouts', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
     cy.injectAxe();
     cy.axeCheck();
 

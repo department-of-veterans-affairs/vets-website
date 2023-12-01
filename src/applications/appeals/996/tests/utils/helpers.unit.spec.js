@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import {
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
@@ -9,6 +8,7 @@ import {
 } from '../../utils/helpers';
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 import {
   isEmptyObject,
   returnPhoneObject,

@@ -14,7 +14,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
-          label="Type of representative"
+          label="Type of accredited representative"
           required
           label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
@@ -36,7 +36,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             vaValueChange={handleRadioButtonSelect}
           />
           <va-radio-option
-            label="Claims Agent"
+            label="Claims agent"
             name="group"
             value="claim_agents"
             checked={representativeType === 'claim_agents'}
@@ -58,7 +58,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           >
             <va-accordion-item id="first">
               <h6 slot="headline">
-                How can each type of representative help me?
+                How can each type of accredited representative help me?
               </h6>
               <p>
                 <strong>Veteran Service Organization (VSO)</strong>{' '}

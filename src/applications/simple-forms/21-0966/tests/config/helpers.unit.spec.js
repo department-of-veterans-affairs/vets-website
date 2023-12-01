@@ -32,6 +32,30 @@ import {
 import formConfig from '../../config/form';
 
 describe('form helper functions', () => {
+  it('test defaults for helper functions', () => {
+    expect(preparerIsVeteran()).to.equal(false);
+    expect(preparerIsSurvivingDependent()).to.equal(false);
+    expect(preparerIsThirdPartyToTheVeteran()).to.equal(false);
+    expect(preparerIsThirdPartyToASurvivingDependent()).to.equal(false);
+    expect(preparerIsThirdParty()).to.equal(false);
+    expect(benefitSelectionChapterTitle()).to.match(/Your benefit selection/i);
+    expect(statementOfTruthFullNamePath()).to.equal(
+      'survivingDependentFullName',
+    );
+    expect(survivingDependentPersonalInformationChapterTitle()).to.match(
+      /Your personal information/i,
+    );
+    expect(survivingDependentContactInformationChapterTitle()).to.match(
+      /Your contact information/i,
+    );
+    expect(veteranPersonalInformationChapterTitle()).to.match(
+      /Veteran’s personal information/i,
+    );
+    expect(veteranContactInformationChapterTitle()).to.match(
+      /Veteran’s contact information/i,
+    );
+  });
+
   it('provides the correct information for a veteran', () => {
     const formData = {
       preparerIdentification: 'VETERAN',

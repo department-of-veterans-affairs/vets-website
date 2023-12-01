@@ -2,11 +2,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  maxIssues,
   uniqueIssue,
   missingIssueName,
   selectionRequired,
 } from '../../validations/issues';
-import { SELECTED } from '../../constants';
+
+import { getDate } from '../../utils/dates';
+import { SELECTED, MAX_LENGTH } from '../../constants';
 
 const _ = null;
 
@@ -107,5 +110,26 @@ describe('selectionRequired', () => {
     const errors = { addError: sinon.spy() };
     selectionRequired(errors, _, getData(false, true));
     expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('maxIssues', () => {
+  it('should not show an error when the array length is less than max', () => {
+    const errors = { addError: sinon.spy() };
+    maxIssues(errors, []);
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show not show an error when the array length is greater than max', () => {
+    const errors = { addError: sinon.spy() };
+    const validDate = getDate({ offset: { months: -2 } });
+    const template = {
+      issue: 'x',
+      decisionDate: validDate,
+      [SELECTED]: true,
+    };
+    maxIssues(errors, {
+      contestedIssues: new Array(MAX_LENGTH.SELECTIONS + 1).fill(template),
+    });
+    expect(errors.addError.called).to.be.true;
   });
 });

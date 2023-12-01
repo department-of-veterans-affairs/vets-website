@@ -76,9 +76,6 @@ export const selectFeatureStatusImprovementCanceled = state =>
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
-export const selectFeatureAppointmentList = state =>
-  toggleValues(state).vaOnlineSchedulingAppointmentList;
-
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
 

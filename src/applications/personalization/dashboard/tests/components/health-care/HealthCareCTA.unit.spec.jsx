@@ -9,7 +9,6 @@ describe('<HealthCareCTA />', () => {
   // delete instances of Toggler when new appts URL is launched
   const initialState = {
     featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
       [Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator]: true,
     },
   };

@@ -15,6 +15,7 @@ const PdfAlert = () => {
 
     const introTextNode = document.getElementsByClassName('va-introtext')[0];
     const introTextParentNode = introTextNode?.parentNode;
+
     if (introTextNode && introTextParentNode) {
       introTextParentNode.insertBefore(domNode, introTextNode);
       setPdfCertWarningElementCreated(true);

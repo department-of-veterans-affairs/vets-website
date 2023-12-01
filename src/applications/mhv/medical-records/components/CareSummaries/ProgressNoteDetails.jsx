@@ -13,6 +13,7 @@ import {
   updatePageTitle,
 } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -105,20 +106,7 @@ const ProgressNoteDetails = props => {
         {record.name}
       </h1>
 
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="progress-note-date"
-        >
-          Date:{' '}
-          <span
-            className="vads-u-font-weight--normal"
-            data-testid="header-time"
-          >
-            {record.dateSigned}
-          </span>
-        </h2>
-      </div>
+      <DateSubheading date={record.dateSigned} id="progress-note-date" />
 
       <div className="no-print">
         <PrintDownload

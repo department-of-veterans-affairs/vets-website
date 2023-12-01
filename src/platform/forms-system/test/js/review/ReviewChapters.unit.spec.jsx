@@ -54,72 +54,6 @@ describe('Schemaform review: ReviewChapters', () => {
     tree.unmount();
   });
 
-  it('should handle toggling', () => {
-    const formConfig = {
-      chapters: {
-        chapter1: {
-          pages: {
-            page1: {},
-          },
-        },
-        chapter2: {
-          pages: {
-            page2: {},
-          },
-        },
-      },
-    };
-
-    const pageList = [
-      {
-        path: 'previous-page',
-      },
-      {
-        path: 'next-page',
-      },
-    ];
-
-    const chapters = [
-      {
-        expandedPages: [],
-        formConfig: {},
-        name: 'chapter1',
-        open: false,
-        pageKeys: ['page1'],
-      },
-      {
-        expandedPages: [],
-        formConfig: {},
-        name: 'chapter2',
-        open: false,
-        pageKeys: ['page2'],
-      },
-    ];
-
-    const openReviewChapter = sinon.spy();
-    const closeReviewChapter = sinon.spy();
-
-    const tree = shallow(
-      <ReviewChapters
-        chapters={chapters}
-        closeReviewChapter={closeReviewChapter}
-        openReviewChapter={openReviewChapter}
-        pageList={pageList}
-        route={{ formConfig, pageList }}
-        viewedPages={['page1', 'page2']}
-        setViewedPages={f => f}
-      />,
-    );
-
-    const instance = tree.instance();
-
-    instance.handleToggleChapter({ name: 'chapter1', open: false });
-    expect(openReviewChapter.calledWith('chapter1')).to.be.true;
-    instance.handleToggleChapter({ name: 'chapter3', open: true, pageKeys: 0 });
-    expect(closeReviewChapter.calledWith('chapter3', 0)).to.be.true;
-    tree.unmount();
-  });
-
   it('should pass index to depends for pagePerItem pages', () => {
     const formData = {
       testArray: [{}],
@@ -134,7 +68,6 @@ describe('Schemaform review: ReviewChapters', () => {
           pages: {},
           submission: {},
           reviewPageView: {
-            openChapters: [],
             viewedPages: new Set(),
           },
           data: formData,

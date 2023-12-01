@@ -45,7 +45,7 @@ describe('Vaccines details container', () => {
 
   it('displays the vaccine name as an h1', () => {
     const vaccineName = screen.getByText(
-      'INFLUENZA, INJECTABLE, QUADRIVALENT',
+      'Vaccines: INFLUENZA, INJECTABLE, QUADRIVALENT',
       {
         exact: true,
         selector: 'h1',

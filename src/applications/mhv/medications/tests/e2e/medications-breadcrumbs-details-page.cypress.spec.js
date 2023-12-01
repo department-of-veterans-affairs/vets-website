@@ -15,16 +15,14 @@ describe('Medications Details Page Breadcrumbs', () => {
 
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    detailsPage.clickMedicationsBreadcrumbsOnDetailsPage();
+    detailsPage.clickMedicationsListPageBreadcrumbsOnDetailsPage();
+    listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
+    detailsPage.clickMedicationsLandingPageBreadcrumbsOnListPage();
     landingPage.verifyNavigationToLandingPageAfterClickingBreadcrumb();
-    // listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

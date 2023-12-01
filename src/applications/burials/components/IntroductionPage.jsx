@@ -10,11 +10,6 @@ class IntroductionPage extends React.Component {
     focusElement('.va-nav-breadcrumbs-list');
   }
 
-  goForward = () => {
-    const { route, router } = this.props;
-    router.push(route.pageList[1].path);
-  };
-
   render() {
     const { route } = this.props;
     return (

@@ -2,6 +2,7 @@ import React from 'react';
 
 import moment from 'moment';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   getScrollOptions,
@@ -9,6 +10,10 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+
+export function trackNoAuthStartLinkClick() {
+  recordEvent({ event: 'no-login-start-form' });
+}
 
 export function getInitialData({ mockData, environment }) {
   return !!mockData && environment.isLocalhost() && !window.Cypress

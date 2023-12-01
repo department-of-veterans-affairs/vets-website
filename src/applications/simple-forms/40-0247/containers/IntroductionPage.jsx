@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import PmcModalContent from 'platform/forms/components/OMBInfoModalContent/PmcModalContent';
-import recordEvent from 'platform/monitoring/record-event';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
+import { trackNoAuthStartLinkClick } from '../helpers';
 
 const content = {
   formTitle: 'Request a Presidential Memorial Certificate',
@@ -16,9 +16,7 @@ const content = {
 // replace <SaveInProgressIntro> with no-auth start-link below
 const additionalChildContent = (
   <Link
-    onClick={() => {
-      recordEvent({ event: 'no-login-start-form' });
-    }}
+    onClick={trackNoAuthStartLinkClick}
     to="/veteran-personal-information"
     className="no-auth-start-link vads-c-action-link--green"
   >

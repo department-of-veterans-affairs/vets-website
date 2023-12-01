@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { ShowIssuesList } from '../components/ShowIssuesList';
+import ShowIssuesList from '../../shared/components/ShowIssuesList';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = formData.areaOfDisagreement;

@@ -920,10 +920,9 @@ describe('Schemaform review: ObjectField', () => {
     expect(testField.value).to.equal('foo');
     expect(testLabel).to.exist;
 
-    const testEdit = within(document.querySelector('.test-edit'));
-    const editButton = testEdit.getByRole('button', { name: 'fooz' });
+    const editButton = document.querySelector('.test-edit va-button');
     expect(editButton).to.exist;
-    expect(editButton.textContent).to.equal('barz');
+    expect(editButton.getAttribute('text')).to.equal('barz');
 
     fireEvent.click(editButton);
     expect(onClick.called).to.be.true;
