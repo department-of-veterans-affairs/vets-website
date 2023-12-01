@@ -9,7 +9,7 @@ const { schema, uiSchema } = mailingAddress;
 
 describe('pension mailing address page', () => {
   const pageTitle = 'mailing address';
-  const expectedNumberOfFields = 6;
+  const expectedNumberOfFields = 7;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
