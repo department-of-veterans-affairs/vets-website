@@ -38,7 +38,9 @@ export const uiSchema = {
     'ui:title': (
       <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
         Your VA file number{' '}
-        <span className="schemaform-required-span">(*If known)</span>
+        <span>
+          (*You must enter either a VA file number or Social Security number)
+        </span>
       </p>
     ),
     'ui:options': {

@@ -1,10 +1,9 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-
 import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
-} from 'platform/testing/unit/helpers';
+} from '~/platform/testing/unit/helpers';
 
 import { onDownloadLinkClick } from '../../widgets/createFindVaFormsPDFDownloadHelper';
 
