@@ -20,7 +20,14 @@ import {
 import {
   generatePdfScaffold,
   updatePageTitle,
+  formatName,
 } from '../../../shared/util/helpers';
+import {
+  txtLine,
+  txtLineDotted,
+  crisisLineHeader,
+  reportGeneratedBy,
+} from '../../../shared/util/constants';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
@@ -133,24 +140,27 @@ const ChemHemDetails = props => {
 
   const generateChemHemTxt = async () => {
     const content = `\n
+${crisisLineHeader}\n\n
 ${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
 Date entered: ${record.date}\n
-Record Details:\n
-_____________________________________________________\n\n
-Type of test: ${record.reason} \n
-Sample tested: ${record.clinicalHistory} \n
+${txtLine}\n\n
+Type of test: ${record.type} \n
+Sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
 Order location: ${record.orderingLocation} \n
-Collecting location: ${record.imagingLocation} \n
+Collecting location: ${record.collectingLocation} \n
 Provider notes: ${processList(record.comments)} \n
-_____________________________________________________\n\n
+${txtLine}\n\n
 Results:
 ${record.results
       .map(
         entry => `
-_____________________________________________________\n
+${txtLine}\n
 ${entry.name}
------------------------------------------------------
+${txtLineDotted}
 Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
