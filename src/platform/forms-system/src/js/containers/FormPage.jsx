@@ -16,6 +16,7 @@ import set from '../../../../utilities/data/set';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
+
 import {
   getNextPagePath,
   getPreviousPagePath,
