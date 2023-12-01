@@ -3,6 +3,7 @@ import mockNonSMUser from '../fixtures/non_sm_user.json';
 import mockStatus from '../fixtures/profile-status.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockToggles from '../fixtures/toggles-response.json';
+import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 
 class SecureMessagingSite {
   login = (isSMUser = true) => {
@@ -16,6 +17,14 @@ class SecureMessagingSite {
       cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
         'featureToggle',
       );
+      cy.intercept('GET', '/v1/facilities/va?ids=vha_983', mockFacilities).as(
+        'facilities',
+      );
+      cy.intercept(
+        'GET',
+        '/v1/facilities/va?ids=[object%20Object]',
+        mockFacilities,
+      ).as('facilitiesSet');
     } else {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
