@@ -22,6 +22,11 @@ export default function TabNav({ id }) {
           tabpath={`your-claims/${id}/details`}
           title="Details"
         />
+        <TabItem
+          shortcut={4}
+          tabpath={`your-claims/${id}/overview`}
+          title="Overview"
+        />
       </ul>
     </nav>
   );
