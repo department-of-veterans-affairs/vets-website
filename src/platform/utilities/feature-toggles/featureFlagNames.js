@@ -123,7 +123,7 @@ export default Object.freeze({
   myVaUseLighthouseClaims: 'my_va_lighthouse_claims',
   myVaHideNotificationsSection: 'my_va_hide_notifications_section',
   myVaNotificationDotIndicator: 'my_va_notification_dot_indicator',
-  myVaRemoveCernerMessage: 'my_va_remove_cerner_message',
+  myVaEnableMhvLink: 'my_va_enable_mhv_link',
   myVaUpdateErrorsWarnings: 'my_va_update_errors_warnings',
   myVaShowHeaderLink: 'my_va_show_header_link',
   nodBrowserMonitoringEnabled: 'nod_browser_monitoring_enabled',
