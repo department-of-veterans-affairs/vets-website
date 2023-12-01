@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockMultiDraftsResponse from './fixtures/draftsResponse/multi-draft-response.json';
 
 describe('handle multiple drafts in one thread', () => {
@@ -23,6 +23,18 @@ describe('handle multiple drafts in one thread', () => {
         },
       },
     });
+
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE}/messages/${
+        mockMultiDraftsResponse.data[0].attributes.messageId
+      }/reply`,
+      { data: mockMultiDraftsResponse.data[0] },
+    ).as('sentDraftResponse');
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.wait('@sentDraftResponse');
+
+    draftPage.verifySendConfirmationMessage();
   });
 
   it.skip('verify drafts could be deleted', () => {
