@@ -1,9 +1,8 @@
 // import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
 import get from 'platform/utilities/data/get';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import {
-  // fullNameSchema,
-  // fullNameUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   ssnSchema,
@@ -12,8 +11,12 @@ import {
   vaFileNumberUI,
   addressSchema,
   addressUI,
-  // phoneSchema,
-  // phoneUI,
+  relationshipToVeteranSchema,
+  relationshipToVeteranUI,
+  phoneSchema,
+  phoneUI,
+  emailSchema,
+  emailUI,
   dateOfBirthSchema,
   dateOfBirthUI,
   dateOfDeathSchema,
@@ -22,12 +25,15 @@ import {
   currentOrPastDateUI,
   yesNoSchema,
   yesNoUI,
+  radioSchema,
+  radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
-// import ApplicantField from '../components/applicant/ApplicantField';
+import ApplicantField from '../components/applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from './submit-transformer';
 
 // const { } = fullSchema.properties;
 
@@ -37,6 +43,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  transformForSubmit,
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
@@ -221,28 +228,59 @@ const formConfig = {
         },
       },
     },
-    /*
-    chapter2: {
+    applicantInformation: {
       title: 'Applicant Information',
       pages: {
-        applicants: {
-          title: 'All Applicants',
-          path: 'applicants',
+        page8: {
+          path: 'applicant-information',
+          arrayPath: 'applicants',
           uiSchema: {
-            'ui:title': 'Applicants',
+            'ui:title': 'Applicant Information?',
             applicants: {
               'ui:options': {
-                itemName: 'Applicant',
                 viewField: ApplicantField,
                 keepInPageOnReview: true,
                 useDlWrap: false,
               },
               'ui:errorMessages': {
-                minItems: 'Must have at least one applicant.',
+                minItems: 'Must have at least one applicant listed.',
+              },
+              items: fullNameNoSuffixUI(),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantName: fullNameNoSuffixSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page9: {
+          path: 'applicant-information/:index/ssn-dob',
+          arrayPath: 'applicants',
+          title: 'Applicant SSN and Date of Birth', // This only shows up on the review page
+          showPagePerItem: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.',
               },
               items: {
-                applicantName: fullNameUI(),
-                applicantDoB: dateOfBirthUI(),
+                applicantSSN: ssnUI(),
+                applicantDOB: dateOfBirthUI(),
               },
             },
           },
@@ -254,10 +292,184 @@ const formConfig = {
                 minItems: 1,
                 items: {
                   type: 'object',
-                  required: ['applicantName'],
                   properties: {
-                    applicantName: fullNameSchema,
-                    applicantDoB: dateOfBirthSchema,
+                    applicantSSN: ssnSchema,
+                    applicantDOB: dateOfBirthSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page10: {
+          path: 'applicant-information/:index/address',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: 'Applicant Address',
+          uiSchema: {
+            'ui:title': 'Applicant Address',
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField, // TODO: do we need this for each page?
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.', // TODO: better msg
+              },
+              items: {
+                applicantAddress: addressUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantAddress: addressSchema(),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page11: {
+          path: 'applicant-information/:index/email-phone',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: 'Applicant Email and Phone',
+          uiSchema: {
+            'ui:title': 'Applicant Email and Phone',
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField, // TODO: do we need this for each page?
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.', // TODO: better msg
+              },
+              items: {
+                applicantEmailAddress: emailUI(),
+                applicantPhone: phoneUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantEmailAddress: emailSchema,
+                    applicantPhone: phoneSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page12: {
+          path: 'applicant-information/:index/gender',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: 'Applicant Gender',
+          uiSchema: {
+            'ui:title': 'Applicant Gender',
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField, // TODO: do we need this for each page?
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.', // TODO: better msg
+              },
+              items: {
+                applicantGender: radioUI({
+                  title: 'Gender',
+                  required: true,
+                  labels: {
+                    male: 'Male',
+                    female: 'Female',
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantGender: radioSchema(['male', 'female']),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page13: {
+          path: 'applicant-information/:index/additional-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: 'Applicant Health Insureance and Relationship',
+          uiSchema: {
+            'ui:title': 'Applicant Health Insureance and Relationship',
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField, // TODO: do we need this for each page?
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.', // TODO: better msg
+              },
+              items: {
+                applicantEnrolledInMedicare: radioUI({
+                  title: 'Enrolled in Medicare',
+                  required: true,
+                  labels: {
+                    yes: 'Yes',
+                    no: 'No',
+                  },
+                }),
+                applicantEnrolledInOHI: radioUI({
+                  title: 'Enrolled in Other Health Insurance',
+                  required: true,
+                  labels: {
+                    yes: 'Yes',
+                    no: 'No',
+                  },
+                }),
+                applicantRelationshipToSponsor: {
+                  'ui:title': 'Relationship to Sponsor (i.e., spouse, child)',
+                  'ui:webComponentField': VaTextInputField,
+                  'ui:required': () => true,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantEnrolledInMedicare: radioSchema(['yes', 'no']),
+                    applicantEnrolledInOHI: radioSchema(['yes', 'no']),
+                    applicantRelationshipToSponsor: { type: 'string' },
                   },
                 },
               },
@@ -266,7 +478,68 @@ const formConfig = {
         },
       },
     },
-    */
+    certification: {
+      title: 'Certification',
+      pages: {
+        page14: {
+          path: 'certification',
+          title: 'Certification',
+          uiSchema: {
+            signature: yesNoUI({ title: 'Do you accept?' }),
+            certifierName: {
+              ...fullNameNoSuffixUI(),
+              'ui:options': {
+                hideIf: formData => !get('signature', formData),
+              },
+              'ui:required': formData => formData.verifyCertifier,
+            },
+            dateOfCertification: currentOrPastDateUI(),
+            verifyCertifier: {
+              ...yesNoUI({
+                title: 'Are you signing on behalf of applicant(s)?',
+              }),
+              'ui:options': {
+                hideIf: formData => !get('signature', formData),
+              },
+              'ui:required': formData => formData.signature,
+            },
+            certifierRelationship: {
+              ...relationshipToVeteranUI('Applicant(s)'),
+              'ui:required': formData => formData.verifyCertifier,
+              'ui:options': {
+                hideIf: formData => !get('verifyCertifier', formData),
+              },
+            },
+            certifierPhone: {
+              ...phoneUI(),
+              'ui:options': {
+                hideIf: formData => !get('verifyCertifier', formData),
+              },
+              'ui:required': formData => formData.verifyCertifier,
+            },
+            certifierAddress: {
+              ...addressUI(),
+              'ui:options': {
+                hideIf: formData => !get('verifyCertifier', formData),
+              },
+              'ui:required': formData => formData.verifyCertifier,
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['signature', 'verifyCertifier'],
+            properties: {
+              signature: yesNoSchema,
+              certifierName: fullNameNoSuffixSchema,
+              verifyCertifier: yesNoSchema,
+              certifierRelationship: relationshipToVeteranSchema,
+              certifierAddress: addressSchema(),
+              certifierPhone: phoneSchema,
+            },
+          },
+        },
+      },
+    },
   },
 };
 
