@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { getRatedDisabilities } from '../actions';
-import CombinedRating from '../components/CombinedRating';
-import NeedHelp from '../components/NeedHelp';
-import Learn from '../components/Learn';
-import OnThisPage from '../components/OnThisPage';
-import RatingLists from '../components/RatingLists';
-import ServerError from '../components/ServerError';
+import CombinedRating from './CombinedRating';
+import NeedHelp from './NeedHelp';
+import Learn from './Learn';
+import OnThisPage from './OnThisPage';
+import RatingLists from './RatingLists';
+import MVIError from './MVIError';
+import ServerError from './ServerError';
 
 const loadingIndicator = (
   <va-loading-indicator message="Loading your rating information..." />
 );
 
-export default function AppContent() {
+export default function AppContent({ user }) {
   const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [isRequestDone, setIsRequestDone] = useState(false);
@@ -33,7 +35,11 @@ export default function AppContent() {
   const hasRatedDisabilities = individualRatings?.length > 0;
 
   let contentOrError;
-  if (!error) {
+  if (!user.profile.verified || user.profile.status !== 'OK') {
+    contentOrError = <MVIError />;
+  } else if (error) {
+    contentOrError = <ServerError />;
+  } else {
     contentOrError = (
       <>
         <div>{hasRatedDisabilities && <OnThisPage />}</div>
@@ -47,8 +53,6 @@ export default function AppContent() {
         <RatingLists ratings={individualRatings ?? []} />
       </>
     );
-  } else {
-    contentOrError = <ServerError />;
   }
 
   return (
@@ -64,3 +68,7 @@ export default function AppContent() {
     </div>
   );
 }
+
+AppContent.propTypes = {
+  user: PropTypes.object,
+};

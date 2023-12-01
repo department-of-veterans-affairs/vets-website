@@ -9,7 +9,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
-import AppContent from './AppContent';
+import AppContent from '../components/AppContent';
 import FeatureFlagsLoaded from '../components/FeatureFlagsLoaded';
 import RatedDisabilityView from '../components/RatedDisabilityView';
 import {
@@ -40,7 +40,7 @@ const App = props => {
       >
         <FeatureFlagsLoaded featureFlagsLoading={featureFlagsLoading}>
           {props.useLighthouse ? (
-            <AppContent />
+            <AppContent user={props.user} />
           ) : (
             <RatedDisabilityView
               detectDiscrepancies={props.detectDiscrepancies}
