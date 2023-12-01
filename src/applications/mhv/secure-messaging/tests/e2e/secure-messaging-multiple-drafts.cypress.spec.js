@@ -3,6 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockMultiDraftsResponse from './fixtures/draftsResponse/multi-draft-response.json';
+import { Alerts } from '../../util/constants';
 
 describe('handle multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
@@ -34,10 +35,10 @@ describe('handle multiple drafts in one thread', () => {
     cy.get(Locators.BUTTONS.SEND).click({ force: true });
     cy.wait('@sentDraftResponse');
 
-    draftPage.verifySendConfirmationMessage();
+    draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
   });
 
-  it.skip('verify drafts could be deleted', () => {
+  it('verify drafts could be deleted', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -58,6 +59,6 @@ describe('handle multiple drafts in one thread', () => {
     cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
     cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
 
-    draftPage.verifyDeleteConfirmationMessage();
+    draftPage.verifyConfirmationMessage(Alerts.Message.DELETE_DRAFT_SUCCESS);
   });
 });

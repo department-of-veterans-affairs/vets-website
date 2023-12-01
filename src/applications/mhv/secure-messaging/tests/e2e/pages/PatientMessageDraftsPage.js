@@ -201,10 +201,18 @@ class PatientMessageDraftsPage {
     }
   };
 
+  // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
     cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
       'have.text',
-      `${Alerts.Message.DELETE_DRAFT_SUCCESS}`,
+      Alerts.Message.DELETE_DRAFT_SUCCESS,
+    );
+  };
+
+  verifyConfirmationMessage = message => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
+      'have.text',
+      message,
     );
   };
 
@@ -251,13 +259,6 @@ class PatientMessageDraftsPage {
       .get('[data-testid="message-body-field"]')
       .shadow()
       .find('[name="compose-message-body"]');
-  };
-
-  verifySendConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
-      'have.text',
-      Alerts.Message.SEND_MESSAGE_SUCCESS,
-    );
   };
 
   openAdvancedSearch = () => {
