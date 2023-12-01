@@ -354,6 +354,12 @@
   }
 }
 
+.form-review-panel-page-header-row {
+  va-button {
+    display: none;
+  }
+}
+
 @include hide-button("button.edit-page");
 @include hide-button(".edit-btn.primary-outline");
 
