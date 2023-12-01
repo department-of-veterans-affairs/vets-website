@@ -12,7 +12,7 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your name and date of birth'),
+    ...titleUI('Your name'),
     fullName: fullNameUI(),
     'view:birthTitle': inlineTitleUI('Your date and place of birth'),
     dateOfBirth: dateOfBirthUI(),

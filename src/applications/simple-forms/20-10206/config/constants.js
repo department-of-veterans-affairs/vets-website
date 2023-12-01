@@ -5,11 +5,11 @@ export const PREPARER_TYPES = Object.freeze({
 });
 export const PREPARER_TYPE_LABELS = Object.freeze({
   [PREPARER_TYPES.CITIZEN]:
-    'I’m a US citizen requesting my own personal VA records',
+    'I’m a U.S. citizen requesting my own personal VA records',
   [PREPARER_TYPES.NON_CITIZEN]:
-    'I’m a non-US citizen requesting my own personal VA records',
+    'I’m a non-U.S. citizen requesting my own personal VA records',
   [PREPARER_TYPES.THIRD_PARTY]:
-    'I’m a third-party or power of attorney requesting personal VA records on behalf of someone else',
+    'I’m a third-party or power of attorney requesting personal VA records for someone else',
 });
 
 export const RECORD_TYPES = Object.freeze({
@@ -36,12 +36,12 @@ export const RECORD_TYPE_LABELS = Object.freeze({
   [RECORD_TYPES.OMPF]: 'Official military personnel file (OMPF)',
   [RECORD_TYPES.PENSION]: 'Pension benefit documents',
   [RECORD_TYPES.TREATMENT]: 'Service or military treatment',
-  [RECORD_TYPES.OTHER_COMP_PEN]: 'Other compensation and pension record',
+  [RECORD_TYPES.OTHER_COMP_PEN]: 'Other compensation and/or pension record',
   [RECORD_TYPES.EDUCATION]: 'Education benefit',
   [RECORD_TYPES.FIDUCIARY]: 'Fiduciary services',
   [RECORD_TYPES.FINANCIAL]: 'Financial records',
   [RECORD_TYPES.HOME_LOAN]: 'Home loan benefit',
   [RECORD_TYPES.LIFE_INS]: 'Life insurance benefit',
   [RECORD_TYPES.VRE]: 'Vocational rehabilitation and employment',
-  [RECORD_TYPES.OTHER]: 'Other',
+  [RECORD_TYPES.OTHER]: 'Other benefit records',
 });
