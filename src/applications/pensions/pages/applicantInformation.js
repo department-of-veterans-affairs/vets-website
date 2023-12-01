@@ -3,8 +3,12 @@ import {
   dateOfBirthSchema,
   fullNameUI,
   fullNameSchema,
-  ssnOrVaFileNumberUI,
-  ssnOrVaFileNumberSchema,
+  ssnUI,
+  ssnSchema,
+  vaFileNumberUI,
+  vaFileNumberSchema,
+  yesNoUI,
+  yesNoSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import applicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
@@ -17,19 +21,36 @@ export default {
       'ui:description': UnauthenticatedWarningAlert,
     },
     veteranFullName: fullNameUI(),
-    veteranId: ssnOrVaFileNumberUI(),
+    veteranSocialSecurityNumber: ssnUI(),
+    vaClaimsHistory: yesNoUI({
+      title: 'Have you ever filed a claim with VA?',
+      uswds: true,
+      classNames: 'vads-u-margin-bottom--2',
+    }),
+    vaFileNumber: {
+      ...vaFileNumberUI(),
+      'ui:options': {
+        hint: 'Enter your VA file number if it doesn’t match your SSN',
+      },
+    },
     veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
-    required: ['veteranFullName', 'veteranDateOfBirth'],
+    required: [
+      'veteranFullName',
+      'veteranSocialSecurityNumber',
+      'veteranDateOfBirth',
+    ],
     properties: {
       'view:warningAlert': {
         type: 'object',
         properties: {},
       },
       veteranFullName: fullNameSchema,
-      veteranId: ssnOrVaFileNumberSchema,
+      veteranSocialSecurityNumber: ssnSchema,
+      vaClaimsHistory: yesNoSchema,
+      vaFileNumber: vaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

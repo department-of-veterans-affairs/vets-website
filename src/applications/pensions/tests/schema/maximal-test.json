@@ -6,9 +6,9 @@
       "last": "Doe",
       "suffix": "Sr."
     },
-    "veteranId": { "ssn": "123123123", "vaFileNumber": "12345678" },
+    "veteranSocialSecurityNumber": "123123123",
+    "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
-    "vaClaimsHistory": false,
     "veteranDateOfBirth": "1960-01-01",
     "servicePeriods": [
       {
