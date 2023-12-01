@@ -32,7 +32,6 @@ const responses = {
     myVaNotificationDotIndicator: true,
     myVaRemoveCernerMessage: true,
     myVaUpdateErrorsWarnings: true,
-    vaOnlineSchedulingBreadcrumbUrlUpdate: true,
     vaOnlineSchedulingStaticLandingPage: true,
   }),
   'GET /v0/user': user.simpleUser,
