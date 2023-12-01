@@ -54,7 +54,7 @@ const ResultsList = props => {
           className="representative-results-list"
           style={{ marginBottom: 25 }}
         >
-          {searchResults.data?.map((result, index) => {
+          {searchResults?.map((result, index) => {
             return (
               <>
                 <hr />
@@ -92,7 +92,7 @@ const ResultsList = props => {
 
   return (
     <>
-      {searchResults?.data?.length && (
+      {searchResults?.length ? (
         <>
           <label htmlFor="sort-by-dropdown">Sort by</label>
           <select
@@ -109,7 +109,7 @@ const ResultsList = props => {
           </select>
           <div>{renderResultItems(query)}</div>
         </>
-      )}
+      ) : null}
     </>
   );
 };

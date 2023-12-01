@@ -30,7 +30,7 @@ export const SearchResultsHeader = props => {
       return 'Showing 1 result';
     }
     if (totalEntries < 11 && totalEntries > 1) {
-      return `Showing 1 - ${totalEntries} results`;
+      return `Showing ${totalEntries} results`;
     }
     if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
