@@ -101,7 +101,7 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render "Showing 1 - _ results" if totalEntries is between 1 and 11', () => {
+  it('should render "Showing _ results" if totalEntries is between 1 and 11', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         searchResults={testDataResponse.data}
@@ -115,7 +115,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 1 - 5 results for Attornies within 50 miles of "new york"';
+      'Showing 5 results for Attornies within 50 miles of "new york"';
     const actualString = wrapper.find('h2').text();
 
     // Remove whitespaces and special characters
