@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { APP_NAMES } from '../utils/appConstants';
 
 const ActionLink = props => {
-  const { action, app, cardTitleId, startTime } = props;
+  const { action, appointmentId, app, cardTitleId, startTime } = props;
   const { t } = useTranslation();
 
   const linkText =
@@ -27,7 +27,7 @@ const ActionLink = props => {
         data-testid="action-link"
         className="vads-c-action-link--green"
         href="/"
-        onClick={e => action(e)}
+        onClick={e => action(e, appointmentId)}
         {...attrs}
       >
         {linkText}
@@ -39,6 +39,7 @@ const ActionLink = props => {
 ActionLink.propTypes = {
   action: PropTypes.func.isRequired,
   app: PropTypes.string.isRequired,
+  appointmentId: PropTypes.string.isRequired,
   cardTitleId: PropTypes.string.isRequired,
   startTime: PropTypes.string,
 };

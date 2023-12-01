@@ -9,7 +9,7 @@ import Wrapper from '../../components/layout/Wrapper';
 
 import { makeSelectSeeStaffMessage } from '../../selectors';
 import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
-import useSendDemographicsFlags from '../../hooks/useSendDemographicsFlags';
+import { useSendDemographicsFlags } from '../../hooks/useSendDemographicsFlags';
 
 const SeeStaff = props => {
   const { router } = props;
