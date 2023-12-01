@@ -27,7 +27,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     PatientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient(requestBodyUpdated.recipientId);
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    composePage.selectRecipient(requestBodyUpdated.recipientId);
     composePage
       .getCategory(requestBodyUpdated.category)
       .first()

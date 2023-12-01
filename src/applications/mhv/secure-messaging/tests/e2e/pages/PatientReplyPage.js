@@ -62,6 +62,10 @@ class PatientReplyPage {
       });
   };
 
+  saveDraftButton = () => {
+    return cy.get('[data-testid="Save-Draft-Button"]');
+  };
+
   sendReplyDraft = (
     messageId,
     testRecipientId,
@@ -99,6 +103,12 @@ class PatientReplyPage {
         expect(message.subject).to.eq(testSubject);
         expect(message.body).to.eq(`${testBody}`);
       });
+  };
+
+  verifyExpectedPageOpened = menuOption => {
+    cy.get('[data-testid*=folder-header]')
+      .contains(menuOption)
+      .should('be.visible');
   };
 
   getMessageBodyField = () => {
