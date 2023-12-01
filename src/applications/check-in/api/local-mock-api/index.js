@@ -103,7 +103,7 @@ const responses = {
     if (!uuid) {
       return res.status(400).json(sharedData.patch.createMockFailedResponse());
     }
-    return res.json(checkInData.post.createMockSuccessResponse({}));
+    return res.json(checkInData.patch.createMockSuccessResponse({}));
   },
   'POST /check_in/v0/travel_claims/': (req, res) => {
     const { uuid, appointmentDate } = req.body?.travelClaims || {};
