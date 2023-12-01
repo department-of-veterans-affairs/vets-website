@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
+
 import {
   mockFetch,
   setFetchJSONFailure,
@@ -8,6 +10,7 @@ import {
 } from '~/platform/testing/unit/helpers';
 
 import * as paymentInformationActions from '../../actions/paymentInformation';
+import { formatDirectDepositResponse } from '../../util/direct-deposit';
 
 let oldGA;
 
@@ -51,32 +54,22 @@ describe('actions/paymentInformation', () => {
           captureCNPError: captureErrorSpy,
         });
         dispatch = sinon.spy();
-        setFetchJSONResponse(global.fetch.onFirstCall(), {
-          data: {
-            attributes: {
-              responses: [
-                {
-                  paymentAccount: {
-                    accountType: 'Savings',
-                    financialInstitutionName: 'TD BANK NA',
-                    accountNumber: '************4569',
-                    financialInstitutionRoutingNumber: '*****3093',
-                  },
-                },
-              ],
-            },
-          },
-        });
+        setFetchJSONResponse(
+          global.fetch.onFirstCall(),
+          mockDisabilityCompensation.base,
+        );
       });
 
       afterEach(teardown);
 
-      it('calls fetch to `GET ppiu/payment_information`', async () => {
+      it('calls fetch to `GET /v0/profile/direct_deposits/disability_compensations`', async () => {
         await actionCreator(dispatch);
 
         expect(global.fetch.firstCall.args[1].method).to.equal('GET');
         expect(
-          global.fetch.firstCall.args[0].endsWith('/ppiu/payment_information'),
+          global.fetch.firstCall.args[0].endsWith(
+            '/direct_deposits/disability_compensations',
+          ),
         ).to.be.true;
       });
 
@@ -89,74 +82,35 @@ describe('actions/paymentInformation', () => {
       });
 
       describe('if the call succeeds and the user is not eligible direct deposit', () => {
-        const paymentInfo = {
-          controlInformation: {
-            canUpdateAddress: true,
-            corpAvailIndicator: true,
-            corpRecFoundIndicator: true,
-            hasNoBdnPaymentsIndicator: true,
-            identityIndicator: true,
-            isCompetentIndicator: true,
-            indexIndicator: true,
-            noFiduciaryAssignedIndicator: true,
-            notDeceasedIndicator: true,
-          },
-          paymentAccount: {
-            accountType: null,
-            financialInstitutionName: null,
-            accountNumber: null,
-            financialInstitutionRoutingNumber: null,
-          },
-          paymentAddress: {
-            type: null,
-            addressEffectiveDate: null,
-            addressOne: null,
-            addressTwo: null,
-            addressThree: null,
-            city: null,
-            stateCode: null,
-            zipCode: null,
-            zipSuffix: null,
-            countryName: null,
-            militaryPostOfficeTypeCode: null,
-            militaryStateCode: null,
-          },
-          paymentType: 'CNP',
-        };
-
         beforeEach(async () => {
-          setFetchJSONResponse(global.fetch.onFirstCall(), {
-            data: {
-              attributes: {
-                responses: [paymentInfo],
-              },
-            },
-          });
+          setFetchJSONResponse(
+            global.fetch.onFirstCall(),
+            mockDisabilityCompensation.isNotEligible,
+          );
           await actionCreator(dispatch);
         });
 
-        it('dispatches CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
+        it('dispatches CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the formatted data it got from the endpoint', () => {
           expect(dispatch.secondCall.args[0].type).to.be.equal(
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
           expect(dispatch.secondCall.args[0].response).to.deep.equal(
-            paymentInfo,
+            formatDirectDepositResponse(
+              mockDisabilityCompensation.isNotEligible.data.attributes,
+            ),
           );
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-get-cnp-direct-deposit-started',
+          expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+          expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+            'started',
           );
-          expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-get-cnp-direct-deposit-retrieved',
+
+          expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+          expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+            'successful',
           );
-          expect(
-            recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
-          ).to.be.false;
-          expect(
-            recordEventSpy.secondCall.args[0]['direct-deposit-setup-complete'],
-          ).to.be.false;
         });
       });
 

@@ -79,6 +79,7 @@ export function fetchCNPPaymentInformation({
       recordCNPEvent(
         {
           status: API_STATUS.SUCCESSFUL,
+          method: 'GET',
           extraProperties: {
             // The API might report an empty payment address for some folks who are
             // already enrolled in direct deposit. But we want to make sure we

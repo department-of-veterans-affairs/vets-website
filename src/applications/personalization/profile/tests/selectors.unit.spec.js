@@ -138,9 +138,10 @@ describe('profile selectors', () => {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              isCompetentIndicator: true,
-              noFiduciaryAssignedIndicator: true,
-              notDeceasedIndicator: true,
+              canUpdateDirectDeposit: true,
+              isCompetent: true,
+              hasNoFiduciaryAssigned: true,
+              isNotDeceased: true,
             },
           },
         },
@@ -155,36 +156,36 @@ describe('profile selectors', () => {
       };
       expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.false;
     });
-    it('returns `true` if the `isCompetentIndicator` is not true', () => {
+    it('returns `true` if the `isCompetent` is not true', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              isCompetentIndicator: false,
+              isCompetent: false,
             },
           },
         },
       };
       expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.true;
     });
-    it('returns `true` if the `noFiduciaryAssignedIndicator` is not true', () => {
+    it('returns `true` if the `hasNoFiduciaryAssigned` is not true', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              noFiduciaryAssignedIndicator: false,
+              hasNoFiduciaryAssigned: false,
             },
           },
         },
       };
       expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.true;
     });
-    it('returns `true` if the `notDeceasedIndicator` is not true', () => {
+    it('returns `true` if the `isNotDeceased` is not true', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              notDeceasedIndicator: false,
+              isNotDeceased: false,
             },
           },
         },
