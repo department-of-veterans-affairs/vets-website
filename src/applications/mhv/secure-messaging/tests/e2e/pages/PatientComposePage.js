@@ -16,9 +16,10 @@ class PatientComposePage {
       '/my_health/v1/messaging/messages',
       mockDraftMessage,
     ).as('message');
+    // cy.get('[data-testid="message-body-field"]').click();
     cy.get('[data-testid="Send-Button"]')
       .contains('Send')
-      .click({ force: true });
+      .click();
     cy.wait('@message')
       .its('request.body')
       .then(request => {

@@ -27,6 +27,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     PatientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient(requestBodyUpdated.recipientId);
+    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage
       .getCategory(requestBodyUpdated.category)
       .first()
@@ -36,7 +37,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       .getMessageBodyField()
       .type(`${requestBodyUpdated.body}`, { force: true });
     composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
-    // composePage.sendMessage(requestBodyUpdated);
+    composePage.sendMessage(requestBodyUpdated);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
