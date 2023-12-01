@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function NoRatings() {
   return (
-      <va-alert>
+      <va-alert uswds>
         <h3 slot="headline">
-          We don’t have rated disabilities on file for you
+          We don’t have any rated disabilities on file for you
         </h3>
         <div>
           <p>

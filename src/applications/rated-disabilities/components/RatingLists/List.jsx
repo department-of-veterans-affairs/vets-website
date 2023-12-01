@@ -7,7 +7,7 @@ export default function List({ ratings }) {
   return (
     <div className="rating-list">
       {ratings.map((rating, index) => (
-        <ListItem ratedDisability={rating} key={index} />
+        <ListItem rating={rating} key={index} />
       ))}
     </div>
   );

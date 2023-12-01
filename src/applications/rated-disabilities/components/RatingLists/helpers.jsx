@@ -1,3 +1,16 @@
+import { buildDateFormatter } from '../../util';
+
+export const formatDate = buildDateFormatter('MMMM dd, yyyy');
+
+export const getHeadingText = (diagnosticText, ratingPercentage) => {
+  const headingParts = [diagnosticText];
+  if (ratingPercentage !== null && typeof ratingPercentage !== 'undefined') {
+    headingParts.unshift(`${ratingPercentage}% rating for`);
+  }
+
+  return headingParts.join(' ');
+};
+
 const isServiceConnected = item => item.decision === 'Service Connected';
 
 export const sortRatings = ratings => {

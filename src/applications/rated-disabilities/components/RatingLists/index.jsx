@@ -1,3 +1,7 @@
-import RatingList from './RatingLists';
+import RatingLists from './RatingLists';
+import List from './List';
+import ListItem from './ListItem';
 
-export default RatingList;
+export { List, ListItem };
+
+export default RatingLists;

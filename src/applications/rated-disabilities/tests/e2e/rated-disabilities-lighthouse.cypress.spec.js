@@ -1,5 +1,7 @@
 import featureToggleEnabled from './fixtures/feature-toggle-enabled.json';
 import serviceConnectedOnly from './fixtures/service-connected-only.json';
+import noCombinedRating from './fixtures/no-combined-rating.json';
+import noRatings from './fixtures/no-ratings.json';
 import nonServiceConnectedOnly from './fixtures/non-service-connected-only.json';
 
 const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
@@ -41,6 +43,38 @@ describe('View rated disabilities', () => {
     );
 
     cy.login();
+  });
+
+  context('when there is no combined rating', () => {
+    beforeEach(() => {
+      cy.intercept('v0/rated_disabilities', noCombinedRating);
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display an alert indicating that there is no combined rating', () => {
+      cy.findByText(
+        'We don’t have a combined disability rating on file for you',
+      ).should('exist');
+      cy.get('va-featured-content').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  context('when there are no ratings', () => {
+    beforeEach(() => {
+      cy.intercept('v0/rated_disabilities', noRatings);
+      cy.visit(RATED_DISABILITIES_PATH);
+    });
+
+    it('should display an alert indicating that there are no ratings', () => {
+      cy.findByText(
+        'We don’t have any rated disabilities on file for you',
+      ).should('exist');
+      cy.get('.rating-list').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
   context('when there are only service-connected ratings', () => {
