@@ -1,10 +1,11 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
+import { makeSelectForm } from '../../../selectors';
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
@@ -34,9 +35,15 @@ const TravelPage = ({
     goToPreviousPage,
     jumpToPage,
     getPreviousPageFromRouter,
+    // getNextPageFromRouter,
   } = useFormRouting(router);
+
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+
   const onClick = event => {
     const answer = event.target.value;
+    // const nextPage = getNextPageFromRouter();
     recordEvent({
       event: createAnalyticsSlug(`${answer}-to-${pageType}-clicked`, 'nav'),
     });
@@ -47,6 +54,12 @@ const TravelPage = ({
       jumpToPage(URLS.DETAILS);
     } else if (yesFunction) {
       yesFunction();
+      // =======
+      //     if (answer === 'no') {
+      //       jumpToPage(`complete/${data.activeAppointmentId}`);
+      //     } else if (answer === 'yes' && nextPage === 'complete') {
+      //       jumpToPage(`complete/${data.activeAppointmentId}`);
+      // >>>>>>> cf620ce629 (Check in/68865/remove appointment details list view (#26849))
     } else {
       goToNextPage();
     }
@@ -54,7 +67,7 @@ const TravelPage = ({
   const { getCheckinComplete } = useStorage(false);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
-      jumpToPage(URLS.DETAILS);
+      jumpToPage(`complete/${data.activeAppointmentId}`);
     }
   });
   return (

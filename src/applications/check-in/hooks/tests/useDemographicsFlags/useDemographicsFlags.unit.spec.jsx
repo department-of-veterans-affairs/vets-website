@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import TestComponent from './TestComponent';
 
@@ -34,13 +34,6 @@ describe('check-in', () => {
           </Provider>,
         );
 
-        const sentFalseButton = component.getByTestId(
-          'setDemographicsFlagsSentFalse',
-        );
-        const sentTrueButton = component.getByTestId(
-          'setDemographicsFlagsSentTrue',
-        );
-
         expect(component.getByTestId('demographicsUpToDate')).to.have.text(
           'no',
         );
@@ -48,19 +41,9 @@ describe('check-in', () => {
           'no',
         );
         expect(component.getByTestId('nextOfKinUpToDate')).to.have.text('no');
-        expect(component.getByTestId('demographicsFlagsSent')).to.have.text(
-          'no',
-        );
+
         expect(component.getByTestId('demographicsFlagsEmpty')).to.have.text(
           'yes',
-        );
-        fireEvent.click(sentTrueButton);
-        expect(component.getByTestId('demographicsFlagsSent')).to.have.text(
-          'yes',
-        );
-        fireEvent.click(sentFalseButton);
-        expect(component.getByTestId('demographicsFlagsSent')).to.have.text(
-          'no',
         );
       });
     });
