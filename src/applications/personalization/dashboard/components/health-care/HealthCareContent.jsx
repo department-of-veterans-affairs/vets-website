@@ -68,8 +68,8 @@ const HealthCareContent = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // noCerner will be true if toggle is on
-  const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
+  // viewMhvLink will be true if toggle is on
+  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
 
   const shouldShowOnOneColumn =
     !isVAPatient || !hasUpcomingAppointment || isLOA1;
@@ -133,7 +133,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (isCernerPatient && facilityNames?.length > 0 && !noCerner) {
+  if (isCernerPatient && facilityNames?.length > 0) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -160,7 +160,7 @@ const HealthCareContent = ({
           !isCernerPatient && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
-            noCerner={noCerner}
+            viewMhvLink={viewMhvLink}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
@@ -174,7 +174,7 @@ const HealthCareContent = ({
       {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
-            noCerner={noCerner}
+            viewMhvLink={viewMhvLink}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
