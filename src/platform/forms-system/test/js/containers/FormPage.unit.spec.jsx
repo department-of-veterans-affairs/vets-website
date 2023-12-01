@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-
 import set from '../../../../utilities/data/set';
 
 import { FormPage } from '../../../src/js/containers/FormPage';
