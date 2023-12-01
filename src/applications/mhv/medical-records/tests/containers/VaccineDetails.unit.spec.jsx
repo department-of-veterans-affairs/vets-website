@@ -45,7 +45,7 @@ describe('Vaccines details container', () => {
 
   it('displays the vaccine name as an h1', () => {
     const vaccineName = screen.getByText(
-      'INFLUENZA, INJECTABLE, QUADRIVALENT',
+      'Vaccines: INFLUENZA, INJECTABLE, QUADRIVALENT',
       {
         exact: true,
         selector: 'h1',
@@ -63,11 +63,12 @@ describe('Vaccines details container', () => {
   });
 
   it('displays the location', () => {
-    const location = screen.getByText(EMPTY_FIELD, {
-      exact: true,
-      selector: 'p',
-    });
-    expect(location).to.exist;
+    expect(
+      screen.getByText('ADTP BURNETT', {
+        exact: true,
+        selector: 'p',
+      }),
+    ).to.exist;
   });
 
   it('should download a pdf', () => {

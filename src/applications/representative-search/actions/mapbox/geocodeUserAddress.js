@@ -55,7 +55,10 @@ export const geocodeUserAddress = query => {
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
-            context: features[0].place_name,
+            context: {
+              location: query.locationInputString,
+              repOrgName: query.repOrganizationInputString,
+            },
             id: Date.now(),
             inProgress: true,
             position: {
@@ -68,6 +71,10 @@ export const geocodeUserAddress = query => {
               placeType: features[0].place_type[0],
             },
             searchArea: null,
+            address: query.locationInputString,
+            locationQueryString: query.locationInputString,
+            repOrganizationQueryString: query.repOrganizationInputString,
+            representativeType: query.representativeType,
           },
         });
       })
