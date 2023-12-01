@@ -1,12 +1,12 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import ImmunizationsListPage from './pages/ImmunizationsListPage';
+import VaccinesListPage from './pages/VaccinesListPage';
 
-describe('Medical Records View Immunizations', () => {
-  it('Visits Medical Records View Immunization List', () => {
+describe('Medical Records View Vaccines', () => {
+  it('Visits Medical Records View Vaccine List', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records/');
-    ImmunizationsListPage.clickGotoImmunizationsLink();
+    VaccinesListPage.clickGotoVaccinesLink();
     // click on the vaccines link
 
     // Axe check
