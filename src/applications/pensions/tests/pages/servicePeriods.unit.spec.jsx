@@ -166,7 +166,7 @@ describe('pension service periods page', () => {
       '#root_servicePeriods_0_activeServiceDateRange_toYear',
     );
     const serviceNumber = queryByRole('textbox', {
-      name: /Service number/i,
+      name: /Military service number/i,
     });
 
     fireEvent.click(submitBtn);

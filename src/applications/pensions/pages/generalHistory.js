@@ -13,6 +13,7 @@ const { placeOfSeparation, previousNames } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:title': 'Other service names',
     'view:serveUnderOtherNames': yesNoUI({
       title: 'Did you serve under another name?',
       uswds: true,
@@ -29,7 +30,7 @@ export default {
     },
     placeOfSeparation: {
       'ui:title':
-        'Place of last or anticipated separation (city and state or foreign country)',
+        'Place of your last separation (City, state or foreign country)',
       'ui:webComponentField': VaTextInputField,
     },
   },
