@@ -24,7 +24,7 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
-describe('VAOS direct schedule flow - dead ends', () => {
+describe('VAOS direct schedule flow - Single facility dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 

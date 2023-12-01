@@ -1,9 +1,9 @@
-// import defaultPathology from '../fixtures/Pathology.json';
+// import defaultPathology from './fixtures/Pathology.json';
 
 class PathologyListPage {
   /*
   clickGotoPathologyLink = (
-   /* Pathology = defaultPathology,
+   Pathology = defaultPathology,
     waitForPathology = false,
   ) => {
     cy.intercept(
@@ -15,16 +15,17 @@ class PathologyListPage {
     if (waitForPathology) {
       cy.wait('@PathologyList');
     }
-  });
-}
-*/
+  };
 
-  clickPathologyDetailsLink = (_PathologyIndex = 0) => {
+
+  clickPathologyDetailsLink = (_PathologyIndex = 9) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_PathologyIndex)
       .click();
+ 
   };
+*/
 }
 
 export default new PathologyListPage();
