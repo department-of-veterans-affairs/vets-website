@@ -1,19 +1,6 @@
 export default class PageObject {
   rootUrl = '/my-health/appointments';
 
-  assertLink({ name, exist = true } = {}) {
-    cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
-    return this;
-  }
-
-  assertNexButton({ enabled = true, label = 'Continue' } = {}) {
-    cy.contains('button', label)
-      .as('button')
-      .should(enabled ? 'be.enabled' : 'be.disabled');
-
-    return this;
-  }
-
   assertAlert({ text, exist, status }) {
     cy.get(`va-alert[status=${status}]`)
       .as('alert')
@@ -22,6 +9,23 @@ export default class PageObject {
       .contains(text)
       .should(exist ? 'exist' : 'not.exist');
 
+    return this;
+  }
+
+  assertErrorAlert({ text, exist = true }) {
+    return this.assertAlert({ text, exist, status: 'error' });
+  }
+
+  assertHeading({ name, level = 1, exist = true } = {}) {
+    cy.findByRole('heading', { level, name }).should(
+      exist ? 'exist' : 'not.exist',
+    );
+
+    return this;
+  }
+
+  assertLink({ name, exist = true } = {}) {
+    cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
     return this;
   }
 
@@ -36,8 +40,17 @@ export default class PageObject {
     return this;
   }
 
-  assertErrorAlert({ text, exist = true }) {
-    return this.assertAlert({ text, exist, status: 'error' });
+  assertNexButton({ isEnabled = true, label = 'Continue' } = {}) {
+    cy.contains('button', label)
+      .as('button')
+      .should(isEnabled ? 'be.enabled' : 'be.disabled');
+
+    return this;
+  }
+
+  assertText({ text, exist = true } = {}) {
+    cy.findByText(text).should(exist ? 'exist' : 'not.exist');
+    return this;
   }
 
   assertWarningAlert({ text, exist = true }) {

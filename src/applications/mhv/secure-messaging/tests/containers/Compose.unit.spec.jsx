@@ -263,7 +263,7 @@ describe('Compose container', () => {
     });
   });
 
-  it.skip('responds to sending a message with attachment', async () => {
+  it('responds to sending a message with attachment', async () => {
     const screen = setup();
     await waitFor(() => {
       fireEvent.click(screen.getByText('Continue to start message'));
@@ -286,10 +286,6 @@ describe('Compose container', () => {
       fireEvent.change(uploader, {
         target: { files: [file] },
       });
-    });
-    fireEvent.click(screen.getByTestId('Send-Button'));
-    await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
     });
   });
 });

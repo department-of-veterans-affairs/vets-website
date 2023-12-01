@@ -107,7 +107,7 @@ export default function ConfirmationPage() {
               Once you’re signed in, you can go to your homepage by clicking on
               the My VA link near the top right of any VA.gov page. You’ll find
               your application status information in the Your Applications
-              section of you homepage.
+              section of your homepage.
             </p>
             <p>
               Please note: Your application status may take some time to appear

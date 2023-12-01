@@ -22,6 +22,7 @@ import {
   updatePageTitle,
 } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -170,20 +171,8 @@ Interpretation: ${entry.interpretation}\n`,
       <h1 className="vads-u-margin-bottom--1" aria-describedby="chem-hem-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <p
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="chem-hem-date"
-        >
-          Date:{' '}
-          <span
-            className="vads-u-font-weight--normal"
-            data-testid="header-time"
-          >
-            {record.date}
-          </span>
-        </p>
-      </div>
+      <DateSubheading date={record.date} id="chem-hem-date" />
+
       <div className="no-print">
         <PrintDownload
           download={generateChemHemPdf}

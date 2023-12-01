@@ -28,12 +28,12 @@ describe('buildAddressArray', () => {
   it('Should build address array', () => {
     const addressData = {
       attributes: {
-        address_line_1: '123 Address',
-        address_line_2: 'Suite 4',
-        address_line_3: '',
+        addressLine1: '123 Address',
+        addressLine2: 'Suite 4',
+        addressLine3: '',
         city: 'New York',
-        state_code: 'NY',
-        zip_code: '11111',
+        stateCode: 'NY',
+        zipCode: '11111',
       },
     };
     const actual = buildAddressArray(addressData);
@@ -44,12 +44,12 @@ describe('buildAddressArray', () => {
   it('Should convert to titleCase when titleCase set to true', () => {
     const addressData = {
       attributes: {
-        address_line_1: '123 ADDRESS',
-        address_line_2: 'SUITE 4',
-        address_line_3: '',
+        addressLine1: '123 ADDRESS',
+        addressLine2: 'SUITE 4',
+        addressLine3: '',
         city: 'NEW YORK',
-        state_code: 'NY',
-        zip_code: '11111',
+        stateCode: 'NY',
+        zipCode: '11111',
       },
     };
     const actual = buildAddressArray(addressData, true);

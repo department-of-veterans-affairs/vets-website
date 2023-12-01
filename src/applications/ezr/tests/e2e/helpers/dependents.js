@@ -23,7 +23,10 @@ export const advanceToDependents = testData => {
   goToNextPage('/veteran-information/contact-information');
 
   goToNextPage('/household-information/marital-status');
-  selectDropdownWebComponent('maritalStatus', 'Never Married');
+  selectDropdownWebComponent(
+    'view:maritalStatus_maritalStatus',
+    'Never Married',
+  );
 };
 
 export const advanceFromDependentsToReview = testData => {
@@ -52,10 +55,13 @@ export const advanceFromDependentsToReview = testData => {
   ).type(testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses);
 
   goToNextPage('/insurance-information/medicaid-eligibility');
-  selectYesNoWebComponent('isMedicaidEligible', false);
+  selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 
   goToNextPage('/insurance-information/medicare-part-a-enrollment');
-  selectYesNoWebComponent('isEnrolledMedicarePartA', false);
+  selectYesNoWebComponent(
+    'view:isEnrolledMedicarePartA_isEnrolledMedicarePartA',
+    false,
+  );
 
   goToNextPage('/insurance-information/policies');
   cy.get(`[name="root_${INSURANCE_VIEW_FIELDS.add}"]`).check('N');
@@ -108,7 +114,7 @@ export const fillDependentInformation = dependent => {
   goToNextPage();
 
   // fill financial support
-  cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+  selectYesNoWebComponent('receivedSupportLastYear', 'Y');
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 

@@ -6,6 +6,7 @@ import {
   SEARCH_QUERY_UPDATED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
+  SEARCH_FAILED,
 } from '../../utils/actionTypes';
 
 const mbxClient = mbxGeo(mapboxClient);
@@ -54,7 +55,10 @@ export const geocodeUserAddress = query => {
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
-            context: features[0].place_name,
+            context: {
+              location: query.locationInputString,
+              repOrgName: query.repOrganizationInputString,
+            },
             id: Date.now(),
             inProgress: true,
             position: {
@@ -67,11 +71,16 @@ export const geocodeUserAddress = query => {
               placeType: features[0].place_type[0],
             },
             searchArea: null,
+            address: query.locationInputString,
+            locationQueryString: query.locationInputString,
+            repOrganizationQueryString: query.repOrganizationInputString,
+            representativeType: query.representativeType,
           },
         });
       })
       .catch(_ => {
         dispatch({ type: GEOCODE_FAILED });
+        dispatch({ type: SEARCH_FAILED });
       });
   };
 };
