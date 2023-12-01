@@ -2,14 +2,14 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import AppContent from '../../components/AppContent';
+import FeatureFlagsLoaded from '../../components/FeatureFlagsLoaded';
 
-describe('<AppContent />', () => {
+describe('<FeatureFlagsLoaded />', () => {
   it('should render loading indicator if feature toggles are not available', () => {
     const screen = render(
-      <AppContent featureFlagsLoading>
+      <FeatureFlagsLoaded featureFlagsLoading>
         <div data-testid="children" />
-      </AppContent>,
+      </FeatureFlagsLoaded>,
     );
 
     expect(screen.getByTestId('feature-flags-loading')).to.exist;
@@ -18,9 +18,9 @@ describe('<AppContent />', () => {
 
   it('should render children if feature toggles are available', () => {
     const screen = render(
-      <AppContent featureFlagsLoading={false}>
+      <FeatureFlagsLoaded featureFlagsLoading={false}>
         <div data-testid="children" />
-      </AppContent>,
+      </FeatureFlagsLoaded>,
     );
 
     expect(screen.queryByTestId('feature-flags-loading')).to.not.exist;
