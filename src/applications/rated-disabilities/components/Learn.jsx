@@ -14,7 +14,7 @@ export default function Learn() {
         disability rating calculator and ratings table.
       </p>
       <va-link
-        href="/disability/about-disability-ratings/"
+        href="/disability/about-disability-ratings"
         text="About VA disability ratings"
       />
     </div>

@@ -44,7 +44,7 @@ export default function AppContent() {
         <h2 id="individual-ratings" className="vads-u-margin-y--2">
           Your individual ratings
         </h2>
-        <RatingLists ratings={individualRatings || []} />
+        <RatingLists ratings={individualRatings ?? []} />
       </>
     );
   } else {

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { checkForDiscrepancies } from '../actions';
 import NeedHelp from './NeedHelp';
+import Learn from './Learn';
 import MVIError from './MVIError';
 import TotalRatedDisabilities from './TotalRatedDisabilities';
 import OnThisPage from './OnThisPage';
@@ -59,19 +60,7 @@ const RatedDisabilityView = ({
             ratedDisabilities={ratedDisabilities}
             sortToggle={sortToggle}
           />
-          <h2
-            id="learn"
-            className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h3 vads-u-margin-top--2"
-          >
-            Learn about VA disability ratings
-          </h2>
-          <p>
-            To learn how we determined your VA combined disability rating, use
-            our disability rating calculator and ratings table.
-          </p>
-          <a href="/disability/about-disability-ratings/">
-            About VA disability ratings
-          </a>
+          <Learn />
           <NeedHelp />
         </div>
       );
