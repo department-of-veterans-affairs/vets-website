@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
-import DependentDescription from '../FormDescriptions/DependentDescription';
 import { DEPENDENT_VIEW_FIELDS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
@@ -45,9 +44,6 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
           {content['validation-required-label']}
         </span>
       </legend>
-
-      {/** Additional Info component for description */}
-      <DependentDescription />
 
       {/** Error message */}
       {error ? (
