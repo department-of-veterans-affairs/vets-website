@@ -25,6 +25,7 @@ function optionsList(schema) {
  *     },
  *   },
  * }
+ *
  * ```
  *
  * Usage schema:

@@ -144,7 +144,6 @@ export const updateFormDataAddress = (
    * an array and using `getOldFormDataPath` to find the appropriate path
    */
   const oldAddress = get(getOldFormDataPath(path, index), oldFormData, {});
-
   const address = get(path, formData, {});
   const onMilitaryBase = address?.[schemaKeys.isMilitary];
   let city = address[schemaKeys.city];

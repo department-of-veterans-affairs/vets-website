@@ -3,6 +3,7 @@ import {
   currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+// test
 /** @type {PageSchema} */
 export default {
   uiSchema: {

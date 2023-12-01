@@ -44,6 +44,7 @@ describe('Discharge Wizard <FormPage />', () => {
         updateField={() => sinon.stub()}
       />,
     );
+
     expect(tree.find(FormQuestions)).to.have.lengthOf(1);
     tree.unmount();
   });
