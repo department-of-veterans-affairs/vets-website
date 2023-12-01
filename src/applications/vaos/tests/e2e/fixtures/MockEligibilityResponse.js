@@ -13,16 +13,17 @@ export default class MockEligibilityResponse {
    * Creates an instance of MockEligibilityResponse.
    *
    * @param {Object} arguments - Arguments used to determine what type of mock eligibility response object to create.
-   * @param {string} facilityId - Facility id.
-   * @param {String} typeOfCare - Type of care.
-   * @param {Boolean} [isEligible=true]  - Flag to determine eligibility or not.
-   * @param {string} ineligibilityReason - Ineligibility reason.
+   * @param {String} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {String} [arguments.typeOfCareId=primaryCare] - Type of care id. Default: 'primaryCare'
+   * @param {Boolean} [arguments.isEligible=true]  - Flag to determine eligibility or not. Default: true
+   * @param {String} [arguments.type] - Appointment scheduling type: 'direct' or 'request'.
+   * @param {String} [arguments.ineligibilityReason] - Ineligibility reason.
    * @memberof MockEligibilityResponse
    */
   constructor({
-    facilityId,
-    typeOfCare: clinicalServiceId,
-    isEligible,
+    facilityId = '983',
+    typeOfCareId: clinicalServiceId = 'primaryCare',
+    isEligible = true,
     type,
     ineligibilityReason,
   }) {
@@ -55,12 +56,12 @@ export default class MockEligibilityResponse {
    * @returns Instance of MockEligibilityResponse
    * @memberof MockEligibilityResponse
    */
-  static createPatientHistoryInsufficientResponse({ type } = {}) {
+  static createPatientHistoryInsufficientResponse({ type }) {
     return new MockEligibilityResponse({
       facilityId: '983',
-      typeOfCare: 'primaryCare',
+      typeOfCareId: 'primaryCare',
       type,
-      isEligible: true,
+      isEligible: false,
       ineligibilityReason: MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
     });
   }
@@ -74,12 +75,12 @@ export default class MockEligibilityResponse {
    * @returns Instance of MockEligibilityResponse
    * @memberof MockEligibilityResponse
    */
-  static createFacilityRequestLimitExceededResponse({ type } = {}) {
+  static createFacilityRequestLimitExceededResponse({ type }) {
     return new MockEligibilityResponse({
       facilityId: '983',
-      typeOfCare: 'primaryCare',
+      typeOfCareId: 'primaryCare',
       type,
-      isEligible: true,
+      isEligible: false,
       ineligibilityReason:
         MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
     });
