@@ -7,7 +7,7 @@ import manifest from './manifest.json';
 /* eslint-disable camelcase */
 
 const apiSettings = {
-  credentials: 'include',
+  // credentials: 'include',
   mode: 'cors',
   headers: {
     'X-Key-Inflection': 'camel',
@@ -35,7 +35,7 @@ const railsEngineApi = {
   settings: apiSettings,
 };
 
-export const useMockData = false;
+export const useMockData = true;
 
 export const getAPI = () => railsEngineApi;
 
