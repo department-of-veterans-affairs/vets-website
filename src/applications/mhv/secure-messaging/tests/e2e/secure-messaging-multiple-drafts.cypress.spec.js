@@ -12,10 +12,12 @@ describe('handle multiple drafts in one thread', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    landingPage.loadSingleThread(mockMultiDraftsResponse);
   });
 
+  it('verify multiple drafts could be created', () => {});
+
   it('verify draft could be send', () => {
+    landingPage.loadSingleThread(mockMultiDraftsResponse);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -39,6 +41,7 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify drafts could be deleted', () => {
+    landingPage.loadSingleThread(mockMultiDraftsResponse);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
