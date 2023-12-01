@@ -97,6 +97,7 @@ const WhatToDoNext = props => {
                 action={action}
                 cardTitleId={cardTitleId}
                 startTime={appointment.startTime}
+                appointmentId={getAppointmentId(appointment)}
               />
             </va-card>
           </div>

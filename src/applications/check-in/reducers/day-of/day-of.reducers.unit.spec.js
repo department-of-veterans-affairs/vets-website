@@ -246,7 +246,6 @@ describe('check in', () => {
             'contact-information',
             'emergency-contact',
             'next-of-kin',
-            'details',
             'complete',
           ]);
         });

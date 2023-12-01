@@ -1,9 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useDemographicsFlags = () => {
-  const [demographicsFlagsSent, setDemographicsFlagsSent] = useState(false);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { token } = context;
@@ -44,8 +43,6 @@ const useDemographicsFlags = () => {
     nextOfKinUpToDate === undefined;
   return {
     demographicsData,
-    demographicsFlagsSent,
-    setDemographicsFlagsSent,
     demographicsFlagsEmpty,
   };
 };
