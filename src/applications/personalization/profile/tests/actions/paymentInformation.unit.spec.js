@@ -114,122 +114,12 @@ describe('actions/paymentInformation', () => {
         });
       });
 
-      describe('if the call succeeds and the user is eligible to sign up for direct deposit', () => {
-        const paymentInfo = {
-          controlInformation: {
-            canUpdateAddress: true,
-            corpAvailIndicator: true,
-            corpRecFoundIndicator: true,
-            hasNoBdnPaymentsIndicator: true,
-            identityIndicator: true,
-            isCompetentIndicator: true,
-            indexIndicator: true,
-            noFiduciaryAssignedIndicator: true,
-            notDeceasedIndicator: true,
-          },
-          paymentAccount: {
-            accountType: null,
-            financialInstitutionName: null,
-            accountNumber: null,
-            financialInstitutionRoutingNumber: null,
-          },
-          paymentAddress: {
-            type: null,
-            addressEffectiveDate: null,
-            addressOne: '123 main st',
-            addressTwo: null,
-            addressThree: null,
-            city: 'San Francisco',
-            stateCode: 'CA',
-            zipCode: '94536',
-            zipSuffix: null,
-            countryName: null,
-            militaryPostOfficeTypeCode: null,
-            militaryStateCode: null,
-          },
-          paymentType: 'CNP',
-        };
-
-        beforeEach(async () => {
-          setFetchJSONResponse(global.fetch.onFirstCall(), {
-            data: {
-              attributes: {
-                responses: [paymentInfo],
-              },
-            },
-          });
-          await actionCreator(dispatch);
-        });
-
-        it('dispatches CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED and passes along the data it got from the endpoint', () => {
-          expect(dispatch.secondCall.args[0].type).to.be.equal(
-            paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-          );
-          expect(dispatch.secondCall.args[0].response).to.deep.equal(
-            paymentInfo,
-          );
-        });
-
-        it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-get-cnp-direct-deposit-started',
-          );
-          expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-get-cnp-direct-deposit-retrieved',
-          );
-          expect(
-            recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
-          ).to.be.true;
-          expect(
-            recordEventSpy.secondCall.args[0]['direct-deposit-setup-complete'],
-          ).to.be.false;
-        });
-      });
-
       describe('if the call succeeds and the user is signed up for direct deposit', () => {
-        const paymentInfo = {
-          controlInformation: {
-            canUpdateAddress: true,
-            corpAvailIndicator: true,
-            corpRecFoundIndicator: true,
-            hasNoBdnPaymentsIndicator: true,
-            identityIndicator: true,
-            isCompetentIndicator: true,
-            indexIndicator: true,
-            noFiduciaryAssignedIndicator: true,
-            notDeceasedIndicator: true,
-          },
-          paymentAccount: {
-            accountType: 'Checking',
-            financialInstitutionName: 'COMERICA BANK',
-            accountNumber: '*****6789',
-            financialInstitutionRoutingNumber: '*****3133',
-          },
-          paymentAddress: {
-            type: null,
-            addressEffectiveDate: null,
-            addressOne: null,
-            addressTwo: null,
-            addressThree: null,
-            city: null,
-            stateCode: null,
-            zipCode: null,
-            zipSuffix: null,
-            countryName: null,
-            militaryPostOfficeTypeCode: null,
-            militaryStateCode: null,
-          },
-          paymentType: 'CNP',
-        };
-
         beforeEach(async () => {
-          setFetchJSONResponse(global.fetch.onFirstCall(), {
-            data: {
-              attributes: {
-                responses: [paymentInfo],
-              },
-            },
-          });
+          setFetchJSONResponse(
+            global.fetch.onFirstCall(),
+            mockDisabilityCompensation.base,
+          );
           await actionCreator(dispatch);
         });
 
@@ -238,30 +128,31 @@ describe('actions/paymentInformation', () => {
             paymentInformationActions.CNP_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
           );
           expect(dispatch.secondCall.args[0].response).to.deep.equal(
-            paymentInfo,
+            formatDirectDepositResponse(
+              mockDisabilityCompensation.base.data.attributes,
+            ),
           );
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-get-cnp-direct-deposit-started',
-          );
-          expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-get-cnp-direct-deposit-retrieved',
+          expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+          expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+            'started',
           );
 
-          expect(
-            recordEventSpy.secondCall.args[0]['direct-deposit-setup-eligible'],
-          ).to.be.true;
-          expect(
-            recordEventSpy.secondCall.args[0]['direct-deposit-setup-complete'],
-          ).to.be.true;
+          expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+          expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+            'successful',
+          );
         });
       });
 
       describe('if the call fails', () => {
         it('dispatches the correct actions', async () => {
-          setFetchJSONFailure(global.fetch.onFirstCall(), {});
+          setFetchJSONFailure(
+            global.fetch.onFirstCall(),
+            mockDisabilityCompensation.updates.errors.unspecified,
+          );
           await actionCreator(dispatch);
 
           expect(dispatch.firstCall.args[0].type).to.be.equal(
@@ -285,42 +176,21 @@ describe('actions/paymentInformation', () => {
           captureCNPError: captureErrorSpy,
         });
         dispatch = sinon.spy();
-        setFetchJSONResponse(global.fetch.onFirstCall(), {
-          data: {
-            attributes: {
-              responses: [
-                {
-                  controlInformation: {
-                    canUpdateAddress: true,
-                    corpAvailIndicator: true,
-                    corpRecFoundIndicator: true,
-                    hasNoBdnPaymentsIndicator: true,
-                    identityIndicator: true,
-                    isCompetentIndicator: true,
-                    indexIndicator: true,
-                    noFiduciaryAssignedIndicator: true,
-                    notDeceasedIndicator: true,
-                  },
-                  paymentAccount: {
-                    accountType: 'Savings',
-                    financialInstitutionName: 'TD BANK NA',
-                    accountNumber: '************4569',
-                    financialInstitutionRoutingNumber: '*****3093',
-                  },
-                },
-              ],
-            },
-          },
-        });
+        setFetchJSONResponse(
+          global.fetch.onFirstCall(),
+          mockDisabilityCompensation.updates.success,
+        );
       });
       afterEach(teardown);
 
-      it('calls fetch to `PUT ppiu/payment_information`', async () => {
+      it('calls fetch to `PUT /v0/profile/direct_deposits/disability_compensations`', async () => {
         await actionCreator(dispatch);
 
         expect(global.fetch.firstCall.args[1].method).to.equal('PUT');
         expect(
-          global.fetch.firstCall.args[0].endsWith('/ppiu/payment_information'),
+          global.fetch.firstCall.args[0].endsWith(
+            '/direct_deposits/disability_compensations',
+          ),
         ).to.be.true;
       });
 
@@ -334,35 +204,10 @@ describe('actions/paymentInformation', () => {
 
       describe('if the call succeeds', () => {
         beforeEach(async () => {
-          setFetchJSONResponse(global.fetch.onFirstCall(), {
-            data: {
-              id: '',
-              type: 'evss_ppiu_payment_information_responses',
-              attributes: {
-                responses: [
-                  {
-                    controlInformation: {
-                      canUpdateAddress: false,
-                      corpAvailIndicator: true,
-                      corpRecFoundIndicator: true,
-                      hasNoBdnPaymentsIndicator: true,
-                      identityIndicator: true,
-                      isCompetentIndicator: true,
-                      indexIndicator: true,
-                      noFiduciaryAssignedIndicator: true,
-                      notDeceasedIndicator: true,
-                    },
-                    paymentAccount: {
-                      accountType: 'Savings',
-                      financialInstitutionName: 'TD BANK NA',
-                      accountNumber: '************4569',
-                      financialInstitutionRoutingNumber: '*****3093',
-                    },
-                  },
-                ],
-              },
-            },
-          });
+          setFetchJSONResponse(
+            global.fetch.onFirstCall(),
+            mockDisabilityCompensation.updates.success,
+          );
           await actionCreator(dispatch);
         });
 
@@ -373,40 +218,23 @@ describe('actions/paymentInformation', () => {
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0].event).to.equal(
-            'profile-put-cnp-direct-deposit-started',
+          expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+          expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+            'started',
           );
-          expect(recordEventSpy.secondCall.args[0].event).to.equal(
-            'profile-transaction',
-          );
-          expect(recordEventSpy.secondCall.args[0]['profile-section']).to.equal(
-            'cnp-direct-deposit-information',
+          expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+          expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+            'successful',
           );
         });
       });
 
       describe('if the call fails', async () => {
         beforeEach(async () => {
-          setFetchJSONFailure(global.fetch.onFirstCall(), {
-            errors: [
-              {
-                code: '135',
-                detail: 'Routing number related to potential fraud',
-                meta: {
-                  messages: [
-                    {
-                      key: 'cnp.payment.routing.number.fraud.message',
-                      severity: 'ERROR',
-                      text: 'Routing number related to potential fraud',
-                    },
-                  ],
-                },
-                source: 'EVSS::PPIU::Service',
-                status: '422',
-                title: 'Potential Fraud',
-              },
-            ],
-          });
+          setFetchJSONFailure(
+            global.fetch.onFirstCall(),
+            mockDisabilityCompensation.updates.errors.accountNumberFlagged,
+          );
           await actionCreator(dispatch);
         });
 
@@ -418,14 +246,17 @@ describe('actions/paymentInformation', () => {
 
         it('reports the correct data to Google Analytics', () => {
           expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
-            event: 'profile-put-cnp-direct-deposit-started',
+            event: 'api_call',
+            'api-name': 'PUT /profile/direct_deposits/disability_compensations',
+            'api-status': 'started',
           });
 
           expect(recordEventSpy.secondCall.args[0]).to.deep.equal({
-            event: 'profile-edit-failure',
-            'profile-action': 'save-failure',
-            'profile-section': 'cnp-direct-deposit-information',
-            'error-key': 'routing-number-flagged-for-fraud-error-update',
+            event: 'api_call',
+            'api-status': 'failed',
+            'api-name': 'PUT /profile/direct_deposits/disability_compensations',
+            'error-key':
+              'cnp.payment.account.number.fraud | Unspecified Error Detail-update',
           });
         });
       });

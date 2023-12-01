@@ -62,7 +62,7 @@ export function fetchCNPPaymentInformation({
 
     const response = await fetchDataAttrsFromApi(LH_CNP_ENDPOINT);
 
-    if (response.error) {
+    if (response.error || response.errors) {
       recordCNPEvent({ status: API_STATUS.FAILED }, recordEvent);
 
       captureCNPError(response, {
@@ -81,11 +81,6 @@ export function fetchCNPPaymentInformation({
           status: API_STATUS.SUCCESSFUL,
           method: 'GET',
           extraProperties: {
-            // The API might report an empty payment address for some folks who are
-            // already enrolled in direct deposit. But we want to make sure we
-            // always treat those who are signed up as being eligible. Therefore
-            // we'll check to see if they either have a payment address _or_ are
-            // already signed up for direct deposit here:
             'direct-deposit-setup-eligible':
               isEligibleForCNPDirectDeposit(formattedResponse) ||
               isSignedUpForCNPDirectDeposit(formattedResponse),
