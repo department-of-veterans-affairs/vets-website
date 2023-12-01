@@ -9,7 +9,11 @@ import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
+import {
+  makeSelectCurrentContext,
+  makeSelectApp,
+  makeSelectForm,
+} from '../../../selectors';
 import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
@@ -37,6 +41,7 @@ const TravelPage = ({
     goToPreviousPage,
     jumpToPage,
     getPreviousPageFromRouter,
+    // getNextPageFromRouter,
   } = useFormRouting(router);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
@@ -44,8 +49,12 @@ const TravelPage = ({
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+
   const onClick = event => {
     const answer = event.target.attributes.value.value;
+    // const nextPage = getNextPageFromRouter();
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
@@ -62,6 +71,12 @@ const TravelPage = ({
       jumpToPage(URLS.DETAILS);
     } else if (yesFunction) {
       yesFunction();
+      // =======
+      //     if (answer === 'no') {
+      //       jumpToPage(`complete/${data.activeAppointmentId}`);
+      //     } else if (answer === 'yes' && nextPage === 'complete') {
+      //       jumpToPage(`complete/${data.activeAppointmentId}`);
+      // >>>>>>> cf620ce629 (Check in/68865/remove appointment details list view (#26849))
     } else {
       goToNextPage();
     }
@@ -69,7 +84,7 @@ const TravelPage = ({
   const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
-      jumpToPage(URLS.DETAILS);
+      jumpToPage(`complete/${data.activeAppointmentId}`);
     }
   });
   return (
