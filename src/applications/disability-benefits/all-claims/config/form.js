@@ -599,7 +599,7 @@ const formConfig = {
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {
-          title: 'Summary of disabilities',
+          title: 'Summary of conditions',
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
