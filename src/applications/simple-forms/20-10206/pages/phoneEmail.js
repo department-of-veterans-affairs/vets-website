@@ -10,15 +10,13 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Your phone and email address'),
-    homePhone: phoneUI('Home phone number'),
-    internationalPhone: phoneUI('Mobile phone number'),
+    homePhone: phoneUI('Phone number'),
     emailAddress: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
       homePhone: phoneSchema,
-      internationalPhone: phoneSchema,
       emailAddress: emailSchema,
     },
     required: ['homePhone'],
