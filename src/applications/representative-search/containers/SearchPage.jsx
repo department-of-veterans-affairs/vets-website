@@ -139,7 +139,7 @@ const SearchPage = props => {
     props.updateSearchQuery({ id: Date.now(), page });
   };
 
-  // Query updated successfully
+  // Trigger request on query update following search
   useEffect(
     () => {
       if (isSearching && !props.currentQuery.geocodeError) {
@@ -149,6 +149,19 @@ const SearchPage = props => {
       }
     },
     [props.currentQuery.id],
+  );
+
+  // Trigger request on sort update
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        setIsSearching(true);
+        handleSearchOnQueryChange();
+        setIsLoading(true);
+        setIsDisplayingResults(false);
+      }
+    },
+    [props.currentQuery.sortType],
   );
 
   useEffect(
@@ -183,6 +196,7 @@ const SearchPage = props => {
     [isDisplayingResults],
   );
 
+  // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
   }, []);
