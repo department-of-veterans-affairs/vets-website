@@ -12,7 +12,7 @@ const {
 
 const pageTitle = 'Preparer’s address';
 
-const expectedNumberOfFields = 8;
+const expectedNumberOfFields = 7;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

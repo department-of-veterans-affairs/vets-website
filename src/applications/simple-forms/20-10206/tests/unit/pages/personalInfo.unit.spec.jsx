@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'Your personal information';
 
-const expectedNumberOfFields = 6;
+const expectedNumberOfFields = 5;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

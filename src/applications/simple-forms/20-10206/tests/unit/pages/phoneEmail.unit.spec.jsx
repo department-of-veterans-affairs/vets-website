@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'Your contact information';
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
