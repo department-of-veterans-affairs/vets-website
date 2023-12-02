@@ -216,8 +216,8 @@ const DependentAges = ({
   }
 
   return (
-    <form onSubmit={handlers.onSubmit}>
-      <fieldset className="vads-u-margin-y--2">
+    <form className="rjsf" onSubmit={handlers.onSubmit}>
+      <fieldset className="vads-u-margin-y--2 rjsf-object-field">
         <legend
           className={`${
             isReviewMode
@@ -270,13 +270,14 @@ const DependentAges = ({
                 {
                   label: 'Back',
                   onClick: handlers.onCancel,
-                  secondary: true,
-                  iconLeft: '«',
+                  isSecondary: true,
+                  isBackButton: true,
                 },
                 {
                   label: continueButtonText,
-                  type: 'submit',
-                  iconRight: '»',
+                  onClick: handlers.onSubmit,
+                  isSubmitting: true,
+                  isContinueButton: true,
                 },
               ]}
             />

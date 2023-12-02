@@ -162,13 +162,14 @@ const SpouseOtherIncomeSummary = ({
               {
                 label: 'Back',
                 onClick: goBack,
-                secondary: true,
-                iconLeft: '«',
+                isSecondary: true,
+                isBackButton: true,
               },
               {
                 label: continueButtonText,
-                type: 'submit',
-                iconRight: '»',
+                onClick: onSubmit,
+                isSubmitting: true,
+                isContinueButton: true,
               },
             ]}
           />

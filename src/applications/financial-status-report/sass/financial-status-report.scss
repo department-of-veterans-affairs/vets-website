@@ -356,7 +356,8 @@
 
 /* Hide default edit buttons on final review page */
 .form-review-panel-page-header-row {
-  va-button, button {
+  va-button,
+  button {
     display: none;
   }
 }

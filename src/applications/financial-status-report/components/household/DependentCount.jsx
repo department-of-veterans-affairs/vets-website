@@ -26,7 +26,7 @@ const DependentCount = ({
 
   const [error, setError] = useState(null);
   const [dependents, setDependents] = useState(hasDependents);
-
+  const formRef = useRef(null);
   // Header ref for setting focus
   useEffect(
     () => {
@@ -66,11 +66,16 @@ const DependentCount = ({
           },
         });
       }
+      if (formRef.current) {
+        formRef.current.requestSubmit();
+      }
     }
   };
 
   return (
     <form
+      className="rjsf"
+      ref={formRef}
       onSubmit={event => {
         event.preventDefault();
         if (error) return;
@@ -87,7 +92,7 @@ const DependentCount = ({
         }
       }}
     >
-      <fieldset className="vads-u-margin-y--2">
+      <fieldset className="vads-u-margin-y--2 rjsf-object-field">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Your dependents
@@ -121,14 +126,14 @@ const DependentCount = ({
           {
             label: 'Back',
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
+            isBackButton: true,
           },
           {
-            label: 'Continue',
+            label: 'continue to review page',
             onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            isSubmitting: true,
+            isContinueButton: true,
           },
         ]}
       />
