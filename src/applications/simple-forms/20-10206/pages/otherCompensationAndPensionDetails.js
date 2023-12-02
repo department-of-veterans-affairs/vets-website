@@ -1,21 +1,20 @@
-import VaTextAreaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI(
-      'Other compensation and pension record details',
+      'Other compensation and/or pension record details',
       'You requested access to another type of record that wasn’t listed. Any extra information you can share will help us find your records.',
     ),
     otherCompAndPenDetails: {
-      'ui:widget': 'textarea',
       'ui:title':
-        'Describe the compensation and pension records you’d like to request',
-      'ui:webComponentField': VaTextAreaField,
+        'Describe the compensation and/or pension records you’d like to request',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         required:
-          'Please describe the compensation and pension records you’re requesting',
+          'Please describe the compensation and/or pension records you’re requesting.',
       },
     },
   },
