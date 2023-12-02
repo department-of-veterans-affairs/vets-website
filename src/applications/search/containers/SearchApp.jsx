@@ -58,6 +58,9 @@ class SearchApp extends React.Component {
     const { userInput, page } = this.state;
 
     if (userInput) {
+      if (userInput.length >= 255) {
+        return;
+      }
       this.props.fetchSearchResults(userInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
@@ -354,7 +357,7 @@ class SearchApp extends React.Component {
               />
               <button
                 type="submit"
-                disabled={this.state.userInput?.length >= 255}
+                disabled={this.state.userInput.length >= 255}
               >
                 <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
                 <span className="button-text">Search</span>
@@ -387,9 +390,9 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    if ((hasErrors && !loading) || userInput?.length >= 255) {
+    if ((hasErrors && !loading) || userInput.length >= 255) {
       const errorMessage =
-        userInput?.length >= 255
+        userInput.length >= 255
           ? 'The search is over the character limit. Shorten the search and try again.'
           : `We’re sorry. Something went wrong on our end, and your search
       didn't go through. Please try again`;
