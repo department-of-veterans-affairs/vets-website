@@ -384,15 +384,18 @@ class SearchApp extends React.Component {
     );
 
     if (hasErrors && !loading) {
+      const errorMessage =
+        userInput.toString().length >= 255
+          ? 'The search is over the character limit. Shorten the search and try again.'
+          : `We’re sorry. Something went wrong on our end, and your search
+      didn't go through. Please try again`;
+
       return (
         <div className="columns error">
           {/* this is the alert box for when searches fail due to server issues */}
           <va-alert status="error" data-e2e-id="alert-box">
             <h3 slot="headline">Your search didn't go through</h3>
-            <div>
-              We’re sorry. Something went wrong on our end, and your search
-              didn't go through. Please try again
-            </div>
+            <div>{errorMessage}</div>
           </va-alert>
           {searchInput}
         </div>
