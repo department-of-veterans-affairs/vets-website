@@ -351,7 +351,10 @@ class SearchApp extends React.Component {
                 value={this.state.userInput}
                 onChange={this.handleInputChange}
               />
-              <button type="submit">
+              <button
+                type="submit"
+                disabled={this.state.userInput.length >= 255}
+              >
                 <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
                 <span className="button-text">Search</span>
               </button>
