@@ -190,7 +190,12 @@ const SearchPage = props => {
     () => {
       if (isDisplayingResults) {
         window.scrollTo(0, 600);
-        focusElement('#search-results-subheader');
+
+        if (props.searchResults.length === 0) {
+          focusElement('#search-results-subheader');
+        } else {
+          focusElement('.representative-results-list');
+        }
       }
     },
     [isDisplayingResults],
