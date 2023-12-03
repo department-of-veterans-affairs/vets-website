@@ -253,7 +253,7 @@ const SearchPage = props => {
           query={currentQuery}
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
-          sortType={props.sortType}
+          sortType={currentQuery.sortType}
           onUpdateSortType={props.updateSortType}
         />
       );
