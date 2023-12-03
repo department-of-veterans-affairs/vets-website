@@ -10,7 +10,7 @@ export class DirectDepositClient {
   #LH_ENDPOINT = '/profile/direct_deposits/disability_compensations';
 
   constructor({
-    useLighthouseDirectDepositEndpoint = false,
+    useLighthouseDirectDepositEndpoint = true,
     recordEvent = recordAnalyticsEvent,
   } = {}) {
     this.useLighthouseEndpoint = useLighthouseDirectDepositEndpoint;

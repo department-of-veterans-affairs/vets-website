@@ -61,9 +61,8 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            authExpVbaDowntimeMessage: true,
+            authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileLighthouseDirectDeposit: true,
             profileUseFieldEditingPage: true,
             profileUseHubPage: true,
             profileUseNotificationSettingsCheckboxes: true,
@@ -154,7 +153,9 @@ const responses = {
     return res.json(disabilityComps.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res.status(500).json(genericErrors.error500);
+    return res
+      .status(200)
+      .json(disabilityComps.updates.errors.invalidAccountNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
