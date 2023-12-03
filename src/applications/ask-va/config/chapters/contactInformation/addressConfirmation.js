@@ -1,7 +1,7 @@
 import AddressValidationRadio from '../../../components/FormFields/AddressValidationRadio';
 import FormElementTitle from '../../../components/FormElementTitle';
 
-const veteranAddressConfirmationPage = {
+const addressConfirmationPage = {
   uiSchema: {
     addressConfirmation: {
       'ui:title': FormElementTitle({
@@ -21,4 +21,4 @@ const veteranAddressConfirmationPage = {
   },
 };
 
-export default veteranAddressConfirmationPage;
+export default addressConfirmationPage;
