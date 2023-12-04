@@ -7,12 +7,12 @@ import { Actions } from '../../util/actionTypes';
 const ReplyDrafts = props => {
   const {
     cannotReply,
-    signature,
     drafts,
+    isSaving,
     replyMessage,
     replyToName,
     setLastFocusableElement,
-    isSaving,
+    signature,
   } = props;
   const dispatch = useDispatch();
   const [edittedMessage, setEdittedMessage] = useState(
@@ -28,13 +28,12 @@ const ReplyDrafts = props => {
       {drafts && drafts.length > 1 && <h2>{`${drafts.length} drafts`}</h2>}
       {!drafts?.length && (
         <ReplyDraftItem
-          signature={signature}
-          editMode
-          // cannotReply={true}
           cannotReply={cannotReply}
+          editMode
           replyMessage={replyMessage}
           replyToName={replyToName}
           setLastFocusableElement={setLastFocusableElement}
+          signature={signature}
           toggleEditHandler={messageId => {
             setEdittedMessage(messageId);
             dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
@@ -47,7 +46,6 @@ const ReplyDrafts = props => {
           return (
             <ReplyDraftItem
               key={draft?.messageId}
-              // cannotReply={true}
               cannotReply={cannotReply}
               draft={draft}
               draftsCount={drafts?.length}
@@ -71,9 +69,11 @@ const ReplyDrafts = props => {
 ReplyDrafts.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
+  isSaving: PropTypes.bool,
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
   saveDraftHandler: PropTypes.func,
+  setLastFocusableElement: PropTypes.func,
   signature: PropTypes.string,
 };
 
