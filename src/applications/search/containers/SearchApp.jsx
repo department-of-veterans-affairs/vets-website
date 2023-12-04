@@ -397,11 +397,11 @@ class SearchApp extends React.Component {
       didn't go through. Please try again`;
 
       return (
-        <div className="columns error">
+        <div className="columns error vads-u-margin-bottom--4">
           {/* this is the alert box for when searches fail due to server issues */}
           <va-alert status="error" data-e2e-id="alert-box">
             <h3 slot="headline">Your search didn't go through</h3>
-            <div>{errorMessage}</div>
+            <p>{errorMessage}</p>
           </va-alert>
           {searchInput}
         </div>
