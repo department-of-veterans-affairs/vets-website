@@ -76,7 +76,7 @@
 
         #representative-search {
           max-width: 8em;
-          margin: 2em 0 1em 0 !important;
+          margin: 2em 0 2em 0 !important;
         }
 
         .rep-type-selector {
@@ -91,6 +91,9 @@
   .representative-search-results-container {
     .pagination-container .hydrated {
       border-top: none !important;
+    }
+    #search-results-title {
+      margin-bottom: 2em;
     }
   }
 

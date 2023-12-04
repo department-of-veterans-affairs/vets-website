@@ -30,7 +30,7 @@ export const SearchResultsHeader = props => {
       return 'Showing 1 result';
     }
     if (totalEntries < 11 && totalEntries > 1) {
-      return `Showing 1 - ${totalEntries} results`;
+      return `Showing ${totalEntries} results`;
     }
     if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
@@ -46,7 +46,7 @@ export const SearchResultsHeader = props => {
   };
 
   return (
-    <div className="search-results-header vads-u-margin-top--6">
+    <div className="search-results-header">
       <h2
         id="search-results-subheader"
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
