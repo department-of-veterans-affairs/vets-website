@@ -219,7 +219,8 @@ class IntroductionPage extends React.Component {
                 />
               </div>
             </li>
-            {environment.isProduction() ? (
+            {// MBMS-53548
+            environment.isProduction() ? (
               <>
                 <li className="process-step list-three">
                   <h3>VA review</h3>
