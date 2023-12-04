@@ -56,7 +56,6 @@ class SearchApp extends React.Component {
   componentDidMount() {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
-
     if (userInput) {
       if (userInput.length >= 255) {
         return;
@@ -408,7 +407,6 @@ class SearchApp extends React.Component {
         </div>
       );
     }
-
     return (
       <div>
         {searchInput}
