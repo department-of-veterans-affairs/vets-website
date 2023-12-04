@@ -9,6 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
+  fetchExclusionPeriods,
   fetchDuplicateContactInfo,
   // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
@@ -21,17 +22,20 @@ export const App = ({
   children,
   claimantInfo,
   eligibility,
+  exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
   // Commenting out until we update the component to handle astrisks
   // getDirectDeposit,
   getEligibility,
+  getExclusionPeriods,
   getPersonalInfo,
   getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
+  mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
@@ -48,7 +52,7 @@ export const App = ({
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
-
+  const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
   document.addEventListener(
@@ -153,6 +157,38 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMebDgi40Features,
+    ],
+  );
+
+  useEffect(
+    () => {
+      // Ensure pre-conditions are met
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+      // Fetch exclusion periods if feature flag is enabled
+      if (mebExclusionPeriodEnabled && !fetchedExclusionPeriods) {
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods();
+      }
+      // Assuming exclusionPeriods is available in Redux state and mapped in mapStateToProps
+      if (exclusionPeriods && !formData.exclusionPeriods) {
+        setFormData({
+          ...formData,
+          exclusionPeriods, // Update form data with fetched exclusion periods
+        });
+      }
+    },
+    [
+      mebExclusionPeriodEnabled,
+      fetchedExclusionPeriods,
+      getExclusionPeriods,
+      exclusionPeriods,
+      formData,
+      setFormData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
     ],
   );
 
@@ -328,16 +364,19 @@ App.propTypes = {
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
   email: PropTypes.string,
+  exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
   // getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
+  getExclusionPeriods: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
@@ -369,6 +408,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   // getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
+  getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,
