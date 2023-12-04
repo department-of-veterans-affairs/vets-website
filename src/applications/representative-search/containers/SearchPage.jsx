@@ -164,6 +164,19 @@ const SearchPage = props => {
     [props.currentQuery.sortType],
   );
 
+  // Trigger request on page update
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        setIsSearching(true);
+        handleSearchOnQueryChange();
+        setIsLoading(true);
+        setIsDisplayingResults(false);
+      }
+    },
+    [props.currentQuery.page],
+  );
+
   useEffect(
     () => {
       if (isSearching && props.currentQuery.geocodeError) {
