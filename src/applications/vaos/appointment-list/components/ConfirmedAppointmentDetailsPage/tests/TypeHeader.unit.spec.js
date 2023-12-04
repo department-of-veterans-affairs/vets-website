@@ -3,13 +3,16 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import TypeHeader from '../TypeHeader';
 import { formatHeader } from '../DetailsVA.util';
+import { screen } from '@testing-library/dom';
 
 describe('TypeHeader component', () => {
   it('should render ', async () => {
     const appointment = {
       vaos: {
-        isCOVIDVaccine: true,
+        isVideo: true,
+        isPastAppointment: true,
       },
+      comment: 'Routine/Follow-up',
     };
     const header = formatHeader(appointment);
     const wrapper = renderWithStoreAndRouter(
@@ -17,11 +20,14 @@ describe('TypeHeader component', () => {
       {},
     );
 
+    // screen.debug();
+
+    expect(await wrapper.queryByText('VA appointment')).to.exist;
     expect(
-      await wrapper.queryByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
+      wrapper.getByText('VA appointment', {
+        exact: true,
+        selector: 'h2',
       }),
-    ).to.be.null;
+    ).to.have.attribute('data-cy', 'va-appointment-details-header');
   });
 });
