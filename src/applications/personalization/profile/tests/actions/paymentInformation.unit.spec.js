@@ -313,7 +313,7 @@ describe('actions/paymentInformation', () => {
             'api-name': 'PUT /profile/direct_deposits/disability_compensations',
             'api-status': 'failed',
             'error-key':
-              'cnp.payment.account.number.fraud | No changes were made: Account Number Flagged-update',
+              'cnp.payment.account.number.fraud | Unspecified Error Detail-update',
           });
         });
       });

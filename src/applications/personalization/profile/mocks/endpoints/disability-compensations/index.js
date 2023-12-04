@@ -103,7 +103,6 @@ const errors = {
   }),
   accountNumberFlagged: createError({
     code: 'cnp.payment.account.number.fraud',
-    detail: 'No changes were made: Account Number Flagged',
   }),
   routingNumberFlagged: createError({
     code: 'cnp.payment.routing.number.fraud',
