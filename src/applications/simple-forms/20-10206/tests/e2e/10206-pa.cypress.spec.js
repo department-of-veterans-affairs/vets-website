@@ -6,7 +6,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import {
   fillDateWebComponentPattern,
-  fillTextAreaWebComponent,
   fillTextWebComponent,
   reviewAndSubmitPageFlow,
   selectCheckboxGroupWebComponent,
@@ -62,7 +61,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { otherCompAndPenDetails } = data;
-            fillTextAreaWebComponent(
+            fillTextWebComponent(
               'otherCompAndPenDetails',
               otherCompAndPenDetails,
             );
