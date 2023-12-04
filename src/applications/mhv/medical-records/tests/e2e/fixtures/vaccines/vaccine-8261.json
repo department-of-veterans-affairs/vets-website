@@ -50,6 +50,15 @@
                 }
             ],
             "resourceType": "Practitioner"
+        },
+        {
+            "resourceType": "Observation",
+            "id": "in-reaction-2",
+            "meta": {
+                "profile": [
+                    "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                ]
+            }
         }
     ],
     "identifier": [
@@ -100,6 +109,9 @@
     "note": [
         {
             "text": "completed series"
+        },
+        {
+            "text": "double dosage"
         }
     ],
     "protocolApplied": [
