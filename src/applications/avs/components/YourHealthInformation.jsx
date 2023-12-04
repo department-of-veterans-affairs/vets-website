@@ -9,7 +9,11 @@ import {
   parseVistaDate,
   parseVistaDateTime,
 } from '../utils';
-import { APPOINTMENT_TYPES } from '../utils/constants';
+import { APPOINTMENT_TYPES, MEDICATION_TYPES } from '../utils/constants';
+import {
+  filterMedicationsByType,
+  getCombinedMedications,
+} from '../utils/medications';
 
 import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
@@ -221,9 +225,17 @@ const labResults = avs => {
 };
 
 const getMyMedications = avs => {
-  const combined = avs.vaMedications;
-  combined.push(...avs.nonvaMedications);
-  return combined;
+  return filterMedicationsByType(
+    getCombinedMedications(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
+const getMySupplies = avs => {
+  return filterMedicationsByType(
+    getCombinedMedications(avs),
+    MEDICATION_TYPES.SUPPLY,
+  );
 };
 
 const medsIntro = avs => {
@@ -332,6 +344,13 @@ const YourHealthInformation = props => {
         intro={medsIntro(avs)}
         itemType="my-medications"
         items={getMyMedications(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="My VA supplies"
+        itemType="my-va-supplies"
+        items={getMySupplies(avs)}
         renderItem={renderMedication}
         showSeparators
       />

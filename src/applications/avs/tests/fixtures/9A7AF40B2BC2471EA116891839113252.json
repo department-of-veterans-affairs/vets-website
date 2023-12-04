@@ -654,7 +654,7 @@
           "fillingPharmacy": "",
           "facilityPhone": "",
           "rxNumber": "",
-          "prescriptionType": "drug",
+          "prescriptionType": "supply",
           "patientTaking": false,
           "current": null,
           "remote": null,
