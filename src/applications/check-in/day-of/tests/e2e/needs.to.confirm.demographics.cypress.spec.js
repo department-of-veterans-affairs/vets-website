@@ -17,12 +17,16 @@ describe('Check In Experience | Day Of |', () => {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeSessionPost,
+        initializeUpcomingAppointmentsDataGet,
         initializeCheckInDataGet,
+        initializeCheckInDataPost,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withValidation();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
     });
     afterEach(() => {

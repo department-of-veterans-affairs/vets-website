@@ -14,11 +14,14 @@ describe('Check In Experience | Day Of |', () => {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeSessionPost,
+        initializeUpcomingAppointmentsDataGet,
         initializeCheckInDataGet,
+        initializeCheckInDataPost,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withValidation();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataGet.withSuccess({
         demographicsNeedsUpdate: false,
         demographicsConfirmedAt: dateFns.format(
@@ -36,6 +39,7 @@ describe('Check In Experience | Day Of |', () => {
           "yyyy-LL-dd'T'HH:mm:ss",
         ),
       });
+      initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
     });
     afterEach(() => {
