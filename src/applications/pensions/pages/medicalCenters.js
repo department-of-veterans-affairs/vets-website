@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 
 // View component for Medical Center
 const MedicalCenterView = ({ formData }) => {
