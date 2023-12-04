@@ -47,6 +47,8 @@ const OtherAssetsInputList = props => {
         prompt={prompt}
         submitted={submitted}
         onChange={event => onChange(event)}
+        min={0}
+        max={1000000}
       />
       <va-additional-info
         class="vads-u-margin-top--4"
