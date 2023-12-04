@@ -32,4 +32,9 @@ const ORDER_TYPES = {
   },
 };
 
-export { APPOINTMENT_TYPES, ORDER_TYPES };
+const MEDICATION_TYPES = {
+  DRUG: 'drug',
+  SUPPLY: 'supply',
+};
+
+export { APPOINTMENT_TYPES, MEDICATION_TYPES, ORDER_TYPES };
