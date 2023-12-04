@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import {
@@ -258,6 +259,28 @@ const renderMedication = medication => {
       <br />
       <br />
       Facility: {medication.stationName}
+      <br />
+      Main phone:{' '}
+      {medication.facilityPhone && (
+        <>
+          [
+          <va-telephone contact={medication.facilityPhone.replace(/\D/g, '')} />
+          ] (<va-telephone contact={CONTACTS['711']} tty />)
+        </>
+      )}
+      <br />
+      Ordering Provider: {medication.orderingProvider}
+      <br />
+      <br />
+      Status: {medication.status}
+      <br />
+      Quantity: {medication.quantity}
+      <br />
+      Refills remaining: {medication.refillsRemaining}
+      <br />
+      Expires: {medication.dateExpires}
+      <br />
+      Last filled: {medication.dateLastFilled}
     </p>
   );
 };
