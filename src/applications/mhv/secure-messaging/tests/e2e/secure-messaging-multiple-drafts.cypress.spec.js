@@ -14,7 +14,50 @@ describe('handle multiple drafts in one thread', () => {
     landingPage.loadInboxMessages();
   });
 
-  it('verify multiple drafts could be created', () => {});
+  it('verify headers', () => {
+    landingPage.loadSingleThread(mockMultiDraftsResponse);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+    cy.get('[data-testid="reply-form"]')
+      .find('h2')
+      .should('be.visible')
+      .and('contain.text', '4 drafts');
+
+    cy.get('[data-testid="reply-form"]')
+      .find('h3')
+      .each(el => {
+        cy.wrap(el).should('include.text', 'Draft');
+      });
+  });
+
+  it('verify user can resave the draft', () => {
+    landingPage.loadSingleThread(mockMultiDraftsResponse);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/3161671/replydraft/3163906`,
+      { data: mockMultiDraftsResponse.data[0] },
+    );
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
+    cy.get('.last-save-time > .vads-u-margin-y--0').should(
+      'include.text',
+      'Your message was saved ',
+    );
+  });
 
   it('verify draft could be send', () => {
     landingPage.loadSingleThread(mockMultiDraftsResponse);
@@ -63,5 +106,38 @@ describe('handle multiple drafts in one thread', () => {
     cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
 
     draftPage.verifyConfirmationMessage(Alerts.Message.DELETE_DRAFT_SUCCESS);
+  });
+
+  it('verify managing drafts', () => {
+    landingPage.loadSingleThread(mockMultiDraftsResponse);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    cy.intercept(
+      'DELETE',
+      `/my_health/v1/messaging/messages/${
+        mockMultiDraftsResponse.data[0].attributes.messageId
+      }`,
+      { data: mockMultiDraftsResponse.data[0] },
+    ).as('deletedDraftResponse');
+
+    cy.get('[data-testid="message-body-field"]').should(
+      'have.attr',
+      'value',
+      mockMultiDraftsResponse.data[0].attributes.body,
+    );
+
+    cy.contains('Edit draft').click({ waitForAnimations: true });
+    cy.get('[data-testid="message-body-field"]').should(
+      'have.attr',
+      'value',
+      mockMultiDraftsResponse.data[1].attributes.body,
+    );
   });
 });
