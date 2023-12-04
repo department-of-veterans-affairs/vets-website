@@ -8,6 +8,7 @@ export const MedicalEvidenceAlert = () => (
   </va-alert>
 );
 
+// To do: refactor RequestNursingHomeInformationAlert and SpecialMonthlyPensionEvidenceAlert into one reusable component <RequestFormAlert /> with props
 export const RequestNursingHomeInformationAlert = () => (
   <va-alert status="warning" uswds slim>
     <p className="vads-u-margin-y--0">
