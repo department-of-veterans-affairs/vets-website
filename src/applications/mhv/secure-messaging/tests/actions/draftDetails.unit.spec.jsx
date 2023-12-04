@@ -45,7 +45,7 @@ describe('draftDetails actions', () => {
       .dispatch(saveDraft(requestMessageData, 'manual', messageId))
       .then(() => {
         expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.SAVE_STARTED,
+          type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.UPDATE_SUCCEEDED,
@@ -78,7 +78,7 @@ describe('draftDetails actions', () => {
       .dispatch(saveDraft({ body, subject, category, recipientId }, 'auto'))
       .then(() => {
         expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.AUTO_SAVE_STARTED,
+          type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
@@ -96,7 +96,7 @@ describe('draftDetails actions', () => {
       .dispatch(saveReplyDraft('1234', requestMessageData, 'manual'))
       .then(() => {
         expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.SAVE_STARTED,
+          type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
@@ -146,7 +146,7 @@ describe('draftDetails actions', () => {
       .dispatch(saveReplyDraft('1234', requestMessageData, 'auto'))
       .then(() => {
         expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.AUTO_SAVE_STARTED,
+          type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,

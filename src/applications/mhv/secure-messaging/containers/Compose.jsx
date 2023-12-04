@@ -14,7 +14,8 @@ import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
+  const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
+  const draftMessage = drafts?.length && drafts[0];
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
 
@@ -95,7 +96,7 @@ const Compose = () => {
         />
       );
     }
-    if (error) {
+    if (saveError) {
       return (
         <va-alert status="error" visible class="vads-u-margin-y--9">
           <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
