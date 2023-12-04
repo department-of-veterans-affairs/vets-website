@@ -21,7 +21,7 @@ const {
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const paymentInformation = require('./endpoints/payment-information');
-const disabilityComps = require('./endpoints/disability-compensations');
+const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -150,12 +150,12 @@ const responses = {
 
     // Lighthouse based API endpoint for direct deposit CNP
     // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
-    return res.json(disabilityComps.base);
+    return res.json(mockDisabilityCompensations.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     return res
       .status(200)
-      .json(disabilityComps.updates.errors.invalidAccountNumber);
+      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
