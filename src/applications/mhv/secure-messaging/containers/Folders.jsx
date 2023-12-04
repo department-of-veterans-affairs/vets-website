@@ -108,8 +108,8 @@ const Folders = () => {
           </>
         )}
         <CreateFolderModal
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
+          isCreateNewModalVisible={isModalVisible}
+          setIsCreateNewModalVisible={setIsModalVisible}
           onConfirm={confirmFolderCreate}
           folders={folders}
         />
