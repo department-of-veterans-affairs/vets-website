@@ -3,13 +3,13 @@ import {
   testNumberOfWebComponentFields,
 } from './pageTests.spec';
 import formConfig from '../../config/form';
-import nursingHome from '../../pages/nursingHome';
+import contactInformation from '../../pages/contactInformation';
 
-const { schema, uiSchema } = nursingHome;
+const { schema, uiSchema } = contactInformation;
 
-describe('pension nursing home page', () => {
-  const pageTitle = 'nursing home information';
-  const expectedNumberOfFields = 1;
+describe('pension contact information page', () => {
+  const pageTitle = 'Email address and phone number';
+  const expectedNumberOfFields = 4;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -18,7 +18,7 @@ describe('pension nursing home page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 2;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
