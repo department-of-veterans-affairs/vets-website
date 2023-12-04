@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import compact from 'lodash/compact';
 import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
@@ -7,9 +7,11 @@ import manifest from './manifest.json';
 /* eslint-disable camelcase */
 
 const apiSettings = {
-  credentials: 'include',
+  // credentials: 'include',
+  mode: 'cors',
   headers: {
     'X-Key-Inflection': 'camel',
+    'Sec-Fetch-Mode': 'cors',
 
     // Pull app name directly from manifest since this config is defined
     // before startApp, and using window.appName here would result in
@@ -32,6 +34,8 @@ const railsEngineApi = {
   url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
+
+export const useMockData = false;
 
 export const getAPI = () => railsEngineApi;
 
@@ -75,12 +79,12 @@ export const resolveParamsWithUrl = ({
 export const representativeTypes = {
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
