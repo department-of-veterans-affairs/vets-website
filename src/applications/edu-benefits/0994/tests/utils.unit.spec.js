@@ -2,7 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { srSubstitute, maskBankInformation } from '../../0994/utils';
+import {
+  srSubstitute,
+  maskBankInformation,
+  hasNewBankInformation,
+  hasPrefillBankInformation,
+} from '../utils';
 
 describe('0994 utils', () => {
   describe('srSubstitute', () => {
@@ -32,5 +37,29 @@ describe('0994 utils', () => {
 
       maskedBankInfo.unmount();
     });
+  });
+  describe('hasNewBankInformation', () => {
+    it('should confirm valid input', () => {
+      const data = {
+        prefillBankAccount: {
+          accountType: 'Checking',
+          accountNumber: '*********1234',
+          routingNumber: '*****2115',
+        },
+      };
+      const result = hasNewBankInformation(data.prefillBankAccount);
+      expect(result).to.be.true;
+    });
+    it('should confirm invalid input', () => {
+      const result = hasNewBankInformation();
+      expect(result).to.be.false;
+    });
+  });
+});
+
+describe('hasPrefillBankInformation', () => {
+  it('should confirm invalid input', () => {
+    const result = hasPrefillBankInformation();
+    expect(result).to.be.false;
   });
 });
