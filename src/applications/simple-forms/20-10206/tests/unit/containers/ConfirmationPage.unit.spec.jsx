@@ -2,9 +2,11 @@ import React from 'react';
 
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { createStore } from 'redux';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { cleanup } from '@testing-library/react';
+import { format } from 'date-fns';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
@@ -39,7 +41,9 @@ describe('ConfirmationPage', () => {
   });
 
   afterEach(() => {
-    wrapper.unmount();
+    if (wrapper) {
+      wrapper.unmount();
+    }
     cleanup();
   });
 
@@ -66,5 +70,52 @@ describe('ConfirmationPage', () => {
       nextStepsText:
         'After we review your request, we’ll contact you to tell you what happens next in the request process.',
     });
+  });
+
+  it('should select form from state when state.form is defined', () => {
+    const submitDate = new Date();
+    const mockInitialState = {
+      form: {
+        submission: {
+          timestamp: submitDate,
+          response: { confirmationNumber: '1234' },
+        },
+        data: { fullName: { first: 'John', last: 'Preparer' } },
+      },
+    };
+    const mockDefinedState = createStore(() => mockInitialState);
+
+    const definedWrapper = mount(
+      <Provider store={mockDefinedState}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+
+    expect(definedWrapper.text()).to.include('John Preparer');
+    expect(definedWrapper.text()).to.include(
+      format(submitDate, 'MMMM d, yyyy'),
+    );
+    expect(definedWrapper.text()).to.include('1234');
+
+    definedWrapper.unmount();
+  });
+
+  it('should throw error when state.form is undefined', () => {
+    const mockEmptyState = {};
+    const mockEmptyStore = createStore(() => mockEmptyState);
+
+    let errorWrapper;
+
+    expect(() => {
+      errorWrapper = mount(
+        <Provider store={mockEmptyStore}>
+          <ConfirmationPage />
+        </Provider>,
+      );
+    }).to.throw();
+
+    if (errorWrapper) {
+      errorWrapper.unmount();
+    }
   });
 });
