@@ -1,5 +1,4 @@
 import { differenceInCalendarDays, parseISO } from 'date-fns';
-import { isInPilot } from '../pilotFeatures';
 
 const isWithInDays = (days, pageLastUpdated) => {
   const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
@@ -72,14 +71,7 @@ const updateFormPages = (
       stationNo in travelPaySent &&
       !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
   }
-  if (
-    !isTravelReimbursementEnabled ||
-    skipLogic ||
-    !isInPilot({
-      appointment: appointments[0],
-      pilotFeature: 'fileTravelClaim',
-    })
-  ) {
+  if (!isTravelReimbursementEnabled || skipLogic) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));

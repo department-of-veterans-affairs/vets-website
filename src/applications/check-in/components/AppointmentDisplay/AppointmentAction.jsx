@@ -16,23 +16,16 @@ import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 import { useStorage } from '../../hooks/useStorage';
 import { getAppointmentId } from '../../utils/appointment';
-import { isInPilot } from '../../utils/pilotFeatures';
 import { useTravelPayFlags } from '../../hooks/useTravelPayFlags';
 
 const AppointmentAction = props => {
   const { appointment, router, event } = props;
 
-  const isTravelReimbursementInPilot = isInPilot({
-    appointment,
-    pilotFeature: 'fileTravelClaim',
-  });
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
   const { travelPayEligible } = useTravelPayFlags(appointment);
 
-  const isTravelEnabled =
-    isTravelReimbursementEnabled && isTravelReimbursementInPilot;
   const travelSubmitted = travelPayEligible || false; // The hook returns undefined so coercing to false
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
@@ -55,7 +48,7 @@ const AppointmentAction = props => {
           uuid: token,
           appointmentIen: appointment.appointmentIen,
           setECheckinStartedCalled,
-          isTravelEnabled,
+          isTravelEnabled: isTravelReimbursementEnabled,
           travelSubmitted,
         });
         const { status } = json;
@@ -77,7 +70,7 @@ const AppointmentAction = props => {
       event,
       setCheckinComplete,
       setECheckinStartedCalled,
-      isTravelEnabled,
+      isTravelReimbursementEnabled,
       travelSubmitted,
     ],
   );
