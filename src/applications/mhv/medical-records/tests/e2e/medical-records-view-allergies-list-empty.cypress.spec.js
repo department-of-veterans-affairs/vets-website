@@ -8,15 +8,11 @@ describe('Medical Records View Allergies', () => {
     site.login();
     cy.visit('my-health/medical-records');
 
-    cy.intercept(
-      'GET',
-      'https://staging-api.va.gov/my_health/v1/medical_records/allergies',
-      allergies,
-    );
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
 
-    cy.get('[data-testid="no-allergy-records"]').should('be.visible');
+    cy.get('[data-testid="no-records-message"]').should('be.visible');
 
     cy.get('[data-testid="print-records-button"]').should('not.exist');
     // .click({ force: true });
