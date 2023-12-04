@@ -2697,33 +2697,25 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@datadog/browser-core@4.46.0":
-  version "4.46.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.46.0.tgz#7661ff43262c8357696c06f670d8708117af64d3"
-  integrity sha512-lZzn6E/vdZul4sPOAAGjzCiUsLeO/XsXGn5kzaroPAmzevPztm8C7twcaISFWUg5sE04FG9hOLK0+LI61AABhA==
+"@datadog/browser-core@4.50.1":
+  version "4.50.1"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.50.1.tgz#f9014628c697c1cedfd85103094934286c4339ca"
+  integrity sha512-2ypS19XngsMu6W4qUBtDwvImFz886Im+PziOnEycO1w41TVS5LH8/vWBMvjSf8Suer+CeRjRN9IOu0ocRx9BVw==
 
-"@datadog/browser-rum-core@4.46.0":
-  version "4.46.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.46.0.tgz#ce2b2b4cfb67d0c30f78eb6311bde7601529a638"
-  integrity sha512-U93vx3tftgLH5IB39ztTyRVD2etZWXAyZ+e6AQu4A2vD8MR9TBThHCuce2MFHmKH4O1zNsOdEOwZdIBzCZjiXg==
+"@datadog/browser-rum-core@4.50.1":
+  version "4.50.1"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.50.1.tgz#e0f6a261808212ef00433b6065a6a1481a596055"
+  integrity sha512-ABCzEjNiBq3izapvSq6uujdx9h7L4RM44n22qDhwSIBlQY6Psf9VlzlQ5fueCALoj2LgVy4rYDj5RHfGaF/lAQ==
   dependencies:
-    "@datadog/browser-core" "4.46.0"
+    "@datadog/browser-core" "4.50.1"
 
-"@datadog/browser-rum@^4.45.0":
-  version "4.46.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.46.0.tgz#f8efc1b593fbda9adc65955e66f857574460bbc7"
-  integrity sha512-lHv0WS10WQjIVxdjpn8mslZaOOyjdUyPTWGl/YAzOitFFCoP5nPMz24oZWlbcykfOeus5d7CukN36PkfyCNxBQ==
+"@datadog/browser-rum@^4.49.0":
+  version "4.50.1"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-4.50.1.tgz#a74520a589d0cd25919503608abaff1960593bb4"
+  integrity sha512-Gcs8fMoufOr4Xlhwx0g6CHvgcXVNeCM+IyAtRAwoCBeezRhL18Jo1LALE+nsLegNKgNLO1f4vjm5TBx1WsnXWQ==
   dependencies:
-    "@datadog/browser-core" "4.46.0"
-    "@datadog/browser-rum-core" "4.46.0"
-    "@datadog/browser-worker" "4.46.0"
-
-"@datadog/browser-worker@4.46.0":
-  version "4.46.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-worker/-/browser-worker-4.46.0.tgz#2cb0cbb1c4d0bbe4fda23019ae30a4d0e287e19a"
-  integrity sha512-iyXk/7/6btfGK3DrRAbjihj2hmFAg3aVYV3KFbgP6FSQ3JvD7tSmLZ4z/0WRuC1q+a/O3BdHbdb1Mrh2dSSpFA==
-  dependencies:
-    "@datadog/browser-core" "4.46.0"
+    "@datadog/browser-core" "4.50.1"
+    "@datadog/browser-rum-core" "4.50.1"
 
 "@datadog/native-appsec@2.0.0":
   version "2.0.0"
@@ -2772,34 +2764,41 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^29.0.0":
-  version "29.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-29.0.0.tgz#18cdb689c5ac70f2420007676046fecf6c404757"
-  integrity sha512-4fBDxhlf6+htg7Twoa9q2Mp1nD5wUKBIl9UZKMDJaVorqTPVJnce7ml/zYXOBAX/qU6eP7Ve6dBEh1KF+BgZBw==
+"@department-of-veterans-affairs/component-library@^32.1.1":
+  version "32.1.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-32.1.1.tgz#12e750da22ad3b6c2efb0cf7dc2719b5b86dcb19"
+  integrity sha512-Y7Co2xImoGezNQdPYNVSNp9/Nkx+7GC0vBslqgKlPJ/tEYY1104n1XIpcWoumHjofFztIkJfmnyr6M7x9kYpvw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "24.0.0"
-    "@department-of-veterans-affairs/web-components" "4.45.34"
+    "@department-of-veterans-affairs/react-components" "26.0.0"
+    "@department-of-veterans-affairs/web-components" "4.49.3"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
+
+"@department-of-veterans-affairs/css-library@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.0.1.tgz#4b587c417328c58ce9238f45dc47e0af91b43c34"
+  integrity sha512-DASihQpZUhpcFxBT7xXgv74b+vqMyJx/Wbs9p54vpMZdOwgfUBMtL0CxcWtVNvGE0vYcUaU5cU3plE9ACgIetA==
+  dependencies:
+    "@divriots/style-dictionary-to-figma" "^0.4.0"
 
 "@department-of-veterans-affairs/css-library@^0.1.0-rc4":
   version "0.1.0-rc4"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.1.0-rc4.tgz#30e73420f42afaa6903347920081f778dbde63f8"
   integrity sha512-VjbDupf4S0xUPXnepS0lzwTHxioNkQZGm33D+9/lrZLdpcRdSIurNBajP5vtSBpqKEhG/UrHHpxkv9/S94WfAQ==
 
-"@department-of-veterans-affairs/eslint-plugin@^1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.12.0.tgz#a69a8d7d0175f789a9016af6e25fd7b2c55b3a58"
-  integrity sha512-UFNHTKAeUIsw79rDQUmfOHrDJmT00tzSLSNkJ9ac4Q115OsErXc7GcMjUXFVG9PX+gJyAqYynaIYCZJzUILOxQ==
+"@department-of-veterans-affairs/eslint-plugin@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.13.0.tgz#1bf84fa6eb4b1a6b602b2c77ce23921bab5a0f87"
+  integrity sha512-s4ovnPp+VbI0qqMqdhV391mw25X3T1cpizinLyuoC7msvwdW9e+UcFIO7XK4LCWKoG5kkx4nCLjAKhcKcFj/yA==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.8":
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.8.tgz#685612acc82b80ba6fe283d283fd9e0c848cf60a"
-  integrity sha512-PzDg0S/X0fhFw+gPnPv/bytZ2n02o6q2nXeLI45uq75ob2UGbFpkYRlqJQXpUgmObpyjXpv2HoIO7nj/8NLiQw==
+"@department-of-veterans-affairs/formation@^7.0.9":
+  version "7.0.9"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.9.tgz#2a18c435f8527081d5354629a1a2f203c1f3d910"
+  integrity sha512-U72RcNsRYGC5IAo59m7QxItLXf0IPm2TdH7Oe6Z8SuSjd1RtlbLIPuEGEkMuEj6SjCROsVAyX2P24YshUJ6Sgg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2815,10 +2814,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@24.0.0":
-  version "24.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-24.0.0.tgz#8292666594edf286823cf41a77b0603cd524ca33"
-  integrity sha512-dIwmZbj12jPslP+Ogl2WBArUnqTTA+hE/ZZ6UCu+oZ/8vVH3qTLx6tFnkVYos0rLZPY4E0Io3Zj3EPSUH+A0lg==
+"@department-of-veterans-affairs/react-components@26.0.0":
+  version "26.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-26.0.0.tgz#c37a5bd8d41461ca2197195a0d890df99bd6e442"
+  integrity sha512-sdaEBQPxFgMg6X4XU6wsHm+wqY79EWQSLIk/k7eGVEZeHI1gasiphzkI/u/8B+JM4HjGUiRHRhaHfIgwcibzcQ==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2856,11 +2855,12 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.45.34":
-  version "4.45.34"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.45.34.tgz#170d92262f9ad9cf8581a41eff47f18bcf75b59d"
-  integrity sha512-FAvx5u5aLrWds2g9a6xvI4WZ2YX8mOjGleejproEJS0TXpP7AbkG6o8PkBTNxfdQDuxRjCeJhF/qzYjq+jxVpQ==
+"@department-of-veterans-affairs/web-components@4.49.3":
+  version "4.49.3"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-4.49.3.tgz#0dd4bd3fba533a772c3c96f92cb898690cdcd2ff"
+  integrity sha512-aIB4Mz8ChyDbLeFdzXGYLk+1N1fxYk6HFlyudVIGwy+t0Pma09tfWLkMsKBqBUjkmmwOBcFupA5EXl7NACqZwQ==
   dependencies:
+    "@department-of-veterans-affairs/css-library" "^0.0.1"
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
@@ -2871,6 +2871,11 @@
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.5.tgz#9283c9ce5b289a3c4f61c12757469e59377f81f3"
   integrity sha512-6nFkfkmSeV/rqSaS4oWHgmpnYw194f6hmWF5is6b0J1naJZoiD0NTc9AiUwPHvWsowkjuHErCZT1wa0jg+BLIA==
+
+"@divriots/style-dictionary-to-figma@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@divriots/style-dictionary-to-figma/-/style-dictionary-to-figma-0.4.0.tgz#c518116620887eb71d2750c30201f9ffceb3dac9"
+  integrity sha512-vSC3u1xBi9ShYpGEP+atS+L0vnNnSFmjtvB976+yNUT25nvgpUYCb1ZsSpKBe8+Uk1Qww+4ZIK+/91k3msfs2Q==
 
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
@@ -7513,10 +7518,10 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress-real-events@^1.7.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.8.1.tgz#d00c7fe93124bbe7c0f27296684838614d24a840"
-  integrity sha512-8fFnA8EzS3EVbAmpSEUf3A8yZCmfU3IPOSGUDVFCdE1ke1gYL1A+gvXXV6HKUbTPRuvKKt2vpaMbUwYLpDRswQ==
+cypress-real-events@^1.10.3:
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.10.3.tgz#e2e949ea509cc4306df6c238de1a9982d67360e5"
+  integrity sha512-YN3fn+CJIAM638sE6uMvv2/n3PsWowdd0rOiN6ZoyezNAMyENfuQHvccLKZpN+apGfQZYetCml6QXLYgDid2fg==
 
 cypress-wait-until@^1.7.2:
   version "1.7.2"
@@ -10358,9 +10363,9 @@ get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
 get-func-name@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/get-func-name/-/get-func-name-2.0.0.tgz"
-  integrity sha1-6td0q+5y4gQJQzoGY2YCPdaIekE=
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.2.tgz#0d7cf20cd13fda808669ffa88f4ffc7a3943fc41"
+  integrity sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.1:
   version "1.2.1"
@@ -16468,6 +16473,13 @@ react-clientside-effect@^1.2.5, react-clientside-effect@^1.2.6:
   dependencies:
     "@babel/runtime" "^7.12.13"
 
+react-device-detect@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.2.3.tgz#97a7ae767cdd004e7c3578260f48cf70c036e7ca"
+  integrity sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==
+  dependencies:
+    ua-parser-js "^1.0.33"
+
 react-dom@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
@@ -19487,7 +19499,7 @@ typical@^5.0.0, typical@^5.2.0:
   resolved "https://registry.npmjs.org/typical/-/typical-5.2.0.tgz"
   integrity sha512-dvdQgNDNJo+8B2uBQoqdb11eUCE1JQXhvjC/CZtgvZseVd5TYMXnq0+vuUemXbd/Se29cTaUuPX3YIc2xgbvIg==
 
-ua-parser-js@^0.7.24, ua-parser-js@^0.7.30:
+ua-parser-js@^0.7.24, ua-parser-js@^0.7.30, ua-parser-js@^1.0.33:
   version "0.7.35"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.35.tgz#8bda4827be4f0b1dda91699a29499575a1f1d307"
   integrity sha512-veRf7dawaj9xaWEu9HoTVn5Pggtc/qj+kqTOFvNiN1l0YdxwC1kvel57UCjThjGa3BHBihE8/UJAHI+uQHmd/g==
@@ -19994,9 +20006,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120":
-  version "20.27.22"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#be4feabc0b7448db5774dace802204e904bd1120"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#2092ad296ec27a62023674ad2fc597ee25b9d720":
+  version "20.32.4"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#2092ad296ec27a62023674ad2fc597ee25b9d720"
   dependencies:
     minimist "^1.2.3"
 

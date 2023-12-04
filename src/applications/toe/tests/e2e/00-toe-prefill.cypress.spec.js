@@ -71,16 +71,19 @@ describe('All Field prefilled tests for TOE app', () => {
     }`;
 
     // verifying sponsor names exist on the page
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('label')
       .should('contain.text', sponsorName1);
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(1)
+      .shadow()
       .find('label')
       .should('contain.text', sponsorName2);
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(2)
+      .shadow()
       .find('label')
       .should('contain.text', sponsorName3);
 
@@ -90,8 +93,9 @@ describe('All Field prefilled tests for TOE app', () => {
     cy.contains('Please select at least one sponsor').should('exist');
 
     // verifying error message is not presented
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('input')
       .click();
     cy.findByText('Continue').click();
@@ -386,8 +390,9 @@ describe('All Field prefilled tests for TOE app', () => {
 
   it('Toe direct deposit page fields are prefilled, text and page elements verified', () => {
     cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('input')
       .click();
     cy.findByText('Continue').click();
@@ -451,8 +456,9 @@ describe('All Field prefilled tests for TOE app', () => {
 
   it('Toe application review page fields are prefilled, text and page elements verified', () => {
     cy.findByText('Continue').click();
-    cy.get('div.form-checkbox-buttons')
+    cy.get('va-checkbox')
       .eq(0)
+      .shadow()
       .find('input')
       .click();
     cy.findByText('Continue').click();
@@ -476,22 +482,16 @@ describe('All Field prefilled tests for TOE app', () => {
     );
 
     // verifying your information section in review page
-    cy.get('button[id*="collapsibleButton"]').contains('Your information');
+    cy.get("va-accordion-item[header='Your information']").should('exist');
 
     // verifying Sponsor information section in review page
 
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Sponsor information')
-      .click();
+    cy.get("va-accordion-item[header='Sponsor information']").click();
     cy.contains('Sponsor 1: Sharon Parker').should('exist');
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Sponsor information')
-      .click();
+    cy.get("va-accordion-item[header='Sponsor information']").click();
 
     // verifying Contact information, mailing and contact preference section in review page
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Contact information')
-      .click();
+    cy.get("va-accordion-item[header='Contact information']").click();
     cy.contains(
       toeClaimantTestData.data.attributes.claimant.contactInfo
         .mobilePhoneNumber,
@@ -513,15 +513,11 @@ describe('All Field prefilled tests for TOE app', () => {
     cy.contains(
       toeClaimantTestData.data.attributes.claimant.contactInfo.zipcode,
     ).should('exist');
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Contact information')
-      .click();
+    cy.get("va-accordion-item[header='Contact information']").click();
 
     // verify direct deposit information on review page
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Direct deposit')
-      .click();
-    cy.get('button[aria-label="Edit account information"]').click();
+    cy.get("va-accordion-item[header='Direct deposit']").click();
+    cy.get('va-button[aria-label="Edit account information"]').click();
     cy.get(
       'input[id*="root_bankAccount_accountType"][value="checking"]',
     ).should('be.checked');
@@ -534,8 +530,6 @@ describe('All Field prefilled tests for TOE app', () => {
       '123123123',
     );
     cy.get('[aria-label="Update Direct deposit"]').click();
-    cy.get('button[id*="collapsibleButton"]')
-      .contains('Direct deposit')
-      .click();
+    cy.get("va-accordion-item[header='Direct deposit']").click();
   });
 });

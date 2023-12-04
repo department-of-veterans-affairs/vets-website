@@ -4,14 +4,22 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { pageTitles, recordType } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+  recordType,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -33,7 +41,14 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
+      );
+    }
     if (labsAndTests?.length > 0) {
       return (
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
@@ -49,12 +64,13 @@ const LabsAndTests = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const ExtraDetails = rx => {
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
   }
+  const refillDate = useMemo(
+    () => {
+      if (new Date(rx.refillDate) > new Date()) {
+        return dateFormat(rx.refillDate, 'MMMM D, YYYY');
+      }
+      return dateFormat(rx.dispensedDate ?? rx.refillDate, 'MMMM D, YYYY');
+    },
+    [rx.refillDate, rx.dispensedDate],
+  );
   return (
     <div className="shipping-info" id="status-description">
       {dispStatus === dispStatusObj.unknown && (
@@ -27,8 +40,7 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
           <p data-testid="rx-refillinprocess-info">
-            Refill in process. We expect to fill it on{' '}
-            {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            Refill in process. We expect to fill it on {refillDate}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
@@ -45,6 +57,13 @@ const ExtraDetails = rx => {
           {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
           updates.
         </p>
+      )}
+      {dispStatus === dispStatusObj.activeParked && (
+        <div>
+          <p className="vads-u-margin-y--0" data-testid="VA-prescription">
+            You can request this prescription when you need it.
+          </p>
+        </div>
       )}
       {dispStatus === dispStatusObj.expired && (
         <div>
@@ -65,7 +84,11 @@ const ExtraDetails = rx => {
             You can’t refill this prescription. If you need more, send a message
             to your care team.
           </p>
-          <va-link href="/" text="Compose a message" />
+          <va-link
+            href={mhvUrl(ssoe, 'secure-messaging')}
+            text="Compose a message"
+            data-testid="discontinued-compose-message-link"
+          />
         </div>
       )}
       {dispStatus === dispStatusObj.transferred && (

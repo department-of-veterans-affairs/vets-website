@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import formConfig from '../config/form';
-import { transform } from '../helpers';
+import { eighteenOrOver, transform } from '../helpers';
 
 describe('5490 helpers', () => {
   describe('transform', () => {
@@ -65,6 +65,12 @@ describe('5490 helpers', () => {
       expect(getForm(transformed).veteranDateOfDeath).to.eq(
         formData.data['view:sponsorDateOfDeath'],
       );
+    });
+  });
+  describe('eighteenOrOver', () => {
+    it('validate all possible paths', () => {
+      const veteranDateOfBirth = eighteenOrOver('1980-01-01');
+      expect(veteranDateOfBirth).to.be.true;
     });
   });
 });

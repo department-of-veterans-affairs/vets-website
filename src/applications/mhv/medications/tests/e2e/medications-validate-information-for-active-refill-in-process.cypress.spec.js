@@ -5,17 +5,13 @@ describe('Medications List Page Information based on Medication Status', () => {
   it('verify information on list view for active refill in process', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

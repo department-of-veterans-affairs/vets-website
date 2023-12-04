@@ -6,6 +6,16 @@ import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
+import Scroll from 'react-scroll';
+
+const { scroller } = Scroll;
+export const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 function replacer(key, value) {
   // if the containing object has a name, we’re in the national guard object
@@ -168,6 +178,20 @@ export const spouseContribution = (
     How much do you <strong>contribute monthly</strong> to your spouse’s
     support?
   </span>
+);
+
+export const specialMonthlyPensionDescription = (
+  <section>
+    <p>
+      If you have certain health needs or disabilities, you may be eligible for
+      additional pension. We call this special monthly pension (SMP).
+    </p>
+    <p>
+      You may be eligible for SMP if you need the regular assistance of another
+      person, have severe visual impairment, or are generally confined to your
+      immediate premises.
+    </p>
+  </section>
 );
 
 export function fileHelp({ formData }) {

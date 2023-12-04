@@ -1,13 +1,8 @@
-// Node modules.
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-// Relative imports.
 import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -60,7 +55,6 @@ export class Main extends Component {
     toggleMobileDisplayHidden: PropTypes.func.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     updateCurrentSection: PropTypes.func.isRequired,
-    // From mapStateToProps.
     currentDropdown: PropTypes.string,
     currentSection: PropTypes.string,
     data: PropTypes.arrayOf(
@@ -191,10 +185,9 @@ const mapStateToProps = (state, ownProps) => {
     MY_VA_LINK.href = `${urlWithoutParams}?next=%2Fmy-va%2F${useOAuth}`;
   }
 
-  const showMyVALink = toggleValues(state)[
-    FEATURE_FLAG_NAMES.myVaShowHeaderLink
-  ];
-  if (showMyVALink) defaultLinks.push(MY_VA_LINK);
+  if (loggedIn) {
+    defaultLinks.push(MY_VA_LINK);
+  }
 
   const authenticatedLinks = isLandingPageEnabled(state)
     ? [{ ...MY_HEALTH_LINK }]

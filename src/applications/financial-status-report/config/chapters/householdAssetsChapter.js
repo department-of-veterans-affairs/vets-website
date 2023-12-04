@@ -1,6 +1,5 @@
 import {
   monetary,
-  monetaryChecklist,
   monetaryValues,
   realEstate,
   realEstateRecords,
@@ -20,6 +19,7 @@ import OtherAssetsChecklist from '../../components/otherAssets/OtherAssetsCheckl
 import OtherAssetsSummary from '../../components/otherAssets/OtherAssetsSummary';
 import OtherAssetsSummaryReview from '../../components/otherAssets/OtherAssetsSummaryReview';
 import RealEstateReview from '../../components/otherAssets/RealEstateReview';
+import RealEstateQuestionReview from '../../components/otherAssets/RealEstateQuestionReview';
 import EnhancedVehicleRecord from '../../components/otherAssets/EnhancedVehicleRecord';
 import VehicleSummaryWidget from '../../components/otherAssets/VehicleSummaryWidget';
 import MonetaryAssetsSummaryReview from '../../components/monetary/MonetaryAssetsSummaryReview';
@@ -35,6 +35,7 @@ import {
   CashInBank,
   CashInBankReview,
 } from '../../components/monetary/CashInBank';
+import MonetaryCheckList from '../../components/monetary/MonetaryCheckList';
 
 export default {
   householdAssetsChapter: {
@@ -100,8 +101,10 @@ export default {
       monetaryChecklist: {
         path: 'monetary-asset-checklist',
         title: 'Monetary asset options',
-        uiSchema: monetaryChecklist.uiSchema,
-        schema: monetaryChecklist.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: MonetaryCheckList,
+        CustomPageReview: null,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
@@ -158,6 +161,7 @@ export default {
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: false,
+        CustomPageReview: RealEstateQuestionReview,
       },
       enhancedRealEstateRecords: {
         path: 'enhanced-real-estate-asset-records',
@@ -165,7 +169,7 @@ export default {
         uiSchema: enhancedRealEstateRecords.uiSchema,
         schema: enhancedRealEstateRecords.schema,
         depends: formData =>
-          formData.questions.hasRealEstate &&
+          formData.questions?.hasRealEstate &&
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,

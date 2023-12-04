@@ -8,7 +8,13 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
-import { loincCodes } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  loincCodes,
+} from '../util/constants';
+import useAlerts from '../hooks/use-alerts';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -16,6 +22,7 @@ const CareSummariesDetails = () => {
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesDetails,
   );
   const { summaryId } = useParams();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -43,6 +50,15 @@ const CareSummariesDetails = () => {
     [summaryId, dispatch],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
+      />
+    );
+  }
   if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
@@ -50,12 +66,13 @@ const CareSummariesDetails = () => {
     return <ProgressNoteDetails record={careSummary} />;
   }
   return (
-    <va-loading-indicator
-      message="Loading..."
-      setFocus
-      data-testid="loading-indicator"
-      class="loading-indicator"
-    />
+    <div className="vads-u-margin-y--8">
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    </div>
   );
 };
 

@@ -12,10 +12,10 @@ import {
   createAccessibleDoc,
   addHorizontalRule,
   createDetailItem,
+  createRichTextDetailItem,
   createHeading,
   createSubHeading,
   registerVaGovFonts,
-  createImageDetailItem,
   generateInitialHeaderContent,
   generateFinalHeaderContent,
   generateFooterContent,
@@ -47,6 +47,7 @@ const config = {
     },
   },
   subHeading: {
+    boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
     size: 12,
   },
@@ -70,9 +71,18 @@ const generateIntroductionContent = async (doc, parent, data) => {
 
   // preface
   if (data.preface) {
-    introduction.add(
-      createSubHeading(doc, config, data.preface, { x: 16, paragraphGap: 6 }),
-    );
+    data.preface.forEach(element => {
+      introduction.add(
+        createSubHeading(doc, config, element.value, {
+          x: 16,
+          paragraphGap: 6,
+          ...(element.weight === 'bold' && {
+            font: config.subHeading.boldFont,
+          }),
+          ...(element.continued && { continued: true }),
+        }),
+      );
+    });
   }
 
   doc.moveDown(0.5);
@@ -97,19 +107,21 @@ const generateResultsMedicationListContent = async (
 
   // medication section header
   for (const section of medication.sections) {
-    results.add(
-      await createHeading(doc, 'H4', config, section.header, {
-        paragraphGap: 10,
-        x: 16,
-      }),
-    );
+    if (section.header) {
+      results.add(
+        await createHeading(doc, 'H4', config, section.header, {
+          paragraphGap: 10,
+          x: 16,
+        }),
+      );
+    }
 
     // medication section items
     for (const resultItem of section.items) {
       let structs;
-      // image item
-      if (resultItem.value && typeof resultItem.value === 'object') {
-        structs = await createImageDetailItem(doc, config, 32, resultItem);
+      // rich text item
+      if (resultItem.isRich) {
+        structs = await createRichTextDetailItem(doc, config, 32, resultItem);
         // regular item
       } else {
         structs = await createDetailItem(doc, config, 32, resultItem);

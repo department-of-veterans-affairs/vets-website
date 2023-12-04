@@ -6,29 +6,23 @@ import {
   CONTACT_INFO_PATH,
 } from '../constants';
 
-import mockUser from './fixtures/mocks/user.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test.json';
-import {
-  mockContestableIssues,
-  getPastItf,
-  fetchItf,
-} from './995.cypress.helpers';
+import { getPastItf, fetchItf } from './995.cypress.helpers';
 
-// Telephone specific responses
-import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
-import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
+import cypressSetup from '../../shared/tests/cypress.setup';
+import { mockContestableIssues } from '../../shared/tests/cypress.helpers';
+
+import mockTelephoneUpdate from '../../shared/tests/fixtures/mocks/profile-telephone-update.json';
+import mockTelephoneUpdateSuccess from '../../shared/tests/fixtures/mocks/profile-telephone-update-success.json';
 
 describe('995 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
   const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
-    window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: { features: [{ name: 'supplemental_claim', value: true }] },
-    }).as('features');
+    cypressSetup();
 
+    window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
       'GET',
@@ -40,14 +34,8 @@ describe('995 contact info loop', () => {
 
     cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
-    // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/user?*', mockUser);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.visit(BASE_URL);
     cy.wait('@features');

@@ -1,4 +1,4 @@
-name: E2E Stress Test
+name: E2E Test Stability Review
 
 on:
   schedule:
@@ -119,7 +119,7 @@ jobs:
         working-directory: qa-standards-dashboard-data
 
   fetch-e2e-allow-list:
-    name: Fetch E2E Allow List
+    name: Fetch E2E Test Stability Allow List
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -144,13 +144,13 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Fetch E2E allow list
+      - name: Fetch E2E Test Stability Allow List
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
 
-      - name: Archive allow list
+      - name: Archive E2E Test Stability Allow List
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
@@ -182,7 +182,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Download Allow List
+      - name: Download E2E Test Stability Allow List
         uses: actions/download-artifact@v3
         with:
           name: e2e-allow-list
@@ -210,7 +210,7 @@ jobs:
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
 
   stress-test-cypress-tests:
-    name: Stress Test Cypress Tests
+    name: E2E Test Stability Review
     runs-on: self-hosted
     timeout-minutes: 1200
     needs: [build, cypress-tests-prep]
@@ -223,9 +223,10 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 12
+      max-parallel: 20
       matrix:
-        ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
+        ci_node_index:
+          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -284,7 +285,7 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 1200
         env:
           CYPRESS_CI: true
@@ -317,7 +318,7 @@ jobs:
           retention-days: 1
 
   update-e2e-allow-list:
-    name: Update E2E Allow List
+    name: Update E2E Test Stability Allow List
     runs-on: ubuntu-latest
     needs:
       [
@@ -348,7 +349,8 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -378,7 +380,7 @@ jobs:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
-      - name: Download Allow List
+      - name: Download E2E Test Stability Allow List
         uses: actions/download-artifact@v3
         with:
           name: e2e-allow-list
@@ -394,12 +396,13 @@ jobs:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
-      - name: Update E2E Allow List
+      - name: Update E2E Test Stability Allow List
         run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: e2e
           IS_CI: false
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -420,12 +423,12 @@ jobs:
       - name: Upload Cypress E2E test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
 
-      - name: Publish E2E Stress Test Results
+      - name: Publish E2E Test Stability Review Results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: E2E Stress Test Summary
+          name: E2E Test Stability Review Summary
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}

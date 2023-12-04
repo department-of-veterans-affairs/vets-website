@@ -2,7 +2,7 @@ import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
@@ -14,7 +14,11 @@ import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
-import { selectVaRadio } from '../../../util/testUtils';
+import {
+  inputVaTextInput,
+  selectVaRadio,
+  selectVaSelect,
+} from '../../../util/testUtils';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -53,7 +57,11 @@ describe('Compose form component', () => {
     return prop;
   };
 
-  it('renders without errors', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
   });
@@ -77,8 +85,8 @@ describe('Compose form component', () => {
   it('displays Edit List modal if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const editListLink = await screen.getByTestId('edit-list-button', {
-      selector: 'va-button',
+    const editListLink = await screen.getByTestId('edit-preferences-button', {
+      selector: 'button',
       exact: true,
     });
     expect(
@@ -87,7 +95,7 @@ describe('Compose form component', () => {
 
     fireEvent.click(editListLink);
     const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_LIST_CONTENT,
+      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
     );
 
     expect(
@@ -139,14 +147,10 @@ describe('Compose form component', () => {
         path: `/draft/${draftMessage.id}`,
       },
     );
-    const draftMessageHeadingText = await screen.getAllByRole('heading', {
-      name: 'COVID: Covid-Inquiry',
-      level: 2,
-    });
 
     const deleteButton = await screen.getByTestId('delete-draft-button');
 
-    expect(draftMessageHeadingText).to.exist;
+    expect(document.querySelector('form.compose-form')).to.exist;
     expect(deleteButton).to.exist;
   });
 
@@ -257,19 +261,6 @@ describe('Compose form component', () => {
     );
   });
 
-  it('renders without errors on Delete draft button click', async () => {
-    const deleteDraftSpy = sinon.spy(draftActions, 'deleteDraft');
-    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
-      draft: draftMessage,
-    });
-
-    fireEvent.click(screen.getByTestId('delete-draft-button'));
-    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
-    await waitFor(() => {
-      expect(deleteDraftSpy.calledOnce).to.be.true;
-    });
-  });
-
   it('renders without errors to category selection', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
@@ -288,14 +279,51 @@ describe('Compose form component', () => {
     });
   });
 
-  it.skip('renders without errors to recipient selection', async () => {
-    renderWithStoreAndRouter(<ComposeForm recipients={triageTeams} />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.COMPOSE,
+  it('renders without errors to recipient selection', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const val = triageTeams[0].name;
+    selectVaSelect(screen.container, val);
+    waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
     });
-    fireEvent.change(document.querySelector('va-select'), {
-      target: { value: triageTeams[0].id },
+  });
+
+  it('renders without errors to subject input', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const val = 'Test Subject';
+    inputVaTextInput(screen.container, val);
+    await waitFor(() => {
+      expect(screen.getByTestId('message-subject-field')).to.have.value(val);
+    });
+  });
+
+  it('renders without errors to message body input', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const val = 'test body';
+    inputVaTextInput(screen.container, val, 'va-textarea');
+    await waitFor(() => {
+      expect(screen.getByTestId('message-body-field')).to.have.value(val);
     });
   });
 

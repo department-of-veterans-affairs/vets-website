@@ -6,19 +6,12 @@ import { setStoredSubTask } from 'platform/forms/sub-task';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import {
-  mockContestableIssues,
-  mockContestableIssuesWithLegacyAppeals,
-  getPastItf,
-  fetchItf,
-  getRandomDate,
-} from './995.cypress.helpers';
+import { getPastItf, fetchItf } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
-import mockUser from './fixtures/mocks/user.json';
+
 import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
@@ -32,6 +25,12 @@ import {
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
 
+import cypressSetup from '../../shared/tests/cypress.setup';
+import {
+  mockContestableIssues,
+  mockContestableIssuesWithLegacyAppeals,
+  getRandomDate,
+} from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
@@ -219,6 +218,11 @@ const testConfig = createTestConfig(
                 cy.get('#add-facility-name')
                   .shadow()
                   .find('input')
+                  .focus(); // Try focusing first
+
+                cy.get('#add-facility-name')
+                  .shadow()
+                  .find('input')
                   .type(facility.providerFacilityName);
 
                 cy.get('#country')
@@ -302,11 +306,10 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.login(mockUser);
+      cypressSetup();
+
       setStoredSubTask({ benefitType: 'compensation' });
 
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
       cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
@@ -325,9 +328,6 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(() => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-        cy.intercept('GET', '/v0/feature_toggles?*', {
-          data: { features: [{ name: 'supplemental_claim', value: true }] },
-        });
       });
     },
 

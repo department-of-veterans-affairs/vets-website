@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import {
-  addAreaOfDisagreement,
   getAddress,
   getConferenceTime,
   getRep,
   getTimeZone,
+  getContact,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 import {
   addIncludedIssues,
   createIssueName,
@@ -169,71 +169,6 @@ describe('addIncludedIssues', () => {
   });
 });
 
-describe('addAreaOfDisagreement', () => {
-  it('should process a single choice', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: false,
-          },
-        },
-        {
-          disagreementOptions: {
-            effectiveDate: true,
-          },
-          otherEntry: '',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement(
-      [issue1.result, issue2.result],
-      formData,
-    );
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection',
-    );
-    expect(result[1].attributes.disagreementArea).to.equal('effective date');
-  });
-  it('should process multiple choices', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: true,
-            evaluation: true,
-          },
-          otherEntry: '',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection,effective date,disability evaluation',
-    );
-  });
-  it('should process other choice', () => {
-    const formData = {
-      areaOfDisagreement: [
-        {
-          disagreementOptions: {
-            serviceConnection: true,
-            effectiveDate: true,
-            evaluation: true,
-          },
-          otherEntry: 'this is an other entry',
-        },
-      ],
-    };
-    const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementArea).to.equal(
-      'service connection,effective date,disability evaluation,this is an other entry',
-    );
-  });
-});
-
 describe('removeEmptyEntries', () => {
   it('should remove empty string items', () => {
     expect(removeEmptyEntries({ a: '', b: 1, c: 'x', d: '' })).to.deep.equal({
@@ -296,6 +231,9 @@ describe('getRep', () => {
 });
 
 describe('getConferenceTime', () => {
+  it('should return empty string', () => {
+    expect(getConferenceTime()).to.equal('');
+  });
   it('should return v2 times', () => {
     expect(
       getConferenceTime({ informalConferenceTime: 'time0800to1200' }),
@@ -311,6 +249,7 @@ describe('getAddress', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
     const result = { zipCode5: '00000' };
     const wrap = obj => ({ veteran: { address: obj } });
+    expect(getAddress()).to.deep.equal(result);
     expect(getAddress({})).to.deep.equal(result);
     expect(getAddress(wrap({}))).to.deep.equal(result);
     expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal(result);
@@ -416,5 +355,17 @@ describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
     expect(getTimeZone().length).to.be.greaterThan(1);
+  });
+});
+
+describe('getContact', () => {
+  it('should return an empty string', () => {
+    expect(getContact({})).to.eq('');
+  });
+  it('should return a string containing representative', () => {
+    expect(getContact({ informalConference: 'rep' })).to.eq('representative');
+  });
+  it('should return a string containing veteran', () => {
+    expect(getContact({ informalConference: 'me' })).to.eq('veteran');
   });
 });

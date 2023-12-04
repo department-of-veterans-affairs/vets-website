@@ -1,23 +1,28 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZ-schema.json';
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import {
   titleUI,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
-import PolicyOrGroupDescription from '../../../components/FormDescriptions/InsurancePolicyOrGroupDescription';
-import TricarePolicyDescription from '../../../components/FormDescriptions/TricarePolicyDescription';
-import PolicyOrDescription from '../../../components/FormDescriptions/InsurancePolicyOrDescription';
+import {
+  PolicyOrGroupDescription,
+  InsurancePolicyOrDescription,
+  TricarePolicyDescription,
+} from '../../../components/FormDescriptions/InsurancePolicyDescriptions';
 import { validatePolicyNumberGroupCode } from '../../../utils/validation';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 
 const {
+  providers: { items: provider },
+} = ezrSchema.properties;
+const {
   insuranceName,
   insurancePolicyHolderName,
   insurancePolicyNumber,
   insuranceGroupCode,
-} = ezrSchema.definitions.provider.properties;
+} = provider.properties;
 
 export default {
   uiSchema: {
@@ -37,15 +42,19 @@ export default {
       insurancePolicyNumber: {
         'ui:title': content['insurance-policy-number-label'],
         'ui:webComponentField': VaTextInputField,
-        'ui:hint': content['insurance-policy-number-hint-text'],
+        'ui:options': {
+          hint: content['insurance-policy-number-hint-text'],
+        },
       },
       'view:or': {
-        ...descriptionUI(PolicyOrDescription),
+        ...descriptionUI(InsurancePolicyOrDescription),
       },
       insuranceGroupCode: {
         'ui:title': content['insurance-group-code-label'],
         'ui:webComponentField': VaTextInputField,
-        'ui:hint': content['insurance-group-code-hint-text'],
+        'ui:options': {
+          hint: content['insurance-group-code-hint-text'],
+        },
       },
     },
   },
@@ -59,8 +68,8 @@ export default {
         type: 'object',
         properties: {
           insurancePolicyNumber,
-          insuranceGroupCode,
           'view:or': VIEW_FIELD_SCHEMA,
+          insuranceGroupCode,
         },
       },
     },

@@ -8,15 +8,16 @@ import {
   dependents,
   dependentRecords,
 } from '../../pages';
-import ContactInfo, {
-  customContactFocus,
-} from '../../components/contactInfo/ContactInfo';
+import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
+import VeteranInformationReview from '../../components/veteranInformation/VeteranInformationReview';
+import ContactInfo from '../../components/contactInfo/ContactInfo';
 import ContactInfoReview from '../../components/contactInfo/ContactInfoReview';
 import {
   EditMobilePhone,
   EditEmail,
   EditAddress,
 } from '../../components/contactInfo/EditContactInfo';
+import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
 import DependentAgesReview from '../../components/household/DependentAgesReview';
 
@@ -29,7 +30,8 @@ export default {
         title: 'Veteran information',
         uiSchema: veteranInfo.uiSchema,
         schema: veteranInfo.schema,
-        editModeOnReviewPage: true,
+        CustomPage: VeteranInformation,
+        CustomPageReview: VeteranInformationReview,
         initialData: {
           personalData: {
             veteranFullName: {
@@ -81,8 +83,6 @@ export default {
         CustomPageReview: ContactInfoReview,
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
-        // needs useCustomScrollAndFocus: true to work
-        scrollAndFocusTarget: customContactFocus,
         depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       editMobilePhone: {
@@ -130,8 +130,10 @@ export default {
       dependentCount: {
         path: 'dependents-count',
         title: 'Dependents',
-        uiSchema: dependents.uiSchemaEnhanced,
+        uiSchema: {},
         schema: dependents.schemaEnhanced,
+        CustomPage: DependentCount,
+        CustomPageReview: null,
         depends: formData => formData['view:streamlinedWaiver'],
       },
       dependentAges: {

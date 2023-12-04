@@ -1,4 +1,3 @@
-import { checkForWebComponentLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
@@ -19,8 +18,6 @@ function test(mobile = false) {
     cy.viewport('iphone-4');
   }
 
-  checkForWebComponentLoadingIndicator('loading your information');
-
   // should redirect to profile/account-security on load
   cy.url().should(
     'eq',
@@ -36,6 +33,14 @@ function test(mobile = false) {
     .should('exist')
     .closest('va-alert')
     .should('exist');
+
+  // should redirect to profile/account-security on load
+  cy.url().should(
+    'eq',
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
+  );
+
+  cy.injectAxeThenAxeCheck();
 
   subNavOnlyContainsAccountSecurity(mobile);
 

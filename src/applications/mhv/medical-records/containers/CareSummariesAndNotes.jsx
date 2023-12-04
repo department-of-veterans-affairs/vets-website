@@ -5,9 +5,15 @@ import RecordList from '../components/RecordList/RecordList';
 import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { updatePageTitle } from '../../shared/util/helpers';
-import { pageTitles } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+} from '../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -15,6 +21,7 @@ const CareSummariesAndNotes = () => {
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -39,7 +46,16 @@ const CareSummariesAndNotes = () => {
     [dispatch],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
+        />
+      );
+    }
     if (careSummariesAndNotes?.length) {
       return (
         <RecordList
@@ -50,12 +66,13 @@ const CareSummariesAndNotes = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

@@ -6,7 +6,6 @@ import {
   EVIDENCE_VA,
   PRIMARY_PHONE,
 } from '../../constants';
-import { getDate } from '../../utils/dates';
 import {
   getAddress,
   getEvidence,
@@ -18,6 +17,7 @@ import {
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 import {
   addIncludedIssues,
   createIssueName,

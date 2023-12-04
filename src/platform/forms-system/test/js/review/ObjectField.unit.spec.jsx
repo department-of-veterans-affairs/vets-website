@@ -2,7 +2,6 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import ObjectField from '../../../src/js/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
@@ -693,7 +692,6 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -736,6 +734,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
     const review = document.querySelector('dl.review');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -775,7 +774,6 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -816,8 +814,8 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -922,10 +920,9 @@ describe('Schemaform review: ObjectField', () => {
     expect(testField.value).to.equal('foo');
     expect(testLabel).to.exist;
 
-    const testEdit = within(document.querySelector('.test-edit'));
-    const editButton = testEdit.getByRole('button', { name: 'fooz' });
+    const editButton = document.querySelector('.test-edit va-button');
     expect(editButton).to.exist;
-    expect(editButton.textContent).to.equal('barz');
+    expect(editButton.getAttribute('text')).to.equal('barz');
 
     fireEvent.click(editButton);
     expect(onClick.called).to.be.true;

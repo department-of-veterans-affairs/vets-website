@@ -1,7 +1,12 @@
 {
   "preparerIdentification": "THIRD_PARTY_SURVIVING_DEPENDENT",
+  "thirdPartyPreparerFullName": {
+    "first": "Third",
+    "last": "Veteran"
+  },
+  "thirdPartyPreparerRole": "fiduciary",
   "benefitSelection": {
-    "SURVIVORS": true
+    "survivor": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",
@@ -9,13 +14,13 @@
   },
   "survivingDependentDateOfBirth": "1980-07-12",
   "survivingDependentID": {
-    "ssn": "123456789"
+    "ssn": "223456789"
   },
   "survivingDependentMailingAddress": {
     "country": "CAN",
     "street": "314 Round Circle",
     "city": "Whoville",
-    "postalCode": "12345"
+    "postalCode": "A9A 9A9"
   },
   "survivingDependentPhone": "1234567890",
   "veteranFullName": {

@@ -1,21 +1,21 @@
-import FormElementTitle from '../../../components/FormElementTitle';
+import React from 'react';
+import * as address from '@department-of-veterans-affairs/platform-forms-system/address';
+import { CHAPTER_4 } from '../../../constants';
+
+import fullSchema from '../../0873-schema.json';
+
+const title = <h4>{CHAPTER_4.PAGE_2.TITLE}</h4>;
 
 const veteransAddressPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({
-      title: 'Veteran Contact Information',
-    }),
-    firstName: {
-      'ui:title': 'First Name',
-    },
+    'ui:description': title,
+    address: address.uiSchema(''),
   },
   schema: {
     type: 'object',
-    required: ['firstName'],
+    required: [],
     properties: {
-      firstName: {
-        type: 'string',
-      },
+      address: address.schema(fullSchema, true),
     },
   },
 };

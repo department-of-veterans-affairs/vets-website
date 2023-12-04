@@ -1,0 +1,135 @@
+{
+  "data": {
+    "providers": [
+      {
+        "insuranceName": "Big Insurance Co",
+        "insurancePolicyHolderName": "Jim Doe",
+        "insurancePolicyNumber": "2342344",
+        "insuranceGroupCode": "2324234434"
+      }
+    ],
+    "view:isMedicaidEligible" : {
+      "isMedicaidEligible": true
+    },
+    "view:isEnrolledMedicarePartA" : {
+      "isEnrolledMedicarePartA": true
+    },
+    "medicarePartAEffectiveDate": "2009-01-02",
+    "medicareClaimNumber": "7AD5WC9MW60",
+    "view:deductibleMedicalExpenses": {
+      "deductibleMedicalExpenses": 234
+    },
+    "view:deductibleFuneralExpenses": {
+      "deductibleFuneralExpenses": 11
+    },
+    "view:deductibleEducationExpenses": {
+      "deductibleEducationExpenses": 0
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
+    "view:spouseGrossIncome": {
+      "spouseGrossIncome": 23424
+    },
+    "view:spouseNetIncome": {
+      "spouseNetIncome": 23424
+    },
+    "view:spouseOtherIncome": {
+      "spouseOtherIncome": 23424
+    },
+    "dependents": [
+      {
+        "fullName": {
+          "first": "Ben",
+          "middle": "Joe",
+          "last": "Doe",
+          "suffix": "Sr."
+        },
+        "dependentRelation": "Son",
+        "socialSecurityNumber": "234666654",
+        "becameDependent": "2004-01-03",
+        "dateOfBirth": "2004-01-01",
+        "disabledBefore18": true,
+        "attendedSchoolLastYear": true,
+        "dependentEducationExpenses": 453,
+        "cohabitedLastYear": false,
+        "receivedSupportLastYear": true,
+        "view:dependentIncome": true,
+        "grossIncome": 23424,
+        "netIncome": 23424,
+        "otherIncome": 23424
+      }
+    ],
+    "view:addInsurancePolicy": false,
+    "view:reportDependents": false,
+    "spouseFullName": {
+      "first": "Jane",
+      "middle": "Pam",
+      "last": "Doe",
+      "suffix": "II"
+    },
+    "spouseSocialSecurityNumber": "232422344",
+    "spouseDateOfBirth": "1980-01-02",
+    "dateOfMarriage": "2004-01-02",
+    "cohabitedLastYear": false,
+    "provideSupportLastYear": true,
+    "sameAddress": false,
+    "view:spouseContactInformation": {
+      "spouseAddress": {
+        "street": "123 maple st",
+        "street2": "Apt 1",
+        "street3": "Floor 2",
+        "city": "Florence",
+        "country": "USA",
+        "state": "MA",
+        "postalCode": "01060"
+      },
+      "spousePhone": "3424445555"
+    },
+    "view:contactInformation": {
+      "email": "test@test.com",
+      "homePhone": "5555555555",
+      "mobilePhone": "4444444444"
+    },
+    "veteranAddress": {
+      "isMilitary": false,
+      "country": "USA",
+      "street": "123 aspen st",
+      "street2": "Apt 4",
+      "street3": "Room 6",
+      "city": "Hadley",
+      "state": "MA",
+      "postalCode": "01070"
+    },
+    "view:doesMailingMatchHomeAddress": false,
+    "veteranHomeAddress": {
+      "isMilitary": false,
+      "country": "USA",
+      "street": "456 coral st",
+      "street2": "Apt 1",
+      "street3": "Room 2",
+      "city": "Largo",
+      "state": "FL",
+      "postalCode": "33771"
+    },
+    "gender": "M",
+    "view:maritalStatus": {
+      "maritalStatus": "Married"
+    },
+    "veteranDateOfBirth": "1980-03-02",
+    "veteranSocialSecurityNumber": "324234444",
+    "veteranFullName": {
+      "first": "Jim",
+      "middle": "Bob",
+      "last": "Doe",
+      "suffix": "Jr."
+    },
+    "privacyAgreementAccepted": true
+  }
+}

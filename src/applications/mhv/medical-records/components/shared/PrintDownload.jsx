@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 const PrintDownload = props => {
-  const { download, list, allowTxtDownloads } = props;
+  const { download, downloadTxt, list, allowTxtDownloads } = props;
+  const menu = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [printIndex, setPrintIndex] = useState(0);
@@ -14,11 +15,19 @@ const PrintDownload = props => {
     'fas fa-angle-down vads-u-color--primary vads-u-margin-left--0p5';
   if (menuOpen) {
     toggleMenuButtonClasses +=
-      'toggle-menu-button-open vads-u-justify-content--space-between';
+      ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
     menuIconClasses =
       'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   }
+
+  const closeMenu = e => {
+    if (menu.current && menuOpen && !menu.current.contains(e.target)) {
+      setMenuOpen(false);
+    }
+  };
+
+  document.addEventListener('mousedown', closeMenu);
 
   const handleUserKeyPress = e => {
     // 13=Enter 40=DownArrow 38=UpArrow 27=Escape 9=Tab 32=Spacebar
@@ -27,7 +36,7 @@ const PrintDownload = props => {
       e.preventDefault();
       document.getElementById(`printButton-${printIndex - 1}`).focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < 1 && e.keyCode === 40) {
+    } else if (printIndex < 2 && e.keyCode === 40) {
       e.preventDefault();
       document.getElementById(`printButton-${printIndex + 1}`).focus();
       setPrintIndex(printIndex + 1);
@@ -41,6 +50,7 @@ const PrintDownload = props => {
       className="print-download vads-u-margin-y--2 no-print"
       role="none"
       onKeyDown={handleUserKeyPress}
+      ref={menu}
     >
       <button
         type="button"
@@ -79,9 +89,9 @@ const PrintDownload = props => {
               type="button"
               id="printButton-2"
               data-testid="printButton-2"
+              onClick={downloadTxt}
             >
-              Download {list && 'list '}
-              as a text file
+              Download {list ? 'list' : 'page'} as a text file
             </button>
           </li>
         )}
@@ -95,5 +105,6 @@ export default PrintDownload;
 PrintDownload.propTypes = {
   allowTxtDownloads: PropTypes.bool,
   download: PropTypes.any,
+  downloadTxt: PropTypes.any,
   list: PropTypes.any,
 };

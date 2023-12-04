@@ -22,8 +22,8 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
         <p>This is the personal information we have on file for you.</p>
 
-        <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-margin-bottom--3">
-          <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
+        <div className="va-address-block vads-u-margin-y--3">
+          <dl>
             <div data-testid="ezr-veteran-fullname">
               <dt className="vads-u-visibility--screen-reader">Full name:</dt>
               <dd
@@ -34,9 +34,11 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
               </dd>
             </div>
             <div data-testid="ezr-veteran-ssn">
-              <dt>Social Security number:</dt>
+              <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
+                Social Security number:
+              </dt>
               <dd
-                className="dd-privacy-mask"
+                className="vads-u-display--inline-block dd-privacy-mask"
                 data-dd-action-name="Social Security number"
               >
                 {veteranSSN}
@@ -57,8 +59,13 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
             ) : null}
             {veteranGender ? (
               <div data-testid="ezr-veteran-gender">
-                <dt>Gender:</dt>
-                <dd className="dd-privacy-mask" data-dd-action-name="Gender">
+                <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
+                  Gender:
+                </dt>
+                <dd
+                  className="vads-u-display--inline-block dd-privacy-mask"
+                  data-dd-action-name="Gender"
+                >
                   {veteranGender}
                 </dd>
               </div>
@@ -70,14 +77,14 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
           information, call our VA benefits hotline at{' '}
           <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
           <va-telephone contact={CONTACTS[711]} tty />
-          ), Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+          ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
           .
         </p>
         <p>
-          You can also call your VA medical center to get help changing your
+          You can also call your VA health facility to get help changing your
           name on file with VA. Ask for the eligibility department.{' '}
           <va-link
             href="/find-locations/"

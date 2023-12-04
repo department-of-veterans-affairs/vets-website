@@ -1,5 +1,6 @@
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
+  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
@@ -22,6 +23,7 @@ export const USA_MILITARY_BRANCHES = Object.freeze({
   airForce: 'Air Force',
   navy: 'Navy',
   marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
 });
 
 export const SERVICE_BADGE_IMAGE_PATHS = new Map([
@@ -30,6 +32,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.airForce, '/img/vic-air-force-coat-of-arms.png'],
   [USA_MILITARY_BRANCHES.navy, '/img/vic-navy-emblem.png'],
   [USA_MILITARY_BRANCHES.marineCorps, '/img/vic-usmc-emblem.png'],
+  [USA_MILITARY_BRANCHES.spaceForce, '/img/vic-space-force-logo.png'],
 ]);
 
 // These breadcrumbs are the base breadcrumbs for the profile app
@@ -48,6 +51,7 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
+  CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
 });
 
@@ -60,6 +64,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
+  CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
 });
 
