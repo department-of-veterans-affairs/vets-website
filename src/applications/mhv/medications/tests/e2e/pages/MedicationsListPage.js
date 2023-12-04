@@ -5,6 +5,7 @@ import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json'
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
+import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -294,6 +295,15 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should(
       'have.text',
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+    );
+  };
+
+  verifyLastFilledDateforPrescriptionOnListPage = () => {
+    cy.get(
+      ':nth-child(3) > .rx-card-detials > :nth-child(2) > [data-testid="rx-last-filled-date"]',
+    ).should(
+      'contain',
+      `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
     );
   };
 }
