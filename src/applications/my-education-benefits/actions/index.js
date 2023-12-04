@@ -23,7 +23,8 @@ export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
 export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
 export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
 
-// Add new action types
+export const DIRECT_DEPOSIT_ENDPOINT = `${environment.API_URL}/v0/profile/ch33_bank_accounts`;
+
 export const FETCH_EXCLUSION_PERIODS = 'FETCH_EXCLUSION_PERIODS';
 export const FETCH_EXCLUSION_PERIODS_SUCCESS =
   'FETCH_EXCLUSION_PERIODS_SUCCESS';
@@ -31,8 +32,6 @@ export const FETCH_EXCLUSION_PERIODS_FAILURE =
   'FETCH_EXCLUSION_PERIODS_FAILURE';
 
 export const EXCLUSION_PERIODS_ENDPOINT = `${environment.API_URL}/meb_api/v0/exclusion_periods`;
-
-export const DIRECT_DEPOSIT_ENDPOINT = `${environment.API_URL}/v0/profile/ch33_bank_accounts`;
 
 export const CLAIM_STATUS_RESPONSE_ELIGIBLE = 'ELIGIBLE';
 export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 
+// eslint-disable-next-line import/no-unresolved
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
@@ -16,6 +17,7 @@ import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+// eslint-disable-next-line import/no-unresolved
 import constants from 'vets-json-schema/dist/constants.json';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
@@ -38,6 +40,8 @@ import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
+import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget'; // Adjust the path as necessary
+
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -276,15 +280,18 @@ function AdditionalConsiderationTemplate(page, formField) {
     path: page.name,
     title: data => {
       return additionalConsiderationsQuestionTitleText(
-        (data[(formFields?.viewBenefitSelection)] &&
-          data[(formFields?.viewBenefitSelection)][
-            (formFields?.benefitRelinquished)
+        (data[formFields?.viewBenefitSelection] &&
+          data[formFields?.viewBenefitSelection][
+            formFields?.benefitRelinquished
           ]) ||
           'NotEligible',
         page.order,
       );
     },
     uiSchema: {
+      'view:exclusionPeriodsWidget': {
+        'ui:field': <ExclusionPeriodsWidget />,
+      },
       'ui:description': data => {
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
