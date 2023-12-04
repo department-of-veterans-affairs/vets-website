@@ -500,6 +500,7 @@ export function clearAdditionalEvidenceNotification() {
   };
 }
 
+// TODO: remove this function when Lighthouse feature toggle is removed
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -679,6 +680,162 @@ export function submitFiles(claimId, trackedItem, files) {
     );
   };
 }
+
+// START lighthouse_migration
+export function submitFilesLighthouse(claimId, trackedItem, files) {
+  let filesComplete = 0;
+  let bytesComplete = 0;
+  let hasError = false;
+  const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
+  const totalFiles = files.length;
+  // START lighthouse_migration
+  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
+  // END lighthouse_migration
+  recordEvent({
+    event: 'claims-upload-start',
+  });
+
+  return dispatch => {
+    dispatch(clearNotification());
+    dispatch(clearAdditionalEvidenceNotification());
+    dispatch({
+      type: SET_UPLOADING,
+      uploading: true,
+    });
+    dispatch({
+      type: SET_PROGRESS,
+      progress: 0,
+    });
+    require.ensure(
+      [],
+      require => {
+        const csrfTokenStored = localStorage.getItem('csrfToken');
+        const { FineUploaderBasic } = require('fine-uploader/lib/core');
+        const uploader = new FineUploaderBasic({
+          request: {
+            endpoint: `${
+              environment.API_URL
+            }/v0/benefits_claims/${claimId}/benefits_documents`,
+            inputName: 'file',
+            customHeaders: {
+              'X-Key-Inflection': 'camel',
+              'X-CSRF-Token': csrfTokenStored,
+            },
+          },
+          cors: {
+            expected: true,
+            sendCredentials: true,
+          },
+          multiple: false,
+          callbacks: {
+            onAllComplete: () => {
+              if (!hasError) {
+                recordEvent({
+                  event: 'claims-upload-success',
+                });
+                dispatch({
+                  type: DONE_UPLOADING,
+                });
+                dispatch(
+                  setNotification({
+                    title: 'We have your evidence',
+                    body: (
+                      <span>
+                        Thank you for sending us{' '}
+                        {trackedItem
+                          ? trackedItem.displayName
+                          : 'additional evidence'}
+                        . We will associate it with your record in a matter of
+                        days. If the submitted evidence impacts the status of
+                        your claim, then you will see that change within 30 days
+                        of submission.
+                        <br />
+                        Note: It may take a few minutes for your uploaded file
+                        to show here. If you don’t see your file, please try
+                        refreshing the page.
+                      </span>
+                    ),
+                  }),
+                );
+              } else {
+                recordEvent({
+                  event: 'claims-upload-failure',
+                });
+                dispatch({
+                  type: SET_UPLOAD_ERROR,
+                });
+                dispatch(
+                  setAdditionalEvidenceNotification({
+                    title: `Error uploading ${hasError?.fileName || 'files'}`,
+                    body:
+                      hasError?.errors?.[0]?.title ||
+                      'There was an error uploading your files. Please try again',
+                    type: 'error',
+                  }),
+                );
+              }
+            },
+            onTotalProgress: bytes => {
+              bytesComplete = bytes;
+              dispatch({
+                type: SET_PROGRESS,
+                progress: calcProgress(
+                  totalFiles,
+                  totalSize,
+                  filesComplete,
+                  bytesComplete,
+                ),
+              });
+            },
+            onComplete: () => {
+              filesComplete++;
+              dispatch({
+                type: SET_PROGRESS,
+                progress: calcProgress(
+                  totalFiles,
+                  totalSize,
+                  filesComplete,
+                  bytesComplete,
+                ),
+              });
+            },
+            onError: (_id, fileName, _reason, { response, status }) => {
+              if (status === 401) {
+                dispatch({
+                  type: SET_UNAUTHORIZED,
+                });
+              }
+              if (status < 200 || status > 299) {
+                hasError = JSON.parse(response || '{}');
+                hasError.fileName = fileName;
+              }
+            },
+          },
+        });
+        dispatch({
+          type: SET_UPLOADER,
+          uploader,
+        });
+        dispatch({
+          type: SET_PROGRESS,
+          progress: filesComplete / files.length,
+        });
+
+        /* eslint-disable camelcase */
+        files.forEach(({ file, docType, password }) => {
+          uploader.addFiles(file, {
+            tracked_item_id: trackedItemId,
+            document_type: docType.value,
+            password: password.value,
+          });
+        });
+        /* eslint-enable camelcase */
+      },
+      'claims-uploader',
+    );
+  };
+}
+// END lighthouse_migration
 
 export function updateField(path, field) {
   return {

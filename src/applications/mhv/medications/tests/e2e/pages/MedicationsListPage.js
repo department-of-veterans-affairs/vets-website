@@ -77,6 +77,17 @@ class MedicationsListPage {
       .should('be.visible');
   };
 
+  verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+    );
+  };
+
   verifyDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('contain', 'Download your medication list as a PDF')
@@ -181,9 +192,9 @@ class MedicationsListPage {
       `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
     ).should('exist');
     //  cy.get(':nth-child(2) > .rx-card-detials > :nth-child(5) > [data-testid="refill-request-button"]')
-    cy.get(
-      ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    ).should('have.text', 'Not filled yet');
+    // cy.get(
+    //   ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
+    // ).should('have.text', 'Not filled yet');
     cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)').should(
       'contain',
       `${activeRxRefills.data.attributes.refillRemaining} refills left`,

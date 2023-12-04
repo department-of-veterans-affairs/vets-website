@@ -106,8 +106,8 @@ const serviceNumberUI = title => {
     'ui:title': title ?? SERVICE_NUMBER_DEFAULT_TITLE,
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
-      pattern:
-        'Your Veteran Service Number must start with 0, 1, or 2 uppercase letters followed by 5 to 8 digits',
+      pattern: `Your ${title ??
+        SERVICE_NUMBER_DEFAULT_TITLE} must start with 0, 1, or 2 uppercase letters followed by 5 to 8 digits`,
     },
     'ui:options': {
       hideEmptyValueInReview: true,
