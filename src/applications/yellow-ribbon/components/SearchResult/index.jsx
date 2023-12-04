@@ -2,10 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import toLower from 'lodash/toLower';
-import toUpper from 'lodash/toUpper';
 import startsWith from 'lodash/startsWith';
 // Relative imports.
-import { capitalize } from '../../helpers';
+import { capitalize, titleCase } from '../../helpers';
 
 export const deriveNameLabel = school => {
   // Show unknown if there's no nameOfInstitution.
@@ -14,7 +13,7 @@ export const deriveNameLabel = school => {
   }
 
   // Show the nameOfInstitution.
-  return toUpper(school?.nameOfInstitution);
+  return titleCase(school?.nameOfInstitution);
 };
 
 export const deriveLocationLabel = (school = {}) => {
@@ -193,7 +192,6 @@ export const SearchResult = ({ school, onSearchResultClick }) => (
 );
 
 SearchResult.propTypes = {
-  onSearchResultClick: PropTypes.func,
   school: PropTypes.shape({
     city: PropTypes.string.isRequired,
     contributionAmount: PropTypes.string.isRequired,
@@ -204,6 +202,7 @@ SearchResult.propTypes = {
     state: PropTypes.string.isRequired,
     positionInResults: PropTypes.number,
   }).isRequired,
+  onSearchResultClick: PropTypes.func,
 };
 
 export default SearchResult;
