@@ -1,5 +1,8 @@
 import SpouseAdditionalIncomeInputList from '../../../../components/householdIncome/SpouseAdditionalIncomeInputList';
-import { validateAddlIncomeValues } from '../../../../utils/validations';
+import {
+  validateAddlIncomeValues,
+  validateSpouseAdditionalIncomeArrayLimits,
+} from '../../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
@@ -14,7 +17,10 @@ export const uiSchema = {
     },
     spAddlIncome: {
       'ui:title': 'addlIncRecords',
-      'ui:validations': [validateAddlIncomeValues],
+      'ui:validations': [
+        validateAddlIncomeValues,
+        validateSpouseAdditionalIncomeArrayLimits,
+      ],
       items: {
         name: {
           'ui:title': 'Type of income',

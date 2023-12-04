@@ -1,5 +1,8 @@
 import React from 'react';
-import { validateCurrency } from '../../../utils/validations';
+import {
+  validateCurrency,
+  validateRealEstateRecordAssetsLimits,
+} from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -19,7 +22,10 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter the value of all your properties.',
       },
-      'ui:validations': [validateCurrency],
+      'ui:validations': [
+        validateCurrency,
+        validateRealEstateRecordAssetsLimits,
+      ],
     },
   },
 };
