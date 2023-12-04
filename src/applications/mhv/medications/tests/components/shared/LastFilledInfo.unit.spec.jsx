@@ -32,7 +32,7 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
 
   it('displays the last filled date for VA prescriptions', () => {
     const vaRx = prescriptionsListItem;
-    vaRx.dispensedDate = '2023-02-04T05:00:00.000Z';
+    vaRx.sortedDispensedDate = '2023-02-04T05:00:00.000Z';
     const screen = renderWithStoreAndRouter(<LastFilledInfo {...vaRx} />, {
       path: '/',
       state: {},
@@ -40,8 +40,29 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
     });
     expect(
       screen.getByText(
-        `Last filled on ${dateFormat(vaRx.dispensedDate, 'MMMM D, YYYY')}`,
+        `Last filled on ${dateFormat(
+          vaRx.sortedDispensedDate,
+          'MMMM D, YYYY',
+        )}`,
       ),
     ).to.exist;
+  });
+
+  it('does not the last filled date when vets api sends 0000-01-01 as the value for sortedDispensedDate', () => {
+    const vaRx = prescriptionsListItem;
+    vaRx.sortedDispensedDate = '0000-01-01';
+    const screen = renderWithStoreAndRouter(<LastFilledInfo {...vaRx} />, {
+      path: '/',
+      state: {},
+      reducers,
+    });
+    expect(
+      screen.queryByText(
+        `Last filled on ${dateFormat(
+          vaRx.sortedDispensedDate,
+          'MMMM D, YYYY',
+        )}`,
+      ),
+    ).to.not.exist;
   });
 });

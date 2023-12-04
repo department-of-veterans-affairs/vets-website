@@ -368,7 +368,7 @@ const formConfig = {
         : {
             sponsorDetails: {
               title: 'Sponsor details',
-              path: 'sponsor-detials',
+              path: 'sponsor-details',
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorDetails.uiSchema,
               schema: sponsorDetails.schema,
@@ -472,6 +472,7 @@ const formConfig = {
       title: 'Supporting files',
       pages: {
         supportingDocuments: {
+          title: 'Upload supporting files',
           path: 'supporting-documents',
           editModeOnReviewPage: false,
           uiSchema: {
@@ -599,31 +600,25 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                address: !environment.isProduction()
-                  ? merge({}, address.uiSchema('Sponsor’s mailing address'), {
-                      street: {
-                        'ui:title': 'Street address',
+                address: merge(
+                  {},
+                  address.uiSchema('Sponsor’s mailing address'),
+                  {
+                    street: {
+                      'ui:title': 'Street address',
+                    },
+                    street2: {
+                      'ui:title': 'Street address line 2',
+                    },
+                    state: {
+                      'ui:title': sponsorMailingAddressStateTitleWrapper,
+                      'ui:options': {
+                        hideIf: formData =>
+                          !sponsorMailingAddressHasState(formData),
                       },
-                      street2: {
-                        'ui:title': 'Street address line 2',
-                      },
-                      state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData),
-                        },
-                      },
-                    })
-                  : merge({}, address.uiSchema('Sponsor’s address'), {
-                      state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData),
-                        },
-                      },
-                    }),
+                    },
+                  },
+                ),
               },
             },
           },

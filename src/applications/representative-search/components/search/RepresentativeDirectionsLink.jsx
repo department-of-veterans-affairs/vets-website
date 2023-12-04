@@ -13,13 +13,14 @@ function RepresentativeDirectionsLink({ representative, query }) {
     <div className="vads-u-margin-bottom--1p5 representative-directions-link">
       <a
         href={`https://maps.google.com?saddr=${
-          query?.locationQueryString
+          query?.context?.location
         }&daddr=${address}`}
         rel="noopener noreferrer"
       >
         Get directions on Google Maps{' '}
         <span className="sr-only">
-          {`to ${representative?.attributes?.full_name}`}
+          {`to ${representative?.attributes?.fullName ||
+            representative?.attributes?.name}`}
         </span>
       </a>
     </div>

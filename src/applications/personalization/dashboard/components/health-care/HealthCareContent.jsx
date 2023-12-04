@@ -38,6 +38,7 @@ const HealthCareContent = ({
   hasAppointmentsError,
   isVAPatient,
   isLOA1,
+  isCernerPatient,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -67,8 +68,8 @@ const HealthCareContent = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // noCerner will be true if toggle is on
-  const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
+  // viewMhvLink will be true if toggle is on
+  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
 
   const shouldShowOnOneColumn =
     !isVAPatient || !hasUpcomingAppointment || isLOA1;
@@ -101,13 +102,6 @@ const HealthCareContent = ({
       ? 'warning'
       : 'error';
 
-    // appt link will be /my-health/appointments if toggle is on
-    const apptLink = useToggleValue(
-      TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-    )
-      ? '/my-health/appointments'
-      : '/health-care/schedule-view-va-appointments/appointments';
-
     return (
       <div className="vads-u-margin-bottom--2p5">
         <va-alert status={status} show-icon data-testid="healthcare-error">
@@ -119,7 +113,7 @@ const HealthCareContent = ({
           </div>
           <CTALink
             text="Schedule and manage your appointments"
-            href={apptLink}
+            href="/my-health/appointments"
             showArrow
             className="vads-u-font-weight--bold"
             onClick={() =>
@@ -139,7 +133,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (facilityNames?.length > 0 && !noCerner) {
+  if (isCernerPatient && facilityNames?.length > 0) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -162,10 +156,11 @@ const HealthCareContent = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError &&
-          !isLOA1 && <NoUpcomingAppointmentsText />}
+          !isLOA1 &&
+          !isCernerPatient && <NoUpcomingAppointmentsText />}
         {shouldShowOnOneColumn && (
           <HealthCareCTA
-            noCerner={noCerner}
+            viewMhvLink={viewMhvLink}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
@@ -179,7 +174,7 @@ const HealthCareContent = ({
       {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
-            noCerner={noCerner}
+            viewMhvLink={viewMhvLink}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}

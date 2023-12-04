@@ -21,7 +21,11 @@ const DependentAges = ({
   const {
     questions: { hasDependents } = {},
     personalData: { dependents = [] } = {},
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
+
+  const MAXIMUM_DEPENDENT_AGE = 150;
 
   const [stateDependents, setStateDependents] = useState(dependents);
   const [errors, setErrors] = useState(
@@ -29,6 +33,12 @@ const DependentAges = ({
   );
   const [isEditing, setIsEditing] = useState(!isReviewMode);
   const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   useEffect(
     () => {
@@ -114,6 +124,16 @@ const DependentAges = ({
       return setIsEditing(false);
     }
 
+    if (reviewNavigation && showReviewNavigation) {
+      dispatch(
+        setData({
+          ...formData,
+          reviewNavigation: false,
+        }),
+      );
+      return goToPath('/review-and-submit');
+    }
+
     return formData['view:streamlinedWaiver']
       ? goForward(formData)
       : goToPath('/monetary-asset-checklist');
@@ -133,9 +153,11 @@ const DependentAges = ({
       const { value } = event.target;
       const newErrors = [...errors];
       if (!value) {
-        newErrors[i] = 'Please enter your dependent(s) age.';
+        newErrors[i] = 'Please enter your dependent(s) age';
       } else if (!isNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
+      } else if (value < 0 || value > MAXIMUM_DEPENDENT_AGE) {
+        newErrors[i] = 'Please enter a value between 0 and 150';
       } else {
         newErrors[i] = null;
       }
@@ -166,6 +188,8 @@ const DependentAges = ({
         error={errors[i]}
         inputMode="numeric"
         required
+        min={0}
+        max={MAXIMUM_DEPENDENT_AGE}
       />
     </div>
   );
@@ -256,7 +280,7 @@ const DependentAges = ({
                   iconLeft: '«',
                 },
                 {
-                  label: 'Continue',
+                  label: continueButtonText,
                   type: 'submit',
                   iconRight: '»',
                 },

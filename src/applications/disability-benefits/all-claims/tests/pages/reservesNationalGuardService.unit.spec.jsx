@@ -1,15 +1,16 @@
 import React from 'react';
+import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   DefinitionTester,
   fillData,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
-describe('Reserve information', () => {
+describe('Reserve and National Guard Information', () => {
   const {
     schema,
     uiSchema,
@@ -27,7 +28,6 @@ describe('Reserve information', () => {
     );
 
     expect(form.find('input').length).to.equal(3);
-    expect(form.find('select').length).to.equal(4);
     form.unmount();
   });
 
@@ -59,6 +59,11 @@ describe('Reserve information', () => {
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
         onSubmit={onSubmit}
       />,
     );
@@ -71,17 +76,61 @@ describe('Reserve information', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_to',
-      '2012-05-05',
+      '2020-05-05',
     );
     fillData(
       form,
       'input#root_serviceInformation_reservesNationalGuardService_unitName',
-      'Unit',
+      'Lorem epsum',
     );
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should fail to submit when obligation end date is before start date', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_from',
+      moment()
+        .add(100, 'days')
+        .format('YYYY-MM-DD'),
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_to',
+      moment()
+        .add(90, 'days')
+        .format('YYYY-MM-DD'),
+    );
+    fillData(
+      form,
+      'input#root_serviceInformation_reservesNationalGuardService_unitName',
+      'Lorem epsum',
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

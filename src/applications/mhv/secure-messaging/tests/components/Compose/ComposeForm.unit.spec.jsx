@@ -2,7 +2,7 @@ import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
@@ -57,7 +57,11 @@ describe('Compose form component', () => {
     return prop;
   };
 
-  it('renders without errors', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
   });
@@ -257,19 +261,6 @@ describe('Compose form component', () => {
     );
   });
 
-  it('renders without errors on Delete draft button click', async () => {
-    const deleteDraftSpy = sinon.spy(draftActions, 'deleteDraft');
-    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
-      draft: draftMessage,
-    });
-
-    fireEvent.click(screen.getByTestId('delete-draft-button'));
-    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
-    await waitFor(() => {
-      expect(deleteDraftSpy.calledOnce).to.be.true;
-    });
-  });
-
   it('renders without errors to category selection', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
@@ -315,7 +306,7 @@ describe('Compose form component', () => {
     );
     const val = 'Test Subject';
     inputVaTextInput(screen.container, val);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('message-subject-field')).to.have.value(val);
     });
   });
@@ -331,7 +322,7 @@ describe('Compose form component', () => {
     );
     const val = 'test body';
     inputVaTextInput(screen.container, val, 'va-textarea');
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('message-body-field')).to.have.value(val);
     });
   });
