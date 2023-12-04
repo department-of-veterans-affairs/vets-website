@@ -185,14 +185,14 @@ const BankruptcyDetails = ({
           {
             label: 'Back',
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
+            isBackButton: true,
           },
           {
             label: continueButtonText,
             onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            isSubmitting: true,
+            isContinueButton: true,
           },
         ]}
       />

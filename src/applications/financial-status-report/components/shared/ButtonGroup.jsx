@@ -42,11 +42,6 @@ Button.propTypes = {
   submit: PropTypes.bool,
   onClick: PropTypes.func,
 };
-
-/**
- * Helper function to generate button classes
- */
-
 /**
  * Helper function to generate button classes
  */
