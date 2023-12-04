@@ -126,7 +126,6 @@ export default Object.freeze({
   myVaNotificationDotIndicator: 'my_va_notification_dot_indicator',
   myVaEnableMhvLink: 'my_va_enable_mhv_link',
   myVaUpdateErrorsWarnings: 'my_va_update_errors_warnings',
-  myVaShowHeaderLink: 'my_va_show_header_link',
   nodBrowserMonitoringEnabled: 'nod_browser_monitoring_enabled',
   nodPart3Update: 'nod_part3_update',
   omniChannelLink: 'omni_channel_link',
