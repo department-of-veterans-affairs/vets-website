@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { dateFormat } from '../../util/helpers';
@@ -14,18 +14,6 @@ const ExtraDetails = rx => {
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
   }
-  const refillDate = useMemo(
-    () => {
-      if (new Date(rx.refillDate) > new Date() || !rx.rxRfRecords) {
-        return dateFormat(rx.refillDate, 'MMMM D, YYYY');
-      }
-      const dispensedDate = rx.rxRfRecords?.[0]?.[1]?.find(
-        record => record.dispensedDate,
-      )?.dispensedDate;
-      return dateFormat(dispensedDate ?? rx.refillDate, 'MMMM D, YYYY');
-    },
-    [rx.refillDate, rx.rxRfRecords],
-  );
   return (
     <div className="shipping-info" id="status-description">
       {dispStatus === dispStatusObj.unknown && (
@@ -43,7 +31,8 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
           <p data-testid="rx-refillinprocess-info">
-            Refill in process. We expect to fill it on {refillDate}.
+            Refill in process. We expect to fill it on{' '}
+            {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
