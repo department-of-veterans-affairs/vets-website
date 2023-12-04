@@ -139,7 +139,7 @@ const SearchPage = props => {
     props.updateSearchQuery({ id: Date.now(), page });
   };
 
-  // Query updated successfully
+  // Trigger request on query update following search
   useEffect(
     () => {
       if (isSearching && !props.currentQuery.geocodeError) {
@@ -149,6 +149,19 @@ const SearchPage = props => {
       }
     },
     [props.currentQuery.id],
+  );
+
+  // Trigger request on sort update
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        setIsSearching(true);
+        handleSearchOnQueryChange();
+        setIsLoading(true);
+        setIsDisplayingResults(false);
+      }
+    },
+    [props.currentQuery.sortType],
   );
 
   useEffect(
@@ -177,12 +190,18 @@ const SearchPage = props => {
     () => {
       if (isDisplayingResults) {
         window.scrollTo(0, 600);
-        focusElement('#search-results-subheader');
+
+        if (props.searchResults.length === 0) {
+          focusElement('#search-results-subheader');
+        } else {
+          focusElement('.representative-results-list');
+        }
       }
     },
     [isDisplayingResults],
   );
 
+  // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
   }, []);
@@ -239,7 +258,7 @@ const SearchPage = props => {
           query={currentQuery}
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
-          sortType={props.sortType}
+          sortType={currentQuery.sortType}
           onUpdateSortType={props.updateSortType}
         />
       );

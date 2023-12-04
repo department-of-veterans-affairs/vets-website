@@ -4,6 +4,7 @@ export default Object.freeze({
   authExpVbaDowntimeMessage: 'auth_exp_vba_downtime_message',
   avsEnabled: 'avs_enabled',
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
+  benefitsDocumentsUseLighthouse: 'benefits_documents_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
