@@ -61,7 +61,10 @@ const Prescriptions = props => {
 
   const sortRxList = sortOption => {
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
-    setSelectedSortOption(sortOption);
+    if (sortOption !== selectedSortOption) {
+      setSelectedSortOption(sortOption);
+      setLoading(true);
+    }
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     focusElement(document.getElementById('showingRx'));
   };
@@ -88,7 +91,9 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
-      setLoading(true);
+      if (!paginatedPrescriptionsList) {
+        setLoading(true);
+      }
       if (!page) history.replace('/1');
       dispatch(
         getPrescriptionsPaginatedSortedList(
