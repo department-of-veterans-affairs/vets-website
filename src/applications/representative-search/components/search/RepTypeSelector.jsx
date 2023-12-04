@@ -58,7 +58,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           >
             <va-accordion-item id="first">
               <h3 slot="headline" style={{ fontSize: '16px' }}>
-                How can each type of representative help me?
+                How can each type of accredited representative help me?
               </h3>
               <p>
                 <strong>Veteran Service Organization (VSO)</strong>{' '}
