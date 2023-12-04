@@ -20,7 +20,6 @@ const {
   generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
-const paymentInformation = require('./endpoints/payment-information');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
@@ -115,41 +114,11 @@ const responses = {
 
     return res.json(maintenanceWindows.noDowntime);
   },
-  'GET /v0/ppiu/payment_information': (_req, res) => {
-    // 47841 - Below are the three cases where all of Profile should be gated off
-    // paymentInformation.isFiduciary
-    // paymentInformation.isDeceased
-    // paymentInformation.isNotCompetent
 
-    // This is a 'normal' payment history / control case data
-    // paymentInformation.base
-
-    return res.status(200).json(paymentInformation.notEligible);
-  },
-  'PUT /v0/ppiu/payment_information': (_req, res) => {
-    // substitute the various errors arrays to test various update error responses
-    // Examples:
-    // paymentInformation.updates.errors.fraud
-    // paymentsInformation.updates.errors.phoneNumber
-    // paymentsInformation.updates.errors.address
-    // return res
-    //   .status(200)
-    //   .json(
-    //     _.set(
-    //       _.cloneDeep(paymentInformation.base),
-    //       'data.attributes.error',
-    //       paymentInformation.updates.errors.invalidAddress,
-    //     ),
-    //   );
-
-    // successful update response
-    return res.status(200).json(paymentInformation.updates.success);
-  },
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     // return res.status(500).json(genericErrors.error500);
 
     // Lighthouse based API endpoint for direct deposit CNP
-    // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
     return res.json(mockDisabilityCompensations.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
