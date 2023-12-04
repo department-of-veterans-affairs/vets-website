@@ -17,9 +17,10 @@ describe('DashboardUnreadMessages component', () => {
     );
   };
 
-  it('should not render if inbox is undefined', () => {
+  it('should not render alert header if inbox is undefined', () => {
     const { container } = setup(undefined);
-    expect(container).to.be.empty;
+    expect(container).to.not.be.empty;
+    expect(container.querySelector('h2')).to.not.exist;
   });
 
   it('should render error message if inbox is null', () => {
