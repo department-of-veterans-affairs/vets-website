@@ -25,10 +25,10 @@ export class DirectDepositClient {
     const result = cloneDeep(response);
 
     set(result, 'paymentAccount', {
-      financialInstitutionName: result?.paymentAccount?.name,
+      financialInstitutionName: result?.paymentAccount?.name || undefined,
       financialInstitutionRoutingNumber:
-        response?.paymentAccount?.routingNumber,
-      accountNumber: response?.paymentAccount?.accountNumber,
+        response?.paymentAccount?.routingNumber || undefined,
+      accountNumber: response?.paymentAccount?.accountNumber || undefined,
       accountType:
         capitalize(response?.paymentAccount?.accountType) || undefined,
     });
