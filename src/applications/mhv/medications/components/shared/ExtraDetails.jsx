@@ -16,12 +16,15 @@ const ExtraDetails = rx => {
   }
   const refillDate = useMemo(
     () => {
-      if (new Date(rx.refillDate) > new Date()) {
+      if (new Date(rx.refillDate) > new Date() || !rx.rxRfRecords) {
         return dateFormat(rx.refillDate, 'MMMM D, YYYY');
       }
-      return dateFormat(rx.dispensedDate ?? rx.refillDate, 'MMMM D, YYYY');
+      const dispensedDate = rx.rxRfRecords?.[0]?.[1]?.find(
+        record => record.dispensedDate,
+      )?.dispensedDate;
+      return dateFormat(dispensedDate ?? rx.refillDate, 'MMMM D, YYYY');
     },
-    [rx.refillDate, rx.dispensedDate],
+    [rx.refillDate, rx.rxRfRecords],
   );
   return (
     <div className="shipping-info" id="status-description">
