@@ -14,6 +14,7 @@ const ItemList = props => {
               key={idx}
               className="vads-u-margin-bottom--0"
               data-dd-privacy="mask"
+              data-testid="list-item-multiple"
             >
               {item}
             </li>
@@ -24,7 +25,7 @@ const ItemList = props => {
   }
   if (list?.length === 1) {
     return (
-      <span data-testid="list-item" data-dd-privacy="mask">
+      <span data-testid="list-item-single" data-dd-privacy="mask">
         {list[0]}
       </span>
     );
