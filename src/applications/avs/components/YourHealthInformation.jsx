@@ -10,8 +10,9 @@ import {
 } from '../utils';
 import { APPOINTMENT_TYPES } from '../utils/constants';
 
-import ParagraphBlock from './ParagraphBlock';
 import ItemsBlock from './ItemsBlock';
+import MedicationTerms from './MedicationTerms';
+import ParagraphBlock from './ParagraphBlock';
 
 const getAppointments = (type, appointments) => {
   return appointments.filter(appointment => appointment.type === type.label);
@@ -224,6 +225,20 @@ const getMyMedications = avs => {
   return combined;
 };
 
+const medsIntro = avs => {
+  return (
+    <>
+      <p>
+        The medications listed below were reviewed with you by your provider and
+        is provided to you as an updated list of medications. Please remember to
+        inform your provider of any medication changes or discrepancies that you
+        note. Otherwise, please continue these medications as prescribed.
+      </p>
+      <MedicationTerms avs={avs} />
+    </>
+  );
+};
+
 const renderMedication = medication => {
   return (
     <p>
@@ -291,6 +306,7 @@ const YourHealthInformation = props => {
       />
       <ItemsBlock
         heading="My medications"
+        intro={medsIntro(avs)}
         itemType="my-medications"
         items={getMyMedications(avs)}
         renderItem={renderMedication}
