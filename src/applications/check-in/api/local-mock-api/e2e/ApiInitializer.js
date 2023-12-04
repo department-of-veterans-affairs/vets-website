@@ -26,7 +26,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceTravelReimbursement: false,
+          checkInExperienceTravelReimbursement: true,
           checkInExperiencePreCheckInActionLinkTopPlacement: true,
         }),
       );
