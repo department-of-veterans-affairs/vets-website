@@ -77,6 +77,17 @@ class MedicationsListPage {
       .should('be.visible');
   };
 
+  verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+    );
+  };
+
   verifyDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('contain', 'Download your medication list as a PDF')
