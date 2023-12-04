@@ -66,9 +66,23 @@ export function focusElement(selectorOrElement, options, root) {
  *  shadowRoot
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
-export function waitForRenderThenFocus(selector, root = document) {
-  const el = (root || document).querySelector(selector);
-  focusElement(el);
+export function waitForRenderThenFocus(
+  selector,
+  root = document,
+  timeInterval = 250,
+) {
+  const maxIterations = 6; // 1.5 seconds
+  let count = 0;
+  const interval = setInterval(() => {
+    if ((root || document).querySelector(selector)) {
+      clearInterval(interval);
+      focusElement(selector, {}, root);
+    } else if (count >= maxIterations) {
+      clearInterval(interval);
+      focusElement(defaultFocusSelector); // fallback to breadcrumbs
+    }
+    count += 1;
+  }, timeInterval);
 }
 
 /**
