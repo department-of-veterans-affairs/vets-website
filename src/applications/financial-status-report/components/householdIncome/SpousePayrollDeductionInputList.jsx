@@ -21,6 +21,8 @@ const SpousePayrollDeductionInputList = props => {
 
   const formData = useSelector(state => state.form.data);
 
+  const MAXIMUM_DEDUCTION_AMOUNT = 40000;
+
   const {
     personalData: {
       employmentHistory: {
@@ -54,7 +56,10 @@ const SpousePayrollDeductionInputList = props => {
     const { target } = event;
     const updatedDeductions = mapDeductions(target);
     setSelectedDeductions(updatedDeductions);
-    if (!isValidCurrency(target.value)) {
+    if (
+      !isValidCurrency(target.value) ||
+      target.value > MAXIMUM_DEDUCTION_AMOUNT
+    ) {
       setErrors([...errors, target.name]);
     } else {
       setErrors(errors.filter(error => error !== target.name));
@@ -65,7 +70,11 @@ const SpousePayrollDeductionInputList = props => {
     e.preventDefault();
 
     const errorList = selectedDeductions
-      .filter(item => !isValidCurrency(item.amount))
+      .filter(
+        item =>
+          !isValidCurrency(item.amount) ||
+          item.amount > MAXIMUM_DEDUCTION_AMOUNT,
+      )
       .map(item => item.name);
 
     setErrors(errorList);
@@ -148,10 +157,12 @@ const SpousePayrollDeductionInputList = props => {
               inputmode="decimal"
               onInput={onChange}
               required
+              min={0}
+              max={MAXIMUM_DEDUCTION_AMOUNT}
               currency
               error={
                 errors.includes(deduction.name)
-                  ? 'Enter a valid dollar amount.'
+                  ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
             />
