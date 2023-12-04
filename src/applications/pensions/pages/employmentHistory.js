@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/datePatterns.jsx';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 // View component for Employer
 const employerView = ({ formData }) => {
