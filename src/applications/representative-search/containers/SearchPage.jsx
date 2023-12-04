@@ -209,15 +209,15 @@ const SearchPage = props => {
   const renderBreadcrumbs = () => {
     return [
       {
-        href: '#one',
+        href: '/',
         label: 'Home',
       },
       {
-        href: '#two',
+        href: '/get-help-from-acccredited-representative',
         label: 'Get help from a VA accredited representative',
       },
       {
-        href: '#three',
+        href: '/get-help-from-acccredited-representative/find-rep',
         label: 'Find a VA accredited representative',
       },
     ];
