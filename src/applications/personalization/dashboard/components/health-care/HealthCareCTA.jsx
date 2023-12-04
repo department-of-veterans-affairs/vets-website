@@ -15,15 +15,8 @@ const HealthCareCTA = ({
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? '/my-health/appointments'
-    : '/health-care/schedule-view-va-appointments/appointments';
-
-  // noCerner will be true if toggle is on
-  const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
+  // viewMhvLink will be true if toggle is on
+  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
 
   return (
     <>
@@ -43,24 +36,25 @@ const HealthCareCTA = ({
           }
         />
       )}
+      {!isLOA1 &&
+        viewMhvLink && (
+          <IconCTALink
+            text="Visit My HealtheVet on VA.gov"
+            icon="briefcase-medical"
+            href="/my-health"
+            testId="visit-mhv-on-va-gov"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Visit MHV on Va.gov',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        )}
       {isVAPatient &&
         !isLOA1 && (
           <>
-            {noCerner && (
-              <IconCTALink
-                text="Visit My HealtheVet on VA.gov"
-                icon="briefcase-medical"
-                href="/my-health"
-                testId="visit-mhv-on-va-gov"
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'Visit MHV on Va.gov',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-              />
-            )}
             <IconCTALink
               text="Go to your inbox"
               icon="comments"
@@ -82,7 +76,7 @@ const HealthCareCTA = ({
             {!hasUpcomingAppointment &&
               !hasAppointmentsError && (
                 <IconCTALink
-                  href={apptLink}
+                  href="/my-health/appointments"
                   icon="calendar"
                   text="Schedule and manage your appointments"
                   testId="view-manage-appointments-link-from-cta"

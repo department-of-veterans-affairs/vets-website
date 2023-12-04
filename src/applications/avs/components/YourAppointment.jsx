@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 
 import MedicationTerms from './MedicationTerms';
+import ItemsBlock from './ItemsBlock';
 
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
@@ -83,29 +84,15 @@ const youWereDiagnosedWith = avs => {
   return null;
 };
 
-const vitalSigns = avs => {
-  if (avs.vitals?.length > 0) {
-    const vitalSignItems = avs.vitals.map((vitalSign, idx) => (
-      <div key={`vital-${idx}`}>
-        <p>
-          {vitalSign.type}
-          <br />
-          Result: {vitalSign.value}
-        </p>
-        <hr />
-      </div>
-    ));
-
-    return (
-      <div data-testid="vitals">
-        <h3>Vitals as of this appointment</h3>
-        {/* TODO: Check semantics and spacing */}
-        {vitalSignItems}
-      </div>
-    );
-  }
-
-  return null;
+const renderVitalSign = vitalSignItem => {
+  return (
+    <p>
+      {vitalSignItem.type}
+      <br />
+      Result: {vitalSignItem.value}
+      {vitalSignItem.qualifiers && ` (${vitalSignItem.qualifiers})`}
+    </p>
+  );
 };
 
 const procedures = avs => {
@@ -135,7 +122,7 @@ const clinicMedications = avs => {
           Medications ordered for administration during your visit to a VA
           clinic or emergency department.
         </p>
-        <MedicationTerms />
+        <MedicationTerms avs={avs} />
       </div>
     );
   }
@@ -152,7 +139,13 @@ const YourAppointment = props => {
       {providers(avs)}
       {reasonForAppointment(avs)}
       {youWereDiagnosedWith(avs)}
-      {vitalSigns(avs)}
+      <ItemsBlock
+        heading="Vitals as of this appointment"
+        items={avs.vitals}
+        itemType="vitals"
+        renderItem={renderVitalSign}
+        showSeparators
+      />
       {procedures(avs)}
       {clinicMedications(avs)}
     </div>

@@ -22,6 +22,7 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    authExpVbaDowntimeMessage: true,
     myVaEnableNotificationComponent: true,
     myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
@@ -29,9 +30,8 @@ const responses = {
     myVaUseLighthouseClaims: true,
     myVaHideNotificationsSection: true,
     myVaNotificationDotIndicator: true,
-    myVaRemoveCernerMessage: true,
+    myVaEnableMhvLink: true,
     myVaUpdateErrorsWarnings: true,
-    vaOnlineSchedulingBreadcrumbUrlUpdate: true,
     vaOnlineSchedulingStaticLandingPage: true,
   }),
   'GET /v0/user': user.cernerUser,

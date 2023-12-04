@@ -1,6 +1,7 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { inlineTitleUI } from '../../../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
@@ -22,7 +23,10 @@ export default {
       replaceStrValues(content['household-spouse-income-title'], LAST_YEAR),
     ),
     'view:spouseGrossIncome': {
-      'ui:title': content['household-income-gross-title'],
+      ...inlineTitleUI(
+        content['household-income-gross-title'],
+        content['household-income-gross-description'],
+      ),
       'ui:description': GrossIncomeDescription,
       spouseGrossIncome: {
         ...currencyUI(
@@ -35,8 +39,10 @@ export default {
       },
     },
     'view:spouseNetIncome': {
-      'ui:title': content['household-income-net-title'],
-      'ui:description': content['household-income-net-description'],
+      ...inlineTitleUI(
+        content['household-income-net-title'],
+        content['household-income-net-description'],
+      ),
       spouseNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -48,7 +54,10 @@ export default {
       },
     },
     'view:spouseOtherIncome': {
-      'ui:title': content['household-income-other-title'],
+      ...inlineTitleUI(
+        content['household-income-other-title'],
+        content['household-income-other-description'],
+      ),
       'ui:description': OtherIncomeDescription,
       spouseOtherIncome: {
         ...currencyUI(

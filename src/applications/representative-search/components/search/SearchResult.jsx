@@ -7,6 +7,10 @@ const SearchResult = ({
   // type,
   addressLine1,
   addressLine2,
+  addressLine3,
+  city,
+  state,
+  zipCode,
   phone,
   distance,
   // result,
@@ -14,30 +18,41 @@ const SearchResult = ({
   query,
   // index,
 }) => {
+  const addressExists =
+    addressLine1 || addressLine2 || addressLine3 || city || state || zipCode;
   return (
     <>
       <div>
-        <div>
-          <strong>{distance} Mi</strong>
-        </div>
-        <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
-          <strong>{organization}</strong>
-        </div>
-        <div className="vads-u-padding-y--1p5">
+        {distance && (
           <div>
-            {addressLine1}, {addressLine2}
+            <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
           </div>
-          <RepresentativeDirectionsLink
-            representative={representative}
-            query={query}
-          />
-        </div>
-        <div>
-          <strong>Main Number: </strong>
-          <va-telephone contact={phone} />
-        </div>
-
-        {/* <div className="va-h-ruled" /> */}
+        )}
+        {organization && (
+          <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
+            <strong>{organization}</strong>
+          </div>
+        )}
+        {addressExists && (
+          <div className="vads-u-padding-y--1p5">
+            <div>
+              {addressLine1}, {addressLine2}
+            </div>
+            <div>
+              {city} {state} {zipCode}
+            </div>
+            <RepresentativeDirectionsLink
+              representative={representative}
+              query={query}
+            />
+          </div>
+        )}
+        {phone && (
+          <div>
+            <strong>Main Number: </strong>
+            <va-telephone contact={phone} />
+          </div>
+        )}
       </div>
     </>
   );

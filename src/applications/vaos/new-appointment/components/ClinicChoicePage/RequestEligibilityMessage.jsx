@@ -96,6 +96,7 @@ export default function RequestEligibilityMessage({
                   <FacilityAddress
                     name={facilityDetails.name}
                     facility={facilityDetails}
+                    level={3}
                   />
                 </li>
               )}

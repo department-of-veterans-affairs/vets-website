@@ -33,6 +33,7 @@ export default {
   FORM_10182_CTA: 'form-10182-cta',
   FORM_686_CTA: 'form-686-CTA',
   FORM_210845_CTA: 'form210845',
+  FORM_210966_CTA: 'form210966',
   FORM_210972_CTA: 'form210972',
   FORM_2110210_CTA: 'form2110210',
   FORM_214142_CTA: 'form214142',
