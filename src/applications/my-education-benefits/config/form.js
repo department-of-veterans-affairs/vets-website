@@ -38,6 +38,8 @@ import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
+import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget'; // Adjust the path as necessary
+
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -285,6 +287,9 @@ function AdditionalConsiderationTemplate(page, formField) {
       );
     },
     uiSchema: {
+      'view:exclusionPeriodsWidget': {
+        'ui:field': <ExclusionPeriodsWidget />,
+      },
       'ui:description': data => {
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
