@@ -11,15 +11,17 @@ const Button = ({
   isSecondary,
   isContinueButton,
   isBackButton,
+  type, // Add this line
 }) => {
   return (
     <VaButton
       text={label}
       onClick={onClick}
       submit={isSubmitting}
-      secondary={isSecondary}
       continue={isContinueButton}
+      secondary={isSecondary}
       back={isBackButton}
+      type={type} // Use the type prop here
       className="button"
     />
   );
@@ -40,6 +42,7 @@ Button.propTypes = {
   isSubmitting: PropTypes.bool,
   secondary: PropTypes.bool,
   submit: PropTypes.bool,
+  type: PropTypes.string,
   onClick: PropTypes.func,
 };
 /**

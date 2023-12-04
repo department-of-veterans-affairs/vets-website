@@ -99,12 +99,16 @@ const DependentAges = ({
   );
 
   const onSubmit = event => {
+    event.preventDefault(); // Prevent the form from being submitted when there are errors
+    // console.log(
+    //   'DependentAges.jsx: onSubmit: stateDependents: ',
+    //   stateDependents,
+    // );
     const hasEmptyInput = stateDependents.some(
       dependent => dependent.dependentAge === '',
     );
 
     if (errors.some(error => error !== null) || hasEmptyInput) {
-      event.preventDefault(); // Prevent the form from being submitted when there are errors
       if (hasEmptyInput) {
         const newErrors = stateDependents.map(
           (dependent, i) =>

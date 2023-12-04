@@ -5,7 +5,7 @@ import { VaNumberInput } from '@department-of-veterans-affairs/component-library
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 
-const WHOLE_NUMBER_PATTERN = /^\d+$/;
+const MAXIMUM_DEPENDENT_COUNT = 25;
 
 const DependentCount = ({
   data,
@@ -17,86 +17,79 @@ const DependentCount = ({
   contentAfterButtons,
 }) => {
   const headerRef = useRef(null);
-
+  const formRef = useRef(null);
+  const [error, setError] = useState(null);
   const {
     questions: { hasDependents },
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
-
-  const [error, setError] = useState(null);
   const [dependents, setDependents] = useState(hasDependents);
-  const formRef = useRef(null);
-  // Header ref for setting focus
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
-      }
-    },
-    [headerRef],
-  );
 
-  // setData on goForward, nav is handled in onSubmit so goForward has teh most up to date data
-  const onGoForward = () => {
-    if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-      setError('Please enter your dependent(s) information.');
+  useEffect(() => {
+    if (headerRef.current) {
+      focusElement(headerRef.current);
+    }
+  }, []);
+
+  const isValidDependents = value => {
+    const dependentCount = Number(value);
+    return (
+      !Number.isNaN(dependentCount) &&
+      dependentCount >= 0 &&
+      dependentCount <= MAXIMUM_DEPENDENT_COUNT
+    );
+  };
+
+  const handleInput = ({ target }) => setDependents(target.value);
+
+  const handleBlur = () => {
+    if (!isValidDependents(dependents)) {
+      setError('Please enter a valid number of dependents (0-25)');
       focusElement('va-number-input');
     } else {
       setError(null);
-      if (dependents === '0') {
-        // clear dependent array if it was previously populated
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-          personalData: {
-            ...data?.personalData,
-            dependents: [],
-          },
-        });
-      } else {
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-        });
-      }
-      if (formRef.current) {
-        formRef.current.requestSubmit();
-      }
+    }
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (!isValidDependents(dependents)) return;
+
+    // console.log('DependentCount.jsx: handleSubmit: dependents: ', dependents);
+    // console.log(typeof dependents);
+    const updatedData = {
+      ...data,
+      questions: {
+        ...data.questions,
+        hasDependents: dependents,
+      },
+      personalData:
+        dependents === '0'
+          ? { ...data.personalData, dependents: [] }
+          : data.personalData,
+    };
+
+    // Update the form data first
+    setFormData(updatedData);
+
+    // Then navigate based on the updated data
+    if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+      goToPath('/review-and-submit');
+    } else {
+      // console.log(
+      //   'DependentCount.jsx: handleSubmit: goForward: updatedData: ',
+      //   updatedData,
+      // );
+      goForward(updatedData); // This will now use the updated form data
     }
   };
 
   return (
-    <form
-      className="rjsf"
-      ref={formRef}
-      onSubmit={event => {
-        event.preventDefault();
-        if (error) return;
-        // head to review page if nav is true, and there are no dependents to get ages for
-        if (dependents === '0' && reviewNavigation && showReviewNavigation) {
-          // Don't forget to disable reviewNav!
-          setFormData({
-            ...data,
-            reviewNavigation: false,
-          });
-          goToPath('/review-and-submit');
-        } else {
-          goForward(data);
-        }
-      }}
-    >
-      <fieldset className="vads-u-margin-y--2 rjsf-object-field">
+    <form ref={formRef} onSubmit={handleSubmit}>
+      <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0" ref={headerRef}>
-            Your dependents
-          </h3>
+          <h3 ref={headerRef}>Your dependents</h3>
         </legend>
         <VaNumberInput
           label="Number of dependents"
@@ -104,19 +97,14 @@ const DependentCount = ({
           hint="Dependents include your spouse, unmarried children under 18 years old, and other dependents."
           id="dependent-count"
           name="dependent-count"
-          onBlur={() => {
-            if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-              setError('Please enter your dependent(s) information.');
-              focusElement('va-number-input');
-            }
-          }}
-          onInput={({ target }) => {
-            setDependents(target.value);
-          }}
+          onBlur={handleBlur}
+          onInput={handleInput}
           inputMode="number"
           value={dependents}
           className="no-wrap input-size-2"
           required
+          min={0}
+          max={MAXIMUM_DEPENDENT_COUNT}
         />
         <DependentExplainer />
       </fieldset>
@@ -130,8 +118,8 @@ const DependentCount = ({
             isBackButton: true,
           },
           {
-            label: 'continue to review page',
-            onClick: onGoForward,
+            label: 'Continue',
+            onClick: handleSubmit,
             isSubmitting: true,
             isContinueButton: true,
           },
