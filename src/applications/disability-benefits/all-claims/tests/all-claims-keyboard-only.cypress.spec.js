@@ -1,6 +1,5 @@
 import path from 'path';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { fillDateWebComponentPattern } from '../../../simple-forms/shared/tests/e2e/helpers';
 import formConfig from '../config/form';
 
 import mockUser from './fixtures/mocks/user.json';
@@ -339,16 +338,19 @@ describe('526EZ keyboard only navigation', () => {
     const prefix = 'serviceInformation_reservesNationalGuardService_';
     idRoot = `#root_${prefix}`;
 
-    // 1. Can provide service period
-    fillDateWebComponentPattern(
-      `${prefix}obligationTermOfServiceDateRange_from`,
-      '2018-04-22',
-    );
+    cy.tabToElement(`${idRoot}obligationTermOfServiceDateRange_fromMonth`);
+    cy.chooseSelectOptionByTyping('April');
+    cy.tabToElement(`${idRoot}obligationTermOfServiceDateRange_fromDay`);
+    cy.chooseSelectOptionByTyping('22');
+    cy.tabToElement(`${idRoot}obligationTermOfServiceDateRange_fromYear`);
+    cy.typeInFocused('2018');
 
-    fillDateWebComponentPattern(
-      `${prefix}obligationTermOfServiceDateRange_to`,
-      '2022-04-22',
-    );
+    cy.tabToElement(`${idRoot}obligationTermOfServiceDateRange_toMonth`);
+    cy.chooseSelectOptionByTyping('April');
+    cy.tabToElement(`${idRoot}obligationTermOfServiceDateRange_toDay`);
+    cy.chooseSelectOptionByTyping('22');
+    cy.tabToElement(`${idRoot}obligationTermOfServiceDateRange_toYear`);
+    cy.typeInFocused('2022');
 
     cy.typeInIfDataExists(`${idRoot}unitName`, 'CLR 45');
 
