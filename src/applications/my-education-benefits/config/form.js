@@ -38,7 +38,7 @@ import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
-import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget'; // Adjust the path as necessary
+import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget';
 
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
