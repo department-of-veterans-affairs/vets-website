@@ -117,6 +117,10 @@ export const validateResolutionAmount = (errors, fieldData) => {
     errors.addError('Please enter a valid dollar amount.');
   }
 
+  if (!isValidCurrency(resolutionComment)) {
+    errors.addError('Please enter a valid dollar amount.');
+  }
+
   // Checking compromise/monthly resolution amount against remaining debt amount
   if (
     (debtType === 'DEBT' && fieldData?.currentAr <= resolutionComment) ||
