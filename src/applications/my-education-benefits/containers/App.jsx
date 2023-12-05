@@ -213,12 +213,6 @@ export const App = ({
           showMeb1990EZMaintenanceAlert,
         });
       }
-      if (mebExclusionPeriodEnabled !== formData.mebExclusionPeriodEnabled) {
-        setFormData({
-          ...formData,
-          mebExclusionPeriodEnabled,
-        });
-      }
 
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
@@ -255,18 +249,6 @@ export const App = ({
         setFormData({
           ...formData,
           duplicatePhone,
-        });
-      }
-
-      if (mebExclusionPeriodEnabled && !fetchedExclusionPeriods) {
-        setFetchedExclusionPeriods(true);
-        getExclusionPeriods();
-      }
-
-      if (exclusionPeriods && !fetchedExclusionPeriods) {
-        setFormData({
-          ...formData,
-          exclusionPeriods,
         });
       }
 
