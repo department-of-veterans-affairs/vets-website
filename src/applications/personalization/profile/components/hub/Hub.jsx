@@ -13,8 +13,8 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { ExampleForDevTools } from '~/applications/personalization/common/devtools/ExampleForDevtools';
-import { DevTools } from '~/applications/personalization/common/devtools/DevTools';
+import { ExampleForDevTools } from '~/applications/personalization/common/components/devtools/ExampleForDevtools';
+import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();

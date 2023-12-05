@@ -1,5 +1,5 @@
 import '@@profile/sass/profile.scss';
-import '../common/devtools/sass/DevTools.scss';
+import '../common/components/devtools/sass/DevTools.scss';
 import '~/platform/polyfills';
 import React from 'react';
 import Profile from '@@profile/components/Profile';
