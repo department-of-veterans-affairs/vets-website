@@ -11,7 +11,6 @@ const profileToggles = {
   profileUseFieldEditingPage: false,
   profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
-  profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
