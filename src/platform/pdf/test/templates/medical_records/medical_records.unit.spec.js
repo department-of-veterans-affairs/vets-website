@@ -83,28 +83,8 @@ describe('Medical records PDF template', () => {
       expect(text).to.equal(data.results.items[0].items[0].value);
     });
 
-    it('Horizontal rules are added below result sections by default', async () => {
+    it('Horizontal rules are not wrapped into empty artifact tags', async () => {
       const data = require('./fixtures/result_sections_with_horizontal_rules.json');
-      const { pdf } = await generateAndParsePdf(data);
-
-      // Fetch the second page
-      const pageNumber = 2;
-      const page = await pdf.getPage(pageNumber);
-
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
-
-      expect(artifactCount).to.eq(10);
-    });
-
-    it('Horizontal rules below result sections may be suppressed', async () => {
-      const data = require('./fixtures/result_sections_with_no_horizontal_rules.json');
       const { pdf } = await generateAndParsePdf(data);
 
       // Fetch the second page

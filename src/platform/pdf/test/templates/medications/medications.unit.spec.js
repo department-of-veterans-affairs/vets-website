@@ -83,26 +83,6 @@ describe('Medications PDF template', () => {
       expect(text).to.equal(data.results[0].list[0].sections[0].items[5].value);
     });
 
-    it('Horizontal rules are added below each item', async () => {
-      const data = require('./fixtures/medications_list.json');
-      const { pdf } = await generateAndParsePdf(data);
-
-      // Fetch the second page
-      const pageNumber = 2;
-      const page = await pdf.getPage(pageNumber);
-
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
-
-      expect(artifactCount).to.eq(6);
-    });
-
     it('Outputs document sections in the correct order', async () => {
       const data = require('./fixtures/medications_list.json');
       const { pdf } = await generateAndParsePdf(data);
