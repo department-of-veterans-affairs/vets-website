@@ -10,7 +10,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import getData from '../fixtures/mocks/mockStore';
 
 import formConfig from '../../config/form';
@@ -166,7 +166,7 @@ describe('pension service periods page', () => {
       '#root_servicePeriods_0_activeServiceDateRange_toYear',
     );
     const serviceNumber = queryByRole('textbox', {
-      name: /Service number/i,
+      name: /Military service number/i,
     });
 
     fireEvent.click(submitBtn);
