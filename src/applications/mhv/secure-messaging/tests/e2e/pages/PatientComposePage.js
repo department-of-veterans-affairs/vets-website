@@ -82,6 +82,7 @@ class PatientComposePage {
   };
 
   selectRecipient = (recipient = 1) => {
+    cy.get('[data-testid="compose-recipient-select"]').click();
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')

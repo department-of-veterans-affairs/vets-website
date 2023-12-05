@@ -11,16 +11,11 @@ describe('Check confirmation message after save draft', () => {
 
   it('Check confirmation message after save draft', () => {
     // https://glebbahmutov.com/blog/onbeforeunload/
-    Cypress.on('window:before:load', win => {
-      Object.defineProperty(win, 'onbeforeunload', {
-        value: undefined,
-        writable: false,
-      });
-    });
     site.login();
     inboxPage.loadInboxMessages();
 
     inboxPage.navigateToComposePage();
+    // cy.pause();
     composePage.selectRecipient(requestBody.recipientId);
     composePage
       .getCategory(requestBody.category)
