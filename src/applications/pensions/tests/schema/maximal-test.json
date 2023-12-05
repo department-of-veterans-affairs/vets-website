@@ -117,6 +117,7 @@
     },
     "dateOfCurrentMarriage": "1989-03-02",
     "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "marriages": [
       {
         "spouseFullName": {
