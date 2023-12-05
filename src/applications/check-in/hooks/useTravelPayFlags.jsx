@@ -22,6 +22,7 @@ const useTravelPayFlags = appointment => {
     'travel-address': travelAddress,
     'travel-mileage': travelMileage,
     'travel-vehicle': travelVehicle,
+    'travel-review': travelReview,
   } = data;
 
   const startDate = isTravelLogicEnabled
@@ -57,11 +58,18 @@ const useTravelPayFlags = appointment => {
       travelVehicle: travelVehicle === 'yes',
     };
   }
+  if (travelReview !== undefined) {
+    travelPayData = {
+      ...travelPayData,
+      travelReview: travelReview === 'yes',
+    };
+  }
 
   const travelPayEligible =
     travelPayData.travelAddress &&
     travelPayData.travelMileage &&
-    travelPayData.travelVehicle;
+    travelPayData.travelVehicle &&
+    travelPayData.travelReview;
 
   return {
     travelPayData,

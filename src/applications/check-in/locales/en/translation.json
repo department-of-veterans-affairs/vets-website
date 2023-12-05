@@ -270,5 +270,7 @@
   "please-review": "Please review and certify the statements are true: ",
   "certify-statements": "<0>I have incurred a cost in relation to the travel claim.</0><0>I have neither obtained transportation at Government expense nor through the use of Government request, tickets, or tokens, and have not used any Government-owned convenience or incurred any expenses which may be presented as charges against the Department of Veterans Affairs for transportation, meals, or lodgings in connection with my authorized travel that is not herein claimed.</0><0>I have not received other transportation resources at no-cost to me.</0><0>I am the only person claiming for the travel listed.</0><0>I have not previously received payment for the transportation claimed.</0>",
   "claim-checkbox-confirm": "I confirm that the information is true and correct to the best of my knowledge and belief. I’ve read and I accept the beneficiary travel agreement.",
-  "claim-review-error": "You must accept the beneficiary travel agreement before continuing."
+  "claim-review-error": "You must accept the beneficiary travel agreement before continuing.",
+  "agree-to-these-terms": "Agree to these terms",
+  "file-later": "File later"
 }

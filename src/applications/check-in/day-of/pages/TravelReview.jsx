@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { recordAnswer } from '../../actions/universal';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import { makeSelectVeteranData } from '../../selectors';
 import AddressBlock from '../../components/AddressBlock';
 import TravelPage from '../../components/pages/TravelPage';
@@ -11,13 +13,29 @@ import TravelPage from '../../components/pages/TravelPage';
 const TravelQuestion = props => {
   const { router } = props;
   const { t } = useTranslation();
-  const { jumpToPage } = useFormRouting(router);
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
-
+  const [agree, setAgree] = useState(false);
+  const [error, setError] = useState(false);
+  const dispatch = useDispatch();
   const onEditClick = e => {
     e.preventDefault();
     jumpToPage('/travel-vehicle');
+  };
+  const onCheck = e => {
+    setAgree(e.detail.checked);
+  };
+  const validation = () => {
+    if (agree) {
+      goToNextPage();
+    } else {
+      setError(true);
+    }
+  };
+  const fileLater = () => {
+    dispatch(recordAnswer({ 'travel-question': 'no' }));
+    goToNextPage();
   };
   const bodyText = (
     <>
@@ -59,12 +77,12 @@ const TravelQuestion = props => {
             ]}
           />
         </p>
-        <va-checkbox
+        <VaCheckbox
           description={null}
-          error={t('claim-review-error')}
-          hint={null}
+          error={error ? t('claim-review-error') : null}
           label={t('claim-checkbox-confirm')}
-          onBlur={() => {}}
+          onVaChange={onCheck}
+          checked={agree}
           required
         >
           <div slot="description">
@@ -84,7 +102,7 @@ const TravelQuestion = props => {
               </ul>
             </va-additional-info>
           </div>
-        </va-checkbox>
+        </VaCheckbox>
       </div>
     </>
   );
@@ -95,6 +113,10 @@ const TravelQuestion = props => {
       bodyText={bodyText}
       pageType="travel-review"
       router={router}
+      yesButtonText={t('agree-to-these-terms')}
+      yesFunction={validation}
+      noButtonText={t('file-later')}
+      noFunction={fileLater}
     />
   );
 };
