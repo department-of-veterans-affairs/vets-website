@@ -28,7 +28,7 @@ describe('Get care summaries and notes details action', () => {
     const mockData = note;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getCareSummaryAndNotesDetails('3106')(dispatch).then(() => {
+    return getCareSummaryAndNotesDetails('ex-MHV-note-1')(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET,
       );

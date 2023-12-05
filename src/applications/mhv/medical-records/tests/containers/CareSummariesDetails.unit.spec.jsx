@@ -5,7 +5,7 @@ import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
-import { convertNote } from '../../reducers/careSummariesAndNotes';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 import physicianProcedureNote from '../fixtures/physicianProcedureNote.json';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
 import CareSummariesDetails from '../../containers/CareSummariesDetails';
@@ -15,7 +15,9 @@ describe('CareSummariesAndNotes details', () => {
     user,
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesDetails: convertNote(physicianProcedureNote),
+        careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+          physicianProcedureNote,
+        ),
       },
     },
   };
@@ -34,13 +36,15 @@ describe('CareSummariesAndNotes details', () => {
   });
 });
 
-describe('CareSummariesDetails physician procedure note', () => {
-  it('displays physician procedure note label', () => {
+describe('CareSummariesDetails progress note', () => {
+  it('displays progress note heading', () => {
     const initialState = {
       user,
       mr: {
         careSummariesAndNotes: {
-          careSummariesAndNotesDetails: convertNote(physicianProcedureNote),
+          careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+            physicianProcedureNote,
+          ),
         },
       },
     };
@@ -51,17 +55,19 @@ describe('CareSummariesDetails physician procedure note', () => {
       path: '/summaries-and-notes/123',
     });
 
-    expect(screen.getByText('Physician procedure note')).to.exist;
+    expect(screen.getByText('Progress note', { selector: 'h1' })).to.exist;
   });
 });
 
 describe('CareSummariesDetails discharge summary', () => {
-  it('displays discharge summary label', () => {
+  it('displays discharge summary heading', () => {
     const initialState = {
       user,
       mr: {
         careSummariesAndNotes: {
-          careSummariesAndNotesDetails: convertNote(dischargeSummary),
+          careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+            dischargeSummary,
+          ),
         },
       },
     };
@@ -72,12 +78,7 @@ describe('CareSummariesDetails discharge summary', () => {
       path: '/summaries-and-notes/123',
     });
 
-    expect(
-      screen.getByText('Discharge summary', {
-        exact: true,
-        selector: 'h1',
-      }),
-    ).to.exist;
+    expect(screen.getByText('Discharge summary', { selector: 'h1' })).to.exist;
   });
 });
 
