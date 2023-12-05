@@ -38,7 +38,7 @@ describe('SearchResultsHeader', () => {
         .find('h2')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('No results found for Attornies within 50 miles of "11111"');
+    ).to.equal('No results found for Attorneys within 50 miles of "11111"');
     wrapper.unmount();
   });
 
@@ -73,7 +73,7 @@ describe('SearchResultsHeader', () => {
         .find('h2')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('No results found for Attornies within 50 miles of "new york"');
+    ).to.equal('No results found for Attorneys within 50 miles of "new york"');
 
     wrapper.unmount();
   });
@@ -96,7 +96,7 @@ describe('SearchResultsHeader', () => {
         .find('h2')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('Showing 1 result for Attornies within 50 miles of "new york"');
+    ).to.equal('Showing 1 result for Attorneys within 50 miles of "new york"');
 
     wrapper.unmount();
   });
@@ -115,7 +115,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 5 results for Attornies within 50 miles of "new york"';
+      'Showing 5 results for Attorneys within 50 miles of "new york"';
     const actualString = wrapper.find('h2').text();
 
     // Remove whitespaces and special characters
@@ -141,7 +141,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 1 - 10 of 12 results for Attornies within 50 miles of "new york"';
+      'Showing 1 - 10 of 12 results for Attorneys within 50 miles of "new york"';
     const actualString = wrapper.find('h2').text();
 
     // Remove whitespaces and special characters
