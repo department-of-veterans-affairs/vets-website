@@ -4,7 +4,7 @@
       "isMedicaidEligible": true
     },
     "view:isEnrolledMedicarePartA" : {
-      "isEnrolledMedicarePartA": true
+      "isEnrolledMedicarePartA": false
     },
     "view:deductibleMedicalExpenses": {
       "deductibleMedicalExpenses": 234
