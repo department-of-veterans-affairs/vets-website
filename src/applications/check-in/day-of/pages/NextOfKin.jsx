@@ -49,8 +49,9 @@ const NextOfKin = props => {
       setShouldSendDemographicsFlags(window, true);
       if (nextPage === 'complete') {
         jumpToPage(`complete/${data.activeAppointmentId}`);
+      } else {
+        goToNextPage();
       }
-      goToNextPage();
     },
     [
       dispatch,
