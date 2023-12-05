@@ -1,4 +1,5 @@
 import {
+  titleUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -6,6 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI('Identification information'),
     veteranId: ssnOrVaFileNumberUI(),
   },
   schema: {
