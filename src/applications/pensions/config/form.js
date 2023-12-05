@@ -444,6 +444,7 @@ const formConfig = {
         currentSpouseMonthlySupport: {
           title: 'Financial support for you spouse',
           path: 'household/marital-status/spouse-monthly-support',
+          depends: isMarried,
           uiSchema: currentSpouseMonthlySupport.uiSchema,
           schema: currentSpouseMonthlySupport.schema,
         },
