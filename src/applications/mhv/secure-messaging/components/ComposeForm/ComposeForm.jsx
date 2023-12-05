@@ -60,6 +60,7 @@ const ComposeForm = props => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -72,6 +73,28 @@ const ComposeForm = props => {
     selectedRecipient,
     draftAutoSaveTimeout,
   );
+
+  const localStorageValues = {
+    atExpires: localStorage.atExpires,
+    hasSession: localStorage.hasSession,
+    sessionExpiration: localStorage.sessionExpiration,
+    userFirstName: localStorage.userFirstName,
+  };
+
+  const resetUserSession = () => {
+    const timeout = setTimeout(() => {
+      Object.keys(localStorageValues).forEach(storageItem => {
+        if (!localStorage.getItem(storageItem)) {
+          localStorage.setItem(storageItem, localStorageValues[storageItem]);
+        }
+      });
+    }, 1000);
+    setTimeoutId(timeout);
+  };
+
+  const noTimeout = () => {
+    clearTimeout(timeoutId);
+  };
 
   const formattededSignature = useMemo(
     () => {
@@ -111,6 +134,22 @@ const ComposeForm = props => {
       });
     }
   };
+
+  useEffect(
+    () => {
+      dispatch(getCategories());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (attachments.length > 0) {
+        setUnsavedNavigationError('attachment');
+      }
+    },
+    [attachments],
+  );
 
   useEffect(
     () => {
@@ -432,12 +471,18 @@ const ComposeForm = props => {
           (draft ? draft.recipientId.toString() : '0') ||
         category !== (draft ? draft.category : null) ||
         subject !== (draft ? draft.subject : '') ||
-        messageBody !== (draft ? draft.body : '')
+        messageBody !== (draft ? draft.body : '') ||
+        attachments.length
       ) {
-        e.returnValue = '';
+        e.preventDefault();
+        window.onbeforeunload = resetUserSession;
+      } else {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
       }
     },
-    [draft, selectedRecipient, category, subject, messageBody],
+    [draft, selectedRecipient, category, subject, messageBody, attachments],
   );
 
   useEffect(
@@ -445,6 +490,8 @@ const ComposeForm = props => {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       return () => {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
       };
     },
     [beforeUnloadHandler],
@@ -454,7 +501,7 @@ const ComposeForm = props => {
     <>
       <EmergencyNote dropDownFlag />
 
-      <form className="compose-form">
+      <form className="compose-form" id="sm-compose-form">
         {saveError && (
           <VaModal
             modalTitle={saveError.title}
