@@ -7,7 +7,7 @@ import manifest from './manifest.json';
 /* eslint-disable camelcase */
 
 const apiSettings = {
-  credentials: 'include',
+  // credentials: 'include',
   mode: 'cors',
   headers: {
     'X-Key-Inflection': 'camel',
@@ -34,6 +34,8 @@ const railsEngineApi = {
   url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
+
+export const useMockData = false;
 
 export const getAPI = () => railsEngineApi;
 

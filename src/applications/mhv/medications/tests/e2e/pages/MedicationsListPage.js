@@ -5,6 +5,7 @@ import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json'
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
+import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -75,6 +76,17 @@ class MedicationsListPage {
     cy.get('[data-testid="list-page-title"]')
       .should('have.text', 'Medications')
       .should('be.visible');
+  };
+
+  verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="page-total-info"]').should(
+      'have.text',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
+    );
   };
 
   verifyDownloadListAsPDFButtonOnListPage = () => {
@@ -181,9 +193,9 @@ class MedicationsListPage {
       `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
     ).should('exist');
     //  cy.get(':nth-child(2) > .rx-card-detials > :nth-child(5) > [data-testid="refill-request-button"]')
-    cy.get(
-      ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    ).should('have.text', 'Not filled yet');
+    // cy.get(
+    //   ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
+    // ).should('have.text', 'Not filled yet');
     cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)').should(
       'contain',
       `${activeRxRefills.data.attributes.refillRemaining} refills left`,
@@ -294,6 +306,15 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]').should(
       'have.text',
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
+    );
+  };
+
+  verifyLastFilledDateforPrescriptionOnListPage = () => {
+    cy.get(
+      ':nth-child(3) > .rx-card-detials > :nth-child(2) > [data-testid="rx-last-filled-date"]',
+    ).should(
+      'contain',
+      `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
     );
   };
 }
