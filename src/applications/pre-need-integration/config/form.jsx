@@ -25,6 +25,7 @@ import * as burialBenefits from './pages/burialBenefits';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as preparer from './pages/preparer';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
@@ -180,6 +181,11 @@ const formConfig = {
     centralMailVaFile,
   },
   chapters: {
+    preparer: {
+      path: 'preparer',
+      uiSchema: preparer.uiSchema,
+      schema: preparer.schema,
+    },
     applicantInformation: {
       title: 'Applicant information',
       pages: !environment.isProduction()
