@@ -2795,12 +2795,12 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.1.0.tgz#0d2a11c8dface50bc010b863292d452a1ceb3fce"
-  integrity sha512-mH3z/1+OoIeRONnXL/QBYufT7rbj1Y0hWv3+NXo/5dybyMPuZk3sTrquehXqtkuMlt+PTAYgQeKyLe1EDnMIjQ==
+"@department-of-veterans-affairs/formation@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-9.0.1.tgz#9207ffe1ff60cf6cff3afff1a2d082a1e5add118"
+  integrity sha512-tovSaOQJ8IOYOjeDGmG7tuocq0LZ3YA58FrZTW2HratFZiFwGPE7UYSGt0a2YuSagQzIibcz0ZetphHMS6WicQ==
   dependencies:
-    "@fortawesome/fontawesome-free" "^5.6.3"
+    "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
     element-closest "^3.0.1"
     foundation-sites "5"
@@ -2963,10 +2963,6 @@
   version "5.15.4"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
   integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
-
-"@fortawesome/fontawesome-free@^5.6.3":
-  version "5.6.3"
-  resolved "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz"
 
 "@gar/promisify@^1.0.1", "@gar/promisify@^1.1.3":
   version "1.1.3"
