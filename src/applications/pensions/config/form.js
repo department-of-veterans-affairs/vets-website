@@ -75,6 +75,7 @@ import generateEmployersSchemas from '../pages/employmentHistory';
 import maritalStatus from '../pages/maritalStatus';
 import currentSpouse from '../pages/currentSpouse';
 import dateOfCurrentMarriage from '../pages/dateOfCurrentMarriage';
+import reasonForCurrentSeparation from '../pages/reasonForCurrentSeparation';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -439,6 +440,15 @@ const formConfig = {
           depends: isMarried,
           uiSchema: dateOfCurrentMarriage.uiSchema,
           schema: dateOfCurrentMarriage.schema,
+        },
+        reasonForCurrentSeparation: {
+          title: 'Reason for separation',
+          path: 'household/marital-status/reason-for-separation',
+          depends: formData => {
+            return formData.maritalStatus === 'Separated';
+          },
+          uiSchema: reasonForCurrentSeparation.uiSchema,
+          schema: reasonForCurrentSeparation.schema,
         },
         marriageInfo: {
           title: 'Marriage history',
