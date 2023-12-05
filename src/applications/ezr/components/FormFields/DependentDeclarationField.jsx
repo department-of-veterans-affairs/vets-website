@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
-import DependentDescription from '../FormDescriptions/DependentDescription';
 import { DEPENDENT_VIEW_FIELDS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
@@ -32,7 +31,7 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
     >
       {/** Question title */}
       <legend
-        id={`root_${DEPENDENT_VIEW_FIELDS.report}-label`}
+        id={`root_${DEPENDENT_VIEW_FIELDS.add}-label`}
         className={classNames({
           'schemaform-label': true,
           'usa-input-error-label': error,
@@ -46,14 +45,11 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
         </span>
       </legend>
 
-      {/** Additional Info component for description */}
-      <DependentDescription />
-
       {/** Error message */}
       {error ? (
         <span
           role="alert"
-          id={`root_${DEPENDENT_VIEW_FIELDS.report}-message`}
+          id={`root_${DEPENDENT_VIEW_FIELDS.add}-message`}
           className="usa-input-error-message"
         >
           <span className="sr-only">{content['validation-error-label']}</span>{' '}
@@ -64,7 +60,7 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
       {/** Radio options */}
       <div className="schemaform-widget-wrapper">
         <YesNoWidget
-          id={`root_${DEPENDENT_VIEW_FIELDS.report}`}
+          id={`root_${DEPENDENT_VIEW_FIELDS.add}`}
           value={defaultValue}
           onChange={onChange}
         />

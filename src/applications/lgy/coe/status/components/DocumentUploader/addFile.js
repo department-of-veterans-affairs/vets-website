@@ -6,7 +6,7 @@ export const addFile = (file, state, setState) => {
     setState({
       ...state,
       files: [],
-      errorMessage: 'Please choose a file from one of the accepted file types.',
+      errorMessage: 'Choose a file from one of the accepted file types.',
       submissionPending: false,
     });
     return;

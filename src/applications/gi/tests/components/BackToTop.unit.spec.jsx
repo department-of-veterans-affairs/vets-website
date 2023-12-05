@@ -104,4 +104,26 @@ describe('<BackToTop>', () => {
     recordEventModule.default = orginalRecordEvent;
     wrapper.unmount();
   });
+  it('should not display floating style on small screens when compare is open', () => {
+    const wrapper = mount(<BackToTop smallScreen compare={{ open: true }} />);
+    const floatingStyle = wrapper.find('.back-to-top-floating');
+    expect(floatingStyle.length).to.equal(0);
+    wrapper.unmount();
+  });
+  it('should display floating style if scrolled and not a small screen', () => {
+    const getBoundingClientRectStub = sinon.stub().returns({ bottom: -1 });
+    global.document.getElementById = sinon
+      .stub()
+      .returns({ getBoundingClientRect: getBoundingClientRectStub });
+
+    const wrapper = mount(
+      <BackToTop smallScreen={false} compare={{ open: false }} />,
+    );
+    global.window.dispatchEvent(new Event('scroll'));
+    wrapper.update();
+
+    const floatingStyle = wrapper.find('.back-to-top-floating');
+    expect(floatingStyle.length).to.equal(0);
+    wrapper.unmount();
+  });
 });

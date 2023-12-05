@@ -5,8 +5,10 @@
     "middle": "Party",
     "last": "Veteran"
   },
+  "thirdPartyPreparerRole": "other",
+  "otherThirdPartyPreparerRole": "Secret agent",
   "benefitSelection": {
-    "survivors": true
+    "survivor": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",

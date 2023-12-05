@@ -12,7 +12,7 @@ const PrintHeader = () => {
   return (
     <div className="print-only print-header vads-u-padding-bottom--2">
       <span>Medications | Veterans Affairs</span>
-      <span>
+      <span data-testid="name-date-of-birth">
         {name} Date of birth: {dob}
       </span>
     </div>

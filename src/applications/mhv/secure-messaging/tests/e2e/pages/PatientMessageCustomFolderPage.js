@@ -6,6 +6,7 @@ import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-t
 import { Paths, Locators } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
+import mockFolderWithMessages from '../fixtures/customResponse/folder-messages-response .json';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -46,6 +47,35 @@ class PatientMessageCustomFolderPage {
     cy.wait('@singleFolder');
     cy.wait('@singleFolderThread');
     cy.wait('@inboxFolderWithNoMessage');
+  };
+
+  loadSingleFolderWithMessages = (folderId, folderName) => {
+    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`, {
+      data: {
+        id: `${folderId}`,
+        type: 'folders',
+        attributes: {
+          folderId,
+          name: folderName,
+          count: 0,
+          unreadCount: 0,
+          systemFolder: false,
+        },
+        links: {
+          self:
+            'https://staging-api.va.gov/my_health/v1/messaging/folders/3041238',
+        },
+      },
+    }).as('singleFolder');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
+      mockFolderWithMessages,
+    ).as('singleFolderThread');
+
+    cy.contains(folderName).click({ waitForAnimations: true });
+    cy.wait('@singleFolder');
+    cy.wait('@singleFolderThread');
   };
 
   loadMessages = (folderName = this.folderName, folderId = this.folderId) => {
@@ -174,6 +204,41 @@ class PatientMessageCustomFolderPage {
     cy.get('[text="Create"]')
       .shadow()
       .find('[type="button"]')
+      .click();
+  };
+
+  editFolderButton = () => {
+    return cy.get(Locators.BUTTONS.EDIT_FOLDER);
+  };
+
+  submitEditFolderName = folderName => {
+    cy.get('[name="new-folder-name"]')
+      .should('be.visible')
+      .shadow()
+      .find('[id="inputField"]')
+      .should('be.visible')
+      .type(folderName, { force: true });
+
+    cy.intercept('PUT', `/my_health/v1/messaging/folders/${this.folderId}`, {
+      data: {
+        id: '2556251',
+        type: 'folders',
+        attributes: {
+          folderId: 2556251,
+          name: folderName,
+          count: 0,
+          unreadCount: 0,
+          systemFolder: false,
+        },
+        links: {
+          self:
+            'https://staging-api.va.gov/my_health/v1/messaging/folders/2556251',
+        },
+      },
+    }).as('updatedFolderName');
+
+    cy.get('[text="Save"]')
+      .should('be.visible')
       .click();
   };
 }

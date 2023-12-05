@@ -8,7 +8,7 @@ const appointmentData = {
 };
 
 describe('VideoVisitProvider', () => {
-  it('should return null', async () => {
+  it('should return null', () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -21,9 +21,9 @@ describe('VideoVisitProvider', () => {
 
     const props = { appointment };
     const wrapper = render(<VideoVisitProvider {...props} />);
-    expect(await wrapper.queryByText('You met with')).to.not.exist;
+    expect(wrapper.queryByText('You met with')).to.not.exist;
   });
-  it('should return you met with text and provider name', async () => {
+  it('should return you met with text and provider name', () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -44,10 +44,10 @@ describe('VideoVisitProvider', () => {
 
     const props = { appointment };
     const wrapper = render(<VideoVisitProvider {...props} />);
-    expect(await wrapper.queryByText('You met with')).to.exist;
-    expect(await wrapper.queryByText('Test,PhD Provider')).to.exist;
+    expect(wrapper.queryByText('You met with')).to.exist;
+    expect(wrapper.queryByText('Test,PhD Provider')).to.exist;
   });
-  it("should return you'll be meeting with text and provider name", async () => {
+  it("should return you'll be meeting with text and provider name", () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -74,6 +74,6 @@ describe('VideoVisitProvider', () => {
         selector: 'h2',
       }),
     ).to.exist;
-    expect(await wrapper.queryByText('Test,PhD Provider')).to.exist;
+    expect(wrapper.queryByText('Test,PhD Provider')).to.exist;
   });
 });

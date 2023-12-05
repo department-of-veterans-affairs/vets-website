@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 
+// we are expecting vets api to send 0000-01-01 when there is no dispensed date.
+const DISPENSED_DATE_NOT_PROVIDED = '0000-01-01';
+
 const LastFilledInfo = rx => {
-  const { dispStatus, orderedDate, dispensedDate } = rx;
+  const { dispStatus, orderedDate, sortedDispensedDate } = rx;
   let nonVA = false;
   let showLastFilledDate = false;
   if (dispStatus === dispStatusObj.nonVA) {
     nonVA = true;
-  } else if (dispensedDate && dispStatus !== dispStatusObj.transferred) {
+  } else if (String(sortedDispensedDate) !== DISPENSED_DATE_NOT_PROVIDED) {
     showLastFilledDate = true;
   }
   return (
@@ -22,7 +25,7 @@ const LastFilledInfo = rx => {
         )}
       {showLastFilledDate && (
         <p data-testid="rx-last-filled-date">
-          Last filled on {dateFormat(dispensedDate, 'MMMM D, YYYY')}
+          Last filled on {dateFormat(sortedDispensedDate, 'MMMM D, YYYY')}
         </p>
       )}
       {!nonVA &&
@@ -35,8 +38,8 @@ const LastFilledInfo = rx => {
 
 LastFilledInfo.propTypes = {
   rx: PropTypes.shape({
+    sortedDispensedDate: PropTypes.string,
     dispStatus: PropTypes.string,
-    dispensedDate: PropTypes.string,
     orderedDate: PropTypes.string,
   }),
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { ShowIssuesList } from '../components/ShowIssuesList';
+import ShowIssuesList from '../../shared/components/ShowIssuesList';
 
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { getSelected } from '../../shared/utils/issues';

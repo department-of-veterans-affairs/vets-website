@@ -21,7 +21,7 @@ import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert'
 import { DowntimeWarning } from '../components/FormAlerts';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import FormFooter from '../components/FormFooter';
-import GetHelp from '../components/GetHelp';
+import GetFormHelp from '../components/GetFormHelp';
 
 // chapter 1 Veteran Information
 import VeteranInformation from '../components/FormPages/VeteranInformation';
@@ -137,7 +137,7 @@ const formConfig = {
     CustomComponent: PreSubmitNotice,
   },
   footerContent: FormFooter,
-  getHelp: GetHelp,
+  getHelp: GetFormHelp,
   defaultDefinitions: { date },
   chapters: {
     veteranInformation: {

@@ -49,5 +49,18 @@ export default function VideoLink({ appointment }) {
   );
 }
 VideoLink.propTypes = {
-  appointment: PropTypes.object.isRequired,
+  appointment: PropTypes.shape({
+    start: PropTypes.string.isRequired,
+    videoData: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+    }),
+  }),
+};
+VideoLink.defaultProps = {
+  appointment: {
+    start: '',
+    videoData: {
+      url: '',
+    },
+  },
 };

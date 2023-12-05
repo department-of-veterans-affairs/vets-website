@@ -23,8 +23,8 @@ const VRECounselorNotification = () => {
       className="vads-u-margin-top--2 vads-u-background-color--gray-lightest vads-u-padding--3"
     >
       <p className="vads-u-margin-top--0">
-        Please contact your Vocational Rehabilitation Counselor to learn more
-        about how to get career planning and guidance benefits.
+        Contact your Vocational Rehabilitation Counselor to learn more about how
+        to get career planning and guidance benefits.
       </p>
       <a onClick={handleClick} href={VRE_COUNSELOR_ROOT_URL}>
         Contact a Vocational Rehabilitation Counselor

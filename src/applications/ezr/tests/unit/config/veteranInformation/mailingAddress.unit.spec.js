@@ -14,7 +14,7 @@ const {
 const { title: pageTitle, schema, uiSchema } = mailingAddress;
 
 // run test for correct number of fields on the page
-const expectedNumberOfWebComponentFields = 8;
+const expectedNumberOfWebComponentFields = 9;
 testNumberOfWebComponentFields(
   formConfig,
   schema,

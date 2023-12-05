@@ -14,6 +14,7 @@ import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messag
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
+import mockFirstMessage from '../fixtures/first-message-from-thread-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -113,7 +114,7 @@ class PatientInboxPage {
 
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    cy.wait('@inboxMessages', { requestTimeout: 10000 });
     if (this.mockInboxMessages.length) cy.get('.thread-list').should('exist');
   };
 
@@ -163,22 +164,31 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadMessageDetailsWithData = inputMockMessage => {
-    cy.log('loading message details.');
-
+  loadSingleThread = (testThread = mockThread) => {
+    cy.log('loading single thread details.');
     cy.intercept(
       'GET',
-      Paths.SM_API_EXTENDED + inputMockMessage.data.id,
-      mockSpecialCharsMessage,
-    ).as('message');
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      mockFolders,
+    ).as('folders');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED + inputMockMessage.data.id}/thread`,
-      mockThread,
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread`,
+      testThread,
     ).as('full-thread');
-    cy.contains(inputMockMessage.data.attributes.subject).click();
-    cy.wait('@message');
-    cy.wait('@full-thread');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${testThread.data[0].attributes.messageId}`,
+      mockFirstMessage,
+    ).as('fist-message-in-thread');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+    cy.wait('@full-thread', { requestTimeout: 20000 });
+    cy.wait('@fist-message-in-thread');
   };
 
   getNewMessage = () => {
@@ -323,6 +333,8 @@ class PatientInboxPage {
   };
 
   replyToMessage = () => {
+    const currentDate = new Date();
+    mockSingleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
@@ -338,7 +350,6 @@ class PatientInboxPage {
       }`,
       mockSingleMessage,
     ).as('singleThread');
-
     cy.get(Locators.THREADS)
       .first()
       .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)

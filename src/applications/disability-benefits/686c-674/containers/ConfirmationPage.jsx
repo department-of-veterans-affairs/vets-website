@@ -95,8 +95,8 @@ export class ConfirmationPage extends React.Component {
           </p>
           <p>
             If we haven’t contacted you within a week after you submitted your
-            application, <strong>please don’t apply again</strong>. Instead,
-            please call our toll-free hotline at{' '}
+            application, <strong>don’t apply again</strong>. Instead, call our
+            toll-free hotline at{' '}
             <va-telephone contact="8772228387" vanity="VETS" />. We’re here
             Monday through Friday, 8:00 am to 8:00 pm ET
           </p>
@@ -134,9 +134,9 @@ export class ConfirmationPage extends React.Component {
                 the <strong>Your Applications</strong> section of you homepage.
               </p>
               <p>
-                <strong>Please note:</strong> Your application status may take
-                some time to appear on our homepage. If you don’t see it there
-                right away, please check back later.
+                <strong>Note:</strong> Your application status may take some
+                time to appear on our homepage. If you don’t see it there right
+                away, check back later.
               </p>
             </li>
           </ol>
@@ -147,8 +147,8 @@ export class ConfirmationPage extends React.Component {
           <p className="vads-u-margin-bottom--6">
             We’ll send you a packet by U.S. mail that includes details of the
             decision on your claim. If you check your status online and see a
-            decision, please allow 7 to 10 business days for your packet to
-            arrive before contacting a VA call center.
+            decision, allow 7 to 10 business days for your packet to arrive
+            before contacting a VA call center.
           </p>
           <h2 className="vads-u-font-size--h3 vads-u-font-family--serif">
             What if I need to add or remove another dependent now or at a later
@@ -165,9 +165,8 @@ export class ConfirmationPage extends React.Component {
             What if I have more questions?
           </h2>
           <p className="vads-u-margin-bottom--6">
-            Please call <va-telephone contact="8772228387" vanity="VETS" /> and
-            select 2. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-            ET.
+            Call <va-telephone contact="8772228387" vanity="VETS" /> and select
+            2. We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </div>
       </>

@@ -63,7 +63,7 @@ const PrintDownload = props => {
         />
         {list
           ? 'Download your medication list as a PDF'
-          : 'Download your medication details as a PDF'}
+          : 'Download this page as a PDF'}
       </button>
 
       {/* Code for dropdown print/download button should we go back to it

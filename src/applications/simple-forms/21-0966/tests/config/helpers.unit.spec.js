@@ -27,10 +27,35 @@ import {
   preparerIdentifications,
   veteranBenefits,
   benefitPhrases,
+  survivingDependentBenefits,
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 describe('form helper functions', () => {
+  it('test defaults for helper functions', () => {
+    expect(preparerIsVeteran()).to.equal(false);
+    expect(preparerIsSurvivingDependent()).to.equal(false);
+    expect(preparerIsThirdPartyToTheVeteran()).to.equal(false);
+    expect(preparerIsThirdPartyToASurvivingDependent()).to.equal(false);
+    expect(preparerIsThirdParty()).to.equal(false);
+    expect(benefitSelectionChapterTitle()).to.match(/Your benefit selection/i);
+    expect(statementOfTruthFullNamePath()).to.equal(
+      'survivingDependentFullName',
+    );
+    expect(survivingDependentPersonalInformationChapterTitle()).to.match(
+      /Your personal information/i,
+    );
+    expect(survivingDependentContactInformationChapterTitle()).to.match(
+      /Your contact information/i,
+    );
+    expect(veteranPersonalInformationChapterTitle()).to.match(
+      /Veteran’s personal information/i,
+    );
+    expect(veteranContactInformationChapterTitle()).to.match(
+      /Veteran’s contact information/i,
+    );
+  });
+
   it('provides the correct information for a veteran', () => {
     const formData = {
       preparerIdentification: 'VETERAN',
@@ -219,13 +244,16 @@ describe('statementOfTruthFullNamePath', () => {
 describe('confirmation page helper functions', () => {
   describe('success alert', () => {
     describe('One intent selected and filed', () => {
-      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
+      [
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
+      ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
           },
         };
-        const expirationDate = 'expiration-date';
 
         it('shows a success alert', () => {
           expect(getAlertType(data, {})).to.equal('success');
@@ -238,10 +266,10 @@ describe('confirmation page helper functions', () => {
         });
 
         it('successfully gets the success alert text', () => {
-          expect(getSuccessAlertText(data, {}, expirationDate)).to.equal(
+          expect(getSuccessAlertText(data, {})).to.equal(
             `Your intent to file for ${
               benefitPhrases[selectedIntent]
-            } will expire on ${expirationDate}.`,
+            } will expire in 1 year.`,
           );
         });
       });
@@ -254,7 +282,6 @@ describe('confirmation page helper functions', () => {
           [veteranBenefits.PENSION]: true,
         },
       };
-      const expirationDate = 'expiration-date';
 
       it('shows a success alert', () => {
         expect(getAlertType(data, {})).to.equal('success');
@@ -267,8 +294,8 @@ describe('confirmation page helper functions', () => {
       });
 
       it('successfully gets the success alert text', () => {
-        expect(getSuccessAlertText(data, {}, expirationDate)).to.equal(
-          `Your intent to file for disability compensation and pension claims will expire on ${expirationDate}.`,
+        expect(getSuccessAlertText(data, {})).to.equal(
+          `Your intent to file for disability compensation and pension claims will expire in 1 year.`,
         );
       });
     });
@@ -280,45 +307,53 @@ describe('confirmation page helper functions', () => {
           [veteranBenefits.PENSION]: true,
         },
       };
-      const expirationDate = 'expiration-date';
 
-      ['COMPENSATION', 'PENSION'].forEach(alreadySubmittedIntentType => {
-        const alreadySubmittedIntents = {
-          [alreadySubmittedIntentType]: {
-            creationDate: '2021-03-16T19:15:21.000-05:00',
-            expirationDate: '2022-03-16T19:15:20.000-05:00',
-            type: alreadySubmittedIntentType,
-            status: 'active',
-          },
-        };
-        const newlySelectedIntent = ['COMPENSATION', 'PENSION'].filter(
-          intent => intent !== alreadySubmittedIntentType,
-        )[0];
+      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
+        alreadySubmittedIntentType => {
+          const alreadySubmittedIntents = {
+            [alreadySubmittedIntentType]: {
+              creationDate: '2021-03-16T19:15:21.000-05:00',
+              expirationDate: '2022-03-16T19:15:20.000-05:00',
+              type: alreadySubmittedIntentType,
+              status: 'active',
+            },
+          };
+          const newlySelectedIntent = [
+            veteranBenefits.COMPENSATION,
+            veteranBenefits.PENSION,
+          ].filter(intent => intent !== alreadySubmittedIntentType)[0];
 
-        it('shows a success alert', () => {
-          expect(getAlertType(data, alreadySubmittedIntents)).to.equal(
-            'success',
-          );
-        });
+          it('shows a success alert', () => {
+            expect(getAlertType(data, alreadySubmittedIntents)).to.equal(
+              'success',
+            );
+          });
 
-        it('successfully gets the success alert title', () => {
-          expect(getSuccessAlertTitle(data, alreadySubmittedIntents)).to.equal(
-            `You’ve submitted your intent to file for ${
-              benefitPhrases[newlySelectedIntent]
-            }`,
-          );
-        });
+          it('successfully gets the success alert title', () => {
+            expect(
+              getSuccessAlertTitle(data, alreadySubmittedIntents),
+            ).to.equal(
+              `You’ve submitted your intent to file for ${
+                benefitPhrases[newlySelectedIntent]
+              }`,
+            );
+          });
 
-        it('successfully gets the success alert text', () => {
-          expect(
-            getSuccessAlertText(data, alreadySubmittedIntents, expirationDate),
-          ).to.equal(`Your intent to file will expire on ${expirationDate}.`);
-        });
-      });
+          it('successfully gets the success alert text', () => {
+            expect(getSuccessAlertText(data, alreadySubmittedIntents)).to.equal(
+              `Your intent to file will expire in 1 year.`,
+            );
+          });
+        },
+      );
     });
 
     describe('One intent selected, already on file, so nothing new is filed', () => {
-      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
+      [
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
+      ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
@@ -371,13 +406,13 @@ describe('confirmation page helper functions', () => {
       };
       const expirationDate = 'expiration-date';
       const alreadySubmittedIntents = {
-        COMPENSATION: {
+        [veteranBenefits.COMPENSATION]: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.COMPENSATION,
           status: 'active',
         },
-        PENSION: {
+        [veteranBenefits.PENSION]: {
           creationDate: '2021-03-16T19:15:21.000-05:00',
           expirationDate,
           type: veteranBenefits.PENSION,
@@ -411,7 +446,6 @@ describe('confirmation page helper functions', () => {
             [selectedIntent]: true,
           },
         };
-        const expirationDate = 'expiration-date';
 
         it('successfully gets the already submitted title', () => {
           expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
@@ -422,12 +456,10 @@ describe('confirmation page helper functions', () => {
         });
 
         it('successfully gets the second paragraph of the next steps text', () => {
-          expect(
-            getNextStepsTextSecondParagraph(data, {}, expirationDate),
-          ).to.equal(
+          expect(getNextStepsTextSecondParagraph(data, {})).to.equal(
             `Your intent to file for ${
               benefitPhrases[selectedIntent]
-            } expires on ${expirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+            } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
           );
         });
 
@@ -490,76 +522,72 @@ describe('confirmation page helper functions', () => {
         alreadySubmittedExpirationDate,
       ).toLocaleDateString('en-us', dateOptions);
 
-      ['COMPENSATION', 'PENSION'].forEach(alreadySubmittedIntentType => {
-        const alreadySubmittedIntents = {
-          [alreadySubmittedIntentType]: {
-            creationDate: '2021-03-16T19:15:21.000-05:00',
-            expirationDate: alreadySubmittedExpirationDate,
-            type: alreadySubmittedIntentType,
-            status: 'active',
-          },
-        };
+      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
+        alreadySubmittedIntentType => {
+          const alreadySubmittedIntents = {
+            [alreadySubmittedIntentType]: {
+              creationDate: '2021-03-16T19:15:21.000-05:00',
+              expirationDate: alreadySubmittedExpirationDate,
+              type: alreadySubmittedIntentType,
+              status: 'active',
+            },
+          };
 
-        it('successfully gets the already submitted title', () => {
-          expect(
-            getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-          ).to.equal(
-            `You’ve already submitted an intent to file for ${
-              benefitPhrases[alreadySubmittedIntentType]
-            }`,
-          );
-        });
+          it('successfully gets the already submitted title', () => {
+            expect(
+              getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+            ).to.equal(
+              `You’ve already submitted an intent to file for ${
+                benefitPhrases[alreadySubmittedIntentType]
+              }`,
+            );
+          });
 
-        it('successfully gets the already submitted text', () => {
-          expect(
-            getAlreadySubmittedText(data, alreadySubmittedIntents),
-          ).to.equal(
-            `Our records show that you already have an intent to file for ${
-              benefitPhrases[alreadySubmittedIntentType]
-            }. Your intent to file for ${
-              benefitPhrases[alreadySubmittedIntentType]
-            } expires on ${formattedAlreadySubmittedExpirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`,
-          );
-        });
+          it('successfully gets the already submitted text', () => {
+            expect(
+              getAlreadySubmittedText(data, alreadySubmittedIntents),
+            ).to.equal(
+              `Our records show that you already have an intent to file for ${
+                benefitPhrases[alreadySubmittedIntentType]
+              }. Your intent to file for ${
+                benefitPhrases[alreadySubmittedIntentType]
+              } expires on ${formattedAlreadySubmittedExpirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`,
+            );
+          });
 
-        it('successfully gets the second paragraph of the next steps text', () => {
-          expect(
-            getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
-          ).to.equal(
-            'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).',
-          );
-        });
+          it('successfully gets the second paragraph of the next steps text', () => {
+            expect(
+              getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
+            ).to.equal(
+              'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).',
+            );
+          });
 
-        it('successfully gets the next steps links', () => {
-          const result = getNextStepsLinks(data);
-          expect(result.length).to.equal(2);
-          expect(result).to.contain(veteranBenefits.COMPENSATION);
-          expect(result).to.contain(veteranBenefits.PENSION);
-        });
-      });
+          it('successfully gets the next steps links', () => {
+            const result = getNextStepsLinks(data);
+            expect(result.length).to.equal(2);
+            expect(result).to.contain(veteranBenefits.COMPENSATION);
+            expect(result).to.contain(veteranBenefits.PENSION);
+          });
+        },
+      );
     });
 
     describe('One intent selected, already on file, so nothing new is filed', () => {
-      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
+      [
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
+      ].forEach(selectedIntent => {
         const data = {
           benefitSelection: {
             [selectedIntent]: true,
           },
         };
-        const dateOptions = {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        };
-        const expirationDate = '2024-09-22T19:15:20.000-05:00';
-        const formattedExpirationDate = new Date(
-          expirationDate,
-        ).toLocaleDateString('en-us', dateOptions);
         const alreadySubmittedIntents = {
           [selectedIntent]: {
             creationDate: '2021-03-16T19:15:21.000-05:00',
-            expirationDate,
+            expirationDate: '2024-09-22T19:15:20.000-05:00',
             type: selectedIntent,
             status: 'active',
           },
@@ -579,7 +607,7 @@ describe('confirmation page helper functions', () => {
           ).to.equal(
             `Your intent to file for ${
               benefitPhrases[selectedIntent]
-            } expires on ${formattedExpirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+            } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
           );
         });
 

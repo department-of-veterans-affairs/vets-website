@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   apiRequest,
-  environment,
   logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -10,6 +9,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
   logout as IAMLogout,
   isAuthenticatedWithOAuth,
+  AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import { parseRedirectUrl, errorMessages, touStyles } from '../helpers';
@@ -22,8 +22,13 @@ export default function TermsOfUse() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const redirectLocation = new URL(window.location);
   const termsCodeExists =
-    new URL(window.location).searchParams.get('terms_code')?.length > 1;
+    redirectLocation.searchParams.get('terms_code')?.length > 1;
+  const redirectUrl =
+    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
+    redirectLocation.searchParams.get('redirect_url') ||
+    redirectLocation.searchParams.get('ssoeTarget');
 
   useEffect(
     () => {
@@ -35,16 +40,22 @@ export default function TermsOfUse() {
           }
         });
       }
+
+      if (redirectUrl) {
+        sessionStorage.setItem(
+          AUTHN_SETTINGS.RETURN_URL,
+          parseRedirectUrl(redirectUrl),
+        );
+      }
     },
-    [termsCodeExists],
+    [termsCodeExists, redirectUrl],
   );
 
   const handleTouClick = async type => {
-    const url = new URL(window.location);
-    const redirectUrl = parseRedirectUrl(url.searchParams.get('redirect_url'));
     const termsCode = termsCodeExists
-      ? `?terms_code=${url.searchParams.get('terms_code')}`
+      ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
       : '';
+
     try {
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${type}${termsCode}`,
@@ -66,11 +77,7 @@ export default function TermsOfUse() {
           if (termsCodeExists || isAuthenticatedWithSiS) {
             window.location = logoutUrlSiS();
           } else {
-            IAMLogout({
-              queryParams: {
-                [`redirect`]: `${environment.BASE_URL}/terms-of-use/declined`,
-              },
-            });
+            IAMLogout({ queryParams: { [`agreements_declined`]: true } });
           }
         }
       }
@@ -89,9 +96,8 @@ export default function TermsOfUse() {
             VA online services terms of use
           </h1>
           <p className="va-introtext va-introtext vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
-            To sign in to VA.gov and most other VA online services, you’ll need
-            to accept the terms of use. We recently updated the terms. Read the
-            updated terms on this page. Then confirm if you accept or not.
+            To sign in, you’ll need to accept the updated terms of use. Read the
+            updated terms on this page. Then confirm if you accept.
           </p>
           <article>
             <div>
@@ -100,12 +106,6 @@ export default function TermsOfUse() {
                 Last updated: {touUpdatedDate}
               </p>
             </div>
-            <TermsAcceptance
-              error={error}
-              isAuthenticated={isAuthenticated}
-              handleTouClick={handleTouClick}
-              setShowDeclineModal={setShowDeclineModal}
-            />
             <h2 id="terms-of-use">Terms of use</h2>
             <p>
               The Department of Veterans Affairs (VA) owns and manages VA.gov

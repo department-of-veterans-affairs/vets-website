@@ -63,7 +63,11 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </dl>
 
         <div className="vads-u-margin-top--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text="Print this page"
+            data-testid="hca-print-button"
+            onClick={() => window.print()}
+          />
         </div>
       </va-alert>
     </>

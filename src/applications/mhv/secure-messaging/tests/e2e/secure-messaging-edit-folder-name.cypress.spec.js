@@ -3,25 +3,13 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
-describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', () => {
-  it('Axe Check Custom Folder List', () => {
+describe('edit custom folder name validation', () => {
+  it('verify axe check', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList();
-    PatientMessageCustomFolderPage.loadMessages();
-    cy.get('[data-testid="edit-folder-button"]').click({ force: true });
-    cy.get('[name="new-folder-name"]')
-      .shadow()
-      .find('[id="inputField"]')
-      .type('Testing');
-    cy.get('[visible=""] > [secondary=""]').click();
-    cy.focused({ timeout: 5000 }).should(
-      'have.attr',
-      'data-testid',
-      'edit-folder-button',
-    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -34,5 +22,46 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
         },
       },
     });
+  });
+  it('verify edit folder name buttons', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientMessageCustomFolderPage.loadMessages();
+
+    PatientMessageCustomFolderPage.editFolderButton()
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+    PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
+
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('be.visible')
+      .and('have.text', 'Folder was successfully renamed.');
+
+    cy.get('[data-testid="folder-header"]').should('be.visible');
+  });
+
+  it('verify edit folder name error', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadInboxMessages();
+    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientMessageCustomFolderPage.loadMessages();
+
+    PatientMessageCustomFolderPage.editFolderButton()
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+
+    cy.get('[text="Save"]')
+      .should('be.visible')
+      .click({ waitForAnimations: true });
+
+    cy.get('[label="Folder name"]', { timeout: 10000 })
+      .shadow()
+      .find('#input-error-message')
+      .and('include.text', 'Folder name cannot be blank');
   });
 });

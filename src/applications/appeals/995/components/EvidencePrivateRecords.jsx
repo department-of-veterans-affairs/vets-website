@@ -16,7 +16,7 @@ import debounce from 'platform/utilities/data/debounce';
 import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
-import { checkValidations } from '../validations';
+
 import {
   validatePrivateName,
   validateCountry,
@@ -33,6 +33,7 @@ import {
 import { focusEvidence } from '../utils/focus';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';

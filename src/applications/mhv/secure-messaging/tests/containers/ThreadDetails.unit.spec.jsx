@@ -15,14 +15,14 @@ import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.j
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
 import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
-import { getByBrokenText, inputVaTextInput } from '../../util/testUtils';
+import { inputVaTextInput } from '../../util/testUtils';
 import {
-  dateFormat,
+  threadsDateFormat,
   getLastSentMessage,
   isOlderThan,
 } from '../../util/helpers';
 
-describe.skip('Thread Details container', () => {
+describe('Thread Details container', () => {
   const setup = state => {
     return renderWithStoreAndRouter(<ThreadDetails testing />, {
       initialState: state,
@@ -35,7 +35,7 @@ describe.skip('Thread Details container', () => {
   const replyMessage = draftMessageHistory[0];
   const olderMessage = draftMessageHistory[1];
 
-  it.skip('with no drafts renders Thread Details with messages in a thread', async () => {
+  it('renders Thread Details with messages in a thread', async () => {
     const state = {
       sm: {
         messageDetails: {
@@ -47,13 +47,13 @@ describe.skip('Thread Details container', () => {
     const screen = setup(state);
     const {
       category,
-      // body,
+      body,
       subject,
-      // senderName,
-      // sentDate,
-      // recipientName,
-      // messageId,
-      // triageGroupName,
+      senderName,
+      sentDate,
+      recipientName,
+      messageId,
+      triageGroupName,
     } = messageDetails.message;
 
     expect(
@@ -62,20 +62,24 @@ describe.skip('Thread Details container', () => {
         selector: 'h1',
       }),
     ).to.exist;
-    // expect(
-    //   screen.getByTestId(`expand-message-button-${messageId}`).textContent,
-    // ).to.contain(`From: ${senderName} (${triageGroupName})`);
-    // expect(screen.getByTestId('message-metadata').textContent).to.contain(
-    //   `To: ${recipientName}`,
-    // );
-    // expect(screen.getByTestId('message-metadata').textContent).to.contain(
-    //   `Date: ${dateFormat(sentDate)}`,
-    // );
-    // expect(screen.getByTestId('message-metadata').textContent).to.contain(
-    //   `Message ID: ${messageId}`,
-    // );
 
-    // expect(screen.getByText(body)).to.exist;
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`From: ${senderName} (${triageGroupName})`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`To: ${recipientName}`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Date: ${threadsDateFormat(sentDate)}`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Message ID: ${messageId}`);
+
+    expect(screen.getByText(body)).to.exist;
 
     expect(screen.getByText('2 Messages in this conversation')).to.exist;
     expect(
@@ -85,7 +89,7 @@ describe.skip('Thread Details container', () => {
     ).to.have.length(2);
   });
 
-  it.skip('with no drafts renders Thread Details with NO messages in a thread', async () => {
+  it('renders Thread Details with NO message history in a thread', async () => {
     const state = {
       sm: {
         messageDetails: {
@@ -114,23 +118,23 @@ describe.skip('Thread Details container', () => {
       }),
     ).to.exist;
 
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `From: ${senderName} (${triageGroupName})`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `To: ${recipientName}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: ${dateFormat(sentDate)}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Message ID: ${messageId}`,
-    );
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`From: ${senderName} (${triageGroupName})`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`To: ${recipientName}`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Date: ${threadsDateFormat(sentDate)}`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Message ID: ${messageId}`);
 
     expect(screen.getByText(body)).to.exist;
 
-    expect(screen.queryByText('Messages in this conversation')).to.be.null;
-    expect(document.querySelector('.older-messages')).to.be.null;
+    expect(screen.queryByText('1 Message in this conversation')).to.exist;
+    expect(document.querySelector('.older-messages')).to.not.be.null;
   });
 
   it('with one draft message renders Edit Draft', async () => {
@@ -169,7 +173,7 @@ describe.skip('Thread Details container', () => {
     expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;
   });
 
-  it.skip('with a reply draft message on a replied to message is MORE than 45 days', async () => {
+  it('with a reply draft message on a replied to message is MORE than 45 days', async () => {
     const { category, subject } = replyDraftThread.draftDetails.draftMessage;
 
     const draftMessageHistoryUpdated = [
@@ -224,20 +228,8 @@ describe.skip('Thread Details container', () => {
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
-    const messageRepliedTo = screen.getByTestId('message-replied-to');
-    const from = getByBrokenText(
-      `From: ${replyMessage.senderName}`,
-      messageRepliedTo,
-    );
-    expect(from).to.exist;
-    const to = getByBrokenText(
-      `To: ${replyMessage.recipientName}`,
-      messageRepliedTo,
-    );
-    expect(to).to.exist;
-
     expect(
-      screen.getByText('Messages in this conversation', {
+      screen.getByText('2 Messages in this conversation', {
         exact: true,
         selector: 'h2',
       }),

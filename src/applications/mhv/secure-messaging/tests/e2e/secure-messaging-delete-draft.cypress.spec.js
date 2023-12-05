@@ -29,8 +29,11 @@ describe('Secure Messaging Delete Draft', () => {
         },
       },
     });
-    draftsPage.confirmDeleteDraft(mockDraftResponse);
+    draftsPage.confirmDeleteDraft(mockDraftResponse, false);
     draftsPage.verifyDeleteConfirmationMessage();
+    cy.get('[data-testid="drafts-sidebar"]')
+      .find('a')
+      .should('have.class', 'is-active');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

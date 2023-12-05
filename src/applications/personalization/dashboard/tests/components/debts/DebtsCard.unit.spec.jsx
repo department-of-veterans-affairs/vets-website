@@ -1,11 +1,20 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import DebtsCard from '../../../components/debts/DebtsCard';
 
 describe('<DebtsCard />', () => {
   it('renders the DebtsCard component correctly', () => {
+    // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
+    // and revert changes back to https://github.com/department-of-veterans-affairs/vets-website/commit/34a4e82dcecec7e7f2febc2362c707f8c6958a4f
+    const initialState = {
+      featureToggles: {
+        [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
+      },
+    };
+
     const defaultProps = {
       debts: [
         {
@@ -63,20 +72,12 @@ describe('<DebtsCard />', () => {
       ],
     };
 
-    const wrapper = shallow(<DebtsCard {...defaultProps} />);
+    const tree = renderWithStoreAndRouter(<DebtsCard {...defaultProps} />, {
+      initialState,
+    });
 
-    const header = wrapper.find('h3').text();
-    expect(header).to.include(defaultProps.debts.length);
-    expect(header).to.include('overpayment debts');
-
-    const info = wrapper.find('p').text();
-
-    expect(info).to.include('Updated on');
-
-    const link = wrapper.find('CTALink');
-    expect(link.prop('text')).to.include('Manage your VA debt');
-    expect(link.prop('href')).to.equal('/manage-va-debt/your-debt');
-
-    wrapper.unmount();
+    expect(tree.getByText(/2 overpayment debts/)).to.exist;
+    expect(tree.getByText('updated on', { exact: false })).to.exist;
+    expect(tree.getByText('manage your va debt', { exact: false })).to.exist;
   });
 });

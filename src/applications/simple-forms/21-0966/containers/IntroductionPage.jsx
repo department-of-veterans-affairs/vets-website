@@ -56,7 +56,7 @@ class IntroductionPage extends React.Component {
         </p>
         <ul>
           <li>
-            <a href="https://www.va.gov/find-forms/about-form-21-526ez/">
+            <a href="https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction">
               Disability compensation claim (VA Form 21-526EZ)
             </a>
             . If you start your disability claim online now, you don’t need to

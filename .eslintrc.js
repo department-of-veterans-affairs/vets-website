@@ -59,10 +59,6 @@ module.exports = {
         use: 'a custom solution',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
-        use: '<va-breadcrumbs>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
       },

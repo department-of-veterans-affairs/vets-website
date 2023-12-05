@@ -3,10 +3,10 @@ import { ROUTES } from '../../../constants';
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('During both of these time periods - form validation', () => {
     it('displays the correct error text when no response is selected', () => {
-      cy.visit('/pact-act-wizard-test');
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);

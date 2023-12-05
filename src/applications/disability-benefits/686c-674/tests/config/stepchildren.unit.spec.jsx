@@ -31,7 +31,7 @@ describe('686 stepchildren', () => {
       />,
     );
     expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
 

@@ -9,7 +9,7 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     site.login();
     patientInboxPage.loadInboxMessages();
   });
-  it.skip('Keyboard Nav from Welcome Page to Compose', () => {
+  it('Keyboard Nav from Welcome Page to Compose', () => {
     cy.tabToElement('[data-testid="compose-message-link"]');
     cy.realPress(['Enter']);
     cy.injectAxe();
@@ -22,6 +22,8 @@ describe('Secure Messaging Keyboard Nav To Compose', () => {
     });
     cy.tabToElement('[data-testid="continue-button"] ');
     cy.realPress(['Enter']);
-    cy.tabToElement('[data-testid="message-body-field"] ');
+    cy.get('.page-title')
+      .should('be.focused')
+      .and('have.text', 'Start a new message');
   });
 });

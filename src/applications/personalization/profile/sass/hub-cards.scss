@@ -23,14 +23,14 @@
   max-width: 32ch;
 
   @include media($medium-screen) {
-    display: inherit;
-    max-width: inherit;
+    display: unset;
+    max-width: unset;
   }
 }
 
 .medium-screen--line-break-at-50-characters {
-  display: inherit;
-  max-width: inherit;
+  display: unset;
+  max-width: unset;
 
   @include media($medium-screen) {
     display: inline-block;

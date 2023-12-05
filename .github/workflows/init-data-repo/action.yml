@@ -10,7 +10,6 @@ runs:
         repository: department-of-veterans-affairs/qa-standards-dashboard-data
         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
         path: qa-standards-dashboard-data
-        ref: unit-test-reporting-error
 
     - name: Get Node version
       id: get-node-version

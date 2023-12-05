@@ -14,6 +14,7 @@ describe('Child address page', () => {
     schema,
     uiSchema,
     arrayPath,
+    title,
   } = formConfig.chapters.householdInformation.pages.childrenAddress;
   const nameData = {
     'view:hasDependents': true,
@@ -104,5 +105,15 @@ describe('Child address page', () => {
 
     formDOM.submitForm(form);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should set the title to the dependents name if available', () => {
+    const pageTitle = title;
+    expect(
+      pageTitle({
+        fullName: { first: 'Jane', last: 'Doe' },
+      }),
+    ).to.eql('Jane Doe address');
+    expect(pageTitle({ fullName: {} })).to.eql('  address');
   });
 });

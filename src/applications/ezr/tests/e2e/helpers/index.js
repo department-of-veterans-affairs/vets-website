@@ -1,3 +1,12 @@
+// navigation helpers
+export const goToNextPage = pagePath => {
+  // clicks Continue button, and optionally checks destination path.
+  cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  if (pagePath) {
+    cy.location('pathname').should('include', pagePath);
+  }
+};
+
 // single field fill helpers
 export const fillTextWebComponent = (fieldName, value) => {
   if (typeof value !== 'undefined') {

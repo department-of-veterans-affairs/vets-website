@@ -5,8 +5,8 @@ import {
   addressUI,
   addressSchema,
   descriptionUI,
-  inlineTitleUI,
-  inlineTitleSchema,
+  titleUI,
+  titleSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -19,11 +19,11 @@ const {
 export default {
   uiSchema: {
     ...descriptionUI(PrefillMessage, { hideOnReview: true }),
-    'view:pageTitle': inlineTitleUI(
+    'view:pageTitle': titleUI(
       content['vet-mailing-address-title'],
       content['vet-mailing-address-description'],
     ),
-    veteranAddress: addressUI({ omit: ['isMilitary'] }),
+    veteranAddress: addressUI(),
     'view:doesMailingMatchHomeAddress': yesNoUI(
       content['vet-address-match-title'],
     ),
@@ -32,12 +32,10 @@ export default {
     type: 'object',
     required: ['view:doesMailingMatchHomeAddress'],
     properties: {
-      'view:pageTitle': inlineTitleSchema,
-      veteranAddress: merge(
-        {},
-        addressSchema({ omit: ['isMilitary'] }),
-        schemaOverride,
-      ),
+      'view:pageTitle': titleSchema,
+      veteranAddress: merge({}, addressSchema(), {
+        properties: schemaOverride,
+      }),
       'view:doesMailingMatchHomeAddress': yesNoSchema,
     },
   },

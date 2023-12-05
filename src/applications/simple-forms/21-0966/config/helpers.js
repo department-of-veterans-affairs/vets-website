@@ -122,9 +122,7 @@ export const initializeFormDataWithPreparerIdentification = preparerIdentificati
 
 // Confirmation Page
 const benefitSelections = data =>
-  Object.keys(data.benefitSelection)
-    .filter(key => data.benefitSelection[key])
-    .map(benefit => benefit.toUpperCase());
+  Object.keys(data.benefitSelection).filter(key => data.benefitSelection[key]);
 
 const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
   Object.keys(alreadySubmittedIntents).filter(
@@ -176,22 +174,23 @@ export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
   return 'You’ve submitted your intent to file';
 };
 
-export const getSuccessAlertText = (
-  data,
-  alreadySubmittedIntents,
-  expirationDate,
-) => {
+export const getSuccessAlertText = (data, alreadySubmittedIntents) => {
   let benefitSelection = benefitSelections(data)[0];
-  if (benefitSelections(data).length > 1) {
-    benefitSelection = 'COMPENSATION_AND_PENSION';
+  const benefitSet = new Set(benefitSelections(data));
+  if (
+    benefitSet.size === 2 &&
+    benefitSet.has('compensation') &&
+    benefitSet.has('pension')
+  ) {
+    benefitSelection = 'compensationAndPension';
   }
 
   const benefitPhrase = benefitPhrases[benefitSelection];
   if (Object.keys(alreadySubmittedIntents).length > 0) {
-    return `Your intent to file will expire on ${expirationDate}.`;
+    return `Your intent to file will expire in 1 year.`;
   }
 
-  return `Your intent to file for ${benefitPhrase} will expire on ${expirationDate}.`;
+  return `Your intent to file for ${benefitPhrase} will expire in 1 year.`;
 };
 
 export const getInfoAlertTitle = () =>
@@ -224,8 +223,15 @@ export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
   let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
     alreadySubmittedIntents,
   )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
+  const benefitSet = new Set(
+    alreadySubmittedBenefitIntents(alreadySubmittedIntents),
+  );
+  if (
+    benefitSet.size === 2 &&
+    benefitSet.has('compensation') &&
+    benefitSet.has('pension')
+  ) {
+    alreadySubmittedIntent = 'compensationAndPension';
   }
 
   return `You’ve already submitted an intent to file for ${
@@ -248,11 +254,18 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
   let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
     alreadySubmittedIntents,
   )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
+  const benefitSet = new Set(
+    alreadySubmittedBenefitIntents(alreadySubmittedIntents),
+  );
+  if (
+    benefitSet.size === 2 &&
+    benefitSet.has('compensation') &&
+    benefitSet.has('pension')
+  ) {
     expirationDate = new Date(
       alreadySubmittedIntents.pension?.expirationDate,
     ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = 'COMPENSATION_AND_PENSION';
+    alreadySubmittedIntent = 'compensationAndPension';
   } else {
     expirationDate = new Date(
       alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,
@@ -269,7 +282,6 @@ export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
 export const getNextStepsTextSecondParagraph = (
   data,
   alreadySubmittedIntents,
-  newExpirationDate,
 ) => {
   const dateOptions = {
     weekday: 'long',
@@ -294,18 +306,9 @@ export const getNextStepsTextSecondParagraph = (
     return 'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).';
   }
 
-  let expirationDate = newExpirationDate;
-  const oldExpirationDate =
-    alreadySubmittedIntents[benefitSelection]?.expirationDate;
-  if (oldExpirationDate) {
-    expirationDate = new Date(
-      alreadySubmittedIntents[benefitSelection].expirationDate,
-    ).toLocaleDateString('en-US', dateOptions);
-  }
-
   return `Your intent to file for ${
     benefitPhrases[benefitSelection]
-  } expires on ${expirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+  } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
 };
 
 export const getNextStepsLinks = data => {

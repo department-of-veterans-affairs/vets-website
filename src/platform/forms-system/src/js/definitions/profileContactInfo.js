@@ -12,7 +12,7 @@ import {
   CONTACT_INFO_PATH,
   standardPhoneSchema,
   standardEmailSchema,
-  standardAddressSchema,
+  profileAddressSchema,
   blankSchema,
 } from '../utilities/data/profile';
 
@@ -23,8 +23,8 @@ import {
  * @property {import('../utilities/data/profile').ContactInfoContent} content
  * @property {String} contactPath=contact-information - Contact info path of
  *  formConfig page
- * @property {String} addressSchema=standardAddressSchema - Address schema
- *  object that includes military base checkbox
+ * @property {String} addressSchema=profileAddressSchema - Profile
+ *  address schema object
  * @property {Object} emailSchema=standardEmailSchema - Email schema object for
  *  email string
  * @property {Object} phoneSchema=standardPhoneSchema - Phone schema object with
@@ -74,14 +74,13 @@ const profileContactInfo = ({
   contactInfoRequiredKeys = [
     'mailingAddress',
     'email',
-    'homePhone|mobilePhone', // homePhone OR mobilePhone required
-    // 'homePhone', // homePhone is required
-    // 'mobilePhone', // mobilePhone is required
+    'homePhone',
+    'mobilePhone',
   ],
-  // Page key used within the chapter
+  // Page key used within the formConfig chapter
   contactInfoPageKey = 'confirmContactInfo',
 
-  // must use same keys as above
+  // Must use same keys as above
   included = ['mobilePhone', 'homePhone', 'mailingAddress', 'email'],
 
   // depends callback for contact info page
@@ -91,12 +90,11 @@ const profileContactInfo = ({
   const config = {};
   const wrapperProperties = {};
   const keys = { wrapper: wrapperKey };
+  const requiredList = contactInfoRequiredKeys;
 
   if (included.includes(addressKey)) {
     keys.address = addressKey;
-    wrapperProperties[addressKey] =
-      addressSchema ||
-      standardAddressSchema(contactInfoRequiredKeys.includes(keys.address));
+    wrapperProperties[addressKey] = addressSchema || profileAddressSchema;
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
       path: `edit-${contactPath}-mailing-address`,
@@ -111,10 +109,7 @@ const profileContactInfo = ({
   if (included.includes(homePhoneKey)) {
     keys.homePhone = homePhoneKey;
     wrapperProperties[homePhoneKey] =
-      phoneSchema ||
-      standardPhoneSchema(
-        contactInfoRequiredKeys.join().includes(keys.homePhone),
-      );
+      phoneSchema || standardPhoneSchema(requiredList.includes(keys.homePhone));
     config[`${contactInfoPageKey}EditHomePhone`] = {
       title: content.editHomePhone,
       path: `edit-${contactPath}-home-phone`,
@@ -129,9 +124,7 @@ const profileContactInfo = ({
     keys.mobilePhone = mobilePhoneKey;
     wrapperProperties[mobilePhoneKey] =
       phoneSchema ||
-      standardPhoneSchema(
-        contactInfoRequiredKeys.join().includes(keys.mobilePhone),
-      );
+      standardPhoneSchema(requiredList.includes(keys.mobilePhone));
     config[`${contactInfoPageKey}EditMobilePhone`] = {
       title: content.editMobilePhone,
       path: `edit-${contactPath}-mobile-phone`,

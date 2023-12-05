@@ -20,6 +20,7 @@ describe('Secure Messaging Reply', () => {
       currentItem.attributes.threadPageSize = threadLength;
     });
     landingPage.loadInboxMessages(mockMessagesPageOne);
+    cy.get('va-pagination').should('be.visible');
     site.loadVAPaginationNextMessages(2, mockMessagesPageTwo);
     site.verifyPaginationMessagesDisplayed(11, 20, threadLength);
     site.loadVAPaginationPreviousMessages(1, mockMessagesPageOne);
