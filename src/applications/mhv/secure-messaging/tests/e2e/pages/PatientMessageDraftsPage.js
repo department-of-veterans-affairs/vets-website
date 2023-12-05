@@ -169,7 +169,7 @@ class PatientMessageDraftsPage {
     });
   };
 
-  sendDraft = draftMessage => {
+  sendDraftMessage = draftMessage => {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
       'sentDraftResponse',
     );
@@ -177,7 +177,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  replyDraft = (mockResponse, messageId) => {
+  replyDraftMessage = (mockResponse, messageId) => {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages/${messageId}/reply`, {
       data: mockResponse,
     }).as('sentDraftResponse');
@@ -210,7 +210,7 @@ class PatientMessageDraftsPage {
     }
   };
 
-  deleteDraft = (mockResponse, messageId) => {
+  deleteDraftMessage = (mockResponse, messageId) => {
     cy.intercept('DELETE', `/my_health/v1/messaging/messages/${messageId}`, {
       data: mockResponse,
     }).as('deletedDraftResponse');
@@ -320,13 +320,14 @@ class PatientMessageDraftsPage {
       .type(text);
   };
 
-  saveDraft = mockResponse => {
+  saveDraftMessage = mockResponse => {
     cy.intercept(
       'PUT',
-      `/my_health/v1/messaging/message_drafts/3161671/replydraft/3163906`,
+      `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,
       { data: mockResponse },
-    );
+    ).as('saveDraft');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
+    // cy.wait('@saveDraft');
   };
 
   saveDraftByKeyboard = () => {
