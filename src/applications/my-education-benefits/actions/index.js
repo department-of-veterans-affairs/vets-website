@@ -212,24 +212,19 @@ export function fetchDuplicateContactInfo(email, phoneNumber) {
       );
   };
 }
-export function fetchExclusionPeriods(mebExclusionPeriodEnabled) {
+export function fetchExclusionPeriods() {
   return async dispatch => {
-    if (!mebExclusionPeriodEnabled) {
-      return;
-    }
-
     dispatch({ type: FETCH_EXCLUSION_PERIODS });
-
     try {
       const response = await apiRequest(EXCLUSION_PERIODS_ENDPOINT);
       dispatch({
         type: FETCH_EXCLUSION_PERIODS_SUCCESS,
         response,
       });
-    } catch (errors) {
+    } catch (error) {
       dispatch({
         type: FETCH_EXCLUSION_PERIODS_FAILURE,
-        errors,
+        error,
       });
     }
   };

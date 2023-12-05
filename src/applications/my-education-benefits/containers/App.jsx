@@ -162,7 +162,6 @@ export const App = ({
 
   useEffect(
     () => {
-      // Ensure pre-conditions are met
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
@@ -214,6 +213,12 @@ export const App = ({
           showMeb1990EZMaintenanceAlert,
         });
       }
+      if (mebExclusionPeriodEnabled !== formData.mebExclusionPeriodEnabled) {
+        setFormData({
+          ...formData,
+          mebExclusionPeriodEnabled,
+        });
+      }
 
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
@@ -250,6 +255,18 @@ export const App = ({
         setFormData({
           ...formData,
           duplicatePhone,
+        });
+      }
+
+      if (mebExclusionPeriodEnabled && !fetchedExclusionPeriods) {
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods();
+      }
+
+      if (exclusionPeriods && !fetchedExclusionPeriods) {
+        setFormData({
+          ...formData,
+          exclusionPeriods,
         });
       }
 
@@ -298,8 +315,10 @@ export const App = ({
       }
     },
     [
+      fetchedExclusionPeriods,
       formData,
       isLOA3,
+      mebExclusionPeriodEnabled,
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
@@ -310,8 +329,10 @@ export const App = ({
       showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
+      getExclusionPeriods,
       duplicateEmail,
       duplicatePhone,
+      exclusionPeriods,
     ],
   );
 
