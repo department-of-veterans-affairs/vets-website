@@ -169,7 +169,7 @@ class PatientMessageDraftsPage {
     });
   };
 
-  sendDraftMessage = draftMessage => {
+  sendDraft = draftMessage => {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages`, draftMessage).as(
       'sentDraftResponse',
     );
@@ -177,6 +177,15 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
+  replyDraft = (mockResponse, messageId) => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/messages/${messageId}/reply`, {
+      data: mockResponse,
+    }).as('sentDraftResponse');
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.wait('@sentDraftResponse');
+  };
+
+  // nex two methods should be united/refactored
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',
@@ -199,6 +208,15 @@ class PatientMessageDraftsPage {
         .click({ force: true });
       cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
     }
+  };
+
+  deleteDraft = (mockResponse, messageId) => {
+    cy.intercept('DELETE', `/my_health/v1/messaging/messages/${messageId}`, {
+      data: mockResponse,
+    }).as('deletedDraftResponse');
+
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
+    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
   };
 
   // method below could be deleted after refactoring associated specs
@@ -300,6 +318,15 @@ class PatientMessageDraftsPage {
       .shadow()
       .find('#textarea')
       .type(text);
+  };
+
+  saveDraft = mockResponse => {
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/3161671/replydraft/3163906`,
+      { data: mockResponse },
+    );
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
   };
 
   saveDraftByKeyboard = () => {

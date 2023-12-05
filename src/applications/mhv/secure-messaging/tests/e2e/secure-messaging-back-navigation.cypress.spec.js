@@ -47,7 +47,7 @@ describe('SM back navigation', () => {
     const draftPage = new PatientMessageDraftsPage();
     draftPage.loadDraftMessages();
     draftPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    draftPage.sendDraftMessage(mockDraftResponse);
+    draftPage.sendDraft(mockDraftResponse);
     draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxe();

@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 import mockMultiDraftsResponse from './fixtures/draftsResponse/multi-draft-response.json';
 import { Alerts } from '../../util/constants';
 
@@ -36,23 +36,12 @@ describe('handle multiple drafts in one thread', () => {
       });
   });
 
-  it('verify user can resave the draft', () => {
+  it('verify draft could be re-saved', () => {
     landingPage.loadSingleThread(mockMultiDraftsResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
 
-    cy.intercept(
-      'PUT',
-      `/my_health/v1/messaging/message_drafts/3161671/replydraft/3163906`,
-      { data: mockMultiDraftsResponse.data[0] },
-    );
+    draftPage.saveDraft(mockMultiDraftsResponse.data[0]);
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
+
     cy.get('.last-save-time > .vads-u-margin-y--0').should(
       'include.text',
       'Your message was saved ',
@@ -61,71 +50,27 @@ describe('handle multiple drafts in one thread', () => {
 
   it('verify draft could be send', () => {
     landingPage.loadSingleThread(mockMultiDraftsResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
 
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE}/messages/${
-        mockMultiDraftsResponse.data[0].attributes.messageId
-      }/reply`,
-      { data: mockMultiDraftsResponse.data[0] },
-    ).as('sentDraftResponse');
-    cy.get(Locators.BUTTONS.SEND).click({ force: true });
-    cy.wait('@sentDraftResponse');
+    draftPage.replyDraft(
+      mockMultiDraftsResponse.data[0],
+      mockMultiDraftsResponse.data[0].attributes.messageId,
+    );
 
     draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
   });
 
-  it('verify drafts could be deleted', () => {
+  it('verify draft could be deleted', () => {
     landingPage.loadSingleThread(mockMultiDraftsResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
 
-    cy.intercept(
-      'DELETE',
-      `/my_health/v1/messaging/messages/${
-        mockMultiDraftsResponse.data[0].attributes.messageId
-      }`,
-      { data: mockMultiDraftsResponse.data[0] },
-    ).as('deletedDraftResponse');
-
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
-    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
-
+    draftPage.deleteDraft(
+      mockMultiDraftsResponse.data[0],
+      mockMultiDraftsResponse.data[0].attributes.messageId,
+    );
     draftPage.verifyConfirmationMessage(Alerts.Message.DELETE_DRAFT_SUCCESS);
   });
 
   it('verify managing drafts', () => {
     landingPage.loadSingleThread(mockMultiDraftsResponse);
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-
-    cy.intercept(
-      'DELETE',
-      `/my_health/v1/messaging/messages/${
-        mockMultiDraftsResponse.data[0].attributes.messageId
-      }`,
-      { data: mockMultiDraftsResponse.data[0] },
-    ).as('deletedDraftResponse');
 
     cy.get('[data-testid="message-body-field"]').should(
       'have.attr',
