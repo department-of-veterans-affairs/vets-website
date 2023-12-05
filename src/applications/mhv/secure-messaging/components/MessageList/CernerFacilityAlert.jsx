@@ -40,8 +40,8 @@ const CernerFacilityAlert = () => {
             {cernerFacilitiesNames?.length > 1 && (
               <>
                 <p>
-                  To manage appointments at these facilities, go to My VA
-                  Health:
+                  To send a secure message to a provider at these facilities, go
+                  to My VA Health:
                 </p>
                 <ul>
                   {cernerFacilitiesNames.map((facilityName, i) => (
@@ -52,7 +52,7 @@ const CernerFacilityAlert = () => {
             )}
             {cernerFacilitiesNames?.length === 1 && (
               <p data-testId="single-cerner-facility-text">
-                To manage appointments at{' '}
+                To send a secure message to a provider at{' '}
                 <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
               </p>
             )}
@@ -60,8 +60,10 @@ const CernerFacilityAlert = () => {
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL('/pages/messaging/inbox', true)}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Go to My VA Health
+              Go to My VA Health (opens a new tab)
             </a>
 
             <va-additional-info
