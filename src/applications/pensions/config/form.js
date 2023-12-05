@@ -73,6 +73,8 @@ import generateMedicalCentersSchemas from '../pages/medicalCenters';
 import currentEmployment from '../pages/currentEmployment';
 import generateEmployersSchemas from '../pages/employmentHistory';
 import maritalStatus from '../pages/maritalStatus';
+import currentSpouse from '../pages/currentSpouse';
+import dateOfCurrentMarriage from '../pages/dateOfCurrentMarriage';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -309,7 +311,7 @@ const formConfig = {
         },
       },
     },
-    healthHistory: {
+    healthAndEmploymentInformation: {
       title: 'Health and employment information',
       pages: {
         socialSecurityDisability: {
@@ -423,6 +425,20 @@ const formConfig = {
           path: 'household/marital-status',
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
+        },
+        currentSpouse: {
+          title: 'Current spouse’s name',
+          path: 'household/marital-status/current-spouse',
+          depends: isMarried,
+          uiSchema: currentSpouse.uiSchema,
+          schema: currentSpouse.schema,
+        },
+        dateOfCurrentMarriage: {
+          title: 'Current marriage information',
+          path: 'household/marital-status/current-marriage',
+          depends: isMarried,
+          uiSchema: dateOfCurrentMarriage.uiSchema,
+          schema: dateOfCurrentMarriage.schema,
         },
         marriageInfo: {
           title: 'Marriage history',
