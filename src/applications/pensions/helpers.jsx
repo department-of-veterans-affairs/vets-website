@@ -7,6 +7,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
+import { createSelector } from 'reselect';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -171,6 +172,26 @@ export function getMarriageTitleWithCurrent(form, index) {
   }
 
   return getMarriageTitle(index);
+}
+
+export function createSpouseLabelSelector(nameTemplate) {
+  return createSelector(
+    form =>
+      form.marriages && form.marriages.length
+        ? form.marriages[form.marriages.length - 1].spouseFullName
+        : null,
+    spouseFullName => {
+      if (spouseFullName) {
+        return {
+          title: nameTemplate(spouseFullName),
+        };
+      }
+
+      return {
+        title: null,
+      };
+    },
+  );
 }
 
 export const spouseContribution = (
