@@ -36,7 +36,7 @@ import GetFormHelp from '../content/GetFormHelp';
 
 import AreaOfDisagreement from '../components/AreaOfDisagreement';
 import PrimaryPhone from '../components/PrimaryPhone';
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 import TaskList from '../components/TaskList';
 import ReviewPage from '../components/ReviewPage';
 import ReviewPage2 from '../components/ReviewPage2';
@@ -245,7 +245,7 @@ const formConfig = {
           depends: () => false, // accessed from contestableIssues page
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,

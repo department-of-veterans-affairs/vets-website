@@ -30,7 +30,6 @@ describe('manage folders', () => {
       });
 
       PatientMessageCustomFolderPage.createCustomFolder(newFolder);
-
       folderPage.verifyCreateFolderSuccessMessage();
     });
   });

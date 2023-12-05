@@ -17,9 +17,6 @@ describe('Medications Details Page NonVARx Status DropDown', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();
