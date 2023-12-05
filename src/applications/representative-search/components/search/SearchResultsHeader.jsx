@@ -61,9 +61,10 @@ export const SearchResultsHeader = props => {
             matching <b>"{context.repOrgName}"</b>
           </>
         )}
+        {` `}
         {context.location && (
           <>
-            &nbsp;within 50 miles of &quot;
+            within 50 miles of &quot;
             <b>{context.location}</b>
             &quot;
           </>
