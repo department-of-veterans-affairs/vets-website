@@ -50,7 +50,7 @@ class TravelPages {
   };
 
   validateBackButton = page => {
-    cy.get('a[data-testid="back-button').should(
+    cy.get('a[data-testid="back-button"]').should(
       'have.text',
       'Back to last screen',
     );
@@ -77,7 +77,7 @@ class TravelPages {
     if (page === 'review') {
       cy.get('a[data-testid="back-button"]')
         .should('have.attr', 'href')
-        .and('contain', 'travel-milage');
+        .and('contain', 'travel-mileage');
     }
   };
 
@@ -92,7 +92,7 @@ class TravelPages {
   };
 
   clickEditLink = () => {
-    cy.get(`button[data-testid="review-edit-link"]`).click({
+    cy.get(`a[data-testid="review-edit-link"]`).click({
       waitForAnimations: true,
     });
   };
@@ -102,6 +102,12 @@ class TravelPages {
       .shadow()
       .find(`[part="checkbox"]`)
       .click();
+  };
+
+  checkForValidationError = () => {
+    cy.get('va-checkbox')
+      .shadow()
+      .find('#checkbox-error-message');
   };
 }
 
