@@ -254,7 +254,6 @@ describe('confirmation page helper functions', () => {
             [selectedIntent]: true,
           },
         };
-        const expirationDate = 'expiration-date';
 
         it('shows a success alert', () => {
           expect(getAlertType(data, {})).to.equal('success');
@@ -267,10 +266,10 @@ describe('confirmation page helper functions', () => {
         });
 
         it('successfully gets the success alert text', () => {
-          expect(getSuccessAlertText(data, {}, expirationDate)).to.equal(
+          expect(getSuccessAlertText(data, {})).to.equal(
             `Your intent to file for ${
               benefitPhrases[selectedIntent]
-            } will expire on ${expirationDate}.`,
+            } will expire in 1 year.`,
           );
         });
       });
@@ -283,7 +282,6 @@ describe('confirmation page helper functions', () => {
           [veteranBenefits.PENSION]: true,
         },
       };
-      const expirationDate = 'expiration-date';
 
       it('shows a success alert', () => {
         expect(getAlertType(data, {})).to.equal('success');
@@ -296,8 +294,8 @@ describe('confirmation page helper functions', () => {
       });
 
       it('successfully gets the success alert text', () => {
-        expect(getSuccessAlertText(data, {}, expirationDate)).to.equal(
-          `Your intent to file for disability compensation and pension claims will expire on ${expirationDate}.`,
+        expect(getSuccessAlertText(data, {})).to.equal(
+          `Your intent to file for disability compensation and pension claims will expire in 1 year.`,
         );
       });
     });
@@ -309,7 +307,6 @@ describe('confirmation page helper functions', () => {
           [veteranBenefits.PENSION]: true,
         },
       };
-      const expirationDate = 'expiration-date';
 
       [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
         alreadySubmittedIntentType => {
@@ -343,13 +340,9 @@ describe('confirmation page helper functions', () => {
           });
 
           it('successfully gets the success alert text', () => {
-            expect(
-              getSuccessAlertText(
-                data,
-                alreadySubmittedIntents,
-                expirationDate,
-              ),
-            ).to.equal(`Your intent to file will expire on ${expirationDate}.`);
+            expect(getSuccessAlertText(data, alreadySubmittedIntents)).to.equal(
+              `Your intent to file will expire in 1 year.`,
+            );
           });
         },
       );
@@ -453,7 +446,6 @@ describe('confirmation page helper functions', () => {
             [selectedIntent]: true,
           },
         };
-        const expirationDate = 'expiration-date';
 
         it('successfully gets the already submitted title', () => {
           expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
@@ -464,12 +456,10 @@ describe('confirmation page helper functions', () => {
         });
 
         it('successfully gets the second paragraph of the next steps text', () => {
-          expect(
-            getNextStepsTextSecondParagraph(data, {}, expirationDate),
-          ).to.equal(
+          expect(getNextStepsTextSecondParagraph(data, {})).to.equal(
             `Your intent to file for ${
               benefitPhrases[selectedIntent]
-            } expires on ${expirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+            } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
           );
         });
 
@@ -594,20 +584,10 @@ describe('confirmation page helper functions', () => {
             [selectedIntent]: true,
           },
         };
-        const dateOptions = {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        };
-        const expirationDate = '2024-09-22T19:15:20.000-05:00';
-        const formattedExpirationDate = new Date(
-          expirationDate,
-        ).toLocaleDateString('en-us', dateOptions);
         const alreadySubmittedIntents = {
           [selectedIntent]: {
             creationDate: '2021-03-16T19:15:21.000-05:00',
-            expirationDate,
+            expirationDate: '2024-09-22T19:15:20.000-05:00',
             type: selectedIntent,
             status: 'active',
           },
@@ -627,7 +607,7 @@ describe('confirmation page helper functions', () => {
           ).to.equal(
             `Your intent to file for ${
               benefitPhrases[selectedIntent]
-            } expires on ${formattedExpirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+            } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
           );
         });
 

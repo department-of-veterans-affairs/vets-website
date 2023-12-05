@@ -47,7 +47,9 @@
     },
     "socialSecurityDisability": false,
     "medicalCondition": false,
-    "nursingHome": false,
+    "nursingHome": true,
+    "medicaidCoverage": false,
+    "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
     "vaMedicalCenters": [

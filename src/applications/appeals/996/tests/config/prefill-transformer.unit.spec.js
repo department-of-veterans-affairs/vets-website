@@ -41,6 +41,19 @@ describe('HLR prefill transformer', () => {
     });
   });
 
+  it('should return built out template from empty non-prefill data', () => {
+    const { pages, metadata } = noTransformData;
+    const formData = { testData: noTransformData.formData.testData };
+    const noTransformActual = prefillTransformer(pages, formData, metadata);
+    // ensure transformed data is not the same object as input data
+    expect(noTransformActual).to.not.equal(noTransformData);
+    expect(noTransformActual).to.deep.equal({
+      metadata: noTransformData.metadata,
+      formData: buildData({}).result,
+      pages: noTransformData.pages,
+    });
+  });
+
   describe('prefill veteran information', () => {
     it('should transform contact info when present', () => {
       const { pages, metadata } = noTransformData;
