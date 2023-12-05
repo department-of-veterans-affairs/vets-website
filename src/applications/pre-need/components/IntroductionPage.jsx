@@ -204,11 +204,11 @@ class IntroductionPage extends React.Component {
                 Complete the pre-need eligibility determination form. After
                 submitting the form, you’ll get a confirmation message that you
                 can print for your records.
+                {// MBMS-53548
+                !environment.isProduction() &&
+                  ' This application should take about 20 minutes.'}
               </p>
-              {// MBMS-53548
-              !environment.isProduction() && (
-                <p>This application should take about 20 minutes.</p>
-              )}
+
               <div style={{ marginBottom: '-25px' }}>
                 <SaveInProgressIntro
                   buttonOnly
