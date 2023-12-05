@@ -48,12 +48,11 @@ export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
 
 export function fetchCNPPaymentInformation({
   recordEvent = recordAnalyticsEvent,
-  useLighthouseDirectDepositEndpoint = false,
   captureCNPError = captureError,
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint,
+      useLighthouseDirectDepositEndpoint: true,
       recordEvent,
     });
 
@@ -63,25 +62,11 @@ export function fetchCNPPaymentInformation({
 
     const response = await getData(client.endpoint);
 
-    // sample error when getting payment information
-    // response = {
-    //   errors: [
-    //     {
-    //       title: 'Bad Gateway',
-    //       detail: 'Received an an invalid response from the upstream server',
-    //       code: 'EVSS502',
-    //       source: 'EVSS::PPIU::Service',
-    //       status: '502',
-    //     },
-    //   ],
-    // };
-
     if (response.error) {
       client.recordCNPEvent({ status: API_STATUS.FAILED });
 
       captureCNPError(response, {
         eventName: 'cnp-get-direct-deposit-failed',
-        useLighthouseDirectDepositEndpoint,
       });
 
       dispatch({
@@ -89,9 +74,9 @@ export function fetchCNPPaymentInformation({
         response,
       });
     } else {
-      const formattedResponse = useLighthouseDirectDepositEndpoint
-        ? client.formatDirectDepositResponseFromLighthouse(response)
-        : response?.responses[0];
+      const formattedResponse = client.formatDirectDepositResponseFromLighthouse(
+        response,
+      );
 
       client.recordCNPEvent({
         status: API_STATUS.SUCCESSFUL,
@@ -121,13 +106,13 @@ export function fetchCNPPaymentInformation({
 export function saveCNPPaymentInformation({
   fields,
   isEnrollingInDirectDeposit = false,
-  useLighthouseDirectDepositEndpoint = false,
+  useLighthouseDirectDepositEndpoint = true,
   recordEvent = recordAnalyticsEvent,
   captureCNPError = captureError,
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint,
+      useLighthouseDirectDepositEndpoint: true,
       recordEvent,
     });
 
@@ -141,31 +126,6 @@ export function saveCNPPaymentInformation({
     });
 
     const response = await getData(client.endpoint, apiRequestOptions);
-
-    // Leaving this here for the time being while we wrap up the error handling
-    // const response = {
-    //   error: {
-    //     errors: [
-    //       {
-    //         title: 'Unprocessable Entity',
-    //         detail: 'One or more unprocessable user payment properties',
-    //         code: '126',
-    //         source: 'EVSS::PPIU::Service',
-    //         status: '422',
-    //         meta: {
-    //           messages: [
-    //             {
-    //               key: 'cnp.payment.generic.error.message',
-    //               severity: 'ERROR',
-    //               text:
-    //                 'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
-    //             },
-    //           ],
-    //         },
-    //       },
-    //     ],
-    //   },
-    // };
 
     if (response.error || response.errors) {
       // TODO: if there is a response.errors shouldn't we be using that instead of []?
@@ -184,7 +144,6 @@ export function saveCNPPaymentInformation({
 
       captureCNPError(response, {
         eventName: 'cnp-put-direct-deposit-failed',
-        useLighthouseDirectDepositEndpoint,
       });
 
       dispatch({
@@ -201,9 +160,9 @@ export function saveCNPPaymentInformation({
         },
       });
 
-      const formattedResponse = useLighthouseDirectDepositEndpoint
-        ? client.formatDirectDepositResponseFromLighthouse(response)
-        : response?.responses[0];
+      const formattedResponse = client.formatDirectDepositResponseFromLighthouse(
+        response,
+      );
 
       dispatch({
         type: CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
