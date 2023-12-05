@@ -24,7 +24,7 @@ export const SearchResultsHeader = props => {
 
   const repFormat = {
     organization: 'Veteran Service Organizations',
-    attorney: 'Attornies',
+    attorney: 'Attorneys',
     claim_agents: 'Claim Agents',
   };
 
