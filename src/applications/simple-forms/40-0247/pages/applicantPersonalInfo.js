@@ -8,7 +8,7 @@ import {
 export default {
   uiSchema: {
     ...titleUI(
-      ' We’ll use this information in case we need to follow up with you about the request.',
+      'We’ll use this information in case we need to follow up with you about the request.',
     ),
     applicantFullName: fullNameNoSuffixUI(),
   },

@@ -14,7 +14,7 @@ import { dateOfDeathValidation } from '../helpers';
 export default {
   uiSchema: {
     ...titleUI(
-      'Tell us who you’re requesting a Presidential Memorial Certificate for)',
+      'Tell us who you’re requesting a Presidential Memorial Certificate for',
     ),
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI(),
