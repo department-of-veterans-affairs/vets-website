@@ -42,8 +42,7 @@ export function awaitShadowRoot(
 
   const hostObserver = new MutationObserver(() => {
     try {
-      // web component is ready when these are true
-      if (hostEl.shadowRoot && hostEl.classList.contains('hydrated')) {
+      if (isWebComponentReady(hostEl)) {
         if (waitForAnimationFrame) {
           // shadowRoot will exist, but its contents may not be
           // visible at this point because it hasn't rerendered
