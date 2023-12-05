@@ -66,6 +66,11 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--review-page');
+      TravelPages.acceptTerms();
+      TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--appointments');

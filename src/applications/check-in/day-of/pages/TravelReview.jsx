@@ -46,6 +46,7 @@ const TravelQuestion = props => {
           className="vads-u-margin-left--auto"
           href="travel-vehicle"
           onClick={e => onEditClick(e)}
+          data-testid="review-edit-link"
         >
           {t('Edit')}
         </a>
