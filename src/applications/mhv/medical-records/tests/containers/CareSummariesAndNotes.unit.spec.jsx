@@ -5,7 +5,7 @@ import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
 import CareSummariesAndNotes from '../../containers/CareSummariesAndNotes';
 import reducer from '../../reducers';
-import { convertNote } from '../../reducers/careSummariesAndNotes';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 import notes from '../fixtures/notes.json';
 import user from '../fixtures/user.json';
 
@@ -13,7 +13,9 @@ describe('CareSummariesAndNotes list container', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesList: notes.entry.map(note => convertNote(note)),
+        careSummariesAndNotesList: notes.entry.map(note =>
+          convertCareSummariesAndNotesRecord(note.resource),
+        ),
       },
     },
   };
