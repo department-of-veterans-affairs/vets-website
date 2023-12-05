@@ -1,6 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import ConditionDetailsPage from './pages/ConditionDetailsPage';
 import ConditionsListPage from './pages/ConditionsListPage';
-// import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 
 describe('Medical Records Health Conditions', () => {
   const site = new MedicalRecordsSite();
@@ -13,21 +13,22 @@ describe('Medical Records Health Conditions', () => {
   it('Health Conditions Toggle Menu button Print or download ', () => {
     // Given Navigate to Health Conditions List Page
 
-    ConditionsListPage.clickConditionsDetailsLink();
+    ConditionsListPage.clickConditionsDetailsLink(0);
 
     // should display a toggle menu button
-    ConditionsListPage.verifyPrintOrDownload();
+    ConditionDetailsPage.verifyPrintOrDownload();
+    ConditionDetailsPage.clickPrintOrDownload();
 
     // should display print button for a list "Print this list"
-    ConditionsListPage.verifyPrintButton();
+    ConditionDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    ConditionsListPage.verifyDownloadPDF();
+    ConditionDetailsPage.verifyDownloadPDF();
 
     // should display a download text file button "Download list as a text file"
-    ConditionsListPage.verifyDownloadTextFile();
+    ConditionDetailsPage.verifyDownloadTextFile();
 
-    // ConditionsListPage.clickDownloadPDFFile();
+    ConditionDetailsPage.clickDownloadPDFFile();
     // cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
 
     cy.injectAxe();

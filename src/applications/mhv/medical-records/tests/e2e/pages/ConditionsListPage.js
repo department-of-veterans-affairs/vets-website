@@ -26,20 +26,12 @@ class ConditionsListPage {
       .click();
   };
 
-  clickSickSinusSyndromeLink = () => {
-    cy.get(
-      ':nth-child(3) > :nth-child(2) > .no-print > .vads-u-margin--0',
-    ).should('be.visible');
-    cy.get(
-      ':nth-child(3) > :nth-child(2) > .no-print > .vads-u-margin--0',
-    ).click({
-      force: true,
-    });
-  };
-
   verifyPrintOrDownload = () => {
     // should display a toggle menu button
     cy.get('[data-testid="print-records-button"]').should('be.visible');
+  };
+
+  clickPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 

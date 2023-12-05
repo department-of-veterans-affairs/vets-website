@@ -1,6 +1,6 @@
 // import defaultNotes from '../fixtures/Notes.json';
 
-class NotesListPage {
+class NotesDetailsPage {
   /*
     clickGotoNotesLink = (
      /* Notes = defaultNotes,
@@ -56,4 +56,4 @@ class NotesListPage {
   };
 }
 
-export default new NotesListPage();
+export default new NotesDetailsPage();

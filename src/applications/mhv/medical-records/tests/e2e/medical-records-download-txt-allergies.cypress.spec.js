@@ -15,11 +15,12 @@ describe('Medical Records View Allergies', () => {
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
   });
 
-  it('Toggle Menu button Print or download ', () => {
+  it('Toggle Menu button Print or download on Details Page ', () => {
     // should display a toggle menu button
     AllergyDetailsPage.verifyPrintOrDownload();
 
     // should display print button for a list "Print this list"
+    AllergyDetailsPage.clickPrintOrDownload();
     AllergyDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
