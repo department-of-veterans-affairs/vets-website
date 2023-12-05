@@ -304,6 +304,7 @@ const SearchPage = props => {
                 <SearchResultsHeader
                   searchResults={props.searchResults}
                   query={currentQuery}
+                  updateSearchQuery={props.updateSearchQuery}
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}
