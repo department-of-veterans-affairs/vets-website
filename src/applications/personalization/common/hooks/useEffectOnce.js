@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
-export const useEffectOnce = effect => {
+const useEffectOnce = effect => {
   useEffect(effect, []);
 };
+
+export default useEffectOnce;
