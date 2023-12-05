@@ -206,7 +206,7 @@ class IntroductionPage extends React.Component {
                 can print for your records.
               </p>
               {// MBMS-53548
-              environment.isProduction() && (
+              !environment.isProduction() && (
                 <p>This application should take about 20 minutes.</p>
               )}
               <div style={{ marginBottom: '-25px' }}>
