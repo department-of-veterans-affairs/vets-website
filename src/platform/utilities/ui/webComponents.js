@@ -1,5 +1,13 @@
 /* eslint-disable no-console */
 
+export function isWebComponent(el) {
+  return !!el?.tagName?.includes('VA-');
+}
+
+export function isWebComponentReady(el) {
+  return !!(el?.shadowRoot && el?.classList.contains('hydrated'));
+}
+
 /**
  * Web components initially render as 0 width / 0 height with no
  * shadow dom content, so this waits until it contains a shadowRoot
@@ -18,6 +26,15 @@ export function awaitShadowRoot(
     console.error('Invalid hostEl provided to awaitShadowRoot.');
     return;
   }
+
+  if (process.env.NODE_ENV === 'test') {
+    // Skip for unit tests
+    // shadowRoot is not properly populated in
+    // React testing library, so just callback
+    callback();
+    return;
+  }
+
   if (hostEl.hasAttribute('data-observing-shadow')) {
     return;
   }

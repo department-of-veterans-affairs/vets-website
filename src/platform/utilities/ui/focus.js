@@ -1,5 +1,9 @@
 /* eslint-disable no-console */
-import { awaitShadowRoot } from './webComponents';
+import {
+  awaitShadowRoot,
+  isWebComponent,
+  isWebComponentReady,
+} from './webComponents';
 
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
 export const defaultFocusSelector =
@@ -45,10 +49,7 @@ export function focusElement(selectorOrElement, options, root) {
   }
 
   if (el) {
-    if (
-      el.tagName.includes('VA-') &&
-      (!el.shadowRoot || !el.classList.contains('hydrated'))
-    ) {
+    if (isWebComponent(el) && !isWebComponentReady(el)) {
       awaitShadowRoot(el, focus);
     } else {
       focus();
