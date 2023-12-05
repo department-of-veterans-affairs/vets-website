@@ -62,6 +62,8 @@ import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
+import medicaidCoverage from '../pages/medicaidCoverage';
+import medicaidStatus from '../pages/medicaidStatus';
 import medicalCondition from '../pages/medicalCondition';
 import nursingHome from '../pages/nursingHome';
 import specialMonthlyPension from '../pages/specialMonthlyPension';
@@ -331,6 +333,24 @@ const formConfig = {
           path: 'medical/history/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+        medicaidCoverage: {
+          title: 'Medicaid coverage',
+          path: 'medical/history/nursing/medicaid',
+          depends: formData => {
+            return formData.nursingHome !== false;
+          },
+          uiSchema: medicaidCoverage.uiSchema,
+          schema: medicaidCoverage.schema,
+        },
+        medicaidStatus: {
+          title: 'Medicaid application status',
+          path: 'medical/history/nursing/medicaid/status',
+          depends: formData => {
+            return formData.medicaidCoverage !== true;
+          },
+          uiSchema: medicaidStatus.uiSchema,
+          schema: medicaidStatus.schema,
         },
         specialMonthlyPension: {
           title: 'Special monthly pension',
