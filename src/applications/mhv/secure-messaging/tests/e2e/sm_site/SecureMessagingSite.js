@@ -4,6 +4,7 @@ import mockStatus from '../fixtures/profile-status.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
+import mockFacilitiesObjects from '../fixtures/facilityResponse/cerner-facilitie-objects-request.json';
 
 class SecureMessagingSite {
   login = (isSMUser = true) => {
@@ -17,13 +18,15 @@ class SecureMessagingSite {
       cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
         'featureToggle',
       );
-      cy.intercept('GET', '/v1/facilities/va?ids=vha_983', mockFacilities).as(
-        'facilities',
-      );
       cy.intercept(
         'GET',
-        '/v1/facilities/va?ids=[object%20Object]',
+        '/v1/facilities/va?ids=vha_983,vha_668,vha_984,vha_987,vha_463,vha_583,vha_531,vha_660,vha_687,vha_668,vha_607,vha_636,vha_662,vha_589',
         mockFacilities,
+      ).as('facilities');
+      cy.intercept(
+        'GET',
+        'v1/facilities/va?ids=[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object]',
+        mockFacilitiesObjects,
       ).as('facilitiesSet');
     } else {
       cy.login();
