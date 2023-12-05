@@ -1542,12 +1542,6 @@ describe('<CalculateYourBenefits>', () => {
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
-
-    const mockSetShowEybSheet = sinon.spy();
-    const mockSetExpandEybSheet = sinon.spy();
-    const useStateStub = sinon.stub(React, 'useState');
-    useStateStub.onCall(0).returns([false, mockSetShowEybSheet]);
-    useStateStub.onCall(1).returns([false, mockSetExpandEybSheet]);
     const addEventListenerSpy = sinon.spy(global.window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(
       global.window,
@@ -1569,7 +1563,6 @@ describe('<CalculateYourBenefits>', () => {
     tree.unmount();
     sinon.assert.calledWith(removeEventListenerSpy, 'scroll', sinon.match.func);
     addEventListenerSpy.restore();
-    useStateStub.restore();
   });
   it('should return no ', () => {
     const middleware = [thunk];

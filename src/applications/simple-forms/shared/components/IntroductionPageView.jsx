@@ -44,6 +44,7 @@ export const IntroductionPageView = ({
           displayNonVeteranMessaging={displayNonVeteranMessaging}
           verifiedPrefillAlert={verifiedPrefillAlert}
           formConfig={formConfig}
+          hideUnauthedStartLink={formConfig.hideUnauthedStartLink ?? false}
         >
           {saveInProgressText}
         </SaveInProgressIntro>
