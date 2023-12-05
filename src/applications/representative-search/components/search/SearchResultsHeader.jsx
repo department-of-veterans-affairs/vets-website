@@ -55,9 +55,9 @@ export const SearchResultsHeader = props => {
         {handleNumberOfResults()} for
         {` `}
         <b>{repFormat[representativeType]}</b>
-        {` `}
         {context.repOrgName && (
           <>
+            {` `}
             matching <b>"{context.repOrgName}"</b>
           </>
         )}
