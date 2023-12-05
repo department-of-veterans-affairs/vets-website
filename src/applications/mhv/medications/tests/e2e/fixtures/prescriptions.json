@@ -81,14 +81,14 @@
                 "prescriptionNumber": "3636888",
                 "prescriptionName": "OCTREOTIDE ACETATE 1000MCG/ML INJ *SUBQ*",
                 "refillStatus": "active",
-                "refillSubmitDate": "2023-02-14T16:29:06.000Z",
+                "refillSubmitDate": "October 2, 2023",
                 "refillDate": "2023-02-12T05:00:00.000Z",
                 "refillRemaining": 0,
                 "facilityName": "SLC10 TEST LAB",
                 "orderedDate": "2022-10-08T04:00:00.000Z",
                 "quantity": 3,
                 "expirationDate": "2023-10-09T04:00:00.000Z",
-                "dispensedDate": null,
+                "dispensedDate": "October 2, 2023",
                 "stationNumber": "979",
                 "isRefillable": false,
                 "isTrackable": false,
@@ -121,7 +121,7 @@
                         [
                             {
                                 "refillStatus": "active",
-                                "refillSubmitDate": null,
+                                "refillSubmitDate": "October 2, 2023",
                                 "refillDate": "Sat, 08 Oct 2022 00:00:00 EDT",
                                 "refillRemaining": 0,
                                 "facilityName": "SLC10 TEST LAB",
@@ -207,7 +207,7 @@
                             },
                             {
                                 "refillStatus": "active",
-                                "refillSubmitDate": null,
+                                "refillSubmitDate": "February 12, 2023",
                                 "refillDate": "Sat, 08 Oct 2022 00:00:00 EDT",
                                 "refillRemaining": 2,
                                 "facilityName": "SLC10 TEST LAB",
@@ -251,7 +251,8 @@
                         ]
                     ]
                 ],
-                "tracking": false
+                "tracking": false,
+                "sortedDispensedDate": "2023-10-02"
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21457695"

@@ -1,0 +1,32 @@
+{
+  "data": {
+    "preparerType": "non-citizen",
+    "nonCitizenId": {
+      "arn": "123456789"
+    },
+    "address": {
+      "street": "1234 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345",
+      "country": "USA"
+    },
+    "recordSelections": {
+      "dd214": true,
+      "disability-exams": true,
+      "financial": true,
+      "life-ins": true,
+      "other-comp-pen": true,
+      "other": true
+    },
+    "disabilityExams": [
+      {
+        "disabilityExamDate": "2019-01-01"
+      }
+    ],
+    "otherCompAndPenDetails": "Other Comp&Pen details",
+    "financialRecordDetails": "Financial record details",
+    "lifeInsuranceBenefitDetails": "Life insurance details",
+    "otherBenefitDetails": "Other benefit details"
+  }
+}
