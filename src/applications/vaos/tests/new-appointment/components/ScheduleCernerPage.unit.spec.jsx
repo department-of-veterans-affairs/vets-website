@@ -62,7 +62,7 @@ describe('VAOS <ScheduleCernerPage>', () => {
 
     expect(
       screen.getByRole('link', { name: 'My VA Health' }).getAttribute('href'),
-    ).to.contain('pages%2Fscheduling%2Fupcoming');
+    ).to.contain('pages/scheduling/upcoming');
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.getByRole('button', { name: /Continue/ })).to.have.attribute(
@@ -169,7 +169,7 @@ describe('VAOS <ScheduleCernerPage>', () => {
         screen
           .getByRole('link', { name: /My VA Health/i })
           .getAttribute('href'),
-      ).to.contain('pages%2Fscheduling%2Fupcoming');
+      ).to.contain('pages/scheduling/upcoming');
     });
   });
 });
