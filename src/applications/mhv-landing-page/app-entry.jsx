@@ -1,6 +1,6 @@
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/mhv-landing-page.scss';
-import '../medications/sass/medications.scss'; // neccessary for medications landing page
+import './medications/sass/medications.scss'; // neccessary for medications landing page
 import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import routes from './routes';
