@@ -24,7 +24,6 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
-  profileUseLighthouseDirectDepositEndpoint,
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
@@ -61,7 +60,6 @@ export const BankInfo = ({
   setFormIsDirty,
   setViewingPayments,
   showSuccessMessage,
-  useLighthouseDirectDepositEndpoint,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -147,7 +145,6 @@ export const BankInfo = ({
       saveBankInformation({
         fields,
         isEnrollingInDirectDeposit: isDirectDepositSetUp,
-        useLighthouseDirectDepositEndpoint,
       });
     } else {
       saveBankInformation({ fields });
@@ -433,7 +430,6 @@ BankInfo.propTypes = {
   setViewingPayments: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
@@ -451,9 +447,7 @@ BankInfo.propTypes = {
 
 export const mapStateToProps = (state, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
-  const useLighthouseDirectDepositEndpoint = profileUseLighthouseDirectDepositEndpoint(
-    state,
-  );
+
   return {
     typeIsCNP,
     isLOA3: isLOA3Selector(state),
@@ -470,12 +464,11 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositIsEligible(state, useLighthouseDirectDepositEndpoint)
+      ? cnpDirectDepositIsEligible(state, true)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
-    useLighthouseDirectDepositEndpoint,
   };
 };
 
