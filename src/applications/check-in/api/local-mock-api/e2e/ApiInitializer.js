@@ -27,6 +27,19 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: false,
+          checkInExperiencePreCheckInActionLinkTopPlacement: true,
+        }),
+      );
+    },
+    withPreCheckInActionLinkTopPlacementDisabled: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceTravelReimbursement: false,
+          checkInExperiencePreCheckInActionLinkTopPlacement: false,
         }),
       );
     },
