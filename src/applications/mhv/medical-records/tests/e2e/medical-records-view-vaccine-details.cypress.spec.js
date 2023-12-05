@@ -14,7 +14,11 @@ describe('Medical Records View Vaccines', () => {
     VaccineDetailsPage.verifyVaccineName(VaccinesDetails);
     VaccineDetailsPage.verifyVaccineDate(VaccinesDetails);
     VaccineDetailsPage.verifyVaccineLocation(VaccinesDetails);
-    VaccineDetailsPage.verifyVaccineNotes(VaccinesDetails);
+    VaccineDetailsPage.verifyVaccineNotes(VaccinesDetails, 0);
+    VaccineDetailsPage.verifyVaccineNotes(VaccinesDetails, 1);
+    // need to check manufacturer -- not in code 12/04/2023
+    // Need to check Reactions -- not in code 12/04/2023
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {

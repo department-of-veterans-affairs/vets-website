@@ -41,6 +41,8 @@ const UtilityBillInputList = props => {
       prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
+      min={0}
+      max={50000}
     />
   );
 };

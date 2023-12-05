@@ -99,13 +99,7 @@ export class ConfirmationPage extends React.Component {
             <h2 slot="headline">
               {getSuccessAlertTitle(data, alreadySubmittedIntents)}
             </h2>
-            <p>
-              {getSuccessAlertText(
-                data,
-                alreadySubmittedIntents,
-                expirationDate,
-              )}
-            </p>
+            <p>{getSuccessAlertText(data, alreadySubmittedIntents)}</p>
           </va-alert>
         )}
         <div className="inset">
