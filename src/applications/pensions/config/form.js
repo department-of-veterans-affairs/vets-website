@@ -74,6 +74,7 @@ import currentEmployment from '../pages/currentEmployment';
 import generateEmployersSchemas from '../pages/employmentHistory';
 import maritalStatus from '../pages/maritalStatus';
 import currentSpouse from '../pages/currentSpouse';
+import currentSpouseMonthlySupport from '../pages/currentSpouseMonthlySupport';
 import dateOfCurrentMarriage from '../pages/dateOfCurrentMarriage';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -439,6 +440,12 @@ const formConfig = {
           depends: isMarried,
           uiSchema: dateOfCurrentMarriage.uiSchema,
           schema: dateOfCurrentMarriage.schema,
+        },
+        currentSpouseMonthlySupport: {
+          title: 'Financial support for you spouse',
+          path: 'household/marital-status/spouse-monthly-support',
+          uiSchema: currentSpouseMonthlySupport.uiSchema,
+          schema: currentSpouseMonthlySupport.schema,
         },
         marriageInfo: {
           title: 'Marriage history',
