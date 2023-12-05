@@ -1,5 +1,5 @@
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import DirectDeposit from '../DirectDeposit';
-import * as paymentInfo from '../../../../mocks/endpoints/payment-information';
 import { loa3User72, loa1User } from '../../../../mocks/endpoints/user';
 
 import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
@@ -11,7 +11,11 @@ describe('Direct Deposit Consistently', () => {
 
   it('should display the menu item for a standard user -- happy path', () => {
     cy.login(loa3User72);
-    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.base);
+    cy.intercept(
+      'GET',
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.base,
+    );
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
@@ -26,7 +30,11 @@ describe('Direct Deposit Consistently', () => {
 
   it('should hide the menu for deceased veteran and display blocked alert', () => {
     cy.login(loa3User72);
-    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isDeceased);
+    cy.intercept(
+      'GET',
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.isDeceased,
+    );
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
@@ -38,8 +46,8 @@ describe('Direct Deposit Consistently', () => {
     cy.login(loa3User72);
     cy.intercept(
       'GET',
-      'v0/ppiu/payment_information',
-      paymentInfo.isNotCompetent,
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.isNotCompetent,
     );
 
     DirectDeposit.visitPage();
@@ -50,7 +58,11 @@ describe('Direct Deposit Consistently', () => {
   });
   it('should hide the menu for has fiduciary veteran and display blocked alert', () => {
     cy.login(loa3User72);
-    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isFiduciary);
+    cy.intercept(
+      'GET',
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.isFiduciary,
+    );
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
