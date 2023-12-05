@@ -6,16 +6,7 @@ import mockMultiDraftsResponse from './fixtures/draftsResponse/multi-draft-respo
 import { Alerts } from '../../util/constants';
 
 describe('handle multiple drafts in one thread', () => {
-  const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
-  const draftPage = new PatientMessageDraftsPage();
-  beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-  });
-
-  it('verify headers', () => {
-    landingPage.loadSingleThread(mockMultiDraftsResponse);
+  const axeVerification = () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -24,6 +15,19 @@ describe('handle multiple drafts in one thread', () => {
         },
       },
     });
+  };
+  const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const draftPage = new PatientMessageDraftsPage();
+
+  beforeEach(() => {
+    site.login();
+    landingPage.loadInboxMessages();
+    landingPage.loadSingleThread(mockMultiDraftsResponse);
+  });
+
+  it('verify headers', () => {
+    axeVerification();
     cy.get('[data-testid="reply-form"]')
       .find('h2')
       .should('be.visible')
@@ -37,8 +41,7 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify draft could be re-saved', () => {
-    landingPage.loadSingleThread(mockMultiDraftsResponse);
-
+    axeVerification();
     draftPage.saveDraft(mockMultiDraftsResponse.data[0]);
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
 
@@ -49,8 +52,7 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify draft could be send', () => {
-    landingPage.loadSingleThread(mockMultiDraftsResponse);
-
+    axeVerification();
     draftPage.replyDraft(
       mockMultiDraftsResponse.data[0],
       mockMultiDraftsResponse.data[0].attributes.messageId,
@@ -60,8 +62,7 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify draft could be deleted', () => {
-    landingPage.loadSingleThread(mockMultiDraftsResponse);
-
+    axeVerification();
     draftPage.deleteDraft(
       mockMultiDraftsResponse.data[0],
       mockMultiDraftsResponse.data[0].attributes.messageId,
@@ -70,8 +71,7 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify managing drafts', () => {
-    landingPage.loadSingleThread(mockMultiDraftsResponse);
-
+    axeVerification();
     cy.get('[data-testid="message-body-field"]').should(
       'have.attr',
       'value',
