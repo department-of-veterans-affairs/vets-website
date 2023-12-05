@@ -134,7 +134,6 @@ const SearchPage = props => {
 
   const handlePageSelect = e => {
     const { page } = e.detail;
-    focusElement('.search-results-subheader');
     setIsSearching(true);
     props.updateSearchQuery({ id: Date.now(), page });
   };
@@ -203,12 +202,7 @@ const SearchPage = props => {
     () => {
       if (isDisplayingResults) {
         window.scrollTo(0, 600);
-
-        if (props.searchResults.length === 0) {
-          focusElement('#search-results-subheader');
-        } else {
-          focusElement('.representative-results-list');
-        }
+        focusElement('#search-results-subheader');
       }
     },
     [isDisplayingResults],
