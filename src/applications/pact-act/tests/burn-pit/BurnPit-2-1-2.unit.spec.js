@@ -24,7 +24,7 @@ const {
 // This file contains tests for the component's display as well as testing displayConditionsMet
 // for this question specifically
 
-const mockStoreStandard = {
+const mockStore = {
   getState: () => ({
     pactAct: {
       form: {},
@@ -49,7 +49,7 @@ const mockStoreNoIntroPage = {
 const setBurnPitStub = sinon.stub();
 const pushStub = sinon.stub();
 
-const propsStandard = {
+const props = {
   formResponses: {},
   setBurnPit212: setBurnPitStub,
   router: {
@@ -73,10 +73,10 @@ describe('Burn Pit 2.1.2 Page', () => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the burn pit page in the standard flow', () => {
+  it('should correctly load the burn pit page', () => {
     const screen = render(
-      <Provider store={mockStoreStandard}>
-        <BurnPit212 {...propsStandard} />
+      <Provider store={mockStore}>
+        <BurnPit212 {...props} />
       </Provider>,
     );
 

@@ -3,9 +3,9 @@ import sinon from 'sinon';
 import {
   navigateBackward,
   navigateForward,
-} from '../utilities/page-navigation';
-import { ROUTES } from '../constants';
-import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+} from '../../utilities/page-navigation';
+import { ROUTES } from '../../constants';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 const pushSpy = sinon.spy();
 

@@ -101,6 +101,7 @@ const CheckboxGroup = ({
               </div>
             </span>
           )}
+          <p>Select all that apply.</p>
           {createCheckboxes()}
         </fieldset>
       </div>

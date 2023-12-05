@@ -28,7 +28,7 @@ const {
 // This file contains tests for the component's display as well as testing displayConditionsMet
 // for this question specifically
 
-const mockStoreStandard = {
+const mockStore = {
   getState: () => ({
     pactAct: {
       form: {},
@@ -53,7 +53,7 @@ const mockStoreNoIntroPage = {
 const setRadiationStub = sinon.stub();
 const pushStub = sinon.stub();
 
-const propsStandard = {
+const props = {
   formResponses: {},
   setRadiation23A: setRadiationStub,
   router: {
@@ -77,10 +77,10 @@ describe('Radiation 2.3.A Page', () => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the radiation page in the standard flow', () => {
+  it('should correctly load the radiation page', () => {
     const screen = render(
-      <Provider store={mockStoreStandard}>
-        <Radiation23A {...propsStandard} />
+      <Provider store={mockStore}>
+        <Radiation23A {...props} />
       </Provider>,
     );
 
