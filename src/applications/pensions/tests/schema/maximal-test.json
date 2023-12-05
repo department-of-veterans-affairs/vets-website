@@ -116,6 +116,7 @@
       "last": "Doe"
     },
     "dateOfCurrentMarriage": "1989-03-02",
+    "currentSpouseMonthlySupport": 2444,
     "marriages": [
       {
         "spouseFullName": {
