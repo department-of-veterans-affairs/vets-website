@@ -72,6 +72,7 @@ import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateMedicalCentersSchemas from '../pages/medicalCenters';
 import currentEmployment from '../pages/currentEmployment';
 import generateEmployersSchemas from '../pages/employmentHistory';
+import maritalStatus from '../pages/maritalStatus';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -97,7 +98,6 @@ const {
   date,
   monthlyIncome,
   netWorth,
-  maritalStatus,
   marriages,
   expectedIncome,
   ssn,
@@ -418,27 +418,26 @@ const formConfig = {
     householdInformation: {
       title: 'Household information',
       pages: {
+        maritalStatus: {
+          title: 'Marital status',
+          path: 'household/marital-status',
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
+        },
         marriageInfo: {
           title: 'Marriage history',
           path: 'household/marriage-info',
+          depends: formData => {
+            return formData.maritalStatus !== 'Never Married';
+          },
           uiSchema: {
-            maritalStatus: {
-              'ui:title': 'What’s your marital status?',
-              'ui:widget': 'radio',
-            },
             marriages: {
               'ui:title': 'How many times have you been married?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': form =>
-                !!get('maritalStatus', form) &&
-                form.maritalStatus !== 'Never Married',
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
-                expandUnder: 'maritalStatus',
-                expandUnderCondition: status =>
-                  !!status && status !== 'Never Married',
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -447,9 +446,8 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['maritalStatus'],
+            required: ['marriages'],
             properties: {
-              maritalStatus,
               marriages,
             },
           },
