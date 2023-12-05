@@ -9,6 +9,7 @@
       ],
       "meta": {
         "generatedDate": "2023-07-12T07:45:11Z",
+        "stationNo": "500",
         "timeZone": "US/Pacific"
       },
       "patientInfo": {
@@ -795,7 +796,7 @@
           "dateLastReleased": null,
           "fmDateLastReleased": 0,
           "stationName": "CAMP MASTER",
-          "stationNo": "500",
+          "stationNo": "530",
           "provider": null,
           "description": null,
           "ndc": null,
@@ -804,7 +805,7 @@
           "discontinuedDate": null,
           "fmDiscontinuedDate": 0,
           "comment": "\nMedication prescribed by Non-VA provider.",
-          "documentor": "PROVIDER,ONE",
+          "documentor": "PROVIDER,THREE",
           "documentingFacility": "CAMP MASTER",
           "quantity": 0,
           "daysSupply": 0,

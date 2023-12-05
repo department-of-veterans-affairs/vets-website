@@ -13,6 +13,8 @@ import { APPOINTMENT_TYPES, MEDICATION_TYPES } from '../utils/constants';
 import {
   filterMedicationsByType,
   getCombinedMedications,
+  getMedicationsTaking,
+  getMedicationsNotTaking,
 } from '../utils/medications';
 
 import ItemsBlock from './ItemsBlock';
@@ -226,7 +228,14 @@ const labResults = avs => {
 
 const getMyMedications = avs => {
   return filterMedicationsByType(
-    getCombinedMedications(avs),
+    getMedicationsTaking(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
+const getMyMedicationsNotTaking = avs => {
+  return filterMedicationsByType(
+    getMedicationsNotTaking(avs),
     MEDICATION_TYPES.DRUG,
   );
 };
@@ -297,6 +306,26 @@ const renderMedication = medication => {
   );
 };
 
+const renderNotTakingMedication = medication => {
+  return (
+    <p>
+      {medication.name}
+      <br />
+      {medication.sig}
+      Notes: {medication.comment}
+      <br />
+      <br />
+      Facility: NON-VA
+      <br />
+      Documenting Facility & Provider: {medication.documentingFacility},{' '}
+      {medication.documentor}
+      <br />
+      <br />
+      Status: {medication.status}
+    </p>
+  );
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -352,6 +381,14 @@ const YourHealthInformation = props => {
         itemType="my-va-supplies"
         items={getMySupplies(avs)}
         renderItem={renderMedication}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="Medications you are not taking"
+        intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
+        itemType="medications-not-taking"
+        items={getMyMedicationsNotTaking(avs)}
+        renderItem={renderNotTakingMedication}
         showSeparators
       />
       {labResults(avs)}
