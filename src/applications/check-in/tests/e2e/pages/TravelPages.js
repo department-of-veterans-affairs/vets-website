@@ -13,6 +13,9 @@ class TravelPages {
       case 'mileage':
         title = 'Are you claiming only mileage and no other expenses today?';
         break;
+      case 'review':
+        title = 'Review your travel claim';
+        break;
       default:
         break;
     }
@@ -71,6 +74,11 @@ class TravelPages {
         .should('have.attr', 'href')
         .and('contain', 'travel-address');
     }
+    if (page === 'review') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-milage');
+    }
   };
 
   validateContent = page => {
@@ -81,6 +89,19 @@ class TravelPages {
     if (body) {
       cy.get(`[data-testid="body-text"]`).should('be.visible');
     }
+  };
+
+  clickEditLink = () => {
+    cy.get(`button[data-testid="review-edit-link"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  acceptTerms = () => {
+    cy.get(`va-checkbox`)
+      .shadow()
+      .find(`[part="checkbox"]`)
+      .click();
   };
 }
 
