@@ -84,6 +84,7 @@ const TravelQuestion = props => {
           onVaChange={onCheck}
           checked={agree}
           required
+          uswds
         >
           <div slot="description">
             <p>{t('by-submitting-claim')}</p>
