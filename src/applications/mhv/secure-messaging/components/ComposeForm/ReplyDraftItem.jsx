@@ -59,6 +59,7 @@ const ReplyDraftItem = props => {
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
+  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
 
   const [bodyError, setBodyError] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
@@ -441,11 +442,14 @@ const ReplyDraftItem = props => {
                 setAttachments={setAttachments}
                 setNavigationError={setNavigationError}
                 editingEnabled
+                attachFileSuccess={attachFileSuccess}
+                setAttachFileSuccess={setAttachFileSuccess}
               />
 
               <FileInput
                 attachments={attachments}
                 setAttachments={setAttachments}
+                setAttachFileSuccess={setAttachFileSuccess}
               />
             </section>
           )}
