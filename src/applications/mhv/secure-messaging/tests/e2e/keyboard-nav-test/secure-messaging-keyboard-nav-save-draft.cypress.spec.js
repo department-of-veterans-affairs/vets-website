@@ -10,12 +10,10 @@ describe('Check confirmation message after save draft', () => {
   const composePage = new PatientComposePage();
 
   it('Check confirmation message after save draft', () => {
-    // https://glebbahmutov.com/blog/onbeforeunload/
     site.login();
     inboxPage.loadInboxMessages();
 
-    inboxPage.navigateToComposePage();
-    // cy.pause();
+    inboxPage.navigateToComposePage(true);
     composePage.selectRecipient(requestBody.recipientId);
     composePage
       .getCategory(requestBody.category)
