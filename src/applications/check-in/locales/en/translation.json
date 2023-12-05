@@ -372,7 +372,7 @@
   "and": "and",
   "review-your-information-now": "Review your information now",
   "your-information-is-up-to-date": "Your information is up to date",
-  "you-can-check-in-with-your-smartphone": "You can check-in with your smartphone once you arrive for your appointment on {{ date, day }}, {{ date, monthDay }} {{ date, time }}",
+  "you-can-check-in-with-your-smartphone": "You can check-in with your smartphone once you arrive for your appointment on {{ date, day }}, {{ date, monthDay }}, {{ date, time }}",
   "day-of-week-month-day-time": "{{ date, day }}, {{ date, monthDay }}, {{ date, time }}",
   "in-person-appointments": "In-person appointments",
   "phone-appointments": "Phone appointments",
