@@ -1,13 +1,16 @@
-import merge from 'lodash/merge';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
-import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
-import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/fullName';
+import {
+  fullNameUI,
+  fullNameSchema,
+  currentOrPastDateUI,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
-import { marriageWarning, createSpouseLabelSelector } from '../helpers';
+import { contactWarning, contactWarningMulti } from '../helpers';
 
+import SpouseMarriageView from '../components/SpouseMarriageView';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 
 import { validateAfterMarriageDate } from '../validation';
@@ -16,117 +19,90 @@ const { marriages } = fullSchemaPensions.definitions;
 
 const marriageProperties = marriages.items.properties;
 
-const marriageType = {
-  ...marriageProperties.marriageType,
-  enum: ['Ceremonial', 'Common-law', 'Proxy', 'Tribal', 'Other'],
-};
-
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: ['Widowed', 'Divorced'],
+  enum: ['Death', 'Divorce', 'Other'],
 };
+
+const hasMultipleMarriages = form =>
+  get(['spouseMarriages', 'length'], form) > 1;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:title': SpouseMarriageTitle,
+    'view:contactWarning': {
+      'ui:description': contactWarning,
+      'ui:options': {
+        hideIf: form => hasMultipleMarriages(form),
+      },
+    },
+    'view:contactWarningMulti': {
+      'ui:description': contactWarningMulti,
+      'ui:options': {
+        hideIf: form => !hasMultipleMarriages(form),
+      },
+    },
     spouseMarriages: {
+      'ui:options': {
+        itemName: 'former marriage of the spouse',
+        viewField: SpouseMarriageView,
+        reviewTitle: 'Spouse’s former marriages',
+      },
       items: {
-        'ui:title': SpouseMarriageTitle,
-        spouseFullName: merge({}, fullNameUI, {
-          first: {
-            'ui:title': 'Their spouse’s first name',
-          },
-          last: {
-            'ui:title': 'Their spouse’s last name',
-          },
-          middle: {
-            'ui:title': 'Their spouse’s middle name',
-          },
-          suffix: {
-            'ui:title': 'Their spouse’s suffix',
-          },
-        }),
-        dateOfMarriage: merge({}, currentOrPastDateUI(''), {
-          'ui:options': {
-            updateSchema: createSpouseLabelSelector(
-              spouseName =>
-                `Date of ${spouseName.first} ${spouseName.last}’s marriage`,
-            ),
-          },
-        }),
-        locationOfMarriage: {
-          'ui:options': {
-            updateSchema: createSpouseLabelSelector(
-              spouseName =>
-                `Place of ${spouseName.first} ${
-                  spouseName.last
-                }’s marriage (city and state or foreign country)`,
-            ),
-          },
-        },
-        marriageType: {
-          'ui:title': 'Type of marriage',
+        spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
+        reasonForSeparation: {
+          'ui:title': 'How did the marriage end?',
           'ui:widget': 'radio',
         },
         otherExplanation: {
           'ui:title': 'Please specify',
-          'ui:required': (form, index) =>
-            get(['spouseMarriages', index, 'marriageType'], form) === 'Other',
           'ui:options': {
-            expandUnder: 'marriageType',
+            hideLabelText: true,
+            expandUnder: 'reasonForSeparation',
             expandUnderCondition: 'Other',
           },
+          'ui:required': (form, index) =>
+            get(['spouseMarriages', index, 'reasonForSeparation'], form) ===
+            'Other',
         },
-        'view:marriageWarning': {
-          'ui:description': marriageWarning,
-          'ui:options': {
-            hideIf: (form, index) =>
-              get(['spouseMarriages', index, 'marriageType'], form) !==
-              'Common-law',
-          },
-        },
-        reasonForSeparation: {
-          'ui:title': 'Why did the marriage end?',
-          'ui:widget': 'radio',
-        },
+        dateOfMarriage: currentOrPastDateUI('Date of marriage'),
         dateOfSeparation: {
           ...currentOrPastDateUI('Date marriage ended'),
           'ui:validations': [validateAfterMarriageDate],
         },
-
-        locationOfSeparation: {
-          'ui:title':
-            'Place marriage ended (city and state or foreign country)',
+        locationOfMarriage: {
+          'ui:title': 'Place of marriage (city and state or foreign country)',
         },
       },
+    },
+    'view:contactWarningI': {
+      'ui:description': contactWarning,
     },
   },
   schema: {
     type: 'object',
     properties: {
+      'view:contactWarning': { type: 'object', properties: {} },
+      'view:contactWarningMulti': { type: 'object', properties: {} },
       spouseMarriages: {
         type: 'array',
         items: {
           type: 'object',
           required: [
             'spouseFullName',
-            'dateOfMarriage',
-            'marriageType',
-            'locationOfMarriage',
             'reasonForSeparation',
+            'dateOfMarriage',
             'dateOfSeparation',
-            'locationOfSeparation',
+            'locationOfMarriage',
           ],
           properties: {
-            dateOfMarriage: marriageProperties.dateOfMarriage,
-            locationOfMarriage: marriageProperties.locationOfMarriage,
-            spouseFullName: marriageProperties.spouseFullName,
-            marriageType,
-            otherExplanation: marriageProperties.otherExplanation,
-            'view:marriageWarning': { type: 'object', properties: {} },
+            spouseFullName: fullNameSchema,
             reasonForSeparation,
+            otherExplanation: marriageProperties.otherExplanation,
+            dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,
-            locationOfSeparation: marriageProperties.locationOfSeparation,
+            locationOfMarriage: marriageProperties.locationOfMarriage,
           },
         },
       },

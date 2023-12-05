@@ -21,7 +21,6 @@ import createNonRequiredFullName from '@department-of-veterans-affairs/platform-
 import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 
 import {
-  getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
@@ -718,12 +717,9 @@ const formConfig = {
           },
         },
         spouseMarriageHistory: {
-          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
-            getSpouseMarriageTitle(pagePerItemIndex),
-          path: 'household/spouse-marriages/:index',
+          title: 'Spouse’s former marriages',
+          path: 'household/spouse-marriages',
           depends: isMarried,
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriages',
           uiSchema: spouseMarriageHistory.uiSchema,
           schema: spouseMarriageHistory.schema,
         },

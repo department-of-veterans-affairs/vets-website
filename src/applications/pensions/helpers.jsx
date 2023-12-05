@@ -161,11 +161,6 @@ export function getMarriageTitle(index) {
   return `${titleCase(desc)} marriage`;
 }
 
-export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `Spouse’s ${desc} marriage`;
-}
-
 export function getMarriageTitleWithCurrent(form, index) {
   if (isMarried(form) && form.marriages.length - 1 === index) {
     return 'Current marriage';
@@ -568,5 +563,26 @@ export const dependentSeriouslyDisabledDescription = (
         child can’t support or care for themselves.
       </span>
     </va-additional-info>
+  </div>
+);
+
+export const contactWarning = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact this person without contacting you first.
+      </div>
+    </div>
+  </div>
+);
+
+export const contactWarningMulti = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact any of the people listed here without contacting you
+        first.
+      </div>
+    </div>
   </div>
 );
