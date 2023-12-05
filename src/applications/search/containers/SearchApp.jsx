@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -331,6 +332,7 @@ class SearchApp extends React.Component {
       results,
     } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
+    const hasUserInputError = this.state.userInput.length >= 255;
     const { userInput } = this.state;
 
     // Reusable search input
@@ -345,18 +347,22 @@ class SearchApp extends React.Component {
           {!this.props.searchDropdownComponentEnabled && (
             <form
               onSubmit={this.handleSearch}
-              className="va-flex vads-u-width--full"
+              className={classNames('va-flex vads-u-width--full', {
+                disabledButtonWrapper: hasUserInputError,
+              })}
             >
               <input
                 type="text"
                 name="query"
                 aria-label="Enter a keyword"
+                maxLength="255"
                 value={this.state.userInput}
                 onChange={this.handleInputChange}
               />
               <button
                 type="submit"
-                disabled={this.state.userInput.length >= 255}
+                disabled={hasUserInputError}
+                aria-disabled={hasUserInputError ? 'true' : ''}
               >
                 <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
                 <span className="button-text">Search</span>
@@ -400,7 +406,7 @@ class SearchApp extends React.Component {
         <div className="columns error vads-u-margin-bottom--4">
           {/* this is the alert box for when searches fail due to server issues */}
           <va-alert status="error" data-e2e-id="alert-box">
-            <h3 slot="headline">Your search didn't go through</h3>
+            <h2 slot="headline">Your search didn't go through</h2>
             <p>{errorMessage}</p>
           </va-alert>
           {searchInput}

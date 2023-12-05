@@ -195,7 +195,11 @@
       font-weight: 400;
     }
 
-    button {
+    .disabledButtonWrapper {
+      cursor: not-allowed;
+    }
+
+     button {
       align-items: center;
       background: $color-primary;
       border-radius: 5px;
@@ -206,6 +210,10 @@
       justify-content: center;
       padding: 1rem;
       width: 100%;
+
+      &:disabled{
+        background: $color-gray-lighter;
+      }
 
       @media (min-width: $medium-screen) {
         border-radius: 0 5px 5px 0;
