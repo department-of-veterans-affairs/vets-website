@@ -105,9 +105,13 @@ const savedAddress = {
   stateCode: '',
 };
 
-const getAddressPath = (path, index) => {
-  const addressPath = [...path].shift();
-  return index != null ? [addressPath, index] : addressPath;
+const getAddressPath = path => {
+  // path examples:
+  // ["employers", 0, "address", "postalCode"]
+  // ["exampleArrayData", 0, "address", "country"]
+  // ["wcv3Address", "country"]
+  // ["address", "state"]
+  return path.slice(0, -1);
 };
 
 /**
@@ -261,7 +265,7 @@ export function addressUI(options) {
          * user selects that they live on a military base outside the US.
          */
         updateSchema: (formData, schema, _uiSchema, index, path) => {
-          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
@@ -345,7 +349,7 @@ export function addressUI(options) {
           if (schema.maxLength) {
             cityMaxLength = schema.maxLength;
           }
-          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const ui = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
@@ -403,7 +407,7 @@ export function addressUI(options) {
          * If the country value is anything other than USA, change the title and default to string.
          */
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
@@ -446,7 +450,7 @@ export function addressUI(options) {
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = getAddressPath(path, index); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
           const { country } = data;

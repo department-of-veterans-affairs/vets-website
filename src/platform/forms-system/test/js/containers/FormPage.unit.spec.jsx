@@ -76,6 +76,78 @@ function makeArrayForm(obj) {
   };
 }
 
+function makeFormArrayEmployersNoData() {
+  return {
+    pages: {
+      testPage: {
+        schema: {
+          properties: {
+            arrayProp: {
+              items: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                },
+                required: ['name'],
+              },
+            },
+          },
+        },
+        uiSchema: {
+          arrayProp: {
+            items: {
+              name: {
+                'ui:title': 'Name of employer',
+              },
+            },
+          },
+        },
+      },
+    },
+    data: {},
+  };
+}
+
+function makeRouteArrayEmployers(obj) {
+  return makeRoute({
+    pageConfig: {
+      schema: {
+        type: 'object',
+        properties: {
+          arrayProp: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+      uiSchema: {
+        arrayProp: {
+          items: {
+            name: {
+              'ui:title': 'Name of employer',
+            },
+          },
+        },
+      },
+      errorMessages: {},
+      title: 'Array page',
+      pageKey: 'testPage',
+      showPagePerItem: true,
+      arrayPath: 'arrayProp',
+      ...obj,
+    },
+  });
+}
+
 describe('Schemaform <FormPage>', () => {
   // Defaults for most tests; overridden where needed below
   const location = {
@@ -372,6 +444,73 @@ describe('Schemaform <FormPage>', () => {
     expect(tree.subTree('SchemaForm').props.data).to.equal(
       form.data.arrayProp[0],
     );
+  });
+
+  it('prePopulateArray should update data if allowPathWithNoItems and showPagePerItem is set', () => {
+    const setData = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+          allowPathWithNoItems: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+        setData={setData}
+      />,
+    );
+
+    tree.getMountedInstance().prePopulateArrayData();
+    expect(setData.firstCall.args[0]).to.eql({
+      arrayProp: [{ name: undefined }],
+    });
+  });
+
+  it('prePopulateArray should not update data if allowPathWithNoItems is not set', () => {
+    const setData = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+        setData={setData}
+      />,
+    );
+
+    tree.getMountedInstance().prePopulateArrayData();
+    expect(setData.firstCall).to.eql(null);
+  });
+
+  it('getArrayIndexedData and setArrayIndexedData should behave correctly', () => {
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+      />,
+    );
+
+    const formPage = tree.getMountedInstance();
+    const data = formPage.getArrayIndexedData();
+    expect(data).to.eql(undefined);
+
+    const newData = formPage.setArrayIndexedData({
+      name: 'bob',
+    });
+    expect(newData).to.eql({
+      arrayProp: [
+        {
+          name: 'bob',
+        },
+      ],
+    });
   });
 
   it('should allow going to an array page with no data if allowPathWithNoItems is enabled', () => {

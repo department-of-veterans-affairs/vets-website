@@ -15,8 +15,8 @@ const HealthCareCTA = ({
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // noCerner will be true if toggle is on
-  const noCerner = useToggleValue(TOGGLE_NAMES.myVaRemoveCernerMessage);
+  // viewMhvLink will be true if toggle is on
+  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
 
   return (
     <>
@@ -37,7 +37,7 @@ const HealthCareCTA = ({
         />
       )}
       {!isLOA1 &&
-        noCerner && (
+        viewMhvLink && (
           <IconCTALink
             text="Visit My HealtheVet on VA.gov"
             icon="briefcase-medical"

@@ -12,7 +12,7 @@ export const bankInfoNote = (
   </div>
 );
 
-const gaBankInfoHelpText = () => {
+export const gaBankInfoHelpText = () => {
   window.dataLayer.push({
     event: 'edu-0994--form-help-text-clicked',
     'help-text-label': 'What if I don’t have a bank account?',
