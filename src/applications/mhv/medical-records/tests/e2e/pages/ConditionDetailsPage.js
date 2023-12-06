@@ -1,29 +1,9 @@
-// import defaultNotes from '../fixtures/Notes.json';
+// import defaultCondition from '../fixtures/Condition.json';
 
-class NotesListPage {
-  /*
-    clickGotoNotesLink = (
-     /* Notes = defaultNotes,
-      waitForNotes = false,
-    ) => {
-      cy.intercept(
-        'GET',
-        '/my_health/v1/medical_records/notes',
-        Notes,
-      ).as('NotesList');
-      cy.get('[href="/my-health/medical-records/notes"]').click();
-      if (waitForNotes) {
-        cy.wait('@NotesList');
-      }
-    });
-  }
-  */
-
-  clickNotesDetailsLink = (_NotesIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(_NotesIndex)
-      .click();
+class ConditionDetailsPage {
+  verifyPrintButton = () => {
+    // should display print button for a list "Print this list"
+    cy.get('[data-testid="printButton-0"]').should('be.visible');
   };
 
   verifyPrintOrDownload = () => {
@@ -32,11 +12,6 @@ class NotesListPage {
 
   clickPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
   };
 
   verifyDownloadPDF = () => {
@@ -56,4 +31,4 @@ class NotesListPage {
   };
 }
 
-export default new NotesListPage();
+export default new ConditionDetailsPage();
