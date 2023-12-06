@@ -111,6 +111,11 @@
       }
     ],
     "maritalStatus": "Married",
+    "currentSpouseFullName": {
+      "first": "Jessica",
+      "last": "Doe"
+    },
+    "dateOfCurrentMarriage": "1989-03-02",
     "marriages": [
       {
         "spouseFullName": {
