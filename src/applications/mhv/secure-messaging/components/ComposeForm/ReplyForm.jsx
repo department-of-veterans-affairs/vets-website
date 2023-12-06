@@ -17,6 +17,7 @@ import EmergencyNote from '../EmergencyNote';
 import {
   messageSignatureFormatter,
   navigateToFolderByFolderId,
+  resetUserSession,
   setCaretToPos,
 } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -53,7 +54,6 @@ const ReplyForm = props => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
-  const [timeoutId, setTimeoutId] = useState(null);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -71,23 +71,16 @@ const ReplyForm = props => {
 
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
 
-  const localStorageValues = {
-    atExpires: localStorage.atExpires,
-    hasSession: localStorage.hasSession,
-    sessionExpiration: localStorage.sessionExpiration,
-    userFirstName: localStorage.userFirstName,
-  };
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
 
-  const resetUserSession = () => {
-    const timeout = setTimeout(() => {
-      Object.keys(localStorageValues).forEach(storageItem => {
-        if (!localStorage.getItem(storageItem)) {
-          localStorage.setItem(storageItem, localStorageValues[storageItem]);
-        }
-      });
-    }, 1000);
-    setTimeoutId(timeout);
-  };
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
 
   const noTimeout = () => {
     clearTimeout(timeoutId);
@@ -383,7 +376,7 @@ const ReplyForm = props => {
     e => {
       if (messageBody !== (draft ? draft.body : '') || attachments.length) {
         e.preventDefault();
-        window.onbeforeunload = resetUserSession;
+        window.onbeforeunload = () => signOutMessage;
       } else {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
         window.onbeforeunload = null;

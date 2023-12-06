@@ -18,6 +18,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   sortRecipients,
+  resetUserSession,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -60,7 +61,6 @@ const ComposeForm = props => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
-  const [timeoutId, setTimeoutId] = useState(null);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -74,23 +74,16 @@ const ComposeForm = props => {
     draftAutoSaveTimeout,
   );
 
-  const localStorageValues = {
-    atExpires: localStorage.atExpires,
-    hasSession: localStorage.hasSession,
-    sessionExpiration: localStorage.sessionExpiration,
-    userFirstName: localStorage.userFirstName,
-  };
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
 
-  const resetUserSession = () => {
-    const timeout = setTimeout(() => {
-      Object.keys(localStorageValues).forEach(storageItem => {
-        if (!localStorage.getItem(storageItem)) {
-          localStorage.setItem(storageItem, localStorageValues[storageItem]);
-        }
-      });
-    }, 1000);
-    setTimeoutId(timeout);
-  };
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
 
   const noTimeout = () => {
     clearTimeout(timeoutId);
@@ -475,14 +468,22 @@ const ComposeForm = props => {
         attachments.length
       ) {
         e.preventDefault();
-        window.onbeforeunload = resetUserSession;
+        window.onbeforeunload = () => signOutMessage;
       } else {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
         window.onbeforeunload = null;
         noTimeout();
       }
     },
-    [draft, selectedRecipient, category, subject, messageBody, attachments],
+    [
+      draft,
+      selectedRecipient,
+      category,
+      subject,
+      messageBody,
+      attachments,
+      timeoutId,
+    ],
   );
 
   useEffect(
