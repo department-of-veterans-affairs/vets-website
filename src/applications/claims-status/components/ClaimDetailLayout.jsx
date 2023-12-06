@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -9,8 +9,9 @@ import AddingDetails from './AddingDetails';
 import Notification from './Notification';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import ClaimsUnavailable from './ClaimsUnavailable';
-import ClaimsContentionList from './ClaimsContentionList';
 import { isPopulatedClaim, getClaimType } from '../utils/helpers';
+
+const MAX_CONTENTIONS = 3;
 
 const getBreadcrumbText = (currentTab, claimType) => {
   let joiner;
@@ -35,8 +36,8 @@ export default function ClaimDetailLayout(props) {
   } = props;
   const tabs = ['Status', 'Files', 'Details'];
   const claimsPath = `your-claims/${id}`;
+
   const claimType = getClaimType(claim).toLowerCase();
-  const contentionsHeader = useRef(null);
 
   let bodyContent;
   let headingContent;
@@ -50,7 +51,16 @@ export default function ClaimDetailLayout(props) {
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
     const { closeDate, contentions, status } = claim.attributes || {};
+
+    const hasContentions = contentions && contentions.length;
     const isOpen = status !== 'COMPLETE' && closeDate === null;
+
+    const contentionsText = hasContentions
+      ? contentions
+          .slice(0, MAX_CONTENTIONS)
+          .map(cond => cond.name)
+          .join(', ')
+      : 'Not available';
 
     headingContent = (
       <>
@@ -64,17 +74,20 @@ export default function ClaimDetailLayout(props) {
         )}
         <h1 className="claim-title">{claimTitle}</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
-        <div className="claim-contentions medium-screen:vads-l-col--8">
-          <h2
-            className="claim-contentions-header vads-u-font-size--h4"
-            ref={contentionsHeader}
-          >
-            What you’ve claimed
+        <div className="claim-contentions">
+          <h2 className="claim-contentions-header vads-u-font-size--h6">
+            What you’ve claimed:
           </h2>
-          <ClaimsContentionList
-            contentions={contentions}
-            contentionsHeader={contentionsHeader}
-          />
+          <span>{contentionsText}</span>
+          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
+            <span>
+              <br />
+              <Link to={`your-claims/${claim.id}/details`}>
+                See all your claimed contentions
+              </Link>
+              .
+            </span>
+          ) : null}
         </div>
       </>
     );
