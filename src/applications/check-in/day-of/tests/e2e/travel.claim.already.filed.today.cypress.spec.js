@@ -7,7 +7,7 @@ import Confirmation from './pages/Confirmation';
 const dateFns = require('date-fns');
 
 describe('Check In Experience | Day Of |', () => {
-  describe('Patient who wants to file a travel claim', () => {
+  describe('Patient who wants to file a travel claim but already has today', () => {
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -53,7 +53,7 @@ describe('Check In Experience | Day Of |', () => {
         window.sessionStorage.clear();
       });
     });
-    it('should complete check in if answer is yes to all with already filed message', () => {
+    it('should complete check and skip all travel questions', () => {
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
