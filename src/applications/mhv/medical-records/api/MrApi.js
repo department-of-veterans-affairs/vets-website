@@ -50,7 +50,7 @@ export const testableApiRequestWithRetry = (
   const response = await apiRequestFunc(path, options);
 
   // Check if the status code is 202 and if the retry time limit has not been reached
-  if (response.status === 202 && Date.now() < endTime) {
+  if (response?.status === 202 && Date.now() < endTime) {
     await delay(retryInterval);
     return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
       path,
