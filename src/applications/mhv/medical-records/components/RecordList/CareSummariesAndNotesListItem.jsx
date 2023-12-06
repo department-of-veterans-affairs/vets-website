@@ -17,7 +17,9 @@ const CareSummariesAndNotesListItem = props => {
         <Link
           to={`/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
-          aria-label={`${record.name} on ${record.date}`}
+          aria-label={`${record.name} on ${
+            isDischargeSummary ? record.dischargeDate : record.dateSigned
+          }`}
         >
           {record.name}
         </Link>
