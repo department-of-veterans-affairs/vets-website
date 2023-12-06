@@ -187,7 +187,7 @@ class ObjectField extends React.Component {
                   {title}
                 </h4>
               )}
-            <div className="vads-u-width--full vads-u-display--flex vads-u-justify-content--flex-end">
+            <div className="vads-u-justify-content--flex-end">
               {defaultEditButton()}
             </div>
           </div>

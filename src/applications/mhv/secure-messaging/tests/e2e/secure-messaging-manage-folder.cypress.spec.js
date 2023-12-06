@@ -31,6 +31,7 @@ describe('manage folders', () => {
 
       PatientMessageCustomFolderPage.createCustomFolder(newFolder);
       folderPage.verifyCreateFolderSuccessMessage();
+      folderPage.verifyCreateFolderSucessMessageHasFocus();
     });
   });
 
@@ -64,6 +65,7 @@ describe('manage folders', () => {
       folderPage.deleteFolderButton().click();
       folderPage.confirmDeleteFolder(folderId);
       folderPage.verifyDeleteSuccessMessage();
+      folderPage.verifyDeleteSuccessMessageHasFocus();
     });
   });
 });

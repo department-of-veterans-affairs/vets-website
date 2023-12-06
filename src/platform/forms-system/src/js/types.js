@@ -33,6 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
  * @property {(formConfig: any) => void} [onFormLoaded]

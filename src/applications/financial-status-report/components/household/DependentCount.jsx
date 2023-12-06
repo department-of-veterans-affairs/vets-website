@@ -24,6 +24,8 @@ const DependentCount = ({
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
 
+  const MAXIMUM_DEPENDENT_COUNT = 25;
+
   const [error, setError] = useState(null);
   const [dependents, setDependents] = useState(hasDependents);
 
@@ -40,32 +42,41 @@ const DependentCount = ({
   // setData on goForward, nav is handled in onSubmit so goForward has teh most up to date data
   const onGoForward = () => {
     if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-      setError('Please enter your dependent(s) information.');
+      setError('Please enter your dependent(s) information');
       focusElement('va-number-input');
+      return;
+    }
+
+    if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
+      setError(
+        'Please enter a value greater than or equal to 0 and less than 25',
+      );
+      focusElement('va-number-input');
+      return;
+    }
+
+    setError(null);
+    if (dependents === '0') {
+      // clear dependent array if it was previously populated
+      setFormData({
+        ...data,
+        questions: {
+          ...data?.questions,
+          hasDependents: dependents,
+        },
+        personalData: {
+          ...data?.personalData,
+          dependents: [],
+        },
+      });
     } else {
-      setError(null);
-      if (dependents === '0') {
-        // clear dependent array if it was previously populated
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-          personalData: {
-            ...data?.personalData,
-            dependents: [],
-          },
-        });
-      } else {
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-        });
-      }
+      setFormData({
+        ...data,
+        questions: {
+          ...data?.questions,
+          hasDependents: dependents,
+        },
+      });
     }
   };
 
@@ -101,7 +112,15 @@ const DependentCount = ({
           name="dependent-count"
           onBlur={() => {
             if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-              setError('Please enter your dependent(s) information.');
+              setError('Please enter your dependent(s) information');
+              focusElement('va-number-input');
+              return;
+            }
+
+            if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
+              setError(
+                'Please enter a value greater than or equal to 0 and less than 25',
+              );
               focusElement('va-number-input');
             }
           }}
@@ -112,6 +131,8 @@ const DependentCount = ({
           value={dependents}
           className="no-wrap input-size-2"
           required
+          min={0}
+          max={MAXIMUM_DEPENDENT_COUNT}
         />
         <DependentExplainer />
       </fieldset>
