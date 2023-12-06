@@ -22,7 +22,7 @@ export default {
     dependents: {
       'ui:options': {
         itemName: 'Dependent',
-        expandUnder: 'view:hasDependents',
+        expandUnder: 'hasDependents',
         viewField: DependentField,
       },
       'ui:errorMessages': {
@@ -54,46 +54,3 @@ export default {
     },
   },
 };
-
-// uiSchema: {
-//   'ui:title': 'Dependent children',
-//   'view:hasDependents': {
-//     'ui:title': 'Do you have any dependent children?',
-//     'ui:widget': 'yesNo',
-//   },
-//   dependents: {
-//     'ui:options': {
-//       itemName: 'Dependent',
-//       expandUnder: 'view:hasDependents',
-//       viewField: DependentField,
-//     },
-//     'ui:errorMessages': {
-//       minItems: dependentsMinItem,
-//     },
-//     items: {
-//       fullName: fullNameUI,
-//       childDateOfBirth: currentOrPastDateUI('Date of birth'),
-//     },
-//   },
-// },
-// schema: {
-//   type: 'object',
-//   required: ['view:hasDependents'],
-//   properties: {
-//     'view:hasDependents': {
-//       type: 'boolean',
-//     },
-//     dependents: {
-//       type: 'array',
-//       minItems: 1,
-//       items: {
-//         type: 'object',
-//         required: ['fullName', 'childDateOfBirth'],
-//         properties: {
-//           fullName: dependents.items.properties.fullName,
-//           childDateOfBirth: dependents.items.properties.childDateOfBirth,
-//         },
-//       },
-//     },
-//   },
-// },

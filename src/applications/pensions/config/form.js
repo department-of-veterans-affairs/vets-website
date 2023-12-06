@@ -29,14 +29,11 @@ import {
   directDepositWarning,
   isMarried,
   uploadMessage,
-  disabilityDocs,
-  schoolAttendanceWarning,
   marriageWarning,
   fdcWarning,
   noFDCWarning,
   expeditedProcessDescription,
   aidAttendanceEvidence,
-  dependentWarning,
   expectedIncomeDescription,
   spouseExpectedIncomeDescription,
   submit,
@@ -59,6 +56,7 @@ import applicantInformation from '../pages/applicantInformation';
 import contactInformation from '../pages/contactInformation';
 import currentEmployment from '../pages/currentEmployment';
 import dependentChildren from '../pages/dependentChildren';
+import dependentChildInformation from '../pages/dependentChildInformation';
 import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateEmployersSchemas from '../pages/employmentHistory';
 import generalHistory from '../pages/generalHistory';
@@ -153,26 +151,6 @@ function isUnder65(formData) {
     .startOf('day')
     .subtract(65, 'years')
     .isBefore(formData.veteranDateOfBirth);
-}
-
-function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(
-    moment()
-      .startOf('day')
-      .subtract(23, 'years'),
-    moment()
-      .startOf('day')
-      .subtract(18, 'years'),
-  );
-}
-
-// Checks to see if they’re under 17.75 years old
-function isEligibleForDisabilitySupport(childDOB) {
-  return moment()
-    .startOf('day')
-    .subtract(17, 'years')
-    .subtract(9, 'months')
-    .isBefore(childDOB);
 }
 
 function isCurrentMarriage(form, index) {
@@ -809,163 +787,17 @@ const formConfig = {
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
-        childrenInformation: {
+        dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} information`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: [
-                    'childPlaceOfBirth',
-                    'childRelationship',
-                    'previouslyMarried',
-                  ],
-                  properties: {
-                    childPlaceOfBirth:
-                      dependents.items.properties.childPlaceOfBirth,
-                    childSocialSecurityNumber:
-                      dependents.items.properties.childSocialSecurityNumber,
-                    'view:noSSN': { type: 'boolean' },
-                    childRelationship:
-                      dependents.items.properties.childRelationship,
-                    attendingCollege:
-                      dependents.items.properties.attendingCollege,
-                    'view:schoolWarning': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    disabled: dependents.items.properties.disabled,
-                    'view:disabilityDocs': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    'view:dependentWarning': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    previouslyMarried:
-                      dependents.items.properties.previouslyMarried,
-                    married: dependents.items.properties.married,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Information',
-                ),
-                childPlaceOfBirth: {
-                  'ui:title':
-                    'Place of birth (city and state or foreign country)',
-                },
-                childSocialSecurityNumber: merge({}, ssnUI, {
-                  'ui:title': 'Social Security number',
-                  'ui:required': (formData, index) =>
-                    !get(`dependents.${index}.view:noSSN`, formData),
-                }),
-                'view:noSSN': {
-                  'ui:title':
-                    'Does not have a Social Security number (foreign national, etc.)',
-                },
-                childRelationship: {
-                  'ui:title': 'Relationship',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      biological: 'Biological child',
-                      adopted: 'Adopted child',
-                      stepchild: 'Stepchild',
-                    },
-                  },
-                },
-                attendingCollege: {
-                  'ui:title': 'Is your child in school?',
-                  'ui:widget': 'yesNo',
-                  'ui:required': (formData, index) =>
-                    isBetween18And23(
-                      get(['dependents', index, 'childDateOfBirth'], formData),
-                    ),
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      !isBetween18And23(
-                        get(
-                          ['dependents', index, 'childDateOfBirth'],
-                          formData,
-                        ),
-                      ),
-                  },
-                },
-                'view:schoolWarning': {
-                  'ui:description': schoolAttendanceWarning,
-                  'ui:options': {
-                    expandUnder: 'attendingCollege',
-                  },
-                },
-                disabled: {
-                  'ui:title': 'Is your child seriously disabled?',
-                  'ui:required': (formData, index) =>
-                    !isEligibleForDisabilitySupport(
-                      get(['dependents', index, 'childDateOfBirth'], formData),
-                    ),
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      isEligibleForDisabilitySupport(
-                        get(
-                          ['dependents', index, 'childDateOfBirth'],
-                          formData,
-                        ),
-                      ),
-                  },
-                  'ui:widget': 'yesNo',
-                },
-                'view:disabilityDocs': {
-                  'ui:description': disabilityDocs,
-                  'ui:options': {
-                    expandUnder: 'disabled',
-                  },
-                },
-                'view:dependentWarning': {
-                  'ui:description': dependentWarning,
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      get(['dependents', index, 'disabled'], formData) !==
-                        false ||
-                      get(
-                        ['dependents', index, 'attendingCollege'],
-                        formData,
-                      ) !== false,
-                  },
-                },
-                previouslyMarried: {
-                  'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo',
-                },
-                married: {
-                  'ui:title': 'Are they currently married?',
-                  'ui:widget': 'yesNo',
-                  'ui:required': (formData, index) =>
-                    !!get(['dependents', index, 'previouslyMarried'], formData),
-                  'ui:options': {
-                    expandUnder: 'previouslyMarried',
-                  },
-                },
-              },
-            },
-          },
+          schema: dependentChildInformation.schema,
+          uiSchema: dependentChildInformation.uiSchema,
         },
-        childrenAddress: {
+        dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
