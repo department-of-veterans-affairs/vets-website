@@ -13,6 +13,7 @@ const App = props => {
   const {
     children,
     formData,
+    isLoading,
     setFormData,
     userIdVerified,
     userLoggedIn,
@@ -23,22 +24,24 @@ const App = props => {
     // add view-fields to formData to support
     // conditional-pages based on User identity-verification
     () => {
-      if (formData['view:userLoggedIn'] !== userLoggedIn) {
-        setFormData({
-          ...formData,
-          'view:userLoggedIn': userLoggedIn,
-        });
-      }
-      if (formData['view:userIdVerified'] !== userIdVerified) {
-        setFormData({
-          ...formData,
-          'view:userLoggedIn': userLoggedIn,
-          'view:userIdVerified': userIdVerified,
-        });
+      if (!isLoading) {
+        if (formData['view:userLoggedIn'] !== userLoggedIn) {
+          setFormData({
+            ...formData,
+            'view:userLoggedIn': userLoggedIn,
+          });
+        }
+        if (formData['view:userIdVerified'] !== userIdVerified) {
+          setFormData({
+            ...formData,
+            'view:userLoggedIn': userLoggedIn,
+            'view:userIdVerified': userIdVerified,
+          });
+        }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [userIdVerified, userLoggedIn],
+    [isLoading, userIdVerified, userLoggedIn],
   );
 
   return (
@@ -51,6 +54,7 @@ const App = props => {
 App.propTypes = {
   children: PropTypes.node.isRequired,
   formData: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   setFormData: PropTypes.func.isRequired,
   userIdVerified: PropTypes.bool.isRequired,
@@ -59,6 +63,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form.data,
+  isLoading: state.featureToggles.loading,
   userIdVerified: isLOA3(state),
   userLoggedIn: isLoggedIn(state),
 });
