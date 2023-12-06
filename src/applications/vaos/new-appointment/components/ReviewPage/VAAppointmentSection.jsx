@@ -1,25 +1,27 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { startRequestAppointmentFlow } from '../../redux/actions';
-import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDatesSection from './PreferredDatesSection';
 import ContactDetailSection from './ContactDetailSection';
 import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import { TYPE_OF_VISIT } from '../../../utils/constants';
 import State from '../../../components/State';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, visitType) {
   return () => {
     dispatch(startRequestAppointmentFlow());
-    history.push(newAppointmentFlow.visitType.url);
+    history.push(visitType.url);
   };
 }
 
 export default function VAAppointmentSection({ data, facility }) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { visitType } = useSelector(getNewAppointmentFlow);
+
   return (
     <>
       <PreferredDatesSection data={data} />
@@ -36,7 +38,7 @@ export default function VAAppointmentSection({ data, facility }) {
           </div>
           <div>
             <va-link
-              onClick={handleClick(history, dispatch)}
+              onClick={handleClick(history, dispatch, visitType)}
               text="Edit"
               aria-label="Edit how to be seen"
             />

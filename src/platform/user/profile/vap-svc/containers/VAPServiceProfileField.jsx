@@ -27,24 +27,16 @@ import {
 
 import VAPServiceProfileFieldHeading from '../components/base/VAPServiceProfileFieldHeading';
 import VAPServiceTransaction from '../components/base/VAPServiceTransaction';
+import ProfileInformationFieldController from '../components/ProfileInformationFieldController';
+import ContactInformationUpdateSuccessAlert from '../components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 class VAPServiceProfileField extends React.Component {
-  static propTypes = {
-    Content: PropTypes.func.isRequired,
-    data: PropTypes.object,
-    EditModal: PropTypes.func.isRequired,
-    field: PropTypes.object,
-    fieldName: PropTypes.string.isRequired,
-    isEditing: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired,
-    transaction: PropTypes.object,
-    transactionRequest: PropTypes.object,
-  };
-
-  static defaultProps = {
-    fieldName: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSuccessAlert: false,
+    };
+  }
 
   componentDidUpdate(prevProps) {
     const { transaction, showValidationModal, isEditing } = prevProps;
@@ -163,6 +155,7 @@ class VAPServiceProfileField extends React.Component {
 
   openEditModal = () => {
     this.props.openModal(this.props.fieldName);
+    this.setState(state => ({ ...state, showSuccessAlert: false }));
   };
 
   refreshTransaction = () => {
@@ -187,10 +180,13 @@ class VAPServiceProfileField extends React.Component {
     }
     return (
       !this.props.isEmpty &&
-      (!transactionPending ||
-        this.props.isEditing ||
-        this.props.showValidationModal)
+      !(this.props.isEditing || this.props.showValidationModal) &&
+      !transactionPending
     );
+  };
+
+  onSuccessfulSave = () => {
+    this.setState({ showSuccessAlert: true });
   };
 
   render() {
@@ -200,8 +196,6 @@ class VAPServiceProfileField extends React.Component {
       isEditing,
       isEmpty,
       Content,
-      EditModal,
-      ValidationModal,
       showValidationModal,
       title,
       transaction,
@@ -221,6 +215,8 @@ class VAPServiceProfileField extends React.Component {
       onSubmit: this.onSubmit,
     };
 
+    const shouldShowFields = isEditing || showValidationModal;
+
     return (
       <div className="vet360-profile-field" data-field-name={fieldName}>
         <VAPServiceProfileFieldHeading
@@ -229,41 +225,55 @@ class VAPServiceProfileField extends React.Component {
         >
           {title}
         </VAPServiceProfileFieldHeading>
-        {isEditing && <EditModal {...childProps} />}
-        {showValidationModal && (
-          <ValidationModal
-            transaction={transaction}
-            transactionRequest={transactionRequest}
-            title={title}
-            clearErrors={childProps.clearErrors}
-          />
+        {this.state.showSuccessAlert && (
+          <ContactInformationUpdateSuccessAlert fieldName={fieldName} />
         )}
-        <VAPServiceTransaction
-          isModalOpen={isEditing || showValidationModal}
-          id={`${fieldName}-transaction-status`}
-          title={title}
-          transaction={transaction}
-          transactionRequest={transactionRequest}
-          refreshTransaction={() =>
-            this.props.refreshTransaction(transaction, analyticsSectionName)
+        <div
+          className={
+            shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
           }
         >
-          {isEmpty ? (
-            <button
-              type="button"
-              onClick={this.onAdd}
-              className="va-button-link va-profile-btn"
-            >
-              Please add your {title.toLowerCase()}
-            </button>
-          ) : (
-            <Content {...childProps} />
-          )}
-        </VAPServiceTransaction>
+          <ProfileInformationFieldController
+            fieldName={fieldName}
+            isDeleteDisabled
+            successCallback={() => this.onSuccessfulSave()}
+            cancelCallback={() => this.onCancel()}
+          />
+        </div>
+        <div
+          className={
+            !shouldShowFields ? 'vads-u-display--block' : 'vads-u-display--none'
+          }
+        >
+          <VAPServiceTransaction
+            isModalOpen={isEditing || showValidationModal}
+            id={`${fieldName}-transaction-status`}
+            title={title}
+            transaction={transaction}
+            transactionRequest={transactionRequest}
+            refreshTransaction={() =>
+              this.props.refreshTransaction(transaction, analyticsSectionName)
+            }
+          >
+            {!isEmpty && <Content {...childProps} />}
+          </VAPServiceTransaction>
+        </div>
       </div>
     );
   }
 }
+
+VAPServiceProfileField.propTypes = {
+  Content: PropTypes.func.isRequired,
+  fieldName: PropTypes.string.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  isEmpty: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  data: PropTypes.object,
+  field: PropTypes.object,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+};
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
@@ -275,7 +285,6 @@ export const mapStateToProps = (state, ownProps) => {
   const isEmpty = !data;
   const { addressValidationType } = state.vapService.addressValidation;
   const showValidationModal =
-    ownProps.ValidationModal &&
     addressValidationType === fieldName &&
     selectCurrentlyOpenEditModal(state) === 'addressValidation';
 
@@ -305,7 +314,6 @@ const mapDispatchToProps = {
  * Container used to easily create components for VA Profile Service-backed contact information.
  * @property {string} fieldName The name of the property as it appears in the user.profile.vapContactInfo object.
  * @property {func} Content The component used to render the read-display of the field.
- * @property {func} EditModal The component used to render the contents of the field's edit-modal.
  * @property {string} title The field name converted to a visible display, such as for labels, modal titles, etc. Example: "mailingAddress" passes "Mailing address" as the title.
  * @property {string} apiRoute The API route used to create/update/delete the Vet360 field.
  * @property {func} convertNextValueToCleanData A function called to derive or make changes to form values after form values are changed in the edit-modal. Called prior to validation.
@@ -317,12 +325,10 @@ const VAPServiceProfileFieldContainer = connect(
 )(VAPServiceProfileField);
 
 VAPServiceProfileFieldContainer.propTypes = {
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   Content: PropTypes.func.isRequired,
-  EditModal: PropTypes.func.isRequired,
-  ValidationModal: PropTypes.func,
-  title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  title: PropTypes.string.isRequired,
   convertCleanDataToPayload: PropTypes.func,
   deleteDisabled: PropTypes.bool,
 };

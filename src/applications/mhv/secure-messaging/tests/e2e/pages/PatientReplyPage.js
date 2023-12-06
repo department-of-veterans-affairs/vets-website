@@ -39,7 +39,9 @@ class PatientReplyPage {
       }/replydraft`,
       replyMessage,
     ).as('replyDraftMessage');
-    cy.get('[data-testid="Save-Draft-Button"]').click();
+    cy.get('[data-testid="Save-Draft-Button"]').click({
+      waitForAnimations: true,
+    });
     cy.wait('@replyDraftMessage').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -54,7 +56,7 @@ class PatientReplyPage {
         );
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
-        expect(message.body).to.contain(`\n\n\nName\nTitle`);
+        expect(message.body).to.contain(replyMessageBody);
         // data-testid="Save-Draft-Button"
         // Your message was saved on February 17, 2023 at 12:21 p.m. CST.
       });
@@ -106,11 +108,15 @@ class PatientReplyPage {
       .find('[name="reply-message-body"]');
   };
 
-  verifySendMessageConfirmationMessage = () => {
-    cy.get('.vads-u-margin-bottom--1').should(
+  verifySendMessageConfirmationMessageText = () => {
+    cy.get('va-alert').should(
       'have.text',
       'Secure message was successfully sent.',
     );
+  };
+
+  verifySendMessageConfirmationHasFocus = () => {
+    cy.get('va-alert').should('have.focus');
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
@@ -123,7 +129,7 @@ class PatientReplyPage {
           'have.text',
           `Date: ${dateFormat(
             messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY, h:mm a z',
+            'MMMM D, YYYY [at] h:mm a z',
           )}`,
         );
     } else {
@@ -133,11 +139,36 @@ class PatientReplyPage {
           'have.text',
           `${dateFormat(
             messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY [at] h:mm a z',
+            'MMMM D, YYYY, [at] h:mm a z',
           )}`,
         );
     }
   };
+
+  verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('h1')
+      .should('have.text', "We can't save this message yet");
+
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button')
+      .should('have.attr', 'text', 'Continue editing');
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button[secondary]')
+      .should('have.attr', 'text', 'Delete draft');
+  };
+
+  verifyContnueButtonMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button')
+      .should('have.attr', 'text', 'Continue editing');
+  };
+
+  verifyDeleteButtonMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button[secondary]')
+      .should('have.attr', 'text', 'Delete draft');
+  };
 }
 
-export default PatientReplyPage;
+export default new PatientReplyPage();

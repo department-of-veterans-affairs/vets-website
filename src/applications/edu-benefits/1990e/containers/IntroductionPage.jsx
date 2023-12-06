@@ -1,6 +1,5 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
@@ -131,10 +130,10 @@ export class IntroductionPage extends React.Component {
             startText="Start the education application"
           />
           <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-            <OMBInfo
-              resBurden={15}
-              ombNumber="2900-0154"
-              expDate="03/31/2026"
+            <va-omb-info
+              res-burden={15}
+              omb-number="2900-0154"
+              exp-date="03/31/2026"
             />
           </div>
         </div>

@@ -10,7 +10,6 @@ Mission: Make it easier for Veterans to apply for enrollment in VA health-relate
 
 ## Approval Groups
 
-- [Benefits Team 1](https://github.com/orgs/department-of-veterans-affairs/teams/benefits-team-1-frontend)
 - [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
 
 ## Project Documentation

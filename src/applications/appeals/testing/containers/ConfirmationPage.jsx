@@ -26,6 +26,8 @@ export const ConfirmationPage = ({ data }) => {
 
   return (
     <div>
+      <div name="topScrollElement" />
+      <div name="topNavScrollElement" />
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"

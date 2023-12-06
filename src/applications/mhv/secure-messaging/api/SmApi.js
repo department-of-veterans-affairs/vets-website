@@ -94,38 +94,6 @@ export const getMessageCategoryList = () => {
 };
 
 /**
- * Get the list of messages in the specified folder.
- * @param {Long} folderId
- * @returns
- */
-export const getMessageList = folderId => {
-  return apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=-1&useCache=false`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-};
-
-/**
- * Get the list of messages in the specified folder.
- * @param {Long} folderId
- * @returns
- */
-export const getMessageListAll = folderId => {
-  return apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=-1`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-};
-
-/**
  * Get a single message.
  * @param {Long} messageId
  * @returns
@@ -136,23 +104,6 @@ export const getMessage = messageId => {
       'Content-Type': 'application/json',
     },
   });
-};
-
-/**
- * Get a single attachment
- * @param {Long} messageId
- * @param {Long} attachmentId
- * @returns
- */
-export const getAttachment = (messageId, attachmentId) => {
-  return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/attachments/${attachmentId}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
 };
 
 /**
@@ -287,19 +238,6 @@ export const deleteMessage = messageId => {
 };
 
 /**
- * Get message history.
- * @param {Long} messageId
- * @returns
- */
-export const getMessageHistory = messageId => {
-  return apiRequest(`${apiBasePath}/messaging/messages/${messageId}/thread`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-};
-
-/**
  * Get message thread.
  * @param {Long} threadId
  * @returns
@@ -389,12 +327,24 @@ export const getTriageTeamList = () => {
 };
 
 /**
+ * Get a list of all recipients in triage teams.
+ * @returns
+ */
+export const getAllRecipients = () => {
+  return apiRequest(`${apiBasePath}/messaging/allrecipients`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+/**
  * Search a folder for messages based on criteria
  * @param {Int} folderId
  * @param {Object} query
  * @returns
  */
-export const searchFolderAdvanced = (folderId = 0, query) => {
+export const searchFolderAdvanced = (folderId, query) => {
   return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
     method: 'POST',
     headers: {

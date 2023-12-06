@@ -3,6 +3,10 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 export const APP_NAME = 'Higher-Level Review';
 
+export const DATA_DOG_ID = '321995f8-5fed-4b4f-907b-e3f5ec34c28f';
+export const DATA_DOG_TOKEN = 'pub780eb728ff6dc0306d17cbb08743f86b';
+export const DATA_DOG_SERVICE = 'benefits---higher-level-review';
+
 // *** URLS ***
 export const HLR_INFO_URL = '/decision-reviews/higher-level-review/';
 // Same as "rootUrl" in manifest.json
@@ -57,14 +61,9 @@ export const errorMessages = {
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
-// contested issue dates
-export const FORMAT_YMD = 'YYYY-MM-DD';
-export const FORMAT_READABLE = 'LL';
-
 // session storage keys
 export const SAVED_CLAIM_TYPE = 'hlrClaimType';
 export const WIZARD_STATUS = 'wizardStatus996';
-export const REVIEW_ISSUES = 'onReviewPageIssues';
 
 // Values from benefitTypes in vets-json-schema constants
 const supportedBenefitTypes = [
@@ -78,8 +77,6 @@ const supportedBenefitTypes = [
   // 'insurance',
   // 'nca',
 ];
-
-export const LEGACY_TYPE = 'legacyAppeal';
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
@@ -97,6 +94,5 @@ export const CONFERENCE_TIMES_V2 = {
   },
 };
 
-export const CONTESTABLE_ISSUES_PATH = 'contestable-issues'; // v2
 export const CONTACT_INFO_PATH = 'contact-information';
 export const ADD_ISSUE_PATH = 'add-issue';

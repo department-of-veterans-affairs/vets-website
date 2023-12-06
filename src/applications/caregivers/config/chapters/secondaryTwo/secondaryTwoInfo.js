@@ -6,7 +6,7 @@ import {
   genderUI,
   fullNameUI,
   customFieldSchemaUI,
-  dateOfBirthUI,
+  dobUI,
   addressWithoutCountryUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { secondaryTwoInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
@@ -34,7 +34,7 @@ const secondaryTwoInfoPage = {
     // secondaryTwo UI
     [secondaryTwoFields.fullName]: extendedNameUI,
     [secondaryTwoFields.ssn]: ssnUI(secondaryTwoInputLabel),
-    [secondaryTwoFields.dateOfBirth]: dateOfBirthUI(secondaryTwoInputLabel),
+    [secondaryTwoFields.dateOfBirth]: dobUI(secondaryTwoInputLabel),
     [secondaryTwoFields.gender]: genderUI(secondaryTwoInputLabel),
     [secondaryTwoFields.address]: addressWithoutCountryUI(
       secondaryTwoInputLabel,

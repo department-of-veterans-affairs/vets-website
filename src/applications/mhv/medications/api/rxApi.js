@@ -5,8 +5,19 @@ import {
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
-export const getPrescriptionList = () => {
-  return apiRequest(`${apiBasePath}/prescriptions?page=1&per_page=999`, {
+export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+export const getPrescriptionSortedList = sortEndpoint => {
+  return apiRequest(`${apiBasePath}/prescriptions?${sortEndpoint}`, {
     headers: {
       'Content-Type': 'application/json',
     },

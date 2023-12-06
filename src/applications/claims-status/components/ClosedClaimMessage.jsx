@@ -1,22 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {
-  format,
-  getUnixTime,
-  isAfter,
-  isValid,
-  parseISO,
-  startOfDay,
-  subDays,
-} from 'date-fns';
+import { getUnixTime, isAfter, parseISO, startOfDay, subDays } from 'date-fns';
 import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
 
+import { DATE_FORMATS } from '../constants';
 import { appealTypes } from '../utils/appeals-v2-helpers';
-import { getClaimType } from '../utils/helpers';
+import { buildDateFormatter, getClaimType } from '../utils/helpers';
 
 // HELPERS
 const isAppeal = claim => appealTypes.includes(claim.type);
@@ -95,18 +88,12 @@ const getClaimDate = claim => {
 };
 // END lighthouse_migration
 
-const formatDate = date => {
-  const parsedDate = parseISO(date);
-
-  return isValid(parsedDate)
-    ? format(parsedDate, 'MMMM d, yyyy')
-    : 'Invalid date';
-};
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 const getLinkText = claim => {
   const claimType = isAppeal(claim)
     ? 'Compensation Appeal'
-    : getClaimType(claim);
+    : getClaimType(claim).toLowerCase();
   return `Your ${claimType} Received ${formatDate(getClaimDate(claim))}`;
 };
 

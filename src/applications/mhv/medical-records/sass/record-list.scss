@@ -1,7 +1,9 @@
 .record-list-item {
-  line-height: 2;
-  max-width: 486px;
+  line-height: 1.5;
 
+  h3 {
+    margin: 0;
+  }
   h4 {
     line-height: 1.5;
   }
@@ -18,9 +20,6 @@
     -webkit-box-orient: vertical;
     white-space: normal;
   }
-  .field-label {
-    display: inline-block;
-  }
 }
 
 @media print {
@@ -29,18 +28,10 @@
     border-bottom: 2px solid $color-black !important;
     border-radius: 0px;
     background-color: $color-white !important;
-  }
-  .fields {
-    * {
-      line-height: 2;
-    }
-    padding: 0px 16px;
-    .field-label {
-      font-weight: 600;
+    max-width: none;
+    padding: 16px 0px 24px;
+    h3 {
+      margin-bottom: 16px;
     }
   }
-}
-
-.pagination {
-  max-width: 486px;
 }

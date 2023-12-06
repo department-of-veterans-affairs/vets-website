@@ -192,7 +192,7 @@ export const searchCriteriaFromCoords = async (longitude, latitude) => {
 };
 
 export const schoolSize = enrollment => {
-  if (!enrollment) return 'Unknown';
+  if (!enrollment || !Number.isInteger(enrollment)) return 'Unknown';
   if (enrollment <= 2000) {
     return 'Small';
   }

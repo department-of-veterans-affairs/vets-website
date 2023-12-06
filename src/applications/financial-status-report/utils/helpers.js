@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
-import { get } from 'lodash';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { deductionCodes } from '../constants/deduction-codes';
+import { ignoreFields } from '../constants/ignoreFields';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -24,6 +24,18 @@ export const enhancedFSRFeatureToggle = state => {
 export const streamlinedWaiverFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiver
+  ];
+};
+
+export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiverAssets
+  ];
+};
+
+export const reviewPageNavigationFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportReviewPageNavigation
   ];
 };
 
@@ -127,6 +139,13 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
+// safeNumber will return 0 if input is null, undefined, or NaN
+export const safeNumber = input => {
+  if (!input) return 0;
+  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
+  return Number.isNaN(num) ? 0 : num;
+};
+
 export const fsrReasonDisplay = resolutionOption => {
   switch (resolutionOption) {
     case 'monthly':
@@ -171,45 +190,6 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
         additionalComments !== undefined ? additionalComments : ''
       }\n${individualExpensesStr}`
     : additionalComments;
-};
-
-export const getMonthlyExpenses = ({
-  expenses,
-  otherExpenses,
-  utilityRecords,
-  installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
-}) => {
-  const utilities = enhancedFSRActive
-    ? sumValues(utilityRecords, 'amount')
-    : sumValues(utilityRecords, 'monthlyUtilityAmount');
-  const installments = sumValues(installmentContracts, 'amountDueMonthly');
-  const otherExp = sumValues(otherExpenses, 'amount');
-  const creditCardBills = sumValues(
-    expenses?.creditCardBills,
-    'amountDueMonthly',
-  );
-  // efsr note: food is included in otherExpenses
-  const food = Number(get(expenses, 'food', 0));
-  // efsr note: Rent & Mortgage is included in expenseRecords
-  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
-
-  const calculatedExpenseRecords =
-    expenses?.expenseRecords?.reduce(
-      (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-      0,
-    ) ?? 0;
-
-  return (
-    utilities +
-    installments +
-    otherExp +
-    calculatedExpenseRecords +
-    food +
-    rentOrMortgage +
-    creditCardBills
-  );
 };
 
 export const getTotalAssets = ({
@@ -376,4 +356,13 @@ export const generateUniqueKey = (data, fields, index = null) => {
     keyParts.push(index);
   }
   return keyParts.join('-');
+};
+
+export const firstLetterLowerCase = str => {
+  if (!str || str.length === 0) return '';
+  // Check if the string is in the ignoreFields array
+  if (ignoreFields.includes(str)) {
+    return str;
+  }
+  return str.charAt(0).toLowerCase() + str.slice(1);
 };

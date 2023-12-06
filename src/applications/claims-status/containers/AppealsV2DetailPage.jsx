@@ -8,7 +8,7 @@ const AppealsV2DetailPage = ({ appeal }) => {
   const isAppeal =
     appeal.type === APPEAL_TYPES.appeal || appeal.type === APPEAL_TYPES.legacy;
   return (
-    <div aria-labelledby="tabv2detail" id="tabPanelv2detail" role="tabpanel">
+    <div id="tabPanelv2detail">
       <Issues issues={issues} isAppeal={isAppeal} />
     </div>
   );

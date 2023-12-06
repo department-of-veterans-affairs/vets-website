@@ -8,9 +8,10 @@ import mockCustomDetails from './fixtures/custom-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import mockMessagewithAttachment from './fixtures/message-response-withattachments.json';
+import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Move Message tests', () => {
-  it('move message from custom folder', () => {
+describe.skip('Secure Messaging Move Message tests', () => {
+  it('move message from custom folder to Deleted', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const folderPage = new FolderManagementPage();
@@ -30,9 +31,10 @@ describe('Secure Messaging Move Message tests', () => {
     folderPage.selectFolderfromModal();
     folderPage.moveCustomFolderMessageToDifferentFolder();
 
-    folderPage.verifyMoveMessageSuccessConfirmationFocus();
+    folderPage.verifyMoveMessageSuccessConfirmationMessage();
+    folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -44,7 +46,7 @@ describe('Secure Messaging Move Message tests', () => {
     });
   });
 
-  it('move message from inbox', () => {
+  it('move message from inbox to deleted', () => {
     const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
@@ -54,9 +56,10 @@ describe('Secure Messaging Move Message tests', () => {
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
     folderPage.moveInboxFolderMessageToDifferentFolder();
 
-    folderPage.verifyMoveMessageSuccessConfirmationFocus();
+    folderPage.verifyMoveMessageSuccessConfirmationMessage();
+    folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

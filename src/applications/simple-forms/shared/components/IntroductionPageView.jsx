@@ -16,13 +16,14 @@ export const IntroductionPageView = ({
   const {
     formTitle,
     formSubTitle,
+    hideSipIntro = false, // show <SaveInProgressIntro> by default
     authStartFormText,
     saveInProgressText,
     unauthStartText,
     displayNonVeteranMessaging = false,
     verifiedPrefillAlert = null,
   } = content;
-  const { resBurden, ombNumber, expDate } = ombInfo;
+  const { resBurden, ombNumber, expDate, customPrivacyActStmt } = ombInfo;
 
   useEffect(() => {
     focusElement(breadcrumbsRef.current);
@@ -32,26 +33,39 @@ export const IntroductionPageView = ({
     <article className="schemaform-intro">
       <FormTitle title={formTitle} subTitle={formSubTitle} />
       {childContent}
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText={authStartFormText}
-        unauthStartText={unauthStartText}
-        displayNonVeteranMessaging={displayNonVeteranMessaging}
-        verifiedPrefillAlert={verifiedPrefillAlert}
-        formConfig={formConfig}
-      >
-        {saveInProgressText}
-      </SaveInProgressIntro>
+      {!hideSipIntro && (
+        <SaveInProgressIntro
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText={authStartFormText}
+          unauthStartText={unauthStartText}
+          displayNonVeteranMessaging={displayNonVeteranMessaging}
+          verifiedPrefillAlert={verifiedPrefillAlert}
+          formConfig={formConfig}
+          hideUnauthedStartLink={formConfig.hideUnauthedStartLink ?? false}
+        >
+          {saveInProgressText}
+        </SaveInProgressIntro>
+      )}
       {additionalChildContent || null}
       <p />
-      <va-omb-info
-        res-burden={resBurden}
-        omb-number={ombNumber}
-        exp-date={expDate}
-      />
+      {!customPrivacyActStmt ? (
+        <va-omb-info
+          res-burden={resBurden}
+          omb-number={ombNumber}
+          exp-date={expDate}
+        />
+      ) : (
+        <va-omb-info
+          res-burden={resBurden}
+          omb-number={ombNumber}
+          exp-date={expDate}
+        >
+          {customPrivacyActStmt}
+        </va-omb-info>
+      )}
     </article>
   );
 };

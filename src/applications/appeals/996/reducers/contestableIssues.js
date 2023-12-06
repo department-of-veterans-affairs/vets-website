@@ -3,10 +3,9 @@ import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../actions';
-import {
-  getEligibleContestableIssues,
-  getLegacyAppealsLength,
-} from '../utils/helpers';
+import { getEligibleContestableIssues } from '../utils/helpers';
+
+import { getLegacyAppealsLength } from '../../shared/utils/issues';
 
 const initialState = {
   issues: [],
@@ -14,7 +13,7 @@ const initialState = {
   error: '',
 };
 
-export default function contestableIssues(state = initialState, action) {
+export default function contestableIssues(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_CONTESTABLE_ISSUES_INIT: {
       return {

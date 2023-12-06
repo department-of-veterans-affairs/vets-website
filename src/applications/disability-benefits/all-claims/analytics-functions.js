@@ -17,12 +17,22 @@ const recordMissingField = name =>
   );
 
 export default {
+  /**
+   * Records a missing field event once when claim type is not specified
+   * @param {Object} formData - Full formData for the form
+   */
   claimType: formData => {
-    if (objectIsEmpty(formData, 'view:claimType'))
+    if (objectIsEmpty(formData, 'view:claimType')) {
       recordMissingField(
         'Disability - Form 526EZ - Military Service - Start Date',
       );
+    }
   },
+  /**
+   * Records a missing field event when the military service history items are
+   * missing a start date or end date
+   * @param {Object} formData - Full formData for the form
+   */
   militaryHistory: formData => {
     const servicePeriods = get(
       'serviceInformation.servicePeriods',
@@ -38,18 +48,31 @@ export default {
         'Disability - Form 526EZ - Military Service - End Date',
       );
   },
+  /**
+   * Records missing field event if unemployability upload choice is not specified
+   * @param {Object} formData - Full formData for the form
+   */
   unemployabilityFormIntro: formData => {
     if (!get('view:unemployabilityUploadChoice', formData))
       recordMissingField(
         'Disability - Form 526EZ - Unemployability Walkthrough - Choice',
       );
   },
+  /**
+   * Records missing field event when 4192 upload choice is not specified
+   * @param {Object} formData - Full formData for the form
+   */
   pastEmploymentFormIntro: formData => {
     if (objectIsEmpty(formData, 'view:upload4192Choice'))
       recordMissingField(
         'Disability - Form 526EZ - Past Employment Walkthrough - Choice',
       );
   },
+  /**
+   * Records missing field events for account type, account number, routing
+   * number or bank name
+   * @param {Object} formData - Full formData for the form
+   */
   paymentInformation: formData => {
     const paymentInformation = get('view:bankAccount', formData);
     if (paymentInformation && !objectIsEmpty(paymentInformation)) {
@@ -71,6 +94,10 @@ export default {
         );
     }
   },
+  /**
+   * Records missing field events when various housing situation data is missing
+   * @param {Object} formData - Full formData for the form
+   */
   homelessOrAtRisk: formData => {
     // Much of the logic in here to get when a field is required is duplicated from the homelessness page
     const isHomeless =
@@ -93,13 +120,13 @@ export default {
 
     if (isHomelessOrAtRisk) {
       const contact = formData.homelessnessContact;
-      if (!contact.name)
+      if (!contact?.name)
         recordMissingField(
           `Disability - Form 526EZ - Housing Situation - ${
             isHomeless ? 'Homeless' : 'At Risk'
           } Contact Name`,
         );
-      if (!contact.phoneNumber)
+      if (!contact?.phoneNumber)
         recordMissingField(
           `Disability - Form 526EZ - Housing Situation - ${
             isHomeless ? 'Homeless' : 'At Risk'

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { formatAddress } from '~/platform/forms/address/helpers';
@@ -54,12 +53,14 @@ const ProfileInformationView = props => {
   }
 
   if (phoneNumbers.includes(fieldName)) {
+    const number = `${data.areaCode}${data.phoneNumber}`;
     return (
       <div>
-        <Telephone
-          contact={`${data.areaCode}${data.phoneNumber}`}
+        <va-telephone
+          data-testid="phoneNumber"
+          contact={number}
           extension={data.extension}
-          notClickable
+          not-clickable
         />
       </div>
     );

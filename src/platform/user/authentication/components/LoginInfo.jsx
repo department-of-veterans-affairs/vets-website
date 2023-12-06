@@ -1,5 +1,4 @@
 import React from 'react';
-import FedWarning from 'platform/user/authentication/components/FedWarning';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 export default () => (
@@ -30,7 +29,6 @@ export default () => (
           <SubmitSignInForm startSentence /> We're here 24/7.
         </p>
       </div>
-      <FedWarning />
     </div>
   </div>
 );

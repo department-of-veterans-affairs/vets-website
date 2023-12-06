@@ -6,7 +6,8 @@ import {
 } from '../content/extensionReason';
 import { extensionReason } from '../validations/issues';
 import { showExtensionReason } from '../utils/helpers';
-import { MAX_LENGTH } from '../constants';
+
+import { MAX_LENGTH } from '../../shared/constants';
 
 const requestExtension = {
   uiSchema: {
@@ -33,7 +34,7 @@ const requestExtension = {
     properties: {
       extensionReason: {
         type: 'string',
-        maxLength: MAX_LENGTH.EXTENSION_REASON,
+        maxLength: MAX_LENGTH.NOD_EXTENSION_REASON,
       },
     },
   },

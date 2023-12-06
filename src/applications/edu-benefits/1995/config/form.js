@@ -1,23 +1,23 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 
-import { transform } from '../submit-transformer';
-import { prefillTransformer } from '../prefill-transformer';
-import submitForm from '../submitForm';
-
-import { urlMigration } from '../../config/migrations';
-
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { transform } from './submit-transformer';
+import { prefillTransformer } from './prefill-transformer';
+import submitForm from './submitForm';
+
+import { urlMigration } from '../../config/migrations';
+
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { chapters } from './chapters';
 
 import manifest from '../manifest.json';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 const {
   preferredContactMethod,
@@ -64,7 +64,11 @@ const formConfig = {
   },
   title: 'Change your education benefits',
   subTitle: 'Form 22-1995',
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,

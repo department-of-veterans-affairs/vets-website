@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { readableList } from '../utils/helpers';
-import { getDate } from '../utils/dates';
+import { getDate } from '../../shared/utils/dates';
 
 import {
-  FORMAT_COMPACT,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
@@ -16,6 +16,8 @@ import {
   ATTACHMENTS_OTHER,
   LIMITATION_KEY,
 } from '../constants';
+
+import { FORMAT_COMPACT } from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',
@@ -103,12 +105,27 @@ export const VaContent = ({
           return (
             <li key={locationAndName + index} className={listClassNames}>
               <div className={hasErrors ? errorClassNames : ''}>
-                {errors.name || <Header6>{locationAndName}</Header6>}
-                <div>{errors.issues || readableList(issues)}</div>
+                {errors.name || (
+                  <Header6
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="VA location name"
+                  >
+                    {locationAndName}
+                  </Header6>
+                )}
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="VA location treated issues"
+                >
+                  {errors.issues || readableList(issues)}
+                </div>
                 {errors.dates || (
-                  <>
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="VA location date range"
+                  >
                     {errors.from || fromDate} – {errors.to || toDate}
-                  </>
+                  </div>
                 )}
                 {!reviewMode && (
                   <div>
@@ -206,13 +223,28 @@ export const PrivateContent = ({
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
               <div className={hasErrors ? errorClassNames : ''}>
-                {errors.name || <Header6>{providerFacilityName}</Header6>}
-                <div>{errors.issues || readableList(issues)}</div>
-                {errors.address}
+                {errors.name || (
+                  <Header6
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="Private facility name"
+                  >
+                    {providerFacilityName}
+                  </Header6>
+                )}
+                <div
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="Private facility treated issues"
+                >
+                  {errors.issues || readableList(issues)}
+                </div>
+                <div>{errors.address}</div>
                 {errors.dates || (
-                  <>
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="Private facility treatment date range"
+                  >
                     {errors.from || fromDate} – {errors.to || toDate}
-                  </>
+                  </div>
                 )}
                 {!reviewMode && (
                   <div>
@@ -306,7 +338,12 @@ export const UploadContent = ({
       <ul className="evidence-summary">
         {list.map((upload, index) => (
           <li key={upload.name + index} className={listClassNames}>
-            <Header6>{upload.name}</Header6>
+            <Header6
+              className="dd-privacy-hidden"
+              data-dd-action-name="Uploaded document file name"
+            >
+              {upload.name}
+            </Header6>
             <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
             {!reviewMode && (
               <div>

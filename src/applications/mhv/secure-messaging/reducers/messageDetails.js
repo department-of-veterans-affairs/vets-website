@@ -60,7 +60,6 @@ export const messageDetailsReducer = (state = initialState, action) => {
     case Actions.Message.MOVE_FAILED: {
       return {
         ...state,
-        error: action.response,
         isLoading: false,
       };
     }

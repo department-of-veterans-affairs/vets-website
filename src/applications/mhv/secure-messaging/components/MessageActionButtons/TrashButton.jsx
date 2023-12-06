@@ -55,10 +55,11 @@ const TrashButton = props => {
 
   return (
     props.visible && (
-      <li key="trash">
+      <>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary small-screen:vads-u-flex--3"
+          style={{ minWidth: '100px' }}
           onClick={() => {
             setIsDeleteVisible(true);
           }}
@@ -75,7 +76,7 @@ const TrashButton = props => {
           </span>
         </button>
         {isDeleteVisible && deleteMessageModal()}
-      </li>
+      </>
     )
   );
 };

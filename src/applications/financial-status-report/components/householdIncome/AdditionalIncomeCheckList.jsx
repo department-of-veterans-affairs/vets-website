@@ -10,11 +10,18 @@ const AdditionalIncomeCheckList = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, additionalIncome, questions } = data;
+  const {
+    gmtData,
+    additionalIncome,
+    questions,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
   // Calculate income properties as necessary
@@ -59,6 +66,23 @@ const AdditionalIncomeCheckList = ({
         });
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (
+      showReviewNavigation &&
+      !questions?.isMarried &&
+      !addlIncRecords?.length &&
+      reviewNavigation
+    ) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const isBoxChecked = option => {
     return addlIncRecords.some(incomeValue => incomeValue.name === option);
   };
@@ -67,12 +91,7 @@ const AdditionalIncomeCheckList = ({
   const prompt = 'Select any additional income you receive:';
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        goForward(data);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
@@ -112,9 +131,11 @@ AdditionalIncomeCheckList.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    reviewNavigation: PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 

@@ -1,18 +1,24 @@
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
-import ExternalLink from '../ExternalLink';
 import BackToHome from '../BackToHome';
-import { phoneNumbers } from '../../utils/appConstants';
+import HelpBlock from '../HelpBlock';
 
 const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
 
   const currentPage = getCurrentPageFromRouter();
+
+  const travelPages = [
+    'travel-pay',
+    'travel-address',
+    'travel-vehicle',
+    'travel-mileage',
+  ];
   return (
     <footer>
       <h2
@@ -21,43 +27,15 @@ const Footer = ({ router, isPreCheckIn }) => {
       >
         {t('need-help')}
       </h2>
-      {isPreCheckIn ? (
-        <div data-testid="pre-check-in-message">
-          <p>
-            <span className="vads-u-font-weight--bold">
-              {t(
-                'for-questions-about-your-appointment-or-if-you-have-a-health-related-concern',
-              )}
-            </span>{' '}
-            {t('call-your-va-provider')}
-            <br />
-            <ExternalLink href="/find-locations/" hrefLang="en">
-              {t('contact-your-va-provider')}
-            </ExternalLink>
-            .
-          </p>
-          <p>
-            <span className="vads-u-font-weight--bold">
-              {t('for-questions-or-help-with-pre-check-in')}
-            </span>{' '}
-            {t('please-call-our-myva411-main-information-line-at')}{' '}
-            <va-telephone contact={phoneNumbers.mainInfo} />{' '}
-            {t('and-select-0-were-here-24-7')}
-          </p>
-          <p>
-            {t('if-you-have-hearing-loss-call')}{' '}
-            <va-telephone contact="711" tty />.
-          </p>
+      {travelPages.includes(currentPage) ||
+      (currentPage && currentPage.includes('complete') && !isPreCheckIn) ? (
+        <div data-testid="check-in-message">
+          <HelpBlock travel />
         </div>
       ) : (
-        <p data-testid="day-of-check-in-message">
-          <Trans
-            i18nKey="for-questions-about-your-appointment"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
-        </p>
+        <div data-testid="check-in-message">
+          <HelpBlock />
+        </div>
       )}
       {currentPage === 'introduction' && (
         <p data-testid="intro-extra-message">
@@ -72,40 +50,6 @@ const Footer = ({ router, isPreCheckIn }) => {
           <va-telephone contact="988" /> {t('and-select-1')}
         </p>
       )}
-      {currentPage &&
-        currentPage.includes('complete') &&
-        !isPreCheckIn && (
-          <div data-testid="day-of-travel-extra-message">
-            <p>
-              <Trans
-                i18nKey="for-questions-about-travel-reimbursement"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-            </p>
-            <p>
-              <ExternalLink
-                href="/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
-                hrefLang="en"
-              >
-                {t('find-the-travel-contact-for-your-facility')}
-              </ExternalLink>
-            </p>
-            <p>
-              <Trans
-                i18nKey="or-call-our-BTSSS-toll-free-call-center"
-                components={[
-                  <va-telephone
-                    contact={phoneNumbers.btsssCallCenter}
-                    key={phoneNumbers.btsssCallCenter}
-                  />,
-                  <va-telephone contact="711" tty key="711" />,
-                ]}
-              />
-            </p>
-          </div>
-        )}
       <BackToHome />
     </footer>
   );

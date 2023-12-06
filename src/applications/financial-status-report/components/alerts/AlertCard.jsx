@@ -26,8 +26,8 @@ const AlertCard = ({ debtType }) => {
         </p>
         <p>
           If you continue having trouble viewing information about your{' '}
-          {`${debtType === DEBT_TYPES.DEBT ? 'debts' : 'copays'}`}, email us at{' '}
-          <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+          {`${debtType === DEBT_TYPES.DEBT ? 'debts' : 'copays'}`}, contact us
+          online through <a href="https://ask.va.gov">Ask VA</a>.
         </p>
       </va-alert>
       <a

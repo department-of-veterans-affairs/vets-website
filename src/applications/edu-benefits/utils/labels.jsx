@@ -105,6 +105,82 @@ export const benefitsLabels = {
   ),
 };
 
+export const benefitsLabelsUpdate = {
+  chapter33: (
+    <p>
+      Post-9/11 GI Bill (Chapter 33)
+      <br />
+      <a
+        aria-label="Learn more about Post-9/11 benefits"
+        href="/education/about-gi-bill-benefits/post-9-11/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
+  chapter33Description: (
+    <span className="vads-u-background-color--white vads-u-color--gray-dark">
+      When you choose to apply for your Post-9/11 benefit, you have to
+      relinquish (give up) 1 other benefit you may be eligible for. You’ll make
+      this decision on the next page.
+    </span>
+  ),
+  // 1995-STEM related
+  fryScholarship: (
+    <p>
+      Fry Scholarship (Chapter 33)
+      <br />
+      <a
+        aria-label="Learn more about Fry Scholarship benefits"
+        href="/education/survivor-dependent-benefits/fry-scholarship/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
+  chapter30: (
+    <p>
+      Montgomery GI Bill (MGIB-AD, Chapter 30)
+      <br />
+      <a
+        aria-label="Learn more about Montgomery GI Bill benefits"
+        href="/education/about-gi-bill-benefits/montgomery-active-duty/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
+  chapter1606: (
+    <p>
+      Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
+      <br />
+      <a
+        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
+        href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
+  transferOfEntitlement: (
+    <p>
+      Transfer of Entitlement Program (TOE)
+      <br />
+      <a
+        aria-label="Learn more about Transfer of Entitlement Program benefits"
+        href="/education/transfer-post-9-11-gi-bill-benefits/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
+};
+
 // The links and labels are different from the above
 export const survivorBenefitsLabels = {
   chapter35: (
@@ -208,4 +284,37 @@ export const directDepositWarning = (
       you to participate in EFT and address any questions or concerns you have.
     </p>
   </div>
+);
+
+const gaBankInfoHelpText = () => {
+  window.dataLayer.push({
+    event: 'edu-5490--form-help-text-clicked',
+    'help-text-label': 'What if I don’t have a bank account?',
+  });
+};
+
+export const bankInfoHelpText = (
+  <va-additional-info
+    trigger="What if I don’t have a bank account?"
+    onClick={gaBankInfoHelpText}
+  >
+    <span>
+      <p>
+        The{' '}
+        <a href="https://veteransbenefitsbanking.org/">
+          Veterans Benefits Banking Program (VBBP)
+        </a>{' '}
+        provides a list of Veteran-friendly banks and credit unions. They’ll
+        work with you to set up an account, or help you qualify for an account,
+        so you can use direct deposit. To get started, call one of the
+        participating banks or credit unions listed on the VBBP website. Be sure
+        to mention the Veterans Benefits Banking Program.
+      </p>
+      <p>
+        Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
+        subject to section 208.4, “all Federal payments made by an agency shall
+        be made by electronic funds transfer” (EFT).
+      </p>
+    </span>
+  </va-additional-info>
 );

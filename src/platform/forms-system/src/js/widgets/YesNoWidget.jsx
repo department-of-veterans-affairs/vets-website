@@ -87,7 +87,7 @@ YesNoWidget.propTypes = {
     widgetProps: PropTypes.shape({}),
     selectedProps: PropTypes.shape({}),
     enableAnalytics: PropTypes.bool,
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
     errorMessages: PropTypes.shape({}),
   }),
   value: PropTypes.bool,

@@ -304,6 +304,15 @@ describe('ShowPdfPassword', () => {
 
     expect($('va-text-input', container)).to.exist;
     expect($('va-button', container)).to.exist;
+    expect($('va-text-input[uswds]', container)).to.not.exist;
+    expect($('va-button[uswds]', container)).to.not.exist;
+  });
+  it('should render uswds components', () => {
+    const props = getProps();
+    const { container } = render(<ShowPdfPassword {...props} uswds />);
+
+    expect($('va-text-input[uswds]', container)).to.exist;
+    expect($('va-button[uswds]', container)).to.exist;
   });
   it('should show validation error', () => {
     const props = getProps();

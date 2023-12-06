@@ -1,5 +1,5 @@
 {
-  "appName": "21-10210 Lay/Witness Statement",
+  "appName": "Submit a lay or witness statement to support a VA claim",
   "entryFile": "./app-entry.jsx",
   "entryName": "10210-lay-witness-statement",
   "rootUrl": "/supporting-forms-for-claims/lay-witness-statement-form-21-10210",

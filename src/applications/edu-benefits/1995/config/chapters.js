@@ -1,6 +1,5 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
-import environment from 'platform/utilities/environment';
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
@@ -8,11 +7,15 @@ import createDirectDepositChangePageUpdate from '../../pages/directDepositChange
 
 import {
   benefitSelection,
+  benefitSelectionUpdate,
   dependents,
   militaryHistory,
   newSchool,
+  newSchoolUpdate,
   servicePeriods,
 } from '../pages';
+
+import { isProductionOfTestProdEnv } from '../helpers';
 
 export const chapters = {
   applicantInformation: {
@@ -36,8 +39,12 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: benefitSelection.uiSchema,
-        schema: benefitSelection.schema,
+        uiSchema: isProductionOfTestProdEnv()
+          ? benefitSelection.uiSchema
+          : benefitSelectionUpdate.uiSchema,
+        schema: isProductionOfTestProdEnv()
+          ? benefitSelection.schema
+          : benefitSelectionUpdate.schema,
       },
     },
   },
@@ -52,7 +59,7 @@ export const chapters = {
       },
       militaryHistory: {
         title: 'Military history',
-        depends: () => environment.isProduction(),
+        depends: () => isProductionOfTestProdEnv(),
         path: 'military/history',
         uiSchema: militaryHistory.uiSchema,
         schema: militaryHistory.schema,
@@ -69,8 +76,12 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchool.uiSchema,
-        schema: newSchool.schema,
+        uiSchema: isProductionOfTestProdEnv()
+          ? newSchool.uiSchema
+          : newSchoolUpdate.uiSchema,
+        schema: isProductionOfTestProdEnv()
+          ? newSchool.schema
+          : newSchoolUpdate.schema,
       },
       oldSchool: createOldSchoolPage(fullSchema1995),
     },
@@ -84,14 +95,14 @@ export const chapters = {
         path: 'personal-information/dependents',
         depends: form => {
           return (
-            environment.isProduction() &&
+            isProductionOfTestProdEnv() &&
             form['view:hasServiceBefore1978'] === true
           );
         },
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: environment.isProduction()
+      directDeposit: isProductionOfTestProdEnv()
         ? createDirectDepositChangePage(fullSchema1995)
         : createDirectDepositChangePageUpdate(fullSchema1995),
     },

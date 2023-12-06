@@ -5,9 +5,15 @@ import DeleteDraft from '../Draft/DeleteDraft';
 const ComposeFormActionButtons = ({
   onSend,
   onSaveDraft,
+  formPopulated,
+  setDeleteButtonClicked,
   cannotReply,
   draftId,
+  navigationError,
   setNavigationError,
+  setUnsavedNavigationError,
+  savedForm,
+  messageBody,
 }) => {
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
@@ -40,8 +46,14 @@ const ComposeFormActionButtons = ({
       {/* UCD requested to keep button even when not saved as draft */}
       <DeleteDraft
         draftId={draftId}
+        formPopulated={formPopulated}
+        navigationError={navigationError}
+        savedForm={savedForm}
         setNavigationError={setNavigationError}
+        setUnsavedNavigationError={setUnsavedNavigationError}
+        setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
+        messageBody={messageBody}
       />
     </div>
   );
@@ -50,7 +62,13 @@ const ComposeFormActionButtons = ({
 ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
+  formPopulated: PropTypes.bool,
+  messageBody: PropTypes.string,
+  navigationError: PropTypes.object,
+  savedForm: PropTypes.bool,
+  setDeleteButtonClicked: PropTypes.func,
   setNavigationError: PropTypes.func,
+  setUnsavedNavigationError: PropTypes.func,
   onSaveDraft: PropTypes.func,
   onSend: PropTypes.func,
 };

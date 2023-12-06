@@ -136,6 +136,12 @@ const PayrollDeductionChecklist = props => {
         onChange={event => onChange(event)}
         isBoxChecked={isBoxChecked}
       />
+      <va-additional-info trigger="How to find your monthly deductions" uswds>
+        <p className="vads-u-padding-bottom--1">
+          On your most recent pay stub, find <strong>Deductions</strong>. Select
+          the deductions that apply to you.
+        </p>
+      </va-additional-info>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

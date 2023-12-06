@@ -4,7 +4,6 @@ import BackLink from '../../../components/BackLink';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
-import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
 import CancelLink from './CancelLink';
 import StatusAlert from './StatusAlert';
@@ -16,7 +15,6 @@ import PhoneInstructions from './PhoneInstructions';
 import { selectTypeOfCareName } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
@@ -30,28 +28,20 @@ export default function DetailsVA({ appointment, facilityData }) {
   } = appointment.vaos;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isAppointmentCancellable = appointment.vaos.isCancellable;
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const showBackLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
-  );
 
   const typeOfCareName = selectTypeOfCareName(appointment);
   // we don't want to display the appointment type header for upcoming C&P appointments.
   const displayTypeHeader =
     !isCompAndPenAppointment ||
     (isCompAndPenAppointment && (isPastAppointment || canceled));
-
-  // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
-  // remove the check for isCovid when we migrate entirely to v2
   const ShowTypeOfCare = () => {
-    const typeOfCare = isCovid ? 'COVID-19 vaccine' : typeOfCareName;
     return (
-      !!typeOfCare && (
+      !!typeOfCareName && (
         <>
           {isCompAndPenAppointment && !isPastAppointment && !canceled ? (
             <>
               <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
-                {typeOfCare}
+                {typeOfCareName}
               </h2>
               <p className="vads-l-col--12 vads-u-margin-top--0 medium-screen:vads-l-col--8">
                 This appointment is for disability rating purposes only. It
@@ -65,7 +55,7 @@ export default function DetailsVA({ appointment, facilityData }) {
                 <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
                   Type of care:
                 </h2>
-                <div className="vads-u-display--inline"> {typeOfCare}</div>
+                <div className="vads-u-display--inline"> {typeOfCareName}</div>
               </>
             )
           )}
@@ -76,19 +66,7 @@ export default function DetailsVA({ appointment, facilityData }) {
 
   return (
     <>
-      {showBackLink ? (
-        <BackLink appointment={appointment} />
-      ) : (
-        <Breadcrumbs>
-          <a
-            href={`/health-care/schedule-view-va-appointments/appointments/va/${
-              appointment.id
-            }`}
-          >
-            Appointment detail
-          </a>
-        </Breadcrumbs>
-      )}
+      <BackLink appointment={appointment} />
       <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
@@ -120,7 +98,58 @@ export default function DetailsVA({ appointment, facilityData }) {
 }
 
 DetailsVA.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facilityData: PropTypes.object.isRequired,
-  useV2: PropTypes.bool,
+  appointment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    start: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+      isUpcomingAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
+      isCompAndPenAppointment: PropTypes.bool.isRequired,
+      isCOVIDVaccine: PropTypes.bool.isRequired,
+      isPhoneAppointment: PropTypes.bool.isRequired,
+      isCancellable: PropTypes.bool.isRequired,
+    }),
+    location: PropTypes.shape({
+      vistaId: PropTypes.string.isRequired,
+      clinicId: PropTypes.string.isRequired,
+      stationId: PropTypes.string.isRequired,
+      clinicName: PropTypes.string.isRequired,
+    }),
+  }),
+  facilityData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    vistaId: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
+};
+
+DetailsVA.defaultProps = {
+  appointment: {
+    id: '',
+    start: '',
+    comment: '',
+    vaos: {
+      isPastAppointment: false,
+      isUpcomingAppointment: false,
+      isPendingAppointment: false,
+      isVideo: false,
+      isAtlas: false,
+      extension: { patientHasMobileGfe: false },
+      kind: '',
+    },
+    location: {
+      vistaId: '',
+      clinicId: '',
+      stationId: '',
+      clinicName: '',
+    },
+  },
+  facilityData: {
+    id: '',
+    vistaId: '',
+    name: '',
+  },
 };

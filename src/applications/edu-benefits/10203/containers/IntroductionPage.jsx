@@ -1,6 +1,5 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -241,7 +240,11 @@ export class IntroductionPage extends React.Component {
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >
-          <OMBInfo resBurden={15} ombNumber="2900-0878" expDate="06/30/2023" />
+          <va-omb-info
+            res-burden={15}
+            omb-number="2900-0878"
+            exp-date="06/30/2026"
+          />
         </div>
       </div>
     );

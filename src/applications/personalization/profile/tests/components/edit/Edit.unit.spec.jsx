@@ -19,8 +19,7 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(await view.findByText('Add or update your mobile phone number')).to
-      .exist;
+    expect(await view.findByText('Add your mobile phone number')).to.exist;
 
     expect(await view.findByText('Mobile phone number (U.S. numbers only)')).to
       .exist;
@@ -74,7 +73,35 @@ describe('<Edit>', () => {
     expect(await view.findByText(/Back to profile/i)).to.exist;
 
     // since the fieldName is valid, we should still render the correct form
-    expect(await view.findByText('Add or update your mobile phone number')).to
+    expect(await view.findByText('Add your mobile phone number')).to.exist;
+  });
+
+  it('renders the "Update" heading when there is field data', async () => {
+    const initialStateWithData = {
+      featureToggles: {
+        [Toggler.TOGGLE_NAMES.profileUseFieldEditingPage]: true,
+      },
+      user: {
+        profile: {
+          vapContactInfo: {
+            mobilePhone: {
+              areaCode: '123',
+              phoneNumber: '4567890',
+            },
+          },
+        },
+      },
+    };
+
+    const viewWithData = renderWithStoreAndRouter(<Edit />, {
+      initialState: initialStateWithData,
+      reducers: { vapService },
+      path:
+        '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
+    });
+
+    // Assuming fieldData is not empty, heading should start with 'Update'
+    expect(await viewWithData.findByText('Update your mobile phone number')).to
       .exist;
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ContactDMC = () => (

@@ -1,32 +1,12 @@
 import React from 'react';
 
-import { MAX_LENGTH } from '../../10182/constants';
+import { MAX_LENGTH } from '../../shared/constants';
 
-const title = 'Reason for extension';
+const title = 'Tell us why you have a good cause for an extension';
 
 export const content = {
-  title: <h1 className="vads-u-margin-top--0">{title}</h1>,
-  description: (
-    <p className="vads-u-margin-top--0">
-      Tell us why you have good cause for an extension.
-    </p>
-  ),
+  title: <h1 className="vads-u-margin-y--0">{title}</h1>,
   label: 'Reason for requesting an extension:',
-  hint: `${MAX_LENGTH.EXTENSION_REASON} characters max.`,
+  hint: `${MAX_LENGTH.NOD_EXTENSION_REASON} characters max.`,
   errorMessage: 'This field cannot be left blank.',
 };
-
-export const ExtensionReasonReviewField = ({ children }) => (
-  <div className="review-row">
-    <dt>{title}</dt>
-    <dd>
-      {children?.props?.formData ? (
-        <span>Added reason for extension</span>
-      ) : (
-        <span className="usa-input-error-message">
-          Missing reason for extension
-        </span>
-      )}
-    </dd>
-  </div>
-);

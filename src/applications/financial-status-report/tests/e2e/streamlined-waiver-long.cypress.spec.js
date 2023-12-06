@@ -35,6 +35,10 @@ const testConfig = createTestConfig(
               name: 'financial_status_report_streamlined_waiver',
               value: true,
             },
+            {
+              name: 'financial_status_report_streamlined_waiver_assets',
+              value: false,
+            },
           ],
         },
       });
@@ -84,7 +88,10 @@ const testConfig = createTestConfig(
       },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(/How many dependents/).type('2');
+          cy.get('#dependent-count')
+            .shadow()
+            .find('input')
+            .type('2');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -148,7 +155,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.accordion-header').should('have.length', 4);
+          cy.get('va-accordion-item').should('have.length', 4);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')

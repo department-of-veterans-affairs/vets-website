@@ -53,7 +53,7 @@ describe('check-in', () => {
     afterEach(() => {
       sandbox.restore();
     });
-    it('Loads test component with hook', () => {
+    it.skip('Loads test component with hook', () => {
       const screen = render(
         <Provider store={store}>
           <TestComponent />

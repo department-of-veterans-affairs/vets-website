@@ -18,8 +18,8 @@ const CategoryInput = props => {
   const categories = useSelector(state => state.sm.categories.categories);
 
   const categoryChangeHandler = e => {
-    setCategory(e.detail.value || e.target.value);
-    if (e.detail.value || e.target.value) setCategoryError(null);
+    setCategory(e.detail.value);
+    if (e.detail.value) setCategoryError(null);
     setUnsavedNavigationError();
   };
 

@@ -36,6 +36,7 @@ export function submitTransformer(formConfig, form) {
     'veteranFullName',
     'veteranDateOfBirth',
     'veteranSocialSecurityNumber',
+    'gender',
   ];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
@@ -67,12 +68,11 @@ export function submitTransformer(formConfig, form) {
     withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
-  const newData =
-    JSON.stringify(withoutViewFields, (key, value) => {
-      // dont let dependents be removed in the normal empty value clean up
-      if (key === 'dependents') return value;
-      return stringifyFormReplacer(key, value);
-    }) || '{}';
+  const newData = JSON.stringify(withoutViewFields, (key, value) => {
+    // dont let dependents be removed in the normal empty value clean up
+    if (key === 'dependents') return value;
+    return stringifyFormReplacer(key, value);
+  });
 
   try {
     // eslint-disable-next-line no-undef

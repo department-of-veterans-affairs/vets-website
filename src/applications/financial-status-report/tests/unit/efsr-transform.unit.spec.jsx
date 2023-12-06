@@ -9,13 +9,13 @@ import {
   getFsrReason,
   filterReduceByName,
   otherDeductionsAmt,
-  getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
   otherDeductionsName,
   nameStr,
 } from '../../utils/helpers';
 import { getMonthlyIncome } from '../../utils/calculateIncome';
+import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 
 describe('efsr-fsr transform helper functions', () => {
   describe('efsr-dateFormatter helper', () => {
@@ -165,47 +165,31 @@ describe('efsr-fsr transform helper functions', () => {
 
   // depends on sumValues
   describe('efsr-getMonthlyExpenses helper', () => {
-    it('should return a number which is the sum total monthly expenses', () => {
+    it('should calculate the sum of total monthly expenses for enhanced financial status report', () => {
       const expenses = {
         'view:enhancedFinancialStatusReport': true,
         expenses: {
-          expenseRecords: [
-            {
-              name: 'Rent',
-              amount: '100',
-            },
-          ],
+          expenseRecords: [{ name: 'Rent', amount: '100' }],
         },
         otherExpenses: [
-          {
-            name: 'Food',
-            amount: '100',
-          },
-          {
-            name: 'Veteran added',
-            amount: '100',
-          },
+          { name: 'Food', amount: '100' },
+          { name: 'Veteran added', amount: '100' },
         ],
         utilityRecords: [
-          {
-            name: 'Electricity',
-            amount: '100',
-          },
-          {
-            name: 'Water',
-            amount: '100',
-          },
+          { name: 'Electricity', amount: '100' },
+          { name: 'Water', amount: '100' },
         ],
         installmentContracts: [
-          {
-            amountDueMonthly: '100',
-          },
-          {
-            amountDueMonthly: '100',
-          },
+          { amountDueMonthly: '100' },
+          { amountDueMonthly: '100' },
         ],
       };
-      expect(getMonthlyExpenses(expenses)).to.equal(700);
+
+      // Call the function to test
+      const result = getMonthlyExpenses(expenses);
+
+      // Expected result: 100 (Rent) + 100 (Food) + 100 (Veteran added) + 100 (Electricity) + 100 (Water) + 100 + 100 (Installment contracts) = 700
+      expect(result).to.equal(700);
     });
   });
 
@@ -811,51 +795,60 @@ describe('efsr-fsr transform information', () => {
     });
   });
   describe('efsr-expenses', () => {
-    it('has valid structure', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj).haveOwnProperty('expenses');
-      expect(submissionObj.expenses).to.be.an('object');
-      expect(submissionObj.expenses).haveOwnProperty('rentOrMortgage');
-      expect(submissionObj.expenses).haveOwnProperty('food');
-      expect(submissionObj.expenses).haveOwnProperty('utilities');
-      expect(submissionObj.expenses).haveOwnProperty('otherLivingExpenses');
-      expect(submissionObj.expenses.otherLivingExpenses).to.be.an('object');
-      expect(submissionObj.expenses).haveOwnProperty(
-        'expensesInstallmentContractsAndOtherDebts',
-      );
-      expect(submissionObj.expenses).haveOwnProperty('totalMonthlyExpenses');
+    let submissionObj;
+
+    beforeEach(() => {
+      submissionObj = JSON.parse(transform(null, inputObject));
     });
-    it('has valid data', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj.expenses.rentOrMortgage).to.equal('2000.53');
-      expect(submissionObj.expenses.food).to.equal('1000.54');
-      expect(submissionObj.expenses.utilities).to.equal('701.35');
-      expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
-        '195.25',
-      );
-      expect(
-        submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
-      ).to.equal('2000.64');
-      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('5898.31');
-    });
-    describe('efsr-other living expenses', () => {
-      it('has valid structure', () => {
-        const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(submissionObj.expenses.otherLivingExpenses).haveOwnProperty(
-          'name',
+
+    describe('structure validation', () => {
+      it('has valid overall structure', () => {
+        expect(submissionObj).haveOwnProperty('expenses');
+        expect(submissionObj.expenses).to.be.an('object');
+        expect(submissionObj.expenses).include.all.keys(
+          'rentOrMortgage',
+          'food',
+          'utilities',
+          'otherLivingExpenses',
+          'expensesInstallmentContractsAndOtherDebts',
+          'totalMonthlyExpenses',
         );
-        expect(submissionObj.expenses.otherLivingExpenses).haveOwnProperty(
-          'amount',
-        );
+        expect(submissionObj.expenses.otherLivingExpenses).to.be.an('object');
       });
-      it('has valid data', () => {
-        const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(submissionObj.expenses.otherLivingExpenses.name).to.equal(
-          'Clothing, Veteran added, Property tax',
-        );
+
+      describe('efsr-other living expenses structure', () => {
+        it('has valid structure', () => {
+          expect(submissionObj.expenses.otherLivingExpenses).include.all.keys(
+            'name',
+            'amount',
+          );
+        });
+      });
+    });
+
+    describe('data validation', () => {
+      it('has valid data for overall expenses', () => {
+        expect(submissionObj.expenses.rentOrMortgage).to.equal('2000.53');
+        expect(submissionObj.expenses.food).to.equal('1000.54');
+        expect(submissionObj.expenses.utilities).to.equal('701.35');
         expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
           '195.25',
         );
+        expect(
+          submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
+        ).to.equal('2000.64');
+        expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('5898.31');
+      });
+
+      describe('efsr-other living expenses data', () => {
+        it('has valid data', () => {
+          expect(submissionObj.expenses.otherLivingExpenses.name).to.equal(
+            'Clothing, Veteran added, Property tax',
+          );
+          expect(submissionObj.expenses.otherLivingExpenses.amount).to.equal(
+            '195.25',
+          );
+        });
       });
     });
   });

@@ -322,7 +322,7 @@ export function getArrayFields(data) {
 
     if (obj.type === 'object' && !isHiddenField(obj)) {
       Object.keys(obj.properties).forEach(prop => {
-        findArrays(obj.properties[prop], ui[prop], path.concat(prop));
+        findArrays(obj.properties?.[prop], ui?.[prop], path.concat(prop));
       });
     }
   };
@@ -367,7 +367,10 @@ export function getNonArraySchema(schema, uiSchema = {}) {
     };
   }
 
-  if (schema.type === 'object') {
+  if (
+    schema.type === 'object' &&
+    !get('ui:options.displayEmptyObjectOnReview', uiSchema)
+  ) {
     const newProperties = Object.keys(schema.properties).reduce(
       (current, next) => {
         const newSchema = getNonArraySchema(
@@ -525,7 +528,15 @@ export function createUSAStateLabels(states) {
  * for each item in an array
  */
 function generateArrayPages(arrayPages, data) {
-  const items = get(arrayPages[0].arrayPath, data) || [];
+  let items = get(arrayPages[0].arrayPath, data) || [];
+
+  if (!items.length && arrayPages[0].allowPathWithNoItems) {
+    // Add one item for the /0 path with empty data. The number
+    // of items is used to determine the number of pages to
+    // generate and the data isn't actually important
+    items = [{}];
+  }
+
   return (
     items
       .reduce(

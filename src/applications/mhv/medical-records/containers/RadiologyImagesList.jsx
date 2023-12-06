@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
 import PrintDownload from '../components/shared/PrintDownload';
 import PrintHeader from '../components/shared/PrintHeader';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import GenerateRadiologyPdf from '../components/LabsAndTests/GenerateRadiologyPdf';
+import DateSubheading from '../components/shared/DateSubheading';
 
 const RadiologyImagesList = () => {
   const dispatch = useDispatch();
+  const allowTxtDownloads = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
   const { labId } = useParams();
   const [currentImageCount, setCurrentImageCount] = useState(5);
   // const labAndTestDetails = useSelector(
@@ -54,24 +63,16 @@ const RadiologyImagesList = () => {
 
   useEffect(
     () => {
-      if (labAndTestDetails?.name) {
-        dispatch(
-          setBreadcrumbs(
-            [
-              {
-                url: `/my-health/medical-records/labs-and-tests/${labId}`,
-                label: labAndTestDetails?.name,
-              },
-            ],
-            {
-              url: `/my-health/medical-records/labs-and-tests/${labId}/images`,
-              label: `Images: ${labAndTestDetails?.name}`,
-            },
-          ),
-        );
-      }
+      dispatch(
+        setBreadcrumbs([
+          {
+            url: `/my-health/medical-records/labs-and-tests/${labId}`,
+            label: labAndTestDetails?.name,
+          },
+        ]),
+      );
     },
-    [labAndTestDetails, dispatch],
+    [labAndTestDetails?.name, labId, dispatch],
   );
 
   useEffect(
@@ -94,34 +95,14 @@ const RadiologyImagesList = () => {
           >
             Images: {labAndTestDetails.name}
           </h1>
-          <div className="time-header">
-            <h2
-              className="vads-u-font-size--base vads-u-font-family--sans"
-              id="radiology-date"
-            >
-              Date:{' '}
-              <span className="vads-u-font-weight--normal">
-                {formattedDate}
-              </span>
-            </h2>
-          </div>
+          <DateSubheading date={formattedDate} id="radiology-date" />
 
           <div className="no-print">
-            <PrintDownload download={download} />
-            <va-additional-info trigger="What to know about downloading records">
-              <ul>
-                <li>
-                  <strong>If you’re on a public or shared computer,</strong>{' '}
-                  print your records instead of downloading. Downloading will
-                  save a copy of your records to the public computer.
-                </li>
-                <li>
-                  <strong>If you use assistive technology,</strong> a Text file
-                  (.txt) may work better for technology such as screen reader,
-                  screen enlargers, or Braille displays.
-                </li>
-              </ul>
-            </va-additional-info>
+            <PrintDownload
+              download={download}
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
 
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">

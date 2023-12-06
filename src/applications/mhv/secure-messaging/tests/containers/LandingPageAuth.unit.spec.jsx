@@ -73,6 +73,7 @@ describe('Landing dashboard', () => {
   it('displays a View Inbox button', () => {
     const screen = setup();
     expect(screen.getByText(`Go to your inbox`)).to.exist;
+    expect(screen.getByText(`Start a new message`)).to.exist;
   });
 
   it('displays a Welcome message', () => {
@@ -98,5 +99,73 @@ describe('Landing dashboard', () => {
   it('displays a FAQ component', () => {
     const screen = setup();
     expect(screen.getByText(`Questions about using messages`)).to.exist;
+  });
+
+  it('displays a FAQ component with phase 1 copy if phase 1 is enabled', () => {
+    const customState = {
+      featureToggles: {},
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = true;
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: customState,
+      reducers: reducer,
+    });
+    expect(screen.queryByText(/Who can I send messages to?/)).to.exist;
+    expect(screen.queryByText(/Who can I communicate with in messages?/)).to.not
+      .exist;
+  });
+
+  it('displays a FAQ component with phase 1 copy if phase 1 is disabled', () => {
+    const customState = {
+      featureToggles: {},
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = false;
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: customState,
+      reducers: reducer,
+    });
+    expect(screen.queryByText(/Who can I send messages to?/)).to.not.exist;
+    expect(screen.queryByText(/Who can I communicate with in messages?/)).to
+      .exist;
+  });
+
+  it('displays a no-fees FAQ component if phase 1 is enabled', () => {
+    const customState = {
+      featureToggles: {},
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = true;
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: customState,
+      reducers: reducer,
+    });
+    expect(
+      screen.queryByText(
+        /Will I need to pay a copay for using this messaging tool?/,
+      ),
+    ).to.exist;
+    const allFAQs = screen.getAllByTestId('faq-accordion-item');
+    expect(allFAQs.length).to.equal(5);
+  });
+
+  it('does not display a no-fees FAQ component if phase 1 is disabled', () => {
+    const customState = {
+      featureToggles: {},
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = false;
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: customState,
+      reducers: reducer,
+    });
+    expect(
+      screen.queryByText(
+        /Will I need to pay a copay for using this messaging tool?/,
+      ),
+    ).to.not.exist;
+    const allFAQs = screen.getAllByTestId('faq-accordion-item');
+    expect(allFAQs.length).to.equal(4);
   });
 });

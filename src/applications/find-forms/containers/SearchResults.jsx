@@ -1,4 +1,3 @@
-// Dependencies.
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -7,10 +6,8 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
-
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
 import * as customPropTypes from '../prop-types';
 import {
   updateSortByPropertyNameThunk,
@@ -87,7 +84,6 @@ export const SearchResults = ({
 
   const setSortByPropertyNameState = formMetaInfo => state => {
     if (state?.value) {
-      // console.log('AA: ', state.value, ' | ', results);
       updateSortByPropertyName(state.value, results);
 
       recordEvent({
@@ -129,14 +125,12 @@ export const SearchResults = ({
     }
   };
 
-  // Show loading indicator if we are fetching.
   if (fetching) {
     return (
-      <va-loading-indicator setFocus message="Loading search results..." />
+      <va-loading-indicator set-focus message="Loading search results..." />
     );
   }
 
-  // Show the error alert box if there was an error.
   if (error) {
     return (
       <va-alert status="error">
@@ -146,7 +140,6 @@ export const SearchResults = ({
     );
   }
 
-  // Do not render if we have not fetched, yet.
   if (!results) {
     return null;
   }
@@ -164,7 +157,6 @@ export const SearchResults = ({
       </p>
     );
 
-  // Show no results found message.
   if (!results.length) {
     return (
       <p
@@ -187,14 +179,10 @@ export const SearchResults = ({
     );
   }
 
-  // Derive the last index.
   const lastIndex = startIndex + MAX_PAGE_LIST_LENGTH;
 
-  // Derive the display labels.
   const startLabel = startIndex + 1;
   const lastLabel = lastIndex + 1 > results.length ? results.length : lastIndex;
-
-  // Derive the total number of pages.
   const totalPages = Math.ceil(results.length / MAX_PAGE_LIST_LENGTH);
 
   const formMetaInfo = {
@@ -217,7 +205,6 @@ export const SearchResults = ({
       />
     ));
 
-  // modal state variables
   const { isOpen, pdfSelected, pdfUrl, pdfLabel } = modalState;
 
   return (
@@ -325,19 +312,17 @@ export const SearchResults = ({
 };
 
 SearchResults.propTypes = {
-  // From mapStateToProps.
   error: PropTypes.string.isRequired,
   fetching: PropTypes.bool.isRequired,
+  hasOnlyRetiredForms: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired,
   query: PropTypes.string.isRequired,
-  results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
-  hasOnlyRetiredForms: PropTypes.bool.isRequired,
-  sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
-  showPDFInfoVersionOne: PropTypes.bool,
-  // From mapDispatchToProps.
-  updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
+  results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
+  showPDFInfoVersionOne: PropTypes.bool,
+  sortByPropertyName: PropTypes.string,
+  updateSortByPropertyName: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

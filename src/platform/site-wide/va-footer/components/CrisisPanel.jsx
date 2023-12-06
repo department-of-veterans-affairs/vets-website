@@ -1,7 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function CrisisPanel() {
   return (
@@ -71,10 +69,9 @@ export default function CrisisPanel() {
                 aria-hidden="true"
               />
               <p>
-                Call TTY if you have hearing loss
-                <strong className="vads-u-margin-left--0p5">
-                  <Telephone contact={CONTACTS.SUICIDE_PREVENTION_LIFELINE} />
-                </strong>
+                <a href="tel:711" aria-label="7 1 1">
+                  For TTY, call <strong>711 then 988</strong>
+                </a>
               </p>
             </li>
           </ul>

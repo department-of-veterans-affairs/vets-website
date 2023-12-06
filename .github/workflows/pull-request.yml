@@ -9,8 +9,48 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
+  fetch-unit-tests-allow-list:
+    name: Fetch Unit Test Stability Allow List
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
   check-cross-app-imports:
     name: Check Cross App Imports
+    needs: [fetch-unit-tests-allow-list]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,8 +66,16 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
       - name: Check for cross app imports in allowlist apps
         run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
+        env:
+          TEST_TYPE: unit_test
 
   eslint-disable-check:
     name: ESLint Disable Check

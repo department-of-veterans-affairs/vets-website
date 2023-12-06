@@ -15,6 +15,7 @@ describe('Child information page', () => {
     schema,
     uiSchema,
     arrayPath,
+    title,
   } = formConfig.chapters.householdInformation.pages.childrenInformation;
   const dependentData = () => ({
     'view:hasDependents': true,
@@ -113,7 +114,7 @@ describe('Child information page', () => {
   });
 
   it('should ask if the child is in school', () => {
-    const data = Object.assign({}, dependentData());
+    const data = { ...dependentData() };
     data.dependents[0].childDateOfBirth = moment()
       .subtract(19, 'years')
       .toISOString();
@@ -136,7 +137,7 @@ describe('Child information page', () => {
   });
 
   it('should ask if the child is disabled', () => {
-    const data = Object.assign({}, dependentData());
+    const data = { ...dependentData() };
     data.dependents[0].childDateOfBirth = moment()
       .subtract(19, 'years')
       .toISOString();
@@ -156,5 +157,15 @@ describe('Child information page', () => {
 
     const formDOM = getFormDOM(form);
     expect(formDOM.querySelector('#root_disabledYes')).to.not.be.null;
+  });
+
+  it('should set the title to the dependents name if available', () => {
+    const pageTitle = title;
+    expect(
+      pageTitle({
+        fullName: { first: 'Jane', last: 'Doe' },
+      }),
+    ).to.eql('Jane Doe information');
+    expect(pageTitle({ fullName: {} })).to.eql('  information');
   });
 });

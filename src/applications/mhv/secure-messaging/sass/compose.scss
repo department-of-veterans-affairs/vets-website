@@ -30,7 +30,6 @@
     width: fit-content;
   }
   .compose-form {
-    margin-top: 2rem;
     background-color: $color-white;
     .required {
       color: $color-secondary-dark;
@@ -46,48 +45,10 @@
       resize: vertical;
       box-sizing: border-box;
     }
-    .compose-form-header {
-      border-radius: 4px 4px 0 0;
-      background-color: $color-gray-lightest;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 14px 24px;
-      display: flex;
-      @media (min-width: $medium-screen) {
-        padding: 24px 36px 24px;
-      }
-      h3 {
-        margin: 0;
-        width: 80%;
-        overflow-wrap: break-word;
-      }
-    }
-    .compose-inputs-container {
-      border: 2px solid $color-gray-lightest;
-      border-radius: 0 0 4px 4px;
-      padding: 0 14px 14px;
-      @media (min-width: $medium-screen) {
-        padding: 0 36px 36px;
-      }
-      .message-subject {
-        max-width: 100%;
-        width: 100%;
-        padding: 1.2rem;
-        margin: 0.4rem 0px;
-      }
-      .message-body {
-        min-height: 5.2rem;
-        max-width: 100%;
-        width: 100%;
-        padding: 1.2rem;
-        margin: 0.4rem 0px;
-        resize: none;
-      }
 
-      .attachments-section {
-        .compose-attachments-heading {
-          margin: 27px 0 8px;
-        }
+    .attachments-section {
+      .compose-attachments-heading {
+        margin: 27px 0 8px;
       }
     }
     .last-save-time {
@@ -152,11 +113,31 @@
       margin-top: 12px;
     }
   }
+}
 
-  .message-replied-to {
-    .message-list-body-collapsed {
-      word-break: break-word;
+#remove-attachment-modal {
+  va-button::part(button) {
+    width: 100%;
+    margin-right: 0;
+
+    @include media($small-screen) {
+      width: auto;
+      margin-right: 24px;
     }
+  }
+}
+
+.edit-preferences-button {
+  box-shadow: inset 0 0 0 2px $color-gray-dark;
+  color: $color-gray-dark;
+  height: 36px;
+
+  &:hover {
+    color: $color-gray-dark;
+    background-color: $color-gray-cool-light !important;
+  }
+  @media (max-width: $small-screen) {
+    width: 100%;
   }
 }
 
@@ -165,11 +146,8 @@
     display: block;
     margin: 16px 0px 24px 0;
     width: 100%;
-
-    @media (min-width: $small-screen) {
-      width: 32.5%;
-    }
   }
+
   .attach-file-button::part(button) {
     box-shadow: inset 0 0 0 2px $color-gray-dark;
     color: $color-gray-dark;

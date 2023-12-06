@@ -2,9 +2,11 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import ChemHemDetails from '../../components/LabsAndTests/ChemHemDetails';
 import chemHem from '../fixtures/chemHem.json';
+import chemHemWithDateMissing from '../fixtures/chemHemWithDateMissing.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 
 describe('Chem Hem details component', () => {
@@ -14,6 +16,10 @@ describe('Chem Hem details component', () => {
         labsAndTestsDetails: convertLabsAndTestsRecord(chemHem),
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
@@ -22,6 +28,7 @@ describe('Chem Hem details component', () => {
       <ChemHemDetails
         record={convertLabsAndTestsRecord(chemHem)}
         fullState={initialState}
+        runningUnitTest
       />,
       {
         initialState,
@@ -32,7 +39,7 @@ describe('Chem Hem details component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the test name', () => {
@@ -60,5 +67,46 @@ describe('Chem Hem details component', () => {
       selector: 'span',
     });
     expect(dateElement).to.exist;
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('Chem hem details component with no date', () => {
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: convertLabsAndTestsRecord(chemHemWithDateMissing),
+      },
+    },
+  };
+
+  const screen = renderWithStoreAndRouter(
+    <ChemHemDetails
+      record={convertLabsAndTestsRecord(chemHemWithDateMissing)}
+      fullState={initialState}
+      runningUnitTest
+    />,
+    {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests/123',
+    },
+  );
+
+  it('should not display the formatted date if effectiveDateTime is missing', () => {
+    waitFor(() => {
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
+        'None noted',
+      );
+    });
   });
 });

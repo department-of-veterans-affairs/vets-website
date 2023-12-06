@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -14,8 +14,9 @@ import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import {
-  navigateToFolderByFolderId,
   messageSignatureFormatter,
+  setCaretToPos,
+  navigateToFolderByFolderId,
   sortRecipients,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
@@ -23,16 +24,13 @@ import { focusOnErrorField } from '../../util/formHelpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import {
   draftAutoSaveTimeout,
-  Categories,
   DefaultFolders,
-  Prompts,
   ErrorMessages,
 } from '../../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
+import EditPreferences from './EditPreferences';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -53,33 +51,27 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
+  const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const [editListModal, setEditListModal] = useState(false);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [modalVisible, updateModalVisible] = useState(false);
+  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
-  const fullState = useSelector(state => state);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
-  const attachmentNames = attachments.reduce((currentString, item) => {
-    return currentString + item.name;
-  }, '');
-
-  const {
-    OTHER,
-    COVID,
-    APPOINTMENTS,
-    MEDICATIONS,
-    TEST_RESULTS,
-    EDUCATION,
-  } = Categories;
+  const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
+  const debouncedRecipient = useDebounce(
+    selectedRecipient,
+    draftAutoSaveTimeout,
+  );
 
   const formattededSignature = useMemo(
     () => {
@@ -88,24 +80,6 @@ const ComposeForm = props => {
     [signature],
   );
 
-  const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === 'attachment') {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
-      });
-    } else {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
-      });
-    }
-  };
-
   useEffect(
     () => {
       dispatch(getCategories());
@@ -113,14 +87,30 @@ const ComposeForm = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (attachments.length > 0) {
-        setUnsavedNavigationError('attachment');
-      }
-    },
-    [attachments],
-  );
+  const setUnsavedNavigationError = typeOfError => {
+    if (typeOfError === null) {
+      setNavigationError(null);
+    }
+    if (
+      typeOfError ===
+      ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR
+    ) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+    }
+    if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+    }
+  };
 
   useEffect(
     () => {
@@ -138,10 +128,10 @@ const ComposeForm = props => {
       }
 
       if (!draft) {
-        setSelectedRecipient('');
+        setSelectedRecipient('0');
+        setCategory(null);
         setSubject('');
         setMessageBody('');
-        setCategory('');
       }
     },
     [recipients, draft],
@@ -154,29 +144,26 @@ const ComposeForm = props => {
           category,
           body: messageBody,
           subject,
-          draftId: draft?.messageId,
         };
+        messageData[`${'draft_id'}`] = draft?.messageId;
         messageData[`${'recipient_id'}`] = selectedRecipient;
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true))
-            .then(() =>
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              ),
-            )
-            .catch(setSendMessageFlag(false));
         } else {
-          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+          sendData = JSON.stringify(messageData);
+        }
+        dispatch(sendMessage(sendData, attachments.length > 0))
+          .then(() =>
             navigateToFolderByFolderId(
               currentFolder?.folderId || DefaultFolders.INBOX.id,
               history,
             ),
-          );
-        }
+          )
+          .catch(setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],
@@ -204,7 +191,7 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
-  // Populates form fields with recipients and categories
+  //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
@@ -224,121 +211,197 @@ const ComposeForm = props => {
       setAttachments(draft.attachments);
     }
     setFormPopulated(true);
+    setFieldsString(
+      JSON.stringify({
+        rec: draft.recipientId,
+        cat: draft.category,
+        sub: draft.subject,
+        bod: draft.body,
+      }),
+    );
   };
 
   if (draft && recipients && !formPopulated) populateForm();
 
-  const setMessageTitle = () => {
-    const casedCategory =
-      category ===
-      (COVID ||
-        OTHER ||
-        APPOINTMENTS ||
-        MEDICATIONS ||
-        TEST_RESULTS ||
-        EDUCATION)
-        ? Categories[category]
-        : 'New message';
-
-    if (category && subject) {
-      return `${Categories[category]}: ${subject}`;
-    }
-    if (category && !subject) {
-      return `${Categories[category]}:`;
-    }
-    if (!category && subject) {
-      return subject;
-    }
-    return `${casedCategory}`;
-  };
-
-  const checkMessageValidity = () => {
-    let messageValid = true;
-    if (
-      selectedRecipient === '0' ||
-      selectedRecipient === '' ||
-      !selectedRecipient
-    ) {
-      setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
-
-      messageValid = false;
-    }
-    if (!subject || subject === '') {
-      setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
-      messageValid = false;
-    }
-    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
-      messageValid = false;
-    }
-    if (!category || category === '') {
-      setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
-      messageValid = false;
-    }
-    setMessageInvalid(!messageValid);
-    return messageValid;
-  };
-
-  const saveDraftHandler = async (type, e) => {
-    if (type === 'manual') {
-      setUserSaved(true);
-      setLastFocusableElement(e.target);
-      await setMessageInvalid(false);
-      if (checkMessageValidity()) {
-        setNavigationError(null);
+  const checkMessageValidity = useCallback(
+    () => {
+      let messageValid = true;
+      if (
+        selectedRecipient === '0' ||
+        selectedRecipient === '' ||
+        !selectedRecipient
+      ) {
+        setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
+        messageValid = false;
       }
-      if (attachments.length) {
-        setSaveError(ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT);
-        setNavigationError(null);
+      if (!subject || subject === '') {
+        setSubjectError(ErrorMessages.ComposeForm.SUBJECT_REQUIRED);
+        messageValid = false;
       }
-    }
+      if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+        setBodyError(ErrorMessages.ComposeForm.BODY_REQUIRED);
+        messageValid = false;
+      }
+      if (!category || category === '') {
+        setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
+        messageValid = false;
+      }
+      setMessageInvalid(!messageValid);
+      return messageValid;
+    },
+    [category, messageBody, selectedRecipient, subject],
+  );
 
-    const draftId = draft && draft.messageId;
+  const saveDraftHandler = useCallback(
+    async (type, e) => {
+      if (type === 'manual') {
+        setLastFocusableElement(e.target);
+        await setMessageInvalid(false);
+        if (checkMessageValidity() === true) {
+          setNavigationError(null);
+        } else
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
 
-    const formData = {
-      recipientId: selectedRecipient,
+        if (attachments.length > 0) {
+          setSaveError(
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          );
+          setNavigationError({
+            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+            confirmButtonText: 'Continue editing',
+            cancelButtonText: 'Delete draft',
+          });
+        }
+      }
+
+      const draftId = draft && draft.messageId;
+      const newFieldsString = JSON.stringify({
+        rec: parseInt(debouncedRecipient || selectedRecipient, 10),
+        cat: debouncedCategory || category,
+        sub: debouncedSubject || subject,
+        bod: debouncedMessageBody || messageBody,
+      });
+
+      if (type === 'auto' && newFieldsString === fieldsString) {
+        return;
+      }
+      setFieldsString(newFieldsString);
+
+      const formData = {
+        recipientId: selectedRecipient,
+        category,
+        subject,
+        body: messageBody,
+      };
+
+      if (checkMessageValidity() === true) {
+        dispatch(saveDraft(formData, type, draftId));
+      }
+    },
+    [
+      attachments.length,
       category,
+      checkMessageValidity,
+      debouncedCategory,
+      debouncedMessageBody,
+      debouncedRecipient,
+      debouncedSubject,
+      dispatch,
+      draft,
+      fieldsString,
+      messageBody,
+      selectedRecipient,
       subject,
-      body: messageBody,
-    };
+    ],
+  );
 
-    if (checkMessageValidity() === true) {
-      dispatch(saveDraft(formData, type, draftId));
-    }
-    if (!attachments.length) setNavigationError(null);
-  };
+  const sendMessageHandler = useCallback(
+    async e => {
+      // TODO add GA event
+      await setMessageInvalid(false);
+      await setSendMessageFlag(false);
+      if (checkMessageValidity()) {
+        setSendMessageFlag(true);
+        setNavigationError(null);
+        setLastFocusableElement(e.target);
+      } else {
+        setSendMessageFlag(false);
+      }
+    },
+    [checkMessageValidity],
+  );
 
-  const sendMessageHandler = async e => {
-    // TODO add GA event
-    await setMessageInvalid(false);
-    await setSendMessageFlag(false);
-    if (checkMessageValidity()) {
-      setSendMessageFlag(true);
-      setNavigationError(null);
-      setLastFocusableElement(e.target);
-    } else {
-      setSendMessageFlag(false);
-    }
-  };
+  useEffect(
+    () => {
+      const blankForm =
+        messageBody === '' &&
+        subject === '' &&
+        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        category === null &&
+        attachments.length === 0;
+
+      const editPopulatedForm =
+        messageBody !== draft?.messageBody ||
+        selectedRecipient !== draft?.recipientId ||
+        category !== draft?.category ||
+        subject !== draft?.subject;
+
+      if (blankForm) {
+        setUnsavedNavigationError(null);
+      } else {
+        if (
+          (editPopulatedForm && !deleteButtonClicked) ||
+          (editPopulatedForm && formPopulated && !deleteButtonClicked)
+        ) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+        }
+        if (
+          editPopulatedForm &&
+          !deleteButtonClicked &&
+          attachments.length > 0
+        ) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
+          );
+          updateModalVisible(false);
+        }
+      }
+    },
+    [
+      attachments,
+      category,
+      deleteButtonClicked,
+      formPopulated,
+      messageBody,
+      selectedRecipient,
+      subject,
+    ],
+  );
 
   useEffect(
     () => {
       if (
-        selectedRecipient &&
-        category &&
+        debouncedRecipient &&
+        debouncedCategory &&
         debouncedSubject &&
         debouncedMessageBody &&
-        !sendMessageFlag
+        !modalVisible
       ) {
         saveDraftHandler('auto');
+        setUnsavedNavigationError(null);
       }
     },
     [
-      attachmentNames,
-      category,
+      debouncedCategory,
       debouncedMessageBody,
       debouncedSubject,
-      selectedRecipient,
+      debouncedRecipient,
+      saveDraftHandler,
+      modalVisible,
     ],
   );
 
@@ -362,6 +425,31 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (
+        selectedRecipient.toString() !==
+          (draft ? draft.recipientId.toString() : '0') ||
+        category !== (draft ? draft.category : null) ||
+        subject !== (draft ? draft.subject : '') ||
+        messageBody !== (draft ? draft.body : '')
+      ) {
+        e.returnValue = '';
+      }
+    },
+    [draft, selectedRecipient, category, subject, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
   return (
     <>
       <EmergencyNote dropDownFlag />
@@ -370,22 +458,26 @@ const ComposeForm = props => {
         {saveError && (
           <VaModal
             modalTitle={saveError.title}
-            onPrimaryButtonClick={() => setSaveError(null)}
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
             }}
-            primaryButtonText="Continue editing"
             status="warning"
             data-testid="quit-compose-double-dare"
             visible
           >
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
+            <va-button
+              text="Continue editing"
+              onClick={() => setSaveError(null)}
+            />
           </VaModal>
         )}
         <RouteLeavingGuard
           when={!!navigationError}
+          modalVisible={modalVisible}
+          updateModalVisible={updateModalVisible}
           navigate={path => {
             history.push(path);
           }}
@@ -399,16 +491,8 @@ const ComposeForm = props => {
           cancelButtonText={navigationError?.cancelButtonText}
           saveDraftHandler={saveDraftHandler}
         />
-        <div
-          className="compose-form-header"
-          data-testid="compose-form-header"
-          data-dd-privacy="mask"
-        >
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
-            {setMessageTitle()}
-          </h2>
-        </div>
-        <div className="compose-inputs-container">
+        <div>
+          <EditPreferences />
           {recipientsList && (
             <>
               <VaSelect
@@ -429,41 +513,6 @@ const ComposeForm = props => {
                   </option>
                 ))}
               </VaSelect>
-
-              <VaModal
-                id="edit-list"
-                modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
-                name="edit-list"
-                visible={editListModal}
-                onCloseEvent={() => setEditListModal(false)}
-                status="warning"
-              >
-                <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
-                <a
-                  className="vads-c-action-link--green"
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'preferences',
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => {
-                    setEditListModal(false);
-                  }}
-                >
-                  Edit your contact list on the My HealtheVet website
-                </a>
-              </VaModal>
-
-              <va-button
-                id="edit-list-button"
-                text="Edit list"
-                label="Edit list"
-                secondary=""
-                class="vads-u-flex--1 save-draft-button vads-u-margin-bottom--1 hydrated"
-                data-testid="Edit-List-Button"
-                onClick={() => setEditListModal(true)}
-              />
             </>
           )}
           <div className="compose-form-div">
@@ -490,7 +539,7 @@ const ComposeForm = props => {
               data-dd-privacy="mask"
             />
           </div>
-          <div className="compose-form-div">
+          <div className="compose-form-div vads-u-margin-bottom--0">
             <va-textarea
               label="Message"
               required
@@ -501,6 +550,9 @@ const ComposeForm = props => {
               onInput={messageBodyHandler}
               value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
               error={bodyError}
+              onFocus={e => {
+                setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
+              }}
               data-dd-privacy="mask"
             />
           </div>
@@ -509,20 +561,29 @@ const ComposeForm = props => {
               compose
               attachments={attachments}
               setAttachments={setAttachments}
+              attachFileSuccess={attachFileSuccess}
+              setAttachFileSuccess={setAttachFileSuccess}
+              setNavigationError={setNavigationError}
               editingEnabled
             />
 
             <FileInput
               attachments={attachments}
               setAttachments={setAttachments}
+              setAttachFileSuccess={setAttachFileSuccess}
             />
           </section>
-          <DraftSavedInfo userSaved={userSaved} attachments={attachments} />
+          <DraftSavedInfo />
           <ComposeFormActionButtons
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
+            formPopulated={formPopulated}
+            navigationError={navigationError}
             setNavigationError={setNavigationError}
+            setDeleteButtonClicked={setDeleteButtonClicked}
+            setUnsavedNavigationError={setUnsavedNavigationError}
+            deleteButtonClicked={deleteButtonClicked}
           />
         </div>
       </form>

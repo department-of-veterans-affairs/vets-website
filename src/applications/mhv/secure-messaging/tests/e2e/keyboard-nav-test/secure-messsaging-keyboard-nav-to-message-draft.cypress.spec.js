@@ -4,20 +4,21 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockThreadResponse from '../fixtures/single-draft-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
   const inboxPage = new PatientInboxPage();
   const draftsPage = new PatientMessageDraftsPage();
 
-  it(' Delete Drafts on key press', () => {
+  it('delete Drafts on key press', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
@@ -28,17 +29,7 @@ describe('Secure Messaging Delete Draft', () => {
       },
     });
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
-    cy.get('.vads-u-margin-bottom--1').should('have.focus');
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    draftsPage.verifyDeleteConfirmationMessage();
+    draftsPage.verifyDraftMessageBannerTextHasFocus();
   });
 });

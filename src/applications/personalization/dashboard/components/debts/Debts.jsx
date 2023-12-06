@@ -86,13 +86,17 @@ const BenefitPaymentsAndDebt = ({
 
   const debtsCount = debts?.length || 0;
   const copaysCount = copays?.length || 0;
+
   if (shouldShowLoadingIndicator) {
     return (
       <div className="vads-u-margin-y--6">
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Outstanding debts
         </h2>
-        <va-loading-indicator message="Loading outstanding debts..." />
+        <va-loading-indicator
+          data-testid="debts-loading-indicator"
+          message="Loading outstanding debts..."
+        />
       </div>
     );
   }

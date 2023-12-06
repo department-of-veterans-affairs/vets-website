@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
+import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -49,8 +49,8 @@ const initialSchema = {
     properties: {
       reasonForAppointment: {
         type: 'string',
-        enum: PURPOSE_TEXT.map(purpose => purpose.id),
-        enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
+        enum: PURPOSE_TEXT_V2.map(purpose => purpose.id),
+        enumNames: PURPOSE_TEXT_V2.map(purpose => purpose.label),
       },
       reasonAdditionalInfo: {
         type: 'string',

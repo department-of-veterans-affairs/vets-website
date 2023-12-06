@@ -27,6 +27,7 @@ class TrackClaimsPage {
       'eq',
       'Check your claim, decision review, or appeal status | Veterans Affairs',
     );
+
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
         'be.visible',
@@ -37,40 +38,20 @@ class TrackClaimsPage {
         'You do not have any submitted claims',
       );
     }
-    cy.get('.va-nav-breadcrumbs').should('be.visible');
-    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
+
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('.va-breadcrumbs-li').should('be.visible');
     cy.get('a[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
   checkBreadcrumbs() {
-    cy.get(
-      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
-    ).should('exist');
-    cy.get(
-      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
-    ).should('contain', 'Check your claims and appeals');
-    cy.get(
-      '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
-    ).should('have.css', 'pointer-events', 'none');
-  }
-
-  checkBreadcrumbsMobile() {
-    cy.viewportPreset('va-top-mobile-1');
-    cy.get('.va-nav-breadcrumbs-list').should('be.visible');
-    cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))').should(
-      'have.css',
-      'display',
-      'none',
+    cy.get('va-breadcrumbs > :nth-child(2) a[aria-current="page"]').should(
+      'exist',
     );
-    cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').should(
+    cy.get('va-breadcrumbs > :nth-child(2) a[aria-current="page"]').should(
       'contain',
-      'Home',
-    );
-    cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').should(
-      'have.css',
-      'display',
-      'inline-block',
+      'Check your claims and appeals',
     );
   }
 
@@ -195,16 +176,13 @@ class TrackClaimsPage {
   }
 
   verifyNumberOfFiles(number) {
-    cy.get('.va-tabs li:nth-child(2) > a')
+    cy.get('.tabs li:nth-child(2) > a')
       .click()
       .then(() => {
         cy.get('.file-request-list-item').should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('a.va-tab-trigger.va-tab-trigger--current').should(
-      'contain',
-      'Files',
-    );
+    cy.get('a.tab.tab--current').should('contain', 'Files');
     cy.get('.file-request-list-item').should('have.length', number);
     cy.get('.submitted-file-list-item').should('have.length', number);
   }
@@ -217,7 +195,7 @@ class TrackClaimsPage {
   }
 
   claimDetailsTab() {
-    cy.get('.va-tabs li:nth-child(3) > a')
+    cy.get('.tabs li:nth-child(3) > a')
       .click()
       .then(() => {
         cy.get('.claim-details').should('be.visible');
@@ -227,10 +205,7 @@ class TrackClaimsPage {
   }
 
   verifyClaimDetails() {
-    cy.get('a.va-tab-trigger.va-tab-trigger--current').should(
-      'contain',
-      'Details',
-    );
+    cy.get('a.tab.tab--current').should('contain', 'Details');
     const details = [
       'Claim type',
       'What you’ve claimed',
@@ -259,8 +234,11 @@ class TrackClaimsPage {
       });
     cy.get('.main .usa-button-primary').click({ force: true });
     cy.url().should('contain', 'ask-va-to-decide');
-    cy.get('input[type=checkbox]')
-      .click()
+    cy.get('va-checkbox')
+      .shadow()
+      .get('input')
+      .first()
+      .check()
       .then(() => {
         cy.get('.main .usa-button-primary').click();
         cy.wait('@askVA');

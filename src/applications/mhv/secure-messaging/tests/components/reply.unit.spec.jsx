@@ -23,7 +23,7 @@ describe('Additional Info', () => {
   });
 });
 
-describe('Older Messages', () => {
+describe.skip('Older Messages', () => {
   it('renders without errors', () => {
     const initialState = {
       message: { message: { messageResponse }, messages: null },

@@ -16,6 +16,7 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
       visible
       onCloseEvent={onClose}
       modalTitle={title}
+      ariaLabel={title}
       role="alertdialog"
     >
       You’re not eligible to request a community care Podiatry appointment

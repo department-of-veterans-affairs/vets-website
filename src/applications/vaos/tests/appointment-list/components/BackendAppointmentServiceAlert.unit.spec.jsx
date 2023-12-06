@@ -6,7 +6,7 @@ import { waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { AppointmentList } from '../../../appointment-list';
-import PastAppointmentsListV2 from '../../../appointment-list/components/PastAppointmentsListV2';
+import PastAppointmentsList from '../../../appointment-list/components/PastAppointmentsList';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { createMockAppointmentByVersion } from '../../mocks/data';
@@ -181,6 +181,7 @@ describe('VAOS Backend Service Alert', () => {
       ...appointment.attributes,
       minutesDuration: 30,
       status: 'booked',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: yesterday.format(),
       locationId: '983',
       location: {
@@ -211,7 +212,7 @@ describe('VAOS Backend Service Alert', () => {
       backendServiceFailures: true,
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
@@ -239,6 +240,7 @@ describe('VAOS Backend Service Alert', () => {
       ...appointment.attributes,
       minutesDuration: 30,
       status: 'booked',
+      localStartTime: yesterday.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: yesterday.format(),
       locationId: '983',
       location: {
@@ -269,7 +271,7 @@ describe('VAOS Backend Service Alert', () => {
       backendServiceFailures: false,
     });
 
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 

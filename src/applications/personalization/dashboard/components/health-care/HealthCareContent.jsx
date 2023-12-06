@@ -37,6 +37,8 @@ const HealthCareContent = ({
   hasInboxError,
   hasAppointmentsError,
   isVAPatient,
+  isLOA1,
+  isCernerPatient,
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
@@ -64,7 +66,13 @@ const HealthCareContent = ({
     ],
   );
 
-  const shouldShowOnOneColumn = !isVAPatient || !hasUpcomingAppointment;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // viewMhvLink will be true if toggle is on
+  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
+
+  const shouldShowOnOneColumn =
+    !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -89,19 +97,10 @@ const HealthCareContent = ({
   };
 
   const HealthcareError = () => {
-    const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
     // status will be 'warning' if toggle is on
     const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
       ? 'warning'
       : 'error';
-
-    // appt link will be /my-health/appointments if toggle is on
-    const apptLink = useToggleValue(
-      TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-    )
-      ? '/my-health/appointments'
-      : '/health-care/schedule-view-va-appointments/appointments';
 
     return (
       <div className="vads-u-margin-bottom--2p5">
@@ -114,7 +113,7 @@ const HealthCareContent = ({
           </div>
           <CTALink
             text="Schedule and manage your appointments"
-            href={apptLink}
+            href="/my-health/appointments"
             showArrow
             className="vads-u-font-weight--bold"
             onClick={() =>
@@ -134,7 +133,7 @@ const HealthCareContent = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (facilityNames?.length > 0) {
+  if (isCernerPatient && facilityNames?.length > 0) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -151,27 +150,31 @@ const HealthCareContent = ({
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
-        {hasUpcomingAppointment && (
-          <AppointmentsCard appointments={appointments} />
-        )}
-        {!isVAPatient && <NoHealthcareText />}
+        {hasUpcomingAppointment &&
+          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&
-          !hasAppointmentsError && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn ? (
+          !hasAppointmentsError &&
+          !isLOA1 &&
+          !isCernerPatient && <NoUpcomingAppointmentsText />}
+        {shouldShowOnOneColumn && (
           <HealthCareCTA
+            viewMhvLink={viewMhvLink}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
             unreadMessagesCount={unreadMessagesCount}
             isVAPatient={isVAPatient}
+            isLOA1={isLOA1}
             hasAppointmentsError={hasAppointmentsError}
           />
-        ) : null}
+        )}
       </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn ? (
+      {!shouldShowOnOneColumn && (
         <DashboardWidgetWrapper>
           <HealthCareCTA
+            viewMhvLink={viewMhvLink}
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
@@ -180,7 +183,7 @@ const HealthCareContent = ({
             hasAppointmentsError={hasAppointmentsError}
           />
         </DashboardWidgetWrapper>
-      ) : null}
+      )}
     </div>
   );
 };
@@ -246,6 +249,7 @@ HealthCareContent.propTypes = {
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   isCernerPatient: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests

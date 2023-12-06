@@ -8,12 +8,9 @@ import {
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
 } from '../../utils/evidence';
-import {
-  SELECTED,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-} from '../../constants';
+import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../../constants';
+
+import { SELECTED } from '../../../shared/constants';
 
 describe('getIndex', () => {
   const testData = ['', '', ''];
