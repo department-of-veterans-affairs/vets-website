@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { formatDate, getHeadingText } from './helpers';
 
 const ListItem = ({ rating }) => {
-  const { diagnosticText, effectiveDate, ratingPercentage } = rating;
-  const headingText = getHeadingText(diagnosticText, ratingPercentage);
+  const { effectiveDate } = rating;
+  const headingText = getHeadingText(rating);
 
   return (
     <va-card class="vads-u-margin-bottom--2">

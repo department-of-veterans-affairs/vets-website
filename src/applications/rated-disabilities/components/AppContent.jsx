@@ -27,7 +27,7 @@ export default function AppContent({ user }) {
       .catch(err => {
         setError({ code: 500 });
       })
-      .then(() => setIsRequestDone(true));
+      .finally(() => setIsRequestDone(true));
   }, []);
 
   const { combinedDisabilityRating, individualRatings } = data || {};

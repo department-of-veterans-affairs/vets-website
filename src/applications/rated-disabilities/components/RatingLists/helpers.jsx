@@ -2,7 +2,8 @@ import { buildDateFormatter } from '../../util';
 
 export const formatDate = buildDateFormatter('MMMM dd, yyyy');
 
-export const getHeadingText = (diagnosticText, ratingPercentage) => {
+export const getHeadingText = rating => {
+  const { diagnosticText, ratingPercentage } = rating;
   const headingParts = [diagnosticText];
   if (ratingPercentage !== null && typeof ratingPercentage !== 'undefined') {
     headingParts.unshift(`${ratingPercentage}% rating for`);

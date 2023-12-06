@@ -5,28 +5,6 @@ import { expect } from 'chai';
 import { ListItem } from '../../../components/RatingLists';
 
 describe('<ListItem />', () => {
-  context('Non-service-connected rating', () => {
-    const rating = {
-      decision: 'Not Service Connected',
-      diagnosticText: 'Tinnitus',
-      diagnosticTypeName: 'tinnitus',
-      effectiveDate: null,
-      ratingPercentage: null,
-    };
-
-    it('should render the rating name w/o a percentage', () => {
-      const screen = render(<ListItem rating={rating} />);
-
-      expect(screen.getByText('Tinnitus')).to.exist;
-    });
-
-    it('should not display the effective date field', () => {
-      const screen = render(<ListItem rating={rating} />);
-
-      expect(screen.queryByText('Effective date:')).not.to.exist;
-    });
-  });
-
   context('Service-connected rating', () => {
     const rating = {
       decision: 'Not Service Connected',
@@ -46,6 +24,28 @@ describe('<ListItem />', () => {
       const screen = render(<ListItem rating={rating} />);
 
       expect(screen.getByText('November 20, 2023')).to.exist;
+    });
+  });
+
+  context('Non-service-connected rating', () => {
+    const rating = {
+      decision: 'Not Service Connected',
+      diagnosticText: 'Tinnitus',
+      diagnosticTypeName: 'tinnitus',
+      effectiveDate: null,
+      ratingPercentage: null,
+    };
+
+    it('should render the rating name w/o a percentage', () => {
+      const screen = render(<ListItem rating={rating} />);
+
+      expect(screen.getByText('Tinnitus')).to.exist;
+    });
+
+    it('should not display the effective date field', () => {
+      const screen = render(<ListItem rating={rating} />);
+
+      expect(screen.queryByText('Effective date:')).not.to.exist;
     });
   });
 });
