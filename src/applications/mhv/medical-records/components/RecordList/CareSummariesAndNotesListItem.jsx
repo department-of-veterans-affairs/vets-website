@@ -9,7 +9,7 @@ const CareSummariesAndNotesListItem = props => {
 
   const dateOrDates = () => {
     if (isDischargeSummary) {
-      return `${record.startDate} to ${record.endDate}`;
+      return `${record.admissionDate} to ${record.dischargeDate}`;
     }
     return record.dateSigned;
   };
@@ -30,15 +30,13 @@ const CareSummariesAndNotesListItem = props => {
         <div>{dateOrDates()}</div>
         {record.location !== EMPTY_FIELD && <div>{record.location}</div>}
         <div>
-          <span className="field-label">
-            {isDischargeSummary ? 'Signed by ' : 'Admitted by '}
-          </span>{' '}
-          {record.physician}
+          {isDischargeSummary ? 'Admitted by ' : 'Signed by '}{' '}
+          {isDischargeSummary ? record.admittedBy : record.signedBy}
         </div>
       </div>
       <Link
         to={`/summaries-and-notes/${record.id}`}
-        className="vads-u-margin-y--0p5 no-print"
+        className="vads-u-margin-y--0p5"
         aria-describedby={`details-button-description-${record.id}`}
       >
         <strong>Details</strong>

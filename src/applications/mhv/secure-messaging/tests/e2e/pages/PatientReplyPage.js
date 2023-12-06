@@ -115,6 +115,10 @@ class PatientReplyPage {
     );
   };
 
+  verifySendMessageConfirmationHasFocus = () => {
+    cy.get('va-alert').should('have.focus');
+  };
+
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {
