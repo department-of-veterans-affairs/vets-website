@@ -13,8 +13,14 @@ import {
   makePdf,
 } from '../../util/helpers';
 import {
-  generatePdfScaffold,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
+import {
   updatePageTitle,
+  generatePdfScaffold,
+  formatName,
 } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -101,15 +107,20 @@ const AdmissionAndDischargeDetails = props => {
 
   const generateCareNotesTxt = () => {
     const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
 Admission and discharge summary\n
-_____________________________________________________\n\n
+${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
-Admission date: ${record.startDate}\n
-Discharge date: ${record.endDate}\n
-Admitted by: ${record.admittingPhysician}\n
-Discharged by: ${record.dischargePhysician}\n
-_____________________________________________________\n\n
+Admission date: ${record.admissionDate}\n
+Discharge date: ${record.dischargeDate}\n
+Admitted by: ${record.admittedBy}\n
+Discharged by: ${record.dischargedBy}\n
+${txtLine}\n\n
 Summary\n
 ${record.summary}`;
 

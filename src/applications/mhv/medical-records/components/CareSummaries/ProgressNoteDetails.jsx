@@ -15,9 +15,15 @@ import {
 import {
   generatePdfScaffold,
   updatePageTitle,
+  formatName,
 } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -89,13 +95,18 @@ const ProgressNoteDetails = props => {
 
   const generateCareNotesTxt = () => {
     const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
 Primary care progress note \n
- _____________________________________________________\n\n
+${txtLine}\n\n
 Details
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
 Date signed: ${record.dateSigned}\n
-_____________________________________________________\n\n
+${txtLine}\n\n
 Note\n
 ${record.note}`;
     generateTextFile(
