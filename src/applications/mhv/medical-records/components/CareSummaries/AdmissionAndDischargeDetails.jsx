@@ -37,7 +37,7 @@ const AdmissionAndDischargeDetails = props => {
 
   const generateCareNotesPDF = async () => {
     const title = `Admission and discharge summary on ${formatDateLong(
-      record.date,
+      record.dischargeDate,
     )}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -60,11 +60,11 @@ const AdmissionAndDischargeDetails = props => {
           value: record.dischargeDate,
           inline: true,
         },
-        {
-          title: 'Admitted by',
-          value: record.admittedBy,
-          inline: true,
-        },
+        // {
+        //   title: 'Admitted by',
+        //   value: record.admittedBy,
+        //   inline: true,
+        // },
         {
           title: 'Discharged by',
           value: record.dischargedBy,
@@ -112,7 +112,7 @@ const AdmissionAndDischargeDetails = props => {
 
       <DateSubheading
         date={dates}
-        label="Dates"
+        label="Discharged on"
         id="admission-discharge-date"
       />
 
@@ -142,10 +142,10 @@ const AdmissionAndDischargeDetails = props => {
           Discharge date
         </h3>
         <p>{record.dischargeDate}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        {/* <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admitted by
         </h3>
-        <p>{record.admittedBy}</p>
+        <p>{record.admittedBy}</p> */}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>

@@ -34,23 +34,22 @@ const CareSummariesAndNotesListItem = props => {
       </h3>
 
       <div>
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Date:
-        </span>{' '}
+        <span className="vads-u-display--inline">
+          {isDischargeSummary ? 'Discharged on' : 'Date'}
+        </span>
+        {': '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {isDischargeSummary ? record.dischargeDate : record.dateSigned}
         </span>
       </div>
       <div>
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Location:
-        </span>{' '}
+        <span className="vads-u-display--inline">Location:</span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.location}
         </span>
       </div>
       <div>
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
+        <span className="vads-u-display--inline">
           {isDischargeSummary ? 'Admitted by' : 'Signed by'}:
         </span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
