@@ -10,14 +10,18 @@ import { addOverlayTriggers } from '../../../legacy/menu';
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [canShowLoginModal, setCanShowLoginModal] = useState(true);
+  console.log('is the header mounting');
 
   useEffect(() => {
+    console.log('this runs (header)');
     addFocusBehaviorToCrisisLineModal();
     addOverlayTriggers();
 
-    const crisisLineModalIsOpen = document.querySelector(
+    const crisisLineModalIsOpen = !!document.querySelector(
       '#modal-crisisline.va-overlay--open',
     )?.length;
+
+    console.log('crisisLineIsOpen (header): ', crisisLineModalIsOpen);
 
     setCanShowLoginModal(!crisisLineModalIsOpen);
   }, []);
