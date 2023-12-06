@@ -153,13 +153,12 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render results where sort option is last name (non-organization)', () => {
+  it('should render endResultNum as 10 * currentPage if not on final page', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         searchResults={testDataResponse.data}
         query={{
           representativeType: 'claim_agents',
-          sortType: 'last_name_asc',
           inProgress: false,
           context: { location: 'new york' },
         }}
@@ -180,12 +179,13 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render endResultNum as 10 * currentPage if not on final page', () => {
+  it('should render results where sort option is last name (non-organization)', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         searchResults={testDataResponse.data}
         query={{
           representativeType: 'claim_agents',
+          sortType: 'last_name_asc',
           inProgress: false,
           context: { location: 'new york' },
         }}
