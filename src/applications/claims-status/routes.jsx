@@ -15,6 +15,7 @@ import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
 import AppealsV2DetailPage from './containers/AppealsV2DetailPage';
 import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
+import OverviewPage from './containers/OverviewPage';
 
 const routes = (
   <Route path="/" component={ClaimsStatusApp}>
@@ -44,6 +45,7 @@ const routes = (
       <Route component={ClaimStatusPage} path="status" />,
       <Route component={FilesPage} path="files" />,
       <Route component={DetailsPage} path="details" />,
+      <Route component={OverviewPage} path="overview" />,
       <Route component={AskVAPage} path="ask-va-to-decide" />,
       <Route
         component={DocumentRequestPage}
