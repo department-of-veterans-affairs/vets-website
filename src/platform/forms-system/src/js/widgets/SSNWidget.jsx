@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import TextWidget from './TextWidget';
-
 import { formatSSN } from 'platform/utilities/ui';
+import TextWidget from './TextWidget';
 
 /**
  * Mask a SSN, but leave the final sequence of digits visible (up to 4)

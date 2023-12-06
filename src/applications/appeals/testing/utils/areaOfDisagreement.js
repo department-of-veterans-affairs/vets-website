@@ -1,5 +1,6 @@
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
 import { DISAGREEMENT_TYPES } from '../../shared/constants';
-import { readableList } from '../../shared/utils/ui';
 
 const cleanup = text => text.toLowerCase().replace(':', '');
 

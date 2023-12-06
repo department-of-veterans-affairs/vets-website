@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { beforeEach } from 'mocha';
 import reducer from '../../reducers';
 import { user } from '../fixtures/user-reducer.json';
@@ -17,11 +17,15 @@ describe('Vital details container', () => {
       },
     },
     user,
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
   beforeEach(() => {
-    screen = renderWithStoreAndRouter(<VitalDetails />, {
+    screen = renderWithStoreAndRouter(<VitalDetails runningUnitTest />, {
       initialState,
       reducers: reducer,
       path: '/vitals/blood-pressure-history',
@@ -29,7 +33,7 @@ describe('Vital details container', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays the vital name inside an h1 as a span', () => {
@@ -76,6 +80,58 @@ describe('Vital details container', () => {
         selector: 'p',
       });
       expect(location.length).to.eq(4);
+    });
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('Vitals details container with errors', () => {
+  const initialState = {
+    user,
+    mr: {
+      vitals: {},
+      alerts: {
+        alertList: [
+          {
+            datestamp: '2023-10-10T16:03:28.568Z',
+            isActive: true,
+            type: 'error',
+          },
+          {
+            datestamp: '2023-10-10T16:03:28.572Z',
+            isActive: true,
+            type: 'error',
+          },
+        ],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<VitalDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals/blood-pressure-history',
+    });
+  });
+
+  it('displays an error', async () => {
+    await waitFor(() => {
+      expect(
+        screen.getByText('We can’t access your vitals records right now', {
+          exact: false,
+        }),
+      ).to.exist;
     });
   });
 });

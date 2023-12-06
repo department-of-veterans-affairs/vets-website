@@ -1,7 +1,9 @@
 import React from 'react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import draftMessage from '../../fixtures/message-draft-response.json';
@@ -10,6 +12,13 @@ import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
+import * as messageActions from '../../../actions/messages';
+import * as draftActions from '../../../actions/draftDetails';
+import {
+  inputVaTextInput,
+  selectVaRadio,
+  selectVaSelect,
+} from '../../../util/testUtils';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -17,6 +26,25 @@ describe('Compose form component', () => {
       triageTeams: { triageTeams },
       categories: { categories },
     },
+  };
+
+  const draftState = {
+    sm: {
+      triageTeams: { triageTeams },
+      categories: { categories },
+      draftDetails: { draftMessage },
+    },
+  };
+
+  const setup = (customState, path, props) => {
+    return renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} {...props} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path,
+      },
+    );
   };
 
   const getProps = element => {
@@ -29,27 +57,17 @@ describe('Compose form component', () => {
     return prop;
   };
 
-  it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders without errors', async () => {
+    const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
   });
 
   it('displays compose fields if path is /new-message', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
+    const screen = setup(initialState, Paths.COMPOSE);
 
     const recipient = await screen.getByTestId('compose-recipient-select');
     const categoryRadioButtons = await screen.getAllByTestId(
@@ -65,17 +83,10 @@ describe('Compose form component', () => {
   });
 
   it('displays Edit List modal if path is /new-message', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
+    const screen = setup(initialState, Paths.COMPOSE);
 
-    const editListLink = await screen.getByTestId('edit-list-button', {
-      selector: 'va-button',
+    const editListLink = await screen.getByTestId('edit-preferences-button', {
+      selector: 'button',
       exact: true,
     });
     expect(
@@ -84,7 +95,7 @@ describe('Compose form component', () => {
 
     fireEvent.click(editListLink);
     const modalContent = await screen.getByText(
-      Prompts.Compose.EDIT_LIST_CONTENT,
+      Prompts.Compose.EDIT_PREFERENCES_CONTENT,
     );
 
     expect(
@@ -94,17 +105,11 @@ describe('Compose form component', () => {
       document.querySelector('.vads-c-action-link--green').getAttribute('href'),
     ).to.equal('https://mhv-syst.myhealth.va.gov/mhv-portal-web/preferences');
     expect(modalContent).to.exist;
+    fireEvent.click(document.querySelector('.vads-c-action-link--green'));
   });
 
   it('displays compose action buttons if path is /new-message', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
+    const screen = setup(initialState, Paths.COMPOSE);
 
     const sendButton = await screen.getByTestId('Send-Button');
     const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
@@ -114,14 +119,7 @@ describe('Compose form component', () => {
   });
 
   it('displays error states on empty fields when send button is clicked', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
+    const screen = setup(initialState, Paths.COMPOSE);
 
     const sendButton = screen.getByTestId('Send-Button');
 
@@ -141,6 +139,214 @@ describe('Compose form component', () => {
   });
 
   it('displays draft page if path is /draft/:id', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm draft={draftMessage} recipients={triageTeams} />,
+      {
+        initialState: draftState,
+        reducers: reducer,
+        path: `/draft/${draftMessage.id}`,
+      },
+    );
+
+    const deleteButton = await screen.getByTestId('delete-draft-button');
+
+    expect(document.querySelector('form.compose-form')).to.exist;
+    expect(deleteButton).to.exist;
+  });
+
+  it('renders without errors on send button click', async () => {
+    const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
+    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
+      draft: draftMessage,
+    });
+
+    fireEvent.click(screen.getByTestId('Send-Button'));
+    await waitFor(() => {
+      expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+  });
+
+  it('renders without errors on Save Draft button click', async () => {
+    const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
+    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
+      draft: draftMessage,
+    });
+
+    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    await waitFor(() => {
+      expect(saveDraftSpy.calledOnce).to.be.true;
+    });
+  });
+
+  it('displays user signature on /new-message when signature is enabled', async () => {
+    const customState = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: {},
+        preferences: signatureReducers.signatureEnabled,
+      },
+    };
+    const screen = setup(customState, Paths.COMPOSE);
+
+    const messageInput = await screen.getByTestId('message-body-field');
+
+    expect(messageInput)
+      .to.have.attribute('value')
+      .equal(
+        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
+      );
+  });
+
+  it('does not display user signature on /new-message when signature is disabled', async () => {
+    const customState = {
+      sm: {
+        ...initialState.sm,
+        preferences: signatureReducers.signatureDisabled,
+      },
+    };
+    const screen = setup(customState, Paths.COMPOSE);
+
+    const messageInput = await screen.getByTestId('message-body-field');
+
+    expect(messageInput).to.not.have.attribute('value');
+  });
+
+  it('does not append an existing draft message body with enabled signature', async () => {
+    const customState = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: { draftMessage },
+        preferences: signatureReducers.signatureEnabled,
+      },
+    };
+    const screen = setup(customState, `/draft/${draftMessage.id}`, {
+      draft: draftMessage,
+    });
+
+    const messageInput = await screen.getByTestId('message-body-field');
+
+    expect(messageInput)
+      .to.have.attribute('value')
+      .not.equal(
+        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
+      );
+  });
+
+  it('displays an error on attempt to save a draft with attachments', async () => {
+    const screen = setup(initialState, Paths.COMPOSE);
+    const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
+    const uploader = screen.getByTestId('attach-file-input');
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+    expect(uploader.files[0].name).to.equal('test.png');
+    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    let modal = null;
+    await waitFor(() => {
+      modal = screen.getByTestId('quit-compose-double-dare');
+    });
+    expect(modal).to.exist;
+    expect(modal).to.have.attribute(
+      'modaltitle',
+      "We can't save attachments in a draft message",
+    );
+
+    fireEvent.click(
+      document.querySelector('va-button[text="Continue editing"]'),
+    );
+  });
+
+  it('renders without errors to category selection', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+
+    await waitFor(() => {
+      selectVaRadio(screen.container, 'COVID');
+      expect(
+        $('va-radio-option[value="COVID"]', screen.container),
+      ).to.have.attribute('checked', 'true');
+    });
+  });
+
+  it('renders without errors to recipient selection', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const val = triageTeams[0].name;
+    selectVaSelect(screen.container, val);
+    waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
+    });
+  });
+
+  it('renders without errors to subject input', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const val = 'Test Subject';
+    inputVaTextInput(screen.container, val);
+    await waitFor(() => {
+      expect(screen.getByTestId('message-subject-field')).to.have.value(val);
+    });
+  });
+
+  it('renders without errors to message body input', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    const val = 'test body';
+    inputVaTextInput(screen.container, val, 'va-textarea');
+    await waitFor(() => {
+      expect(screen.getByTestId('message-body-field')).to.have.value(val);
+    });
+  });
+
+  it('adds eventListener if path is /new-message', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={triageTeams} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-subject-field'), {
+      target: { innerHTML: 'test beforeunload event' },
+    });
+
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+  });
+
+  it('adds eventListener if path is /draft/:id', async () => {
     const state = {
       sm: {
         triageTeams: { triageTeams },
@@ -157,93 +363,12 @@ describe('Compose form component', () => {
       },
     );
 
-    const draftMessageHeadingText = await screen.getAllByRole('heading', {
-      name: 'COVID: Covid-Inquiry',
-      level: 2,
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    fireEvent.input(screen.getByTestId('message-subject-field'), {
+      target: { innerHTML: 'test beforeunload event' },
     });
-    const deleteButton = await screen.getByTestId('delete-draft-button');
 
-    expect(draftMessageHeadingText).to.exist;
-    expect(deleteButton).to.exist;
-  });
-
-  it('displays user signature on /new-message when signature is enabled', async () => {
-    const customState = {
-      sm: {
-        triageTeams: { triageTeams },
-        categories: { categories },
-        draftDetails: {},
-        preferences: signatureReducers.signatureEnabled,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} draft={{}} />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
-
-    const messageInput = await screen.getByTestId('message-body-field');
-
-    expect(messageInput)
-      .to.have.attribute('value')
-      .equal(
-        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
-      );
-  });
-
-  it('does not display user signature on /new-message when signature is disabled', async () => {
-    const customState = {
-      sm: {
-        triageTeams: { triageTeams },
-        categories: { categories },
-        draftDetails: {},
-        preferences: signatureReducers.signatureDisabled,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} draft={{}} />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: Paths.COMPOSE,
-      },
-    );
-
-    const messageInput = await screen.getByTestId('message-body-field');
-
-    expect(messageInput).to.not.have.attribute('value');
-  });
-
-  it('does not append an existing draft message body with enabled signature', async () => {
-    const customState = {
-      sm: {
-        triageTeams: { triageTeams },
-        categories: { categories },
-        draftDetails: { draftMessage },
-        preferences: signatureReducers.signatureEnabled,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} draft={draftMessage} />,
-      {
-        initialState: customState,
-        reducers: reducer,
-        path: `/draft/${draftMessage.id}`,
-      },
-    );
-
-    const messageInput = await screen.getByTestId('message-body-field');
-
-    expect(messageInput)
-      .to.have.attribute('value')
-      .not.equal(
-        messageSignatureFormatter(signatureReducers.signatureEnabled.signature),
-      );
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
   });
 });

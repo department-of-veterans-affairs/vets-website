@@ -10,28 +10,25 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
     const landingPage = new PatientInboxPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const replyPage = new PatientReplyPage();
-
     const site = new SecureMessagingSite();
     site.login();
     const testMessage = landingPage.getNewMessageDetails();
     landingPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-    patientInterstitialPage
-      .getContinueButton()
-      .click({ waitforanimations: true });
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
 
-    replyPage.verifyExpandedMessageDateDisplay(testMessage);
+    PatientReplyPage.verifyExpandedMessageDateDisplay(testMessage);
 
     cy.get(
       `[data-testid='expand-message-button-${
         testMessage.data.attributes.messageId
       }']`,
-    ).click({ waitforanimations: true });
-    replyPage.verifyExpandedMessageDateDisplay(testMessage);
+    ).click({ waitforanimations: true, multiple: true });
+    PatientReplyPage.verifyExpandedMessageDateDisplay(testMessage);
     // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);
     messageDetailsPage.verifyUnexpandedMessageFromDisplay(testMessage);

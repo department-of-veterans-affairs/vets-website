@@ -9,15 +9,17 @@ describe('Secure Messaging Compose with No Provider', () => {
   it('can send message', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
-    const patientInterstitialPage = new PatientInterstitialPage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPageForNoProvider();
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
-    patientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
 
     composePage.selectRecipient('');
-    composePage.getCategory('COVID').click();
+    composePage
+      .getCategory('COVID')
+      .first()
+      .click();
     composePage.getMessageSubjectField().type('Test Subject');
     composePage
       .getMessageBodyField()
@@ -27,7 +29,7 @@ describe('Secure Messaging Compose with No Provider', () => {
     cy.get('[data-testid="Send-Button"]')
       .contains('Send')
       .click();
-    composePage.verifySelcteRespitantErrorMessage();
+    composePage.verifySelectRecipientErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

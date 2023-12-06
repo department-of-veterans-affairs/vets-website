@@ -5,6 +5,7 @@ import {
   receivedAppointmentDetailsHandler,
   seeStaffMessageUpdatedHandler,
   triggerRefreshHandler,
+  additionalContextHandler,
 } from './index';
 
 import { updateFormHandler } from '../navigation';
@@ -15,6 +16,7 @@ import {
   seeStaffMessageUpdated,
   triggerRefresh,
   updateFormAction,
+  additionalContext,
 } from '../../actions/day-of';
 
 import appReducer from '../index';
@@ -246,6 +248,28 @@ describe('check in', () => {
             'details',
             'complete',
           ]);
+        });
+      });
+      describe('additionalContext', () => {
+        describe('additionalContextHandler', () => {
+          it('should create basic structure', () => {
+            const action = additionalContext({ newContextValue: true });
+            const state = additionalContextHandler({}, action);
+            expect(state).haveOwnProperty('context');
+            expect(state.context).haveOwnProperty('newContextValue');
+          });
+          it('should set the correct values', () => {
+            const action = additionalContext({ newContextValue: true });
+            const state = additionalContextHandler({}, action);
+            expect(state.context.newContextValue).to.equal(true);
+          });
+        });
+        describe('reducer is called; finds the correct handler', () => {
+          it('finds the correct handler', () => {
+            const action = additionalContext({ newContextValue: true });
+            const state = appReducer.checkInData(undefined, action);
+            expect(state.context.newContextValue).to.equal(true);
+          });
         });
       });
     });

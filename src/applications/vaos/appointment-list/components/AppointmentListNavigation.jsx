@@ -39,7 +39,6 @@ export default function AppointmentListNavigation({ count, callback }) {
           <ul>
             <li>
               <NavLink
-                id="upcoming"
                 to="/"
                 onClick={() => callback(true)}
                 aria-current={
@@ -51,7 +50,6 @@ export default function AppointmentListNavigation({ count, callback }) {
             </li>
             <li>
               <NavLink
-                id="pending"
                 to="/pending"
                 onClick={() => {
                   callback(true);
@@ -68,7 +66,6 @@ export default function AppointmentListNavigation({ count, callback }) {
             </li>
             <li>
               <NavLink
-                id="past"
                 to="/past"
                 onClick={() => {
                   callback(true);

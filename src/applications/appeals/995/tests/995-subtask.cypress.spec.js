@@ -2,12 +2,12 @@ import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-for
 
 import { BASE_URL } from '../constants';
 
+import cypressSetup from '../../shared/tests/cypress.setup';
+
 describe('995 subtask', () => {
   beforeEach(() => {
+    cypressSetup();
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: { features: [{ name: 'supplemental_claim', value: true }] },
-    });
 
     resetStoredSubTask();
     cy.visit(`${BASE_URL}/start`);

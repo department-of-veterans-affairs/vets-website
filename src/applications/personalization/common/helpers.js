@@ -100,7 +100,24 @@ export function formatFullName({
 }
 
 export const normalizePath = path => {
-  // Remove slashes and trim whitespace
-  const pathStripped = path.endsWith('/') ? path.slice(0, -1) : path;
-  return pathStripped.trim();
+  // trim whitespace and remove trailing slash
+  const pathTrimmed = path.trim();
+  return pathTrimmed.endsWith('/') ? path.slice(0, -1) : path;
 };
+
+export const getRouteInfoFromPath = (path, routes) => {
+  const normalizedPath = normalizePath(path);
+  const returnRouteInfo = routes.find(({ path: routePath }) => {
+    return routePath === normalizedPath;
+  });
+  if (!returnRouteInfo) {
+    throw new Error('No route found for path');
+  }
+  return returnRouteInfo;
+};
+
+const CLIENT_ERROR_REGEX = /^4\d{2}$/;
+const SERVER_ERROR_REGEX = /^5\d{2}$/;
+
+export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
+export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);

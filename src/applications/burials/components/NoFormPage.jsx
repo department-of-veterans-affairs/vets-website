@@ -17,12 +17,6 @@ const locationOfDeath = {
   stateVeteransHome: 'State Veterans home',
 };
 
-const burialAllowanceRequest = {
-  nonService: 'Non-Service connected death',
-  vaMedicalCenter:
-    'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)',
-};
-
 const formatCurrency = num => `$${num.toLocaleString()}`;
 const bytesToKB = bytes => `${Math.round(bytes / 1024)} KB`;
 
@@ -139,7 +133,9 @@ const generateData = (type, formData) => {
         },
         'Burial allowance': {
           'Type of burial allowance':
-            burialAllowanceRequest[(formData?.burialAllowanceRequested)],
+            formData?.burialAllowanceRequest === 'service'
+              ? 'Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)'
+              : 'Non-service-connected death',
           'Did you previously receive a VA burial allowance?': formData[
             'view:claimedBenefits'
           ]?.burialAllowance
@@ -173,15 +169,12 @@ const generateData = (type, formData) => {
         },
         'Document upload': {
           'Veterans death certificate':
-            formData?.transportationReceipts?.length > 0
-              ? formData?.transportationReceipts?.slice(0, 1)
+            formData?.deathCertificate?.length > 0
+              ? formData?.deathCertificate
               : '',
           'Documentation for transportation of the Veteran’s remains or other supporting evidence':
             formData?.transportationReceipts?.length > 0
-              ? formData?.transportationReceipts?.slice(
-                  1,
-                  formData?.transportationReceipts?.length,
-                )
+              ? formData?.transportationReceipts
               : '',
         },
       };
@@ -253,8 +246,12 @@ const CreateSummarySections = ({
     <>
       {!bypassData ? (
         <>
-          <h2 id={id}>{title}</h2>
-          <hr className="vads-u-border-color--primary-darker" />
+          <h2
+            id={id}
+            className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary"
+          >
+            {title}
+          </h2>
         </>
       ) : null}
       <div>
@@ -262,7 +259,7 @@ const CreateSummarySections = ({
           <React.Fragment key={key}>
             {h3Subsections.includes(key) && typeof value !== 'string' ? (
               <>
-                <h3>{key}</h3>
+                <h3 className="vads-u-font-size--h4">{key}</h3>
                 <CreateSummarySections formData={value} bypassData />
               </>
             ) : (
@@ -321,7 +318,7 @@ export const NoFormPage = () => {
 
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       {data?.metadata?.inProgressFormId ? (
         <>
@@ -333,22 +330,13 @@ export const NoFormPage = () => {
             <h2 id="track-your-status-on-mobile" slot="headline">
               This online form isn’t working right now
             </h2>
-            <div>
-              <p className="vads-u-margin-y--0">
-                You can still refer to the information here to apply by mail.
-              </p>
-            </div>
-            <br />
-            <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/"
-              text="Learn more about how to apply for VA burial benefits"
-            />
-          </va-alert>
-          <h3>Apply by mail</h3>
-          <p>
-            Fill out an Application for Veterans Burial (VA Form 21P-530EZ).
-          </p>
-          <div>
+
+            <p>
+              You can apply by mail instead. Download a PDF Application for
+              Burial Benefits (VA Form 21P-530EZ). You can refer to your saved
+              information on this page to fill out the form.
+            </p>
+
             <va-link
               download
               filetype="PDF"
@@ -356,13 +344,11 @@ export const NoFormPage = () => {
               pages={8}
               text="Download VA form 21P-530EZ"
             />
-            <p>
-              We’ve captured your intent to file date of
-              <strong> XX/XX/XXXX</strong>. You have 12 months from that date to
-              submit a claim.
-            </p>
+          </va-alert>
+          <div>
+            <h2>How to apply by mail</h2>
             <p className="vads-u-margin-bottom--4">
-              Mail your burial form to the pension management center:
+              Mail the completed form to the pension management center (PMC):
             </p>
             <p className="va-address-block">
               Department of Veterans Affairs <br />
@@ -374,7 +360,10 @@ export const NoFormPage = () => {
               <br />
             </p>
             <article>
-              <va-on-this-page />
+              <h2>Saved information</h2>
+              <div className="vads-u-padding-x--1">
+                <va-on-this-page />
+              </div>
               {renderFields.map(props => (
                 <CreateSummarySections
                   {...props}
@@ -390,36 +379,16 @@ export const NoFormPage = () => {
               include a fine, imprisonment for up to 5 years, or both.
               (Reference: 18 U.S.C. 1001)
             </p>
-            <va-alert
-              background-only
-              class="vads-u-margin-bottom--1"
-              close-btn-aria-label="Close notification"
-              disable-analytics="false"
-              full-width="false"
-              status="info"
-              visible="true"
-            >
-              <p className="vads-u-margin-y--0">
-                <strong>
-                  Veterans Pension (VA Form 21P-527EZ) can not be currently
-                  completed online.
-                </strong>
-                <br />
-                We have saved your application so you can use it as a reference.
-                You will need to fill out a new form to apply by mail.
-              </p>
-            </va-alert>
-            <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+            <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
               Need help?
             </h2>
-            <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
             <p>
-              Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />
-              . We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If
-              you have hearing loss, call TTY:{' '}
-              <va-link href="tel:711" text="711" />.
+              Call us at <va-telephone contact="8008271000" />. We’re here
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+              hearing loss, call <va-telephone contact="711" tty />.
             </p>
           </div>
+          <va-back-to-top />
         </>
       ) : (
         <>
@@ -444,21 +413,20 @@ export const NoFormPage = () => {
               text="Learn more about how to apply for VA burial benefits"
             />
           </va-alert>
-          <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+          <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
             Need help?
           </h2>
-          <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
           <p>
-            Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you
-            have hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+            Call us at <va-telephone contact="8008271000" />. We’re here Monday
+            through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+            call <va-telephone contact="711" tty />.
           </p>
         </>
       )}
     </div>
   ) : (
     <div className="row vads-u-margin-bottom--4">
-      <h1>Review Burial Benefits Application</h1>
+      <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
@@ -477,14 +445,13 @@ export const NoFormPage = () => {
           text="Learn more about how to apply for VA burial benefits"
         />
       </va-alert>
-      <h2 className="vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
         Need help?
       </h2>
-      <hr className="vads-u-border-color--primary vads-u-margin-y--0 vads-u-border-bottom--2px" />
       <p>
-        Call us at <va-link href="tel:800-827-1000" text="800-827-1000" />.
-        We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-        hearing loss, call TTY: <va-link href="tel:711" text="711" />.
+        Call us at <va-telephone contact="8008271000" />. We’re here Monday
+        through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss, call{' '}
+        <va-telephone contact="711" tty />.
       </p>
     </div>
   );

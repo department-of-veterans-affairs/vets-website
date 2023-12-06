@@ -1,4 +1,3 @@
-// Node modules.
 import React from 'react';
 
 export const Logo = props => (

@@ -11,7 +11,6 @@ import {
 } from '@@profile/actions';
 import {
   cnpDirectDepositInformation,
-  profileUseLighthouseDirectDepositEndpoint,
   selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
@@ -47,12 +46,13 @@ import {
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
+import { canAccess } from '../../common/selectors';
 
 class Profile extends Component {
   componentDidMount() {
@@ -69,7 +69,6 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
@@ -79,9 +78,7 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -104,7 +101,6 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
@@ -128,9 +124,7 @@ class Profile extends Component {
         shouldFetchCNPDirectDepositInformation &&
         !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
 
     if (
@@ -169,6 +163,7 @@ class Profile extends Component {
     const toggles = this.props.profileToggles;
 
     const routes = getRoutes({
+      profileContactsPage: toggles.profileContacts,
       useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
     });
@@ -285,7 +280,6 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -313,7 +307,11 @@ const mapStateToProps = state => {
   // 47841 block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
 
-  const shouldFetchTotalDisabilityRating = isLOA3 && isInMVI;
+  const shouldFetchTotalDisabilityRating = !!(
+    isLOA3 &&
+    isInMVI &&
+    canAccess(state)?.ratingInfo
+  );
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -362,9 +360,6 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
-    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
-      state,
-    ),
     togglesLoaded,
     profileToggles: selectProfileToggles(state),
   };

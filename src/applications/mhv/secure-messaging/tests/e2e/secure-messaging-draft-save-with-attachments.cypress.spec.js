@@ -14,13 +14,12 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     const draftsPage = new PatientMessageDraftsPage();
-    const patientInterstitialPage = new PatientInterstitialPage();
 
     site.login();
     landingPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().should('not.exist');
+    PatientInterstitialPage.getContinueButton().should('not.exist');
     cy.intercept(
       'PUT',
       `/my_health/v1/messaging/message_drafts/${
@@ -34,6 +33,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       'contain',
       'If you save this message as a draft',
     );
+
     cy.wait('@autosaveResponse');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

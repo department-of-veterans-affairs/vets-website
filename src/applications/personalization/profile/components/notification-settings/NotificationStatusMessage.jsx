@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,7 +6,6 @@ export const NotificationStatusMessage = ({
   children,
   classes,
   id,
-  alert,
   legacy = false,
 }) => {
   // legacy can be removed as a prop when the radio buttons are removed
@@ -24,6 +23,7 @@ export const NotificationStatusMessage = ({
               'vads-u-padding-y--1p5',
               'vads-u-padding-x--2',
               'vads-u-margin-left--neg1p5',
+              'focus-ring',
               classes,
             ],
       );
@@ -31,14 +31,19 @@ export const NotificationStatusMessage = ({
     [classes, legacy],
   );
 
+  const statusMessage = useRef(null);
+
+  useEffect(() => {
+    if (statusMessage.current) {
+      statusMessage.current.focus();
+    }
+  }, []);
+
   return (
-    <div
-      id={id}
-      role={alert ? 'alert' : undefined}
-      aria-live={alert ? 'polite' : undefined}
-      className="vads-u-display--flex"
-    >
-      <span className={computedClasses}>{children}</span>
+    <div id={id} className="vads-u-display--flex">
+      <div ref={statusMessage} tabIndex="-1" className={computedClasses}>
+        {children}
+      </div>
     </div>
   );
 };

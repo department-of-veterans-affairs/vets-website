@@ -141,14 +141,18 @@ export function PreSubmitSection(props) {
             {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
             <p>
               I have read and accept the{' '}
-              <a href="/privacy-policy/" target="_blank">
+              <a
+                href="/privacy-policy/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 privacy policy
+                <span className="sr-only">opens in a new window</span>
                 <i
                   className="fas fa-arrow-up-right-from-square"
                   aria-hidden="true"
                   role="img"
                 />
-                <span className="sr-only">opens in a new window</span>
               </a>
               .
             </p>

@@ -17,23 +17,33 @@ import YesNoField from '../web-component-fields/YesNoField';
  * if `yesNoReverse` is set to true, selecting `yes` will result in `false` instead of `true`
  *
  * @param {string | {
- *  title?: UISchemaOptions['ui:title'],
- *  description?: UISchemaOptions['ui:description'],
- *  labels?: {Y?: string, N?: string},
- *  tile?: boolean,
- *  yesNoReverse?: boolean,
+ *   title?: UISchemaOptions['ui:title'],
+ *   description?: UISchemaOptions['ui:description'],
+ *   labels?: {Y?: string, N?: string},
+ *   tile?: boolean,
+ *   yesNoReverse?: boolean,
+ *   hint?: string,
+ *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  * }} options - a string to use as the title or an object with options
  * @returns {UISchemaOptions}
  */
 export const yesNoUI = options => {
-  const { title, tile, labels, description, yesNoReverse, ...uiOptions } =
-    typeof options === 'object' ? options : { title: options };
+  const {
+    title,
+    tile,
+    labels,
+    description,
+    yesNoReverse,
+    errorMessages,
+    ...uiOptions
+  } = typeof options === 'object' ? options : { title: options };
 
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:widget': 'yesNo', // This is required for the review page to render the field properly
     'ui:webComponentField': YesNoField,
+    'ui:errorMessages': errorMessages,
     'ui:options': {
       labels: {
         Y: labels?.Y || 'Yes',

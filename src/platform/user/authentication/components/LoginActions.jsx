@@ -64,6 +64,7 @@ export default function LoginActions({ externalApplication }) {
                   key={policy}
                   policy={policy}
                   useOAuth={useOAuth}
+                  externalApplication={externalApplication}
                 />
               ))}
             </div>

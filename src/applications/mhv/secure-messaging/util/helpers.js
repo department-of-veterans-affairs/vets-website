@@ -32,12 +32,6 @@ export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
 };
 
-export const unreadCountInbox = folders => {
-  return folders
-    .filter(folder => folder.id === Folders.INBOX.id)
-    .reduce((a, b) => a + b.unreadCount, 0);
-};
-
 export const navigateToFoldersPage = history => {
   history.push(Paths.FOLDERS);
 };
@@ -63,6 +57,21 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+export const threadsDateFormat = (timestamp, format = null) => {
+  moment.updateLocale('en', {
+    meridiem: hour => {
+      if (hour < 12) {
+        return 'a.m.';
+      }
+      return 'p.m.';
+    },
+  });
+  const timeZone = moment.tz.guess();
+  return moment
+    .tz(timestamp, timeZone)
+    .format(format || 'MMMM D, YYYY [at] h:mm a z');
 };
 
 export const sortRecipients = recipientsList => {
@@ -188,24 +197,12 @@ export const messageSignatureFormatter = singatureObj => {
   return null;
 };
 
-const setSelectionRange = (input, selectionStart, selectionEnd) => {
-  if (input.setSelectionRange) {
-    input.focus();
-    input.setSelectionRange(selectionStart, selectionEnd);
-  } else if (input.createTextRange) {
-    const range = input.createTextRange();
-    range.collapse(true);
-    range.moveEnd('character', selectionEnd);
-    range.moveStart('character', selectionStart);
-    range.select();
-  }
-};
-
 /**
  * Setting a text input cursor to a specific position
  * @param {*} input
  * @param {*} pos
  */
 export const setCaretToPos = (input, pos) => {
-  setSelectionRange(input, pos, pos);
+  input.focus();
+  input.setSelectionRange(pos, pos);
 };

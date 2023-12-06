@@ -1,8 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { daysAgo } from '@@profile/tests/helpers';
 import { expect } from 'chai';
-import moment from 'moment';
+import { format } from 'date-fns';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Appeal from '../../../components/claims-and-appeals/Appeal';
 import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
@@ -47,7 +48,7 @@ function makeAppealObject({
         },
       ],
       events: [
-        { type: 'nod', date: '2012-02-02' },
+        { type: 'nod', date: '2012-02-03' },
         { type: 'soc', date: '2012-03-03' },
         { type: 'form9', date: '2012-04-04' },
         { type: 'hearing_held', date: updateDate },
@@ -58,14 +59,27 @@ function makeAppealObject({
 }
 
 describe('<Appeal />', () => {
+  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
+  const initialState = {
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
+    },
+  };
+
   const name = { first: 'Test', middle: 'T', last: 'User' };
 
   it('should render', () => {
     const appeal = makeAppealObject({ updateDate: daysAgo(1) });
-    const updatedDate = moment(daysAgo(1)).format('MMMM D, YYYY');
+    const updatedDate = format(
+      new Date(daysAgo(1).replace(/-/g, '/')),
+      'MMMM d, yyyy',
+    );
     const appealTitle = `Disability compensation appeal updated on ${updatedDate}`;
 
-    const tree = render(<Appeal appeal={appeal} name={name} />);
+    const tree = renderWithStoreAndRouter(
+      <Appeal appeal={appeal} name={name} />,
+      { initialState },
+    );
 
     expect(tree.getByText(appealTitle)).to.exist;
     expect(
@@ -73,7 +87,8 @@ describe('<Appeal />', () => {
     ).to.exist;
     expect(tree.getByText(/Issue on appeal: Benefits as a result of VA error/))
       .to.exist;
-    expect(tree.getByText(/Submitted on: February 2, 2012/)).to.exist;
+    expect(tree.getByText(/Submitted on: February 3, 2012/, { exact: false }))
+      .to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
   });
 
@@ -83,7 +98,10 @@ describe('<Appeal />', () => {
         updateDate: daysAgo(1),
         type: APPEAL_TYPES.supplementalClaim,
       });
-      const tree = render(<Appeal appeal={appeal} name={name} />);
+      const tree = renderWithStoreAndRouter(
+        <Appeal appeal={appeal} name={name} />,
+        { initialState },
+      );
 
       expect(
         tree.getByText(
@@ -98,7 +116,10 @@ describe('<Appeal />', () => {
         type: APPEAL_TYPES.higherLevelReview,
       });
 
-      const tree = render(<Appeal appeal={appeal} name={name} />);
+      const tree = renderWithStoreAndRouter(
+        <Appeal appeal={appeal} name={name} />,
+        { initialState },
+      );
 
       expect(
         tree.getByText(
@@ -113,7 +134,10 @@ describe('<Appeal />', () => {
         type: APPEAL_TYPES.appeal,
       });
 
-      const tree = render(<Appeal appeal={appeal} name={name} />);
+      const tree = renderWithStoreAndRouter(
+        <Appeal appeal={appeal} name={name} />,
+        { initialState },
+      );
 
       expect(tree.getByText(/Disability compensation appeal updated on/)).to
         .exist;
@@ -124,7 +148,10 @@ describe('<Appeal />', () => {
     it('should render the right description when it is an appeal', () => {
       const appeal = makeAppealObject({ updateDate: daysAgo(1) });
       appeal.attributes.issues.push(appeal.attributes.issues.first);
-      const tree = render(<Appeal appeal={appeal} name={name} />);
+      const tree = renderWithStoreAndRouter(
+        <Appeal appeal={appeal} name={name} />,
+        { initialState },
+      );
 
       expect(
         tree.getByText(/Issues on appeal: Benefits as a result of VA error/),
@@ -137,7 +164,10 @@ describe('<Appeal />', () => {
         type: APPEAL_TYPES.supplementalClaim,
       });
       appeal.attributes.issues.push(appeal.attributes.issues.first);
-      const tree = render(<Appeal appeal={appeal} name={name} />);
+      const tree = renderWithStoreAndRouter(
+        <Appeal appeal={appeal} name={name} />,
+        { initialState },
+      );
 
       expect(
         tree.getByText(/Issues on review: Benefits as a result of VA error/),

@@ -19,7 +19,11 @@ export const categoriesReducer = (state = initialState, action) => {
           },
         ),
       };
-    case 'b':
+    case Actions.Category.GET_LIST_ERROR:
+      return {
+        ...state,
+        categories: 'error',
+      };
     default:
       return state;
   }

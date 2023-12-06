@@ -21,5 +21,13 @@ export default function CCInstructions({ appointment }) {
 }
 
 CCInstructions.propTypes = {
-  appointment: PropTypes.object,
+  appointment: PropTypes.shape({
+    comment: PropTypes.string,
+  }),
+};
+
+CCInstructions.defaultProps = {
+  appointment: {
+    comment: '',
+  },
 };

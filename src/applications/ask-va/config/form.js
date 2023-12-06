@@ -1,11 +1,38 @@
+// TODO: Add Ask-VA form schema when we know the full scope of the form
 // import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
 
 import manifest from '../manifest.json';
+import { requiredForSubtopicPage, CHAPTER_3, CHAPTER_4 } from '../constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import TopicList from '../components/FormFields/TopicList';
+// Category and Topic pages
+import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
+import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
+import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
+
+// Your Question
+import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+
+// Personal Information
+import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
+import whoHasAQuestionPage from './chapters/personalInformation/whoHasAQuestion';
+import areYouTheVeteranPage from './chapters/personalInformation/areYouTheVeteran';
+import areYouTheDependentPage from './chapters/personalInformation/areYouTheDependent';
+import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
+import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
+import deathDatePage from './chapters/personalInformation/deathDate';
+
+// Contact Information
+import aboutTheVeteranPage from './chapters/contactInformation/aboutTheVeteran';
+import veteransAddressZipPage from './chapters/contactInformation/veteranAddressZip';
+import aboutYourselfPage from './chapters/contactInformation/aboutYourself';
+import yourPhoneAndEmailPage from './chapters/contactInformation/yourPhoneAndEmail';
+import yourCountryPage from './chapters/contactInformation/yourCountry';
+import yourAddressPage from './chapters/contactInformation/yourAddress';
+// import veteransAddressPage from './chapters/contactInformation/veteransAddress';
+import addressConfirmationPage from './chapters/contactInformation/addressConfirmation';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -33,189 +60,140 @@ const formConfig = {
       'Please sign in again to continue your application for ask the va test.',
   },
   title: 'Ask VA',
+  subTitle:
+    'Get answers to your questions about VA benefits and services and send documents online',
   defaultDefinitions: {},
   chapters: {
-    veteranDetails: {
-      title: 'Your Info',
+    categoryAndTopic: {
+      title: 'Category and Topic',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          subTitle: 'First Test page',
-          uiSchema: {
-            fieldOnAnotherPage: {
-              'ui:title': 'Field on Another Page',
-            },
-            myField: {
-              'ui:title': 'My field label test',
-              'ui:widget': 'radio',
-              'ui:options': {
-                widgetProps: {
-                  'First option': { 'data-info': 'first_1' },
-                  'Second option': { 'data-info': 'second_2' },
-                },
-                // Only added to the radio when it is selected
-                // a11y requirement: aria-describedby ID's *must* exist on the page;
-                // and we conditionally add content based on the selection
-                selectedProps: {
-                  'First option': { 'aria-describedby': 'some_id_1' },
-                  'Second option': { 'aria-describedby': 'some_id_2' },
-                },
-              },
-            },
-            devField: {
-              'ui:widget': TopicList,
-            },
-            testField: {
-              'ui:title': 'My TEST label',
-              'ui:validations': [
-                (errors, field) => {
-                  if (field && field.startsWith('bad')) {
-                    errors.addError(
-                      "Sorry, you can't start this field with 'bad'",
-                    );
-                  }
-                },
-              ],
-            },
-            thirdField: {
-              'ui:title': 'My Third label',
-              'ui:errorMessages': {
-                pattern: 'Sorry, word MUST start with "good"',
-              },
-            },
-            // To force this field to be required the 'thirdField' must equal 'good'
-            myOtherField: {
-              'ui:title': 'My Other field',
-              'ui:required': formData => formData.thirdField === 'good',
-            },
-            myConditionalField: {
-              'ui:title': 'My conditional field',
-              'ui:options': {
-                expandUnder: 'myField',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['myField'],
-            properties: {
-              fieldOnAnotherPage: {
-                type: 'string',
-              },
-              myField: {
-                type: 'string',
-                enum: ['First Option', 'Second Option'],
-              },
-              devField: {
-                type: 'string',
-              },
-              myConditionalField: {
-                type: 'string',
-              },
-              testField: {
-                type: 'string',
-              },
-              thirdField: {
-                type: 'string',
-                pattern: '^good',
-              },
-              myOtherField: {
-                type: 'string',
-              },
-            },
-          },
+        selectCategory: {
+          path: 'category-topic-1',
+          title: 'Category Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectCategoryPage.uiSchema,
+          schema: selectCategoryPage.schema,
         },
-        page2: {
-          path: 'second-page',
-          title: 'Second Page',
-          depends: form => form.fieldOnAnotherPage !== 'test',
-          uiSchema: {
-            myFieldPage2: {
-              'ui:title': 'My field',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                labels: {
-                  Y: 'Yes, this is what I want',
-                  N: 'No, I do not want this',
-                },
-                widgetProps: {
-                  Y: { 'data-info': 'yes' },
-                  N: { 'data-info': 'no' },
-                },
-                // Only added to the radio when it is selected
-                // a11y requirement: aria-describedby ID's *must* exist on the page;
-                // and we conditionally add content based on the selection
-                selectedProps: {
-                  Y: { 'aria-describedby': 'some_id' },
-                  N: { 'aria-describedby': 'different_id' },
-                },
-              },
-            },
-            email: {
-              'ui:title': 'Email',
-            },
-            'view:confirmEmail': {
-              'ui:title': 'Confirm email',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              myFieldPage2: {
-                type: 'boolean',
-              },
-              email: {
-                type: 'string',
-              },
-              'view:confirmEmail': {
-                type: 'string',
-              },
-            },
-          },
+        selectTopic: {
+          path: 'category-topic-2',
+          title: 'Topic Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectTopicPage.uiSchema,
+          schema: selectTopicPage.schema,
+        },
+        selectSubtopic: {
+          path: 'category-topic-3',
+          title: 'SubTopic Selected',
+          editModeOnReviewPage: true,
+          uiSchema: selectSubtopicPage.uiSchema,
+          schema: selectSubtopicPage.schema,
+          depends: form => requiredForSubtopicPage.includes(form.selectTopic),
         },
       },
     },
-    veteranQuestions: {
+    yourQuestion: {
       title: 'Your Question',
       pages: {
-        page3: {
-          path: 'your-question-page',
-          title: 'The Questions Page',
-          subTitle: 'test question',
-          uiSchema: {
-            question: {
-              'ui:title': 'Type your question below:',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['question'],
-            properties: {
-              question: {
-                type: 'string',
-              },
-            },
-          },
+        tellUsYourQuestion: {
+          path: 'question-1',
+          title: 'Tell us your question',
+          uiSchema: yourQuestionPage.uiSchema,
+          schema: yourQuestionPage.schema,
         },
-        page4: {
-          path: 'your-question-page-2',
-          title: 'The 2nd Questions Page',
-          uiSchema: {
-            question2: {
-              'ui:title': 'Type your 2nd question below:',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              question2: {
-                type: 'string',
-              },
-            },
-          },
+      },
+    },
+    vaInformation: {
+      title: CHAPTER_3.CHAPTER_TITLE,
+      pages: {
+        searchVAMedicalCenter: {
+          path: CHAPTER_3.PAGE_1.PATH,
+          title: CHAPTER_3.PAGE_1.TITLE,
+          uiSchema: searchVAMedicalCenterPage.uiSchema,
+          schema: searchVAMedicalCenterPage.schema,
+        },
+        whoHasAQuestion: {
+          path: CHAPTER_3.PAGE_2.PATH,
+          title: CHAPTER_3.PAGE_2.TITLE,
+          uiSchema: whoHasAQuestionPage.uiSchema,
+          schema: whoHasAQuestionPage.schema,
+        },
+        areYouTheVeteran: {
+          path: CHAPTER_3.PAGE_3.PATH,
+          title: CHAPTER_3.PAGE_3.TITLE,
+          uiSchema: areYouTheVeteranPage.uiSchema,
+          schema: areYouTheVeteranPage.schema,
+        },
+        areYouTheDependent: {
+          path: CHAPTER_3.PAGE_4.PATH,
+          title: CHAPTER_3.PAGE_4.TITLE,
+          uiSchema: areYouTheDependentPage.uiSchema,
+          schema: areYouTheDependentPage.schema,
+        },
+        relationshipToVeteran: {
+          path: CHAPTER_3.PAGE_5.PATH,
+          title: CHAPTER_3.PAGE_5.TITLE,
+          uiSchema: relationshipToVeteranPage.uiSchema,
+          schema: relationshipToVeteranPage.schema,
+        },
+        veteranDeceased: {
+          path: CHAPTER_3.PAGE_6.PATH,
+          title: CHAPTER_3.PAGE_6.TITLE,
+          uiSchema: isTheVeteranDeceasedPage.uiSchema,
+          schema: isTheVeteranDeceasedPage.schema,
+        },
+        dateOfDeath: {
+          path: CHAPTER_3.PAGE_7.PATH,
+          title: CHAPTER_3.PAGE_7.TITLE,
+          uiSchema: deathDatePage.uiSchema,
+          schema: deathDatePage.schema,
+        },
+      },
+    },
+    contactInformation: {
+      title: CHAPTER_4.CHAPTER_TITLE,
+      pages: {
+        aboutTheVeteran: {
+          path: CHAPTER_4.PAGE_1.PATH,
+          title: CHAPTER_4.PAGE_1.TITLE,
+          uiSchema: aboutTheVeteranPage.uiSchema,
+          schema: aboutTheVeteranPage.schema,
+        },
+        veteransAddressZip: {
+          path: CHAPTER_4.PAGE_2.PATH,
+          title: CHAPTER_4.PAGE_2.TITLE,
+          uiSchema: veteransAddressZipPage.uiSchema,
+          schema: veteransAddressZipPage.schema,
+        },
+        aboutYourself: {
+          path: CHAPTER_4.PAGE_3.PATH,
+          title: CHAPTER_4.PAGE_3.TITLE,
+          uiSchema: aboutYourselfPage.uiSchema,
+          schema: aboutYourselfPage.schema,
+        },
+        yourPhoneAndEmail: {
+          path: CHAPTER_4.PAGE_4.PATH,
+          title: CHAPTER_4.PAGE_4.TITLE,
+          uiSchema: yourPhoneAndEmailPage.uiSchema,
+          schema: yourPhoneAndEmailPage.schema,
+        },
+        yourCountry: {
+          path: CHAPTER_4.PAGE_5.PATH,
+          title: CHAPTER_4.PAGE_5.TITLE,
+          uiSchema: yourCountryPage.uiSchema,
+          schema: yourCountryPage.schema,
+        },
+        yourAddress: {
+          path: CHAPTER_4.PAGE_6.PATH,
+          title: CHAPTER_4.PAGE_6.TITLE,
+          uiSchema: yourAddressPage.uiSchema,
+          schema: yourAddressPage.schema,
+        },
+        yourAddressConfirmation: {
+          path: CHAPTER_4.PAGE_7.PATH,
+          title: CHAPTER_4.PAGE_7.TITLE,
+          uiSchema: addressConfirmationPage.uiSchema,
+          schema: addressConfirmationPage.schema,
+          depends: form => !form.onBaseOutsideUS,
         },
       },
     },

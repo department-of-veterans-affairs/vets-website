@@ -80,7 +80,7 @@ ShowPdfPassword.propTypes = {
 
 const PasswordLabel = () => (
   <p>
-    This is en encrypted PDF document. In order for us to be able to view the
+    This is an encrypted PDF document. In order for us to be able to view the
     document, we will need the password to decrypt it.
   </p>
 );

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -88,8 +89,8 @@ const HTMLStatementPage = ({ match }) => {
         </h2>
         <p>
           Contact the VA Health Resource Center at{' '}
-          <va-telephone contact="8664001238" /> (TTY:{' '}
-          <va-telephone contact="711" />
+          <va-telephone contact="8664001238" /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <Modals title="Notice of rights and responsibilities">

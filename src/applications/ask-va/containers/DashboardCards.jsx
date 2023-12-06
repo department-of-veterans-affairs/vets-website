@@ -11,7 +11,9 @@ import { ServerErrorAlert } from '../config/helpers';
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
-  const DASHBOARD_DATA = `${environment.API_URL}/ask_va_api/v0/users/dashboard`;
+  const DASHBOARD_DATA = `${
+    environment.API_URL
+  }/ask_va_api/v0/inquiries?mock=true`;
 
   const getData = async () => {
     const response = await apiRequest(DASHBOARD_DATA)
@@ -24,8 +26,8 @@ const DashboardCards = () => {
 
     const data = [];
     if (response) {
-      for (const inquiry of response.data.attributes.inquiries) {
-        data.push(inquiry.data.attributes);
+      for (const inquiry of response.data) {
+        data.push(inquiry.attributes);
       }
     }
     setInquiries(data);

@@ -19,6 +19,10 @@ export default {
           <dd>{children}</dd>
         </div>
       ),
+      'ui:errorMessages': {
+        required:
+          'Please select who you would like us to release information to',
+      },
       'ui:options': {
         labels: {
           [THIRD_PARTY_TYPES.PERSON]: 'A specific person',

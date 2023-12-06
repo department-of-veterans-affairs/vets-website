@@ -4,7 +4,7 @@ import foldersReducer from '../../reducers/folders';
 
 import { FETCH_FOLDER_SUCCESS } from '../../utils/constants';
 
-import { folders, messages } from '../messaging-helpers';
+import { allFolders, messages } from '../../mocks/messaging';
 
 const initialState = {
   data: {
@@ -31,7 +31,7 @@ const initialState = {
 
 describe('folders reducer', () => {
   it('should set a folder fetched from the server', () => {
-    const folder = { data: folders.data[0] };
+    const folder = { data: allFolders.data[0] };
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDER_SUCCESS,
       folder,

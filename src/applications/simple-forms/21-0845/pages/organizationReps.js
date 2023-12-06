@@ -1,17 +1,14 @@
 import React from 'react';
 
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+
 const labelString = 'Name of representative';
 
 export default {
   uiSchema: {
-    'ui:title': (
-      <>
-        <h3>Organization’s representatives</h3>
-        <p className="vads-u-margin-top--4 vads-u-margin-bottom--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark">
-          List at least one person from the organization who we can release your
-          information to.
-        </p>
-      </>
+    ...titleUI(
+      'Organization’s representatives',
+      'List at least one person from the organization who we can release your information to.',
     ),
     organizationRepresentative: {
       'ui:title': (

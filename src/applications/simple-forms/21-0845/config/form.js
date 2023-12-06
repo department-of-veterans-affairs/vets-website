@@ -1,16 +1,12 @@
 // this form does NOT use JSON schema for its data model
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-import {
-  getScrollOptions,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import manifest from '../manifest.json';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { pageFocusScroll } from './helpers';
 import getHelp from '../../shared/components/GetFormHelp';
 import { AUTHORIZER_TYPES, INFORMATION_SCOPES } from '../definitions/constants';
 // pages
@@ -37,31 +33,6 @@ import authorizerContactInfoPg from '../pages/authorizerContactInfo';
 import testData from '../tests/e2e/fixtures/data/noAuthType.json';
 
 const mockData = testData.data;
-
-const pageFocusScroll = () => {
-  return () => {
-    const { pathname } = document.location;
-    let focusSelector = '';
-
-    if (pathname.includes('authorizer-type')) {
-      // focus on custom-h3 for authorizer-type page
-      focusSelector = '#root_authorizerType-label';
-    } else {
-      // since useCustomScrollAndFocus is enabled at form-level,
-      // this fn fires on every chapter change, so we need to
-      // provide default focusSelector for all other pages.
-      focusSelector = '#nav-form-header';
-    }
-
-    waitForRenderThenFocus(focusSelector);
-    setTimeout(() => {
-      scrollTo(
-        focusSelector.replace(/#/gi, ''),
-        getScrollOptions({ offset: 0 }),
-      );
-    }, 100);
-  };
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -192,7 +163,7 @@ const formConfig = {
       pages: {
         vetPersInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Your personal information',
+          title: '',
           uiSchema: veteranPersonalInfoPg.uiSchema,
           schema: veteranPersonalInfoPg.schema,
           scrollAndFocusTarget: pageFocusScroll(),

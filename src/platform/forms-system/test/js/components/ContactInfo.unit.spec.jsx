@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 
 import vapProfile from '../../../../user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
@@ -22,6 +23,7 @@ const getData = ({
   forwardSpy = () => {},
   updateSpy = () => {},
   requiredKeys = ['homePhone|mobilePhone', 'email', 'mailingAddress'],
+  uiSchema = {},
 } = {}) => ({
   data: {
     veteran: {
@@ -48,6 +50,7 @@ const getData = ({
   },
   requiredKeys,
   content: getContent(),
+  uiSchema,
 });
 
 const mockStore = {
@@ -371,6 +374,59 @@ describe('<ContactInfo>', () => {
       expect(alert[0].innerHTML).to.contain(
         'have your email address. Please edit',
       );
+    });
+  });
+
+  describe('call ui:required & ui:validations & show validation errors', () => {
+    const getUiSchema = ({ req = () => true, validations = [] }) => ({
+      'ui:required': req,
+      'ui:validations': validations,
+    });
+
+    it('should check ui:required', () => {
+      const requiredSpy = sinon.spy();
+      const uiSchema = getUiSchema({ req: requiredSpy });
+      const data = getData({ uiSchema });
+      render(
+        <Provider store={mockStore}>
+          <ContactInfo {...data} />
+        </Provider>,
+      );
+
+      expect(requiredSpy.called).to.be.true;
+    });
+    it('should check ui:validations', () => {
+      const validationSpy = sinon.spy();
+      const uiSchema = getUiSchema({ validations: [validationSpy] });
+      const data = getData({ uiSchema });
+      render(
+        <Provider store={mockStore}>
+          <ContactInfo {...data} />
+        </Provider>,
+      );
+
+      expect(validationSpy.called).to.be.true;
+    });
+    it('should render validation errors', async () => {
+      const uiSchema = getUiSchema({
+        validations: [err => err.addError('some error')],
+      });
+      const data = getData({ uiSchema });
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ContactInfo {...data} />
+        </Provider>,
+      );
+
+      // continue button click
+      fireEvent.click($('.usa-button-primary', container));
+
+      const alert = $('va-alert[status="error"]', container);
+      await waitFor(() => {
+        expect(alert).to.exist;
+        expect(alert.innerHTML).to.contain('some error');
+      });
     });
   });
 

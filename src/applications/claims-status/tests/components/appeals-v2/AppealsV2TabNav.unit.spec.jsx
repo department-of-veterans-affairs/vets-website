@@ -10,13 +10,13 @@ const defaultProps = {
 describe('<AppealsV2TabNav/>', () => {
   it('should render', () => {
     const wrapper = shallow(<AppealsV2TabNav {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.type()).to.equal('nav');
     wrapper.unmount();
   });
 
   it('should render 2 tabs: Status and Detail', () => {
     const wrapper = mount(<AppealsV2TabNav {...defaultProps} />);
-    const tabs = wrapper.find('li.appeals-tabs-item');
+    const tabs = wrapper.find('li');
     const statusTab = wrapper.findWhere(
       c => c.type() === 'li' && c.text() === 'Status',
     );

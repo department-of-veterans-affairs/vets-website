@@ -37,7 +37,7 @@ const TrackingInfo = ({
 
   return (
     <div className="clearfix tracking-info vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-border-left--7px vads-u-border-color--primary">
-      <h2 className="vads-u-margin-y--0">
+      <h2 className="vads-u-margin-y--0" data-testid="track-package">
         <i
           className="fa fa-info-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -48,7 +48,7 @@ const TrackingInfo = ({
         Tracking number
       </h3>
       <p data-testid="tracking-number">{trackingNumber}</p>
-      <a target="_blank" href={url} rel="noreferrer">
+      <a href={url} rel="noreferrer">
         Track your package with {label}
       </a>
       <h3 className="vads-u-font-size--lg vads-u-margin-top--3 vads-u-margin-bottom--1">
@@ -74,7 +74,10 @@ const TrackingInfo = ({
         <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5 left">
           Prescriptions in this package:
         </h4>
-        <span className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0 left">
+        <span
+          className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0 left"
+          data-testid="rx-name"
+        >
           {prescriptionName}
         </span>
       </>

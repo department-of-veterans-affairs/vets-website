@@ -6,14 +6,24 @@ import { waitFor, within } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import AppointmentsPageV2 from '../../../appointment-list/components/AppointmentsPageV2';
+import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
 } from '../../mocks/helpers';
-import { createMockAppointmentByVersion } from '../../mocks/data';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import {
+  createMockAppointmentByVersion,
+  createMockFacilityByVersion,
+} from '../../mocks/data';
+import {
+  mockVAOSAppointmentsFetch,
+  mockSingleVAOSAppointmentFetch,
+} from '../../mocks/helpers.v2';
+import { getVAOSRequestMock, getVAOSAppointmentMock } from '../../mocks/v2';
+import {
+  mockFacilityFetchByVersion,
+  mockSingleClinicFetchByVersion,
+} from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -26,7 +36,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
+describe('VAOS <AppointmentsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -59,7 +69,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({});
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -103,7 +113,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(screen.queryByLabelText('Show by status')).not.to.exists;
     });
 
-    it('should display updated title appointment request page', async () => {
+    it('should display updated title on pending appointments page', async () => {
       // Given the veteran lands on the VAOS homepage
       const appointment = getVAOSRequestMock();
       appointment.id = '1';
@@ -136,7 +146,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -176,7 +186,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       );
     });
 
-    it('should display updated past appointment page', async () => {
+    it('should display updated past appointments page title', async () => {
       // Given the veteran lands on the VAOS homepage
       const pastDate = moment().subtract(3, 'months');
       const data = {
@@ -194,7 +204,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({ va: [appointment] });
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -229,12 +239,120 @@ describe('VAOS <AppointmentsPageV2>', () => {
     });
 
     // WIP
-    it('should display updated title on pending appointment detail page', async () => {
+    it.skip('should show confirmed appointment detail page with new URL', async () => {
+      const myInitialState = {
+        ...initialState,
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        },
+      };
+
+      const url = '1234';
+      const futureDate = moment.utc();
+
+      const appointment = getVAOSAppointmentMock();
+      appointment.id = '1234';
+      appointment.attributes = {
+        ...appointment.attributes,
+        kind: 'clinic',
+        clinic: '455',
+        locationId: '983GC',
+        id: '1234',
+        preferredTimesForPhoneCall: ['Morning'],
+        reasonCode: {
+          coding: [{ code: 'New Problem' }],
+          text: 'I have a headache',
+        },
+        comment: 'New issue: I have a headache',
+        serviceType: 'primaryCare',
+        start: futureDate.format(),
+        status: 'booked',
+      };
+
+      mockSingleClinicFetchByVersion({
+        clinicId: '455',
+        locationId: '983GC',
+        clinicName: 'Some fancy clinic name',
+        version: 2,
+      });
+      mockSingleVAOSAppointmentFetch({ appointment });
+
+      mockFacilityFetchByVersion({
+        facility: createMockFacilityByVersion({
+          id: '983GC',
+          name: 'Cheyenne VA Medical Center',
+          phone: '970-224-1550',
+          address: {
+            postalCode: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            line: ['2360 East Pershing Boulevard'],
+          },
+        }),
+      });
+
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+        initialState: myInitialState,
+        path: url,
+      });
+
+      // Verify document title and content...
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: new RegExp(
+            futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+            'i',
+          ),
+        }),
+      ).to.be.ok;
+      //
+      //       expect(screen.getByText('Primary care')).to.be.ok;
+      //       // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+      //       expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+      //       expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+      //       expect(screen.getByTestId('facility-telephone')).to.exist;
+      //       expect(
+      //         screen.getByRole('heading', {
+      //           level: 2,
+      //           name: 'You shared these details about your concern',
+      //         }),
+      //       ).to.be.ok;
+      //       expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
+      //       expect(
+      //         screen.getByTestId('add-to-calendar-link', {
+      //           name: new RegExp(
+      //             futureDate
+      //               .tz('America/Denver')
+      //               .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+      //             'i',
+      //           ),
+      //         }),
+      //       ).to.be.ok;
+      //       expect(screen.getByText(/Print/)).to.be.ok;
+      //       expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+      //
+      //       expect(screen.baseElement).not.to.contain.text(
+      //         'This appointment occurred in the past.',
+      //       );
+    });
+
+    // WIP
+    it.skip('should show past appointment detail page with new URL', async () => {
       return true;
     });
 
     // WIP
-    it('should display updated title on past appointment detail page', async () => {
+    it.skip('should show pending appointment detail page with new URL', async () => {
+      return true;
+    });
+
+    it.skip('should show requested appointment detail page with new URL', async () => {
       return true;
     });
   });

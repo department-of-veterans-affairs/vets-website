@@ -5,21 +5,16 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import { showSchoolAddress } from '../../utils/helpers';
 import educationTypeUpdateUISchema from '../../definitions/educationTypeUpdate';
 
-const {
-  civilianBenefitsAssistance,
-  educationObjective,
-  nonVaAssistance,
-} = fullSchema1995.properties;
+const { educationObjective, nonVaAssistance } = fullSchema1995.properties;
 
 const { educationTypeUpdate } = fullSchema1995.definitions;
 
 export const uiSchema = {
-  'ui:title':
-    'School, university, program, or training facility you want to attend',
+  'ui:title': 'School or training facility you want to attend',
   // Broken up because we need to fit educationTypeUpdate between name and address
   // Put back together again in transform()
   newSchoolName: {
-    'ui:title': 'Name of school, university, program, or training facility',
+    'ui:title': 'Name of school or training facility',
     'ui:validations': [
       (errors, newSchoolName) => {
         validateWhiteSpace(errors, newSchoolName);
@@ -42,16 +37,10 @@ export const uiSchema = {
       'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
     'ui:widget': 'yesNo',
   },
-  civilianBenefitsAssistance: {
-    'ui:title':
-      'Are you getting benefits from the U.S. government as a civilian employee during the same time as you’re requesting benefits from VA?',
-    'ui:widget': 'yesNo',
-  },
 };
 
 export const schema = {
   type: 'object',
-  required: ['educationTypeUpdate', 'newSchoolName'],
   properties: {
     newSchoolName: {
       type: 'string',
@@ -60,6 +49,5 @@ export const schema = {
     newSchoolAddress: address.schema(fullSchema1995),
     educationObjective,
     nonVaAssistance,
-    civilianBenefitsAssistance,
   },
 };

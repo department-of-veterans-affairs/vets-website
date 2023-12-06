@@ -28,7 +28,10 @@ describe('Secure Messaging - Cross Site Scripting', () => {
     };
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.getCategory(requestBody.category).click();
+    composePage
+      .getCategory(requestBody.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
     composePage
       .getMessageBodyField()
@@ -44,6 +47,6 @@ describe('Secure Messaging - Cross Site Scripting', () => {
           '\n\n\nName\nTitleTestTest message body - >\x3Cscript>alert(1);\x3C/script>',
         subject: 'Test Cross Scripting - >\x3Cscript>alert(1);\x3C/script>',
       });
-    composePage.verifySendMessageConfirmationMessage();
+    composePage.verifySendMessageConfirmationMessageText();
   });
 });

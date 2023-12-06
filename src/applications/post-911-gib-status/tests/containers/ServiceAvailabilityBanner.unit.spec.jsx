@@ -31,7 +31,7 @@ describe('<ServiceAvailabilityBanner/>', () => {
         serviceAvailability={SERVICE_AVAILABILITY_STATES.pending}
       />,
     );
-    expect(wrapper.find('LoadingIndicator')).to.have.lengthOf(1);
+    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
@@ -56,7 +56,9 @@ describe('<ServiceAvailabilityBanner/>', () => {
         serviceAvailability={SERVICE_AVAILABILITY_STATES.down}
       />,
     );
-    expect(wrapper.find('AlertBox[status="error"]').length).to.equal(1);
+    expect(wrapper.text()).to.contain(
+      'The Post-9/11 GI Bill Benefits tool is down for maintenance',
+    );
     wrapper.unmount();
   });
 });

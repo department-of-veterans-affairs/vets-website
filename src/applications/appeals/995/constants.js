@@ -4,6 +4,10 @@ import { MAX_LENGTH } from '../shared/constants';
 
 export const APP_NAME = 'Supplemental Claim';
 
+export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
+export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
+export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
+
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -55,7 +59,6 @@ export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
-  uniqueIssue: 'You must enter a condition you haven’t already entered',
   maxLength: `You can enter a maximum of ${MAX_LENGTH.ISSUE_NAME} characters`,
   requiredYesNo: 'You must answer yes or no',
 
@@ -66,15 +69,16 @@ export const errorMessages = {
   cardInvalidDate: 'Invalid decision date',
 
   decisions: {
-    missingDate: 'You must enter a decision date',
+    blankDate: 'You must enter a decision date',
     pastDate: 'You must add a decision date that’s in the past',
-    newerDate: 'You must add a more recent decision date',
+    newerDate:
+      'You must add an issue with a decision date that’s less than 100 years old',
   },
   evidence: {
     // VA evidence
     pastDate: 'You must add a past treatment date',
     newerDate: 'You must add a more recent treatment date',
-    missingDate: 'You must enter a treatment date',
+    blankDate: 'You must enter a treatment date',
     missing: 'You must include at least 1 type of supporting evidence',
     locationMissing: 'You must enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
@@ -96,9 +100,6 @@ export const errorMessages = {
     upload: 'You must provide a password to decrypt this file',
   },
 
-  missingEmail: 'You must provide an email address',
-  missingPhone: 'You must provide a home or mobile phone number',
-  missingAddress: 'You must provide an address',
   missingPrimaryPhone: 'You must choose a primary phone number',
   invalidZip:
     'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
@@ -108,7 +109,6 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
-export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
 export const REVIEW_CONTACT = 'onReviewPageContact';
 export const LIMITATION_KEY = 'limitation';
@@ -127,7 +127,6 @@ export const SUPPORTED_BENEFIT_TYPES_LIST = [
   // 'nationalCemeteryAdministration',
 ];
 
-export const LEGACY_TYPE = 'legacyAppeal';
 export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({

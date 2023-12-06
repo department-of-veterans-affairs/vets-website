@@ -1,5 +1,9 @@
 import React from 'react';
-import { introQuestion } from '../../content/toxicExposure';
+import {
+  introDescription,
+  introQuestion,
+  moreInfoDescription,
+} from '../../content/toxicExposure';
 
 export const uiSchema = {
   'ui:title': (
@@ -7,16 +11,17 @@ export const uiSchema = {
   ),
   'view:exposureStatus': {
     'ui:title': introQuestion,
-    'ui:description':
-      'Toxic exposures include exposures to substances like Agent Orange, burn pits, radiation, asbestos, or contaminated water.',
+    'ui:description': introDescription,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
         yes: 'Yes',
         no: 'No',
-        notSure: 'I’m not sure',
       },
     },
+  },
+  'view:moreExposureInfo': {
+    'ui:description': moreInfoDescription,
   },
 };
 
@@ -26,7 +31,11 @@ export const schema = {
   properties: {
     'view:exposureStatus': {
       type: 'string',
-      enum: ['yes', 'no', 'notSure'],
+      enum: ['yes', 'no'],
+    },
+    'view:moreExposureInfo': {
+      type: 'object',
+      properties: {},
     },
   },
 };

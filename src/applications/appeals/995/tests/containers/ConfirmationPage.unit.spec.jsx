@@ -59,6 +59,7 @@ describe('Confirmation page', () => {
       </Provider>,
     );
     expect($('va-alert[status="success"]', container)).to.exist;
+    expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.eq(2);
   });
   it('should render the user name', () => {
     const { container } = render(

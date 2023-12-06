@@ -15,7 +15,6 @@ import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 import {
-  dateFormat,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   setCaretToPos,
@@ -47,11 +46,13 @@ const ReplyForm = props => {
   const [newDraftId, setNewDraftId] = useState(
     draftToEdit ? draftToEdit.messageId : null,
   );
-  const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
+  const [modalVisible, updateModalVisible] = useState(false);
+  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -131,41 +132,30 @@ const ReplyForm = props => {
         }
         messageData[`${'recipient_id'}`] = selectedRecipient;
         setIsAutosave(false);
-        if (attachments.length) {
-          const sendData = new FormData();
+
+        let sendData;
+
+        if (attachments.length > 0) {
+          sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-
-          dispatch(sendReply(replyToMessageId, sendData, true))
-            .then(() => {
-              navigateToFolderByFolderId(
-                draftToEdit?.threadFolderId
-                  ? draftToEdit?.threadFolderId
-                  : folderId,
-                history,
-              );
-            })
-            .catch(() => {
-              setSendMessageFlag(false);
-              setIsAutosave(true);
-            });
         } else {
-          dispatch(
-            sendReply(replyToMessageId, JSON.stringify(messageData), false),
-          )
-            .then(() => {
-              navigateToFolderByFolderId(
-                draftToEdit?.threadFolderId
-                  ? draftToEdit?.threadFolderId
-                  : folderId,
-                history,
-              );
-            })
-            .catch(() => {
-              setSendMessageFlag(false);
-              setIsAutosave(true);
-            });
+          sendData = JSON.stringify(messageData);
         }
+
+        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+          .then(() => {
+            navigateToFolderByFolderId(
+              draftToEdit?.threadFolderId
+                ? draftToEdit?.threadFolderId
+                : folderId,
+              history,
+            );
+          })
+          .catch(() => {
+            setSendMessageFlag(false);
+            setIsAutosave(true);
+          });
       }
     },
     [sendMessageFlag, isSaving],
@@ -190,9 +180,6 @@ const ReplyForm = props => {
     setCategory(draft.category);
     setSubject(draft.subject);
     setMessageBody(draft.body);
-    if (draft.attachments) {
-      setAttachments(draft.attachments);
-    }
     setFormPopulated(true);
     setFieldsString(
       JSON.stringify({
@@ -217,12 +204,6 @@ const ReplyForm = props => {
     () => {
       const casedCategory =
         category === 'COVID' ? category : capitalize(category);
-      if (category && !subject) {
-        return `${casedCategory}:`;
-      }
-      if (!category && subject) {
-        return subject;
-      }
       return `${casedCategory}: ${subject}`;
     },
     [category, subject],
@@ -253,11 +234,10 @@ const ReplyForm = props => {
     [checkMessageValidity],
   );
 
+  // On Save
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setUserSaved(true);
-
         await setMessageInvalid(false);
         if (checkMessageValidity()) {
           setLastFocusableElement(e.target);
@@ -267,7 +247,11 @@ const ReplyForm = props => {
           setSaveError(
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
           );
-          setNavigationError(null);
+          setNavigationError({
+            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+            confirmButtonText: 'Continue editing',
+            cancelButtonText: 'Delete draft',
+          });
         }
       }
 
@@ -292,20 +276,21 @@ const ReplyForm = props => {
         body: messageBody,
       };
 
-      if (!draftId) {
-        if (checkMessageValidity()) {
+      if (checkMessageValidity()) {
+        if (!draftId) {
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
             newDraft => {
               setDraft(newDraft);
               setNewDraftId(newDraft.messageId);
             },
           );
+        } else {
+          dispatch(
+            saveReplyDraft(replyMessage.messageId, formData, type, draftId),
+          );
         }
-      } else if (checkMessageValidity()) {
-        dispatch(
-          saveReplyDraft(replyMessage.messageId, formData, type, draftId),
-        );
       }
+
       if (!attachments.length) setNavigationError(null);
     },
     [
@@ -323,13 +308,39 @@ const ReplyForm = props => {
     ],
   );
 
+  // Before Save
   useEffect(
     () => {
-      if (debouncedMessageBody && isAutosave && !cannotReply) {
+      const draftBody = draft && draft.body;
+      if (
+        messageBody === draftBody ||
+        (messageBody === '' && draftBody === null)
+      ) {
+        setNavigationError(null);
+      } else if (messageBody !== draftBody) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
+      }
+    },
+    [deleteButtonClicked, draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      if (debouncedMessageBody && isAutosave && !cannotReply && !modalVisible) {
         saveDraftHandler('auto');
       }
     },
-    [debouncedMessageBody],
+    [
+      cannotReply,
+      debouncedMessageBody,
+      isAutosave,
+      modalVisible,
+      saveDraftHandler,
+    ],
   );
 
   const messageBodyHandler = e => {
@@ -345,8 +356,27 @@ const ReplyForm = props => {
     });
   }
 
-  if (replyMessage) {
-    return (
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (messageBody !== (draft ? draft.body : '')) {
+        e.returnValue = '';
+      }
+    },
+    [draft, messageBody],
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+      };
+    },
+    [beforeUnloadHandler],
+  );
+
+  return (
+    replyMessage && (
       <>
         <h1 ref={header} className="page-title">
           {messageTitle}
@@ -375,6 +405,8 @@ const ReplyForm = props => {
             )}
             <RouteLeavingGuard
               when={!!navigationError}
+              modalVisible={modalVisible}
+              updateModalVisible={updateModalVisible}
               navigate={path => {
                 history.push(path);
               }}
@@ -391,6 +423,7 @@ const ReplyForm = props => {
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+                data-testid="message-reply-to"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
                 data-dd-privacy="mask"
               >
@@ -442,75 +475,36 @@ const ReplyForm = props => {
                   <AttachmentsList
                     attachments={attachments}
                     setAttachments={setAttachments}
+                    setNavigationError={setNavigationError}
                     editingEnabled
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
                   />
 
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
                   />
                 </section>
               )}
 
-              <DraftSavedInfo userSaved={userSaved} />
+              <DraftSavedInfo />
               <ComposeFormActionButtons
                 onSend={sendMessageHandler}
                 onSaveDraft={(type, e) => saveDraftHandler(type, e)}
                 draftId={newDraftId}
                 setNavigationError={setNavigationError}
                 cannotReply={cannotReply}
+                setDeleteButtonClicked={setDeleteButtonClicked}
+                messageBody={messageBody}
               />
             </div>
           </form>
         </section>
-        <section
-          aria-label="Message you are replying to"
-          className="vads-u-margin--0 message-replied-to"
-          data-testid="message-replied-to"
-        >
-          <h2 className="sr-only">Message you are replying to.</h2>
-          <div>
-            <h3 className="sr-only">Message details</h3>
-            <p className="vads-u-margin--0">
-              <strong>From: </strong>
-              <span data-dd-privacy="mask">{replyMessage.senderName}</span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-to">
-              <strong>To: </strong>
-              <span data-dd-privacy="mask">{replyMessage.recipientName}</span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-date">
-              <strong>Date: </strong>
-              <span data-dd-privacy="mask">
-                {dateFormat(replyMessage.sentDate)}
-              </span>
-            </p>
-            <p className="vads-u-margin--0" data-testid="message-id">
-              <strong>Message ID: </strong>
-              <span data-dd-privacy="mask">{replyMessage.messageId}</span>
-            </p>
-          </div>
-
-          <section aria-label="Message body." className="vads-u-margin-top--1">
-            <h3 className="sr-only">Message body.</h3>
-            <MessageThreadBody text={replyMessage.body} />
-          </section>
-
-          {!!replyMessage.attachments &&
-            replyMessage.attachments.length > 0 && (
-              <>
-                <h3 className="sr-only">Message attachments.</h3>
-                <AttachmentsList
-                  attachments={replyMessage.attachments}
-                  className="attachments-section"
-                />
-              </>
-            )}
-        </section>
       </>
-    );
-  }
-  return null;
+    )
+  );
 };
 
 ReplyForm.propTypes = {

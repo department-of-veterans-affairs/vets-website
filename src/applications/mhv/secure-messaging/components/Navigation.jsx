@@ -101,7 +101,7 @@ const Navigation = () => {
     } else if (location.pathname === Paths.FOLDERS) {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
-    } else if (location.pathname.split('/')[1] === 'folder') {
+    } else if (location.pathname.split('/')[1] === 'folders') {
       // Highlight "My Folders" when landed on "/folders/:id"
       isActive = path.path === Paths.FOLDERS;
     } else if (location.pathname === path.path) {
@@ -121,7 +121,8 @@ const Navigation = () => {
       medium-screen:vads-l-col--3
       vads-u-padding-bottom--2
       medium-screen:vads-u-padding-bottom--0
-      medium-screen:vads-u-padding-right--3"
+      medium-screen:vads-u-padding-right--3
+      do-not-print"
     >
       {isMobile && (
         <SectionGuideButton

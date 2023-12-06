@@ -6,8 +6,6 @@
  * @testrailinfo runName HLR-e2e-Wizard
  */
 import Timeouts from 'platform/testing/e2e/timeouts';
-import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
-import mockVamc from './fixtures/mocks/vamc-ehr.json';
 
 import {
   BASE_URL,
@@ -16,6 +14,8 @@ import {
   CONTESTABLE_ISSUES_API,
   BENEFIT_OFFICES_URL,
 } from '../constants';
+
+import cypressSetup from '../../shared/tests/cypress.setup';
 
 Cypress.Commands.add('checkStorage', (key, expectedValue) => {
   cy.window()
@@ -49,11 +49,10 @@ const checkOpt = {
 
 describe('HLR wizard', () => {
   beforeEach(() => {
+    cypressSetup();
+
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}*`, []);
-    cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
 
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
@@ -83,12 +82,6 @@ describe('HLR wizard', () => {
   });
 
   it('should show form start for HLR v2 - C12069', () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [],
-      },
-    });
     // reload the page, so the intercept override takes effect
     // cy.visit(BASE_URL);
     cy.reload();

@@ -1,5 +1,5 @@
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 export const isLoadingFeatures = state => toggleValues(state).loading;
 
@@ -34,6 +34,18 @@ export const cstUseLighthouse = (state, endpoint) => {
 // 'cst_include_ddl_boa_letters'
 export const cstIncludeDdlBoaLetters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdlBoaLetters];
+
+// 'benefits_documents_use_lighthouse'
+export const benefitsDocumentsUseLighthouse = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.benefitsDocumentsUseLighthouse];
+
+// 'cst_use_new_claim_cards'
+export const cstUseNewClaimCards = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseNewClaimCards];
+
+// 'cst_use_claim_details_v2'
+export const cstUseClaimDetailsV2 = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseClaimDetailsV2];
 
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;

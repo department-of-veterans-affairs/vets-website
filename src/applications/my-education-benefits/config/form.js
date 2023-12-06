@@ -27,10 +27,11 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
-import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ContactInformationReviewPanel from '../components/ContactInformationReviewPanel';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
@@ -275,7 +276,11 @@ function AdditionalConsiderationTemplate(page, formField) {
     path: page.name,
     title: data => {
       return additionalConsiderationsQuestionTitleText(
-        data[formFields.viewBenefitSelection][formFields.benefitRelinquished],
+        (data[(formFields?.viewBenefitSelection)] &&
+          data[(formFields?.viewBenefitSelection)][
+            (formFields?.benefitRelinquished)
+          ]) ||
+          'NotEligible',
         page.order,
       );
     },
@@ -343,6 +348,18 @@ const isValidAccountNumber = accountNumber => {
     return accountNumber;
   }
   return false;
+};
+
+const checkBoxValidation = {
+  pattern: (errors, values, formData) => {
+    if (
+      !Object.keys(values).some(key => values[key]) &&
+      formData?.showMebServiceHistoryCategorizeDisagreement &&
+      formData['view:serviceHistory']?.serviceHistoryIncorrect
+    ) {
+      errors.addError('Please check at least one of the options below');
+    }
+  },
 };
 
 const validateAccountNumber = (
@@ -622,6 +639,7 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
+          CustomPageReview: ContactInformationReviewPanel,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1335,8 +1353,6 @@ const formConfig = {
               },
             },
             [formFields.incorrectServiceHistoryExplanation]: {
-              'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
@@ -1344,7 +1360,60 @@ const formConfig = {
                     formFields.serviceHistoryIncorrect
                   ],
               },
-              'ui:widget': 'textarea',
+              incorrectServiceHistoryInputs: {
+                'ui:required': formData =>
+                  formData['view:serviceHistory']?.serviceHistoryIncorrect ===
+                    true &&
+                  formData?.showMebServiceHistoryCategorizeDisagreement,
+                'ui:errorMessages': {
+                  required: 'Please check at least one of the options below',
+                },
+                'ui:title': (
+                  <>
+                    <p className="check-box-label">
+                      Choose all that apply{' '}
+                      <span className="text-restriction">
+                        (*You must choose at least one)
+                      </span>
+                    </p>
+                  </>
+                ),
+                'ui:validations': [checkBoxValidation.pattern],
+                'ui:options': {
+                  showFieldLabel: true,
+                  forceDivWrapper: true,
+                  hideIf: formData =>
+                    !formData?.showMebServiceHistoryCategorizeDisagreement,
+                },
+                servicePeriodMissingForActiveDuty: {
+                  'ui:title':
+                    'I am currently on Active Duty orders and that service period is missing.',
+                },
+                servicePeriodMissing: {
+                  'ui:title':
+                    'I am not currently on Active Duty orders and one or more of my service periods is missing.',
+                },
+                servicePeriodNotMine: {
+                  'ui:title':
+                    'One or more service periods displayed are not mine.',
+                },
+                servicePeriodIncorrect: {
+                  'ui:title':
+                    'The service dates of one or more of my service periods are incorrect.',
+                },
+              },
+              incorrectServiceHistoryText: {
+                'ui:title':
+                  'Please explain what is missing and/or incorrect about your service history.',
+                'ui:required': formData =>
+                  formData['view:serviceHistory']?.serviceHistoryIncorrect ===
+                  true,
+                'ui:widget': 'textarea',
+                'ui:errorMessages': {
+                  required:
+                    'Please include your description of the issue below',
+                },
+              },
             },
           },
           schema: {
@@ -1376,8 +1445,22 @@ const formConfig = {
                 },
               },
               [formFields.incorrectServiceHistoryExplanation]: {
-                type: 'string',
-                maxLength: 250,
+                type: 'object',
+                properties: {
+                  incorrectServiceHistoryInputs: {
+                    type: 'object',
+                    properties: {
+                      servicePeriodMissingForActiveDuty: { type: 'boolean' },
+                      servicePeriodMissing: { type: 'boolean' },
+                      servicePeriodNotMine: { type: 'boolean' },
+                      servicePeriodIncorrect: { type: 'boolean' },
+                    },
+                  },
+                  incorrectServiceHistoryText: {
+                    type: 'string',
+                    maxLength: 250,
+                  },
+                },
               },
             },
           },

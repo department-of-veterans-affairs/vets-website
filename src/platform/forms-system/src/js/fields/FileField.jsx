@@ -34,7 +34,7 @@ import { usePreviousValue } from '../helpers';
  * @typedef ModalContent
  * @type {function}
  * @property {string} fileName - name of file to be removed
- * @returns {JSX} - default='<span>We’ll remove the uploaded document
+ * @returns {JSX} - default='<span>We’ll delete the uploaded file
  *  <strong>{fileName}</strong></span>'
  */
 /**
@@ -48,10 +48,10 @@ import { usePreviousValue } from '../helpers';
  * @property {string} newFile='Upload a new file' - button in enableShortWorkflow
  * @property {string} cancel='Cancel' - button visible while uploading & in enableShortWorkflow
  * @property {string} delete='Delete file' - delete button text
- * @property {string} modalTitle='Are you sure you want to remove this issue?' -
+ * @property {string} modalTitle='Are you sure you want to delete this file?' -
  *  delete confirmation modal title
  * @property {ModalContent} modalContent - delete confirmation modal content
- * @property {string} yesButton='Yes, remove this' - modal Yes button text
+ * @property {string} yesButton='Yes, delete this' - modal Yes button text
  * @property {string} noButton='No, keep this' - modal No button text
  */
 /**
@@ -118,15 +118,15 @@ const FileField = props => {
     delete: 'Delete file',
     deleteLabel: fileName => `Delete ${fileName}`,
     modalTitle:
-      uiOptions.modalTitle || 'Are you sure you want to remove this issue?',
+      uiOptions.modalTitle || 'Are you sure you want to delete this file?',
     modalContent: fileName =>
       uiOptions.modalContent?.(fileName || 'Unknown') || (
         <span>
-          We’ll remove the uploaded file{' '}
+          We’ll delete the uploaded file{' '}
           <strong>{fileName || 'Unknown'}</strong>
         </span>
       ),
-    yesButton: 'Yes, remove this',
+    yesButton: 'Yes, delete this file',
     noButton: 'No, keep this',
     error: 'Error',
   };
@@ -409,7 +409,7 @@ const FileField = props => {
       <VaModal
         clickToClose
         status="warning"
-        modalTitle="Are you sure you want to remove this file?"
+        modalTitle="Are you sure you want to delete this file?"
         primaryButtonText={content.yesButton}
         secondaryButtonText={content.noButton}
         onCloseEvent={closeRemoveModal}

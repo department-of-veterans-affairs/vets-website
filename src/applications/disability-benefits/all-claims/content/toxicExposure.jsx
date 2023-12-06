@@ -1,32 +1,32 @@
 import React from 'react';
 
-export const introQuestion =
-  'Are you filing a claim for a condition related to a toxic exposure?';
+export const introQuestion = (
+  <b>Would you like to answer questions related to toxic exposure?</b>
+);
 
-export const confirmQuestion =
-  'Do you think your condition could be connected to a toxic exposure?';
+export const introDescription = (
+  <>
+    <p>
+      Toxic exposures include exposures to substances like Agent Orange, burn
+      pits, radiation, asbestos, or contaminated water.
+    </p>
+    <p>
+      We’ll use the information you provide to help us locate your records and
+      make decisions on your claim.
+    </p>
+    <p>
+      If you’ve answered these questions in a disability compensation claim in
+      the past, you don’t need to answer them again.
+    </p>
+  </>
+);
 
-export const confirmDescription = () => {
-  return (
-    <>
-      <p>
-        We want to make sure you get any disability benefits you may be eligible
-        for.
-      </p>
-      <p>
-        We automatically assume (or “presume”) that certain toxic exposures
-        during military service cause certain health conditions. We call these
-        “presumptive conditions.”
-      </p>
-      <p>
-        If you have a presumptive condition, you don’t need to prove that your
-        service caused the condition to get VA disability compensation. You only
-        need to meet the minimum service requirements for the presumption.
-      </p>
-      <p>
-        The recent PACT Act law has many added presumptive conditions and
-        locations for toxic exposures.
-      </p>
-    </>
-  );
-};
+export const moreInfoDescription = (
+  <a
+    href="https://www.va.gov/disability/eligibility/hazardous-materials-exposure/"
+    target="_blank"
+    rel="noreferrer"
+  >
+    Learn more about toxic exposure (opens in new tab)
+  </a>
+);

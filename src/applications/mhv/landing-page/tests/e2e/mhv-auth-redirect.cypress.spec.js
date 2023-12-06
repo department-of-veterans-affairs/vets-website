@@ -3,18 +3,14 @@ import vamcEhr from '../fixtures/vamc-ehr.json';
 import featureToggles from '../fixtures/feature-toggles.json';
 import user from '../fixtures/user.json';
 import cernerUser from '../fixtures/user.cerner.json';
-import noFacilitiesUser from '../fixtures/user.no-facilities.json';
 
-describe.skip(`${appName} -- Auth Redirect`, () => {
-  // redirectUrl is dependent upon SSOe and environment. Currently failing
-  // stress tests (with environment.BUILDTYPE === 'vagovprod').
-
+describe(`${appName} -- Auth Redirect`, () => {
   beforeEach(() => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'featureToggles',
     );
-    const redirectUrl = 'https://pint.eauth.va.gov/mhv-portal-web/eauth';
+    const redirectUrl = 'https://**.va.gov/mhv-portal**/**';
     cy.intercept('GET', redirectUrl, '').as('mhvRedirect');
   });
 
@@ -37,20 +33,11 @@ describe.skip(`${appName} -- Auth Redirect`, () => {
   });
 
   describe('Cerner patient', () => {
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('redirects to MHV National Portal', () => {
+    it('renders the landing page', () => {
       cy.login(cernerUser);
       cy.visit(rootUrl);
-      cy.wait('@mhvRedirect');
-    });
-  });
-
-  describe('unauthorized user', () => {
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('redirects to MHV National Portal', () => {
-      cy.login(noFacilitiesUser);
-      cy.visit(rootUrl);
-      cy.wait('@mhvRedirect');
+      cy.get('h1').should('include.text', 'My HealtheVet');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

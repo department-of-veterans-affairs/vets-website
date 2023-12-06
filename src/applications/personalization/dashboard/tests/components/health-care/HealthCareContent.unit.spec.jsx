@@ -1,17 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { UnconnectedHealthCareContent } from '../../../components/health-care/HealthCareContent';
-import { createVaosAppointment } from '../../../mocks/appointments/vaos-v2';
+import { v2 } from '../../../mocks/appointments';
 
 describe('<UnconnectedHealthCareContent />', () => {
-  // delete instances of Toggler when new appts URL is launched
   const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
-    },
+    user: {},
   };
 
   it('should render', () => {
@@ -35,7 +31,10 @@ describe('<UnconnectedHealthCareContent />', () => {
 
   it('should render the Cerner widget', () => {
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent facilityNames={['do', 're', 'mi']} />,
+      <UnconnectedHealthCareContent
+        isCernerPatient
+        facilityNames={['do', 're', 'mi']}
+      />,
       { initialState },
     );
 
@@ -57,9 +56,11 @@ describe('<UnconnectedHealthCareContent />', () => {
   });
 
   it('should render the Next appointments card', () => {
-    const appointments = [createVaosAppointment()];
+    const appointments = v2.createAppointmentSuccess().data;
+    const appts = appointments.map(appointment => appointment.attributes);
+
     const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent appointments={appointments} />,
+      <UnconnectedHealthCareContent appointments={appts} />,
       { initialState },
     );
 
@@ -76,29 +77,45 @@ describe('<UnconnectedHealthCareContent />', () => {
   });
 
   context('should render the HealthCareCTA', () => {
-    it('but show only Apply for VA health care link for a non-patient', () => {
+    it('but show only Apply for VA health care and Visit MHV links for a non-patient', () => {
       const tree = renderWithStoreAndRouter(
-        <UnconnectedHealthCareContent isVAPatient={false} />,
-        { initialState },
+        <UnconnectedHealthCareContent isVAPatient={false} isLOA1={false} />,
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
+            },
+          },
+        },
       );
 
-      tree.getAllByTestId('apply-va-healthcare-link-from-cta');
+      tree.getByTestId('apply-va-healthcare-link-from-cta');
+      tree.getByTestId('visit-mhv-on-va-gov');
     });
 
     it("when a patient has appointments and doesn't have an appointment error", () => {
-      const appointments = [createVaosAppointment()];
+      const appointments = v2.createAppointmentSuccess().data;
+      const appts = appointments.map(appointment => appointment.attributes);
+
       const tree = renderWithStoreAndRouter(
         <UnconnectedHealthCareContent
-          appointments={appointments}
+          appointments={appts}
           dataLoadingDisabled
           isVAPatient
           shouldFetchUnreadMessages
           unreadMessagesCount={2}
         />,
-        { initialState },
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
+            },
+          },
+        },
       );
 
-      tree.getByText('Popular actions for Health Care');
+      tree.getByText('Popular actions for Health Care', { exact: false });
+      tree.getByTestId('visit-mhv-on-va-gov');
       expect(
         tree.getByRole('link', {
           name: /schedule and manage your appointments/i,

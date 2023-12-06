@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createMockRouter } from './index';
+import { createMockRouter, emptyFunc } from './index';
 
 describe('Pre check in', () => {
   describe('unit test utils', () => {
@@ -26,6 +26,12 @@ describe('Pre check in', () => {
         const currentPage = 'test';
         const result = createMockRouter({ currentPage });
         expect(result.location.pathname).to.equal(`/${currentPage}`);
+      });
+    });
+    describe('emptyFunc', () => {
+      it('empty function returns text', () => {
+        const result = emptyFunc();
+        expect(result).to.be.a('string', 'test');
       });
     });
   });

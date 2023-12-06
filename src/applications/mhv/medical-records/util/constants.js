@@ -7,12 +7,27 @@ export const recordType = {
   ALLERGIES: 'allergies',
 };
 
+export const accessAlertTypes = {
+  ALLERGY: 'allergy',
+  VACCINE: 'vaccine',
+  VITALS: 'vitals',
+  HEALTH_CONDITIONS: 'health conditions',
+  LABS_AND_TESTS: 'labs and tests',
+  CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
+};
+
 export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
   EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
+  OTHER: 'other',
+};
+
+export const noteTypes = {
+  DISCHARGE_SUMMARY: 'discharge_summary',
+  PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
   OTHER: 'other',
 };
 
@@ -23,7 +38,7 @@ export const loincCodes = {
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
-  PHYSICIAN_PROCEDURE_NOTE: '11505-5',
+  PHYSICIAN_PROCEDURE_NOTE: '11506-3',
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',
@@ -106,6 +121,7 @@ export const vitalTypes = {
   HEIGHT: 'HEIGHT',
   TEMPERATURE: 'TEMPERATURE',
   WEIGHT: 'WEIGHT',
+  PAIN: 'PAIN',
 };
 
 export const vitalTypeDisplayNames = {
@@ -115,6 +131,7 @@ export const vitalTypeDisplayNames = {
   HEIGHT: 'Height',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
+  PAIN: 'Pain',
 };
 
 export const ALERT_TYPE_ERROR = 'error';
@@ -137,6 +154,8 @@ export const pageTitles = {
 };
 
 export const allergyTypes = {
-  OBSERVED: 'Observed (your provider observed the reaction in person)',
-  REPORTED: 'Reported (you told your provider about the reaction)',
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };

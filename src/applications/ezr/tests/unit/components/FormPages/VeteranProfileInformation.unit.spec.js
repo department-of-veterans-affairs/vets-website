@@ -1,52 +1,64 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import VeteranProfileInformation from '../../../../components/FormPages/VeteranProfileInformation';
-import { normalizeFullName } from '../../../../utils/helpers/general';
 
-describe('ezr VeteranProfileInformation', () => {
-  const middleware = [];
-  const mockStore = configureStore(middleware);
-  const defaultData = {
-    user: {
-      profile: {
-        userFullName: {
-          first: 'John',
-          middle: 'Marjorie',
-          last: 'Smith',
-          suffix: 'Sr.',
-        },
-      },
+describe('ezr VeteranProfileInformation page', () => {
+  const getData = ({ dob = null, gender = null }) => ({
+    props: {
+      goBack: sinon.spy(),
+      goForward: sinon.spy(),
     },
-  };
-  const props = { goBack: sinon.spy(), goForward: sinon.spy() };
+    mockStore: {
+      getState: () => ({
+        form: {
+          data: {
+            veteranSocialSecurityNumber: '211111111',
+          },
+        },
+        user: {
+          profile: {
+            userFullName: {
+              first: 'John',
+              middle: 'David',
+              last: 'Smith',
+            },
+            dob,
+            gender,
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    },
+  });
 
   describe('when the component renders', () => {
-    describe('default behavior', () => {
-      it('should render full name from the profile data', () => {
-        const store = mockStore(defaultData);
+    context('default behavior', () => {
+      it('should render full name and social security number', () => {
+        const { props, mockStore } = getData({});
         const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <VeteranProfileInformation {...props} />
           </Provider>,
         );
-        const selector = container.querySelector(
-          '[data-testid="ezr-veteran-fullname"]',
-        );
-        expect(selector).to.exist;
-        expect(selector).to.contain.text(
-          normalizeFullName(defaultData.user.profile.userFullName, true),
-        );
+        const selectors = {
+          name: container.querySelector('[data-testid="ezr-veteran-fullname"]'),
+          ssn: container.querySelector('[data-testid="ezr-veteran-ssn"]'),
+        };
+        expect(selectors.name).to.exist;
+        expect(selectors.ssn).to.exist;
+        expect(selectors.name).to.contain.text('John David Smith');
+        expect(selectors.ssn).to.contain.text('●●●–●●–1111');
       });
 
       it('should render form navigation buttons', () => {
-        const store = mockStore(defaultData);
+        const { props, mockStore } = getData({});
         const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <VeteranProfileInformation {...props} />
           </Provider>,
         );
@@ -59,26 +71,11 @@ describe('ezr VeteranProfileInformation', () => {
       });
     });
 
-    describe('when date of birth is not in the profile data', () => {
-      const store = mockStore(defaultData);
-
-      it('should only reference `name` in the opening paragraph', () => {
+    context('when date of birth is not in the profile data', () => {
+      it('should not render date of birth list item', () => {
+        const { props, mockStore } = getData({});
         const { container } = render(
-          <Provider store={store}>
-            <VeteranProfileInformation {...props} />
-          </Provider>,
-        );
-        const selector = container.querySelector(
-          '[data-testid="ezr-veteran-profile-intro"]',
-        );
-        expect(selector).to.contain.text(
-          'Here’s the name we have on file for you.',
-        );
-      });
-
-      it('should not render date of birth container', () => {
-        const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <VeteranProfileInformation {...props} />
           </Provider>,
         );
@@ -89,36 +86,11 @@ describe('ezr VeteranProfileInformation', () => {
       });
     });
 
-    describe('when date of birth is in the profile data', () => {
-      const data = {
-        ...defaultData,
-        user: {
-          ...defaultData.user,
-          profile: {
-            ...defaultData.user.profile,
-            dob: '1990-11-24',
-          },
-        },
-      };
-      const store = mockStore(data);
-
-      it('should reference `personal information` in the opening paragraph', () => {
+    context('when date of birth is in the profile data', () => {
+      it('should render date of birth list item', () => {
+        const { props, mockStore } = getData({ dob: '1990-11-24' });
         const { container } = render(
-          <Provider store={store}>
-            <VeteranProfileInformation {...props} />
-          </Provider>,
-        );
-        const selector = container.querySelector(
-          '[data-testid="ezr-veteran-profile-intro"]',
-        );
-        expect(selector).to.contain.text(
-          'This is the personal information we have on file for you.',
-        );
-      });
-
-      it('should render date of birth container', () => {
-        const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <VeteranProfileInformation {...props} />
           </Provider>,
         );
@@ -126,16 +98,47 @@ describe('ezr VeteranProfileInformation', () => {
           '[data-testid="ezr-veteran-dob"]',
         );
         expect(selector).to.exist;
-        expect(selector).to.contain.text('November 24, 1990');
+        expect(selector).to.contain.text('11/24/1990');
+      });
+    });
+
+    context('when gender is not in the profile data', () => {
+      it('should not render gender list item', () => {
+        const { props, mockStore } = getData({});
+        const { container } = render(
+          <Provider store={mockStore}>
+            <VeteranProfileInformation {...props} />
+          </Provider>,
+        );
+        const selector = container.querySelector(
+          '[data-testid="ezr-veteran-gender"]',
+        );
+        expect(selector).to.not.exist;
+      });
+    });
+
+    context('when gender is in the profile data', () => {
+      it('should render gender list item', () => {
+        const { props, mockStore } = getData({ gender: 'M' });
+        const { container } = render(
+          <Provider store={mockStore}>
+            <VeteranProfileInformation {...props} />
+          </Provider>,
+        );
+        const selector = container.querySelector(
+          '[data-testid="ezr-veteran-gender"]',
+        );
+        expect(selector).to.exist;
+        expect(selector).to.contain.text('Male');
       });
     });
   });
 
   describe('when the `Back` button is clicked', () => {
     it('should call the `goBack` method', () => {
-      const store = mockStore(defaultData);
+      const { props, mockStore } = getData({ dob: '1990-11-24', gender: 'M' });
       const { container } = render(
-        <Provider store={store}>
+        <Provider store={mockStore}>
           <VeteranProfileInformation {...props} />
         </Provider>,
       );
@@ -147,9 +150,9 @@ describe('ezr VeteranProfileInformation', () => {
 
   describe('when the `Continue` button is clicked', () => {
     it('should call the `goForward` method', () => {
-      const store = mockStore(defaultData);
+      const { props, mockStore } = getData({ dob: '1990-11-24', gender: 'M' });
       const { container } = render(
-        <Provider store={store}>
+        <Provider store={mockStore}>
           <VeteranProfileInformation {...props} />
         </Provider>,
       );

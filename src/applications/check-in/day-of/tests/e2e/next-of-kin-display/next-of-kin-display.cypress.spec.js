@@ -34,12 +34,12 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('next of kin display', () => {
-      NextOfKin.validatePageLoaded(
-        'Check-In Is this your current next of kin information?',
-      );
+    it('renders its children', () => {
+      NextOfKin.validatePage.dayOf();
       NextOfKin.validateNextOfKinFields();
       NextOfKin.validateNextOfKinData();
+      NextOfKin.validateHelpText();
+      NextOfKin.validateAdditionalInfo.dayOf();
       cy.injectAxeThenAxeCheck();
     });
   });

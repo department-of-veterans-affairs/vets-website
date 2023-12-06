@@ -334,7 +334,7 @@ export const addressUISchema = (
               // country (e.g. Libya), instead of "United States." This, too, would result in a BIS error and a failed Form 686c submission.
               // Adding the following error forces the veteran to send a correctly formatted address to BIS. Unfortunately, it also presents
               // an accessibility issue where, upon checking the checkbox referenced by the error, the newly appeared APO/FPO/DPO dropdown
-              // shows the error: "Please select a valid option," without describing which field is errored. A similar issue is described here:
+              // shows the error: "Select a valid option," without describing which field is errored. A similar issue is described here:
               // https://github.com/department-of-veterans-affairs/va.gov-team/issues/16784 (a platform-wide issue), and the means to its
               // resolution is described here: https://github.com/department-of-veterans-affairs/va.gov-team/issues/5577 (a platform-wide
               // solution). Alternatively, an update could be made to the form system validation code. See

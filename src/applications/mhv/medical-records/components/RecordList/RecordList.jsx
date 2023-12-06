@@ -18,10 +18,6 @@ const RecordList = props => {
   const [isInitialPage, setInitialPage] = useState(true);
   const paginatedRecords = useRef([]);
 
-  const paginateData = data => {
-    return chunk(data, perPage);
-  };
-
   const onPageChange = page => {
     setInitialPage(false);
     setCurrentRecords(paginatedRecords.current[page - 1]);
@@ -37,11 +33,11 @@ const RecordList = props => {
   useEffect(
     () => {
       if (records?.length) {
-        paginatedRecords.current = paginateData(records);
+        paginatedRecords.current = chunk(records, perPage);
         setCurrentRecords(paginatedRecords.current[currentPage - 1]);
       }
     },
-    [currentPage, records],
+    [currentPage, records, perPage],
   );
 
   useEffect(
@@ -51,7 +47,7 @@ const RecordList = props => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
-    [currentPage],
+    [currentPage, isInitialPage],
   );
 
   const displayNums = fromToNums(currentPage, records?.length);
@@ -59,15 +55,18 @@ const RecordList = props => {
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
       <h2
-        className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+        className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
         aria-label={`Showing ${displayNums[0]} to ${
           displayNums[1]
         } of ${totalEntries} records from newest to oldest`}
       >
-        Showing {displayNums[0]} &#8211; {displayNums[1]} of {totalEntries}{' '}
-        records from newest to oldest
+        Showing {displayNums[0]} to {displayNums[1]} of {totalEntries} records
+        from newest to oldest
+      </h2>
+      <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
+        Showing {totalEntries} from newest to oldest
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&
@@ -94,6 +93,7 @@ const RecordList = props => {
               pages={paginatedRecords.current.length}
               maxPageListLength={MAX_PAGE_LIST_LENGTH}
               showLastPage
+              uswds
             />
           </div>
         ) : (

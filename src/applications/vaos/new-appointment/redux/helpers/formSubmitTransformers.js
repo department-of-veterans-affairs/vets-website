@@ -1,10 +1,10 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
-import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import {
-  PURPOSE_TEXT,
+  PURPOSE_TEXT_V2,
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
@@ -22,7 +22,7 @@ import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
 const CC_PURPOSE = 'other';
 
 function getUserMessage(data) {
-  const label = PURPOSE_TEXT.find(
+  const label = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
   ).short;
 
@@ -78,7 +78,7 @@ export function transformFormToVARequest(state) {
       facilityCode: facilityId,
       parentSiteCode: siteId,
     },
-    purposeOfVisit: PURPOSE_TEXT.find(
+    purposeOfVisit: PURPOSE_TEXT_V2.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
     otherPurposeOfVisit:

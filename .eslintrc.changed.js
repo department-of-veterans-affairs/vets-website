@@ -6,6 +6,8 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 2,
     'jsx-a11y/label-has-associated-control': 1,
     'jsx-a11y/no-static-element-interactions': 2,
+    '@department-of-veterans-affairs/prefer-table-component': 1,
+    '@department-of-veterans-affairs/prefer-button-component': 1,
     '@department-of-veterans-affairs/prefer-telephone-component': 2,
     '@department-of-veterans-affairs/telephone-contact-digits': 2,
     '@department-of-veterans-affairs/remove-expanding-group': 1,
@@ -16,22 +18,9 @@ module.exports = {
         use: '<va-text-input>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/AlertBox',
-        use: '<va-alert>',
-      },
-      {
         name:
           '@department-of-veterans-affairs/component-library/ExpandingGroup',
         use: 'a custom solution',
-      },
-      {
-        name:
-          '@department-of-veterans-affairs/component-library/LoadingIndicator',
-        use: '<va-loading-indicator>',
-      },
-      {
-        name: '@department-of-veterans-affairs/component-library/FileInput',
-        use: '<va-file-input>',
       },
     ],
   },

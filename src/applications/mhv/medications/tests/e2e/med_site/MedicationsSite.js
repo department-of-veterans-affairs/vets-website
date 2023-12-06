@@ -4,22 +4,25 @@ import vamcUser from '../fixtures/vamc-ehr.json';
 import prescriptions from '../fixtures/prescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true) => {
+  login = (isMedicationsUser = true, featureToggle = true) => {
     if (isMedicationsUser) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
 
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'mhv_medications_to_va_gov_release',
-              value: true,
-            },
-          ],
+      cy.intercept(
+        { method: 'GET', url: '/v0/feature_toggles?*' },
+        {
+          data: {
+            type: 'feature_toggles',
+            features: [
+              {
+                name: 'mhv_medications_to_va_gov_release',
+                value: featureToggle,
+              },
+            ],
+          },
         },
-      }).as('featureToggle');
+      ).as('featureToggle');
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept(
@@ -28,31 +31,33 @@ class MedicationsSite {
         prescriptions,
       ).as('prescriptions');
       cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.intercept('GET', '/health-care/refill-track-prescriptions');
     }
   };
 
-  loadVAPaginationPrescriptions = (
-    interceptedPage = 1,
-    mockRx,
-    PerPage = 20,
-  ) => {
+  loadVAPaginationPrescriptions = (interceptedPage = 1, mockRx) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
+      `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
     cy.get('[id="pagination"]')
       .shadow()
-      .find(`[aria-label="Page ${interceptedPage}"]`)
-      .click();
+      .find('[class="usa-pagination__button usa-current"]')
+      .click({ waitForAnimations: true });
     // cy.wait(`@Prescriptions${interceptedPage}`);
   };
 
-  loadVAPaginationNextPrescriptions = () => {
-    cy.get('[aria-label="Pagination"]')
+  loadVAPaginationNextPrescriptions = (interceptedPage = 2, mockRx) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
+      mockRx,
+    ).as(`Prescriptions${interceptedPage}`);
+    cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
-      .click();
+      .click({ waitForAnimations: true });
   };
 
   loadVAPaginationPreviousPrescriptions = (
@@ -65,21 +70,21 @@ class MedicationsSite {
       `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
+    cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Previous page"]')
-      .click();
+      .click({ waitForAnimations: true });
     // cy.wait(`@Prescriptions${interceptedPage}`);
   };
 
-  verifyPaginationPrescirptionsDisplayed = (
+  verifyPaginationPrescriptionsDisplayed = (
     displayedStartNumber,
     displayedEndNumber,
     threadLength,
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
       'have.text',
-      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications`,
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, last filled first`,
     );
   };
 }

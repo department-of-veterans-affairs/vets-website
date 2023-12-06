@@ -10,7 +10,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 
-import { useDatadogRum } from '../hooks/useDatadogRum';
+import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
 const App = () => {
   const user = useSelector(selectUser);
@@ -27,7 +27,21 @@ const App = () => {
     state => state.featureToggles,
   );
 
-  useDatadogRum();
+  const datadogRumConfig = {
+    applicationId: '02c72297-5059-4ed8-8472-874276f4a9b2',
+    clientToken: 'pub1325dfe255119729611410e2f47f4f99',
+    site: 'ddog-gov.com',
+    service: 'va.gov-mhv-secure-messaging',
+    sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
+    sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
+    trackInteractions: true,
+    trackFrustrations: true,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  };
+  useDatadogRum(datadogRumConfig);
 
   if (featureTogglesLoading) {
     return (

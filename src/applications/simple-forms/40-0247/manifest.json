@@ -2,6 +2,6 @@
   "appName": "Request a Presidential Memorial Certificate",
   "entryFile": "./app-entry.jsx",
   "entryName": "0247-pmc",
-  "rootUrl": "/request-presidential-memorial-certificate",
+  "rootUrl": "/burials-memorials/memorial-items/presidential-memorial-certificates/request-certificate-form-40-0247",
   "productId": "5af7a83b-c1a0-4a0a-b0e9-88baf150e6a9"
 }

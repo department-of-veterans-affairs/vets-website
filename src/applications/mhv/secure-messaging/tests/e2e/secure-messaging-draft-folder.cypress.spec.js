@@ -1,9 +1,6 @@
-import mockDraftMessages from './fixtures/drafts-response.json';
-import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 
 describe('Secure Messaging Draft Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -12,19 +9,9 @@ describe('Secure Messaging Draft Folder checks', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    PatientMessagesSentPage.loadMessages();
+    draftsPage.loadMessages();
   });
-  it('Axe Check Draft Folder', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-  });
+
   it('Verify filter works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {

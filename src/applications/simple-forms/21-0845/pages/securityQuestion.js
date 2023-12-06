@@ -58,17 +58,15 @@ export default {
                     (*Required)
                   </span>
                 </h3>
-                <div>
-                  <p>
-                    Select a security question. We’ll ask you to enter the
-                    answer on the next screen. You’ll then need to give the
-                    answer to your designated third-party source.
-                  </p>
-                  <p>
-                    We’ll ask this question each time your designated
-                    third-party source contacts us.
-                  </p>
-                </div>
+                <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+                  Select a security question. We’ll ask you to enter the answer
+                  on the next screen. You’ll then need to give the answer to
+                  your designated third-party source.
+                  <br />
+                  <br />
+                  We’ll ask this question each time your designated third-party
+                  source contacts us.
+                </span>
               </>
             ),
             uiSchema,

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { PRIMARY_PHONE, PRIMARY_PHONE_TYPES } from '../../995/constants';
 
 const primaryPhone = {
@@ -11,6 +13,17 @@ const primaryPhone = {
       },
     },
   },
+
+  review: data => ({
+    'Primary phone number':
+      data['view:primaryPhone'] === null ? (
+        <span className="usa-input-error-message">
+          No primary phone number selected
+        </span>
+      ) : (
+        data['view:primaryPhone']
+      ),
+  }),
 };
 
 export default primaryPhone;

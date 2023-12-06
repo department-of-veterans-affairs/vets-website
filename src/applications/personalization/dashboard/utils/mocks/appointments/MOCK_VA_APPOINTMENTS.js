@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { addDays, formatISO } from 'date-fns';
 
 export default {
   data: [
@@ -6,9 +6,7 @@ export default {
       id: 'c3e3e32701e23fdf389c06eae00fcb24',
       type: 'va_appointments',
       attributes: {
-        startDate: moment()
-          .add(35, 'days')
-          .toISOString(),
+        startDate: formatISO(addDays(Date.now(), 35)),
         sta6aid: null,
         clinicId: null,
         clinicFriendlyName: null,
@@ -20,12 +18,8 @@ export default {
             id: '465f0120-e268-4f66-bdbf-96f44d9ad3a9',
             appointmentKind: 'ADHOC',
             sourceSystem: 'PV',
-            dateTime: moment()
-              .add(35, 'days')
-              .toISOString(),
-            desiredDate: moment()
-              .add(35, 'days')
-              .toISOString(),
+            dateTime: formatISO(addDays(Date.now(), 35)),
+            desiredDate: formatISO(addDays(Date.now(), 35)),
             duration: 30,
             status: {
               description: 'F',
@@ -128,9 +122,7 @@ export default {
       id: 'a784f714fa1606e39dee11e3bdbb7901',
       type: 'va_appointments',
       attributes: {
-        startDate: moment()
-          .add(31, 'days')
-          .toISOString(),
+        startDate: formatISO(addDays(Date.now(), 31)),
         sta6aid: '983',
         clinicId: '848',
         clinicFriendlyName: 'CHY PC VAR2',
@@ -142,9 +134,7 @@ export default {
             id: 'CB2349303442341141231a',
             appointmentKind: 'CLINIC_BASED',
             sourceSystem: 'TMP',
-            dateTime: moment()
-              .add(31, 'days')
-              .toISOString(),
+            dateTime: formatISO(addDays(Date.now(), 31)),
             desiredDate: '2021-10-10T17:40:00Z',
             duration: 20,
             status: {
@@ -216,9 +206,7 @@ export default {
       id: '00abc6741c00ac67b6cbf6b972d084z0',
       type: 'va_appointments',
       attributes: {
-        startDate: moment()
-          .add(3, 'days')
-          .toISOString(),
+        startDate: formatISO(addDays(Date.now(), 3)),
         clinicId: '308',
         clinicFriendlyName: null,
         facilityId: '983',
@@ -228,9 +216,7 @@ export default {
           {
             bookingNote: 'past CC vista appt',
             appointmentLength: '60',
-            appointmentTime: moment()
-              .add(3, 'days')
-              .toISOString(),
+            appointmentTime: formatISO(addDays(Date.now(), 3)),
             clinic: {
               name: 'CHY OPT VAR1',
               askForCheckIn: false,
@@ -247,9 +233,7 @@ export default {
       id: '20abc6741c00ac67b6cbf6b972d084c1',
       type: 'va_appointments',
       attributes: {
-        startDate: moment()
-          .add(2, 'days')
-          .toISOString(),
+        startDate: formatISO(addDays(Date.now(), 2)),
         clinicId: '308',
         clinicFriendlyName: 'Neighborhood Clinic',
         facilityId: '983',
@@ -259,9 +243,7 @@ export default {
           {
             bookingNote: 'CC vista appt',
             appointmentLength: '60',
-            appointmentTime: moment()
-              .add(2, 'days')
-              .toISOString(),
+            appointmentTime: formatISO(addDays(Date.now(), 2)),
             clinic: {
               name: 'CHY OPT VAR1',
               askForCheckIn: false,
@@ -278,9 +260,7 @@ export default {
       id: '05760f00c80ae60ce49879cf37a05fc8',
       type: 'va_appointments',
       attributes: {
-        startDate: moment()
-          .add(1, 'days')
-          .toISOString(),
+        startDate: formatISO(addDays(Date.now(), 1)),
         clinicId: null,
         clinicFriendlyName: null,
         facilityId: '983',
@@ -291,9 +271,7 @@ export default {
             id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
             appointmentKind: 'ADHOC',
             sourceSystem: 'SM',
-            dateTime: moment()
-              .add(1, 'days')
-              .toISOString(),
+            dateTime: formatISO(addDays(Date.now(), 1)),
             duration: 20,
             status: { description: 'F', code: 'FUTURE' },
             schedulingRequestType: 'NEXT_AVAILABLE_APPT',
@@ -357,9 +335,7 @@ export default {
       id: '22cdc6741c00ac67b6cbf6b972d084c0',
       type: 'va_appointments',
       attributes: {
-        startDate: moment()
-          .subtract(5, 'days')
-          .toISOString(),
+        startDate: formatISO(addDays(Date.now(), 5)),
         clinicId: '308',
         clinicFriendlyName: null,
         facilityId: '983',
@@ -370,9 +346,7 @@ export default {
           {
             bookingNote: 'Medication concern: test',
             appointmentLength: '60',
-            appointmentTime: moment()
-              .subtract(5, 'days')
-              .toISOString(),
+            appointmentTime: formatISO(addDays(Date.now(), 5)),
             clinic: {
               name: 'CHY OPT VAR1',
               askForCheckIn: false,

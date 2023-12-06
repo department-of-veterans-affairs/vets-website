@@ -231,46 +231,15 @@ const addressFormFields = Object.freeze({
     },
   ],
 });
-// Station numbers of stations where travel pay is enabled.
-const travelAllowList = {
-  '0001': {
-    clinics: ['0001'],
-  },
-  '500': {},
-  '530': {},
-  '693B4': {},
-  '693GA': {},
-  '693GB': {},
-  '693': {},
-  '693GC': {},
-  '693GG': {},
-  '693QA': {},
-  '693GF': {},
-  '693QB': {},
-};
-
-const isInAllowList = appointment => {
-  let { clinicIen, stationNo } = appointment;
-  clinicIen = String(clinicIen);
-  stationNo = String(stationNo);
-  const passesClinic = () => {
-    const hasClinic = 'clinics' in travelAllowList[stationNo];
-    if (!hasClinic) {
-      return true;
-    }
-    const clinicsList = travelAllowList[stationNo].clinics;
-
-    return clinicsList.includes(clinicIen);
-  };
-  const stations = Object.keys(travelAllowList);
-
-  return stations.includes(stationNo) && passesClinic();
-};
 
 const phoneNumbers = {
   textCheckIn: '53079',
   mainInfo: '8006982411',
   btsssCallCenter: '8555747292',
+  veteransCrisisLine: '988',
+  veteransCrisisText: '838255',
+  tty: '711',
+  emergency: '911',
 };
 
 export {
@@ -280,5 +249,4 @@ export {
   addressFormFields,
   baseCities,
   phoneNumbers,
-  isInAllowList,
 };

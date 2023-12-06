@@ -9,10 +9,12 @@ import { imageRootUri } from './constants';
  * @returns {String} fromatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+  if (timestamp) {
+    return moment
+      .tz(timestamp, 'America/New_York')
+      .format(format || 'MMMM D, YYYY');
+  }
+  return 'None noted';
 };
 
 /**
@@ -30,21 +32,15 @@ export const generateMedicationsPDF = async (
   } catch (error) {
     Sentry.captureException(error);
     Sentry.captureMessage('vets_mhv_medications_pdf_generation_error');
-    // TODO: Once UCD gives a flow on how to present to the  user when something goes wrong with the pdf generation
-    // Error logging/presentation goes here...
+    throw error;
   }
 };
 
 /**
  * @param {String} fieldValue value that is being validated
- * @param {string} date if the value needs to be returend as a date, this param should be passed as the string "date",
- * otherwise it is set to false by default
  */
-export const validateField = (fieldValue, date = false) => {
-  if (fieldValue) {
-    if (date === 'date') {
-      return dateFormat(fieldValue);
-    }
+export const validateField = fieldValue => {
+  if (fieldValue || fieldValue === 0) {
     return fieldValue;
   }
   return 'None noted';

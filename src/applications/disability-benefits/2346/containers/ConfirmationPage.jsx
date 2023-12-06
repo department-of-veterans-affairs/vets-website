@@ -21,7 +21,7 @@ const ConfirmationPage = ({
 }) => {
   // TODO: move to util or custom hook.
   const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-    ? 'hearing aid and CPAP supplies'
+    ? 'hearing aid or CPAP supplies'
     : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
     <div className="print-details">
@@ -32,7 +32,6 @@ const ConfirmationPage = ({
         className="vads-u-margin-bottom--2"
       />
       <h1 className="vads-u-font-size--h3">Order {supplyDescription}</h1>
-      <span>Form 2346A</span>
       <h2 className="vads-u-font-size--h4">Your order has been submitted</h2>
       <p>
         We’ll send you an email confirming your order to{' '}
@@ -93,7 +92,7 @@ const ConfirmationPage = ({
               </h2>
               <p className="order-submission-alert">
                 We’ll send you an email confirming your order to{' '}
-                <strong>{vetEmail}</strong>.
+                <strong className="dd-privacy-mask">{vetEmail}</strong>.
               </p>
             </va-alert>
             <va-alert
@@ -105,13 +104,13 @@ const ConfirmationPage = ({
                 <h4 className="vads-u-margin-top--0">
                   Request for {supplyDescription}
                 </h4>
-                <p className="vads-u-margin--0">
+                <p className="vads-u-margin--0 dd-privacy-mask">
                   for {fullName?.first} {fullName?.last}
                 </p>
                 <p className="vads-u-margin-bottom--0">
                   <strong>Items ordered</strong>
                 </p>
-                <ul className="vads-u-margin-bottom--1">
+                <ul className="vads-u-margin-bottom--1 dd-privacy-mask">
                   {selectedProductArray?.map(product => (
                     <li key={product?.productId}>
                       {product?.productName} (Quantity: {product?.quantity})
@@ -122,10 +121,10 @@ const ConfirmationPage = ({
                   <strong>Shipping address</strong>
                 </p>
                 <div className="shippingAddress">
-                  <p className="vads-u-margin-y--0">
+                  <p className="vads-u-margin-y--0 dd-privacy-mask">
                     {shippingAddress?.street} {shippingAddress?.street2 || ''}
                   </p>
-                  <p className="vads-u-margin-top--0">
+                  <p className="vads-u-margin-top--0 dd-privacy-mask">
                     {`${shippingAddress?.city},
           ${shippingAddress?.state || shippingAddress?.province} ${' '}
           ${shippingAddress?.postalCode ||
@@ -140,7 +139,7 @@ const ConfirmationPage = ({
                   {' '}
                   {moment(submittedAt).format('MMM D, YYYY')}
                 </p>
-                <p className="vads-u-margin-bottom--0">
+                <p className="vads-u-margin-bottom--0 dd-privacy-mask">
                   <strong>Confirmation number</strong>
                 </p>
                 <p className="vads-u-margin-y--0">{orderId}</p>
@@ -208,7 +207,7 @@ const ConfirmationPage = ({
             <h2>We’re sorry. Part of your order wasn’t submitted.</h2>
             <div className="partial-submit-alert">
               <p>At least one of the following items couldn’t be ordered:</p>
-              <ul className="vads-u-margin-bottom--1">
+              <ul className="vads-u-margin-bottom--1 dd-privacy-mask">
                 {selectedProductArray?.map(product => {
                   if (product.productGroup === BATTERY) {
                     return (

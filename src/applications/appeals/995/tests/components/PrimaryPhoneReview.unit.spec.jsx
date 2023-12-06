@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import PrimaryPhoneReview from '../../components/PrimaryPhoneReview';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
 
 import maximalData from '../fixtures/data/maximal-test.json';
-
-import { $ } from '../../utils/ui';
 
 describe('<PrimaryPhoneReview>', () => {
   const setup = ({
@@ -29,6 +29,7 @@ describe('<PrimaryPhoneReview>', () => {
     const { container } = render(setup());
     expect($('dt', container).textContent).to.eq(content.homeLabel);
     expect($('dd', container).textContent).to.contain('(555) 800-1111');
+    expect($('dd.dd-privacy-hidden', container)).to.exist;
   });
   it('should render mobile phone as primary', () => {
     const { container } = render(setup({ primary: 'mobile' }));

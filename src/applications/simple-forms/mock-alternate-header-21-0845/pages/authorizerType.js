@@ -21,6 +21,12 @@ export default {
             "I'm a non-Veteran beneficiary or claimant submitting on behalf of a Veteran",
         },
       },
+      'ui:reviewField': ({ children: { props } }) => (
+        <div className="review-row">
+          <dt>Who's submitting this authorization?</dt>
+          <dd>{props.uiSchema['ui:options'].labels[(props?.formData)]}</dd>
+        </div>
+      ),
     },
     // web component implementation
     // disabled until radio issues are resolved

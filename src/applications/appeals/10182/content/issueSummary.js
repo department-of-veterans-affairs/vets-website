@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import { ShowIssuesList } from '../components/ShowIssuesList';
-import { getSelected } from '../../shared/utils/issues';
+import ShowIssuesList from '../../shared/components/ShowIssuesList';
+
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);

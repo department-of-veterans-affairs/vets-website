@@ -55,6 +55,10 @@ export default {
           };
         },
       },
+      'ui:errorMessages': {
+        required:
+          'Please select how much information you would like us to release',
+      },
     },
   },
   schema: {

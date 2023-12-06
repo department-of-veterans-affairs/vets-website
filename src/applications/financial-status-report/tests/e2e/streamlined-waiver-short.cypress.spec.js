@@ -35,6 +35,10 @@ const testConfig = createTestConfig(
               name: 'financial_status_report_streamlined_waiver',
               value: true,
             },
+            {
+              name: 'financial_status_report_streamlined_waiver_assets',
+              value: false,
+            },
           ],
         },
       });
@@ -84,7 +88,10 @@ const testConfig = createTestConfig(
       },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(/How many dependents/).type('2');
+          cy.get('#dependent-count')
+            .shadow()
+            .find('input')
+            .type('2');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -111,6 +118,16 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('200');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'skip-questions-explainer': ({ afterHook }) => {
         afterHook(() => {
           cy.get('h3').should(
@@ -122,7 +139,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.accordion-header').should('have.length', 3);
+          cy.get('va-accordion-item').should('have.length', 3);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')

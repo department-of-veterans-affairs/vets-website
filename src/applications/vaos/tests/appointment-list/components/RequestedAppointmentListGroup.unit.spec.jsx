@@ -266,7 +266,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       // Then it should display the no appointments alert message
       expect(
         await screen.findByRole('heading', {
-          level: 3,
+          level: 2,
           name: /You don’t have any/,
         }),
       ).to.be.ok;
@@ -369,7 +369,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       // And it should display the no appointments alert message
       expect(
         screen.getByRole('heading', {
-          level: 3,
+          level: 2,
           name: /You don’t have any/,
         }),
       ).to.be.ok;

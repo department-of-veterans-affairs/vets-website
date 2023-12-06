@@ -27,7 +27,7 @@ const requestExtension = {
   },
 
   review: data => ({
-    [content.title]: data.requestExtension ? 'Yes' : 'No',
+    [content.title]: data.requestingExtension ? 'Yes' : 'No',
   }),
 };
 

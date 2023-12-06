@@ -11,6 +11,7 @@ import {
 import { APPOINTMENT_TYPES } from '../utils/constants';
 
 import ParagraphBlock from './ParagraphBlock';
+import ItemsBlock from './ItemsBlock';
 
 const getAppointments = (type, appointments) => {
   return appointments.filter(appointment => appointment.type === type.label);
@@ -22,8 +23,10 @@ const getAppointmentContent = (type, appointments) => {
     return items.map((item, idx) => (
       <div key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
-        <p>
-          {item.location} ({item.physicalLocation})<br />
+        <p className="vads-u-margin-top--0">
+          {item.location}
+          {item.physicalLocation && ` (${item.physicalLocation})`}
+          <br />
           Clinic location: {item.site}
         </p>
       </div>
@@ -34,7 +37,7 @@ const getAppointmentContent = (type, appointments) => {
 };
 
 const primaryCareProvider = avs => {
-  if (avs.primaryCareProviders) {
+  if (avs.primaryCareProviders?.length) {
     return (
       <div>
         <h3>Primary care provider</h3>
@@ -90,7 +93,10 @@ const appointments = avs => {
           <div>
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
-            <ul data-testid="scheduled-appointments">
+            <ul
+              className="vads-u-padding-left--0"
+              data-testid="scheduled-appointments"
+            >
               {scheduledAppointments}
             </ul>
           </div>
@@ -105,7 +111,12 @@ const appointments = avs => {
               you call, you will be assigned a confirmed appointment date and
               time.
             </p>
-            <ul data-testid="recall-appointments">{recallAppointments}</ul>
+            <ul
+              className="vads-u-padding-left--0"
+              data-testid="recall-appointments"
+            >
+              {recallAppointments}
+            </ul>
           </div>
         )}
       </div>
@@ -115,62 +126,45 @@ const appointments = avs => {
   return null;
 };
 
-const immunizations = avs => {
-  if (avs.immunizations?.length > 0) {
-    const immunizationItems = avs.immunizations.map((immunization, idx) => (
-      <div key={idx}>
-        <p>
-          {immunization.name}
-          <br />
-          Date: {formatDateLong(parseVistaDate(immunization.date))}
-          <br />
-          Facility: {immunization.facility}
-        </p>
-        <hr />
-      </div>
-    ));
-
-    return (
-      <div data-testid="immunizations">
-        <h3>Immunizations</h3>
-        {immunizationItems}
-      </div>
-    );
-  }
-
-  return null;
+const renderImmunization = immunization => {
+  return (
+    <p>
+      {immunization.name}
+      <br />
+      Date: {formatDateLong(parseVistaDate(immunization.date))}
+      <br />
+      Facility: {immunization.facility}
+    </p>
+  );
 };
 
-const allergiesAndReactions = avs => {
-  if (avs.allergiesReactions?.allergies?.length > 0) {
-    const allergyItems = avs.allergiesReactions.allergies.map((item, idx) => (
-      <div key={idx}>
-        <p>
-          {item.allergen}
-          <br />
-          Verified date: {formatDateLong(parseVistaDate(item.verifiedDate))}
-          <br />
-          Severity: {item.severity || 'None noted'}
-          <br />
-          Reaction: {item.reactions.join(', ') || 'None noted'}
-          <br />
-          Allergy type: {item.type || 'None noted'}
-          <br />
-          Site: {item.site}
-        </p>
-        <hr />
-      </div>
-    ));
+const renderProblem = problem => {
+  // cf. https://github.com/department-of-veterans-affairs/avs/blob/2af52456e924d8da21b5a8079ac0fb41e6498c63/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/PatientInfoThread.java#L100C87-L100C87
+  const problemName = problem.description.replace(/ \(.*\)$/, '');
+  return (
+    <p>
+      {problemName} <br />
+      Last updated: {formatDateLong(problem.lastUpdated)}
+    </p>
+  );
+};
 
-    return (
-      <div data-testid="allergies-reactions">
-        <h3>Allergies and adverse drug reactions (signs / symptoms)</h3>
-        {allergyItems}
-      </div>
-    );
-  }
-
-  return null;
+const renderAllergy = allergy => {
+  return (
+    <p>
+      {allergy.allergen}
+      <br />
+      Verified date: {formatDateLong(parseVistaDate(allergy.verifiedDate))}
+      <br />
+      Severity: {allergy.severity || 'None noted'}
+      <br />
+      Reaction: {allergy.reactions.join(', ') || 'None noted'}
+      <br />
+      Allergy type: {allergy.type || 'None noted'}
+      <br />
+      Site: {allergy.site}
+    </p>
+  );
 };
 
 const labResultValues = labResult => {
@@ -204,7 +198,7 @@ const labResults = avs => {
           Performing lab: {item.performingLab}
           <br />
         </p>
-        <hr />
+        {avs.labResults.length > 1 && <hr />}
       </div>
     ));
 
@@ -230,7 +224,7 @@ const YourHealthInformation = props => {
 
   return (
     <div>
-      <p>
+      <p className="vads-u-margin-top--0">
         Note: the health information in this summary is from {appointmentDate}.{' '}
         <a href="/my-health/">
           Go to the MyHealtheVet website for your current VA medical records.
@@ -239,14 +233,33 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
-      <ParagraphBlock heading="Appointment notes" content={avs.comments} />
-      {/* TODO: add problem list */}
+
+      <ItemsBlock
+        heading="Problem list"
+        itemType="problems"
+        items={avs.problems}
+        renderItem={renderProblem}
+        showSeparators={false}
+      />
+
       <ParagraphBlock
         heading="Smoking status"
         content={avs.patientInfo?.smokingStatus}
       />
-      {immunizations(avs)}
-      {allergiesAndReactions(avs)}
+      <ItemsBlock
+        heading="Immunizations"
+        itemType="immunizations"
+        items={avs.immunizations}
+        renderItem={renderImmunization}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="Allergies and adverse drug reactions (signs / symptoms)"
+        itemType="allergies-reactions"
+        items={avs.allergiesReactions?.allergies}
+        renderItem={renderAllergy}
+        showSeparators
+      />
       {labResults(avs)}
     </div>
   );

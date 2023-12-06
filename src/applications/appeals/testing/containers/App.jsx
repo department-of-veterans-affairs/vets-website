@@ -31,6 +31,7 @@ export default function App(props) {
     >
       {!noHeader.includes(currentPath) && (
         <>
+          <div name="topScrollElement" />
           <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2">
             <div className="row">
               <div className="usa-width-two-thirds medium-8 columns">
@@ -38,6 +39,7 @@ export default function App(props) {
               </div>
             </div>
           </div>
+          <div name="topNavScrollElement" />
           <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2">
             <div className="row">
               <div className="usa-width-two-thirds medium-8 columns">
@@ -75,6 +77,7 @@ export default function App(props) {
                 labels={chapterTitles.join(';')}
                 total={chapterTitles.length}
                 uswds
+                use-div
               />
             </div>
           </div>

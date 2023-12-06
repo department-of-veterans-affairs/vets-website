@@ -1,51 +1,35 @@
 import React from 'react';
-import moment from 'moment';
+import { utcToZonedTime, format } from 'date-fns-tz';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 import CallVBACenter from 'platform/static-data/CallVBACenter';
+import { scrollToTop } from '../helpers';
 
-const scroller = Scroll.scroller;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+const centralTz = 'America/Chicago';
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop();
   }
 
-  toggleExpanded = e => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
   render() {
-    const form = this.props.form;
-    const response = this.props.form.submission.response
-      ? this.props.form.submission.response
-      : {};
-    const name = form.data.veteranFullName;
-    const regionalOffice = response.regionalOffice || [];
+    const {
+      form: { submission, data },
+    } = this.props;
+    const response = submission?.response ?? {};
+    const name = data?.veteranFullName;
+    const regionalOffice = response?.regionalOffice || [];
 
-    let pmcName;
-    if (regionalOffice.length) {
-      pmcName = regionalOffice[0].replace('Attention:', '').trim();
-    }
+    const pmcName = regionalOffice?.length
+      ? regionalOffice[0].replace('Attention:', '').trim()
+      : null;
 
-    const submittedAt = moment(form.submission.submittedAt);
-    const offset = submittedAt.isDST() ? '-0500' : '-0600';
+    const zonedDate = utcToZonedTime(submission?.submittedAt, centralTz);
+    const submittedAt = format(zonedDate, 'LLL d, yyyy h:mm a zzz', {
+      timeZone: centralTz,
+    });
 
     return (
       <div>
@@ -68,25 +52,23 @@ class ConfirmationPage extends React.Component {
             <li>
               <strong>Date submitted</strong>
               <br />
-              <span>
-                {submittedAt
-                  .utcOffset(offset)
-                  .format('MMM D, YYYY h:mm a [CT]')}
-              </span>
+              <span>{submittedAt}</span>
             </li>
-            <li>
-              <strong>Confirmation number</strong>
-              <br />
-              <span>{response.confirmationNumber}</span>
-            </li>
+            {response?.confirmationNumber && (
+              <li>
+                <strong>Confirmation number</strong>
+                <br />
+                <span>{response?.confirmationNumber}</span>
+              </li>
+            )}
             <li>
               <strong>Pension Management Center</strong>
               <br />
-              <span>{pmcName}</span>
+              {pmcName && <span>{pmcName}</span>}
               <br />
               <span>
-                Phone: <a href="tel:1-800-827-1000">800-827-1000</a>, Monday
-                &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
+                Phone: <va-telephone international contact="8008271000" />,
+                Monday &#8211; &#8211; Friday, 8:00 a.m. &#8211; 9:00 p.m. ET
               </span>
               <br />
               <span>Fax: 844-655-1604</span>
@@ -96,14 +78,14 @@ class ConfirmationPage extends React.Component {
                 If you have several documents to send in, you can mail them to:
               </span>
               <address className="schemaform-address-view">
-                {regionalOffice.map((line, index) => (
+                {regionalOffice?.map((line, index) => (
                   <p key={index}>{line}</p>
                 ))}
               </address>
             </li>
             <li>
               <strong>Note:</strong> If you choose to mail in your supporting
-              documents, you don’t have to send in a paper copy of VA Form
+              documents, you don't have to send in a paper copy of VA Form
               21P-527EZ with the documents.
             </li>
           </ul>

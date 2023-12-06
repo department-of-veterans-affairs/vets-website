@@ -39,16 +39,12 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('Displays each field', () => {
+    it('Renders its children', () => {
+      NextOfKin.validatePage.preCheckIn();
       NextOfKin.validateNextOfKinFields();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Displays correct next of kin data', () => {
       NextOfKin.validateNextOfKinData();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Displays additional info', () => {
-      NextOfKin.validateAdditionalInfo.dayOf();
+      NextOfKin.validateAdditionalInfo.preCheckIn();
+      NextOfKin.validateHelpText();
       cy.injectAxeThenAxeCheck();
     });
   });

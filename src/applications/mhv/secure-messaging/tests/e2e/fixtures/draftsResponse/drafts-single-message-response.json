@@ -5,8 +5,8 @@
     "attributes": {
       "messageId": 2845689,
       "category": "OTHER",
-      "subject": "s",
-      "body": "s",
+      "subject": "test",
+      "body": "testBody",
       "attachment": false,
       "sentDate": null,
       "senderId": 406227,

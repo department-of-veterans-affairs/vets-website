@@ -1,4 +1,7 @@
 {
+  "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
+  "view:streamlinedWaiverAssetUpdate": false,
   "questions": {
     "hasDependents": "2",
     "isMarried": false,
@@ -288,8 +291,6 @@
   "additionalData": {
     "bankruptcy": {}
   },
-  "view:enhancedFinancialStatusReport": true,
-  "view:streamlinedWaiver": true,
   "income": [
     {
       "veteranOrSpouse": "VETERAN"

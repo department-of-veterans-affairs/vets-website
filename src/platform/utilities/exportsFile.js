@@ -100,6 +100,7 @@ export {
   removeLoginAttempted,
 } from './sso/loginAttempted';
 export { default as mockKeepAliveSSO } from './sso/mockKeepAliveSSO';
+export { logoutUrlSiS } from './oauth/utilities';
 
 /* storage */
 export { default as getLocalStorage } from './storage/localStorage';

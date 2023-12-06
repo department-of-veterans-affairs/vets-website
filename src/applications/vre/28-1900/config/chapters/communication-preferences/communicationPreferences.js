@@ -1,7 +1,6 @@
 import React from 'react';
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import {
-  AppointmentPreferencesInformation,
   VreCommunicationInformation,
   validateAtLeastOneSelected,
 } from './helpers';
@@ -24,10 +23,6 @@ export const schema = {
     },
     useEva,
     useTelecounseling,
-    'view:AppointmentPreferencesInformation': {
-      type: 'object',
-      properties: {},
-    },
     appointmentTimePreferences,
   },
 };
@@ -56,16 +51,15 @@ export const uiSchema = {
       </p>
     ),
   },
-  'view:AppointmentPreferencesInformation': {
-    'ui:options': { showFieldLabel: false },
-    'ui:description': AppointmentPreferencesInformation,
-  },
   appointmentTimePreferences: {
     'ui:title': (
       <p className="vads-u-margin--0 vads-u-margin-top-neg2 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
-        When are the best times to meet with your counselor?{' '}
+        Tell us the time you prefer to meet with your counselor. We’ll make
+        every effort to assign a counselor who is available to meet during your
+        preferred hours. When are the best times to meet with your counselor?
+        Select all that apply.{' '}
         <span className="schemaform-required-span vads-u-display--block">
-          (*Choose at least 1)
+          (*Required)
         </span>
       </p>
     ),
@@ -78,9 +72,6 @@ export const uiSchema = {
       'ui:title': 'Mornings 6:00 to 10:00 a.m.',
       'ui:options': {
         hideEmptyValueInReview: true,
-        widgetProps: {
-          false: { 'aria-describedby': 'appointment-time-desc' },
-        },
       },
     },
     midDay: {

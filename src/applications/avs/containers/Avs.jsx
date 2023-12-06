@@ -10,6 +10,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
+import BreadCrumb from '../components/BreadCrumb';
 import YourAppointment from '../components/YourAppointment';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
 import YourHealthInformation from '../components/YourHealthInformation';
@@ -38,13 +39,24 @@ const Avs = props => {
   const [avs, setAvs] = useState({});
   const [avsLoading, setAvsLoading] = useState(true);
 
+  const [error, setError] = useState(null);
+
+  if (error) {
+    throw error;
+  }
+
   useEffect(
     () => {
       const fetchAvs = async () => {
-        const response = await getAvs(id);
-        // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
-        setAvs(response.data.attributes);
-        setAvsLoading(false);
+        try {
+          const response = await getAvs(id);
+
+          // cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/model/AvsDataModel.java
+          setAvs(response.data.attributes);
+          setAvsLoading(false);
+        } catch (e) {
+          setError(e);
+        }
       };
 
       if (isLoggedIn && avsLoading) {
@@ -62,7 +74,7 @@ const Avs = props => {
     return (
       <va-loading-indicator
         data-testid="avs-loading-indicator"
-        message="Loading your After-visit Summary"
+        message="Loading your after-visit summary"
       />
     );
   }
@@ -73,9 +85,14 @@ const Avs = props => {
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
       >
-        <h1>After-visit Summary</h1>
+        <BreadCrumb />
+        <h1>After-visit summary</h1>
+
         <va-accordion>
-          <va-accordion-item header={generateAppointmentHeader(avs)}>
+          <va-accordion-item
+            header={generateAppointmentHeader(avs)}
+            open="true"
+          >
             <YourAppointment avs={avs} />
           </va-accordion-item>
           <va-accordion-item header="Your treatment plan from this appointment">

@@ -97,12 +97,6 @@ class Confirmation {
       );
   };
 
-  validateExtraFooterMessage = () => {
-    cy.get('div[data-testid="day-of-travel-extra-message"]').should(
-      'be.visible',
-    );
-  };
-
   attemptGoBackToAppointments = () => {
     cy.get('[data-testid=go-to-appointments-button]').click();
   };

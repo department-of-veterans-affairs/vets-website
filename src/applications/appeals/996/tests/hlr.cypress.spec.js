@@ -5,17 +5,20 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { getRandomDate, fixDecisionDates } from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
-import mockUser from './fixtures/mocks/user.json';
-import mockVamc from './fixtures/mocks/vamc-ehr.json';
-import mockUserAvail from './fixtures/mocks/user_transition_availabilities.json';
 
 import { CONTESTABLE_ISSUES_API, WIZARD_STATUS, BASE_URL } from '../constants';
+
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
+
+import {
+  getRandomDate,
+  fixDecisionDates,
+  areaOfDisagreementPageHook,
+} from '../../shared/tests/cypress.helpers';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
 const testConfig = createTestConfig(
   {
@@ -46,6 +49,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -88,21 +92,15 @@ const testConfig = createTestConfig(
           });
         });
       },
+
+      'area-of-disagreement/:index': areaOfDisagreementPageHook,
     },
 
     setupPerTest: () => {
       window.sessionStorage.removeItem(WIZARD_STATUS);
-
-      cy.login(mockUser);
-
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/maintenance_windows', []);
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamc);
-      cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
-      cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
+      cypressSetup();
 
       cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
-
       cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
 
       cy.get('@testData').then(data => {

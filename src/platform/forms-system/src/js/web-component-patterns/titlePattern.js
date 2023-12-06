@@ -23,11 +23,17 @@ import React from 'react';
 export const titleUI = (title, description) => {
   return {
     'ui:title': (
-      <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">{title}</h3>
+      <>
+        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+          {title}
+        </h3>
+        {description && (
+          <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+            {description}
+          </span>
+        )}
+      </>
     ),
-    'ui:description': description ? (
-      <p className="vads-u-margin-bottom--0">{description}</p>
-    ) : null,
   };
 };
 

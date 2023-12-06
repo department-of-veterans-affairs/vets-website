@@ -15,8 +15,7 @@ const StepComponent = props => {
         {data.subTitle()}
 
         <iframe
-          width="325px"
-          height="185px"
+          className="vads-u-max-width--100 small-screen:vads-u-max-width--none"
           src={`https://www.youtube.com/embed/${data.path}`}
           title={data.title}
           frameBorder="0"

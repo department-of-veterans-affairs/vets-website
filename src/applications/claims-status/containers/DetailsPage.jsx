@@ -40,7 +40,7 @@ class DetailsPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelDetails');
     }
   }
 

@@ -4,6 +4,7 @@ import {
   otherDeductionsAmt,
   nameStr,
   filterReduceByName,
+  safeNumber,
 } from './helpers';
 
 // default income object
@@ -38,14 +39,6 @@ const retirementFilters = [
 ];
 const socialSecFilters = ['FICA (Social Security and Medicare)'];
 const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
-
-// safeNumber will return 0 if input is null, undefined, or NaN
-const safeNumber = input => {
-  if (!input) return 0;
-  if (typeof input === 'number') return input;
-  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
-  return Number.isNaN(num) ? 0 : num;
-};
 
 /**
  * Calculate the monthly income of a 'veteran' or 'spouse'

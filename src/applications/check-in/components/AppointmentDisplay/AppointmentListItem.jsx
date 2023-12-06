@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +11,7 @@ import {
   getAppointmentId,
 } from '../../utils/appointment';
 import { APP_NAMES } from '../../utils/appConstants';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const AppointmentListItem = props => {
   const { appointment, goToDetails, router, app, page } = props;
@@ -21,11 +23,21 @@ const AppointmentListItem = props => {
   const pagesToShowDetails = ['details', 'complete', 'confirmation'];
   const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
+
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       return (
         <span data-testid="phone-msg-confirmation">
           {t('your-provider-will-call-you-at-your-appointment-time')}
+        </span>
+      );
+    }
+    if (is45MinuteReminderEnabled && appointment) {
+      return (
+        <span data-testid="in-person-msg-confirmation">
+          {t('remember-to-bring-your-insurance-cards-with-you')}
         </span>
       );
     }
@@ -46,7 +58,7 @@ const AppointmentListItem = props => {
           data-testid="appointment-time"
           className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
         >
-          {t('date-time', { date: appointmentDateTime })}
+          {t('date-time', { date: appointmentDateTime })}{' '}
         </div>
         <div
           data-testid="appointment-type-and-provider"
@@ -74,8 +86,8 @@ const AppointmentListItem = props => {
               t('phone')
             ) : (
               <>
-                {`${t('in-person')} at ${appointment.facility}`} <br /> Clinic:{' '}
-                {clinic}
+                {`${t('in-person')} ${appointment.facility}`} <br />
+                {`${t('clinic')}: ${clinic}`}
               </>
             )}
           </div>

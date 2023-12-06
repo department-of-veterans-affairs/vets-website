@@ -12,7 +12,10 @@ import {
 import { DEFAULT_ERROR_MESSAGE } from '../../constants';
 
 function hasError(codes, errors) {
-  return errors.some(error => codes.has(error.code));
+  if (Array.isArray(errors)) {
+    return errors.some(error => codes.has(error.code));
+  }
+  return false;
 }
 
 export default function VAPServiceEditModalErrorMessage({

@@ -1,44 +1,44 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import EkgDetails from '../../components/LabsAndTests/EkgDetails';
+import ekg from '../fixtures/ekg.json';
+import ekgWithMissingFields from '../fixtures/ekgWithMissingFields.json';
 
 describe('EKG details component', () => {
-  const mockEkg = {
-    name: 'Electrocardiogram (EKG)',
-    category: '',
-    orderedBy: 'Beth M. Smith',
-    requestedBy: 'John J. Lydon',
-    id: 123,
-    date: '2022-04-13T17:42:46.000Z',
-    facility: 'school parking lot',
-  };
-
   const initialState = {
     mr: {
       labsAndTests: {
-        labsAndTestsDetails: mockEkg,
+        labsAndTestsDetails: ekg,
       },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<EkgDetails record={mockEkg} />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/labs-and-tests/123',
-    });
-  };
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <EkgDetails record={ekg} runningUnitTest />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/123',
+      },
+    );
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the test name', () => {
-    const screen = setup();
-    const header = screen.getAllByText(mockEkg.name, {
+    const header = screen.getAllByText(ekg.name, {
       exact: true,
       selector: 'h1',
     });
@@ -46,12 +46,51 @@ describe('EKG details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const screen = setup();
-
-    const dateElement = screen.getByText('April 13, 2022', {
-      exact: true,
+    const dateElement = screen.getByText('April', {
+      exact: false,
       selector: 'span',
     });
     expect(dateElement).to.exist;
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('EKG details component with missing fields', () => {
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: ekgWithMissingFields,
+      },
+    },
+  };
+
+  const screen = renderWithStoreAndRouter(
+    <EkgDetails
+      record={ekgWithMissingFields}
+      fullState={initialState}
+      runningUnitTest
+    />,
+    {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests/123',
+    },
+  );
+
+  it('should not display the formatted date if date is missing', () => {
+    waitFor(() => {
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
+        'None noted',
+      );
+    });
   });
 });

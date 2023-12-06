@@ -32,7 +32,7 @@ const ResponseInboxPage = ({ profile, params }) => {
 
   const INQUIRY_DATA = `${environment.API_URL}/ask_va_api/v0/inquiries/${
     params.id
-  }`;
+  }?mock=true`;
 
   const getInquiry = async () => {
     await apiRequest(INQUIRY_DATA)

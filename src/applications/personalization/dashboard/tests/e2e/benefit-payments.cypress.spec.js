@@ -106,7 +106,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
         cy.wait(['@noDebtsB', '@noCopaysB', '@oldPayments1']);
         cy.findByTestId('dashboard-section-payment').should('exist');
 
-        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('no-recent-payments-text').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('view-payment-history-link').should('exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
@@ -127,7 +127,7 @@ describe('The My VA Dashboard - Benefit Payments', () => {
         cy.wait(['@noDebtsB', '@noCopaysB', '@emptyPayments1']);
         cy.findByTestId('dashboard-section-payment').should('exist');
 
-        cy.findByTestId('no-recent-payments-paragraph').should('exist');
+        cy.findByTestId('no-recent-payments-text').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
@@ -179,12 +179,18 @@ describe('when the payment history claims does not exist', () => {
   it('the dashboard shows up - C22832', () => {
     cy.visit('my-va/');
     // should show a loading indicator
-    cy.findByRole('progressbar').should('exist');
-    cy.findByText(/loading your information/i).should('exist');
+    cy.get('va-loading-indicator')
+      .should('exist')
+      .then($container => {
+        cy.wrap($container)
+          .shadow()
+          .findByRole('progressbar')
+          .should('contain', /loading your information/i);
+      });
+
     cy.wait(['@noDebtsC', '@noCopaysC']);
     // and then the loading indicator should be removed
-    cy.findByRole('progressbar').should('not.exist');
-    cy.findByText(/loading your information/i).should('not.exist');
+    cy.get('va-loading-indicator').should('not.exist');
 
     // make sure that the Benefit Payments & Outstanding Debts sections are shown
     cy.findByTestId('dashboard-section-payment').should('exist');
@@ -238,12 +244,18 @@ describe('when the payment history claims is false', () => {
   it('the dashboard should show up - C22831', () => {
     cy.visit('my-va/');
     // should show a loading indicator
-    cy.findByRole('progressbar').should('exist');
-    cy.findByText(/loading your information/i).should('exist');
+    // should show a loading indicator
+    cy.get('va-loading-indicator')
+      .should('exist')
+      .then($container => {
+        cy.wrap($container)
+          .shadow()
+          .findByRole('progressbar')
+          .should('contain', /loading your information/i);
+      });
     cy.wait(['@noDebtsD', '@noCopaysD']);
     // and then the loading indicator should be removed
-    cy.findByRole('progressbar').should('not.exist');
-    cy.findByText(/loading your information/i).should('not.exist');
+    cy.get('va-loading-indicator').should('not.exist');
 
     // make sure that the Benefit Payments & Outstanding Debts sections are shown
     cy.findByTestId('dashboard-section-payment').should('exist');

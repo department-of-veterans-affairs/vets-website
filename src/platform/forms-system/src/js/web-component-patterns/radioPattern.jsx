@@ -11,7 +11,11 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *      dog: 'Dog',
  *      cat: 'Cat',
  *      octopus: 'Octopus',
- *  }
+ *  },
+ *  hint: 'This is a hint',
+ *  errorMessages: {
+ *     required: 'Please select an animal',
+ *  },
  * })
  * ```
  *
@@ -22,10 +26,18 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
  *  description?: UISchemaOptions['ui:description'],
+ *  errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
+ *  hint?: string,
  * }} options
  * @returns {UISchemaOptions}
  */
-export const radioUI = ({ title, description, ...uiOptions }) => {
+export const radioUI = ({
+  title,
+  description,
+  errorMessages,
+  ...uiOptions
+}) => {
   return {
     'ui:title': title,
     'ui:description': description,
@@ -34,6 +46,7 @@ export const radioUI = ({ title, description, ...uiOptions }) => {
     'ui:options': {
       ...uiOptions,
     },
+    'ui:errorMessages': errorMessages,
   };
 };
 

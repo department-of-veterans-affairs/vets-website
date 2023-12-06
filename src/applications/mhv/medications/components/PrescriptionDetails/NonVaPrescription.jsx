@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateField } from '../../util/helpers';
+import { validateField, dateFormat } from '../../util/helpers';
+import ExtraDetails from '../shared/ExtraDetails';
 
 const NonVaPrescription = prescription => {
   const content = () => {
-    const refillStatus = prescription?.refillStatus?.toString();
+    const status = prescription?.dispStatus?.toString();
     return (
-      <div className="medication-details-div vads-u-margin-top--2 vads-u-margin-bottom--3">
-        <h2 className="vads-u-margin-y--2 no-print">About your prescription</h2>
+      <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
+        <h2 className="vads-u-margin-y--2 no-print">
+          About this medication or supply
+        </h2>
+        {prescription && <ExtraDetails {...prescription} />}
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Status
           </h3>
-          <div>
-            {prescription?.refillStatus === 'refillinprocess'
-              ? 'Refill in process'
-              : validateField(
-                  refillStatus?.charAt(0).toUpperCase() +
-                    refillStatus?.slice(1),
-                )}
-          </div>
+          <div>{validateField(status)}</div>
           <div className="no-print">
-            <va-additional-info trigger="What does this status mean?">
-              <ul className="non-va-ul">
+            <va-additional-info
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>
                   A VA provider added this medication record in your VA medical
                   records. But this isn’t a prescription you filled through a VA
@@ -58,17 +58,17 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Reason for use
           </h3>
-          <p>{validateField(prescription.reason)}</p>
+          <p>{validateField(prescription.indicationForUse)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             When you started taking this medication
           </h3>
-          <p>{validateField(prescription.dispensedDate, 'date')}</p>
+          <p>{dateFormat(prescription.dispensedDate)}</p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Information entered by
+            Documented by
           </h3>
           <p>
             {validateField(
@@ -80,7 +80,7 @@ const NonVaPrescription = prescription => {
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Information entered at this facility
+            Documented at this facility
           </h3>
           <p>{validateField(prescription.facilityName)}</p>
         </section>

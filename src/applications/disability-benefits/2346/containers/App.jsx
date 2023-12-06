@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { datadogRum } from '@datadog/browser-rum';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
 import ErrorMessage from '../components/ErrorMessage';
@@ -13,6 +15,30 @@ class App extends Component {
   }
 
   render() {
+    if (
+      // Prevent RUM from running on local/CI environments.
+      environment.BASE_URL.indexOf('localhost') < 0 &&
+      // Prevent re-initializing the SDK.
+      !window.DD_RUM?.getInitConfiguration() &&
+      !window.Mocha
+    ) {
+      datadogRum.init({
+        applicationId: 'a0a53db3-74e7-4741-bd3f-35568fb66e8e',
+        clientToken: 'pubf630a1a21f35ff1cc9bf698739bcd3bc',
+        site: 'ddog-gov.com',
+        service: 'medical-supply-reordering',
+        env: environment.vspEnvironment(),
+        sessionSampleRate: 100,
+        sessionReplaySampleRate: 100,
+        trackInteractions: true,
+        trackUserInteractions: true,
+        trackResources: true,
+        trackLongTasks: true,
+        defaultPrivacyLevel: 'mask',
+      });
+      datadogRum.startSessionReplayRecording();
+    }
+
     const {
       location,
       children,
@@ -23,7 +49,7 @@ class App extends Component {
     } = this.props;
     const showMainContent = !pending && !isError && !featureToggles.loading;
     const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
-      ? 'hearing aid and CPAP supplies'
+      ? 'hearing aid or CPAP supplies'
       : 'hearing aid batteries and accessories';
 
     // Update form config on the fly based on feature toggle.
@@ -38,14 +64,16 @@ class App extends Component {
     return (
       <>
         {!featureToggles.loading && (
-          <Breadcrumbs>
-            <a href="/">Home</a>
-            {/* this will get updated when this route is added */}
-            <a href="/health-care">Health care</a>
-            <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-              Order {supplyDescription}
-            </a>
-          </Breadcrumbs>
+          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+            <VaBreadcrumbs label="Breadcrumb">
+              <a href="/">Home</a>
+              {/* this will get updated when this route is added */}
+              <a href="/health-care">Health care</a>
+              <a href="/health-care/order-hearing-aid-batteries-and-accessories">
+                Order {supplyDescription}
+              </a>
+            </VaBreadcrumbs>
+          </div>
         )}
         {pending && (
           <va-loading-indicator>

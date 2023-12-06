@@ -185,7 +185,7 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'Equal to VA Form 21-526EZ',
+  subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {
@@ -297,7 +297,6 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
-        ...toxicExposurePages,
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
@@ -532,6 +531,7 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
+        ...toxicExposurePages,
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',

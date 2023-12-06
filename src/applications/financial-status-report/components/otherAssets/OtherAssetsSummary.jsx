@@ -1,30 +1,51 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
+
+export const keyFieldsForOtherAssets = ['name', 'amount'];
 
 const OtherAssetsSummary = ({
   data,
-  goToPath,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { otherAssets = [] } = assets;
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   useEffect(
     () => {
       if (!gmtData?.isEligibleForStreamlined) return;
+      // liquid assets are caluclated in cash in bank with this ff
+      if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-      const calculatedAssets = calculateTotalAssets(data);
+      const calculatedAssets = calculateLiquidAssets(data);
       setFormData({
         ...data,
         gmtData: {
@@ -43,18 +64,36 @@ const OtherAssetsSummary = ({
       ...data,
       assets: {
         ...assets,
-        otherAssets: otherAssets.filter(
-          (source, index) => index !== deleteIndex,
-        ),
+        otherAssets: otherAssets.filter((_, index) => index !== deleteIndex),
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (otherAssets.length === 0) {
       return goToPath('/other-assets-checklist');
     }
     return goToPath('/other-assets-values');
+  };
+
+  const onSubmit = event => {
+    event.preventDefault();
+    if (reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
   };
 
   const cardBody = text => (
@@ -65,7 +104,7 @@ const OtherAssetsSummary = ({
   const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-assets-summary"
@@ -86,8 +125,8 @@ const OtherAssetsSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(asset, keyFieldsForOtherAssets, index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -125,13 +164,31 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack,
+                secondary: true,
+                iconLeft: '«',
+              },
+              {
+                label: continueButtonText,
+                type: 'submit',
+                iconRight: '»',
+              },
+            ]}
           />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(otherAssets[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );
@@ -149,6 +206,9 @@ OtherAssetsSummary.propTypes = {
       assetsBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
     }),
+    reviewNavigation: PropTypes.bool,
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goForward: PropTypes.func,
   goToPath: PropTypes.func,

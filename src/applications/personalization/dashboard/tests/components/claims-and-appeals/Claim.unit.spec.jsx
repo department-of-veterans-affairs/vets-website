@@ -1,12 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { daysAgo } from '@@profile/tests/helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Claim from '../../../components/claims-and-appeals/Claim';
 
 function makeClaimObject({
   claimDate,
+  dateFiled,
   updateDate,
   status = 'Claim received',
   decisionLetterSent = false,
@@ -17,12 +19,14 @@ function makeClaimObject({
     id: '600214206',
     type: 'claim',
     attributes: {
+      evssId: 600214206,
       claimDate: claimDate || '2021-01-21',
       claimPhaseDates: {
         phaseChangeDate: updateDate,
       },
       claimType: 'Compensation',
       closeDate: null,
+      dateFiled: dateFiled || '2021-01-21',
       decisionLetterSent,
       developmentLetterSent,
       documentsNeeded,
@@ -35,10 +39,19 @@ function makeClaimObject({
 }
 
 describe('<Claim />', () => {
+  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
+  const initialState = {
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
+    },
+  };
+
   it('should render', () => {
     const claim = makeClaimObject({ updateDate: daysAgo(15) });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState,
+    });
 
     expect(tree.getByText(/Compensation claim received/)).to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
@@ -50,7 +63,9 @@ describe('<Claim />', () => {
       decisionLetterSent: true,
     });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState,
+    });
 
     expect(tree.getByText(/We sent you a decision letter/)).to.exist;
   });
@@ -61,7 +76,9 @@ describe('<Claim />', () => {
       developmentLetterSent: true,
     });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState,
+    });
 
     expect(tree.getByText(/We sent you a development letter/)).to.exist;
   });
@@ -72,7 +89,9 @@ describe('<Claim />', () => {
       documentsNeeded: true,
     });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState,
+    });
 
     expect(tree.getByText(/Items need attention/)).to.exist;
   });
