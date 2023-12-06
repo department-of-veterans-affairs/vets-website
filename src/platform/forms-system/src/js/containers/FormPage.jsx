@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   isReactComponent,
   focusElement,
@@ -34,6 +35,7 @@ function focusForm(route, index) {
 
 class FormPage extends React.Component {
   componentDidMount() {
+    this.prePopulateArrayData();
     if (!this.props.blockScrollOnMount) {
       focusForm(this.props.route, this.props?.params?.index);
     }
@@ -45,6 +47,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
+      this.prePopulateArrayData();
       focusForm(this.props.route, this.props?.params?.index);
     }
   }
@@ -53,21 +56,9 @@ class FormPage extends React.Component {
     const { pageConfig } = this.props.route;
     let newData = formData;
     if (pageConfig.showPagePerItem) {
-      if (
-        pageConfig.allowPathWithNoItems &&
-        pageConfig.arrayPath &&
-        this.props.form.data &&
-        !this.props.form.data[pageConfig.arrayPath]
-      ) {
-        this.props.form.data[pageConfig.arrayPath] = [];
-      }
       // If this is a per item page, the formData object will have data for a particular
       // row in an array, so we need to update the full form data object and then call setData
-      newData = set(
-        [this.props.route.pageConfig.arrayPath, this.props.params.index],
-        formData,
-        this.props.form.data,
-      );
+      newData = this.setArrayIndexedData(formData);
     }
     if (typeof pageConfig.updateFormData === 'function') {
       newData = pageConfig.updateFormData(
@@ -81,18 +72,14 @@ class FormPage extends React.Component {
 
   // Navigate to the next page
   onSubmit = ({ formData }) => {
-    const { form, params, route, location } = this.props;
+    const { form, route, location } = this.props;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been
     // necessary. Additionally, it should NOT setData for a CustomPage. The
     // CustomPage should take care of that itself.
     if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
-      const newData = set(
-        [route.pageConfig.arrayPath, params.index],
-        formData,
-        form.data,
-      );
+      const newData = this.setArrayIndexedData(formData);
       this.props.setData(newData);
     }
 
@@ -110,6 +97,41 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   };
 
+  getArrayIndexedData = () => {
+    const { route, params, form } = this.props;
+    return get([route.pageConfig.arrayPath, params.index], form.data);
+  };
+
+  // returns a duplicate of formData with newData at the indexed array
+  setArrayIndexedData = newData => {
+    let formData = this.props.form.data;
+    const { arrayPath } = this.props.route.pageConfig;
+    if (!get(arrayPath, this.props.form.data)) {
+      // if array doesn't exist create it
+      formData = set([arrayPath], [], this.props.form.data);
+    }
+    return set([arrayPath, this.props.params.index], newData, formData);
+  };
+
+  prePopulateArrayData = () => {
+    const { pageConfig } = this.props.route;
+    // only applicable to array routes with these settings
+    if (pageConfig.showPagePerItem && pageConfig.allowPathWithNoItems) {
+      const arrayFormData = this.getArrayIndexedData();
+      if (!arrayFormData) {
+        // we are trying to visit a route where there is no formData
+        // for this index in the array, so we need to create and
+        // pre-populate it with empty values for SchemaForm to work properly
+        const defaultData = getDefaultFormState(
+          pageConfig.schema.properties[pageConfig.arrayPath].items ||
+            pageConfig.schema.properties[pageConfig.arrayPath].additionalItems,
+        );
+        const newData = this.setArrayIndexedData(defaultData);
+        this.props.setData(newData);
+      }
+    }
+  };
+
   formData = () => {
     const { pageConfig } = this.props.route;
     // If it's a CustomPage, return the entire form data
@@ -118,10 +140,7 @@ class FormPage extends React.Component {
     // If it's an array page, return only the data for that array item
     // Otherwise, return the data for the entire form
     return this.props.route.pageConfig.showPagePerItem
-      ? get(
-          [pageConfig.arrayPath, this.props.params.index],
-          this.props.form.data,
-        )
+      ? this.getArrayIndexedData()
       : this.props.form.data;
   };
 

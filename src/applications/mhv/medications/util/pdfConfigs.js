@@ -103,6 +103,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               inline: true,
             },
             {
+              isRich: true,
               value:
                 pdfStatusDefinitions[rx.refillStatus] ||
                 pdfDefaultStatusDefinition,
@@ -254,6 +255,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               inline: true,
             },
             {
+              isRich: true,
               value:
                 pdfStatusDefinitions[prescription.refillStatus] ||
                 pdfDefaultStatusDefinition,

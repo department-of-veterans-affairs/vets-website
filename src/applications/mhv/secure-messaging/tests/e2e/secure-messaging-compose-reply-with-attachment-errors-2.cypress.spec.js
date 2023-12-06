@@ -25,6 +25,12 @@ describe('Start a new message With Attacments and Errors', () => {
       .first()
       .click();
 
+    composePage.getMessageSubjectField();
+    composePage.getMessageSubjectField().type('Test Subject');
+    composePage
+      .getMessageBodyField()
+      .type('Test message body', { force: true, waitforanimations: true });
+
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.verifyAttachmentErrorMessage(
@@ -38,17 +44,19 @@ describe('Start a new message With Attacments and Errors', () => {
 
     composePage.attachMessageFromFile('sample_pdf.pdf');
     composePage.attachMessageFromFile('sample_docx.docx');
+    // Verify current attachments count
+    composePage.verifyExpectedAttachmentsCount(2);
     composePage.attachMessageFromFile('sample_XLS.xls');
     composePage.attachMessageFromFile('test_image.gif');
+    composePage.verifyExpectedAttachmentsCount(4);
     // logic has changed here. After attaching 4th file, Attach File button becomes hidden
     cy.get('[data-testid="attach-file-input"]').should('not.exist');
     // composePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );
-    composePage.getMessageSubjectField().type('Test Subject');
-    composePage
-      .getMessageBodyField()
-      .type('Test message body', { force: true, waitforanimations: true });
+
     composePage.sendMessage();
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

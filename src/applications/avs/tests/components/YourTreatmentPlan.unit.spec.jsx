@@ -29,6 +29,11 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.getByTestId('other-orders').children[1]).to.contain.text(
       'PACT ALERT BRAVO\nConcern:',
     );
+    expect(
+      screen.getByTestId('health-reminders').children[2].firstChild,
+    ).to.contain.text(
+      'Hepatitis C risk Factor ScreeningWhen due: DUE NOWFrequency:  Due every 3 years for all ages.',
+    );
     expect(screen.getByTestId('other-instructions')).to.contain.text(
       'Recommend acetaminophen 500 mg',
     );
@@ -38,6 +43,7 @@ describe('Avs: Your Treatment Plan', () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     delete avs.orders;
     delete avs.patientInstructions;
+    delete avs.clinicalReminders;
     const props = { avs };
     const screen = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('consultations')).to.not.exist;
@@ -45,6 +51,7 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.queryByTestId('lab-tests')).to.not.exist;
     expect(screen.queryByTestId('medications')).to.not.exist;
     expect(screen.queryByTestId('other-orders')).to.not.exist;
+    expect(screen.queryByTestId('health-reminders')).to.not.exist;
     expect(screen.queryByTestId('other-instructions')).to.not.exist;
   });
 });
