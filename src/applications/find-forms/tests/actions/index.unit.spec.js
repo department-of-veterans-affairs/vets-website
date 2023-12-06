@@ -1,7 +1,5 @@
-// Dependencies.
 import { expect } from 'chai';
 import sinon from 'sinon';
-// Relative imports.
 import {
   fetchFormsAction,
   fetchFormsFailure,
@@ -156,11 +154,7 @@ describe('Find VA Forms actions', () => {
     it('calls dispatch', async () => {
       const dispatch = sinon.stub();
       const query = 'health';
-      const thunk = fetchFormsThunk(query, {
-        location: mockedLocation,
-        history: mockedHistory,
-        mockRequest: true,
-      });
+      const thunk = fetchFormsThunk(query);
 
       await thunk(dispatch);
 

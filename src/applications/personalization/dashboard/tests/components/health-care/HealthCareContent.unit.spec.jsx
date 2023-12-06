@@ -6,11 +6,8 @@ import { UnconnectedHealthCareContent } from '../../../components/health-care/He
 import { v2 } from '../../../mocks/appointments';
 
 describe('<UnconnectedHealthCareContent />', () => {
-  // delete instances of Toggler when new appts URL is launched
   const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
-    },
+    user: {},
   };
 
   it('should render', () => {
@@ -42,22 +39,6 @@ describe('<UnconnectedHealthCareContent />', () => {
     );
 
     tree.getByTestId('cerner-widget');
-  });
-
-  it('should not render the Cerner widget if the flag is on', () => {
-    const tree = renderWithStoreAndRouter(
-      <UnconnectedHealthCareContent isCerner />,
-      {
-        initialState: {
-          featureToggles: {
-            [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
-          },
-        },
-      },
-    );
-
-    expect(tree.queryByTestId('cerner-widget')).to.not.exist;
-    tree.getByTestId('visit-mhv-on-va-gov');
   });
 
   it('should render the HealthcareError', () => {
@@ -102,7 +83,7 @@ describe('<UnconnectedHealthCareContent />', () => {
         {
           initialState: {
             featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
             },
           },
         },
@@ -127,7 +108,7 @@ describe('<UnconnectedHealthCareContent />', () => {
         {
           initialState: {
             featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
             },
           },
         },
