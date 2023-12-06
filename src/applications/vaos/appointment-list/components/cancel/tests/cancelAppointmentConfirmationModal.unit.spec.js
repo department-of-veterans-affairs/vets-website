@@ -9,7 +9,7 @@ describe('Cancel appointment confirmation modal', () => {
     featureToggles: {},
   };
 
-  it('hide the cancel appointment button when fetch is loading', async () => {
+  it('Should hide the cancel appointment button when fetch is loading', async () => {
     const screen = render(
       <CancelAppointmentConfirmationModal
         isConfirmed
@@ -30,7 +30,7 @@ describe('Cancel appointment confirmation modal', () => {
       screen.queryByRole('button', { name: /Yes, cancel this appointment/i }),
     ).to.be.null;
   });
-  it('should show the cancel appointment button when fetch is successful', async () => {
+  it('Should show the cancel appointment button when fetch has not started', async () => {
     const screen = render(
       <CancelAppointmentConfirmationModal
         isConfirmed
@@ -55,7 +55,7 @@ describe('Cancel appointment confirmation modal', () => {
       "No, don't cancel",
     );
   });
-  it('hide cancel request button when fetch is loading', async () => {
+  it('Should hide cancel request button when fetch is loading', async () => {
     const screen = render(
       <CancelAppointmentConfirmationModal
         isConfirmed={false}
@@ -74,7 +74,7 @@ describe('Cancel appointment confirmation modal', () => {
     expect(screen.queryByRole('button', { name: /Yes, cancel this request/i }))
       .to.be.null;
   });
-  it('should show the cancel request button when fetch is not started', async () => {
+  it('Should show the cancel request button when fetch has not started', async () => {
     const screen = render(
       <CancelAppointmentConfirmationModal
         isConfirmed={false}
