@@ -20,11 +20,18 @@ const apiSettings = {
   },
 };
 
-export const sortOptions = {
+export const orgSortOptions = {
   distance_asc: 'Distance (closest to farthest)',
   distance_desc: 'Distance (farthest to closest)',
   name_asc: 'Name (A - Z)',
   name_desc: 'Name (Z - A)',
+};
+
+export const individualSortOptions = {
+  distance_asc: 'Distance (closest to farthest)',
+  distance_desc: 'Distance (farthest to closest)',
+  last_name_asc: 'Last Name (A - Z)',
+  last_name_desc: 'Last Name (Z - A)',
 };
 
 const railsEngineApi = {
@@ -57,6 +64,16 @@ export const resolveParamsWithUrl = ({
 
   const { url } = api;
 
+  let newSort = sort;
+
+  if (type !== 'organization') {
+    if (sort === 'name_asc') {
+      newSort = 'last_name_asc';
+    } else if (sort === 'name_dsc') {
+      newSort = 'last_name_dsc';
+    }
+  }
+
   const params = [
     address ? `address=${address}` : null,
     lat ? `lat=${lat}` : null,
@@ -64,7 +81,7 @@ export const resolveParamsWithUrl = ({
     name ? `name=${name}` : null,
     `page=${page}`,
     `per_page=${perPage}`,
-    `sort=${sort}`,
+    `sort=${newSort}`,
     type ? `type=${type}` : null,
   ];
 

@@ -12,7 +12,7 @@ import {
   generatePdfScaffold,
   updatePageTitle,
 } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
 const ProgressNoteDetails = props => {
@@ -28,15 +28,11 @@ const ProgressNoteDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate =
-        record.dateSigned !== EMPTY_FIELD ? `${record.dateSigned} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
       );
     },
-    [record.dateSigned, record.name],
+    [record],
   );
 
   const generateCareNotesPDF = async () => {
@@ -54,12 +50,7 @@ const ProgressNoteDetails = props => {
         },
         {
           title: 'Signed by',
-          value: record.physician,
-          inline: true,
-        },
-        {
-          title: 'Last updated',
-          value: record.dateUpdated,
+          value: record.signedBy,
           inline: true,
         },
         {
@@ -76,7 +67,7 @@ const ProgressNoteDetails = props => {
           items: [
             {
               title: '',
-              value: record.summary,
+              value: record.note,
               inline: false,
             },
           ],
@@ -125,11 +116,7 @@ const ProgressNoteDetails = props => {
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Signed by
         </h3>
-        <p>{record.physician}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Last updated
-        </h3>
-        <p>{record.dateUpdated}</p>
+        <p>{record.signedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date signed
         </h3>
@@ -138,7 +125,7 @@ const ProgressNoteDetails = props => {
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p>{record.summary}</p>
+        <p>{record.note}</p>
       </div>
     </div>
   );

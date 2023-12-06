@@ -95,7 +95,7 @@ const SearchControls = props => {
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
-            Search for a representative
+            Search for an accredited representative
           </h2>
           <div className="location-input-container">
             <va-text-input

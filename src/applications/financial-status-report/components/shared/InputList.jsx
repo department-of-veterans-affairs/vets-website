@@ -8,6 +8,8 @@ const InputList = ({
   submitted,
   title = '',
   onChange,
+  min,
+  max,
 }) => {
   return (
     <fieldset className="vads-u-margin-y--2">
@@ -36,6 +38,8 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            min={min}
+            max={max}
             width="md"
             currency
           />
@@ -58,6 +62,8 @@ InputList.propTypes = {
   submitted: PropTypes.bool,
   title: PropTypes.string,
   onChange: PropTypes.func,
+  min: PropTypes.number,
+  max: PropTypes.number,
 };
 
 export default InputList;

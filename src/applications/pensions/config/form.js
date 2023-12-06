@@ -1,27 +1,25 @@
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
-import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import * as address from 'platform/forms/definitions/address';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import GetFormHelp from '@department-of-veterans-affairs/platform-forms/GetPensionOrBurialFormHelp';
+import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
+import * as address from '@department-of-veterans-affairs/platform-forms-system/address';
+import bankAccountUI from '@department-of-veterans-affairs/platform-forms/bankAccount';
+import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/fullName';
+import ArrayCountWidget from '@department-of-veterans-affairs/platform-forms-system/ArrayCountWidget';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+import createNonRequiredFullName from '@department-of-veterans-affairs/platform-forms/nonRequiredFullName';
+import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 
 import {
   getSpouseMarriageTitle,
@@ -58,10 +56,14 @@ import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from '../pages/applicantInformation';
+import mailingAddress from '../pages/mailingAddress';
+import contactInformation from '../pages/contactInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
+import medicaidCoverage from '../pages/medicaidCoverage';
+import medicaidStatus from '../pages/medicaidStatus';
 import medicalCondition from '../pages/medicalCondition';
 import nursingHome from '../pages/nursingHome';
 import specialMonthlyPension from '../pages/specialMonthlyPension';
@@ -71,10 +73,7 @@ import generateMedicalCentersSchemas from '../pages/medicalCenters';
 import currentEmployment from '../pages/currentEmployment';
 import generateEmployersSchemas from '../pages/employmentHistory';
 
-import {
-  validateAfterMarriageDate,
-  validateCentralMailPostalCode,
-} from '../validation';
+import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
@@ -88,11 +87,6 @@ const {
   spouseIsVeteran,
   monthlySpousePayment,
   dependents,
-  email,
-  altEmail,
-  dayPhone,
-  nightPhone,
-  mobilePhone,
   noRapidProcessing,
 } = fullSchemaPensions.properties;
 
@@ -278,6 +272,18 @@ const formConfig = {
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
+        mailingAddress: {
+          title: 'Mailing address',
+          path: 'applicant/mail-address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'applicant/contact',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
       },
     },
     militaryHistory: {
@@ -327,6 +333,24 @@ const formConfig = {
           path: 'medical/history/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+        medicaidCoverage: {
+          title: 'Medicaid coverage',
+          path: 'medical/history/nursing/medicaid',
+          depends: formData => {
+            return formData.nursingHome !== false;
+          },
+          uiSchema: medicaidCoverage.uiSchema,
+          schema: medicaidCoverage.schema,
+        },
+        medicaidStatus: {
+          title: 'Medicaid application status',
+          path: 'medical/history/nursing/medicaid/status',
+          depends: formData => {
+            return formData.medicaidCoverage !== true;
+          },
+          uiSchema: medicaidStatus.uiSchema,
+          schema: medicaidStatus.schema,
         },
         specialMonthlyPension: {
           title: 'Special monthly pension',
@@ -1474,39 +1498,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-            },
-          },
-        },
-        contactInformation: {
-          title: 'Contact information',
-          path: 'additional-information/contact',
-          uiSchema: {
-            'ui:title': 'Contact information',
-            veteranAddress: set(
-              'ui:validations[1]',
-              validateCentralMailPostalCode,
-              address.uiSchema('Mailing address'),
-            ),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            dayPhone: phoneUI('Daytime phone'),
-            nightPhone: phoneUI('Evening phone'),
-            mobilePhone: phoneUI('Mobile phone'),
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranAddress'],
-            properties: {
-              veteranAddress: address.schema(fullSchemaPensions, true),
-              email,
-              altEmail,
-              dayPhone,
-              nightPhone,
-              mobilePhone,
             },
           },
         },
