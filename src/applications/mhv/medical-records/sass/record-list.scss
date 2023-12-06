@@ -1,6 +1,6 @@
 .record-list-item {
-  line-height: 2;
-  padding: 24px;
+  line-height: 1.5;
+
   h3 {
     margin: 0;
   }
@@ -20,9 +20,6 @@
     -webkit-box-orient: vertical;
     white-space: normal;
   }
-  .field-label {
-    display: inline-block;
-  }
 }
 
 @media print {
@@ -35,15 +32,6 @@
     padding: 16px 0px 24px;
     h3 {
       margin-bottom: 16px;
-    }
-  }
-  .fields {
-    * {
-      line-height: 2;
-    }
-    padding: 0px 16px;
-    .field-label {
-      font-weight: 600;
     }
   }
 }

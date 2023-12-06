@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { getDestinationDomain } from '../utilities';
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
@@ -9,13 +10,15 @@ const NavCard = ({ icon = null, title, links }) => {
         className="mhv-c-navlink"
         href={href}
         aria-label={ariaLabel}
-        onClick={() =>
+        onClick={() => {
+          const destinationDomain = getDestinationDomain(href);
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-title': String(text) === text ? text : 'Inbox', // hack to handle 'the dot'
-            'links-list-header': title,
-          })
-        }
+            'links-list-header': text,
+            'links-list-section-header': String(text) === text ? text : 'Inbox', // hack to handle 'the dot',
+            'destination-domain': destinationDomain,
+          });
+        }}
       >
         {text}
         <i aria-hidden="true" />

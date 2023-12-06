@@ -6,14 +6,16 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import AdmissionAndDischargeDetails from '../../components/CareSummaries/AdmissionAndDischargeDetails';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
-import dischargeSummaryWithDateMissing from '../fixtures/dischargeSummaryWithDateMissing.json';
-import { convertNote } from '../../reducers/careSummariesAndNotes';
+import dischargeSummaryWithDatesMissing from '../fixtures/dischargeSummaryWithDatesMissing.json';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 
 describe('Admission and discharge summary details component', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesDetails: convertNote(dischargeSummary),
+        careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+          dischargeSummary,
+        ),
       },
     },
   };
@@ -22,7 +24,7 @@ describe('Admission and discharge summary details component', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <AdmissionAndDischargeDetails
-        record={convertNote(dischargeSummary)}
+        record={convertCareSummariesAndNotesRecord(dischargeSummary)}
         runningUnitTest
       />,
       {
@@ -63,8 +65,8 @@ describe('Admission and discharge summary details component with no dates', () =
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesDetails: convertNote(
-          dischargeSummaryWithDateMissing,
+        careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+          dischargeSummaryWithDatesMissing,
         ),
       },
     },
@@ -72,7 +74,9 @@ describe('Admission and discharge summary details component with no dates', () =
 
   const screen = renderWithStoreAndRouter(
     <AdmissionAndDischargeDetails
-      record={convertNote(dischargeSummaryWithDateMissing)}
+      record={convertCareSummariesAndNotesRecord(
+        dischargeSummaryWithDatesMissing,
+      )}
     />,
     {
       initialState,
@@ -81,9 +85,9 @@ describe('Admission and discharge summary details component with no dates', () =
     },
   );
 
-  it('should not display the formatted date if startDate or endDate is missing', () => {
+  it('should not display the formatted date if admissionDate or dischargeDate is missing', () => {
     waitFor(() => {
-      expect(screen.queryByTestId('header-times').innerHTML).to.contain(
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         'None noted',
       );
     });
