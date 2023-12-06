@@ -1,8 +1,11 @@
 import React from 'react';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const ExclusionPeriodsWidget = ({ exclusionPeriods }) => {
+const ExclusionPeriodsWidget = ({ formData }) => {
+  const { exclusionPeriods } = formData;
+
   const renderExclusionInfo = () => {
     return exclusionPeriods.map((period, index) => {
       let message;
@@ -29,13 +32,11 @@ const ExclusionPeriodsWidget = ({ exclusionPeriods }) => {
       );
     });
   };
-  // If there are no exclusion periods data, display a default message or handle as needed
   if (!exclusionPeriods || exclusionPeriods.length === 0) {
     return (
       <va-alert status="info">No exclusion periods data available.</va-alert>
     );
   }
-  // Render the exclusion information
   return <div>{renderExclusionInfo()}</div>;
 };
 ExclusionPeriodsWidget.propTypes = {
@@ -43,6 +44,13 @@ ExclusionPeriodsWidget.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  exclusionPeriods: state.data.exclusionPeriods,
+  formData: state?.form?.data,
 });
-export default connect(mapStateToProps)(ExclusionPeriodsWidget);
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ExclusionPeriodsWidget);
