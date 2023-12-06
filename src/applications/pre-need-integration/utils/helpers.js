@@ -16,6 +16,7 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 
 import environment from 'platform/utilities/environment';
+import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
@@ -162,16 +163,19 @@ export const veteranRelationshipDescription = (
 
 export const authorizedAgentDescription = (
   // TODO va-additional-info component to be replaced with a more optimal solution
-  <va-additional-info
-    trigger={"If you're applying for someone else, who can you sign for?"}
-  >
-    <p>A preparer can sign for an applicant who’s:</p>
+  <va-additional-info trigger="What to know if you’re filling out this application for someone else">
+    <p>
+      One of these descriptions must be true for the applicant (the person
+      you’re filling out this application for):
+    </p>
     <ul>
       <>
         <li>
-          Mentally incompetent <strong>or</strong>
+          They have an illness, injury, or other health condition that prevents
+          them from making decisions for themselves or providing the information
+          needed to complete forms, <strong>or</strong>
         </li>
-        <li>Physically unable to sign the application</li>
+        <li>They physically can’t sign the application</li>
       </>
     </ul>
   </va-additional-info>
@@ -676,6 +680,16 @@ export function getCemeteries() {
       // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
+}
+
+export function MailingAddressStateTitle(props) {
+  const { elementPath } = props;
+  const data = useSelector(state => state.form.data || {});
+  const country = get(elementPath, data);
+  if (country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
 }
 
 SSNWidget.propTypes = {

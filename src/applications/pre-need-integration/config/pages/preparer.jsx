@@ -1,9 +1,5 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import get from 'platform/utilities/data/get';
-
-import { formatName } from '../../utils/helpers';
-
 import PreparerRadioWidget from '../../components/PreparerRadioWidget';
 
 const { applicant } = fullSchemaPreNeed.properties.application.properties;
@@ -16,14 +12,11 @@ export const uiSchema = {
           'Are you filling out this application for yourself or someone else?',
         'ui:widget': PreparerRadioWidget,
         'ui:options': {
-          updateSchema: formData => {
-            const nameData = get('application.claimant.name', formData);
-            const applicantName = nameData ? formatName(nameData) : null;
-
+          updateSchema: () => {
             return {
               enumNames: [
-                applicantName || 'Myself',
-                'Someone else, such as a preparer',
+                'I’m filling it out for myself',
+                'I’m filling it out for someone else',
               ],
             };
           },
