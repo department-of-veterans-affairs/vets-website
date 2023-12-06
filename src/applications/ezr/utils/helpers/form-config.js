@@ -44,7 +44,7 @@ export function hasDifferentHomeAddress(formData) {
  * financial data & have a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformation(formData) {
-  const { maritalStatus } = formData;
+  const { maritalStatus } = formData['view:maritalStatus'];
   return (
     maritalStatus?.toLowerCase() === 'married' ||
     maritalStatus?.toLowerCase() === 'separated'
@@ -58,7 +58,8 @@ export function includeSpousalInformation(formData) {
  * information should be included in the form
  */
 export function spouseDidNotCohabitateWithVeteran(formData) {
-  return includeSpousalInformation(formData) && !formData.cohabitedLastYear;
+  const { cohabitedLastYear } = formData;
+  return includeSpousalInformation(formData) && !cohabitedLastYear;
 }
 
 /**
@@ -68,7 +69,8 @@ export function spouseDidNotCohabitateWithVeteran(formData) {
  * information should be included in the form
  */
 export function spouseAddressDoesNotMatchVeterans(formData) {
-  return includeSpousalInformation(formData) && !formData.sameAddress;
+  const { sameAddress } = formData;
+  return includeSpousalInformation(formData) && !sameAddress;
 }
 
 /**
@@ -86,7 +88,8 @@ export function includeDependentInformation(formData) {
  * @returns {Boolean} - true if viewfield is set to `false`
  */
 export function collectMedicareInformation(formData) {
-  return formData.isEnrolledMedicarePartA;
+  const { isEnrolledMedicarePartA } = formData['view:isEnrolledMedicarePartA'];
+  return isEnrolledMedicarePartA;
 }
 
 /**

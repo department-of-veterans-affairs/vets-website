@@ -1,6 +1,30 @@
 {
   "data": [
     {
+      "id": "049",
+      "type": "veteran_service_organizations",
+      "attributes": {
+        "name": "Texas Veterans Commission",
+        "addressLine1": "1700 Congress Ave Ste 800",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Austin",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Texas",
+        "internationalPostalCode": null,
+        "stateCode": "TX",
+        "zipCode": "78701",
+        "zipSuffix": "1436",
+        "poaCode": "049",
+        "phone": "512-463-5538",
+        "lat": 30.279352,
+        "long": -97.739336,
+        "distance": "14.391069966806352"
+      }
+    },
+    {
       "id": "003",
       "type": "veteran_service_organizations",
       "attributes": {
@@ -37,7 +61,7 @@
       "currentPage": 1,
       "perPage": 10,
       "totalPages": 1,
-      "totalEntries": 1
+      "totalEntries": 2
     }
   }
 }

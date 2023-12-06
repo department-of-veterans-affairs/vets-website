@@ -125,7 +125,7 @@ describe('check-in', () => {
         travelVehicle: null,
         features: {
           /* eslint-disable-next-line camelcase */
-          check_in_experience_travel_reimbursement: true,
+          check_in_experience_travel_reimbursement: false,
         },
       };
       sandbox.stub(v2, 'postCheckInData').resolves({});
