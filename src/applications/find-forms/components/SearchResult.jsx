@@ -1,10 +1,8 @@
-// Node modules.
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-// Relative imports.
-import environment from 'platform/utilities/environment';
-import recordEvent from 'platform/monitoring/record-event';
+import environment from '~/platform/utilities/environment';
+import recordEvent from '~/platform/monitoring/record-event';
 import * as customPropTypes from '../prop-types';
 import {
   FORM_MOMENT_PRESENTATION_DATE_FORMAT,
@@ -12,7 +10,6 @@ import {
 } from '../constants';
 import FormTitle from './FormTitle';
 
-// Helper to derive the download link props.
 const deriveLinkPropsFromFormURL = url => {
   const linkProps = {};
   if (!url) return linkProps;
@@ -21,11 +18,10 @@ const deriveLinkPropsFromFormURL = url => {
   const isPDF = url.toLowerCase().includes('.pdf');
 
   if (!isSameOrigin || !isPDF) {
-    // Just open in a new tab if we'd otherwise hit a CORS issue or if the form URL isn't a PDF.
     linkProps.target = '_blank';
   } else {
-    // Use HTML5 `download` attribute.
     linkProps.download = true;
+
     if (isPDF) linkProps.type = 'application/pdf';
   }
 
@@ -36,12 +32,10 @@ const deriveLinkPropsFromFormURL = url => {
 const regulateURL = url => {
   if (!url) return '';
 
-  // On prod, give back the raw URL.
   if (environment.isProduction()) {
     return url;
   }
 
-  // Derive the current hostname.
   const currentHostname = url.substring(0, url.indexOf('/find-forms'));
 
   // On non-prod envs, we need to swap the hostname of the URL.
@@ -145,7 +139,6 @@ const SearchResult = ({
   toggleModalState,
   setPrevFocusedLink,
 }) => {
-  // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
   }
@@ -167,10 +160,7 @@ const SearchResult = ({
     id,
   } = form;
 
-  // Derive the download link props.
   const linkProps = deriveLinkPropsFromFormURL(url);
-
-  // Derive labels.
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
@@ -185,12 +175,14 @@ const SearchResult = ({
 
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
+
     if (showPDFInfoVersionOne) {
       recordEvent({
         event: 'int-modal-click',
         'modal-status': 'opened',
         'modal-title': 'Download this PDF and open it in Acrobat Reader',
       });
+
       toggleModalState(formName, url, pdfLabel);
     } else {
       recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
@@ -270,6 +262,7 @@ const SearchResult = ({
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
+  setPrevFocusedLink: PropTypes.func,
   showPDFInfoVersionOne: PropTypes.bool,
   toggleModalState: PropTypes.func,
 };

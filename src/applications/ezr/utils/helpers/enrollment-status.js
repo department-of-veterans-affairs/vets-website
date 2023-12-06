@@ -1,7 +1,7 @@
 import { apiRequest } from 'platform/utilities/api';
 import {
   ENROLLMENT_STATUS_ACTIONS,
-  MOCK_ENROLLMENT_REPSONSE,
+  MOCK_ENROLLMENT_RESPONSE,
 } from '../constants';
 
 /**
@@ -19,7 +19,7 @@ export function callFakeSuccess(dispatch) {
   }).then(() => {
     dispatch({
       type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
-      response: MOCK_ENROLLMENT_REPSONSE,
+      response: MOCK_ENROLLMENT_RESPONSE,
     });
   });
 }

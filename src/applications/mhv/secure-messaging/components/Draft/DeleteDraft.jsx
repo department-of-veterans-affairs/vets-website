@@ -41,8 +41,7 @@ const DeleteDraft = props => {
   const blankReplyDraft =
     unsavedReplyDraft && formPopulated === undefined && messageBody === '';
   const editableDraft = !!savedDraft === true && formPopulated === true;
-  const newMessageNavErr =
-    (unsavedNewDraft || unsavedReplyDraft) && navigationError !== null;
+  const newMessageNavErr = unsavedNewDraft && navigationError !== null;
   const blankNewMessage =
     (unsavedNewDraft || unsavedReplyDraft) && navigationError === null;
 
@@ -106,7 +105,6 @@ const DeleteDraft = props => {
             setDeleteButtonClicked(true);
             setNavigationError(null);
           }
-          // if true users can nav away if no saved changes are made
           if (blankReplyDraft) {
             unsavedDeleteSuccessful();
             navigateToFolderByFolderId(

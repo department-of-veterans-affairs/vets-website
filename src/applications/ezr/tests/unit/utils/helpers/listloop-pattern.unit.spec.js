@@ -31,6 +31,8 @@ describe('ezr list-loop pattern helpers', () => {
       },
       populated: {
         dependents: [{ name: 'John' }, { name: 'Liz' }, { name: 'Mary' }],
+        [defaultProps.viewFields.add]: null,
+        [defaultProps.viewFields.skip]: true,
       },
     };
 

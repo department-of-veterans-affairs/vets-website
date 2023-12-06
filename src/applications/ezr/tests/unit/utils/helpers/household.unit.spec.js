@@ -1,34 +1,10 @@
 import { expect } from 'chai';
 import {
-  includeSpousalInformation,
   isOfCollegeAge,
   getDependentPageList,
 } from '../../../../utils/helpers/household';
 
 describe('ezr household information helpers', () => {
-  context('when `includeSpousalInformation` executes', () => {
-    context('when marital status is `never married`', () => {
-      const formData = { maritalStatus: 'never married' };
-      it('should return `false`', () => {
-        expect(includeSpousalInformation(formData)).to.be.false;
-      });
-    });
-
-    context('when marital status is `married`', () => {
-      const formData = { maritalStatus: 'married' };
-      it('should return `true`', () => {
-        expect(includeSpousalInformation(formData)).to.be.true;
-      });
-    });
-
-    context('when marital status is `separated`', () => {
-      const formData = { maritalStatus: 'separated' };
-      it('should return `true`', () => {
-        expect(includeSpousalInformation(formData)).to.be.true;
-      });
-    });
-  });
-
   context('when `isOfCollegeAge` executes', () => {
     context('when birthdate is greater than 23 years from testdate', () => {
       it('should return `false`', () => {

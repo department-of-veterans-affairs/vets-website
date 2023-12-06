@@ -94,7 +94,7 @@ describe('NoFormPage', () => {
         'Review pension benefits application',
       );
       expect($$('h2', container)[0].textContent).to.eql(
-        'You don’t have any saved online pension form.',
+        'You can’t use our online application right now',
       );
     });
   });

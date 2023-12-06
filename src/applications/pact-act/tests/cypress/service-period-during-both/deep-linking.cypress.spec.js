@@ -5,7 +5,7 @@ import { ROUTES } from '../../../constants';
 // target the shadow DOM
 // Skipping temporarily while we do a URL change in devops (this will fail until that change is implemented)
 // To be un-skipped on Wednesday, Nov 8
-xdescribe('PACT Act', () => {
+describe('PACT Act', () => {
   describe('During both of these time periods - deep linking', () => {
     it('redirects to home when the service period page is loaded without the right criteria', () => {
       cy.visit(`${h.ROOT}/${ROUTES.SERVICE_PERIOD}`);

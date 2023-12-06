@@ -162,14 +162,7 @@ class ObjectField extends React.Component {
       onEdit = formContext?.onEdit,
       text = 'Edit',
     } = {}) => (
-      <button
-        type="button"
-        className="edit-btn primary-outline"
-        aria-label={label}
-        onClick={onEdit}
-      >
-        {text}
-      </button>
+      <va-button secondary aria-label={label} onClick={onEdit} text={text} />
     );
 
     if (isReactComponent(ObjectViewField)) {
@@ -194,10 +187,14 @@ class ObjectField extends React.Component {
                   {title}
                 </h4>
               )}
-            {defaultEditButton()}
+            <div className="vads-u-justify-content--flex-end">
+              {defaultEditButton()}
+            </div>
           </div>
         )}
-        <Tag className="review">{renderedProperties}</Tag>
+        <Tag className="review" style={{ margin: '16px auto' }}>
+          {renderedProperties}
+        </Tag>
       </>
     ) : (
       <>{renderedProperties}</>
@@ -239,6 +236,7 @@ ObjectField.propTypes = {
   }),
   required: PropTypes.bool,
   uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
 };
 

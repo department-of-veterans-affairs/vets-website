@@ -186,7 +186,7 @@ describe('Schemaform <ArrayField>', () => {
     const button = tree.everySubTree('button');
     expect(button.length).to.equal(4);
     expect(button[0].text()).to.equal('Edit');
-    expect(button[1].text()).to.equal('Update');
+    expect(button[1].text()).to.equal('Save');
     expect(button[2].text()).to.equal('Remove');
     expect(button[3].text()).to.contain('Add another');
   });
@@ -262,8 +262,8 @@ describe('Schemaform <ArrayField>', () => {
     expect(button.length).to.equal(4);
     expect(button[0].text()).to.equal('Edit');
     expect(button[0].props['aria-label']).to.equal('Edit foo');
-    expect(button[1].text()).to.equal('Update');
-    expect(button[1].props['aria-label']).to.equal('Update bar');
+    expect(button[1].text()).to.equal('Save');
+    expect(button[1].props['aria-label']).to.equal('Save bar');
     expect(button[2].text()).to.equal('Remove');
     expect(button[2].props['aria-label']).to.equal('Remove bar');
     expect(button[3].text()).to.contain('Add another');
@@ -457,5 +457,69 @@ describe('Schemaform <ArrayField>', () => {
     );
 
     expect(tree.subTree('button').props.disabled).to.be.true;
+  });
+});
+
+describe('should handle generateIndividualItemHeaders boolean', () => {
+  let tree;
+  let errorSchema;
+  let onChange;
+  let onBlur;
+  beforeEach(() => {
+    const idSchema = {
+      $id: 'root_field',
+    };
+    const schema = {
+      type: 'array',
+      items: [],
+      maxItems: 2,
+      additionalItems: {
+        type: 'object',
+        properties: {
+          field: {
+            type: 'string',
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'List of things',
+      'ui:options': {
+        viewField: f => f,
+        generateIndividualItemHeaders: true,
+      },
+    };
+    const formData = [{}, {}];
+    errorSchema = {};
+    onChange = sinon.spy();
+    onBlur = sinon.spy();
+    tree = SkinDeep.shallowRender(
+      <ArrayField
+        schema={schema}
+        errorSchema={errorSchema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        registry={registry}
+        formData={formData}
+        onChange={onChange}
+        onBlur={onBlur}
+        formContext={formContext}
+        requiredSchema={requiredSchema}
+      />,
+    );
+  });
+  it('add with generateIndividualItemHeaders true', () => {
+    expect(tree.everySubTree('SchemaField').length).to.equal(1);
+
+    tree.getMountedInstance().handleAdd();
+    tree.getMountedInstance().handleAdd();
+    tree.getMountedInstance().handleEdit(0);
+
+    expect(tree.everySubTree('.vads-u-font-size--h5')[0].text()).to.equal(
+      'item',
+    );
+    expect(tree.everySubTree('.vads-u-font-size--h5')[1].text()).to.equal(
+      'New item',
+    );
   });
 });

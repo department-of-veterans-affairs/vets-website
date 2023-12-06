@@ -127,7 +127,7 @@
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
     "@testing-library/dom": "^7.26.6",
-    "@testing-library/react": "^11.1.2",  
+    "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
     "@tlei123/vagov-cy-tr-reporter": "^0.0.7",
     "@webpack-cli/serve": "^1.6.0",
@@ -245,8 +245,9 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
+    "@datadog/browser-rum": "^4.49.0",
     "@department-of-veterans-affairs/css-library": "^0.1.0-rc4",
-    "@department-of-veterans-affairs/component-library": "^31.0.0",
+    "@department-of-veterans-affairs/component-library": "^32.1.1",
     "@department-of-veterans-affairs/formation": "^7.0.9",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
@@ -258,7 +259,6 @@
     "classnames": "^2.3.1",
     "cookie": "^0.4.1",
     "core-js": "^3.18.0",
-    "@datadog/browser-rum": "^4.49.0",
     "date-fns": "^2.24.0",
     "date-fns-tz": "^1.1.1",
     "dotenv": "^10.0.0",
@@ -287,6 +287,7 @@
     "octokit-plugin-create-pull-request": "^3.11.0",
     "prop-types": "^15.6.1",
     "react": "^17.0.2",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^17.0.2",
     "react-focus-lock": "^2.6.0",
     "react-is": "^17.0.2",
@@ -313,7 +314,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#073596c40c696c501fa3b9d20405aa1aacdc9050"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#2092ad296ec27a62023674ad2fc597ee25b9d720"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

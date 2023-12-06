@@ -99,18 +99,12 @@ export class ConfirmationPage extends React.Component {
             <h2 slot="headline">
               {getSuccessAlertTitle(data, alreadySubmittedIntents)}
             </h2>
-            <p>
-              {getSuccessAlertText(
-                data,
-                alreadySubmittedIntents,
-                expirationDate,
-              )}
-            </p>
+            <p>{getSuccessAlertText(data, alreadySubmittedIntents)}</p>
           </va-alert>
         )}
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
-          {veteranFullName ? (
+          {veteranFullName && (
             <>
               <h4>Applicant</h4>
               <p>
@@ -119,21 +113,21 @@ export class ConfirmationPage extends React.Component {
                 {veteranFullName.suffix ? `, ${veteranFullName.suffix}` : null}
               </p>
             </>
-          ) : null}
+          )}
 
-          {confirmationNumber ? (
+          {confirmationNumber && (
             <>
               <h4>Confirmation number</h4>
               <p>{confirmationNumber}</p>
             </>
-          ) : null}
+          )}
 
-          {isValid(submitDate) ? (
+          {isValid(submitDate) && (
             <>
               <h4>Date submitted</h4>
               <p>{format(submitDate, 'MMMM d, yyyy')}</p>
             </>
-          ) : null}
+          )}
 
           <h4>Confirmation for your records</h4>
           <p>You can print this confirmation page for your records</p>
@@ -161,19 +155,20 @@ export class ConfirmationPage extends React.Component {
               href =
                 '/disability/file-disability-claim-form-21-526ez/introduction';
             } else if (nextStep === veteranBenefits.PENSION) {
-              href = '/pension/application/527EZ/introduction';
+              href = '/find-forms/about-form-21p-527ez/';
             } else if (nextStep === veteranBenefits.SURVIVOR) {
               href = '/find-forms/about-form-21p-534ez/';
             }
 
             return (
-              <a
-                className="vads-c-action-link--green vads-u-margin-bottom--4"
-                href={href}
-                key={nextStep}
-              >
-                Complete your {benefitPhrases[nextStep]}
-              </a>
+              <p key={nextStep}>
+                <a
+                  className="vads-c-action-link--green vads-u-margin-bottom--4"
+                  href={href}
+                >
+                  Complete your {benefitPhrases[nextStep]}
+                </a>
+              </p>
             );
           })}
         </div>

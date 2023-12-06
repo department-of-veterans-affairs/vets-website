@@ -191,7 +191,7 @@ class ClaimStatusPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelStatus');
     }
   }
 

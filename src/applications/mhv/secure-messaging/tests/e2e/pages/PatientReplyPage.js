@@ -115,6 +115,10 @@ class PatientReplyPage {
     );
   };
 
+  verifySendMessageConfirmationHasFocus = () => {
+    cy.get('va-alert').should('have.focus');
+  };
+
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {
@@ -139,6 +143,31 @@ class PatientReplyPage {
           )}`,
         );
     }
+  };
+
+  verifyModalMessageDisplayAndBuddontsCantSaveDraft = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('h1')
+      .should('have.text', "We can't save this message yet");
+
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button')
+      .should('have.attr', 'text', 'Continue editing');
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button[secondary]')
+      .should('have.attr', 'text', 'Delete draft');
+  };
+
+  verifyContnueButtonMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button')
+      .should('have.attr', 'text', 'Continue editing');
+  };
+
+  verifyDeleteButtonMessageDisplay = () => {
+    cy.get('[data-testid="reply-form"]')
+      .find('va-button[secondary]')
+      .should('have.attr', 'text', 'Delete draft');
   };
 }
 

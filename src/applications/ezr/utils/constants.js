@@ -2,8 +2,8 @@ import { isOfCollegeAge } from './helpers/household';
 import { replaceStrValues } from './helpers/general';
 import content from '../locales/en/content.json';
 
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
+// declare previous year for form questions and content
+export const LAST_YEAR = new Date().getFullYear() - 1;
 
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
@@ -35,7 +35,7 @@ export const DEPENDENT_SUBPAGES = [
     id: 'income',
     title: replaceStrValues(
       content['household-dependent-info-income-title'],
-      lastYear,
+      LAST_YEAR,
       '%d',
     ),
     depends: { key: 'view:dependentIncome', value: true },
@@ -86,7 +86,7 @@ export const INSURANCE_VIEW_FIELDS = {
 export const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
 
 // declare mock response for enrollment status API to use for simulated testing
-export const MOCK_ENROLLMENT_REPSONSE = {
+export const MOCK_ENROLLMENT_RESPONSE = {
   applicationDate: '2019-04-24T00:00:00.000-06:00',
   enrollmentDate: '2019-04-30T00:00:00.000-06:00',
   preferredFacility: '463 - CHEY6',

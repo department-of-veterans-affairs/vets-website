@@ -1,19 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { monetaryAssets as monetaryAssetList } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const MonetaryCheckList = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { monetaryAssets = [] } = assets;
+
+  const headerRef = useRef(null);
+  // Header ref for setting focus
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -71,6 +90,23 @@ const MonetaryCheckList = ({
     ? streamlinedList
     : monetaryAssetList;
 
+  // reviewDepends - only show/handle review alert and navigation if
+  //  feature flag is on, user is in review mode, and they have not seen the cash pages
+  const reviewDepends =
+    reviewNavigation && showReviewNavigation && !adjustForStreamlined;
+
+  const handleBackNavigation = () => {
+    if (reviewDepends) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
+  };
+
   return (
     <form
       onSubmit={event => {
@@ -79,8 +115,15 @@ const MonetaryCheckList = ({
       }}
     >
       <fieldset>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0" ref={headerRef}>
+            {title}
+          </h3>
+        </legend>
+        {reviewDepends ? (
+          <ReviewPageNavigationAlert data={data} title="household assets" />
+        ) : null}
         <Checklist
-          title={title}
           prompt={prompt}
           options={adjustedAssetList}
           onChange={event => onChange(event)}
@@ -88,7 +131,7 @@ const MonetaryCheckList = ({
         />
         {contentBeforeButtons}
         <FormNavButtons
-          goBack={goBack}
+          goBack={handleBackNavigation}
           goForward={goForward}
           submitToContinue
         />
@@ -115,6 +158,7 @@ MonetaryCheckList.propTypes = {
       isMarried: PropTypes.bool,
     }),
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

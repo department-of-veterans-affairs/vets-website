@@ -65,7 +65,7 @@ const InsurancePolicyInformation = props => {
       showModal(false);
       document
         .getElementById('ezr-modal-cancel')
-        .shadowRoot.children[0].focus();
+        .shadowRoot?.children[0]?.focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -158,8 +158,6 @@ const InsurancePolicyInformation = props => {
 };
 
 InsurancePolicyInformation.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,

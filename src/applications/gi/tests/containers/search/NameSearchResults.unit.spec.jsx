@@ -2,7 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { INITIAL_STATE } from '../../../reducers/search';
-import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
+import {
+  mockConstants,
+  renderWithStoreAndRouter,
+  mockSearchResults,
+} from '../../helpers';
 
 import NameSearchResults from '../../../containers/search/NameSearchResults';
 
@@ -18,6 +22,7 @@ describe('<GiBillApp>', () => {
       expect(screen).to.not.be.null;
     });
   });
+
   it('renders without crashing', () => {
     const newProps = {
       ...INITIAL_STATE,
@@ -40,5 +45,35 @@ describe('<GiBillApp>', () => {
     );
     const VaLoadingIndicator = screen.getByTestId('loading-indicator');
     expect(VaLoadingIndicator).to.exist;
+  });
+
+  it('should render with results', async () => {
+    const screen = renderWithStoreAndRouter(
+      <NameSearchResults {...mockSearchResults} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+          search: mockSearchResults,
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
+  });
+
+  it('should render in small screen', async () => {
+    const screen = renderWithStoreAndRouter(
+      <NameSearchResults {...mockSearchResults} smallScreen />,
+      {
+        initialState: {
+          constants: mockConstants(),
+          search: mockSearchResults,
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
   });
 });

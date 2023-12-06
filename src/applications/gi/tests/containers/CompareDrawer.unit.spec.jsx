@@ -2,7 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { mockConstants, renderWithStoreAndRouter } from '../helpers';
+import {
+  mockConstants,
+  renderWithStoreAndRouter,
+  mockCompareDrawerData,
+} from '../helpers';
 import CompareDrawer from '../../containers/CompareDrawer';
 
 describe('<CompareDrawer>', () => {
@@ -55,6 +59,16 @@ describe('<CompareDrawer>', () => {
 
     await waitFor(() => {
       expect(mockRef.current.style.height).to.not.equal('0px');
+    });
+  });
+
+  it('test loaded length greater than 0', async () => {
+    const initialState = mockCompareDrawerData;
+    const screen = renderWithStoreAndRouter(<CompareDrawer />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
     });
   });
 });

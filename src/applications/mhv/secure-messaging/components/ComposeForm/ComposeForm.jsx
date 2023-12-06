@@ -58,6 +58,7 @@ const ComposeForm = props => {
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [modalVisible, updateModalVisible] = useState(false);
+  const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
@@ -110,45 +111,6 @@ const ComposeForm = props => {
       });
     }
   };
-
-  useEffect(
-    () => {
-      const blankForm =
-        messageBody === '' &&
-        subject === '' &&
-        (selectedRecipient === 0 || selectedRecipient === '0') &&
-        category === null &&
-        attachments.length === 0;
-
-      if (blankForm) {
-        setUnsavedNavigationError(null);
-      } else {
-        if (!deleteButtonClicked) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-          if (formPopulated) {
-            setUnsavedNavigationError(null);
-          }
-        }
-        if (!deleteButtonClicked && attachments.length > 0) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-          );
-          updateModalVisible(false);
-        }
-      }
-    },
-    [
-      attachments,
-      category,
-      deleteButtonClicked,
-      formPopulated,
-      messageBody,
-      selectedRecipient,
-      subject,
-    ],
-  );
 
   useEffect(
     () => {
@@ -294,7 +256,6 @@ const ComposeForm = props => {
     async (type, e) => {
       if (type === 'manual') {
         setLastFocusableElement(e.target);
-        // setUserSaved(true)
         await setMessageInvalid(false);
         if (checkMessageValidity() === true) {
           setNavigationError(null);
@@ -324,10 +285,8 @@ const ComposeForm = props => {
       });
 
       if (type === 'auto' && newFieldsString === fieldsString) {
-        // setUserSaved(true);
         return;
       }
-
       setFieldsString(newFieldsString);
 
       const formData = {
@@ -376,6 +335,55 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
+      const blankForm =
+        messageBody === '' &&
+        subject === '' &&
+        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        category === null &&
+        attachments.length === 0;
+
+      const editPopulatedForm =
+        messageBody !== draft?.messageBody ||
+        selectedRecipient !== draft?.recipientId ||
+        category !== draft?.category ||
+        subject !== draft?.subject;
+
+      if (blankForm) {
+        setUnsavedNavigationError(null);
+      } else {
+        if (
+          (editPopulatedForm && !deleteButtonClicked) ||
+          (editPopulatedForm && formPopulated && !deleteButtonClicked)
+        ) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+        }
+        if (
+          editPopulatedForm &&
+          !deleteButtonClicked &&
+          attachments.length > 0
+        ) {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
+          );
+          updateModalVisible(false);
+        }
+      }
+    },
+    [
+      attachments,
+      category,
+      deleteButtonClicked,
+      formPopulated,
+      messageBody,
+      selectedRecipient,
+      subject,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (
         debouncedRecipient &&
         debouncedCategory &&
@@ -384,6 +392,7 @@ const ComposeForm = props => {
         !modalVisible
       ) {
         saveDraftHandler('auto');
+        setUnsavedNavigationError(null);
       }
     },
     [
@@ -552,6 +561,8 @@ const ComposeForm = props => {
               compose
               attachments={attachments}
               setAttachments={setAttachments}
+              attachFileSuccess={attachFileSuccess}
+              setAttachFileSuccess={setAttachFileSuccess}
               setNavigationError={setNavigationError}
               editingEnabled
             />
@@ -559,6 +570,7 @@ const ComposeForm = props => {
             <FileInput
               attachments={attachments}
               setAttachments={setAttachments}
+              setAttachFileSuccess={setAttachFileSuccess}
             />
           </section>
           <DraftSavedInfo />

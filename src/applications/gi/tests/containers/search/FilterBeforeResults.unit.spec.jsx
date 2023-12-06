@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults'; // adjust the import based on your file structure
 import { updateUrlParams } from '../../../selectors/search';
+import { mockSearchResults } from '../../helpers';
 
 describe('<FilterBeforeResults />', () => {
   let wrapper;
@@ -207,6 +208,28 @@ describe('<FilterBeforeResults />', () => {
     ).to.be.true;
     expect(props.recordCheckboxEvent.calledOnce).to.be.false;
     expect(props.recordCheckboxEvent.calledWith(fakeEvent)).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('should render in small screen', () => {
+    props = {
+      dispatchShowModal: sinon.spy(),
+      dispatchFilterChange: sinon.spy(),
+      recordCheckboxEvent: sinon.spy(),
+      filters: {
+        excludedSchoolTypes: [],
+        vettec: false,
+        preferredProvider: false,
+      },
+      modalClose: sinon.spy(),
+      preview: {},
+      search: mockSearchResults,
+      smallScreen: true,
+      history: [],
+      version: 'v1.0.0',
+    };
+    wrapper = shallow(<FilterBeforeResults {...props} />);
+    expect(wrapper).to.not.be.null;
     wrapper.unmount();
   });
 });

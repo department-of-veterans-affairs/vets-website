@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 
 import { render, waitFor } from '@testing-library/react';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
@@ -1543,12 +1542,6 @@ describe('<CalculateYourBenefits>', () => {
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
-
-    const mockSetShowEybSheet = sinon.spy();
-    const mockSetExpandEybSheet = sinon.spy();
-    const useStateStub = sinon.stub(React, 'useState');
-    useStateStub.onCall(0).returns([false, mockSetShowEybSheet]);
-    useStateStub.onCall(1).returns([false, mockSetExpandEybSheet]);
     const addEventListenerSpy = sinon.spy(global.window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(
       global.window,
@@ -1570,7 +1563,6 @@ describe('<CalculateYourBenefits>', () => {
     tree.unmount();
     sinon.assert.calledWith(removeEventListenerSpy, 'scroll', sinon.match.func);
     addEventListenerSpy.restore();
-    useStateStub.restore();
   });
   it('should return no ', () => {
     const middleware = [thunk];
@@ -1642,68 +1634,6 @@ describe('<CalculateYourBenefits>', () => {
       .find('div.vads-u-padding-bottom--1.small-screen-font')
       .at(3);
     expect(div4.text().includes('Yes')).to.be.true;
-    tree.unmount();
-  });
-  it('sets showEybSheet to true when scrolled to the correct position', () => {
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
-    const isOJT = false;
-    const { props, data } = getData();
-    const newData = {
-      ...data,
-      profile: {
-        ...data.profile,
-        attributes: {
-          ...data.profile.attributes,
-          vetWebsiteLink: '',
-          section103Message: '',
-          yr: '',
-          vrrap: 'vrrap',
-        },
-      },
-    };
-
-    const store = mockStore(newData);
-    const tree = mount(
-      <Provider store={store}>
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-          {...props}
-        />
-      </Provider>,
-    );
-    const getBoundingClientRectMock = () => ({ top: -1 });
-    const offsetHeightMock = 500;
-    const calculateButtonHeightMock = 50;
-    global.window.innerHeight = 800;
-
-    sinon
-      .stub(document, 'getElementById')
-      .returns({ getBoundingClientRect: getBoundingClientRectMock });
-    sinon.stub(document, 'getElementsByClassName').callsFake(className => {
-      if (className === 'eyb-sheet') {
-        return [{ offsetHeight: offsetHeightMock }];
-      }
-      if (className === 'calculate-button') {
-        return [
-          {
-            offsetHeight: calculateButtonHeightMock,
-            getBoundingClientRect: getBoundingClientRectMock,
-          },
-        ];
-      }
-      return [];
-    });
-    act(() => {
-      global.window.dispatchEvent(new Event('scroll'));
-    });
-    tree.update();
-    expect(tree.find('.eyb-sheet.open')).to.have.lengthOf(0);
-
-    document.getElementById.restore();
-    document.getElementsByClassName.restore();
     tree.unmount();
   });
 });

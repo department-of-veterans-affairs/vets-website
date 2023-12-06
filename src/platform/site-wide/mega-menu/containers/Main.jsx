@@ -3,8 +3,6 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -187,10 +185,7 @@ const mapStateToProps = (state, ownProps) => {
     MY_VA_LINK.href = `${urlWithoutParams}?next=%2Fmy-va%2F${useOAuth}`;
   }
 
-  const showMyVALink = toggleValues(state)[
-    FEATURE_FLAG_NAMES.myVaShowHeaderLink
-  ];
-  if (loggedIn || (!loggedIn && showMyVALink)) {
+  if (loggedIn) {
     defaultLinks.push(MY_VA_LINK);
   }
 

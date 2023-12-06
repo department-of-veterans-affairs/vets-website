@@ -8,7 +8,9 @@ const NonVaPrescription = prescription => {
     const status = prescription?.dispStatus?.toString();
     return (
       <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
-        <h2 className="vads-u-margin-y--2 no-print">About your prescription</h2>
+        <h2 className="vads-u-margin-y--2 no-print">
+          About this medication or supply
+        </h2>
         {prescription && <ExtraDetails {...prescription} />}
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">

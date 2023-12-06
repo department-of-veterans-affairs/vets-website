@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus } from '../utils/page';
 import DebtLettersTable from './DebtLettersTable';
@@ -23,14 +23,16 @@ const DebtLettersDownload = ({
 
   return (
     <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
-      <Breadcrumbs className="vads-u-font-family--sans">
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/your-debt">Your debt</a>
-        <a href="/manage-va-debt/your-debt/debt-letters">
-          Download debt letters
-        </a>
-      </Breadcrumbs>
+      <div className="vads-u-font-family--sans">
+        <VaBreadcrumbs label="Breadcrumb">
+          <a href="/">Home</a>
+          <a href="/manage-va-debt">Manage your VA debt</a>
+          <a href="/manage-va-debt/your-debt">Your debt</a>
+          <a href="/manage-va-debt/your-debt/debt-letters">
+            Download debt letters
+          </a>
+        </VaBreadcrumbs>
+      </div>
       <div className="large-screen:vads-l-col--8">
         <h1
           id="downloadDebtLetters"
