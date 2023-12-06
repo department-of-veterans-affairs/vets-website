@@ -181,7 +181,10 @@ export const IssueCard = ({
     <li id={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox ? (
-          <div className="widget-checkbox-wrap">
+          <div
+            className="widget-checkbox-wrap"
+            data-dd-action-name="Issue name"
+          >
             <input
               type="checkbox"
               id={elementId}
@@ -190,8 +193,13 @@ export const IssueCard = ({
               onChange={handlers.onChange}
               aria-describedby={`issue-${index}-description`}
               aria-labelledby={`issue-${index}-title`}
+              data-dd-action-name="Issue Name"
             />
-            <label className="schemaform-label" htmlFor={elementId}>
+            <label
+              className="schemaform-label"
+              htmlFor={elementId}
+              data-dd-action-name="Contestable Issue Name"
+            >
               {' '}
             </label>
           </div>
@@ -205,7 +213,7 @@ export const IssueCard = ({
           <Header
             id={`issue-${index}-title`}
             className={titleClass}
-            data-dd-action-name="issue name"
+            data-dd-action-name="contestable issue name"
           >
             {issueName}
           </Header>

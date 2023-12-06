@@ -20,9 +20,6 @@ describe('Medications Details Page Refill Button', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

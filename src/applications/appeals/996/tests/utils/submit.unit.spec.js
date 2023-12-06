@@ -1,14 +1,15 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import {
   getAddress,
   getConferenceTime,
   getRep,
   getTimeZone,
+  getContact,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
 import {
   addIncludedIssues,
   createIssueName,
@@ -230,6 +231,9 @@ describe('getRep', () => {
 });
 
 describe('getConferenceTime', () => {
+  it('should return empty string', () => {
+    expect(getConferenceTime()).to.equal('');
+  });
   it('should return v2 times', () => {
     expect(
       getConferenceTime({ informalConferenceTime: 'time0800to1200' }),
@@ -245,6 +249,7 @@ describe('getAddress', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
     const result = { zipCode5: '00000' };
     const wrap = obj => ({ veteran: { address: obj } });
+    expect(getAddress()).to.deep.equal(result);
     expect(getAddress({})).to.deep.equal(result);
     expect(getAddress(wrap({}))).to.deep.equal(result);
     expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal(result);
@@ -350,5 +355,17 @@ describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
     expect(getTimeZone().length).to.be.greaterThan(1);
+  });
+});
+
+describe('getContact', () => {
+  it('should return an empty string', () => {
+    expect(getContact({})).to.eq('');
+  });
+  it('should return a string containing representative', () => {
+    expect(getContact({ informalConference: 'rep' })).to.eq('representative');
+  });
+  it('should return a string containing veteran', () => {
+    expect(getContact({ informalConference: 'me' })).to.eq('veteran');
   });
 });

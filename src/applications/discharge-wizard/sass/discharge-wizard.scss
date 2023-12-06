@@ -98,6 +98,18 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
   }
 
+  .answers {
+    border-bottom: 1px solid $color-gray-light;
+  }
+
+  .answer-review {
+    border-top: 1px solid $color-gray-light;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+  }
+
   // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
   va-radio::part(header) {
     font-size: 1.7rem;

@@ -66,7 +66,7 @@ describe('VAOS community care flow - Audiology', () => {
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId,
-        isDirect: true,
+        isDirect: false,
         isRequest: true,
       });
     });
@@ -127,7 +127,7 @@ describe('VAOS community care flow - Audiology', () => {
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId,
-          isDirect: true,
+          isDirect: false,
           isRequest: true,
         });
       });
@@ -257,7 +257,7 @@ describe('VAOS community care flow - Audiology', () => {
         mockSchedulingConfigurationApi({
           facilityIds: ['983', '984'],
           typeOfCareId,
-          isDirect: true,
+          isDirect: false,
           isRequest: true,
         });
       });

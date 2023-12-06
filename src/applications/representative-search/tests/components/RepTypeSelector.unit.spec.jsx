@@ -25,7 +25,7 @@ describe('RepTypeSelector component', () => {
 
     // Select the first va-radio-option
     const radioOption = container.querySelector(
-      'va-radio-option[label="Veteran Service Organization (VSO)"]',
+      'va-radio-option[label="Veteran Service Organization"]',
     );
 
     // Assert that the first va-radio-option is present and checked

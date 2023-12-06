@@ -1,10 +1,10 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from '../../../simple-forms/shared/tests/pages/pageTests.spec';
+} from './pageTests.spec';
 import formConfig from '../../config/form';
-import treatmentHistory from '../../pages/treatmentHistory';
-import medicalCenters from '../../pages/medicalCenters';
+import treatmentHistory from '../../pages/vaTreatmentHistory';
+import generateMedicalCentersSchemas from '../../pages/medicalCenters';
 
 describe('pension treatment history page', () => {
   it('should render web components in form correctly', () => {
@@ -31,6 +31,7 @@ describe('pension treatment history page', () => {
 
 describe('pension add medical centers page', () => {
   it('should render web components in form correctly', () => {
+    const medicalCenters = generateMedicalCentersSchemas();
     const pageTitle = 'medical centers';
     const expectedNumberOfFields = 1;
     testNumberOfWebComponentFields(
