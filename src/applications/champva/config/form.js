@@ -2,8 +2,8 @@
 import get from 'platform/utilities/data/get';
 
 import {
-  fullNameNoSuffixSchema,
-  fullNameNoSuffixUI,
+  fullNameSchema,
+  fullNameUI,
   ssnSchema,
   ssnUI,
   vaFileNumberSchema,
@@ -26,11 +26,15 @@ import {
   yesNoUI,
   radioSchema,
   radioUI,
+  titleSchema,
+  inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import FormFooter from 'platform/forms/components/FormFooter';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/applicant/ApplicantField';
+import GetFormHelp from '../components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submit-transformer';
 
@@ -65,22 +69,29 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
-  title: 'Application for CHAMPVA Benefits',
+  title: 'Apply for CHAMPVA Benefits',
+  subTitle: 'Form 10-10d',
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {},
   chapters: {
     sponsorName: {
-      title: 'Sponsor Name',
+      title: 'Sponsor Information',
       pages: {
         page1: {
-          path: 'sponsor-name',
-          title: 'Sponsor Name',
+          path: 'sponsor-information/personal-information',
+          title: 'Sponsor name and date of birth',
           uiSchema: {
-            veteransFullName: fullNameNoSuffixUI(),
+            sponsorInfoTitle: inlineTitleUI('Sponsor name and date of birth'),
+            veteransFullName: fullNameUI(),
+            sponsorDOB: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
             properties: {
-              veteransFullName: fullNameNoSuffixSchema,
+              sponsorInfoTitle: titleSchema,
+              veteransFullName: fullNameSchema,
+              sponsorDOB: dateOfBirthSchema,
             },
           },
         },
@@ -178,14 +189,14 @@ const formConfig = {
             type: 'object',
             required: ['sponsorDOB', 'sponsorIsDeceased'],
             properties: {
-              sponsorDOB: dateOfBirthSchema,
+              // sponsorDOB: dateOfBirthSchema,
               sponsorIsDeceased: yesNoSchema,
               sponsorDOD: dateOfDeathSchema,
               sponsorDeathConditions: yesNoSchema,
             },
           },
           uiSchema: {
-            sponsorDOB: dateOfBirthUI(),
+            // sponsorDOB: dateOfBirthUI(),
             sponsorIsDeceased: yesNoUI({
               title: 'Is the Veteran deceased?',
             }),
@@ -244,7 +255,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.',
               },
               items: {
-                applicantName: fullNameNoSuffixUI(),
+                applicantName: fullNameUI(),
               },
             },
           },
@@ -257,7 +268,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    applicantName: fullNameNoSuffixSchema,
+                    applicantName: fullNameSchema,
                   },
                 },
               },
@@ -486,7 +497,7 @@ const formConfig = {
           uiSchema: {
             signature: yesNoUI({ title: 'Do you accept?' }),
             certifierName: {
-              ...fullNameNoSuffixUI(),
+              ...fullNameUI(),
               'ui:options': {
                 hideIf: formData => !get('signature', formData),
               },
@@ -532,7 +543,7 @@ const formConfig = {
             required: ['signature', 'verifyCertifier'],
             properties: {
               signature: yesNoSchema,
-              certifierName: fullNameNoSuffixSchema,
+              certifierName: fullNameSchema,
               dateOfCertification: currentOrPastDateSchema,
               verifyCertifier: yesNoSchema,
               certifierRelationship: relationshipToVeteranSchema,
