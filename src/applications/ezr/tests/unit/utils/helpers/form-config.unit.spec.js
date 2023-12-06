@@ -83,21 +83,27 @@ describe('ezr form config helpers', () => {
 
   context('when `includeSpousalInformation` executes', () => {
     context('when marital status is `never married`', () => {
-      const formData = { maritalStatus: 'never married' };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'never married' },
+      };
       it('should return `false`', () => {
         expect(includeSpousalInformation(formData)).to.be.false;
       });
     });
 
     context('when marital status is `married`', () => {
-      const formData = { maritalStatus: 'married' };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'married' },
+      };
       it('should return `true`', () => {
         expect(includeSpousalInformation(formData)).to.be.true;
       });
     });
 
     context('when marital status is `separated`', () => {
-      const formData = { maritalStatus: 'separated' };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'separated' },
+      };
       it('should return `true`', () => {
         expect(includeSpousalInformation(formData)).to.be.true;
       });
@@ -106,21 +112,29 @@ describe('ezr form config helpers', () => {
 
   context('when `spouseDidNotCohabitateWithVeteran` executes', () => {
     context('when Veteran was not married or legally separarted', () => {
-      const formData = { maritalStatus: 'not married' };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'not married' },
+      };
       it('should return `false`', () => {
         expect(spouseDidNotCohabitateWithVeteran(formData)).to.be.false;
       });
     });
 
     context('when spouse did cohabitate with Veteran', () => {
-      const formData = { maritalStatus: 'married', cohabitedLastYear: true };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'married' },
+        cohabitedLastYear: true,
+      };
       it('should return `false`', () => {
         expect(spouseDidNotCohabitateWithVeteran(formData)).to.be.false;
       });
     });
 
     context('when spouse did not cohabitate with Veteran', () => {
-      const formData = { maritalStatus: 'married', cohabitedLastYear: false };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'married' },
+        cohabitedLastYear: false,
+      };
       it('should return `true`', () => {
         expect(spouseDidNotCohabitateWithVeteran(formData)).to.be.true;
       });
@@ -129,21 +143,29 @@ describe('ezr form config helpers', () => {
 
   context('when `spouseAddressDoesNotMatchVeterans` executes', () => {
     context('when Veteran was not married or legally separarted', () => {
-      const formData = { maritalStatus: 'not married' };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'not married' },
+      };
       it('should return `false`', () => {
         expect(spouseAddressDoesNotMatchVeterans(formData)).to.be.false;
       });
     });
 
     context('when spouse address matches Veteran', () => {
-      const formData = { maritalStatus: 'married', sameAddress: true };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'married' },
+        sameAddress: true,
+      };
       it('should return `false`', () => {
         expect(spouseAddressDoesNotMatchVeterans(formData)).to.be.false;
       });
     });
 
     context('when spouse address does not match Veteran', () => {
-      const formData = { maritalStatus: 'married', sameAddress: false };
+      const formData = {
+        'view:maritalStatus': { maritalStatus: 'married' },
+        sameAddress: false,
+      };
       it('should return `true`', () => {
         expect(spouseAddressDoesNotMatchVeterans(formData)).to.be.true;
       });
@@ -168,14 +190,18 @@ describe('ezr form config helpers', () => {
 
   context('when `collectMedicareInformation` executes', () => {
     context('when Veteran is enrolled in Medicare', () => {
-      const formData = { isEnrolledMedicarePartA: true };
+      const formData = {
+        'view:isEnrolledMedicarePartA': { isEnrolledMedicarePartA: true },
+      };
       it('should return `true`', () => {
         expect(collectMedicareInformation(formData)).to.be.true;
       });
     });
 
     context('when Veteran is not enrolled in Medicare', () => {
-      const formData = { isEnrolledMedicarePartA: false };
+      const formData = {
+        'view:isEnrolledMedicarePartA': { isEnrolledMedicarePartA: false },
+      };
       it('should return `false`', () => {
         expect(collectMedicareInformation(formData)).to.be.false;
       });
