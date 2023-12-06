@@ -4,17 +4,21 @@ import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import moment from 'moment';
 
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import getData from '../fixtures/mocks/mockStore';
 
 import formConfig from '../../config/form';
-import applicantInformation from '../../pages/applicantInformation';
+import applicantInformation, {
+  isOver65,
+  setDefaultIsOver65,
+} from '../../pages/applicantInformation';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -110,6 +114,49 @@ describe('pension applicant information page', () => {
       fireEvent.click(submitBtn);
 
       expect($$('.usa-input-error-message', container)).to.be.empty;
+    });
+  });
+
+  describe('isOver65', () => {
+    it('should return true if veteranDateOfBirth is over 65 years ago', () => {
+      const over65 = isOver65(
+        { veteranDateOfBirth: '1950-01-01' },
+        moment('2020-01-01'),
+      );
+      expect(over65).to.be.true;
+    });
+    it('should return false if veteranDateOfBirth is under 65 years ago', () => {
+      const over65 = isOver65(
+        { veteranDateOfBirth: '2000-01-01' },
+        moment('2020-01-01'),
+      );
+      expect(over65).to.be.false;
+    });
+    it('should return undefined if veteranDateOfBirth is invalid or null', () => {
+      const over65 = isOver65(
+        { veteranDateOfBirth: null },
+        moment('2020-01-01'),
+      );
+      expect(over65).to.be.undefined;
+    });
+  });
+
+  describe('setDefaultIsOver65', () => {
+    it('should change nothing if veteranDateOfBirth is unchanged', () => {
+      const formData = setDefaultIsOver65(
+        { veteranDateOfBirth: '1950-01-01', isOver65: false },
+        { veteranDateOfBirth: '1950-01-01', isOver65: false },
+        moment('2020-01-01'),
+      );
+      expect(formData.isOver65).to.be.false;
+    });
+    it('should update isOver65 if veteranDateOfBirth changes', () => {
+      const formData = setDefaultIsOver65(
+        { veteranDateOfBirth: '2000-01-01', isOver65: false },
+        { veteranDateOfBirth: '1950-01-01', isOver65: false },
+        moment('2020-01-01'),
+      );
+      expect(formData.isOver65).to.be.true;
     });
   });
 });

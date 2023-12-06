@@ -15,7 +15,9 @@ describe('Medications Details Page Breadcrumbs', () => {
 
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    detailsPage.clickMedicationsBreadcrumbsOnDetailsPage();
+    detailsPage.clickMedicationsListPageBreadcrumbsOnDetailsPage();
+    listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
+    detailsPage.clickMedicationsLandingPageBreadcrumbsOnListPage();
     landingPage.verifyNavigationToLandingPageAfterClickingBreadcrumb();
     cy.injectAxe();
     cy.axeCheck('main', {

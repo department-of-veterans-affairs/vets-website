@@ -2,12 +2,12 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import { createSelector } from 'reselect';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import { isFullDate } from 'platform/forms/validations';
+import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import { isFullDate } from '@department-of-veterans-affairs/platform-forms/validations';
 import {
   serviceNumberSchema,
   serviceNumberUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 const { dateRange } = fullSchemaPensions.definitions;

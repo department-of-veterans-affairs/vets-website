@@ -28,6 +28,7 @@ const RxBreadcrumbs = () => {
           <div className="no-print">
             <VaBreadcrumbs
               label="Breadcrumb"
+              data-testid="rx-breadcrumb"
               className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
             >
               {allCrumbs.map((crumb, idx) => (

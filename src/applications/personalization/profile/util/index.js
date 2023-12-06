@@ -290,7 +290,7 @@ const getPPIUErrorCode = (errors = []) => {
 export const createCNPDirectDepositAnalyticsDataObject = ({
   errors = [],
   isEnrolling = false,
-  useLighthouseDirectDepositEndpoint = false,
+  useLighthouseDirectDepositEndpoint = true,
 } = {}) => {
   const errorCode = useLighthouseDirectDepositEndpoint
     ? getLighthouseErrorCode(errors)

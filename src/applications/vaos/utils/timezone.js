@@ -11,7 +11,7 @@ const TIMEZONE_LABELS = {
 };
 
 export function stripDST(abbr) {
-  if (/^[PMCE][DS]T$/.test(abbr)) {
+  if (/^[PMCE][DS]T$|^AK[DS]T$/.test(abbr)) {
     return abbr?.replace('ST', 'T').replace('DT', 'T');
   }
 
