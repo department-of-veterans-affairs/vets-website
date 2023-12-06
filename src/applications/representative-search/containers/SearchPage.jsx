@@ -115,7 +115,7 @@ const SearchPage = props => {
       lat: latitude,
       long: longitude,
       type: representativeType,
-      page,
+      page: page || 1,
       sort: sortType,
     });
 
@@ -125,7 +125,7 @@ const SearchPage = props => {
         lat: latitude,
         long: longitude,
         name: repOrganizationInputString,
-        page: 1,
+        page,
         per_page: 10,
         sort: sortType,
         type: representativeType,
