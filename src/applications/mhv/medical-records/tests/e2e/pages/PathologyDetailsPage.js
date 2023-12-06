@@ -1,31 +1,6 @@
-// import defaultNotes from '../fixtures/Notes.json';
+// import defaultPathology from '../fixtures/Pathology.json';
 
-class NotesListPage {
-  /*
-    clickGotoNotesLink = (
-     /* Notes = defaultNotes,
-      waitForNotes = false,
-    ) => {
-      cy.intercept(
-        'GET',
-        '/my_health/v1/medical_records/notes',
-        Notes,
-      ).as('NotesList');
-      cy.get('[href="/my-health/medical-records/notes"]').click();
-      if (waitForNotes) {
-        cy.wait('@NotesList');
-      }
-    });
-  }
-  */
-
-  clickNotesDetailsLink = (_NotesIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(_NotesIndex)
-      .click();
-  };
-
+class PathologyDetailsPage {
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
   };
@@ -56,4 +31,4 @@ class NotesListPage {
   };
 }
 
-export default new NotesListPage();
+export default new PathologyDetailsPage();
