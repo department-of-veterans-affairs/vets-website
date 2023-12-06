@@ -47,5 +47,7 @@ describe('Secure Messaging Save Draft', () => {
     };
     composePage.saveDraft(mockDraftResponseUpdated);
     composePage.sendDraft(mockDraftResponseUpdated);
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });
