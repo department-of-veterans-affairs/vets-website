@@ -29,7 +29,6 @@ import {
   directDepositWarning,
   isMarried,
   uploadMessage,
-  dependentsMinItem,
   disabilityDocs,
   schoolAttendanceWarning,
   marriageWarning,
@@ -46,7 +45,6 @@ import {
 import IntroductionPage from '../components/IntroductionPage';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import DependentField from '../components/DependentField';
 import ErrorText from '../components/ErrorText';
 import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
@@ -55,23 +53,26 @@ import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
+
+// pages
 import applicantInformation from '../pages/applicantInformation';
-import mailingAddress from '../pages/mailingAddress';
 import contactInformation from '../pages/contactInformation';
-import servicePeriods from '../pages/servicePeriods';
+import currentEmployment from '../pages/currentEmployment';
+import dependentChildren from '../pages/dependentChildren';
+import federalTreatmentHistory from '../pages/federalTreatmentHistory';
+import generateEmployersSchemas from '../pages/employmentHistory';
 import generalHistory from '../pages/generalHistory';
-import pow from '../pages/pow';
-import socialSecurityDisability from '../pages/socialSecurityDisability';
+import generateMedicalCentersSchemas from '../pages/medicalCenters';
+import mailingAddress from '../pages/mailingAddress';
+import medicalCondition from '../pages/medicalCondition';
 import medicaidCoverage from '../pages/medicaidCoverage';
 import medicaidStatus from '../pages/medicaidStatus';
-import medicalCondition from '../pages/medicalCondition';
 import nursingHome from '../pages/nursingHome';
+import pow from '../pages/pow';
+import servicePeriods from '../pages/servicePeriods';
 import specialMonthlyPension from '../pages/specialMonthlyPension';
+import socialSecurityDisability from '../pages/socialSecurityDisability';
 import vaTreatmentHistory from '../pages/vaTreatmentHistory';
-import federalTreatmentHistory from '../pages/federalTreatmentHistory';
-import generateMedicalCentersSchemas from '../pages/medicalCenters';
-import currentEmployment from '../pages/currentEmployment';
-import generateEmployersSchemas from '../pages/employmentHistory';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -805,49 +806,8 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents',
-          uiSchema: {
-            'ui:title': 'Dependent children',
-            'view:hasDependents': {
-              'ui:title': 'Do you have any dependent children?',
-              'ui:widget': 'yesNo',
-            },
-            dependents: {
-              'ui:options': {
-                itemName: 'Dependent',
-                expandUnder: 'view:hasDependents',
-                viewField: DependentField,
-              },
-              'ui:errorMessages': {
-                minItems: dependentsMinItem,
-              },
-              items: {
-                fullName: fullNameUI,
-                childDateOfBirth: currentOrPastDateUI('Date of birth'),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:hasDependents'],
-            properties: {
-              'view:hasDependents': {
-                type: 'boolean',
-              },
-              dependents: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['fullName', 'childDateOfBirth'],
-                  properties: {
-                    fullName: dependents.items.properties.fullName,
-                    childDateOfBirth:
-                      dependents.items.properties.childDateOfBirth,
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: dependentChildren.uiSchema,
+          schema: dependentChildren.schema,
         },
         childrenInformation: {
           path: 'household/dependents/children/information/:index',
