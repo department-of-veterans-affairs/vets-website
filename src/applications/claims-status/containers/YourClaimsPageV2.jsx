@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/selectors';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/constants/backendServices';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/feature-toggles/featureFlagNames';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/ui/scrollToTop';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import {
   getAppealsV2 as getAppealsV2Action,
