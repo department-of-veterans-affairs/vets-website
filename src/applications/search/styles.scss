@@ -195,10 +195,6 @@
       font-weight: 400;
     }
 
-    .disabledButtonWrapper {
-      cursor: not-allowed;
-    }
-
      button {
       align-items: center;
       background: $color-primary;
@@ -210,10 +206,6 @@
       justify-content: center;
       padding: 1rem;
       width: 100%;
-
-      &:disabled{
-        background: $color-gray-lighter;
-      }
 
       @media (min-width: $medium-screen) {
         border-radius: 0 5px 5px 0;
@@ -245,5 +237,9 @@
     max-width: 62.5em;
     display: flex;
     flex-direction: column;
+
+    @media (min-width: $medium-screen) {
+      flex-direction: row;
+    }
   }
 }

@@ -504,6 +504,14 @@ class SearchDropdownComponent extends React.Component {
     } = this.state;
 
     const suggestionsCount = suggestions?.length;
+    if (inputValue.length >= 255) {
+      this.setState({
+        a11yStatusMessage:
+          'The search is over the character limit. Shorten the search and try again.',
+      });
+      return;
+    }
+
     if (
       !isOpen &&
       (document.activeElement !==
@@ -657,7 +665,6 @@ class SearchDropdownComponent extends React.Component {
             } ${inputClassName}`}
             id={`${id}-input-field`}
             data-e2e-id={`${id}-input-field`}
-            maxLength="255"
             role="combobox"
             type="text"
             tabIndex="0"
