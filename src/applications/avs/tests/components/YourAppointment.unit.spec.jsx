@@ -24,8 +24,11 @@ describe('Avs: Your Appointment', () => {
     expect(screen.getByTestId('diagnoses-list').children[1]).to.have.text(
       'Dyslipidemia',
     );
-    expect(screen.getByTestId('vitals').children[4]).to.have.text(
-      'Pulse OximetryResult: 100',
+    expect(screen.getByTestId('vitals').children[1].children[3]).to.have.text(
+      'Pulse OximetryResult: 100 (Room Air)',
+    );
+    expect(screen.getByTestId('vitals').children[1].children[4]).to.have.text(
+      'HeightResult: 66 in',
     );
     expect(screen.getByTestId('clinic-medications').children[2].nodeName).to.eq(
       'VA-ADDITIONAL-INFO',
@@ -36,7 +39,7 @@ describe('Avs: Your Appointment', () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     delete avs.reasonForVisit;
     delete avs.diagnoses;
-    delete avs.vitals;
+    avs.vitals = [];
     delete avs.procedures;
     delete avs.vaMedications;
     const props = { avs };

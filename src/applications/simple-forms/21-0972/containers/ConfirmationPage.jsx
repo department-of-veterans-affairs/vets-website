@@ -25,7 +25,7 @@ const childContent = (
         value: 'null',
       }}
     >
-      <va-accordion-item header="Accrued benefits" id="first">
+      <va-accordion-item header="Accrued benefits">
         <ul>
           <li>
             Application for Accrued Amounts Due a Deceased Beneficiary (VA Form
@@ -37,7 +37,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Appeals" id="second">
+      <va-accordion-item header="Appeals">
         <ul>
           <li>
             Decision Review Request: Supplemental Claim (VA Form 20-0995)
@@ -63,7 +63,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Auto allowance" id="third">
+      <va-accordion-item header="Auto allowance">
         <ul>
           <li>
             Application for Automobile or Other Conveyance and Adaptive
@@ -75,10 +75,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Benefits for certain children with disabilities"
-        id="fourth"
-      >
+      <va-accordion-item header="Benefits for certain children with disabilities">
         <ul>
           <li>
             Application for Benefits for a Qualifying Veteran’s Child Born with
@@ -90,7 +87,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Compensation" id="fifth">
+      <va-accordion-item header="Compensation">
         <ul>
           <li>
             Application for Disability Compensation and Related Compensation
@@ -102,7 +99,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Compensation or Pension" id="sixth">
+      <va-accordion-item header="Compensation or Pension">
         <ul>
           <li>
             Intent to File a Claim for Compensation and/or Pension, or Survivors
@@ -114,7 +111,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Dependents" id="seventh">
+      <va-accordion-item header="Dependents">
         <ul>
           <li>
             Application Request to Add and/or Remove Dependents (VA Form
@@ -126,7 +123,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Dependent parent(s)" id="eighth">
+      <va-accordion-item header="Dependent parent(s)">
         <ul>
           <li>
             Statement of Dependency of Parent(s) (VA Form 21P-509)
@@ -137,7 +134,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Individual unemployability" id="ninth">
+      <va-accordion-item header="Individual unemployability">
         <ul>
           <li>
             Veteran’s Application for Increased Compensation Based on
@@ -149,7 +146,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Pension" id="tenth">
+      <va-accordion-item header="Pension">
         <ul>
           <li>
             Application for Veterans Pension (VA Form 21P-527EZ)
@@ -211,7 +208,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Posttraumatic stress disorder" id="twelfth">
+      <va-accordion-item header="Posttraumatic stress disorder">
         <ul>
           <li>
             Statement in Support of Claim for Service Connection for
@@ -238,10 +235,7 @@ const childContent = (
           forms are included within the online version of VA Form 21-526EZ.
         </p>
       </va-accordion-item>
-      <va-accordion-item
-        header="School-age children (ages 18 to 23 and in school)"
-        id="thirteenth"
-      >
+      <va-accordion-item header="School-age children (ages 18 to 23 and in school)">
         <ul>
           <li>
             Request for Approval of School Attendance (VA Form 21-674)
@@ -252,10 +246,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Specially adapted housing or special home adaptation"
-        id="fourteenth"
-      >
+      <va-accordion-item header="Specially adapted housing or special home adaptation">
         <ul>
           <li>
             Application in Acquiring Specially Adapted Housing or Special Home
@@ -267,7 +258,7 @@ const childContent = (
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Survivor benefits" id="fifteenth">
+      <va-accordion-item header="Survivor benefits">
         <ul>
           <li>
             Application for DIC, Survivors Pension, and/or Accrued Benefit (VA

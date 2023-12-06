@@ -57,5 +57,11 @@ export function Facility(facilityId) {
         value: '509-434-7000',
       },
     ],
+    address: {
+      postalCode: '82001-5356',
+      city: 'Cheyenne',
+      state: 'WY',
+      line: ['2360 East Pershing Boulevard'],
+    },
   };
 }

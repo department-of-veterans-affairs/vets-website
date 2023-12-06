@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import DependentDeclarationField from '../FormFields/DependentDeclarationField';
+import DependentDescription from '../FormDescriptions/DependentDescription';
 import DependentList from '../FormFields/DependentList';
 import { DEPENDENT_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
@@ -30,8 +30,8 @@ const DependentSummary = props => {
     [DEPENDENT_VIEW_FIELDS.add]: addDependents = null,
   } = data;
   const pageTitle = dependents.length
-    ? content['household-dependent-summary-title']
-    : '';
+    ? content['household-dependent-summary-list-title']
+    : content['household-dependent-summary-title'];
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**
@@ -85,15 +85,14 @@ const DependentSummary = props => {
   return (
     <form className="rjsf">
       <fieldset className="vads-u-margin-bottom--2">
-        <legend
-          id="root__title"
-          className={classNames({
-            'schemaform-block-title': true,
-            'sr-only': !pageTitle,
-          })}
-        >
-          {pageTitle}
+        <legend id="root__title" className="schemaform-block-title">
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
+            {pageTitle}
+          </h3>
         </legend>
+
+        {/** Additional Info component for description */}
+        <DependentDescription />
 
         {/** Dependent tile list */}
         {dependents.length > 0 ? (
@@ -130,15 +129,12 @@ const DependentSummary = props => {
           {contentAfterButtons}
         </>
       ) : (
-        <button
-          type="button"
+        <va-button
           onClick={updatePage}
-          className="usa-button-primary"
-          aria-label={content['household-dependent-update-button-aria-label']}
+          text={content['button-update-page']}
+          label={content['household-dependent-update-button-aria-label']}
           data-testid="ezr-update-button"
-        >
-          {content['button-update-page']}
-        </button>
+        />
       )}
     </form>
   );

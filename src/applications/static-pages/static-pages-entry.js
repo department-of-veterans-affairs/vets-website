@@ -47,6 +47,7 @@ import createExpandableOperatingStatus from './facilities/vet-center/createExpan
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
+import createFindARepLandingContent from './representative-search';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
@@ -82,6 +83,7 @@ import create1095BDownloadCTA from './download-1095b';
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
 import create210845Access from './simple-forms/21-0845/entry';
+import create210966Access from './simple-forms/21-0966/entry';
 import create210972Access from './simple-forms/21-0972/entry';
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
@@ -165,6 +167,7 @@ createBasicFacilityListWidget();
 createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
+createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,
@@ -218,6 +221,7 @@ createEducationLettersLoginWidget(
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
 create210845Access(store, widgetTypes.FORM_210845_CTA);
+create210966Access(store, widgetTypes.FORM_210966_CTA);
 create210972Access(store, widgetTypes.FORM_210972_CTA);
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);

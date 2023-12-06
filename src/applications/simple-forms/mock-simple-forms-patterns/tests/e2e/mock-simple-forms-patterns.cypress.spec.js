@@ -19,7 +19,7 @@ const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
     dataPrefix: 'data',
-    dataSets: ['minimal-test'],
+    dataSets: ['default'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {

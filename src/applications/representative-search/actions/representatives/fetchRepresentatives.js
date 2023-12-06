@@ -1,5 +1,13 @@
-import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
-import { distBetween } from '../../utils/representativeDistance';
+import * as Sentry from '@sentry/browser';
+import {
+  // FETCH_REPRESENTATIVES,
+  SEARCH_FAILED,
+  SEARCH_COMPLETE,
+} from '../../utils/actionTypes';
+import { useMockData } from '../../config';
+// import mockPaginatedData from '../../constants/mock-representative-paginated-data.json';
+import mockUnpaginatedData from '../../constants/mock-rep-data-unpaginated.json';
+import { mockPaginatedResponse } from '../../utils/helpers';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -14,51 +22,62 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
  * @param {number} api version number
  */
 export const fetchRepresentatives = async (
-  address = null,
-  bounds,
-  representativeType,
+  address,
+  lat,
+  long,
+  name,
   page,
+  /* eslint-disable camelcase */
+  per_page,
+  sort,
+  type,
   dispatch,
-  center,
-  radius,
 ) => {
-  let data = {};
-
   try {
-    const dataList = await RepresentativeFinderApi.searchWithBounds(
+    const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,
-      bounds,
-      representativeType,
+      lat,
+      long,
+      name,
       page,
-      center,
-      radius,
+      per_page,
+      sort,
+      type,
     );
-    data = { ...dataList };
     if (dataList.data) {
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      dispatch({ type: SEARCH_COMPLETE, payload: dataList });
     }
 
-    if (data.errors) {
-      dispatch({ type: SEARCH_FAILED, error: data.errors });
-    } else {
-      dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
+    if (dataList.errors?.length > 0) {
+      dispatch({ type: SEARCH_FAILED, error: dataList.errors });
     }
   } catch (error) {
+    if (useMockData) {
+      /*
+      const mockedResponse = {
+        data: mockPaginatedData.mockPages[page - 1],
+        links: mockPaginatedData.links,
+        meta: {
+          ...mockPaginatedData.meta,
+          pagination: {
+            ...mockPaginatedData.meta.pagination,
+            currentPage: page,
+          },
+        },
+      };
+      */
+
+      const mockedResponse = mockPaginatedResponse(mockUnpaginatedData, page);
+      dispatch({ type: SEARCH_COMPLETE, payload: mockedResponse });
+
+      return;
+    }
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage('Error fetching accredited representatives');
+    });
+
     dispatch({ type: SEARCH_FAILED, error: error.message });
+    throw error;
   }
 };

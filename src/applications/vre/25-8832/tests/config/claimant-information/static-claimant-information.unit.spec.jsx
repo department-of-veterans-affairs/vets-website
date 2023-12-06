@@ -1,23 +1,47 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-import staticClaimantInformation from '../../../config/chapters/claimant-information/staticClaimantComponent.jsx';
+import { render } from '@testing-library/react';
+import StaticClaimant from '../../../config/chapters/claimant-information/staticClaimantComponent';
 
-describe.skip('Chapter 36 Static Claimant Information', () => {
-  const mockUser = {
-    gender: 'M',
-    dob: '12-12-20',
-    userFullName: {
-      first: 'John',
-      last: 'Doe',
-    },
-  };
+describe('Chapter 36 - Static Claimant Information', () => {
+  const createStore = ({ gender = 'M', dob } = {}) => ({
+    getState: () => ({
+      user: {
+        profile: { gender, dob, userFullName: { first: 'John', last: 'Doe' } },
+      },
+    }),
+    dispatch: () => {},
+    subscribe: () => {},
+  });
 
   it('should render', () => {
-    const component = mount(<staticClaimantInformation user={mockUser} />);
-    expect(component.find('dl')).to.exist;
-    expect(component.find('dt')).to.exist;
-    expect(component.find('dd')).to.exist;
-    component.unmount();
+    const store = createStore();
+    const { queryByText } = render(
+      <Provider store={store}>
+        <StaticClaimant />
+      </Provider>,
+    );
+    expect(queryByText('John Doe')).to.not.be.null;
+  });
+
+  it('should display appropriate gender', () => {
+    const store = createStore({ gender: 'F' });
+    const { queryByText } = render(
+      <Provider store={store}>
+        <StaticClaimant />
+      </Provider>,
+    );
+    expect(queryByText('Gender: Female')).to.not.be.null;
+  });
+
+  it('should display the correct date', () => {
+    const store = createStore({ dob: '12-29-1990' });
+    const { queryByText } = render(
+      <Provider store={store}>
+        <StaticClaimant />
+      </Provider>,
+    );
+    expect(queryByText('Date of birth: December 29, 1990')).to.not.be.null;
   });
 });

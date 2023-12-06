@@ -56,7 +56,9 @@ const loa1DashboardTest = (mobile, stubs) => {
   cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
 
   // make sure that the Benefit application drafts section is visible
-  cy.findByTestId('dashboard-section-saved-applications').should('exist');
+  cy.findByTestId('dashboard-section-benefit-application-drafts').should(
+    'exist',
+  );
 
   // make sure that the Education and training section is visible
   cy.findByTestId('dashboard-section-education-and-training').should('exist');

@@ -22,8 +22,8 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
         <p>This is the personal information we have on file for you.</p>
 
-        <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-margin-bottom--3">
-          <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
+        <div className="va-address-block vads-u-margin-y--3">
+          <dl>
             <div data-testid="ezr-veteran-fullname">
               <dt className="vads-u-visibility--screen-reader">Full name:</dt>
               <dd

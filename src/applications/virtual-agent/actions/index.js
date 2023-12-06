@@ -16,6 +16,7 @@ export const startConversationActivity = ({
   userFirstName,
   userUuid,
   currentConversationId,
+  isMobile,
 }) => {
   return {
     meta: { method: 'keyboard' },
@@ -32,6 +33,7 @@ export const startConversationActivity = ({
           userFirstName,
           userUuid,
           currentConversationId,
+          isMobile,
         },
       },
     },

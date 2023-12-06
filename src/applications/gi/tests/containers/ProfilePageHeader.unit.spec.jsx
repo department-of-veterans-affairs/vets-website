@@ -77,6 +77,7 @@ const TEST_INSTITUTION = {
   highestDegree: 'Certificate',
   localeType: 'city',
   address1: 'PO BOX 1121',
+  lowerType: 'ojt',
   address2: null,
   address3: null,
   studentCount: 28,
@@ -506,6 +507,33 @@ describe('<ProfilePageHeader>', () => {
       },
     );
     const vettecText = screen.getByText(/Preferred Provider/i);
+
+    await waitFor(() => {
+      expect(document.body.contains(vettecText)).to.be.true;
+    });
+  });
+  it('should render a div with class usa-grid vads-u-padding-y--1p5 vads-u-padding-x--2', async () => {
+    const VETTEC_TEST_INSTITUTION = {
+      ...TEST_INSTITUTION,
+      programs: [
+        {
+          phoneAreaCode: 405,
+          phoneNumber: 1231231,
+          providerWebsite: 'https://www.google.com',
+        },
+      ],
+      vetTecProvider: true,
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <ProfilePageHeader institution={VETTEC_TEST_INSTITUTION} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const vettecText = screen.getByText('https://www.google.com');
 
     await waitFor(() => {
       expect(document.body.contains(vettecText)).to.be.true;

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import environment from 'platform/utilities/environment';
-
 const Footer = ({ formConfig, currentLocation }) => (
   <div className="row">
     {currentLocation.pathname === '/introduction'}
@@ -9,15 +7,8 @@ const Footer = ({ formConfig, currentLocation }) => (
   </div>
 );
 
-function FormFooter({ formConfig, currentLocation }) {
+function FormFooter({ formConfig }) {
   const GetFormHelp = formConfig.getHelp;
-
-  if (
-    currentLocation?.pathname.replace(/\/$/, '').endsWith('confirmation') &&
-    environment.isProduction()
-  ) {
-    return null;
-  }
 
   if (!GetFormHelp) {
     return null;

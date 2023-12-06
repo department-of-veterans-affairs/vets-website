@@ -12,21 +12,11 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
       testData.data.application.veteran.ssn,
       testData.data.application.veteran.dateOfBirth,
       testData.data.application.veteran.relationshipToVet,
+      testData.data.application.veteran.placeOfBirth,
     );
 
     // Veteran Information Page
     preneedHelpers.validateProgressBar('1');
-    cy.fill(
-      'input[name="root_application_veteran_militaryServiceNumber"]',
-      testData.data.application.veteran.militaryServiceNumber,
-    );
-    cy.fill(
-      'input[name="root_application_veteran_vaClaimNumber"]',
-      testData.data.application.veteran.vaClaimNumber,
-    );
-    cy.get('#root_application_veteran_militaryStatus').select(
-      testData.data.application.veteran.militaryStatus,
-    );
     cy.get(
       'input[name="root_application_veteran_race_isSpanishHispanicLatino"]',
     ).click();
@@ -40,7 +30,22 @@ describe('Pre-need form VA 40-10007 Veteran Workflow', () => {
     );
     cy.axeCheck();
     preneedHelpers.clickContinue();
-    cy.url().should('not.contain', '/veteran-information');
+    cy.url().should('not.contain', '/applicant-demographics');
+
+    cy.fill(
+      'input[name="root_application_veteran_militaryServiceNumber"]',
+      testData.data.application.veteran.militaryServiceNumber,
+    );
+    cy.fill(
+      'input[name="root_application_veteran_vaClaimNumber"]',
+      testData.data.application.veteran.vaClaimNumber,
+    );
+    cy.get('#root_application_veteran_militaryStatus').select(
+      testData.data.application.veteran.militaryStatus,
+    );
+    cy.axeCheck();
+    preneedHelpers.clickContinue();
+    cy.url().should('not.contain', '/applicant-military-details');
 
     // Military History Page
     preneedHelpers.validateProgressBar('2');

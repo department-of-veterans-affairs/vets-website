@@ -5,8 +5,8 @@ import {
   addressUI,
   addressSchema,
   descriptionUI,
-  inlineTitleUI,
-  inlineTitleSchema,
+  titleUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../../../locales/en/content.json';
 
@@ -17,13 +17,13 @@ const {
 export default {
   uiSchema: {
     ...descriptionUI(PrefillMessage, { hideOnReview: true }),
-    'view:pageTitle': inlineTitleUI(content['vet-home-address-title']),
+    'view:pageTitle': titleUI(content['vet-home-address-title']),
     veteranHomeAddress: addressUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:pageTitle': inlineTitleSchema,
+      'view:pageTitle': titleSchema,
       veteranHomeAddress: merge({}, addressSchema(), {
         properties: schemaOverride,
       }),

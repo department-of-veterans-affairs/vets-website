@@ -16,8 +16,14 @@ export default {
     formChapters.radio.pages.radioRelationshipToVeteran.path,
   date: formChapters.date.pages.date.path,
   arraySinglePage: formChapters.arraySinglePage.pages.arraySinglePage.path,
-  arrayMultiplePage:
-    formChapters.arrayMultiplePage.pages.multiplePageStart.path,
-  arrayMultiplePageItem:
-    formChapters.arrayMultiplePage.pages.multiplePageItem.path,
+  arrayMultiPageAggregate:
+    formChapters.arrayMultiPageAggregate.pages.multiPageStart.path,
+  arrayMultiPageAggregateItem:
+    formChapters.arrayMultiPageAggregate.pages.multiPageItem.path,
+  arrayMultiPageBuilderStart:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStart.path,
+  arrayMultiPageBuilderStepOne:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepOne.path,
+  arrayMultiPageBuilderStepTwo:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepTwo.path,
 };
