@@ -75,6 +75,7 @@ import generateEmployersSchemas from '../pages/employmentHistory';
 import maritalStatus from '../pages/maritalStatus';
 import currentSpouse from '../pages/currentSpouse';
 import currentSpouseMonthlySupport from '../pages/currentSpouseMonthlySupport';
+import currentSpouseMaritalHistory from '../pages/currentSpouseMaritalHistory';
 import dateOfCurrentMarriage from '../pages/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from '../pages/reasonForCurrentSeparation';
 
@@ -456,6 +457,13 @@ const formConfig = {
           },
           uiSchema: reasonForCurrentSeparation.uiSchema,
           schema: reasonForCurrentSeparation.schema,
+        },
+        currentSpouseMaritalHistory: {
+          title: 'Current spouse marital history',
+          path: 'household/marital-status/spouse-marital-history',
+          depends: isMarried,
+          uiSchema: currentSpouseMaritalHistory.uiSchema,
+          schema: currentSpouseMaritalHistory.schema,
         },
         marriageInfo: {
           title: 'Marriage history',
