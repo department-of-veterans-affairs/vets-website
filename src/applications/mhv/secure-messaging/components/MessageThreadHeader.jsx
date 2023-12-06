@@ -11,7 +11,12 @@ import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 
 const MessageThreadHeader = props => {
-  const { message, cannotReply } = props;
+  const {
+    message,
+    cannotReply,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+  } = props;
   const { threadId, messageId, category, subject, sentDate } = message;
 
   const history = useHistory();
@@ -72,20 +77,22 @@ const MessageThreadHeader = props => {
         </h1>
         <CannotReplyAlert visible={cannotReply} />
       </header>
-      {threadId && (
-        <MessageActionButtons
-          threadId={threadId}
-          hideReplyButton={cannotReply}
-          handleReplyButton={handleReplyButton}
-        />
-      )}
+      <MessageActionButtons
+        threadId={threadId}
+        hideReplyButton={cannotReply}
+        handleReplyButton={handleReplyButton}
+        isCreateNewModalVisible={isCreateNewModalVisible}
+        setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+      />
     </div>
   );
 };
 
 MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
+  isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
+  setIsCreateNewModalVisible: PropTypes.func,
   onReply: PropTypes.func,
 };
 
