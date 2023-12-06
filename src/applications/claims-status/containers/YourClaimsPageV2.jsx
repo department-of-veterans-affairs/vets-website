@@ -32,7 +32,6 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import MobileAppMessage from '../components/MobileAppMessage';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItemV2 from '../components/StemClaimListItem';
 import StemClaimListItemV3 from '../components/StemClaimListItemV3';
@@ -290,7 +289,6 @@ class YourClaimsPageV2 extends React.Component {
               Check your claim, decision review, or appeal status
             </h1>
             <va-on-this-page />
-            <MobileAppMessage />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
