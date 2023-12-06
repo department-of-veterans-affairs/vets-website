@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { COOKIES, CLIENT_IDS } from 'platform/utilities/oauth/constants';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { touStyles } from '../helpers';
+import { touStyles } from '../constants';
 
 export default function Declined() {
   const shouldRedirectToMobile =

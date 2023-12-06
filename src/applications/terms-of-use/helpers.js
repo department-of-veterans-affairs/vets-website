@@ -4,7 +4,10 @@ import {
   cernerEnvPrefixes,
   logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { logout as IAMLogout } from '@department-of-veterans-affairs/platform-user/exports';
+import {
+  logout as IAMLogout,
+  AUTHN_SETTINGS,
+} from '@department-of-veterans-affairs/platform-user/exports';
 
 export const parseRedirectUrl = url => {
   if (!url) {
@@ -34,6 +37,23 @@ export const parseRedirectUrl = url => {
   return `${environment.BASE_URL}`;
 };
 
+export const validateWhichRedirectUrlToUse = redirectionURL => {
+  const storedURL = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
+  const hostname = (storedURL && new URL(storedURL)?.hostname) ?? '';
+  // Should be for USiP clients only
+  if (
+    storedURL &&
+    !hostname?.includes(`${new URL(environment.BASE_URL).hostname}`)
+  ) {
+    return storedURL;
+  }
+  // should respect the query params
+  return (
+    redirectionURL.searchParams.get('redirect_url') ||
+    redirectionURL.searchParams.get('ssoeTarget')
+  );
+};
+
 export const declineAndLogout = ({
   termsCodeExists,
   isAuthenticatedWithSiS,
@@ -49,16 +69,3 @@ export const declineAndLogout = ({
     IAMLogout({ queryParams: { [`agreements_declined`]: true } });
   }
 };
-
-export const errorMessages = {
-  network: `We had a connection issue on our end. Please try again in a few minutes.`,
-};
-
-export const touStyles = `
-  #vetnav { display: none; }
-  #legacy-header { min-height: auto; }
-  #login-root { visibility: hidden; }
-  #mega-menu { min-height: auto; }
-  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole { display: none; }
-  #header-v2 > div > nav > div > div { visibility: hidden; }
-`;

@@ -10,10 +10,10 @@ import {
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import {
   parseRedirectUrl,
-  errorMessages,
-  touStyles,
   declineAndLogout,
+  validateWhichRedirectUrlToUse,
 } from '../helpers';
+import { touStyles, errorMessages } from '../constants';
 import touData from '../touData';
 
 const touUpdatedDate = `September 2023`;
@@ -26,10 +26,7 @@ export default function TermsOfUse() {
   const redirectLocation = new URL(window.location);
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
-  const redirectUrl =
-    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
-    redirectLocation.searchParams.get('redirect_url') ||
-    redirectLocation.searchParams.get('ssoeTarget');
+  const redirectUrl = validateWhichRedirectUrlToUse(redirectLocation);
   const shouldRedirectToMobile = sessionStorage.getItem('ci') === 'vamobile';
 
   useEffect(
