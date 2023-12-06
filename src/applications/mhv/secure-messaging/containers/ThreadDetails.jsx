@@ -15,12 +15,9 @@ import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
-import {
-  PrintMessageOptions,
-  // PageTitles
-} from '../util/constants';
+import { PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
-// import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
+// import { navigateToFolderByFolderId } from '../util/helpers';
 import { getFolders, retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
@@ -91,24 +88,6 @@ const ThreadDetails = props => {
     [dispatch, threadId, location.pathname],
   );
 
-  // useEffect(
-  //   () => {
-  //     if (isLoaded) {
-  //       if (draftMessage?.messageId) {
-  //         if (draftMessageHistory?.length > 0) {
-  //           setIsReply(true);
-  //         } else {
-  //           setIsDraft(true);
-  //         }
-  //         updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
-  //       } else if (message?.messageId) {
-  //         setIsMessage(true);
-  //       }
-  //     }
-  //   },
-  //   [message, draftMessage, draftMessageHistory, isLoaded],
-  // );
-
   useEffect(
     () => {
       if (!isCreateNewModalVisible) {
@@ -117,11 +96,19 @@ const ThreadDetails = props => {
           folder !== undefined && !alertVisible?.isActive
             ? 'h1'
             : alertVisible?.isActive && 'va-alert';
-        focusElement(document.querySelector(alertSelector));
+        setTimeout(() => {
+          focusElement(document.querySelector(alertSelector));
+        }, 300);
       }
     },
-    [alertList, folder, isCreateNewModalVisible],
+    [alertList, folder, isCreateNewModalVisible, header],
   );
+
+  useEffect(() => {
+    if (header.current) {
+      focusElement(header.current);
+    }
+  });
 
   const content = () => {
     if (!isLoaded) {

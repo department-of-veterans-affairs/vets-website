@@ -1,8 +1,15 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
   dateFormat,
@@ -38,6 +45,7 @@ const ReplyDraftItem = props => {
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const textareaRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
 
@@ -65,6 +73,7 @@ const ReplyDraftItem = props => {
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [saveError, setSaveError] = useState(null);
   // const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [focusToTextarea, setFocusToTextarea] = useState(false);
 
   const formattededSignature = useMemo(
     () => {
@@ -353,6 +362,18 @@ const ReplyDraftItem = props => {
     });
   }
 
+  useEffect(
+    () => {
+      if (editMode && focusToTextarea) {
+        setTimeout(() => {
+          focusElement(textareaRef.current);
+          setFocusToTextarea(false);
+        }, 300);
+      }
+    },
+    [editMode, focusToTextarea],
+  );
+
   return (
     <>
       {saveError && (
@@ -419,6 +440,7 @@ const ReplyDraftItem = props => {
             </section>
           ) : (
             <va-textarea
+              ref={textareaRef}
               data-dd-privacy="mask"
               label="Message"
               required
@@ -469,9 +491,10 @@ const ReplyDraftItem = props => {
           <p className="vads-u-margin-top--2">{draft.body}</p>
           <va-button
             secondary
-            text="Edit draft"
+            text={`Edit draft ${draftsequence}`}
             onClick={() => {
               toggleEditHandler(draft.messageId);
+              setFocusToTextarea(true);
             }}
           />
         </>

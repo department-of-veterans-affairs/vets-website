@@ -103,6 +103,9 @@ const FolderThreadListView = props => {
   useEffect(
     () => {
       if (folder?.folderId !== (null || undefined)) {
+        if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+          updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+        }
         if (folder.folderId !== threadSort?.folderId) {
           dispatch(
             setThreadSortOrder(
@@ -112,9 +115,6 @@ const FolderThreadListView = props => {
             ),
           );
           // updates page title
-          if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-            updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
-          }
         } else {
           dispatch(
             setThreadSortOrder(

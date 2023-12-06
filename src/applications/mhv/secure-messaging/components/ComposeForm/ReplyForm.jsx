@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,12 +7,15 @@ import { clearDraft } from '../../actions/draftDetails';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import ReplyDrafts from './ReplyDrafts';
+import { updatePageTitle } from '../../util/helpers';
+import { PageTitles } from '../../util/constants';
 
 const ReplyForm = props => {
-  const { cannotReply, drafts, header, replyMessage } = props;
+  const { cannotReply, drafts, replyMessage } = props;
   const dispatch = useDispatch();
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
+  const header = useRef();
 
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
@@ -53,6 +56,24 @@ const ReplyForm = props => {
     [alertStatus],
   );
 
+  useEffect(() => {
+    if (header.current) {
+      focusElement(header.current);
+    }
+  }, []);
+
+  useEffect(
+    () => {
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${replyMessage.category}: ${replyMessage.subject} ${
+          PageTitles.PAGE_TITLE_TAG
+        }`,
+      );
+    },
+    [replyMessage],
+  );
+
   const messageTitle = useMemo(
     () => {
       const casedCategory =
@@ -71,7 +92,6 @@ const ReplyForm = props => {
         <CannotReplyAlert visible={cannotReply} />
 
         <section>
-          <h2 className="sr-only">Reply draft edit mode.</h2>
           <form
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
