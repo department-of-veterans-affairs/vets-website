@@ -58,7 +58,7 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      if (userInput.length >= 255) {
+      if (userInput.length > 255) {
         return;
       }
       this.props.fetchSearchResults(userInput, page, {
@@ -101,6 +101,10 @@ class SearchApp extends React.Component {
     const pageFromURL = rawPageFromURL
       ? parseInt(rawPageFromURL, 10)
       : undefined;
+
+    if (userInput.length > 255 || userInputFromURL > 255) {
+      return;
+    }
 
     const repeatSearch = userInputFromURL === userInput && pageFromURL === page;
 
@@ -323,6 +327,18 @@ class SearchApp extends React.Component {
     return [];
   };
 
+  handleInputChange = e => {
+    this.setState({
+      userInput: e.target.value,
+    });
+  };
+
+  fetchInputValue = input => {
+    this.setState({
+      userInput: input,
+    });
+  };
+
   renderResults() {
     const {
       loading,
@@ -332,7 +348,7 @@ class SearchApp extends React.Component {
       results,
     } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
-    const hasUserInputError = this.state.userInput.length >= 255;
+    const hasUserInputError = this.state.userInput.length > 255;
     const { userInput } = this.state;
 
     // Reusable search input
@@ -355,8 +371,8 @@ class SearchApp extends React.Component {
                 type="text"
                 name="query"
                 aria-label="Enter a keyword"
-                maxLength="255"
-                value={this.state.userInput}
+                maxLength="256"
+                value={userInput}
                 onChange={this.handleInputChange}
               />
               <button
@@ -372,7 +388,7 @@ class SearchApp extends React.Component {
           {this.props.searchDropdownComponentEnabled && (
             <SearchDropdownComponent
               buttonText="Search"
-              canSubmit
+              canSubmit={!hasUserInputError}
               id="search-results-page-dropdown"
               componentClassName=""
               containerClassName=""
@@ -386,6 +402,7 @@ class SearchApp extends React.Component {
               startingValue={userInput}
               submitOnClick
               submitOnEnter
+              fetchInputValue={this.fetchInputValue}
               fetchSuggestions={this.fetchSuggestions}
               onInputSubmit={this.onInputSubmit}
               onSuggestionSubmit={this.onSuggestionSubmit}
@@ -395,9 +412,9 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    if ((hasErrors && !loading) || userInput.length >= 255) {
+    if ((hasErrors && !loading) || userInput.length > 255) {
       const errorMessage =
-        userInput.length >= 255
+        userInput.length > 255
           ? 'The search is over the character limit. Shorten the search and try again.'
           : `We’re sorry. Something went wrong on our end, and your search
       didn't go through. Please try again`;

@@ -245,9 +245,5 @@
     max-width: 62.5em;
     display: flex;
     flex-direction: column;
-
-    @media (min-width: $medium-screen) {
-      flex-direction: row;
-    }
   }
 }

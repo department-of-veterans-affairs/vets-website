@@ -82,6 +82,10 @@ class SearchDropdownComponent extends React.Component {
      * */
     onSuggestionSubmit: PropTypes.func,
     /**
+     * A function that is passed to retrieve the input for the search app component
+     * */
+    fetchInputValue: PropTypes.func,
+    /**
      * A function that is passed the input value as a param,
      * and is called (with a debounce) whenever the value of the input field changes
      * this function MUST return an array of strings (suggestions)
@@ -118,6 +122,7 @@ class SearchDropdownComponent extends React.Component {
     formatSuggestions: false,
     fullWidthSuggestions: false,
     mobileResponsive: false,
+    fetchInputValue: undefined,
     getInputValue: undefined,
     onInputSubmit: undefined,
     onSuggestionSubmit: undefined,
@@ -166,12 +171,16 @@ class SearchDropdownComponent extends React.Component {
   // whenever the Input Value changes, call the prop function to export its value to the parent component
   componentDidUpdate(prevProps, prevState) {
     const { inputValue } = this.state;
-    const { getInputValue } = this.props;
+    const { getInputValue, fetchInputValue } = this.props;
 
     const inputChanged = prevState.inputValue !== inputValue;
 
     if (getInputValue && inputChanged) {
       getInputValue(inputValue);
+    }
+
+    if (fetchInputValue && inputChanged) {
+      fetchInputValue(inputValue);
     }
 
     clearTimeout(this.updateA11yTimeout);
@@ -648,6 +657,7 @@ class SearchDropdownComponent extends React.Component {
             } ${inputClassName}`}
             id={`${id}-input-field`}
             data-e2e-id={`${id}-input-field`}
+            maxLength="255"
             role="combobox"
             type="text"
             tabIndex="0"
@@ -725,7 +735,6 @@ class SearchDropdownComponent extends React.Component {
               onKeyDown={this.handleButtonShift}
             >
               <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
-              <span className="usa-sr-only">Search</span>
               {buttonText && <span className="button-text">{buttonText}</span>}
             </button>
           )}
