@@ -53,7 +53,7 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         >
           {getDynamicAccordions(formResponses).map((accordion, index) => (
             <va-accordion-item
-              level="3"
+              level="4"
               data-testid={`il-results-${index}`}
               header={accordion.title}
               key={`il-results-${index}`}

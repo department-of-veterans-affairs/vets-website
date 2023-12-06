@@ -47,12 +47,8 @@ const HomePage = ({ router, setIntroPageViewed }) => {
       </p>
       <p>
         Are you the surviving family member of a Veteran?{' '}
-        <a
-          href="http://preview-prod.vfs.va.gov/preview?nodeId=47278#information-for-survivors"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Get PACT Act information for survivors (opens in a new tab)
+        <a href="http://preview-prod.vfs.va.gov/preview?nodeId=47278#information-for-survivors">
+          Get PACT Act information for survivors
         </a>
       </p>
     </>
