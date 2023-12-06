@@ -46,5 +46,7 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
       },
     });
     composePage.sendMessage();
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });
