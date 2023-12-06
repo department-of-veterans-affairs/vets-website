@@ -412,25 +412,15 @@ class ReviewCollapsibleChapter extends React.Component {
         header={chapterTitle}
         subHeader={this.props.hasUnviewedPages ? subHeader : ''}
         onClick={this.handleChapterClick}
+        data-unviewed-pages={this.props.hasUnviewedPages}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
         {this.props.hasUnviewedPages && (
-          <>
-            <i
-              aria-hidden="true"
-              className="fas fa-exclamation-circle vads-u-color--secondary"
-              slot="subheader-icon"
-            />
-            <va-alert
-              role="alert"
-              status="error"
-              background-only
-              aria-describedby={`collapsibleButton${this.id}`}
-            >
-              <span className="sr-only">Error</span>
-              <span>{subHeader}</span>
-            </va-alert>
-          </>
+          <i
+            aria-hidden="true"
+            className="fas fa-exclamation-circle vads-u-color--secondary"
+            slot="subheader-icon"
+          />
         )}
         {this.getChapterContent(this.props)}
       </va-accordion-item>

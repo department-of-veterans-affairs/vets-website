@@ -6,9 +6,9 @@
       "last": "Doe",
       "suffix": "Sr."
     },
-    "veteranId": { "ssn": "123123123", "vaFileNumber": "12345678" },
+    "veteranSocialSecurityNumber": "123123123",
+    "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
-    "vaClaimsHistory": false,
     "veteranDateOfBirth": "1960-01-01",
     "servicePeriods": [
       {
@@ -47,7 +47,9 @@
     },
     "socialSecurityDisability": false,
     "medicalCondition": false,
-    "nursingHome": false,
+    "nursingHome": true,
+    "medicaidCoverage": false,
+    "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
     "vaMedicalCenters": [
@@ -109,6 +111,11 @@
       }
     ],
     "maritalStatus": "Married",
+    "currentSpouseFullName": {
+      "first": "Jessica",
+      "last": "Doe"
+    },
+    "dateOfCurrentMarriage": "1989-03-02",
     "marriages": [
       {
         "spouseFullName": {
@@ -309,16 +316,17 @@
     },
     "veteranAddress": {
       "street": "123 8th st",
+      "street2": "Apt A-3",
       "city": "Hadley",
       "country": "USA",
       "state": "ME",
       "postalCode": "01050",
-      "email": "test@example.com",
-      "altEmail": "test2@example.com",
-      "dayPhone": 1231231231,
-      "nightPhone": 1231231231,
-      "mobilePhone": 1231231231
+      "isMilitary": false
     },
+    "email": "test@example.com",
+    "phone": 1231231231,
+    "mobilePhone": 1231231231,
+    "internationalPhone": 1231231231,
     "view:aidAttendance": true
   }
 }

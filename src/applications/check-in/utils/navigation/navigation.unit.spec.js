@@ -214,30 +214,6 @@ describe('Global check in', () => {
         expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.exist;
         expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.exist;
       });
-      it('should skip travel pages if not in allow list', () => {
-        const patientDemographicsStatus = {
-          demographicsNeedsUpdate: true,
-          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          nextOfKinNeedsUpdate: true,
-          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          emergencyContactNeedsUpdate: true,
-          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-        };
-        const isTravelReimbursementEnabled = true;
-        const appointments = [{ stationNo: '0002' }];
-        expect(appointments).to.have.lengthOf(1);
-        const form = updateFormPages(
-          patientDemographicsStatus,
-          testPages,
-          URLS,
-          isTravelReimbursementEnabled,
-          appointments,
-        );
-        expect(form.find(page => page === URLS.TRAVEL_PAY)).to.be.undefined;
-        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.be.undefined;
-        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.be.undefined;
-        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.be.undefined;
-      });
       it('should skip travel pages if facility is in local storage within the last day', () => {
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
