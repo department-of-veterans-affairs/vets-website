@@ -179,6 +179,33 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('should render results where sort option is last name (non-organization)', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        searchResults={testDataResponse.data}
+        query={{
+          representativeType: 'claim_agents',
+          sortType: 'last_name_asc',
+          inProgress: false,
+          context: { location: 'new york' },
+        }}
+        pagination={{ totalEntries: 25, currentPage: 2, totalPages: 3 }}
+      />,
+    );
+
+    const expectedString =
+      'Showing 11 - 20 of 25 results for Claim Agents within 50 miles of "new york"';
+    const actualString = wrapper.find('h2').text();
+
+    // Remove whitespaces and special characters
+    const cleanExpected = expectedString.replace(/\s+/g, '');
+    const cleanActual = actualString.replace(/\s+/g, '');
+
+    expect(cleanActual).to.equal(cleanExpected);
+
+    wrapper.unmount();
+  });
+
   it('should refresh header with new results', () => {
     let wrapper = shallow(
       <SearchResultsHeader
