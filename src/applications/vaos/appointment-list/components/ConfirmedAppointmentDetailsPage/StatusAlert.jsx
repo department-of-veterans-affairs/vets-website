@@ -38,6 +38,7 @@ export default function StatusAlert({ appointment, facility }) {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { isPastAppointment } = appointment.vaos;
+  const avsLink = appointment.avsPath;
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -69,16 +70,18 @@ export default function StatusAlert({ appointment, facility }) {
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
           This appointment occurred in the past.
         </p>
-        <va-link
-          text="Go to after-visit summary"
-          href={appointment.avsPath}
-          data-testid="after-vist-summary-link"
-          onClick={() =>
-            recordEvent({
-              event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
-            })
-          }
-        />
+        {avsLink && (
+          <va-link
+            text="Go to after-visit summary"
+            href={appointment.avsPath}
+            data-testid="after-vist-summary-link"
+            onClick={() =>
+              recordEvent({
+                event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
+              })
+            }
+          />
+        )}
       </>
     );
   }
