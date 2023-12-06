@@ -10,10 +10,10 @@ import { addOverlayTriggers } from '../../../legacy/menu';
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [canShowLoginModal, setCanShowLoginModal] = useState(true);
-  // console.log('is the header mounting');
+  console.log('THIS IS THE MOBILE HEADER');
 
   useEffect(() => {
-    // console.log('this runs (header)');
+    console.log('this runs (header)');
     addFocusBehaviorToCrisisLineModal();
     addOverlayTriggers(setCanShowLoginModal);
   }, []);
