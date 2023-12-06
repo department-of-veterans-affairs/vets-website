@@ -45,15 +45,12 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3>Gather your information</h3>
-
               <h4>Here's what you'll need to apply:</h4>
-
               <ul>
                 <li>
                   Personal information (including Social Security number and
                   date of birth).
                 </li>
-
                 <li>
                   Military history or the military history of the Veteran or
                   service member you're connected to.
@@ -104,9 +101,7 @@ class IntroductionPage extends React.Component {
                   adult child's disability.
                 </li>
               </ul>
-
               <h4>What if I need help filling out my application?</h4>
-
               <p>
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your application.
