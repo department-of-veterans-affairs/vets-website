@@ -36,7 +36,6 @@ describe('Check confirmation message after save draft', () => {
       },
     });
     // next line is for checking if assertion works properly
-
     cy.get('#save-draft-button')
       .should('exist')
       .and('be.focused');
