@@ -26,7 +26,7 @@ const RepCard = props => {
       {name && (
         <>
           <p className="va-address-block vads-u-margin-bottom--4">
-            <strong>{name}</strong>, {type}
+            <h3>{name}</h3>, {type}
             <br />
             <va-telephone contact={phone} />
             <br />
