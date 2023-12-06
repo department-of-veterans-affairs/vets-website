@@ -12,10 +12,29 @@ export const getCareSummariesAndNotesList = () => async dispatch => {
   }
 };
 
-export const getCareSummaryAndNotesDetails = noteId => async dispatch => {
+export const getCareSummaryAndNotesDetails = (
+  noteId,
+  noteList,
+) => async dispatch => {
   try {
-    const response = await getNote(noteId);
-    dispatch({ type: Actions.CareSummariesAndNotes.GET, response });
+    // Check if noteList has data
+    if (noteList && noteList.length > 0) {
+      const matchingNote = noteList.find(item => item.id === noteId);
+
+      if (matchingNote) {
+        // If a matching note is found, dispatch it
+        dispatch({
+          type: Actions.CareSummariesAndNotes.GET_FROM_LIST,
+          response: matchingNote,
+        });
+        return;
+      }
+    } else {
+      // If noteList has no data,
+      // or if the noteList item can't be found, use getNote(noteId)
+      const response = await getNote(noteId);
+      dispatch({ type: Actions.CareSummariesAndNotes.GET, response });
+    }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }

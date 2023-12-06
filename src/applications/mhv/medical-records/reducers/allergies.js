@@ -72,6 +72,12 @@ export const allergyReducer = (state = initialState, action) => {
         allergyDetails: convertAllergy(action.response),
       };
     }
+    case Actions.Allergies.GET_FROM_LIST: {
+      return {
+        ...state,
+        allergyeDetails: action.response,
+      };
+    }
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,

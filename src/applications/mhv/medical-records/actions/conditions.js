@@ -12,10 +12,31 @@ export const getConditionsList = () => async dispatch => {
   }
 };
 
-export const getConditionDetails = conditionId => async dispatch => {
+export const getConditionDetails = (
+  conditionId,
+  conditionList,
+) => async dispatch => {
   try {
-    const response = await getCondition(conditionId);
-    dispatch({ type: Actions.Conditions.GET, response });
+    // Check if conditionList has data
+    if (conditionList && conditionList.length > 0) {
+      const matchingConditon = conditionList.find(
+        item => item.id === conditionId,
+      );
+
+      if (matchingConditon) {
+        // If a matching condition is found, dispatch it
+        dispatch({
+          type: Actions.Conditions.GET_FROM_LIST,
+          response: matchingConditon,
+        });
+        return;
+      }
+    } else {
+      // If conditionList has no data,
+      // or if the conditionList item can't be found, use getCondition(conditionId)
+      const response = await getCondition(conditionId);
+      dispatch({ type: Actions.Conditions.GET, response });
+    }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }

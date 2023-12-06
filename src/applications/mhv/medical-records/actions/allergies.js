@@ -12,10 +12,26 @@ export const getAllergiesList = () => async dispatch => {
   }
 };
 
-export const getAllergyDetails = id => async dispatch => {
+export const getAllergyDetails = (id, allergyList) => async dispatch => {
   try {
-    const response = await getAllergy(id);
-    dispatch({ type: Actions.Allergies.GET, response });
+    // Check if allergyList has data
+    if (allergyList && allergyList.length > 0) {
+      const matchingAllergy = allergyList.find(item => item.id === id);
+
+      if (matchingAllergy) {
+        // If a matching allergy is found, dispatch it
+        dispatch({
+          type: Actions.Allergies.GET_FROM_LIST,
+          response: matchingAllergy,
+        });
+        return;
+      }
+    } else {
+      // If allergyList has no data,
+      // or if the allergyList item can't be found, use getAllergy(id)
+      const response = await getAllergy(id);
+      dispatch({ type: Actions.Allergies.GET, response });
+    }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }

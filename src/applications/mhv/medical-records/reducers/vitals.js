@@ -73,6 +73,12 @@ export const vitalReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.Vitals.GET_FROM_LIST: {
+      return {
+        ...state,
+        vitalDetails: action.response,
+      };
+    }
     case Actions.Vitals.GET_LIST: {
       return {
         ...state,
