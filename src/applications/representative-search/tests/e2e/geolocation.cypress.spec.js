@@ -1,4 +1,5 @@
 import mockLaLocation from '../../constants/mock-la-location.json';
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 Cypress.Commands.add(
   'mockGeolocation',
@@ -17,8 +18,13 @@ describe('User geolocation', () => {
   it('geolocates the user(', () => {
     // Mock the call to Mapbox
     cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
-
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'find_a_representative', value: true }],
+      },
+    });
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
     cy.injectAxe();
     cy.axeCheck();
     cy.mockGeolocation();

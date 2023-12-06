@@ -45,7 +45,7 @@ describe('Vaccines details container', () => {
 
   it('displays the vaccine name as an h1', () => {
     const vaccineName = screen.getByText(
-      'INFLUENZA, INJECTABLE, QUADRIVALENT',
+      'Vaccines: INFLUENZA, INJECTABLE, QUADRIVALENT',
       {
         exact: true,
         selector: 'h1',
@@ -138,7 +138,7 @@ describe('Vaccine details container with errors', () => {
     });
   });
 
-  it('should not display the formatted date if startDate or endDate is missing', () => {
+  it('should not display the formatted date if the date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         EMPTY_FIELD,

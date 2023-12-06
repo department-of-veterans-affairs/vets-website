@@ -1,6 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import MicrobiologyListPage from './pages/MicrobiologyListPage';
-// import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
+import MicrobiologyDetailsPage from './pages/MicrobiologyDetailsPage';
 
 describe('Medical Records View LabsAndTestsListPage ', () => {
   const site = new MedicalRecordsSite();
@@ -15,16 +15,18 @@ describe('Medical Records View LabsAndTestsListPage ', () => {
 
   it('Toggle Menu button Print or download ', () => {
     // should display a toggle menu button
-    MicrobiologyListPage.verifyPrintOrDownload();
 
-    // should display print button for a list "Print this list"
-    MicrobiologyListPage.verifyPrintButton();
+    MicrobiologyDetailsPage.verifyPrintOrDownload();
+    MicrobiologyDetailsPage.clickPrintOrDownload();
+
+    // should display print button for a Details "Print this Details"
+    MicrobiologyDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    MicrobiologyListPage.verifyDownloadPDF();
+    MicrobiologyDetailsPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
-    MicrobiologyListPage.verifyDownloadTextFile();
+    // should display a download text file button "Download Details as a text file"
+    MicrobiologyDetailsPage.verifyDownloadTextFile();
 
     cy.injectAxe();
     cy.axeCheck('main', {

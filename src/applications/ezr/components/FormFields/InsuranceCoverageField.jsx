@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
-import { HealthInsuranceAddtlInfoDescription } from '../FormDescriptions/HealthInsuranceDescriptions';
 import { INSURANCE_VIEW_FIELDS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
@@ -45,9 +44,6 @@ const InsuranceCoverageField = ({ defaultValue, error, hasList, onChange }) => {
           {content['validation-required-label']}
         </span>
       </legend>
-
-      {/** Additional Info component for description */}
-      <HealthInsuranceAddtlInfoDescription />
 
       {/** Error message */}
       {error ? (

@@ -14,6 +14,7 @@ import CreateFolderModal from '../components/Modals/CreateFolderModal';
 const Folders = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -39,11 +40,16 @@ const Folders = () => {
   useEffect(
     () => {
       if (!isModalVisible) {
-        focusElement(document.querySelector('h1'));
+        const alertVisible = alertList[alertList?.length - 1];
+        const alertSelector =
+          folders !== undefined && !alertVisible?.isActive
+            ? 'h1'
+            : alertVisible?.isActive && 'va-alert';
+        focusElement(document.querySelector(alertSelector));
         updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
       }
     },
-    [isModalVisible],
+    [alertList, folders, isModalVisible],
   );
 
   const openNewModal = () => {
@@ -83,7 +89,7 @@ const Folders = () => {
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
           My folders
         </h1>
-        <AlertBackgroundBox closeable />
+
         <va-button
           onClick={() => {
             openNewModal();
@@ -102,8 +108,8 @@ const Folders = () => {
           </>
         )}
         <CreateFolderModal
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
+          isCreateNewModalVisible={isModalVisible}
+          setIsCreateNewModalVisible={setIsModalVisible}
           onConfirm={confirmFolderCreate}
           folders={folders}
         />
@@ -111,7 +117,12 @@ const Folders = () => {
     );
   };
 
-  return <div className="folders-container">{content()}</div>;
+  return (
+    <div className="folders-container">
+      <AlertBackgroundBox closeable />
+      {content()}
+    </div>
+  );
 };
 
 export default Folders;

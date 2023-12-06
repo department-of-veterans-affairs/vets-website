@@ -1,10 +1,7 @@
-// Dependencies.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
-// relative imports
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
 import { sentryLogger } from './index';
@@ -44,9 +41,10 @@ const DownloadPDFGuidance = ({
         </Provider>,
         div,
       );
+
       parentEl.insertBefore(div, link); // Insert modal on DOM
+
       recordEvent({
-        // Record GA event
         event: 'int-modal-click',
         'modal-status': 'opened',
         'modal-title': 'Download this PDF and open it in Acrobat Reader',

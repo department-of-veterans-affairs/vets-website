@@ -16,9 +16,6 @@ describe('Medications Landing Page Empty Medications List', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLinkforEmptyMedicationsList();
