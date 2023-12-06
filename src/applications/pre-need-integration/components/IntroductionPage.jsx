@@ -38,175 +38,96 @@ class IntroductionPage extends React.Component {
             startText="Start the pre-need eligibility application"
           />
         )}
-        {// MBMS-53548
-        environment.isProduction() ? (
-          <h2 className="vads-u-font-size--h3">
-            Follow the steps below to get started
-          </h2>
-        ) : (
-          <h2 className="vads-u-font-size--h3">
-            Follow these steps to get started
-          </h2>
-        )}
+        <h2 className="vads-u-font-size--h3">
+          Follow these steps to get started
+        </h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              {// MBMS-53548
-              environment.isProduction() ? (
-                <h3>Prepare</h3>
-              ) : (
-                <h3>Gather your information</h3>
-              )}
-              {// MBMS-53548
-              environment.isProduction() ? (
-                <h4>When you apply, be sure to have these on hand:</h4>
-              ) : (
-                <h4>Here's what you'll need to apply:</h4>
-              )}
+              <h3>Gather your information</h3>
+
+              <h4>Here's what you'll need to apply:</h4>
+
               <ul>
                 <li>
                   Personal information (including Social Security number and
                   date of birth).
                 </li>
-                {// MBMS-53548
-                environment.isProduction() ? (
-                  <li>
-                    Military history or the military history of the service
-                    member or Veteran who’s sponsoring your application.
-                  </li>
-                ) : (
-                  <li>
-                    Military history or the military history of the Veteran or
-                    service member you're connected to.
-                  </li>
-                )}
+
+                <li>
+                  Military history or the military history of the Veteran or
+                  service member you're connected to.
+                </li>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be
                   buried.
                   <br />
-                  {// MBMS-53548
-                  environment.isProduction() ? (
-                    <a href={getAppUrl('facilities')}>
-                      Find a VA national cemetery
-                    </a>
-                  ) : (
-                    <a
-                      href={getAppUrl('facilities')}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Find a VA national cemetery (opens in a new tab)
-                    </a>
-                  )}
+                  <a
+                    href={getAppUrl('facilities')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Find a VA national cemetery (opens in a new tab)
+                  </a>
                 </li>
               </ul>
               <h4>
                 To help us process your application faster, you can upload:
               </h4>
-              {// MBMS-53548
-              environment.isProduction() ? (
-                <p>
-                  A copy of your or your sponsor’s DD214 or other separation
-                  files.
-                </p>
-              ) : (
-                <p>
-                  A copy of your or your sponsor's DD214 or other separation
-                  files
-                </p>
-              )}
+              <p>
+                A copy of your or your sponsor's DD214 or other separation files
+              </p>
               <h4>Other information for certain applicants you can provide:</h4>
-              {// MBMS-53548
-              environment.isProduction() ? (
-                <ul>
-                  <li>
-                    <strong>
-                      If you’re applying as the legally married spouse or
-                      surviving spouse of a service member or Veteran
-                    </strong>
-                    , you’ll need your personal information (including Social
-                    Security number and date of birth).
-                  </li>
-                  <li>
-                    <strong>
-                      If you’re applying on behalf of someone else
-                    </strong>
-                    , you can upload supporting files or an affidavit showing
-                    you can apply on their behalf.
-                  </li>
-                  <li>
-                    <strong>
-                      If you’re applying for an unmarried adult child of a
-                      service member or Veteran
-                    </strong>
-                    , you can upload supporting files with information about the
-                    adult child’s disability.
-                  </li>
-                </ul>
-              ) : (
-                <ul>
-                  <li>
-                    <strong>
-                      If you're applying as the legally married spouse or
-                      surviving spouse of a Veteran or service member
-                    </strong>
-                    , you'll need your personal details (including Social
-                    Security number and date of birth).
-                  </li>
-                  <li>
-                    <strong>
-                      If you're preparing the application on behalf of someone
-                      else
-                    </strong>
-                    , you can upload supporting files or an affidavit showing
-                    you can complete the application on their behalf.
-                  </li>
-                  <li>
-                    <strong>
-                      If you're preparing the application for an unmarried adult
-                      dependent child of a Veteran or service member
-                    </strong>
-                    , you can also upload supporting files with details about
-                    the adult child's disability.
-                  </li>
-                </ul>
-              )}
+              <ul>
+                <li>
+                  <strong>
+                    If you're applying as the legally married spouse or
+                    surviving spouse of a Veteran or service member
+                  </strong>
+                  , you'll need your personal details (including Social Security
+                  number and date of birth).
+                </li>
+                <li>
+                  <strong>
+                    If you're preparing the application on behalf of someone
+                    else
+                  </strong>
+                  , you can upload supporting files or an affidavit showing you
+                  can complete the application on their behalf.
+                </li>
+                <li>
+                  <strong>
+                    If you're preparing the application for an unmarried adult
+                    dependent child of a Veteran or service member
+                  </strong>
+                  , you can also upload supporting files with details about the
+                  adult child's disability.
+                </li>
+              </ul>
+
               <h4>What if I need help filling out my application?</h4>
-              {// MBMS-53548
-              environment.isProduction() ? (
-                <p>
-                  An accredited representative, like a Veterans Service Officer
-                  (VSO), can help you fill out your claim.
-                  <br />
-                  <a href="/disability/get-help-filing-claim/">
-                    Get help filing your claim
-                  </a>
-                </p>
-              ) : (
-                <p>
-                  An accredited representative, like a Veterans Service Officer
-                  (VSO), can help you fill out your application.
-                  <br />
-                  <a
-                    href="/disability/get-help-filing-claim/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Get help from an accredited representative (opens in a new
-                    tab)
-                  </a>
-                </p>
-              )}
+
+              <p>
+                An accredited representative, like a Veterans Service Officer
+                (VSO), can help you fill out your application.
+                <br />
+                <a
+                  href="/disability/get-help-filing-claim/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get help from an accredited representative (opens in a new
+                  tab)
+                </a>
+              </p>
             </li>
             <li className="process-step list-two">
               <h3>Apply</h3>
               <p>
                 Complete the pre-need eligibility determination form. After
                 submitting the form, you’ll get a confirmation message that you
-                can print for your records.
-                {// MBMS-53548
-                !environment.isProduction() &&
-                  ' This application should take about 20 minutes.'}
+                can print for your records. This application should take about
+                20 minutes.
               </p>
 
               <div style={{ marginBottom: '-25px' }}>
@@ -219,36 +140,16 @@ class IntroductionPage extends React.Component {
                 />
               </div>
             </li>
-            {// MBMS-53548
-            environment.isProduction() ? (
-              <>
-                <li className="process-step list-three">
-                  <h3>VA review</h3>
-                  <p>
-                    We’ll let you know by phone or mail if we need more
-                    information.
-                  </p>
-                </li>
-                <li className="process-step list-four">
-                  <h3>Decision</h3>
-                  <p>
-                    You’ll get a notice in the mail about the decision after we
-                    process your claim.
-                  </p>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="process-step list-three">
-                  <h3>After you apply</h3>
-                  <p>
-                    We'll contact you by phone or mail if we need more
-                    information. Once we process the application, we'll mail you
-                    a letter with our decision.
-                  </p>
-                </li>
-              </>
-            )}
+            <>
+              <li className="process-step list-three">
+                <h3>After you apply</h3>
+                <p>
+                  We'll contact you by phone or mail if we need more
+                  information. Once we process the application, we'll mail you a
+                  letter with our decision.
+                </p>
+              </li>
+            </>
           </ol>
         </div>
         <div className="omb-info--container">
