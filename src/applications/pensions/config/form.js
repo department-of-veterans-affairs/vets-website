@@ -449,6 +449,7 @@ const formConfig = {
           depends: isMarried,
           uiSchema: currentSpouseMonthlySupport.uiSchema,
           schema: currentSpouseMonthlySupport.schema,
+        },
         reasonForCurrentSeparation: {
           title: 'Reason for separation',
           path: 'household/marital-status/reason-for-separation',
