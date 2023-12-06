@@ -7,7 +7,6 @@ import unset from '../../../utilities/data/unset';
 
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
-  isValidARN,
   isValidSSN,
   isValidYear,
   isValidVAFileNumber,
@@ -340,14 +339,6 @@ export function isValidForm(form, pageList, isTesting = false) {
     },
     { isValid: true, errors: [] },
   );
-}
-
-export function validateARN(errors, arn) {
-  if (arn && !isValidARN(arn)) {
-    errors.addError(
-      'Please enter a valid 7-9 digit Alien registration number (dashes allowed)',
-    );
-  }
 }
 
 export function validateSSN(errors, ssn) {

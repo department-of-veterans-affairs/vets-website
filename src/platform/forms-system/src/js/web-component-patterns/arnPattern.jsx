@@ -1,7 +1,6 @@
 import get from 'platform/utilities/data/get';
 import ArnField from '../web-component-fields/ArnField';
 import { vaFileNumberUI, vaFileNumberSchema } from './ssnPattern';
-import { validateARN } from '../validation';
 import ARNReviewWidget from '../review/ARNWidget';
 
 const ARN_DEFAULT_TITLE = 'Alien registration number';
@@ -24,11 +23,13 @@ const arnUI = title => {
     'ui:title': title ?? ARN_DEFAULT_TITLE,
     'ui:webComponentField': ArnField,
     'ui:reviewWidget': ARNReviewWidget,
-    'ui:validations': [validateARN],
     'ui:errorMessages': {
-      pattern:
-        'Please enter a valid 7-9 digit Alien registration number (dashes allowed)',
+      pattern: 'Enter a valid 8 or 9 digit A-number (only numbers are allowed)',
       required: 'Please enter an Alien registration number',
+    },
+    'ui:options': {
+      hint:
+        'Only numbers are allowed. If your A-number is “A12345678,” enter “12345678”',
     },
   };
 };
@@ -46,7 +47,7 @@ const arnUI = title => {
  */
 const arnSchema = {
   type: 'string',
-  pattern: '^[0-9]{7,9}$',
+  pattern: '^\\d{8,9}$',
 };
 
 /**
@@ -63,10 +64,14 @@ const arnSchema = {
  */
 const arnOrVaFileNumberUI = () => {
   return {
-    arn: arnUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI(),
+    arn: {
+      ...arnUI(),
+      'ui:errorMessages': {
+        ...arnUI()['ui:errorMessages'],
+        required: 'Enter at least one identification number',
+      },
     },
+    vaFileNumber: vaFileNumberUI(),
     'ui:options': {
       updateSchema: (formData, _schema, _uiSchema, index, path) => {
         const { arn, vaFileNumber } = get(path, formData) ?? {};
