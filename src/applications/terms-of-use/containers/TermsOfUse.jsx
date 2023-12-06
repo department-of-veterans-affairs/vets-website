@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  apiRequest,
-  logoutUrlSiS,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
-  logout as IAMLogout,
   isAuthenticatedWithOAuth,
   AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
-import { parseRedirectUrl, errorMessages, touStyles } from '../helpers';
+import {
+  parseRedirectUrl,
+  errorMessages,
+  touStyles,
+  declineAndLogout,
+} from '../helpers';
 import touData from '../touData';
 
 const touUpdatedDate = `September 2023`;
@@ -29,6 +30,7 @@ export default function TermsOfUse() {
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
     redirectLocation.searchParams.get('redirect_url') ||
     redirectLocation.searchParams.get('ssoeTarget');
+  const shouldRedirectToMobile = sessionStorage.getItem('ci') === 'vamobile';
 
   useEffect(
     () => {
@@ -69,16 +71,16 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
-          window.location = encodeURI(parseRedirectUrl(redirectUrl));
+          window.location = parseRedirectUrl(redirectUrl);
         }
 
         if (type === 'decline') {
           setShowDeclineModal(false);
-          if (termsCodeExists || isAuthenticatedWithSiS) {
-            window.location = logoutUrlSiS();
-          } else {
-            IAMLogout({ queryParams: { [`agreements_declined`]: true } });
-          }
+          declineAndLogout({
+            termsCodeExists,
+            shouldRedirectToMobile,
+            isAuthenticatedWithSiS,
+          });
         }
       }
     } catch (err) {

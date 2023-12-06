@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { parseRedirectUrl } from '../helpers';
+import { parseRedirectUrl, declineAndLogout } from '../helpers';
 
 describe('parseRedirectUrl', () => {
   const testUrls = {
@@ -17,4 +17,18 @@ describe('parseRedirectUrl', () => {
     });
   });
   expect(parseRedirectUrl(null)).to.eql('https://dev.va.gov');
+});
+
+describe('declineAndLogout', () => {
+  const oldLocation = window.location;
+  afterEach(() => {
+    window.location = oldLocation;
+  });
+  it('should redirect to mobile', () => {
+    const oldPath = '/some-random-place';
+    window.location.pathname = oldPath;
+
+    declineAndLogout({ termsCodeExists: true, shouldRedirectToMobile: true });
+    expect(window.location.pathname).to.not.eql(oldPath);
+  });
 });

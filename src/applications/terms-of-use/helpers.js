@@ -2,7 +2,9 @@ import {
   environment,
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { logout as IAMLogout } from '@department-of-veterans-affairs/platform-user/exports';
 
 export const parseRedirectUrl = url => {
   if (!url) {
@@ -30,6 +32,22 @@ export const parseRedirectUrl = url => {
       : parsedUrl;
   }
   return `${environment.BASE_URL}`;
+};
+
+export const declineAndLogout = ({
+  termsCodeExists,
+  isAuthenticatedWithSiS,
+  shouldRedirectToMobile,
+}) => {
+  if (termsCodeExists || isAuthenticatedWithSiS) {
+    if (shouldRedirectToMobile) {
+      window.location.assign('/terms-of-use/declined');
+    } else {
+      window.location = logoutUrlSiS();
+    }
+  } else {
+    IAMLogout({ queryParams: { [`agreements_declined`]: true } });
+  }
 };
 
 export const errorMessages = {
