@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 
 export function makeFormProperties(prefix) {
   return {
@@ -57,16 +57,16 @@ function makeSchemas(prefix) {
   const uiSchema = {
     [properties.bankName]: {
       'ui:title': 'Name of Financial Institution',
-      // 'ui:errorMessages': {
-      //   required: 'Please select the type that best describes your account',
-      // },
+      'ui:errorMessages': {
+        required: 'Please enter the name of your Financial Institution',
+      },
     },
     [properties.bankPhone]: phoneUI(
       'Telephone Number of Financial Institution',
     ),
     [properties.accountType]: {
-      'ui:widget': 'radio',
       'ui:title': 'Account type',
+      'ui:widget': 'radio',
       'ui:errorMessages': {
         required: 'Please select the type that best describes your account',
       },
@@ -91,6 +91,13 @@ function makeSchemas(prefix) {
         pattern: 'Please enter your account number',
         required: 'Please enter your account number',
       },
+      'ui:validations': [
+        (errors, field, formData) => {
+          if (field !== formData[properties.accountNumber]) {
+            errors.addError('Account Numbers do not match');
+          }
+        },
+      ],
     },
   };
 

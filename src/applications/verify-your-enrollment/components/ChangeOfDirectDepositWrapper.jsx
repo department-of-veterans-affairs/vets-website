@@ -1,10 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import '../sass/change-of-direct-deposit.scss';
 import ChangeOfDirectDepositForm from './ChangeOfDirectDepositForm';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import { CHANGE_OF_DIRECT_DEPOSIT_TITLE } from '../constants';
+import { CHANGE_OF_DIRECT_DEPOSIT_TITLE, SMALL_SCREEN } from '../constants';
 
 const ChangeOfDirectDepositWrapper = () => {
   const [toggleDirectDepositForm, setToggleDirectDepositForm] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [formData, setFormData] = useState({});
+
+  const PREFIX = 'GI-Bill-Chapters-';
+
+  const handleCloseForm = () => {
+    setToggleDirectDepositForm(false);
+  };
+
+  // called when submitting form
+  const saveBankInfo = () => {
+    // commented out until tied in with redux
+    // const fields = {
+    //     bankname: formData[`${PREFIX}BankName`],
+    //     bankPhone: formData[`${PREFIX}BankPhone`],
+    //     routingNumber: formData[`${PREFIX}RoutingNumber`],
+    //     accountNumber: formData[`${PREFIX}AccountNumber`],
+    //     accountType: formData[`${PREFIX}AccountType`],
+
+    // };
+
+    setFormData({}); // clear form data
+    handleCloseForm(); // close directDeposit form
+    // add redux logic here when API is available
+  };
 
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
@@ -12,10 +39,12 @@ const ChangeOfDirectDepositWrapper = () => {
         Please enter your bank’s routing and account numbers and your account
         type.
       </p>
-      <img
-        src="/img/direct-deposit-check-guide.svg"
-        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-      />
+      {screenWidth > SMALL_SCREEN && (
+        <img
+          src="/img/direct-deposit-check-guide.svg"
+          alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
+        />
+      )}
     </div>
   );
 
@@ -52,13 +81,44 @@ const ChangeOfDirectDepositWrapper = () => {
     </va-additional-info>
   );
 
-  const handleClick = () => {
+  const handleAddNewClick = () => {
+    // toggle show form true
     setToggleDirectDepositForm(true);
   };
 
+  // set innerWidth of screen to screenWidth state
+  // this state handles when to show the check image
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  //   scroll to top of div when edit page is canceled or saved
+  useEffect(
+    () => {
+      if (!toggleDirectDepositForm) {
+        const element = document.getElementById('Direct deposit information');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    },
+    [toggleDirectDepositForm],
+  );
+
   return (
-    <div>
-      <p className="vads-u-font-size--h2">{CHANGE_OF_DIRECT_DEPOSIT_TITLE}</p>
+    <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
+      <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
+        {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
+      </p>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -71,7 +131,7 @@ const ChangeOfDirectDepositWrapper = () => {
       >
         {!toggleDirectDepositForm && (
           <>
-            <va-button onClick={handleClick} text="Add new account" />
+            <va-button onClick={handleAddNewClick} text="Add new account" />
             <va-alert
               close-btn-aria-label="Close notification"
               status="info"
@@ -103,9 +163,36 @@ const ChangeOfDirectDepositWrapper = () => {
         )}
         {toggleDirectDepositForm && (
           <div>
-            <p>Direct deposit information</p>
+            <p className="vads-u-font-weight--bold">Add new account</p>
             {directDepositDescription}
-            <ChangeOfDirectDepositForm />
+            <ChangeOfDirectDepositForm
+              formData={formData}
+              formChange={data => setFormData(data)}
+              formPrefix={PREFIX}
+              formSubmit={saveBankInfo}
+            >
+              <LoadingButton
+                aria-label="save your bank information for GI Bill benefits"
+                type="submit"
+                loadingText="saving bank information"
+                className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
+                // isLoading={directDepositUiState.isSaving}
+              >
+                Save
+              </LoadingButton>
+              <va-button
+                text="Cancel"
+                label="cancel updating your bank information for GI Bill benefits"
+                secondary
+                // disabled={directDepositUiState.isSaving}
+                // className="usa-button-secondary small-screen:vads-u-margin-top--0"
+                onClick={() => {
+                  handleCloseForm();
+                }}
+                data-qa="cancel-button"
+                data-testid={`${PREFIX}form-cancel-button`}
+              />
+            </ChangeOfDirectDepositForm>
           </div>
         )}
       </div>
