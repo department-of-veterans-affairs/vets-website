@@ -9,15 +9,8 @@ import migrations from '../migrations';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import {
-  EditHomePhone,
-  EditMobilePhone,
-  EditEmail,
-  EditAddress,
-} from '../components/EditContactInfo';
-import ContactInfo, { customContactFocus } from '../components/ContactInfo';
-import ContactInfoReview from '../components/ContactInfoReview';
-import AddIssue from '../components/AddIssue';
+
+import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
@@ -45,7 +38,7 @@ import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
 
-import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+import { mayHaveLegacyAppeals } from '../utils/helpers';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
@@ -55,8 +48,6 @@ import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
-  CONTACT_INFO_PATH,
-  CONTESTABLE_ISSUES_PATH,
   ADD_ISSUE_PATH,
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
@@ -75,13 +66,11 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import {
-  focusRadioH3,
-  focusH3,
-  focusIssue,
-  focusEvidence,
-  focusUploads,
-} from '../utils/focus';
+import { focusEvidence, focusUploads } from '../utils/focus';
+
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
+import { appStateSelector } from '../../shared/utils/issues';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -103,7 +92,12 @@ const formConfig = {
   // verifyRequiredPrefill: true,
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.vaProfile],
+    dependencies: [
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
+    ],
   },
   saveInProgress,
   savedFormMessages,
@@ -127,52 +121,8 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        confirmContactInformation: {
-          title: 'Contact information',
-          path: CONTACT_INFO_PATH,
-          CustomPage: ContactInfo,
-          CustomPageReview: ContactInfoReview,
-          uiSchema: contactInfo.uiSchema,
-          schema: contactInfo.schema,
-          // needs useCustomScrollAndFocus: true to work
-          scrollAndFocusTarget: customContactFocus,
-        },
-        editHomePhone: {
-          title: 'Edit home phone number',
-          path: 'edit-home-phone',
-          CustomPage: EditHomePhone,
-          CustomPageReview: EditHomePhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
-        editMobilePhone: {
-          title: 'Edit mobile phone number',
-          path: 'edit-mobile-phone',
-          CustomPage: EditMobilePhone,
-          CustomPageReview: EditMobilePhone,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
-        editEmailAddress: {
-          title: 'Edit email address',
-          path: 'edit-email-address',
-          CustomPage: EditEmail,
-          CustomPageReview: EditEmail,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
-        editMailingAddress: {
-          title: 'Edit mailing address',
-          path: 'edit-mailing-address',
-          CustomPage: EditAddress,
-          CustomPageReview: EditAddress,
-          depends: () => false, // accessed from contact info page
-          uiSchema: {},
-          schema: blankSchema,
-        },
+
+        ...contactInfo,
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
@@ -196,13 +146,12 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusIssue,
         },
         addIssue: {
           title: 'Add issues for review',
           path: ADD_ISSUE_PATH,
           depends: () => false, // accessed from contestable issues
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           CustomPageReview: null,
           uiSchema: {},
           schema: blankSchema,
@@ -234,7 +183,7 @@ const formConfig = {
           CustomPageReview: null, // reviewField renders this!
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
           initialData: {
             form5103Acknowledged: false,
           },
@@ -244,7 +193,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -299,7 +248,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
-          scrollAndFocusTarget: focusH3,
+          scrollAndFocusTarget: focusAlertH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

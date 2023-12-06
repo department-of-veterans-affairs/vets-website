@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import {
   routeToNextAppointmentPage,
@@ -12,8 +14,8 @@ import {
   selectPageChangeInProgress,
 } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
 import useFormState from '../../hooks/useFormState';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const uiSchema = {
   communityCareSystemId: {
@@ -26,7 +28,10 @@ const uiSchema = {
 const pageKey = 'ccClosestCity';
 const pageTitle = 'What’s the closest city to you?';
 
-export default function ClosestCityStatePage() {
+export default function ClosestCityStatePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
@@ -36,6 +41,9 @@ export default function ClosestCityStatePage() {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   const { data, schema, setData } = useFormState({
@@ -85,3 +93,7 @@ export default function ClosestCityStatePage() {
     </div>
   );
 }
+
+ClosestCityStatePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

@@ -7,7 +7,7 @@ const alertContent = (
     <p>
       You can submit this form on VA.gov after you file your BDD claim. Go to My
       VA to find your claim. When you upload your Separation Health Assessment,
-      select this for document type:{' '}
+      select this for file type:{' '}
       <strong>Disability Benefits Questionnaire</strong>.
     </p>
   </>

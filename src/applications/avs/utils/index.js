@@ -36,8 +36,12 @@ const getFormattedAppointmentTime = twentyFourHourTime => {
 };
 
 const getFormattedAppointmentDate = avs => {
-  if (!avs.appointments?.[0]?.datetime) return '';
-  return formatDateLong(parseVistaDateTime(avs.appointments?.[0]?.datetime));
+  if (!avs.clinicsVisited?.[0]?.date) return '';
+  return formatDateLong(
+    parseVistaDateTime(
+      `${avs.clinicsVisited?.[0]?.date}@${avs.clinicsVisited?.[0]?.time}`,
+    ),
+  );
 };
 
 const getFormattedGenerationDate = avs => {

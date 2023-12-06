@@ -100,6 +100,47 @@ describe('Schemaform <FileField>', () => {
       .exist;
   });
 
+  it('should render uswds components', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files', { uswds: true });
+    const formData = [
+      {
+        confirmationCode: 'abcdef',
+        name: 'Test file name.pdf',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: () => <div />,
+      },
+    };
+    const { container } = render(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect($('.delete-upload[uswds]', container)).to.exist;
+    expect($('#upload-button[uswds]', container)).to.exist;
+  });
+
   it('should remove files with empty file object when initializing', async () => {
     const idSchema = {
       $id: 'field',

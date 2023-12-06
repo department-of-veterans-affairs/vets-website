@@ -15,7 +15,7 @@ describe('Pensions spouse marriage history', () => {
     formConfig.chapters.householdInformation.pages.spouseMarriageHistory;
   const uiSchema = marriageHistory.uiSchema.spouseMarriages.items;
   const schema = marriageHistory.schema.properties.spouseMarriages.items;
-  const depends = marriageHistory.depends;
+  const { depends } = marriageHistory;
 
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -70,6 +70,7 @@ describe('Pensions spouse marriage history', () => {
       expect(pageTitle({}, { pagePerItemIndex: 49 })).to.equal(
         'Spouse’s 50th marriage',
       );
+      expect(pageTitle({})).to.equal('Spouse’s first marriage');
     });
   });
 

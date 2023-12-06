@@ -33,13 +33,14 @@ export const App = ({
   isLoggedIn,
   location,
   setFormData,
+  showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
   showMebDgi42Features,
-  showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
+  showMebServiceHistoryCategorizeDisagreement,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -77,7 +78,7 @@ export const App = ({
       if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebCh33SelfForm);
+        getPersonalInfo(showMebEnhancements09);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -95,7 +96,8 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
+      showMebEnhancements09,
     ],
   );
 
@@ -168,10 +170,12 @@ export const App = ({
           showMebDgi42Features,
         });
       }
-      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+      if (
+        showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
+      ) {
         setFormData({
           ...formData,
-          showMebCh33SelfForm,
+          showMeb1990EZMaintenanceAlert,
         });
       }
 
@@ -240,6 +244,16 @@ export const App = ({
         });
       }
 
+      if (
+        showMebServiceHistoryCategorizeDisagreement !==
+        formData.showMebServiceHistoryCategorizeDisagreement
+      ) {
+        setFormData({
+          ...formData,
+          showMebServiceHistoryCategorizeDisagreement,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -253,11 +267,12 @@ export const App = ({
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
+      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
@@ -317,6 +332,7 @@ App.propTypes = {
   firstName: PropTypes.string,
   formData: PropTypes.object,
   // getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
@@ -324,12 +340,14 @@ App.propTypes = {
   location: PropTypes.object,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
-  showMebCh33SelfForm: PropTypes.bool,
+  showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
+  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

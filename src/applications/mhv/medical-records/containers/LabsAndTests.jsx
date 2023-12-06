@@ -1,36 +1,54 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType } from '../util/constants';
+import {
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+  pageTitles,
+  recordType,
+} from '../util/constants';
+import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
-
-  useEffect(() => {
-    dispatch(getLabsAndTestsList());
-  }, []);
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/labs-and-tests',
-            label: 'Lab and test results',
-          },
-        ),
-      );
+      dispatch(getLabsAndTestsList());
     },
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
+      );
+      focusElement(document.querySelector('h1'));
+      updatePageTitle(pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE);
+    },
+    [dispatch],
+  );
+
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return (
+        <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
+      );
+    }
     if (labsAndTests?.length > 0) {
       return (
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
@@ -46,12 +64,13 @@ const LabsAndTests = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 
@@ -60,13 +79,13 @@ const LabsAndTests = () => {
       <h1 className="page-title vads-u-margin-bottom--1">
         Lab and test results
       </h1>
-      <section className="set-width-486">
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-          Most lab and test results are available <strong>36 hours</strong>{' '}
-          after the lab confirms them. Pathology results may take{' '}
-          <strong>14 days</strong> or longer to confirm.{' '}
-        </p>
-      </section>
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+        Most lab and test results are available{' '}
+        <span className="vads-u-font-weight--bold">36 hours</span> after the lab
+        confirms them. Pathology results may take{' '}
+        <span className="vads-u-font-weight--bold">14 days</span> or longer to
+        confirm.{' '}
+      </p>
       {content()}
     </div>
   );

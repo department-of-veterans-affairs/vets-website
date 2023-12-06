@@ -8,13 +8,15 @@ export default {
     'ui:title': ({ formData }) => {
       return (
         <legend>
-          <h3 className="custom-header">
+          <h3>
             {
               SECURITY_QUESTIONS[
                 camelCaseToSnakeAllCaps(formData.securityQuestion)
               ]
             }{' '}
-            <span className="custom-required-span">(*Required)</span>
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
+              (*Required)
+            </span>
           </h3>
         </legend>
       );

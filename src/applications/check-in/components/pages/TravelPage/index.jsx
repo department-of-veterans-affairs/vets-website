@@ -19,7 +19,7 @@ const TravelPage = ({
   eyebrow,
   bodyText,
   helpText,
-  additionalInfo,
+  additionalInfoItems,
   pageType,
   router,
 }) => {
@@ -70,11 +70,14 @@ const TravelPage = ({
             {bodyText}
           </div>
         )}
-        {additionalInfo && (
-          <va-additional-info trigger="Travel reimbursement eligibility">
-            <>{additionalInfo}</>
-          </va-additional-info>
-        )}
+        {additionalInfoItems &&
+          additionalInfoItems.map((infoData, index) => (
+            <React.Fragment key={index}>
+              <va-additional-info uswds trigger={infoData.trigger}>
+                {infoData.info}
+              </va-additional-info>
+            </React.Fragment>
+          ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
@@ -115,7 +118,7 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
-  additionalInfo: PropTypes.string,
+  additionalInfoItems: PropTypes.arrayOf(PropTypes.object),
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,

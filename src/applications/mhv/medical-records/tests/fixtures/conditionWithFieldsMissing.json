@@ -1,0 +1,15 @@
+{
+  "id": "SCT161891005",
+  "recordedDate": "",
+  "name": "Back pain (SCT 161891005)",
+  "active": false,
+  "provider": "Becky",
+  "facility": "",
+  "code": {
+    "coding": { "code": "" },
+    "text": ""
+  },
+  "clinicalStatus": { "coding": { "code": "" } },
+  "asserter": "",
+  "note": ""
+}

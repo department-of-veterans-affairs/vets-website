@@ -1,8 +1,7 @@
 import React from 'react';
-import { routesForNav } from '../../routesForNav';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-export const EditFallbackContent = () => {
+export const EditFallbackContent = ({ routesForNav }) => {
   return (
     <>
       <EditBreadcrumb href="/profile">Back to profile</EditBreadcrumb>

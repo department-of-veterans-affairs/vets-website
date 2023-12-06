@@ -59,7 +59,8 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
             another VA medical center or clinic, or refer you to a non-VA
             medical provider in your community. For urgent health issues, we
             offer same-day appointments, telehealth visits, or walk-in express
-            care.
+            care. Check with your local VA medical center to confirm
+            availability of these services.
           </p>
           <div className="usa-grid-full">
             <div className="vads-u-display--flex">

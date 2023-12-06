@@ -97,7 +97,7 @@ export const FIELD_NAMES = {
   RESIDENTIAL_ADDRESS: 'residentialAddress',
 };
 
-export const FIELD_TITLES = {
+export const FIELD_TITLES = Object.freeze({
   [FIELD_NAMES.PREFERRED_NAME]: 'Preferred name',
   [FIELD_NAMES.PRONOUNS]: 'Pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
@@ -108,7 +108,7 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.EMAIL]: 'Contact email address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'Mailing address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
-};
+});
 
 // optional 'hint text' to display below field titles
 export const FIELD_TITLE_DESCRIPTIONS = {

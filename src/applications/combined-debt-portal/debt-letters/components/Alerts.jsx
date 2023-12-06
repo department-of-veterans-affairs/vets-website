@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const DownloadLettersAlert = () => (
   <va-alert status="warning">
@@ -15,10 +15,11 @@ export const DownloadLettersAlert = () => (
     </p>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       If you have any questions, call us at{' '}
-      <va-telephone contact="800-827-0648" /> (or{' '}
-      <va-telephone contact="1-612-713-6415" international /> from overseas).
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If you have
-      hearing loss, call TTY: <va-telephone contact={CONTACTS[711]} />.
+      <va-telephone contact={CONTACTS.DMC} /> (or{' '}
+      <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
+      overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If
+      you have hearing loss, call TTY:{' '}
+      <va-telephone contact={CONTACTS['711']} />.
     </p>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       We’re working to fix this problem as fast as we can. Check back soon for
@@ -72,8 +73,7 @@ export const ErrorMessage = () => (
     <h4>What you can do</h4>
     <p className="vads-u-font-family--sans vads-u-margin-y--0">
       If you continue having trouble viewing information about your current
-      debts, email us at{' '}
-      <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+      debts, contact us online through <a href="https://ask.va.gov">Ask VA</a>.
     </p>
   </va-alert>
 );

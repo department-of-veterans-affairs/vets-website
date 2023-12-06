@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { formatDateParsedZoneLong } from 'platform/utilities/date';
 import EducationWizard from '../components/EducationWizard';
 import wizardConfig from './wizardConfig';
 
 export function formatPercent(percent) {
-  let validPercent = undefined;
+  let validPercent;
 
   if (!isNaN(parseInt(percent, 10))) {
     validPercent = `${Math.round(percent)}%`;
@@ -131,7 +131,7 @@ export function notQualifiedWarning() {
           </li>
           <li>
             If the information in our records isn't accurate, please call us at
-            888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
+            888-GI-BILL-1 (<va-telephone contact="8884424551" />
             ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET.
           </li>
         </ul>
@@ -186,30 +186,28 @@ export const authenticationErrorMessage = (
     <div className="vads-u-margin-bottom--2">
       <h1>We’re having trouble finding your GI Bill benefit statement</h1>
 
-      <AlertBox
-        headline="The most common reason for this error is that you haven’t yet
-          applied for Post-9/11 GI Bill benefits"
-        content={
-          <>
-            <p>
-              You need to apply for Post-9/11 GI Bill benefits before you can
-              view your GI Bill benefit statement.
-            </p>
+      <VaAlert status="info" visible>
+        <h3 slot="headline">
+          The most common reason for this error is that you haven’t yet applied
+          for Post-9/11 GI Bill benefits
+        </h3>
+        <>
+          <p>
+            You need to apply for Post-9/11 GI Bill benefits before you can view
+            your GI Bill benefit statement.
+          </p>
 
-            <p>
-              After you apply, it’ll take us on average 30 days to process your
-              application. If you’re awarded GI Bill benefits, you’ll be able to
-              access and view your benefit statement.
-            </p>
+          <p>
+            After you apply, it’ll take us on average 30 days to process your
+            application. If you’re awarded GI Bill benefits, you’ll be able to
+            access and view your benefit statement.
+          </p>
 
-            <a href="/education/how-to-apply/">
-              Find out how to apply for Post-9/11 GI Bill benefits
-            </a>
-          </>
-        }
-        status="info"
-        isVisible
-      />
+          <a href="/education/how-to-apply/">
+            Find out how to apply for Post-9/11 GI Bill benefits
+          </a>
+        </>
+      </VaAlert>
     </div>
     <div>
       <h4>Have you already applied for education benefits?</h4>

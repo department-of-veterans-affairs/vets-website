@@ -87,9 +87,14 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerName =
-              data.preparerIdentification?.preparerFullName ??
-              data.veteran.fullName;
+            let signerName = data.veteran.fullName;
+            if (
+              data.preparerIdentification?.preparerFullName &&
+              Object.keys(data.preparerIdentification?.preparerFullName)
+                .length > 0
+            ) {
+              signerName = data.preparerIdentification?.preparerFullName;
+            }
             reviewAndSubmitPageFlow(signerName);
           });
         });

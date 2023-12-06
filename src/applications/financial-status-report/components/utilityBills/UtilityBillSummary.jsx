@@ -1,12 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
+
+export const keyFieldsForUtilityBills = ['name', 'amount'];
 
 const UtilityBillSummary = ({
   data,
@@ -21,10 +30,18 @@ const UtilityBillSummary = ({
     setFormData({
       ...data,
       utilityRecords: utilityRecords.filter(
-        (source, index) => index !== deleteIndex,
+        (_, index) => index !== deleteIndex,
       ),
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goForward = () => {
     goToPath('/credit-card-bills');
@@ -69,8 +86,12 @@ const UtilityBillSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={utility.name}
-                key={utility.name + utility.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(
+                  utility,
+                  keyFieldsForUtilityBills,
+                  index,
+                )}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -93,6 +114,14 @@ const UtilityBillSummary = ({
           />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(utilityRecords[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );

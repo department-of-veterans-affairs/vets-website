@@ -6,7 +6,10 @@ import {
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 export const scrollAndFocusTarget = () => {
-  scrollTo('topScrollElement');
+  // May switch to topScrollElement (form ID at top), but using
+  // topNavScrollElement (between form ID and top navigation links) to better
+  // keep h1 in view
+  scrollTo('topNavScrollElement');
   const radio = $('va-radio');
   if (radio) {
     setTimeout(() => {

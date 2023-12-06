@@ -1,5 +1,7 @@
 import React from 'react';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import { format } from 'date-fns';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   APPEAL_TYPES,
@@ -67,13 +69,14 @@ const Appeal = ({ appeal, name }) => {
     }
   }
 
-  appealTitle += ` updated on ${moment(updatedEventDateString).format(
-    'MMMM D, YYYY',
+  appealTitle += ` updated on ${format(
+    new Date(updatedEventDateString.replace(/-/g, '/')),
+    'MMMM d, yyyy',
   )}`;
   appealTitle = capitalizeFirstLetter(appealTitle);
 
-  return (
-    <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
+  const content = (
+    <>
       <h3 className="vads-u-margin-top--0">
         {appealTitle}
         {/* Claim for compensation received June 7, 1999 */}
@@ -96,19 +99,44 @@ const Appeal = ({ appeal, name }) => {
           )}
           {requestEvent && (
             <p className="vads-u-margin-y--0">
-              Submitted on: {moment(requestEvent.date).format('MMMM D, YYYY')}
+              Submitted on:{' '}
+              {format(
+                new Date(requestEvent.date.replace(/-/g, '/')),
+                'MMMM d, yyyy',
+              )}
             </p>
           )}
         </div>
       </div>
       <CTALink
-        ariaLabel={`View details of ${appealTitle} `}
-        className="vads-u-margin-top--2"
-        text="View details"
+        ariaLabel={`Review details of ${appealTitle} `}
+        className="vads-u-margin-top--2 vads-u-font-weight--bold"
+        text="Review details"
         href={`/track-claims/appeals/${appeal.id}/status`}
+        showArrow
       />
-    </div>
+    </>
   );
+
+  return (
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
+      <Toggler.Enabled>
+        <va-card>
+          <div className="vads-u-padding--1">{content}</div>
+        </va-card>
+      </Toggler.Enabled>
+      <Toggler.Disabled>
+        <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
+          {content}
+        </div>
+      </Toggler.Disabled>
+    </Toggler>
+  );
+};
+
+Appeal.propTypes = {
+  appeal: PropTypes.object.isRequired,
+  name: PropTypes.string,
 };
 
 export default Appeal;

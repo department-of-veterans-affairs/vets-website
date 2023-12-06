@@ -4,9 +4,10 @@ import { expect } from 'chai';
 import { format, formatISO, subDays } from 'date-fns';
 
 import ClosedClaimMessage from '../../components/ClosedClaimMessage';
+import { DATE_FORMATS } from '../../constants';
 
 // HELPERS
-const formatString = 'MMMM d, yyyy';
+const formatString = DATE_FORMATS.LONG_DATE;
 const getISOString = date => formatISO(date, { representation: 'date' });
 
 describe('<ClosedClaimMessage>', () => {

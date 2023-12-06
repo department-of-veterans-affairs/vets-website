@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+
 import {
   VaCheckboxGroup,
   VaMemorableDate,
@@ -8,18 +9,14 @@ import {
   VaTextInput,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { countries, states } from 'platform/forms/address';
 import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
-
 import { content } from '../content/evidencePrivateRecords';
-import { getSelected, getIssueName } from '../utils/helpers';
 import { getIndex, hasErrors } from '../utils/evidence';
 
-import { checkValidations } from '../validations';
 import {
   validatePrivateName,
   validateCountry,
@@ -34,6 +31,9 @@ import {
   isEmptyPrivateEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../utils/focus';
+
+import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -493,6 +493,8 @@ const EvidencePrivateRecords = ({
               <va-checkbox
                 key={index}
                 name="issues"
+                class="dd-privacy-hidden"
+                data-dd-action-name="issue name"
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}

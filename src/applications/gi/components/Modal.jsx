@@ -84,11 +84,13 @@ class Modal extends React.Component {
       }
     }
   };
+
   handeFocusOnSafariFirefox = event => {
     if (event.target.matches('button')) {
       event.target.focus();
     }
   };
+
   handleClose = e => {
     e.preventDefault();
     this.props.onClose();
@@ -112,7 +114,7 @@ class Modal extends React.Component {
   };
 
   applyFocusToFirstModalElement() {
-    const focusableElement = this.element.querySelector(
+    const focusableElement = this.element?.querySelector(
       this.props.focusSelector,
     );
     if (this.state.lastFocus) {

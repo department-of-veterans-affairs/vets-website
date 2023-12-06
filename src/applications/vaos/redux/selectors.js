@@ -76,9 +76,6 @@ export const selectFeatureStatusImprovementCanceled = state =>
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
-export const selectFeatureAppointmentList = state =>
-  toggleValues(state).vaOnlineSchedulingAppointmentList;
-
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
 
@@ -100,11 +97,14 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 export const selectFeaturePrintList = state =>
   toggleValues(state).vaOnlineSchedulingPrintList;
 
-export const selectFeatureDescriptiveBackLink = state =>
-  toggleValues(state).vaOnlineSchedulingDescriptiveBackLink;
-
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
+export const selectFeatureGA4Migration = state =>
+  toggleValues(state).vaOnlineSchedulingGA4Migration;
+
 export const selectFeatureAfterVisitSummary = state =>
   toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
+
+export const selectFeatureStartSchedulingLink = state =>
+  toggleValues(state).vaOnlineSchedulingStartSchedulingLink;

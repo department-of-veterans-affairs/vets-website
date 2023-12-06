@@ -3,23 +3,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { selectProfile, isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
-import formConfig from '../config/form';
-import { nodPart3UpdateFeature } from '../utils/helpers';
-import { getEligibleContestableIssues } from '../utils/submit';
-
-import { SHOW_PART3 } from '../constants';
-
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
+import formConfig from '../config/form';
+import {
+  SHOW_PART3,
+  SHOW_PART3_REDIRECT,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+} from '../constants';
+import { nodPart3UpdateFeature } from '../utils/helpers';
+import { issuesNeedUpdating } from '../utils/issues';
+import { getEligibleContestableIssues } from '../utils/submit';
+import { checkRedirect } from '../utils/redirect';
 
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
-
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
-
-import { issuesNeedUpdating } from '../utils/issues';
 
 export const FormApp = ({
   isLoading,
@@ -31,8 +34,8 @@ export const FormApp = ({
   setFormData,
   getContestableIssues,
   contestableIssues = {},
+  returnUrlFromSIPForm,
 }) => {
-  // Update profile data changes in the form data dynamically
   useEffect(
     () => {
       if (loggedIn) {
@@ -54,15 +57,9 @@ export const FormApp = ({
             ),
           });
         }
-        if (showPart3 && typeof formData[SHOW_PART3] === 'undefined') {
-          setFormData({
-            ...formData,
-            [SHOW_PART3]: showPart3,
-          });
-        }
       }
     },
-    [loggedIn, formData, setFormData, showPart3],
+    [loggedIn, formData, setFormData],
   );
 
   // This useEffect is responsible for 1) loading contestable issues from the API,
@@ -105,7 +102,50 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3],
+    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
+  );
+
+  useEffect(
+    () => {
+      // Checking returnUrlFromSIPForm to ensure the redirect occurs _after_ the save-in-
+      // progress response has loaded; and saving this check to form data to
+      // ensure that this check & redirect only occurs once & the state is saved
+      // in the form data so it doesn't occur again if the Veteran returns later
+      const formDataIsLoadedInReduxStore = !!returnUrlFromSIPForm;
+      const weHaveNeverCheckedWhetherVeteranNeedsToBeRedirected = !formData[
+        SHOW_PART3_REDIRECT
+      ];
+
+      if (
+        showPart3 &&
+        formDataIsLoadedInReduxStore &&
+        weHaveNeverCheckedWhetherVeteranNeedsToBeRedirected
+      ) {
+        // Redirect back to part 3 question if Veteran is on or past the
+        // contestable issues page
+        const needsRedirect = checkRedirect(returnUrlFromSIPForm);
+
+        // Using "redirected" for the resulting page to show an info alert so
+        // the Veteran knows why they were redirected.
+        // **This is just the updating the redux store. It takes further Veteran action (e.g. focus, blur, but not clicking back or continue).
+        setFormData({
+          ...formData,
+          // Setting 'redirected' to indicate that we are about to redirect them.
+          [SHOW_PART3_REDIRECT]: needsRedirect ? 'redirected' : 'not-needed',
+        });
+      }
+      // Add feature flag to form data to be used within the form
+      if (showPart3 !== formData[SHOW_PART3]) {
+        setFormData({
+          ...formData,
+          [SHOW_PART3]: showPart3,
+        });
+      }
+    },
+    // Include formData[SHOW_PART3] in dependencies because the save-in-progress
+    // will over-write the value when starting a new form
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showPart3, returnUrlFromSIPForm, formData[SHOW_PART3]],
   );
 
   const content = isLoading ? (
@@ -119,7 +159,14 @@ export const FormApp = ({
   );
 
   // Add Datadog UX monitoring to the application
-  useBrowserMonitoring();
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'nod', // becomes "nodBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+  });
 
   return (
     <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
@@ -145,20 +192,21 @@ FormApp.propTypes = {
     pathname: PropTypes.string,
   }),
   loggedIn: PropTypes.bool,
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({}),
+  returnUrlFromSIPForm: PropTypes.string,
+  router: PropTypes.shape({
+    push: PropTypes.func,
   }),
   setFormData: PropTypes.func,
   showPart3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  profile: selectProfile(state),
   formData: state.form?.data || {},
   showPart3: nodPart3UpdateFeature(state),
   contestableIssues: state.contestableIssues,
   isLoading: state.featureToggles?.loading,
   loggedIn: isLoggedIn(state),
+  returnUrlFromSIPForm: state.form?.loadedData?.metadata?.returnUrl,
 });
 
 const mapDispatchToProps = {

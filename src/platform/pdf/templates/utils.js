@@ -71,16 +71,18 @@ const createStruct = (doc, struct, font, fontSize, text, options) => {
  *
  * @param {Object} doc
  * @param {int} spaceFromEdge How far the right and left sides should be away from the edge (in px)
- * @param {int} linesAboveAndBelow How much space should be above and below the HR (in lines)
+ * @param {int} linesAbove How much space should be above the HR (in lines)
+ * @param {int} linesBelow How much space should be below the HR (in lines)
  *
  * @returns {Object}
  */
 const addHorizontalRule = (
   doc,
   spaceFromEdge = 0,
-  linesAboveAndBelow = 0.5,
+  linesAbove = 0.5,
+  linesBelow = 0.5,
 ) => {
-  doc.moveDown(linesAboveAndBelow);
+  doc.moveDown(linesAbove);
 
   // TODO add alternative text.
   doc.markContent('Artifact', { type: 'Layout' });
@@ -89,8 +91,250 @@ const addHorizontalRule = (
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
     .stroke();
 
-  doc.moveDown(linesAboveAndBelow);
+  doc.moveDown(linesBelow);
   return doc;
+};
+
+/**
+ * Add a span struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createSpan = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'Span',
+    config.text.font,
+    config.text.size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Add a text artifact struct to the given PDFKit document.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {string} text
+ * @param {Object} options
+ *
+ * @returns {Object} doc
+ */
+const createArtifactText = (doc, config, text, options) => {
+  return createStruct(
+    doc,
+    'Artifact',
+    config.text.font,
+    config.text.size,
+    text,
+    options,
+  );
+};
+
+/**
+ * Generates Header Banner
+ *
+ * @param {Object} doc
+ * @param {Object} header header struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateHeaderBanner = async (doc, header, data, config) => {
+  doc.moveDown(1);
+  const currentHeight = doc.y;
+
+  // Calculate text width
+  let width = 0;
+  for (let i = 0; i < data.headerBanner.length; i += 1) {
+    const element = data.headerBanner[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+
+    doc.font(font);
+    doc.fontSize(config.text.size);
+    width += doc.widthOfString(element.text);
+  }
+
+  // This math is based on US Letter page size and will have to be adjusted
+  // if we ever offer document size as a parameter.
+  const leftMargin = (612 - 32 - width) / 2 + config.margins.left;
+
+  for (let i = 0; i < data.headerBanner.length; i += 1) {
+    const element = data.headerBanner[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const paragraphOptions = {};
+    if (i < data.headerBanner.length) {
+      paragraphOptions.continued = true;
+    }
+
+    header.add(
+      doc.struct('Span', () => {
+        doc
+          .font(font)
+          .fontSize(config.text.size)
+          .text(element.text, leftMargin, doc.y, paragraphOptions);
+      }),
+    );
+  }
+
+  const height = doc.y - currentHeight + 25;
+
+  doc.rect(config.margins.left, currentHeight - 4, 580, height).stroke();
+
+  doc.moveDown(3);
+
+  // This is an ugly hack that resets the document X position
+  // so that the document header is shown correctly.
+  header.add(
+    doc.struct('Artifact', () => {
+      doc.text('', config.margins.left, doc.y);
+    }),
+  );
+};
+
+/**
+ * Generates Initial Header Content
+ *
+ * @param {Object} doc
+ * @param {Object} parent parent struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateInitialHeaderContent = async (doc, parent, data, config) => {
+  // Adjust page margins so that we can write in the header/footer area.
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = {
+    top: 0,
+    bottom: 0,
+    left: config.margins.left,
+    right: 16,
+  };
+
+  const header = doc.struct('Sect', {
+    type: 'Pagination',
+    title: 'Header',
+    attached: 'Top',
+  });
+  parent.add(header);
+  const leftOptions = { continued: true, x: config.margins.left, y: 12 };
+  header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+  const rightOptions = { align: 'right' };
+  header.add(createSpan(doc, config, data.headerRight, rightOptions));
+
+  if (data.headerBanner) {
+    generateHeaderBanner(doc, header, data, config);
+  }
+
+  header.end();
+
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = config.margins;
+};
+
+/**
+ * Generates Final Header Content
+ *
+ * @param {Object} doc
+ * @param {Object} parent parent struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateFinalHeaderContent = async (doc, parent, data, config) => {
+  const pages = doc.bufferedPageRange();
+  for (let i = 1; i < pages.count; i += 1) {
+    doc.switchToPage(i);
+
+    // Adjust page margins so that we can write in the header/footer area.
+    // eslint-disable-next-line no-param-reassign
+    doc.page.margins = {
+      top: 0,
+      bottom: 0,
+      left: config.margins.left,
+      right: 16,
+    };
+
+    const header = doc.struct('Artifact', {
+      type: 'Pagination',
+      title: 'Header',
+      attached: 'Top',
+    });
+    parent.add(header);
+    const leftOptions = { continued: true, x: 16, y: 12 };
+    header.add(createArtifactText(doc, config, data.headerLeft, leftOptions));
+    const rightOptions = { align: 'right' };
+    header.add(createArtifactText(doc, config, data.headerRight, rightOptions));
+    header.end();
+  }
+};
+
+/**
+ * Generates Final Header Content
+ *
+ * @param {Object} doc
+ * @param {Object} parent parent struct
+ * @param {Object} data PDF data
+ * @param {Object} config layout config
+ *
+ * @returns {void}
+ */
+const generateFooterContent = async (doc, parent, data, config) => {
+  const pages = doc.bufferedPageRange();
+  for (let i = 0; i < pages.count; i += 1) {
+    doc.switchToPage(i);
+
+    // Adjust page margins so that we can write in the header/footer area.
+    // eslint-disable-next-line no-param-reassign
+    doc.page.margins = {
+      top: 0,
+      bottom: 0,
+      left: config.margins.left,
+      right: 16,
+    };
+
+    const groupingStruct = i === pages.count - 1 ? 'Struct' : 'Artifact';
+    const footer = doc.struct(groupingStruct, {
+      type: 'Pagination',
+      title: 'Footer',
+      attached: 'Bottom',
+    });
+    parent.add(footer);
+
+    let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
+    footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
+    const footerLeftOptions = {
+      continued: true,
+      x: config.margins.left,
+      y: 766,
+    };
+    const footerRightOptions = { align: 'right' };
+
+    // Only allow the last footer element to be read by screen readers.
+    if (i === pages.count - 1) {
+      footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
+      footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
+    } else {
+      footer.add(
+        createArtifactText(doc, config, data.footerLeft, footerLeftOptions),
+      );
+      footer.add(
+        createArtifactText(doc, config, footerRightText, footerRightOptions),
+      );
+    }
+    footer.end();
+  }
 };
 
 /**
@@ -151,6 +395,109 @@ const createDetailItem = async (doc, config, x, item) => {
 };
 
 /**
+ * Add a rich text details item to the given PDFKit structure element (inline is always false)
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {int} X position
+ * @param {Object} item
+ *
+ * @returns {Array} content
+ */
+const createRichTextDetailItem = async (doc, config, x, item) => {
+  let titleText = item.title ?? '';
+  const content = [];
+
+  if (titleText) {
+    titleText += ' ';
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(titleText, x, doc.y, { lineGap: 2 });
+      }),
+    );
+  }
+
+  for (let i = 0; i < item.value.length; i += 1) {
+    const element = item.value[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const paragraphOptions = {
+      continued: !!element.continued,
+      lineGap: 2,
+      ...(i === item.value.length - 1 && { paragraphGap: 6 }),
+    };
+
+    if (Array.isArray(element.value)) {
+      content.push(
+        doc.struct('List', () => {
+          doc.list(element.value, {
+            ...paragraphOptions,
+            listType: 'bullet',
+            bulletRadius: 2,
+          });
+        }),
+      );
+    } else {
+      content.push(
+        doc.struct('Span', () => {
+          doc
+            .font(font)
+            .fontSize(config.text.size)
+            .text(element.value, x, doc.y, paragraphOptions);
+        }),
+      );
+    }
+  }
+
+  return content;
+};
+
+/**
+ * Add an image item to the given PDFKit structure element.
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {int} X position
+ * @param {Object} item
+ *
+ * @returns {Object}
+ */
+const createImageDetailItem = async (doc, config, x, item) => {
+  let titleText = item.title ?? '';
+  const content = [];
+
+  if (titleText) {
+    titleText += ' ';
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(titleText, x, doc.y, { lineGap: 2 });
+      }),
+    );
+  }
+
+  const image = await fetch(item.value.value);
+  const contentType = image.headers.get('Content-type');
+  const imageBuffer = await image.arrayBuffer();
+  const base64 = `data:${contentType};base64,${Buffer.from(
+    imageBuffer,
+  ).toString('base64')}`;
+
+  content.push(
+    doc.struct('P', () => {
+      doc.image(base64, x, doc.y);
+    }),
+  );
+
+  return content;
+};
+
+/**
  * Add a heading struct to the given PDFKit document.
  *
  * @param {Object} doc
@@ -173,48 +520,6 @@ const createHeading = (doc, headingLevel, config, text, options) => {
 };
 
 /**
- * Add a text artifact struct to the given PDFKit document.
- *
- * @param {Object} doc
- * @param {Object} config
- * @param {string} text
- * @param {Object} options
- *
- * @returns {Object} doc
- */
-const createArtifactText = (doc, config, text, options) => {
-  return createStruct(
-    doc,
-    'Artifact',
-    config.text.font,
-    config.text.size,
-    text,
-    options,
-  );
-};
-
-/**
- * Add a span struct to the given PDFKit document.
- *
- * @param {Object} doc
- * @param {Object} config
- * @param {string} text
- * @param {Object} options
- *
- * @returns {Object} doc
- */
-const createSpan = (doc, config, text, options) => {
-  return createStruct(
-    doc,
-    'Span',
-    config.text.font,
-    config.text.size,
-    text,
-    options,
-  );
-};
-
-/**
  * Add a subHeading struct to the given PDFKit document.
  *
  * @param {Object} doc
@@ -228,8 +533,8 @@ const createSubHeading = (doc, config, text, options) => {
   return createStruct(
     doc,
     'P',
-    config.subHeading.font,
-    config.subHeading.size,
+    options.font || config.subHeading.font,
+    options.size || config.subHeading.size,
     text,
     options,
   );
@@ -300,7 +605,7 @@ const getTestResultBlockHeight = (doc, item, initialBlock = false) => {
  *
  * @returns {Object}
  */
-const createAccessibleDoc = data => {
+const createAccessibleDoc = (data, config) => {
   return new PDFDocument({
     pdfVersion: '1.7',
     lang: data.lang ?? 'en-US',
@@ -313,6 +618,7 @@ const createAccessibleDoc = data => {
     },
     autoFirstPage: false,
     bufferPages: true,
+    margins: config.margins,
   });
 };
 
@@ -337,9 +643,15 @@ export {
   createAccessibleDoc,
   createArtifactText,
   createDetailItem,
+  createRichTextDetailItem,
   createHeading,
   createSpan,
   createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
+  createImageDetailItem,
+  generateHeaderBanner,
+  generateInitialHeaderContent,
+  generateFinalHeaderContent,
+  generateFooterContent,
 };

@@ -107,6 +107,7 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -118,8 +119,8 @@ import { createFormConfig781, createFormConfig781a } from './781';
 import createformConfig8940 from './8940';
 
 import {
-  PTSD_INCIDENT_ITERATION,
   NULL_CONDITION_STRING,
+  PTSD_INCIDENT_ITERATION,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -184,7 +185,7 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'Equal to VA Form 21-526EZ',
+  subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {
@@ -530,6 +531,7 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
+        ...toxicExposurePages,
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',

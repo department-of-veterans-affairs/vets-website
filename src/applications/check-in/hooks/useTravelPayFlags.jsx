@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { format, formatISO } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { removeTimezoneOffset } from '../utils/formatters';
 
 const useTravelPayFlags = appointment => {
   const [travelPayClaimSent, setTravelPayClaimSent] = useState();
@@ -24,7 +25,7 @@ const useTravelPayFlags = appointment => {
   } = data;
 
   const startDate = isTravelLogicEnabled
-    ? formatISO(new Date(appointment.startTime))
+    ? removeTimezoneOffset(formatISO(new Date(appointment.startTime)))
     : format(new Date(appointment.startTime), 'yyyy-LL-dd');
 
   let travelPayData = {

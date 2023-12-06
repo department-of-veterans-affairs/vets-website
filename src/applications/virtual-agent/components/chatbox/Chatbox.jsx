@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
@@ -17,13 +18,36 @@ import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
 // const ONE_MINUTE_IN_MS = 60_000;
 
-function useWebChat(props) {
+const getLoadingStatus = (
+  webchatLoadingStatus,
+  tokenLoadingStatus,
+  paramLoadingStatus,
+  featureFlag,
+) => {
+  const preliminaryCombinedLoadingStatus = combineLoadingStatus(
+    webchatLoadingStatus,
+    tokenLoadingStatus,
+  );
+  if (featureFlag) {
+    // we run this again to add a 3rd status to the mix
+    return combineLoadingStatus(
+      preliminaryCombinedLoadingStatus,
+      paramLoadingStatus,
+    );
+  }
+  // the original logic only combined 2 statuses
+  return preliminaryCombinedLoadingStatus;
+};
+
+function useWebChat(props, paramLoadingStatus) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
 
-  const loadingStatus = combineLoadingStatus(
+  const loadingStatus = getLoadingStatus(
     webchatFramework.loadingStatus,
     token.loadingStatus,
+    paramLoadingStatus,
+    props.virtualAgentEnableParamErrorDetection,
   );
 
   return {
@@ -58,10 +82,17 @@ function showBot(
     );
   }
 
-  return <App timeout={props.timeout || minute} />;
+  return (
+    <App
+      timeout={props.timeout || minute}
+      virtualAgentEnableParamErrorDetection={
+        props.virtualAgentEnableParamErrorDetection
+      }
+    />
+  );
 }
 
-export default function Chatbox(props) {
+function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
@@ -131,24 +162,36 @@ export default function Chatbox(props) {
 }
 
 function App(props) {
+  // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
+  const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
     props,
+    paramLoadingStatus,
   );
 
   switch (loadingStatus) {
     case ERROR:
       return <ChatbotError />;
     case LOADING:
-      return <LoadingIndicator message="Loading Chatbot" />;
+      return <va-loading-indicator message="Loading Chatbot" />;
     case COMPLETE:
       return (
         <WebChat
           token={token}
           WebChatFramework={WebChatFramework}
           apiSession={apiSession}
+          setParamLoadingStatus={setParamLoadingStatus}
         />
       );
     default:
       throw new Error(`Invalid loading status: ${loadingStatus}`);
   }
 }
+
+const mapStateToProps = state => ({
+  virtualAgentEnableParamErrorDetection: toggleValues(state)[
+    FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection
+  ],
+});
+
+export default connect(mapStateToProps)(Chatbox);

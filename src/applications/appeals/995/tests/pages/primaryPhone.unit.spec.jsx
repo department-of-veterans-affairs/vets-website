@@ -3,12 +3,12 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
-
-import { $ } from '../../utils/ui';
 
 import formConfig from '../../config/form';
 

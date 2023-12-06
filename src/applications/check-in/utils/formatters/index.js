@@ -41,4 +41,17 @@ const toCamelCase = str => {
     .join('');
 };
 
-export { formatPhone, formatDemographicString, toCamelCase };
+/**
+ * @param {string} str
+ */
+
+const removeTimezoneOffset = str => {
+  return str.replace(/(T.*)(Z|[+-](\d{2}:?\d{2}$)|([+-]\d{2}$))/, '$1Z');
+};
+
+export {
+  formatPhone,
+  formatDemographicString,
+  toCamelCase,
+  removeTimezoneOffset,
+};

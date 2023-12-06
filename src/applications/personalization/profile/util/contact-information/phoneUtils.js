@@ -1,5 +1,4 @@
 import { PHONE_TYPE, USA } from '@@vap-svc/constants';
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import pickBy from 'lodash/pickBy';
 
 export const phoneFormSchema = {
@@ -11,7 +10,9 @@ export const phoneFormSchema = {
     },
     inputPhoneNumber: {
       type: 'string',
-      pattern: '^\\d{10}$',
+      pattern: '^[0-9-() ]+$',
+      maxLength: 14,
+      minLength: 10,
     },
     extension: {
       type: 'string',
@@ -22,13 +23,22 @@ export const phoneFormSchema = {
   required: ['inputPhoneNumber'],
 };
 
+const phoneErrorMessage = 'Enter a 10 digit phone number';
 export const phoneUiSchema = fieldName => {
   return {
     inputPhoneNumber: {
-      'ui:widget': PhoneNumberWidget,
       'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:validations': [
+        (errors, field) => {
+          // checks that the phone number is at least 10 numerical digits
+          const strippedPhone = field?.replace(/[^0-9]/g, '');
+          if (strippedPhone?.length !== 10) {
+            errors.addError(phoneErrorMessage);
+          }
+        },
+      ],
       'ui:errorMessages': {
-        pattern: 'Please enter a valid 10-digit U.S. phone number.',
+        pattern: phoneErrorMessage,
       },
       'ui:options': {
         ariaDescribedby: 'error-message-details',

@@ -1,5 +1,4 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "./vaccines";
 @import "./record-list";
 @import "./vaccine-details";
 @import "./breadcrumbs";
@@ -12,11 +11,6 @@
 @import "./print-download";
 @import "./radiology-images";
 @import "./settings";
-
-// Your custom sass
-.loading-indicator {
-  margin: 200px auto;
-}
 
 .link-button,
 .link-button:hover,
@@ -38,8 +32,8 @@
 @media print {
   .no-print,
   .no-print * {
-    visibility: hidden;
-    display: none;
+    visibility: hidden !important;
+    display: none !important;
     margin: 0px !important;
     padding: 0px !important;
   }
@@ -52,12 +46,10 @@
     text-align: center;
   }
   .print-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0px;
-    * {
-      margin: 0px;
+    .name-dob {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   .card {
@@ -76,7 +68,7 @@
   .print-only,
   .print-only * {
     visibility: hidden;
-    display: none;
+    display: none !important;
     margin: 0px !important;
     padding: 0px !important;
   }
@@ -98,17 +90,30 @@
       max-width: none;
     }
   }
-  .medical-records-navigation {
-    margin-right: 24px;
-  }
+}
+
+.page-description {
+  margin: 8px 0px 16px;
+}
+.page-description-link {
+  display: block;
 }
 
 @media (max-width: $small-screen) {
   .medical-records-container {
     flex-direction: column;
-    .medical-records-navigation {
-      margin-top: 24px;
-      margin-right: 0px;
-    }
+  }
+}
+
+.time-header {
+  margin-bottom: 24px;
+}
+
+@media print {
+  .time-header {
+    margin: 0px;
+  }
+  .page-description {
+    margin: 16px 0px;
   }
 }

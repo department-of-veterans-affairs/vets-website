@@ -4,6 +4,7 @@ import {
   defineCustomElementVaAccordionItem,
   defineCustomElementVaAlert,
   defineCustomElementVaLoadingIndicator,
+  defineCustomElementVaMaintenanceBanner,
   defineCustomElementVaMemorableDate,
   defineCustomElementVaModal, // For global DowntimeApproaching notification
   defineCustomElementVaTelephone,
@@ -15,6 +16,7 @@ defineCustomElementVaAccordion();
 defineCustomElementVaAccordionItem();
 defineCustomElementVaAlert();
 defineCustomElementVaLoadingIndicator();
+defineCustomElementVaMaintenanceBanner();
 defineCustomElementVaMemorableDate();
 defineCustomElementVaModal();
 defineCustomElementVaTelephone();

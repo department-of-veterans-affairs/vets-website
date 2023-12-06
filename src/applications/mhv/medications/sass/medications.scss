@@ -19,7 +19,7 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 .main-content {
-  padding: 10px;
+  padding: 0;
   margin-bottom: 40px;
 
   @media (max-width: $small-screen) {
@@ -38,14 +38,13 @@
 .landing-page {
   h1 {
     color: $color-gray-dark;
-    margin: 0;
   }
   .medications-list-sort {
     display: flex;
     flex-direction: row;
     .sort-button {
       margin-left: 8px;
-      margin-top: 60px;
+      margin-top: 57px;
     }
   }
   .rx-page-total-info {
@@ -54,10 +53,6 @@
     max-width: 500px;
     font-size: 1.6rem;
     font-weight: normal;
-  }
-  .pagination {
-    max-width: 500px;
-    border-top: 0px;
   }
   section {
     .feedback {
@@ -74,6 +69,9 @@
       h3 {
         margin: 8px 0;
       }
+      p {
+        margin: 0;
+      }
       .shipping-info {
         margin-top: 5px;
         margin-bottom: 5px;
@@ -87,44 +85,29 @@
           border: 1px solid $color-base;
         }
       }
-      .refillProcessIcon {
+      .statusIcon {
         padding: 4px 20px 4px 28px;
         position: relative;
         display: inline-block;
       }
+      .statusIcon:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+        font-size: 120%;
+        position: absolute;
+        left: 0px;
+      }
+
       .refillProcessIcon:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 700;
-        font-size: 120%;
         content: "\f56e";
-        position: absolute;
-        left: 0px;
       }
-      .unknownIcon {
-        padding: 4px 20px 4px 28px;
-        position: relative;
-        display: inline-block;
-      }
+
       .unknownIcon:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 700;
-        font-size: 120%;
         content: "\f071";
-        position: absolute;
-        left: 0px;
       }
-      .submittedIcon {
-        padding: 4px 20px 4px 28px;
-        position: relative;
-        display: inline-block;
-      }
+
       .submittedIcon:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 700;
-        font-size: 120%;
         content: "\f572";
-        position: absolute;
-        left: 0px;
       }
     }
   }
@@ -144,6 +127,11 @@
       }
     }
   }
+}
+
+.pagination {
+  max-width: 500px;
+  border-top: 0px;
 }
 
 @media print {
@@ -174,6 +162,7 @@
       margin: 0px;
     }
   }
+
   .card {
     margin: 0px 0px 12px 0px !important;
     padding: 24px 0px 12px !important;
@@ -200,5 +189,35 @@
 .vads-u-width--responsive{
   @media (max-width: $small-screen) {
     width: 100% !important;
+  }
+}
+
+@media print {
+  @page {
+      margin-top: 20px;
+      margin-bottom: 0;
+  }
+  body {
+    padding-top: 10px;
+    padding-bottom: 30px ;
+  }
+  button {
+    -webkit-print-color-adjust: exact;
+    width: 200px !important;
+  }
+}
+
+.print-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
+}
+
+.rx-fill-refill-button {
+  va-loading-indicator {
+    display: flex;
+    justify-content: left;
   }
 }

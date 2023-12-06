@@ -27,7 +27,8 @@ describe('<PreSubmitInfo>', () => {
     );
     expect(tree).to.not.be.undefined;
     expect(tree.text()).to.include('Confirm you’re eligible for VRRAP');
-    expect(tree.text()).to.contain('privacy policy');
+    const checkbox = tree.find('va-privacy-agreement');
+    expect(checkbox.length).to.equal(1);
     tree.unmount();
   });
 });

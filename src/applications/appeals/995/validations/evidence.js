@@ -1,8 +1,9 @@
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import { errorMessages, MAX_LENGTH, REGEX_EMPTY_DATE } from '../constants';
+import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
 import { validateDate } from './date';
 
+import { MAX_LENGTH } from '../../shared/constants';
 import { fixDateFormat } from '../../shared/utils/replace';
 import {
   validateAddressParts,
@@ -20,7 +21,9 @@ export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
   if (!locationAndName) {
     errors.addError(errorMessages.evidence.locationMissing);
-  } else if (locationAndName.length > MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME) {
+  } else if (
+    locationAndName.length > MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME
+  ) {
     errors.addError(errorMessages.evidence.locationMaxLength);
   }
 };

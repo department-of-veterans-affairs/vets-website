@@ -11,10 +11,8 @@ import {
   USA,
 } from 'platform/user/profile/vap-svc/constants';
 
-import VAPServiceProfileField from 'platform/user/profile/vap-svc/containers/VAPServiceProfileField';
+import VAPServiceProfileField from '~/platform/user/profile/vap-svc/containers/VAPServiceProfileField';
 
-import AddressEditModal from './AddressEditModal';
-import AddressValidationModal from '../../containers/AddressValidationModal';
 import AddressView from './AddressView';
 
 import { getFormSchema, getUiSchema } from './address-schemas';
@@ -103,8 +101,6 @@ function AddressField({ title, fieldName, deleteDisabled }) {
       convertCleanDataToPayload={convertCleanDataToPayload}
       deleteDisabled={deleteDisabled}
       Content={AddressView}
-      EditModal={AddressEditModal}
-      ValidationModal={AddressValidationModal}
       formSchema={getFormSchema()}
       uiSchema={getUiSchema()}
     />

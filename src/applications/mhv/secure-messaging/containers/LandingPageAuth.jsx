@@ -19,7 +19,6 @@ import { updatePageTitle } from '../util/helpers';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
-import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
@@ -56,7 +55,6 @@ const LandingPageAuth = () => {
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
       </p>
-      <ComposeMessageButton />
       <DashboardUnreadMessages inbox={inbox} />
       <WelcomeMessage />
       <FrequentlyAskedQuestions prefLink={prefLink} />

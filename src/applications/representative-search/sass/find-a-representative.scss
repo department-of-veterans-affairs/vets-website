@@ -1,0 +1,141 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.find-a-representative {
+  h1:first-child {
+    margin-top: 0;
+  }
+
+  .clearfix {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .va-accordion__button {
+    visibility: hidden !important;
+  }
+
+  .search-page-container {
+    .search-controls-container {
+      #representative-search-controls {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .location-input-container {
+          position: relative;
+        }
+
+        .usa-input-error {
+          margin-top: 0em;
+        }
+
+        .use-my-location-button-container {
+          @media (min-width: $large-screen) {
+            position: absolute;
+            left: 30em;
+            top: 2em;
+            min-width: 10em;
+          }
+        }
+
+        .use-my-location-button-container-error {
+          @media (min-width: $large-screen) {
+            top: 4em;
+          }
+        }
+
+        .use-my-location-button {
+          text-decoration: none;
+          background-color: transparent;
+          color: $color-link-default;
+          font-weight: normal;
+          padding: 0 0 0 1.5em;
+          background-image: url("/img/location-arrow-solid.svg");
+          background-repeat: no-repeat;
+          background-color: transparent;
+          max-width: 9em;
+        }
+
+        .finding-your-location-loading {
+          min-width: 14em;
+          text-decoration: none;
+          background-color: transparent;
+          margin-top: 0.3em;
+          color: $color-link-default;
+          font-weight: normal;
+          background-repeat: no-repeat;
+          background-color: transparent;
+        }
+
+        #representative-search {
+          max-width: 8em;
+          margin: 2em 0 2em 0 !important;
+        }
+
+        .rep-type-selector {
+          p:last-child {
+            margin-bottom: -1em !important;
+          }
+        }
+      }
+    }
+  }
+
+  .representative-search-results-container {
+    .pagination-container .hydrated {
+      border-top: none !important;
+    }
+    #search-results-title {
+      margin-bottom: 2em;
+    }
+
+    hr {
+      @media (min-width: $large-screen) {
+        width: 64em;
+      }
+    }
+
+    .search-results-header {
+      @media (min-width: $large-screen) {
+        display: flex;
+        align-items: flex-end;
+        // justify-content: center;
+        width: 5000px;
+
+        h2 {
+          margin: 0 7em 0 0 !important;
+          padding: 0px !important;
+          width: 32em;
+        }
+      }
+      .sort-dropdown {
+        label {
+          @media (min-width: $large-screen) {
+            margin-top: 0 !important;
+          }
+        }
+
+        // @media (min-width: $large-screen) {
+        //   position: absolute;
+        //   top: -67px;
+        //   left: 750px;
+        //   width: 271px;
+        // }
+      }
+    }
+  }
+
+  .primary {
+    color: $color-primary;
+  }
+  .primary-darker {
+    color: $color-primary-darker;
+  }
+}

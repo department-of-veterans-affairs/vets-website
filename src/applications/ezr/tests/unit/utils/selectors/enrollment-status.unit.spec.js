@@ -16,7 +16,7 @@ describe('ezr enrollment status selectors', () => {
   };
 
   describe('when `selectEnrollmentStatus` executes', () => {
-    describe('when the user profile is loading', () => {
+    context('when the user profile is loading', () => {
       it('should set the correct part of the state', () => {
         const state = {
           enrollmentStatus: { ...defaultState.enrollmentStatus },
@@ -29,7 +29,7 @@ describe('ezr enrollment status selectors', () => {
       });
     });
 
-    describe('when the enrollment status is loading', () => {
+    context('when the enrollment status is loading', () => {
       it('should set the correct part of the state', () => {
         const state = {
           enrollmentStatus: {
@@ -45,7 +45,7 @@ describe('ezr enrollment status selectors', () => {
       });
     });
 
-    describe('when the enrollment status fetch has failed', () => {
+    context('when the enrollment status fetch has failed', () => {
       it('should set the correct part of the state', () => {
         const state = {
           enrollmentStatus: {
@@ -61,8 +61,8 @@ describe('ezr enrollment status selectors', () => {
       });
     });
 
-    describe('when the enrollment status fetch has succeeded', () => {
-      describe('when enrollment status is not `enrolled`', () => {
+    context('when the enrollment status fetch has succeeded', () => {
+      context('when enrollment status is not `enrolled`', () => {
         it('should set the correct part of the state', () => {
           const state = {
             enrollmentStatus: {
@@ -78,7 +78,7 @@ describe('ezr enrollment status selectors', () => {
         });
       });
 
-      describe('when enrollment status is `enrolled`', () => {
+      context('when enrollment status is `enrolled`', () => {
         it('should set the correct part of the state', () => {
           const state = {
             enrollmentStatus: {

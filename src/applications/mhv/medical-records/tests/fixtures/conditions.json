@@ -1,39 +1,59 @@
-
 [
-    {
-        "id": "SCT161891005",
-        "date": "2022-04-01T17:42:46.000Z",
-        "name": "Back pain (SCT 161891005)",
-        "active": true,
-        "provider": "Becky",
-        "facility": "chiropractor's office",
-        "comments": []
+  {
+    "id": "SCT161891005",
+    "recordedDate": "2022-04-01T17:42:46.000Z",
+    "name": "Back pain (SCT 161891005)",
+    "active": true,
+    "provider": "Becky",
+    "facility": "chiropractor's office",
+    "code": {
+      "coding": { "code": "asdf" },
+      "text": "Back pain (SCT 161891005)"
     },
-    {
-        "id": "SCT867530999",
-        "date": "2021-04-01T17:42:46.000Z",
-        "name": "Sick sinus syndrome (SCT 867530999)",
-        "active": true,
-        "provider": "Becky",
-        "facility": "No one nose",
-        "comments": []
+    "clinicalStatus": { "coding": { "code": "abc123" } },
+    "asserter": "Dr. John",
+    "note": "A note"
+  },
+  {
+    "id": "SCT867530999",
+    "recordedDate": "2021-04-01T17:42:46.000Z",
+    "name": "Sick sinus syndrome (SCT 867530999)",
+    "active": true,
+    "provider": "Becky",
+    "facility": "No one nose",
+    "code": {
+      "coding": { "code": "asdf" },
+      "text": "Sick sinus syndrome (SCT 867530999)"
     },
-    {
-        "id": "SCT525000600",
-        "date": "2019-04-01T17:42:46.000Z",
-        "name": "Asthma (SCT 525000600)",
-        "active": true,
-        "provider": "Becky",
-        "facility": "Lung doctor's office",
-        "comments": []
+    "clinicalStatus": { "coding": { "code": "abc123" } },
+    "asserter": "Dr. John",
+    "note": "A note"
+  },
+  {
+    "id": "SCT525000600",
+    "recordedDate": "2019-04-01T17:42:46.000Z",
+    "name": "Asthma (SCT 525000600)",
+    "active": true,
+    "provider": "Becky",
+    "facility": "Lung doctor's office",
+    "code": { "coding": { "code": "asdf" }, "text": "Asthma (SCT 525000600)" },
+    "clinicalStatus": { "coding": { "code": "abc123" } },
+    "asserter": "Dr. John",
+    "note": "A note"
+  },
+  {
+    "id": "SCT500530505",
+    "recordedDate": "2018-04-01T17:42:46.000Z",
+    "name": "Hypertension (SCT 500530505)",
+    "active": true,
+    "provider": "Becky",
+    "facility": "Cardiologist's office",
+    "code": {
+      "coding": { "code": "asdf" },
+      "text": "Hypertension (SCT 500530505)"
     },
-    {
-        "id": "SCT500530505",
-        "date": "2018-04-01T17:42:46.000Z",
-        "name": "Hypertension (SCT 500530505)",
-        "active": true,
-        "provider": "Becky",
-        "facility": "Cardiologist's office",
-        "comments": []
-    }
+    "clinicalStatus": { "coding": { "code": "abc123" } },
+    "asserter": "Dr. John",
+    "note": "A note"
+  }
 ]
