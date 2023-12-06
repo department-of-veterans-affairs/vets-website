@@ -149,21 +149,7 @@ const Prescriptions = props => {
         title: 'Medications',
         preface: [
           {
-            value: `This is a list of recent prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-          },
-          {
-            continued: true,
-            value: 'Note: ',
-            weight: 'bold',
-          },
-          {
-            continued: true,
-            value:
-              'This list doesn’t include older prescriptions that have been inactive for more than ',
-          },
-          {
-            value: '6 months.',
-            weight: 'bold',
+            value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
           },
         ],
         results: [

@@ -144,23 +144,6 @@ const LandingPage = () => {
                   </p>
                   <ul className="vads-u-margin-bottom--0">
                     <li>
-                      <strong>
-                        Older prescriptions that have been inactive for more
-                        than 180 days.{' '}
-                      </strong>
-                      To find these older prescriptions, go to your VA Blue
-                      Button report on the My HealthVet website.{' '}
-                      <a
-                        href={mhvUrl(
-                          isAuthenticatedWithSSOe(fullState),
-                          'va-blue-button',
-                        )}
-                        rel="noreferrer"
-                      >
-                        Go to VA Blue Button&reg; on the My HealtheVet website
-                      </a>
-                    </li>
-                    <li>
                       <strong>Medications you entered yourself. </strong>
                       To find your self-entered medications, go back to your
                       medications list on the My HealtheVet website.{' '}
