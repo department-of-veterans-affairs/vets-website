@@ -88,6 +88,7 @@ const SearchPage = props => {
         repOrganizationQueryString: location.query.name,
         repOrganizationInputString: location.query.name,
         representativeType: location.query.type,
+        page: location.query.page,
         sortType: location.query.sort,
       });
     }
