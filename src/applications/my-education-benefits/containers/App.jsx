@@ -165,17 +165,16 @@ export const App = ({
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
-      // Fetch exclusion periods if feature flag is enabled
       if (mebExclusionPeriodEnabled && !fetchedExclusionPeriods) {
         setFetchedExclusionPeriods(true);
         getExclusionPeriods();
       }
-      // Assuming exclusionPeriods is available in Redux state and mapped in mapStateToProps
       if (exclusionPeriods && !formData.exclusionPeriods) {
-        setFormData({
+        const updatedFormData = {
           ...formData,
           exclusionPeriods, // Update form data with fetched exclusion periods
-        });
+        };
+        setFormData(updatedFormData);
       }
     },
     [
@@ -292,15 +291,13 @@ export const App = ({
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
-          isLOA3, // ES6 Syntax
+          isLOA3,
         });
       }
     },
     [
-      fetchedExclusionPeriods,
       formData,
       isLOA3,
-      mebExclusionPeriodEnabled,
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
@@ -311,10 +308,8 @@ export const App = ({
       showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
-      getExclusionPeriods,
       duplicateEmail,
       duplicatePhone,
-      exclusionPeriods,
     ],
   );
 
@@ -398,6 +393,7 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
+  const exclusionPeriods = state?.data?.exclusionPeriods;
 
   return {
     ...getAppData(state),
@@ -405,6 +401,7 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
+    exclusionPeriods,
   };
 };
 

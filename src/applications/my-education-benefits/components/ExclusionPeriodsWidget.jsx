@@ -1,8 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const ExclusionPeriodsWidget = ({ exclusionPeriods }) => {
-  // Helper function to render information based on each exclusion period
   const renderExclusionInfo = () => {
     return exclusionPeriods.map((period, index) => {
       let message;
@@ -13,11 +13,11 @@ const ExclusionPeriodsWidget = ({ exclusionPeriods }) => {
           break;
         case 'LRP':
           message =
-            'Dept. of Defense data shows you as having an Education Loan Payment period.';
+            'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.';
           break;
         case 'Academy':
           message =
-            'Dept. of Defense data shows you graduated and received a commission from a military academy.';
+            'Dept. of Defense data shows you have graduated from a Military Service Academy';
           break;
         default:
           return null;
@@ -41,4 +41,8 @@ const ExclusionPeriodsWidget = ({ exclusionPeriods }) => {
 ExclusionPeriodsWidget.propTypes = {
   exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
 };
-export default ExclusionPeriodsWidget;
+
+const mapStateToProps = state => ({
+  exclusionPeriods: state.data.exclusionPeriods,
+});
+export default connect(mapStateToProps)(ExclusionPeriodsWidget);

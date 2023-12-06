@@ -71,7 +71,7 @@ export default {
           ...state,
           exclusionPeriodsLoading: false,
           exclusionPeriods:
-            action?.response?.data?.attributes?.exclusion_periods || [],
+            action?.response?.data?.attributes?.exclusionPeriods || [],
         };
       case FETCH_EXCLUSION_PERIODS_FAILURE:
         return {
