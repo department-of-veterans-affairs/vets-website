@@ -173,7 +173,9 @@ describe('Claim Letters Page', () => {
       cy.visit('track-claims/your-claim-letters');
 
       cy.get('va-alert').should('exist');
-      cy.findByText(/We’re still working on this feature/i).should('exist');
+      cy.findByText(
+        /Decision letters aren’t available to download right now./i,
+      ).should('exist');
 
       cy.injectAxeThenAxeCheck();
     });

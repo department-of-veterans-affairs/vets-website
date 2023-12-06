@@ -83,8 +83,8 @@ const ConfirmationPage = ({ form }) => {
         </h3>
         <p>
           If more than 5 business days have passed since you submitted your
-          request and you haven’t heard back, please don’t request a COE again.
-          Call our toll-free number at <va-telephone contact="8778273702" />.
+          request and you haven’t heard back, don’t request a COE again. Call
+          our toll-free number at <va-telephone contact="8778273702" />.
         </p>
         <a href={statusUrl}>
           Check the status of your VA home loan Certificate of Eligibility

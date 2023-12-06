@@ -15,8 +15,8 @@ export const survivingDependentBenefits = {
 };
 
 export const benefitPhrases = {
-  COMPENSATION: 'disability compensation claim',
-  PENSION: 'pension claim',
-  SURVIVOR: 'pension claim for survivors',
-  COMPENSATION_AND_PENSION: 'disability compensation and pension claims',
+  compensation: 'disability compensation claim',
+  pension: 'pension claim',
+  survivor: 'pension claim for survivors',
+  compensationAndPension: 'disability compensation and pension claims',
 };

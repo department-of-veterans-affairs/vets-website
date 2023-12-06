@@ -2,11 +2,11 @@
   "preparerIdentification": "THIRD_PARTY_SURVIVING_DEPENDENT",
   "thirdPartyPreparerFullName": {
     "first": "Third",
-    "middle": "Party",
     "last": "Veteran"
   },
+  "thirdPartyPreparerRole": "fiduciary",
   "benefitSelection": {
-    "survivors": true
+    "survivor": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",
@@ -20,7 +20,7 @@
     "country": "CAN",
     "street": "314 Round Circle",
     "city": "Whoville",
-    "postalCode": "12345"
+    "postalCode": "A9A 9A9"
   },
   "survivingDependentPhone": "1234567890",
   "veteranFullName": {

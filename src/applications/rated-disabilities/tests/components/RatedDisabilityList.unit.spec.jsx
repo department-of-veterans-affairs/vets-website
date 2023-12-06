@@ -38,7 +38,7 @@ describe('<RatedDisabilityList/>', () => {
     );
     const date = moment(
       ratedDisabilities.ratedDisabilities[0].effectiveDate,
-    ).format('MM/DD/YYYY');
+    ).format('MMMM DD, YYYY');
     expect(wrapper.getByText(date)).to.exist;
   });
 
@@ -51,11 +51,13 @@ describe('<RatedDisabilityList/>', () => {
     );
 
     const disability = ratedDisabilities.ratedDisabilities[0];
-    const headingText = `${disability.ratingPercentage}% ${disability.name}`;
+    const headingText = `${disability.ratingPercentage}% rating for ${
+      disability.name
+    }`;
 
     expect(
       wrapper.getByRole('heading', {
-        level: 3,
+        level: 4,
         name: headingText,
       }),
     ).to.exist;

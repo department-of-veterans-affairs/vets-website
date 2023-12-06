@@ -1,145 +1,11 @@
 /* eslint-disable camelcase */
-/* eslint-disable no-param-reassign */
-import unset from 'platform/utilities/data/unset';
-import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
+// Location to custom commands type definitions.
+/// <reference path="./index.d.ts" />
 
 import moment from '../../utils/business-days';
 import * as momentTZ from '../../lib/moment-tz';
-
-import requests from '../../services/mocks/var/requests.json';
-import cancelReasons from '../../services/mocks/var/cancel_reasons.json';
-import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
-import facilityData from '../../services/mocks/var/facility_data.json';
-import clinicList983 from '../../services/mocks/var/clinicList983.json';
-import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
-import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
-
-import { APPOINTMENT_STATUS } from '../../utils/constants';
-import facilitiesV2 from '../../services/mocks/v2/facilities.json';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
-import clinicsV2 from '../../services/mocks/v2/clinics.json';
-import confirmedV2 from '../../services/mocks/v2/confirmed.json';
-import requestsV2 from '../../services/mocks/v2/requests.json';
-import { getStagingId } from '../../services/var';
-
 import featureFlags from '../../utils/featureFlags';
-
-const mockUser = {
-  data: {
-    id: '',
-    type: 'users_scaffolds',
-    attributes: {
-      services: [
-        'facilities',
-        'hca',
-        'edu-benefits',
-        'form-save-in-progress',
-        'form-prefill',
-        'evss-claims',
-        'form526',
-        'user-profile',
-        'appeals-status',
-        'identity-proofed',
-      ],
-      account: {
-        accountUuid: '6af59b36-f14d-482e-88b4-3d7820422343',
-      },
-      profile: {
-        email: 'vets.gov.user+228@gmail.com',
-        firstName: 'MARK',
-        middleName: null,
-        lastName: 'WEBB',
-        birthDate: '1950-10-04',
-        gender: 'M',
-        zip: null,
-        lastSignedIn: '2020-06-18T21:15:19.664Z',
-        loa: {
-          current: 3,
-          highest: 3,
-        },
-        multifactor: true,
-        verified: true,
-        signIn: {
-          serviceName: 'idme',
-          accountType: 'N/A',
-        },
-        authnContext: 'http://idmanagement.gov/ns/assurance/loa/3/vets',
-      },
-      vaProfile: {
-        status: 'OK',
-        birthDate: '19501004',
-        familyName: 'Webb-ster',
-        gender: 'M',
-        givenNames: ['Mark'],
-        isCernerPatient: false,
-        facilities: [
-          {
-            facilityId: '556',
-            isCerner: false,
-          },
-          {
-            facilityId: '983QA',
-            isCerner: false,
-          },
-          {
-            facilityId: '983GB',
-            isCerner: false,
-          },
-        ],
-        vaPatient: true,
-        mhvAccountState: 'NONE',
-      },
-      veteranStatus: null,
-      inProgressForms: [],
-      prefillsAvailable: [
-        '21-686C',
-        '40-10007',
-        '22-1990',
-        '22-1990N',
-        '22-1990E',
-        '22-1995',
-        '22-1995S',
-        '22-5490',
-        '22-5495',
-        '22-0993',
-        '22-0994',
-        'FEEDBACK-TOOL',
-        '22-10203',
-        '21-526EZ',
-        '1010ez',
-        '21P-530',
-        '21P-527EZ',
-        '686C-674',
-        '20-0996',
-        'MDOT',
-      ],
-      vet360ContactInformation: mockContactInformation,
-    },
-  },
-  meta: {
-    errors: [
-      {
-        externalService: 'EMIS',
-        startTime: '2020-06-18T21:15:34Z',
-        endTime: null,
-        description:
-          'IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].',
-        status: 503,
-      },
-    ],
-  },
-};
-
-function updateRequestDates(data) {
-  data.data.forEach(item => {
-    const futureDateStr = moment()
-      .add(5, 'days')
-      .format('MM/DD/YYYY');
-
-    item.attributes.optionDate1 = futureDateStr;
-  });
-  return data;
-}
 
 /**
  * Function to mock feature toggle endpoint.
@@ -167,209 +33,56 @@ export function mockFeatureToggles(toggles = {}) {
         },
       });
     },
-  ).as('feature_toggles');
+  ).as('v0:get:feature_toggles');
 }
 
-export function mockRequestLimitsApi(id = '983') {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: '/vaos/v0/facilities/limits',
-    },
-    req => {
-      req.reply({
-        data: [
-          {
-            id,
-            attributes: {
-              requestLimit: 1,
-              numberOfRequests: 0,
-            },
-          },
-        ],
-      });
-    },
-  ).as('v0:get:limits');
-}
-
-export function mockSupportedSitesApi() {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: '/vaos/v0/community_care/supported_sites',
-    },
-    req => {
-      req.reply(supportedSites);
-    },
-  ).as('v0:get:supported_sites');
-}
-
-export function mockRequestEligibilityCriteriaApi() {
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: '/vaos/v0/request_eligibility_criteria',
-    },
-    req => req.reply(requestEligibilityCriteria),
-  ).as('v0:get:request_eligibility_criteria');
-}
-
-export function mockDirectBookingEligibilityCriteriaApi({
-  facilityIds,
-  typeOfCareId = '349',
-  unableToScheduleCovid = false,
+/**
+ * Function to mock the 'GET' community care providers endpoint.
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ */
+export function mockCCProvidersApi({
+  response: data,
+  responseCode = 200,
 } = {}) {
-  if (unableToScheduleCovid) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v0/direct_booking_eligibility_criteria',
-      },
-      req =>
-        req.reply({
-          data: directEligibilityCriteria.data.map(facility => ({
-            ...facility,
-            attributes: {
-              ...facility.attributes,
-              coreSettings: facility.attributes.coreSettings.filter(
-                f => f.id !== 'covid',
-              ),
-            },
-          })),
-        }),
-    ).as('v0:get:direct_booking_eligibility_criteria');
-  } else {
-    let data;
-
-    if (facilityIds && typeOfCareId) {
-      data = directEligibilityCriteria.data
-        .filter(facility => facilityIds.some(id => id === facility.id))
-        .map(facility => {
-          const coreSettings = facility.attributes.coreSettings
-            .map(
-              setting =>
-                setting.id === typeOfCareId
-                  ? { ...setting, patientHistoryRequired: 'no' }
-                  : null,
-            )
-            // Remove all falsey values from array
-            .filter(Boolean);
-
-          return {
-            ...facility,
-            attributes: {
-              ...facility.attributes,
-              coreSettings,
-            },
-          };
-        });
-    } else {
-      data = [...directEligibilityCriteria.data];
-    }
-
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v0/direct_booking_eligibility_criteria',
-      },
-      req => {
-        // req.reply(directEligibilityCriteria);
-        req.reply({ data });
-      },
-    ).as('v0:get:direct_booking_eligibility_criteria');
-  }
-}
-
-export function mockVisitsApi({ facilityId = '983' } = {}) {
   cy.intercept(
     {
       method: 'GET',
-      pathname: `/vaos/v0/facilities/${facilityId}/visits/direct`,
-    },
-    req =>
-      req.reply({
-        data: {
-          facilityId: '05084676-77a1-4754-b4e7-3638cb3124e5',
-          type: 'facility_visit',
-          attributes: {
-            durationInMonths: 24,
-            hasVisitedInPastMonths: true,
-          },
-        },
-      }),
-  ).as('v0:get:visits:direct');
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: `/vaos/v0/facilities/${facilityId}/visits/request`,
-    },
-    req =>
-      req.reply({
-        data: {
-          id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-          type: 'facility_visit',
-          attributes: {
-            durationInMonths: 24,
-            hasVisitedInPastMonths: true,
-          },
-        },
-      }),
-  ).as('v0:get:visits:request');
-}
-
-export function mockCCProvidersApi() {
-  cy.intercept(
-    {
-      method: 'GET',
-      // url: '/facilities_api/v1/ccp/provider*',
       pathname: '/facilities_api/v1/ccp/provider',
     },
     req => {
-      req.reply({
-        data: [
-          {
-            id: '1497723753',
-            type: 'provider',
-            attributes: {
-              accNewPatients: 'true',
-              address: {
-                street: '1012 14TH ST NW STE 700',
-                city: 'WASHINGTON',
-                state: 'DC',
-                zip: '20005-3477',
-              },
-              caresitePhone: '202-638-0750',
-              email: null,
-              fax: null,
-              gender: 'Male',
-              lat: 38.903195,
-              long: -77.032382,
-              name: 'Doe, Jane',
-              phone: null,
-              posCodes: null,
-              prefContact: null,
-              uniqueId: '1497723753',
-            },
-            relationships: {
-              specialties: {
-                data: [
-                  { id: '363L00000X', type: 'specialty' },
-                  { id: '363LP2300X', type: 'specialty' },
-                ],
-              },
-            },
-          },
-        ],
-      });
+      if (responseCode !== 200) {
+        req.reply({
+          forceNetworkError: true,
+        });
+
+        return;
+      }
+
+      req.reply({ data });
     },
   ).as('v1:get:provider');
 }
 
-export function mockAppointmentApi({
+/**
+ * Function to mock the 'GET' appointment endpoint.
+ *
+ * @example GET '/vaos/v2/appointments/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockAppointmentGetApi({
   response: data,
   responseCode = 200,
   version = 2,
-} = {}) {
+}) {
   if (version === 2) {
     cy.intercept(
       {
@@ -397,16 +110,15 @@ export function mockAppointmentApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentUpdateApi({
   response: data,
   responseCode = 200,
   version = 2,
-} = {}) {
+}) {
   if (version === 2) {
     cy.intercept(
       {
@@ -430,22 +142,21 @@ export function mockAppointmentUpdateApi({
 }
 
 /**
- * Function to mock the 'create' appointment endpoint.
+ * Function to mock the 'CREATE' appointment endpoint.
  *
  * @example POST '/vaos/v2/appointments'
  *
  * @export
- * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
+ * @param {Object} arguments
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentCreateApi({
   response: data,
   responseCode = 200,
   version = 2,
-} = {}) {
+}) {
   if (version === 2) {
     cy.intercept(
       {
@@ -460,27 +171,9 @@ export function mockAppointmentCreateApi({
           return;
         }
 
-        if (data) {
-          req.reply({
-            data,
-          });
-        }
-
-        // Save and return the same appointment back to the caller with a new simulated
-        // appointment id. The saved appointment is used in the next 'v2:get:appointment'
-        // api call.
-        const newAppointment = {
-          data: {
-            id: 'mock1',
-            attributes: {
-              ...req.body,
-              start: req.body.slot ? req.body.slot.start : null,
-              cancellable: req.body.status,
-            },
-          },
-        };
-
-        req.reply(newAppointment);
+        req.reply({
+          data,
+        });
       },
     ).as('v2:create:appointment');
   }
@@ -493,18 +186,16 @@ export function mockAppointmentCreateApi({
  *
  * @export
  * @param {Object} arguments - Function arguments.
- * @param {Object} arguments.response - The response object to return from the mock api call.
- * @param {number=} arguments.responseCode - The response code to return from the mock api call. Use this to simulate a network error.
- * @param {number=} arguments.version - Api version number.
- * @returns The provided response object.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockAppointmentsApi({
+export function mockAppointmentsGetApi({
   response: data,
   responseCode = 200,
-  status = APPOINTMENT_STATUS.booked,
-  apiVersion = 2,
-} = {}) {
-  if (apiVersion === 2) {
+  version = 2,
+}) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
@@ -524,110 +215,73 @@ export function mockAppointmentsApi({
         }
 
         if (data) {
-          req.reply({ data });
-        } else if (status === APPOINTMENT_STATUS.booked) {
           req.reply({
-            data: confirmedV2.data,
+            data: data.flat().map((resp, index) => resp.setId(index + 1)),
           });
-        } else if (status === APPOINTMENT_STATUS.pending) {
-          req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
-        } else req.reply({});
+        }
       },
     ).as('v2:get:appointments');
   }
 }
 
-export function mockAppointmentRequestsApi({ id = 'testing' } = {}) {
-  if (id) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v0/appointment_requests/${id}`,
-      },
-      req =>
-        req.reply({
-          // TODO: Create a CC appointment with id = testing
-          data: requests.data[1],
-        }),
-    ).as('v0:get:appointment:request');
-  }
-  cy.intercept(
-    {
-      method: 'GET',
-      pathname: '/vaos/v0/appointment_requests',
-    },
-    req => req.reply(updateRequestDates(requests)),
-  ).as('v0:get:appointment:requests');
-
-  cy.intercept(
-    {
-      method: 'POST',
-      pathname: '/vaos/v0/appointment_requests',
-    },
-    req =>
-      req.reply({
-        data: {
-          id: 'testing',
-          attributes: {},
-        },
-      }),
-  ).as('v0:create:appointment:request');
-}
-
-export function mockCancelReasonsApi({ facilityId }) {
-  if (facilityId) {
-    const id = Array.isArray(facilityId) ? facilityId[0] : facilityId;
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v0/facilities/${id}/cancel_reasons`,
-      },
-      req => {
-        req.reply(cancelReasons);
-      },
-    ).as('v0:get:facility:cancel_reason');
-  }
-}
-
-export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
-  if (apiVersion === 1) {
-    if (id) {
-      const facilityId = Array.isArray(id) ? id[0] : id;
-      cy.intercept(
-        {
-          method: 'GET',
-          pathname: `/v1/facilities/va/vha_${getStagingId(facilityId)}`,
-        },
-        req => {
-          req.reply({
-            data: facilityData.data.find(f => {
-              return f.id
-                .replace('442', '983')
-                .replace('552', '984')
-                .includes(facilityId);
-            }),
-          });
-        },
-      ).as('v1:get:facility');
-    }
-  } else if (apiVersion === 2) {
+/**
+ * Function to mock the 'GET' facility endpoint.
+ *
+ * @example GET '/vaos/v2/facilities/:id'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {String} arguments.id - The facility id.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockFacilityApi({
+  id,
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
         pathname: `/vaos/v2/facilities/${id}`,
       },
       req => {
-        const facility = facilitiesV2.data.find(f => f.id === id);
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
         req.reply({
-          data: facility,
+          data,
         });
       },
     ).as(`v2:get:facility`);
   }
 }
 
-export function mockFacilitiesApi({ data, apiVersion = 0 } = {}) {
-  if (apiVersion === 2) {
+/**
+ * Function to mock the 'GET' facilities endpoint.
+ *
+ * @example GET '/vaos/v2/facilities'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockFacilitiesApi({
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
@@ -638,16 +292,34 @@ export function mockFacilitiesApi({ data, apiVersion = 0 } = {}) {
         },
       },
       req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
         if (data) {
           req.reply({ data });
-        } else {
-          req.reply(facilitiesV2);
         }
       },
     ).as('v2:get:facilities');
   }
 }
 
+/**
+ * Function to mock the 'GET' facility configuration endpoint.
+ *
+ * @example GET '/vaos/v2/scheduling/configuration'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Array.<String>} [arguments.facilityIds] - Array of facility ids.
+ * @param {string=} [arguments.typeOfCareId] - Type of care id.
+ * @param {boolean} [arguments.isDirect=false] - Toggle if facility supports direct scheduling or not.
+ * @param {boolean} [arguments.isRequest=false] - Toggle if facility supports request scheduling or not.
+ */
 export function mockSchedulingConfigurationApi({
   facilityIds,
   typeOfCareId = null,
@@ -667,7 +339,6 @@ export function mockSchedulingConfigurationApi({
           .filter(facility =>
             facilityIds.some(id => {
               return id === facility.id;
-              // return id === getRealFacilityId(facility.id);
             }),
           )
           .map(facility => {
@@ -688,12 +359,10 @@ export function mockSchedulingConfigurationApi({
             return {
               ...facility,
               id: facility.id,
-              // id: getRealFacilityId(facility.id),
               attributes: {
                 communityCare: true,
                 ...facility.attributes,
                 facilityId: facility.id,
-                // facililtyId: getRealFacilityId(facility.id),
                 services,
               },
             };
@@ -703,47 +372,27 @@ export function mockSchedulingConfigurationApi({
       }
 
       req.reply({ data });
-
-      // if (facilityIds && typeOfCareId) {
-      //   let data = facilityIds.map(facilityId => {
-      //     const config = schedulingConfigurations.data.find(
-      //       facility => facility.id === facilityId,
-      //     );
-
-      //     if (config) {
-      //       const services = config.attributes.services.map(
-      //         setting =>
-      //           setting.id === typeOfCareId
-      //             ? {
-      //                 ...setting,
-      //                 direct: { ...setting.direct, enabled: isDirect },
-      //                 request: { ...setting.request, enabled: isRequest },
-      //               }
-      //             : setting,
-      //       );
-      //       config.attributes.services = services;
-
-      //       return config;
-      //     }
-
-      //     return null;
-      //   });
-
-      //   // Remove all falsey values from array
-      //   data = data.filter(Boolean);
-      // req.reply({
-      //   data,
-      // });
     },
-  ).as('scheduling-configurations');
+  ).as('v2:get:scheduling-configurations');
 }
 
+/**
+ * Function to mock the 'GET' eligibility endpoint.
+ *
+ * @example GET '/vaos/v2/eligibility'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
 export function mockEligibilityApi({
-  typeOfCare = 'primaryCare',
-  isEligible = false,
-  apiVersion = 2,
-} = {}) {
-  if (apiVersion === 2) {
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
@@ -751,148 +400,195 @@ export function mockEligibilityApi({
         query: { facility_id: '*', clinical_service_id: '*', type: '*' },
       },
       req => {
-        // let { data } = requestEligibilityCriteria;
-        // if (req.query.type === 'direct') {
-        // data = directEligibilityCriteria.data;
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
         req.reply({
           data: {
-            id: req.query.facility_id,
-            type: 'eligibility',
+            ...data,
             attributes: {
-              clinicalServiceId: typeOfCare,
-              eligible: isEligible,
-              type: req.query.type,
+              ...data.attributes,
+              type: data.attributes?.type || req.query.type,
             },
           },
         });
-        //   req.reply({
-        //     data,
-        //   });
       },
     ).as('v2:get:eligibility');
   }
 }
 
-export function mockCCEligibilityApi({
-  typeOfCare = 'PrimaryCare',
-  isEligible = true,
-} = {}) {
-  cy.intercept(
-    {
-      method: 'GET',
-      url: `/vaos/v0/community_care/eligibility/${typeOfCare}`,
-    },
-    req => {
-      req.reply({
-        data: {
-          id: typeOfCare,
-          type: 'cc_eligibility',
-          attributes: { eligible: isEligible },
-        },
-      });
-    },
-  ).as('v0:get:cc-eligibility');
-}
-// TODO: Refactor into 'mockCCEligibilityApi'!
-export function mockGetEligibilityCC(typeOfCare = 'PrimaryCare') {
-  cy.intercept(`/vaos/v2/community_care/eligibility/${typeOfCare}`, req => {
-    req.reply({
-      data: {
-        id: typeOfCare,
-        type: 'cc_eligibility',
-        attributes: { eligible: true },
-      },
-    });
-  }).as('eligibility-cc');
-}
-
-export function mockClinicApi({
-  clinicId,
-  facilityId,
-  locations = [],
-  apiVersion = 2,
-} = {}) {
-  if (apiVersion === 0) {
+/**
+ * Convience function to mock the 'GET' elligibility endpoint for direct scheduling.
+ *
+ * @example GET '/vaos/v2/eligibility?facility_id=*&clinical_service_id=*&type=direct'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockEligibilityDirectApi({
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
-        pathname: `/vaos/v0/facilities/${facilityId}/clinics`,
+        pathname: '/vaos/v2/eligibility',
+        query: { facility_id: '*', clinical_service_id: '*', type: 'direct' },
       },
       req => {
-        req.reply({ data: clinicList983.data });
-      },
-    ).as('v0:get:clinics');
-  } else if (apiVersion === 2) {
-    locations.forEach(locationId => {
-      let { data } = clinicsV2;
-      if (clinicId) data = data.filter(clinic => clinic.id === clinicId);
-
-      cy.intercept(
-        {
-          method: 'GET',
-          path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
-        },
-        req => {
+        if (responseCode !== 200) {
           req.reply({
-            data,
+            forceNetworkError: true,
           });
-        },
-      ).as(`v2:get:clinics`);
 
-      cy.intercept(
-        {
-          method: 'GET',
-          // path: `/vaos/v2/locations/${locationId}/clinics\\?clinic_ids[]**`,
-          path: `/vaos/v2/locations/${locationId}/clinics\\?clinic_ids%5B%5D**`,
-        },
-        req => {
-          req.reply({
-            data,
-          });
-        },
-      ).as('v2:get:clinic');
-    });
-  }
-}
+          return;
+        }
 
-export function mockDirectScheduleSlotsApi({
-  locationId = '983',
-  clinicId,
-  start = moment(),
-  end = moment(),
-  apiVersion = 0,
-} = {}) {
-  if (apiVersion === 0) {
-    const data = [
-      {
-        id: '1',
-        type: 'slot',
-        attributes: {
-          appointmentTimeSlot: [
-            {
-              bookingStatus: '1',
-              remainingAllowedOverBookings: '3',
-              availability: true,
-              startDateTime: start.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-              endDateTime: end.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-            },
-          ],
-        },
-      },
-    ];
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/vaos/v0/facilities/983/available_appointments*',
-      },
-      req => {
         req.reply({
           data,
         });
       },
-    ).as('v0:get:slots');
-  } else if (apiVersion === 2) {
+    ).as('v2:get:eligibility:direct');
+  }
+}
+
+/**
+ * Convience function to mock the 'GET' elligibility endpoint for request scheduling.
+ *
+ * @example GET '/vaos/v2/eligibility?facility_id=*&clinical_service_id=*&type=request'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockEligibilityRequestApi({
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v2/eligibility',
+        query: { facility_id: '*', clinical_service_id: '*', type: 'request' },
+      },
+      req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
+        req.reply({
+          data,
+        });
+      },
+    ).as('v2:get:eligibility:request');
+  }
+}
+
+/**
+ * Function to mock the 'GET' community care eligibility endpoint. This function is
+ * used to determine if a veteran is eligible to schedule CC appointments for the
+ * given type of care or not.
+ *
+ * @example GET '/vaos/v2/community_care/eligibility/:cceType'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {String} arguments.cceType - Community care eligibility type code.
+ * @param {Boolean} [arguments.isEligible=true] - Flag to determine CC eligibility
+ */
+export function mockEligibilityCCApi({ cceType, isEligible: eligible = true }) {
+  cy.intercept(`/vaos/v2/community_care/eligibility/${cceType}`, req => {
+    req.reply({
+      data: {
+        id: cceType,
+        type: 'cc_eligibility',
+        attributes: { eligible },
+      },
+    });
+  }).as('v2:get:eligibility-cc');
+}
+
+/**
+ * Function to mock the 'GET' clinics endpoint. This function is used get all
+ * clinics associated with the given facility/location.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {String} arguments.locationId - Location id.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockClinicsApi({
+  locationId,
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
+      },
+      req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
+        req.reply({
+          data,
+        });
+      },
+    ).as(`v2:get:clinics`);
+  }
+}
+
+/**
+ * Function to mock the 'GET' clinic available appointment slots endpoint.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics/:clinicId/slots'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {string} arguments.locationId - Location/facility id. The mocked facility id should be used here.
+ * @param {string} arguments.clinicId - Clinic id. The mocked clinic id should be used.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode = 200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version = 2] - Api version number.
+ */
+export function mockSlotsApi({
+  locationId,
+  clinicId,
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  if (version === 2) {
     cy.intercept(
       {
         method: 'GET',
@@ -903,56 +599,31 @@ export function mockDirectScheduleSlotsApi({
         },
       },
       req => {
+        if (responseCode !== 200) {
+          req.reply({
+            forceNetworkError: true,
+          });
+
+          return;
+        }
+
         req.reply({
-          data: [
-            {
-              id: '123',
-              type: 'slots',
-              attributes: {
-                start: start.utc().format(),
-                end: end.utc().format(),
-              },
-            },
-          ],
+          data,
         });
       },
     ).as('v2:get:slots');
   }
 }
 
-export function mockLoginApi({
-  facilityId = '983',
-  withoutAddress = false,
-} = {}) {
-  if (facilityId) {
-    const user = {
-      ...mockUser,
-      data: {
-        ...mockUser.data,
-        attributes: {
-          ...mockUser.data.attributes,
-          vaProfile: {
-            ...mockUser.data.attributes.vaProfile,
-            facilities: [
-              ...mockUser.data.attributes.vaProfile.facilities,
-              { facilityId },
-            ],
-          },
-        },
-      },
-    };
-    cy.login(user);
-  } else if (withoutAddress) {
-    const mockUserWithoutAddress = unset(
-      'data.attributes.vet360ContactInformation.residentialAddress.addressLine1',
-      mockUser,
-    );
-    cy.login(mockUserWithoutAddress);
-  } else {
-    cy.login(mockUser);
-  }
-}
-
+/**
+ * Function to mock the 'GET' user transition availabilities endpoint.
+ *
+ * @example GET /v0/user_transition_availabilities
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {number} [arguments.version=0] - Api version number.
+ */
 export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
   if (version === 0) {
     cy.intercept(
@@ -972,6 +643,11 @@ export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
   }
 }
 
+/**
+ * Function to add custom Cypress commands.
+ *
+ * @export
+ */
 export function vaosSetup() {
   Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {
@@ -1033,6 +709,17 @@ export function vaosSetup() {
   });
 }
 
+/**
+ * Function to mock the 'GET' vamc-ehr.json endpoint. This endpoint is used to
+ * determine if Cerner is used or not.
+ *
+ * @example GET /data/cms/vamc-ehr.json
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Boolean} [arguments.isCerner=false] - Flag to determine if a facility is Cerner or not.
+ * The default facilities are '983' and '984'.
+ */
 export function mockVamcEhrApi({ isCerner = false } = {}) {
   const fieldVamcEhrSystem = isCerner ? 'cerner' : 'vista';
 

@@ -119,9 +119,6 @@ export const profileDoNotRequireInternationalZipCode = state =>
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
   ];
 
-export const profileUseLighthouseDirectDepositEndpoint = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileLighthouseDirectDeposit];
-
 export const togglesAreLoaded = state => {
   return !toggleValues(state)?.loading;
 };
@@ -162,9 +159,9 @@ export const selectHideDirectDepositCompAndPen = state =>
 export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
 
 export const selectProfileContactsToggle = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts];
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;
 
-export const selectProfileContacts = state => state?.profileContacts || false;
+export const selectProfileContacts = state => state?.profileContacts || {};
 
 export const selectEmergencyContact = state => {
   const contacts = selectProfileContacts(state).data || [];

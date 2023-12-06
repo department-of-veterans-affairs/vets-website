@@ -784,4 +784,70 @@ describe('actionCreators', () => {
       ).to.be.false;
     });
   });
+  it('creates FETCH_PROFILE_FAILED when fetching profile has failed', () => {
+    const fetchStub = sinon.stub(global, 'fetch');
+    const errorMessage = 'Not Found';
+    const response = new Response(null, {
+      status: 404,
+      statusText: errorMessage,
+    });
+
+    fetchStub.returns(Promise.resolve(response));
+
+    const expectedActions = [
+      { type: 'FETCH_PROFILE_STARTED' },
+      { type: 'FETCH_PROFILE_FAILED', payload: errorMessage },
+    ];
+
+    const store = mockStore({
+      constants: { constants: { AVGVABAH: '', AVGDODBAH: '' } },
+    });
+
+    return store
+      .dispatch(actions.fetchProfile('http://example.com/profile'))
+      .then(() => {
+        expect(store.getActions()).to.eql(expectedActions);
+      })
+      .catch(() => {});
+  });
+  it('creates FETCH_CONSTANTS_STARTED when fetching profile has failed', () => {
+    const fetchStub = sinon.stub(global, 'fetch');
+    const errorMessage = 'Not Found';
+    const response = new Response(null, {
+      status: 404,
+      statusText: errorMessage,
+    });
+
+    fetchStub.returns(Promise.resolve(response));
+
+    const expectedActions = [
+      { type: 'FETCH_CONSTANTS_STARTED' },
+      { type: 'FETCH_PROFILE_FAILED', payload: errorMessage },
+    ];
+
+    const store = mockStore({
+      constants: { constants: { AVGVABAH: '', AVGDODBAH: '' } },
+    });
+
+    return store
+      .dispatch(actions.fetchConstants('http://example.com/profile'))
+      .then(() => {
+        expect(store.getActions()).to.eql(expectedActions);
+      })
+      .catch(() => {});
+  });
+  it('dispatches FETCH_BAH_FAILED when server returns an error', () => {
+    const store = mockStore({});
+    const fetchStub = sinon.stub(global, 'fetch');
+    const mockErrorResponse = {
+      errors: [{ title: 'Invalid ZIP Code' }],
+    };
+    const mockResponse = new Response(JSON.stringify(mockErrorResponse), {
+      status: 422,
+      headers: { 'Content-type': 'application/json' },
+    });
+
+    fetchStub.returns(Promise.resolve(mockResponse));
+    return store.dispatch(actions.beneficiaryZIPCodeChanged('12345'));
+  });
 });

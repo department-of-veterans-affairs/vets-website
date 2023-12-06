@@ -41,7 +41,7 @@ const VeteranInformationViewComponent = props => {
           <va-alert status="info">{alertContent}</va-alert>
           <p>
             <strong>Note:</strong> If you need to update your personal
-            information, please call Veterans Benefits Assistance at{' '}
+            information, call Veterans Benefits Assistance at{' '}
             <va-telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00 a.m.{' '}
             and 9:00 p.m. ET Monday through Friday.
           </p>

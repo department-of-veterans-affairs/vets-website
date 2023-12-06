@@ -91,13 +91,6 @@ describe('Reply form component', () => {
     expect(actionButtons).to.exist;
   });
 
-  it('renders the message replied to', async () => {
-    const screen = render();
-    expect(screen.getByText('Message you are replying to.', { selector: 'h2' }))
-      .to.have.attribute('class')
-      .to.equal('sr-only');
-  });
-
   it('renders the message signature in the textarea if a signature is included', async () => {
     const screen = render();
     expect(screen.getByTestId('message-body-field'))

@@ -9,7 +9,6 @@ import {
   selectFeatureStatusImprovement,
   selectFeaturePrintList,
   selectFeatureStartSchedulingLink,
-  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
@@ -18,14 +17,14 @@ function handleClick(
   history,
   dispatch,
   typeOfCare,
-  featureBreadcrumbUrlUpdate = false,
+  featureStartSchedulingLink = false,
 ) {
   return e => {
     // Stop default behavior for anchor tag since we are using React routing.
     e.preventDefault();
 
     recordEvent({
-      event: featureBreadcrumbUrlUpdate
+      event: featureStartSchedulingLink
         ? `${GA_PREFIX}-start-scheduling-link`
         : `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
@@ -42,9 +41,6 @@ function ScheduleNewAppointmentButton() {
   const featureStartSchedulingLink = useSelector(
     selectFeatureStartSchedulingLink,
   );
-  const featureBreadcrumbUrlUpdate = useSelector(
-    selectFeatureBreadcrumbUrlUpdate,
-  );
 
   return featureStartSchedulingLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -55,7 +51,7 @@ function ScheduleNewAppointmentButton() {
         history,
         dispatch,
         typeOfCare,
-        featureBreadcrumbUrlUpdate,
+        featureStartSchedulingLink,
       )}
     >
       Start scheduling

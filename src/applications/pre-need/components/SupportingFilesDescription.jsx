@@ -5,7 +5,7 @@ export default function SupportingFilesDescription() {
   return (
     <div>
       <div>
-        <h3 className="vads-u-font-size--h5">Upload supporting files </h3>
+        <h4 className="vads-u-font-size--h5">Upload supporting files </h4>
 
         <p>
           If you have supporting files readily available, you can upload them to

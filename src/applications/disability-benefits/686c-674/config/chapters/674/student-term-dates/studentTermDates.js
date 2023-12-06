@@ -17,8 +17,8 @@ export const uiSchema = {
       'ui:validations': [validateDate],
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid date',
-        required: 'Please enter a date',
+        pattern: 'Enter a valid date',
+        required: 'Enter a date',
       },
     },
     expectedStudentStartDate: {
@@ -27,8 +27,8 @@ export const uiSchema = {
       'ui:validations': [validateDate],
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid date',
-        required: 'Please enter a date',
+        pattern: 'Enter a valid date',
+        required: 'Enter a date',
       },
     },
     expectedGraduationDate: {
@@ -37,8 +37,8 @@ export const uiSchema = {
       'ui:validations': [validateDate],
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:errorMessages': {
-        pattern: 'Please enter a valid date',
-        required: 'Please enter a date',
+        pattern: 'Enter a valid date',
+        required: 'Enter a date',
       },
     },
   },
@@ -50,7 +50,7 @@ export const uiSchema = {
         'Is the student enrolled full-time in high school or college?',
       'ui:description':
         'Complete this section if the student is enrolled in an education/training program other than high school or college, or if the student will attend high school or college less than full-time.',
-      'ui:errorMessages': { required: 'Please select an option' },
+      'ui:errorMessages': { required: 'Select an option' },
     },
     courseOfStudy: {
       'ui:required': formData =>
@@ -60,7 +60,7 @@ export const uiSchema = {
         expandUnderCondition: false,
       },
       'ui:title': 'Subject or educational/training program',
-      'ui:errorMessages': { required: 'Please enter a course or program name' },
+      'ui:errorMessages': { required: 'Enter a course or program name' },
     },
     classesPerWeek: {
       ...classesPerWeekUiSchema,

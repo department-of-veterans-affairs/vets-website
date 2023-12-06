@@ -7,6 +7,7 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 
 import { isLandingPageEnabled } from './isLandingPageEnabled';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
+import { hasHealthData } from './hasHealthData';
 
 const selectVamcEhrData = state =>
   selectDrupalStaticData(state)?.vamcEhrData || {};
@@ -20,4 +21,5 @@ export {
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
+  hasHealthData,
 };

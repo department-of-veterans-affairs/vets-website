@@ -7,12 +7,23 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf } from '../../util/helpers';
 import {
-  generatePdfScaffold,
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../../util/helpers';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
+import {
   updatePageTitle,
+  generatePdfScaffold,
+  formatName,
 } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -27,17 +38,11 @@ const AdmissionAndDischargeDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate =
-        record.startDate !== EMPTY_FIELD && record.endDate !== EMPTY_FIELD
-          ? `${record.startDate} to ${record.endDate} - `
-          : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
       );
     },
-    [record.endDate, record.name, record.startDate],
+    [record],
   );
 
   const generateCareNotesPDF = async () => {
@@ -71,8 +76,8 @@ const AdmissionAndDischargeDetails = props => {
           inline: true,
         },
         {
-          title: 'Discharge by',
-          value: record.dischargeBy,
+          title: 'Discharged by',
+          value: record.dischargedBy,
           inline: true,
         },
       ],
@@ -100,82 +105,93 @@ const AdmissionAndDischargeDetails = props => {
     );
   };
 
-  const content = () => {
-    return (
-      <>
-        <PrintHeader />
-        <h1
-          className="vads-u-margin-bottom--0"
-          aria-describedby="admission-discharge-date"
-        >
-          {record.name}
-        </h1>
+  const generateCareNotesTxt = () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Admission and discharge summary\n
+${txtLine}\n\n
+Details\n
+Location: ${record.location}\n
+Admission date: ${record.admissionDate}\n
+Discharge date: ${record.dischargeDate}\n
+Admitted by: ${record.admittedBy}\n
+Discharged by: ${record.dischargedBy}\n
+${txtLine}\n\n
+Summary\n
+${record.summary}`;
 
-        <div className="time-header">
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans"
-            id="admission-discharge-date"
-          >
-            Dates:{' '}
-            {record.startDate &&
-              record.endDate && (
-                <span
-                  className="vads-u-font-weight--normal"
-                  data-testid="header-times"
-                >
-                  {record.startDate} to {record.endDate}
-                </span>
-              )}
-          </h2>
-        </div>
-
-        <p className="vads-u-margin-bottom--0">
-          Review a summary of your stay at a hospital or other health facility
-          (called an admission and discharge summary).
-        </p>
-        <div className="no-print">
-          <PrintDownload
-            download={generateCareNotesPDF}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </div>
-
-        <div className="test-details-container max-80">
-          <h2>Details</h2>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Location
-          </h3>
-          <p>{record.location}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Admission date
-          </h3>
-          <p>{record.startDate}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Discharge date
-          </h3>
-          <p>{record.endDate}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Admitted by
-          </h3>
-          <p>{record.admittingPhysician}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Discharged by
-          </h3>
-          <p>{record.dischargePhysician}</p>
-        </div>
-
-        <div className="test-results-container">
-          <h2>Summary</h2>
-          <p>{record.summary}</p>
-        </div>
-      </>
+    generateTextFile(
+      content,
+      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
     );
   };
 
+  const dates =
+    record.admissionDate &&
+    record.dischargeDate &&
+    `${record.admissionDate} to ${record.dischargeDate}`;
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {record && content()}
+      <PrintHeader />
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="admission-discharge-date"
+      >
+        {record.name}
+      </h1>
+
+      <DateSubheading
+        date={dates}
+        label="Dates"
+        id="admission-discharge-date"
+      />
+
+      <p className="vads-u-margin-bottom--0">
+        Review a summary of your stay at a hospital or other health facility
+        (called an admission and discharge summary).
+      </p>
+      <div className="no-print">
+        <PrintDownload
+          download={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      </div>
+
+      <div className="test-details-container max-80">
+        <h2>Details</h2>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Location
+        </h3>
+        <p>{record.location}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Admission date
+        </h3>
+        <p>{record.admissionDate}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Discharge date
+        </h3>
+        <p>{record.dischargeDate}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Admitted by
+        </h3>
+        <p>{record.admittedBy}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Discharged by
+        </h3>
+        <p>{record.dischargedBy}</p>
+      </div>
+
+      <div className="test-results-container">
+        <h2>Summary</h2>
+        <p>{record.summary}</p>
+      </div>
     </div>
   );
 };

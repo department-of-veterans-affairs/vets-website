@@ -48,3 +48,27 @@ describe('Edu 1995 benefitSelection', () => {
     expect(onSubmit.called).to.be.true;
   });
 });
+
+describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
+  beforeEach(() => {
+    global.window.buildType = true;
+  });
+  afterEach(() => {
+    global.window.buildType = false;
+  });
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.benefitSelection.pages.benefitSelection;
+  it('renders the correct amount of options for the benefit selection radio button', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+      />,
+    );
+    expect(form.find('input').length).to.equal(5);
+    form.unmount();
+  });
+});

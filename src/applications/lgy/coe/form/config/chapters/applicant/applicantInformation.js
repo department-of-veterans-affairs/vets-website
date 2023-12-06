@@ -9,7 +9,7 @@ const description = () => (
   <>
     <p>
       This is the personal information we have on file for you. If you notice
-      any errors, please correct them now. Any updates you make will change the
+      any errors, correct them now. Any updates you make will change the
       information on this request only.
     </p>
     <p>

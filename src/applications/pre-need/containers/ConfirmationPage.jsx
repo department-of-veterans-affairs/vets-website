@@ -21,9 +21,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">
+        <h2 className="confirmation-page-title">
           Your claim has been submitted.
-        </h3>
+        </h2>
         <p>
           We’ll let you know by mail or phone if we need more information.
           <br />
@@ -67,7 +67,7 @@ class ConfirmationPage extends React.Component {
             text="Print this page"
           />
         </div>
-        <h4>Do you have more files you need to submit?</h4>
+        <h3>Do you have more files you need to submit?</h3>
         <p className="mail-or-fax-message">To mail or fax additional files:</p>
         <ol className="mail-or-fax-steps">
           <li className="mail-or-fax-step">Make copies of the files.</li>
@@ -93,9 +93,9 @@ class ConfirmationPage extends React.Component {
           </li>
         </ol>
         <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">
+          <h3 className="confirmation-guidance-heading">
             What happens after I apply?
-          </h4>
+          </h3>
           <a
             className="confirmation-guidance-message"
             href="/burials-memorials/pre-need-eligibility/after-you-apply/"

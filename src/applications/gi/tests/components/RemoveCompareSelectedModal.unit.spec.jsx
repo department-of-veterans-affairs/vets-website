@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import RemoveCompareSelectedModal from '../../components/RemoveCompareSelectedModal';
 
@@ -18,6 +19,20 @@ describe('<RemoveCompareSelectedModal/>', () => {
     expect(wrapper.find('p').text()).to.equal(
       'Do you want to remove name from your comparison?',
     );
+    wrapper.unmount();
+  });
+  it('should call onClose when the modal is closed', () => {
+    const onCloseMock = sinon.spy();
+    const wrapper = shallow(
+      <RemoveCompareSelectedModal
+        name="Institution Name"
+        onClose={onCloseMock}
+        onRemove={() => {}}
+        onCancel={() => {}}
+      />,
+    );
+    wrapper.find('Modal').prop('onClose')();
+    expect(onCloseMock.called).to.be.true;
     wrapper.unmount();
   });
 });

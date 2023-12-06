@@ -28,6 +28,10 @@ describe('Validate Field function', () => {
   it("should return 'None noted'", () => {
     expect(helpers.validateField()).to.equal('None noted');
   });
+
+  it('should return 0', () => {
+    expect(helpers.validateField(0)).to.equal(0);
+  });
 });
 
 describe('Image URI function', () => {

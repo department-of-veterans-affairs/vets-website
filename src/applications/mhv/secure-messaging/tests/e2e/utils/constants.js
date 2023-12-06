@@ -41,6 +41,11 @@ export const Locators = {
     SAVE_DRAFT: '#save-draft-button',
     DELETE_DRAFT: '#delete-draft-button',
     CREATE_FOLDER: '[data-testid="create-new-folder"]',
+    EDIT_FOLDER: '[data-testid="edit-folder-button"]',
+  },
+  LINKS: {
+    GO_TO_INBOX: '[data-testid="inbox-link"]',
+    CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   InboxPage: {
     COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',

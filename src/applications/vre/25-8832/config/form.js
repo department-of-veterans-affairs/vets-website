@@ -37,7 +37,7 @@ const formConfig = {
       inProgress:
         'Your Personalized Career Planning and Guidance Chapter 36 benefit application is in progress.',
       expired:
-        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit application has expired. If you want to apply for PCPG Chapter 36 benefits, please start a new application.',
+        'Your saved Personalized Career Planning and Guidance Chapter 36 benefit application has expired. If you want to apply for PCPG Chapter 36 benefits, start a new application.',
       saved: 'Your PCPG Chapter 36 benefits application has been saved.',
     },
   },
@@ -55,9 +55,9 @@ const formConfig = {
     ],
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for Planning and career guidance.',
+    notFound: 'Start over to apply for Planning and career guidance.',
     noAuth:
-      'Please sign in again to continue your application for Planning and career guidance.',
+      'Sign in again to continue your application for Planning and career guidance.',
   },
   title:
     'Apply for Personalized Career Planning and Guidance with VA Form 25-8832',

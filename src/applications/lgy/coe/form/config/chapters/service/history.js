@@ -9,7 +9,7 @@ export const uiSchema = {
   periodsOfService: {
     'ui:title': 'Military service history',
     'ui:description':
-      'Please add or update your military service history details below.',
+      'Add or update your military service history details below.',
     'ui:options': {
       itemName: 'Service Period',
       viewField: ServicePeriodView,

@@ -6,7 +6,7 @@ import moment from 'moment';
 import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
@@ -57,12 +57,12 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <Breadcrumbs className="vads-u-font-family--sans">
+      <VaBreadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
         <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
-      </Breadcrumbs>
+      </VaBreadcrumbs>
       <h1
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
@@ -133,7 +133,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 <strong>Note:</strong> The content of the debt letters below may
                 not include recent updates to your debt reflected above. If you
                 have any questions about your debt history, please contact the
-                Debt Management Center at
+                Debt Management Center at{' '}
                 <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"

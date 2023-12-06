@@ -121,7 +121,6 @@
           "@department-of-veterans-affairs/platform-user/CreateAccountLink": "./src/platform/user/authentication/components/CreateAccountLink.jsx",
           "@department-of-veterans-affairs/platform-user/VerifyAccountLink": "./src/platform/user/authentication/components/VerifyAccountLink.jsx",
           "@department-of-veterans-affairs/platform-user/DowntimeBanner": "./src/platform/user/authentication/components/DowntimeBanner.js",
-          "@department-of-veterans-affairs/platform-user/FedWarning": "./src/platform/user/authentication/components/FedWarning.jsx",
           "@department-of-veterans-affairs/platform-user/IDMeSVG": "./src/platform/user/authentication/components/IDMeSVG.jsx",
           "@department-of-veterans-affairs/platform-user/LoginActions": "./src/platform/user/authentication/components/LoginActions.jsx",
           "@department-of-veterans-affairs/platform-user/LoginButton": "./src/platform/user/authentication/components/LoginButton.jsx",
@@ -197,9 +196,10 @@
 
           "@department-of-veterans-affairs/platform-forms/exports": "./src/platform/forms/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms/labels": "./src/platform/forms/address/data/labels.js",
+          "@department-of-veterans-affairs/platform-forms/preSubmitInfo": "./src/platform/forms/preSubmitInfo.js",
           "@department-of-veterans-affairs/platform-forms/addressHelpers": "./src/platform/forms/address/helpers.js",
           "@department-of-veterans-affairs/platform-forms/address": "./src/platform/forms/address/index.js",
-          "@department-of-veterans-affairs/platform-forms/validations": "./src/platform/forms/address/validations.js",
+          "@department-of-veterans-affairs/platform-forms/validations": "./src/platform/forms/validations.js",
           "@department-of-veterans-affairs/platform-forms/ErrorMessage": "./src/platform/forms/components/common/alerts/ErrorMessage.jsx",
           "@department-of-veterans-affairs/platform-forms/grid": "./src/platform/forms/components/commong/grid/index.js",
           "@department-of-veterans-affairs/platform-forms/BurialModalContent": "./src/platform/forms/components/OMBInfoModalContent/BurialModalContent.jsx",
@@ -289,6 +289,8 @@
           "@department-of-veterans-affairs/platform-forms-system/helpers": "./src/platform/forms-system/src/js/helpers.js",
           "@department-of-veterans-affairs/platform-forms-system/routing": "./src/platform/forms-system/src/js/routing.js",
           "@department-of-veterans-affairs/platform-forms-system/validation": "./src/platform/forms-system/src/js/validation.js",
+          "@department-of-veterans-affairs/platform-forms-system/web-component-patterns": "./src/platform/forms-system/src/js/web-component-patterns/index.js",
+          "@department-of-veterans-affairs/platform-forms-system/web-component-fields": "./src/platform/forms-system/src/js/web-component-fields/index.js",
 
           "@department-of-veterans-affairs/platform-monitoring/exports": "./src/platform/monitoring/exportsFile.js",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/index.jsx",

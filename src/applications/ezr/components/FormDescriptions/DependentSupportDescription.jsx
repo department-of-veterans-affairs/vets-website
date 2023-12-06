@@ -3,7 +3,7 @@ import React from 'react';
 export const DependentSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a dependent"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -11,7 +11,7 @@ export const DependentSupportDescription = (
         amount, to be financial support.
       </p>
       <p className="vads-u-font-weight--bold">
-        Financial Support includes payments for these types of expenses:
+        Financial support includes payments for these types of expenses:
       </p>
       <ul className="vads-u-margin-bottom--0">
         <li>Tuition or medical bills</li>

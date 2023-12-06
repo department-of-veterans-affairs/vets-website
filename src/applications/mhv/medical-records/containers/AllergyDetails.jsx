@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,7 +10,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -23,6 +27,8 @@ import {
   updatePageTitle,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import DateSubheading from '../components/shared/DateSubheading';
+import { txtLine } from '../../shared/util/constants';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -112,13 +118,23 @@ const AllergyDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Allergies-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Allergies-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
+  };
+
+  const generateAllergyTxt = async () => {
+    const content = `
+    ${allergy.name} \n
+    Date entered: ${allergy.date} \n
+    ${txtLine} \n
+    \t Signs and symptoms: ${allergy.reaction} \n
+    \t Type of Allergy: ${allergy.type} \n
+    \t Location: ${allergy.location} \n
+    \t Observed or historical: ${allergy.observedOrReported} \n
+    \t Provider notes: ${allergy.notes} \n`;
+
+    generateTextFile(content, 'Allergy');
   };
 
   const content = () => {
@@ -144,25 +160,17 @@ const AllergyDetails = props => {
             Allergies and reactions:{' '}
             <span data-dd-privacy="mask">{allergy.name}</span>
           </h1>
+          <DateSubheading
+            date={allergy.date}
+            label="Date entered"
+            id="allergy-date"
+          />
+
           <div className="condition-subheader vads-u-margin-bottom--4">
-            <div className="time-header">
-              <p
-                className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--bold"
-                id="allergy-date"
-              >
-                Date entered:{' '}
-                <span
-                  className="vads-u-font-weight--normal"
-                  data-dd-privacy="mask"
-                  data-testid="header-time"
-                >
-                  {allergy.date}
-                </span>
-              </p>
-            </div>
             <PrintDownload
               download={generateAllergyPdf}
               allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergyTxt}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
           </div>
@@ -203,14 +211,13 @@ const AllergyDetails = props => {
       );
     }
     return (
-      <>
+      <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="Loading..."
           setFocus
           data-testid="loading-indicator"
-          class="loading-indicator"
         />
-      </>
+      </div>
     );
   };
 

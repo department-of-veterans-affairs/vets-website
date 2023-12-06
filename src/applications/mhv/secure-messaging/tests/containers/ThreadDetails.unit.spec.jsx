@@ -15,9 +15,9 @@ import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.j
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
 import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
-import { getByBrokenText, inputVaTextInput } from '../../util/testUtils';
+import { inputVaTextInput } from '../../util/testUtils';
 import {
-  dateFormat,
+  threadsDateFormat,
   getLastSentMessage,
   isOlderThan,
 } from '../../util/helpers';
@@ -35,7 +35,7 @@ describe('Thread Details container', () => {
   const replyMessage = draftMessageHistory[0];
   const olderMessage = draftMessageHistory[1];
 
-  it('with no drafts renders Thread Details with messages in a thread', async () => {
+  it('renders Thread Details with messages in a thread', async () => {
     const state = {
       sm: {
         messageDetails: {
@@ -62,30 +62,34 @@ describe('Thread Details container', () => {
         selector: 'h1',
       }),
     ).to.exist;
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `From: ${senderName} (${triageGroupName})`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `To: ${recipientName}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: ${dateFormat(sentDate)}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Message ID: ${messageId}`,
-    );
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`From: ${senderName} (${triageGroupName})`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`To: ${recipientName}`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Date: ${threadsDateFormat(sentDate)}`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Message ID: ${messageId}`);
 
     expect(screen.getByText(body)).to.exist;
 
-    expect(screen.getByText('Messages in this conversation')).to.exist;
+    expect(screen.getByText('2 Messages in this conversation')).to.exist;
     expect(
       document
         .querySelector('.older-messages')
         .querySelectorAll('.older-message'),
-    ).to.have.length(1);
+    ).to.have.length(2);
   });
 
-  it('with no drafts renders Thread Details with NO messages in a thread', async () => {
+  it('renders Thread Details with NO message history in a thread', async () => {
     const state = {
       sm: {
         messageDetails: {
@@ -114,23 +118,23 @@ describe('Thread Details container', () => {
       }),
     ).to.exist;
 
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `From: ${senderName} (${triageGroupName})`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `To: ${recipientName}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: ${dateFormat(sentDate)}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Message ID: ${messageId}`,
-    );
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`From: ${senderName} (${triageGroupName})`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`To: ${recipientName}`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Date: ${threadsDateFormat(sentDate)}`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Message ID: ${messageId}`);
 
     expect(screen.getByText(body)).to.exist;
 
-    expect(screen.queryByText('Messages in this conversation')).to.be.null;
-    expect(document.querySelector('.older-messages')).to.be.null;
+    expect(screen.queryByText('1 Message in this conversation')).to.exist;
+    expect(document.querySelector('.older-messages')).to.not.be.null;
   });
 
   it('with one draft message renders Edit Draft', async () => {
@@ -224,20 +228,8 @@ describe('Thread Details container', () => {
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
-    const messageRepliedTo = screen.getByTestId('message-replied-to');
-    const from = getByBrokenText(
-      `From: ${replyMessage.senderName}`,
-      messageRepliedTo,
-    );
-    expect(from).to.exist;
-    const to = getByBrokenText(
-      `To: ${replyMessage.recipientName}`,
-      messageRepliedTo,
-    );
-    expect(to).to.exist;
-
     expect(
-      screen.getByText('Messages in this conversation', {
+      screen.getByText('2 Messages in this conversation', {
         exact: true,
         selector: 'h2',
       }),
@@ -356,7 +348,7 @@ describe('Thread Details container', () => {
     const fileName = 'test.png';
     const file = new File(['(⌐□_□)'], fileName, { type: 'image/png' });
 
-    waitFor(() =>
+    await waitFor(() =>
       fireEvent.change(screen.getByTestId('attach-file-input'), {
         target: { files: [file] },
       }),
@@ -370,23 +362,25 @@ describe('Thread Details container', () => {
       response: { method: 'POST', data: {}, status: 200 },
     };
     mockMultipleApiRequests([req1, req2]);
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId('Send-Button'));
-      expect(screen.getByText('We’re sorry. Something went wrong on our end.'));
-      const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('error');
     });
+    expect(
+      await screen.findByText('We’re sorry. Something went wrong on our end.'),
+    ).to.exist;
+    const alert = document.querySelector('va-alert');
+    expect(alert)
+      .to.have.attribute('status')
+      .to.equal('error');
 
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId('Send-Button'));
-      expect(screen.getByText('Secure message was successfully sent.'));
-      const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('success');
     });
+    expect(await screen.findByText('Secure message was successfully sent.')).to
+      .exist;
+    expect(document.querySelector('va-alert'))
+      .to.have.attribute('status')
+      .to.equal('success');
   });
 
   it('renders error banner on sendReply failure', async () => {

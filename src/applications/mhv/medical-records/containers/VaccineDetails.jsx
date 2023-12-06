@@ -2,10 +2,15 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { makePdf, processList } from '../util/helpers';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  processList,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -21,8 +26,15 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import DateSubheading from '../components/shared/DateSubheading';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -66,31 +78,28 @@ const VaccineDetails = props => {
     () => {
       if (record) {
         focusElement(document.querySelector('h1'));
-        const titleDate = record.date ? `${record.date} - ` : '';
-        updatePageTitle(
-          `${titleDate}${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`,
-        );
+        updatePageTitle(`${record.name} - ${pageTitles.VACCINES_PAGE_TITLE}`);
       }
     },
     [dispatch, record],
   );
 
   const generateVaccinePdf = async () => {
-    const title = `Vaccines: ${record.name} on ${record.date}`;
+    const title = `Vaccines: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
     scaffold.details = {
       items: [
         {
-          title: 'Location',
-          value: record.location,
+          title: 'Date received',
+          value: record.date,
           inline: true,
         },
         {
-          title: 'Reaction',
-          value: processList(record.reactions),
-          inline: !record.reactions.length,
+          title: 'Location',
+          value: record.location,
+          inline: true,
         },
         {
           title: 'Provider notes',
@@ -100,13 +109,26 @@ const VaccineDetails = props => {
       ],
     };
 
-    const pdfName = `VA-Vaccines-details-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
 
     makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
+  };
+
+  const generateVaccineTxt = async () => {
+    const content = `
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+Location: ${record.location}\n
+Provider notes: ${processList(record.notes)}\n`;
+
+    const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const content = () => {
@@ -129,49 +151,53 @@ const VaccineDetails = props => {
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
             data-dd-privacy="mask"
+            data-testid="vaccine-name"
           >
-            {record.name}
+            Vaccines: {record.name}
           </h1>
-          <div className="time-header">
-            <h2
-              className="vads-u-font-size--base vads-u-font-family--sans"
-              id="vaccine-date"
-            >
-              Date:{' '}
-              <span
-                className="vads-u-font-weight--normal"
-                data-dd-privacy="mask"
-                data-testid="header-time"
-              >
-                {record.date}
-              </span>
-            </h2>
-          </div>
+          <DateSubheading
+            date={record.date}
+            label="Date received"
+            id="vaccine-date"
+          />
           <PrintDownload
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <div className="detail-block max-80">
-            <h2>Location</h2>
-            <p data-dd-privacy="mask">{record.location}</p>
-            <h2 className="vads-u-margin-bottom--0">
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-light" />
+          <div>
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h2>
+            <p
+              className="vads-u-margin-top--0"
+              data-dd-privacy="mask"
+              data-testid="vaccine-location"
+            >
+              {record.location}
+            </p>
+            {/* <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
-            <ItemList list={record.reactions} />
-            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <ItemList list={record.reactions} /> */}
+            <h2 className="vads-u-margin-top--2 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              Provider notes
+            </h2>
             <ItemList list={record.notes} />
           </div>
         </>
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

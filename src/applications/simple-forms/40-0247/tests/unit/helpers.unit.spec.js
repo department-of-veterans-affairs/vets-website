@@ -1,11 +1,28 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import {
+  trackNoAuthStartLinkClick,
   createPayload,
   getInitialData,
   dateOfDeathValidation,
   parseResponse,
 } from '../../helpers';
+
+describe('trackNoAuthStartLinkClick', () => {
+  it('should call recordEvent with correct argument', () => {
+    const recordEventStub = sinon.stub(recordEventModule, 'default');
+
+    trackNoAuthStartLinkClick();
+
+    expect(recordEventStub.calledWith({ event: 'no-login-start-form' })).to.be
+      .true;
+
+    recordEventStub.restore();
+  });
+});
 
 describe('getInitialData', () => {
   it('returns mockData if environment is localhost and Cypress is not running', () => {

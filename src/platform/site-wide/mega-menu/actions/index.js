@@ -5,12 +5,12 @@ export const TOGGLE_DISPLAY_HIDDEN = 'TOGGLE_DISPLAY_HIDDEN';
 const tabletMediaQuery = window.matchMedia('(min-width: 768px)');
 
 export const togglePanel = megaMenu => ({
-  type: 'TOGGLE_PANEL_OPEN',
+  type: TOGGLE_PANEL_OPEN,
   megaMenu,
 });
 
 export const toggleDisplayHidden = display => ({
-  type: 'TOGGLE_DISPLAY_HIDDEN',
+  type: TOGGLE_DISPLAY_HIDDEN,
   display,
 });
 
