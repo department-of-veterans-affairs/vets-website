@@ -30,7 +30,7 @@ export const OfficialGovtWebsite = () => {
           className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
           onClick={onToggle}
         >
-          An official website of the United States government. BLAHHHH
+          An official website of the United States government.
           <i
             aria-hidden="true"
             className="fa fa-chevron-down vads-u-margin-left--0p5"

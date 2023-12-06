@@ -34,8 +34,6 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
     return null;
   }
 
-  console.log('hello');
-
   hideLegacyHeader();
 
   return (

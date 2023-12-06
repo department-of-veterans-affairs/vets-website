@@ -1,6 +1,4 @@
-// Node modules.
 import '@department-of-veterans-affairs/formation/dist/formation';
-// Relative imports.
 import '../monitoring/sentry.js';
 import './component-library-analytics-setup';
 import './medallia-feedback-button';
@@ -57,5 +55,6 @@ export default function startSitewideComponents(commonStore) {
 
   // Start Veteran Crisis Line modal functionality.
   addFocusBehaviorToCrisisLineModal();
+  console.log('this is happening');
   addOverlayTriggers();
 }

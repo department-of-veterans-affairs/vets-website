@@ -222,10 +222,8 @@ export class Main extends Component {
   };
 
   render() {
-    console.log('hi helloooooo');
-    // console.log('showLoginModal');
-    console.log('showLoginModal (main): ', this.props.showLoginModal);
-    console.log('canShowLoginModal (main): ', this.props.canShowLoginModal);
+    // console.log('showLoginModal (main): ', this.props.showLoginModal);
+    // console.log('canShowLoginModal (main): ', this.props.canShowLoginModal);
     const { mhvTransition, mhvTransitionModal } = this.props;
 
     return (

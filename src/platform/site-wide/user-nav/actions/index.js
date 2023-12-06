@@ -29,8 +29,6 @@ export function toggleLoginModal(isOpen, context) {
     recordEvent({ event });
   }
 
-  console.log('isOpen (actions): ', isOpen);
-
   return { type: TOGGLE_LOGIN_MODAL, isOpen };
 }
 
