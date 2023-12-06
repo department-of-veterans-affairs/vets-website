@@ -9,12 +9,16 @@ export class PreferredDatePageObject extends PageObject {
     return this;
   }
 
-  typeDate() {
-    const preferredDate = moment()
-      .add(1, 'month')
-      .startOf('month')
-      .add(4, 'days');
-
+  typeDate({ date } = {}) {
+    let preferredDate;
+    if (date) {
+      preferredDate = moment(date);
+    } else {
+      preferredDate = moment()
+        .add(1, 'month')
+        .startOf('month')
+        .add(4, 'days');
+    }
     cy.findByLabelText('Month').select(preferredDate.format('MMMM'));
     cy.findByLabelText('Day').select(preferredDate.format('D'));
     cy.findByLabelText('Year').type(preferredDate.format('YYYY'));

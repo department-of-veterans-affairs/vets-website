@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { fillPrescription } from '../../actions/prescriptions';
@@ -16,31 +16,54 @@ const FillRefillButton = rx => {
     isRefillable,
   } = rx;
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(
+    () => {
+      if (success || error) {
+        setIsLoading(false);
+      }
+    },
+    [success, error],
+  );
+
   if (isRefillable) {
     return (
-      <div>
+      <div className="rx-fill-refill-button">
         {success && (
           <va-alert status="success" setFocus aria-live="polite">
-            <p className="vads-u-margin-y--0">We got your request.</p>
+            <p className="vads-u-margin-y--0" data-testid="success-message">
+              We got your request to {`${dispensedDate ? 'refill' : 'fill'}`}{' '}
+              this prescription.
+            </p>
           </va-alert>
         )}
-        {error && (
-          <>
-            <va-alert
-              status="error"
-              setFocus
-              id="fill-error-alert"
-              aria-live="polite"
-            >
-              <p className="vads-u-margin-y--0">
-                We didn’t get your request. Try again.
+        {error &&
+          !isLoading && (
+            <>
+              <va-alert
+                status="error"
+                setFocus
+                id="fill-error-alert"
+                data-testid="error-alert"
+                aria-live="polite"
+              >
+                <p className="vads-u-margin-y--0" data-testid="error-message">
+                  We didn’t get your request. Try again.
+                </p>
+              </va-alert>
+              <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
+                If it still doesn’t work, call your VA pharmacy
+                <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
               </p>
-            </va-alert>
-            <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
-              If it still doesn’t work, call your VA pharmacy
-              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
-            </p>
-          </>
+            </>
+          )}
+        {isLoading && (
+          <va-loading-indicator
+            label="Submitting your request..."
+            set-focus
+            data-testid="refill-loader"
+          />
         )}
         <button
           type="button"
@@ -48,8 +71,9 @@ const FillRefillButton = rx => {
           aria-describedby={`card-header-${prescriptionId}`}
           className="vads-u-width--responsive"
           data-testid="refill-request-button"
-          hidden={success}
+          hidden={success || isLoading}
           onClick={() => {
+            setIsLoading(true);
             dispatch(fillPrescription(prescriptionId));
           }}
         >

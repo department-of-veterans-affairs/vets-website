@@ -80,7 +80,7 @@ describe('Prescription details container', () => {
     );
   });
 
-  it('prescription name for non va prescription', () => {
+  it('name should use orderableItem for non va prescription if no prescriptionName is available', () => {
     const mockData = [nonVaRxResponse];
     mockApiRequest(mockData);
     const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
@@ -96,6 +96,29 @@ describe('Prescription details container', () => {
     });
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
+    );
+
+    expect(rxName).to.exist;
+  });
+
+  it('name should use prescriptionName for non va prescription if available', () => {
+    const mockData = [nonVaRxResponse];
+    const testPrescriptionName = 'Test Name for Non-VA prescription';
+    mockData.prescriptionName = testPrescriptionName;
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: nonVaRxResponse.data.attributes,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/21142496',
+    });
+    const rxName = screen.findByText(
+      nonVaRxResponse.data.attributes.prescriptionName,
     );
 
     expect(rxName).to.exist;

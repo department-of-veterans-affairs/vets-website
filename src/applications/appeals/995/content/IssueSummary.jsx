@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDate } from '../utils/dates';
+import { getDate } from '../../shared/utils/dates';
 import { NO_ISSUES_SELECTED } from '../constants';
 
 import { FORMAT_READABLE, SELECTED } from '../../shared/constants';

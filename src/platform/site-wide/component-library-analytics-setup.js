@@ -17,13 +17,6 @@ const analyticsEvents = {
       prefix: 'accordion',
     },
   ],
-  Breadcrumbs: [
-    {
-      action: 'linkClick',
-      event: 'nav-breadcrumb-link-click',
-      prefix: 'breadcrumbs',
-    },
-  ],
   TextInput: [
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
   ],

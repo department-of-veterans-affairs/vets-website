@@ -31,7 +31,8 @@ describe('Secure Messaging Move Message tests', () => {
     folderPage.selectFolderfromModal();
     folderPage.moveCustomFolderMessageToDifferentFolder();
 
-    folderPage.verifyMoveMessageSuccessConfirmationFocus();
+    folderPage.verifyMoveMessageSuccessConfirmationMessage();
+    folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -55,7 +56,8 @@ describe('Secure Messaging Move Message tests', () => {
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
     folderPage.moveInboxFolderMessageToDifferentFolder();
 
-    folderPage.verifyMoveMessageSuccessConfirmationFocus();
+    folderPage.verifyMoveMessageSuccessConfirmationMessage();
+    folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

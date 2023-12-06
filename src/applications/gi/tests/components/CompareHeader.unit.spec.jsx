@@ -24,31 +24,6 @@ describe('<CompareHeader>', () => {
     expect(tree.type()).to.not.equal(null);
     tree.unmount();
   });
-
-  it('should get document title', () => {
-    const tree = mount(
-      <BrowserRouter>
-        <CompareHeader
-          smallScreen
-          institutions={[
-            {
-              name: 'Test Institution A',
-            },
-            {
-              name: 'Test Institution B',
-            },
-          ]}
-        />
-      </BrowserRouter>,
-    );
-    tree.update();
-
-    expect(document.title).to.equal(
-      'Compare institutions: GI Bill® Comparison Tool | Veterans Affairs',
-    );
-    tree.unmount();
-  });
-
   it('should have div with card-wrappe class', () => {
     const tree = mount(
       <BrowserRouter>
@@ -153,6 +128,18 @@ describe('<CompareHeader>', () => {
     expect(setPromptingFacilityCode.calledOnce).to.be.true;
     expect(setPromptingFacilityCode.calledWith(institution.facilityCode)).to.be
       .false;
+    wrapper.unmount();
+  });
+  it('appends version to the URL when version is provided', () => {
+    const institutions = [{ facilityCode: '123' }];
+    const version = '456';
+    const wrapper = shallow(
+      <CompareHeader institutions={institutions} version={version} />,
+    );
+
+    const link = wrapper.find('Link').at(0);
+    const linkProps = link.prop('to');
+    expect(linkProps.pathname).to.equal(`/institution/123?version=456`);
     wrapper.unmount();
   });
 });

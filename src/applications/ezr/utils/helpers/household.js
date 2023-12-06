@@ -1,21 +1,6 @@
 import moment from 'moment';
 
 /**
- * Helper that determines if the form data contains values that require users
- * to fill out spousal information
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user declares they would like to provide their
- * financial data & have a marital status of 'married' or 'separated'.
- */
-export function includeSpousalInformation(formData) {
-  const { maritalStatus } = formData;
-  return (
-    maritalStatus?.toLowerCase() === 'married' ||
-    maritalStatus?.toLowerCase() === 'separated'
-  );
-}
-
-/**
  * Helper that determines if the a dependent is of the declared college
  * age of 18-23
  * @param {String} birthdate - the dependents date of birth

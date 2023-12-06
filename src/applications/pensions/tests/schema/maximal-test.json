@@ -1,12 +1,13 @@
 {
   "data": {
     "veteranFullName": {
-      "first": "Donald",
+      "first": "John",
       "middle": "Edmund",
       "last": "Doe",
       "suffix": "Sr."
     },
     "veteranSocialSecurityNumber": "123123123",
+    "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
     "veteranDateOfBirth": "1960-01-01",
     "servicePeriods": [
@@ -15,14 +16,16 @@
         "activeServiceDateRange": {
           "from": "2003-03-02",
           "to": "2007-03-20"
-        }
+        },
+        "serviceNumber": "123456"
       },
       {
         "serviceBranch": "Navy",
         "activeServiceDateRange": {
           "from": "1970-03-02",
           "to": "1976-03-02"
-        }
+        },
+        "serviceNumber": "123456"
       }
     ],
     "view:serveUnderOtherNames": true,
@@ -37,88 +40,45 @@
       }
     ],
     "placeOfSeparation": "Northampton, MA",
-    "combatSince911": true,
-    "nationalGuardActivation": true,
-    "nationalGuard": {
-      "name": "A plausible unit name",
-      "address": {
-        "street": "101 big sky st",
-        "city": "Northampton",
-        "country": "USA",
-        "state": "ME",
-        "postalCode": "01050"
-      },
-      "phone": "3440045555",
-      "date": "2009-03-02"
-    },
     "view:powStatus": true,
     "powDateRange": {
       "from": "1971-02-26",
       "to": "1973-03-02"
     },
-    "view:receivedSeverancePay": true,
-    "severancePay": {
-      "amount": 3444,
-      "type": "Longevity"
-    },
-    "disabilities": [
+    "socialSecurityDisability": false,
+    "medicalCondition": false,
+    "nursingHome": true,
+    "medicaidCoverage": false,
+    "medicaidStatus": true,
+    "specialMonthlyPension": false,
+    "vaTreatmentHistory": true,
+    "vaMedicalCenters": [
       {
-        "name": "Back pain",
-        "disabilityStartDate": "1990-03-02"
-      },
-      {
-        "name": "Neck pain",
-        "disabilityStartDate": "1998-03-02"
+        "medicalCenter": "Dallas Fort Worth VA Medical Center"
       }
     ],
-    "view:hasVisitedVAMC": true,
-    "vamcTreatmentCenters": [
+    "federalTreatmentHistory": true,
+    "federalMedicalCenters": [
       {
-        "location": "Leeds, MA"
+        "medicalCenter": "Memphis Health Care"
       },
       {
-        "location": "Boston, MA"
+        "medicalCenter": "Nashville Health Care"
       }
     ],
-    "view:workedBeforeDisabled": true,
-    "view:history": {
-      "jobs": [
-        {
-          "employer": "Google",
-          "address": {
-            "street": "101 1st st",
-            "city": "Mountain View",
-            "country": "USA",
-            "state": "CA",
-            "postalCode": "02003"
-          },
-          "jobTitle": "Zookeeper",
-          "dateRange": {
-            "from": "2002-03-02",
-            "to": "2004-03-02"
-          },
-          "daysMissed": "2",
-          "annualEarnings": 23322333
-        },
-        {
-          "employer": "Apple",
-          "address": {
-            "street": "101 2nd st",
-            "city": "Cupertino",
-            "country": "USA",
-            "state": "CA",
-            "postalCode": "02003"
-          },
-          "jobTitle": "Beekeeper",
-          "dateRange": {
-            "from": "2004-03-20",
-            "to": "2005-01-02"
-          },
-          "daysMissed": "44",
-          "annualEarnings": 332
-        }
-      ]
-    },
+    "currentEmployment": true,
+    "currentEmployers": [
+      {
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Manager"
+      },
+      {
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Representative"
+      }
+    ],
     "spouseDateOfBirth": "1960-01-01",
     "spouseSocialSecurityNumber": "342342444",
     "spouseIsVeteran": true,
@@ -151,6 +111,11 @@
       }
     ],
     "maritalStatus": "Married",
+    "currentSpouseFullName": {
+      "first": "Jessica",
+      "last": "Doe"
+    },
+    "dateOfCurrentMarriage": "1989-03-02",
     "marriages": [
       {
         "spouseFullName": {
@@ -210,7 +175,7 @@
           "ira": 23,
           "stocks": 23,
           "realProperty": 23,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "monthlyIncome": {
           "socialSecurity": 40,
@@ -219,20 +184,22 @@
           "blackLung": 30,
           "serviceRetirement": 30,
           "ssi": 30,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "expectedIncome": {
           "salary": 40,
           "interest": 40,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "view:hasOtherExpenses": true,
-        "otherExpenses": [{
-          "amount": 30,
-          "purpose": "to cover expense",
-          "date": "2017-05-05",
-          "paidTo": "vendor"
-        }]
+        "otherExpenses": [
+          {
+            "amount": 30,
+            "purpose": "to cover expense",
+            "date": "2017-05-05",
+            "paidTo": "vendor"
+          }
+        ]
       },
       {
         "childInHousehold": true,
@@ -252,7 +219,7 @@
           "ira": 23,
           "stocks": 23,
           "realProperty": 23,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "monthlyIncome": {
           "socialSecurity": 40,
@@ -261,20 +228,22 @@
           "blackLung": 30,
           "serviceRetirement": 30,
           "ssi": 30,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "expectedIncome": {
           "salary": 40,
           "interest": 40,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+          "additionalSources": [{ "name": "additional source", "amount": 23 }]
         },
         "view:hasOtherExpenses": true,
-        "otherExpenses": [{
-          "amount": 30,
-          "purpose": "to cover expense",
-          "date": "2017-05-05",
-          "paidTo": "vendor"
-        }]
+        "otherExpenses": [
+          {
+            "amount": 30,
+            "purpose": "to cover expense",
+            "date": "2017-05-05",
+            "paidTo": "vendor"
+          }
+        ]
       }
     ],
     "netWorth": {
@@ -283,7 +252,7 @@
       "ira": 23,
       "stocks": 23,
       "realProperty": 23,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "monthlyIncome": {
       "socialSecurity": 40,
@@ -292,27 +261,29 @@
       "blackLung": 30,
       "serviceRetirement": 30,
       "ssi": 30,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "expectedIncome": {
       "salary": 40,
       "interest": 40,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "view:hasOtherExpenses": true,
-    "otherExpenses": [{
-      "amount": 30,
-      "purpose": "to cover expense",
-      "date": "2017-05-05",
-      "paidTo": "vendor"
-    }],
+    "otherExpenses": [
+      {
+        "amount": 30,
+        "purpose": "to cover expense",
+        "date": "2017-05-05",
+        "paidTo": "vendor"
+      }
+    ],
     "spouseNetWorth": {
       "bank": 34,
       "interestBank": 23,
       "ira": 23,
       "stocks": 23,
       "realProperty": 23,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "spouseMonthlyIncome": {
       "socialSecurity": 40,
@@ -321,20 +292,22 @@
       "blackLung": 30,
       "serviceRetirement": 30,
       "ssi": 30,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "spouseExpectedIncome": {
       "salary": 23,
       "interest": 34,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }] 
+      "additionalSources": [{ "name": "additional source", "amount": 23 }]
     },
     "view:spouseHasOtherExpenses": true,
-    "spouseOtherExpenses": [{
-      "amount": 30,
-      "purpose": "to cover expense",
-      "date": "2017-05-05",
-      "paidTo": "vendor"
-    }],
+    "spouseOtherExpenses": [
+      {
+        "amount": 30,
+        "purpose": "to cover expense",
+        "date": "2017-05-05",
+        "paidTo": "vendor"
+      }
+    ],
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
@@ -343,16 +316,18 @@
     },
     "veteranAddress": {
       "street": "123 8th st",
+      "street2": "Apt A-3",
       "city": "Hadley",
       "country": "USA",
       "state": "ME",
       "postalCode": "01050",
-      "email": "test@example.com",
-      "altEmail": "test2@example.com",
-      "dayPhone": 1231231231,
-      "nightPhone": 1231231231,
-      "mobilePhone": 1231231231
+      "isMilitary": false
     },
-    "view:aidAttendance": true
+    "email": "test@example.com",
+    "phone": 1231231231,
+    "mobilePhone": 1231231231,
+    "internationalPhone": 1231231231,
+    "view:aidAttendance": true,
+    "isOver65": false
   }
 }

@@ -13,9 +13,6 @@ describe('Medications Accordions on Medications Landing Page', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     landingPage.clickExpandAccordionsOnMedicationsLandingPage();

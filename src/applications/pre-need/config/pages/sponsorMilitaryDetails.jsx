@@ -1,6 +1,8 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import { merge, pick } from 'lodash';
 
+import environment from 'platform/utilities/environment';
+
 import {
   sponsorMilitaryDetailsSubHeader,
   sponsorMilitaryStatusDescription,
@@ -14,8 +16,10 @@ export const uiSchema = {
   application: {
     veteran: merge({}, veteranUI, {
       militaryServiceNumber: {
-        'ui:title':
-          'Sponsor’s military Service number (if they have one that’s different than their Social Security number)',
+        // prod flag for MBMS-47182
+        'ui:title': environment.isProduction()
+          ? 'Sponsor’s military Service number (if they have one that’s different than their Social Security number)'
+          : 'Sponsor’s military Service number (if it’s different than their Social Security number)',
         'ui:errorMessages': {
           pattern:
             'Sponsor’s Military Service number must be between 4 to 9 characters',

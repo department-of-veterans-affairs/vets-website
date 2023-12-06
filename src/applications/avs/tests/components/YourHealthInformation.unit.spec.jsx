@@ -29,11 +29,12 @@ describe('Avs: Your Health Information', () => {
       'March 15, 2024TEST CLINIC (VETERANS LOCATION VIDEO )Clinic location: LOMA LINDA VA CLINIC',
     );
     expect(screen.getByTestId('smoking-status')).to.have.text('Current smoker');
-    expect(screen.getByTestId('immunizations').children[2]).to.contain.text(
-      'COVID-19 (PFIZER)',
-    );
     expect(
-      screen.getByTestId('allergies-reactions').children[2],
+      screen.getByTestId('immunizations').children[1].children[1].children[0],
+    ).to.contain.text('COVID-19 (PFIZER)');
+    expect(
+      screen.getByTestId('allergies-reactions').children[1].children[1]
+        .children[0],
     ).to.contain.text('SIMVASTATIN');
     expect(screen.getByTestId('lab-results').children[2]).to.contain.text(
       'RET-HeResult: 35.7',

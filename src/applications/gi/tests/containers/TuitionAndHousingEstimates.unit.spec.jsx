@@ -2,7 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
 import * as actions from '../../actions';
-import { mockConstants, renderWithStoreAndRouter } from '../helpers';
+import {
+  mockConstants,
+  renderWithStoreAndRouter,
+  mockEligibility,
+} from '../helpers';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 
 describe('<TuitionAndHousingEstimates>', () => {
@@ -18,20 +22,9 @@ describe('<TuitionAndHousingEstimates>', () => {
     });
   });
   it('dispatches the eligibilityChange action with the correct payload when updateStore is called', () => {
-    const eligibility = {
-      expanded: false,
-      giBillChapter: '33',
-      militaryStatus: 'veteran',
-      spouseActiveDuty: 'no',
-      cumulativeService: '1.0',
-      enlistmentService: '3',
-      eligForPostGiBill: 'yes',
-      numberOfDependents: '0',
-      onlineClasses: 'no',
-    };
     const screen = renderWithStoreAndRouter(
       <TuitionAndHousingEstimates
-        eligibility={eligibility}
+        eligibility={mockEligibility}
         dispatchEligibilityChange={() => {}}
         dispatchShowModal={() => {}}
         modalClose={() => {}}
@@ -50,5 +43,90 @@ describe('<TuitionAndHousingEstimates>', () => {
         action => action.type === actions.eligibilityChange().type,
       ),
     ).to.be.undefined;
+  });
+
+  it('should update tuition and housing estimates in desktop view', async () => {
+    const screen = renderWithStoreAndRouter(
+      <TuitionAndHousingEstimates
+        eligibility={mockEligibility}
+        dispatchEligibilityChange={() => {}}
+        dispatchShowModal={() => {}}
+        modalClose={() => {}}
+        smallScreen={false} // true makes it mobile view | false will make it desktop view
+      />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    fireEvent.click(screen.getByText('Update tuition and housing estimates'));
+    const UpdateEstimatesButton = screen.getByRole('button', {
+      name: 'Update estimates',
+    });
+    fireEvent.click(UpdateEstimatesButton);
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
+  });
+
+  it('should update tuition and housing estimates in mobile view', async () => {
+    const { container } = renderWithStoreAndRouter(
+      <TuitionAndHousingEstimates
+        eligibility={mockEligibility}
+        dispatchEligibilityChange={() => {}}
+        dispatchShowModal={() => {}}
+        modalClose={() => {}}
+        smallScreen // true makes it mobile view | false will make it desktop view
+      />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const UpdateEstimatesButton = container.querySelector(
+      '#update-update-tuition-and-housing-estimates-button',
+    );
+    fireEvent.click(UpdateEstimatesButton);
+
+    await waitFor(() => {
+      expect(container).to.not.be.null;
+    });
+  });
+
+  it('should open then close update tuition and housing estimates accordion in desktop view', async () => {
+    const screen = renderWithStoreAndRouter(
+      <TuitionAndHousingEstimates
+        eligibility={mockEligibility}
+        dispatchEligibilityChange={() => {}}
+        dispatchShowModal={() => {}}
+        modalClose={() => {}}
+        smallScreen={false} // true makes it mobile view | false will make it desktop view
+      />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const updateTuitionEstimatesButton = screen.getByRole('button', {
+      name: 'Update tuition and housing estimates',
+    });
+    fireEvent.click(updateTuitionEstimatesButton); // first click opens accordion
+    await waitFor(() => {
+      expect(updateTuitionEstimatesButton).to.have.attribute(
+        'aria-expanded',
+        'true',
+      );
+    });
+
+    fireEvent.click(updateTuitionEstimatesButton); // second click closes accordion
+    await waitFor(() => {
+      expect(updateTuitionEstimatesButton).to.have.attribute(
+        'aria-expanded',
+        'false',
+      );
+    });
   });
 });

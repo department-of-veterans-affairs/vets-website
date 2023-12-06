@@ -60,9 +60,8 @@ const responses = {
     return res.json(sharedData.get.createAppointments(uuid));
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
-    const { uuid, appointmentIen, facilityId } =
-      req.body?.patientCheckIns || {};
-    if (!uuid || !appointmentIen || !facilityId) {
+    const { uuid, appointmentIen } = req.body?.patientCheckIns || {};
+    if (!uuid || !appointmentIen) {
       return res.status(500).json(sharedData.post.createMockFailedResponse());
     }
     return res.json(checkInData.post.createMockSuccessResponse({}));

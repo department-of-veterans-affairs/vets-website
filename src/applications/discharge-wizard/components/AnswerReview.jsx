@@ -28,39 +28,31 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
           most accurate information regarding your discharge situation.
         </p>
       </div>
-      <table className="usa-table-borderless">
-        <tbody>
-          {Object.keys(formValues).map(k => {
-            if (k === 'questions') {
-              return null;
-            }
+      <div className="answers vads-u-margin-bottom--2">
+        {Object.keys(formValues).map(k => {
+          if (k === 'questions') {
+            return null;
+          }
 
-            const reviewLabel = answerReview(k, formValues);
+          const reviewLabel = answerReview(k, formValues);
 
-            return (
-              reviewLabel &&
-              shouldShowQuestion(k, formValues.questions) && (
-                <tr key={k}>
-                  <td>
-                    <p>{reviewLabel}</p>
-                  </td>
-                  <td>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a
-                      href="#"
-                      onClick={handleScrollTo}
-                      name={k}
-                      aria-label={reviewLabel}
-                    >
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-              )
-            );
-          })}
-        </tbody>
-      </table>
+          return (
+            reviewLabel &&
+            shouldShowQuestion(k, formValues.questions) && (
+              <div key={k} className="answer-review">
+                <p className="vads-u-padding-right--2">{reviewLabel}</p>
+                <va-link
+                  href="#"
+                  onClick={handleScrollTo}
+                  name={k}
+                  text="Edit"
+                  aria-label={reviewLabel}
+                />
+              </div>
+            )
+          );
+        })}
+      </div>
       <Link to="/guidance" className="usa-button-primary va-button">
         Get my results »
       </Link>

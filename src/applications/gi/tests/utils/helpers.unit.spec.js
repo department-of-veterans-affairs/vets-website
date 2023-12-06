@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   addAllOption,
@@ -19,6 +20,7 @@ import {
   phoneInfo,
   isPresent,
   locationInfo,
+  scrollToFocusedElement,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -269,6 +271,51 @@ describe('GIBCT helpers:', () => {
       expect(full).to.eq(4);
       expect(half).to.eq(false);
       expect(display).to.eq('3.8');
+    });
+  });
+  describe('scrollToFocusedElement', () => {
+    let scrollToStub;
+
+    beforeEach(() => {
+      scrollToStub = sinon.stub().callsFake(() => {});
+
+      global.window.scrollTo = scrollToStub;
+    });
+
+    it('scrolls to focused element if it is below the compare drawer', () => {
+      const activeElement = document.createElement('div');
+      activeElement.id = 'testElement';
+      document.body.appendChild(activeElement);
+      activeElement.focus();
+
+      const compareDrawer = document.createElement('div');
+      compareDrawer.id = 'compare-drawer';
+      compareDrawer.style.height = '100px';
+      document.body.appendChild(compareDrawer);
+
+      const getScrollOptions = () => ({});
+
+      scrollToFocusedElement(getScrollOptions);
+      expect(scrollToStub.calledOnce).to.be.false;
+      expect(scrollToStub.calledWith(0, activeElement.offsetTop)).to.be.false;
+    });
+
+    it('does not scroll if focused element is above the compare drawer', () => {
+      const activeElement = document.createElement('div');
+      activeElement.id = 'testElement';
+      document.body.appendChild(activeElement);
+      activeElement.focus();
+
+      const compareDrawer = document.createElement('div');
+      compareDrawer.id = 'compare-drawer';
+      compareDrawer.style.height = '100px';
+      document.body.appendChild(compareDrawer);
+
+      const getScrollOptions = () => ({});
+      global.window.scrollTo(0, 200);
+
+      scrollToFocusedElement(getScrollOptions);
+      expect(scrollToStub.called).to.be.true;
     });
   });
 });

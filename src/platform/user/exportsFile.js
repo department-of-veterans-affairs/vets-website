@@ -52,7 +52,6 @@ export {
 export {
   default as DowntimeBanners,
 } from './authentication/components/DowntimeBanner';
-export { default as FedWarning } from './authentication/components/FedWarning';
 export { default as IDMeSVG } from './authentication/components/IDMeSVG';
 export {
   default as LoginActions,

@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
-import formConfig from '../../config/form';
 import sinon from 'sinon';
+import formConfig from '../../config/form';
 
 describe('Program Details', () => {
   const {

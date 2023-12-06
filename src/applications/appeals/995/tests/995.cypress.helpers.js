@@ -1,4 +1,4 @@
-import { getDate } from '../utils/dates';
+import { getDate } from '../../shared/utils/dates';
 
 export const getRandomDate = () =>
   getDate({

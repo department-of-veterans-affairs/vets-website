@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
@@ -14,18 +13,31 @@ import {
   generateUniqueKey,
 } from '../../utils/helpers';
 import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsForOtherAssets = ['name', 'amount'];
 
 const OtherAssetsSummary = ({
   data,
+  goForward,
   goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { otherAssets = [] } = assets;
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   useEffect(
     () => {
@@ -72,6 +84,18 @@ const OtherAssetsSummary = ({
     return goToPath('/other-assets-values');
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const cardBody = text => (
     <p className="vads-u-margin--0">
       Value: <b>{currencyFormatter(text)}</b>
@@ -80,7 +104,7 @@ const OtherAssetsSummary = ({
   const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-assets-summary"
@@ -140,9 +164,20 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={() => goToPath('/expenses-explainer')}
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack,
+                secondary: true,
+                iconLeft: '«',
+              },
+              {
+                label: continueButtonText,
+                type: 'submit',
+                iconRight: '»',
+              },
+            ]}
           />
           {contentAfterButtons}
         </div>
@@ -171,8 +206,11 @@ OtherAssetsSummary.propTypes = {
       assetsBelowGmt: PropTypes.bool,
       isEligibleForStreamlined: PropTypes.bool,
     }),
+    reviewNavigation: PropTypes.bool,
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };

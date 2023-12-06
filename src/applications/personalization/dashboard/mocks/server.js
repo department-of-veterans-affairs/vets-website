@@ -22,18 +22,19 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
+    authExpVbaDowntimeMessage: true,
     myVaEnableNotificationComponent: true,
-    myVaUseExperimental: true,
+    myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
     myVaUseLighthouseClaims: true,
     myVaHideNotificationsSection: true,
     myVaNotificationDotIndicator: true,
+    myVaEnableMhvLink: true,
     myVaUpdateErrorsWarnings: true,
-    vaOnlineSchedulingBreadcrumbUrlUpdate: true,
     vaOnlineSchedulingStaticLandingPage: true,
   }),
-  'GET /v0/user': user.simpleUser,
+  'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,

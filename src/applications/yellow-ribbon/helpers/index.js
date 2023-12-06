@@ -3,8 +3,32 @@ import URLSearchParams from 'url-search-params';
 import map from 'lodash/map';
 import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
+import { TITLE_CASE_NONCAPITALIZED_WORDS } from '../constants';
 
 export const capitalize = str => startCase(toLower(str));
+
+export const titleCase = str => {
+  const nonCapitalizedWords = new Set(TITLE_CASE_NONCAPITALIZED_WORDS);
+
+  return str
+    .trim()
+    .toLowerCase()
+    .split(' ')
+    .map((word, index, words) => {
+      if (
+        index !== 0 &&
+        index !== words.length - 1 &&
+        nonCapitalizedWords.has(word)
+      ) {
+        return word;
+      }
+      return word
+        .split('-')
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .join('-');
+    })
+    .join(' ');
+};
 
 export const normalizeResponse = response => ({
   results: map(response?.data, school => ({
