@@ -86,7 +86,7 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <BreadCrumb />
-        <h1>After-visit Summary</h1>
+        <h1>After-visit summary</h1>
 
         <va-accordion>
           <va-accordion-item
