@@ -1,0 +1,43 @@
+{
+  "data": {
+    "preparerType": "non-citizen",
+    "fullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Preparer"
+    },
+    "dateOfBirth": "1985-01-01",
+    "placeOfBirth": "Washington, DC",
+    "address": {
+      "street": "123 Any St",
+      "city": "Washington",
+      "state": "DC",
+      "postalCode": "54321",
+      "country": "USA"
+    },
+    "homePhone": "1234567890",
+    "citizenId": {
+      "ssn": "333221111"
+    },
+    "nonCitizenId": {
+      "arn": "123456789"
+    },
+    "recordSelections": {
+      "dd214": true,
+      "disability-exams": true,
+      "financial": true,
+      "life-ins": true,
+      "other-comp-pen": true,
+      "other": true
+    },
+    "disabilityExams": [
+      {
+        "disabilityExamDate": "2019-01-01"
+      }
+    ],
+    "otherCompAndPenDetails": "Other Comp&Pen details",
+    "financialRecordDetails": "Financial record details",
+    "lifeInsuranceBenefitDetails": "Life insurance details",
+    "otherBenefitDetails": "Other benefit details"
+  }
+}

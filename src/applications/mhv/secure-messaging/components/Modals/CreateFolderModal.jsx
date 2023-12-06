@@ -8,7 +8,12 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { Alerts } from '../../util/constants';
 
 const CreateFolderModal = props => {
-  const { isModalVisible, setIsModalVisible, onConfirm, folders } = props;
+  const {
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+    onConfirm,
+    folders,
+  } = props;
   const [folderName, setFolderName] = useState('');
   const [nameWarning, setNameWarning] = useState('');
   const folderNameInput = useRef();
@@ -27,9 +32,9 @@ const CreateFolderModal = props => {
     () => {
       setFolderName('');
       setNameWarning('');
-      setIsModalVisible(false);
+      setIsCreateNewModalVisible(false);
     },
-    [setFolderName, setNameWarning, setIsModalVisible],
+    [setFolderName, setNameWarning, setIsCreateNewModalVisible],
   );
 
   const confirmNewFolder = useCallback(
@@ -52,7 +57,7 @@ const CreateFolderModal = props => {
   return (
     <VaModal
       className="modal"
-      visible={isModalVisible}
+      visible={isCreateNewModalVisible}
       large="true"
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
@@ -90,8 +95,8 @@ const CreateFolderModal = props => {
 
 CreateFolderModal.propTypes = {
   folders: PropTypes.array.isRequired,
-  isModalVisible: PropTypes.bool.isRequired,
-  setIsModalVisible: PropTypes.func.isRequired,
+  isCreateNewModalVisible: PropTypes.bool.isRequired,
+  setIsCreateNewModalVisible: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };
 
