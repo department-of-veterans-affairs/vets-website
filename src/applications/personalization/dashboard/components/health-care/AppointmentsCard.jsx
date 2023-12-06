@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
 import { getAppointmentTimezone } from '../../utils/timezone';
 
@@ -15,7 +12,6 @@ export const AppointmentsCard = ({ appointments }) => {
   let locationName;
 
   const timeZone = getAppointmentTimezone(nextAppointment);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
@@ -29,13 +25,6 @@ export const AppointmentsCard = ({ appointments }) => {
     locationName = nextAppointment?.providerName;
   }
 
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? '/my-health/appointments'
-    : '/health-care/schedule-view-va-appointments/appointments';
-
   const content = (
     <>
       <h3 className="vads-u-margin-top--0">Next appointment</h3>
@@ -48,7 +37,7 @@ export const AppointmentsCard = ({ appointments }) => {
       {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
       <CTALink
         text="Schedule and manage your appointments"
-        href={apptLink}
+        href="/my-health/appointments"
         showArrow
         className="vads-u-font-weight--bold"
         onClick={() =>

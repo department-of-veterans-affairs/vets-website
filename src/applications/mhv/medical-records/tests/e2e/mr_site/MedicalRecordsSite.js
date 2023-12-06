@@ -38,6 +38,10 @@ class MedicalRecordsSite {
               name: 'mhv_medical_records_allow_txt_downloads',
               value: true,
             },
+            {
+              name: 'mhv_medical_records_display_vaccines',
+              value: true,
+            },
           ],
         },
       }).as('featureToggle');

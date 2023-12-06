@@ -27,6 +27,7 @@ export default {
             dateStart: currentOrPastDateSchema,
             dateEnd: currentOrPastDateSchema,
           },
+          required: ['dateStart', 'dateEnd'],
         },
       },
     },

@@ -1,71 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { maxIssues, maxNameLength } from '../../validations/issues';
+import { maxNameLength } from '../../validations/issues';
 
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
-import { getDate } from '../../../shared/utils/dates';
-import { selectionRequired } from '../../../shared/validations/issues';
-
-const _ = null;
-
-describe('maxIssues', () => {
-  it('should not show an error when the array length is less than max', () => {
-    const errors = { addError: sinon.spy() };
-    maxIssues(errors, _, {});
-    expect(errors.addError.called).to.be.false;
-  });
-  it('should show not show an error when the array length is greater than max', () => {
-    const errors = { addError: sinon.spy() };
-    const validDate = getDate({ offset: { months: -2 } });
-    const template = {
-      issue: 'x',
-      decisionDate: validDate,
-      [SELECTED]: true,
-    };
-    maxIssues(errors, _, _, _, _, _, {
-      contestedIssues: new Array(MAX_LENGTH.SELECTIONS).fill(template),
-      additionalIssues: [template],
-    });
-    expect(errors.addError.called).to.be.true;
-  });
-});
-
-describe('selectionRequired', () => {
-  const getData = (selectContested = false, selectAdditional = false) => ({
-    contestedIssues: [
-      {
-        attributes: {
-          ratingIssueSubjectText: 'test',
-          approxDecisionDate: '2021-01-01',
-        },
-        [SELECTED]: selectContested,
-      },
-    ],
-    additionalIssues: [
-      {
-        issue: 'test 2',
-        decisionDate: '2021-01-01',
-        [SELECTED]: selectAdditional,
-      },
-    ],
-  });
-  it('should show an error when no issues are selected', () => {
-    const errors = { addError: sinon.spy() };
-    selectionRequired(errors, _, getData());
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show not show an error when a contestable issue is selected', () => {
-    const errors = { addError: sinon.spy() };
-    selectionRequired(errors, _, getData(true));
-    expect(errors.addError.called).to.be.false;
-  });
-  it('should show not show an error when an additional issue is selected', () => {
-    const errors = { addError: sinon.spy() };
-    selectionRequired(errors, _, getData(false, true));
-    expect(errors.addError.called).to.be.false;
-  });
-});
+import { MAX_LENGTH } from '../../../shared/constants';
 
 describe('maxNameLength', () => {
   it('should show an error when a name is too long', () => {

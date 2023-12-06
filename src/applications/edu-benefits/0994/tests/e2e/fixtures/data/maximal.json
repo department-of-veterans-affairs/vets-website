@@ -1,0 +1,38 @@
+{
+  "data": {
+    "currentHighTechnologyEmployment": false,
+    "pastHighTechnologyEmployment": false,
+    "activeDuty": false,
+    "view:benefitNotice": {},
+    "appliedForVaEducationBenefits": false,
+    "view:eligibilityInstructions": {},
+    "applicantFullName": {
+      "first": "Manuel",
+      "middle": "Null",
+      "last": "Jensen"
+    },
+    "applicantSocialSecurityNumber": "796127519",
+    "dateOfBirth": "1944-11-26",
+    "applicantGender": "M",
+    "view:noProgramsYet": {},
+    "view:phoneAndEmail": {
+      "homePhone": "9898989898",
+      "emailAddress": "myemail81566668@unattended.com"
+    },
+    "mailingAddress": {
+      "street": "Kenmore Ave 4846",
+      "city": "Santo Amaro",
+      "country": "STP"
+    },
+    "view:contactInfoNote": {},
+    "view:descriptionWithoutInfo": {},
+    "view:bankAccount": {
+      "bankAccount": {},
+      "view:hasBankInformation": false
+    },
+    "view:bankInfoNote": {},
+    "view:bankInfoHelpText": {},
+    "homePhone": "9898989898",
+    "emailAddress": "myemail81566668@unattended.com"
+  }
+}

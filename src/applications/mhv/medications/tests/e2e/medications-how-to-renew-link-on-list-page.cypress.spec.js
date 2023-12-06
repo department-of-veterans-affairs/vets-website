@@ -16,9 +16,6 @@ describe('Medications List Page Renew Rx Link', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();

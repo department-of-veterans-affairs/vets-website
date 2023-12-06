@@ -1404,6 +1404,29 @@
           }
         ]
       },
+      "clinicalReminders": [
+        {
+          "ien": "500047",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Hepatitis C risk Factor Screening",
+          "frequency": " Due every 3 years for all ages."
+        },
+        {
+          "ien": "500062",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Primary Care Depression Screening",
+          "frequency": " Due every 1 year for all ages."
+        },
+        {
+          "ien": "55",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Suicide Hotline",
+          "frequency": " Due every 1 year for all ages."
+        }
+      ],
       "pharmacyTerms": [
         {
           "type": "status",
@@ -1419,7 +1442,8 @@
           "explanation": "A medication that came from someplace other than a VA pharmacy. This may be a prescription from either the VA or other providers that was filled outside the VA. Or, it may be a over the counter (OTC), herbal, dietary supplement, or sample medication.",
           "patientActions": "If this medication information is incorrect or out of date, please tell your VA healthcare team."
         }
-      ]
+      ],
+      "moreHelpAndInformation": "This information is meant to provide a summary of your appointment with your health care provider.  If you have any questions about your care including test results, medications, diagnoses or other concerns, please contact your health care provider.  <b>Please bring this form to your next visit as a record of your \nmedications and alert your provider to any changes in your medications</b>.\n\n<br><br>\n<ul><li>To contact your primary care provider, please call {local facility number} or {800 number) and follow the prompts to the Module where your primary care provider is located.  </li><li></li><li>To refill a prescription, please call {rx line} or visit www.myhealth.va.gov.  </li><li></li><li>For care on evenings and weekends, please call 24 hour Telephone Care at 1-877-252-4866</li></ul>Access health resources.  Track your health.  Refill VA prescriptions.\nVisit <strong>www.myhealth.va.gov</strong>!  Ask your health care team about in-person authentication and begin ordering medications and viewing appointments through MyHealtheVet.  After completing in-person authentication, click on \"Secure Messaging\" in MyHealtheVet and select \"I would like to opt in to secure messaging\" in order to send email messages to your providers.\n<br><br>\nYou may receive a paper survey in the mail. Our goal is to receive a 9, 10 or Always, if you did not receive that level of care, please give us an opportunity to hear your concerns on our customer service line (909) 583-6133. We make every effort to respond to your call within one business day."
     }
   }
 }

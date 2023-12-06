@@ -24,7 +24,7 @@ describe('create folder errors check', () => {
       },
     });
     PatientMessageCustomFolderPage.loadFoldersList();
-    folderPage.createANewFolderButton().click();
+    folderPage.createANewFolderButton().click({ waitForAnimations: true });
     const createFolderName = 'create folder test';
     folderPage
       .createFolderTextBox()

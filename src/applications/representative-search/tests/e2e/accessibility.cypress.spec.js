@@ -1,10 +1,15 @@
 import mockRepresentativeData from '../../constants/mock-representative-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 describe('Accessibility', () => {
   beforeEach(() => {
     cy.viewport(1200, 700);
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'find_a_representative', value: true }],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
       'GET',
@@ -16,21 +21,18 @@ describe('Accessibility', () => {
 
   it('traverses form controls via keyboard input', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
+    generateFeatureToggles();
 
     cy.injectAxe();
     cy.axeCheck();
 
-    // Verify Use My Location is first in tab order
+    // Verify focused on input location
     cy.get('#representative-search-controls').trigger('mousedown');
     cy.tab();
-    cy.get('button.use-my-location-button').focused();
-    cy.tab();
-
-    // Verify focused on input location
-    cy.get('input[name="City, State or Postal code"]').focused();
+    cy.get('input[name="City, state or postal code"]').focused();
     // Tab
-    cy.get('input[name="City, State or Postal code"]').focus();
-    cy.get('input[name="City, State or Postal code"]').trigger('keydown', {
+    cy.get('input[name="City, state or postal code"]').focus();
+    cy.get('input[name="City, state or postal code"]').trigger('keydown', {
       keyCode: 9,
       which: 9,
     });
@@ -48,14 +50,15 @@ describe('Accessibility', () => {
     });
 
     // Verify focused on rep/org input
-    cy.get('input[name="Organization or Representative Name"]').focused();
-    cy.get('input[name="Organization or Representative Name"]').trigger(
-      'keydown',
-      {
-        keyCode: 9,
-        which: 9,
-      },
-    );
+    cy.get(
+      'input[name="Organization or Accredited Representative Name"]',
+    ).focused();
+    cy.get(
+      'input[name="Organization or Accredited Representative Name"]',
+    ).trigger('keydown', {
+      keyCode: 9,
+      which: 9,
+    });
 
     // Verify focused on Search button
     cy.get('button[id="representative-search"]').focused();

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import {
   LIGHTHOUSE_ERROR_KEYS,
   PPIU_ERROR_MAP,
@@ -53,7 +53,7 @@ describe('hasErrorCombos', () => {
       expect(
         hasErrorCombos({
           errors:
-            mockDisabilityCompensation.updates.errors.invalidRoutingNumber
+            mockDisabilityCompensations.updates.errors.invalidRoutingNumber
               .errors,
           errorKeys: [
             PPIU_ERROR_MAP.INVALID_ROUTING_NUMBER.RESPONSE_KEY,
@@ -89,7 +89,7 @@ describe('hasErrorCombos', () => {
       expect(
         hasErrorCombos({
           errors:
-            mockDisabilityCompensation.updates.errors.invalidDayPhone.errors,
+            mockDisabilityCompensations.updates.errors.invalidDayPhone.errors,
           errorKeys: [LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_NUMBER_INVALID],
         }),
       ).to.be.true;
@@ -99,7 +99,7 @@ describe('hasErrorCombos', () => {
       expect(
         hasErrorCombos({
           errors:
-            mockDisabilityCompensation.updates.errors.invalidDayPhoneArea
+            mockDisabilityCompensations.updates.errors.invalidDayPhoneArea
               .errors,
           errorKeys: [LIGHTHOUSE_ERROR_KEYS.DAY_PHONE_AREA_INVALID],
         }),
