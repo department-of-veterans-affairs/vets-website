@@ -130,22 +130,6 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (attachments.length > 0) {
-        setUnsavedNavigationError('attachment');
-      }
-    },
-    [attachments],
-  );
-
-  useEffect(
-    () => {
       if (recipients?.length) {
         const filteredRecipients = recipients.filter(
           team => team.preferredTeam === true,
