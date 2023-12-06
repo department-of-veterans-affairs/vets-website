@@ -61,6 +61,7 @@ export const SearchResultsHeader = props => {
   const handleSortTypeChange = e => {
     props.updateSearchQuery({
       id: Date.now(),
+      page: 1,
       sortType: e.target.value,
     });
   };
