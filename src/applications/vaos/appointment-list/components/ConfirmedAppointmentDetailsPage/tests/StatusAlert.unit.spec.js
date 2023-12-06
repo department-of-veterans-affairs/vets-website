@@ -140,6 +140,7 @@ describe('VAOS <StatusAlert> component with After visit summary link', () => {
       ...appointmentData,
       kind: 'clinic',
       status: 'booked',
+      avsPath: '/test-avs-path',
       vaos: {
         isUpcomingAppointment: false,
         isPastAppointment: true,
@@ -161,6 +162,7 @@ describe('VAOS <StatusAlert> component with After visit summary link', () => {
       ...appointmentData,
       kind: 'clinic',
       status: 'booked',
+      avsPath: '/test-avs-path',
       vaos: {
         isUpcomingAppointment: false,
         isPastAppointment: true,
