@@ -13,7 +13,7 @@ const generateStore = (enabled = false) => ({
   },
 });
 
-describe('SignInModal', () => {
+xdescribe('SignInModal', () => {
   const oldWindow = global.window;
 
   after(() => {

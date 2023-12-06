@@ -24,20 +24,20 @@ export function addOverlayTriggers(setCanShowLoginModal) {
 
     if (shouldCloseOverlay) {
       if (setCanShowLoginModal) {
-        console.log('does this happen? true');
+        // console.log('does this happen? true');
         setCanShowLoginModal(true);
       }
 
-      console.log('close');
+      // console.log('close');
       overlayTarget.classList.remove('va-overlay--open');
       document.body.classList.remove('va-pos-fixed');
     } else if (overlayId) {
       if (setCanShowLoginModal) {
-        console.log('does this happen? false');
+        // console.log('does this happen? false');
         setCanShowLoginModal(false);
       }
 
-      console.log('open');
+      // console.log('open');
       const overlay = document.querySelector(overlayId);
       overlay.classList.add('va-overlay--open');
       overlay.querySelector('a').focus();
