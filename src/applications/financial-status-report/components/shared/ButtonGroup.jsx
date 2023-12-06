@@ -22,7 +22,6 @@ const Button = ({
       secondary={isSecondary}
       back={isBackButton}
       type={type} // Use the type prop here
-      className="button"
     />
   );
 };
@@ -36,6 +35,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
+  className: PropTypes.string,
   isBackButton: PropTypes.bool,
   isContinueButton: PropTypes.bool,
   isSecondary: PropTypes.bool,
@@ -48,6 +48,13 @@ Button.propTypes = {
 /**
  * Helper function to generate button classes
  */
+
+const classMap = {
+  continueButton: 'small-12 medium-7',
+  backButton: 'small-12 medium-5',
+  defaultButton: 'small-6 medium-5',
+};
+
 const getButtonClasses = (
   index,
   isContinueButton,
@@ -55,12 +62,6 @@ const getButtonClasses = (
   hasContinueToReviewButton,
   buttonsLength,
 ) => {
-  const classMap = {
-    continueButton: 'small-12 medium-7',
-    backButton: 'small-12 medium-5',
-    defaultButton: 'small-6 medium-5',
-  };
-
   let buttonType = 'defaultButton';
   if (hasContinueToReviewButton) {
     buttonType = isContinueButton ? 'continueButton' : 'backButton';
