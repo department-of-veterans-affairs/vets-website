@@ -1,11 +1,40 @@
 /* eslint-disable no-console */
 
-export function isWebComponent(el) {
-  return !!el?.tagName?.includes('VA-');
+/**
+ * Checks if element has a tagName 'va-'
+ * ```
+ * const element = document.querySelector('va-text-input')
+ * expect(isWebComponent(element).to.eq(true))
+ * expect(isWebComponent('va-text-input').to.eq(true))
+ * expect(isWebComponent('va-text-input', container).to.eq(true))
+ * ```
+ * @param {HTMLElement | string} el
+ * @param {HTMLElement} [root]
+ * @return {boolean}
+ */
+export function isWebComponent(el, root) {
+  const element =
+    typeof el === 'string' ? (root || document).querySelector(el) : el;
+  return !!element?.tagName?.startsWith('VA-');
 }
 
-export function isWebComponentReady(el) {
-  return !!(el?.shadowRoot && el?.classList.contains('hydrated'));
+/**
+ * Checks for shadowRoot and "hydrated" class.
+ * Doesn't work for unit tests since React testing library doesn't populate shadowRoot
+ * ```
+ * const element = document.querySelector('va-text-input')
+ * expect(isWebComponentReady(element).to.eq(false))
+ * expect(isWebComponentReady('va-text-input').to.eq(false))
+ * expect(isWebComponentReady('va-text-input', container).to.eq(false))
+ * ```
+ * @param {HTMLElement | string} el
+ * @param {HTMLElement} [root]
+ * @return {boolean}
+ */
+export function isWebComponentReady(el, root) {
+  const element =
+    typeof el === 'string' ? (root || document).querySelector(el) : el;
+  return !!(element?.shadowRoot && element?.classList.contains('hydrated'));
 }
 
 /**
@@ -13,62 +42,125 @@ export function isWebComponentReady(el) {
  * shadow dom content, so this waits until it contains a shadowRoot
  * and a class "hydrated" and is visually rendered
  *
- * @param {HTMLElement} hostEl e.g. `document.querySelect('va-segmented-progress-bar')`
- * @param {() => void} callback called once shadow dom is ready
- * @param {boolean} [waitForAnimationFrame] Defaults to true. Whether to callback immediately, or wait until the next paint.
+ * ```
+ * // Usage 1:
+ * const el = await waitForShadowRoot('va-checkbox-group')
+ * console.log("el.shadowRoot now exists")
+ * // Usage 2
+ * const el = container.querySelector('va-checkbox-group')
+ * await waitForShadowRoot(el)
+ * console.log("el.shadowRoot now exists")
+ * // Usage 3:
+ * const el = document.querySelector('va-checkbox-group')
+ * waitForShadowRoot(el).then(host => {
+ *    console.log("host.shadowRoot now exists")
+ * });
+ * ```
+ * @param {HTMLElement | string} el e.g. `document.querySelect('va-segmented-progress-bar')`
+ * @param {boolean} [waitForPaint] Defaults to true. Whether to callback immediately, or wait until the next paint.
+ * @return {Promise<hostElement>}
  */
-export function awaitShadowRoot(
-  hostEl,
-  callback,
-  waitForAnimationFrame = true,
-) {
-  if (!hostEl || !(hostEl instanceof HTMLElement)) {
-    console.error('Invalid hostEl provided to awaitShadowRoot.');
-    return;
-  }
+export function waitForShadowRoot(el, waitForPaint = true) {
+  return new Promise((resolve, reject) => {
+    const host = typeof el === 'string' ? document.querySelector(el) : el;
 
-  if (process.env.NODE_ENV === 'test') {
-    // Skip for unit tests
-    // shadowRoot is not properly populated in
-    // React testing library, so just callback
-    callback();
-    return;
-  }
+    if (isWebComponentReady(host) || process.env.NODE_ENV === 'test') {
+      // shadowRoot not populated in React testing library so just return
+      resolve(host);
+      return;
+    }
 
-  if (hostEl.hasAttribute('data-observing-shadow')) {
-    return;
-  }
-  hostEl.setAttribute('data-observing-shadow', 'true');
+    if (host.hasAttribute('data-observing-shadow')) {
+      return;
+    }
+    host.setAttribute('data-observing-shadow', 'true');
 
-  const hostObserver = new MutationObserver(() => {
-    try {
-      if (isWebComponentReady(hostEl)) {
-        if (waitForAnimationFrame) {
+    const hostObserver = new MutationObserver(() => {
+      try {
+        if (isWebComponentReady(host)) {
           // shadowRoot will exist, but its contents may not be
           // visible at this point because it hasn't rerendered
-          requestAnimationFrame(() => {
-            callback();
-          });
-        } else {
-          callback();
+          if (waitForPaint) {
+            requestAnimationFrame(() => {
+              resolve(host);
+            });
+          } else {
+            resolve(host);
+          }
+          host.removeAttribute('data-observing-shadow');
+          if (hostObserver) {
+            hostObserver.disconnect();
+          }
         }
-        hostEl.removeAttribute('data-observing-shadow');
+      } catch (error) {
+        reject(new Error(`An error occurred in waitForShadowRoot`));
+        console.error('An error occurred in waitForShadowRoot: ', error);
+        host.removeAttribute('data-observing-shadow');
         if (hostObserver) {
           hostObserver.disconnect();
         }
       }
-    } catch (error) {
-      console.error('An error occurred in awaitShadowRoot: ', error);
-      hostEl.removeAttribute('data-observing-shadow');
-      if (hostObserver) {
-        hostObserver.disconnect();
-      }
-    }
-  });
+    });
 
-  hostObserver.observe(hostEl, {
-    childList: true,
-    attributes: true,
-    subtree: true,
+    hostObserver.observe(host, {
+      childList: true,
+      attributes: true,
+      subtree: true,
+    });
   });
+}
+
+/**
+ * An async querySelector that waits for all necessary shadowRoots involved
+ *
+ * ```
+ * // Example with await:
+ * const el = await querySelectorWithShadowRoot('va-checkbox#id-1')
+ * const el = await querySelectorWithShadowRoot('va-checkbox#id-1', 'va-checkbox-group')
+ * const el = await querySelectorWithShadowRoot('va-checkbox#id-1', container)
+ * console.log(el.shadowRoot)
+ *
+ * // Example with then:
+ * querySelectorWithShadowRoot('va-checkbox#id-1')
+ *    .then(el => console.log(el.shadowRoot))
+ * querySelectorWithShadowRoot('va-checkbox#id-1', 'va-checkbox-group')
+ *    .then(el => console.log(el.shadowRoot))
+ * querySelectorWithShadowRoot('va-checkbox#id-1', container)
+ *    .then(el => console.log(el.shadowRoot))
+ * ```
+ *
+ * @param {string | HTMLElement} selector
+ * @param {HTMLElement} [root]
+ * @returns {Promise<HTMLElement | null>}
+ */
+export async function querySelectorWithShadowRoot(selector, root) {
+  try {
+    let element = typeof selector === 'string' ? null : selector;
+    let currentRoot =
+      typeof root === 'string'
+        ? document.querySelector(root)
+        : root || document;
+
+    if (isWebComponent(root) && !isWebComponentReady(root)) {
+      const waitForPaint = false;
+      await waitForShadowRoot(root, waitForPaint);
+      // Fallback to root if shadowRoot is not available,
+      // for example in unit tests where shadowRoot is null
+      currentRoot = root.shadowRoot || currentRoot;
+    }
+
+    if (!element) {
+      element = currentRoot.querySelector(selector);
+    }
+
+    if (element && isWebComponent(element) && !isWebComponentReady(element)) {
+      const waitForPaint = true;
+      await waitForShadowRoot(element, waitForPaint);
+    }
+
+    return element; // Returns a promise, since this is an async function
+  } catch (error) {
+    console.error('Error in querySelectorWithShadowRoot:', error);
+    return null;
+  }
 }
