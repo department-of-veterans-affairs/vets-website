@@ -27,3 +27,10 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
     }
   }
 }
+
+// util to make sure a focus ring is visible
+.focus-ring:focus {
+  outline: 2px solid !important;
+  outline-color: $color-gold-light !important;
+  outline-offset: 0;
+}

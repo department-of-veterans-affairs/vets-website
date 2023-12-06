@@ -1,15 +1,24 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import get from 'platform/utilities/data/get';
 import SsnField from '../web-component-fields/SsnField';
 import { validateSSN } from '../validation';
 import SSNReviewWidget from '../review/SSNWidget';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
-const VA_FILE_NUMBER_DEFAULT_TITLE = 'VA file number (if applicable)';
-const SERVICE_NUMBER_DEFAULT_TITLE = 'Service number (if applicable)';
+const VA_FILE_NUMBER_DEFAULT_TITLE = 'VA file number';
+const SERVICE_NUMBER_DEFAULT_TITLE = 'Military Service number';
 
 /**
- * Web component uiSchema for SSN
+ * Web component for Social Security number
+ *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
+ * ```js
+ * example: ssnUI() // Social Security number
+ * example: ssnUI("Veteran's Social Security number")
+ * ```
  * @param {string} [title]
  * @returns {UISchemaOptions}
  */
@@ -28,11 +37,28 @@ const ssnUI = title => {
 };
 
 /**
+ * Schema for Social Security number
+ *
+ * ```js
+ * // uiSchema
+ * example: ssnUI()
+ * // schema
+ * example: ssnSchema
+ * ```
  * @returns `commonDefinitions.ssn`
  */
 const ssnSchema = commonDefinitions.ssn;
 
 /**
+ * Web component for VA File Number
+ *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
+ * ```js
+ * example: vaFileNumberUI() // VA file number
+ * example: vaFileNumberUI("Veteran's VA file number")
+ * ```
  * @param {string} [title]
  * @returns {UISchemaOptions}
  */
@@ -50,11 +76,28 @@ const vaFileNumberUI = title => {
 };
 
 /**
+ * Schema for VA File Number
+ *
+ * ```js
+ * // uiSchema
+ * example: vaFileNumberUI()
+ * // schema
+ * example: vaFileNumberSchema
+ * ```
  * @returns `commonDefinitions.centralMailVaFile`
  */
 const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
 
 /**
+ * Web component field for Service Number
+ *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
+ * ```js
+ * example: serviceNumberUI() // Service number
+ * example: serviceNumberUI("Veteran's Service number")
+ * ```
  * @param {string} [title]
  * @returns {UISchemaOptions}
  */
@@ -63,8 +106,8 @@ const serviceNumberUI = title => {
     'ui:title': title ?? SERVICE_NUMBER_DEFAULT_TITLE,
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
-      pattern:
-        'Your Veteran Service Number must start with 0, 1, or 2 uppercase letters followed by 5 to 8 digits',
+      pattern: `Your ${title ??
+        SERVICE_NUMBER_DEFAULT_TITLE} must start with 0, 1, or 2 uppercase letters followed by 5 to 8 digits`,
     },
     'ui:options': {
       hideEmptyValueInReview: true,
@@ -73,35 +116,75 @@ const serviceNumberUI = title => {
 };
 
 /**
+ * Schema for Service Number
+ *
+ * ```js
+ * // uiSchema
+ * example: serviceNumberUI()
+ * // schema
+ * example: serviceNumberSchema
+ * ```
  * @returns `commonDefinitions.veteranServiceNumber`
  */
 const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
 
 /**
- */
-const ssnOrVaFileNumberUI = () => ({
-  socialSecurityNumber: ssnUI(),
-  vaFileNumber: vaFileNumberUI(),
-});
-
-/**
+ * Web components for Social Security number or VA File Number
  *
+ * Pattern recommendation: Use the applicable person in the title
+ * rather than in the field names.
+ *
+ * A grouped object containing `ssn` and `vaFileNumber` properties
+ * ```js
+ * example: ssnOrVaFileNumberUI()
+ * ```
+ * @returns {UISchemaOptions}
  */
-const ssnOrVaFileNumberOrServiceNumberUI = () => ({
-  socialSecurityNumber: ssnUI(),
-  vaFileNumber: vaFileNumberUI(),
-  serviceNumber: serviceNumberUI(),
-});
+const ssnOrVaFileNumberUI = () => {
+  return {
+    ssn: ssnUI(),
+    vaFileNumber: {
+      ...vaFileNumberUI(),
+      'ui:options': {
+        hint:
+          'You must enter either a VA file number or Social Security number.',
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, _schema, _uiSchema, index, path) => {
+        const { ssn, vaFileNumber } = get(path, formData) ?? {};
 
-const ssnOrVaFileNumberSchema = {
-  socialSecurityNumber: ssnSchema,
-  vaFileNumber: vaFileNumberSchema,
+        let required = ['ssn'];
+        if (!ssn && vaFileNumber) {
+          required = ['vaFileNumber'];
+        }
+
+        return {
+          ..._schema,
+          required,
+        };
+      },
+    },
+  };
 };
 
-const ssnOrVaFileNumberOrServiceNumberSchema = {
-  socialSecurityNumber: ssnSchema,
-  vaFileNumber: vaFileNumberSchema,
-  serviceNumber: serviceNumberSchema,
+/**
+ * Schema for SSN or VA File Number
+ *
+ * ```js
+ * // uiSchema
+ * example: ssnOrVaFileNumberUI()
+ * // schema
+ * example: ssnOrVaFileNumberSchema
+ * ```
+ */
+const ssnOrVaFileNumberSchema = {
+  type: 'object',
+  properties: {
+    ssn: ssnSchema,
+    vaFileNumber: vaFileNumberSchema,
+  },
+  required: ['ssn'],
 };
 
 export {
@@ -112,7 +195,5 @@ export {
   serviceNumberUI,
   serviceNumberSchema,
   ssnOrVaFileNumberUI,
-  ssnOrVaFileNumberOrServiceNumberUI,
   ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberOrServiceNumberSchema,
 };

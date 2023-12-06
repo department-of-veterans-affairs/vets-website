@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { addDays, format } from 'date-fns';
 
 export default {
   data: [
@@ -18,9 +18,7 @@ export default {
           zipCode: '32826',
         },
         instructionsToVeteran: 'Date test',
-        appointmentTime: moment()
-          .add(40, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: format(addDays(Date.now(), 40), 'MM/dd/yyyy hh:mm:ss'),
         timeZone: '-06:00 MDT',
       },
     },
@@ -40,9 +38,7 @@ export default {
           zipCode: '32826',
         },
         instructionsToVeteran: 'Please arrive 15 minutes ahead of appointment.',
-        appointmentTime: moment()
-          .add(50, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: format(addDays(Date.now(), 50), 'MM/dd/yyyy hh:mm:ss'),
         timeZone: '+08:00 WITA',
       },
     },
@@ -62,9 +58,7 @@ export default {
           zipCode: '20151',
         },
         instructionsToVeteran: 'Bring your glasses',
-        appointmentTime: moment()
-          .add(80, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: format(addDays(Date.now(), 80), 'MM/dd/yyyy hh:mm:ss'),
         timeZone: 'UTC',
       },
     },
@@ -85,9 +79,7 @@ export default {
         },
         instructionsToVeteran:
           'Please arrive 20 minutes before the start of your appointment',
-        appointmentTime: moment()
-          .add(90, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: format(addDays(Date.now(), 90), 'MM/dd/yyyy hh:mm:ss'),
         timeZone: '-09:00 AKST',
       },
     },

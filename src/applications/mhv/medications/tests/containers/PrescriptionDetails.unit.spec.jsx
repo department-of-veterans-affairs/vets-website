@@ -1,16 +1,18 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
-import prescriptions from '../fixtures/presciptions.json';
+import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
+import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
 
 describe('Prescription details container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        prescriptionDetails: prescriptions[0],
+        prescriptionDetails: rxDetailsResponse.data.attributes,
       },
     },
   };
@@ -19,7 +21,7 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouter(<PrescriptionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/prescriptions/1234567891',
+      path: '/1234567891',
     });
   };
 
@@ -28,49 +30,97 @@ describe('Prescription details container', () => {
     expect(screen);
   });
 
-  it('displays a print button', () => {
-    const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
-    expect(printButton).to.exist;
-  });
-
-  it('displays the prescription name', () => {
+  it('displays the prescription name and filled by date', () => {
     const screen = setup();
 
-    const prescriptionName = screen.getByText(
-      initialState.rx.prescriptions.prescriptionDetails.prescriptionName,
-      {
-        exact: true,
-        selector: 'h1',
-      },
+    const rxName = screen.findByText(
+      rxDetailsResponse.data.attributes.prescriptionName,
     );
-    expect(prescriptionName).to.exist;
-  });
-
-  it('displays the formatted ordered date', () => {
-    const screen = setup();
-    const formattedDate = screen.getAllByText(
-      dateFormat(
-        initialState.rx.prescriptions.prescriptionDetails?.orderedDate,
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Last filled on ${dateFormat(
+        rxDetailsResponse.data.attributes.dispensedDate,
         'MMMM D, YYYY',
-      ),
-      {
-        exact: true,
-        selector: 'p',
-      },
+      )}`,
     );
-    expect(formattedDate).to.exist;
+    expect(rxName).to.exist;
   });
 
-  it('displays the facility', () => {
-    const screen = setup();
-    const location = screen.getAllByText(
-      initialState.rx.prescriptions.prescriptionDetails.facilityName,
-      {
-        exact: true,
-        selector: 'p',
+  it('displays "Not filled yet" when there is no dispense date', () => {
+    const stateWdispensedDate = {
+      ...initialState,
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            dispensedDate: null,
+          },
+        },
       },
+    };
+    const screen = setup(stateWdispensedDate);
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      'Not filled yet',
     );
-    expect(location).to.exist;
+  });
+
+  it('displays "Documented on" instead of "filled by" date, when med is non VA', () => {
+    const nonVaRxState = {
+      rx: {
+        prescriptions: {
+          prescriptionDetails: nonVaRxResponse.data.attributes,
+        },
+      },
+    };
+    const screen = setup(nonVaRxState);
+
+    expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
+      `Documented on ${dateFormat(
+        nonVaRxResponse.data.attributes.orderedDate,
+        'MMMM D, YYYY',
+      )}`,
+    );
+  });
+
+  it('name should use orderableItem for non va prescription if no prescriptionName is available', () => {
+    const mockData = [nonVaRxResponse];
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: nonVaRxResponse.data.attributes,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/21142496',
+    });
+    const rxName = screen.findByText(
+      nonVaRxResponse.data.attributes.orderableItem,
+    );
+
+    expect(rxName).to.exist;
+  });
+
+  it('name should use prescriptionName for non va prescription if available', () => {
+    const mockData = [nonVaRxResponse];
+    const testPrescriptionName = 'Test Name for Non-VA prescription';
+    mockData.prescriptionName = testPrescriptionName;
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(<PrescriptionDetails />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionDetails: nonVaRxResponse.data.attributes,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/21142496',
+    });
+    const rxName = screen.findByText(
+      nonVaRxResponse.data.attributes.prescriptionName,
+    );
+
+    expect(rxName).to.exist;
   });
 });

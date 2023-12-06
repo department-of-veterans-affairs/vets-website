@@ -192,7 +192,7 @@ export const searchCriteriaFromCoords = async (longitude, latitude) => {
 };
 
 export const schoolSize = enrollment => {
-  if (!enrollment) return 'Unknown';
+  if (!enrollment || !Number.isInteger(enrollment)) return 'Unknown';
   if (enrollment <= 2000) {
     return 'Small';
   }
@@ -253,3 +253,68 @@ export const getAvgCount = (questionsArrObj, index) => {
   });
   return result;
 };
+
+const SMFKey = 'smf-title';
+export const specializedMissionDefinitions = [
+  {
+    key: `${SMFKey}-HBCU`,
+    title: 'Historically Black college or university',
+    definition:
+      'HBCU’s are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
+  },
+  {
+    key: `${SMFKey}-MENONLY`,
+    title: 'Men-only',
+    definition:
+      "Men's colleges in the United States are primarily those categorized as being undergraduate, bachelor's degree-granting single-sex institutions that admit only men.",
+  },
+  {
+    key: `${SMFKey}-WOMENONLY`,
+    title: 'Women-only',
+    definition:
+      "Women's colleges in the United States are private single-sex U.S. institutions of higher education that only admit female students.",
+  },
+  {
+    key: `${SMFKey}-RELAFFIL`,
+    title: 'Religious affiliation',
+    definition:
+      'Religiously affiliated colleges and universities are as diverse as their religious traditions and the higher education scene in the United States. ',
+  },
+  {
+    key: `${SMFKey}-HSI`,
+    title: 'Hispanic-serving institutions',
+    definition:
+      'An HSI is an institution that receives federal discretionary funding to improve and expand its capacity to serve Hispanic and low-income students. ',
+  },
+  {
+    key: `${SMFKey}-NANTI`,
+    title: 'Native American-serving institutions',
+    definition:
+      'A Native American-Serving Non-Tribal Institution is a postsecondary institution that is not affiliated with American Indian and Native Alaskan tribes and receives federal discretionary funding to improve and expand its capacity to serve Native American students. ',
+  },
+  {
+    key: `${SMFKey}-TRIBAL`,
+    title: 'Tribal college and university',
+    definition:
+      'TCU’s are colleges and universities associated with American Indian and Native Alaskan tribes.',
+  },
+  {
+    key: `${SMFKey}-AANAPISI`,
+    title:
+      'Asian American Native American Pacific Islander-serving institutions',
+    definition:
+      'An AANAPISI is an institution that receives federal discretionary funding to improve and expand its capacity to serve Asian Americans and Native American Pacific Islanders and low-income students.',
+  },
+  {
+    key: `${SMFKey}-PBI`,
+    title: 'Predominantly Black institutions',
+    definition:
+      'A Predominantly Black Institution is a postsecondary institution that receives discretionary funding to improve and expand its capacity to serve black students as well as low-income and first-generation college students. ',
+  },
+  {
+    key: `${SMFKey}-ANNHI`,
+    title: 'Alaska Native-serving institutions',
+    definition:
+      'An Alaska Native-serving Institution is a postsecondary institution that receives federal discretionary funding to improve and expand its capacity to serve Alaska Native students.',
+  },
+];

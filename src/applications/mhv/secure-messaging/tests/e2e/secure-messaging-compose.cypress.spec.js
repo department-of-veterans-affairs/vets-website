@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
@@ -12,12 +13,19 @@ describe('Secure Messaging Compose', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage.getCategory(requestBody.category).click();
+    composePage
+      .getCategory(requestBody.category)
+      .first()
+      .click();
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
-    composePage.getMessageBodyField().type(`${requestBody.body}`);
+    composePage
+      .getMessageBodyField()
+      .type(`${requestBody.body}`, { force: true });
     composePage.sendMessage(requestBody);
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockInboxNoMessages from './fixtures/empty-thread-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Inbox No Messages', () => {
   it('inbox no messages', () => {
@@ -12,7 +13,7 @@ describe('Secure Messaging Inbox No Messages', () => {
       .should('have.text', 'There are no messages in this folder.')
       .should('be.visible');
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

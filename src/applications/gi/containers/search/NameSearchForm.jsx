@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
@@ -7,10 +10,9 @@ import {
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
-import { useHistory } from 'react-router-dom';
 import { TABS } from '../../constants';
-import recordEvent from 'platform/monitoring/record-event';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
+import FilterBeforeResults from './FilterBeforeResults';
 
 export function NameSearchForm({
   autocomplete,
@@ -20,6 +22,7 @@ export function NameSearchForm({
   filters,
   preview,
   search,
+  smallScreen,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
@@ -52,7 +55,7 @@ export function NameSearchForm({
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(search.query.name || name);
+        doSearch(name || search?.query?.name);
       }
     },
     [filters.search],
@@ -75,6 +78,27 @@ export function NameSearchForm({
     const empty = searchTerm.trim() === '';
     if (empty) {
       setError('Please fill in a school, employer, or training provider.');
+    } else if (
+      filters.schools === false &&
+      filters.excludeCautionFlags === false &&
+      filters.accredited === false &&
+      filters.studentVeteran === false &&
+      filters.yellowRibbonScholarship === false &&
+      filters.employers === false &&
+      filters.vettec === false &&
+      filters.preferredProvider === false &&
+      filters.specialMissionHbcu === false &&
+      filters.specialMissionMenonly === false &&
+      filters.specialMissionWomenonly === false &&
+      filters.specialMissionRelaffil === false &&
+      filters.specialMissionHSI === false &&
+      filters.specialMissionNANTI === false &&
+      filters.specialMissionANNHI === false &&
+      filters.specialMissionAANAPII === false &&
+      filters.specialMissionPBI === false &&
+      filters.specialMissionTRIBAL === false
+    ) {
+      setError('Please select at least one filter.');
     } else if (error !== null) {
       setError(null);
     }
@@ -142,6 +166,12 @@ export function NameSearchForm({
           </div>
         </div>
       </form>
+      {!smallScreen &&
+        !environment.isProduction() && (
+          <div>
+            <FilterBeforeResults />
+          </div>
+        )}
     </div>
   );
 }

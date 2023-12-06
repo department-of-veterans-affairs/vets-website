@@ -8,6 +8,18 @@ import { focusElement } from 'platform/utilities/ui';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import {
+  getAlreadySubmittedTitle,
+  getAlreadySubmittedText,
+  getAlertType,
+  getSuccessAlertTitle,
+  getSuccessAlertText,
+  getInfoAlertTitle,
+  getInfoAlertText,
+  getNextStepsTextSecondParagraph,
+  getNextStepsLinks,
+} from '../config/helpers';
+import { benefitPhrases, veteranBenefits } from '../definitions/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -19,9 +31,46 @@ export class ConfirmationPage extends React.Component {
     const { form } = this.props;
     const { submission, data } = form;
 
-    const { fullName } = data;
+    const { veteranFullName } = data;
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
+
+    const dateOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    const expirationDate = new Date(
+      submission.response?.expirationDate,
+    ).toLocaleDateString('en-US', dateOptions);
+    const alreadySubmittedIntents = {};
+    if (submission.response?.compensationIntent) {
+      alreadySubmittedIntents.compensation =
+        submission.response.compensationIntent;
+    }
+    if (submission.response?.pensionIntent) {
+      alreadySubmittedIntents.pension = submission.response.pensionIntent;
+    }
+    if (submission.response?.survivorIntent) {
+      alreadySubmittedIntents.survivor = submission.response.survivorIntent;
+    }
+
+    const alreadySubmittedTitle = getAlreadySubmittedTitle(
+      data,
+      alreadySubmittedIntents,
+    );
+    const alreadySubmittedText = getAlreadySubmittedText(
+      data,
+      alreadySubmittedIntents,
+      expirationDate,
+    );
+    const nextStepsTextSecondParagraph = getNextStepsTextSecondParagraph(
+      data,
+      alreadySubmittedIntents,
+      expirationDate,
+    );
+    const nextStepsLinks = getNextStepsLinks(data);
 
     return (
       <div>
@@ -32,46 +81,53 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="success"
-          visible
-        >
-          <h2 slot="headline">
-            Thank you for submitting your authorization request
-          </h2>
-          <p>
-            After we review your application, we will contact the private
-            provider or hospital to obtain the requested records. If we cannot
-            obtain the records within 15 days we will send you a follow up
-            letter.
-          </p>
-        </va-alert>
+        {getAlertType(data, alreadySubmittedIntents) === 'info' ? (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            visible
+          >
+            <h2 slot="headline">{getInfoAlertTitle()}</h2>
+            <p>{getInfoAlertText(data, alreadySubmittedIntents)}</p>
+          </va-alert>
+        ) : (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="success"
+            visible
+          >
+            <h2 slot="headline">
+              {getSuccessAlertTitle(data, alreadySubmittedIntents)}
+            </h2>
+            <p>{getSuccessAlertText(data, alreadySubmittedIntents)}</p>
+          </va-alert>
+        )}
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
-          {fullName ? (
+          {veteranFullName && (
             <>
               <h4>Applicant</h4>
               <p>
-                {fullName.first} {fullName.middle} {fullName.last}
-                {fullName.suffix ? `, ${fullName.suffix}` : null}
+                {veteranFullName.first} {veteranFullName.middle}{' '}
+                {veteranFullName.last}
+                {veteranFullName.suffix ? `, ${veteranFullName.suffix}` : null}
               </p>
             </>
-          ) : null}
+          )}
 
-          {confirmationNumber ? (
+          {confirmationNumber && (
             <>
               <h4>Confirmation number</h4>
               <p>{confirmationNumber}</p>
             </>
-          ) : null}
+          )}
 
-          {isValid(submitDate) ? (
+          {isValid(submitDate) && (
             <>
               <h4>Date submitted</h4>
               <p>{format(submitDate, 'MMMM d, yyyy')}</p>
             </>
-          ) : null}
+          )}
 
           <h4>Confirmation for your records</h4>
           <p>You can print this confirmation page for your records</p>
@@ -82,6 +138,39 @@ export class ConfirmationPage extends React.Component {
           >
             Print this page
           </button>
+        </div>
+        {alreadySubmittedTitle && alreadySubmittedText ? (
+          <div>
+            <h2>{alreadySubmittedTitle}</h2>
+            <p>{alreadySubmittedText}</p>
+          </div>
+        ) : null}
+        <div>
+          <h2>What are my next steps?</h2>
+          <p>You should complete and file your claim as soon as possible.</p>
+          <p>{nextStepsTextSecondParagraph}</p>
+          {nextStepsLinks.map(nextStep => {
+            let href = '/';
+            if (nextStep === veteranBenefits.COMPENSATION) {
+              href =
+                '/disability/file-disability-claim-form-21-526ez/introduction';
+            } else if (nextStep === veteranBenefits.PENSION) {
+              href = '/find-forms/about-form-21p-527ez/';
+            } else if (nextStep === veteranBenefits.SURVIVOR) {
+              href = '/find-forms/about-form-21p-534ez/';
+            }
+
+            return (
+              <p key={nextStep}>
+                <a
+                  className="vads-c-action-link--green vads-u-margin-bottom--4"
+                  href={href}
+                >
+                  Complete your {benefitPhrases[nextStep]}
+                </a>
+              </p>
+            );
+          })}
         </div>
         <a
           className="vads-c-action-link--green vads-u-margin-bottom--4"
@@ -100,7 +189,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      veteranFullName: {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
@@ -109,6 +198,13 @@ ConfirmationPage.propTypes = {
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
+      response: PropTypes.shape({
+        confirmationNumber: PropTypes.string,
+        expirationDate: PropTypes.string,
+        compensationIntent: PropTypes.shape(),
+        pensionIntent: PropTypes.shape(),
+        survivorIntent: PropTypes.shape(),
+      }),
       timestamp: PropTypes.string,
     }),
   }),

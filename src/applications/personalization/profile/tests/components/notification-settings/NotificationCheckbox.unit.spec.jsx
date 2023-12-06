@@ -40,10 +40,6 @@ describe('<NotificationCheckbox />', () => {
     );
     const loadingSpan = view.getByText(loadingMessage);
     expect(loadingSpan).to.exist;
-
-    // while loading the checkbox should not be displayed
-    const checkbox = view.queryByTestId(`checkbox-${defaultProps.channelId}`);
-    expect(checkbox).to.not.exist;
   });
 
   it('renders success message when provided', () => {

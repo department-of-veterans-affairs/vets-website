@@ -1,23 +1,68 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
+
+const keyFieldsSpouseOtherIncome = ['amount', 'name'];
 
 const SpouseOtherIncomeSummary = ({
   data,
   goToPath,
+  goForward,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { additionalIncome } = data;
+  const {
+    additionalIncome,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText = reviewNavigation
+    ? 'Continue to review page'
+    : 'Continue';
+
+  // useEffect to set incomeBelowGmt if income records changes
+  useEffect(
+    () => {
+      if (!gmtData?.isEligibleForStreamlined) return;
+
+      const calculatedIncome = calculateTotalAnnualIncome(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+          incomeBelowOneFiftyGmt:
+            calculatedIncome < gmtData?.incomeUpperThreshold,
+        },
+      });
+    },
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      spAddlIncome,
+      gmtData?.isEligibleForStreamlined,
+      gmtData?.gmtThreshold,
+      gmtData?.incomeUpperThreshold,
+    ],
+  );
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -26,22 +71,38 @@ const SpouseOtherIncomeSummary = ({
         ...additionalIncome,
         spouse: {
           spAddlIncome: spAddlIncome.filter(
-            (source, index) => index !== deleteIndex,
+            (_, index) => index !== deleteIndex,
           ),
         },
       },
     });
   };
 
-  const goForward = () => {
-    return goToPath('/dependents-count');
-  };
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (spAddlIncome.length === 0) {
       return goToPath('/spouse-additional-income-checklist');
     }
     return goToPath('/spouse-additional-income-values');
+  };
+
+  const onSubmit = event => {
+    event.preventDefault();
+    if (showReviewNavigation && reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
   };
 
   const cardBody = text => (
@@ -52,7 +113,7 @@ const SpouseOtherIncomeSummary = ({
   const emptyPrompt = `Select the ‘add other income’ link to add other income. Select the continue button to move on to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-income-summary"
@@ -75,8 +136,12 @@ const SpouseOtherIncomeSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(
+                  asset,
+                  keyFieldsSpouseOtherIncome,
+                  index,
+                )}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -92,13 +157,31 @@ const SpouseOtherIncomeSummary = ({
             Add additional other income
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack,
+                secondary: true,
+                iconLeft: '«',
+              },
+              {
+                label: continueButtonText,
+                type: 'submit',
+                iconRight: '»',
+              },
+            ]}
           />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(spAddlIncome[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );
@@ -113,13 +196,19 @@ SpouseOtherIncomeSummary.propTypes = {
         spAddlIncome: PropTypes.array,
       }),
     }),
+    gmtData: PropTypes.shape({
+      gmtThreshold: PropTypes.number,
+      incomeBelowGmt: PropTypes.bool,
+      incomeBelowOneFiftyGmt: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
+      incomeUpperThreshold: PropTypes.number,
+    }),
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
-  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };
 
 export default SpouseOtherIncomeSummary;

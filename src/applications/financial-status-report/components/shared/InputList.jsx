@@ -8,15 +8,21 @@ const InputList = ({
   submitted,
   title = '',
   onChange,
+  min,
+  max,
 }) => {
   return (
     <fieldset className="vads-u-margin-y--2">
       {title && (
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">{title}</h3>
+          {prompt && (
+            <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+              {prompt}
+            </p>
+          )}
         </legend>
       )}
-      {prompt && <p>{prompt}</p>}
       {inputs?.map((input, key) => (
         <div key={input.name + key}>
           <va-number-input
@@ -32,6 +38,8 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            min={min}
+            max={max}
             width="md"
             currency
           />
@@ -54,6 +62,8 @@ InputList.propTypes = {
   submitted: PropTypes.bool,
   title: PropTypes.string,
   onChange: PropTypes.func,
+  min: PropTypes.number,
+  max: PropTypes.number,
 };
 
 export default InputList;

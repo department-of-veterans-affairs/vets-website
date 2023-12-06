@@ -52,31 +52,35 @@ describe('<NotificationChannelCheckboxesFieldset />', () => {
     expect(fieldset.disabled).to.be.true;
   });
 
-  it('applies the correct border color classes based on props', () => {
-    let { container } = render(
+  it('applies the correct border color classes for success', () => {
+    const successView = render(
       <NotificationChannelCheckboxesFieldset
         {...defaultProps}
         hasSomeSuccessUpdates
       />,
     );
-    expect(container.querySelector('fieldset').className).to.include(
+    expect(successView.getByTestId('fieldset-wrapper').className).to.include(
       'vads-u-border-color--green',
     );
+  });
 
-    container = render(
+  it('applies the correct border color classes for error', () => {
+    const errorView = render(
       <NotificationChannelCheckboxesFieldset
         {...defaultProps}
         hasSomeErrorUpdates
       />,
-    ).container;
-    expect(container.querySelector('fieldset').className).to.include(
+    );
+    expect(errorView.getByTestId('fieldset-wrapper').className).to.include(
       'vads-u-border-color--secondary',
     );
+  });
 
-    container = render(
+  it('applies the correct border color classes for default state', () => {
+    const defaultView = render(
       <NotificationChannelCheckboxesFieldset {...defaultProps} />,
-    ).container;
-    expect(container.querySelector('fieldset').className).to.include(
+    );
+    expect(defaultView.getByTestId('fieldset-wrapper').className).to.include(
       'vads-u-border-color--white',
     );
   });

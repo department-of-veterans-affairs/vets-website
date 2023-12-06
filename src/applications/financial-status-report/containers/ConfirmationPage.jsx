@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
@@ -9,8 +9,12 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
-import { fsrConfirmationEmailToggle, fsrReasonDisplay } from '../utils/helpers';
+import { fsrReasonDisplay } from '../utils/helpers';
 import { DEBT_TYPES } from '../constants';
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../utils/streamlinedDepends';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -92,10 +96,22 @@ RequestDetailsCard.propTypes = {
 };
 
 const ConfirmationPage = ({ form, download }) => {
-  const showFSREmail = useSelector(state => fsrConfirmationEmailToggle(state));
-
   const { response } = form.submission;
   const { data } = form;
+
+  const renderLoseJobBlurb = () => {
+    if (!isStreamlinedLongForm(data) && !isStreamlinedShortForm(data)) {
+      return (
+        <>
+          <h3 className="vads-u-margin-bottom--2">
+            What if I lose my job or have other changes that may affect my
+            finances?
+          </h3>
+        </>
+      );
+    }
+    return null;
+  };
 
   useEffect(() => {
     focusElement('.schemaform-title > h1');
@@ -103,15 +119,11 @@ const ConfirmationPage = ({ form, download }) => {
     scrollToTop();
   }, []);
 
-  return (
-    <div>
-      <p className="vads-u-margin-top--0">
-        <strong>Please print this page for your records.</strong>
-      </p>
-
-      {showFSREmail && (
+  const renderLongFormAlert = () => {
+    return (
+      <>
         <va-alert status="success">
-          <h3 className="confirmation-page-title">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             We’ve received your request
           </h3>
           <p>
@@ -119,14 +131,52 @@ const ConfirmationPage = ({ form, download }) => {
             <strong>{data.personalData.emailAddress}.</strong>
           </p>
         </va-alert>
-      )}
-      <p>
-        We’ll send you a letter with our decision and any next steps.{' '}
-        <strong>
-          If you experience changes that may affect our decision (like a loss or
-          new job), you’ll need to submit a new request.
-        </strong>
+        <p>
+          We’ll send you a letter with our decision and any next steps.{' '}
+          <strong>
+            If you experience changes that may affect our decision (like a loss
+            or new job), you’ll need to submit a new request.
+          </strong>
+        </p>
+      </>
+    );
+  };
+
+  const renderSWConfirmationAlert = () => {
+    return (
+      <>
+        <va-alert status="success">
+          <h3 slot="headline" className="vads-u-font-size--h3">
+            You’re tentatively eligible for debt relief
+          </h3>
+          <p>
+            We’ll complete our final review of your request and mail you a
+            letter with more details. We’ll also send a confirmation email to
+            <strong> {data.personalData.emailAddress}</strong> for this
+            submission.
+          </p>
+        </va-alert>
+        <p>You don’t need to do anything else at this time.</p>
+        <p>
+          If you don’t receive your letter in the next 30 days or have any
+          questions, call us at <va-telephone contact="8664001238" />(
+          <va-telephone contact="711" tty />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+      </>
+    );
+  };
+
+  return (
+    <div>
+      <p className="vads-u-margin-top--0">
+        <strong>Please print this page for your records.</strong>
       </p>
+
+      {!(isStreamlinedLongForm(data) || isStreamlinedShortForm(data)) &&
+        renderLongFormAlert()}
+      {(isStreamlinedLongForm(data) || isStreamlinedShortForm(data)) &&
+        renderSWConfirmationAlert()}
 
       {response && (
         <RequestDetailsCard
@@ -168,10 +218,7 @@ const ConfirmationPage = ({ form, download }) => {
             </p>
           </li>
         </ol>
-        <h3 className="vads-u-margin-bottom--2">
-          What if I lose my job or have other changes that may affect my
-          finances?
-        </h3>
+        {renderLoseJobBlurb()}
         <p>
           You’ll need to submit a new request to report the changes to us. We’ll
           consider the changes when we make our decision on your request.

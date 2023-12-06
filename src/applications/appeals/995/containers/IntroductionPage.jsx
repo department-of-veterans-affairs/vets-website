@@ -11,7 +11,6 @@ import environment from 'platform/utilities/environment';
 
 import NeedsToVerify from '../../shared/components/NeedsToVerify';
 import MissingInfo from '../components/MissingInfo';
-import { clearReturnState } from '../utils/contactInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -30,9 +29,6 @@ class IntroductionPage extends React.Component {
     } = this.props;
     const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
-
-    // clear contact info editing state
-    clearReturnState();
 
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
@@ -293,6 +289,7 @@ const mapStateToProps = state => ({
     // vets-api/app/policies/appeals_policy.rb - We need to use this because
     // the SSN is available from prefill, but is not obtained until the form is
     // started :(
+    // enable profile.claims by turning on `profile_user_claims` feature
     selectProfile(state).claims?.appeals || environment.isLocalhost(),
   hasDob: !!(selectProfile(state)?.dob || ''),
 });

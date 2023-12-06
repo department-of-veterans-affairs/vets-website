@@ -3,6 +3,7 @@ import VaRadioField from '../web-component-fields/VaRadioField';
 /**
  * Web component uiSchema for generic radio field
  *
+ * Usage uiSchema:
  * ```js
  * exampleRadio: radioUI({
  *  title: 'Select animal',
@@ -10,27 +11,42 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *      dog: 'Dog',
  *      cat: 'Cat',
  *      octopus: 'Octopus',
- *  }
+ *  },
+ *  hint: 'This is a hint',
+ *  errorMessages: {
+ *     required: 'Please select an animal',
+ *  },
  * })
  * ```
- * @param {{
+ *
+ * Usage schema:
+ * ```js
+ * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
+ * ```
+ * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
  *  description?: UISchemaOptions['ui:description'],
- *  labels: Record<PropertyKey, string>,
- *  tile?: boolean,
+ *  errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
+ *  hint?: string,
  * }} options
  * @returns {UISchemaOptions}
  */
-export const radioUI = ({ title, description, labels, tile }) => {
+export const radioUI = ({
+  title,
+  description,
+  errorMessages,
+  ...uiOptions
+}) => {
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaRadioField,
     'ui:widget': 'radio', // This is required for the review page to render the field properly
     'ui:options': {
-      tile,
-      labels,
+      ...uiOptions,
     },
+    'ui:errorMessages': errorMessages,
   };
 };
 

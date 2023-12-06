@@ -1,12 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
+import { getDestinationDomain } from '../utilities';
 
 const HubSection = ({ title, links }) => {
-  const listItems = links.map((l, index) => (
-    <li key={`${l.href}--${index}`}>
-      <a className="mhv-c-link" href={l.href}>
-        {l.text}
-      </a>
+  const listItems = links.map(({ href, text }, index) => (
+    <li key={`${href}--${index}`}>
+      <va-link
+        class="mhv-c-link"
+        disable-analytics
+        href={href}
+        text={text}
+        onClick={() => {
+          const destinationDomain = getDestinationDomain(href);
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': text,
+            'links-list-section-header': title,
+            'destination-domain': destinationDomain,
+          });
+        }}
+      />
     </li>
   ));
   return (
@@ -20,10 +34,11 @@ const HubSection = ({ title, links }) => {
 };
 
 const HubLinks = ({ hubs }) => {
-  const hubLayout = hubs.map(h => (
+  const hubLayout = hubs.map((h, index) => (
     <div
       key={h.title}
       className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap"
+      data-testid={`mhv-link-group-hub-${index}`}
     >
       <HubSection title={h.title} links={h.links} />
     </div>

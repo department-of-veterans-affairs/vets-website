@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
-import UnauthContent from '.';
+import { UnauthContent } from '.';
 
 describe('Scheduling Page <UnauthContent>', () => {
   it('renders what we expect', () => {

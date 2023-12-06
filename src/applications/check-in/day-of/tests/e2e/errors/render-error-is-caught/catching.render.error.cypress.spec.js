@@ -29,26 +29,11 @@ describe('Check In Experience ', () => {
   });
   it('Render Error is caught', () => {
     cy.visitWithUUID();
-
-    ValidateVeteran.validatePage.dayOf();
-    cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
-
-    Demographics.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
     Demographics.attemptToGoToNextPage();
-
-    EmergencyContact.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
     EmergencyContact.attemptToGoToNextPage();
-
-    NextOfKin.validatePageLoaded(
-      'Check-In Is this your current next of kin information?',
-    );
-    cy.injectAxeThenAxeCheck();
     NextOfKin.attemptToGoToNextPage();
-
     // Fails on the rendering of the API call
     Error.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

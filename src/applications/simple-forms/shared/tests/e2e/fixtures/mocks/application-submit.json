@@ -1,9 +1,1 @@
-{
-  "data": {
-    "id": "123456789",
-    "type": "mockData",
-    "attributes": {
-      "status": "processed"
-    }
-  }
-}
+{ "confirmationNumber": "48fac28c-b332-4549-a45b-3423297111f4" }

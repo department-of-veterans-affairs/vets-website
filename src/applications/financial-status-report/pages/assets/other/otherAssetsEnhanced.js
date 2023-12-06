@@ -1,27 +1,5 @@
-import OtherAssetsChecklist from '../../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsInputList from '../../../components/otherAssets/OtherAssetsInputList';
 import { validateCurrencyArray } from '../../../utils/validations';
-
-export const otherAssetsChecklist = {
-  uiSchema: {
-    'ui:title': '',
-    'ui:field': OtherAssetsChecklist,
-    otherAssets: {
-      'ui:title': 'otherAssetsChecklist',
-      'ui:options': {
-        hideOnReview: true,
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      otherAssets: {
-        type: 'boolean',
-      },
-    },
-  },
-};
 
 export const otherAssetsValues = {
   uiSchema: {

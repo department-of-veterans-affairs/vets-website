@@ -1,5 +1,5 @@
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useRouteMatch, Link } from 'react-router-dom';
 import { useQueryParams } from '../utils/helpers';
 
@@ -46,7 +46,7 @@ const GiBillBreadcrumbs = () => {
     );
   }
 
-  return <Breadcrumbs>{crumbs}</Breadcrumbs>;
+  return <VaBreadcrumbs>{crumbs}</VaBreadcrumbs>;
 };
 
 export default GiBillBreadcrumbs;

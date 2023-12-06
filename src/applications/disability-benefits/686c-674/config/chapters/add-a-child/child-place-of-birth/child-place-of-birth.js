@@ -1,8 +1,8 @@
 import merge from 'lodash/merge';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import environment from 'platform/utilities/environment';
+import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
 import { TASK_KEYS } from '../../../constants';
@@ -60,8 +60,18 @@ export const uiSchema = {
             hideEmptyValueInReview: true,
           },
         },
+        biologicalStepchild: {
+          'ui:title': 'Is this child the biological child of your spouse?',
+          'ui:widget': 'yesNo',
+          'ui:required': (formData, index) =>
+            formData?.childrenToAdd[`${index}`]?.childStatus?.stepchild ===
+            true,
+          'ui:options': {
+            expandUnder: 'stepchild',
+          },
+        },
         dateBecameDependent: merge(
-          currentOrPastDateUI('Date stepchild became your dependent'),
+          currentOrPastDateUI('Date the child entered your household'),
           {
             'ui:options': {
               expandUnder: 'stepchild',
@@ -134,7 +144,8 @@ export const uiSchema = {
         'ui:description': childStatusDescription,
       },
       notSelfSufficient: {
-        'ui:title': 'Is this child not capable of self-support?',
+        'ui:title':
+          'Is this child permanently unable to support themself because of a mental or physical disability?',
         'ui:widget': 'yesNo',
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.addChild),

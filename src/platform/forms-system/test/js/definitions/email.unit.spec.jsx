@@ -20,7 +20,7 @@ describe('Schemaform definition email', () => {
 
   it('should render invalid email error', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={definitions.date} uiSchema={uiSchema()} />,
+      <DefinitionTester schema={definitions.email} uiSchema={uiSchema()} />,
     );
     const formDOM = findDOMNode(form);
     const input = formDOM.querySelector('input');
@@ -31,14 +31,14 @@ describe('Schemaform definition email', () => {
 
     ReactTestUtils.Simulate.change(input, {
       target: {
-        value: 'as@d.c',
+        value: 'as@dc',
       },
     });
     ReactTestUtils.Simulate.blur(input);
 
     expect(
       formDOM.querySelector('.usa-input-error-message').textContent,
-    ).to.equal(`Error ${uiSchema()['ui:errorMessages'].pattern}`);
+    ).to.equal(`Error ${uiSchema()['ui:errorMessages'].format}`);
   });
 
   it('should render email title', () => {

@@ -530,7 +530,7 @@ describe('VAOS data transformation', () => {
       desiredDate: '2019-12-02T00:00:00+00:00',
       dateTime: '2019-11-22T09:30:00+00:00',
       duration: 30,
-      bookingNotes: 'Follow-up/Routine: asdfasdf',
+      bookingNotes: 'Routine/Follow-up: asdfasdf',
       preferredEmail: 'test@va.gov',
       timeZone: 'America/Denver',
       apptType: 'P',

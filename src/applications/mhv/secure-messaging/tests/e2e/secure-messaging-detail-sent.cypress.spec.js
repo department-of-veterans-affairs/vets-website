@@ -4,9 +4,10 @@ import inboxMessages from './fixtures/messages-response.json';
 import mockMessageDetails from './fixtures/message-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import { AXE_CONTEXT } from './utils/constants';
 
-describe.skip('Secure Messaging Message Details in Sent AXE Check', () => {
-  it('Axe Check Message Details Page', () => {
+describe('Secure Messaging Message Details in Sent AXE Check', () => {
+  it('Axe Check message details page', () => {
     const landingPage = new PatientInboxPage();
     const detailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
@@ -20,7 +21,7 @@ describe.skip('Secure Messaging Message Details in Sent AXE Check', () => {
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

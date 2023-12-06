@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { uniqBy } from 'lodash';
 import Scroll from 'react-scroll';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { fetchDebts } from '../../actions';
 import { getStatements } from '../../actions/copays';
 import DebtCheckBox from './DebtCheckBox';
@@ -13,6 +14,7 @@ import { setFocus } from '../../utils/fileValidation';
 import ComboAlerts from '../alerts/ComboAlerts';
 import AlertCard from '../alerts/AlertCard';
 import { ALERT_TYPES, DEBT_TYPES } from '../../constants';
+import { isEligibleForStreamlined } from '../../utils/streamlinedDepends';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -36,6 +38,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
   //   state => state.fsr,
   // );
   const { data } = useSelector(state => state.form);
+  const dispatch = useDispatch();
 
   // copays
   const sortedStatements = sortStatementsByDate(statements ?? []);
@@ -47,6 +50,19 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       setSelectionError(
         formContext.submitted && !data.selectedDebtsAndCopays?.length,
       );
+
+      const eligible = isEligibleForStreamlined(data);
+      if (eligible !== data?.gmtData?.isEligibleForStreamlined) {
+        dispatch(
+          setData({
+            ...data,
+            gmtData: {
+              ...data.gmtData,
+              isEligibleForStreamlined: eligible,
+            },
+          }),
+        );
+      }
     },
     [formContext.submitted, data.selectedDebtsAndCopays?.length],
   );
@@ -61,7 +77,6 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     [selectionError],
   );
 
-  const dispatch = useDispatch();
   useEffect(
     () => {
       fetchDebts(dispatch);
@@ -104,10 +119,6 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
 
   return (
     <div data-testid="debt-selection-content">
-      <p className="vads-u-margin-bottom--3">
-        Select one or more debts you want to request relief for{' '}
-        <span className="required-text">(*Required)</span>
-      </p>
       <div
         className={
           selectionError

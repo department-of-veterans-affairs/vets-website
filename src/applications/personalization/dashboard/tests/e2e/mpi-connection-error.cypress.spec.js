@@ -17,7 +17,7 @@ describe('MyVA Dashboard', () => {
       cy.findByText(
         /Something went wrong when we tried to connect to your records. Please refresh this page or try again later/i,
       ).should('exist');
-      cy.findByTestId('dashboard-section-health-care').should('not.exist');
+      cy.findByTestId('dashboard-section-health-care').should('exist');
       cy.findByTestId('dashboard-section-claims-and-appeals').should(
         'not.exist',
       );

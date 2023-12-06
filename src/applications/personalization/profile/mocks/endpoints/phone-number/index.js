@@ -13,6 +13,18 @@ const transactions = {
       },
     },
   },
+  receivedNoChangesDetected: {
+    data: {
+      id: '',
+      type: 'async_transaction_va_profile_telephone_transactions',
+      attributes: {
+        transactionId,
+        transactionStatus: 'COMPLETED_NO_CHANGES_DETECTED',
+        type: 'AsyncTransaction::VAProfile::TelephoneTransaction',
+        metadata: [],
+      },
+    },
+  },
   successful: {
     data: {
       id: '',

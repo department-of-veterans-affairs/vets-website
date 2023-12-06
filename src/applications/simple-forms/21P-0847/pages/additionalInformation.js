@@ -7,6 +7,9 @@ export default {
       'ui:title':
         'Do you have more information to support your request? You can tell us about your relationship to the deceased claimant, the claim they were working on, or any other relevant information.',
       'ui:webComponentField': VaTextareaField,
+      'ui:errorMessages': {
+        maxLength: 'Please limit your answer to no more than 300 characters',
+      },
     },
   },
   schema: {
@@ -14,6 +17,7 @@ export default {
     properties: {
       additionalInformation: {
         type: 'string',
+        maxLength: 300,
       },
     },
   },

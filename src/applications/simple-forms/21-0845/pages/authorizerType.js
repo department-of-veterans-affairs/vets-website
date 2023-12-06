@@ -3,21 +3,27 @@ import React from 'react';
 import { AUTHORIZER_TYPE_ITEMS } from '../definitions/constants';
 import { getEnumsFromConstants, getLabelsFromConstants } from '../utils';
 
+const labelString = 'Who is submitting this authorization?';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     authorizerType: {
       'ui:title': (
-        <span
-          className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold"
-          role="heading"
-          aria-level={2}
-        >
-          Who is submitting this authorization?
-        </span>
+        <>
+          <h2 className="vads-u-font-size--h3">{labelString}</h2>
+          Select the description that fits you.
+        </>
       ),
-      'ui:description': 'Select the description that fits you.',
       'ui:widget': 'radio',
+      'ui:reviewField': ({ children }) => (
+        // prevent ui:title's <h2> from getting pulled into
+        // review-field's <dt> & causing a11y headers-hierarchy errors.
+        <div className="review-row">
+          <dt>{labelString}</dt>
+          <dd>{children}</dd>
+        </div>
+      ),
       'ui:options': {
         labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
       },
@@ -35,6 +41,12 @@ export default {
             rel="noopener noreferrer"
           >
             download the PDF version of this form
+            <i
+              className="fas fa-arrow-up-right-from-square"
+              aria-hidden="true"
+              role="img"
+            />
+            <span className="sr-only">[ opens in a new browser-tab ]</span>
           </a>
           . Then submit it in person or by mail.
         </p>

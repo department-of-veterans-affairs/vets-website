@@ -124,8 +124,8 @@ const formConfig = {
           uiSchema: vetMedicalCenterJsonPage.uiSchema,
           schema: vetMedicalCenterJsonPage.schema,
         },
-        veteranInfoThreeLighthouse: {
-          path: 'vet-3-api',
+        veteranInfoThreeFacilities: {
+          path: 'select-facility',
           title: 'VA medical center',
           depends: formData => formData['view:useFacilitiesAPI'],
           uiSchema: vetMedicalCenterAPIPage.uiSchema,
@@ -192,7 +192,6 @@ const formConfig = {
     },
     secondaryCaregiversTwoChapter: {
       title: secondaryTwoChapterTitle,
-      depends: formData => hasSecondaryCaregiverTwo(formData),
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',

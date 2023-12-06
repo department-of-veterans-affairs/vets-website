@@ -1,6 +1,78 @@
 {
   "data": [
     {
+      "id": "00C891va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "437",
+        "comment": "Follow-up/Routine: I have a headache",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming COVID-19 appointment",
+        "end": "2023-11-21T18:19:34",
+        "id": "00C891va",
+        "kind": "clinic",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {
+          "text": "Follow-up/Routine: Covid shot"
+        },
+        "requestedPeriods": null,
+        "serviceType": "covid",
+        "slot": null,
+        "start": "2023-11-21T18:19:34",
+        "status": "booked",
+        "telehealth": null
+      }
+    },
+    {
+      "id": "00C893va",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "437",
+        "comment": "Follow-up/Routine: I have a headache",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming COVID-19 appointment",
+        "end": "2023-12-21T18:19:34",
+        "id": "00C893va",
+        "kind": "clinic",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {
+          "text": "Follow-up/Routine: Covid shot"
+        },
+        "requestedPeriods": null,
+        "serviceType": "covid",
+        "slot": null,
+        "start": "2023-12-21T18:19:34",
+        "status": "cancelled",
+        "telehealth": null
+      }
+    },
+    {
       "id": "1150111CC",
       "type": "appointments",
       "attributes": {
@@ -880,8 +952,11 @@
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
-        "start": "2023-06-23T20:00:00Z",
+        "start": "2023-09-23T20:00:00Z",
         "status": "booked",
+        "extension": {
+          "patientHasMobileGfe": false
+        },
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -934,7 +1009,7 @@
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
-        "start": "2023-01-23T20:00:00Z",
+        "start": "2024-01-23T20:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": null,
@@ -952,7 +1027,10 @@
               "additionalDetails": ""
             }
           },
-          "vvsKind": "ADHOC"
+          "vvsKind": "MOBILE_ANY"
+        },
+        "extension": {
+          "patientHasMobileGfe": true
         }
       }
     },
@@ -1016,8 +1094,11 @@
         "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
+        "extension": {
+          "patientHasMobileGfe": true
+        },
         "slot": null,
-        "start": "2022-11-09T20:30:00Z",
+        "start": "2023-11-09T20:30:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",

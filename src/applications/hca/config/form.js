@@ -12,7 +12,6 @@ import {
   includeSpousalInformation,
 } from '../utils/helpers';
 import { HIGH_DISABILITY_MINIMUM, SHARED_PATHS } from '../utils/constants';
-import { createDependentSchema } from '../definitions/dependent';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IDPage from '../containers/IDPage';
@@ -22,16 +21,14 @@ import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert'
 import { DowntimeWarning } from '../components/FormAlerts';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import FormFooter from '../components/FormFooter';
-import GetHelp from '../components/GetHelp';
+import GetFormHelp from '../components/GetFormHelp';
 
 // chapter 1 Veteran Information
-import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
-import personalInformationSsn from './chapters/veteranInformation/personalInformationSsn';
-import personalInformationDOB from './chapters/veteranInformation/personalInformationDob';
+import VeteranInformation from '../components/FormPages/VeteranInformation';
+import veteranDateOfBirth from './chapters/veteranInformation/veteranDateOfBirth';
 import birthInformation from './chapters/veteranInformation/birthInformation';
 import maidenNameInformation from './chapters/veteranInformation/maidenNameInformation';
 import birthSex from './chapters/veteranInformation/birthSex';
-import veteranInformation from './chapters/veteranInformation/personalnformation';
 import demographicInformation from './chapters/veteranInformation/demographicInformation';
 import veteranAddress from './chapters/veteranInformation/veteranAddress';
 import veteranGender from './chapters/veteranInformation/veteranGender';
@@ -87,15 +84,7 @@ import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare schema definitions
-const {
-  date,
-  fullName,
-  monetaryValue,
-  phone,
-  provider,
-  ssn,
-} = fullSchemaHca.definitions;
-const dependentSchema = createDependentSchema(fullSchemaHca);
+const { date } = fullSchemaHca.definitions;
 
 /**
  * NOTE: Prefill message data values can be found in
@@ -148,16 +137,8 @@ const formConfig = {
     CustomComponent: PreSubmitNotice,
   },
   footerContent: FormFooter,
-  getHelp: GetHelp,
-  defaultDefinitions: {
-    date,
-    provider,
-    fullName,
-    ssn,
-    phone,
-    dependent: dependentSchema,
-    monetaryValue,
-  },
+  getHelp: GetFormHelp,
+  defaultDefinitions: { date },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
@@ -165,42 +146,19 @@ const formConfig = {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran\u2019s personal information',
-          depends: formData => formData['view:isLoggedIn'],
-          CustomPage: VeteranProfileInformation,
+          CustomPage: VeteranInformation,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
-        },
-        veteranInformation: {
-          path: 'veteran-information/profile-information',
-          title: 'Veteran\u2019s name',
-          initialData: {},
-          depends: formData =>
-            !formData['view:isLoggedIn'] &&
-            !formData['view:isRemoveIdFieldsEnabled'],
-          uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
-        },
-        ssnInformation: {
-          path: 'veteran-information/profile-information-ssn',
-          title: 'Social Security number',
-          initialData: {},
-          depends: formData =>
-            !formData['view:isLoggedIn'] &&
-            !formData['view:isRemoveIdFieldsEnabled'],
-          uiSchema: personalInformationSsn.uiSchema,
-          schema: personalInformationSsn.schema,
         },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
           initialData: {},
           depends: formData =>
-            (!formData['view:isLoggedIn'] &&
-              !formData['view:isRemoveIdFieldsEnabled']) ||
-            (formData['view:isLoggedIn'] && !formData['view:userDob']),
-          uiSchema: personalInformationDOB.uiSchema,
-          schema: personalInformationDOB.schema,
+            formData['view:isLoggedIn'] && !formData['view:userDob'],
+          uiSchema: veteranDateOfBirth.uiSchema,
+          schema: veteranDateOfBirth.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',

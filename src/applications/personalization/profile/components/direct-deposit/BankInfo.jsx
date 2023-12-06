@@ -24,11 +24,9 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
-  profileUseLighthouseDirectDepositEndpoint,
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -40,7 +38,6 @@ import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError
 import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
-import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
@@ -63,7 +60,6 @@ export const BankInfo = ({
   setFormIsDirty,
   setViewingPayments,
   showSuccessMessage,
-  useLighthouseDirectDepositEndpoint,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -149,7 +145,6 @@ export const BankInfo = ({
       saveBankInformation({
         fields,
         isEnrollingInDirectDeposit: isDirectDepositSetUp,
-        useLighthouseDirectDepositEndpoint,
       });
     } else {
       saveBankInformation({ fields });
@@ -275,39 +270,45 @@ export const BankInfo = ({
         Please enter your bank’s routing and account numbers and your account
         type.
       </p>
-      <div className="vads-u-margin-bottom--2">
-        <va-additional-info trigger="Where can I find these numbers?">
-          <img
-            src="/img/direct-deposit-check-guide.svg"
-            alt="A personal check"
-          />
 
-          <p className="vads-u-padding-top--2">
-            The bank routing number is the first 9 digits on the bottom left
-            corner of a printed check. Your account number is the second set of
-            numbers on the bottom of a check, just to the right of the bank
-            routing number.
-          </p>
-          <p className="vads-u-padding-y--2">
-            If you don’t have a printed check, you can:
-          </p>
-          <ul>
-            <li>
-              Sign in to your online bank account and check your account
-              details, or
-            </li>
-            <li>Check your bank statement, or</li>
-            <li>Call your bank</li>
-          </ul>
-        </va-additional-info>
-      </div>
-      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
+      <div
+        data-testid={`${formPrefix}-bank-info-form`}
+        ref={editBankInfoForm}
+        role="group"
+        aria-label={`Edit bank account for ${sectionTitle.toLowerCase()}`}
+      >
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}
           formPrefix={formPrefix}
           formSubmit={saveBankInfo}
         >
+          <div className="vads-u-margin-bottom--2 vads-u-margin-top--2p5">
+            <va-additional-info trigger="Where can I find these numbers?">
+              <img
+                src="/img/direct-deposit-check-guide.svg"
+                alt="A personal check"
+              />
+
+              <p className="vads-u-padding-top--2">
+                The bank routing number is the first 9 digits on the bottom left
+                corner of a printed check. Your account number is the second set
+                of numbers on the bottom of a check, just to the right of the
+                bank routing number.
+              </p>
+              <p className="vads-u-padding-y--2">
+                If you don’t have a printed check, you can:
+              </p>
+              <ul>
+                <li>
+                  Sign in to your online bank account and check your account
+                  details, or
+                </li>
+                <li>Check your bank statement, or</li>
+                <li>Call your bank</li>
+              </ul>
+            </va-additional-info>
+          </div>
           <LoadingButton
             aria-label={`save your bank information for ${benefitTypeLong} benefits`}
             type="submit"
@@ -384,7 +385,8 @@ export const BankInfo = ({
       >
         <p>
           {' '}
-          {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
+          You haven’t finished editing and saving the changes to your direct
+          deposit information. If you cancel now, we won’t save your changes.
         </p>
         <button
           className="usa-button-primary"
@@ -406,26 +408,14 @@ export const BankInfo = ({
           Cancel
         </button>
       </VaModal>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
-        <Toggler.Enabled>
-          <ProfileInfoCard
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title={sectionTitle}
-            data={directDepositData()}
-            namedAnchor={sectionTitleId}
-            level={2}
-          />
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <ProfileInfoTable
-            className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
-            title={sectionTitle}
-            data={directDepositData()}
-            namedAnchor={sectionTitleId}
-            level={2}
-          />
-        </Toggler.Disabled>
-      </Toggler>
+
+      <ProfileInfoCard
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title={sectionTitle}
+        data={directDepositData()}
+        namedAnchor={sectionTitleId}
+        level={2}
+      />
     </>
   );
 };
@@ -440,7 +430,6 @@ BankInfo.propTypes = {
   setViewingPayments: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
@@ -458,9 +447,7 @@ BankInfo.propTypes = {
 
 export const mapStateToProps = (state, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
-  const useLighthouseDirectDepositEndpoint = profileUseLighthouseDirectDepositEndpoint(
-    state,
-  );
+
   return {
     typeIsCNP,
     isLOA3: isLOA3Selector(state),
@@ -477,12 +464,11 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositIsEligible(state, useLighthouseDirectDepositEndpoint)
+      ? cnpDirectDepositIsEligible(state, true)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
-    useLighthouseDirectDepositEndpoint,
   };
 };
 

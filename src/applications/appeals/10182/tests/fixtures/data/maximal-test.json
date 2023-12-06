@@ -28,9 +28,9 @@
     "view:additionalEvidence": true,
     "requestingExtension": true,
     "extensionReason": "Lorem ipsum",
-    "appealingVhaDenial": false,
+    "appealingVHADenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {

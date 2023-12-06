@@ -74,22 +74,10 @@ export const classes = {
   rowValue,
 };
 
-export const HeadingLevel = ({
-  namedAnchor,
-  children,
-  level,
-  className,
-  hasRowDescription = false,
-}) => {
+export const HeadingLevel = ({ namedAnchor, children, level, className }) => {
   const Header = `h${level}`;
-  const computedClassNames = classNames(
-    {
-      'vads-u-margin-bottom--1': !hasRowDescription,
-    },
-    className,
-  );
   return children ? (
-    <Header className={computedClassNames} id={namedAnchor}>
+    <Header className={className} id={namedAnchor}>
       {children}
     </Header>
   ) : null;
@@ -98,7 +86,6 @@ export const HeadingLevel = ({
 HeadingLevel.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  hasRowDescription: PropTypes.bool,
   level: numberBetween(1, 6),
   namedAnchor: PropTypes.string,
 };
@@ -153,33 +140,38 @@ List.propTypes = {
 const Sections = ({ data, level }) => {
   return (
     <>
-      {data.map((rowData, index) => (
-        <div
-          key={index}
-          className={index === 0 ? classes.firstRow : classes.secondaryRow}
-          id={rowData.id}
-        >
-          {rowData.title && (
-            <>
-              <HeadingLevel
-                className={classes.rowTitle}
-                level={level}
-                hasRowDescription={!!rowData?.description}
-              >
-                {rowData.title}
-                {rowData.alertMessage && <>{rowData.alertMessage}</>}
-              </HeadingLevel>
-              {rowData.description && (
-                <RowDescription description={rowData.description} />
-              )}
-            </>
-          )}
+      {data.map((rowData, index) => {
+        // heading should only have bottom margin when there is no description
+        const rowHeadingClasses = classNames([
+          classes.rowTitle,
+          {
+            'vads-u-margin-bottom--1': !rowData?.description,
+          },
+        ]);
+        return (
+          <div
+            key={index}
+            className={index === 0 ? classes.firstRow : classes.secondaryRow}
+            id={rowData.id}
+          >
+            {rowData.title && (
+              <>
+                <HeadingLevel className={rowHeadingClasses} level={level}>
+                  {rowData.title}
+                  {rowData.alertMessage && <>{rowData.alertMessage}</>}
+                </HeadingLevel>
+                {rowData.description && (
+                  <RowDescription description={rowData.description} />
+                )}
+              </>
+            )}
 
-          {rowData?.value && (
-            <div className={classes.rowValue}>{rowData.value}</div>
-          )}
-        </div>
-      ))}
+            {rowData?.value && (
+              <div className={classes.rowValue}>{rowData.value}</div>
+            )}
+          </div>
+        );
+      })}
     </>
   );
 };

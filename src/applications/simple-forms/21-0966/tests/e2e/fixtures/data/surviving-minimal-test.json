@@ -1,0 +1,32 @@
+{
+  "preparerIdentification": "SURVIVING_DEPENDENT",
+  "benefitSelection": {
+    "survivor": true
+  },
+  "survivingDependentFullName": {
+    "first": "Surviving",
+    "last": "Dependent"
+  },
+  "survivingDependentDateOfBirth": "1980-07-12",
+  "survivingDependentID": {
+    "ssn": "223456789"
+  },
+  "survivingDependentMailingAddress": {
+    "country": "CAN",
+    "street": "314 Round Circle",
+    "city": "Whoville",
+    "postalCode": "A9A 9A9"
+  },
+  "survivingDependentPhone": "1234567890",
+  "veteranFullName": {
+    "first": "Veteran",
+    "last": "Eteranvay"
+  },
+  "veteranDateOfBirth": "1962-01-21",
+  "veteranId": {
+    "ssn": "246813579"
+  },
+  "relationshipToVeteran": {
+    "relationshipToVeteran": "spouse"
+  }
+}

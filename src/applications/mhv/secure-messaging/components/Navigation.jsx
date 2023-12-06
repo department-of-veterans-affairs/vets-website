@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getFolders } from '../actions/folders';
 import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
 import { DefaultFolders, Paths } from '../util/constants';
 import { trapFocus } from '../../shared/util/ui';
 
 const Navigation = () => {
-  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
@@ -17,6 +15,17 @@ const Navigation = () => {
   const sideBarNavRef = useRef();
   const closeMenuButtonRef = useRef();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
+
+  const checkScreenSize = useCallback(() => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+      setIsNavigationOpen(false);
+    }
+  }, []);
+
+  window.addEventListener('resize', checkScreenSize);
 
   function openNavigation() {
     setIsNavigationOpen(true);
@@ -30,12 +39,9 @@ const Navigation = () => {
     [navMenuButtonRef],
   );
 
-  useEffect(
-    () => {
-      dispatch(getFolders());
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    checkScreenSize();
+  }, []);
 
   useEffect(
     () => {
@@ -85,38 +91,6 @@ const Navigation = () => {
     ];
   };
 
-  function checkScreenSize() {
-    if (window.innerWidth <= 768 && setIsMobile !== false) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-      setIsNavigationOpen(false);
-    }
-  }
-
-  function openNavigationBurgerButton() {
-    return (
-      isMobile && (
-        <SectionGuideButton
-          setNavMenuButtonRef={setNavMenuButtonRef}
-          onMenuClick={() => {
-            openNavigation();
-          }}
-          isExpanded={isNavigationOpen}
-        />
-      )
-    );
-  }
-
-  useEffect(
-    () => {
-      checkScreenSize();
-    },
-    [isMobile],
-  );
-
-  window.addEventListener('resize', checkScreenSize);
-
   const headerStyle = location.pathname === '/' ? 'is-active' : null;
 
   const handleActiveLinksStyle = path => {
@@ -127,7 +101,7 @@ const Navigation = () => {
     } else if (location.pathname === Paths.FOLDERS) {
       // To ensure other nav links are not bolded when landed on "/folders"
       isActive = location.pathname === path.path;
-    } else if (location.pathname.split('/')[1] === 'folder') {
+    } else if (location.pathname.split('/')[1] === 'folders') {
       // Highlight "My Folders" when landed on "/folders/:id"
       isActive = path.path === Paths.FOLDERS;
     } else if (location.pathname === path.path) {
@@ -141,19 +115,41 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-flex--auto vads-u-padding-bottom--2 medium-screen:vads-u-padding-bottom--0">
-      {openNavigationBurgerButton()}
+    <div
+      className="navigation-container
+      vads-l-col--12
+      medium-screen:vads-l-col--3
+      vads-u-padding-bottom--2
+      medium-screen:vads-u-padding-bottom--0
+      medium-screen:vads-u-padding-right--3
+      do-not-print"
+    >
+      {isMobile && (
+        <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
+          onMenuClick={() => {
+            openNavigation();
+          }}
+          isExpanded={isNavigationOpen}
+        />
+      )}
+
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div
           ref={sideBarNavRef}
-          className="sidebar-navigation"
+          className="sidebar-navigation vads-u-display--flex vads-u-flex-direction--column"
           id="sidebar-navigation"
         >
           <div className="sr-only" aria-live="polite">
             Navigation menu is open
           </div>
           {isMobile && (
-            <div className="sidebar-navigation-header vads-u-justify-content--flex-end">
+            <div
+              className="sidebar-navigation-header
+                vads-u-display--flex
+                vads-u-flex-direction--row
+                vads-u-justify-content--flex-end"
+            >
               <button
                 ref={closeMenuButtonRef}
                 className="va-btn-close-icon vads-u-margin--0p5 vads-u-padding--2p5 vads-u-margin-right--2"

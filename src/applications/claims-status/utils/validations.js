@@ -1,7 +1,7 @@
 export const MAX_FILE_SIZE_MB = 50;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const MAX_PDF_SIZE_MB = 150;
+export const MAX_PDF_SIZE_MB = 99;
 export const MAX_PDF_SIZE_BYTES = MAX_PDF_SIZE_MB * 1024 ** 2; // binary based
 
 export const FILE_TYPES = ['pdf', 'gif', 'jpeg', 'jpg', 'bmp', 'txt'];

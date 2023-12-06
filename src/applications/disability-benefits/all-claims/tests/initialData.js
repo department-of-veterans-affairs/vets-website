@@ -42,6 +42,7 @@ export default {
       ratedDisabilityId: '9459392',
       ratingDecisionId: '63655',
       ratingPercentage: 40,
+      maximumRatingPercentage: 40,
       specialIssues: ['PTSD/1'],
       disabilityActionType: 'NONE',
     },

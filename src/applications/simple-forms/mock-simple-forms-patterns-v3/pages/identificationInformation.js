@@ -1,26 +1,19 @@
 import {
-  ssnSchema,
-  ssnUI,
-  titleSchema,
   titleUI,
-  vaFileNumberSchema,
-  vaFileNumberUI,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('Identification information'),
-    veteranSsn: ssnUI(),
-    veteranVaFileNumber: vaFileNumberUI(),
+    ...titleUI('Identification information'),
+    veteranId: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
-      veteranSsn: ssnSchema,
-      veteranVaFileNumber: vaFileNumberSchema,
+      veteranId: ssnOrVaFileNumberSchema,
     },
-    required: ['veteranSsn'],
   },
 };

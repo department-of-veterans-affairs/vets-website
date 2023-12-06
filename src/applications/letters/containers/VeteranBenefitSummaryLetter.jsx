@@ -49,20 +49,20 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const { benefitInfo, serviceInfo } = benefitSummaryOptions;
     const { militaryService } = requestOptions;
     const militaryServiceRows = (serviceInfo || []).map((service, index) => (
-      <tr key={`service${index}`}>
-        <th scope="row" className="service-info">
+      <va-table-row key={`service${index}`}>
+        <span className="service-info">
           {(service.branch || '').toLowerCase()}
-        </th>
-        <td className="service-info">
+        </span>
+        <span className="service-info">
           {
             characterOfServiceContent[
               (service.characterOfService || '').toLowerCase()
             ]
           }
-        </td>
-        <td>{formatDateShort(stripOffTime(service.enteredDate))}</td>
-        <td>{formatDateShort(stripOffTime(service.releasedDate))}</td>
-      </tr>
+        </span>
+        <span>{formatDateShort(stripOffTime(service.enteredDate))}</span>
+        <span>{formatDateShort(stripOffTime(service.releasedDate))}</span>
+      </va-table-row>
     ));
 
     const vaBenefitInfoItems = [];
@@ -136,17 +136,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                   Include military service information
                 </label>
               </div>
-              <table id="militaryServiceTable">
-                <thead>
-                  <tr>
-                    <th scope="col">Branch of service</th>
-                    <th scope="col">Discharge type</th>
-                    <th scope="col">Active duty start</th>
-                    <th scope="col">Separation date</th>
-                  </tr>
-                </thead>
-                <tbody>{militaryServiceRows}</tbody>
-              </table>
+              <va-table id="militaryServiceTable">
+                <va-table-row slot="headers">
+                  <span>Branch of service</span>
+                  <span>Discharge type</span>
+                  <span>Active duty start</span>
+                  <span>Separation date</span>
+                </va-table-row>
+                {militaryServiceRows}
+              </va-table>
             </>
           ) : null}
           <h4 className="vads-u-font-size--h2">

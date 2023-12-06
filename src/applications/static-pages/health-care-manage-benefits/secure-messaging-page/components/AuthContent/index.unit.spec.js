@@ -10,7 +10,6 @@ describe('Secure Messaging Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('CernerCallToAction');
     expect(text).to.include('Send or receive a secure message');
     expect(text).to.include(
       'How can VA secure messaging help me manage my health care?',

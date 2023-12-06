@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import InfoAlert from '../../../components/InfoAlert';
 import {
   APPOINTMENT_STATUS,
@@ -10,14 +10,16 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 import { startNewAppointmentFlow } from '../../redux/actions';
+// eslint-disable-next-line import/no-restricted-paths
+import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
+    history.push(typeOfCare.url);
   };
 }
 
@@ -26,6 +28,7 @@ export default function StatusAlert({ appointment, facility }) {
   const dispatch = useDispatch();
 
   const { search } = useLocation();
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
 
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
@@ -66,7 +69,7 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Review your appointments"
             data-testid="review-appointments-link"
-            href="/health-care/schedule-view-va-appointments/appointments/"
+            href={root.url}
             onClick={() =>
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
@@ -78,7 +81,7 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch)}
+            onClick={handleClick(history, dispatch, typeOfCare)}
           />
         </div>
       </InfoAlert>
@@ -89,6 +92,23 @@ export default function StatusAlert({ appointment, facility }) {
 }
 
 StatusAlert.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    cancelationReason: PropTypes.string,
+  }),
+  facility: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  vaos: PropTypes.shape({
+    isPastAppointment: PropTypes.bool.isRequired,
+  }),
+};
+StatusAlert.defaultProps = {
+  appointment: {
+    status: 'booked',
+    cancelationReason: '',
+  },
+  vaos: {
+    isPastAppointment: false,
+  },
 };

@@ -22,9 +22,9 @@ const StatementUiTitle = props => {
   }
 
   return (
-    <span className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
+    <legend className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
       {titleStr}
-    </span>
+    </legend>
   );
 };
 

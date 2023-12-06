@@ -1,10 +1,10 @@
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 
-import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
+import { ContestableIssuesAdditionalInfo } from '../../shared/content/contestableIssues';
 
-import { selectionRequired, maxIssues } from '../validations/issues';
-import { hasSomeSelected } from '../utils/helpers';
-import { SELECTED } from '../constants';
+import { hasSomeSelected } from '../../shared/utils/issues';
+import { SELECTED } from '../../shared/constants';
+import { selectionRequired, maxIssues } from '../../shared/validations/issues';
 
 /**
  * contestable issues with add issue link (list loop)
@@ -16,7 +16,7 @@ const contestableIssues = {
       itemName: 'issues eligible for review',
       forceDivWrapper: true,
     },
-    contestableIssues: {
+    contestedIssues: {
       'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': ContestableIssuesWidget,
@@ -36,7 +36,7 @@ const contestableIssues = {
   schema: {
     type: 'object',
     properties: {
-      contestableIssues: {
+      contestedIssues: {
         type: 'array',
         items: {
           type: 'object',

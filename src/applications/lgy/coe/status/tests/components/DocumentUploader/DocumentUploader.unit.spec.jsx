@@ -9,18 +9,18 @@ import DocumentUploader from '../../../components/DocumentUploader/DocumentUploa
 describe('DocumentUploader', () => {
   it('should render with the expected fields', () => {
     const { container } = render(<DocumentUploader />);
-    expect($('.file-input', container).textContent).to.include(
-      'Upload your document',
-    );
     expect($('va-select', container)).to.exist;
+    expect($('va-file-input', container)).to.exist;
   });
 
   it('should not submit with no documents', () => {
     const { container } = render(<DocumentUploader />);
     $('va-select', container).value = 'Discharge or separation papers (DD214)';
     userEvent.click($('va-button', container));
-    expect($('.usa-input-error', container).textContent).to.include(
-      'Please choose a file to upload',
+
+    const fileInput = document.querySelector('va-file-input');
+    expect(fileInput.getAttribute('error')).to.equal(
+      'Choose a file to upload.',
     );
   });
 
@@ -30,7 +30,7 @@ describe('DocumentUploader', () => {
     });
     const { container } = render(<DocumentUploader />);
 
-    const input = $('input[type="file"]', container);
+    const input = $('va-file-input', container);
     expect(input).to.exist;
     $('va-select', container).value = 'Discharge or separation papers (DD214)';
 
@@ -45,7 +45,7 @@ describe('DocumentUploader', () => {
     const file2 = new File(['there'], 'there.png', { type: 'image/png' });
     const { container } = render(<DocumentUploader />);
 
-    const input = $('input[type="file"]', container);
+    const input = $('va-file-input', container);
     expect(input).to.exist;
     $('va-select', container).value = 'Discharge or separation papers (DD214)';
     userEvent.upload(input, file1);

@@ -6,7 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../../api';
 import PreCheckinConfirmation from '../../../components/PreCheckinConfirmation';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { isUUID } from '../../../utils/token-format-validator';
@@ -20,7 +20,7 @@ import {
 const Confirmation = props => {
   const { router } = props;
   const [isLoading, setIsLoading] = useState(true);
-  const { getPreCheckinComplete, setPreCheckinComplete } = useSessionStorage();
+  const { getPreCheckinComplete, setPreCheckinComplete } = useStorage();
 
   const { updateError } = useUpdateError();
 

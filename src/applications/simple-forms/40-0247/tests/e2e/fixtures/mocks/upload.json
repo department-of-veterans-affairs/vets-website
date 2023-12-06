@@ -1,0 +1,11 @@
+{
+  "data": {
+    "attributes": {
+      "confirmation_code": "[mock_confirmation_code]",
+      "name": "[mock_filename]",
+      "size": 65645
+    },
+    "id": "[mock_id]",
+    "type": "[mock_type]"
+  }
+}

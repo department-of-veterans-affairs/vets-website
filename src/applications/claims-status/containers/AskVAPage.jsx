@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -35,7 +35,7 @@ class AskVAPage extends React.Component {
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
       // START lighthouse_migration
-      if (this.props.useLighthouse) {
+      if (this.props.useLighthouseShow) {
         props.getClaimLighthouse(this.props.params.id);
       } else {
         props.getClaimEVSS(this.props.params.id);
@@ -59,10 +59,10 @@ class AskVAPage extends React.Component {
       decisionRequestError,
       submit5103,
       submitRequest,
-      useLighthouse,
+      useLighthouse5103,
     } = this.props;
 
-    const submitFunc = useLighthouse ? submit5103 : submitRequest;
+    const submitFunc = useLighthouse5103 ? submit5103 : submitRequest;
     const submitDisabled =
       !this.state.submittedDocs ||
       loadingDecisionRequest ||
@@ -110,11 +110,11 @@ class AskVAPage extends React.Component {
                 <li>The date benefits will begin if we approve your claim</li>
               </ul>
               <div className="usa-alert usa-alert-info background-color-only claims-alert">
-                <Checkbox
+                <VaCheckbox
                   className="claims-alert-checkbox"
                   checked={this.state.submittedDocs}
-                  onValueChange={update => this.setSubmittedDocs(update)}
                   label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."
+                  onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
                 />
               </div>
               <button
@@ -156,7 +156,8 @@ function mapStateToProps(state) {
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse5103: cstUseLighthouse(state, '5103'),
+    useLighthouseShow: cstUseLighthouse(state, 'show'),
     // END lighthouse_migration
   };
 }
@@ -190,7 +191,8 @@ AskVAPage.propTypes = {
   // START lighthouse_migration
   submit5103: PropTypes.func,
   submitRequest: PropTypes.func,
-  useLighthouse: PropTypes.bool,
+  useLighthouse5103: PropTypes.bool,
+  useLighthouseShow: PropTypes.bool,
   // END lighthouse_migration
 };
 

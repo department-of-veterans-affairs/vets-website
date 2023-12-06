@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrency } from '../../utils/validations';
+import ContractsExplainer from './ContractsExplainer';
 
 const defaultRecord = [
   {
@@ -38,6 +39,8 @@ const InstallmentContract = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const MAXIMUM_INSTALLMENT_AMOUNT = 1000000;
+
   // if we have creditCardBills and plan to edit, we need to get it from the creditCardBills
   const specificRecord = installmentContracts?.length
     ? installmentContracts[index]
@@ -53,9 +56,9 @@ const InstallmentContract = props => {
     contractRecord.creditorName || null,
   );
 
+  // if valid returns true, if invalid returns false
   const validateLoanBegan = monthYear => {
-    if (!monthYear || typeof monthYear !== 'string')
-      return 'Please enter a valid date.';
+    if (!monthYear || typeof monthYear !== 'string') return false;
 
     const [year] = monthYear.split('-');
     const todayYear = new Date().getFullYear();
@@ -67,21 +70,19 @@ const InstallmentContract = props => {
     );
   };
 
-  const fromDateError = validateLoanBegan(contractRecord.dateStarted)
-    ? null
-    : 'Please enter the loan start date';
-
   const { dateStarted } = contractRecord;
 
   const { month: fromMonth, year: fromYear } = parseISODate(dateStarted);
 
   const [submitted, setSubmitted] = useState(false);
+  const [fromDateError, setFromDateError] = useState(null);
 
-  const amountDueMonthlyError = !isValidCurrency(
-    contractRecord.amountDueMonthly,
-  )
-    ? 'Please enter the minimum monthly payment amount'
-    : null;
+  const amountDueMonthlyError =
+    !isValidCurrency(contractRecord.amountDueMonthly) ||
+    (contractRecord.amountDueMonthly > MAXIMUM_INSTALLMENT_AMOUNT ||
+      contractRecord.amountDueMonthly < 0)
+      ? 'Please enter a minimum monthly payment amount less than $1,000,000'
+      : null;
 
   const typeError = !purpose ? 'Please enter the contract type' : null;
 
@@ -122,7 +123,16 @@ const InstallmentContract = props => {
     setSubmitted(true);
     e.preventDefault();
 
-    if (fromDateError || typeError || amountDueMonthlyError) {
+    const loanBeganContainsGoodValue = validateLoanBegan(
+      contractRecord.dateStarted,
+    );
+
+    if (!loanBeganContainsGoodValue) {
+      setFromDateError('Please enter a valid date.');
+      return;
+    }
+
+    if (typeError || amountDueMonthlyError) {
       return;
     }
 
@@ -177,6 +187,54 @@ const InstallmentContract = props => {
     },
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            installmentContracts.length === index ? 'Add' : 'Update'
+          } an installment contract`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -186,11 +244,12 @@ const InstallmentContract = props => {
               installmentContracts.length === index ? 'Add' : 'Update'
             } an installment contract or other debt`}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            If you have more than one installment contract or other debt, enter
+            the information for one contract or debt below.
+          </p>
         </legend>
-        <p>
-          If you have more than one installment contract or other debt, enter
-          the information for one contract or debt below.
-        </p>
+        <ContractsExplainer />
         <div className="input-size-6">
           <VaTextInput
             className="no-wrap input-size-6"
@@ -235,6 +294,8 @@ const InstallmentContract = props => {
             label="Unpaid balance"
             name="unpaidBalance"
             id="unpaidBalance"
+            min={0}
+            max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleUnpaidBalanceChange}
             value={contractRecord.unpaidBalance}
           />
@@ -249,6 +310,8 @@ const InstallmentContract = props => {
             label="Minimum monthly payment amount"
             name="amountDueMonthly"
             id="amountDueMonthly"
+            min={0}
+            max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleAmountDueMonthlyChange}
             value={contractRecord.amountDueMonthly}
           />
@@ -263,8 +326,14 @@ const InstallmentContract = props => {
             onDateChange={e =>
               handlers.handleDateChange('dateStarted', e.target.value)
             }
-            onDateBlur={e => validateLoanBegan(e.target.value)}
-            required={!!contractRecord.amountDueMonthly}
+            onDateBlur={e =>
+              setFromDateError(
+                validateLoanBegan(e.target.value)
+                  ? null
+                  : 'Please enter a valid date',
+              )
+            }
+            required
             error={(submitted && fromDateError) || null}
           />
         </div>
@@ -282,24 +351,9 @@ const InstallmentContract = props => {
         </div>
       </fieldset>
       <div>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={handlers.onUpdate}
-        >
-          {`${
-            installmentContracts.length === index ? 'Add' : 'Update'
-          } an installment contract`}
-        </button>
+        {installmentContracts.length > 0
+          ? renderAddCancelButtons()
+          : renderContinueBackButtons()}
       </div>
     </form>
   );

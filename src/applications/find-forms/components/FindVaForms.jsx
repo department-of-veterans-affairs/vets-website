@@ -1,14 +1,10 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
-// Node modules.
 import React from 'react';
-
-// Relative imports.
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
-import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import recordEvent from '~/platform/monitoring/record-event';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
 import PdfAlert from './PdfAlert';
@@ -32,7 +28,6 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
         claim and applying for the GI Bill or VA health care. We’ll walk you
         through the process step-by-step.
       </p>
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul
         className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row"
         role="list"

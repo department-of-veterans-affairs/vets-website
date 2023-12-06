@@ -2,7 +2,6 @@ import React from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import EducationModalContent from 'platform/forms/components/OMBInfoModalContent/EducationModalContent';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import environment from 'platform/utilities/environment';
@@ -103,15 +102,19 @@ class IntroductionPage extends React.Component {
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           {environment.isProduction() ? (
-            <OMBInfo
-              resBurden={15}
-              ombNumber="2900-0797"
-              expDate="08/31/2024"
+            <va-omb-info
+              res-burden={15}
+              omb-number="2900-0797"
+              exp-date="08/31/2024"
             />
           ) : (
-            <OMBInfo resBurden={15} ombNumber="2900-0797" expDate="08/31/2024">
+            <va-omb-info
+              res-burden={15}
+              omb-number="2900-0797"
+              exp-date="08/31/2024"
+            >
               <EducationModalContent resBurden={15} ombNumber="2900-0797" />
-            </OMBInfo>
+            </va-omb-info>
           )}
         </div>
       </div>

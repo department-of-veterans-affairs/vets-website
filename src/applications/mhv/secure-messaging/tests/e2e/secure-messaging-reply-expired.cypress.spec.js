@@ -3,6 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply to Expired Mesage', () => {
   it('reply expired messages', () => {
@@ -30,7 +31,7 @@ describe('Secure Messaging Reply to Expired Mesage', () => {
     );
 */
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

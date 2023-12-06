@@ -6,7 +6,13 @@
 .thread-list-draft {
   color: $color-secondary-darkest;
   font-weight: 700;
+
 }
+
+.reply-draft-label {
+  white-space: nowrap;
+}
+
 .thread-list {
   width: 100%;
   // @media (max-width: $small-screen) {

@@ -32,6 +32,7 @@ export default function EligibilityModal({
       onCloseEvent={onClose}
       hideCloseButton={status === FETCH_STATUS.loading}
       modalTitle={title}
+      ariaLabel={title}
       data-testid="eligibilityModal"
       role="alertdialog"
     >

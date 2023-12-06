@@ -9,6 +9,9 @@ import {
   isValidUSZipCode,
   isValidCanPostalCode,
 } from 'platform/forms/address';
+import environment from 'platform/utilities/environment';
+
+let priorCountry = '';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -55,19 +58,6 @@ function validateAddress(errors, address, formData, currentSchema) {
     currentSchema.required.length
   ) {
     errors.state.addError('Please select a state or province');
-  }
-
-  const hasAddressInfo =
-    countriesWithStateCodes.has(address.country) &&
-    !currentSchema.required.length &&
-    typeof address.street !== 'undefined' &&
-    typeof address.city !== 'undefined' &&
-    typeof address.postalCode !== 'undefined';
-
-  if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError(
-      'Please enter a state or province, or remove other address information.',
-    );
   }
 
   validatePostalCodes(errors, address);
@@ -202,10 +192,20 @@ export function uiSchema(
           if (
             !ignoreRequired &&
             required &&
-            !addressSchema.required.some(field => field === 'state')
+            !addressSchema.required.some(field => field === 'state') &&
+            environment.isProduction()
           ) {
             schemaUpdate.required = addressSchema.required.concat('state');
           }
+        }
+
+        if (
+          !ignoreRequired &&
+          required &&
+          !addressSchema.required.some(field => field === 'state') &&
+          !environment.isProduction()
+        ) {
+          schemaUpdate.required = addressSchema.required.concat('state');
         }
         // We don’t have a state list for the current country, but there’s an enum in the schema
         // so we need to update it
@@ -217,6 +217,10 @@ export function uiSchema(
             field => field !== 'state',
           );
         }
+      } else if (!ignoreRequired && required) {
+        schemaUpdate.required = addressSchema.required.filter(
+          field => field !== 'state',
+        );
       }
 
       // Canada has a different title than others, so set that when necessary
@@ -265,38 +269,52 @@ export function uiSchema(
     'ui:title': label,
     'ui:validations': [validateAddress],
     'ui:options': {
+      useHeaderStyling: true,
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
 
         const modifiedData = { ...formData };
 
-        if (
-          modifiedData.application &&
-          modifiedData.application.claimant &&
-          modifiedData.application.claimant.address &&
-          (modifiedData.application.claimant.address.country !== 'USA' ||
-            modifiedData.application.claimant.address.country !== 'CAN') &&
-          !modifiedData.application.claimant.address.state
-        ) {
-          modifiedData.application.claimant.address.state = '';
-        }
+        if (modifiedData.application) {
+          if (
+            modifiedData.application.claimant &&
+            modifiedData.application.claimant.address &&
+            (modifiedData.application.claimant.address.country !== 'USA' ||
+              modifiedData.application.claimant.address.country !== 'CAN') &&
+            !modifiedData.application.claimant.address.state
+          ) {
+            modifiedData.application.claimant.address.state = '';
+          }
 
-        if (
-          modifiedData.application &&
-          modifiedData.application.applicant &&
-          modifiedData.application.applicant['view:applicantInfo'] &&
-          modifiedData.application.applicant['view:applicantInfo']
-            .mailingAddress &&
-          (modifiedData.application.applicant['view:applicantInfo']
-            .mailingAddress.country !== 'USA' ||
+          if (
+            modifiedData.application.applicant &&
+            modifiedData.application.applicant['view:applicantInfo'] &&
             modifiedData.application.applicant['view:applicantInfo']
-              .mailingAddress.country !== 'CAN') &&
-          !modifiedData.application.applicant['view:applicantInfo']
-            .mailingAddress.state
-        ) {
-          modifiedData.application.applicant[
-            'view:applicantInfo'
-          ].mailingAddress.state = '';
+              .mailingAddress &&
+            (modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.country !== 'USA' ||
+              modifiedData.application.applicant['view:applicantInfo']
+                .mailingAddress.country !== 'CAN') &&
+            !modifiedData.application.applicant['view:applicantInfo']
+              .mailingAddress.state
+          ) {
+            modifiedData.application.applicant[
+              'view:applicantInfo'
+            ].mailingAddress.state = '';
+          }
+
+          // Veteran address state must be reset if prior country had a state list.
+          if (modifiedData.application.veteran) {
+            if (
+              (priorCountry === 'CAN' &&
+                modifiedData.application.veteran.address.country === 'USA') ||
+              (priorCountry === 'USA' &&
+                modifiedData.application.veteran.address.country === 'CAN')
+            ) {
+              modifiedData.application.veteran.address.state = undefined;
+            }
+            priorCountry = formData.application.veteran.address.country;
+          }
         }
 
         if (isRequired) {
@@ -307,6 +325,7 @@ export function uiSchema(
             currentSchema = set('required', [], currentSchema);
           }
         }
+
         return addressChangeSelector({
           formData,
           addressSchema: currentSchema,

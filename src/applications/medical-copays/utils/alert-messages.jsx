@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ALERT_TYPES, APP_TYPES } from './helpers';
 
 const alertMessage = (alertType, appType) => {
@@ -21,14 +22,14 @@ const alertMessage = (alertType, appType) => {
           <ul>
             <li className="vads-u-font-family--sans">
               <strong>For benefit debts</strong>, call the Debt Management
-              Center (DMC) at <va-telephone contact="800-827-0648" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </li>
             <li className="vads-u-font-family--sans">
               <strong>For medical copay bills</strong>, call the VA Health
-              Resource Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              Resource Center at <va-telephone contact="8664001238" /> (
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </li>
           </ul>
@@ -54,18 +55,17 @@ const alertMessage = (alertType, appType) => {
                 </p>
                 <p className="vads-u-font-family--sans">
                   If you continue having trouble viewing information about your{' '}
-                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`}, email
-                  us at{' '}
-                  <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>
-                  .
+                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`},
+                  contact us online through{' '}
+                  <a href="https://ask.va.gov">Ask VA</a>.
                 </p>
               </>
             ) : (
               <p className="vads-u-font-family--sans">
                 Please check back soon. If you continue having trouble viewing
                 information about your copays, call the VA Health Resource
-                Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
-                <va-telephone contact="711" />
+                Center at <va-telephone contact="8664001238" /> (
+                <va-telephone contact={CONTACTS['711']} tty />
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
             )}
@@ -86,15 +86,15 @@ const alertMessage = (alertType, appType) => {
             <p className="vads-u-font-family--sans">
               Our records show you don’t have any current debt related to VA
               benefits. If you think this is incorrect, call the Debt Management
-              Center (DMC) at <va-telephone contact="800-827-0648" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              Center (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           ) : (
             <p className="vads-u-font-family--sans">
               If you think this is incorrect, contact the VA Health Resource
-              Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
-              <va-telephone contact="711" />
+              Center at <va-telephone contact="8664001238" /> (
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           ),
@@ -118,8 +118,9 @@ const alertMessage = (alertType, appType) => {
         secondBody: (
           <p className="vads-u-font-family--sans">
             If you continue having trouble viewing information about your
-            current debts and bills, email us at{' '}
-            <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+            current debts and bills, contact us online through{' '}
+            <a href="https://ask.va.gov">Ask VA</a>
+            ..
           </p>
         ),
       };

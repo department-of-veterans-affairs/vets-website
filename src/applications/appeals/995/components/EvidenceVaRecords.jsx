@@ -12,12 +12,8 @@ import {
 import debounce from 'platform/utilities/data/debounce';
 
 import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
-
 import { content } from '../content/evidenceVaRecords';
-import { getSelected, getIssueName } from '../utils/helpers';
 import { getIndex, hasErrors } from '../utils/evidence';
-
-import { checkValidations } from '../validations';
 import {
   validateVaLocation,
   validateVaIssues,
@@ -27,6 +23,9 @@ import {
   isEmptyVaEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../utils/focus';
+
+import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -347,6 +346,8 @@ const EvidenceVaRecords = ({
               <va-checkbox
                 key={index}
                 name="issues"
+                class="dd-privacy-hidden"
+                data-dd-action-name="issue name"
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}

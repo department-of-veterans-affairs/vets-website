@@ -1,7 +1,10 @@
 import range from 'lodash/range';
 import moment from 'moment';
 
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import {
+  minYear,
+  maxYear,
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
@@ -33,6 +36,16 @@ export function isValidSSN(value) {
   return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
+// A 9 digit VA File Number must be an SSN
+// The only other valid option is an 8-digit number
+export function isValidVAFileNumber(value) {
+  if (/^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value)) {
+    return isValidSSN(value);
+  }
+
+  return /^\d{8}$/.test(value);
+}
+
 export function isValidYear(value) {
   return Number(value) >= minYear && Number(value) <= maxYear;
 }
@@ -43,6 +56,11 @@ export function isValidPartialDate(day, month, year) {
   }
 
   return true;
+}
+
+export function isValidDate(day, month, year) {
+  const momentDate = moment({ day, month: parseInt(month, 10) - 1, year });
+  return momentDate.isValid();
 }
 
 export function isValidCurrentOrPastDate(day, month, year) {
@@ -88,8 +106,13 @@ export function isValidDateRange(fromDate, toDate, allowSameMonth = false) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
   }
+
   const momentStart = dateToMoment(fromDate);
   const momentEnd = dateToMoment(toDate);
+
+  if (!momentStart.isValid() || !momentEnd.isValid()) {
+    return false;
+  }
 
   return allowSameMonth
     ? momentStart.isSameOrBefore(momentEnd)
@@ -136,3 +159,25 @@ export function isValidPartialMonthYearInPast(month, year) {
       momentDate.isSameOrBefore(moment().startOf('month')))
   );
 }
+
+/**
+ * Check validations for Custom pages
+ * @param {Function[]} validations - array of validation functions
+ * @param {*} data - field data passed to the validation function
+ * @param {*} fullData - full and appStateData passed to validation function
+ * @returns {String[]} - error messages
+ */
+export const getValidationErrors = (
+  validations = [],
+  data = {},
+  fullData = {},
+  index,
+) => {
+  const errors = { errorMessages: [] };
+  errors.addError = message => errors.errorMessages.push(message);
+  /* errors, fieldData, formData, schema, uiSchema, index, appStateData */
+  validations.map(validation =>
+    validation(errors, data, fullData, null, null, index, fullData),
+  );
+  return errors.errorMessages;
+};

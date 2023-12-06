@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import {
   updateDependents,
   updatePastMode,
@@ -11,6 +10,7 @@ import {
   updateZipCode,
 } from '../actions';
 import { ROUTES } from '../constants';
+import { customizeTitle } from '../utilities/customize-title';
 
 const HomePage = ({
   router,
@@ -19,6 +19,12 @@ const HomePage = ({
   updateYearField,
   updateZipCodeField,
 }) => {
+  const H1 = 'Income limits and your VA health care';
+
+  useEffect(() => {
+    document.title = customizeTitle(H1);
+  });
+
   useEffect(
     () => {
       const clearForm = () => {
@@ -27,8 +33,8 @@ const HomePage = ({
         updateZipCodeField('');
       };
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
       clearForm();
     },
     [router, updateDependentsField, updateYearField, updateZipCodeField],
@@ -48,7 +54,7 @@ const HomePage = ({
 
   return (
     <>
-      <h1>Income limits and your VA health care</h1>
+      <h1>{H1}</h1>
       <p>
         Answer 2 questions to find out how your income may affect your VA health
         care eligibility and costs.

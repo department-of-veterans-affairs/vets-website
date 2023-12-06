@@ -6,6 +6,7 @@ import {
   SAVED_SEPARATION_DATE,
   FORM_STATUS_BDD,
   WIZARD_STATUS,
+  OMB_CONTROL,
 } from '../constants';
 
 // Date saved to sessionStorage includes leading zeros
@@ -153,6 +154,10 @@ describe('526 wizard', () => {
       'eq',
       `${DISABILITY_526_V2_ROOT_URL}/introduction`,
     );
+
+    // omb info
+    cy.get('va-omb-info').contains(OMB_CONTROL);
+
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -11,7 +11,7 @@ import BackButton from '../../../components/BackButton';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
@@ -24,7 +24,7 @@ const DisplayMultipleAppointments = props => {
   const { appointments, router } = props;
   const { t } = useTranslation();
 
-  const { getCheckinComplete } = useSessionStorage(false);
+  const { getCheckinComplete } = useStorage(false);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);

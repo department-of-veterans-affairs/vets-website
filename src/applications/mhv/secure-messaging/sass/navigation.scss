@@ -1,20 +1,25 @@
+.button-wrapper {
+  position: relative !important;
+  z-index: 0;
+}
+
 .sidebar-navigation {
-  height: 600px;
-  width: auto;
-  max-width: 80%;
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  margin: 0px;
-  padding: 0px;
-  @media (min-width: $medium-screen) {
-    min-width: 230px;
+  height: 1925px;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 1px solid $color-gray;
+  background-color: $color-white;
+
+  @media (max-width: calc(#{$medium-screen} - 1px)) {
+      width: 264px;
+      max-width: 80%;
   }
 
   .sidebar-navigation-header {
-    display: flex;
-    flex-direction: row;
-    height: 54px;
+    height: 50px;
+
     i.fa-medkit {
       color: $color-white;
       background-color: $color-primary;
@@ -22,9 +27,10 @@
       margin-bottom: 11px;
       height: 34px;
       width: 32px;
-      padding: 8px 8px 10px;
+      padding: 8px 8px 4px;
       border-radius: 100%;
     }
+
     h4 {
       color: $color-gray-dark;
       width: 88px;
@@ -33,140 +39,174 @@
       margin-top: 15px;
       margin-right: 61px;
     }
+
     .no-close-btn {
       position: absolute;
       left: -3000;
     }
+
   }
+
   .usa-sidenav-list {
-    border: 0px;
+    border-top: 1px solid $color-gray;
   }
+
   a {
-    font-size: 17px;
+    font-size: 15px;
     margin: 2px 0px;
     color: $color-link-default;
+
     &:active,
     &:focus,
     &:hover {
-      background-color: $color-primary-alt-lightest;
-      border-left: 4px solid $color-link-default;
-      transition: background-color 0.1s ease-in-out,
-        border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
+        background-color: $color-primary-alt-lightest;
+        border-left: 4px solid $color-link-default;
+        transition: background-color 0.1s ease-in-out,
+            border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
     }
+
     &.is-active {
-      background-color: $color-gray-lightest;
-      border-left: 4px solid $color-base;
-      color: $color-black;
-      font-weight: bold;
-      padding-left: units-px(1.5);
-      span {
-        margin-left: -4px;
-      }
+        background-color: $color-gray-lightest;
+        border-left: 4px solid $color-base;
+        color: $color-black;
+        font-weight: bold;
+        padding-left: units-px(1.5);
+
+        span {
+            margin-left: -4px;
+        }
     }
   }
+
   ul {
     list-style-type: none;
   }
+
   li {
     border: 0px;
   }
-  .sidebar-navigation-messages-list {
+
+  button {
+    background-color: $color-gray-lightest;
+  }
+
+  .fa-times {
+    width: 14px;
+    color: $color-black;
+  }
+
+  ul {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .sidebar-navigation-list {
+    padding-left: 15px;
+    padding-right: 15px;
+
     .sidebar-navigation-messages-list-header {
+
       &.is-active {
         background-color: $color-gray-lightest;
         border-left: 4px solid $color-base;
       }
+
       a {
-        padding-top: 7px;
         color: $color-link-default;
+
         &.is-active {
           color: $color-black;
         }
+
         &:active {
-          color: $color-gray-dark;
-          text-decoration: underline;
+            color: $color-gray-dark;
+            text-decoration: underline;
         }
       }
     }
-    .sidebar-navigation-messages-list-menu {
-      ul {
-        li {
-          a {
-            padding-left: 3rem;
+
+    .usa-sidenav-list {
+      border-top: 1px solid $color-gray;
+      border-bottom: 0;
+      padding-top: 4px;
+
+      li {
+        display: none;
+
+        ul {
+
+          .usa-sidenav-list {
+            border: 0px;
+          }
+        }
+      }
+      .sidebar-navigation-messages-list {
+        display: contents;
+
+        ul {
+          border: 0px;
+        }
+
+        .sidebar-navigation-messages-list-menu {
+          background-color: $color-white;
+          display: block;
+
+          ul {
+
+            li {
+
+              a {
+                padding-left: 3rem;
+              }
+            }
+          }
+
+          .sub-list li {
+            display: block;
           }
         }
       }
     }
   }
 }
-@media (max-width: $medium-screen) {
-  .button-wrapper {
-    position: static !important;
-    z-index: 0;
-  }
+
+@media (min-width: $medium-screen) {
 
   .sidebar-navigation {
-    padding: 0px;
-    width: 264px;
-    height: 1925px;
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    border: 1px solid $color-gray;
-    background-color: $color-white;
-    a {
-      font-size: 15px;
-    }
+    height: 600px;
+    list-style-type: none;
+    position: static;
+    border: 0;
+
     .sidebar-navigation-header {
-      height: 50px;
+      height: 54px;
+
       i.fa-medkit {
-        padding-bottom: 4px;
+        padding-bottom: 10px;
       }
     }
-    button {
-      background-color: $color-gray-lightest;
+
+    a {
+      font-size: 17px;
     }
-    .fa-times {
-      width: 14px;
-      color: $color-black;
-    }
-    ul {
-      margin: 0px;
-      padding: 0px;
-    }
+
     .sidebar-navigation-list {
-      padding-left: 15px;
-      padding-right: 15px;
-      .sidebar-navigation-messages-list-header {
-        a {
-          color: $color-link-default;
-        }
-      }
+      padding-left: 0;
+      padding-right: 0;
+
       .usa-sidenav-list {
-        border-top: 1px solid $color-gray;
-        padding-top: 4px;
-        li {
-          display: none;
-          ul {
-            .usa-sidenav-list {
-              border: 0px;
-            }
-          }
-        }
-        .sidebar-navigation-messages-list {
-          display: contents;
-          ul {
-            border: 0px;
-          }
-          .sidebar-navigation-messages-list-menu {
-            background-color: $color-white;
-            display: block;
-            .sub-list li {
-              display: block;
-            }
-          }
+        border: 0;
+        padding-top: 0;
+      }
+    }
+
+    .sidebar-navigation-messages-list {
+
+      .sidebar-navigation-messages-list-header {
+
+        a {
+          padding-top: 7px;
+          color: $color-link-default;
         }
       }
     }

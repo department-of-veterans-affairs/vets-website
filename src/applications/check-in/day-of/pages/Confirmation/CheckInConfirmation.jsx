@@ -15,7 +15,7 @@ import Wrapper from '../../../components/layout/Wrapper';
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import { getAppointmentId } from '../../../utils/appointment';
@@ -61,13 +61,27 @@ const CheckInConfirmation = props => {
   const {
     setShouldSendTravelPayClaim,
     getShouldSendTravelPayClaim,
-  } = useSessionStorage(false);
+  } = useStorage(false);
+
+  const { setTravelPaySent, getTravelPaySent } = useStorage(false, true);
 
   useEffect(
     () => {
-      if (travelPayClaimSent) setShouldSendTravelPayClaim(window, false);
+      if (travelPayClaimSent) {
+        const { stationNo } = selectedAppointment;
+        const travelPaySent = getTravelPaySent(window);
+        travelPaySent[stationNo] = new Date();
+        setShouldSendTravelPayClaim(window, false);
+        setTravelPaySent(window, travelPaySent);
+      }
     },
-    [travelPayClaimSent, setShouldSendTravelPayClaim],
+    [
+      travelPayClaimSent,
+      setShouldSendTravelPayClaim,
+      setTravelPaySent,
+      getTravelPaySent,
+      selectedAppointment,
+    ],
   );
 
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;

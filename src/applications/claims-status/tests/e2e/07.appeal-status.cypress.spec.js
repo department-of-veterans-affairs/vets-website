@@ -30,7 +30,7 @@ describe('Appeals page test', () => {
 
     cy.get('h1').should('contain', 'Appeal received August 2017');
     cy.get('h2:first-of-type').should('contain', 'Reveal past events');
-    cy.get('#tabv2status[aria-selected="true"]').should('be.visible');
+    cy.get('#tabv2status[aria-current="page"]').should('be.visible');
 
     //  expand past events
     cy.get('.past-events-expander button').click();

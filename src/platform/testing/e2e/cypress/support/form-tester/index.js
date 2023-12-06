@@ -8,6 +8,9 @@ const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
+const WEB_COMPONENT_SELECTORS =
+  'va-text-input, va-select, va-textarea, va-number-input, va-radio-option, va-checkbox, va-memorable-date';
+
 const LOADING_SELECTOR = 'va-loading-indicator';
 
 // Force interactions on elements, skipping the default checks for the
@@ -46,6 +49,7 @@ const createFieldObject = element => {
     element,
     key: element.prop('name') || element.prop('id'),
     type: element.prop('type') || element.prop('tagName'),
+    tagName: element.prop('tagName'),
   };
 
   const isDateField = element
@@ -81,7 +85,11 @@ const getArrayItemPath = pathname => {
         return match;
       }) || {};
 
-    return arrayPath ? `${arrayPath}[${parseInt(index, 10)}]` : '';
+    const indexNumber = parseInt(index, 10);
+    return {
+      arrayItemPath: arrayPath ? `${arrayPath}[${indexNumber}]` : '',
+      index: indexNumber,
+    };
   });
 };
 
@@ -125,6 +133,17 @@ const addNewArrayItem = $form => {
         });
     });
   }
+};
+
+const getFieldSelectors = () => {
+  return cy
+    .get('@useWebComponentFields', NO_LOG_OPTION)
+    .then(
+      useWebComponentFields =>
+        useWebComponentFields
+          ? `${FIELD_SELECTOR}, ${WEB_COMPONENT_SELECTORS}`
+          : FIELD_SELECTOR,
+    );
 };
 
 /**
@@ -217,45 +236,62 @@ const defaultPostHook = pathname => {
   };
 };
 
+// Look for "/#" or "/#/" in the path
+const REGEXP_PATH_INDEX = /\/\d+\/?/;
+const REGEXP_REMOVE_END_SLASH = /\/$/;
+
 /**
  * Runs the page hook if there is one for the current page.
  * @param {string} pathname - The pathname for the current URL.
  * @returns {boolean} Resolves true if a hook ran and false otherwise.
  */
 Cypress.Commands.add('execHook', pathname => {
-  cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks => {
-    const hook = pageHooks?.[pathname];
-    let hookExecuted = false;
-    let postHook = defaultPostHook(pathname);
+  cy.get('@pageHooks', NO_LOG_OPTION).then(pageHooks =>
+    cy
+      .location('pathname', NO_LOG_OPTION)
+      .then(getArrayItemPath)
+      .then(({ index }) => {
+        const pathnameKey = REGEXP_PATH_INDEX.test(pathname)
+          ? pathname
+              .split(REGEXP_PATH_INDEX)
+              .join('/:index/')
+              .replace(REGEXP_REMOVE_END_SLASH, '') // remove trailing `/`
+          : pathname;
 
-    if (!hook) return cy.wrap({ hookExecuted, postHook }, NO_LOG_OPTION);
+        const hook = pageHooks?.[pathname] || pageHooks?.[pathnameKey];
+        let hookExecuted = false;
+        let postHook = defaultPostHook(pathname);
 
-    if (typeof hook !== 'function') {
-      throw new Error(`Page hook for ${pathname} is not a function`);
-    }
+        if (!hook) return cy.wrap({ hookExecuted, postHook }, NO_LOG_OPTION);
 
-    // Give the page hook the option to set a custom post hook.
-    const overridePostHook = fn => {
-      if (typeof fn !== 'function') {
-        throw new Error(`Post hook for ${pathname} is not a function`);
-      }
-      postHook = fn;
-    };
+        if (typeof hook !== 'function') {
+          throw new Error(`Page hook for ${pathnameKey} is not a function`);
+        }
 
-    // Context object that's available all page hooks as the first argument.
-    const context = {
-      afterHook: overridePostHook,
-      pathname,
-    };
+        // Give the page hook the option to set a custom post hook.
+        const overridePostHook = fn => {
+          if (typeof fn !== 'function') {
+            throw new Error(`Post hook for ${pathnameKey} is not a function`);
+          }
+          postHook = fn;
+        };
 
-    const hookPromise = new Promise(resolve => {
-      hook(context);
-      hookExecuted = true;
-      resolve({ hookExecuted, postHook });
-    });
+        // Context object that's available all page hooks as the first argument.
+        const context = {
+          afterHook: overridePostHook,
+          pathname: pathnameKey,
+          index,
+        };
 
-    return cy.wrap(hookPromise, NO_LOG_OPTION);
-  });
+        const hookPromise = new Promise(resolve => {
+          hook(context);
+          hookExecuted = true;
+          resolve({ hookExecuted, postHook });
+        });
+
+        return cy.wrap(hookPromise, NO_LOG_OPTION);
+      }),
+  );
 });
 
 /**
@@ -290,7 +326,7 @@ Cypress.Commands.add('findData', field => {
  * Enters data for a field.
  * @param {Field}
  */
-Cypress.Commands.add('enterData', field => {
+function enterData(field) {
   switch (field.type) {
     // Select fields register as having type 'select-one'.
     case 'select-one':
@@ -378,6 +414,18 @@ Cypress.Commands.add('enterData', field => {
     default:
       throw new Error(`Unknown element type '${field.type}' for ${field.key}`);
   }
+}
+
+/**
+ * Enters data for a field or web component field.
+ * @param {Field}
+ */
+Cypress.Commands.add('enterData', field => {
+  if (field.tagName?.includes('VA-')) {
+    cy.enterWebComponentData(field);
+  } else {
+    enterData(field);
+  }
 
   Cypress.log({
     message: field.data,
@@ -391,7 +439,7 @@ Cypress.Commands.add('enterData', field => {
 Cypress.Commands.add('fillPage', () => {
   cy.location('pathname', NO_LOG_OPTION)
     .then(getArrayItemPath)
-    .then(arrayItemPath => {
+    .then(({ arrayItemPath }) => {
       const touchedFields = new Set();
       const snapshot = {};
 
@@ -426,41 +474,43 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const fillAvailableFields = () => {
-        cy.get(APP_SELECTOR, NO_LOG_OPTION)
-          .then($form => {
-            // Get the starting number of array items and fields to compare
-            // after filling out all currently visible fields, as new fields
-            // may get added or expanded after this iteration.
-            snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
-            snapshot.fieldCount = $form.find(FIELD_SELECTOR).length;
-          })
-          .within(NO_LOG_OPTION, $form => {
-            // Fill out every field that's currently on the page.
-            const fields = $form.find(FIELD_SELECTOR);
-            if (!fields.length) return;
-            cy.wrap(fields).each(element => {
-              cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
-                processFieldObject,
-              );
+        getFieldSelectors().then(fieldSelector => {
+          cy.get(APP_SELECTOR, NO_LOG_OPTION)
+            .then($form => {
+              // Get the starting number of array items and fields to compare
+              // after filling out all currently visible fields, as new fields
+              // may get added or expanded after this iteration.
+              snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
+              snapshot.fieldCount = $form.find(fieldSelector).length;
+            })
+            .within(NO_LOG_OPTION, $form => {
+              // Fill out every field that's currently on the page.
+              const fields = $form.find(fieldSelector);
+              if (!fields.length) return;
+              cy.wrap(fields).each(element => {
+                cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
+                  processFieldObject,
+                );
+              });
+
+              // Once all currently visible fields have been filled, add an array
+              // item if there are more to be added according to the test data.
+              if (snapshot.fieldCount === $form.find(fieldSelector).length) {
+                addNewArrayItem($form);
+              }
+
+              cy.wrap($form, NO_LOG_OPTION);
+            })
+            .then($form => {
+              // If there are new array items or fields to be filled,
+              // iterate through the page again.
+              const { arrayItemCount, fieldCount } = snapshot;
+              const fieldsNeedInput =
+                arrayItemCount !== $form.find(ARRAY_ITEM_SELECTOR).length ||
+                fieldCount !== $form.find(fieldSelector).length;
+              if (fieldsNeedInput) fillAvailableFields();
             });
-
-            // Once all currently visible fields have been filled, add an array
-            // item if there are more to be added according to the test data.
-            if (snapshot.fieldCount === $form.find(FIELD_SELECTOR).length) {
-              addNewArrayItem($form);
-            }
-
-            cy.wrap($form, NO_LOG_OPTION);
-          })
-          .then($form => {
-            // If there are new array items or fields to be filled,
-            // iterate through the page again.
-            const { arrayItemCount, fieldCount } = snapshot;
-            const fieldsNeedInput =
-              arrayItemCount !== $form.find(ARRAY_ITEM_SELECTOR).length ||
-              fieldCount !== $form.find(FIELD_SELECTOR).length;
-            if (fieldsNeedInput) fillAvailableFields();
-          });
+        });
       };
 
       fillAvailableFields();
@@ -509,6 +559,9 @@ const testForm = testConfig => {
     setupPerTest = () => {},
     skip,
     _13647Exception = false,
+    // whether or not to auto fill web component fields
+    // (using RJSF naming convention #root_field_subField)
+    useWebComponentFields = false,
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
@@ -534,6 +587,7 @@ const testForm = testConfig => {
       disableFTUXModals();
 
       cy.wrap(arrayPages).as('arrayPages');
+      cy.wrap(useWebComponentFields).as('useWebComponentFields');
 
       // Resolve relative page hook paths as relative to the form's root URL.
       const resolvedPageHooks = Object.entries(pageHooks).reduce(

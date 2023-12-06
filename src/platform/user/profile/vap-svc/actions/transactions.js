@@ -9,8 +9,8 @@ import {
   showAddressValidationModal,
   inferAddressType,
 } from 'platform/user/profile/vap-svc/util';
-import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { apiRequest } from 'platform/utilities/api';
+import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -42,8 +42,8 @@ export const VAP_SERVICE_TRANSACTION_UPDATE_FAILED =
   'VAP_SERVICE_TRANSACTION_UPDATE_FAILED';
 export const VAP_SERVICE_TRANSACTION_CLEARED =
   'VAP_SERVICE_TRANSACTION_CLEARED';
-export const VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED =
-  'VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED';
+export const VAP_SERVICE_NO_CHANGES_DETECTED =
+  'VAP_SERVICE_NO_CHANGES_DETECTED';
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
@@ -158,33 +158,31 @@ export function refreshTransaction(
   };
 }
 
-const handleBadAddressNoChangesDetected = async ({
+const handleNoChangesDetected = async ({
   dispatch,
   getState,
   fieldName,
   transaction,
 }) => {
   const state = getState();
-  const hasMailingBadAddress = hasBadAddress(state);
 
   const noChangesDetected =
     transaction?.data?.attributes?.transactionStatus ===
     TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED;
 
-  // dipatch an action just for showing update saved alert when BAI is updated with same addrress,
-  // then refresh user profile data so that BAI alert is removed from UI
-  if (
-    fieldName === FIELD_NAMES.MAILING_ADDRESS &&
-    hasMailingBadAddress &&
-    noChangesDetected
-  ) {
-    const forceCacheClear = true;
-    await dispatch(refreshProfile(forceCacheClear, { bai: 'clear' }));
+  if (noChangesDetected) {
+    if (hasBadAddress(state) && fieldName === FIELD_NAMES.MAILING_ADDRESS) {
+      const forceCacheClear = true;
+      await dispatch(refreshProfile(forceCacheClear));
+    }
 
     dispatch({
-      type: VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED,
+      type: VAP_SERVICE_NO_CHANGES_DETECTED,
       fieldName,
+      transaction,
     });
+
+    dispatch(clearTransaction(transaction));
   }
 };
 
@@ -228,7 +226,7 @@ export function createTransaction(
         });
       }
 
-      handleBadAddressNoChangesDetected({
+      handleNoChangesDetected({
         dispatch,
         getState,
         fieldName,

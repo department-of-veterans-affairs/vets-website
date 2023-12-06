@@ -2,26 +2,39 @@ import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { veteranFields } from '../../../definitions/constants';
 import {
-  dateOfBirthUI,
+  dobUI,
   fullNameUI,
+  customFieldSchemaUI,
   genderUI,
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { vetInputLabel } from '../../../definitions/UIDefinitions/veteranUI';
-import { VeteranSSNDescription } from '../../../components/FormDescriptions';
+import {
+  VeteranSSNDescription,
+  VeteranFullNameDescription,
+} from '../../../components/FormDescriptions';
 import VeteranContactDescription from '../../../components/FormDescriptions/VeteranContactDescription';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
+// Initialize fullNameUI with originalUI object
+let extendedNameUI = fullNameUI(vetInputLabel);
+// Add/replace whatever key/values needed
+extendedNameUI = customFieldSchemaUI(
+  extendedNameUI,
+  'first',
+  'ui:description',
+  VeteranFullNameDescription,
+);
 
 const vetInfoPage = {
   uiSchema: {
     'ui:description': VeteranContactDescription({ showPageIntro: true }),
-    [veteranFields.fullName]: fullNameUI(vetInputLabel),
+    [veteranFields.fullName]: extendedNameUI,
     [veteranFields.ssn]: merge({}, ssnUI(vetInputLabel), {
       'ui:description': VeteranSSNDescription,
     }),
-    [veteranFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
+    [veteranFields.dateOfBirth]: dobUI(vetInputLabel),
     [veteranFields.gender]: genderUI(vetInputLabel),
   },
   schema: {

@@ -247,6 +247,6 @@ describe('App', () => {
 
     const h2 = $$('h2', container);
     expect(h2[0].textContent).to.contain('We need more information');
-    expect($('input[type="file"]', container)).to.exist;
+    expect($('va-file-input', container)).to.exist;
   });
 });

@@ -20,8 +20,7 @@ const {
   generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
-const paymentInformation = require('./endpoints/payment-information');
-const disabilityComps = require('./endpoints/disability-compensations');
+const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -38,6 +37,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 // seed data for VAMC drupal source of truth json file
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
+const contacts = require('../tests/fixtures/contacts.json');
+
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
 
@@ -53,9 +54,30 @@ const genericErrors = {
 
 /* eslint-disable camelcase */
 const responses = {
+  'GET /v0/feature_toggles': (_req, res) => {
+    const secondsOfDelay = 0;
+    delaySingleResponse(
+      () =>
+        res.json(
+          generateFeatureToggles({
+            authExpVbaDowntimeMessage: false,
+            profileContacts: true,
+            profileUseFieldEditingPage: true,
+            profileUseHubPage: true,
+            profileUseNotificationSettingsCheckboxes: true,
+            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettings: true,
+            profileShowPaymentsNotificationSetting: true,
+            profileShowQuickSubmitNotificationSetting: true,
+            showAuthenticatedMenuEnhancements: true,
+          }),
+        ),
+      secondsOfDelay,
+    );
+  },
   'GET /v0/user': (_req, res) => {
     // example user data cases
-    // return res.json(user.loa3User72); // default user (success)
+    return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.loa3User); // user with loa3
@@ -63,7 +85,12 @@ const responses = {
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
-    return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+    // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
+    // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
+
+    // data claim users
+    // return res.json(user.loa3UserWithNoRatingInfoClaim);
+    // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
   },
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
@@ -87,62 +114,18 @@ const responses = {
 
     return res.json(maintenanceWindows.noDowntime);
   },
-  'GET /v0/feature_toggles': (_req, res) => {
-    const secondsOfDelay = 0;
-    delaySingleResponse(
-      () =>
-        res.json(
-          generateFeatureToggles({
-            profileUseInfoCard: true,
-            profileUseFieldEditingPage: true,
-            profileLighthouseDirectDeposit: true,
-            profileUseNotificationSettingsCheckboxes: true,
-            profileShowEmailNotificationSettings: true,
-            profileShowMhvNotificationSettings: true,
-            profileShowPaymentsNotificationSetting: true,
-            profileShowQuickSubmitNotificationSetting: true,
-          }),
-        ),
-      secondsOfDelay,
-    );
-  },
-  'GET /v0/ppiu/payment_information': (_req, res) => {
-    // 47841 - Below are the three cases where all of Profile should be gated off
-    // paymentInformation.isFiduciary
-    // paymentInformation.isDeceased
-    // paymentInformation.isNotCompetent
 
-    // This is a 'normal' payment history / control case data
-    // paymentInformation.base
-
-    return res.status(200).json(paymentInformation.notEligible);
-  },
-  'PUT /v0/ppiu/payment_information': (_req, res) => {
-    // substitute the various errors arrays to test various update error responses
-    // Examples:
-    // paymentInformation.updates.errors.fraud
-    // paymentsInformation.updates.errors.phoneNumber
-    // paymentsInformation.updates.errors.address
-    // return res
-    //   .status(200)
-    //   .json(
-    //     _.set(
-    //       _.cloneDeep(paymentInformation.base),
-    //       'data.attributes.error',
-    //       paymentInformation.updates.errors.invalidAddress,
-    //     ),
-    //   );
-
-    // successful update response
-    return res.status(200).json(paymentInformation.updates.success);
-  },
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
+    // return res.status(500).json(genericErrors.error500);
+
     // Lighthouse based API endpoint for direct deposit CNP
-    // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
-    return res.json(disabilityComps.base);
+    return res.json(mockDisabilityCompensations.base);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res.status(200).json(disabilityComps.updates.success);
+    return res
+      .status(200)
+      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
+    // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
@@ -157,14 +140,20 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
+    // user doesnt have any service history or is not authorized
+    // return res.status(403).json(genericErrors.error403);
+
     return res.status(200).json(serviceHistory.airForce);
     // return res
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected40,
-  'PUT /v0/profile/telephones': (_req, res) => {
+    ratingInfo.success.serviceConnected0,
+  'PUT /v0/profile/telephones': (req, res) => {
+    if (req?.body?.phoneNumber === '1111111') {
+      return res.json(phoneNumber.transactions.receivedNoChangesDetected);
+    }
     return res.status(200).json(phoneNumber.transactions.received);
   },
   'POST /v0/profile/telephones': (_req, res) => {
@@ -177,7 +166,25 @@ const responses = {
     return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
+    // uncomment to test 401 error
     // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // trigger NO_CHANGES_DETECTED response
+    // based on the text 'same' being put into address line 1 of ui
+    if (req?.body?.addressLine1 === 'same') {
+      return res.json(address.mailingAddressUpdateNoChangeDetected);
+    }
+
+    // simulate a initial request returning a transactionId that is
+    // subsequently used for triggering error from GET v0/profile/status
+    // uncomment to test, and then uses the transactionId 'erroredId' in the status endpoint
+    // return res.json(
+    //   _.set(
+    //     address.mailingAddressUpdateReceived.response,
+    //     'data.attributes.transactionId',
+    //     'erroredId',
+    //   ),
+    // );
 
     // to test the update that comes from the 'yes' action on the address change modal prompt,
     // we can create a success response with a transactionId that is unique using date timestamp
@@ -189,22 +196,6 @@ const responses = {
           `mailingUpdateId-${new Date().getTime()}`,
         ),
       );
-    }
-
-    // simulate a initial request returning a transactionId that is
-    // subsequently used for triggereing error from GET v0/profile/status
-    // return res.json(
-    //   _.set(
-    //     address.mailingAddressUpdateReceived.response,
-    //     'data.attributes.transactionId',
-    //     'erroredId',
-    //   ),
-    // );
-
-    // trigger NO_CHANGES_DETECTED response
-    // based on the text 'same' being put into address line 1 of ui
-    if (req?.body?.addressLine1 === 'same') {
-      return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
     // default response
@@ -259,10 +250,15 @@ const responses = {
       },
     });
 
+    // uncomment to test 500 error
+    // return res.status(500).json(error500);
+
     delaySingleResponse(() => res.json(mockedRes), 1);
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
+  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  'GET /v0/profile/contacts': contacts,
 };
 
 function terminationHandler(signal) {

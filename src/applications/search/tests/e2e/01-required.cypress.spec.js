@@ -8,10 +8,6 @@
 import SearchComponent from '../page-object/searchComponent';
 
 describe('Site-wide Search functionality with search dropdown component enabled', () => {
-  beforeEach(function() {
-    cy.server();
-  });
-
   const healthSearchTerm = 'health';
   const benefitsSearchTerm = 'benefits';
   const searchComponent = new SearchComponent();

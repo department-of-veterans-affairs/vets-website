@@ -53,7 +53,7 @@ describe('extension request page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ appealingVhaDenial: true }}
+        data={{ appealingVHADenial: true }}
         formData={{}}
         onSubmit={onSubmit}
       />,

@@ -19,10 +19,17 @@ const getErrorKey = errors => {
   return key;
 };
 
-const recordAPIEvent = ({ method, success, errors }) => {
+const recordAPIEvent = ({
+  method,
+  success,
+  errors,
+  usingCheckboxes = false,
+}) => {
   const event = {
     event: 'api_call',
-    'api-name': `${method} communication_preferences`,
+    'api-name': `${method} communication_preferences${
+      usingCheckboxes ? ' - checkboxes' : ''
+    }`,
     'api-status': 'started',
   };
   if (success) {

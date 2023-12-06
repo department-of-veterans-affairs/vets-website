@@ -46,9 +46,15 @@ export const hearingTypeContent = {
 
 export const missingHearingTypeErrorMessage = 'Choose a conference type';
 
-export const hearingTypeReviewField = ({ children }) => (
+export const HearingTypeReviewField = ({ children }) => (
   <div className="review-row">
     <dt>{title}</dt>
-    <dd>{children}</dd>
+    <dd>
+      {children?.props?.formData ? (
+        children
+      ) : (
+        <span className="usa-input-error-message">Missing hearing option</span>
+      )}
+    </dd>
   </div>
 );

@@ -23,7 +23,7 @@ const initializeRealUserMonitoring = () => {
       trackFrustrations: true,
       trackResources: true,
       trackLongTasks: true,
-      defaultPrivacyLevel: 'mask-user-input',
+      defaultPrivacyLevel: 'mask',
     });
 
     // If sessionReplaySampleRate > 0, we need to manually start the recording

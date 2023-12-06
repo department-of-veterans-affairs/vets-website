@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { focusElement } from 'platform/utilities/ui';
-// import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Pagination } from '@department-of-veterans-affairs/component-library/index';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
 import { ENROLLMENT_VERIFICATION_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
@@ -85,8 +84,8 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
       )}
 
       {months?.length > 0 && (
-        <Pagination
-          onPageSelect={onPageSelect}
+        <VaPagination
+          onPageSelect={e => onPageSelect(e.detail.page)}
           page={currentPage}
           pages={numPages}
         />

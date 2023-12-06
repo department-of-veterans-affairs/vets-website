@@ -27,9 +27,9 @@
     "socOptIn": false,
     "view:additionalEvidence": false,
     "requestingExtension": false,
-    "appealingVhaDenial": false,
+    "appealingVHADenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {

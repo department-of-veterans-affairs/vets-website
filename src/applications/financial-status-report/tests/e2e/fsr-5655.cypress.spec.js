@@ -153,6 +153,50 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'resolution-comments': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#resolution-comments')
+            .shadow()
+            .find('textarea')
+            .type('Some Resolution Comments . . .');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'bankruptcy-history': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#has-declared-bankruptcy').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'enhanced-bankruptcy-history-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="date-discharged"]')
+            .shadow()
+            .find('va-select')
+            .first()
+            .shadow()
+            .find('select')
+            .select('January');
+          cy.get('[data-testid="date-discharged"]')
+            .shadow()
+            .find('va-text-input')
+            .first()
+            .shadow()
+            .find('input')
+            .type('2010');
+          cy.get('#court-location')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Miami, FL');
+          cy.get('#docket-number')
+            .first()
+            .shadow()
+            .find('input')
+            .type('ABC123');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#veteran-signature')
@@ -160,8 +204,16 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`input[name="veteran-certify"]`).check();
-          cy.get(`input[name="privacy-policy"]`).check();
+          cy.get(`#veteran-certify`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
+          cy.get(`#privacy-policy`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

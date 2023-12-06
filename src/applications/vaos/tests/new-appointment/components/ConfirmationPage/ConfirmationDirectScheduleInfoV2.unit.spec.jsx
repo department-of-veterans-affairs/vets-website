@@ -103,7 +103,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     expect(screen.baseElement).to.contain.text(
       'Cheyenne, WyomingWY 82001-5356',
     );
-    expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
+    expect(screen.getByText(/Routine\/Follow-up/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
     expect(screen.getByText(/CHY PC CASSIDY/i)).to.be.ok;
 
@@ -122,7 +122,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     expect(screen.getByTestId('review-appointments-link')).to.exist;
     expect(
       screen.getByTestId('review-appointments-link').getAttribute('href'),
-    ).to.equal('/health-care/schedule-view-va-appointments/appointments/');
+    ).to.equal('/my-health/appointments/');
   });
 
   // NOTE This should be covered in e2e tests

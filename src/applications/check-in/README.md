@@ -48,9 +48,11 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 
 When adding features, use components from the design system as much as possible. For general spacing, layout, typography, borders, etc... use the utility classes rather than adding to the style sheet.
 
-## Try to be generic
+## Code style
+### Try to be generic
 The check-in and pre-check-in apps are very similar, so when possible use and add to the common reducer, selector, and utils found in the root of the two apps.
-
+### Function parameters
+If you have more than two parameters, structure the parameters in an object to increase readability and ease of use.
 ## Page routing
 Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
@@ -66,7 +68,10 @@ Run Cypress from command line:
 ## Writing tests
 ### Unit tests
 Components that need to access data from redux (or have children that do) require a provider wrapper to initialize a mock store. Also needed for most components is a provider wrapper to import the i18n translations. To help reduce the repatative boiler plate a new provider has been created that incorporates both of these providers with default data. Located in `tests\unit\utilsCheckInProvider.jsx` the file exports the `CheckInProvider` component that can be imported into a unit test and wrapped around the component you are testing. This provider also sets up a basic router prop the will be automatically passed to its children. Also included is the requred `scheduledDowntimeState` redux store via the `createStore` util used within the provider. You can pass overrides to both the store and the router for the custom data needs of your component or test.
+## Flaky tests
+We have a running ticket every sprint to address flaky tests that are flagged by platform. When addressing a test, add it to our running log here: https://docs.google.com/spreadsheets/d/1tqsbBonIbSSq3enPQcd-yg0KSzSBp38TRD3D_tKq3qU/edit#gid=0
 
+You can get the stress tests to re-run in a PR by simply adding a comment in the test or by making any other change. Look at the issues and address any thing that comes up when the test is run in the pipeline. If the tests pass, mark the test as `Snoozed` in the sheet and incriment the instances. If you do work on the test, mark the test as `Fixed problem` in the sheet. Make sure to keep the notes for each test updated. If a test continues to get flagged but works when snoozing, make a plan to re-write the test. Tests that pass stress tests in a PR are automatically removed from the flaky tests list.
 ## Translations
 This application uses i18next to translate text to Spanish and Tagalog. Translation files for English, Spanish, and Tagalog are located in `/locals` at the root of the check-in application. All text is contained in the `translation.json` file for each language. The application should only reference the unique key for each text string with a `<Trans />` component or a `t()` function. Never hard code text within the application.
 
@@ -118,3 +123,12 @@ Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/application
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.
+
+## Adding Feature Toggles
+
+To add a feature toggle follow the steps oulined in the VA Platform Documentation on [Feature Toggles](https://depo-platform-documentation.scrollhelp.site/developer-docs/feature-toggles-guide). Additionally add the feature toggle to selectors, mocks and the readme for Pre-check-in and/or Check-in apps.
+
+- src/applications/check-in/utils/selectors/feature-toggles.js
+- src/applications/check-in/utils/selectors/tests/feature-toggles.unit.spec.js
+- src/applications/check-in/api/local-mock-api/mocks/v2/feature-toggles/index.js
+- src/applications/check-in/day-of/README.md

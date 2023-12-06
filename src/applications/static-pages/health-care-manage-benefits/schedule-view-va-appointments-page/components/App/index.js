@@ -1,9 +1,10 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 // Relative imports.
-import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
@@ -13,7 +14,12 @@ import {
   useSingleLogoutPropType,
 } from '../../../propTypes';
 
-export const App = ({ ehrDataByVhaId, facilities, useSingleLogout }) => {
+export const App = ({
+  ehrDataByVhaId,
+  facilities,
+  useSingleLogout,
+  widgetType,
+}) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerAppointments);
   const otherFacilities = facilities?.filter(f => !f.usesCernerAppointments);
   if (!isEmpty(cernerFacilities)) {
@@ -23,6 +29,7 @@ export const App = ({ ehrDataByVhaId, facilities, useSingleLogout }) => {
         otherFacilities={otherFacilities}
         ehrDataByVhaId={ehrDataByVhaId}
         useSingleLogout={useSingleLogout}
+        widgetType={widgetType}
       />
     );
   }
@@ -32,6 +39,7 @@ export const App = ({ ehrDataByVhaId, facilities, useSingleLogout }) => {
 
 App.propTypes = {
   // From mapStateToProps.
+  widgetType: PropTypes.string.isRequired,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,
   useSingleLogout: useSingleLogoutPropType,
@@ -39,7 +47,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   ehrDataByVhaId: selectEhrDataByVhaId(state),
-  facilities: selectPatientFacilitiesDsot(state),
+  facilities: selectPatientFacilities(state),
   useSingleLogout: state?.featureToggles?.pwEhrCtaUseSlo,
 });
 

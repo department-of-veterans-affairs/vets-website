@@ -99,7 +99,7 @@ RadioWidget.propTypes = {
     widgetProps: PropTypes.shape({}),
     selectedProps: PropTypes.shape({}),
     enableAnalytics: PropTypes.bool,
-    title: PropTypes.string || PropTypes.element,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     errorMessages: PropTypes.shape({}),
   }),
   value: PropTypes.string,

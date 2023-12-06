@@ -27,7 +27,7 @@ const testConfig = createTestConfig(
       setup(cy);
     },
 
-    // skip: [],
+    skip: [],
   },
   manifest,
   formConfig,

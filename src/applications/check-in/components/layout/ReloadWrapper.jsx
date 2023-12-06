@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
 import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../hooks/useUpdateError';
 
@@ -20,7 +20,7 @@ const ReloadWrapper = props => {
     setProgressState,
     getCurrentToken,
     getPermissions,
-  } = useSessionStorage(isPreCheckIn);
+  } = useStorage(isPreCheckIn);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);

@@ -1,11 +1,14 @@
 import React from 'react';
+import DependentExplainer from '../../../components/household/DependentExplainer';
+import { validateIsNumber } from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your dependents',
   questions: {
     hasDependents: {
-      'ui:title':
-        'Do you have any dependents who rely on you for financial support?',
+      'ui:title': 'Number of dependents',
+      'ui:description':
+        'Dependents include your spouse, unmarried children under 18 years old, and other dependents.',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
       'ui:options': {
@@ -45,8 +48,13 @@ export const uiSchemaEnhanced = {
       hideOnReview: false, // change this to true to hide this question on review page
     },
     hasDependents: {
-      'ui:title':
-        'How many dependents do you have who rely on you for financial support?',
+      'ui:title': 'Number of dependents',
+      'ui:description': (
+        <p className="formfield-subtitle">
+          Dependents include your spouse, unmarried children under 18 years old,
+          and other dependents.
+        </p>
+      ),
       'ui:widget': 'TextWidget',
       'ui:options': {
         widgetClassNames: 'input-size-2',
@@ -55,6 +63,12 @@ export const uiSchemaEnhanced = {
       'ui:errorMessages': {
         required: 'Please enter your dependent(s) information.',
       },
+      'ui:validations': [validateIsNumber],
+    },
+  },
+  'view:components': {
+    'view:dependentsAdditionalInfo': {
+      'ui:description': DependentExplainer,
     },
   },
 };
@@ -68,6 +82,15 @@ export const schemaEnhanced = {
       properties: {
         hasDependents: {
           type: 'string',
+        },
+      },
+    },
+    'view:components': {
+      type: 'object',
+      properties: {
+        'view:dependentsAdditionalInfo': {
+          type: 'object',
+          properties: {},
         },
       },
     },

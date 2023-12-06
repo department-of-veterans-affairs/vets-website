@@ -197,4 +197,13 @@ const cypressConfig = {
   },
 };
 
-module.exports = defineConfig(cypressConfig);
+module.exports = {
+  ...defineConfig(cypressConfig),
+
+  component: {
+    devServer: {
+      framework: 'react',
+      bundler: 'webpack',
+    },
+  },
+};

@@ -1,23 +1,38 @@
 // eslint-disable-next-line import/no-unresolved
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
-  selectPatientFacilities,
-  selectIsCernerPatient,
-} from 'platform/user/cerner-dsot/selectors';
+  selectCernerFacilityIds,
+  selectEhrDataByVhaId,
+} from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
 export const selectRegisteredCernerFacilityIds = state => {
-  const data = selectPatientFacilities(state);
+  const patientFacilities = selectPatientFacilities(state);
+  const cernerFacilityIds = selectCernerFacilityIds(state);
 
   return (
-    data
-      ?.filter(f => f.isCerner && f.usesCernerAppointments)
-      .map(f => f.facilityId) || []
+    patientFacilities?.reduce((accumulator, current) => {
+      if (cernerFacilityIds.includes(current.facilityId) || current.isCerner)
+        return [...accumulator, current.facilityId];
+      return accumulator;
+    }, []) || []
   );
 };
 
-export const selectIsRegisteredToSacramentoVA = state =>
-  selectPatientFacilities(state)?.some(f => f.facilityId === '612');
+export const selectRegisteredCernerFacilities = state => {
+  const patientFacilities = selectPatientFacilities(state);
+  const allFacilities = selectEhrDataByVhaId(state);
+
+  return (
+    patientFacilities?.reduce((accumulator, current) => {
+      const facility = allFacilities[current.facilityId];
+      if (facility?.ehr === 'cerner' || current.isCerner)
+        return [...accumulator, facility];
+      return accumulator;
+    }, []) || []
+  );
+};
 
 export const selectFeatureApplication = state =>
   toggleValues(state).vaOnlineScheduling;
@@ -30,8 +45,6 @@ export const selectFeatureCommunityCare = state =>
 export const selectFeatureDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingDirect;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-// Use flat facility page for non Cerner patients
-export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 
 export const selectHasVAPResidentialAddress = state =>
   !!selectVAPResidentialAddress(state)?.addressLine1;
@@ -63,9 +76,6 @@ export const selectFeatureStatusImprovementCanceled = state =>
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
-export const selectFeatureAppointmentList = state =>
-  toggleValues(state).vaOnlineSchedulingAppointmentList;
-
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
 
@@ -87,8 +97,14 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 export const selectFeaturePrintList = state =>
   toggleValues(state).vaOnlineSchedulingPrintList;
 
-export const selectFeatureDescriptiveBackLink = state =>
-  toggleValues(state).vaOnlineSchedulingDescriptiveBackLink;
-
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
+
+export const selectFeatureGA4Migration = state =>
+  toggleValues(state).vaOnlineSchedulingGA4Migration;
+
+export const selectFeatureAfterVisitSummary = state =>
+  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
+
+export const selectFeatureStartSchedulingLink = state =>
+  toggleValues(state).vaOnlineSchedulingStartSchedulingLink;

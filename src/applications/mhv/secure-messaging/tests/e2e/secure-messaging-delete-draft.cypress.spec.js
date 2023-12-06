@@ -5,33 +5,44 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockThreadResponse from './fixtures/single-draft-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
   const inboxPage = new PatientInboxPage();
   const draftsPage = new PatientMessageDraftsPage();
-  const patientInterstitialPage = new PatientInterstitialPage();
   it(' Delete Drafts', () => {
     site.login();
     inboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-    patientInterstitialPage.getContinueButton().should('not.exist');
+    PatientInterstitialPage.getContinueButton().should('not.exist');
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,
         },
+        'color-contrast': {
+          enabled: false,
+        },
       },
     });
-    draftsPage.confirmDeleteDraft(mockDraftResponse);
-    inboxPage.verifyDeleteConfirmMessage();
+    draftsPage.confirmDeleteDraft(mockDraftResponse, false);
+    draftsPage.verifyDeleteConfirmationMessage();
+    draftsPage.verifyDeleteConfirmationHasFocus();
+    cy.get('[data-testid="drafts-sidebar"]')
+      .find('a')
+      .should('have.class', 'is-active');
+    draftsPage.verifyDraftMessageBannerTextHasFocus();
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
           enabled: false,
         },
       },

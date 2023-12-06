@@ -1,3 +1,4 @@
+// Copy jsconfig-example.json -> jsconfig.json for Intellisense in your IDE
 {
   "compilerOptions": {
     // These compilerOptions settings are required for Intellisense to function
@@ -6,8 +7,12 @@
     "paths": {
       "*": ["*", "src/*"],
       "~/*": ["./src/*"],
-      "@@profile/*": ["./src/applications/personalization/profile/*"],
-      "@@vap-svc/*": ["./src/platform/user/profile/vap-svc/*"]
+      // Add aliases from babel.config.js here if you want Intellisense for them
+      "@department-of-veterans-affairs/platform-forms-system/*": ["./src/platform/forms-system/src/js/*"],
+      "@department-of-veterans-affairs/platform-forms/*": ["./src/platform/forms/src/js/*"],
+      // Uncomment these paths if you want intellisense for them
+      // "@@profile/*": ["./src/applications/personalization/profile/*"],
+      // "@@vap-svc/*": ["./src/platform/user/profile/vap-svc/*"],
     },
     // adding this line allows you to ⌘click JSX imports to open the source
     "jsx": "react",
@@ -15,8 +20,99 @@
     "resolveJsonModule": true
   },
   "exclude": [
-    "node_modules",
+    ".babelcache",
+    ".devcontainer",
+    ".git",
+    ".github",
+    ".husky",
+    ".vscode",
+    ".yarn",
     "build",
-    "coverage"
+    "config",
+    "coverage",
+    "mochawesome-report",
+    "node_modules",
+    "script",
+    "site",
+
+    // Exclude paths that are not relevant to your project to improve IntelliSense performance.
+    // The more paths you exclude, the faster and more reliable IntelliSense
+    // will be for code suggestions and navigating to files from imports.
+    // Note: Changes here only affect your local development environment.
+
+    // Excluded application paths
+    // "src/applications/_mock-form",
+    // "src/applications/appeals",
+    // "src/applications/ask-a-question",
+    // "src/applications/ask-va",
+    // "src/applications/auth",
+    // "src/applications/avs",
+    // "src/applications/burial-poc-v6",
+    // "src/applications/burials",
+    // "src/applications/caregivers",
+    // "src/applications/check-in",
+    // "src/applications/claims-status",
+    // "src/applications/combined-debt-portal",
+    // "src/applications/coronavirus-research",
+    // "src/applications/coronavirus-screener",
+    // "src/applications/coronavirus-vaccination",
+    // "src/applications/debt-letters",
+    // "src/applications/dhp-connected-devices",
+    // "src/applications/disability-benefits",
+    // "src/applications/discharge-wizard",
+    // "src/applications/ds-playground",
+    // "src/applications/ds-v3-playground",
+    // "src/applications/e-folders",
+    // "src/applications/edu-benefits",
+    // "src/applications/education-letters",
+    // "src/applications/enrollment-verification",
+    // "src/applications/ezr",
+    // "src/applications/facility-locator",
+    // "src/applications/financial-status-report",
+    // "src/applications/find-forms",
+    // "src/applications/fry-dea",
+    // "src/applications/gi",
+    // "src/applications/hca",
+    // "src/applications/income-limits",
+    // "src/applications/letters",
+    // "src/applications/lgy",
+    // "src/applications/login",
+    // "src/applications/medical-copays",
+    // "src/applications/messages",
+    // "src/applications/mhv",
+    // "src/applications/mhv-inherited-proofing",
+    // "src/applications/mock-sip-form",
+    // "src/applications/my-education-benefits",
+    // "src/applications/office-directory",
+    // "src/applications/pact-act",
+    // "src/applications/pensions",
+    // "src/applications/personalisation",
+    // "src/applications/post-911-gib-status",
+    // "src/applications/pre-need",
+    // "src/applications/proxy-rewrite",
+    // "src/applications/public-outreach-materials",
+    // "src/applications/resources-and-support",
+    // "src/applications/sah",
+    // "src/applications/search",
+    // "src/applications/simple-forms",
+    // "src/applications/static-pages",
+    // "src/applications/terms-and-conditions",
+    // "src/applications/third-party-app-directory",
+    // "src/applications/toe",
+    // "src/applications/vaos",
+    // "src/applications/verify",
+    // "src/applications/veteran-id-card",
+    // "src/applications/virtual-agent",
+    // "src/applications/vre",
+    // "src/applications/yellow-ribbon",
+
+    // Excluded platform paths
+    "src/platform/landing-pages",
+    "src/platform/monitoring",
+    "src/platform/pdf",
+    "src/platform/polyfills",
+    "src/platform/site-wide",
+    "src/platform/startup",
+    "src/platform/static-data",
   ]
 }

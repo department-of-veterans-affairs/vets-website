@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-undef */
 export const mebUser = {
   data: {
     id: '',
@@ -10,15 +8,14 @@ export const mebUser = {
       },
       profile: {
         signIn: {
-          serviceName: CSP_IDS.DS_LOGON,
           accountType: '2',
           ssoe: false,
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
-        firstName: 'TERESSA',
-        middleName: 'ESTEFANA',
-        lastName: 'HARBER',
+        firstName: 'Teressa',
+        middleName: 'Estefana',
+        lastName: 'Harber',
         gender: 'F',
         birthDate: '1985-01-01',
         // dateOfBirth: '1990-01-01',
@@ -33,13 +30,6 @@ export const mebUser = {
         isVeteran: true,
         servedInMilitary: true,
       },
-      inProgressForms: [
-        {
-          form: VA_FORM_IDS.FORM_10_10EZ,
-          metadata: {},
-        },
-      ],
-      prefills_available: [VA_FORM_IDS.FORM_21_526EZ],
       services: [
         'facilities',
         'hca',

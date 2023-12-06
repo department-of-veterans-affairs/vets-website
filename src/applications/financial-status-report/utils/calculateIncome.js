@@ -4,6 +4,7 @@ import {
   otherDeductionsAmt,
   nameStr,
   filterReduceByName,
+  safeNumber,
 } from './helpers';
 
 // default income object
@@ -25,21 +26,19 @@ const defaultIncome = {
     name: '',
     amount: '0.00',
   },
-  totalMonthlyNetIncome: '0.00',
+  totalMonthlyNetIncome: 0,
 };
 
 // filters for deductions
 const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
-const retirementFilters = ['401K', 'IRA', 'Pension'];
+const retirementFilters = [
+  'Retirement accounts (401k, IRAs, 403b, TSP)',
+  '401K',
+  'IRA',
+  'Pension',
+];
 const socialSecFilters = ['FICA (Social Security and Medicare)'];
 const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
-
-// safeNumber will return 0 if input is null, undefined, or NaN
-const safeNumber = input => {
-  if (!input) return 0;
-  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
-  return Number.isNaN(num) ? 0 : num;
-};
 
 /**
  * Calculate the monthly income of a 'veteran' or 'spouse'
@@ -58,7 +57,7 @@ const safeNumber = input => {
  * @returns {Object} An object with the monthly income details
  */
 
-export const calculateIncome = (
+const calculateIncome = (
   enhancedFSRActive,
   employmentRecords = [],
   currEmployment = [],
@@ -106,7 +105,6 @@ export const calculateIncome = (
   const retirement = filterReduceByName(deductions, retirementFilters);
   const socialSec = filterReduceByName(deductions, socialSecFilters);
   const other = otherDeductionsAmt(deductions, allFilters);
-
   const totDeductions = taxes + retirement + socialSec + other;
   const otherIncome = addlInc + benefitsAmount + socSecAmt;
   const netIncome = grossSalary - totDeductions;
@@ -137,7 +135,7 @@ export const calculateIncome = (
  * @returns An object with veteran, spouse, and total income
  */
 
-export const getMonthlyIncome = formData => {
+const getMonthlyIncome = formData => {
   const {
     additionalIncome: {
       addlIncRecords = [],
@@ -195,3 +193,5 @@ export const getMonthlyIncome = formData => {
     totalMonthlyNetIncome,
   };
 };
+
+export { calculateIncome, getMonthlyIncome, safeNumber };

@@ -1,5 +1,9 @@
 import { range } from 'lodash';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import {
+  minYear,
+  currentYear,
+  maxYear,
+} from 'platform/forms-system/src/js/helpers';
 import { dateToMoment } from '../utilities/date';
 
 /**
@@ -54,6 +58,10 @@ function isValidYear(value) {
   return Number(value) >= minYear && Number(value) <= maxYear;
 }
 
+function isValidBirthYear(value) {
+  return Number(value) >= minYear && Number(value) <= currentYear;
+}
+
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -90,6 +98,10 @@ function isValidDate(day, month, year) {
     date.getMonth() === adjustedMonth &&
     date.getFullYear() === Number(year)
   );
+}
+
+function isValidBirthDate(day, month, year) {
+  return isValidDate(day, month, year) && isValidBirthYear(year);
 }
 
 function isNotBlankDateField(field) {
@@ -194,6 +206,13 @@ function isValidEmail(value) {
   );
 }
 
+// Checks for a zipcode of valid length; use isValidUSZipCode if you need to
+// include the zipcode + 4
+function isValidZipcode(value) {
+  const stripped = (value || '').replace(/[^\d]/g, '');
+  return stripped.length === 5;
+}
+
 // Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
 function isValidRoutingNumber(value) {
   if (/^\d{9}$/.test(value)) {
@@ -212,6 +231,19 @@ function isValidRoutingNumber(value) {
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined' && !/\S/.test(input)) {
     errors.addError('Please provide a response');
+  }
+}
+
+function validateDateOfBirth(errors, dateString) {
+  const dateArray = dateString.split('-');
+  const yearString = dateArray[0];
+  const monthString = dateArray[1];
+  const dayString = dateArray[2];
+
+  if (!isValidBirthDate(dayString, monthString, yearString)) {
+    errors.addError(
+      `Please provide a valid date of birth, with Year between ${minYear} and ${currentYear}.`,
+    );
   }
 }
 
@@ -239,6 +271,8 @@ export {
   isFullDate,
   isNotBlank,
   isNotBlankDateField,
+  isValidBirthDate,
+  isValidBirthYear,
   isValidDate,
   isValidDateRange,
   isValidEmail,
@@ -251,7 +285,9 @@ export {
   isValidRequiredField,
   isValidSSN,
   isValidValue,
+  isValidZipcode,
   validateCustomFormComponent,
+  validateDateOfBirth,
   validateIfDirty,
   validateIfDirtyDate,
   validateLength,

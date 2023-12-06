@@ -157,6 +157,15 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'dependents-count': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#dependent-count')
+            .shadow()
+            .find('input')
+            .type('2');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'dependent-ages': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#dependentAge-0')
@@ -224,7 +233,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.findAllByText(/Add vehicle/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click({ waitForAnimations: true });
         });
@@ -370,7 +379,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add a credit card bill/i, { selector: 'button' })
+          cy.findAllByText(/Continue/i, { selector: 'button' })
             .first()
             .click();
           // cy.get('.usa-button-primary').click();
@@ -433,7 +442,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10');
-          cy.findAllByText(/Add an installment contract/i, {
+          cy.findAllByText(/Continue/i, {
             selector: 'button',
           })
             .first()
@@ -452,7 +461,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Original Loan Amount: $10,000.00')
             .and('contain', 'Unpaid balance: $1,000.00')
             .and('contain', 'Minimum monthly payment amount: $100.00')
-            .and('contain', 'Date received: 2010-01-XX')
+            .and('contain', 'Date received: 01/XX/2010')
             .and('contain', 'Amount overdue: $10.00');
           cy.get('.usa-button-primary').click();
         });
@@ -485,6 +494,50 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'resolution-comments': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#resolution-comments')
+            .shadow()
+            .find('textarea')
+            .type('Some Resolution Comments . . .');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'bankruptcy-history': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#has-declared-bankruptcy').click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'enhanced-bankruptcy-history-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="date-discharged"]')
+            .shadow()
+            .find('va-select')
+            .first()
+            .shadow()
+            .find('select')
+            .select('January');
+          cy.get('[data-testid="date-discharged"]')
+            .shadow()
+            .find('va-text-input')
+            .first()
+            .shadow()
+            .find('input')
+            .type('2010');
+          cy.get('#court-location')
+            .first()
+            .shadow()
+            .find('input')
+            .type('Miami, FL');
+          cy.get('#docket-number')
+            .first()
+            .shadow()
+            .find('input')
+            .type('ABC123');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#veteran-signature')
@@ -492,8 +545,16 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`input[name="veteran-certify"]`).check();
-          cy.get(`input[name="privacy-policy"]`).check();
+          cy.get(`#veteran-certify`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
+          cy.get(`#privacy-policy`)
+            .first()
+            .shadow()
+            .find('input')
+            .check();
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

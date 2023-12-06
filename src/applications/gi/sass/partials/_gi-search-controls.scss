@@ -107,6 +107,38 @@
   width: 80%;
 }
 
+.mobile-jump-link{
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  color: $color-blue;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: underline;
+  padding: 0% !important;
+  width: fit-content;
+
+  &:hover{
+    background-color: transparent;
+    color: $color-blue;
+    text-decoration: underline;
+  }
+
+  &:visited{
+    background-color: transparent;
+    color: $color-blue;
+    text-decoration: underline;
+  }
+}
+
 .accordion-dropdown {
   border: 1px solid $color-gray;
   position: relative;

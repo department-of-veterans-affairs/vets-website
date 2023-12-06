@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import { renderWithProfileReducers } from '@@profile/tests/unit-test-helpers';
 
 import BankInfo from '@@profile/components/direct-deposit/BankInfo';
@@ -18,26 +19,18 @@ const paymentAccount = {
   financialInstitutionRoutingNumber: '*****0021',
 };
 
-const paymentAddress = {
-  type: 'DOMESTIC',
-  addressEffectiveDate: '2016-12-16T06:00:00.000+00:00',
-  addressOne: '123 MAIN ST',
-  addressTwo: '',
-  addressThree: '',
-  city: 'TAMPA',
-  stateCode: 'FL',
-  zipCode: '12345',
-  zipSuffix: '1234',
-  countryName: 'TAMPA',
-  militaryPostOfficeTypeCode: null,
-  militaryStateCode: null,
-};
-
-const emptyPaymentAccount = {
-  accountType: '',
-  financialInstitutionName: null,
-  accountNumber: '',
-  financialInstitutionRoutingNumber: '',
+const controlInformation = {
+  canUpdateDirectDeposit: true,
+  isCorpAvailable: true,
+  isCorpRecFound: true,
+  hasNoBdnPayments: true,
+  hasIdentity: true,
+  hasIndex: true,
+  isCompetent: true,
+  hasMailingAddress: true,
+  hasNoFiduciaryAssigned: true,
+  isNotDeceased: true,
+  hasPaymentAddress: true,
 };
 
 function createBasicInitialState() {
@@ -54,7 +47,7 @@ function createBasicInitialState() {
     vaProfile: {
       cnpPaymentInformation: {
         paymentAccount,
-        paymentAddress,
+        controlInformation,
       },
       cnpPaymentInformationUiState: {},
     },
@@ -68,14 +61,12 @@ function fillOutAndSubmitBankInfoForm(view) {
   const routingNumberField = view.container.querySelector(
     '#root_CNPRoutingNumber',
   );
-  const accountTypeSelect = view.container.querySelector(
-    '#root_CNPAccountType',
-  );
+  const savingsAccountRadio = view.getByLabelText('Savings');
   const submitButton = view.getByText('Save', { selector: 'button' });
 
   userEvent.type(routingNumberField, '456456456');
   userEvent.type(accountNumberField, '123123123');
-  userEvent.selectOptions(accountTypeSelect, ['Savings']);
+  userEvent.click(savingsAccountRadio);
   userEvent.click(submitButton);
 }
 
@@ -112,7 +103,11 @@ describe('DirectDepositCNP', () => {
 
   const ui = (
     <MemoryRouter>
-      <BankInfo type={benefitTypes.CNP} setFormIsDirty={() => {}} />
+      <BankInfo
+        type={benefitTypes.CNP}
+        setFormIsDirty={() => {}}
+        setViewingPayments={() => {}}
+      />
     </MemoryRouter>
   );
 
@@ -133,14 +128,11 @@ describe('DirectDepositCNP', () => {
     // nothing should be rendered
     expect(view.container.innerHTML).to.be.empty;
   });
-  describe('when bank info is not set up but payment address is', () => {
+  describe('when bank info is not set up but user is eligible', () => {
     let view;
     beforeEach(() => {
       initialState = createBasicInitialState();
-      initialState.vaProfile.cnpPaymentInformation.paymentAccount = emptyPaymentAccount;
-      // Using queries on RTL `screen` does not work for some reason. So I'm just
-      // storing the entire response from `render` as `view` so I can treat `view`
-      // like I would `screen`
+      initialState.vaProfile.cnpPaymentInformation.paymentAccount = {};
       view = renderWithProfileReducers(ui, {
         initialState,
       });
@@ -182,13 +174,16 @@ describe('DirectDepositCNP', () => {
         view.container.querySelector('#root_CNPAccountNumber'),
       );
 
+      const {
+        accountNumber,
+        accountType,
+        name,
+      } = mockDisabilityCompensations.updates.success.data.attributes.paymentAccount;
+
       // and the bank info from the mocked call should be shown
-      expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
-        .to.exist;
-      expect(view.getByText(mocks.newPaymentAccount.accountNumber)).to.exist;
-      expect(
-        view.getByText(mocks.newPaymentAccount.accountType, { exact: false }),
-      ).to.exist;
+      expect(view.getByText(accountNumber)).to.exist;
+      expect(view.getByText(name)).to.exist;
+      expect(view.getByText(accountType, { exact: false })).to.exist;
     });
   });
   describe('when bank info is already set up', () => {
@@ -218,13 +213,16 @@ describe('DirectDepositCNP', () => {
         view.container.querySelector('#root_CNPAccountNumber'),
       );
 
+      const {
+        accountNumber,
+        accountType,
+        name,
+      } = mockDisabilityCompensations.updates.success.data.attributes.paymentAccount;
+
       // and the bank info from the mocked call should be shown
-      expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
-        .to.exist;
-      expect(view.getByText(mocks.newPaymentAccount.accountNumber)).to.exist;
-      expect(
-        view.getByText(mocks.newPaymentAccount.accountType, { exact: false }),
-      ).to.exist;
+      expect(view.getByText(name)).to.exist;
+      expect(view.getByText(accountNumber)).to.exist;
+      expect(view.getByText(accountType, { exact: false })).to.exist;
     });
     it('should handle a failed attempt to update bank info', async () => {
       server.use(...mocks.updateDD4CNPFailure);
@@ -236,7 +234,7 @@ describe('DirectDepositCNP', () => {
       // wait for the error to appear
       expect(
         await view.findByText(
-          /we couldn’t update your direct deposit bank information/i,
+          /We’re sorry. We couldn’t update your payment information. Please try again later./i,
         ),
       ).to.exist;
 

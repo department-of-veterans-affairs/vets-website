@@ -1,0 +1,1449 @@
+{
+  "data": {
+    "id": "9A7AF40B2BC2471EA116891839113252",
+    "type": "afterVisitSummary",
+    "attributes": {
+      "id": "9A7AF40B2BC2471EA116891839113252",
+      "appointmentIens": [
+        "9876543"
+      ],
+      "meta": {
+        "generatedDate": "2023-07-12T07:45:11Z",
+        "timeZone": "US/Pacific"
+      },
+      "patientInfo": {
+        "smokingStatus": "Current smoker"
+      },
+      "clinicsVisited": [
+        {
+          "T": "ClinicVisited",
+          "date": "01/01/2023",
+          "time": "08:30",
+          "clinic": "Appt. - Primary Care Provider (Dr. Doc's Clinic; ACC B WING 2ND FL BRAVO)",
+          "clinicIen": "55555",
+          "provider": "DOCTER,GREAT B; NURSE,GREAT",
+          "site": "LOMA LINDA VA CLINIC",
+          "patientFriendlyName": "Appt. - Primary Care Provider",
+          "physicalLocation": "ACC B WING 2ND FL BRAVO",
+          "visitString": "13874;3230711.083;A",
+          "appointmentIen": "9876543",
+          "appointmentType": "REGULAR",
+          "resourceIen": "12345",
+          "requestIen": "6666666",
+          "status": "CHECKED OUT"
+        }
+      ],
+      "providers": [
+        "DOCTOR,GREAT B - ACOS/EDUC.",
+        "NURSE,GREAT - LVN"
+      ],
+      "reasonForVisit": [
+        {
+          "T": "Diagnosis",
+          "diagnosis": "Coronary arteriosclerosis",
+          "code": "I25.10"
+        }
+      ],
+      "diagnoses": [
+        {
+          "T": "Diagnosis",
+          "diagnosis": "Coronary arteriosclerosis",
+          "code": "I25.10"
+        },
+        {
+          "T": "Diagnosis",
+          "diagnosis": "Dyslipidemia",
+          "code": "E78.5"
+        },
+        {
+          "T": "Diagnosis",
+          "diagnosis": "Hypothyroidism",
+          "code": "E03.9"
+        },
+        {
+          "T": "Diagnosis",
+          "diagnosis": "Essential hypertension",
+          "code": "I10."
+        }
+      ],
+      "vitals": [
+        {
+          "T": "VitalSign",
+          "type": "Pulse",
+          "value": "67",
+          "date": "Jan 01, 23",
+          "qualifiers": "Lying,At Rest"
+        },
+        {
+          "T": "VitalSign",
+          "type": "Respirations",
+          "value": "18",
+          "date": "Jan 01, 23",
+          "qualifiers": ""
+        },
+        {
+          "T": "VitalSign",
+          "type": "Temperature",
+          "value": "97.3 F",
+          "date": "Jan 01, 23",
+          "qualifiers": "Temporal"
+        },
+        {
+          "T": "VitalSign",
+          "type": "Pulse Oximetry",
+          "value": "100",
+          "date": "Jan 01, 23",
+          "qualifiers": "Room Air"
+        },
+        {
+          "T": "VitalSign",
+          "type": "Height",
+          "value": "66 in",
+          "date": "Jan 01, 23",
+          "qualifiers": ""
+        },
+        {
+          "T": "VitalSign",
+          "type": "Weight",
+          "value": "156.8 lb",
+          "date": "Jan 01, 23",
+          "qualifiers": ""
+        },
+        {
+          "T": "VitalSign",
+          "type": "Blood Pressure",
+          "value": "105/60",
+          "date": "Jan 01, 23",
+          "qualifiers": ""
+        },
+        {
+          "T": "VitalSign",
+          "type": "Pain",
+          "value": "0",
+          "date": "Jan 01, 23",
+          "qualifiers": ""
+        },
+        {
+          "T": "VitalSign",
+          "type": "Body Mass Index",
+          "value": "25.36",
+          "date": "Jan 01, 23",
+          "qualifiers": ""
+        }
+      ],
+      "orders": [
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 01, 2023",
+          "text": "OCCULT BLOOD FIT X1 SCREEN STOOL FECES"
+        },
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 07, 2024",
+          "text": "HEMOGLOBIN A1C (LAB) BLOOD-LAVENDER$"
+        },
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 07, 2024",
+          "text": "LIPID PROFILE BLOOD-GOLD SERUM"
+        },
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 07, 2024",
+          "text": "HEPATIC FUNCTION PANEL  BLOOD-GOLD SERUM"
+        },
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 07, 2024",
+          "text": "CBC WITH NO DIFF BLOOD-LAVENDER$"
+        },
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 07, 2024",
+          "text": "TSH BLOOD-GOLD SERUM"
+        },
+        {
+          "T": "Order",
+          "type": "Lab Tests",
+          "date": "January 07, 2024",
+          "text": "BASIC METABOLIC PANEL (CHEM 7)  BLOOD-GOLD SERUM"
+        },
+        {
+          "T": "Order",
+          "type": "Other Orders",
+          "date": "",
+          "text": "NURSING ORDER Please give pneumococcal polysaccharide vaccine-20 (PCV20) 0.5ML IM today 90 DAYS FROM TODAY"
+        },
+        {
+          "T": "Order",
+          "type": "Other Orders",
+          "date": "",
+          "text": "PACT ALERT BRAVO\nConcern: FIT CLINICAL ALERT\nNOW\nReminder Date/Time: 14 DAYS FROM TODAY"
+        },
+        {
+          "T": "Order",
+          "type": "Consultations",
+          "date": "",
+          "text": "Test Consultation"
+        },
+        {
+          "T": "Order",
+          "type": "Imaging",
+          "date": "",
+          "text": "Test Imaging"
+        },
+        {
+          "T": "Order",
+          "type": "Medications",
+          "date": "",
+          "text": "Test Medication"
+        }
+      ],
+      "immunizations": [
+        {
+          "T": "Immunization",
+          "date": "01/01/2023",
+          "name": "COVID-19 (MODERNA), MRNA, LNP-S,*  ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "02/23/2022",
+          "name": "COVID-19 (PFIZER), MRNA, LNP-S, P* ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "12/07/2021",
+          "name": "COVID-19 (PFIZER), MRNA, LNP-S, P* ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "02/23/2021",
+          "name": "COVID-19 (PFIZER), MRNA, LNP-S, P* ",
+          "facility": "CVS MINUTE*"
+        },
+        {
+          "T": "Immunization",
+          "date": "02/02/2021",
+          "name": "COVID-19 (PFIZER), MRNA, LNP-S, P* ",
+          "facility": "CVS MINUTE*"
+        },
+        {
+          "T": "Immunization",
+          "date": "02/07/2020",
+          "name": "INFLUENZA, INJECTABLE, QUADRIVALE* ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "12/20/2017",
+          "name": "INFLUENZA, INJECTABLE, QUADRIVALE* ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "10/01/2022",
+          "name": "INFLUENZA, UNSPECIFIED FORMULATIO* ",
+          "facility": "Kaiser     "
+        },
+        {
+          "T": "Immunization",
+          "date": "11/21/2021",
+          "name": "INFLUENZA, UNSPECIFIED FORMULATIO* ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "12/18/2015",
+          "name": "INFLUENZA, UNSPECIFIED FORMULATIO* ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "11/04/2014",
+          "name": "INFLUENZA, UNSPECIFIED FORMULATIO* ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "09/24/2012",
+          "name": "INFLUENZA, UNSPECIFIED FORMULATIO* ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "10/04/2000",
+          "name": "INFLUENZA, WHOLE                   ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "07/11/2023",
+          "name": "PNEUMOCOCCAL CONJUGATE PCV20, POL* ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "12/20/2017",
+          "name": "PNEUMOCOCCAL POLYSACCHARIDE PPV23  ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "09/24/2012",
+          "name": "PNEUMOCOCCAL, UNSPECIFIED FORMULA* ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "09/24/2012",
+          "name": "PNEUMOVACCINE PAST VISIT (HISTORI* ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "00/00/1998",
+          "name": "TD(ADULT) UNSPECIFIED FORMULATION  ",
+          "facility": "outside    "
+        },
+        {
+          "T": "Immunization",
+          "date": "11/04/2014",
+          "name": "TDAP                               ",
+          "facility": "LOMA LINDA*"
+        },
+        {
+          "T": "Immunization",
+          "date": "02/14/2022",
+          "name": "ZOSTER RECOMBINANT                 ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "12/10/2021",
+          "name": "ZOSTER RECOMBINANT                 ",
+          "facility": "KAISER FOU*"
+        },
+        {
+          "T": "Immunization",
+          "date": "10/29/1999",
+          "name": "INFLUENZA, UNSPECIFIED FORMULATIO* ",
+          "facility": "WEST PALM *"
+        },
+        {
+          "T": "Immunization",
+          "date": "08/07/1998",
+          "name": "PNEUMOCOCCAL, UNSPECIFIED FORMULA* ",
+          "facility": "WEST PALM *"
+        },
+        {
+          "T": "Immunization",
+          "date": "12/08/1998",
+          "name": "TD(ADULT) UNSPECIFIED FORMULATION  ",
+          "facility": "No Site    "
+        },
+        {
+          "T": "Immunization",
+          "date": "12/08/1998",
+          "name": "TETANUS TOXOID, UNSPECIFIED FORMU* ",
+          "facility": "WEST PALM *"
+        }
+      ],
+      "appointments": [
+        {
+          "T": "Appointment",
+          "site": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "location": "LOM ACC VVC MH GREEN MD 2",
+          "datetime": "01/01/2024@10:00",
+          "fmDatetime": 3230909.143,
+          "type": "Scheduled",
+          "physicalLocation": "VETERANS LOCATION VIDEO "
+        },
+        {
+          "T": "Appointment",
+          "site": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "location": "TEST CLINIC",
+          "datetime": "03/15/2024@10:00",
+          "fmDatetime": 3230909.143,
+          "type": "Recall",
+          "physicalLocation": "VETERANS LOCATION VIDEO "
+        }
+      ],
+      "patientInstructions": "Recommend acetaminophen 500 mg, take 1000 mg 3 times daily not to exceed<br>3000 mg per day.<br>Recommend acetaminophen 500 mg, take 1000 mg 3 times daily not to exceed<br>3000 mg per day.<br>",
+      "patientEducation": "None",
+      "primaryCareProviders": [
+        "DOCTOR,GREAT B",
+        "PROVIDER,ONE",
+        "NURSE,GREAT",
+        "PROVIDER,TWO",
+        "PROVIDER,THREE",
+        "PROVIDER,FOUR",
+        "PROVIDER,FIVE",
+        "PROVIDER,SIX"
+      ],
+      "primaryCareTeam": "MH ACC BHIP GREEN",
+      "primaryCareTeamMembers": [
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "DOCTOR, GREAT B",
+          "title": "PHYSICIAN"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "PROVIDER, ONE",
+          "title": "REGISTERED NURSE (RN)"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "NURSE, GREAT",
+          "title": "LICENSED PRACTICAL NURSE (LPN)"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "PROVIDER, TWO",
+          "title": "DIETITIAN"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "PROVIDER, THREE",
+          "title": "MEDICAL SUPPORT ASSISTANT"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "PROVIDER, FOUR",
+          "title": "LICENSED PRACTICAL NURSE (LPN)"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "PROVIDER, FIVE",
+          "title": "REGISTERED NURSE (RN)"
+        },
+        {
+          "T": "PrimaryCareTeamMember",
+          "name": "PROVIDER, SIX",
+          "title": "CLINICAL PHARMACIST"
+        }
+      ],
+      "allergiesReactions": {
+        "T": "AllergiesReactions",
+        "allergies": [
+          {
+            "T": "Allergy",
+            "allergen": "BANANAS",
+            "reactions": [
+              ""
+            ],
+            "severity": "",
+            "site": "LOMA LINDA VA CLINIC",
+            "stationNo": "605",
+            "type": "",
+            "verifiedDate": "06/24/2020"
+          },
+          {
+            "T": "Allergy",
+            "allergen": "SIMVASTATIN",
+            "reactions": [
+              "myopathy"
+            ],
+            "severity": "",
+            "site": "WEST PALM BEACH VAMC",
+            "stationNo": "548",
+            "type": "Drug",
+            "verifiedDate": "06/10/1999"
+          }
+        ],
+        "noKnownAllergies": false,
+        "noAllergyAssessment": false
+      },
+      "vaMedications": [
+        {
+          "T": "RemoteMedication",
+          "name": "Atorvastatin Calcium 20mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH DAILY FOR HIGH CHOLESTEROL ",
+          "source": "VA",
+          "totalNumRefills": 3,
+          "refillsRemaining": 3,
+          "dateExpires": "Jan 4, 2024",
+          "dateLastReleased": "Mar 4, 2023",
+          "fmDateLastReleased": 3230225,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "ndc": "51407007990",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 90,
+          "daysSupply": 90,
+          "orderingProvider": "DOCTOR, GREAT B",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "1111111",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230103
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Lisinopril 10mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH DAILY FOR BLOOD PRESSURE CONTROL AND HEART  PROTECTION ",
+          "source": "VA",
+          "totalNumRefills": 3,
+          "refillsRemaining": 3,
+          "dateExpires": "Jan 4, 2024",
+          "dateLastReleased": "Mar 4, 2023",
+          "fmDateLastReleased": 3230225,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "description": "round, red, imprinted with IG, 419",
+          "ndc": "76282041990",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 90,
+          "daysSupply": 90,
+          "orderingProvider": "DOCTOR, GREAT B",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "22222222A",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230103
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Levothyroxine Na (Synthroid) 50mcg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH EVERY MORNING BEFORE MEAL FOR THYROID ",
+          "source": "VA",
+          "totalNumRefills": 3,
+          "refillsRemaining": 3,
+          "dateExpires": "Jan 4, 2024",
+          "dateLastReleased": "Jan 3, 2023",
+          "fmDateLastReleased": 3230104,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "description": "round, white, imprinted with SYNTHROID, 50",
+          "ndc": "00074455219",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 90,
+          "daysSupply": 90,
+          "orderingProvider": "DOCTOR, GREAT B",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "33333333",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230103
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Lurasidone Hcl 40mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE-HALF TABLET BY MOUTH DAILY IN THE MORNING WITH FOOD FOR MOOD  *FOLLOW UP WITH MENTAL HEALTH/PSYCHIATRY FOR MONITORING AND RENEWAL* ",
+          "source": "VA",
+          "totalNumRefills": 2,
+          "refillsRemaining": 2,
+          "dateExpires": "Apr 27, 2024",
+          "dateLastReleased": "Jul 7, 2023",
+          "fmDateLastReleased": 3230629,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "description": "round, white, imprinted with L,40",
+          "ndc": "63402030430",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 45,
+          "daysSupply": 90,
+          "orderingProvider": "PROVIDER, TWO",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "4444444A",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230427
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Trazodone Hcl 100mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE TWO TABLETS BY MOUTH AT BEDTIME FOR SLEEP / MONITOR BLOOD  PRESSURE ",
+          "source": "VA",
+          "totalNumRefills": 2,
+          "refillsRemaining": 2,
+          "dateExpires": "Apr 27, 2024",
+          "dateLastReleased": "Jul 7, 2023",
+          "fmDateLastReleased": 3230629,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "ndc": "71610053080",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 180,
+          "daysSupply": 90,
+          "orderingProvider": "PROVIDER, TWO",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "555555555",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230427
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Hydroxyzine Hcl 10mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH TWICE A DAY FOR ANXIETY Indication: FOR ANXIETY ",
+          "source": "VA",
+          "totalNumRefills": 1,
+          "refillsRemaining": 0,
+          "dateExpires": "Apr 27, 2024",
+          "dateLastReleased": "Jul 16, 2023",
+          "fmDateLastReleased": 3230429,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "ndc": "42806015905",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 180,
+          "daysSupply": 90,
+          "orderingProvider": "PROVIDER, TWO",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "667666666",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230427
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Lamotrigine 150mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH TWICE A DAY FOR MOOD ",
+          "source": "VA",
+          "totalNumRefills": 2,
+          "refillsRemaining": 0,
+          "dateExpires": "Oct 21, 2023",
+          "dateLastReleased": "Jun 16, 2023",
+          "fmDateLastReleased": 3221111,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "ndc": "42291036860",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 180,
+          "daysSupply": 90,
+          "orderingProvider": "PROVIDER, TWO",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "77777777",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3221020
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Metoprolol Tartrate 25mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE-HALF TABLET BY MOUTH TWICE A DAY FOR BLOOD PRESSURE AND HEART  RATE CONTROL ",
+          "source": "VA",
+          "totalNumRefills": 3,
+          "refillsRemaining": 2,
+          "dateExpires": "Jan 4, 2024",
+          "dateLastReleased": "May 23, 2023",
+          "fmDateLastReleased": 3230225,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "ndc": "71610055660",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 90,
+          "daysSupply": 90,
+          "orderingProvider": "DOCTOR, GREAT B",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "88888888",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230103
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Donepezil Hcl 10mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH DAILY FOR MEMORY ** TAKE AFTER A MEAL ** Indication: FOR MEMORY  ",
+          "source": "VA",
+          "totalNumRefills": 3,
+          "refillsRemaining": 1,
+          "dateExpires": "Apr 27, 2024",
+          "dateLastReleased": "Jun 22, 2023",
+          "fmDateLastReleased": 3230429,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "ndc": "60429032230",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 30,
+          "daysSupply": 30,
+          "orderingProvider": "PROVIDER, TWO",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "999999X",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230427
+        },
+        {
+          "T": "RemoteMedication",
+          "name": "Sertraline Hcl 25mg Tab",
+          "type": "Outpatient",
+          "sig": "TAKE ONE TABLET BY MOUTH EVERY MORNING FOR DEPRESSED MOOD Indication: FOR DEPRESSED MOOD ",
+          "source": "VA",
+          "totalNumRefills": 1,
+          "refillsRemaining": 0,
+          "dateExpires": "Apr 27, 2024",
+          "dateLastReleased": "Jul 16, 2023",
+          "fmDateLastReleased": 3230429,
+          "stationName": "LOMA LINDA VA CLINIC",
+          "stationNo": "605",
+          "description": "oval, green, imprinted with I,G, 212",
+          "ndc": "76282021205",
+          "statusIen": "0",
+          "status": "Active",
+          "fmDiscontinuedDate": 0,
+          "quantity": 90,
+          "daysSupply": 90,
+          "orderingProvider": "PROVIDER, TWO",
+          "fillingPharmacy": "LOMA LINDA PHARMACY",
+          "facilityPhone": "909-777-3259",
+          "rxNumber": "100000000A",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "fmIssueDate": 3230427
+        }
+      ],
+      "labResults": [
+        {
+          "T": "LabTest",
+          "specimen": "BLOOD",
+          "collectionDatetime": "July 10 2023 06:46",
+          "performingLab": "LOMA LINDA HCS ",
+          "orderingProvider": "DOCTOR, GREAT B",
+          "values": [
+            {
+              "T": "LabValue",
+              "test": "RET-He",
+              "result": "35.7",
+              "units": "pg",
+              "flag": "",
+              "refRange": "28.20 - 36.60"
+            },
+            {
+              "T": "LabValue",
+              "test": "WBC",
+              "result": "7.73",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "4.00 - 10.00"
+            },
+            {
+              "T": "LabValue",
+              "test": "RBC",
+              "result": "5.37",
+              "units": "TRIL/L",
+              "flag": "",
+              "refRange": "4.40 - 5.70"
+            },
+            {
+              "T": "LabValue",
+              "test": "HGB",
+              "result": "17.0",
+              "units": "g/dL",
+              "flag": "",
+              "refRange": "13.5 - 17.5"
+            },
+            {
+              "T": "LabValue",
+              "test": "HCT",
+              "result": "48.5",
+              "units": "%",
+              "flag": "",
+              "refRange": "40.0 - 53.0"
+            },
+            {
+              "T": "LabValue",
+              "test": "MCV",
+              "result": "90.3",
+              "units": "fL",
+              "flag": "",
+              "refRange": "80.0 - 100.0"
+            },
+            {
+              "T": "LabValue",
+              "test": "MCH",
+              "result": "31.7",
+              "units": "pg",
+              "flag": "",
+              "refRange": "27.6 - 33.3"
+            },
+            {
+              "T": "LabValue",
+              "test": "MCHC",
+              "result": "35.1",
+              "units": "g/dL",
+              "flag": "H",
+              "refRange": "32.0 - 35.0"
+            },
+            {
+              "T": "LabValue",
+              "test": "RDW-SD",
+              "result": "38.5",
+              "units": "fl",
+              "flag": "",
+              "refRange": "35.1 - 43.9"
+            },
+            {
+              "T": "LabValue",
+              "test": "PLT",
+              "result": "176",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "150 - 450"
+            },
+            {
+              "T": "LabValue",
+              "test": "MPV",
+              "result": "11.4",
+              "units": "fl",
+              "flag": "H",
+              "refRange": "7.8 - 11.0"
+            },
+            {
+              "T": "LabValue",
+              "test": "Neutrophils (AUTO)",
+              "result": "4.26",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "2.50 - 7.00"
+            },
+            {
+              "T": "LabValue",
+              "test": "Lymphocytes (AUTO)",
+              "result": "2.35",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "0.90 - 3.00"
+            },
+            {
+              "T": "LabValue",
+              "test": "Monocytes (AUTO)",
+              "result": "0.75",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "0.20 - 1.00"
+            },
+            {
+              "T": "LabValue",
+              "test": "Eosinophils (AUTO)",
+              "result": "0.26",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "0.00 - 0.50"
+            },
+            {
+              "T": "LabValue",
+              "test": "Basophils (AUTO)",
+              "result": "0.06",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "0.00 - 0.10"
+            },
+            {
+              "T": "LabValue",
+              "test": "IG (AUTO)",
+              "result": "0.05",
+              "units": "BILL/L",
+              "flag": "H",
+              "refRange": "0.00 - 0.03"
+            },
+            {
+              "T": "LabValue",
+              "test": "NRBC (AUTO)",
+              "result": "0.00",
+              "units": "BILL/L",
+              "flag": "",
+              "refRange": "0.00 - 0.01"
+            },
+            {
+              "T": "LabValue",
+              "test": "RETIC %",
+              "result": "1.38",
+              "units": "%",
+              "flag": "",
+              "refRange": "0.60 - 2.60"
+            },
+            {
+              "T": "LabValue",
+              "test": "RETIC (ABS)",
+              "result": "0.07",
+              "units": "M/uL",
+              "flag": "L",
+              "refRange": "0.60 - 2.60"
+            },
+            {
+              "T": "LabValue",
+              "test": "IRF%",
+              "result": "5.9",
+              "units": "%",
+              "flag": "",
+              "refRange": "2.3 - 15.9"
+            }
+          ]
+        },
+        {
+          "T": "LabTest",
+          "specimen": "SERUM",
+          "collectionDatetime": "July 10 2023 06:46",
+          "performingLab": "LOMA LINDA HCS ",
+          "orderingProvider": "DOCTOR, GREAT B",
+          "values": [
+            {
+              "T": "LabValue",
+              "test": "SODIUM",
+              "result": "125",
+              "units": "mMol/L",
+              "flag": "L",
+              "refRange": "136 - 144"
+            },
+            {
+              "T": "LabValue",
+              "test": "POTASSIUM",
+              "result": "4.6",
+              "units": "mMol/L",
+              "flag": "",
+              "refRange": "3.6 - 5.1"
+            },
+            {
+              "T": "LabValue",
+              "test": "CHLORIDE",
+              "result": "91",
+              "units": "mMol/L",
+              "flag": "L",
+              "refRange": "101 - 111"
+            },
+            {
+              "T": "LabValue",
+              "test": "CO2",
+              "result": "23.0",
+              "units": "mMol/L",
+              "flag": "",
+              "refRange": "22 - 32"
+            },
+            {
+              "T": "LabValue",
+              "test": "UREA NITROGEN",
+              "result": "10",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "8 - 20"
+            },
+            {
+              "T": "LabValue",
+              "test": "CREATININE",
+              "result": "1.20",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": ".64 - 1.27"
+            },
+            {
+              "T": "LabValue",
+              "test": "eGFR",
+              "result": ">60",
+              "units": "mL/min",
+              "flag": "",
+              "refRange": "Ref: >=60"
+            },
+            {
+              "T": "LabValue",
+              "test": "GLUCOSE",
+              "result": "102",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "74 - 118"
+            },
+            {
+              "T": "LabValue",
+              "test": "CALCIUM",
+              "result": "10.4",
+              "units": "mg/dL",
+              "flag": "H",
+              "refRange": "8.9 - 10.3"
+            },
+            {
+              "T": "LabValue",
+              "test": "ALBUMIN",
+              "result": "4.7",
+              "units": "gm/dL",
+              "flag": "",
+              "refRange": "3.5 - 4.8"
+            },
+            {
+              "T": "LabValue",
+              "test": "TOT. BILIRUBIN",
+              "result": "0.8",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "0.2 - 1.2"
+            },
+            {
+              "T": "LabValue",
+              "test": "DIR. BILIRUBIN",
+              "result": "0.20",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "0.1 - 0.5"
+            },
+            {
+              "T": "LabValue",
+              "test": "ALKALINE PHOSPHATASE",
+              "result": "82",
+              "units": "IU/L",
+              "flag": "",
+              "refRange": "32 - 91"
+            },
+            {
+              "T": "LabValue",
+              "test": "ALT ",
+              "result": "31",
+              "units": "IU/L",
+              "flag": "",
+              "refRange": "17 - 63"
+            },
+            {
+              "T": "LabValue",
+              "test": "AST ",
+              "result": "29",
+              "units": "IU/L",
+              "flag": "",
+              "refRange": "15 - 41"
+            },
+            {
+              "T": "LabValue",
+              "test": "CHOLESTEROL",
+              "result": "128",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "0 - 200"
+            },
+            {
+              "T": "LabValue",
+              "test": "TRIGLYCERIDES",
+              "result": "117",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "0 - 150"
+            },
+            {
+              "T": "LabValue",
+              "test": "HDL CHOLESTEROL",
+              "result": "52",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "40 - 60"
+            },
+            {
+              "T": "LabValue",
+              "test": "CALC LDL CHOL",
+              "result": "53.0",
+              "units": "mg/dL",
+              "flag": "",
+              "refRange": "0 - 100"
+            },
+            {
+              "T": "LabValue",
+              "test": "HDL RISK FACTOR",
+              "result": "2.5",
+              "units": "",
+              "flag": "L",
+              "refRange": "4.0 - 6.7"
+            },
+            {
+              "T": "LabValue",
+              "test": "AGAP (UI)",
+              "result": "11.0",
+              "units": " ",
+              "flag": "",
+              "refRange": "3 - 11"
+            },
+            {
+              "T": "LabValue",
+              "test": "PROTEIN TOTAL",
+              "result": "7.3",
+              "units": "gm/dL",
+              "flag": "",
+              "refRange": "6.1 - 7.9"
+            }
+          ]
+        }
+      ],
+      "radiologyReports1Yr": "                                  \nDate        Procedure                         CPT   Status      Case #\n02/09/2023  LDCT-LUNG CANCER SCREENING        71271 Verified    1762\n            Unchanged benign-appearing pulmonary nodules.  \n             \n            LUNG-RADS: 2: Benign \n             \n            RECOMMENDATION: One year follow-up low dose CT, if patient meets \n            screening criteria.  \n             \n             \n            LUNG-RADS MODIFIER: N/A   \n             \n            OTHER SIGNIFICANT FINDINGS AND RECOMMENDATIONS: None significant. \n             \n             \n            \n\n",
+      "problems": [
+        {
+          "dfn": "237",
+          "ien": "1179",
+          "status": "A",
+          "description": "Diabetes (ICD-9-CM 250.00)",
+          "code": "250.00",
+          "onsetDateStr": "06/11/2023",
+          "onsetDate": "Sun Jun 11 00:00:00 PDT 2023",
+          "lastUpdatedStr": "06/11/2023",
+          "lastUpdated": "Sun Jun 11 00:00:00 PDT 2023",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 0,
+          "location": "",
+          "locationType": "",
+          "providerIen": "983",
+          "provider": "PROVIDER,ONE",
+          "serviceIen": "2",
+          "service": "MEDICINE",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "1178",
+          "status": "A",
+          "description": "Diabetes (ICD-9-CM 250.00)",
+          "code": "250.00",
+          "onsetDateStr": "06/10/2023",
+          "onsetDate": "Sat Jun 10 00:00:00 PDT 2023",
+          "lastUpdatedStr": "06/10/2023",
+          "lastUpdated": "Sat Jun 10 00:00:00 PDT 2023",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 0,
+          "location": "",
+          "locationType": "",
+          "providerIen": "983",
+          "provider": "PROVIDER,ONE",
+          "serviceIen": "2",
+          "service": "MEDICINE",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "1134",
+          "status": "A",
+          "description": "Diabetes Mellitus Type 1 (SCT 46635009)",
+          "code": "E10.9",
+          "onsetDateStr": "",
+          "onsetDate": null,
+          "lastUpdatedStr": "04/10/2023",
+          "lastUpdated": "Mon Apr 10 00:00:00 PDT 2023",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 195,
+          "location": "CARDIOLOGY",
+          "locationType": "C",
+          "providerIen": "983",
+          "provider": "PROVIDER,ONE",
+          "serviceIen": "",
+          "service": "",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "317",
+          "status": "A",
+          "description": "Chronic systolic heart failure (SCT 441481004)",
+          "code": "I50.23",
+          "onsetDateStr": "03/09/2004",
+          "onsetDate": "Tue Mar 09 00:00:00 PST 2004",
+          "lastUpdatedStr": "01/23/2022",
+          "lastUpdated": "Sun Jan 23 00:00:00 PST 2022",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 23,
+          "location": "GENERAL MEDICINE",
+          "locationType": "C",
+          "providerIen": "983",
+          "provider": "PROVIDER,ONE",
+          "serviceIen": "",
+          "service": "",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "651",
+          "status": "A",
+          "description": "Hypertension (SCT 38341003)",
+          "code": "R03.0",
+          "onsetDateStr": "04/07/2005",
+          "onsetDate": "Thu Apr 07 00:00:00 PDT 2005",
+          "lastUpdatedStr": "01/20/2022",
+          "lastUpdated": "Thu Jan 20 00:00:00 PST 2022",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 0,
+          "location": "",
+          "locationType": "",
+          "providerIen": "983",
+          "provider": "PROVIDER,ONE",
+          "serviceIen": "1018",
+          "service": "MEDICAL",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "965",
+          "status": "A",
+          "description": "Essential hypertension (SCT 59621000)",
+          "code": "R03.1",
+          "onsetDateStr": "",
+          "onsetDate": null,
+          "lastUpdatedStr": "01/18/2022",
+          "lastUpdated": "Tue Jan 18 00:00:00 PST 2022",
+          "scStatus": "",
+          "scConditions": "",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 23,
+          "location": "GENERAL MEDICINE",
+          "locationType": "C",
+          "providerIen": "983",
+          "provider": "PROVIDER,ONE",
+          "serviceIen": "",
+          "service": "",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "771",
+          "status": "A",
+          "description": "Hyperlipidemia (ICD-9-CM 272.4)",
+          "code": "272.4",
+          "onsetDateStr": "04/07/2005",
+          "onsetDate": "Thu Apr 07 00:00:00 PDT 2005",
+          "lastUpdatedStr": "04/10/2007",
+          "lastUpdated": "Tue Apr 10 00:00:00 PDT 2007",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 0,
+          "location": "",
+          "locationType": "",
+          "providerIen": "10000000031",
+          "provider": "VEHU,ONEHUNDRED",
+          "serviceIen": "1018",
+          "service": "MEDICAL",
+          "version": "A      ",
+          "comments": null
+        },
+        {
+          "dfn": "237",
+          "ien": "512",
+          "status": "A",
+          "description": "Acute myocardial infarction, unspecified site, episode of care unspecified (ICD-9-CM 410.90)",
+          "code": "410.90",
+          "onsetDateStr": "03/17/2005",
+          "onsetDate": "Thu Mar 17 00:00:00 PST 2005",
+          "lastUpdatedStr": "03/19/2005",
+          "lastUpdated": "Sat Mar 19 00:00:00 PST 2005",
+          "scStatus": "NSC",
+          "scConditions": "NSC",
+          "detailRpc": "",
+          "transcribed": false,
+          "locationIen": 23,
+          "location": "GENERAL MEDICINE",
+          "locationType": "C",
+          "providerIen": "20001",
+          "provider": "VEHU,ONE",
+          "serviceIen": "",
+          "service": "",
+          "version": "A      ",
+          "comments": null
+        }
+      ],
+      "discreteData": {
+        "temp": [
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:23:54",
+            "fmDate": 3230103.082354,
+            "value": "99.1"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:10:36",
+            "fmDate": 3230711.081036,
+            "value": "97.3"
+          }
+        ],
+        "pulseox": [
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:23:54",
+            "fmDate": 3230103.082354,
+            "value": "100"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:10:36",
+            "fmDate": 3230711.081036,
+            "value": "100"
+          }
+        ],
+        "wgt": [
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:23:54",
+            "fmDate": 3230103.082354,
+            "value": "160.5"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:10:36",
+            "fmDate": 3230711.081036,
+            "value": "156.8"
+          }
+        ],
+        "bmi": [
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:23:54",
+            "fmDate": 3230103.082354,
+            "value": "25.96"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:10:36",
+            "fmDate": 3230711.081036,
+            "value": "25.36"
+          }
+        ],
+        "pulse": [
+          {
+            "T": "DiscreteItem",
+            "datetime": "07/05/2022@08:26:09",
+            "fmDate": 3220705.082609,
+            "value": "60"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/03/2023@08:23:54",
+            "fmDate": 3230103.082354,
+            "value": "71"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:10:36",
+            "fmDate": 3230711.081036,
+            "value": "67"
+          }
+        ],
+        "bp": [
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2022@08:26:09",
+            "fmDate": 3220705.082609,
+            "value": "132/84"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:23:54",
+            "fmDate": 3230103.082354,
+            "value": "136/61"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:10:36",
+            "fmDate": 3230711.081036,
+            "value": "102/58"
+          },
+          {
+            "T": "DiscreteItem",
+            "datetime": "01/01/2023@08:12:00",
+            "fmDate": 3230711.0812,
+            "value": "105/60"
+          }
+        ]
+      },
+      "clinicalReminders": [
+        {
+          "ien": "500047",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Hepatitis C risk Factor Screening",
+          "frequency": " Due every 3 years for all ages."
+        },
+        {
+          "ien": "500062",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Primary Care Depression Screening",
+          "frequency": " Due every 1 year for all ages."
+        },
+        {
+          "ien": "55",
+          "whenDue": "DUE NOW",
+          "lastOccurrence": "",
+          "name": "Suicide Hotline",
+          "frequency": " Due every 1 year for all ages."
+        }
+      ],
+      "pharmacyTerms": [
+        {
+          "type": "status",
+          "term": "ACTIVE",
+          "aka": "\"Prescription Status: Active\"",
+          "explanation": "A prescription that can be filled at the local VA pharmacy.",
+          "patientActions": "If you have refills, you may request a refill of this prescription from your VA pharmacy."
+        },
+        {
+          "type": "status",
+          "term": "NON-VA",
+          "aka": "",
+          "explanation": "A medication that came from someplace other than a VA pharmacy. This may be a prescription from either the VA or other providers that was filled outside the VA. Or, it may be a over the counter (OTC), herbal, dietary supplement, or sample medication.",
+          "patientActions": "If this medication information is incorrect or out of date, please tell your VA healthcare team."
+        }
+      ],
+      "moreHelpAndInformation": "This information is meant to provide a summary of your appointment with your health care provider.  If you have any questions about your care including test results, medications, diagnoses or other concerns, please contact your health care provider.  <b>Please bring this form to your next visit as a record of your \nmedications and alert your provider to any changes in your medications</b>.\n\n<br><br>\n<ul><li>To contact your primary care provider, please call {local facility number} or {800 number) and follow the prompts to the Module where your primary care provider is located.  </li><li></li><li>To refill a prescription, please call {rx line} or visit www.myhealth.va.gov.  </li><li></li><li>For care on evenings and weekends, please call 24 hour Telephone Care at 1-877-252-4866</li></ul>Access health resources.  Track your health.  Refill VA prescriptions.\nVisit <strong>www.myhealth.va.gov</strong>!  Ask your health care team about in-person authentication and begin ordering medications and viewing appointments through MyHealtheVet.  After completing in-person authentication, click on \"Secure Messaging\" in MyHealtheVet and select \"I would like to opt in to secure messaging\" in order to send email messages to your providers.\n<br><br>\nYou may receive a paper survey in the mail. Our goal is to receive a 9, 10 or Always, if you did not receive that level of care, please give us an opportunity to hear your concerns on our customer service line (909) 583-6133. We make every effort to respond to your call within one business day."
+    }
+  }
+}

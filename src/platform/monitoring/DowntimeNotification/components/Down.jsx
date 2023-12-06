@@ -2,12 +2,8 @@ import React from 'react';
 
 // eslint-disable-next-line no-unused-vars
 export function DownMessaging({ endTime, appTitle }) {
-  return (
-    <p>
-      We’re making some updates to the {appTitle}. We’re sorry it’s not working
-      right now. Please check back soon.
-    </p>
-  );
+  return `We’re making some updates to the ${appTitle}. We’re sorry it’s not working
+  right now. Please check back soon.`;
 }
 
 export default function Down() {

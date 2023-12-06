@@ -1,26 +1,41 @@
 import {
-  resolutionExplainer,
   resolutionOption,
   resolutionComment,
   resolutionWaiverAgreement,
-  resolutionComments,
 } from '../../pages';
+
+import {
+  isStreamlinedLongForm,
+  isStreamlinedShortForm,
+} from '../../utils/streamlinedDepends';
+
+import ResolutionExplainerWidget from '../../components/resolution/ResolutionExplainerWidget';
+import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
+import ResolutionComments from '../../components/resolution/ResolutionComments';
+import ResolutionCommentsReview from '../../components/resolution/ResolutionCommentsReview';
 
 export default {
   resolutionOptionsChapter: {
     title: 'Repayment or relief options',
+    depends: formData =>
+      !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
     pages: {
       optionExplainer: {
         path: 'option-explainer',
         title: 'Resolution Option Explainer',
-        uiSchema: resolutionExplainer.uiSchema,
-        schema: resolutionExplainer.schema,
+        CustomPage: ResolutionExplainerWidget,
+        CustomPageReview: ResolutionExplainerReview,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        depends: formData =>
+          !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
       resolutionOption: {
         title: 'Resolution Option',
-        depends: formData => {
-          return formData.selectedDebtsAndCopays?.length > 0;
-        },
+        depends: formData =>
+          formData.selectedDebtsAndCopays?.length > 0 &&
+          !isStreamlinedShortForm(formData) &&
+          !isStreamlinedLongForm(formData),
         path: 'resolution-option/:index',
         showPagePerItem: true,
         arrayPath: 'selectedDebtsAndCopays',
@@ -29,7 +44,10 @@ export default {
       },
       resolutionComment: {
         title: 'Resolution Amount',
-        depends: formData => formData.selectedDebtsAndCopays?.length > 0,
+        depends: formData =>
+          formData.selectedDebtsAndCopays?.length > 0 &&
+          !isStreamlinedShortForm(formData) &&
+          !isStreamlinedLongForm(formData),
         itemFilter: item => item.resolutionOption !== 'waiver',
         path: 'resolution-comment/:index',
         showPagePerItem: true,
@@ -39,7 +57,10 @@ export default {
       },
       resolutionWaiverCheck: {
         title: 'Resolution Waiver Agreement',
-        depends: formData => formData.selectedDebtsAndCopays?.length > 0,
+        depends: formData =>
+          formData.selectedDebtsAndCopays?.length > 0 &&
+          !isStreamlinedShortForm(formData) &&
+          !isStreamlinedLongForm(formData),
         itemFilter: item => item.resolutionOption === 'waiver',
         path: 'resolution-waiver-agreement/:index',
         showPagePerItem: true,
@@ -50,8 +71,12 @@ export default {
       resolutionComments: {
         path: 'resolution-comments',
         title: 'Resolution comments',
-        uiSchema: resolutionComments.uiSchema,
-        schema: resolutionComments.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: ResolutionComments,
+        CustomPageReview: ResolutionCommentsReview,
+        depends: formData =>
+          !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
     },
   },

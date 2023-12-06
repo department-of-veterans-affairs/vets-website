@@ -5,24 +5,24 @@ import VitalListItem from './VitalListItem';
 import ConditionListItem from './ConditionListItem';
 import LabsAndTestsListItem from './LabsAndTestsListItem';
 import CareSummariesAndNotesListItem from './CareSummariesAndNotesListItem';
-import { RecordType } from '../../util/constants';
+import { recordType } from '../../util/constants';
 import AllergyListItem from './AllergyListItem';
 
 const RecordListItem = props => {
   const { record, type } = props;
 
   switch (type) {
-    case RecordType.LABS_AND_TESTS:
+    case recordType.LABS_AND_TESTS:
       return <LabsAndTestsListItem record={record} />;
-    case RecordType.CARE_SUMMARIES_AND_NOTES:
+    case recordType.CARE_SUMMARIES_AND_NOTES:
       return <CareSummariesAndNotesListItem record={record} />;
-    case RecordType.VACCINES:
+    case recordType.VACCINES:
       return <VaccinesListItem record={record} />;
-    case RecordType.VITALS:
+    case recordType.VITALS:
       return <VitalListItem record={record} />;
-    case RecordType.HEALTH_CONDITIONS:
+    case recordType.HEALTH_CONDITIONS:
       return <ConditionListItem record={record} />;
-    case RecordType.ALLERGIES:
+    case recordType.ALLERGIES:
       return <AllergyListItem record={record} />;
     default:
       return <p>Something went wrong, please try again.</p>;

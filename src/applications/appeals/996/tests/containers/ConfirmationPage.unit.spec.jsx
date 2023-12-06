@@ -4,10 +4,11 @@ import { mount } from 'enzyme';
 import moment from 'moment';
 
 import formConfig from '../../config/form';
-import initialData from '../schema/initialData';
+import initialData from '../initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { WIZARD_STATUS, SELECTED, SAVED_CLAIM_TYPE } from '../../constants';
+import { WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 
 const data = {
   user: {
@@ -55,6 +56,7 @@ describe('Confirmation page', () => {
   it('should render the confirmation page', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree).not.to.be.undefined;
+    expect(tree.find('.vads-c-action-link--green').length).to.eq(1);
     tree.unmount();
   });
   it('should render the user name', () => {
