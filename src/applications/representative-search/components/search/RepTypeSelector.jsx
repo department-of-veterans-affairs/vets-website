@@ -9,18 +9,18 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
 
   return (
     <>
-      <div className="vads-u-margin-top--3">
+      <div className="vads-u-margin-top--3 rep-type-radio-group">
         <VaRadio
           error={null}
           header-aria-describedby="Select your Representative type:"
           hint=""
-          label="Type of representative"
+          label="Type of accredited representative"
           required
           label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
         >
           <va-radio-option
-            label="Veteran Service Organization (VSO)"
+            label="Veteran Service Organization"
             name="group"
             value="organization"
             checked={representativeType === 'organization'}
@@ -36,7 +36,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             vaValueChange={handleRadioButtonSelect}
           />
           <va-radio-option
-            label="Claims Agent"
+            label="Claims agent"
             name="group"
             value="claim_agents"
             checked={representativeType === 'claim_agents'}
@@ -57,11 +57,11 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             open-single
           >
             <va-accordion-item id="first">
-              <h6 slot="headline">
-                How can each type of representative help me?
-              </h6>
+              <h3 slot="headline" style={{ fontSize: '16px' }}>
+                How can each type of accredited representative help me?
+              </h3>
               <p>
-                <strong>Veteran Services Organization (VSO)</strong>{' '}
+                <strong>Veteran Service Organization (VSO)</strong>{' '}
                 representatives can help you gather evidence and file your
                 claims, decision reviews, and appeals. They can also communicate
                 with VA about your case on your behalf. Examples of VSOs include

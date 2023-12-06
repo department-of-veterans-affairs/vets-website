@@ -1,32 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
 import OrdersBlock from './OrdersBlock';
+import ParagraphBlock from './ParagraphBlock';
 import { ORDER_TYPES } from '../utils/constants';
-
-const patientInstructions = avs => {
-  if (avs.patientInstructions) {
-    return (
-      <div>
-        <h4>Other instructions</h4>
-        {/* eslint-disable react/no-danger */}
-        {/*
-            We're choosing to trust the HTML coming from AVS since it is explicitly
-            added there and will give us the highest fidelity with the printed AVS.
-            cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/DelimitedNoteContentThread.java
-        */}
-        <p
-          data-testid="patient-instructions"
-          dangerouslySetInnerHTML={{ __html: avs.patientInstructions }}
-        />
-        {/* eslint-enable react/no-danger */}
-      </div>
-    );
-  }
-
-  return null;
-};
 
 const YourTreatmentPlan = props => {
   const { avs } = props;
@@ -42,6 +21,18 @@ const YourTreatmentPlan = props => {
       <MedicationTerms avs={avs} />
     </>
   );
+
+  const renderReminder = reminder => {
+    return (
+      <p>
+        {reminder.name}
+        <br />
+        When due: {reminder.whenDue}
+        <br />
+        Frequency: {reminder.frequency}
+      </p>
+    );
+  };
 
   return (
     <div>
@@ -82,8 +73,20 @@ const YourTreatmentPlan = props => {
         orders={orders}
         type={ORDER_TYPES.OTHER}
       />
-      {/* TODO: add health reminders. */}
-      {patientInstructions(avs)}
+      <ItemsBlock
+        heading="Health reminders"
+        intro="The list below is your health reminders. These are health checks for prevention care (for example cancer screening) and checks on chronic conditions like diabetes. Your primary care provider and team will see this list in the computer and should discuss them with you."
+        itemType="health-reminders"
+        items={avs.clinicalReminders}
+        renderItem={renderReminder}
+        showSeparators
+      />
+      <ParagraphBlock
+        heading="Other instructions"
+        headingLevel={4}
+        content={avs.patientInstructions}
+        htmlContent
+      />
     </div>
   );
 };

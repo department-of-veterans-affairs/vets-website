@@ -15,9 +15,6 @@ describe('Medical Records View Vitals', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

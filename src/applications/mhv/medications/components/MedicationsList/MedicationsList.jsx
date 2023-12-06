@@ -3,19 +3,21 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
 import { rxListSortingOptions } from '../../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
-  const { rxList, pagination, setCurrentPage, selectedSortOption } = props;
+  const history = useHistory();
+  const { rxList, pagination, selectedSortOption } = props;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const scrollLocation = useRef();
   const goToPrevious = () => {
-    scrollLocation.current.scrollIntoView();
+    scrollLocation.current?.scrollIntoView();
   };
 
   useEffect(
@@ -30,7 +32,7 @@ const MedicationsList = props => {
     "[data-testid='page-total-info']";
 
   const onPageChange = page => {
-    setCurrentPage(page);
+    history.push(`/${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 

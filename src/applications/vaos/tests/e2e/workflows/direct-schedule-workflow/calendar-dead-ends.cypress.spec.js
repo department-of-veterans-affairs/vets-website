@@ -43,7 +43,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
       const mockEligibilityResponse = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
-        isDirectSchedule: true,
+        isEligible: true,
       });
 
       mockFacilitiesApi({
@@ -216,7 +216,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
       const mockEligibilityResponse = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
-        isDirectSchedule: true,
+        isEligible: true,
       });
 
       mockFacilitiesApi({

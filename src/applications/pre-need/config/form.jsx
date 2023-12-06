@@ -368,7 +368,7 @@ const formConfig = {
         : {
             sponsorDetails: {
               title: 'Sponsor details',
-              path: 'sponsor-detials',
+              path: 'sponsor-details',
               depends: formData => !isVeteran(formData),
               uiSchema: sponsorDetails.uiSchema,
               schema: sponsorDetails.schema,

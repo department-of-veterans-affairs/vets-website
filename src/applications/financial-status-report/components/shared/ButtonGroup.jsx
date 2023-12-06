@@ -15,39 +15,54 @@ import PropTypes from 'prop-types';
  */
 
 const ButtonGroup = ({ buttons }) => {
+  const hasContinueToReviewButton = buttons.some(button =>
+    button.label.toLowerCase().includes('continue to review page'),
+  );
   return (
     <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-      {buttons.map((button, index) => (
-        <div
-          key={`button-group-${index}`}
-          className={`small-6 medium-5${
-            index === buttons.length - 1 ? ' end' : ''
-          } columns`}
-        >
-          <button
-            type={button.type ? button.type : 'button'}
-            className={
-              button.secondary ? 'usa-button-secondary' : 'usa-button-primary'
-            }
-            onClick={button.onClick}
-            disabled={button.disabled}
-          >
-            {button.iconLeft && (
-              <span className="button-icon" aria-hidden="true">
-                {button.iconLeft}
-                &nbsp;
-              </span>
-            )}
-            {button.label}
-            {button.iconRight && (
-              <span className="button-icon" aria-hidden="true">
-                &nbsp;
-                {button.iconRight}
-              </span>
-            )}
-          </button>
-        </div>
-      ))}
+      {buttons.map((button, index) => {
+        const isContinueButton = button.label
+          .toLowerCase()
+          .includes('continue to review page');
+        const isBackButton = button.label.toLowerCase().includes('back');
+
+        // Determine the classes based on the presence of the "Continue to review page" button
+        let buttonClasses = 'columns ';
+        if (hasContinueToReviewButton) {
+          if (isContinueButton) {
+            buttonClasses += 'small-12 medium-7';
+          } else if (isBackButton) {
+            buttonClasses += 'small-12 medium-5';
+          } else {
+            buttonClasses += 'small-6 medium-5';
+          }
+        } else {
+          buttonClasses += 'small-6 medium-5';
+        }
+
+        buttonClasses += index === buttons.length - 1 ? ' end' : '';
+
+        return (
+          <div key={`button-group-${index}`} className={buttonClasses}>
+            <button
+              type={button.type === 'submit' ? 'submit' : 'button'}
+              className={
+                button.secondary ? 'usa-button-secondary' : 'usa-button-primary'
+              }
+              onClick={button.onClick}
+              disabled={button.disabled}
+            >
+              {button.iconLeft && (
+                <i aria-hidden="true" className="fa fa-angles-left" />
+              )}
+              {button.label}
+              {button.iconRight && (
+                <i aria-hidden="true" className="fa fa-angles-right" />
+              )}
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -60,8 +75,8 @@ ButtonGroup.propTypes = {
       onClick: PropTypes.func,
       disabled: PropTypes.bool,
       secondary: PropTypes.bool,
-      iconLeft: PropTypes.string,
-      iconRight: PropTypes.string,
+      iconLeft: PropTypes.bool,
+      iconRight: PropTypes.bool,
     }),
   ).isRequired,
 };

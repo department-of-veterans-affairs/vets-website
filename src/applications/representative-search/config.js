@@ -1,13 +1,17 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import compact from 'lodash/compact';
 import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
 // import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
+/* eslint-disable camelcase */
+
 const apiSettings = {
-  credentials: 'include',
+  // credentials: 'include',
+  mode: 'cors',
   headers: {
     'X-Key-Inflection': 'camel',
+    'Sec-Fetch-Mode': 'cors',
 
     // Pull app name directly from manifest since this config is defined
     // before startApp, and using window.appName here would result in
@@ -16,13 +20,18 @@ const apiSettings = {
   },
 };
 
-export const sortOptions = {
-  DISTANCE_ASC: 'Distance (closest to farthest)',
-  DISTANCE_DESC: 'Distance (farthest to closest)',
-  FIRST_NAME_ASC: 'First Name (A - Z)',
-  FIRST_NAME_DESC: 'First Name (Z - A)',
-  LAST_NAME_ASC: 'Last Name (A - Z)',
-  LAST_NAME_DESC: 'Last Name (Z - A)',
+export const orgSortOptions = {
+  distance_asc: 'Distance (closest to farthest)',
+  distance_desc: 'Distance (farthest to closest)',
+  name_asc: 'Name (A - Z)',
+  name_desc: 'Name (Z - A)',
+};
+
+export const individualSortOptions = {
+  distance_asc: 'Distance (closest to farthest)',
+  distance_desc: 'Distance (farthest to closest)',
+  last_name_asc: 'Last Name (A - Z)',
+  last_name_desc: 'Last Name (Z - A)',
 };
 
 const railsEngineApi = {
@@ -32,6 +41,8 @@ const railsEngineApi = {
   url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
+
+export const useMockData = false;
 
 export const getAPI = () => railsEngineApi;
 
@@ -44,7 +55,7 @@ export const resolveParamsWithUrl = ({
   lat,
   long,
   name,
-  page = 1,
+  page,
   perPage = 10,
   sort,
   type = 'organization',
@@ -53,14 +64,24 @@ export const resolveParamsWithUrl = ({
 
   const { url } = api;
 
+  let newSort = sort;
+
+  if (type !== 'organization') {
+    if (sort === 'name_asc') {
+      newSort = 'last_name_asc';
+    } else if (sort === 'name_dsc') {
+      newSort = 'last_name_dsc';
+    }
+  }
+
   const params = [
     address ? `address=${address}` : null,
-    lat?.length > 0 ? `latitude=${lat}` : null,
-    long?.length > 0 ? `longitude=${long}` : null,
+    lat ? `lat=${lat}` : null,
+    long ? `long=${long}` : null,
     name ? `name=${name}` : null,
-    `page=${page}`,
+    `page=${page || 1}`,
     `per_page=${perPage}`,
-    `sort=${sort}`,
+    `sort=${newSort}`,
     type ? `type=${type}` : null,
   ];
 
@@ -75,12 +96,12 @@ export const resolveParamsWithUrl = ({
 export const representativeTypes = {
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
