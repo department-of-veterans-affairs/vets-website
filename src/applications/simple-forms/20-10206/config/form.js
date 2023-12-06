@@ -28,8 +28,14 @@ import transformForSubmit from './submit-transformer';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
+import { getMockData } from '../helpers';
 
 const mockData = testData.data;
+
+// export isLocalhost() to facilitate unit-testing
+export function isLocalhost() {
+  return environment.isLocalhost();
+}
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -101,10 +107,7 @@ const formConfig = {
           // },
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
+          initialData: getMockData(mockData, isLocalhost),
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',

@@ -58,6 +58,34 @@ export const areBoundsEqual = (box1, box2) => {
   );
 };
 
+export const mockPaginatedResponse = (allResults, page) => {
+  const itemsPerPage = 10;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const data = allResults.data.slice(startIndex, endIndex);
+  const link = `https://staging-api.va.gov/services/veteran/v0/accredited_representatives${window.location.search.substring(
+    1,
+  )}`;
+  const links = {
+    self: link,
+    first: link,
+    prev: null,
+    next: link,
+    last: link,
+  };
+  const meta = {
+    pagination: {
+      currentPage: page,
+      perPage: 10,
+      totalPages: Math.ceil(allResults.data.length / 10),
+      totalEntries: allResults.data.length,
+    },
+  };
+
+  return { data, links, meta };
+};
+
 /**
  * A utility to break URL query strings up into a queriable object
  *
