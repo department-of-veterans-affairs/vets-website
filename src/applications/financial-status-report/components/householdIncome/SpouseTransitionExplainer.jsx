@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-// import { useSelector } from 'react-redux';
 
 const SpouseTransitionExplainer = ({
   contentBeforeButtons,
