@@ -7,11 +7,6 @@ const CareSummariesAndNotesListItem = props => {
   const { record } = props;
   const isDischargeSummary = record.type === loincCodes.DISCHARGE_SUMMARY;
 
-  const dateOrDates = () => {
-    if (isDischargeSummary) return record.dischargeDate;
-    return record.dateSigned;
-  };
-
   return (
     <div
       className="record-list-item vads-u-padding-x--3 vads-u-padding-y--2p5 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
@@ -41,7 +36,7 @@ const CareSummariesAndNotesListItem = props => {
           Date:
         </span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {dateOrDates()}
+          {isDischargeSummary ? record.dischargeDate : record.dateSigned}
         </span>
       </div>
       <div>
