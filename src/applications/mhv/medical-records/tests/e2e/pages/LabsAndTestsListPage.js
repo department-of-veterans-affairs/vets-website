@@ -26,21 +26,13 @@ class LabsAndTestsListPage {
       .click();
   };
 
-  clickLabsAndTestsDetailsLink = (_PathologyIndex = 9) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(_PathologyIndex)
-      .click();
-  };
-
+  /* --these will be needed later when there is download list functionality
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
-    cy.get('[data-testid="print-records-button"]').click();
   };
 
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
+  clickPrintOrDownload = () => {
+    cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 
   verifyDownloadPDF = () => {
@@ -58,6 +50,7 @@ class LabsAndTestsListPage {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-1"]').click();
   };
+  */
 }
 
 export default new LabsAndTestsListPage();
