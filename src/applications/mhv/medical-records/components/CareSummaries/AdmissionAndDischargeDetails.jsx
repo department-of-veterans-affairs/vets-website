@@ -7,10 +7,20 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf } from '../../util/helpers';
 import {
-  generatePdfScaffold,
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../../util/helpers';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
+import {
   updatePageTitle,
+  generatePdfScaffold,
+  formatName,
 } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -95,6 +105,31 @@ const AdmissionAndDischargeDetails = props => {
     );
   };
 
+  const generateCareNotesTxt = () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Admission and discharge summary\n
+${txtLine}\n\n
+Details\n
+Location: ${record.location}\n
+Admission date: ${record.admissionDate}\n
+Discharge date: ${record.dischargeDate}\n
+Admitted by: ${record.admittedBy}\n
+Discharged by: ${record.dischargedBy}\n
+${txtLine}\n\n
+Summary\n
+${record.summary}`;
+
+    generateTextFile(
+      content,
+      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+    );
+  };
+
   const dates =
     record.admissionDate &&
     record.dischargeDate &&
@@ -123,6 +158,7 @@ const AdmissionAndDischargeDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
