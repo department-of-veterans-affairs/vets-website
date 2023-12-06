@@ -6,7 +6,7 @@ import {
 const radioOptions = {
   YES: 'Yes',
   NO: 'No',
-  IDK: 'I don’t know',
+  IDK: 'I’m not sure',
 };
 
 /** @type {PageSchema} */
