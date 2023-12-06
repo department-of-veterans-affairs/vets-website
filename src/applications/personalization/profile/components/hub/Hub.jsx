@@ -27,12 +27,6 @@ export const Hub = () => {
 
   return (
     <>
-      <DevTools
-        devtoolsData={{ label, link, hasBadAddress }}
-        shouldAlwaysRenderChildren={false}
-      >
-        <ExampleForDevTools data={{ label, link }} something="bork bork bork" />
-      </DevTools>
       <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
 
       {/* ROW */}
@@ -152,6 +146,12 @@ export const Hub = () => {
           />
         </HubCard>
       </div>
+      <DevTools
+        devtoolsData={{ label, link, hasBadAddress }}
+        showChildren={false}
+      >
+        <ExampleForDevTools data={{ label, link }} something="bork bork bork" />
+      </DevTools>
     </>
   );
 };

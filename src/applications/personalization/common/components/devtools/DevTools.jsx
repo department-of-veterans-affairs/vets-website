@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
@@ -10,7 +12,9 @@ const ChildrenRenderer = ({ children, shouldRender }) => {
 
 export const DevTools = ({
   devtoolsData = { error: 'no data provided to devtools instance' },
-  shouldAlwaysRenderChildren = true,
+  showChildren = true,
+  showHighlight = false,
+  showIcon = true,
   children,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -51,7 +55,11 @@ export const DevTools = ({
   useEffect(
     () => {
       if (devToolsRef?.current) {
-        const classList = visible ? 'devtools-active' : '';
+        const classList = classNames({
+          'devtools-active': visible && showHighlight,
+          'devtools-show-icon': showIcon,
+        });
+
         devToolsRef.current.parentNode.classList = [classList];
       }
     },
@@ -66,10 +74,16 @@ export const DevTools = ({
       </Suspense>
     </div>
   ) : (
-    <ChildrenRenderer shouldRender={shouldAlwaysRenderChildren}>
-      {children}
-    </ChildrenRenderer>
+    <ChildrenRenderer shouldRender={showChildren}>{children}</ChildrenRenderer>
   );
+};
+
+DevTools.propTypes = {
+  children: PropTypes.node,
+  devtoolsData: PropTypes.object,
+  showChildren: PropTypes.bool,
+  showHighlight: PropTypes.bool,
+  showIcon: PropTypes.bool,
 };
 
 export default {
