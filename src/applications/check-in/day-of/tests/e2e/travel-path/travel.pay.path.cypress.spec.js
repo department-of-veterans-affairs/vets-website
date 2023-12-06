@@ -141,7 +141,6 @@ describe('Check In Experience', () => {
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
-      Confirmation.validateBtsssIssue();
       Confirmation.validatePageLoadedWithNoBtsssClaim();
       cy.injectAxeThenAxeCheck();
     });

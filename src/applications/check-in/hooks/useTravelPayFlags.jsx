@@ -15,7 +15,6 @@ const useTravelPayFlags = appointment => {
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-
   // These will be undefined if the travel pay pages are skipped.
   const {
     'travel-question': travelQuestion,
