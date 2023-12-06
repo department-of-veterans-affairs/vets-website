@@ -20,6 +20,8 @@ import finRecDetailsPg from '../pages/financialRecordDetails';
 import lifeInsBenefitDetailsPg from '../pages/lifeInsuranceBenefitDetails';
 import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import otherBenefitDetailsPg from '../pages/otherBenefitDetails';
+import additionalRecordsInformationPg from '../pages/additionalRecordsInformation';
+import associatedVARegionalOfficePg from '../pages/associatedVARegionalOffice';
 import { PREPARER_TYPES, RECORD_TYPES } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
@@ -273,6 +275,36 @@ const formConfig = {
           uiSchema: otherBenefitDetailsPg.uiSchema,
           schema: otherBenefitDetailsPg.schema,
           pageClass: 'other-benefit-details',
+        },
+      },
+    },
+    additionalInformationChapter: {
+      title: 'Additional information',
+      pages: {
+        additionalRecordsInformationPage: {
+          depends: {
+            'view:userIdVerified': true,
+          },
+          path: 'additional-records-information',
+          title: 'Additional records information',
+          uiSchema: additionalRecordsInformationPg.uiSchema,
+          schema: additionalRecordsInformationPg.schema,
+          pageClass: 'additional-records-information',
+        },
+      },
+    },
+    vaRegionalOfficeChapter: {
+      title: 'VA regional office',
+      pages: {
+        associatedVARegionalOfficePage: {
+          depends: {
+            'view:userIdVerified': true,
+          },
+          path: 'associated-va-regional-office',
+          title: 'Associated VA regional office',
+          uiSchema: associatedVARegionalOfficePg.uiSchema,
+          schema: associatedVARegionalOfficePg.schema,
+          pageClass: 'associated-va-regional-office',
         },
       },
     },

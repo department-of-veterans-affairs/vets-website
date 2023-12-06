@@ -496,9 +496,9 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin: -1em -1em 5rem;
+  margin: -1em -1.2em 5rem;
   .form-review-panel-page-header-row {
-    padding: 1em 1em;
+    padding: 1em 0.5em;
     background-color: var(--color-secondary-lightest);
     &:before {
       display: block;
@@ -520,6 +520,15 @@ legend.schemaform-label.schemaform-file-label {
     .review-row {
       border-top: none;
     }
+  }
+}
+
+va-accordion-item[data-unviewed-pages="true"] {
+  --item-border: 3px solid var(--color-secondary-lightest) !important;
+
+  &::part(accordion-header) {
+    background-color: var(--color-secondary-lightest);
+    border-color: var(--color-secondary-lightest);
   }
 }
 
