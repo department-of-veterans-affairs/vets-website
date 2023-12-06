@@ -25,23 +25,15 @@ const App = props => {
     // conditional-pages based on User identity-verification
     () => {
       if (!isLoading) {
-        if (formData['view:userLoggedIn'] !== userLoggedIn) {
-          setFormData({
-            ...formData,
-            'view:userLoggedIn': userLoggedIn,
-          });
-        }
-        if (formData['view:userIdVerified'] !== userIdVerified) {
-          setFormData({
-            ...formData,
-            'view:userLoggedIn': userLoggedIn,
-            'view:userIdVerified': userIdVerified,
-          });
-        }
+        setFormData({
+          ...formData,
+          'view:userLoggedIn': userLoggedIn,
+          'view:userIdVerified': userIdVerified,
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoading, userIdVerified, userLoggedIn],
+    [isLoading, userLoggedIn],
   );
 
   return (
