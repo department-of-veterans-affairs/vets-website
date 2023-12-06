@@ -62,24 +62,8 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
-      // TravelPages.validatePageLoaded();
-      // cy.injectAxeThenAxeCheck();
-      // TravelPages.attemptToGoToNextPage();
-
-      // TravelPages.validatePageLoaded('vehicle');
-      // cy.injectAxeThenAxeCheck();
-      // TravelPages.attemptToGoToNextPage();
-
-      // TravelPages.validatePageLoaded('address');
-      // cy.injectAxeThenAxeCheck();
-      // TravelPages.attemptToGoToNextPage();
-
-      // TravelPages.validatePageLoaded('mileage');
-      // cy.injectAxeThenAxeCheck();
-      // TravelPages.attemptToGoToNextPage();
-
       Confirmation.validatePageLoaded();
-      Confirmation.validatePageLoadedWithBtsssTravelClaimExistsFailure();
+      Confirmation.validatePageLoadedWithNoBtsssClaim();
       cy.injectAxeThenAxeCheck();
     });
   });
