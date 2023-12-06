@@ -15,7 +15,7 @@ export function makeFormProperties(prefix) {
   };
 }
 
-function makeSchemas(prefix) {
+export function makeSchemas(prefix) {
   const properties = makeFormProperties(prefix);
   const schema = {
     type: 'object',
@@ -124,6 +124,7 @@ const ChangeOfDirectDepositForm = ({
       data={formData}
       onChange={formChange}
       onSubmit={formSubmit}
+      data-testid="change-of-direct-deposit-form"
     >
       {children}
     </SchemaForm>
