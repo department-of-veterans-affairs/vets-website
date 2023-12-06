@@ -24,9 +24,17 @@ class VaccinesDetailsPage {
     VaccinesDetails = defaultVaccineDetail,
     noteIndex = 0,
   ) => {
-    cy.get('[data-testid="list-item"]')
-      .eq(noteIndex)
-      .contains(VaccinesDetails.note[noteIndex].text);
+    if (VaccinesDetails.note.length === 1) {
+      cy.get('[data-testid="list-item-single"]')
+        .eq(noteIndex)
+        .contains(VaccinesDetails.note[noteIndex].text);
+    }
+
+    if (VaccinesDetails.note.length > 1) {
+      cy.get('[data-testid="list-item-multiple"]')
+        .eq(noteIndex)
+        .contains(VaccinesDetails.note[noteIndex].text);
+    }
   };
 }
 
