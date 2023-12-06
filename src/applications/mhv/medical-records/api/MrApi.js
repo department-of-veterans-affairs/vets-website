@@ -1,7 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import notes from '../tests/fixtures/notes.json';
-import note from '../tests/fixtures/dischargeSummary.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
@@ -123,7 +122,11 @@ export const getNote = (id, runningUnitTest) => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(note);
+      resolve(
+        notes.entry.find(item => {
+          return item.resource.id === id;
+        }).resource,
+      );
     }, 1000);
   });
 };
