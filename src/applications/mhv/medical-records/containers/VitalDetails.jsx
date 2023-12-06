@@ -7,11 +7,17 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
-import { getNameDateAndTime, macroCase, makePdf } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  macroCase,
+  makePdf,
+  generateTextFile,
+} from '../util/helpers';
 import {
   vitalTypeDisplayNames,
   pageTitles,
@@ -21,9 +27,15 @@ import {
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import {
+  txtLine,
+  crisisLineHeader,
+  reportGeneratedBy,
+} from '../../shared/util/constants';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = props => {
@@ -142,6 +154,27 @@ const VitalDetails = props => {
     makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
   };
 
+  const generateVitalsTxt = async () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+${txtLine}\n\n
+${currentVitals
+      .map(
+        vital =>
+          `${vital.name}\n
+Date entered: ${vital.date}\n
+${txtLine}\n\n
+Details about this test\n
+Result: ${vital.measurement}\n
+Location: ${vital.location}\n
+Provider Notes: ${vital.notes}\n`,
+      )
+      .join('')}`;
+    generateTextFile(content, `VA-Vitals-details-${getNameDateAndTime(user)}`);
+  };
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   const content = () => {
@@ -154,6 +187,7 @@ const VitalDetails = props => {
           <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
           <PrintDownload
             download={generateVitalsPdf}
+            downloadTxt={generateVitalsTxt}
             allowTxtDownloads={allowTxtDownloads}
           />
           <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
