@@ -1,5 +1,3 @@
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -7,14 +5,13 @@ import {
   fullNameSchema,
   ssnUI,
   ssnSchema,
+  vaFileNumberUI,
+  vaFileNumberSchema,
   yesNoUI,
   yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import applicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
-
-const { vaFileNumber } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -26,20 +23,14 @@ export default {
     veteranFullName: fullNameUI(),
     veteranSocialSecurityNumber: ssnUI(),
     vaClaimsHistory: yesNoUI({
-      title: 'Have you filed any type of VA claim before?',
+      title: 'Have you ever filed a claim with VA?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     vaFileNumber: {
-      'ui:title': 'VA file number',
-      'ui:webComponentField': VaTextInputField,
+      ...vaFileNumberUI(),
       'ui:options': {
-        classNames: 'vads-u-margin-bottom--2',
         hint: 'Enter your VA file number if it doesn’t match your SSN',
-        hideIf: formData => formData.vaClaimsHistory !== true,
-      },
-      'ui:errorMessages': {
-        pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
     veteranDateOfBirth: dateOfBirthUI(),
@@ -59,7 +50,7 @@ export default {
       veteranFullName: fullNameSchema,
       veteranSocialSecurityNumber: ssnSchema,
       vaClaimsHistory: yesNoSchema,
-      vaFileNumber,
+      vaFileNumber: vaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

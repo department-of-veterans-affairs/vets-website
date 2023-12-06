@@ -1,13 +1,10 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import notes from '../tests/fixtures/notes.json';
-import note from '../tests/fixtures/dischargeSummary.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
-import vaccines from '../tests/fixtures/vaccines.json';
-import vaccine from '../tests/fixtures/vaccine.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -126,7 +123,11 @@ export const getNote = (id, runningUnitTest) => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(note);
+      resolve(
+        notes.entry.find(item => {
+          return item.resource.id === id;
+        }).resource,
+      );
     }, 1000);
   });
 };
@@ -191,17 +192,12 @@ export const getAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vaccines);
-    }, 1000);
-  });
+export const getVaccineList = () => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/vaccines`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 /**
@@ -209,17 +205,12 @@ export const getVaccineList = runningUnitTest => {
  * @param {Long} id
  * @returns vaccine details in FHIR format
  */
-export const getVaccine = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vaccine);
-    }, 1000);
-  });
+export const getVaccine = id => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/vaccines/${id}`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 /**
