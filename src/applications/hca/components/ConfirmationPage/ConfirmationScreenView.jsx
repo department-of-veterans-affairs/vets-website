@@ -34,14 +34,24 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Veteran’s name
             </dt>
-            <dd className="hca-veteran-fullname">{name}</dd>
+            <dd
+              className="hca-veteran-fullname dd-privacy-mask"
+              data-dd-action-name="Veteran name"
+            >
+              {name}
+            </dd>
           </div>
           {!!timestamp && (
             <div className="hca-application-date vads-u-margin-bottom--2">
               <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
                 Date you applied
               </dt>
-              <dd>{moment(timestamp).format('MMM D, YYYY')}</dd>
+              <dd
+                className="dd-privacy-mask"
+                data-dd-action-name="Applied date"
+              >
+                {moment(timestamp).format('MMM D, YYYY')}
+              </dd>
             </div>
           )}
           <div>
@@ -53,7 +63,11 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </dl>
 
         <div className="vads-u-margin-top--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text="Print this page"
+            data-testid="hca-print-button"
+            onClick={() => window.print()}
+          />
         </div>
       </va-alert>
     </>

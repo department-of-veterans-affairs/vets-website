@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -28,59 +29,55 @@ class IntroductionPage extends React.Component {
           <h3>Pages</h3>
           <ul>
             <li>
-              <a href="/mock-simple-forms-patterns/text-input">Text input</a>
+              <Link to="/text-input">Text input</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/text-input-widgets1">
-                Text input widgets 1
-              </a>
+              <Link to="/text-input-widgets1">Text input widgets 1</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/text-input-full-name">
-                Text input full name
-              </a>
+              <Link to="/text-input-full-name">Text input full name</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/text-input-address">
-                Text input address
-              </a>
+              <Link to="/text-input-address">Text input address</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/ssn-pattern">Ssn pattern</a>
+              <Link to="/number-input">Number input</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/checkbox-and-text-input">
-                Checkbox and text input
-              </a>
+              <Link to="/ssn-pattern">Ssn pattern</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/checkbox-group">
-                Checkbox group
-              </a>
+              <Link to="/checkbox-and-text-input">Checkbox and text input</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/select">Select</a>
+              <Link to="/checkbox-group">Checkbox group</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/radio">Radio</a>
+              <Link to="/select">Select</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/radio-relationship-to-veteran">
+              <Link to="/radio">Radio</Link>
+            </li>
+            <li>
+              <Link to="/radio-relationship-to-veteran">
                 Radio relationship to veteran
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/date">Date</a>
+              <Link to="/date">Date</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/array-single-page">
-                Array in a single page
-              </a>
+              <Link to="/array-single-page">Array - single page</Link>
             </li>
             <li>
-              <a href="/mock-simple-forms-patterns/array-multiple-page">
-                Array with multiple pages
-              </a>
+              <Link to="/array-multiple-page-aggregate">
+                Array - multiple page - aggregate pattern
+              </Link>
+            </li>
+            <li>
+              <Link to="/array-multiple-page-builder-summary">
+                Array - multiple page - builder pattern
+              </Link>
             </li>
           </ul>
         </div>

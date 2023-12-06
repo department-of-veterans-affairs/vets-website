@@ -1,6 +1,7 @@
 // Node modules.
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -19,6 +20,7 @@ const AuthContent = ({
   otherFacilities,
   ehrDataByVhaId,
   useSingleLogout,
+  widgetType,
 }) => {
   return (
     <>
@@ -35,6 +37,7 @@ const AuthContent = ({
           '/pages/health_record/clinical_documents/sharing',
           useSingleLogout,
         )}
+        widgetType={widgetType}
       />
       <h3>What are My HealtheVet and My VA Health, and which will I use?</h3>
       <p>
@@ -253,6 +256,7 @@ const AuthContent = ({
 };
 
 AuthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,

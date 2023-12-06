@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import VetTecAdditionalInformation from '../../../components/vet-tec/VetTecAdditionalInformation';
 
 const institution = {
@@ -36,6 +37,46 @@ describe('<VetTecAdditionalInformation/>', () => {
       <VetTecAdditionalInformation institution={institution} />,
     );
     expect(wrapper.html()).to.not.be.undefined;
+    wrapper.unmount();
+  });
+  it('renders with default values', () => {
+    const wrapper = shallow(
+      <VetTecAdditionalInformation institution={{}} showModal={() => {}} />,
+    );
+
+    expect(wrapper.find('#facilityCode-button')).to.have.lengthOf(1);
+    expect(wrapper.find('#facilityCode-button').text()).to.equal(
+      'VA facility code:',
+    );
+    expect(wrapper.text()).to.include('N/A');
+    wrapper.unmount();
+  });
+
+  it('renders with a facility code', () => {
+    const facilityCode = '12345';
+    const wrapper = shallow(
+      <VetTecAdditionalInformation
+        institution={{ facilityCode }}
+        showModal={() => {}}
+      />,
+    );
+
+    expect(wrapper.text().includes('facility code: 12345')).to.be.false;
+    wrapper.unmount();
+  });
+
+  it('calls showModal function when the "Learn More" button is clicked', () => {
+    const showModalMock = sinon.spy();
+    const wrapper = shallow(
+      <VetTecAdditionalInformation
+        institution={{}}
+        showModal={showModalMock}
+      />,
+    );
+
+    wrapper.find('#facilityCode-button').simulate('click');
+
+    expect(showModalMock.calledWith('facilityCode')).to.be.true;
     wrapper.unmount();
   });
 });

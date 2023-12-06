@@ -150,6 +150,7 @@ const IntroductionDisplay = props => {
           className="vads-u-margin-top--1"
           data-testid="intro-accordion-group"
           open-single={accordionContent.length === 1}
+          uswds
         >
           {accordionContent.map((accordionItem, index) => (
             <va-accordion-item
@@ -157,6 +158,8 @@ const IntroductionDisplay = props => {
               header={accordionItem.header}
               key={index}
               data-testid="intro-accordion-item"
+              uswds
+              bordered
             >
               {accordionItem.body}
             </va-accordion-item>

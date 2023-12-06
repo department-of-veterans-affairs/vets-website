@@ -11,85 +11,81 @@ const generateErrorContent = (title, code) => {
 describe('Claim Letters Page', () => {
   context('feature toggle enabled', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled);
+      cy.intercept('GET', '/v0/claim_letters', claimLetters.data).as(
+        'defaultResponse',
+      );
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
+        'featureToggleEnabled',
+      );
 
       cy.login();
-      cy.visit('track-claims/your-claim-letters');
-      cy.injectAxe();
     });
 
     it('Displays a list of letters', () => {
+      cy.visit('track-claims/your-claim-letters');
       cy.get('h1').should('have.text', 'Your VA claim letters');
       cy.get('ol').should('exist');
       cy.get('ol > li').should('have.length', 10);
 
       cy.get('va-pagination').should('exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Paginates when there are more than 10 letters', () => {
+      cy.visit('track-claims/your-claim-letters');
       cy.get('ol > li').should('have.length', 10);
 
       // TODO: Check the number of pages in the va-pagination component
       // We should know ahead of time how many pages should appear
       cy.get('va-pagination').should('exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it("Doesn't show va-pagination if there are less than 10 letters", () => {
       cy.intercept('GET', '/v0/claim_letters', claimLetters.data.slice(0, 8));
+      cy.visit('track-claims/your-claim-letters');
       cy.get('ol > li').should('have.length', 8);
 
       cy.get('va-pagination').should('not.exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Pagination buttons work properly', () => {
-      cy.get('va-pagination')
-        .shadow()
-        .as('shadow');
+      cy.visit('track-claims/your-claim-letters');
 
-      // 'Prev' button should not show on first page
-      cy.get('@shadow')
-        .findByText(/Prev/i)
-        .should('not.exist');
+      // 'Previous' button should not show on first page
+      cy.contains(/Previous/i).should('not.exist');
 
       // Click 'Next' button
-      cy.get('@shadow')
-        .findByText(/Next/i)
-        .click();
+      cy.contains(/Next/i).click();
 
       // Now on second page
-      // 'Prev' button should now be shown
-      cy.get('@shadow').findByText(/Prev/i).should.exist;
+      // 'Previous' button should now be shown
+      cy.contains(/Previous/i).should('exist');
 
-      // Click 'Prev' button
-      cy.get('@shadow')
-        .findByText(/Prev/i)
-        .click();
+      // Click 'Previous' button
+      cy.contains(/Previous/i).click();
 
       // Back on first page
-      // 'Prev' button should not show
-      cy.get('@shadow')
-        .findByText(/Prev/i)
-        .should('not.exist');
+      // 'Previous' button should not show
+      cy.contains(/Previous/i).should('not.exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Displays a "No claim letters" message if there are no letters', () => {
       cy.intercept('GET', '/v0/claim_letters', []);
+      cy.visit('track-claims/your-claim-letters');
 
       cy.findByText(/No claim letters/i).should('exist');
 
       // List shouldn't show
       cy.get('ol').should('not.exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Displays a server error message when status code is 500', () => {
@@ -97,13 +93,14 @@ describe('Claim Letters Page', () => {
         statusCode: 500,
         body: generateErrorContent('Internal server error', '500'),
       });
+      cy.visit('track-claims/your-claim-letters');
 
       cy.findByText(/We can’t load this page/i).should('exist');
       cy.findByText(/Please refresh this page or try again later/i).should(
         'exist',
       );
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Displays a forbidden error message when status code is 403', () => {
@@ -111,11 +108,12 @@ describe('Claim Letters Page', () => {
         statusCode: 403,
         body: generateErrorContent('Forbidden', '403'),
       });
+      cy.visit('track-claims/your-claim-letters');
 
       cy.findByText(/We can’t load this page/i).should('exist');
       cy.findByText(/Please double check the URL/i).should('exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Displays an unauthenticated error message when status code is 401', () => {
@@ -123,14 +121,17 @@ describe('Claim Letters Page', () => {
         statusCode: 401,
         body: generateErrorContent('Not authorized', '401'),
       });
+      cy.visit('track-claims/your-claim-letters');
 
       cy.findByText(/We can’t load this page/i).should('exist');
       cy.findByText(/Please double check the URL/i).should('exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Downloads a file successfully when link is clicked', () => {
+      const filename = 'ClaimLetter-2022-9-22.txt';
+
       // Normally it would make sense to simulate downloading a PDF,
       // but Cypress doesn't handle PDF files very well. When I attempted
       // to use a PDF file as the fixture, the resulting file's contents
@@ -138,11 +139,12 @@ describe('Claim Letters Page', () => {
       cy.intercept('GET', '/v0/claim_letters/**', {
         statusCode: 200,
         headers: {
-          'Content-disposition': 'attachment; filename=ClaimLetter.txt',
+          'Content-disposition': `attachment; filename=${filename}`,
         },
         fixture:
           'applications/claims-status/tests/e2e/fixtures/mocks/claim-letters/letter.txt',
       }).as('downloadFile');
+      cy.visit('track-claims/your-claim-letters');
 
       cy.get('va-link')
         .first()
@@ -152,26 +154,30 @@ describe('Claim Letters Page', () => {
         .its('response.statusCode')
         .should('eq', 200);
 
-      cy.readFile(
-        `${Cypress.config('downloadsFolder')}/ClaimLetter.txt`,
-      ).should('contain', 'Test claim letter');
+      cy.readFile(`${Cypress.config('downloadsFolder')}/${filename}`).should(
+        'contain',
+        'Test claim letter',
+      );
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
   context('feature toggle disabled', () => {
     it('Displays an alert if the feature toggle is disabled', () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled).as(
+        'featureToggleDisabled',
+      );
 
       cy.login();
       cy.visit('track-claims/your-claim-letters');
-      cy.injectAxe();
 
       cy.get('va-alert').should('exist');
-      cy.findByText(/We’re still working on this feature/i).should('exist');
+      cy.findByText(
+        /Decision letters aren’t available to download right now./i,
+      ).should('exist');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

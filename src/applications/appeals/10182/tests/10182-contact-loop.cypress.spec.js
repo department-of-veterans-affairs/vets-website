@@ -1,18 +1,11 @@
-import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
-import mockUser from './fixtures/mocks/user.json';
-import mockUserUpdate from './fixtures/mocks/user-update.json';
-import mockIssues from './fixtures/mocks/contestable-issues.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockData from './fixtures/data/maximal-test.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import { mockContestableIssues } from './nod.cypress.helpers';
 
-// Profile specific responses
-import mockProfilePhone from './fixtures/mocks/profile-phone.json';
-import mockProfileEmail from './fixtures/mocks/profile-email.json';
-import mockProfileAddress from './fixtures/mocks/profile-address.json';
-import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
+import { NOD_BASE_URL } from '../../shared/constants';
+
+import { mockContestableIssues } from '../../shared/tests/cypress.helpers';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
 const checkOpt = {
   waitForAnimations: true,
@@ -20,8 +13,8 @@ const checkOpt = {
 
 describe('NOD contact info loop', () => {
   beforeEach(() => {
+    cypressSetup();
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 
     cy.intercept(
       'GET',
@@ -33,30 +26,11 @@ describe('NOD contact info loop', () => {
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
     );
-    cy.intercept(
-      'GET',
-      '/v0/notice_of_disagreements/contestable_issues',
-      mockIssues,
-    );
+
     cy.intercept('GET', '/v0/in_progress_forms/10182', mockData);
     cy.intercept('PUT', '/v0/in_progress_forms/10182', mockData);
 
-    // contact page updates
-    cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone);
-    cy.intercept('PUT', '/v0/profile/email_addresses', mockProfileEmail);
-    cy.intercept('PUT', '/v0/profile/addresses', mockProfileAddress);
-    cy.intercept(
-      'POST',
-      '/v0/profile/address_validation',
-      mockProfileAddressValidation,
-    ).as('getAddressValidation');
-    // profile changes
-    cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
-
-    cy.visit(BASE_URL);
+    cy.visit(NOD_BASE_URL);
     cy.injectAxe();
   });
 
@@ -67,13 +41,13 @@ describe('NOD contact info loop', () => {
       .click();
 
     // Veteran info (DOB, SSN, etc)
-    cy.location('pathname').should('eq', `${BASE_URL}/veteran-details`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/veteran-details`);
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
 
     // Homeless question
-    cy.location('pathname').should('eq', `${BASE_URL}/homeless`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/homeless`);
     cy.get('[type="radio"][value="N"]').check(checkOpt);
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
@@ -82,7 +56,7 @@ describe('NOD contact info loop', () => {
 
   it('should edit info on a new page & cancel returns to contact info page', () => {
     getToContactPage();
-    const contactPageUrl = `${BASE_URL}/contact-information`;
+    const contactPageUrl = `${NOD_BASE_URL}/contact-information`;
 
     // Contact info
     cy.location('pathname').should('eq', contactPageUrl);
@@ -93,7 +67,7 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${NOD_BASE_URL}/edit-contact-information-mobile-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -105,7 +79,7 @@ describe('NOD contact info loop', () => {
     // update phone
     /*
     cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-mobile-phone`);
     cy.findByLabelText(/extension/i)
       .clear()
       .type('12345');
@@ -119,7 +93,7 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-email-address`,
+      `${NOD_BASE_URL}/edit-contact-information-email-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -131,7 +105,7 @@ describe('NOD contact info loop', () => {
     // update email
     /*
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-email-address`);
     cy.findByLabelText(/email address/i)
       .clear()
       .type('test@test.com');
@@ -145,7 +119,7 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mailing-address`,
+      `${NOD_BASE_URL}/edit-contact-information-mailing-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -157,7 +131,7 @@ describe('NOD contact info loop', () => {
     // update address
     /*
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-mailing-address`);
     cy.findByLabelText(/address line 2/i).clear(); // remove "c/o Pixar"
     cy.findByText(/^update$/i, { selector: 'button' })
       .first()

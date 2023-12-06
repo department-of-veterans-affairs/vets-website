@@ -1,40 +1,29 @@
 import React from 'react';
 
-import { AUTHORIZER_TYPES, SECURITY_QUESTIONS } from '../definitions/constants';
+import { SECURITY_QUESTIONS } from '../definitions/constants';
 import { camelCaseToSnakeAllCaps } from '../utils';
 
 export default {
   uiSchema: {
     'ui:title': ({ formData }) => {
-      if (formData.authorizerType === AUTHORIZER_TYPES.VETERAN) {
-        return (
-          <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
+      return (
+        <legend>
+          <h3>
             {
               SECURITY_QUESTIONS[
                 camelCaseToSnakeAllCaps(formData.securityQuestion)
               ]
-            }
-          </span>
-        );
-      }
-
-      return (
-        <span className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--bold">
-          Provide your answer for:
-          <br />“
-          {
-            SECURITY_QUESTIONS[
-              camelCaseToSnakeAllCaps(formData.securityQuestion)
-            ]
-          }
-          ”
-        </span>
+            }{' '}
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
+              (*Required)
+            </span>
+          </h3>
+        </legend>
       );
     },
-    'ui:description':
-      'Enter the information your third-party source will need to provide to verify their identity.',
     securityAnswer: {
-      'ui:title': 'Your answer',
+      'ui:title':
+        'Enter the information your third-party source will need to provide to verify their identity.',
       'ui:errorMessages': {
         required: 'Please enter your answer.',
       },

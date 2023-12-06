@@ -13,6 +13,7 @@ import {
   receivedMultipleAppointmentDetails,
   triggerRefresh,
   updateFormAction as updateDayOfForm,
+  additionalContext,
 } from '../actions/day-of';
 
 import {
@@ -23,7 +24,7 @@ import {
   appointmentStartTimePast15,
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
-import { useSessionStorage } from './useSessionStorage';
+import { useStorage } from './useStorage';
 import { URLS } from '../utils/navigation';
 
 import { useUpdateError } from './useUpdateError';
@@ -43,9 +44,12 @@ const useGetCheckInData = ({
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled, isTravelLogicEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const { jumpToPage } = useFormRouting(router);
-  const { setPreCheckinComplete } = useSessionStorage();
+  const { setPreCheckinComplete } = useStorage();
+  const { getTravelPaySent } = useStorage(false, true);
 
   const dispatch = useDispatch();
 
@@ -62,17 +66,21 @@ const useGetCheckInData = ({
           appointments,
           demographics,
           patientDemographicsStatus,
+          setECheckinStartedCalled,
         } = payload;
         dispatch(triggerRefresh(false));
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
-
+        dispatch(additionalContext({ setECheckinStartedCalled }));
         if (!appointmentsOnly) {
+          const travelPaySent = getTravelPaySent(window);
           dispatch(receivedDemographicsData(demographics));
           dispatch(
             updateDayOfForm({
               patientDemographicsStatus,
               isTravelReimbursementEnabled,
               appointments,
+              isTravelLogicEnabled,
+              travelPaySent,
             }),
           );
         }
@@ -82,7 +90,15 @@ const useGetCheckInData = ({
         }
       });
     },
-    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled, reload],
+    [
+      appointmentsOnly,
+      dispatch,
+      token,
+      isTravelReimbursementEnabled,
+      reload,
+      getTravelPaySent,
+      isTravelLogicEnabled,
+    ],
   );
 
   const setPreCheckInData = useCallback(

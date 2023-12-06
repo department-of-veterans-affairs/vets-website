@@ -33,20 +33,38 @@ export const App = ({
   isLoggedIn,
   location,
   setFormData,
+  showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
   showMebDgi42Features,
-  showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  showMebEnhancements09,
+  showMebServiceHistoryCategorizeDisagreement,
   email,
-  mobilePhone,
   duplicateEmail,
   duplicatePhone,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
+
+  // Prevent some browsers from changing the value when scrolling while hovering
+  //  over an input[type="number"] with focus.
+  document.addEventListener(
+    'wheel',
+    event => {
+      if (
+        event.target.type === 'number' &&
+        document.activeElement === event.target
+      ) {
+        event.preventDefault();
+        document.body.scrollTop += event.deltaY; // Chrome, Safari, et al
+        document.documentElement.scrollTop += event.deltaY; // Firefox, IE, maybe more
+      }
+    },
+    { passive: false },
+  );
 
   // Commenting out next line until component can handle astrisks (See TOE app)
   // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -60,7 +78,7 @@ export const App = ({
       if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebCh33SelfForm);
+        getPersonalInfo(showMebEnhancements09);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -71,13 +89,15 @@ export const App = ({
     [
       claimantInfo,
       featureTogglesLoaded,
+      fetchedContactInfo,
       fetchedPersonalInfo,
       formData,
       getPersonalInfo,
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
+      showMebEnhancements09,
     ],
   );
 
@@ -150,10 +170,12 @@ export const App = ({
           showMebDgi42Features,
         });
       }
-      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+      if (
+        showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
+      ) {
         setFormData({
           ...formData,
-          showMebCh33SelfForm,
+          showMeb1990EZMaintenanceAlert,
         });
       }
 
@@ -215,6 +237,23 @@ export const App = ({
         });
       }
 
+      if (showMebEnhancements09 !== formData.showMebEnhancements09) {
+        setFormData({
+          ...formData,
+          showMebEnhancements09,
+        });
+      }
+
+      if (
+        showMebServiceHistoryCategorizeDisagreement !==
+        formData.showMebServiceHistoryCategorizeDisagreement
+      ) {
+        setFormData({
+          ...formData,
+          showMebServiceHistoryCategorizeDisagreement,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -228,31 +267,16 @@ export const App = ({
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
-      mobilePhone,
+      showMebEnhancements09,
+      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
+      duplicateEmail,
+      duplicatePhone,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (mobilePhone !== formData?.mobilePhone) {
-        setFormData({
-          ...formData,
-          'view:phoneNumbers': {
-            ...formData['view:phoneNumbers'],
-            mobilePhoneNumber: {
-              ...formData['view:phoneNumbers'].mobilePhoneNumber,
-              phone: mobilePhone,
-            },
-          },
-        });
-      }
-    },
-    [mobilePhone],
   );
 
   useEffect(
@@ -267,7 +291,7 @@ export const App = ({
         });
       }
     },
-    [email],
+    [email, formData, setFormData],
   );
 
   // Commenting out until Direct Deposit component is updated
@@ -300,26 +324,30 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
+  email: PropTypes.string,
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
   // getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  setFormData: PropTypes.func,
-  showMebDgi40Features: PropTypes.bool,
-  showMebCh33SelfForm: PropTypes.bool,
-  email: PropTypes.string,
   mobilePhone: PropTypes.string,
+  setFormData: PropTypes.func,
+  showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
-  duplicateEmail: PropTypes.array,
-  duplicatePhone: PropTypes.array,
+  showMebEnhancements09: PropTypes.bool,
+  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -328,10 +356,6 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
-  const mobilePhone =
-    state?.data?.mobilePhone ||
-    state?.data?.formData?.data?.attributes?.claimant?.contactInfo
-      ?.mobilePhoneNumber;
 
   return {
     ...getAppData(state),
@@ -339,7 +363,6 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
-    mobilePhone,
   };
 };
 

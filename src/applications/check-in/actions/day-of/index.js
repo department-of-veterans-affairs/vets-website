@@ -48,16 +48,31 @@ export const updateFormAction = ({
   patientDemographicsStatus,
   isTravelReimbursementEnabled,
   appointments,
+  isTravelLogicEnabled,
+  travelPaySent,
 }) => {
   const pages = updateForm(
     patientDemographicsStatus,
     isTravelReimbursementEnabled,
     appointments,
+    isTravelLogicEnabled,
+    travelPaySent,
   );
   return {
     type: UPDATE_DAY_OF_CHECK_IN_FORM,
     payload: {
       pages,
+    },
+  };
+};
+
+export const ADDITIONAL_CONTEXT = 'ADDITIONAL_CONTEXT';
+
+export const additionalContext = newContext => {
+  return {
+    type: ADDITIONAL_CONTEXT,
+    payload: {
+      context: newContext,
     },
   };
 };

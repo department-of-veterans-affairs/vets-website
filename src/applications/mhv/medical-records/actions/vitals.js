@@ -1,12 +1,26 @@
 import { Actions } from '../util/actionTypes';
-import { mockGetVitalsList } from '../api/MrApi';
+import { getVitalsList } from '../api/MrApi';
+import * as Constants from '../util/constants';
+import { addAlert } from './alerts';
 
-export const getVitalsList = () => async dispatch => {
-  const response = await mockGetVitalsList();
-  dispatch({ type: Actions.Vitals.GET_LIST, response });
+export const getVitals = () => async dispatch => {
+  try {
+    const response = await getVitalsList();
+    dispatch({ type: Actions.Vitals.GET_LIST, response });
+  } catch (error) {
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+  }
 };
 
 export const getVitalDetails = vitalType => async dispatch => {
-  await dispatch(getVitalsList());
-  dispatch({ type: Actions.Vitals.GET, vitalType });
+  try {
+    await dispatch(getVitals());
+    dispatch({ type: Actions.Vitals.GET, vitalType });
+  } catch (error) {
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
+  }
+};
+
+export const clearVitalDetails = () => async dispatch => {
+  dispatch({ type: Actions.Vitals.CLEAR_DETAIL });
 };

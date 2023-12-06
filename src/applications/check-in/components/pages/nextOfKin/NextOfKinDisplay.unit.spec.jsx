@@ -95,11 +95,27 @@ describe('pre-check-in experience', () => {
         expect(getByText(', Ste 234')).to.exist;
         expect(getByText('Los Angeles, CA 90089')).to.exist;
       });
+      it('renders additional info', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay yesAction={() => {}} noAction={() => {}} />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('additional-info')).to.exist;
+      });
+      it('renders help text', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay yesAction={() => {}} noAction={() => {}} />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('help-text')).to.exist;
+      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <NextOfKinDisplay yesAction={yesClick} />
+            <NextOfKinDisplay yesAction={yesClick} noAction={() => {}} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -109,7 +125,7 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <NextOfKinDisplay noAction={noClick} />
+            <NextOfKinDisplay yesAction={() => {}} noAction={noClick} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
@@ -118,7 +134,7 @@ describe('pre-check-in experience', () => {
       it('renders the buttons', () => {
         const screen = render(
           <CheckInProvider>
-            <NextOfKinDisplay isLoading={false} />
+            <NextOfKinDisplay yesAction={() => {}} noAction={() => {}} />
           </CheckInProvider>,
         );
         expect(screen.getByTestId('no-button')).to.exist;

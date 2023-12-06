@@ -18,20 +18,13 @@
 .link-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-
 .main-content {
-  padding: 10px;
+  padding: 0;
+  margin-bottom: 40px;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
   }
-}
-.breadcrumbs-container {
-  @media (max-width: $large-screen) {
-    margin-left: -16px;
-
-  }
-  padding: 0px;
 }
 .link-to-details {
   i {
@@ -41,25 +34,25 @@
   .right-angle {
     text-decoration: none;
   }
-
 }
 .landing-page {
   h1 {
     color: $color-gray-dark;
-    margin: 0;
   }
   .medications-list-sort {
-    margin-top: -25px;
-    width: 272;
+    display: flex;
+    flex-direction: row;
+    .sort-button {
+      margin-left: 8px;
+      margin-top: 57px;
+    }
   }
   .rx-page-total-info {
     margin-top: 15px;
     margin-bottom: 15px;
     max-width: 500px;
-  }
-  .pagination {
-    max-width: 500px;
-    border-top: 0px;
+    font-size: 1.6rem;
+    font-weight: normal;
   }
   section {
     .feedback {
@@ -73,13 +66,15 @@
     color: $color-gray-dark;
     .rx-card-detials{
       margin-left: 5px;
-      h4 {
+      h3 {
         margin: 8px 0;
       }
+      p {
+        margin: 0;
+      }
       .shipping-info {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        padding: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -89,6 +84,30 @@
           height: 20px;
           border: 1px solid $color-base;
         }
+      }
+      .statusIcon {
+        padding: 4px 20px 4px 28px;
+        position: relative;
+        display: inline-block;
+      }
+      .statusIcon:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+        font-size: 120%;
+        position: absolute;
+        left: 0px;
+      }
+
+      .refillProcessIcon:before {
+        content: "\f56e";
+      }
+
+      .unknownIcon:before {
+        content: "\f071";
+      }
+
+      .submittedIcon:before {
+        content: "\f572";
       }
     }
   }
@@ -108,6 +127,11 @@
       }
     }
   }
+}
+
+.pagination {
+  max-width: 500px;
+  border-top: 0px;
 }
 
 @media print {
@@ -138,6 +162,7 @@
       margin: 0px;
     }
   }
+
   .card {
     margin: 0px 0px 12px 0px !important;
     padding: 24px 0px 12px !important;
@@ -158,5 +183,41 @@
     display: none;
     margin: 0px !important;
     padding: 0px !important;
+  }
+}
+
+.vads-u-width--responsive{
+  @media (max-width: $small-screen) {
+    width: 100% !important;
+  }
+}
+
+@media print {
+  @page {
+      margin-top: 20px;
+      margin-bottom: 0;
+  }
+  body {
+    padding-top: 10px;
+    padding-bottom: 30px ;
+  }
+  button {
+    -webkit-print-color-adjust: exact;
+    width: 200px !important;
+  }
+}
+
+.print-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
+}
+
+.rx-fill-refill-button {
+  va-loading-indicator {
+    display: flex;
+    justify-content: left;
   }
 }

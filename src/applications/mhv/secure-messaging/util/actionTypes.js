@@ -4,10 +4,17 @@ export const Actions = {
     ADD_ALERT: 'SM_ALERT_ADD_ALERT',
     FOCUS_OUT_ALERT: 'SM_ALERT_FOCUS_OUT',
   },
+  AllRecipients: {
+    GET_LIST: 'SM_ALL_RECIPIENTS_GET_LIST',
+    GET_LIST_ERROR: 'SM_ALL_RECIPIENTS_GET_LIST_ERROR',
+  },
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
   },
-  Category: { GET_LIST: 'SM_CATEGORY_GET_LIST' },
+  Category: {
+    GET_LIST: 'SM_CATEGORY_GET_LIST',
+    GET_LIST_ERROR: 'SM_CATEGORY_GET_LIST_ERROR',
+  },
   Draft: {
     GET: 'SM_DRAFT_GET',
     GET_LIST: 'SM_DRAFT_GET_LIST',
@@ -26,6 +33,7 @@ export const Actions = {
     GET: 'SM_FOLDER_GET',
     CLEAR: 'SM_FOLDER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
+    GET_LIST_ERROR: 'SM_FOLDER_GET_LIST_ERROR',
     CREATE: 'SM_FOLDER_CREATE',
     DELETE: 'SM_FOLDER_DELETE',
     RENAME: 'SM_FOLDER_RENAME',
@@ -50,6 +58,7 @@ export const Actions = {
   },
   Preferences: {
     GET_USER_SIGNATURE: 'SM_GET_USER_SIGNATURE',
+    GET_USER_SIGNATURE_ERROR: 'SM_GET_USER_SIGNATURE_ERROR',
   },
   Search: {
     RUN_BASIC: 'SM_SEARCH_RUN_BASIC',
@@ -62,6 +71,7 @@ export const Actions = {
   Thread: {
     GET_EMPTY_LIST: 'SM_THREAD_GET_EMPTY_LIST',
     GET_LIST: 'SM_THREAD_GET_LIST',
+    IS_LOADING: 'SM_THREAD_IS_LOADING',
     CLEAR_LIST: 'SM_THREAD_CLEAR_LIST',
     SET_SORT_ORDER: 'SM_THREAD_SET_SORT_ORDER',
     SET_PAGE: 'SM_THREAD_SET_PAGE',
@@ -69,5 +79,6 @@ export const Actions = {
   },
   TriageTeam: {
     GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',
+    GET_LIST_ERROR: 'SM_TRIAGE_TEAM_GET_LIST_ERROR',
   },
 };

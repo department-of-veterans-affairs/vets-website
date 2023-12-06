@@ -16,16 +16,19 @@ const TableDetailsView = ({ formData, onEdit }) => {
 
   const renderDetails = data => {
     return data?.map((key, i) => (
-      <td key={`${key}-${i}`} className="vads-u-border--0">
+      <span
+        key={`${key}-${i}`}
+        className="vads-u-border--0 vads-u-border-bottom--1px"
+      >
         {format(values[i])}
-      </td>
+      </span>
     ));
   };
 
   return (
-    <tr className="vads-u-border-bottom--1px">
+    <>
       {renderDetails(keys)}
-      <td className="vads-u-border--0">
+      <span className="vads-u-border--0 vads-u-border-bottom--1px vads-u-text-align--right">
         <button
           className="usa-button-secondary vads-u-margin--0"
           onClick={() => onEdit()}
@@ -36,8 +39,8 @@ const TableDetailsView = ({ formData, onEdit }) => {
         >
           Edit
         </button>
-      </td>
-    </tr>
+      </span>
+    </>
   );
 };
 

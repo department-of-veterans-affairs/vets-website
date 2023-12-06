@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -13,7 +12,13 @@ import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 import { itfNotice } from '../content/introductionPage';
-import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
+import {
+  show526Wizard,
+  show526MaxRating,
+  isBDD,
+  getPageTitle,
+  getStartText,
+} from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -21,12 +26,17 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
   DBQ_URL,
+  OMB_CONTROL,
 } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
     scrollToTop();
+    window.sessionStorage.setItem(
+      'showDisability526MaximumRating',
+      this.props.showMaxRating,
+    );
   }
 
   render() {
@@ -83,8 +93,8 @@ class IntroductionPage extends React.Component {
           </>
         ) : (
           <p>
-            Equal to VA Form 21-526EZ (Application for Disability Compensation
-            and Related Compensation Benefits).
+            VA Form 21-526EZ (Application for Disability Compensation and
+            Related Compensation Benefits).
           </p>
         )}
         <SaveInProgressIntro {...sipProps} />
@@ -213,7 +223,7 @@ class IntroductionPage extends React.Component {
                         Disability ratings
                       </h4>
                       <p>
-                        For each disability we assign a rating from 0% to 100%.
+                        For each disability, we assign a rating from 0% to 100%.
                         We base this rating on the evidence you turn in with
                         your claim. In some cases we may also ask you to have an
                         exam to help us rate your disability.
@@ -275,9 +285,11 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
-        <div className="omb-info--container">
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021" />
-        </div>
+        <va-omb-info
+          res-burden={25}
+          omb-number={OMB_CONTROL}
+          exp-date="03/31/2021"
+        />
       </div>
     );
   }
@@ -288,6 +300,7 @@ const mapStateToProps = state => ({
   isBDDForm: isBDD(state?.form?.data),
   loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
+  showMaxRating: show526MaxRating(state),
 });
 
 IntroductionPage.propTypes = {
@@ -305,6 +318,7 @@ IntroductionPage.propTypes = {
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
+  showMaxRating: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

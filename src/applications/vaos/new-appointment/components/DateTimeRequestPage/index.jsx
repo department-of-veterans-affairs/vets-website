@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-
+import PropTypes from 'prop-types';
 import {
   onCalendarChange,
   routeToNextAppointmentPage,
@@ -19,6 +19,7 @@ import {
 import DateTimeRequestOptions from './DateTimeRequestOptions';
 import SelectedIndicator, { getSelectedLabel } from './SelectedIndicator';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose an appointment day and time';
@@ -46,7 +47,11 @@ function goForward({ dispatch, data, history, setSubmitted }) {
   }
 }
 
-export default function DateTimeRequestPage() {
+export default function DateTimeRequestPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const { data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
@@ -63,6 +68,9 @@ export default function DateTimeRequestPage() {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   const { selectedDates } = data;
@@ -131,3 +139,7 @@ export default function DateTimeRequestPage() {
     </div>
   );
 }
+
+DateTimeRequestPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

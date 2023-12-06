@@ -1,5 +1,6 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -19,6 +20,7 @@ export const AuthContent = ({
   otherFacilities,
   ehrDataByVhaId,
   useSingleLogout,
+  widgetType,
 }) => (
   <>
     <h2 id="send-or-receive-secure-mess">Send or receive a secure message</h2>
@@ -29,6 +31,7 @@ export const AuthContent = ({
       linksHeaderText="Send a secure message to a provider at:"
       myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
       myVAHealthLink={getCernerURL('/pages/messaging/inbox', useSingleLogout)}
+      widgetType={widgetType}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -311,6 +314,7 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,

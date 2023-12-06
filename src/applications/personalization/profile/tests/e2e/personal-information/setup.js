@@ -6,7 +6,6 @@ import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-i
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
 import mockDisabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import { checkForLegacyLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 
 export const setup = (
   options = {
@@ -42,7 +41,4 @@ export const setup = (
   cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
 
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
-
-  // should show a loading indicator
-  checkForLegacyLoadingIndicator();
 };

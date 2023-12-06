@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from '../../../monitoring/record-event';
 
 import { fetchLatestTerms, acceptTerms } from '../../profile/actions';
 
 import AcceptTermsPrompt from '../components/AcceptTermsPrompt';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export class RequiredTermsAcceptanceView extends React.Component {
   componentDidMount() {
@@ -34,7 +33,7 @@ export class RequiredTermsAcceptanceView extends React.Component {
 
     if (terms.loading === true) {
       view = (
-        <LoadingIndicator setFocus message="Loading your information..." />
+        <va-loading-indicator set-focus message="Loading your information..." />
       );
     } else if (!this.props.termsNeeded) {
       view = React.Children.map(this.props.children, child => {

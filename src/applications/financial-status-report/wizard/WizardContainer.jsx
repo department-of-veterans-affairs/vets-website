@@ -25,7 +25,7 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
         <div className="wizard-container">
           <DowntimeNotification
             appTitle="VA Form 5655"
-            dependencies={[externalServices.dmc]}
+            dependencies={[externalServices.dmc, externalServices.vbs]}
             render={({ status }) => {
               return (
                 (!showFSR || status === externalServiceStatus.down) && (

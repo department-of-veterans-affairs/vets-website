@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
@@ -16,7 +16,7 @@ describe('Homeless or At Risk Info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.homelessOrAtRisk;
+  } = formConfig.chapters.veteranDetails.pages.homelessOrAtRisk;
 
   it('should render', () => {
     const form = mount(

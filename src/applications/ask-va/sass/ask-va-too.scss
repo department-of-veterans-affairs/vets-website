@@ -5,3 +5,26 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+
+.dashboard-card {
+    background-color: $color-gray-lightest;
+    border: none;
+}
+
+.card-heading {
+    font-weight: 600;
+}
+
+.form-panel {
+    min-width: 100%;
+}
+
+.form-checkbox > input[type="checkbox"] + .schemaform-label {
+    margin-top: 1rem;
+}
+
+#root_aboutYourself_socialOrServiceNum_ssn-label,
+#root_aboutYourself_socialOrServiceNum_serviceNumber-label {
+    margin-top: 1rem;
+}

@@ -5,6 +5,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../shared/sass/appeals";
 
 .schemaform-intro {
   padding: 0 0 2rem 0;
@@ -110,6 +111,13 @@ ul.issues,
   margin-top: 0;
 }
 
+/* request extension NOD v2 */
+article[data-location="extension-request"] {
+  fieldset fieldset {
+    margin: 0 !important;
+  }
+}
+
 /* contact info page */
 article[data-location="contact-information"] {
   div[data-field-name="mobilePhone"] h3 {
@@ -131,53 +139,6 @@ article[data-location="add-issue"] {
   label {
     margin-top: 0;
     padding-top: 0;
-  }
-}
-
-/* Area of disagreement */
-.area-of-disagreement-label {
-  margin-top: 0;
-}
-.area-of-disagreement-label .usa-input-error-message {
-  display: none;
-}
-.area-of-disagreement-label[data-submitted="true"].usa-input-error {
-  .usa-input-error-message {
-    display: block;
-  }
-  .input-section {
-    margin-bottom: 0;
-  }
-}
-.area-of-disagreement-label:not(.usa-input-error) {
-  margin: 2rem 0;
-}
-
-article[data-location^="area-of-disagreement"],
-article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
-  .schemaform-block-header,
-  .schemaform-block-header + .usa-input-error {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  .area-of-disagreement-label.usa-input-error ~ div {
-    /* add left red border to 2 associated divs */
-    border-left: 4px solid var(--color-secondary-dark);
-    position: relative;
-    right: 1.9rem;
-    padding-left: 1.9rem;
-
-    .vads-u-margin-y--2 {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-    }
-    #root_otherEntry-label {
-      margin-top: 0 !important;
-      padding-top: 2rem;
-    }
-    label[for="root_disagreementOptions_evaluation"] {
-      margin-bottom: 0;
-    }
   }
 }
 

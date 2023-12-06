@@ -104,7 +104,7 @@ class ValidateVeteran {
     return cy
       .get('[label="Date of birth"]')
       .shadow()
-      .find('.input-month')
+      .find('.usa-form-group--month-input')
       .shadow()
       .find('[name="date-of-birthMonth"]');
   };
@@ -113,7 +113,7 @@ class ValidateVeteran {
     return cy
       .get('[label="Date of birth"]')
       .shadow()
-      .find('.input-day')
+      .find('.usa-form-group--day-input')
       .shadow()
       .find('[name="date-of-birthDay"]');
   };
@@ -122,7 +122,7 @@ class ValidateVeteran {
     return cy
       .get('[label="Date of birth"]')
       .shadow()
-      .find('.input-year')
+      .find('.usa-form-group--year-input')
       .shadow()
       .find('[name="date-of-birthYear"]');
   };

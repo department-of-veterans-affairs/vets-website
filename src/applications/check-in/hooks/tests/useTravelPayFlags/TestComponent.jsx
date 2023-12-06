@@ -31,6 +31,7 @@ export default function TestComponent() {
       <div data-testid="travelPayEligible">
         {travelPayEligible ? 'yes' : 'no'}
       </div>
+      <div data-testid="travelPayData">{travelPayData.appointmentDate}</div>
       <button
         type="button"
         data-testid="setTravelPayClaimSentFalse"

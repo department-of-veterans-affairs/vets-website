@@ -14,7 +14,7 @@ import { clearDraft } from '../actions/draftDetails';
 import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
-import { retrieveFolder } from '../actions/folders';
+import { getFolders, retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -22,6 +22,7 @@ const ThreadDetails = props => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const {
     message,
@@ -38,10 +39,19 @@ const ThreadDetails = props => {
   const [isMessage, setIsMessage] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [isReply, setIsReply] = useState(false);
+  const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
+
   const [isLoaded, setIsLoaded] = useState(testing);
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
+
   useEffect(
     () => {
       if (!folder && draftMessage) {
@@ -50,6 +60,7 @@ const ThreadDetails = props => {
     },
     [draftMessage, dispatch, folder],
   );
+
   useEffect(
     () => {
       if (threadId) {
@@ -90,9 +101,16 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      focusElement(header.current);
+      if (!isCreateNewModalVisible) {
+        const alertVisible = alertList[alertList?.length - 1];
+        const alertSelector =
+          folder !== undefined && !alertVisible?.isActive
+            ? 'h1'
+            : alertVisible?.isActive && 'va-alert';
+        focusElement(document.querySelector(alertSelector));
+      }
     },
-    [header.current],
+    [alertList, folder, isCreateNewModalVisible],
   );
 
   const content = () => {
@@ -115,7 +133,7 @@ const ThreadDetails = props => {
             header={header}
           />
           <MessageThread
-            messageHistory={draftMessageHistory.slice(1)}
+            messageHistory={draftMessageHistory}
             isDraftThread
             isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
@@ -136,15 +154,18 @@ const ThreadDetails = props => {
     if (isMessage) {
       return (
         <>
-          <MessageDetailBlock message={message} cannotReply={cannotReply} />
-          {messageHistory?.length > 0 && (
-            <MessageThread
-              messageHistory={messageHistory}
-              threadId={threadId}
-              isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
-              viewCount={threadViewCount}
-            />
-          )}
+          <MessageDetailBlock
+            message={message}
+            cannotReply={cannotReply}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+          />
+          <MessageThread
+            messageHistory={[message, ...messageHistory]}
+            threadId={threadId}
+            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            viewCount={threadViewCount}
+          />
         </>
       );
     }
@@ -161,7 +182,7 @@ const ThreadDetails = props => {
   };
 
   return (
-    <div className="vads-l-grid-container message-detail-container">
+    <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
       <AlertBackgroundBox closeable />
 

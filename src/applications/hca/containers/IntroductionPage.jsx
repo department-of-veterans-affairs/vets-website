@@ -8,10 +8,12 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 import EnrollmentStatus from '../components/IntroductionPage/EnrollmentStatus';
 import GetStartedContent from '../components/IntroductionPage/GetStarted';
-import { IdentityVerificationAlert } from '../components/FormAlerts';
+import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 
 import {
   isLoading,
@@ -22,7 +24,7 @@ import {
 } from '../utils/selectors';
 
 const IntroductionPage = props => {
-  const { route, displayConditions, enrollmentOverrideEnabled } = props;
+  const { route, displayConditions, features } = props;
   const {
     showLoader,
     showLoginAlert,
@@ -30,6 +32,9 @@ const IntroductionPage = props => {
     showLOA3Content,
     showGetStartedContent,
   } = displayConditions;
+  const { enrollmentOverrideEnabled } = features;
+
+  const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -39,10 +44,10 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       {!showLoader && (
         <>
-          <FormTitle title="Apply for VA health care" />
-          <p className="vads-u-margin-top--neg2">
-            Enrollment Application for Health Benefits (VA Form 10-10EZ)
-          </p>
+          <FormTitle
+            title="Apply for VA health care"
+            subTitle="Enrollment Application for Health Benefits (VA Form 10-10EZ)"
+          />
         </>
       )}
 
@@ -67,7 +72,9 @@ const IntroductionPage = props => {
           />
         )}
 
-        {showIdentityAlert && <IdentityVerificationAlert />}
+        {showIdentityAlert && (
+          <IdentityVerificationAlert onVerify={onVerifyEvent} />
+        )}
 
         {(showGetStartedContent || enrollmentOverrideEnabled) && (
           <GetStartedContent route={route} showLoginAlert={showLoginAlert} />
@@ -82,7 +89,7 @@ const IntroductionPage = props => {
 
 IntroductionPage.propTypes = {
   displayConditions: PropTypes.object,
-  enrollmentOverrideEnabled: PropTypes.bool,
+  features: PropTypes.object,
   route: PropTypes.object,
 };
 
@@ -94,8 +101,10 @@ const mapStateToProps = state => ({
     showLoginAlert: isLoggedOut(state),
     showIdentityAlert: isUserLOA1(state),
   },
-  enrollmentOverrideEnabled:
-    state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
+  features: {
+    enrollmentOverrideEnabled:
+      state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
+  },
 });
 
 export { IntroductionPage };

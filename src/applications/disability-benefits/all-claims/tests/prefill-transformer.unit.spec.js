@@ -206,6 +206,39 @@ describe('526v2 prefill transformer', () => {
         },
       });
     });
+
+    it('should transform with missing mailing address fields  ', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        veteran: {
+          primaryPhone: '1123123123',
+          emailAddress: 'a@b.c',
+          mailingAddress: {},
+        },
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+
+      const { primaryPhone, emailAddress } = formData.veteran;
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        phoneAndEmail: {
+          primaryPhone,
+          emailAddress,
+        },
+        mailingAddress: {
+          'view:livesOnMilitaryBase': false,
+          country: '',
+          addressLine1: '',
+          addressLine2: undefined,
+          addressLine3: undefined,
+          city: '',
+          state: '',
+          zipCode: '',
+        },
+      });
+    });
   });
 
   describe('prefillServiceInformation', () => {
@@ -385,9 +418,7 @@ describe('filterServiceConnected', () => {
   });
 
   it('should return an empty array when no disabilities provided', () => {
-    const disabilities = [];
-
-    const filteredDisabilities = filterServiceConnected(disabilities);
+    const filteredDisabilities = filterServiceConnected();
     expect(filteredDisabilities).to.be.an('array').that.is.empty;
   });
 });

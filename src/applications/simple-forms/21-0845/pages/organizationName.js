@@ -4,11 +4,21 @@ import React from 'react';
 export default {
   uiSchema: {
     organizationName: {
-      'ui:title': (
-        <span className="vads-u-font-family--serif vads-u-font-size--h4 vads-u-font-weight--bold">
-          Organization’s name
-        </span>
+      'ui:title': <h3 style={{ display: 'inline' }}>Organization’s name</h3>,
+      'ui:reviewField': ({ children }) => (
+        // prevent ui:title's <h3> from getting pulled into
+        // review-field's <dt> & causing a11y headers-hierarchy errors.
+        <div className="review-row">
+          <dt>Name of organization</dt>
+          <dd>{children}</dd>
+        </div>
       ),
+      'ui:errorMessages': {
+        required: 'Please enter the name of the organization',
+      },
+      'ui:options': {
+        widgetClassNames: 'vads-u-margin-top--3',
+      },
     },
   },
   schema: {

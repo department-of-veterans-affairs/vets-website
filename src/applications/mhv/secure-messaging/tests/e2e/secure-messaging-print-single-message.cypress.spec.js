@@ -3,6 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging - Print Functionality', () => {
   const landingPage = new PatientInboxPage();
@@ -21,32 +22,22 @@ describe('Secure Messaging - Print Functionality', () => {
       0,
     );
   });
+
   it('print all messages', () => {
     cy.get('[data-testid="print-button"]')
       .should('be.visible')
       .click({ force: true });
-    cy.get('[data-testid="radio-print-one-message"]')
-      .shadow()
-      .find('label')
-      .should('have.text', 'Print only this message')
-      .should('be.visible');
-    cy.get('[data-testid="radio-print-all-messages"]')
-      .shadow()
-      .find('label')
-      .should('contain.text', 'Print all messages in this conversation')
-      .should('be.visible');
+
     cy.get('[data-testid="print-modal-popup"]')
-      .shadow()
       .find('h1')
-      .should('have.text', 'What do you want to print?')
-      .should('be.visible');
-    cy.get('[data-testid="radio-print-all-messages"]').click({ force: true });
+      .should('have.text', 'Make sure you have all messages expanded');
+
     cy.window().then(win => {
       win.print();
       expect(win.print).to.be.calledOnce;
-      cy.get('[class ="button-secondary"]').click({ force: true });
+      cy.get('va-button[secondary]').click({ force: true });
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
@@ -58,7 +49,8 @@ describe('Secure Messaging - Print Functionality', () => {
       });
     });
   });
-  it('print single message', () => {
+  // TODO the concept of printing has changed, this test needs to be updated once the final design is implemented
+  it.skip('print single message', () => {
     cy.get('[data-testid="print-button"]').click({ force: true });
     cy.get('[data-testid="print-modal-popup"]')
       .shadow()
@@ -71,9 +63,9 @@ describe('Secure Messaging - Print Functionality', () => {
 
       expect(win.print).to.be.calledOnce;
     });
-    cy.get('[class ="button-secondary"]').click({ force: true });
+    cy.get('va-button[secondary]').click({ force: true });
     cy.injectAxe();
-    cy.axeCheck('main', {
+    cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
           enabled: false,

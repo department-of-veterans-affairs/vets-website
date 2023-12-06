@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import moment from 'moment';
+import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -29,7 +29,6 @@ import {
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
-  selectFeatureAppointmentList,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -55,8 +54,10 @@ export function getCancelInfo(state) {
   }
   let isCerner = null;
   if (appointmentToCancel) {
-    isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
-      appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
+    isCerner = selectCernerFacilityIds(state)?.some(
+      cernerSite =>
+        appointmentToCancel.location.vistaId?.startsWith(cernerSite.vhaId),
+      // appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
   return {
@@ -162,7 +163,7 @@ export const selectCanceledAppointments = createSelector(
  * V2 Past appointments state selectors
  */
 
-export const selectPastAppointmentsV2 = (state, featureAppointmentList) => {
+export const selectPastAppointmentsV2 = state => {
   const selector = createSelector(
     () => state.appointments.past,
     past => {
@@ -170,16 +171,9 @@ export const selectPastAppointmentsV2 = (state, featureAppointmentList) => {
         return null;
       }
 
-      let sortedAppointments;
-      if (featureAppointmentList) {
-        sortedAppointments = past
-          .filter(isValidPastAppointment)
-          .sort(sortByDateDescending);
-      } else {
-        sortedAppointments = past
-          .filter(isValidPastAppointment)
-          .sort(sortByDateAscending);
-      }
+      const sortedAppointments = past
+        .filter(isValidPastAppointment)
+        .sort(sortByDateDescending);
 
       return groupAppointmentsByMonth(sortedAppointments);
     },
@@ -282,13 +276,9 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 }
 
 export function getPastAppointmentListInfo(state) {
-  const featureAppointmentList = selectFeatureAppointmentList(state);
   return {
     showScheduleButton: selectFeatureRequests(state),
-    pastAppointmentsByMonth: selectPastAppointmentsV2(
-      state,
-      featureAppointmentList,
-    ),
+    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -28,6 +29,7 @@ import FormNavButtons from './FormNavButtons';
 
 import readableList from '../utilities/data/readableList';
 import {
+  setReturnState,
   getReturnState,
   clearReturnState,
   getPhoneString,
@@ -35,6 +37,7 @@ import {
   REVIEW_CONTACT,
   contactInfoPropTypes,
 } from '../utilities/data/profile';
+import { getValidationErrors } from '../utilities/validations';
 
 /**
  * Render contact info page
@@ -65,6 +68,7 @@ const ContactInfo = ({
   contactPath,
   keys,
   requiredKeys,
+  uiSchema,
   testContinueAlert = false,
 }) => {
   const wrapRef = useRef(null);
@@ -99,6 +103,10 @@ const ContactInfo = ({
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
 
+  const validationErrors = uiSchema?.['ui:required']?.(data)
+    ? getValidationErrors(uiSchema?.['ui:validations'] || [], {}, data)
+    : [];
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -111,7 +119,7 @@ const ContactInfo = ({
     },
     onGoForward: () => {
       setSubmitted(true);
-      if (missingInfo.length) {
+      if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
         goForward(data);
@@ -119,10 +127,10 @@ const ContactInfo = ({
     },
     updatePage: () => {
       setSubmitted(true);
-      if (missingInfo.length) {
+      if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
-        clearReturnState();
+        setReturnState('true');
         updatePage();
       }
     },
@@ -168,12 +176,18 @@ const ContactInfo = ({
             returnState === 'canceled'
               ? `#edit-${lastEdited}`
               : `#updated-${lastEdited}`;
-          scrollTo('topScrollElement');
-          focusElement(target);
+          scrollTo(
+            onReviewPage
+              ? 'confirmContactInformationScrollElement'
+              : 'topScrollElement',
+          );
+          focusElement(
+            onReviewPage ? '#confirmContactInformationHeader' : target,
+          );
         });
       }
     },
-    [editState],
+    [editState, onReviewPage],
   );
 
   useEffect(
@@ -223,7 +237,7 @@ const ContactInfo = ({
           {content.homePhone}
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
-        <span className="dd-privacy-hidden">
+        <span className="dd-privacy-hidden" data-dd-action-name="home phone">
           <va-telephone contact={homePhoneString} not-clickable />
         </span>
         {loggedIn && (
@@ -244,7 +258,7 @@ const ContactInfo = ({
       <React.Fragment key="mobile">
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
-        <span className="dd-privacy-hidden">
+        <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           <va-telephone contact={mobilePhoneString} not-clickable />
         </span>
         {loggedIn && (
@@ -265,7 +279,9 @@ const ContactInfo = ({
       <React.Fragment key="email">
         <Headers className={headerClassNames}>{content.email}</Headers>
         {showSuccessAlert('email', content.email)}
-        <span className="dd-privacy-hidden">{dataWrap[keys.email] || ''}</span>
+        <span className="dd-privacy-hidden" data-dd-action-name="email">
+          {dataWrap[keys.email] || ''}
+        </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
@@ -315,6 +331,7 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
+      <Element name="confirmContactInformationScrollElement" />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"
@@ -330,7 +347,8 @@ const ContactInfo = ({
         )}
         <div ref={wrapRef}>
           {hadError &&
-            missingInfo.length === 0 && (
+            missingInfo.length === 0 &&
+            validationErrors.length === 0 && (
               <div className="vads-u-margin-top--1p5">
                 <va-alert status="success" background-only>
                   <div className="vads-u-font-size--base">
@@ -366,6 +384,17 @@ const ContactInfo = ({
               </div>
             </>
           )}
+          {submitted &&
+            missingInfo.length === 0 &&
+            validationErrors.length > 0 && (
+              <div className="vads-u-margin-top--1p5" role="alert">
+                <va-alert status="error" background-only>
+                  <div className="vads-u-font-size--base">
+                    {validationErrors[0]}
+                  </div>
+                </va-alert>
+              </div>
+            )}
         </div>
         <div className="blue-bar-block vads-u-margin-top--4">
           <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
@@ -389,6 +418,11 @@ ContactInfo.propTypes = {
   keys: contactInfoPropTypes.keys,
   requiredKeys: PropTypes.shape([PropTypes.string]),
   setFormData: PropTypes.func,
+  testContinueAlert: PropTypes.bool, // for unit testing only
+  uiSchema: PropTypes.shape({
+    'ui:required': PropTypes.func,
+    'ui:validations': PropTypes.array,
+  }),
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };

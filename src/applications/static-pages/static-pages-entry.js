@@ -47,10 +47,12 @@ import createExpandableOperatingStatus from './facilities/vet-center/createExpan
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
+import createFindARepLandingContent from './representative-search';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
+import createHCAPerformanceWarning from './hca-performance-warning';
 import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -80,10 +82,16 @@ import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create210845Access from './simple-forms/21-0845/entry';
+import create210966Access from './simple-forms/21-0966/entry';
+import create210972Access from './simple-forms/21-0972/entry';
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
+import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
-
+import create400247Access from './simple-forms/40-0247/entry';
+import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
+import createPensionApp from './pension-how-do-i-apply-widget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -116,14 +124,8 @@ openShareLink();
 showVaAlertExpandable(store);
 
 // Create widgets.
-createApplicationStatus(store, {
-  formId: VA_FORM_IDS.FORM_21P_527EZ,
-  applyHeading: 'How do I apply?',
-  additionalText: 'You can apply online right now.',
-  applyLink: '/pension/how-to-apply/',
-  applyText: 'Apply for Veterans Pension benefits',
-  widgetType: widgetTypes.PENSION_APP_STATUS,
-});
+createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
+
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_10_10EZ,
   applyHeading: 'How do I apply?',
@@ -165,6 +167,7 @@ createBasicFacilityListWidget();
 createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
+createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,
@@ -200,6 +203,7 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
+createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
@@ -216,9 +220,15 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create210845Access(store, widgetTypes.FORM_210845_CTA);
+create210966Access(store, widgetTypes.FORM_210966_CTA);
+create210972Access(store, widgetTypes.FORM_210972_CTA);
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
+create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
+create400247Access(store, widgetTypes.FORM_400247_CTA);
+createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

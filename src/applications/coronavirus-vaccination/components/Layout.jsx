@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import * as userSelectors from 'platform/user/selectors';
 
 function Layout({ formIsEnabled, isProfileLoading, children }) {
@@ -13,7 +11,7 @@ function Layout({ formIsEnabled, isProfileLoading, children }) {
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
         <div className="vads-l-row">
           {isProfileLoading ? (
-            <LoadingIndicator message="Loading your profile..." />
+            <va-loading-indicator message="Loading your profile..." />
           ) : (
             <div className="vads-l-col--12 large-screen:vads-l-col--8">
               {children}
@@ -28,7 +26,7 @@ function Layout({ formIsEnabled, isProfileLoading, children }) {
     window.location.replace('/health-care/covid-19-vaccine/');
   }
 
-  return <LoadingIndicator message="Loading the application..." />;
+  return <va-loading-indicator message="Loading the application..." />;
 }
 
 const mapStateToProps = state => {

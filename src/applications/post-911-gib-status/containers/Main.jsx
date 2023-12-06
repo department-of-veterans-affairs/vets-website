@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 import {
@@ -23,7 +23,7 @@ export class Main extends React.Component {
         break;
       case 'awaitingResponse':
         appContent = (
-          <LoadingIndicator message="Please wait while we check if the tool is available for you." />
+          <va-loading-indicator message="Please wait while we check if the tool is available for you." />
         );
         break;
       case 'backendAuthenticationError':

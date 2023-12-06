@@ -63,7 +63,6 @@ export default function(state = INITIAL_STATE, action) {
           facilityCode => facilityCode !== action.payload,
         ),
       };
-
     case UPDATE_COMPARE_DETAILS:
       return {
         ...state,

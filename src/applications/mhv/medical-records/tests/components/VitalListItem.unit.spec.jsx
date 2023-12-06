@@ -4,21 +4,24 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
-import { RecordType } from '../../util/constants';
+import { recordType } from '../../util/constants';
+import { convertVital } from '../../reducers/vitals';
 
 describe('Vital list item component', () => {
   const initialState = {
     mr: {
       vitals: {
-        vitalsList: vitals,
-        vitalDetails: vitals[0],
+        vitalsList: vitals.entry.map(item => convertVital(item.resource)),
       },
     },
   };
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(
-      <RecordListItem record={vitals[0]} type={RecordType.VITALS} />,
+      <RecordListItem
+        record={convertVital(vitals.entry[1].resource)}
+        type={recordType.VITALS}
+      />,
       {
         initialState: state,
         reducers: reducer,
@@ -40,7 +43,7 @@ describe('Vital list item component', () => {
 
   it('should contain the date of the record', () => {
     const screen = setup();
-    const recordDate = screen.getByText('June', {
+    const recordDate = screen.getByText('September', {
       exact: false,
     });
     expect(recordDate).to.exist;

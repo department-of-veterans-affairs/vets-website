@@ -5,7 +5,13 @@
 }
 .thread-list-draft {
   font-weight: 700;
+
 }
+
+.reply-draft-label {
+  white-space: nowrap;
+}
+
 .thread-list {
   width: 100%;
   // @media (max-width: $small-screen) {

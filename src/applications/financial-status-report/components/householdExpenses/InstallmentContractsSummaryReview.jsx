@@ -60,7 +60,7 @@ const formatDate = date => {
   // dates are currently formatted as YYYY-MM-DD
   //  however, we only want to display the month and year and
   //  day is populated with XX which does not play well with formatters
-  return moment(new Date(date.substring(0, 8))).format('MMMM YYYY');
+  return moment(new Date(date?.substring(0, 8))).format('MMMM YYYY');
 };
 
 const renderLoanStartDate = contract => {

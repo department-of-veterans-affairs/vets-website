@@ -117,6 +117,10 @@ export const validateResolutionAmount = (errors, fieldData) => {
     errors.addError('Please enter a valid dollar amount.');
   }
 
+  if (!isValidCurrency(resolutionComment)) {
+    errors.addError('Please enter a valid dollar amount.');
+  }
+
   // Checking compromise/monthly resolution amount against remaining debt amount
   if (
     (debtType === 'DEBT' && fieldData?.currentAr <= resolutionComment) ||
@@ -154,7 +158,9 @@ export const validateCurrencyArray = (errors, fieldData) => {
   }
 };
 
-export const validateIsNumber = value => {
-  const pattern = /^\d*\.?\d*$/;
-  return pattern.test(value);
+export const validateIsNumber = (errors, value) => {
+  const pattern = /^\d*$/; // This pattern ensures only whole numbers
+  if (!pattern.test(value)) {
+    errors.addError('Please enter a valid number.');
+  }
 };

@@ -1,72 +1,60 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import ChemHemDetails from '../../components/LabsAndTests/ChemHemDetails';
+import chemHem from '../fixtures/chemHem.json';
+import chemHemWithDateMissing from '../fixtures/chemHemWithDateMissing.json';
+import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 
 describe('Chem Hem details component', () => {
-  const mockChemHem = {
-    name: 'Complete blood count',
-    category: 'Chemistry and hematology',
-    sampleTested: 'Blood',
-    orderedBy: 'Beth M. Smith',
-    requestedBy: 'John J. Lydon',
-    id: 121,
-    date: '2022-06-14T17:42:46.000Z',
-    orderingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    comments: ["Jesse Roberts' blood panel is standard"],
-    results: [
-      {
-        name: 'WBC',
-        result: '5.0 K/ccm',
-        standardRange: '4.5 - 10.5 K/ccm',
-        status: 'Final',
-        labLocation:
-          '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-        interpretation: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
-      },
-    ],
-  };
-
   const initialState = {
     mr: {
       labsAndTests: {
-        labsAndTestsDetails: mockChemHem,
+        labsAndTestsDetails: convertLabsAndTestsRecord(chemHem),
       },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
     },
   };
 
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(
-      <ChemHemDetails record={mockChemHem} fullState={state} />,
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <ChemHemDetails
+        record={convertLabsAndTestsRecord(chemHem)}
+        fullState={initialState}
+        runningUnitTest
+      />,
       {
-        initialState: state,
+        initialState,
         reducers: reducer,
-        path: '/labs-and-tests/121',
+        path: '/labs-and-tests/ex-MHV-chReport-1',
       },
     );
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('should display the test name', () => {
-    const screen = setup();
-    const header = screen.getAllByText(mockChemHem.name, {
-      exact: true,
-      selector: 'h1',
-    });
+    const header = screen.getAllByText(
+      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
+      {
+        exact: true,
+        selector: 'h1',
+      },
+    );
     expect(header).to.exist;
   });
 
   it('should display the test results', () => {
-    const screen = setup();
-    const results = screen.getByText(mockChemHem.results[0].name, {
+    const results = screen.getByText('POTASSIUM', {
       exact: true,
       selector: 'h3',
     });
@@ -74,12 +62,51 @@ describe('Chem Hem details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const screen = setup();
-
-    const dateElement = screen.getByText('June 14, 2022', {
-      exact: true,
-      selector: 'p',
+    const dateElement = screen.getByText('January', {
+      exact: false,
+      selector: 'span',
     });
     expect(dateElement).to.exist;
+  });
+
+  it('should download a pdf', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen).to.exist;
+  });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
+});
+
+describe('Chem hem details component with no date', () => {
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: convertLabsAndTestsRecord(chemHemWithDateMissing),
+      },
+    },
+  };
+
+  const screen = renderWithStoreAndRouter(
+    <ChemHemDetails
+      record={convertLabsAndTestsRecord(chemHemWithDateMissing)}
+      fullState={initialState}
+      runningUnitTest
+    />,
+    {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests/123',
+    },
+  );
+
+  it('should not display the formatted date if effectiveDateTime is missing', () => {
+    waitFor(() => {
+      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
+        'None noted',
+      );
+    });
   });
 });

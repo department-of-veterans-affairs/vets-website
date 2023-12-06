@@ -5,3 +5,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+#react-root {
+  margin-top: 4rem;
+}
+
+.form-progress-buttons {
+  margin-top: 4rem !important;
+}

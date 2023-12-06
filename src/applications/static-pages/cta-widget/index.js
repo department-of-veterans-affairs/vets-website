@@ -191,13 +191,7 @@ export class CallToActionWidget extends Component {
         return this.getMviErrorContent();
       }
 
-      return (
-        <VAOnlineScheduling
-          isCommunityCareEnabled={
-            this.props.featureToggles.vaOnlineSchedulingCommunityCare
-          }
-        />
-      );
+      return <VAOnlineScheduling featureToggles={this.props.featureToggles} />;
     }
 
     if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {

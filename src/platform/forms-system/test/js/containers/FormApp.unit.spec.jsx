@@ -88,4 +88,33 @@ describe('Schemaform <FormApp>', () => {
     tree.reRender({ formData, currentLocation, formConfig });
     expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[1]);
   });
+
+  it('should hide title, nav and layout classes when formOptions are set', () => {
+    const formConfig = {
+      formOptions: { noTitle: true, noTopNav: true, fullWidth: true },
+    };
+    const currentLocation = {
+      pathname: '/veteran-information/personal-information',
+      search: '',
+    };
+    const routes = [
+      {
+        pageList: [{ path: currentLocation.pathname }],
+      },
+    ];
+
+    const tree = SkinDeep.shallowRender(
+      <FormApp
+        formConfig={formConfig}
+        routes={routes}
+        currentLocation={currentLocation}
+      >
+        <div className="child" />
+      </FormApp>,
+    );
+    expect(tree.everySubTree('.child')).not.to.be.empty;
+    expect(tree.everySubTree('FormTitle')).to.be.empty;
+    expect(tree.everySubTree('.row')).to.be.empty;
+    expect(tree.everySubTree('.usa-width-two-thirds')).to.be.empty;
+  });
 });

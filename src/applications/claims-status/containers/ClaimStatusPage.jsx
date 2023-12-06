@@ -14,15 +14,29 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
+  buildDateFormatter,
   getClaimType,
   getItemDate,
   getTrackedItemDate,
   getUserPhase,
   itemsNeedingAttentionFromVet,
+  setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+// HELPERS
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 // Using a Map instead of the typical Object because
 // we want to guarantee that the key insertion order
@@ -45,22 +59,21 @@ const STATUSES = getStatusMap();
 const getPhaseFromStatus = latestStatus =>
   [...STATUSES.keys()].indexOf(latestStatus) + 1;
 
-function isEventOrPrimaryPhase(event) {
+const isEventOrPrimaryPhase = event => {
   if (event.type === 'phase_entered') {
     return event.phase <= 3 || event.phase >= 7;
   }
 
   return !!getItemDate(event);
-}
+};
+
+const isCurrentOrPastPhase = (event, currentPhase) => {
+  return event.phase <= currentPhase;
+};
 
 const generatePhases = claim => {
   const { previousPhases } = claim.attributes.claimPhaseDates;
   const phases = [];
-
-  phases.push({
-    type: 'filed',
-    date: claim.attributes.claimDate,
-  });
 
   const regex = /\d+/;
 
@@ -71,20 +84,19 @@ const generatePhases = claim => {
       type: 'phase_entered',
       // We are assuming here that each phaseKey is of the format:
       // phaseXCompleteDate, where X is some integer between 1 and 7
+      // NOTE: Adding 1 because the a phases completion date is
+      // analagous to the phase after it's start date
+      // eg. phase1CompleteDate = start date for phase 2
       phase: Number(phaseKey.match(regex)[0]) + 1,
       date: previousPhases[phaseKey],
     });
   });
 
-  if (claim.attributes.closeDate !== null) {
-    phases.push({
-      type: 'complete',
-      phase: 8,
-      date: claim.closeDate,
-    });
-  }
-
-  return phases.filter(isEventOrPrimaryPhase);
+  const firstPass = phases.filter(isEventOrPrimaryPhase);
+  const currentPhase = getPhaseFromStatus(
+    claim.attributes.claimPhaseDates.latestPhaseType,
+  );
+  return firstPass.filter(phase => isCurrentOrPastPhase(phase, currentPhase));
 };
 
 const generateSupportingDocuments = claim => {
@@ -114,7 +126,19 @@ const generateEventTimeline = claim => {
   const supportingDocuments = generateSupportingDocuments(claim);
   const trackedItems = generateTrackedItems(claim);
 
-  const events = [...trackedItems, ...supportingDocuments, ...phases];
+  // The 'filed' event is a bit of a special case,
+  // We want it to the the last item so that it
+  // gets associated with phase 1 (See the last if
+  // statement in this function for more detail)
+  const events = [
+    ...trackedItems,
+    ...supportingDocuments,
+    ...phases,
+    {
+      type: 'filed',
+      date: claim.attributes.claimDate,
+    },
+  ];
 
   // Sort events from least to most recent
   events.sort((a, b) => {
@@ -146,6 +170,9 @@ const generateEventTimeline = claim => {
     }
   });
 
+  // The 'filed' event should be the odd man out
+  // here, and will get added as part of the first
+  // eventPhase
   if (activity.length > 0) {
     eventPhases[1] = activity;
   }
@@ -164,7 +191,7 @@ class ClaimStatusPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelStatus');
     }
   }
 
@@ -240,9 +267,16 @@ class ClaimStatusPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Status - Your Claim'
-      : `Status - Your ${getClaimType(this.props.claim)} Claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Status Of ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Status Of Your Claim');
+    }
   }
 
   render() {
@@ -285,7 +319,7 @@ function mapStateToProps(state) {
     lastPage: claimsState.routing.lastPage,
     showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

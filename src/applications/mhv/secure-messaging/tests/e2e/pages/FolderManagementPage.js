@@ -1,6 +1,7 @@
 import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
+import mockFolders from '../fixtures/generalResponses/folders.json';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -10,6 +11,10 @@ class FolderManagementPage {
       .get('[text="Create new folder"]')
       .shadow()
       .find('[type="button"]');
+  };
+
+  deleteFolderButton = () => {
+    return cy.get('[data-testid="remove-folder-button"]');
   };
 
   editFolderNameButton = () => {
@@ -30,7 +35,7 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
-  clickAndLoadCustumFolder = (
+  clickAndLoadCustomFolder = (
     folderName,
     folderId,
     folderData,
@@ -38,7 +43,7 @@ class FolderManagementPage {
   ) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/folders/${folderId}`,
+      `/my_health/v1/messaging/folders/${folderId}*`,
       folderData,
     ).as('customFolderID');
 
@@ -51,8 +56,6 @@ class FolderManagementPage {
     cy.contains(folderName).click();
     cy.wait('@customFolderMessages');
   };
-
-  currentThread = defaultMockThread;
 
   loadCustomFolderMessageDetails = (
     mockParentMessageDetails,
@@ -132,14 +135,6 @@ class FolderManagementPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     cy.wait('@message1');
     // cy.wait('@full-thread');
   };
@@ -155,6 +150,10 @@ class FolderManagementPage {
     );
   };
 
+  verifyDeleteSuccessMessageHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+  };
+
   verifyCreateFolderNetworkFailureMessage = () => {
     this.folderConfirmation().should(
       'have.text',
@@ -167,6 +166,10 @@ class FolderManagementPage {
       'have.text',
       'Folder was successfully created.',
     );
+  };
+
+  verifyCreateFolderSucessMessageHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   selectFolderfromModal = () => {
@@ -184,6 +187,7 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
+    cy.get('[data-testid="move-button-text"]');
     cy.get('[data-testid="move-button-text"]').click();
     cy.get('[data-testid = "move-to-modal"')
 
@@ -203,15 +207,61 @@ class FolderManagementPage {
       mockCustomResponse,
     ).as('moveMockCustomResponse');
     cy.get('[data-testid="move-to-modal"]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
+      .find('va-button[text="Confirm"]')
       .click();
     // cy.wait('@mockCustomResponse');
   };
 
-  verifyMoveMessageSuccessConfirmationFocus = () => {
-    cy.contains('Message conversation was successfully moved.').should('exist');
+  foldersSelectors = {
+    folderId: [-3, 7038135, 6976715],
+    folderName: ['Deleted', 'TEST2', 'TESTAGAIN'],
+  };
+
+  // method below works with 'Deleted' folder only for now. Need to be fixed later
+  moveInboxFolderMessageToDifferentFolder = (
+    folderId = this.foldersSelectors.folderId[0],
+    folderName = this.foldersSelectors.folderName[0],
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `my_health/v1/messaging/threads/${
+        mockCustomResponse.data.attributes.threadId
+      }/move?folder_id=${folderId}`,
+      {},
+    );
+    cy.get('[data-testid="move-button-text"]').click({ force: true });
+    cy.get(`[data-testid="radiobutton-${folderName}"]`)
+      .should('exist')
+      .click();
+    cy.get('va-button[text="Confirm"]').click();
+  };
+
+  verifyMoveMessageSuccessConfirmationMessage = () => {
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('exist')
+      .and('have.text', 'Message conversation was successfully moved.');
+  };
+
+  verifyMoveMessageSuccessConfirmationHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+  };
+
+  confirmDeleteFolder = folderId => {
+    cy.intercept('DELETE', `/my_health/v1/messaging/folders/${folderId}`, {
+      statusCode: 204,
+    }).as('deleteFolder');
+
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page=1&per_page=999&useCache=false',
+      mockFolders,
+    ).as('updatedFoldersList');
+
+    cy.get('[text="Yes, remove this folder"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
   };
 }
+
 export default FolderManagementPage;

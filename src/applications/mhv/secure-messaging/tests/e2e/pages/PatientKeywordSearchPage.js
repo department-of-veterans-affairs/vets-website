@@ -3,6 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import { AXE_CONTEXT } from '../utils/constants';
 
 class PatientKeywordSearchPage {
   newMessageIndex = 0;
@@ -64,7 +65,7 @@ class PatientKeywordSearchPage {
     cy.wait('@mockUser');
     cy.wait('@inboxMessages');
     if (doAxeCheck) {
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,

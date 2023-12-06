@@ -15,13 +15,11 @@ import {
   CONTACT_INFO_PATH,
 } from '../constants';
 
-import mockUser from './fixtures/mocks/user.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
-// Telephone specific responses
-import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
-import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
+import mockTelephoneUpdate from '../../shared/tests/fixtures/mocks/profile-telephone-update.json';
+import mockTelephoneUpdateSuccess from '../../shared/tests/fixtures/mocks/profile-telephone-update-success.json';
 
 const checkOpt = {
   waitForAnimations: true,
@@ -32,26 +30,17 @@ describe('HLR contact info loop', () => {
   const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
+    cypressSetup();
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'loop_pages', value: true }],
-      },
-    });
 
     cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
-    // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
 
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
 
     cy.visit(BASE_URL);
     cy.injectAxe();
@@ -125,7 +114,6 @@ describe('HLR contact info loop', () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should edit info on a new page, update & return to contact info page - C12884', () => {
     getToContactPage();
-    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
@@ -135,9 +123,9 @@ describe('HLR contact info loop', () => {
       `${BASE_URL}/edit-contact-information-mobile-phone`,
     );
 
-    cy.findByLabelText(/mobile phone/i)
-      .clear()
-      .type('8885551212');
+    cy.findByLabelText(/mobile phone/i).clear();
+    cy.findByLabelText(/mobile phone/i).type('8885551212');
+
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();

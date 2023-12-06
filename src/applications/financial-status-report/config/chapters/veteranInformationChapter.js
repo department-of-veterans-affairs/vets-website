@@ -3,16 +3,23 @@ import {
   combinedDebts,
   contactInfo,
   contactInformation,
+  spouseInformation,
+  spouseName,
+  dependents,
+  dependentRecords,
 } from '../../pages';
-import ContactInfo, {
-  customContactFocus,
-} from '../../components/contactInfo/ContactInfo';
+import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
+import VeteranInformationReview from '../../components/veteranInformation/VeteranInformationReview';
+import ContactInfo from '../../components/contactInfo/ContactInfo';
 import ContactInfoReview from '../../components/contactInfo/ContactInfoReview';
 import {
   EditMobilePhone,
   EditEmail,
   EditAddress,
 } from '../../components/contactInfo/EditContactInfo';
+import DependentCount from '../../components/household/DependentCount';
+import DependentAges from '../../components/household/DependentAges';
+import DependentAgesReview from '../../components/household/DependentAgesReview';
 
 export default {
   veteranInformationChapter: {
@@ -23,7 +30,8 @@ export default {
         title: 'Veteran information',
         uiSchema: veteranInfo.uiSchema,
         schema: veteranInfo.schema,
-        editModeOnReviewPage: true,
+        CustomPage: VeteranInformation,
+        CustomPageReview: VeteranInformationReview,
         initialData: {
           personalData: {
             veteranFullName: {
@@ -75,8 +83,6 @@ export default {
         CustomPageReview: ContactInfoReview,
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
-        // needs useCustomScrollAndFocus: true to work
-        scrollAndFocusTarget: customContactFocus,
         depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       editMobilePhone: {
@@ -105,6 +111,43 @@ export default {
         depends: () => false, // accessed from contact info page
         uiSchema: {},
         schema: { type: 'object', properties: {} },
+      },
+      spouseInformation: {
+        path: 'spouse-information',
+        title: 'Spouse information',
+        uiSchema: spouseInformation.uiSchema,
+        schema: spouseInformation.schema,
+        depends: formData => formData['view:streamlinedWaiver'],
+      },
+      spouseName: {
+        path: 'spouse-name',
+        title: 'Spouse name',
+        uiSchema: spouseName.uiSchema,
+        schema: spouseName.schema,
+        depends: formData =>
+          formData.questions.isMarried && formData['view:streamlinedWaiver'],
+      },
+      dependentCount: {
+        path: 'dependents-count',
+        title: 'Dependents',
+        uiSchema: {},
+        schema: dependents.schemaEnhanced,
+        CustomPage: DependentCount,
+        CustomPageReview: null,
+        depends: formData => formData['view:streamlinedWaiver'],
+      },
+      dependentAges: {
+        path: 'dependent-ages',
+        title: 'Dependents',
+        uiSchema: {},
+        schema: dependentRecords.schemaEnhanced,
+        depends: formData =>
+          formData.questions?.hasDependents &&
+          formData.questions.hasDependents !== '0' &&
+          formData['view:streamlinedWaiver'],
+        CustomPage: DependentAges,
+        CustomPageReview: DependentAgesReview,
+        editModeOnReviewPage: false,
       },
     },
   },

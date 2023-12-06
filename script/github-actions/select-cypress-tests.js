@@ -14,13 +14,20 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
-const ALLOW_LIST = process.env.ALLOW_LIST
-  ? JSON.parse(process.env.ALLOW_LIST)
-  : [];
+
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
-const IS_STRESS_TEST = Boolean(process.env.IS_STRESS_TEST);
+
+const ALLOW_LIST =
+  process.env.TEST_TYPE &&
+  fs.existsSync(path.resolve(`${process.env.TEST_TYPE}_allow_list.json`))
+    ? JSON.parse(
+        fs.readFileSync(
+          path.resolve(`${process.env.TEST_TYPE}_allow_list.json`),
+        ),
+      )
+    : [];
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -32,14 +39,6 @@ function getImports(filePath) {
 
 function getAppNameFromFilePath(filePath) {
   return filePath.split('/')[2];
-}
-
-function getDaysSinceDate(diff) {
-  const daysSinceDate =
-    (new Date().getTime() - new Date(diff).getTime()) / (1000 * 3600 * 24);
-  return daysSinceDate < 1
-    ? Math.ceil(daysSinceDate)
-    : Math.round(daysSinceDate);
 }
 
 /* Function takes an import reference and returns the path
@@ -264,74 +263,53 @@ function exportVariables(tests) {
 function main() {
   const graph = dedupeGraph(buildGraph());
 
+  const allAllowListSpecs = ALLOW_LIST.map(spec => spec.spec_path);
+
   // groups of tests from the allow list
-  const allAllowListTestPaths = ALLOW_LIST.map(spec => spec.spec_path);
-  const allAllowedTestPaths = ALLOW_LIST.filter(
-    spec => spec.allowed === true,
-  ).map(spec => spec.spec_path);
   const allDisallowedTestPaths = ALLOW_LIST.filter(
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
-  const allDisallowedTestsWithWarnings = ALLOW_LIST.filter(
-    spec => spec.allowed === false && getDaysSinceDate(spec.warned_at) > 60,
-  ).map(spec => spec.spec_path);
-  console.log(allDisallowedTestsWithWarnings);
-  // groups of tests based on test selection and filtering the groups from the allow list
+
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
-  const newTests = testsSelectedByTestSelection.filter(
-    test =>
-      !allAllowListTestPaths.includes(test.substring(test.indexOf('src/'))),
-  );
+
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
-  const changedTests = testsSelectedByTestSelection.filter(
-    test =>
-      CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
-      !newTests.includes(test),
-  );
-  const appsAdjusted = CHANGED_FILE_PATHS.map(specPath =>
-    specPath
-      .split('/')
-      .slice(specPath.indexOf('src'), 3)
-      .join('/'),
-  );
-  const blockedPathsWithCodeChanges = allDisallowedTestsWithWarnings.filter(
-    entry => appsAdjusted.some(appPath => entry.includes(appPath)),
-  );
-
-  core.exportVariable(
-    'E2E_BLOCKED_PATHS',
-    JSON.stringify(blockedPathsWithCodeChanges),
-  );
 
   const testsToRunNormally = testsSelectedByTestSelection.filter(
-    test =>
-      !disallowedTests.includes(test) &&
-      !newTests.includes(test) &&
-      !changedTests.includes(test),
+    test => !disallowedTests.includes(test),
   );
-  const testsToStressTest = [...newTests, ...changedTests];
-  const testSelectionDisallowedTests = testsSelectedByTestSelection.filter(
-    test => {
-      return allDisallowedTestPaths.includes(
-        test.substring(test.indexOf('src/')),
-      );
-    },
+
+  const changedAppsForStressTest = CHANGED_FILE_PATHS
+    ? CHANGED_FILE_PATHS.map(filePath =>
+        filePath
+          .split('/')
+          .slice(0, 3)
+          .join('/'),
+      )
+    : [];
+
+  const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
+    changedAppsForStressTest.some(filePath => specPath.includes(filePath)),
   );
+
+  const newTestsToStressTest = CHANGED_FILE_PATHS.filter(
+    filePath =>
+      filePath.includes('.cypress.spec.js') &&
+      allAllowListSpecs.indexOf(path) === -1,
+  );
+
+  const testsToStressTest = existingTestsToStressTest
+    .concat(newTestsToStressTest)
+    .filter(testSpec => fs.existsSync(testSpec));
 
   exportVariables(testsToRunNormally);
 
-  if (IS_STRESS_TEST) {
-    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowedTestPaths);
+  if (RUN_FULL_SUITE) {
+    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowListSpecs);
   } else {
     core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
   }
-
-  core.exportVariable(
-    'TEST_SELECTION_DISALLOWED_TESTS',
-    testSelectionDisallowedTests,
-  );
 }
 if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
   main();

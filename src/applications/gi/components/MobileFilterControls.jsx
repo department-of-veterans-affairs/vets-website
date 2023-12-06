@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
-import recordEvent from 'platform/monitoring/record-event';
+import FilterBeforeResults from '../containers/search/FilterBeforeResults';
 
 export default function MobileFilterControls({ className }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -60,9 +62,14 @@ export default function MobileFilterControls({ className }) {
           modalClose={closeTuitionAndHousingEstimates}
         />
       )}
-      {filtersOpen && (
-        <FilterYourResults smallScreen modalClose={closeFilters} />
-      )}
+      {filtersOpen &&
+        environment.isProduction() && (
+          <FilterYourResults smallScreen modalClose={closeFilters} />
+        )}
+      {filtersOpen &&
+        !environment.isProduction() && (
+          <FilterBeforeResults smallScreen modalClose={closeFilters} />
+        )}
     </div>
   );
 }

@@ -5,12 +5,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { scrollToTop } from '../utilities/scroll-to-top';
 import { getPreviousYear } from '../utilities/utils';
 import { ROUTES } from '../constants';
 import { updateDependents, updateEditMode } from '../actions';
+import { customizeTitle } from '../utilities/customize-title';
 
 const DependentsPage = ({
   dependents,
@@ -24,6 +24,16 @@ const DependentsPage = ({
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const determineH1 = () => {
+    return pastMode && year
+      ? `How many dependents did you have in ${year - 1}?`
+      : `How many dependents did you have last year?`;
+  };
+
+  useEffect(() => {
+    document.title = customizeTitle(determineH1());
+  });
 
   const dependentsValid = deps => {
     return deps?.match(/^[0-9]+$/) && deps >= 0 && deps <= 100;
@@ -44,8 +54,8 @@ const DependentsPage = ({
         return;
       }
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       waitForRenderThenFocus('h1');
-      scrollToTop();
     },
     [pastMode, router, year, zipCode],
   );
@@ -73,7 +83,12 @@ const DependentsPage = ({
 
   const onDependentsInput = event => {
     setError(false);
-    updateDependentsField(parseInt(event.target.value, 10).toString());
+
+    if (event?.target?.value) {
+      updateDependentsField(parseInt(event.target.value, 10)?.toString());
+    } else {
+      updateDependentsField('');
+    }
   };
 
   const onBackClick = () => {
@@ -86,11 +101,7 @@ const DependentsPage = ({
 
   return (
     <>
-      {pastMode && year ? (
-        <h1>How many dependents did you have in {year - 1}?</h1>
-      ) : (
-        <h1>How many dependents did you have last year?</h1>
-      )}
+      <h1>{determineH1()}</h1>
       <form>
         <VaNumberInput
           className="vads-u-margin-bottom--1"

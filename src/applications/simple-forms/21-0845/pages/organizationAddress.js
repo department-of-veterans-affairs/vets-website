@@ -1,21 +1,35 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
+import {
+  titleUI,
+  addressNoMilitarySchema,
+  addressNoMilitaryUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+const addressSchema = addressNoMilitarySchema({
+  omit: ['isMilitary', 'street3'],
+});
+addressSchema.properties.street.maxLength = 30;
+addressSchema.properties.street2.maxLength = 5;
+addressSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Organization’s address',
-    organizationAddress: uiSchema({
-      root: '',
-      country: 'Organization’s country',
-      street: 'Organization’s street address',
+    ...titleUI('Organization’s address'),
+    organizationAddress: addressNoMilitaryUI({
+      labels: {
+        country: 'Organization’s country',
+        street: 'Organization’s street address',
+        street2: 'Apartment or unit number',
+      },
+      omit: ['isMilitary', 'street3'],
+      required: true,
     }),
   },
   schema: {
     type: 'object',
-    required: ['organizationAddress'],
     properties: {
-      organizationAddress: schema({ definitions }, true),
+      organizationAddress: addressSchema,
     },
+    required: ['organizationAddress'],
   },
 };

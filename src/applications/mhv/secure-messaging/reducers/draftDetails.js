@@ -15,14 +15,7 @@ const initialState = {
 };
 
 export const draftDetailsReducer = (state = initialState, action) => {
-  const { data, included } = action.response || {};
-  const msgAttachments =
-    included &&
-    included.map(item => ({
-      id: item.id,
-      link: item.links.download,
-      ...item.attributes,
-    }));
+  const { data } = action.response || {};
 
   switch (action.type) {
     case Actions.Draft.GET: {
@@ -34,7 +27,6 @@ export const draftDetailsReducer = (state = initialState, action) => {
           replyToName: data.replyToName,
           threadFolderId: data.threadFolderId,
           ...data.attributes,
-          attachments: msgAttachments,
         },
       };
     }
@@ -66,7 +58,6 @@ export const draftDetailsReducer = (state = initialState, action) => {
         replyToMessageId: data.attributes.messageId,
         draftMessage: {
           ...data.attributes,
-          attachments: msgAttachments,
         },
       };
     case Actions.Draft.UPDATE_SUCCEEDED:
@@ -78,7 +69,6 @@ export const draftDetailsReducer = (state = initialState, action) => {
         draftMessage: {
           ...state.draftMessage,
           ...action.response,
-          attachments: msgAttachments,
         },
       };
     case Actions.Draft.SAVE_FAILED:

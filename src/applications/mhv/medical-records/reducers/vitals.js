@@ -1,6 +1,11 @@
-import environment from 'platform/utilities/environment';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { testing } from '../util/constants';
+import { loincCodes, vitalTypes, EMPTY_FIELD } from '../util/constants';
+import {
+  isArrayAndHasItems,
+  macroCase,
+  extractContainedResource,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -14,21 +19,48 @@ const initialState = {
   vitalDetails: undefined,
 };
 
-const convertVitalsList = recordList => {
-  recordList.entry.map(item => {
-    const record = item.resource;
-    return {
-      name: 'Blood Sugar', // will be replaced by type
-      type: record.code.coding.code || record.code.coding.display,
-      id: 122,
-      measurement: record.component[0].valueQuantity || record.value,
-      date: record.effectiveDateTime,
-      location: record.encounter,
-      facility: 'asdf', // will be replaced by location
-      reactions: ['Just this one'], // might only be comments
-      comments: record.note.text,
-    };
-  });
+const getMeasurement = (record, type) => {
+  if (type === vitalTypes.BLOOD_PRESSURE) {
+    const systolic = record.component.find(
+      item => item.code.coding[0].code === loincCodes.SYSTOLIC,
+    );
+    const diastolic = record.component.find(
+      item => item.code.coding[0].code === loincCodes.DIASTOLIC,
+    );
+    return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
+  }
+  return `${record.valueQuantity?.value} ${record.valueQuantity?.code}`;
+};
+
+export const extractLocation = vital => {
+  if (
+    isArrayAndHasItems(vital.performer) &&
+    isArrayAndHasItems(vital.performer[0].extension)
+  ) {
+    const refId = vital.performer[0].extension[0].valueReference?.reference;
+    const location = extractContainedResource(vital, refId);
+    return location?.name || EMPTY_FIELD;
+  }
+  return EMPTY_FIELD;
+};
+
+export const convertVital = record => {
+  const type = macroCase(record.code?.text);
+  return {
+    name:
+      record.code?.text ||
+      (isArrayAndHasItems(record.code?.coding) &&
+        record.code?.coding[0].display),
+    type,
+    id: record.id,
+    measurement: getMeasurement(record, type) || EMPTY_FIELD,
+    date: record?.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
+    location: extractLocation(record),
+    notes:
+      (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
+  };
 };
 
 export const vitalReducer = (state = initialState, action) => {
@@ -42,18 +74,18 @@ export const vitalReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vitals.GET_LIST: {
-      const recordList = action.response;
-      let vitalsList;
-      if (environment.BUILDTYPE === 'localhost' && testing) {
-        convertVitalsList(recordList);
-      } else {
-        vitalsList = recordList.map(vaccine => {
-          return { ...vaccine };
-        });
-      }
       return {
         ...state,
-        vitalsList,
+        vitalsList:
+          action.response.entry?.map(vital => {
+            return convertVital(vital.resource);
+          }) || [],
+      };
+    }
+    case Actions.Vitals.CLEAR_DETAIL: {
+      return {
+        ...state,
+        vitalDetails: undefined,
       };
     }
     default:

@@ -6,63 +6,88 @@ import ItemList from '../shared/ItemList';
 const AllergyListItem = props => {
   const { record } = props;
 
-  const content = () => {
-    if (record) {
-      return (
-        <div
-          className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
-          data-testid="record-list-item"
+  return (
+    <div
+      className="record-list-item vads-u-padding-x--3 vads-u-padding-y--2p5 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+      data-testid="record-list-item"
+    >
+      {/* web view header */}
+      <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5 vads-u-line-height--4 no-print">
+        <Link
+          to={`/allergies/${record.id}`}
+          data-dd-privacy="mask"
+          aria-label={`${record.name} on ${record.date}`}
         >
-          <h4>{record.name}</h4>
+          {record.name}
+        </Link>
+      </h3>
 
-          <div className="fields">
-            <div>
-              <span className="field-label">Date entered:</span> {record.date}
-            </div>
-            <div className="print-only">
-              <span className="field-label">Reaction:</span>{' '}
-              <ItemList list={record.reactions} />
-            </div>
-            <div className="print-only">
-              <span className="field-label">Type of allergy:</span>{' '}
-              {record.type}
-            </div>
-            <div className="print-only">
-              <span className="field-label">VA drug class:</span>{' '}
-              {record.drugClass}
-            </div>
-            <div className="print-only">
-              <span className="field-label">Location:</span> {record.location}
-            </div>
-            <div className="print-only">
-              <span className="field-label">Observed or reported:</span>{' '}
-              {record.observed
-                ? 'Observed (your provider observed the reaction in person)'
-                : 'Reported (you told your provider about the reaction)'}
-            </div>
-            <div className="print-only">
-              <span className="field-label">Provider notes:</span>{' '}
-              {record.notes}
-            </div>
-          </div>
+      {/* print view header */}
+      <h3
+        className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        data-dd-privacy="mask"
+        aria-label={`${record.name} ${record.date}`}
+      >
+        {record.name}
+      </h3>
 
-          <Link
-            to={`/allergies/${record.id}`}
-            className="vads-u-margin--0 no-print"
-          >
-            <strong>Details</strong>
-            <i
-              className="fas fa-angle-right details-link-icon"
-              aria-hidden="true"
-            />
-          </Link>
-        </div>
-      );
-    }
-    return <></>;
-  };
+      {/* web view fields */}
+      <div className="no-print">
+        <span className="vads-u-display--inline-block">Date entered:</span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.date}
+        </span>
+      </div>
 
-  return content();
+      {/* print view fields */}
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Date entered:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.date}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Signs and symptoms:
+        </span>{' '}
+        <ItemList list={record.reaction} />
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Type of allergy:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.type}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Location:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.location}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Observed or historical:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.observedOrReported}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Provider notes:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.notes}
+        </span>
+      </div>
+    </div>
+  );
 };
 
 export default AllergyListItem;

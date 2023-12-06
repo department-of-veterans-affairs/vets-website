@@ -42,8 +42,11 @@ describe(manifest.appName, () => {
 
     cy.get('@pendingUpload').then(() => {
       // Find the submit button and click it
-      cy.get('va-button').click();
-      cy.findByText(/Please choose a file to upload./i).should('exist');
+      cy.get('va-button[text="Submit files"]').click();
+      cy.get('va-file-input')
+        .shadow()
+        .find('#error-message')
+        .should('have.id', 'error-message');
     });
   });
 

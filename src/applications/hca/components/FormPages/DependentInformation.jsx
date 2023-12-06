@@ -7,7 +7,14 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import { isOfCollegeAge, getDependentPageList } from '../../utils/helpers';
+import {
+  isOfCollegeAge,
+  getDependentPageList,
+  getDataToSet,
+  getSearchAction,
+  getSearchIndex,
+  getDefaultState,
+} from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
   SESSION_ITEM_NAME,
@@ -49,49 +56,21 @@ const SUB_PAGES = [
 
 // declare default component
 const DependentInformation = props => {
-  const {
-    data,
-    goToPath,
-    setFormData,
-    contentBeforeButtons,
-    contentAfterButtons,
-  } = props;
+  const { data, goToPath, setFormData } = props;
 
   const { dependents = [] } = data;
   const search = new URLSearchParams(window.location.search);
-  const mode = search.get('action') || 'add';
-  const action = {
-    label: `${mode === 'add' ? 'add' : 'edit'}ing`,
-    pathToGo:
-      mode === 'update' ? '/review-and-submit' : `/${DEPENDENT_PATHS.summary}`,
-  };
+  const searchIndex = getSearchIndex(search, dependents);
+  const searchAction = getSearchAction(search, DEPENDENT_PATHS.summary);
+  const defaultState = getDefaultState({
+    defaultData: { data: {}, page: SUB_PAGES[0] },
+    dataToSearch: dependents,
+    name: SESSION_ITEM_NAME,
+    searchAction,
+    searchIndex,
+  });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const listRef = useMemo(() => dependents, []);
-
-  // determine where this dependent data will live in the array
-  const searchIndex = () => {
-    let indexToReturn = parseInt(search.get('index'), 10);
-    if (Number.isNaN(indexToReturn) || indexToReturn > dependents.length) {
-      indexToReturn = dependents.length;
-    }
-    return indexToReturn;
-  };
-
-  // determine which `page` & dataset to start with based on the index
-  const defaultStates = () => {
-    const resultToReturn = { data: {}, page: SUB_PAGES[0] };
-
-    // check if data exists at the array index and set return result accordingly
-    if (typeof dependents[searchIndex()] !== 'undefined') {
-      resultToReturn.data = dependents[searchIndex()];
-
-      if (mode !== 'add') {
-        window.sessionStorage.setItem(SESSION_ITEM_NAME, searchIndex());
-      }
-    }
-
-    return resultToReturn;
-  };
 
   /**
    * declare default state/ref variables
@@ -103,8 +82,8 @@ const DependentInformation = props => {
   const [activePages, setActivePages] = useState(
     SUB_PAGES.filter(item => !('depends' in item)),
   );
-  const [currentPage, setCurrentPage] = useState(defaultStates().page);
-  const [localData, setLocalData] = useState(defaultStates().data);
+  const [currentPage, setCurrentPage] = useState(defaultState.page);
+  const [localData, setLocalData] = useState(defaultState.data);
   const [modal, showModal] = useState(false);
 
   /**
@@ -121,14 +100,14 @@ const DependentInformation = props => {
       showModal(false);
       document
         .getElementById('hca-modal-cancel')
-        .shadowRoot.children[0].focus();
+        .shadowRoot?.children[0]?.focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
     },
     onConfirm: () => {
       setLocalData(null);
-      goToPath(action.pathToGo);
+      goToPath(searchAction.pathToGo);
     },
     onGoBack: () => {
       const index = activePages.findIndex(item => item.id === currentPage.id);
@@ -141,12 +120,18 @@ const DependentInformation = props => {
     onSubmit: () => {
       const index = activePages.findIndex(item => item.id === currentPage.id);
       if (index === activePages.length - 1) {
-        setFormData({
-          ...data,
-          [DEPENDENT_VIEW_FIELDS.report]: null,
-          [DEPENDENT_VIEW_FIELDS.skip]: true,
+        const dataToSet = getDataToSet({
+          slices: {
+            beforeIndex: dependents.slice(0, searchIndex),
+            afterIndex: dependents.slice(searchIndex + 1),
+          },
+          viewFields: DEPENDENT_VIEW_FIELDS,
+          dataKey: 'dependents',
+          localData,
+          listRef,
         });
-        goToPath(action.pathToGo);
+        setFormData({ ...data, ...dataToSet });
+        goToPath(searchAction.pathToGo);
       } else {
         setCurrentPage(activePages[index + 1]);
       }
@@ -166,31 +151,27 @@ const DependentInformation = props => {
   );
 
   // set form data on each change to the localData object state
+  /**
+   * TODO: bring this back when we have proper validation for partial
+   * dependent records
   useEffect(
     () => {
-      const slices = {
-        beforeIndex: dependents.slice(0, searchIndex()),
-        afterIndex: dependents.slice(searchIndex() + 1),
-      };
-      const dataToSet =
-        localData === null
-          ? {
-              dependents: listRef,
-              [DEPENDENT_VIEW_FIELDS.report]: null,
-              [DEPENDENT_VIEW_FIELDS.skip]: true,
-            }
-          : {
-              dependents: [
-                ...slices.beforeIndex,
-                localData,
-                ...slices.afterIndex,
-              ],
-            };
+      const dataToSet = getDataToSet({
+        slices: {
+          beforeIndex: dependents.slice(0, searchIndex),
+          afterIndex: dependents.slice(searchIndex + 1),
+        },
+        viewFields: DEPENDENT_VIEW_FIELDS,
+        dataKey: 'dependents',
+        localData,
+        listRef,
+      });
       setFormData({ ...data, ...dataToSet });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [localData],
   );
+  */
 
   // set active pages array based on form data conditionals
   useEffect(
@@ -209,10 +190,11 @@ const DependentInformation = props => {
    * NOTE: This is a bit of a hack, as we cannot reset the submitted state of the
    * SchemaForm component
    */
-  const FormList = SUB_PAGES.map(({ id, title }) => {
+  const FormList = SUB_PAGES.map(({ id, title }, index) => {
     return currentPage.id === id ? (
       <>
         <DependentListLoopForm
+          key={index}
           data={localData}
           page={{ id, title }}
           onChange={handlers.onChange}
@@ -221,7 +203,7 @@ const DependentInformation = props => {
           {/** Cancel confirmation modal trigger */}
           <div className="vads-u-margin-y--2">
             <va-button
-              text={`Cancel ${action.label} this dependent`}
+              text={`Cancel ${searchAction.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
               id="hca-modal-cancel"
@@ -229,9 +211,7 @@ const DependentInformation = props => {
           </div>
 
           {/** Form progress buttons */}
-          {contentBeforeButtons}
           <FormNavButtons goBack={handlers.onGoBack} submitToContinue />
-          {contentAfterButtons}
         </DependentListLoopForm>
       </>
     ) : null;
@@ -242,9 +222,9 @@ const DependentInformation = props => {
       {FormList}
 
       <VaModal
-        modalTitle={`Cancel ${action.label} this dependent?`}
-        primaryButtonText={`Yes, cancel ${action.label}`}
-        secondaryButtonText={`No, continue ${action.label}`}
+        modalTitle={`Cancel ${searchAction.label} this dependent?`}
+        primaryButtonText={`Yes, cancel ${searchAction.label}`}
+        secondaryButtonText={`No, continue ${searchAction.label}`}
         onPrimaryButtonClick={handlers.onConfirm}
         onSecondaryButtonClick={handlers.onCancel}
         onCloseEvent={handlers.onCancel}
@@ -253,7 +233,7 @@ const DependentInformation = props => {
         clickToClose
       >
         <p className="vads-u-margin--0">
-          If you cancel {action.label} this dependent, we won’t save their
+          If you cancel {searchAction.label} this dependent, we won’t save their
           information. You’ll return to a screen where you can add or remove
           dependents.
         </p>

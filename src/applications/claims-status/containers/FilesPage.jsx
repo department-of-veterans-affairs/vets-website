@@ -18,9 +18,15 @@ import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
-import { getClaimType } from '../utils/helpers';
+import {
+  buildDateFormatter,
+  getClaimType,
+  setDocumentTitle,
+} from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import { DATE_FORMATS } from '../constants';
 
+// CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
@@ -42,6 +48,16 @@ const getStatusMap = () => {
 
 const STATUSES = getStatusMap();
 
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+
 class FilesPage extends React.Component {
   componentDidMount() {
     this.setTitle();
@@ -52,7 +68,7 @@ class FilesPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelFiles');
     }
   }
 
@@ -139,9 +155,16 @@ class FilesPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Files - Your claim'
-      : `Files - Your ${getClaimType(this.props.claim)} claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Files For ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Files For Your Claim');
+    }
   }
 
   render() {
@@ -182,7 +205,7 @@ function mapStateToProps(state) {
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

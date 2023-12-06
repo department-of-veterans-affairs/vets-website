@@ -1,98 +1,85 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFolders } from '../actions';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
 import PrintBtn from './MessageActionButtons/PrintBtn';
 import { DefaultFolders } from '../util/constants';
-import ActionButtons from './shared/ActionButtons';
-import ReplyBtn from './MessageActionButtons/ReplyBtn';
 import TrashButton from './MessageActionButtons/TrashButton';
+import ReplyButton from './ReplyButton';
 import { Actions } from '../util/actionTypes';
 
 const MessageActionButtons = props => {
-  const { id, hideReplyButton, threadId } = props;
+  const {
+    threadId,
+    hideReplyButton,
+    handleReplyButton,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+  } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
-  useEffect(
-    () => {
-      const abortCont = new AbortController();
-      dispatch(getAllFolders(), { abort: abortCont.signal });
-      return () => abortCont.abort();
-    },
-    [dispatch],
-  );
+  const handlePrint = printOption => {
+    dispatch({
+      type: Actions.Message.SET_THREAD_PRINT_OPTION,
+      payload: printOption,
+    });
+    if (printOption !== null) {
+      window.print();
+    }
+  };
 
-  const buttonsArray = useMemo(
-    () => {
-      const handlePrint = printOption => {
-        dispatch({
-          type: Actions.Message.SET_THREAD_PRINT_OPTION,
-          payload: printOption,
-        });
-        if (printOption !== null) {
-          window.print();
-        }
-      };
+  return (
+    <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+      {!hideReplyButton && (
+        <div className="vads-u-flex--3 xsmall-screen:vads-u-margin-right--1 reply-button-container">
+          <ReplyButton
+            key="replyButton"
+            visible={!hideReplyButton}
+            onReply={handleReplyButton}
+          />
+        </div>
+      )}
 
-      const buttons = [];
-
-      buttons.push(
-        <li key="print">
-          <PrintBtn handlePrint={handlePrint} id={id} />
-        </li>,
-      );
-
-      if (folders) {
-        buttons.push(
+      <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--column xsmall-screen:vads-u-flex-direction--row ">
+        <PrintBtn
+          key="print"
+          handlePrint={handlePrint}
+          activeFolder={activeFolder}
+        />
+        {folders && (
           <MoveMessageToFolderBtn
             activeFolder={activeFolder}
             key="moveMessageToFolderBtn"
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             isVisible={activeFolder?.folderId !== DefaultFolders.SENT.id}
             threadId={threadId}
-            messageId={id}
             allFolders={folders}
-          />,
-        );
-      }
-
-      buttons.push(
+          />
+        )}
         <TrashButton
           key="trashButton"
           activeFolder={activeFolder}
           threadId={threadId}
-          messageId={id}
           visible={
             activeFolder?.folderId !== DefaultFolders.SENT.id &&
             activeFolder?.folderId !== DefaultFolders.DELETED.id
           }
-        />,
-      );
-
-      if (activeFolder?.folderId === DefaultFolders.SENT.id) {
-        buttons.push(
-          <ReplyBtn
-            key="replyBtn"
-            visible={!hideReplyButton}
-            onReply={props.onReply}
-          />,
-        );
-      }
-
-      return buttons;
-    },
-    [activeFolder, folders, hideReplyButton, id, props, threadId],
+        />
+      </div>
+    </div>
   );
-
-  return <ActionButtons buttonsArray={buttonsArray} />;
 };
 
 MessageActionButtons.propTypes = {
+  handleReplyButton: PropTypes.func,
   hideReplyButton: PropTypes.bool,
-  id: PropTypes.number,
-  onReply: PropTypes.func,
+  isCreateNewModalVisible: PropTypes.bool,
+  messageId: PropTypes.number,
+  setIsCreateNewModalVisible: PropTypes.func,
+  threadId: PropTypes.number,
 };
 
 export default MessageActionButtons;

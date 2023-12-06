@@ -44,6 +44,24 @@ export function statementOfTruthFullName(formData, fullNamePath) {
   return fullNameString;
 }
 
+export function fullNameReducer(fullNameString) {
+  return fullNameString?.replaceAll(' ', '').toLowerCase();
+}
+
+function statementOfTruthBodyElement(formData, statementOfTruthBody) {
+  switch (typeof statementOfTruthBody) {
+    case 'function':
+      if (typeof statementOfTruthBody(formData) === 'string') {
+        return <p>{statementOfTruthBody(formData)}</p>;
+      }
+      return statementOfTruthBody(formData);
+    case 'string':
+      return <p>{statementOfTruthBody}</p>;
+    default:
+      return statementOfTruthBody;
+  }
+}
+
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
 *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
@@ -116,25 +134,25 @@ export function PreSubmitSection(props) {
             <strong>Note:</strong> According to federal law, there are criminal
             penalties, including a fine and/or imprisonment for up to 5 years,
             for withholding information or for providing incorrect information
-            (See 18 U.S.C. 1001).
+            (Reference: 18 U.S.C. 1001).
           </p>
           <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--3 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--3">
             <h3>{statementOfTruth.heading || 'Statement of truth'}</h3>
-            {typeof statementOfTruth.body === 'string' ? (
-              <p>{statementOfTruth.body}</p>
-            ) : (
-              statementOfTruth.body
-            )}
+            {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
             <p>
               I have read and accept the{' '}
-              <a href="/privacy-policy/" target="_blank">
+              <a
+                href="/privacy-policy/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 privacy policy
+                <span className="sr-only">opens in a new window</span>
                 <i
                   className="fas fa-arrow-up-right-from-square"
                   aria-hidden="true"
                   role="img"
                 />
-                <span className="sr-only">opens in a new window</span>
               </a>
               .
             </p>
@@ -151,10 +169,12 @@ export function PreSubmitSection(props) {
               type="text"
               error={
                 (showPreSubmitError || statementOfTruthSignatureBlurred) &&
-                form?.data.statementOfTruthSignature !==
-                  statementOfTruthFullName(
-                    form?.data,
-                    statementOfTruth.fullNamePath,
+                fullNameReducer(form?.data.statementOfTruthSignature) !==
+                  fullNameReducer(
+                    statementOfTruthFullName(
+                      form?.data,
+                      statementOfTruth.fullNamePath,
+                    ),
                   )
                   ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
                       form?.data,

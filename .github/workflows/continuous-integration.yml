@@ -94,14 +94,126 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
-  unit-tests:
-    name: Unit Tests
+  fetch-allow-lists:
+    name: Fetch Test Stability Allow Lists
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch E2E Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Archive E2E Test Stability Allow List
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data/e2e_allow_list.json
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
+  unit-tests-prep:
+    name: Unit Tests Prep
+    needs: [fetch-allow-lists]
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
+      - name: Run Unit Test Selection
+        run: node script/github-actions/select-unit-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Set output of DISALLOWED_TESTS
+        if: ${{ always() }}
+        id: disallowed-tests
+        run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
+
+      - name: Set output of TESTS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: tests-to-stress-test
+        run: echo "tests=$TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
+  unit-tests:
+    name: Unit Tests
+    needs: [fetch-allow-lists, unit-tests-prep]
+    runs-on: self-hosted
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
 
     steps:
       - name: Checkout
@@ -133,14 +245,16 @@ jobs:
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          STEP: 1
 
       - name: Archive unit test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
-          path: mochawesome-report
+          path: mocha/results
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
@@ -197,6 +311,135 @@ jobs:
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
+
+  unit-tests-stress-test:
+    name: Unit Test Stability Review
+    runs-on: self-hosted
+    needs: [fetch-allow-lists, unit-tests-prep]
+    if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
+      DISALLOWED_TESTS: '[]'
+
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        runs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: .
+
+      - name: Run unit tests
+        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        env:
+          MOCHA_FILE: test-results/unit-tests.xml
+          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
+          IS_STRESS_TEST: true
+          STEP: ${{ matrix.runs }}
+
+      - name: Archive unit test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-stress-test-results
+          path: mocha/results
+
+  update-unit-test-allow-list:
+    name: Update Unit Test Stability Allow List
+    runs-on: ubuntu-latest
+    needs: [unit-tests-stress-test, fetch-allow-lists]
+    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
+    continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Download Unit Test results
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-stress-test-results
+          path: qa-standards-dashboard-data/src/allow-list/data
+
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data
+
+      - name: Copy test results to mochawesome directory
+        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Update Unit Test Stability Allow List
+        run: yarn update-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+          IS_CI: true
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   security-audit:
     name: Security Audit
@@ -314,7 +557,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -323,47 +566,9 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
-  fetch-e2e-allow-list:
-    name: Fetch E2E Allow List
-    runs-on: ubuntu-latest
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
-
-      - name: Set Allow List Output
-        id: allow-list-output
-        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
-
   cypress-tests-prep:
     name: Prep for Cypress Tests
-    needs: [fetch-e2e-allow-list]
+    needs: [fetch-allow-lists]
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
@@ -371,8 +576,7 @@ jobs:
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
-      e2e_blocked_paths: ${{ steps.e2e-blocked-paths.outputs.e2e_blocked_paths }}
+      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -396,6 +600,12 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, url'
 
+      - name: Download Unit Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: .
+
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
@@ -403,7 +613,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          TEST_TYPE: e2e
 
       - name: Set output of TESTS
         id: tests
@@ -413,10 +623,6 @@ jobs:
         id: tests-to-stress-test
         run: echo tests=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
-      - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
-        id: test_selection_disallowed_tests
-        run: echo test_selection_disallowed_tests=$TEST_SELECTION_DISALLOWED_TESTS >> $GITHUB_OUTPUT
-
       - name: Set output of NUM_CONTAINERS
         id: containers
         run: echo num=$NUM_CONTAINERS >> $GITHUB_OUTPUT
@@ -424,10 +630,6 @@ jobs:
       - name: Set output of CI_NODE_INDEX
         id: matrix
         run: echo ci_node_index=$CI_NODE_INDEX >> $GITHUB_OUTPUT
-
-      - name: Set output of E2E_BLOCKED_PATHS
-        id: e2e-blocked-paths
-        run: echo e2e_blocked_paths=$E2E_BLOCKED_PATHS >> $GITHUB_OUTPUT
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -536,17 +738,24 @@ jobs:
           retention-days: 1
 
   stress-test-cypress-tests:
-    name: Stress Test Cypress Tests
+    name: E2E Test Stability Review
     runs-on: self-hosted
     timeout-minutes: 120
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
+      needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' &&
+      github.ref != 'refs/heads/main'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
+
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -554,15 +763,6 @@ jobs:
       CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
-      # The following statement is included in each step because of a bug in
-      # GitHub's branch protection:
-      #
-      # if: needs.cypress-tests-prep.outputs.tests != '[]'
-      #
-      # Previously, if no tests were selected, the branch protection check that
-      # requires the cypress-tests job to run was not satisfied. This update forces
-      # the job to always run, and skips each step if no tests are selected.
-      # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
         uses: aws-actions/configure-aws-credentials@v1
@@ -605,7 +805,7 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: node script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 90
         env:
           CYPRESS_CI: true
@@ -631,16 +831,16 @@ jobs:
           retention-days: 1
 
   update-e2e-allow-list:
-    name: Update E2E Allow List
+    name: Update E2E Test Stability Allow List
     runs-on: ubuntu-latest
     needs:
       [
         testing-reports-prep,
         cypress-tests-prep,
         stress-test-cypress-tests,
-        fetch-e2e-allow-list,
+        fetch-allow-lists,
       ]
-    if: ${{ always() && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
+    if: ${{ always() && github.ref != 'refs/heads/main' && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -662,7 +862,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -702,12 +902,19 @@ jobs:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
-      - name: Update E2E Allow List
-        run: yarn update-e2e-allow-list
+      - name: Download E2E Test Stability Allow List
+        uses: actions/download-artifact@v3
+        with:
+          name: e2e-allow-list
+          path: qa-standards-dashboard-data
+
+      - name: Update E2E Test Stability Allow List
+        run: yarn update-allow-list
         working-directory: qa-standards-dashboard-data
         env:
-          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
-          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          TEST_TYPE: e2e
+          IS_CI: true
+          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Create Cypress E2E report
         run: yarn cypress-mochawesome-to-bigquery
@@ -728,55 +935,15 @@ jobs:
       - name: Upload Cypress E2E test report to s3
         run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
 
-      - name: Publish E2E Stress Test Results
+      - name: Publish E2E Test Stability Review Results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: E2E Stress Test Summary
+          name: E2E Test Stability Review Summary
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-      - name: Create GitHub Issues for new flaky tests
-        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-        run: yarn create-github-issues-for-flaky-tests
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-
-      - name: Fetch allow list
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
-
-  allow-list-merge-status:
-    name: E2E Allow List Merge Status Check
-    runs-on: ubuntu-latest
-    needs: [cypress-tests-prep, update-e2e-allow-list, fetch-e2e-allow-list]
-    if: ${{ always() }}
-    continue-on-error: true
-    env:
-      E2E_BLOCKED_PATHS: ${{ needs.cypress-tests-prep.outputs.e2e_blocked_paths }}
-      ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 20
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
-
-      - name: Check if code can be merged
-        run: node script/github-actions/check-e2e-status.js
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
@@ -802,7 +969,7 @@ jobs:
       # ----------------
 
       - name: Notify Slack about Unit test failures
-        if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.result == 'failure' }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
@@ -831,7 +998,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -865,6 +1032,12 @@ jobs:
           name: unit-test-report
           path: qa-standards-dashboard-data/src/testing-reports/data
 
+      - name: Log directory
+        run: |
+          ls -a
+          cd qa-standards-dashboard-data/src/testing-reports/data
+          ls -a
+
       - name: Create Unit Test report
         run: yarn unit-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
@@ -872,6 +1045,12 @@ jobs:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
+
+      - name: Log directories
+        run: |
+          ls -a
+          cd qa-standards-dashboard-data/src/testing-reports/
+          ls -a
 
       - name: Upload Test Results to BigQuery
         continue-on-error: true
@@ -882,7 +1061,7 @@ jobs:
           TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
 
       - name: Upload Unit Test report to s3
-        run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests Summary |
@@ -895,6 +1074,102 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Unit Tests Summary
           conclusion: ${{ needs.unit-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  testing-reports-unit-tests-stress-test:
+    name: Testing Reports - Unit Test Stability Review
+    runs-on: ubuntu-latest
+    needs: [testing-reports-prep, unit-tests-stress-test]
+    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
+    continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    steps:
+      - name: Set IS_MASTER_BUILD
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+          else
+              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+          fi
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      # --------------------------------------------------
+      # | Publish Unit Test Report and Upload to BigQuery |
+      # --------------------------------------------------
+
+      - name: Download Unit Test Mochawesome test results
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-stress-test-results
+          path: qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Create Unit Test report
+        run: yarn unit-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+          TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
+
+      - name: Upload Unit Test Stability Review Report to S3
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+      # -------------------------
+      # | Unit Tests Summary |
+      # -------------------------
+
+      - name: Publish Unit Test Stability Review Results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Unit Test Stability Review Summary
+          conclusion: ${{ needs.unit-tests-stress-test.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
@@ -928,7 +1203,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -993,7 +1268,6 @@ jobs:
         # ------------------------
         # | Upload BigQuery Data |
         # ------------------------
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -1008,7 +1282,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1035,7 +1309,6 @@ jobs:
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
-
       - name: Download Cypress E2E Mochawesome test results
         uses: actions/download-artifact@v3
         with:
@@ -1077,7 +1350,6 @@ jobs:
         # -------------------------
         # | Cypress Tests Summary |
         # -------------------------
-
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: LouisBrunner/checks-action@v1.2.0
@@ -1087,6 +1359,242 @@ jobs:
           conclusion: ${{ needs.cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  testing-reports-cypress-stress-test:
+    name: Testing Reports - E2E Test Stability Review
+    runs-on: ubuntu-latest
+    needs: [testing-reports-prep, cypress-tests-prep, stress-test-cypress-tests]
+    if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Notify Slack about Cypress test failures
+        if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: C026PD47Z19 #gha-test-status
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+        # ------------------------
+        # | Upload BigQuery Data |
+        # ------------------------
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+        # --------------------------------------
+        # | Publish Cypress E2E Testing Report |
+        # -------------------------------------
+      - name: Download Cypress E2E Mochawesome test results
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-stress-test-results
+          path: qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Download Cypress E2E video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-stress-test-videos
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+
+      - name: Create Cypress E2E Mochawesome report
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          IS_MASTER_BUILD: false
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        working-directory: qa-standards-dashboard-data
+        run: yarn upload-cypress-test-results
+        env:
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
+
+      - name: Upload Cypress E2E test videos to s3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Upload Cypress E2E test report to s3
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+        # -------------------------
+        # | Cypress Tests Summary |
+        # -------------------------
+      - name: Publish E2E Test Stability Review Results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Stress Tests Summary
+          conclusion: ${{ needs.stress-test-cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  test-stability-review-merge-status:
+    name: QA Merge Status
+    runs-on: ubuntu-latest
+    needs:
+      [
+        cypress-tests,
+        cypress-tests-prep,
+        unit-tests,
+        update-e2e-allow-list,
+        update-unit-test-allow-list,
+      ]
+    if: ${{ always() && github.ref != 'refs/heads/main' }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'folder'
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch E2E Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Copy Test Stability Allow List files to vets-website
+        run: |
+          cp ./qa-standards-dashboard-data/unit_test_allow_list.json ./
+          cp ./qa-standards-dashboard-data/e2e_allow_list.json ./
+
+      - name: Check for disallowed E2E Tests
+        run: node script/github-actions/annotate-disallowed-tests.js
+        env:
+          TEST_TYPE: e2e
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Check for disallowed Unit Tests
+        run: node script/github-actions/annotate-disallowed-tests.js
+        env:
+          TEST_TYPE: unit_test
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create E2E annotations file
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        run: |
+          echo "$E2E_ANNOTATIONS_JSON" > e2e-annotations.json
+          cat e2e-annotations.json
+
+      - name: Create Unit Test annotations file
+        if: ${{ env.unit-test-annotations-json != '[]' }}
+        run: |
+          echo "$UNIT_TEST_ANNOTATIONS_JSON" > unit-test-annotations.json
+          cat unit-test-annotations.json
+
+      - name: Annotate E2E Files accordingly
+        if: ${{ env.e2e-annotations-json != '[]' }}
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'E2E Test Stability Allow List Annotations'
+          input: './e2e-annotations.json'
+
+      - name: Annotate Unit Test Files accordingly
+        if: ${{ env.unit-test-annotations-json != '[]' }}
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'Unit Test Stability Allow List Annotations'
+          input: './unit-test-annotations.json'
+
+      - name: Verify Merge Eligibility
+        run: node script/github-actions/verify-merge-eligibility.js
+        env:
+          CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
 
   archive:
     name: Archive

@@ -29,8 +29,6 @@ describe('check in', () => {
         emailAddress: 'kermit.frog@sesameenterprises.us',
       },
     };
-    const push = sinon.spy();
-
     it('renders', () => {
       const component = render(
         <CheckInProvider store={{ veteranData }}>
@@ -69,50 +67,31 @@ describe('check in', () => {
     });
 
     it('has a clickable no button', () => {
+      const push = sinon.spy();
+      const router = { push };
       const component = render(
-        <CheckInProvider store={{ veteranData }} router={{ push }}>
+        <CheckInProvider store={{ veteranData }} router={router}>
           <Demographics />
         </CheckInProvider>,
       );
-
-      expect(component.getByText('Is this your current contact information?'))
-        .to.exist;
-      component.getByTestId('no-button').click();
+      const noButton = component.getByTestId('no-button');
+      expect(noButton).to.exist;
+      noButton.click();
+      sinon.assert.calledOnce(push);
     });
 
     it('has a clickable yes button', () => {
+      const push = sinon.spy();
+      const router = { push };
       const component = render(
-        <CheckInProvider store={{ veteranData }} router={{ push }}>
+        <CheckInProvider store={{ veteranData }} router={router}>
           <Demographics />
         </CheckInProvider>,
       );
-
-      expect(component.getByText('Is this your current contact information?'))
-        .to.exist;
-      component.getByTestId('yes-button').click();
-    });
-
-    it('has a clickable yes button with update page enabled', () => {
-      const component = render(
-        <CheckInProvider store={{ veteranData }} router={{ push }}>
-          <Demographics />
-        </CheckInProvider>,
-      );
-
-      expect(component.getByText('Is this your current contact information?'))
-        .to.exist;
-      component.getByTestId('yes-button').click();
-    });
-    it('has a clickable yes button', () => {
-      const component = render(
-        <CheckInProvider store={{ veteranData }} router={{ push }}>
-          <Demographics />
-        </CheckInProvider>,
-      );
-
-      expect(component.getByText('Is this your current contact information?'))
-        .to.exist;
-      component.getByTestId('yes-button').click();
+      const yesButton = component.getByTestId('yes-button');
+      expect(yesButton).to.exist;
+      yesButton.click();
+      sinon.assert.calledOnce(push);
     });
   });
 });

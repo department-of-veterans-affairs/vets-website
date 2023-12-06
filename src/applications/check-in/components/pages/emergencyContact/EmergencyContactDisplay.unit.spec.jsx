@@ -11,7 +11,7 @@ describe('pre-check-in experience', () => {
       it('renders with default values', () => {
         const { getByTestId } = render(
           <CheckInProvider>
-            <EmergencyContactDisplay />
+            <EmergencyContactDisplay yesAction={() => {}} noAction={() => {}} />
           </CheckInProvider>,
         );
         expect(getByTestId('header')).to.contain.text(
@@ -36,7 +36,11 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <CheckInProvider>
-            <EmergencyContactDisplay emergencyContact={emergencyContact} />
+            <EmergencyContactDisplay
+              emergencyContact={emergencyContact}
+              yesAction={() => {}}
+              noAction={() => {}}
+            />
           </CheckInProvider>,
         );
         expect(getByText('Address')).to.exist;
@@ -55,7 +59,7 @@ describe('pre-check-in experience', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <EmergencyContactDisplay yesAction={yesClick} />
+            <EmergencyContactDisplay yesAction={yesClick} noAction={() => {}} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -65,7 +69,7 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <EmergencyContactDisplay noAction={noClick} />
+            <EmergencyContactDisplay yesAction={() => {}} noAction={noClick} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));

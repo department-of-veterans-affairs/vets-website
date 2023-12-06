@@ -6,29 +6,24 @@
       "middle": "",
       "last": "Veteran"
     },
+    "veteranDateOfBirth": "2000-01-01",
     "veteranSSN": "111223333",
-    "thirdPartyType": "organization",
+    "thirdPartyType": "person",
     "personFullName": {
       "first": "Joe",
       "middle": "",
       "last": "Person"
     },
     "personAddress": {
+      "country": "USA",
       "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12346"
     },
-    "organizationName": "ACME Org",
-    "organizationRepresentatives": [{ "representativeName": "Joe Rep" }],
-    "organizationAddress": {
-      "street": "125 Any St",
-      "city": "Anycity",
-      "state": "CA",
-      "postalCode": "12347"
-    },
     "informationScope": "limited",
     "limitedInformationItems": "Status of pending claim or appeal",
+    "limitedInformationOther": "My favorite color",
     "releaseDuration": "untilDate",
     "releaseEndDate": "2033-06-16",
     "securityQuestion": "motherBirthplace",

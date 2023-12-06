@@ -77,6 +77,78 @@ function makeArrayForm(obj) {
   };
 }
 
+function makeFormArrayEmployersNoData() {
+  return {
+    pages: {
+      testPage: {
+        schema: {
+          properties: {
+            arrayProp: {
+              items: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                  },
+                },
+                required: ['name'],
+              },
+            },
+          },
+        },
+        uiSchema: {
+          arrayProp: {
+            items: {
+              name: {
+                'ui:title': 'Name of employer',
+              },
+            },
+          },
+        },
+      },
+    },
+    data: {},
+  };
+}
+
+function makeRouteArrayEmployers(obj) {
+  return makeRoute({
+    pageConfig: {
+      schema: {
+        type: 'object',
+        properties: {
+          arrayProp: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+      uiSchema: {
+        arrayProp: {
+          items: {
+            name: {
+              'ui:title': 'Name of employer',
+            },
+          },
+        },
+      },
+      errorMessages: {},
+      title: 'Array page',
+      pageKey: 'testPage',
+      showPagePerItem: true,
+      arrayPath: 'arrayProp',
+      ...obj,
+    },
+  });
+}
+
 describe('Schemaform <FormPage>', () => {
   // Defaults for most tests; overridden where needed below
   const location = {
@@ -91,6 +163,19 @@ describe('Schemaform <FormPage>', () => {
     expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
     expect(tree.everySubTree('FormNavButtons')).not.to.be.empty;
   });
+
+  it('should hide nav buttons when formOptions set', () => {
+    const route = makeRoute({
+      formConfig: { formOptions: { noBottomNav: true } },
+    });
+    const tree = SkinDeep.shallowRender(
+      <FormPage form={makeForm()} route={route} location={location} />,
+    );
+
+    expect(tree.everySubTree('SchemaForm')).not.to.be.empty;
+    expect(tree.everySubTree('FormNavButtons')).to.be.empty;
+  });
+
   describe('should handle', () => {
     let tree;
     let setData;
@@ -139,6 +224,96 @@ describe('Schemaform <FormPage>', () => {
       expect(router.push.calledWith('/last-page')).to.be.true;
     });
   });
+
+  describe('should allow a dynamic customized forward and back navigation paths', () => {
+    let tree;
+    let setData;
+    let router;
+    let onSubmit;
+    const baseForm = makeForm();
+    const testPageConfig = {
+      schema: {
+        type: 'object',
+        properties: {
+          test: { type: 'string' },
+        },
+      },
+      uiSchema: {},
+      onNavForward: ({ formData, goPath, goNextPath }) => {
+        if (formData.test) {
+          goPath('last-page');
+        } else {
+          goNextPath();
+        }
+      },
+      onNavBack: ({ formData, goPath, goPreviousPath }) => {
+        if (formData.test) {
+          goPath('last-page');
+        } else {
+          goPreviousPath();
+        }
+      },
+    };
+
+    function renderForm(data) {
+      tree = SkinDeep.shallowRender(
+        <FormPage
+          router={router}
+          setData={setData}
+          form={{
+            pages: {
+              firstPage: baseForm.pages.firstPage,
+              testPage: testPageConfig,
+              nextPage: baseForm.pages.nextPage,
+              lastPage: baseForm.pages.lastPage,
+            },
+            data,
+          }}
+          onSubmit={onSubmit}
+          location={{ pathname: '/testing' }}
+          route={makeRoute({
+            pageConfig: {
+              pageKey: 'testPage',
+              ...testPageConfig,
+            },
+          })}
+        />,
+      );
+    }
+
+    beforeEach(() => {
+      setData = sinon.spy();
+      onSubmit = sinon.spy();
+      router = {
+        push: sinon.spy(),
+      };
+    });
+
+    it('onNavForward goNextPath works correctly', () => {
+      renderForm({ test: '' });
+      tree.getMountedInstance().onSubmit({ formData: { test: '' } });
+      expect(router.push.calledWith('/next-page')).to.be.true;
+    });
+
+    it('onNavForward goPath works correctly', () => {
+      renderForm({ test: 'test' });
+      tree.getMountedInstance().onSubmit({ formData: { test: 'test' } });
+      expect(router.push.calledWith('last-page')).to.be.true;
+    });
+
+    it('onNavBack goPreviousPath works correctly', () => {
+      renderForm({ test: '' });
+      tree.getMountedInstance().goBack({ formData: { test: '' } });
+      expect(router.push.calledWith('/first-page')).to.be.true;
+    });
+
+    it('onNavBack goPath works correctly', () => {
+      renderForm({ test: 'test' });
+      tree.getMountedInstance().goBack({ formData: { test: 'test' } });
+      expect(router.push.calledWith('last-page')).to.be.true;
+    });
+  });
+
   it("should go back to the beginning if current page isn't found", () => {
     const router = {
       push: sinon.spy(),
@@ -271,6 +446,150 @@ describe('Schemaform <FormPage>', () => {
       form.data.arrayProp[0],
     );
   });
+
+  it('prePopulateArray should update data if allowPathWithNoItems and showPagePerItem is set', () => {
+    const setData = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+          allowPathWithNoItems: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+        setData={setData}
+      />,
+    );
+
+    tree.getMountedInstance().prePopulateArrayData();
+    expect(setData.firstCall.args[0]).to.eql({
+      arrayProp: [{ name: undefined }],
+    });
+  });
+
+  it('prePopulateArray should not update data if allowPathWithNoItems is not set', () => {
+    const setData = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+        setData={setData}
+      />,
+    );
+
+    tree.getMountedInstance().prePopulateArrayData();
+    expect(setData.firstCall).to.eql(null);
+  });
+
+  it('getArrayIndexedData and setArrayIndexedData should behave correctly', () => {
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={makeFormArrayEmployersNoData()}
+        route={makeRouteArrayEmployers({
+          showPagePerItem: true,
+        })}
+        params={{ index: 0 }}
+        location={{ pathname: '/testing/0' }}
+      />,
+    );
+
+    const formPage = tree.getMountedInstance();
+    const data = formPage.getArrayIndexedData();
+    expect(data).to.eql(undefined);
+
+    const newData = formPage.setArrayIndexedData({
+      name: 'bob',
+    });
+    expect(newData).to.eql({
+      arrayProp: [
+        {
+          name: 'bob',
+        },
+      ],
+    });
+  });
+
+  it('should allow going to an array page with no data if allowPathWithNoItems is enabled', () => {
+    const router = {
+      push: sinon.spy(),
+    };
+    const onSubmit = sinon.spy();
+    const route = {
+      pageConfig: {
+        pageKey: 'firstPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+      },
+      pageList: [
+        {
+          path: '/first-page',
+          pageKey: 'firstPage',
+        },
+        {
+          path: '/array-item',
+          pageKey: 'arrayItem',
+          showPagePerItem: true,
+          arrayPath: 'arrayProp',
+          allowPathWithNoItems: true,
+        },
+      ],
+    };
+
+    const form = {
+      pages: {
+        firstPage: {
+          uiSchema: {},
+          schema: {
+            name: {
+              type: 'string',
+            },
+          },
+        },
+        testPage: {
+          schema: {
+            properties: {
+              arrayProp: {
+                items: [{}],
+              },
+            },
+          },
+          uiSchema: {
+            arrayProp: {
+              items: {},
+            },
+          },
+          showPagePerItem: true,
+          arrayPath: 'arrayProp',
+          allowPathWithNoItems: true,
+        },
+      },
+      data: {
+        name: 'test',
+        arrayProp: undefined,
+      },
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FormPage
+        form={form}
+        route={route}
+        router={router}
+        onSubmit={onSubmit}
+        location={{ pathname: '/first-page' }}
+      />,
+    );
+
+    tree.getMountedInstance().onSubmit({});
+    expect(router.push.calledWith('/array-item')).to.be.true;
+  });
+
   it('should handle change in array page', () => {
     const setData = sinon.spy();
     const route = makeRoute({

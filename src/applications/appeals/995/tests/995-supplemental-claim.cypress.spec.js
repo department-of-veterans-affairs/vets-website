@@ -6,26 +6,17 @@ import { setStoredSubTask } from 'platform/forms/sub-task';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import {
-  mockContestableIssues,
-  mockContestableIssuesWithLegacyAppeals,
-  getPastItf,
-  fetchItf,
-  getRandomDate,
-} from './995.cypress.helpers';
+import { getPastItf, fetchItf } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
-import mockUser from './fixtures/mocks/user.json';
+
 import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
-  SELECTED,
   BASE_URL,
-  CONTESTABLE_ISSUES_PATH,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
@@ -33,6 +24,14 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
+
+import cypressSetup from '../../shared/tests/cypress.setup';
+import {
+  mockContestableIssues,
+  mockContestableIssuesWithLegacyAppeals,
+  getRandomDate,
+} from '../../shared/tests/cypress.helpers';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {
@@ -89,10 +88,18 @@ const testConfig = createTestConfig(
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#issue-name')
-                  .shadow()
-                  .find('input')
-                  .type(additionalIssue.issue);
+                if (navigator.userAgent.includes('Chrome')) {
+                  cy.get('#issue-name')
+                    .shadow()
+                    .find('input')
+                    .focus()
+                    .realType(additionalIssue.issue);
+                } else {
+                  cy.get('#issue-name')
+                    .shadow()
+                    .find('input')
+                    .type(additionalIssue.issue);
+                }
                 cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
               }
@@ -116,7 +123,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(({ form5103Acknowledged }) => {
             if (form5103Acknowledged) {
-              cy.get('va-checkbox').click();
+              cy.get('va-checkbox')
+                .shadow()
+                .find('input')
+                .click();
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -131,10 +141,20 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
-                cy.get('#add-location-name')
-                  .shadow()
-                  .find('input')
-                  .type(location.locationAndName);
+                if (navigator.userAgent.includes('Chrome')) {
+                  // using realType to hopefully fix the input fields appear to
+                  // be disabled in CI causing the stress test to fail
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
+                    .focus()
+                    .realType(location.locationAndName);
+                } else {
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
+                    .type(location.locationAndName);
+                }
                 location?.issues.forEach(issue => {
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
@@ -177,7 +197,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             if (data.privacyAgreementAccepted) {
-              cy.get('va-checkbox').click();
+              cy.get('va-checkbox')
+                .shadow()
+                .find('input')
+                .click();
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -192,6 +215,11 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
+                cy.get('#add-facility-name')
+                  .shadow()
+                  .find('input')
+                  .focus(); // Try focusing first
+
                 cy.get('#add-facility-name')
                   .shadow()
                   .find('input')
@@ -278,11 +306,10 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.login(mockUser);
+      cypressSetup();
+
       setStoredSubTask({ benefitType: 'compensation' });
 
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
       cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
@@ -301,9 +328,6 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(() => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-        cy.intercept('GET', '/v0/feature_toggles?*', {
-          data: { features: [{ name: 'supplemental_claim', value: true }] },
-        });
       });
     },
 

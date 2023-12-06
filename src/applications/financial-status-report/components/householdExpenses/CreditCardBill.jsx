@@ -33,6 +33,8 @@ const CreditCardBill = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const MAXIMUM_BILL_AMOUNT = 100000;
+
   // if we have creditCardBills and plan to edit, we need to get it from the creditCardBills
   const specificRecord = creditCardBills?.length
     ? creditCardBills[index]
@@ -44,17 +46,19 @@ const CreditCardBill = props => {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const unpaidBalanceError = !isValidCurrency(
-    creditCardBillRecord.unpaidBalance,
-  )
-    ? 'Please enter the unpaid balance amount'
-    : null;
+  const unpaidBalanceError =
+    !isValidCurrency(creditCardBillRecord.unpaidBalance) ||
+    (creditCardBillRecord.unpaidBalance > MAXIMUM_BILL_AMOUNT ||
+      creditCardBillRecord.unpaidBalance < 0)
+      ? 'Please enter an unpaid balance amount less than $100,000'
+      : null;
 
-  const minMonthlyPaymentError = !isValidCurrency(
-    creditCardBillRecord.amountDueMonthly,
-  )
-    ? 'Please enter the minimum monthly payment amount'
-    : null;
+  const minMonthlyPaymentError =
+    !isValidCurrency(creditCardBillRecord.amountDueMonthly) ||
+    (creditCardBillRecord.amountDueMonthly > MAXIMUM_BILL_AMOUNT ||
+      creditCardBillRecord.amountDueMonthly < 0)
+      ? 'Please enter a minimum monthly payment amount less than $100,000'
+      : null;
 
   const amountOverdueError =
     !isValidCurrency(creditCardBillRecord.amountPastDue) &&
@@ -84,8 +88,23 @@ const CreditCardBill = props => {
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
+
+    if (unpaidBalanceError || minMonthlyPaymentError || amountOverdueError) {
+      return;
+    }
+
+    // Create a copy of the current creditCardBills array
     const newCreditCardBillArray = [...creditCardBills];
-    newCreditCardBillArray[index] = creditCardBillRecord;
+    // If it's a new record, set the purpose to 'Credit card payment' explicitly
+    if (creditCardBills.length === index) {
+      newCreditCardBillArray.push({
+        ...defaultRecord[0], // You can include other default values as needed
+        ...creditCardBillRecord,
+      });
+    } else {
+      // Update an existing record
+      newCreditCardBillArray[index] = creditCardBillRecord;
+    }
 
     if (
       creditCardBillRecord.amountDueMonthly &&
@@ -99,7 +118,7 @@ const CreditCardBill = props => {
         }));
       }
 
-      // update form data
+      // Update form data
       setFormData({
         ...data,
         expenses: {
@@ -132,6 +151,54 @@ const CreditCardBill = props => {
     },
   };
 
+  const renderAddCancelButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto usa-button-primary"
+          onClick={handlers.onUpdate}
+        >
+          {`${
+            creditCardBills.length === index ? 'Add' : 'Update'
+          } a credit card bill`}
+        </button>
+      </>
+    );
+  };
+
+  const renderContinueBackButtons = () => {
+    return (
+      <>
+        <button
+          type="button"
+          id="cancel"
+          className="usa-button-secondary vads-u-width--auto"
+          onClick={handlers.onCancel}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          id="submit"
+          className="vads-u-width--auto"
+          onClick={updateFormData}
+        >
+          Continue
+        </button>
+      </>
+    );
+  };
+
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
@@ -141,14 +208,18 @@ const CreditCardBill = props => {
               creditCardBills.length === index ? 'Add' : 'Update'
             } a credit card bill`}
           </h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            Enter your credit card bill’s information.
+          </p>
         </legend>
-        <p>Enter your credit card bill’s information.</p>
         <div className="input-size-3 no-wrap">
           <va-number-input
             error={(submitted && unpaidBalanceError) || null}
             hint={null}
             currency
             required
+            min={0}
+            max={MAXIMUM_BILL_AMOUNT}
             inputmode="numeric"
             label="Unpaid balance"
             name="unpaidBalance"
@@ -164,6 +235,8 @@ const CreditCardBill = props => {
             required
             currency
             inputmode="numeric"
+            min={0}
+            max={MAXIMUM_BILL_AMOUNT}
             label="Minimum monthly payment amount"
             name="amountDueMonthly"
             id="amountDueMonthly"
@@ -185,24 +258,9 @@ const CreditCardBill = props => {
           />
         </div>
         <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            id="submit"
-            className="vads-u-width--auto usa-button-primary"
-            onClick={handlers.onUpdate}
-          >
-            {`${
-              creditCardBills.length === index ? 'Add' : 'Update'
-            } a credit card bill`}
-          </button>
+          {creditCardBills.length > 0
+            ? renderAddCancelButtons()
+            : renderContinueBackButtons()}
         </p>
       </fieldset>
     </form>

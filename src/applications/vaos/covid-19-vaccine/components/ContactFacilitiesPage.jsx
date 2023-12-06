@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
+import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  openContactFacilitiesPage,
-  routeToPreviousAppointmentPage,
-} from '../redux/actions';
+import { openContactFacilitiesPage } from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   FACILITY_SORT_METHODS,
   FETCH_STATUS,
@@ -22,10 +21,15 @@ import { getRealFacilityId } from '../../utils/appointment';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import { hasValidCovidPhoneNumber } from '../../services/appointment';
+import { routeToPreviousAppointmentPage } from '../flow';
 
 const pageKey = 'contactFacilities';
 
-export default function ContactFacilitiesPage() {
+export default function ContactFacilitiesPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const {
     facilitiesStatus,
@@ -52,6 +56,9 @@ export default function ContactFacilitiesPage() {
   useEffect(
     () => {
       scrollAndFocus();
+      if (featureBreadcrumbUrlUpdate) {
+        changeCrumb(pageTitle);
+      }
     },
     [facilitiesStatus],
   );
@@ -172,3 +179,7 @@ export default function ContactFacilitiesPage() {
     </div>
   );
 }
+
+ContactFacilitiesPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

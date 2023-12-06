@@ -6,17 +6,68 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-div:has(.schemaform-sip-alert) {
-  margin-top: 4rem;
+$font-family-serif: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+  serif;
+$font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
+  "Roboto", Arial, sans-serif;
+
+.schemaform-subtitle {
+  margin-top: 1.5rem;
+}
+
+[href="#start"].vads-c-action-link--green {
+  margin-bottom: 2rem;
+}
+
+.custom-header {
+  display: inline-block;
+
+  .schemaform-required-span {
+    display: none;
+  }
+}
+
+.custom-required-span {
+  color: $color-secondary-dark;
+  font-family: $font-family-sans-serif;
+  font-size: 1.6rem;
+  font-weight: normal;
+}
+
+.custom-description {
+  margin-top: 0;
+}
+
+.authorizer-type .schemaform-required-span,
+.veteran-personal-information .schemaform-required-span,
+.disclosure-information-organization-representatives .schemaform-required-span,
+.disclosure-information-limited-information .schemaform-required-span,
+.disclosure-information-release-duration .schemaform-required-span,
+.security-information-question .schemaform-required-span,
+.disclosure-information-release-end-date .schemaform-required-span,
+.security-information-answer .schemaform-required-span {
+  display: none !important;
+}
+
+#root_authorizerAddress_street2,
+#root_personAddress_street2,
+#root_organizationAddress_street2 {
+  max-width: 10rem;
+}
+
+#root_authorizerFullName_middle,
+#root_personFullName_middle,
+#root_veteranFullName_middle {
+  max-width: 5rem;
+}
+
+#root_limitedInformationOther-label {
+  margin-top: 2rem;
 }
 
 .row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,
 .row div[id^="organizationRepresentatives_"] > .row.small-collapse {
   margin: 0 0 !important;
-}
-
-#root_releaseDuration-label > .schemaform-required-span {
-  display: none !important;
 }
 
 .form-review-panel[data-chapter="authorizerTypeChapter"] .review-row dt > span,

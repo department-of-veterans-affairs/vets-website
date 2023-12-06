@@ -23,11 +23,17 @@ export const uiSchema = {
               formData,
               TASK_KEYS.reportStepchildNotInHousehold,
             ),
+          'ui:errorMessages': {
+            pattern: 'This field accepts alphabetic characters only',
+          },
         },
         middle: {
           'ui:title': 'Stepchild’s middle name',
           'ui:options': {
             hideEmptyValueInReview: true,
+          },
+          'ui:errorMessages': {
+            pattern: 'This field accepts alphabetic characters only',
           },
         },
         last: {
@@ -37,6 +43,9 @@ export const uiSchema = {
               formData,
               TASK_KEYS.reportStepchildNotInHousehold,
             ),
+          'ui:errorMessages': {
+            pattern: 'This field accepts alphabetic characters only',
+          },
         },
         suffix: {
           'ui:title': 'Stepchild’s suffix',

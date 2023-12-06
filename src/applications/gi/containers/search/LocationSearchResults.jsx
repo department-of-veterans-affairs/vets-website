@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+
 import environment from 'platform/utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -25,6 +26,7 @@ import {
 } from '../../actions';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
+import FilterByLocation from './FilterByLocation';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -455,7 +457,8 @@ function LocationSearchResults({
           {!smallScreen && (
             <>
               <TuitionAndHousingEstimates />
-              <FilterYourResults />
+              {environment.isProduction() && <FilterYourResults />}
+              {!environment.isProduction() && <FilterByLocation />}
             </>
           )}
           {environment.isProduction()

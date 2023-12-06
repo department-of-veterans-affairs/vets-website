@@ -6,29 +6,23 @@ import {
   CONTACT_INFO_PATH,
 } from '../constants';
 
-import mockUser from './fixtures/mocks/user.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test.json';
-import {
-  mockContestableIssues,
-  getPastItf,
-  fetchItf,
-} from './995.cypress.helpers';
+import { getPastItf, fetchItf } from './995.cypress.helpers';
 
-// Telephone specific responses
-import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
-import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
+import cypressSetup from '../../shared/tests/cypress.setup';
+import { mockContestableIssues } from '../../shared/tests/cypress.helpers';
+
+import mockTelephoneUpdate from '../../shared/tests/fixtures/mocks/profile-telephone-update.json';
+import mockTelephoneUpdateSuccess from '../../shared/tests/fixtures/mocks/profile-telephone-update-success.json';
 
 describe('995 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
   const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
-    window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: { features: [{ name: 'supplemental_claim', value: true }] },
-    }).as('features');
+    cypressSetup();
 
+    window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
       'GET',
@@ -40,13 +34,8 @@ describe('995 contact info loop', () => {
 
     cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
-    // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.visit(BASE_URL);
     cy.wait('@features');
@@ -98,7 +87,10 @@ describe('995 contact info loop', () => {
 
     // Home phone
     cy.get('a[href$="home-phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-home-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-home-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -107,7 +99,10 @@ describe('995 contact info loop', () => {
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -116,7 +111,10 @@ describe('995 contact info loop', () => {
 
     // Email
     cy.get('a[href$="email-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-email-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-email-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -125,7 +123,10 @@ describe('995 contact info loop', () => {
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mailing-address`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mailing-address`,
+    );
     cy.injectAxe();
     cy.axeCheck();
 
@@ -136,18 +137,20 @@ describe('995 contact info loop', () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('should edit info on a new page, update & return to contact info page ', () => {
     getToContactPage();
-    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
 
     // Contact info
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
     cy.contains('Edit mobile phone number').should('be.visible');
-    cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
+    cy.location('pathname').should(
+      'eq',
+      `${BASE_URL}/edit-contact-information-mobile-phone`,
+    );
 
-    cy.findByLabelText(/mobile phone/i)
-      .clear()
-      .type('8885551212');
+    cy.findByLabelText(/mobile phone/i).clear();
+    cy.findByLabelText(/mobile phone/i).type('8885551212');
+
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();

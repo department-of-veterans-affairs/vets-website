@@ -1,6 +1,5 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 import vamcErc from '../fixtures/vamc-ehr.json';
-import { generateFeatureToggles } from '../../../common/mocks/feature-toggles';
 
 import {
   makeUserObject,
@@ -54,10 +53,6 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
-      );
-      cy.intercept(
-        '/v0/feature_toggles*',
-        generateFeatureToggles({ showMyVADashboardV2: true }),
       );
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
     });

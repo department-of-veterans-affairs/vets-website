@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CheckInConfirmation from './CheckInConfirmation';
 import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectVeteranData } from '../../../selectors';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { URLS } from '../../../utils/navigation';
 import { findAppointment } from '../../../utils/appointment';
@@ -29,7 +29,7 @@ const Confirmation = props => {
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
-  } = useSessionStorage(false);
+  } = useStorage(false);
 
   useEffect(
     () => {

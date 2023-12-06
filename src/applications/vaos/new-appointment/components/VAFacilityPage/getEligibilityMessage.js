@@ -97,8 +97,8 @@ export default function getEligibilityMessage({
           <va-link
             href={
               featureStatusImprovement
-                ? '/health-care/schedule-view-va-appointments/appointments/pending'
-                : '/health-care/schedule-view-va-appointments/appointments/requested'
+                ? '/my-health/appointments/pending'
+                : '/my-health/appointments/requested'
             }
             text="your appointment list"
             data-testid="appointment-list-link"
@@ -110,6 +110,7 @@ export default function getEligibilityMessage({
             <FacilityAddress
               name={facilityDetails.name}
               facility={facilityDetails}
+              level={2}
             />
           )}
       </>

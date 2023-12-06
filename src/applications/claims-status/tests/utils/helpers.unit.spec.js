@@ -22,6 +22,7 @@ import {
   getClaimType,
   mockData,
   roundToNearest,
+  groupClaimsByDocsNeeded,
 } from '../../utils/helpers';
 
 import {
@@ -35,9 +36,82 @@ import {
   STATUS_TYPES,
   AOJS,
   getPageRange,
+  sortByLastUpdated,
 } from '../../utils/appeals-v2-helpers';
 
 describe('Disability benefits helpers: ', () => {
+  describe('groupClaimsByDocsNeeded', () => {
+    const claims = [
+      {
+        claimId: 1,
+        type: 'evss_claims',
+        attributes: {
+          updatedAt: '2010-01-01T00:00:00.000Z',
+          documentsNeeded: true,
+          phase: 3,
+        },
+      },
+      {
+        claimId: 2,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2015-01-01' },
+          documentsNeeded: false,
+          status: 'evidence_gathering_review_decision',
+        },
+      },
+      {
+        claimId: 3,
+        type: 'evss_claims',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2020-01-01' },
+          updatedAt: '2020-01-01T00:00:00.000Z',
+          documentsNeeded: true,
+          phase: 3,
+        },
+      },
+      {
+        claimId: 4,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: { phaseChangeDate: '2013-01-01' },
+          documentsNeeded: true,
+          status: 'complete',
+        },
+      },
+    ];
+
+    it('should always raise the grouped claims to the top', () => {
+      const sortedClaims = claims.sort(sortByLastUpdated);
+      const groupedClaims = groupClaimsByDocsNeeded(sortedClaims);
+
+      expect(groupedClaims[0].attributes.documentsNeeded).to.be.true;
+      expect(groupedClaims[1].attributes.documentsNeeded).to.be.true;
+      expect(groupedClaims[2].attributes.documentsNeeded).to.be.false;
+      expect(groupedClaims[3].attributes.documentsNeeded).to.be.true;
+    });
+
+    it('should preserve the order within the group and outside it', () => {
+      const sortedClaims = claims.sort(sortByLastUpdated);
+      const groupedClaims = groupClaimsByDocsNeeded(sortedClaims);
+
+      expect(groupedClaims[0].claimId).to.equal(3);
+      expect(groupedClaims[1].claimId).to.equal(1);
+      expect(groupedClaims[2].claimId).to.equal(2);
+      expect(groupedClaims[3].claimId).to.equal(4);
+    });
+
+    it('should not include non-evidence-gathering phased items in the group', () => {
+      const sortedClaims = claims.sort(sortByLastUpdated);
+      const groupedClaims = groupClaimsByDocsNeeded(sortedClaims);
+
+      expect(groupedClaims[0].claimId).to.equal(3);
+      expect(groupedClaims[1].claimId).to.equal(1);
+      expect(groupedClaims[2].claimId).to.equal(2);
+      expect(groupedClaims[3].claimId).to.equal(4);
+    });
+  });
+
   describe('groupTimelineActivity', () => {
     it('should group events before a phase into phase 1', () => {
       const events = [
@@ -451,7 +525,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: 'Awesome',
         },
       };
-      expect(getClaimType(claim)).to.equal('awesome');
+      expect(getClaimType(claim)).to.equal('Awesome');
     });
 
     it('should return the default claim type', () => {
@@ -460,7 +534,7 @@ describe('Disability benefits helpers: ', () => {
           claimType: undefined,
         },
       };
-      expect(getClaimType(claim)).to.equal('disability compensation');
+      expect(getClaimType(claim)).to.equal('Disability Compensation');
     });
   });
 

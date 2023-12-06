@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
@@ -7,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
+import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -21,6 +22,7 @@ import {
 import {
   selectFeatureVAOSServiceRequests,
   selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 
 function isValidComment(value) {
@@ -47,8 +49,8 @@ const initialSchema = {
     properties: {
       reasonForAppointment: {
         type: 'string',
-        enum: PURPOSE_TEXT.map(purpose => purpose.id),
-        enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
+        enum: PURPOSE_TEXT_V2.map(purpose => purpose.id),
+        enumNames: PURPOSE_TEXT_V2.map(purpose => purpose.label),
       },
       reasonAdditionalInfo: {
         type: 'string',
@@ -94,7 +96,11 @@ const uiSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-export default function ReasonForAppointmentPage() {
+export default function ReasonForAppointmentPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -124,6 +130,9 @@ export default function ReasonForAppointmentPage() {
         useAcheron,
       ),
     );
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -193,3 +202,7 @@ export default function ReasonForAppointmentPage() {
     </div>
   );
 }
+
+ReasonForAppointmentPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

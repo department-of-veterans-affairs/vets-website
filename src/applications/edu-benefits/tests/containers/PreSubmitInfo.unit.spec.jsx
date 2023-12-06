@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
@@ -15,7 +15,7 @@ const fakeStore = createStore(
 
 describe('<PreSubmitInfo>', () => {
   it('should render', () => {
-    const tree = mount(
+    const tree = render(
       <Provider store={fakeStore}>
         <PreSubmitInfo
           formData={{}}
@@ -26,8 +26,11 @@ describe('<PreSubmitInfo>', () => {
       </Provider>,
     );
 
+    const privacyCheckbox = tree.container.querySelector(
+      'va-privacy-agreement',
+    );
+
     expect(tree).to.not.be.undefined;
-    expect(tree.text()).to.include('privacy policy');
-    tree.unmount();
+    expect(privacyCheckbox).does.exist;
   });
 });

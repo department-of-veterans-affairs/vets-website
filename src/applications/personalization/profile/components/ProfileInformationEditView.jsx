@@ -22,7 +22,6 @@ import {
 import {
   isFailedTransaction,
   isPendingTransaction,
-  isSuccessfulTransaction,
 } from '~/platform/user/profile/vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '~/platform/user/profile/vap-svc/containers/CopyMailingAddress';
@@ -94,13 +93,6 @@ export class ProfileInformationEditView extends Component {
       !isPendingTransaction(this.props.transaction)
     ) {
       window.clearInterval(this.interval);
-    }
-    // if a transaction was created that was immediately successful (for example
-    // when the transaction's status is `COMPLETED_NO_CHANGES_DETECTED`),
-    // immediately exit edit view and clear the transaction request so it can be triggered again
-    if (isSuccessfulTransaction(this.props.transaction)) {
-      this.props.openModal(null);
-      this.props.clearTransactionRequest(this.props.fieldName);
     }
   }
 
@@ -258,11 +250,13 @@ export class ProfileInformationEditView extends Component {
       // Showing the edit view on its own page, so let the app handle focus
       return;
     }
+
     const focusableElement = this.editForm?.querySelector(
       'button, input, select, a, textarea',
     );
+
     if (focusableElement) {
-      focusableElement.focus();
+      setTimeout(() => focusElement(focusableElement), 100);
     }
   }
 
@@ -340,7 +334,7 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0"
+                    className="vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
@@ -350,7 +344,7 @@ export class ProfileInformationEditView extends Component {
                     <button
                       data-testid="cancel-edit-button"
                       type="button"
-                      className="usa-button-secondary small-screen:vads-u-margin-top--0"
+                      className="usa-button-secondary small-screen:vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 "
                       onClick={onCancel}
                     >
                       {cancelButtonText || 'Cancel'}

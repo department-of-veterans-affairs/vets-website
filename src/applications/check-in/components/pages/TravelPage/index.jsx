@@ -7,7 +7,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { URLS } from '../../../utils/navigation';
 
@@ -19,6 +19,7 @@ const TravelPage = ({
   eyebrow,
   bodyText,
   helpText,
+  additionalInfoItems,
   pageType,
   router,
 }) => {
@@ -42,7 +43,7 @@ const TravelPage = ({
       goToNextPage();
     }
   };
-  const { getCheckinComplete } = useSessionStorage(false);
+  const { getCheckinComplete } = useStorage(false);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
@@ -69,6 +70,14 @@ const TravelPage = ({
             {bodyText}
           </div>
         )}
+        {additionalInfoItems &&
+          additionalInfoItems.map((infoData, index) => (
+            <React.Fragment key={index}>
+              <va-additional-info uswds trigger={infoData.trigger}>
+                {infoData.info}
+              </va-additional-info>
+            </React.Fragment>
+          ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
@@ -109,6 +118,7 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
+  additionalInfoItems: PropTypes.arrayOf(PropTypes.object),
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,

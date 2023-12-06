@@ -37,6 +37,7 @@
       "type": "contestableIssue",
       "attributes": {
         "ratingIssueSubjectText": "Monocular vision",
+        "description": "",
         "ratingIssuePercentNumber": "5",
         "approxDecisionDate": "2021-06-04",
         "decisionIssueId": 1,

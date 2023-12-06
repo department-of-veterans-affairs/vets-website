@@ -24,14 +24,11 @@ function axeTestPage() {
 
 describe('functionality of Yellow Ribbons', () => {
   it('search the form and expect dom to have elements on success', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url:
-        '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
-    }).as('getSchoolsInYR');
+    cy.intercept(
+      'GET',
+      '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
+      stub,
+    ).as('getSchoolsInYR');
 
     // navigate to yellow-ribbon and make axe check on browser
     cy.visit('/education/yellow-ribbon-participating-schools/');
@@ -92,14 +89,11 @@ describe('functionality of Yellow Ribbons', () => {
   });
 
   it('search the form and expect dom to have elements on error', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: [],
-      status: 500,
-      url:
-        '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
-    }).as('getSchoolsInYR');
+    cy.intercept(
+      'GET',
+      '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
+      { statusCode: 500, body: [] },
+    ).as('getSchoolsInYR');
 
     // navigate to yellow-ribbon and make axe check on browser
     cy.visit('/education/yellow-ribbon-participating-schools/');

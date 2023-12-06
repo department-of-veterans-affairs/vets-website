@@ -10,6 +10,7 @@ const ShowPdfPassword = ({
   onSubmitPassword,
   passwordLabel = null,
   testVal = '', // for testing
+  uswds,
 }) => {
   const [value, setValue] = useState(testVal);
   const [dirty, setDirty] = useState(false);
@@ -47,6 +48,7 @@ const ShowPdfPassword = ({
         onInput={({ target }) => setValue(target.value || '')}
         onBlur={() => setDirty(true)}
         messageAriaDescribedby={passwordLabel}
+        uswds={uswds}
       />
       <va-button
         className="vads-u-width--auto"
@@ -61,6 +63,7 @@ const ShowPdfPassword = ({
           }
         }}
         label={passwordLabel}
+        uswds={uswds}
       />
     </div>
   );
@@ -71,12 +74,13 @@ ShowPdfPassword.propTypes = {
   index: PropTypes.number,
   passwordLabel: PropTypes.string,
   testVal: PropTypes.string,
+  uswds: PropTypes.bool,
   onSubmitPassword: PropTypes.func,
 };
 
 const PasswordLabel = () => (
   <p>
-    This is en encrypted PDF document. In order for us to be able to view the
+    This is an encrypted PDF document. In order for us to be able to view the
     document, we will need the password to decrypt it.
   </p>
 );

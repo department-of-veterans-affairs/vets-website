@@ -35,7 +35,7 @@ const BranchOfServiceQuestion = ({
   const radioButtonProps = {
     name: key,
     label: 'In which branch of service did you serve?',
-    'label-header-level': 2,
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {

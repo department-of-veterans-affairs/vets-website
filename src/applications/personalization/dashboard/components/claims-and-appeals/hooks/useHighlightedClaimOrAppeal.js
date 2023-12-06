@@ -1,12 +1,14 @@
 import React from 'react';
-import moment from 'moment';
+import { endOfToday, isAfter, sub } from 'date-fns';
 
-const isWithinPast30Days = date => {
-  return moment(date).isAfter(
-    moment()
-      .endOf('day')
-      .subtract(30, 'days'),
-  );
+const isWithinPast60Days = date => {
+  return isAfter(new Date(date), sub(endOfToday(), { days: 60 }));
+};
+
+const isClaimOpen = claim => {
+  if (!claim?.attributes) return false;
+  if ('open' in claim.attributes) return claim.attributes.open; // evss
+  return claim.attributes.closeDate === null; // lighthouse
 };
 
 const getAppealUpdateDate = appeal => {
@@ -16,8 +18,10 @@ const getAppealUpdateDate = appeal => {
 
 const getClaimUpdateDate = claim => {
   let updateDate;
-  const filedDate = claim?.attributes.dateFiled;
-  const changeDate = claim?.attributes.phaseChangeDate;
+  const filedDate = claim?.attributes.dateFiled || claim?.attributes.claimDate;
+  const changeDate =
+    claim?.attributes.phaseChangeDate ||
+    claim?.attributes.claimPhaseDates?.phaseChangeDate;
   if (changeDate && filedDate) {
     updateDate =
       new Date(filedDate).getTime() > new Date(changeDate).getTime()
@@ -64,8 +68,8 @@ const useHighlightedClaimOrAppeal = (appealsData, claimsData) => {
     [claimsData],
   );
 
-  // the most recently updated claim or appeal that has been updated in the past
-  // 30 days
+  // the most recently updated open claim or appeal or
+  // the latest closed claim or appeal that has been updated in the past 60 days
   return React.useMemo(
     () => {
       let result;
@@ -74,10 +78,17 @@ const useHighlightedClaimOrAppeal = (appealsData, claimsData) => {
       let mostRecentClaim =
         (sortedClaims.length > 0 && sortedClaims[0]) || null;
 
-      if (!isWithinPast30Days(getAppealUpdateDate(mostRecentAppeal))) {
+      if (
+        !mostRecentAppeal?.attributes?.active &&
+        !isWithinPast60Days(getAppealUpdateDate(mostRecentAppeal))
+      ) {
         mostRecentAppeal = null;
       }
-      if (!isWithinPast30Days(getClaimUpdateDate(mostRecentClaim))) {
+
+      if (
+        !isClaimOpen(mostRecentClaim) &&
+        !isWithinPast60Days(getClaimUpdateDate(mostRecentClaim))
+      ) {
         mostRecentClaim = null;
       }
 

@@ -273,10 +273,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     cy.findByLabelText(/social security/i).type(
       testData.veteranSocialSecurityNumber,
     );
-    goToNextPage('veteran-information/profile-information');
-    goToNextPage('veteran-information/profile-information-ssn');
-    goToNextPage('veteran-information/profile-information-dob');
-
+    goToNextPage('veteran-information/personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');

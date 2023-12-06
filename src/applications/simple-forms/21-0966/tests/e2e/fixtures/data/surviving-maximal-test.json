@@ -1,0 +1,42 @@
+{
+  "preparerIdentification": "SURVIVING_DEPENDENT",
+  "benefitSelection": {
+    "survivor": true
+  },
+  "survivingDependentFullName": {
+    "first": "Surviving",
+    "middle": "Medio",
+    "last": "Dependent"
+  },
+  "survivingDependentDateOfBirth": "1980-07-12",
+  "survivingDependentID": {
+    "ssn": "223456789",
+    "vaFileNumber": "12345678"
+  },
+  "survivingDependentMailingAddress": {
+    "isMilitary": true,
+    "country": "USA",
+    "street": "314 Round Circle",
+    "street2": "Actually Oval",
+    "street3": "PI is a lie",
+    "city": "APO",
+    "state": "AA",
+    "postalCode": "12345"
+  },
+  "survivingDependentPhone": "1234567890",
+  "survivingDependentInternationalPhone": "2345678901",
+  "survivingDependentEmail": "surviving@dependent.com",
+  "veteranFullName": {
+    "first": "Veteran",
+    "middle": "Elddim",
+    "last": "Eteranvay"
+  },
+  "veteranDateOfBirth": "1962-01-21",
+  "veteranId": {
+    "ssn": "246813579",
+    "vaFileNumber": "24681357"
+  },
+  "relationshipToVeteran": {
+    "relationshipToVeteran": "spouse"
+  }
+}

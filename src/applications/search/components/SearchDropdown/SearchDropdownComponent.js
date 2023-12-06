@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
-
 const Keycodes = {
   Backspace: 8,
   Down: 40,
@@ -726,7 +724,7 @@ class SearchDropdownComponent extends React.Component {
               }}
               onKeyDown={this.handleButtonShift}
             >
-              <IconSearch color="#fff" />
+              <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
               <span className="usa-sr-only">Search</span>
               {buttonText && <span className="button-text">{buttonText}</span>}
             </button>

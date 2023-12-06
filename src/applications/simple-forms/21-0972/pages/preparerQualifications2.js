@@ -9,6 +9,10 @@ export default {
   uiSchema: {
     preparerSigningReason: {
       'ui:widget': GroupCheckboxWidget,
+      'ui:errorMessages': {
+        required:
+          'You must select at least one option, so we can process your certification.',
+      },
       'ui:options': {
         updateSchema: formData => {
           return {

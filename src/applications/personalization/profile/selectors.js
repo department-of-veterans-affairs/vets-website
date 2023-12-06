@@ -1,5 +1,6 @@
 import set from 'lodash/set';
 import has from 'lodash/has';
+import { createSelector } from 'reselect';
 
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
@@ -11,6 +12,7 @@ import {
   isSignedUpForEDUDirectDeposit,
 } from './util';
 import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
+import { PROFILE_TOGGLES } from './constants';
 
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
@@ -117,12 +119,22 @@ export const profileDoNotRequireInternationalZipCode = state =>
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
   ];
 
-export const profileUseLighthouseDirectDepositEndpoint = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileLighthouseDirectDeposit];
-
 export const togglesAreLoaded = state => {
   return !toggleValues(state)?.loading;
 };
+
+export const selectProfileToggles = createSelector(toggleValues, values => {
+  const { loading } = values;
+
+  return Object.keys(PROFILE_TOGGLES).reduce(
+    (acc, toggle) => {
+      const key = FEATURE_FLAG_NAMES[toggle];
+      acc[toggle] = values[key];
+      return acc;
+    },
+    { loading, ...PROFILE_TOGGLES },
+  );
+});
 
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
@@ -145,3 +157,26 @@ export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
 
 export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
+
+export const selectProfileContactsToggle = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;
+
+export const selectProfileContacts = state => state?.profileContacts || {};
+
+export const selectEmergencyContact = state => {
+  const contacts = selectProfileContacts(state).data || [];
+  const emergencyContacts =
+    contacts.filter(contact =>
+      contact?.attributes?.contactType?.match(/emergency contact/i),
+    ) || [];
+  return emergencyContacts[0];
+};
+
+export const selectNextOfKin = state => {
+  const contacts = selectProfileContacts(state).data || [];
+  const nextOfKin =
+    contacts.filter(contact =>
+      contact?.attributes?.contactType?.match(/next of kin/i),
+    ) || [];
+  return nextOfKin[0];
+};

@@ -11,6 +11,8 @@ import {
   SUPPORTED_UPLOAD_TYPES,
 } from '../constants';
 
+import { createPayload } from '../../shared/utils/upload';
+
 export const fileUploadUi = content => {
   // a11y focus management. Move focus to select after upload
   // see va.gov-team/issues/19688
@@ -32,17 +34,7 @@ export const fileUploadUi = content => {
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1,
-    createPayload: (file, _formId, password) => {
-      const payload = new FormData();
-      payload.append('decision_review_evidence_attachment[file_data]', file);
-      if (password) {
-        payload.append(
-          'decision_review_evidence_attachment[password]',
-          password,
-        );
-      }
-      return payload;
-    },
+    createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {
         findAndFocusLastSelect();

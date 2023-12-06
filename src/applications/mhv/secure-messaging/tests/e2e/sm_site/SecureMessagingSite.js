@@ -41,9 +41,9 @@ class SecureMessagingSite {
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
     ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
+    cy.get('va-pagination')
       .shadow()
-      .find('[aria-label="Next page"')
+      .find('button:contains("Next")')
       .click();
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };
@@ -54,9 +54,9 @@ class SecureMessagingSite {
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
     ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
+    cy.get('va-pagination')
       .shadow()
-      .find('[aria-label="Previous page"')
+      .find('button:contains("Previous")')
       .click();
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };
@@ -67,10 +67,17 @@ class SecureMessagingSite {
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
     ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('[aria-label="Pagination"]')
-      .shadow()
-      .find(`[aria-label="Page ${interceptedPage}"]`)
-      .click();
+    if (interceptedPage === 1) {
+      cy.get('va-pagination')
+        .shadow()
+        .find('button:contains("1")')
+        .click();
+    } else {
+      cy.get('va-pagination')
+        .shadow()
+        .find(`button:contains("${interceptedPage}")`)
+        .click();
+    }
     cy.wait(`@inboxMessagesessages${interceptedPage}`);
   };
 

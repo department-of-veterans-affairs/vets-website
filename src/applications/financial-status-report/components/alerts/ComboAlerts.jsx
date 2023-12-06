@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ALERT_TYPES } from '../../constants';
 
 const ComboAlert = ({ children }) => children;
@@ -23,8 +24,8 @@ ComboAlert.Error = () => {
       <h3 className="vads-u-font-size--h4">What you can do</h3>
       <p>
         If you continue having trouble viewing information about your current
-        overpayments and copay bills, email us at{' '}
-        <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
+        overpayments and copay bills, contact us online through{' '}
+        <a href="https://ask.va.gov">Ask VA</a>.
       </p>
     </va-alert>
   );
@@ -50,14 +51,14 @@ ComboAlert.Zero = () => {
       <ul>
         <li className="vads-u-font-family--sans">
           <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact="8008270648" /> (TTY:{' '}
-          <va-telephone contact="711" tty />
+          (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </li>
         <li className="vads-u-font-family--sans">
           <strong>For medical copay bills</strong>, call the VA Resource Center
-          at <va-telephone contact="8664001238" /> (TTY:{' '}
-          <va-telephone contact="711" tty />
+          at <va-telephone contact="8664001238" /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>

@@ -37,9 +37,6 @@ export const uiSchema = {
       'ui:title': 'Do you currently own any property?',
       'ui:description': RealEstateDescription,
       'ui:widget': 'yesNo',
-      'ui:options': {
-        showFieldLabel: 'label',
-      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your real estate information.',

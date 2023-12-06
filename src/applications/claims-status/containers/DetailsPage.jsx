@@ -9,10 +9,26 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
 import DetailsPageContent from '../components/evss/DetailsPageContent';
 import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
+import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { getClaimType } from '../utils/helpers';
+import {
+  buildDateFormatter,
+  getClaimType,
+  setDocumentTitle,
+} from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+// HELPERS
+// START lighthouse_migration
+const getClaimDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return claimDate || dateFiled || null;
+};
+// END lighthouse_migration
+
+const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
 class DetailsPage extends React.Component {
   componentDidMount() {
@@ -24,7 +40,7 @@ class DetailsPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelDetails');
     }
   }
 
@@ -42,9 +58,16 @@ class DetailsPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Details - Your Claim'
-      : `Details - Your ${getClaimType(this.props.claim)} Claim`;
+    const { claim } = this.props;
+
+    if (claim) {
+      const claimDate = formatDate(getClaimDate(claim));
+      const claimType = getClaimType(claim);
+      const title = `Details Of ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Details Of Your Claim');
+    }
   }
 
   getPageContent() {
@@ -123,7 +146,7 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
     synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
+    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 

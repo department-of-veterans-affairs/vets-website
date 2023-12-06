@@ -16,7 +16,7 @@ import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
 } from '../../../utils/timezone';
-import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
+import { GA_PREFIX, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import { startNewAppointmentFlow } from '../../redux/actions';
 
@@ -56,7 +56,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         <br />
         <div className="vads-u-margin-y--1">
           <va-link
-            href="/health-care/schedule-view-va-appointments/appointments/"
+            href="/my-health/appointments/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
@@ -103,7 +103,7 @@ export default function ConfirmationDirectScheduleInfoV2({
           </h3>
           <div>
             {
-              PURPOSE_TEXT.find(
+              PURPOSE_TEXT_V2.find(
                 purpose => purpose.id === data.reasonForAppointment,
               )?.short
             }

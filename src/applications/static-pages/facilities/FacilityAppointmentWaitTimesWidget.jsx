@@ -18,7 +18,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
           }-patient-wait-time`}
           className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin--0 vads-u-font-family--serif"
         >
-          {`${Number(waitTime).toFixed(0)} days`}
+          {Number(waitTime).toFixed(0) === '0'
+            ? 'No Wait'
+            : `${Number(waitTime).toFixed(0)} days`}
         </p>
       </div>
     );
@@ -38,6 +40,9 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (this.props.error) {
       return <FacilityApiAlert />;
     }
+
+    const isWaitTimeValid = waitTime =>
+      typeof waitTime === 'number' && waitTime >= 0;
     const facility = this.props.facility.attributes;
     const service = this.props.service.split('(')[0].toLowerCase();
     const serviceExists = facility?.access?.health.find(
@@ -54,13 +59,14 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
             another VA medical center or clinic, or refer you to a non-VA
             medical provider in your community. For urgent health issues, we
             offer same-day appointments, telehealth visits, or walk-in express
-            care.
+            care. Check with your local VA medical center to confirm
+            availability of these services.
           </p>
           <div className="usa-grid-full">
             <div className="vads-u-display--flex">
-              {serviceExists.new &&
+              {isWaitTimeValid(serviceExists.new) &&
                 this.appointmentWaitTime(serviceExists.new, service)}
-              {serviceExists.established &&
+              {isWaitTimeValid(serviceExists.established) &&
                 this.appointmentWaitTime(
                   serviceExists.established,
                   service,

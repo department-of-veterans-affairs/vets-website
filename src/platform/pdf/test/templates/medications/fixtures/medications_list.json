@@ -1,0 +1,425 @@
+{
+  "headerBanner": [
+    {
+      "text": "If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at "
+    },
+    {
+      "text": "988",
+      "weight": "bold"
+    },
+    {
+      "text": ". Then select 1."
+    }
+  ],
+  "headerLeft": "Smith, John",
+  "headerRight": "Date of birth: August 23, 1991",
+  "footerLeft": "My HealtheVet on VA.gov on September 27, 2023",
+  "footerRight": "Page %PAGE_NUMBER% of %TOTAL_PAGES%",
+  "title": "Medications",
+  "preface": [
+    {
+      "value": "This is a list of recent prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records."
+    },
+    {
+      "continued": true,
+      "value": "Note: ",
+      "weight": "bold"
+    },
+    {
+      "continued": true,
+      "value":
+        "This list doesn’t include older prescriptions that have been inactive for more than "
+    },
+    {
+      "value": "6 months.",
+      "weight": "bold"
+    }
+  ],
+  "results": [
+    {
+      "header": "Medications list",
+      "preface": "Showing 100 medications, available to fill or refill first",
+      "list": [
+        {
+          "header": "ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB",
+          "sections": [
+            {
+              "header": "About your prescription",
+              "items": [
+                {
+                  "title": "Last filled on",
+                  "value": "February 20, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Status",
+                  "value": "Active: Refill in Process",
+                  "inline": true
+                },
+                {
+                  "isRich": true,
+                  "value": [
+                    {
+                      "value": "Your VA provider prescribed this medication or supply to you. But we won’t send any shipments until you request to fill or refill it."
+                    },
+                    {
+                      "value": "If you need this prescription now, you can request to fill or refill it."
+                    }
+                  ]
+                },
+                {
+                  "title": "Refills left",
+                  "value": 1,
+                  "inline": true
+                },
+                {
+                  "title": "Request refills by this prescription expiration date",
+                  "value": "February 5, 2024",
+                  "inline": true
+                },
+                {
+                  "title": "Prescription number",
+                  "value": "2720466",
+                  "inline": true
+                },
+                {
+                  "title": "Prescribed on",
+                  "value": "February 4, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Prescribed by",
+                  "value": "ISLAM",
+                  "inline": true
+                },
+                {
+                  "title": "Facility",
+                  "value": "DAYT29",
+                  "inline": true
+                },
+                {
+                  "title": "Pharmacy phone number",
+                  "value": "1234567890",
+                  "inline": true
+                }
+              ]
+            },
+            {
+              "header": "About this medication or supply",
+              "items": [
+                {
+                  "title": "Instructions",
+                  "value": "TAKE 10MG BY MOUTH DAILY FOR 30 DAYS",
+                  "inline": true
+                },
+                {
+                  "title": "Reason for use",
+                  "value": "None noted",
+                  "inline": true
+                },
+                {
+                  "title": "Quantity",
+                  "value": 30,
+                  "inline": true
+                },
+                {
+                  "title": "Image of the medication or supply",
+                  "value": "Image not available",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "header": "ACEBUTOLOL HCL 400MG CAP",
+          "sections": [
+            {
+              "header": "About your prescription",
+              "items": [
+                {
+                  "title": "Last filled on",
+                  "value": "May 11, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Status",
+                  "value": "Active: Refill in Process",
+                  "inline": true
+                },
+                {
+                  "value": "We’re processing a fill or refill for this prescription. We’ll update the status here when we ship your prescription."
+                },
+                {
+                  "title": "Refills left",
+                  "value": 1,
+                  "inline": true
+                },
+                {
+                  "title": "Request refills by this prescription expiration date",
+                  "value": "June 11, 2024",
+                  "inline": true
+                },
+                {
+                  "title": "Prescription number",
+                  "value": "2720527",
+                  "inline": true
+                },
+                {
+                  "title": "Prescribed on",
+                  "value": "June 11, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Prescribed by",
+                  "value": "ISLAM",
+                  "inline": true
+                },
+                {
+                  "title": "Facility",
+                  "value": "DAYT29",
+                  "inline": true
+                },
+                {
+                  "title": "Pharmacy phone number",
+                  "value": "1234567890",
+                  "inline": true
+                }
+              ]
+            },
+            {
+              "header": "About this medication or supply",
+              "items": [
+                {
+                  "title": "Instructions",
+                  "value": "TAKE ONE CAPSULE BY MOUTH DAILY FOR 30 DAYS TEST I TEST PLACE",
+                  "inline": true
+                },
+                {
+                  "title": "Reason for use",
+                  "value": "None noted",
+                  "inline": true
+                },
+                {
+                  "title": "Quantity",
+                  "value": 1,
+                  "inline": true
+                },
+                {
+                  "title": "Image of the medication or supply",
+                  "value": "Image not available",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "header": "ACETIC ACID 0.25% IRRG SOLN",
+          "sections": [
+            {
+              "header": "About your prescription",
+              "items": [
+                {
+                  "title": "Last filled on",
+                  "value": "May 11, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Status",
+                  "value": "Active: Refill in Process",
+                  "inline": true
+                },
+                {
+                  "value": "We’re processing a fill or refill for this prescription. We’ll update the status here when we ship your prescription."
+                },
+                {
+                  "title": "Refills left",
+                  "value": 1,
+                  "inline": true
+                },
+                {
+                  "title": "Request refills by this prescription expiration date",
+                  "value": "June 11, 2024",
+                  "inline": true
+                },
+                {
+                  "title": "Prescription number",
+                  "value": "2720526",
+                  "inline": true
+                },
+                {
+                  "title": "Prescribed on",
+                  "value": "June 11, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Prescribed by",
+                  "value": "ISLAM",
+                  "inline": true
+                },
+                {
+                  "title": "Facility",
+                  "value": "DAYT29",
+                  "inline": true
+                },
+                {
+                  "title": "Pharmacy phone number",
+                  "value": "5432167890",
+                  "inline": true
+                }
+              ]
+            },
+            {
+              "header": "About this medication or supply",
+              "items": [
+                {
+                  "title": "Instructions",
+                  "value": "IRRIGATE 1 SOLUTION AFFECTED AREA DAILY FOR 60 DAYS TEST INDICATION TEST PATIENT INSTRUCTIONS",
+                  "inline": true
+                },
+                {
+                  "title": "Reason for use",
+                  "value": "None noted",
+                  "inline": true
+                },
+                {
+                  "title": "Quantity",
+                  "value": 1,
+                  "inline": true
+                },
+                {
+                  "title": "Image of the medication or supply",
+                  "value": "Image not available",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "header": "Allergies",
+      "list": [
+        {
+          "header": "RED FOOD DYE",
+          "sections": [
+            {
+              "items": [
+                {
+                  "title": "Reaction",
+                  "value": "CANDIDIASIS OF MOUTH. ORAL SWELLING. ORONASALPHARYNGEAL IRRITATION. PAIN OF BREAST. RASH",
+                  "inline": true
+                },
+                {
+                  "title": "Type of allergy",
+                  "value": "Medication",
+                  "inline": true
+                },
+                {
+                  "title": "Date entered",
+                  "value": "September 13, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Location",
+                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                  "inline": true
+                },
+                {
+                  "title": "Observed or reported",
+                  "value": "Observed (your provider observed the reaction in person)",
+                  "inline": true
+                },
+                {
+                  "title": "Provider notes",
+                  "value": "Maruf's VA.GOV TEST ",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "header": "CIMZIA",
+          "sections": [
+            {
+              "items": [
+                {
+                  "title": "Reaction",
+                  "value": "RESPIRATORY DISTRESS",
+                  "inline": true
+                },
+                {
+                  "title": "Type of allergy",
+                  "value": "Medication",
+                  "inline": true
+                },
+                {
+                  "title": "Date entered",
+                  "value": "September 13, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Location",
+                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                  "inline": true
+                },
+                {
+                  "title": "Observed or reported",
+                  "value": "Observed (your provider observed the reaction in person)",
+                  "inline": true
+                },
+                {
+                  "title": "Provider notes",
+                  "value": "Maruf's va.gov test ",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "header": "HABITROL TRANSDERMAL",
+          "sections": [
+            {
+              "items": [
+                {
+                  "title": "Reaction",
+                  "value": "ANKLE EDEMA. ANOREXIA. BLOOD IN URINE. BRACHYCARDIA. BUNDLE BRANCH BLOCK. CHANGE IN BEHAVIOR. CHEST PAIN. DERMATITIS,CONTACT. DIAPHORESIS. DIPLOPIA. EDEMA OF LEG. ELEVATED URIC ACID. IRREGULAR HEART RATE. PERIPHERAL EDEMA. POISONING BY PHENYTOIN",
+                  "inline": true
+                },
+                {
+                  "title": "Type of allergy",
+                  "value": "Medication",
+                  "inline": true
+                },
+                {
+                  "title": "Date entered",
+                  "value": "September 13, 2023",
+                  "inline": true
+                },
+                {
+                  "title": "Location",
+                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                  "inline": true
+                },
+                {
+                  "title": "Observed or reported",
+                  "value": "Observed (your provider observed the reaction in person)",
+                  "inline": true
+                },
+                {
+                  "title": "Provider notes",
+                  "value": "Maruf's va.gov test ",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

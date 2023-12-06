@@ -15,12 +15,13 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import Form0996App from '../../containers/Form0996App';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
-import { SELECTED, CONTESTABLE_ISSUES_API } from '../../constants';
+import { CONTESTABLE_ISSUES_API } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
 
 import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
 import migratedMaximalTestV1 from '../fixtures/data/migrated/maximal-test-v1-to-v2.json';
-import { contestableIssuesResponse } from '../fixtures/mocks/contestable-issues.json';
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const savedHlr = [
   {

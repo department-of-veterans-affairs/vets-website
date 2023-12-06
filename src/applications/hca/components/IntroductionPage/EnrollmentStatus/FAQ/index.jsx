@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { showReapplyContent as showReapplyContentAction } from '../../../../utils/actions';
 import { shouldShowReapplyContent } from '../../../../utils/selectors';
@@ -11,14 +10,11 @@ import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
 import ProcessTimeline from '../../GetStarted/ProcessTimeline';
 import OMBInfo from '../../GetStarted/OMBInfo';
 import FAQContent from './FAQContent';
+import ApplyButton from './ApplyButton';
 
 const EnrollmentStatusFAQ = props => {
-  const {
-    enrollmentStatus,
-    route,
-    showReapplyContent,
-    renderReapplyContent,
-  } = props;
+  const showReapplyContent = useSelector(shouldShowReapplyContent);
+  const { enrollmentStatus, route, renderReapplyContent } = props;
   const { formConfig, pageList } = route;
 
   // Declare the enrollment statuses that are considered for apply/reapply opportunities
@@ -45,30 +41,20 @@ const EnrollmentStatusFAQ = props => {
 
       {reapplyAllowed &&
         !showReapplyContent && (
-          <button
-            type="button"
-            className="va-button-link schemaform-start-button"
-            onClick={() => {
-              recordEvent({ event: 'hca-form-reapply' });
-              renderReapplyContent();
-            }}
-          >
-            Reapply for VA health care
-          </button>
+          <ApplyButton
+            event="hca-form-reapply"
+            label="Reapply for VA health care"
+            clickEvent={renderReapplyContent}
+          />
         )}
 
       {applyAllowed &&
         !showReapplyContent && (
-          <button
-            type="button"
-            className="va-button-link schemaform-start-button"
-            onClick={() => {
-              recordEvent({ event: 'hca-form-apply' });
-              renderReapplyContent();
-            }}
-          >
-            Apply for VA health care
-          </button>
+          <ApplyButton
+            event="hca-form-apply"
+            label="Apply for VA health care"
+            clickEvent={renderReapplyContent}
+          />
         )}
 
       {(reapplyAllowed || applyAllowed) && showReapplyContent ? (
@@ -96,19 +82,13 @@ EnrollmentStatusFAQ.propTypes = {
   enrollmentStatus: PropTypes.string,
   renderReapplyContent: PropTypes.func,
   route: PropTypes.object,
-  showReapplyContent: PropTypes.bool,
 };
-
-const mapStateToProps = state => ({
-  showReapplyContent: shouldShowReapplyContent(state),
-});
 
 const mapDispatchToProps = {
   renderReapplyContent: showReapplyContentAction,
 };
 
-export { EnrollmentStatusFAQ };
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(EnrollmentStatusFAQ);

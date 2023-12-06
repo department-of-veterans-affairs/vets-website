@@ -1,10 +1,19 @@
-export const RecordType = {
+export const recordType = {
   HEALTH_CONDITIONS: 'health conditions',
   LABS_AND_TESTS: 'lab and test results',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
   VACCINES: 'vaccines',
   VITALS: 'vitals',
   ALLERGIES: 'allergies',
+};
+
+export const accessAlertTypes = {
+  ALLERGY: 'allergy',
+  VACCINE: 'vaccine',
+  VITALS: 'vitals',
+  HEALTH_CONDITIONS: 'health conditions',
+  LABS_AND_TESTS: 'labs and tests',
+  CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
 };
 
 export const labTypes = {
@@ -16,18 +25,29 @@ export const labTypes = {
   OTHER: 'other',
 };
 
-export const LoincCodes = {
+export const noteTypes = {
+  DISCHARGE_SUMMARY: 'discharge_summary',
+  PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
+  OTHER: 'other',
+};
+
+export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '79381-0',
   PATHOLOGY: '60567-5',
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
-  PHYSICIAN_PROCEDURE_NOTE: '11505-5',
+  PHYSICIAN_PROCEDURE_NOTE: '11506-3',
   DISCHARGE_SUMMARY: '18842-5',
+  // vitals
+  BLOOD_PRESSURE: '85354-9',
+  SYSTOLIC: '8480-6',
+  DIASTOLIC: '8462-4',
+  HEART_RATE: '8867-4',
 };
 
-export const FhirResourceTypes = {
+export const fhirResourceTypes = {
   BUNDLE: 'Bundle',
   DIAGNOSTIC_REPORT: 'DiagnosticReport',
   DOCUMENT_REFERENCE: 'DocumentReference',
@@ -90,24 +110,52 @@ export const interpretationMap = {
   WR: 'Weakly reactive',
 };
 
-export const emptyField = 'None noted';
+export const EMPTY_FIELD = 'None noted';
 
-export const testing = false;
+export const IS_TESTING = false;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
-  BREATHING_RATE: 'BLOOD_SUGAR',
-  HEART_RATE: 'HEART_RATE',
+  BREATHING_RATE: 'BREATHING_RATE',
+  PULSE: 'PULSE',
   HEIGHT: 'HEIGHT',
   TEMPERATURE: 'TEMPERATURE',
   WEIGHT: 'WEIGHT',
+  PAIN: 'PAIN',
 };
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   BREATHING_RATE: 'Breathing rate',
-  HEART_RATE: 'Heart rate',
+  PULSE: 'Heart rate',
   HEIGHT: 'Height',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
+  PAIN: 'Pain',
+};
+
+export const ALERT_TYPE_ERROR = 'error';
+
+export const pageTitles = {
+  MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
+  LAB_AND_TEST_RESULTS_PAGE_TITLE:
+    'Lab And Test Results - Medical Records | Veterans Affairs',
+  CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
+    'Care Summaries And Notes - Medical Records | Veterans Affairs',
+  VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
+  ALLERGIES_PAGE_TITLE: 'Allergies - Medical Records | Veterans Affairs',
+  HEALTH_CONDITIONS_PAGE_TITLE:
+    'Health Conditions - Medical Records | Veterans Affairs',
+  VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
+  DOWNLOAD_PAGE_TITLE:
+    'Download All Medical Records - Medical Records | Veterans Affairs',
+  SETTINGS_PAGE_TITLE:
+    'Medical Records Settings - Medical Records | Veterans Affairs',
+};
+
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };

@@ -4,6 +4,7 @@ import {
   focusByOrder,
   getScrollOptions,
 } from 'platform/utilities/ui';
+import { webComponentList } from 'platform/forms-system/src/js/web-component-fields/webComponentList';
 
 export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'
@@ -45,24 +46,44 @@ const focusableElements = [
  * @param {HTMLElement|node} block - wrapping element
  * @return {HTMLElement[]}
  */
-export const getFocusableElements = block =>
-  block
-    ? [...block?.querySelectorAll(focusableElements.join(','))].filter(
+export const getFocusableElements = block => {
+  let elements = [];
+
+  if (block) {
+    elements = [
+      ...block.querySelectorAll(
+        [...focusableElements, ...webComponentList].join(','),
+      ),
+    ]
+      .map(el => {
+        if (el.shadowRoot) {
+          return getFocusableElements(el.shadowRoot);
+        }
+        return el;
+      })
+      .flat()
+      .filter(
         // Ignore disabled & hidden elements
         // This does not check the element's visibility or opacity
         el => !el.disabled && el.offsetWidth > 0 && el.offsetHeight > 0,
-      )
-    : [];
+      );
+  }
+
+  return elements;
+};
 
 export const scrollElementName = 'ScrollElement';
 
 // Set focus on target _after_ the content has been updated
-export function focusOnChange(name, target = '.edit-btn') {
+export function focusOnChange(name, target, shadowTarget = undefined) {
   setTimeout(() => {
     const el = $(`[name="${name}${scrollElementName}"]`);
     // nextElementSibling = page form
     const focusTarget = el?.nextElementSibling?.querySelector(target);
-    if (focusTarget) {
+
+    if (focusTarget && shadowTarget) {
+      focusElement(focusTarget.shadowRoot?.querySelector(shadowTarget));
+    } else if (focusTarget) {
       focusElement(focusTarget);
     }
   });

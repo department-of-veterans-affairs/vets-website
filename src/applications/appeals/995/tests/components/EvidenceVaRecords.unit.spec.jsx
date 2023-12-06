@@ -3,15 +3,16 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
-  errorMessages,
-  SELECTED,
-  MAX_LENGTH,
-  EVIDENCE_VA_PATH,
-} from '../../constants';
-import { getDate } from '../../utils/dates';
-import { $, $$ } from '../../utils/ui';
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import EvidenceVaRecords from '../../components/EvidenceVaRecords';
+import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
+
+import { getDate } from '../../../shared/utils/dates';
+import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -85,6 +86,10 @@ describe('<EvidenceVaRecords>', () => {
     expect($$('va-checkbox', container).length).to.eq(2);
     expect($$('va-memorable-date', container).length).to.eq(2);
     expect($('.vads-c-action-link--green', container)).to.exist;
+    // check Datadog classes
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(2);
   });
 
   const clickEvent = new MouseEvent('click', {
@@ -197,12 +202,12 @@ describe('<EvidenceVaRecords>', () => {
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
 
-      expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[2].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[2].invalidMonth).to.be.true;
       expect(errorEls[2].invalidDay).to.be.true;
       expect(errorEls[2].invalidYear).to.be.true;
 
-      expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
+      expect(errorEls[3].error).to.eq(errorMessages.evidence.blankDate);
       expect(errorEls[3].invalidMonth).to.be.true;
       expect(errorEls[3].invalidDay).to.be.true;
       expect(errorEls[3].invalidYear).to.be.true;
@@ -312,8 +317,7 @@ describe('<EvidenceVaRecords>', () => {
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total, event) => {
-      expect(getErrorElements(container).length).to.eq(total);
+    const testAndCloseModal = async (container, event) => {
       // modal visible
       await waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
@@ -371,7 +375,13 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
-      await testAndCloseModal(container, 3, 'secondaryButtonClick');
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
+      await testAndCloseModal(container, 'secondaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.true;
@@ -399,8 +409,14 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
       // keep partial entry
-      await testAndCloseModal(container, 3, 'primaryButtonClick');
+      await testAndCloseModal(container, 'primaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.false; // no data change
@@ -441,7 +457,9 @@ describe('<EvidenceVaRecords>', () => {
 
     // *** OTHER ERRORS ***
     it('should show error when location name is too long', async () => {
-      const name = 'abcdef '.repeat(MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6);
+      const name = 'abcdef '.repeat(
+        MAX_LENGTH.SC_EVIDENCE_LOCATION_AND_NAME / 6,
+      );
       const data = { ...mockData, locations: [{ locationAndName: name }] };
       const page = setup({ index: 0, data });
       const { container } = render(page);

@@ -16,12 +16,18 @@ import CreateFolderModal from '../Modals/CreateFolderModal';
 import { focusOnErrorField } from '../../util/formHelpers';
 
 const MoveMessageToFolderBtn = props => {
-  const { threadId, allFolders, isVisible, activeFolder } = props;
+  const {
+    threadId,
+    allFolders,
+    isVisible,
+    activeFolder,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+  } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isNewModalVisible, setIsNewModalVisible] = useState(false);
+  const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
   const [folderInputError, setFolderInputError] = useState(null);
   const [updatedFoldersList, setUpdatedFolderList] = useState([]);
 
@@ -35,11 +41,12 @@ const MoveMessageToFolderBtn = props => {
   );
 
   const openModal = () => {
-    setIsModalVisible(true);
+    setIsMoveModalVisible(true);
   };
 
+  // for closing move modal
   const closeModal = () => {
-    setIsModalVisible(false);
+    setIsMoveModalVisible(false);
     setSelectedFolder(null);
     setFolderInputError(null);
   };
@@ -59,7 +66,8 @@ const MoveMessageToFolderBtn = props => {
       focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
-        setIsNewModalVisible(true);
+        closeModal();
+        setIsCreateNewModalVisible(true);
       } else if (selectedFolder !== null) {
         dispatch(moveMessageThread(threadId, selectedFolder)).then(() => {
           navigateToFolderByFolderId(
@@ -106,12 +114,8 @@ const MoveMessageToFolderBtn = props => {
           data-testid="move-to-modal"
           large
           modalTitle="Move to:"
-          onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeModal}
-          primaryButtonText="Confirm"
-          secondaryButtonText="Cancel"
           onCloseEvent={closeModal}
-          visible={isModalVisible}
+          visible={isMoveModalVisible}
         >
           <p>
             This conversation will be moved. Any replies to this message will
@@ -128,6 +132,7 @@ const MoveMessageToFolderBtn = props => {
               updatedFoldersList.map((folder, i) => (
                 <>
                   <VaRadioOption
+                    checked={parseInt(selectedFolder, 10) === folder.id}
                     data-dd-privacy="mask"
                     data-testid={`radiobutton-${folder.name}`}
                     key={i}
@@ -150,10 +155,14 @@ const MoveMessageToFolderBtn = props => {
                 label="Create new folder"
                 name="defaultName"
                 value="newFolder"
+                checked={selectedFolder === 'newFolder'}
               />
             </>
           </VaRadio>
           <p /> {/* to create extra margin between radio and action buttons */}
+          {/* For creating a new folder and moving the thread */}
+          <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
+          <va-button secondary text="Cancel" onClick={closeModal} />
         </VaModal>
       </div>
     );
@@ -169,10 +178,11 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     isVisible && (
-      <li>
+      <>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary small-screen:vads-u-flex--3"
+          style={{ minWidth: '100px' }}
           onClick={openModal}
         >
           <i
@@ -186,16 +196,17 @@ const MoveMessageToFolderBtn = props => {
             Move
           </span>
         </button>
-        {isModalVisible ? moveToFolderModal() : null}
-        {isNewModalVisible && (
+        {isMoveModalVisible ? moveToFolderModal() : null}
+
+        {isCreateNewModalVisible && (
           <CreateFolderModal
-            isModalVisible={isNewModalVisible}
-            setIsModalVisible={setIsNewModalVisible}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             onConfirm={confirmCreateFolder}
             folders={updatedFoldersList}
           />
         )}
-      </li>
+      </>
     )
   );
 };
@@ -203,7 +214,9 @@ const MoveMessageToFolderBtn = props => {
 MoveMessageToFolderBtn.propTypes = {
   activeFolder: PropTypes.object,
   allFolders: PropTypes.array,
+  isCreateNewModalVisible: PropTypes.bool,
   isVisible: PropTypes.bool,
+  setIsCreateNewModalVisible: PropTypes.func,
   threadId: PropTypes.number,
 };
 

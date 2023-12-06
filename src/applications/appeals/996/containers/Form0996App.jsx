@@ -8,21 +8,28 @@ import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { SAVED_CLAIM_TYPE } from '../constants';
-import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 import {
-  issuesNeedUpdating,
-  getSelected,
-  getIssueNameAndDate,
-  processContestableIssues,
-} from '../utils/helpers';
-import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
+  SAVED_CLAIM_TYPE,
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+} from '../constants';
 import forcedMigrations from '../migrations/forceMigrations';
+import { getHlrWizardStatus, shouldShowWizard } from '../wizard/utils';
 
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
+
+import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
+import {
+  getIssueNameAndDate,
+  getSelected,
+  issuesNeedUpdating,
+  processContestableIssues,
+} from '../../shared/utils/issues';
 
 export const Form0996App = ({
   loggedIn,
@@ -139,6 +146,16 @@ export const Form0996App = ({
       </h1>
     );
   }
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'hlr', // becomes "nodBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+  });
 
   // Add data-location attribute to allow styling specific pages
   return (

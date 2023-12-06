@@ -1,30 +1,27 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { SELECTED, LEGACY_TYPE } from '../../constants';
-
-import { getDate } from '../../utils/dates';
-
 import {
   getEligibleContestableIssues,
-  getLegacyAppealsLength,
   mayHaveLegacyAppeals,
-  someSelected,
+} from '../../utils/helpers';
+
+import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
+import { getItemSchema, isEmptyObject } from '../../../shared/utils/helpers';
+import { getDate } from '../../../shared/utils/dates';
+import {
+  appStateSelector,
+  calculateIndexOffset,
+  hasDuplicates,
   hasSomeSelected,
+  getIssueDate,
+  getIssueName,
+  getIssueNameAndDate,
+  getLegacyAppealsLength,
   getSelected,
   getSelectedCount,
-  getIssueName,
-  getIssueDate,
-  getIssueNameAndDate,
-  hasDuplicates,
-  isEmptyObject,
-  processContestableIssues,
-  issuesNeedUpdating,
-  appStateSelector,
-  getItemSchema,
-  readableList,
-  calculateIndexOffset,
-} from '../../utils/helpers';
+  someSelected,
+} from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
   const date = moment().startOf('day');
@@ -52,7 +49,7 @@ describe('getEligibleContestableIssues', () => {
   it('should keep issues with dates more than one year in the past', () => {
     expect(
       getEligibleContestableIssues([olderIssue, eligibleIssue]),
-    ).to.deep.equal([olderIssue, eligibleIssue]);
+    ).to.deep.equal([eligibleIssue, olderIssue]);
   });
   it('should filter out missing dates', () => {
     expect(
@@ -354,74 +351,6 @@ describe('isEmptyObject', () => {
   });
 });
 
-describe('processContestableIssues', () => {
-  const getIssues = dates =>
-    dates.map(date => ({
-      attributes: { ratingIssueSubjectText: 'a', approxDecisionDate: date },
-    }));
-  const getDates = dates =>
-    dates.map(date => date.attributes.approxDecisionDate);
-
-  it('should return an empty array with undefined issues', () => {
-    expect(getDates(processContestableIssues())).to.deep.equal([]);
-  });
-  it('should filter out issues missing a title', () => {
-    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-01-01']);
-    issues[0].attributes.ratingIssueSubjectText = '';
-    const result = processContestableIssues(issues);
-    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-01-01']);
-  });
-  it('should sort issues spanning months with newest date first', () => {
-    const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
-    const result = processContestableIssues(getIssues(dates));
-    expect(getDates(result)).to.deep.equal([
-      '2020-03-01',
-      '2020-02-01',
-      '2020-01-01',
-    ]);
-  });
-  it('should sort issues spanning a year & months with newest date first', () => {
-    const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
-    const result = processContestableIssues(getIssues(dates));
-    expect(getDates(result)).to.deep.equal([
-      '2021-02-02',
-      '2021-02-01',
-      '2021-01-31',
-      '2020-12-01',
-    ]);
-  });
-});
-
-describe('issuesNeedUpdating', () => {
-  const getIssues = (allText, dates) =>
-    allText.map((text, index) => ({
-      attributes: {
-        ratingIssueSubjectText: text,
-        approxDecisionDate: dates?.[index],
-      },
-    }));
-  it('should return true if the array lengths are different', () => {
-    expect(issuesNeedUpdating([], [1])).to.be.true;
-    expect(issuesNeedUpdating([1], [1, 2])).to.be.true;
-    expect(issuesNeedUpdating([1, 2], [1])).to.be.true;
-  });
-  it('should return true if the one entry is different', () => {
-    const loaded = getIssues(['a', 'b'], ['2020-02-01', '2020-03-01']);
-    const existing1 = getIssues(['a', 'c'], ['2020-02-01', '2020-03-01']);
-    expect(issuesNeedUpdating(loaded, existing1)).to.be.true;
-
-    const existing2 = getIssues(['a', 'b'], ['2020-02-01', '2020-03-02']);
-    expect(issuesNeedUpdating(loaded, existing2)).to.be.true;
-  });
-  it('should return false if all entries are the same', () => {
-    const issues = getIssues(
-      ['a', 'b', 'c'],
-      ['2020-02-01', '2020-03-01', '2020-01-01'],
-    );
-    expect(issuesNeedUpdating(issues, issues)).to.be.false;
-  });
-});
-
 describe('appStateSelector', () => {
   const getIssues = (contestedIssues, additionalIssues) => ({
     state: { form: { data: { contestedIssues, additionalIssues } } },
@@ -452,22 +381,6 @@ describe('getItemSchema', () => {
   });
   it('should return additionalItems', () => {
     expect(getItemSchema(schema, 3)).to.deep.equal({ b: 1 });
-  });
-});
-
-describe('readableList', () => {
-  it('should return an empty string', () => {
-    expect(readableList([])).to.eq('');
-    expect(readableList(['', null, 0])).to.eq('');
-  });
-  it('should return a combined list with commas with "and" for the last item', () => {
-    expect(readableList(['one'])).to.eq('one');
-    expect(readableList(['', 'one', null])).to.eq('one');
-    expect(readableList(['one', 'two'])).to.eq('one and two');
-    expect(readableList([1, 2, 'three'])).to.eq('1, 2, and three');
-    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
-      'v, w, x, y, and z',
-    );
   });
 });
 

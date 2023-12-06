@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 import { makeSelectCurrentContext } from '../selectors';
 
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useStorage } from '../hooks/useStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
 
 import { SCOPES } from '../utils/token-format-validator';
@@ -19,7 +19,7 @@ const withAuthorization = (Component, options) => {
     const { token, permissions } = useSelector(selectCurrentContext);
 
     const { jumpToPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionStorage(isPreCheckIn);
+    const { getCurrentToken } = useStorage(isPreCheckIn);
     const { updateError } = useUpdateError();
 
     useEffect(

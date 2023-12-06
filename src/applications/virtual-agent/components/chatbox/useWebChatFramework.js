@@ -18,11 +18,11 @@ function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
   }, timeout);
 }
 
-const loadWebChat = () => {
+export const loadWebChat = () => {
   const script = document.createElement('script');
 
   script.src =
-    'https://cdn.botframework.com/botframework-webchat/4.15.2/webchat-es5.js';
+    'https://cdn.botframework.com/botframework-webchat/4.15.8/webchat.js';
   script.crossOrigin = 'anonymous';
   script.dataset.testid = 'webchat-framework-script';
 

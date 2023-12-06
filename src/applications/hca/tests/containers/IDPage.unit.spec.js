@@ -51,7 +51,7 @@ describe('hca IDPage', () => {
       };
       expect(selectors.title).to.exist;
       expect(selectors.title).to.contain.text(
-        'We need some information before you can start your application',
+        'Before you start your application',
       );
       expect(selectors.loader).to.exist;
       expect(selectors.loader).to.have.attr(
@@ -189,8 +189,4 @@ describe('hca IDPage', () => {
       );
     });
   });
-
-  /*
-  describe('when the page renders', () => {});
-  */
 });

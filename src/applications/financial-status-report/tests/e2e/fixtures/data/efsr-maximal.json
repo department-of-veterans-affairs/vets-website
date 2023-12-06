@@ -1,5 +1,6 @@
 {
   "view:enhancedFinancialStatusReport": true,
+  "view:streamlinedWaiver": true,
   "otherExpenses": [
     {
       "name": "Clothing",

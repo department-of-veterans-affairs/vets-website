@@ -7,8 +7,9 @@ import { focusElement, scrollTo } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { FORMAT_READABLE } from '../constants';
-import { getSelected, getIssueName } from '../utils/helpers';
+import { DateSubmitted } from '../../shared/components/DateSubmitted';
+import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
+import { getIssuesListItems } from '../../shared/utils/issues';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -19,16 +20,9 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { name = {}, form } = this.props;
     const { submission, formId, data } = form;
-    const issues = getSelected(data || []).map((issue, index) => (
-      <li key={index} className="vads-u-margin-bottom--0">
-        <span className="dd-privacy-hidden">{getIssueName(issue)}</span>
-      </li>
-    ));
+    const issues = data ? getIssuesListItems(data) : [];
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
-    const handlers = {
-      print: () => window.print(),
-    };
 
     return (
       <div>
@@ -50,27 +44,17 @@ export class ConfirmationPage extends React.Component {
             Request a Board Appeal{' '}
             <span className="additional">(Form {formId})</span>
           </h3>
-          for <span className="dd-privacy-hidden">{fullName}</span>
+          for{' '}
+          <span className="dd-privacy-hidden" data-dd-action-name="full name">
+            {fullName}
+          </span>
           {name.suffix && (
-            <span className="dd-privacy-hidden">{`, ${name.suffix}`}</span>
+            <span className="dd-privacy-hidden" data-dd-action-name="suffix">
+              {`, ${name.suffix}`}
+            </span>
           )}
-          {submitDate.isValid() && (
-            <p>
-              <strong>Date submitted</strong>
-              <br role="presentation" />
-              <span>{submitDate.format(FORMAT_READABLE)}</span>
-            </p>
-          )}
-          <strong>
-            Issues
-            {issues?.length > 1 ? 's' : ''} submitted
-          </strong>
-          <ul className="vads-u-margin-top--0">{issues || null}</ul>
-          <va-button
-            class="screen-only"
-            onClick={handlers.print}
-            text="Print this for your records"
-          />
+          {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
+          <IssuesSubmitted issues={issues} />
         </div>
 
         <h2 className="vads-u-font-size--h3">
@@ -99,7 +83,7 @@ export class ConfirmationPage extends React.Component {
         <br role="presentation" />
         <a
           href="/claim-or-appeal-status/"
-          className="usa-button usa-button-primary"
+          className="vads-c-action-link--green"
           aria-describedby="delay-note"
         >
           Check the status of your appeal
@@ -119,10 +103,14 @@ ConfirmationPage.propTypes = {
     data: PropTypes.shape({}),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      timestamp: PropTypes.instanceOf(Date),
     }),
   }),
-  name: PropTypes.string,
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+  }),
 };
 
 function mapStateToProps(state) {

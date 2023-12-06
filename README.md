@@ -137,6 +137,12 @@ To **run tests with coverage output**, you can pass the coverage option:
 yarn test:unit --coverage
 ```
 
+To **run tests with coverage and open the coverage report in your browser for a specific app** from `src/applications`:
+
+```sh
+yarn test:coverage-app {app-name}
+```
+
 For **help with test runner usage**, you can run:
 
 ```sh
