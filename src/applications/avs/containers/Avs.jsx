@@ -74,7 +74,7 @@ const Avs = props => {
     return (
       <va-loading-indicator
         data-testid="avs-loading-indicator"
-        message="Loading your After-visit summary"
+        message="Loading your after-visit summary"
       />
     );
   }
