@@ -151,9 +151,10 @@ const previousEmployers = generateEmployersSchemas(
   true,
 );
 
-export function isUnder65(formData) {
+export function isUnder65(formData, currentDate) {
+  const today = currentDate || moment();
   return (
-    moment()
+    today
       .startOf('day')
       .subtract(65, 'years')
       .isBefore(formData.veteranDateOfBirth) || !formData.isOver65

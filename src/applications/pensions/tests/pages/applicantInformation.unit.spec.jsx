@@ -118,31 +118,35 @@ describe('pension applicant information page', () => {
   });
 
   describe('isOver65', () => {
-    moment.now = () => {
-      return +new Date('2020-01-01T12:00:00.000Z');
-    };
     it('should return true if veteranDateOfBirth is over 65 years ago', () => {
-      const over65 = isOver65({ veteranDateOfBirth: '1950-01-01' });
+      const over65 = isOver65(
+        { veteranDateOfBirth: '1950-01-01' },
+        moment('2020-01-01'),
+      );
       expect(over65).to.be.true;
     });
     it('should return false if veteranDateOfBirth is under 65 years ago', () => {
-      const over65 = isOver65({ veteranDateOfBirth: '2000-01-01' });
+      const over65 = isOver65(
+        { veteranDateOfBirth: '2000-01-01' },
+        moment('2020-01-01'),
+      );
       expect(over65).to.be.false;
     });
     it('should return undefined if veteranDateOfBirth is invalid or null', () => {
-      const over65 = isOver65({ veteranDateOfBirth: null });
+      const over65 = isOver65(
+        { veteranDateOfBirth: null },
+        moment('2020-01-01'),
+      );
       expect(over65).to.be.undefined;
     });
   });
 
   describe('setDefaultIsOver65', () => {
-    moment.now = () => {
-      return +new Date('2020-01-01T12:00:00.000Z');
-    };
     it('should change nothing if veteranDateOfBirth is unchanged', () => {
       const formData = setDefaultIsOver65(
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
+        moment('2020-01-01'),
       );
       expect(formData.isOver65).to.be.false;
     });
@@ -150,6 +154,7 @@ describe('pension applicant information page', () => {
       const formData = setDefaultIsOver65(
         { veteranDateOfBirth: '2000-01-01', isOver65: false },
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
+        moment('2020-01-01'),
       );
       expect(formData.isOver65).to.be.true;
     });
